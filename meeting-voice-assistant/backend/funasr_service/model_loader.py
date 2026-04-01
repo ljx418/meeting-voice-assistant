@@ -62,5 +62,6 @@ def recognize_audio(file_path: str):
     result = model.generate(
         input=file_path,
         batch_size_s=300,
+        sentence_timestamp=True,  # 启用说话人分离
     )
     return result
