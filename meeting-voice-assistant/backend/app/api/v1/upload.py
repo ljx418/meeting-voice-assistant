@@ -178,6 +178,7 @@ async def upload_audio_file(
         'audio/wav': 'wav',
         'audio/x-wav': 'wav',
         'audio/m4a': 'm4a',
+        'audio/x-m4a': 'm4a',  # 浏览器可能发送的 MIME 类型
         'audio/ogg': 'ogg',
         'audio/flac': 'flac',
         'video/mp4': 'mp4',

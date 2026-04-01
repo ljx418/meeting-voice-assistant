@@ -58,8 +58,24 @@ async def recognize(file: UploadFile = File(...)):
     logger.info(f"[FunASR API] Processing file: {file.filename}, size: {len(content)} bytes")
 
     try:
+        # m4a 格式需要转换为 wav，因为 FunASR 对 m4a (AAC 编码) 支持不稳定
+        tmp_wav_path = tmp_path
+        if Path(tmp_path).suffix.lower() == '.m4a':
+            import subprocess
+            tmp_wav_path = tmp_path + '.wav'
+            logger.info(f"[FunASR API] Converting m4a to wav: {tmp_wav_path}")
+            result_conv = subprocess.run([
+                'ffmpeg', '-y', '-i', tmp_path,
+                '-ar', '16000', '-ac', '1',
+                tmp_wav_path
+            ], capture_output=True, text=True)
+            if result_conv.returncode != 0:
+                logger.error(f"[FunASR API] ffmpeg conversion failed: {result_conv.stderr}")
+                raise HTTPException(status_code=500, detail=f"m4a conversion failed: {result_conv.stderr}")
+            logger.info(f"[FunASR API] m4a converted successfully")
+
         # 调用 FunASR 进行识别
-        result = recognize_audio(tmp_path)
+        result = recognize_audio(tmp_wav_path)
 
         if not result or len(result) == 0:
             raise HTTPException(status_code=500, detail="No recognition result returned")
@@ -117,5 +133,8 @@ async def recognize(file: UploadFile = File(...)):
         # 清理临时文件
         try:
             Path(tmp_path).unlink()
+            # 如果 m4a 转换过，也清理 wav 文件
+            if tmp_wav_path != tmp_path:
+                Path(tmp_wav_path).unlink()
         except Exception:
             pass
