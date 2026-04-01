@@ -233,8 +233,13 @@ async def upload_audio_file(
             message=f"文件已保存({file_size / (1024*1024):.1f}MB)，开始语音识别..."
         )
 
-        # 初始化 ASR (文件上传使用 dashscope_file 适配器，支持大文件)
-        asr_adapter = ASRFactory.create("dashscope_file")
+        # 初始化 ASR (使用配置的引擎以支持说话人分离)
+        # 如果需要说话人分离，应设置 ASR_ENGINE=funasr
+        asr_engine = config.ASR_ENGINE
+        # 文件上传场景：如果配置是 funasr_realtime，改为 funasr（FunASRAdapter 支持文件识别）
+        if asr_engine == "funasr_realtime":
+            asr_engine = "funasr"
+        asr_adapter = ASRFactory.create(asr_engine)
         await asr_adapter.initialize()
 
         # 读取并转写音频

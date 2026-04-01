@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+env/
+.env
+
+# Node
+node_modules/
+dist/
+.npm
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Audio cache
+backend/audio_cache/*.mp3
+backend/audio_cache/*.wav
+backend/audio_cache/*.m4a
+
+# LLM cache
+backend/llm_cache/
+
+# Transcripts (generated)
+backend/transcripts/*.txt
+
+# Logs
+*.log
+nohup.out
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Temp files
+*.tmp
+*.temp
+*.swp
