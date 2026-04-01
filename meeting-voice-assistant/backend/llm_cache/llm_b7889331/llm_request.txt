@@ -1,0 +1,213 @@
+# 角色与任务
+你是一个专业的会议/音频内容分析助手。你的任务是根据用户提供的语音转写文本，进行深度分析，并严格按照指定格式输出结果。
+
+# 输入说明
+用户将提供一段或多段对话的转写文本。文本中可能包含：
+- 说话人标识（例如 `[SPEAKER_00]`、`Speaker 1` 或 `张三：` 等格式）
+- 时间戳（可选，例如 `[00:01:23]`）
+- 对话内容
+
+你需要基于对话的实际内容进行客观分析，不要添加转写文本中不存在的信息。
+
+# 输出格式
+请以 **JSON** 格式返回，结构如下：
+
+```json
+{{
+  "主题": "一句话概括整个音频的核心议题或主要内容",
+  "章节划分": [
+    {{
+      "章节名称": "例如：开场介绍",
+      "起始位置": "可描述为时间点（如00:00）或关键词（如'开始讨论方案'）",
+      "结束位置": "类似描述"
+    }},
+    {{
+      "章节名称": "技术方案讨论",
+      "起始位置": "...",
+      "结束位置": "..."
+    }}
+    // 依实际章节数量增减
+  ],
+  "内容摘要": "一段约150-300字的摘要，总结关键观点、结论、重要信息，语言简洁通顺。",
+  "发言人员角色识别": [
+    {{
+      "说话人标识": "SPEAKER_00",
+      "角色": "例如：主持人/主讲人/参会者/提问者/决策者",
+      "判断依据": "基于其发言内容、提问方式、总结性话语等简要说明"
+    }},
+    {{
+      "说话人标识": "SPEAKER_01",
+      "角色": "...",
+      "判断依据": "..."
+    }}
+    // 按文本中出现的所有说话人列出
+  ]
+}}
+```
+
+# 重要提示
+1. 只分析文本中实际存在的内容，不要推测未明确表达的信息
+2. 说话人标识使用输入中实际出现的格式
+3. 章节划分应反映对话的自然逻辑分段
+4. 摘要应简洁、准确，包含关键结论和信息点
+
+
+# 待分析的转写文本
+
+[00:04 - 00:09] speaker_0: You're listening to TED Talks Daily, where we bring you new ideas to spark your curiosity every day.
+[00:18 - 00:19] speaker_0:  I'm your host, Elise Hu.
+[00:30 - 00:33] speaker_0:  Oh gosh, I just got a really alarming text from my bank.
+[00:48 - 00:54] speaker_0:  Did you pick up your phone for the 800th time that day, empty of emotion but still feeling a deep lonely ache?
+[01:15 - 01:16] speaker_0:  Yes.
+[01:39 - 01:50] speaker_0: That's comedian and writer Mike Albo describing a feeling I think we all know a little too well.
+[02:25 - 02:33] speaker_0:  Indeed, we talk a lot about how our phones run our lives, but what happens when they get a little too smart, too reflective of the world around us?
+[03:15 - 03:17] speaker_0:  Yes, I did, but how did you know that?
+[04:02 - 04:15] speaker_0:  And then did you order Call Me By Your Name on iTunes for $7.99 and then finally watch it because you have avoided watching it because as a gay man pushing 50, you don't want to get upset seeing young gorgeous men in love?
+[05:13 - 05:15] speaker_0:  Yes, I did.
+[06:16 - 06:31] speaker_0:  In this part comedy, part memoir, part documentary talk, Mike takes a very personal route to show us the hilarious and painfully relatable ways that our digital lives are reflecting our desires, anxieties, and vanities.
+[07:46 - 07:48] speaker_0:  That's coming up right after a short break.
+[09:14 - 09:18] speaker_0: This podcast is brought to you by Wise, the app for using money around the globe.
+[10:49 - 10:52] speaker_0:  With Wise, you can send, spend and receive in over forty currencies.
+[12:27 - 12:29] speaker_0:  No markups, no hidden fees.
+[14:05 - 14:13] speaker_0:  Whether you're sending dollars down under, spending pounds in London, or paying freelancers in pesos, you'll get the mid-market exchange rate on every transaction.
+[15:58 - 16:00] speaker_0:  Plus most transfers arrive in less than twenty seconds.
+[17:48 - 17:51] speaker_0: Join fifteen million customers internationally.
+[19:39 - 19:39] speaker_0:  Join.
+[21:30 - 21:31] speaker_0:  Be smart, get wise.
+[23:24 - 23:25] speaker_0:  Download the Wise app today.
+[25:20 - 25:21] speaker_0:  T's and C's apply.
+[27:17 - 27:24] speaker_0:  One of the best parts for me about hosting Reveal, you know your favorite weekly investigative podcast, is the interviews.
+[29:27 - 29:34] speaker_0:  I love to sit down with people and try to gain a perspective that gives me and our listeners a new way of seeing the world.
+[31:45 - 31:49] speaker_0:  Which is why we're launching More to the Story with me, Al Letson.
+[34:04 - 34:09] speaker_0:  It's a place where I can talk to some of the most intriguing people to bring some context to our changing world.
+[36:30 - 36:34] speaker_0:  Follow the Reveal podcast feed and look for More to the Story every Wednesday.
+[39:01 - 39:01] speaker_0: 嗯。
+[41:32 - 41:34] speaker_0: And now our TED Talk of the day.
+[44:09 - 44:13] speaker_0:  Hi, hello, hi TED people.
+[46:53 - 46:54] speaker_0:  I'm Mike Albo.
+[49:36 - 49:38] speaker_0:  I'm so excited to be here in Hotlanta.
+[52:24 - 52:29] speaker_0:  Do they still call it that, or is that insulting?
+[55:19 - 55:20] speaker_0:  I'm sorry.
+[58:12 - 58:18] speaker_0:  Anyway, I'm here to talk about our smartphones and how they control our.
+[61:18 - 61:18] speaker_0: Oh dear.
+[64:19 - 64:22] speaker_0:  Oh gosh, I just got a really alarming text from my bank.
+[67:27 - 67:32] speaker_0:  Do you mind if I just this will just take a second, I'm sorry.
+[70:42 - 70:45] speaker_0:  Hello, thank you for calling American Bank.
+[73:58 - 74:00] speaker_0:  For English, please press one.
+[77:15 - 77:17] speaker_0:  Para español, oprima número dos.
+[80:36 - 80:41] speaker_0:  To report a card lost or stolen, or to report suspicious activity on your account, press one.
+[84:05 - 84:07] speaker_0: We are experiencing heavy traffic.
+[87:34 - 87:36] speaker_0:  Please hold for the next available representative.
+[91:05 - 91:06] speaker_0:  Your call is.
+[94:38 - 94:39] speaker_0:  Hello, thank you for calling American Bank.
+[98:13 - 98:13] speaker_0:  This is Danny.
+[101:47 - 101:48] speaker_0:  How may I help you?
+[105:23 - 105:27] speaker_0:  Hi, I just received a text that there's a foreign charge on my account.
+[109:06 - 109:08] speaker_0:  Yes, I'll be happy to assist you with that, Mr.
+[112:49 - 112:49] speaker_0:  Albo.
+[116:30 - 116:33] speaker_0:  May I have the last four digits of your social security number?
+[120:18 - 120:19] speaker_0:  Uh, one seven three four.
+[124:06 - 124:07] speaker_0:  Thank you, Mr.
+[127:54 - 127:55] speaker_0:  Albo.
+[131:44 - 131:46] speaker_0: Yes, it appears there has been some suspicious activity.
+[135:38 - 135:42] speaker_0:  To validate your account, I will need to confirm recent transactions over the last twenty-four hours.
+[139:39 - 139:40] speaker_0:  Is that okay with you, Mister Elba?
+[143:38 - 143:38] speaker_0:  Yes.
+[147:39 - 147:42] speaker_0:  Did you purchase a smoothie in Philadelphia yesterday at six a.
+[151:46 - 151:46] speaker_0: m.
+[155:50 - 155:51] speaker_0:  for one dollar and fifty cents?
+[159:57 - 159:58] speaker_0:  Weird, no.
+[164:07 - 164:10] speaker_0: Did you purchase a bubble tea in Puerto Vallarta today at 8 a.
+[168:22 - 168:22] speaker_0: m.
+[172:34 - 172:35] speaker_0:  for $0.00?
+[176:48 - 176:50] speaker_0:  I did not.
+[181:05 - 181:09] speaker_0:  Did you purchase a chopped salad in Toronto yesterday at 8:30 a.
+[185:28 - 185:28] speaker_0: m.
+[189:47 - 189:49] speaker_0:  for 37 cents?
+[194:09 - 194:10] speaker_0:  I did not.
+[198:33 - 198:35] speaker_0:  Okay, yes, it seems your account has been hacked.
+[203:00 - 203:04] speaker_0:  If you will allow me to continue with your transactions over the last 24 hours, Mr.
+[207:32 - 207:34] speaker_0:  Albo, just to make sure.
+[212:05 - 212:05] speaker_0:  Okay.
+[216:37 - 216:45] speaker_0: Did you purchase two organic chicken breasts, brown rice, and a head of broccoli at Whole Foods for $28.11 at 4:59 p.
+[221:26 - 221:26] speaker_0: m.
+[226:07 - 226:07] speaker_0:  yesterday?
+[230:49 - 230:50] speaker_0:  Yes, I know, so expensive.
+[235:34 - 235:40] speaker_0:  Did you purchase a bottle of wine for $11.50 at Smith Street Wine and Liquor at 5:12 p.
+[240:30 - 240:31] speaker_0: m.
+[245:21 - 245:21] speaker_0:  yesterday?
+[250:12 - 250:13] speaker_0:  Yes.
+[255:06 - 255:13] speaker_0: And then did you purchase drinks at Loco Coco Saloon for fourteen dollars at five thirty five pm?
+[260:13 - 260:16] speaker_0:  No, wait, oh yeah, I was with this guy Jeff.
+[265:18 - 265:21] speaker_0:  I was trying to meet someone in public before I, anyway, yes.
+[270:27 - 270:32] speaker_0:  Did you purchase a monthly membership renewal on Grindr?
+[275:44 - 275:45] speaker_0:  Um, yeah.
+[280:58 - 281:01] speaker_0:  Did you purchase an auto renewal membership on Scruff?
+[286:18 - 286:20] speaker_0:  Um, yes, I must have.
+[291:40 - 291:41] speaker_0: Then at nine thirty p.
+[297:02 - 297:02] speaker_0: m.,
+[302:23 - 302:28] speaker_0:  did you purchase another bottle of wine from Vino Nino Wine Company on Atlantic Avenue?
+[307:55 - 307:55] speaker_0:  Uh, yes.
+[313:24 - 313:29] speaker_0:  And did you do this because you didn't want the guys at Smith Street Wine to see you buying more wine on the same day?
+[319:04 - 319:04] speaker_0:  Yes, but.
+[324:40 - 324:42] speaker_0:  And did you go home and eat while standing up at the sink?
+[330:20 - 330:23] speaker_0:  Yes, I did, but how did you know that?
+[336:04 - 336:16] speaker_0:  And then did you order Call Me By Your Name on iTunes for seven and ninety-nine cents and then finally watch it because you have avoided watching it because as a gay man pushing fifty, you don't want to get upset seeing young gorgeous men in love?
+[342:09 - 342:11] speaker_0:  Yes, I did.
+[348:07 - 348:15] speaker_0:  And then at the end, did you burst into tears but then go look in the mirror to see how you look when you cry shirtless and then purchase a Peloton membership?
+[354:18 - 354:19] speaker_0:  Yes.
+[360:24 - 360:31] speaker_0:  And then did you take a photo of your torso in the mirror because you realized your abs look good when you are heaving with tears?
+[366:44 - 366:44] speaker_0:  Yes.
+[372:59 - 373:05] speaker_0: Did you pick up your phone for the eight hundredth time that day, empty of emotion, but still feeling a deep lonely ache?
+[379:26 - 379:26] speaker_0:  Yes.
+[385:49 - 385:55] speaker_0:  And scroll through Scruff, having a number of pointless conversations with headless torsos?
+[392:23 - 392:23] speaker_0:  Yes.
+[398:52 - 398:57] speaker_0:  Drinking your previously purchased wine until you were so sloshed?
+[405:30 - 405:30] speaker_0:  Yes.
+[412:04 - 412:15] speaker_0: And you cried by yourself, no one else there, just you, a low-income single gay man that no one wants to hear from in society since you are over 40 and make less than $30,000 a year?
+[418:59 - 419:00] speaker_0:  Yes.
+[425:45 - 425:57] speaker_0:  And then did you pass out staring at yet another hot man on your screen you will never meet in person, and then wake up and look at your phone and realize with horror that you were late to get to the airport to go to Atlanta for this TEDx event?
+[432:55 - 432:55] speaker_0:  I did.
+[439:55 - 440:06] speaker_0:  And barely got to the airport on time and landed in Atlanta, got to the Uber and checked Scruff and Grindr again to see if there are any hot guys in Atlanta because this town is indeed full of very sexy men.
+[447:17 - 447:19] speaker_0:  I did, I did, and they are, they are.
+[454:33 - 454:53] speaker_0:  And then you got to the venue and ran out of the Uber and rushed backstage with your phone in your hand and brought it up on stage with you, and then just now, walking on stage, looked down again to see if there are any hot guys to meet right here in the audience, and saw that we, American Bank, had contacted you by text.
+[462:27 - 462:27] speaker_0: I did.
+[470:01 - 470:05] speaker_0:  I did.
+[477:46 - 477:47] speaker_0: Well, Mr.
+[485:28 - 485:30] speaker_0:  Albo, it seems your transactions are in order.
+[493:14 - 493:18] speaker_0:  We will cancel the card and you can expect a new one in the next six to ten business days.
+[501:06 - 501:08] speaker_0:  Six to ten business days?
+[508:59 - 509:00] speaker_0:  Is there anything else I can help you with?
+[516:53 - 516:54] speaker_0:  No, thanks, Danny.
+[524:49 - 524:49] speaker_0:  Thank you, Mr.
+[532:45 - 532:45] speaker_0:  Albo.
+[540:41 - 540:44] speaker_0:  We very much appreciate your continued patronage of American Bank.
+[548:44 - 548:45] speaker_0:  Also, you are a drunk gay tramp.
+[556:47 - 556:47] speaker_0:  Goodbye.
+[564:49 - 564:49] speaker_0:  Hey.
+[572:54 - 572:56] speaker_0: Well, I guess I am.
+[581:03 - 581:04] speaker_0:  Oh, and my time's out.
+[589:13 - 589:14] speaker_0:  Well, thank you.
+[593:19 - 593:21] speaker_0: 嗯嗯嗯。
+[597:34 - 597:38] speaker_0: That was Mike Albo at TEDxNext 2025.
+[601:54 - 601:58] speaker_0:  If you're curious about TED's curation, find out more at ted.
+[606:19 - 606:21] speaker_0: com/curationguidelines.
+[610:44 - 610:45] speaker_0:  And that's it for today.
+[615:09 - 615:12] speaker_0:  TED Talks Daily is part of the TED Audio Collective.
+[619:40 - 619:50] speaker_0:  This talk was fact-checked by the TED Research team and produced and edited by our team: Martha Estefanous, Oliver Friedman, Brian Green, Lucy Little, and Tonsica Sungmarneevong.
+[624:27 - 624:29] speaker_0:  This episode was mixed by Lucy Little.
+[629:09 - 629:13] speaker_0:  Additional support from Emma Tobner and Daniela Ballarezo.
+[633:56 - 633:57] speaker_0:  I'm Elise Hu.
+[638:41 - 638:44] speaker_0:  I'll be back tomorrow with a fresh idea for your feed.
+[643:31 - 643:31] speaker_0:  Thanks for listening.
+[648:31 - 648:37] speaker_0: I recently had comedian and host of TED's How to Be a Better Human podcast, Chris Duffy, on our show.
+[653:42 - 653:46] speaker_0:  He sat down for a special interview where he talked about how to laugh more at the little things in life.
+[658:57 - 659:01] speaker_0:  One of the ways that we take the least social risk is in conversations with people we don't know that well.
+[664:15 - 664:17] speaker_0:  We tend to just say like, so how are you?
+[669:35 - 669:35] speaker_0:  What do you do?
+[674:53 - 674:58] speaker_0:  There's no risk involved, and as a result, it's very unlikely that you and the other person will like laugh or connect.
+[680:20 - 680:29] speaker_0:  So I think you can take like a low risk thing and ask them a question that's just a little unusual, but that you actually are interested in or is a little funny.
+[686:01 - 686:05] speaker_0:  Now the person might be like, this is weird, why are you asking me about terrible soups?
+[691:40 - 691:47] speaker_0:  But you'll probably have a conversation that is a little bit more memorable and funny and has the potential for laughter than other things.
+[697:30 - 697:38] speaker_0:  Get more practical tips on how to be the best you can be by listening to Chris interview TED speakers on his podcast, How to Be a Better Human.
+[703:29 - 703:31] speaker_0:  Listen wherever you get your shows.

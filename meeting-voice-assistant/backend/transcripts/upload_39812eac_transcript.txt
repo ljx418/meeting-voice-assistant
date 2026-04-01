@@ -1,0 +1,3882 @@
+# 会议转写文本
+# Session ID: upload_39812eac
+# 开始时间: 2026-03-30 17:26:23
+# 总时长: 01:04:27
+# 转写片段数: 1289
+# 来源: 文件上传
+
+============================================================
+
+[00:00:00 - 00:00:03] 发言人 C:
+   hey，
+
+[00:00:03 - 00:00:06] 发言人 C:
+   tetox dadaily listeners。
+
+[00:00:06 - 00:00:09] 发言人 C:
+   i'm elease you today a sunday pick episode where we share another podcast from the ted audio collective hand picked by us for you yesterday was world poetry day，
+
+[00:00:09 - 00:00:12] 发言人 C:
+   and we couldn't think of a better way to celebrate one of the world's most ancient art forms than to share this recent episode of design matters that hodebby mmillon revisits her celebrations with renowned poets，
+
+[00:00:12 - 00:00:15] 发言人 C:
+   aliine miles，
+
+[00:00:15 - 00:00:18] 发言人 C:
+   elizabeth，
+
+[00:00:18 - 00:00:21] 发言人 C:
+   alexander，
+
+[00:00:21 - 00:00:24] 发言人 C:
+   sarah k and amber tambling。
+
+[00:00:24 - 00:00:27] 发言人 C:
+   in the episode，
+
+[00:00:27 - 00:00:30] 发言人 C:
+   she shares experts from these poets and their work that reflect on language，
+
+[00:00:30 - 00:00:33] 发言人 C:
+   identity memory and the lived experience that fuels their work today，
+
+[00:00:33 - 00:00:36] 发言人 C:
+   they reveal poetry as an intimate and profound practice that resonates far beyond the page than you can find episodes of design matters wherever you get your podcasts，
+
+[00:00:36 - 00:00:39] 发言人 C:
+   learn more about the ted audicolcollected tive and dio colcolctive of ted dot com。
+
+[00:00:39 - 00:00:42] 发言人 B:
+   sometimes i almost remember it like i wrote it rather than as it happened in the dna。
+
+[00:00:42 - 00:00:45] 发言人 D:
+   everything you write is everything else。
+
+[00:00:45 - 00:00:48] 发言人 D:
+   you're ever gonna write 嗯，
+
+[00:00:48 - 00:00:51] 发言人 E:
+   from the ted audio collective。
+
+[00:00:51 - 00:00:54] 发言人 E:
+   this is design matters with debbie melmon on design matters。
+
+[00:00:54 - 00:00:57] 发言人 E:
+   stebby talks with some of the most creative people in the world about what they do，
+
+[00:00:57 - 00:01:00] 发言人 E:
+   how they got to be who they are and what they're thinking about。
+
+[00:01:00 - 00:01:03] 发言人 E:
+   and working on on this episode in celebration of the two thousand hundred hundred niversary of design matters will hear from some of the poets that debby has interviewed。
+
+[00:01:03 - 00:01:06] 发言人 E:
+   over the years。
+
+[00:01:06 - 00:01:09] 发言人 F:
+   there was an entire part of myself that was dying。
+
+[00:01:09 - 00:01:12] 发言人 A:
+   it felt like the whole room was communicating。
+
+[00:01:12 - 00:01:15] 发言人 A:
+   there is room for you。
+
+[00:01:15 - 00:01:18] 发言人 G:
+   this podcast is brought to you by wise the app for using money around the globe。
+
+[00:01:18 - 00:01:21] 发言人 G:
+   with wise，
+
+[00:01:21 - 00:01:24] 发言人 G:
+   you can send spend and receive and over forty currencies，
+
+[00:01:24 - 00:01:27] 发言人 G:
+   no markups，
+
+[00:01:27 - 00:01:30] 发言人 G:
+   no hidden fees，
+
+[00:01:30 - 00:01:33] 发言人 G:
+   whether sending dollars down under spending pounds in london or paying freelancces in pasos。
+
+[00:01:33 - 00:01:36] 发言人 G:
+   you'll get the middle market exchange rate on trtransaction plus most transfers arrive in less twenty twenty second lujofifteen million customers internationally，
+
+[00:01:36 - 00:01:39] 发言人 G:
+   be smart，
+
+[00:01:39 - 00:01:42] 发言人 G:
+   get wise，
+
+[00:01:42 - 00:01:45] 发言人 G:
+   download wise se up today，
+
+[00:01:45 - 00:01:48] 发言人 G:
+   or asen sees apply one of the best parts for me about hosting review。
+
+[00:01:48 - 00:01:51] 发言人 H:
+   you know，
+
+[00:01:51 - 00:01:54] 发言人 H:
+   your favorite weekly investigate of podcast is the interviews。
+
+[00:01:54 - 00:01:57] 发言人 H:
+   i love to sit down with people and try to gain a perspective that gives me and our listeners a new way of seeing the world，
+
+[00:01:57 - 00:02:00] 发言人 H:
+   which is why we're launching more to the story with me allets，
+
+[00:02:00 - 00:02:03] 发言人 H:
+   in which place where i can talk to some of the most intriguing people to bring some context to our changing world，
+
+[00:02:03 - 00:02:06] 发言人 H:
+   follow the reveal podcast feed and look for more to the story。
+
+[00:02:06 - 00:02:09] 发言人 H:
+   every wednesday，
+
+[00:02:09 - 00:02:12] 发言人 B:
+   one age of few designers painters photographers，
+
+[00:02:12 - 00:02:15] 发言人 B:
+   movie makers，
+
+[00:02:15 - 00:02:18] 发言人 B:
+   illustrators and other visual artists。
+
+[00:02:18 - 00:02:21] 发言人 B:
+   i talked to them about their lives，
+
+[00:02:21 - 00:02:24] 发言人 B:
+   their creative processes and their were，
+
+[00:02:24 - 00:02:27] 发言人 B:
+   but because it's an audio podcast listeners can't see what we're talking about when i interview musicians，
+
+[00:02:27 - 00:02:30] 发言人 B:
+   some have agreed to perform a songer two in our little podcast booth，
+
+[00:02:30 - 00:02:33] 发言人 B:
+   which is an extraordinary gift，
+
+[00:02:33 - 00:02:36] 发言人 B:
+   but not every musician i speak with is a singing，
+
+[00:02:36 - 00:02:39] 发言人 B:
+   a song writer who can show a in person with a guitar。
+
+[00:02:39 - 00:02:42] 发言人 B:
+   but when we interview poets，
+
+[00:02:42 - 00:02:45] 发言人 B:
+   i always get them to read some of their work and poets are wonderful readers of their poems on this episode。
+
+[00:02:45 - 00:02:48] 发言人 B:
+   celebrating the tweneth anniversary year of design matters that like to play excerbts from some of the poets i've had the pleasure of talking with and listening to alien miles has been publishing poetry for fifty years and is a literary institution in new york city's east village。
+
+[00:02:48 - 00:02:51] 发言人 B:
+   they're also olovealist and art journalist and writer of uperer liberty。
+
+[00:02:51 - 00:02:54] 发言人 B:
+   if melook up the words hihip or cool in my imaginary illustrated dictionary，
+
+[00:02:54 - 00:02:57] 发言人 B:
+   you will find a head shot of alien miles。
+
+[00:02:57 - 00:03:00] 发言人 B:
+   i spoke them in twenty seventy，
+
+[00:03:00 - 00:03:03] 发言人 B:
+   and you ve ve in york，
+
+[00:03:03 - 00:03:06] 发言人 B:
+   city，
+
+[00:03:06 - 00:03:09] 发言人 B:
+   city，
+
+[00:03:09 - 00:03:12] 发言人 B:
+   nineteen，
+
+[00:03:12 - 00:03:15] 发言人 B:
+   nineteen，
+
+[00:03:15 - 00:03:18] 发言人 B:
+   seventy four，
+
+[00:03:18 - 00:03:21] 发言人 B:
+   to be a poet。
+
+[00:03:21 - 00:03:24] 发言人 B:
+   and you said that all live your life，
+
+[00:03:24 - 00:03:27] 发言人 B:
+   people have asked you what you do。
+
+[00:03:27 - 00:03:30] 发言人 B:
+   and you say that you're a poet and they just kind of look at you，
+
+[00:03:30 - 00:03:33] 发言人 B:
+   like you said，
+
+[00:03:33 - 00:03:36] 发言人 B:
+   you're stripper，
+
+[00:03:36 - 00:03:39] 发言人 B:
+   still，
+
+[00:03:39 - 00:03:42] 发言人 B:
+   no，
+
+[00:03:42 - 00:03:45] 发言人 B:
+   they look at you，
+
+[00:03:45 - 00:03:48] 发言人 D:
+   like you said，
+
+[00:03:48 - 00:03:51] 发言人 D:
+   you're a mind。
+
+[00:03:51 - 00:03:54] 发言人 D:
+   it would be cool or they looked at you。
+
+[00:03:54 - 00:03:57] 发言人 D:
+   if you were，
+
+[00:03:57 - 00:04:00] 发言人 D:
+   they thought you 're stripper。
+
+[00:04:00 - 00:04:03] 发言人 D:
+   i just thought why？
+
+[00:04:03 - 00:04:06] 发言人 D:
+   i mean，
+
+[00:04:06 - 00:04:09] 发言人 D:
+   i would just like，
+
+[00:04:09 - 00:04:12] 发言人 D:
+   what does that person do？
+
+[00:04:12 - 00:04:15] 发言人 D:
+   i mean，
+
+[00:04:15 - 00:04:18] 发言人 D:
+   even to in orerary today today，
+
+[00:04:18 - 00:04:21] 发言人 D:
+   a conversation with somebody，
+
+[00:04:21 - 00:04:24] 发言人 D:
+   and there was somebody taking pictures。
+
+[00:04:24 - 00:04:27] 发言人 D:
+   so then he was like，
+
+[00:04:27 - 00:04:30] 发言人 D:
+   what do you do all day？
+
+[00:04:30 - 00:04:33] 发言人 D:
+   i just thought，
+
+[00:04:33 - 00:04:36] 发言人 D:
+   that's so strange。
+
+[00:04:36 - 00:04:39] 发言人 D:
+   what what do you do all day？
+
+[00:04:39 - 00:04:42] 发言人 D:
+   you know part of what's interesting about being popoet。
+
+[00:04:42 - 00:04:45] 发言人 D:
+   is that nobody knows you know that it's slike what people don't get is that it's almost like you're like a professional human in what way what you mean，
+
+[00:04:45 - 00:04:48] 发言人 D:
+   you know you in the same way that they're like epic poems，
+
+[00:04:48 - 00:04:51] 发言人 D:
+   right？
+
+[00:04:51 - 00:04:54] 发言人 D:
+   and there would be a hero，
+
+[00:04:54 - 00:04:57] 发言人 D:
+   but really the hero of the epic poem was the poet，
+
+[00:04:57 - 00:05:00] 发言人 D:
+   the one who wrote the story，
+
+[00:05:00 - 00:05:03] 发言人 D:
+   you know，
+
+[00:05:03 - 00:05:06] 发言人 D:
+   who who gave mine to the epia kind of。
+
+[00:05:06 - 00:05:09] 发言人 D:
+   and i think that you're still that person，
+
+[00:05:09 - 00:05:12] 发言人 D:
+   you know，
+
+[00:05:12 - 00:05:15] 发言人 D:
+   except that the saga is kind of a day is kind of a postmodern day and 're sort ort of it kind kind telling a story of it，
+
+[00:05:15 - 00:05:18] 发言人 D:
+   you know，
+
+[00:05:18 - 00:05:21] 发言人 D:
+   and it didn't have be a leniar story，
+
+[00:05:21 - 00:05:24] 发言人 D:
+   but you're just kind of saying，
+
+[00:05:24 - 00:05:27] 发言人 D:
+   what's i'm making a mom gestuure。
+
+[00:05:27 - 00:05:30] 发言人 D:
+   you kind of saying it's here you ah yeah，
+
+[00:05:30 - 00:05:33] 发言人 D:
+   yeah。
+
+[00:05:33 - 00:05:36] 发言人 D:
+   and i think that's like a very ordinary，
+
+[00:05:36 - 00:05:39] 发言人 D:
+   but like very necessary。
+
+[00:05:39 - 00:05:42] 发言人 D:
+   and so of completely a real and phenomenal job。
+
+[00:05:42 - 00:05:45] 发言人 D:
+   and yet，
+
+[00:05:45 - 00:05:48] 发言人 D:
+   i think that be a job of the poet youve written about how you walked into the vesalt，
+
+[00:05:48 - 00:05:51] 发言人 B:
+   the cafe and october of nineteen seventy，
+
+[00:05:51 - 00:05:54] 发言人 B:
+   ty five met the late，
+
+[00:05:54 - 00:05:57] 发言人 B:
+   ate york popaul vilely，
+
+[00:05:57 - 00:06:00] 发言人 B:
+   who invited you to a workshop at satemarkchchurch。
+
+[00:06:00 - 00:06:03] 发言人 B:
+   and you went and wrote this about the experience sudenly。
+
+[00:06:03 - 00:06:06] 发言人 B:
+   the rest of my history came out of that accidental moment。
+
+[00:06:06 - 00:06:09] 发言人 B:
+   i met alen gsberg，
+
+[00:06:09 - 00:06:12] 发言人 B:
+   and i thought i must be in the right place，
+
+[00:06:12 - 00:06:15] 发言人 B:
+   every situation spononds another one。
+
+[00:06:15 - 00:06:18] 发言人 B:
+   and those with the ones that i had the lives i had，
+
+[00:06:18 - 00:06:21] 发言人 B:
+   what do you think your life would have been like if you haven't met paul？
+
+[00:06:21 - 00:06:24] 发言人 D:
+   i mean，
+
+[00:06:24 - 00:06:27] 发言人 D:
+   so much wrote this novel。
+
+[00:06:27 - 00:06:30] 发言人 D:
+   and firn out to say what it was like to be a female coming into new york as a powt in the seventies，
+
+[00:06:30 - 00:06:33] 发言人 D:
+   you know，
+
+[00:06:33 - 00:06:36] 发言人 D:
+   because every dude at some book you should read。
+
+[00:06:36 - 00:06:39] 发言人 D:
+   i mean，
+
+[00:06:39 - 00:06:42] 发言人 D:
+   to quote the arcratic peter shell doll，
+
+[00:06:42 - 00:06:45] 发言人 D:
+   he said he had dn't used to them on art and in the eighties，
+
+[00:06:45 - 00:06:48] 发言人 D:
+   and he said，
+
+[00:06:48 - 00:06:51] 发言人 D:
+   there was no top at the heap。
+
+[00:06:51 - 00:06:54] 发言人 D:
+   there were just a little little heaps on the top。
+
+[00:06:54 - 00:06:57] 发言人 D:
+   and that's how the poetry world ssort of always was。
+
+[00:06:57 - 00:07:00] 发言人 D:
+   it was then。
+
+[00:07:00 - 00:07:03] 发言人 D:
+   so it's just like it was a question of what other pile i could have round up in。
+
+[00:07:03 - 00:07:06] 发言人 D:
+   but paul was my guide into all the nel ct，
+
+[00:07:06 - 00:07:09] 发言人 D:
+   quote，
+
+[00:07:09 - 00:07:12] 发言人 D:
+   other schools of poetry，
+
+[00:07:12 - 00:07:15] 发言人 D:
+   the timing i had wisted and consider other was like black mountain。
+
+[00:07:15 - 00:07:18] 发言人 D:
+   it was be。
+
+[00:07:18 - 00:07:21] 发言人 D:
+   it was new york school。
+
+[00:07:21 - 00:07:24] 发言人 D:
+   it was everything that was sort of not the mainstream american cannon of literature。
+
+[00:07:24 - 00:07:27] 发言人 D:
+   you know，
+
+[00:07:27 - 00:07:30] 发言人 D:
+   that was the right right place。
+
+[00:07:30 - 00:07:33] 发言人 D:
+   i hopefufully i have found it some other way，
+
+[00:07:33 - 00:07:36] 发言人 D:
+   but paul was the guide。
+
+[00:07:36 - 00:07:39] 发言人 B:
+   you have said that you feel funny about being in the new york school，
+
+[00:07:39 - 00:07:42] 发言人 B:
+   and you prefer，
+
+[00:07:42 - 00:07:45] 发言人 B:
+   i believe you said the folk folk poet school，
+
+[00:07:45 - 00:07:48] 发言人 B:
+   right？
+
+[00:07:48 - 00:07:51] 发言人 D:
+   i mean，
+
+[00:07:51 - 00:07:54] 发言人 D:
+   i just i think i'm just sort of wying to be a little more maybe even more veracular。
+
+[00:07:54 - 00:07:57] 发言人 D:
+   i mean，
+
+[00:07:57 - 00:08:00] 发言人 D:
+   even the new york school is kind of precious。
+
+[00:08:00 - 00:08:03] 发言人 D:
+   and like we're about art，
+
+[00:08:03 - 00:08:06] 发言人 D:
+   you know，
+
+[00:08:06 - 00:08:09] 发言人 D:
+   in it。
+
+[00:08:09 - 00:08:12] 发言人 D:
+   and i want that to be true。
+
+[00:08:12 - 00:08:15] 发言人 B:
+   ue。
+
+[00:08:15 - 00:08:18] 发言人 B:
+   an interview in the paris review。
+
+[00:08:18 - 00:08:21] 发言人 B:
+   you stated，
+
+[00:08:21 - 00:08:24] 发言人 B:
+   i've made myself self homeless，
+
+[00:08:24 - 00:08:27] 发言人 B:
+   i've cut myself off from anything。
+
+[00:08:27 - 00:08:30] 发言人 B:
+   i knew prior to living in new york。
+
+[00:08:30 - 00:08:33] 发言人 B:
+   i did this to myself。
+
+[00:08:33 - 00:08:36] 发言人 B:
+   so i know exactly how it happened。
+
+[00:08:36 - 00:08:39] 发言人 B:
+   do you do you think this was a necessary component to you becoming the right you are now？
+
+[00:08:39 - 00:08:42] 发言人 D:
+   yeah，
+
+[00:08:42 - 00:08:45] 发言人 D:
+   yeah。
+
+[00:08:45 - 00:08:48] 发言人 D:
+   i mean，
+
+[00:08:48 - 00:08:51] 发言人 D:
+   II think that we're always translating right you know。
+
+[00:08:51 - 00:08:54] 发言人 D:
+   and i think again，
+
+[00:08:54 - 00:08:57] 发言人 D:
+   i think any of us who come from another class on any level can't stay home。
+
+[00:08:57 - 00:09:00] 发言人 D:
+   and do you know or make you have have take take what you have some ay cells？
+
+[00:09:00 - 00:09:03] 发言人 D:
+   i mean，
+
+[00:09:03 - 00:09:06] 发言人 D:
+   i've even and the poetry world live done that with，
+
+[00:09:06 - 00:09:09] 发言人 D:
+   i mean，
+
+[00:09:09 - 00:09:12] 发言人 D:
+   basically importing male on guard styles into you of a quer er，
+
+[00:09:12 - 00:09:15] 发言人 D:
+   a lesbian world，
+
+[00:09:15 - 00:09:18] 发言人 D:
+   so that i feel like i've operperate a lot like a translator of styles and in realities，
+
+[00:09:18 - 00:09:21] 发言人 D:
+   or even bringing a ssbian ality into you think the poetry world，
+
+[00:09:21 - 00:09:24] 发言人 D:
+   i think between me and joill saw w weweve brought more lesbian content and to the mainstream。
+
+[00:09:24 - 00:09:27] 发言人 D:
+   then this been in a while joill。
+
+[00:09:27 - 00:09:30] 发言人 B:
+   sadly，
+
+[00:09:30 - 00:09:33] 发言人 B:
+   of course，
+
+[00:09:33 - 00:09:36] 发言人 B:
+   the creator of the television show transparent，
+
+[00:09:36 - 00:09:39] 发言人 B:
+   right？
+
+[00:09:39 - 00:09:42] 发言人 B:
+   let's talk for a few minutes box icans，
+
+[00:09:42 - 00:09:45] 发言人 B:
+   but give give it and quite a bit about his epic poem hello。
+
+[00:09:45 - 00:09:48] 发言人 B:
+   and if stated that these are some of your favorite lines，
+
+[00:09:48 - 00:09:51] 发言人 B:
+   who is his cigarettes in box carars box carars box carars wrecketing through snow toward loonsome。
+
+[00:09:51 - 00:09:54] 发言人 B:
+   some farms in grandfather night。
+
+[00:09:54 - 00:09:57] 发言人 B:
+   what is it about those lines at movie so much？
+
+[00:09:57 - 00:10:00] 发言人 D:
+   what is it the box carars box cars？
+
+[00:10:00 - 00:10:03] 发言人 D:
+   box cars？
+
+[00:10:03 - 00:10:06] 发言人 B:
+   you know，
+
+[00:10:06 - 00:10:09] 发言人 B:
+   it's litgally，
+
+[00:10:09 - 00:10:12] 发言人 B:
+   you say that box cars fast，
+
+[00:10:12 - 00:10:15] 发言人 D:
+   some right？
+
+[00:10:15 - 00:10:18] 发言人 D:
+   thank you。
+
+[00:10:18 - 00:10:21] 发言人 D:
+   i mean，
+
+[00:10:21 - 00:10:24] 发言人 D:
+   it's it's just the mattonomy of poetry。
+
+[00:10:24 - 00:10:27] 发言人 D:
+   and i think he was，
+
+[00:10:27 - 00:10:30] 发言人 D:
+   i mean，
+
+[00:10:30 - 00:10:33] 发言人 D:
+   he was a power very influence by by ililm，
+
+[00:10:33 - 00:10:36] 发言人 D:
+   the tv by the media，
+
+[00:10:36 - 00:10:39] 发言人 D:
+   and he use the kind of ancient and can't teratory way of poetry。
+
+[00:10:39 - 00:10:42] 发言人 D:
+   and of course，
+
+[00:10:42 - 00:10:45] 发言人 D:
+   it just it does the movement of the train across america，
+
+[00:10:45 - 00:10:48] 发言人 D:
+   plus it carries of the part that people don't talk about。
+
+[00:10:48 - 00:10:51] 发言人 D:
+   i think with how offars i know is they don't talk about。
+
+[00:10:51 - 00:10:54] 发言人 D:
+   it's a relationship to the holicost。
+
+[00:10:54 - 00:10:57] 发言人 D:
+   you know，
+
+[00:10:57 - 00:11:00] 发言人 D:
+   those box carars are carrying lots of jeish to the camps。
+
+[00:11:00 - 00:11:03] 发言人 D:
+   i can't imagine being uh a jee in america in fifties and not thinking about that。
+
+[00:11:03 - 00:11:06] 发言人 B:
+   you stated that giinsburg was the first poet to send out press releases，
+
+[00:11:06 - 00:11:09] 发言人 B:
+   right？
+
+[00:11:09 - 00:11:12] 发言人 B:
+   let you knew all about marketing and media，
+
+[00:11:12 - 00:11:15] 发言人 B:
+   did that influence you in anyway？
+
+[00:11:15 - 00:11:18] 发言人 B:
+   yeah，
+
+[00:11:18 - 00:11:21] 发言人 D:
+   absolutely。
+
+[00:11:21 - 00:11:24] 发言人 D:
+   because i think he believe that if you have an important message，
+
+[00:11:24 - 00:11:27] 发言人 D:
+   youve tta get it out what whitsmbelieved that too badty smith believe。
+
+[00:11:27 - 00:11:30] 发言人 D:
+   i mean，
+
+[00:11:30 - 00:11:33] 发言人 D:
+   that's part of what i loved and felt。
+
+[00:11:33 - 00:11:36] 发言人 D:
+   and are about padty that trimbling thing，
+
+[00:11:36 - 00:11:39] 发言人 D:
+   where，
+
+[00:11:39 - 00:11:42] 发言人 D:
+   you know，
+
+[00:11:42 - 00:11:45] 发言人 D:
+   like i'm full beliething。
+
+[00:11:45 - 00:11:48] 发言人 D:
+   and i've got to get it out。
+
+[00:11:48 - 00:11:51] 发言人 D:
+   you know，
+
+[00:11:51 - 00:11:54] 发言人 B:
+   you publish your first book of poetry on a ymmia graph machine in one thousand hundred and seventy eight。
+
+[00:11:54 - 00:11:57] 发言人 B:
+   where did you make it？
+
+[00:11:57 - 00:12:00] 发言人 B:
+   how did you distribute it？
+
+[00:12:00 - 00:12:03] 发言人 B:
+   where is it now？
+
+[00:12:03 - 00:12:06] 发言人 B:
+   where can we find it？
+
+[00:12:06 - 00:12:09] 发言人 D:
+   um probably let's say，
+
+[00:12:09 - 00:12:12] 发言人 D:
+   wononder some college libraries have it？
+
+[00:12:12 - 00:12:15] 发言人 D:
+   i don't know which ones and they all have special collections。
+
+[00:12:15 - 00:12:18] 发言人 D:
+   and um and i'm probably，
+
+[00:12:18 - 00:12:21] 发言人 D:
+   but i'm kind of in the archival moment。
+
+[00:12:21 - 00:12:24] 发言人 D:
+   so i probably will be sending all of my craft to some college library soon，
+
+[00:12:24 - 00:12:27] 发言人 D:
+   but it was that it was that memof machine at a march church apppoit named jibroddy，
+
+[00:12:27 - 00:12:30] 发言人 D:
+   who was like，
+
+[00:12:30 - 00:12:33] 发言人 D:
+   you know，
+
+[00:12:33 - 00:12:36] 发言人 D:
+   second，
+
+[00:12:36 - 00:12:39] 发言人 D:
+   their generation in our school。
+
+[00:12:39 - 00:12:42] 发言人 D:
+   you know，
+
+[00:12:42 - 00:12:45] 发言人 D:
+   had a presss，
+
+[00:12:45 - 00:12:48] 发言人 D:
+   i think，
+
+[00:12:48 - 00:12:51] 发言人 D:
+   was called jibrodie books。
+
+[00:12:51 - 00:12:54] 发言人 D:
+   you know，
+
+[00:12:54 - 00:12:57] 发言人 D:
+   he's like，
+
+[00:12:57 - 00:13:00] 发言人 D:
+   why don't you have a book？
+
+[00:13:00 - 00:13:03] 发言人 D:
+   ks know know why should have a book and he ran，
+
+[00:13:03 - 00:13:06] 发言人 D:
+   and there was would be be two hundred copies，
+
+[00:13:06 - 00:13:09] 发言人 D:
+   but somehow we bran another paper at one hundred and sixty。
+
+[00:13:09 - 00:13:12] 发言人 D:
+   and then he just kind of handed them to me。
+
+[00:13:12 - 00:13:15] 发言人 D:
+   and then i just，
+
+[00:13:15 - 00:13:18] 发言人 D:
+   you know，
+
+[00:13:18 - 00:13:21] 发言人 D:
+   miled mout and had a book party and did everything knew to do at that time。
+
+[00:13:21 - 00:13:24] 发言人 B:
+   did you designed the cover？
+
+[00:13:24 - 00:13:27] 发言人 D:
+   no，
+
+[00:13:27 - 00:13:30] 发言人 D:
+   when i was really，
+
+[00:13:30 - 00:13:33] 发言人 D:
+   i mean that my first couple of books were designed by other people，
+
+[00:13:33 - 00:13:36] 发言人 D:
+   and i was very unhappy with the results。
+
+[00:13:36 - 00:13:39] 发言人 D:
+   and i ve been like a pit ball at the sense about then i said，
+
+[00:13:39 - 00:13:42] 发言人 B:
+   you did the lettering on both of your new releases。
+
+[00:13:42 - 00:13:45] 发言人 B:
+   your rereleases。
+
+[00:13:45 - 00:13:48] 发言人 B:
+   yes。
+
+[00:13:48 - 00:13:51] 发言人 B:
+   but we'll talk about that in a little while。
+
+[00:13:51 - 00:13:54] 发言人 B:
+   um you gave your first reading its TVGVS on the barrier new yyork city。
+
+[00:13:54 - 00:13:57] 发言人 B:
+   what was that？
+
+[00:13:57 - 00:14:00] 发言人 B:
+   like？
+
+[00:14:00 - 00:14:03] 发言人 B:
+   what did you read？
+
+[00:14:03 - 00:14:06] 发言人 D:
+   um you know，
+
+[00:14:06 - 00:14:09] 发言人 D:
+   i can't mean II consit of a member ish popoems。
+
+[00:14:09 - 00:14:12] 发言人 D:
+   i right，
+
+[00:14:12 - 00:14:15] 发言人 D:
+   know，
+
+[00:14:15 - 00:14:18] 发言人 D:
+   know whawhaver the whawhatever little ppile of poems。
+
+[00:14:18 - 00:14:21] 发言人 D:
+   and i reguard it is my poems at that time。
+
+[00:14:21 - 00:14:24] 发言人 D:
+   and you know，
+
+[00:14:24 - 00:14:27] 发言人 D:
+   and it was just this thing。
+
+[00:14:27 - 00:14:30] 发言人 D:
+   i was like the language of poetry，
+
+[00:14:30 - 00:14:33] 发言人 D:
+   like then there were open mikes。
+
+[00:14:33 - 00:14:36] 发言人 D:
+   and then if there，
+
+[00:14:36 - 00:14:39] 发言人 D:
+   if you're any good，
+
+[00:14:39 - 00:14:42] 发言人 D:
+   they would like what you like to do a feature，
+
+[00:14:42 - 00:14:45] 发言人 D:
+   you know know，
+
+[00:14:45 - 00:14:48] 发言人 D:
+   then you get to read ten minutes，
+
+[00:14:48 - 00:14:51] 发言人 D:
+   tes，
+
+[00:14:51 - 00:14:54] 发言人 D:
+   hhalf our or whatever。
+
+[00:14:54 - 00:14:57] 发言人 D:
+   the thing is i just remember red this very intense spotlight and sitting along on stage and feeling like there was nothing outside that light and being so scared。
+
+[00:14:57 - 00:15:00] 发言人 D:
+   and then after it was，
+
+[00:15:00 - 00:15:03] 发言人 D:
+   it's feeling like that was one of the greaafeelelings in the world。
+
+[00:15:03 - 00:15:06] 发言人 B:
+   what would that like of your early work？
+
+[00:15:06 - 00:15:09] 发言人 B:
+   do you look back on it？
+
+[00:15:09 - 00:15:12] 发言人 B:
+   and feel nostalgic proud horrified，
+
+[00:15:12 - 00:15:15] 发言人 D:
+   no noyalgic and hououd not ever horrified。
+
+[00:15:15 - 00:15:18] 发言人 D:
+   i feel like i know what i meant。
+
+[00:15:18 - 00:15:21] 发言人 D:
+   i knew like i'll read a poem now or a little peace from chelsea girls。
+
+[00:15:21 - 00:15:24] 发言人 D:
+   and i'll know i'll just notice how re's a whole novel in natural peace，
+
+[00:15:24 - 00:15:27] 发言人 D:
+   like i mean，
+
+[00:15:27 - 00:15:30] 发言人 D:
+   i think it's in the dna of everything you write is everything else。
+
+[00:15:30 - 00:15:33] 发言人 D:
+   you're ever gonna write，
+
+[00:15:33 - 00:15:36] 发言人 B:
+   really，
+
+[00:15:36 - 00:15:39] 发言人 B:
+   i think。
+
+[00:15:39 - 00:15:42] 发言人 B:
+   so i always have a hard time looking back on things that i've done，
+
+[00:15:42 - 00:15:45] 发言人 B:
+   and maybe it's because they're just not finished。
+
+[00:15:45 - 00:15:48] 发言人 D:
+   yeah，
+
+[00:15:48 - 00:15:51] 发言人 D:
+   you don't know。
+
+[00:15:51 - 00:15:54] 发言人 D:
+   i mean，
+
+[00:15:54 - 00:15:57] 发言人 D:
+   i think when young ger，
+
+[00:15:57 - 00:16:00] 发言人 D:
+   you don't know editing means，
+
+[00:16:00 - 00:16:03] 发言人 D:
+   that's that's sure what you know。
+
+[00:16:03 - 00:16:06] 发言人 B:
+   in nineteen ninety four，
+
+[00:16:06 - 00:16:09] 发言人 B:
+   you published your first collection of short stororchelelsea girls。
+
+[00:16:09 - 00:16:12] 发言人 B:
+   and last year，
+
+[00:16:12 - 00:16:15] 发言人 B:
+   harper collins repprinted it paris review described chelsea girls as a non fiction novel or fictional ononfition tions you've deriried it as a series of short autobiographical films。
+
+[00:16:15 - 00:16:18] 发言人 B:
+   well，
+
+[00:16:18 - 00:16:21] 发言人 B:
+   the book fully autobiographical。
+
+[00:16:21 - 00:16:24] 发言人 B:
+   well，
+
+[00:16:24 - 00:16:27] 发言人 B:
+   i don't know know，
+
+[00:16:27 - 00:16:30] 发言人 D:
+   fully means you know。
+
+[00:16:30 - 00:16:33] 发言人 D:
+   i mean，
+
+[00:16:33 - 00:16:36] 发言人 D:
+   i think think i mean，
+
+[00:16:36 - 00:16:39] 发言人 D:
+   i just feel like once you put panda paper or start typing and whatever format on some level，
+
+[00:16:39 - 00:16:42] 发言人 D:
+   you're lying。
+
+[00:16:42 - 00:16:45] 发言人 D:
+   you know，
+
+[00:16:45 - 00:16:48] 发言人 D:
+   you know，
+
+[00:16:48 - 00:16:51] 发言人 B:
+   i think in what way why i just think that it isn't the thing。
+
+[00:16:51 - 00:16:54] 发言人 D:
+   it's a symbol of the thing。
+
+[00:16:54 - 00:16:57] 发言人 D:
+   you know，
+
+[00:16:57 - 00:17:00] 发言人 D:
+   the waite language is simply symbolic。
+
+[00:17:00 - 00:17:03] 发言人 D:
+   you you're reducing an expanding and and distording and translating right away，
+
+[00:17:03 - 00:17:06] 发言人 D:
+   the active writing is a translation and even a form of blinness。
+
+[00:17:06 - 00:17:09] 发言人 D:
+   you know，
+
+[00:17:09 - 00:17:12] 发言人 B:
+   would you consider reading when if of your poems from，
+
+[00:17:12 - 00:17:15] 发言人 B:
+   i must be living twice？
+
+[00:17:15 - 00:17:18] 发言人 B:
+   yes，
+
+[00:17:18 - 00:17:21] 发言人 D:
+   i would come to rapant muws is that？
+
+[00:17:21 - 00:17:24] 发言人 B:
+   yes，
+
+[00:17:24 - 00:17:27] 发言人 B:
+   i'm kickle。
+
+[00:17:27 - 00:17:30] 发言人 B:
+   i love that poem。
+
+[00:17:30 - 00:17:33] 发言人 D:
+   it's like a little bit about rather craelly。
+
+[00:17:33 - 00:17:36] 发言人 B:
+   you know that i did not know that he's got a very famous book of poems call for love。
+
+[00:17:36 - 00:17:39] 发言人 D:
+   and it's really good。
+
+[00:17:39 - 00:17:42] 发言人 B:
+   it's really great。
+
+[00:17:42 - 00:17:45] 发言人 D:
+   and so there was a little bit of um and we're friends are we were friends also somebody some place around that time，
+
+[00:17:45 - 00:17:48] 发言人 D:
+   said duta it at a dut unless you're a rampant lesbian。
+
+[00:17:48 - 00:17:51] 发言人 D:
+   and i said，
+
+[00:17:51 - 00:17:54] 发言人 D:
+   and i am，
+
+[00:17:54 - 00:17:57] 发言人 B:
+   i think you become a rampant lisvian。
+
+[00:17:57 - 00:18:00] 发言人 D:
+   i know i know of，
+
+[00:18:00 - 00:18:03] 发言人 D:
+   like，
+
+[00:18:03 - 00:18:06] 发言人 D:
+   of course，
+
+[00:18:06 - 00:18:09] 发言人 D:
+   i'm a rampant lit。
+
+[00:18:09 - 00:18:12] 发言人 D:
+   what did it kind of？
+
+[00:18:12 - 00:18:15] 发言人 D:
+   and so my rampant news for her tuesday night，
+
+[00:18:15 - 00:18:18] 发言人 D:
+   reading for love on my bed or writing for love home is wishing when i stopped reading one thousand times。
+
+[00:18:18 - 00:18:21] 发言人 D:
+   i riddten wrote for love where my sneakers drink my burbin betweeight，
+
+[00:18:21 - 00:18:24] 发言人 D:
+   eight spite of me in mirrors s。
+
+[00:18:24 - 00:18:27] 发言人 D:
+   christ，
+
+[00:18:27 - 00:18:30] 发言人 D:
+   i look fucking old，
+
+[00:18:30 - 00:18:33] 发言人 D:
+   which does the evening mean，
+
+[00:18:33 - 00:18:36] 发言人 D:
+   i could fall for lalamp light radio song，
+
+[00:18:36 - 00:18:39] 发言人 D:
+   the oval shape frame of which he was particularly found for love。
+
+[00:18:39 - 00:18:42] 发言人 D:
+   i would dream when my steams fall through man。
+
+[00:18:42 - 00:18:45] 发言人 D:
+   could that little girl dance for a love？
+
+[00:18:45 - 00:18:48] 发言人 D:
+   i will read it ten thousand times from my tomboy cousin gene mariiva radio song for love。
+
+[00:18:48 - 00:18:51] 发言人 D:
+   i would not pity me，
+
+[00:18:51 - 00:18:54] 发言人 D:
+   my twenty eight sneak as burban the unseen future of my communications and the lamp light。
+
+[00:18:54 - 00:18:57] 发言人 D:
+   her she holds me here so rapidly in her evening beauty that was iren miles into twenty seventeen。
+
+[00:18:57 - 00:19:00] 发言人 B:
+   reading the poem for my rampant muws for her from the book，
+
+[00:19:00 - 00:19:03] 发言人 B:
+   i must spelting twice new and selected poees。
+
+[00:19:03 - 00:19:06] 发言人 B:
+   elizabewith alexander is cecelebrated poet as well as an essaest memororist play，
+
+[00:19:06 - 00:19:09] 发言人 B:
+   right ilanthropist and academic in two thousand nine。
+
+[00:19:09 - 00:19:12] 发言人 B:
+   she read a poem，
+
+[00:19:12 - 00:19:15] 发言人 B:
+   she wrote for president and baracle obama at his first inauguration。
+
+[00:19:15 - 00:19:18] 发言人 B:
+   i spoke with her in twenty seventeen。
+
+[00:19:18 - 00:19:21] 发言人 B:
+   now i understand you also stuaded belay ah i did。
+
+[00:19:21 - 00:19:24] 发言人 B:
+   so we must speak now of adell。
+
+[00:19:24 - 00:19:27] 发言人 B:
+   my mother，
+
+[00:19:27 - 00:19:30] 发言人 B:
+   a dell of logan alexander，
+
+[00:19:30 - 00:19:33] 发言人 B:
+   who insisted that i take ballet。
+
+[00:19:33 - 00:19:36] 发言人 B:
+   and every time i wanted to quit，
+
+[00:19:36 - 00:19:39] 发言人 B:
+   she had this amazing way，
+
+[00:19:39 - 00:19:42] 发言人 B:
+   which i've not been able to master with my children who squanddered all their talents，
+
+[00:19:42 - 00:19:45] 发言人 B:
+   you know，
+
+[00:19:45 - 00:19:48] 发言人 B:
+   know，
+
+[00:19:48 - 00:19:51] 发言人 B:
+   kind of keep me going to whatever。
+
+[00:19:51 - 00:19:54] 发言人 B:
+   the thing was that she thought that i should be ding because there was a moment where it clicked in。
+
+[00:19:54 - 00:19:57] 发言人 B:
+   and i'm so glad that she did，
+
+[00:19:57 - 00:20:00] 发言人 B:
+   because once i got good enough to be able to really dance，
+
+[00:20:00 - 00:20:03] 发言人 B:
+   you know，
+
+[00:20:03 - 00:20:06] 发言人 B:
+   you repeat and you repeat and you repeat and you practice，
+
+[00:20:06 - 00:20:09] 发言人 B:
+   and you do the same things over and over and over again，
+
+[00:20:09 - 00:20:12] 发言人 B:
+   but eventually you can put it together and and make something beautiful and understand it as an expressive art，
+
+[00:20:12 - 00:20:15] 发言人 B:
+   sort of life sort licly exactly。
+
+[00:20:15 - 00:20:18] 发言人 B:
+   so it was my my serious thing bali and then modern dance that i did outside of school。
+
+[00:20:18 - 00:20:21] 发言人 B:
+   um it was what i loved very，
+
+[00:20:21 - 00:20:24] 发言人 B:
+   very much，
+
+[00:20:24 - 00:20:27] 发言人 B:
+   and i was very good at it，
+
+[00:20:27 - 00:20:30] 发言人 B:
+   but being very good at it did not mean being good enough at it to do it，
+
+[00:20:30 - 00:20:33] 发言人 B:
+   you know，
+
+[00:20:33 - 00:20:36] 发言人 B:
+   so to see that you can devote yourself so thoroughly to something and love something so thoroughly。
+
+[00:20:36 - 00:20:39] 发言人 B:
+   but what does it mean to really be an artist？
+
+[00:20:39 - 00:20:42] 发言人 B:
+   it's serious business。
+
+[00:20:42 - 00:20:45] 发言人 B:
+   so just because it's fun。
+
+[00:20:45 - 00:20:48] 发言人 B:
+   and just because you go six days a week，
+
+[00:20:48 - 00:20:51] 发言人 B:
+   and that is both separate from the true talent factor。
+
+[00:20:51 - 00:20:54] 发言人 B:
+   and also the exfactor that makes you insanly want want kekeep doing it。
+
+[00:20:54 - 00:20:57] 发言人 B:
+   ove ve of other things。
+
+[00:20:57 - 00:21:00] 发言人 B:
+   do you think that discipline that you were able to cultivate as a valleay dancer？
+
+[00:21:00 - 00:21:03] 发言人 B:
+   is something that has impacted how you were approrright and ininanachow that approach every single thing i do finding a discipline and discipline。
+
+[00:21:03 - 00:21:06] 发言人 B:
+   is discipline，
+
+[00:21:06 - 00:21:09] 发言人 B:
+   is discipline and understanding that you know，
+
+[00:21:09 - 00:21:12] 发言人 B:
+   you don't get the imciplate ate，
+
+[00:21:12 - 00:21:15] 发言人 B:
+   pay back necessarily。
+
+[00:21:15 - 00:21:18] 发言人 B:
+   and also that just both，
+
+[00:21:18 - 00:21:21] 发言人 B:
+   you've you know，
+
+[00:21:21 - 00:21:24] 发言人 B:
+   got a little flair with a certain shape of poem or turn a phrase or um effect you have to resist defaulting to that。
+
+[00:21:24 - 00:21:27] 发言人 B:
+   you have to become well rounded in your discipline。
+
+[00:21:27 - 00:21:30] 发言人 B:
+   you know，
+
+[00:21:30 - 00:21:33] 发言人 B:
+   you，
+
+[00:21:33 - 00:21:36] 发言人 B:
+   you can be a kicer er，
+
+[00:21:36 - 00:21:39] 发言人 B:
+   not a good jumper，
+
+[00:21:39 - 00:21:42] 发言人 B:
+   but you've got to learn to be a better jumper。
+
+[00:21:42 - 00:21:45] 发言人 B:
+   you were educated at said well friend school，
+
+[00:21:45 - 00:21:48] 发言人 B:
+   the same school that barakack oamma's daughters are now attending in washington。
+
+[00:21:48 - 00:21:51] 发言人 B:
+   DC。
+
+[00:21:51 - 00:21:54] 发言人 B:
+   did it surprise you that saua obama mister father's farewell speech because she was studying for a test？
+
+[00:21:54 - 00:21:57] 发言人 B:
+   well，
+
+[00:21:57 - 00:22:00] 发言人 B:
+   i mean，
+
+[00:22:00 - 00:22:03] 发言人 B:
+   let me tell you，
+
+[00:22:03 - 00:22:06] 发言人 B:
+   you know，
+
+[00:22:06 - 00:22:09] 发言人 B:
+   that is a very serious family and um memelook。
+
+[00:22:09 - 00:22:12] 发言人 B:
+   and mean，
+
+[00:22:12 - 00:22:15] 发言人 B:
+   if if we really think for amended about what memeans come come with grace means you you as young girls through those eight years and two parent with grace and integrity under those circumstances，
+
+[00:22:15 - 00:22:18] 发言人 B:
+   it is it is really something to behold in your two thousand and five book of poetry，
+
+[00:22:18 - 00:22:21] 发言人 B:
+   american sublime。
+
+[00:22:21 - 00:22:24] 发言人 B:
+   you wrote a poem title，
+
+[00:22:24 - 00:22:27] 发言人 B:
+   tina green。
+
+[00:22:27 - 00:22:30] 发言人 B:
+   and i'm wondering if you could read that for us，
+
+[00:22:30 - 00:22:33] 发言人 B:
+   i would be happy to read it。
+
+[00:22:33 - 00:22:36] 发言人 B:
+   and if you can tell us a little bit about the poem，
+
+[00:22:36 - 00:22:39] 发言人 B:
+   i was wondering if it was autobiographical。
+
+[00:22:39 - 00:22:42] 发言人 B:
+   yes，
+
+[00:22:42 - 00:22:45] 发言人 B:
+   well，
+
+[00:22:45 - 00:22:48] 发言人 B:
+   it is so um and you know，
+
+[00:22:48 - 00:22:51] 发言人 B:
+   of course，
+
+[00:22:51 - 00:22:54] 发言人 B:
+   when a poem is autobiographical and think sometimes i get a little，
+
+[00:22:54 - 00:22:57] 发言人 B:
+   you know，
+
+[00:22:57 - 00:23:00] 发言人 B:
+   hackles up because i want to say it，
+
+[00:23:00 - 00:23:03] 发言人 B:
+   and it's craft did。
+
+[00:23:03 - 00:23:06] 发言人 B:
+   um and there are always moments of poetic license。
+
+[00:23:06 - 00:23:09] 发言人 B:
+   and sometimes i almost remember it like i wrote it rather than as it happened，
+
+[00:23:09 - 00:23:12] 发言人 B:
+   because is sof an interesting thing。
+
+[00:23:12 - 00:23:15] 发言人 B:
+   i memmber is so fluid。
+
+[00:23:15 - 00:23:18] 发言人 B:
+   yeah，
+
+[00:23:18 - 00:23:21] 发言人 B:
+   and i believe poems more than any II，
+
+[00:23:21 - 00:23:24] 发言人 B:
+   believe anything actually really。
+
+[00:23:24 - 00:23:27] 发言人 B:
+   and once i've made ed perhaical it because i'm craid。
+
+[00:23:27 - 00:23:30] 发言人 B:
+   yeah，
+
+[00:23:30 - 00:23:33] 发言人 B:
+   it's fixed perhaps maybe um，
+
+[00:23:33 - 00:23:36] 发言人 B:
+   but i was at a different school at the time。
+
+[00:23:36 - 00:23:39] 发言人 B:
+   um the story behind here，
+
+[00:23:39 - 00:23:42] 发言人 B:
+   the speaker attended the georgetown day school wit is so happy school。
+
+[00:23:42 - 00:23:45] 发言人 B:
+   that was a very kind of free，
+
+[00:23:45 - 00:23:48] 发言人 B:
+   wonderful happy school。
+
+[00:23:48 - 00:23:51] 发言人 B:
+   it was AA beautiful place，
+
+[00:23:51 - 00:23:54] 发言人 B:
+   and this is a story about the only black teacher i had。
+
+[00:23:54 - 00:23:57] 发言人 B:
+   so it's called tina green，
+
+[00:23:57 - 00:24:00] 发言人 B:
+   small story，
+
+[00:24:00 - 00:24:03] 发言人 B:
+   hair story，
+
+[00:24:03 - 00:24:06] 发言人 B:
+   afro american story，
+
+[00:24:06 - 00:24:09] 发言人 B:
+   only black girl in my class story，
+
+[00:24:09 - 00:24:12] 发言人 B:
+   pre at a lescence story，
+
+[00:24:12 - 00:24:15] 发言人 B:
+   black teachher story，
+
+[00:24:15 - 00:24:18] 发言人 B:
+   take your hair out。
+
+[00:24:18 - 00:24:21] 发言人 B:
+   they beg on the playground，
+
+[00:24:21 - 00:24:24] 发言人 B:
+   the cool girls，
+
+[00:24:24 - 00:24:27] 发言人 B:
+   the straight and shiny hair girls，
+
+[00:24:27 - 00:24:30] 发言人 B:
+   the girls who can run，
+
+[00:24:30 - 00:24:33] 发言人 B:
+   take your hair out。
+
+[00:24:33 - 00:24:36] 发言人 B:
+   they say it is washington hot。
+
+[00:24:36 - 00:24:39] 发言人 B:
+   we are running。
+
+[00:24:39 - 00:24:42] 发言人 B:
+   i do，
+
+[00:24:42 - 00:24:45] 发言人 B:
+   and it swells snatches up at the nap levitates wooler universe，
+
+[00:24:45 - 00:24:48] 发言人 B:
+   not in fleezeppelin run。
+
+[00:24:48 - 00:24:51] 发言人 B:
+   so i do into school to the only black teacher，
+
+[00:24:51 - 00:24:54] 发言人 B:
+   i'll have until college。
+
+[00:24:54 - 00:24:57] 发言人 B:
+   the only black teacher。
+
+[00:24:57 - 00:25:00] 发言人 B:
+   i've had to that point，
+
+[00:25:00 - 00:25:03] 发言人 B:
+   the only black teacher to teach at that school full of white people who tell the truth，
+
+[00:25:03 - 00:25:06] 发言人 B:
+   my have the teacher i love，
+
+[00:25:06 - 00:25:09] 发言人 B:
+   whose name i love，
+
+[00:25:09 - 00:25:12] 发言人 B:
+   whose hair i love，
+
+[00:25:12 - 00:25:15] 发言人 B:
+   takes me in the teacher's bathroom and wordlessly fixes。
+
+[00:25:15 - 00:25:18] 发言人 B:
+   my hair perfectly wordlessly fixes my hair into three tight plax stunming。
+
+[00:25:18 - 00:25:21] 发言人 B:
+   thank you。
+
+[00:25:21 - 00:25:24] 发言人 B:
+   the emotion in that poem is so universal and yet so personal，
+
+[00:25:24 - 00:25:27] 发言人 B:
+   how do you create that kind of connectivity between the personal and the universal？
+
+[00:25:27 - 00:25:30] 发言人 B:
+   you know，
+
+[00:25:30 - 00:25:33] 发言人 B:
+   in general，
+
+[00:25:33 - 00:25:36] 发言人 B:
+   i mean，
+
+[00:25:36 - 00:25:39] 发言人 B:
+   my quick answer is that art that speaks to any of us always comes from a very particular place。
+
+[00:25:39 - 00:25:42] 发言人 B:
+   and then we find ourselves in a in some kind of way。
+
+[00:25:42 - 00:25:45] 发言人 B:
+   you know，
+
+[00:25:45 - 00:25:48] 发言人 B:
+   this is fifth grade。
+
+[00:25:48 - 00:25:51] 发言人 B:
+   when were ten years old，
+
+[00:25:51 - 00:25:54] 发言人 B:
+   we do and don't experience ourselves。
+
+[00:25:54 - 00:25:57] 发言人 B:
+   and in a races and raced bodies to know the theoretical language，
+
+[00:25:57 - 00:26:00] 发言人 B:
+   you know，
+
+[00:26:00 - 00:26:03] 发言人 B:
+   i always know，
+
+[00:26:03 - 00:26:06] 发言人 B:
+   knew i was was black person，
+
+[00:26:06 - 00:26:09] 发言人 B:
+   but i did not think about it twenty four hours a day。
+
+[00:26:09 - 00:26:12] 发言人 B:
+   don't think any of us thinks of our race twenty four hours a day。
+
+[00:26:12 - 00:26:15] 发言人 B:
+   you know，
+
+[00:26:15 - 00:26:18] 发言人 B:
+   zonial herstin famously and beautifuly ly。
+
+[00:26:18 - 00:26:21] 发言人 B:
+   i think any of us when i'm a throone against a stark white background。
+
+[00:26:21 - 00:26:24] 发言人 B:
+   um so sometimes understanding us as people with races is a relative thing。
+
+[00:26:24 - 00:26:27] 发言人 B:
+   so i think that everybody，
+
+[00:26:27 - 00:26:30] 发言人 B:
+   um not just people of color um have in them。
+
+[00:26:30 - 00:26:33] 发言人 B:
+   a lot of really interesting，
+
+[00:26:33 - 00:26:36] 发言人 B:
+   perhaps unplumed that experius of understanding yourself in an identity。
+
+[00:26:36 - 00:26:39] 发言人 B:
+   and in a racial identity，
+
+[00:26:39 - 00:26:42] 发言人 B:
+   you went to boston university to get your masters degreree at the urging of adele。
+
+[00:26:42 - 00:26:45] 发言人 B:
+   alexander，
+
+[00:26:45 - 00:26:48] 发言人 B:
+   your mother，
+
+[00:26:48 - 00:26:51] 发言人 B:
+   yes。
+
+[00:26:51 - 00:26:54] 发言人 B:
+   can you tell us why？
+
+[00:26:54 - 00:26:57] 发言人 B:
+   so i was working as a journalist before rehand and was a newspaper gall wwashington popoyet both um before susummer before gragraduated from college，
+
+[00:26:57 - 00:27:00] 发言人 B:
+   then the year afterwards。
+
+[00:27:00 - 00:27:03] 发言人 B:
+   and it was a very，
+
+[00:27:03 - 00:27:06] 发言人 B:
+   very interesting job。
+
+[00:27:06 - 00:27:09] 发言人 B:
+   it was fast paced。
+
+[00:27:09 - 00:27:12] 发言人 B:
+   people were smart interesting something II like in sent out into my own city to explore to lilike being sent into corners。
+
+[00:27:12 - 00:27:15] 发言人 B:
+   and people who i wouldn't have found orord。
+
+[00:27:15 - 00:27:18] 发言人 B:
+   it was a recoroff。
+
+[00:27:18 - 00:27:21] 发言人 B:
+   i liked them about their lives，
+
+[00:27:21 - 00:27:24] 发言人 B:
+   but i was aware that i really did want to do a different kind of writing。
+
+[00:27:24 - 00:27:27] 发言人 B:
+   i learned how to master the form of what a new story looks like，
+
+[00:27:27 - 00:27:30] 发言人 B:
+   and how to have，
+
+[00:27:30 - 00:27:33] 发言人 B:
+   you know，
+
+[00:27:33 - 00:27:36] 发言人 B:
+   paragraphs towards the end that could be lopped off。
+
+[00:27:36 - 00:27:39] 发言人 B:
+   but i wanted to sursurrender to that outcheical proprothat happhappened when i could something and don't just recororoff and i could feel myself literally。
+
+[00:27:39 - 00:27:42] 发言人 B:
+   it was like a shred off。
+
+[00:27:42 - 00:27:45] 发言人 B:
+   i could feel myself like wanting to step over into in ballishment into something else。
+
+[00:27:45 - 00:27:48] 发言人 B:
+   and and i knew that，
+
+[00:27:48 - 00:27:51] 发言人 B:
+   that was not sustainable and II feared。
+
+[00:27:51 - 00:27:54] 发言人 B:
+   i would make a mistake。
+
+[00:27:54 - 00:27:57] 发言人 B:
+   and i wouldn't know i'd made a mistake。
+
+[00:27:57 - 00:28:00] 发言人 B:
+   i mean，
+
+[00:28:00 - 00:28:03] 发言人 B:
+   again，
+
+[00:28:03 - 00:28:06] 发言人 B:
+   this is like believing the things that i write more than how they happened。
+
+[00:28:06 - 00:28:09] 发言人 B:
+   so um i was talking about this that in the other，
+
+[00:28:09 - 00:28:12] 发言人 B:
+   and it was my mother who，
+
+[00:28:12 - 00:28:15] 发言人 B:
+   and it's it's fitting that we should speak of it now um because the great poet t ark wwalcott has just passed away。
+
+[00:28:15 - 00:28:18] 发言人 B:
+   and he was my teacher in my menor，
+
+[00:28:18 - 00:28:21] 发言人 B:
+   or my mother said，
+
+[00:28:21 - 00:28:24] 发言人 B:
+   um i saw that that poet who's work。
+
+[00:28:24 - 00:28:27] 发言人 B:
+   you love teaches at boston university。
+
+[00:28:27 - 00:28:30] 发言人 B:
+   why don't you just applied at that program？
+
+[00:28:30 - 00:28:33] 发言人 B:
+   and i had swn n when i graduated from colleges，
+
+[00:28:33 - 00:28:36] 发言人 B:
+   i was done with school。
+
+[00:28:36 - 00:28:39] 发言人 B:
+   i wasn't going going。
+
+[00:28:39 - 00:28:42] 发言人 B:
+   go go to school and more done dundone a done。
+
+[00:28:42 - 00:28:45] 发言人 B:
+   and you know，
+
+[00:28:45 - 00:28:48] 发言人 B:
+   she knowing me very well，
+
+[00:28:48 - 00:28:51] 发言人 B:
+   she said，
+
+[00:28:51 - 00:28:54] 发言人 B:
+   oh，
+
+[00:28:54 - 00:28:57] 发言人 B:
+   you won't get in。
+
+[00:28:57 - 00:29:00] 发言人 B:
+   he's a look kyegogot。
+
+[00:29:00 - 00:29:03] 发言人 B:
+   let i know，
+
+[00:29:03 - 00:29:06] 发言人 B:
+   you know，
+
+[00:29:06 - 00:29:09] 发言人 B:
+   just if you don't get in，
+
+[00:29:09 - 00:29:12] 发言人 B:
+   then you know you can to stay that job fine，
+
+[00:29:12 - 00:29:15] 发言人 B:
+   you know。
+
+[00:29:15 - 00:29:18] 发言人 B:
+   so i applied and i applied，
+
+[00:29:18 - 00:29:21] 发言人 B:
+   i had short stories，
+
+[00:29:21 - 00:29:24] 发言人 B:
+   which i'd written in college。
+
+[00:29:24 - 00:29:27] 发言人 B:
+   i applied to the fiction program，
+
+[00:29:27 - 00:29:30] 发言人 B:
+   but i went to study with walkcot and that chanchaneveryeverybut。
+
+[00:29:30 - 00:29:33] 发言人 B:
+   i went to yall university for your undergraduate degree，
+
+[00:29:33 - 00:29:36] 发言人 B:
+   and i understand that you studied with john herfy in your senior year who you've credited and helping you find your fictive voice。
+
+[00:29:36 - 00:29:39] 发言人 B:
+   but when you got to boston university，
+
+[00:29:39 - 00:29:42] 发言人 B:
+   i understand that derek wallcot t looked at your diet，
+
+[00:29:42 - 00:29:45] 发言人 B:
+   i saw your potential as a poet，
+
+[00:29:45 - 00:29:48] 发言人 B:
+   but did he see your diary because i showed it to him？
+
+[00:29:48 - 00:29:51] 发言人 B:
+   um well well well，
+
+[00:29:51 - 00:29:54] 发言人 B:
+   i mean again，
+
+[00:29:54 - 00:29:57] 发言人 B:
+   know know，
+
+[00:29:57 - 00:30:00] 发言人 B:
+   i knew i was they had tracks。
+
+[00:30:00 - 00:30:03] 发言人 B:
+   so i was admitted into the fiction track，
+
+[00:30:03 - 00:30:06] 发言人 B:
+   but i knew that this great poet whose work i read not in school，
+
+[00:30:06 - 00:30:09] 发言人 B:
+   but just on my own was why i was there。
+
+[00:30:09 - 00:30:12] 发言人 B:
+   so i went to his office，
+
+[00:30:12 - 00:30:15] 发言人 B:
+   and all i knew i couldn't show him stories，
+
+[00:30:15 - 00:30:18] 发言人 B:
+   and i had it was a diary，
+
+[00:30:18 - 00:30:21] 发言人 B:
+   and just it，
+
+[00:30:21 - 00:30:24] 发言人 B:
+   i had what i've called at the time。
+
+[00:30:24 - 00:30:27] 发言人 B:
+   it's a phrase that garet hungo uses word clouds。
+
+[00:30:27 - 00:30:30] 发言人 B:
+   they were just word stuff，
+
+[00:30:30 - 00:30:33] 发言人 B:
+   and it was what i had to show，
+
+[00:30:33 - 00:30:36] 发言人 B:
+   i had to show him something。
+
+[00:30:36 - 00:30:39] 发言人 B:
+   and so he had a legal pad and he thumed through，
+
+[00:30:39 - 00:30:42] 发言人 B:
+   and he said，
+
+[00:30:42 - 00:30:45] 发言人 B:
+   ookay ll here's this。
+
+[00:30:45 - 00:30:48] 发言人 B:
+   and then he roroted out with line breaks，
+
+[00:30:48 - 00:30:51] 发言人 B:
+   and he said，
+
+[00:30:51 - 00:30:54] 发言人 B:
+   see we're writing poems，
+
+[00:30:54 - 00:30:57] 发言人 B:
+   but you don't know how to break lines，
+
+[00:30:57 - 00:31:00] 发言人 B:
+   but that's what makes it a poem。
+
+[00:31:00 - 00:31:03] 发言人 B:
+   he was very kind when he said that。
+
+[00:31:03 - 00:31:06] 发言人 B:
+   and then he said，
+
+[00:31:06 - 00:31:09] 发言人 B:
+   okay，
+
+[00:31:09 - 00:31:12] 发言人 B:
+   go go write some poems and don't come back until you have some to show me。
+
+[00:31:12 - 00:31:15] 发言人 B:
+   you said that he gave you a huge gift。
+
+[00:31:15 - 00:31:18] 发言人 B:
+   he took that cluster of words and he lineaated it。
+
+[00:31:18 - 00:31:21] 发言人 B:
+   yes，
+
+[00:31:21 - 00:31:24] 发言人 B:
+   i don't think he saw that，
+
+[00:31:24 - 00:31:27] 发言人 B:
+   you know，
+
+[00:31:27 - 00:31:30] 发言人 B:
+   one of the things that he used to say was um the poem will find its shape，
+
+[00:31:30 - 00:31:33] 发言人 B:
+   the line will find itself。
+
+[00:31:33 - 00:31:36] 发言人 B:
+   so he would say to start writing，
+
+[00:31:36 - 00:31:39] 发言人 B:
+   and you will see what the natural shape of this poem is，
+
+[00:31:39 - 00:31:42] 发言人 B:
+   which was very misstifed to me when i first heard it，
+
+[00:31:42 - 00:31:45] 发言人 B:
+   but i find it to be always absolutely true。
+
+[00:31:45 - 00:31:48] 发言人 B:
+   you know that，
+
+[00:31:48 - 00:31:51] 发言人 B:
+   and that doesn't mean you can't play around，
+
+[00:31:51 - 00:31:54] 发言人 B:
+   you think it's a long line poem。
+
+[00:31:54 - 00:31:57] 发言人 B:
+   you try it that way，
+
+[00:31:57 - 00:32:00] 发言人 B:
+   but maybe unit it it back um but you start to catch out a hyythm。
+
+[00:32:00 - 00:32:03] 发言人 B:
+   and you start to sort of silkay。
+
+[00:32:03 - 00:32:06] 发言人 B:
+   this is the amount。
+
+[00:32:06 - 00:32:09] 发言人 B:
+   and then you say right，
+
+[00:32:09 - 00:32:12] 发言人 B:
+   right，
+
+[00:32:12 - 00:32:15] 发言人 B:
+   let me in this next line。
+
+[00:32:15 - 00:32:18] 发言人 B:
+   let me follow that amount hokklet's t's see what about that？
+
+[00:32:18 - 00:32:21] 发言人 B:
+   so is an negotiation AA alibraation。
+
+[00:32:21 - 00:32:24] 发言人 B:
+   i mean that，
+
+[00:32:24 - 00:32:27] 发言人 B:
+   that prosometimes takes a very long time，
+
+[00:32:27 - 00:32:30] 发言人 B:
+   but then you've got sort of a mass。
+
+[00:32:30 - 00:32:33] 发言人 B:
+   and then you can put your hands in the clay。
+
+[00:32:33 - 00:32:36] 发言人 B:
+   i'd like to ask you to read a poem from this period。
+
+[00:32:36 - 00:32:39] 发言人 B:
+   it is from your first book of poems。
+
+[00:32:39 - 00:32:42] 发言人 B:
+   the venus hotton taught published in nineteen thousand and ninety。
+
+[00:32:42 - 00:32:45] 发言人 B:
+   and the poem is called boston。
+
+[00:32:45 - 00:32:48] 发言人 B:
+   can you tell us a little bit about it before you share it with us？
+
+[00:32:48 - 00:32:51] 发言人 B:
+   so that was n't it。
+
+[00:32:51 - 00:32:54] 发言人 B:
+   it was a one year masters program and um boston and cambridge changed a lot。
+
+[00:32:54 - 00:32:57] 发言人 B:
+   this was one thousand and eighty five。
+
+[00:32:57 - 00:33:00] 发言人 B:
+   it was still coming out of the period in its history where it had such racial strife around um busing。
+
+[00:33:00 - 00:33:03] 发言人 B:
+   it was not a very well desegregated town。
+
+[00:33:03 - 00:33:06] 发言人 B:
+   um it was the remnance of that，
+
+[00:33:06 - 00:33:09] 发言人 B:
+   and it was also a place where i had a hard time finding my community。
+
+[00:33:09 - 00:33:12] 发言人 B:
+   so boston year，
+
+[00:33:12 - 00:33:15] 发言人 B:
+   my first week in cambridge，
+
+[00:33:15 - 00:33:18] 发言人 B:
+   a car full of white boys tried to run me off the road and spit through the window open to ask directions。
+
+[00:33:18 - 00:33:21] 发言人 B:
+   i was always asking directions and always driving to an armenian market in water town to buy figs and string cheese，
+
+[00:33:21 - 00:33:24] 发言人 B:
+   apppercots，
+
+[00:33:24 - 00:33:27] 发言人 B:
+   dark spaces and olives from barrels tubes of pactes with a new reatabled arbic labels。
+
+[00:33:27 - 00:33:30] 发言人 B:
+   i ate stuffed great leaves and watched my lips swell in the mirror。
+
+[00:33:30 - 00:33:33] 发言人 B:
+   the floors of my apartment would never come clean whenever i saw other coloured people in bookshops or museums or cafeterias，
+
+[00:33:33 - 00:33:36] 发言人 B:
+   ide，
+
+[00:33:36 - 00:33:39] 发言人 B:
+   gasp，
+
+[00:33:39 - 00:33:42] 发言人 B:
+   smile，
+
+[00:33:42 - 00:33:45] 发言人 B:
+   shyly，
+
+[00:33:45 - 00:33:48] 发言人 B:
+   but they disappear before i spoke，
+
+[00:33:48 - 00:33:51] 发言人 B:
+   what would i have said to them？
+
+[00:33:51 - 00:33:54] 发言人 B:
+   come with me？
+
+[00:33:54 - 00:33:57] 发言人 B:
+   take me home。
+
+[00:33:57 - 00:34:00] 发言人 B:
+   are you my mother？
+
+[00:34:00 - 00:34:03] 发言人 B:
+   no。
+
+[00:34:03 - 00:34:06] 发言人 B:
+   i sat alone in countless。
+
+[00:34:06 - 00:34:09] 发言人 B:
+   chinese restaurants eating omman cookies sipping tea with spoons and spoons of sugar，
+
+[00:34:09 - 00:34:12] 发言人 B:
+   popcorn and coffee was dinner。
+
+[00:34:12 - 00:34:15] 发言人 B:
+   when i fainted from migrain in the grocery store，
+
+[00:34:15 - 00:34:18] 发言人 B:
+   a portuguese man above me，
+
+[00:34:18 - 00:34:21] 发言人 B:
+   moued no breakfast。
+
+[00:34:21 - 00:34:24] 发言人 B:
+   he gave me orange juicen chocolate bars。
+
+[00:34:24 - 00:34:27] 发言人 B:
+   the color read sprang into relief singing vogners，
+
+[00:34:27 - 00:34:30] 发言人 B:
+   vulkery，
+
+[00:34:30 - 00:34:33] 发言人 B:
+   entitribbes，
+
+[00:34:33 - 00:34:36] 发言人 B:
+   errated and drummed in my head。
+
+[00:34:36 - 00:34:39] 发言人 B:
+   i learned the samba from a brazilian man，
+
+[00:34:39 - 00:34:42] 发言人 B:
+   so tiny，
+
+[00:34:42 - 00:34:45] 发言人 B:
+   so fest dooned with glitter。
+
+[00:34:45 - 00:34:48] 发言人 B:
+   i was certain that he slept inside a philligreed fevererger egg，
+
+[00:34:48 - 00:34:51] 发言人 B:
+   no one at the door。
+
+[00:34:51 - 00:34:54] 发言人 B:
+   no salesman mormans metre readers exterminators，
+
+[00:34:54 - 00:34:57] 发言人 B:
+   no harriet tub man，
+
+[00:34:57 - 00:35:00] 发言人 B:
+   no one red notes sounding in a gry troley town。
+
+[00:35:00 - 00:35:03] 发言人 B:
+   thank you。
+
+[00:35:03 - 00:35:06] 发言人 B:
+   sometimes。
+
+[00:35:06 - 00:35:09] 发言人 B:
+   when i read that i feel like i should take，
+
+[00:35:09 - 00:35:12] 发言人 B:
+   but then i got up at her，
+
+[00:35:12 - 00:35:15] 发言人 B:
+   but but then yes，
+
+[00:35:15 - 00:35:18] 发言人 B:
+   you did，
+
+[00:35:18 - 00:35:21] 发言人 B:
+   you know，
+
+[00:35:21 - 00:35:24] 发言人 B:
+   but it was it。
+
+[00:35:24 - 00:35:27] 发言人 B:
+   it was a very，
+
+[00:35:27 - 00:35:30] 发言人 B:
+   very manaastic year elizabeth alexander in twenty seventeen。
+
+[00:35:30 - 00:35:33] 发言人 B:
+  嗯，
+
+[00:35:33 - 00:35:36] 发言人 G:
+   this podcast is brought to you by wise the app for using money around the globe。
+
+[00:35:36 - 00:35:39] 发言人 G:
+   with wise，
+
+[00:35:39 - 00:35:42] 发言人 G:
+   you can send spend and receive。
+
+[00:35:42 - 00:35:45] 发言人 G:
+   and over forty currencies，
+
+[00:35:45 - 00:35:48] 发言人 G:
+   no markups，
+
+[00:35:48 - 00:35:51] 发言人 G:
+   no hidden fees，
+
+[00:35:51 - 00:35:54] 发言人 G:
+   whether your sending dollars down under spending pounds in london or pain freelances in pasos。
+
+[00:35:54 - 00:35:57] 发言人 G:
+   you'll get the middle market exchange rate on every transaction plus most transfers arrive in less than seconseconds whefifteen million customers internationally，
+
+[00:35:57 - 00:36:00] 发言人 G:
+   be smart，
+
+[00:36:00 - 00:36:03] 发言人 G:
+   get wise download。
+
+[00:36:03 - 00:36:06] 发言人 G:
+   the wise app today，
+
+[00:36:06 - 00:36:09] 发言人 G:
+   teasand sea apply one of the best parts for me about hosting review。
+
+[00:36:09 - 00:36:12] 发言人 H:
+   you know，
+
+[00:36:12 - 00:36:15] 发言人 H:
+   your favorite weekly investigate of podcast is the interviews。
+
+[00:36:15 - 00:36:18] 发言人 H:
+   i love to sit down with people and try to gain a perspective that gives me and our listeners a new way of seeing the world，
+
+[00:36:18 - 00:36:21] 发言人 H:
+   which is why we're launching more to the story with me allets in。
+
+[00:36:21 - 00:36:24] 发言人 H:
+   it's a place where i can talk to some of the most intriguing people to bring some contets are changing world，
+
+[00:36:24 - 00:36:27] 发言人 H:
+   follow the reveview podcast feed and look for more to the story。
+
+[00:36:27 - 00:36:30] 发言人 H:
+   every wednesday，
+
+[00:36:30 - 00:36:33] 发言人 B:
+   sarakay is a writer and poeet，
+
+[00:36:33 - 00:36:36] 发言人 B:
+   who was also well known for her spoken word poetry。
+
+[00:36:36 - 00:36:39] 发言人 B:
+   when i spoke with sarah。
+
+[00:36:39 - 00:36:42] 发言人 B:
+   in twenty twenty eighteen，
+
+[00:36:42 - 00:36:45] 发言人 B:
+   i invited her to read a poem to open the episode。
+
+[00:36:45 - 00:36:48] 发言人 A:
+   the universe has already written the poem。
+
+[00:36:48 - 00:36:51] 发言人 A:
+   you are planning on writing，
+
+[00:36:51 - 00:36:54] 发言人 A:
+   and this is why you can do nothing but point at the flock of starlings，
+
+[00:36:54 - 00:36:57] 发言人 A:
+   whose bodies rise and fall in inherted choreography，
+
+[00:36:57 - 00:37:00] 发言人 A:
+   swarming the sky in a sweeping curtain that for one blistering moment，
+
+[00:37:00 - 00:37:03] 发言人 A:
+   forms the unblistkable shape of a giant bird flapping against the sky。
+
+[00:37:03 - 00:37:06] 发言人 A:
+   it is why your mouth forms，
+
+[00:37:06 - 00:37:09] 发言人 A:
+   and 哦，
+
+[00:37:09 - 00:37:12] 发言人 A:
+   that is not a gasp，
+
+[00:37:12 - 00:37:15] 发言人 A:
+   but rather the beginning of oh，
+
+[00:37:15 - 00:37:18] 发言人 A:
+   of course，
+
+[00:37:18 - 00:37:21] 发言人 A:
+   as in of course，
+
+[00:37:21 - 00:37:24] 发言人 A:
+   the heart of a blue whale is as large as a house，
+
+[00:37:24 - 00:37:27] 发言人 A:
+   with chambers tall enough to fit a person standing。
+
+[00:37:27 - 00:37:30] 发言人 A:
+   of course，
+
+[00:37:30 - 00:37:33] 发言人 A:
+   a fig is only possible when a lalady wasp lays her eggs inside a flower，
+
+[00:37:33 - 00:37:36] 发言人 A:
+   dies and decomposes the fruit evidence of her transformation。
+
+[00:37:36 - 00:37:39] 发言人 A:
+   sometimes the poem is so bright，
+
+[00:37:39 - 00:37:42] 发言人 A:
+   your silly language will not stick to it。
+
+[00:37:42 - 00:37:45] 发言人 A:
+   sometimes the poem is so true，
+
+[00:37:45 - 00:37:48] 发言人 A:
+   nobody will believe you。
+
+[00:37:48 - 00:37:51] 发言人 A:
+   i am a bird，
+
+[00:37:51 - 00:37:54] 发言人 A:
+   made only birds。
+
+[00:37:54 - 00:37:57] 发言人 A:
+   my blue hegua it，
+
+[00:37:57 - 00:38:00] 发言人 A:
+   you can stand up inside of，
+
+[00:38:00 - 00:38:03] 发言人 A:
+   i am dying t 恤 inside this flower。
+
+[00:38:03 - 00:38:06] 发言人 A:
+   it is okay。
+
+[00:38:06 - 00:38:09] 发言人 A:
+   it is what i was put here to do。
+
+[00:38:09 - 00:38:12] 发言人 A:
+   take this fruit。
+
+[00:38:12 - 00:38:15] 发言人 A:
+   it is what i have to offer。
+
+[00:38:15 - 00:38:18] 发言人 A:
+   it may not be first or ever best，
+
+[00:38:18 - 00:38:21] 发言人 A:
+   but it is the only way to be sure i lived at all。
+
+[00:38:21 - 00:38:24] 发言人 B:
+   sarah，
+
+[00:38:24 - 00:38:27] 发言人 B:
+   we just had you read a poem as our called open of the show today tells a little bit about what you read。
+
+[00:38:27 - 00:38:30] 发言人 A:
+   so i have a friend named cova oakbar，
+
+[00:38:30 - 00:38:33] 发言人 A:
+   who is also my co author of a column that three of us，
+
+[00:38:33 - 00:38:36] 发言人 A:
+   right for the the paris ter review online and one time cover posted this photo that he had found on the internet，
+
+[00:38:36 - 00:38:39] 发言人 A:
+   which was that scientists had dissected the heart of a blue whale。
+
+[00:38:39 - 00:38:42] 发言人 A:
+   and hung it from the ceiling。
+
+[00:38:42 - 00:38:45] 发言人 A:
+   and when they did that，
+
+[00:38:45 - 00:38:48] 发言人 A:
+   it's how they figured out that the heart of a blue whale is so big that each chamber of the heart is big enough for a human to stand up inside of。
+
+[00:38:48 - 00:38:51] 发言人 A:
+   and one cover shared this photo。
+
+[00:38:51 - 00:38:54] 发言人 A:
+   he shared it with the caption。
+
+[00:38:54 - 00:38:57] 发言人 A:
+   this is just a reminder that the universe has already written the poem you were planning on writing。
+
+[00:38:57 - 00:39:00] 发言人 A:
+   and at the time i was like，
+
+[00:39:00 - 00:39:03] 发言人 A:
+   oh，
+
+[00:39:03 - 00:39:06] 发言人 A:
+   no，
+
+[00:39:06 - 00:39:09] 发言人 A:
+   i am out here trying to be original。
+
+[00:39:09 - 00:39:12] 发言人 A:
+   i'm trying to invent new stuff。
+
+[00:39:12 - 00:39:15] 发言人 A:
+   what do you mean？
+
+[00:39:15 - 00:39:18] 发言人 A:
+   the universses already thought of everything。
+
+[00:39:18 - 00:39:21] 发言人 A:
+   this was derible，
+
+[00:39:21 - 00:39:24] 发言人 A:
+   and it really got under right skin，
+
+[00:39:24 - 00:39:27] 发言人 A:
+   but then not too long after that，
+
+[00:39:27 - 00:39:30] 发言人 A:
+   i saw this video that was making the rounds online that maybe you saw where there these birds called starlings that fly in big formations called memorations。
+
+[00:39:30 - 00:39:33] 发言人 A:
+   and it's like a cloud of birds in the usually move in a morphice shapes，
+
+[00:39:33 - 00:39:36] 发言人 A:
+   but someone had happened to catch a video o。
+
+[00:39:36 - 00:39:39] 发言人 A:
+   these birds，
+
+[00:39:39 - 00:39:42] 发言人 A:
+   ds and all the same。
+
+[00:39:42 - 00:39:45] 发言人 A:
+   same time，
+
+[00:39:45 - 00:39:48] 发言人 A:
+   the birds moved and formed the shape of a starling of the sktime。
+
+[00:39:48 - 00:39:51] 发言人 A:
+   oh，
+
+[00:39:51 - 00:39:54] 发言人 A:
+   well，
+
+[00:39:54 - 00:39:57] 发言人 B:
+   i did not see when i saw this video。
+
+[00:39:57 - 00:40:00] 发言人 A:
+   the first thought i had was the universe。
+
+[00:40:00 - 00:40:03] 发言人 A:
+   something alalready written the voluof，
+
+[00:40:03 - 00:40:06] 发言人 A:
+   you were planning on writing。
+
+[00:40:06 - 00:40:09] 发言人 A:
+   and for some reason in that moment and no longer upset me。
+
+[00:40:09 - 00:40:12] 发言人 A:
+   and instead，
+
+[00:40:12 - 00:40:15] 发言人 A:
+   i thought，
+
+[00:40:15 - 00:40:18] 发言人 A:
+   well，
+
+[00:40:18 - 00:40:21] 发言人 A:
+   maybe it's not my job to invent something new with each poem。
+
+[00:40:21 - 00:40:24] 发言人 A:
+   maybe it just means that it's turturn and like some to delight for a moment and consider it for whatever time psome and hold that it is still possipossimope，
+
+[00:40:24 - 00:40:27] 发言人 B:
+   but create original art。
+
+[00:40:27 - 00:40:30] 发言人 A:
+   i don't know。
+
+[00:40:30 - 00:40:33] 发言人 A:
+   and i also think that maybe thinking about it too much prevents me for making any art at all。
+
+[00:40:33 - 00:40:36] 发言人 A:
+   so not to say i don't care，
+
+[00:40:36 - 00:40:39] 发言人 A:
+   but i try not to worry about it too much。
+
+[00:40:39 - 00:40:42] 发言人 B:
+   i mean，
+
+[00:40:42 - 00:40:45] 发言人 B:
+   i think it's so interesting that the notes that we use to make music or the letters that we use to make words and then sentences and then paragraphs and stories and poems or the ingredients that we use to make food，
+
+[00:40:45 - 00:40:48] 发言人 B:
+   they are all pretty fixed at this point。
+
+[00:40:48 - 00:40:51] 发言人 B:
+   you know，
+
+[00:40:51 - 00:40:54] 发言人 B:
+   not too many people are inventing a new ingredient。
+
+[00:40:54 - 00:40:57] 发言人 B:
+   we're all creating the same things from the same things。
+
+[00:40:57 - 00:41:00] 发言人 B:
+   and yet there are unique voices。
+
+[00:41:00 - 00:41:03] 发言人 B:
+   and i do believe that you are one of them。
+
+[00:41:03 - 00:41:06] 发言人 B:
+   well，
+
+[00:41:06 - 00:41:09] 发言人 B:
+   thanks。
+
+[00:41:09 - 00:41:12] 发言人 B:
+   i read that when when were i think a freshman in high school，
+
+[00:41:12 - 00:41:15] 发言人 B:
+   you described yourself as a live wire of nervous hormones。
+
+[00:41:15 - 00:41:18] 发言人 B:
+   so why would veloped and over excitable？
+
+[00:41:18 - 00:41:21] 发言人 B:
+   so you did you experience all of those and exactly exactly that's exactly。
+
+[00:41:21 - 00:41:24] 发言人 B:
+   i've loved that quote yyours。
+
+[00:41:24 - 00:41:27] 发言人 B:
+   so one afternoon，
+
+[00:41:27 - 00:41:30] 发言人 B:
+   after school wwent to a frienfriends house house feled the documentary slam nation。
+
+[00:41:30 - 00:41:33] 发言人 B:
+   you said this about watching slam poetry。
+
+[00:41:33 - 00:41:36] 发言人 B:
+   for the first time，
+
+[00:41:36 - 00:41:39] 发言人 B:
+   i felt my two secret loves poetry and theater had come together，
+
+[00:41:39 - 00:41:42] 发言人 B:
+   had a baby，
+
+[00:41:42 - 00:41:45] 发言人 B:
+   a baby i needed to get to know。
+
+[00:41:45 - 00:41:48] 发言人 A:
+   so why would these love secret？
+
+[00:41:48 - 00:41:51] 发言人 A:
+   that's a great question。
+
+[00:41:51 - 00:41:54] 发言人 A:
+   um it's different now for sure。
+
+[00:41:54 - 00:41:57] 发言人 A:
+   but i think the world that i was a thirteen year old in was one in which we didn't have youtube for starters。
+
+[00:41:57 - 00:42:00] 发言人 A:
+   and i had never seen anybody that looked anything like me on a stage before or really on tv。
+
+[00:42:00 - 00:42:03] 发言人 A:
+   and so the idea of being a performer or an actress or anything that involved being in the spolet denana appear to be possible or an option。
+
+[00:42:03 - 00:42:06] 发言人 A:
+   and i don't even think i could articulate that。
+
+[00:42:06 - 00:42:09] 发言人 A:
+   i know i couldn't articulate that then，
+
+[00:42:09 - 00:42:12] 发言人 A:
+   but i do think that，
+
+[00:42:12 - 00:42:15] 发言人 A:
+   that had something to do that。
+
+[00:42:15 - 00:42:18] 发言人 A:
+   and so to risk saying out loud that，
+
+[00:42:18 - 00:42:21] 发言人 A:
+   that was a dream or a possibility seemed just absolutely absurd。
+
+[00:42:21 - 00:42:24] 发言人 A:
+   and i would have been laughed out of the building。
+
+[00:42:24 - 00:42:27] 发言人 A:
+   i'm sure that was mainly in my head，
+
+[00:42:27 - 00:42:30] 发言人 A:
+   but it certainly felt that way。
+
+[00:42:30 - 00:42:33] 发言人 A:
+   and i also didn't know that poetry could be performed until that moment and poems at the time where things i wrote in secret in a notebook that nobody ever saw。
+
+[00:42:33 - 00:42:36] 发言人 A:
+   so that's why both theater and poetry felt like cigaret loves。
+
+[00:42:36 - 00:42:39] 发言人 B:
+   you were writing these poems on your own in your journals，
+
+[00:42:39 - 00:42:42] 发言人 B:
+   and then out of the blue，
+
+[00:42:42 - 00:42:45] 发言人 B:
+   you received a letter informing you that someone had registered you for the new york city teen poetry slam to this day。
+
+[00:42:45 - 00:42:48] 发言人 B:
+   i believe you have no idea who signed you up？
+
+[00:42:48 - 00:42:51] 发言人 B:
+   correct？
+
+[00:42:51 - 00:42:54] 发言人 B:
+   what did you think？
+
+[00:42:54 - 00:42:57] 发言人 A:
+   i didn't think much other than i love pems。
+
+[00:42:57 - 00:43:00] 发言人 A:
+   it sounds like there will be other kids there who also love poems。
+
+[00:43:00 - 00:43:03] 发言人 A:
+   oh，
+
+[00:43:03 - 00:43:06] 发言人 A:
+   i remember vaguly that documentary。
+
+[00:43:06 - 00:43:09] 发言人 A:
+   i saw a little clip off。
+
+[00:43:09 - 00:43:12] 发言人 A:
+   i remember this is a thing，
+
+[00:43:12 - 00:43:15] 发言人 A:
+   so i guess i could try it one time。
+
+[00:43:15 - 00:43:18] 发言人 A:
+   i think something that doesn't always get included in the narrative of this is that i grew up very closer grand zero，
+
+[00:43:18 - 00:43:21] 发言人 A:
+   and the tember of love had happened when i was thirteen。
+
+[00:43:21 - 00:43:24] 发言人 A:
+   and in the time period，
+
+[00:43:24 - 00:43:27] 发言人 A:
+   following all of the adults around me were very busy trying to keep the world from falling apart。
+
+[00:43:27 - 00:43:30] 发言人 B:
+   your mom that broken her，
+
+[00:43:30 - 00:43:33] 发言人 B:
+   her remmber broken her。
+
+[00:43:33 - 00:43:36] 发言人 A:
+   and call，
+
+[00:43:36 - 00:43:39] 发言人 A:
+   yeah，
+
+[00:43:39 - 00:43:42] 发言人 A:
+   just everyone teachers parents。
+
+[00:43:42 - 00:43:45] 发言人 A:
+   everyone was really your brother didn't speak from months。
+
+[00:43:45 - 00:43:48] 发言人 A:
+   yeah。
+
+[00:43:48 - 00:43:51] 发言人 A:
+   so there was a lot happening。
+
+[00:43:51 - 00:43:54] 发言人 A:
+   and as a result，
+
+[00:43:54 - 00:43:57] 发言人 A:
+   i didn't want to burden anyone with whatever my thirteen year old thoughts and feelings and worries were and to be thirteen and tried a rapper had around terrorism was really hard for me。
+
+[00:43:57 - 00:44:00] 发言人 A:
+   and so the only way that i understood it at the time was that someone had tried to communicate。
+
+[00:44:00 - 00:44:03] 发言人 A:
+   there is no room for you here，
+
+[00:44:03 - 00:44:06] 发言人 A:
+   which i understand is a very oversimplified way of reckoning，
+
+[00:44:06 - 00:44:09] 发言人 A:
+   an active terrorism。
+
+[00:44:09 - 00:44:12] 发言人 A:
+   but that's it made sense to a thrching old。
+
+[00:44:12 - 00:44:15] 发言人 A:
+   and my parents were thrilled that there was was something that i was vagly curious about and wanted to go try because it meant a little bit of joy in what was otherwise kind of a dark time。
+
+[00:44:15 - 00:44:18] 发言人 A:
+   that then the reason i think that it captured me so tremendously。
+
+[00:44:18 - 00:44:21] 发言人 A:
+   and that it was the first time as a fourteen old girl that i felt like a room full of people were listening to me and saw me，
+
+[00:44:21 - 00:44:24] 发言人 A:
+   and i was allowed to talk about these fears and flaws and joys。
+
+[00:44:24 - 00:44:27] 发言人 A:
+   and doubts in a way that i hadn't before。
+
+[00:44:27 - 00:44:30] 发言人 A:
+   and in some ways，
+
+[00:44:30 - 00:44:33] 发言人 A:
+   it felt like the whole room was communicating。
+
+[00:44:33 - 00:44:36] 发言人 A:
+   there is room for you here。
+
+[00:44:36 - 00:44:39] 发言人 A:
+   and i don't think i've ever forgotten that。
+
+[00:44:39 - 00:44:42] 发言人 A:
+   and i think over and over again，
+
+[00:44:42 - 00:44:45] 发言人 A:
+   any time，
+
+[00:44:45 - 00:44:48] 发言人 A:
+   i'm in a room，
+
+[00:44:48 - 00:44:51] 发言人 A:
+   more。
+
+[00:44:51 - 00:44:54] 发言人 A:
+   people have come to listen to me speak。
+
+[00:44:54 - 00:44:57] 发言人 A:
+   i never take for granted what a gift that is and what it means that people communicate to me that there is room for me here。
+
+[00:44:57 - 00:45:00] 发言人 B:
+   i believe that there was a woman that was in the audience that you described as eight feet tall，
+
+[00:45:00 - 00:45:03] 发言人 B:
+   have a very specific reaction that really encouraged you。
+
+[00:45:03 - 00:45:06] 发言人 B:
+   can you share that story？
+
+[00:45:06 - 00:45:09] 发言人 B:
+   yeah。
+
+[00:45:09 - 00:45:12] 发言人 A:
+   i mean，
+
+[00:45:12 - 00:45:15] 发言人 A:
+   the first time that i ever got effege，
+
+[00:45:15 - 00:45:18] 发言人 A:
+   i shared a pum and and i came off，
+
+[00:45:18 - 00:45:21] 发言人 A:
+   and it was first first time i really performed like that in front of anyone。
+
+[00:45:21 - 00:45:24] 发言人 A:
+   and i was so nervous，
+
+[00:45:24 - 00:45:27] 发言人 A:
+   and everyone else，
+
+[00:45:27 - 00:45:30] 发言人 A:
+   the room was older and cooler，
+
+[00:45:30 - 00:45:33] 发言人 A:
+   but there was one girl who found found，
+
+[00:45:33 - 00:45:36] 发言人 A:
+   said y and taabed ing on the shoulder。
+
+[00:45:36 - 00:45:39] 发言人 A:
+   and when i turned around she，
+
+[00:45:39 - 00:45:42] 发言人 A:
+   she said，
+
+[00:45:42 - 00:45:45] 发言人 A:
+   hey，
+
+[00:45:45 - 00:45:48] 发言人 A:
+   i really felt that。
+
+[00:45:48 - 00:45:51] 发言人 A:
+   and to know that something that i had made had had an effect on another person，
+
+[00:45:51 - 00:45:54] 发言人 A:
+   let alone someone somewhich older and cooler was like a lightning bult。
+
+[00:45:54 - 00:45:57] 发言人 B:
+   you mention that you grew up in lower manhattan near the world trade center and you with thirteen living in new york city on nine eleven，
+
+[00:45:57 - 00:46:00] 发言人 B:
+   where you experienced the tragedy you've written about it，
+
+[00:46:00 - 00:46:03] 发言人 B:
+   quite beautifully。
+
+[00:46:03 - 00:46:06] 发言人 B:
+   you've written quite a heartbreaking and beautiful essay。
+
+[00:46:06 - 00:46:09] 发言人 B:
+   and you've also written some really extraordinary poetry about some of the terrorism that we've experienced more recently。
+
+[00:46:09 - 00:46:12] 发言人 B:
+   and there's a poem titled the places we are not，
+
+[00:46:12 - 00:46:15] 发言人 B:
+   which i'm wondering if you might be able to read today。
+
+[00:46:15 - 00:46:18] 发言人 A:
+   sure。
+
+[00:46:18 - 00:46:21] 发言人 A:
+   a man plows his truck through the crowd，
+
+[00:46:21 - 00:46:24] 发言人 A:
+   celebrating on the knees boardwalk，
+
+[00:46:24 - 00:46:27] 发言人 A:
+   where my once love once insisted that we could make it all the way through a triple layer chocolate mose until we were both so full。
+
+[00:46:27 - 00:46:30] 发言人 A:
+   we could not even bear to lick our spoons。
+
+[00:46:30 - 00:46:33] 发言人 A:
+   i text a friend，
+
+[00:46:33 - 00:46:36] 发言人 A:
+   where are you which is code for？
+
+[00:46:36 - 00:46:39] 发言人 A:
+   please tell me，
+
+[00:46:39 - 00:46:42] 发言人 A:
+   these new deaths are not yours this time。
+
+[00:46:42 - 00:46:45] 发言人 A:
+   if i scroll up，
+
+[00:46:45 - 00:46:48] 发言人 A:
+   i will see the same text。
+
+[00:46:48 - 00:46:51] 发言人 A:
+   i sent her back when paris was exploding a few moments or weeks ago，
+
+[00:46:51 - 00:46:54] 发言人 A:
+   farther up the same text。
+
+[00:46:54 - 00:46:57] 发言人 A:
+   she sent me when i was in locck down in jakarta as the man across town pulled the pin from his grenade，
+
+[00:46:57 - 00:47:00] 发言人 A:
+   not yours。
+
+[00:47:00 - 00:47:03] 发言人 A:
+   this time is a song that plays。
+
+[00:47:03 - 00:47:06] 发言人 A:
+   so often。
+
+[00:47:06 - 00:47:09] 发言人 A:
+   i cannot help，
+
+[00:47:09 - 00:47:12] 发言人 A:
+   but know the words are you。
+
+[00:47:12 - 00:47:15] 发言人 A:
+   okay？
+
+[00:47:15 - 00:47:18] 发言人 A:
+   is the hook are you？
+
+[00:47:18 - 00:47:21] 发言人 A:
+   ok？
+
+[00:47:21 - 00:47:24] 发言人 A:
+   is cold for。
+
+[00:47:24 - 00:47:27] 发言人 A:
+   we are not okay，
+
+[00:47:27 - 00:47:30] 发言人 A:
+   but please remind me you are breathing back home，
+
+[00:47:30 - 00:47:33] 发言人 A:
+   the black men and women。
+
+[00:47:33 - 00:47:36] 发言人 A:
+   i love look into mirrors and wonder if they are lost teeth in the mouth of an impatient god。
+
+[00:47:36 - 00:47:39] 发言人 A:
+   are you？
+
+[00:47:39 - 00:47:42] 发言人 A:
+   okay？
+
+[00:47:42 - 00:47:45] 发言人 A:
+   i text impetent，
+
+[00:47:45 - 00:47:48] 发言人 A:
+   please remind me you are breathing。
+
+[00:47:48 - 00:47:51] 发言人 A:
+   i am scared is not a good enough reason to not get out of bed。
+
+[00:47:51 - 00:47:54] 发言人 A:
+   the world is falling apart is not a good enough one either。
+
+[00:47:54 - 00:47:57] 发言人 A:
+   i ask my mother，
+
+[00:47:57 - 00:48:00] 发言人 A:
+   if growing older means one wound piled upon another，
+
+[00:48:00 - 00:48:03] 发言人 A:
+   until we are just a collection of hurt，
+
+[00:48:03 - 00:48:06] 发言人 A:
+   but she insists no，
+
+[00:48:06 - 00:48:09] 发言人 A:
+   sometimes someone gets married or has a baby。
+
+[00:48:09 - 00:48:12] 发言人 A:
+   someone teach me a new song，
+
+[00:48:12 - 00:48:15] 发言人 A:
+   please bring me a spoon and a mouth to lean across the table。
+
+[00:48:15 - 00:48:18] 发言人 A:
+   for this time。
+
+[00:48:18 - 00:48:21] 发言人 A:
+   this time i am a jaw of loose teeth。
+
+[00:48:21 - 00:48:24] 发言人 A:
+   i'm a collection of string。
+
+[00:48:24 - 00:48:27] 发言人 A:
+   i'm a snowglobe of worry。
+
+[00:48:27 - 00:48:30] 发言人 A:
+   i am a roladex of fear。
+
+[00:48:30 - 00:48:33] 发言人 A:
+   they are placing body bags over children on the sidewalk，
+
+[00:48:33 - 00:48:36] 发言人 A:
+   where i once pushed a boll away laughing。
+
+[00:48:36 - 00:48:39] 发言人 A:
+   i cannot possibly have any more love。
+
+[00:48:39 - 00:48:42] 发言人 A:
+   i am already for sarakay in twenty eighteen amber。
+
+[00:48:42 - 00:48:45] 发言人 B:
+   tablin is an award winning television film in theater actor。
+
+[00:48:45 - 00:48:48] 发言人 B:
+   she's also an novellist and a poet i spoke with her in front of a live audience in new york city in early twenty twenty in celebration of the fifteenth th anniversary of design matters。
+
+[00:48:48 - 00:48:51] 发言人 B:
+   you're known for many iconic roles beyond and alququermaine on general hospital。
+
+[00:48:51 - 00:48:54] 发言人 B:
+   you were joned erari on jone of archidia，
+
+[00:48:54 - 00:48:57] 发言人 B:
+   martha and masters on house，
+
+[00:48:57 - 00:49:00] 发言人 B:
+   named for one of your actual friends，
+
+[00:49:00 - 00:49:03] 发言人 B:
+   martha masters，
+
+[00:49:03 - 00:49:06] 发言人 B:
+   jenny，
+
+[00:49:06 - 00:49:09] 发言人 B:
+   harper，
+
+[00:49:09 - 00:49:12] 发言人 B:
+   until in half men，
+
+[00:49:12 - 00:49:15] 发言人 B:
+   and to be rwen's in the sistter hood of the travelling pants films。
+
+[00:49:15 - 00:49:18] 发言人 B:
+   how do you feel about those rules？
+
+[00:49:18 - 00:49:21] 发言人 B:
+   now i have，
+
+[00:49:21 - 00:49:24] 发言人 F:
+   i have many feelings。
+
+[00:49:24 - 00:49:27] 发言人 F:
+   i i have so many fields。
+
+[00:49:27 - 00:49:30] 发言人 F:
+  嗯，
+
+[00:49:30 - 00:49:33] 发言人 F:
+   i've spent，
+
+[00:49:33 - 00:49:36] 发言人 F:
+   i think so much of my now adult life exercising the pain um having an exerism of the pain of those experiences of growing up um in the business um but i also have a deep sense of love and pride for those characters。
+
+[00:49:36 - 00:49:39] 发言人 F:
+   and you know，
+
+[00:49:39 - 00:49:42] 发言人 F:
+   things that you would not expect you could bring off the page you could um and i feel that i did，
+
+[00:49:42 - 00:49:45] 发言人 F:
+   i guess，
+
+[00:49:45 - 00:49:48] 发言人 F:
+   in a certain way，
+
+[00:49:48 - 00:49:51] 发言人 F:
+   as actually would things like sister heard of the travelling pants who knew that，
+
+[00:49:51 - 00:49:54] 发言人 F:
+   that would be。
+
+[00:49:54 - 00:49:57] 发言人 F:
+   so deep and so filled with emotion and turned out to be such a wonderful，
+
+[00:49:57 - 00:50:00] 发言人 F:
+   wonderful experience。
+
+[00:50:00 - 00:50:03] 发言人 F:
+   and i came away from that with some of the closest friendships of my life with my cast members，
+
+[00:50:03 - 00:50:06] 发言人 F:
+   america farea，
+
+[00:50:06 - 00:50:09] 发言人 F:
+   blake，
+
+[00:50:09 - 00:50:12] 发言人 F:
+   lively and alexas blootal。
+
+[00:50:12 - 00:50:15] 发言人 F:
+   um but it does really feel like a different life in a certain way。
+
+[00:50:15 - 00:50:18] 发言人 F:
+   it feels very separate where i've been in the last maybe eight years，
+
+[00:50:18 - 00:50:21] 发言人 F:
+   eight to ten years，
+
+[00:50:21 - 00:50:24] 发言人 F:
+   almost and for the most most ty，
+
+[00:50:24 - 00:50:27] 发言人 F:
+   i haven't really thought much about acting or the things that you know it the way in which it brought joy to my life during those years。
+
+[00:50:27 - 00:50:30] 发言人 F:
+   um but i think because i've had so much distance from it，
+
+[00:50:30 - 00:50:33] 发言人 F:
+   um i had a new appreciation for it in a way that i didn't before。
+
+[00:50:33 - 00:50:36] 发言人 F:
+   i'm about to shoot a show for FX，
+
+[00:50:36 - 00:50:39] 发言人 F:
+   and it will be my first first time doing something that ah well，
+
+[00:50:39 - 00:50:42] 发言人 F:
+   it very，
+
+[00:50:42 - 00:50:45] 发言人 F:
+   very excited about is a very exciting role um there。
+
+[00:50:45 - 00:50:48] 发言人 F:
+   so i have been thinking about it a lot lately，
+
+[00:50:48 - 00:50:51] 发言人 F:
+   but i haven't i just haven't thought about any acting any of this stuff that i've done in a long time。
+
+[00:50:51 - 00:50:54] 发言人 F:
+   it's interesting that you're bringing it up because i spent at the four front of my thought lately because of that II have bbunch quesquestions about it。
+
+[00:50:54 - 00:50:57] 发言人 B:
+   but i want want to ask if it's true that，
+
+[00:50:57 - 00:51:00] 发言人 B:
+   that totold john criry to go fuck himself in your audition for two and a half man，
+
+[00:51:00 - 00:51:03] 发言人 B:
+   which was in front of chuck lorry。
+
+[00:51:03 - 00:51:06] 发言人 F:
+   oh，
+
+[00:51:06 - 00:51:09] 发言人 F:
+   one hundred percent。
+
+[00:51:09 - 00:51:12] 发言人 F:
+   so was what i think think was totold chuck lorry to go fuck mmself there。
+
+[00:51:12 - 00:51:15] 发言人 F:
+   well，
+
+[00:51:15 - 00:51:18] 发言人 F:
+   it was the care。
+
+[00:51:18 - 00:51:21] 发言人 F:
+   it was the character was self。
+
+[00:51:21 - 00:51:24] 发言人 F:
+   um there was to sort supposed to replace the half man idea。
+
+[00:51:24 - 00:51:27] 发言人 F:
+   that was the care harper's daughter，
+
+[00:51:27 - 00:51:30] 发言人 F:
+   who was basically just a woman version of him，
+
+[00:51:30 - 00:51:33] 发言人 F:
+   just a alcoholic foul mouth woman izer。
+
+[00:51:33 - 00:51:36] 发言人 F:
+   um and so i also was like，
+
+[00:51:36 - 00:51:39] 发言人 F:
+   i actually don't really care if i do to an nahave men。
+
+[00:51:39 - 00:51:42] 发言人 F:
+   this is not like an audition that's going to break me。
+
+[00:51:42 - 00:51:45] 发言人 F:
+   um and so i was rude to all of the men in the room。
+
+[00:51:45 - 00:51:48] 发言人 F:
+   and and i are，
+
+[00:51:48 - 00:51:51] 发言人 F:
+   and i all and like that，
+
+[00:51:51 - 00:51:54] 发言人 F:
+   don't say，
+
+[00:51:54 - 00:51:57] 发言人 F:
+   somesometimes say，
+
+[00:51:57 - 00:52:00] 发言人 F:
+   ah，
+
+[00:52:00 - 00:52:03] 发言人 F:
+   those tyes of men do。
+
+[00:52:03 - 00:52:06] 发言人 F:
+   i mean，
+
+[00:52:06 - 00:52:09] 发言人 F:
+   as i said，
+
+[00:52:09 - 00:52:12] 发言人 F:
+   i know nurse assistic white men very well。
+
+[00:52:12 - 00:52:15] 发言人 F:
+   um although both of them are lovely，
+
+[00:52:15 - 00:52:18] 发言人 F:
+   and john ry er is a generally wonderful。
+
+[00:52:18 - 00:52:21] 发言人 F:
+   i think i had also signed in on the addition sheet，
+
+[00:52:21 - 00:52:24] 发言人 F:
+   a fake name，
+
+[00:52:24 - 00:52:27] 发言人 F:
+   which is kind of like a really messed up thing to do，
+
+[00:52:27 - 00:52:30] 发言人 F:
+   especially you're going up first in the morning。
+
+[00:52:30 - 00:52:33] 发言人 F:
+   i think i signed in as jennifer lawrence，
+
+[00:52:33 - 00:52:36] 发言人 F:
+   because then everyone who comes after you is looking in the like a bock，
+
+[00:52:36 - 00:52:39] 发言人 F:
+   jennifer lalarence up audition for the shape sheet。
+
+[00:52:39 - 00:52:42] 发言人 F:
+   okay，
+
+[00:52:42 - 00:52:45] 发言人 B:
+   got got my game me like a little bit of a anomomasscuhistak。
+
+[00:52:45 - 00:52:48] 发言人 B:
+   and you，
+
+[00:52:48 - 00:52:51] 发言人 F:
+   i guess so hededebis 's getting real tonight。
+
+[00:52:51 - 00:52:54] 发言人 F:
+   i get me a drink。
+
+[00:52:54 - 00:52:57] 发言人 B:
+   i think we can make that happen。
+
+[00:52:57 - 00:53:00] 发言人 B:
+   you did you that true businesses voyare stick。
+
+[00:53:00 - 00:53:03] 发言人 B:
+   um and then if you're an actress you're playing that which the voir looks at for living people，
+
+[00:53:03 - 00:53:06] 发言人 B:
+   look at you to escape their realialities to invent their own new realities。
+
+[00:53:06 - 00:53:09] 发言人 B:
+   how do you？
+
+[00:53:09 - 00:53:12] 发言人 B:
+   how did you manage keep your own identity？
+
+[00:53:12 - 00:53:15] 发言人 B:
+   um how we've been able to avoid the often treacherous piit bulls that other childactors have to come to so funny because we were just talking about this。
+
+[00:53:15 - 00:53:18] 发言人 F:
+   i think it's too fold for me。
+
+[00:53:18 - 00:53:21] 发言人 F:
+   obviously，
+
+[00:53:21 - 00:53:24] 发言人 F:
+   i think having parents who were a strong support system in my life was a real privilege to have that kind of a bringing and family。
+
+[00:53:24 - 00:53:27] 发言人 F:
+   and i think also poetry poetry really saved me in a way。
+
+[00:53:27 - 00:53:30] 发言人 F:
+   poetry was a third parent。
+
+[00:53:30 - 00:53:33] 发言人 F:
+   poetry was a guardian。
+
+[00:53:33 - 00:53:36] 发言人 F:
+   it was a way for me to reflect on those experiences and be able to put on the page，
+
+[00:53:36 - 00:53:39] 发言人 F:
+   the feelings that i had，
+
+[00:53:39 - 00:53:42] 发言人 F:
+   whether it was anger or frustration，
+
+[00:53:42 - 00:53:45] 发言人 F:
+   or feeling invisible or feeling objectified。
+
+[00:53:45 - 00:53:48] 发言人 F:
+   all of those things。
+
+[00:53:48 - 00:53:51] 发言人 F:
+   poetry was a real way for me to what of those out early on from a young age。
+
+[00:53:51 - 00:53:54] 发言人 F:
+   and so i'had been writing me to why did think maybe less so now？
+
+[00:53:54 - 00:53:57] 发言人 F:
+   but there was a there was a time at which most people were really shocked that i was a poet，
+
+[00:53:57 - 00:54:00] 发言人 F:
+   even though i had been publishing ting，
+
+[00:54:00 - 00:54:03] 发言人 F:
+   you know，
+
+[00:54:03 - 00:54:06] 发言人 F:
+   assimon and ester book that i wrote free styan was poems written age eleven to twenty one。
+
+[00:54:06 - 00:54:09] 发言人 F:
+   um i've been writing as long as i had been acting，
+
+[00:54:09 - 00:54:12] 发言人 F:
+   these were too coinciiting forforms of art and expression that i done from a very young age，
+
+[00:54:12 - 00:54:15] 发言人 F:
+   and they very much informed each other。
+
+[00:54:15 - 00:54:18] 发言人 F:
+   and one was like a solve to the other in a certain way。
+
+[00:54:18 - 00:54:21] 发言人 F:
+   well，
+
+[00:54:21 - 00:54:24] 发言人 B:
+   you said that poetry was one of the few areas to your life，
+
+[00:54:24 - 00:54:27] 发言人 B:
+   where you felt like you had full control。
+
+[00:54:27 - 00:54:30] 发言人 B:
+   why did it make you feel like you had control？
+
+[00:54:30 - 00:54:33] 发言人 F:
+   well，
+
+[00:54:33 - 00:54:36] 发言人 F:
+   as an actress，
+
+[00:54:36 - 00:54:39] 发言人 F:
+   you are creating something that's only really half yours。
+
+[00:54:39 - 00:54:42] 发言人 F:
+   if that you are putting yourself on the line，
+
+[00:54:42 - 00:54:45] 发言人 F:
+   emotionally often physically psychologically um for something，
+
+[00:54:45 - 00:54:48] 发言人 F:
+   you have no control over。
+
+[00:54:48 - 00:54:51] 发言人 F:
+   you are interpreting the words of someone else that they've written。
+
+[00:54:51 - 00:54:54] 发言人 F:
+   you are。
+
+[00:54:54 - 00:54:57] 发言人 F:
+   um you are creating the world that a show creator has written，
+
+[00:54:57 - 00:55:00] 发言人 F:
+   has crecreated that they have vivioned，
+
+[00:55:00 - 00:55:03] 发言人 F:
+   but are are moving in the way that the director is telling you to move。
+
+[00:55:03 - 00:55:06] 发言人 F:
+   um so much of that is so much imppertation of someelel's 's art of all the people's 's around you，
+
+[00:55:06 - 00:55:09] 发言人 F:
+   which is the great joory。
+
+[00:55:09 - 00:55:12] 发言人 F:
+   and the people who do it really well are masters at it。
+
+[00:55:12 - 00:55:15] 发言人 F:
+   you know，
+
+[00:55:15 - 00:55:18] 发言人 F:
+   it's it is using that empathic tool to tell a really deep and an interortant story。
+
+[00:55:18 - 00:55:21] 发言人 F:
+   if you，
+
+[00:55:21 - 00:55:24] 发言人 F:
+   if if that something that you're very good at，
+
+[00:55:24 - 00:55:27] 发言人 F:
+   but at the same time，
+
+[00:55:27 - 00:55:30] 发言人 F:
+   after the famting actor，
+
+[00:55:30 - 00:55:33] 发言人 F:
+   this is something that i think so many people don't understand about our business is that you probably have only ever seen，
+
+[00:55:33 - 00:55:36] 发言人 F:
+   like thirty percent of the stuff that i have done。
+
+[00:55:36 - 00:55:39] 发言人 F:
+   if that，
+
+[00:55:39 - 00:55:42] 发言人 F:
+   and that's any actor。
+
+[00:55:42 - 00:55:45] 发言人 F:
+   that's it's the great art。
+
+[00:55:45 - 00:55:48] 发言人 F:
+   that's the most famous actor。
+
+[00:55:48 - 00:55:51] 发言人 F:
+   and the least nown actor is that you've think is，
+
+[00:55:51 - 00:55:54] 发言人 F:
+   did there's so many other levels that that piece of work has to go through in order to succeed to see the light of day。
+
+[00:55:54 - 00:55:57] 发言人 F:
+   it has to be edited very well。
+
+[00:55:57 - 00:56:00] 发言人 F:
+   and you have to hope that the editor and director on the same page and the director directed it well，
+
+[00:56:00 - 00:56:03] 发言人 F:
+   then you have to hope，
+
+[00:56:03 - 00:56:06] 发言人 F:
+   even if you have a good film uthen，
+
+[00:56:06 - 00:56:09] 发言人 F:
+   you have to hope that it goes into a festival。
+
+[00:56:09 - 00:56:12] 发言人 F:
+   and then even if a good into a festival，
+
+[00:56:12 - 00:56:15] 发言人 F:
+   you have to hope it gets bought。
+
+[00:56:15 - 00:56:18] 发言人 F:
+   and then if it get bought，
+
+[00:56:18 - 00:56:21] 发言人 F:
+   you have to to hope，
+
+[00:56:21 - 00:56:24] 发言人 F:
+   put the the markekebebeind it。
+
+[00:56:24 - 00:56:27] 发言人 F:
+   and then if they do that，
+
+[00:56:27 - 00:56:30] 发言人 F:
+   you you have to to that，
+
+[00:56:30 - 00:56:33] 发言人 F:
+   that go go thetheatand。
+
+[00:56:33 - 00:56:36] 发言人 F:
+   and it it same，
+
+[00:56:36 - 00:56:39] 发言人 F:
+   if could be said，
+
+[00:56:39 - 00:56:42] 发言人 F:
+   said about television，
+
+[00:56:42 - 00:56:45] 发言人 F:
+   you know，
+
+[00:56:45 - 00:56:48] 发言人 F:
+   you create a pilway through if you're doing a pilot，
+
+[00:56:48 - 00:56:51] 发言人 F:
+   if you have see the light of day，
+
+[00:56:51 - 00:56:54] 发言人 F:
+   then you might go on and you know，
+
+[00:56:54 - 00:56:57] 发言人 F:
+   air for five episodes and disappear。
+
+[00:56:57 - 00:57:00] 发言人 F:
+   so it's a strange industry because you pour your heart and soul and physical self into things that often no one ever sees or no one knows about。
+
+[00:57:00 - 00:57:03] 发言人 F:
+   so in that way，
+
+[00:57:03 - 00:57:06] 发言人 F:
+   i really felt like writing for me，
+
+[00:57:06 - 00:57:09] 发言人 F:
+   at least if i failed by it，
+
+[00:57:09 - 00:57:12] 发言人 F:
+   i was failing by one hundred percent of my own self expression as opposed to fifty percent of an expression that was part of me that still might fail anyway，
+
+[00:57:12 - 00:57:15] 发言人 F:
+   if that makes sense。
+
+[00:57:15 - 00:57:18] 发言人 F:
+   yeah，
+
+[00:57:18 - 00:57:21] 发言人 B:
+   there seems to be a lot of judgment when an actor tries something other than acting，
+
+[00:57:21 - 00:57:24] 发言人 B:
+   whether it be writing，
+
+[00:57:24 - 00:57:27] 发言人 B:
+   music，
+
+[00:57:27 - 00:57:30] 发言人 B:
+   politics，
+
+[00:57:30 - 00:57:33] 发言人 B:
+   even activism。
+
+[00:57:33 - 00:57:36] 发言人 B:
+   did it feel it was harder to be taken seriously as a poet，
+
+[00:57:36 - 00:57:39] 发言人 B:
+   because if you're celebrity，
+
+[00:57:39 - 00:57:42] 发言人 F:
+   oh absolutely，
+
+[00:57:42 - 00:57:45] 发言人 F:
+   i think there was，
+
+[00:57:45 - 00:57:48] 发言人 F:
+   i think i got discouraraged ly think i about ver sort of submitting my work，
+
+[00:57:48 - 00:57:51] 发言人 F:
+   or um uh doing anything with it other than just writing in performing，
+
+[00:57:51 - 00:57:54] 发言人 F:
+   i would do book tours。
+
+[00:57:54 - 00:57:57] 发言人 F:
+   i would um i would frequent a place called beyond burreaue and mosanangalious，
+
+[00:57:57 - 00:58:00] 发言人 F:
+   where i would read a lot。
+
+[00:58:00 - 00:58:03] 发言人 F:
+   and i think around the time i was writing dark sparkler，
+
+[00:58:03 - 00:58:06] 发言人 F:
+   which really，
+
+[00:58:06 - 00:58:09] 发言人 F:
+   really was a kind of exerism。
+
+[00:58:09 - 00:58:12] 发言人 F:
+   for me。
+
+[00:58:12 - 00:58:15] 发言人 F:
+   it was a it。
+
+[00:58:15 - 00:58:18] 发言人 F:
+   i was deep in the middle of a al exexststtiticrisis，
+
+[00:58:18 - 00:58:21] 发言人 F:
+   trying to figure out，
+
+[00:58:21 - 00:58:24] 发言人 F:
+   and i wanted to be outside of this idea of going into other people's rooms and auditioning and interpreting their work。
+
+[00:58:24 - 00:58:27] 发言人 F:
+   and knowing i had so much more the offer when the existential crisis system from well，
+
+[00:58:27 - 00:58:30] 发言人 F:
+   it stem from the fact that i had only ever really played other people for a living my whole life since i was eleven。
+
+[00:58:30 - 00:58:33] 发言人 F:
+   you know，
+
+[00:58:33 - 00:58:36] 发言人 F:
+   people always ask me like how how old you when you knew you wanted to act。
+
+[00:58:36 - 00:58:39] 发言人 F:
+   and that sentence，
+
+[00:58:39 - 00:58:42] 发言人 F:
+   that idea is something that i have come up against and talked about in therapy for so many years to think about how does a child have a choice？
+
+[00:58:42 - 00:58:45] 发言人 F:
+   what choice does the child have in choosing that life？
+
+[00:58:45 - 00:58:48] 发言人 F:
+   it's not really a child's choice。
+
+[00:58:48 - 00:58:51] 发言人 F:
+   that's the choice of adults。
+
+[00:58:51 - 00:58:54] 发言人 F:
+   and then the child spends their time trying to please adults，
+
+[00:58:54 - 00:58:57] 发言人 F:
+   it's performing。
+
+[00:58:57 - 00:59:00] 发言人 F:
+   and so then your life becomes performative。
+
+[00:59:00 - 00:59:03] 发言人 F:
+   you are a walking talking living performance。
+
+[00:59:03 - 00:59:06] 发言人 F:
+   it's complicated。
+
+[00:59:06 - 00:59:09] 发言人 F:
+   and so so dark sparkler was sort of this reckoning for myself coming it terms with myself with also，
+
+[00:59:09 - 00:59:12] 发言人 F:
+   how do you how do you talk about this pain？
+
+[00:59:12 - 00:59:15] 发言人 F:
+   how do you talk about this invisibility while still knowing you are the most privileged person in any given room for the money？
+
+[00:59:15 - 00:59:18] 发言人 F:
+   you make the job you have the industry you're in that people would love to be a part of and how i was trying to find a way to talk about my experience and my need for a certain kind of death。
+
+[00:59:18 - 00:59:21] 发言人 F:
+   i mean，
+
+[00:59:21 - 00:59:24] 发言人 F:
+   really，
+
+[00:59:24 - 00:59:27] 发言人 F:
+   i was seeking death，
+
+[00:59:27 - 00:59:30] 发言人 F:
+   not literal death，
+
+[00:59:30 - 00:59:33] 发言人 F:
+   but a metaphorical death。
+
+[00:59:33 - 00:59:36] 发言人 F:
+   i was end。
+
+[00:59:36 - 00:59:39] 发言人 F:
+   i was seizing，
+
+[00:59:39 - 00:59:42] 发言人 F:
+   and i was i was seeking and seizing，
+
+[00:59:42 - 00:59:45] 发言人 F:
+   if that makes sense and ending to the person that i was when i was younger，
+
+[00:59:45 - 00:59:48] 发言人 F:
+   that person that really didn't have any control over her life while she was creating these incredible characters that bring people so much joy，
+
+[00:59:48 - 00:59:51] 发言人 F:
+   and i often had so much fun shooting them。
+
+[00:59:51 - 00:59:54] 发言人 F:
+   there was an entire part of myself that was dying that was that was not being given an opportunity to thrive。
+
+[00:59:54 - 00:59:57] 发言人 F:
+   and to become more，
+
+[00:59:57 - 01:00:00] 发言人 F:
+   and that book was a direct，
+
+[01:00:00 - 01:00:03] 发言人 F:
+   i think，
+
+[01:00:03 - 01:00:06] 发言人 F:
+   moment for me to um to let those things be talked about um on a page and to be able to see them and see my own experiences。
+
+[01:00:06 - 01:00:09] 发言人 F:
+   not only writing about these actresses that had literally died，
+
+[01:00:09 - 01:00:12] 发言人 F:
+   but then writing these metapoems in the back about，
+
+[01:00:12 - 01:00:15] 发言人 F:
+   you know，
+
+[01:00:15 - 01:00:18] 发言人 F:
+   my experiencing writing about dead acdresses，
+
+[01:00:18 - 01:00:21] 发言人 F:
+   and it was actually rocks and gay who published the first poem。
+
+[01:00:21 - 01:00:24] 发言人 F:
+   i who was like my first publishpoeem ever，
+
+[01:00:24 - 01:00:27] 发言人 F:
+   she published poem about britny murphy。
+
+[01:00:27 - 01:00:30] 发言人 F:
+   um and i remember submitting it to pink a friend。
+
+[01:00:30 - 01:00:33] 发言人 F:
+   it said，
+
+[01:00:33 - 01:00:36] 发言人 F:
+   i gogot a submit。
+
+[01:00:36 - 01:00:39] 发言人 F:
+   you know，
+
+[01:00:39 - 01:00:42] 发言人 F:
+   a great editor there now，
+
+[01:00:42 - 01:00:45] 发言人 F:
+   and i was like，
+
+[01:00:45 - 01:00:48] 发言人 F:
+   no one's ever going to publish my work。
+
+[01:00:48 - 01:00:51] 发言人 F:
+   i'm an acss。
+
+[01:00:51 - 01:00:54] 发言人 F:
+   i can't。
+
+[01:00:54 - 01:00:57] 发言人 F:
+   i'll just i'll take myself seriously，
+
+[01:00:57 - 01:01:00] 发言人 F:
+   and that's fine。
+
+[01:01:00 - 01:01:03] 发言人 F:
+   and i think she wrote me back in like two hours or something。
+
+[01:01:03 - 01:01:06] 发言人 F:
+   it was very exciting，
+
+[01:01:06 - 01:01:09] 发言人 F:
+   and it was a moment for me to feel like，
+
+[01:01:09 - 01:01:12] 发言人 F:
+   oh，
+
+[01:01:12 - 01:01:15] 发言人 F:
+   i'm i'm can be taken seriously in the art form that i've done。
+
+[01:01:15 - 01:01:18] 发言人 F:
+   as long as i've acted，
+
+[01:01:18 - 01:01:21] 发言人 F:
+   it was a big moment to want to read their poem for us。
+
+[01:01:21 - 01:01:24] 发言人 B:
+   sure，
+
+[01:01:24 - 01:01:27] 发言人 F:
+   britain murphy，
+
+[01:01:27 - 01:01:30] 发言人 F:
+   her body dies like a spiters in the shower，
+
+[01:01:30 - 01:01:33] 发言人 F:
+   the blooming flower ceeds，
+
+[01:01:33 - 01:01:36] 发言人 F:
+   a cemetery，
+
+[01:01:36 - 01:01:39] 发言人 F:
+   a pill lodges in the inner pocket of her fleh coat。
+
+[01:01:39 - 01:01:42] 发言人 F:
+   her breasts were the gifts of ghosts，
+
+[01:01:42 - 01:01:45] 发言人 F:
+   dark tarps of success。
+
+[01:01:45 - 01:01:48] 发言人 F:
+   her mouth dribles over onto the bathroom floor。
+
+[01:01:48 - 01:01:51] 发言人 F:
+   polic blood。
+
+[01:01:51 - 01:01:54] 发言人 F:
+   the body is lifted from the red carpet，
+
+[01:01:54 - 01:01:57] 发言人 F:
+   put in a black bag taken to the mother's screams for identification。
+
+[01:01:57 - 01:02:00] 发言人 F:
+   the country says good things about the body they print。
+
+[01:02:00 - 01:02:03] 发言人 F:
+   the best photos，
+
+[01:02:03 - 01:02:06] 发言人 F:
+   the least bones，
+
+[01:02:06 - 01:02:09] 发言人 F:
+   the most pitch candles are lit in the glint of every glam。
+
+[01:02:09 - 01:02:12] 发言人 F:
+   every magazine stand。
+
+[01:02:12 - 01:02:15] 发言人 F:
+   does the southern bell cursey in her post box office bomb honor，
+
+[01:02:15 - 01:02:18] 发言人 F:
+   the autopy finds an easy answer。
+
+[01:02:18 - 01:02:21] 发言人 F:
+   they say，
+
+[01:02:21 - 01:02:24] 发言人 F:
+   good things about the body。
+
+[01:02:24 - 01:02:27] 发言人 F:
+   how bold her eyes were bigger than happburns the way she could turn into her camera，
+
+[01:02:27 - 01:02:30] 发言人 F:
+   close up like life depended on her umbretaelin。
+
+[01:02:30 - 01:02:33] 发言人 B:
+   in twenty twenty，
+
+[01:02:33 - 01:02:36] 发言人 B:
+   you can hear my full interviews and hundreds of other interviews with some of the world's most creative people on our website。
+
+[01:02:36 - 01:02:39] 发言人 B:
+   design matters，
+
+[01:02:39 - 01:02:42] 发言人 B:
+   media dot com or wherever you get your pot tests will be back next week，
+
+[01:02:42 - 01:02:45] 发言人 B:
+   with one last special episode called from the many years i've been doing design matters。
+
+[01:02:45 - 01:02:48] 发言人 B:
+   yes，
+
+[01:02:48 - 01:02:51] 发言人 B:
+   this is the twenty eight year we've been in pocacadesign matters。
+
+[01:02:51 - 01:02:54] 发言人 B:
+   and and i'd like to thank you for listening。
+
+[01:02:54 - 01:02:57] 发言人 B:
+   and remember，
+
+[01:02:57 - 01:03:00] 发言人 B:
+   we can talk about making a difference。
+
+[01:03:00 - 01:03:03] 发言人 B:
+   we can make a difference or we can do both。
+
+[01:03:03 - 01:03:06] 发言人 B:
+   i'm deviby elmet，
+
+[01:03:06 - 01:03:09] 发言人 B:
+   and i look forward to talking with you again soon。
+
+[01:03:09 - 01:03:12] 发言人 E:
+   design matters is produced by the ted audio collective by curtisfox productions。
+
+[01:03:12 - 01:03:15] 发言人 E:
+   the interviews are usually recorded at the masters in branding program at the school of visual arunts in new york city，
+
+[01:03:15 - 01:03:18] 发言人 E:
+   the first and longest running branding program in the world。
+
+[01:03:18 - 01:03:21] 发言人 E:
+   the editor and chief of design matters media is emily violent。
+
+[01:03:21 - 01:03:24] 发言人 C:
+  嗯，
+
+[01:03:24 - 01:03:27] 发言人 C:
+   i recently had comedian and host of ted how to be a better human podcast christffe on our show。
+
+[01:03:27 - 01:03:30] 发言人 C:
+   he sat down for a special interview where he talked about how to laugh more at the little things in life。
+
+[01:03:30 - 01:03:33] 发言人 I:
+   one of the ways that we we take，
+
+[01:03:33 - 01:03:36] 发言人 I:
+   the least social risk is in conversations with people。
+
+[01:03:36 - 01:03:39] 发言人 I:
+   we don't not that。
+
+[01:03:39 - 01:03:42] 发言人 I:
+   well，
+
+[01:03:42 - 01:03:45] 发言人 I:
+   we tend to just say in so how are you？
+
+[01:03:45 - 01:03:48] 发言人 I:
+   so what you do，
+
+[01:03:48 - 01:03:51] 发言人 I:
+   there's no risk involved。
+
+[01:03:51 - 01:03:54] 发言人 I:
+   and as a result，
+
+[01:03:54 - 01:03:57] 发言人 I:
+   it's very unlikely that you and other person were like laugh or connect。
+
+[01:03:57 - 01:04:00] 发言人 I:
+   so i think you can take like a low risk。
+
+[01:04:00 - 01:04:03] 发言人 I:
+   so what you them a perly that just a little unusual，
+
+[01:04:03 - 01:04:06] 发言人 I:
+   but that you actually are unrested in or he's a little funny。
+
+[01:04:06 - 01:04:09] 发言人 I:
+   now，
+
+[01:04:09 - 01:04:12] 发言人 I:
+   the perpermight be like like is is weird valyou。
+
+[01:04:12 - 01:04:15] 发言人 I:
+   i asgive me about terrible soups，
+
+[01:04:15 - 01:04:18] 发言人 I:
+   but you'll probably have a conversation that is a little bit more memorable and funny and has the potential for laughter than other things。
+
+[01:04:18 - 01:04:21] 发言人 C:
+   get more practical tips on how to be the best you can be by listening to chris interview ted speakers on his podcast。
+
+[01:04:21 - 01:04:24] 发言人 C:
+   what to be a better human listeenwhwherever。
+
+[01:04:24 - 01:04:27] 发言人 C:
+   you get your say like，
+
+============================================================
+
+# LLM 分析结果
+
+## 摘要
+（无总结）

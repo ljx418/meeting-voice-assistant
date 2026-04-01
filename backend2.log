@@ -1,0 +1,153 @@
+INFO:     Will watch for changes in these directories: ['/Users/Zhuanz/Desktop/workspace']
+INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+INFO:     Started reloader process [25631] using WatchFiles
+INFO:     Started server process [25635]
+INFO:     Waiting for application startup.
+[2026-03-25 15:45:26] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+INFO:     127.0.0.1:63702 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63716 - "GET /docs HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/test_aliyun_asr.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 15:47:22] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [25635]
+INFO:     Started server process [25759]
+INFO:     Waiting for application startup.
+[2026-03-25 15:47:23] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/test_aliyun_asr.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 15:47:31] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [25759]
+INFO:     Started server process [25770]
+INFO:     Waiting for application startup.
+[2026-03-25 15:47:32] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/test_backend_websocket.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 15:48:20] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [25770]
+INFO:     Started server process [25862]
+INFO:     Waiting for application startup.
+[2026-03-25 15:48:22] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+INFO:     127.0.0.1:63767 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63769 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63771 - "WebSocket /api/v1/ws/asr" 403
+INFO:     connection rejected (403 Forbidden)
+INFO:     connection closed
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/test_backend_websocket.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 15:48:34] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [25862]
+INFO:     Started server process [25899]
+INFO:     Waiting for application startup.
+[2026-03-25 15:48:35] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+INFO:     127.0.0.1:63773 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63775 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63777 - "WebSocket /api/v1/ws/voice" [accepted]
+[2026-03-25 15:48:37] [INFO] [ws.voice] Initializing session sess_b3a663d9
+Failed to initialize SenseVoice adapter: API key is required for cloud mode
+[2026-03-25 15:48:37] [ERROR] [ws.voice] WebSocket error: SenseVoice initialization failed: API key is required for cloud mode
+INFO:     connection open
+[2026-03-25 15:48:37] [INFO] [ws.voice] Cleaning up session sess_b3a663d9
+INFO:     connection closed
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/backend/app/core/asr/dashscope.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:24:00] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [25899]
+INFO:     Started server process [28433]
+INFO:     Waiting for application startup.
+[2026-03-25 16:24:02] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/backend/app/core/asr/factory.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:24:06] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28433]
+INFO:     Started server process [28436]
+INFO:     Waiting for application startup.
+[2026-03-25 16:24:06] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/backend/app/core/asr/factory.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:24:12] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28436]
+INFO:     Started server process [28440]
+INFO:     Waiting for application startup.
+[2026-03-25 16:24:12] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/backend/app/core/asr/factory.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:24:24] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28440]
+INFO:     Started server process [28444]
+INFO:     Waiting for application startup.
+[2026-03-25 16:24:24] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/backend/app/core/asr/factory.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:24:28] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28444]
+INFO:     Started server process [28447]
+INFO:     Waiting for application startup.
+[2026-03-25 16:24:29] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/backend/app/core/asr/factory.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:24:40] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28447]
+INFO:     Started server process [28450]
+INFO:     Waiting for application startup.
+[2026-03-25 16:24:41] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/backend/app/core/asr/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:24:47] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28450]
+INFO:     Started server process [28453]
+INFO:     Waiting for application startup.
+[2026-03-25 16:24:47] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/backend/app/core/asr/__init__.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:25:01] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28453]
+INFO:     Started server process [28464]
+INFO:     Waiting for application startup.
+[2026-03-25 16:25:02] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'meeting-voice-assistant/backend/app/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:25:07] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28464]
+INFO:     Started server process [28468]
+INFO:     Waiting for application startup.
+[2026-03-25 16:25:08] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.

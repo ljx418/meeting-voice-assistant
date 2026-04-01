@@ -1,0 +1,38 @@
+INFO:     Will watch for changes in these directories: ['/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8002 (Press CTRL+C to quit)
+INFO:     Started reloader process [28573] using WatchFiles
+INFO:     Started server process [28577]
+INFO:     Waiting for application startup.
+[2026-03-25 16:26:42] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+INFO:     127.0.0.1:64909 - "GET /api/v1/health HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/core/asr/dashscope.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:29:43] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28577]
+INFO:     Started server process [28668]
+INFO:     Waiting for application startup.
+[2026-03-25 16:29:45] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/asr/dashscope.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:29:51] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28668]
+INFO:     Started server process [28674]
+INFO:     Waiting for application startup.
+[2026-03-25 16:29:53] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/asr/dashscope.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:30:41] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28674]
+INFO:     Started server process [28755]
+INFO:     Waiting for application startup.
+[2026-03-25 16:30:42] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.

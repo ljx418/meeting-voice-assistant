@@ -1,0 +1,1923 @@
+# 会议转写文本
+# Session ID: upload_0cec591d
+# 开始时间: 2026-03-31 16:30:12
+# 总时长: 173:55:31
+# 转写片段数: 636
+# 来源: 文件上传
+
+============================================================
+
+[00:00:04 - 00:00:06] 发言人 A:
+  Hey, TED Talks Daily listeners, I'm Elise Hu.
+
+[00:00:12 - 00:00:19] 发言人 A:
+   Today, a Sunday Pick episode where we share another podcast from the TED Audio Collective, handpicked by us for you.
+
+[00:00:32 - 00:00:41] 发言人 A:
+   Yesterday was World Poetry Day, and we couldn't think of a better way to celebrate one of the world's most ancient art forms than to share this recent episode of Design Matters.
+
+[00:01:05 - 00:01:14] 发言人 A:
+   Host Debbie Millman revisits her conversations with renowned poets Eileen Myles, Elizabeth Alexander, Sarah Kay, and Amber Tamblyn.
+
+[00:01:47 - 00:01:55] 发言人 A:
+   In the episode, she shares excerpts from these poets and their work that reflect on language, identity, memory, and the lived experience that fuels their work.
+
+[00:02:37 - 00:02:43] 发言人 A:
+   Today, they reveal poetry as an intimate and profound practice that resonates far beyond the page.
+
+[00:03:32 - 00:03:36] 发言人 A:
+   You can find episodes of Design Matters wherever you get your podcasts.
+
+[00:04:28 - 00:04:31] 发言人 A:
+   Learn more about the TED Audio Collective at audio collective.
+
+[00:05:26 - 00:05:27] 发言人 A:
+   Ted.
+
+[00:06:23 - 00:06:24] 发言人 A:
+   Com.
+
+[00:07:29 - 00:07:34] 发言人 A:
+  Sometimes I almost remember it like I wrote it rather than as it happened.
+
+[00:08:44 - 00:08:47] 发言人 A:
+   In the DNA of everything you write is everything else you're ever going to write.
+
+[00:10:03 - 00:10:06] 发言人 A:
+   From the TED Audio Collective, this is Design Matters with Debbie Millman.
+
+[00:11:30 - 00:11:38] 发言人 A:
+  On Design Matters, Debbie talks with some of the most creative people in the world about what they do, how they got to be who they are, and what they're thinking about and working on.
+
+[00:13:11 - 00:13:18] 发言人 A:
+   On this episode, in celebration of the twentieth anniversary of Design Matters, we'll hear from some of the poets that Debbie has interviewed over the years.
+
+[00:15:00 - 00:15:02] 发言人 A:
+   There was an entire part of myself that was dying.
+
+[00:16:46 - 00:16:52] 发言人 A:
+   It felt like the whole room was communicating, there is room for you.
+
+[00:18:49 - 00:18:53] 发言人 A:
+  This podcast is brought to you by Wise, the app for using money around the globe.
+
+[00:20:54 - 00:20:58] 发言人 A:
+   With Wise, you can send, spend and receive in over forty currencies.
+
+[00:23:04 - 00:23:05] 发言人 A:
+   No markups, no hidden fees.
+
+[00:25:13 - 00:25:21] 发言人 A:
+   Whether you're sending dollars down under, spending pounds in London, or paying freelancers in pesos, you'll get the mid-market exchange rate on every transaction.
+
+[00:27:37 - 00:27:40] 发言人 A:
+   Plus most transfers arrive in less than twenty seconds.
+
+[00:29:59 - 00:30:01] 发言人 A:
+  Join fifteen million customers internationally.
+
+[00:32:20 - 00:32:20] 发言人 A:
+   Join.
+
+[00:34:42 - 00:34:44] 发言人 A:
+   Be smart, get wise.
+
+[00:37:08 - 00:37:09] 发言人 A:
+   Download the Wise app today.
+
+[00:39:35 - 00:39:36] 发言人 A:
+   T's and C's apply.
+
+[00:42:03 - 00:42:10] 发言人 A:
+   One of the best parts for me about hosting Reveal, you know your favorite weekly investigative podcast, is the interviews.
+
+[00:44:45 - 00:44:52] 发言人 A:
+   I love to sit down with people and try to gain a perspective that gives me and our listeners a new way of seeing the world.
+
+[00:47:34 - 00:47:37] 发言人 A:
+   Which is why we're launching More to the Story with me, Al Letson.
+
+[00:50:23 - 00:50:29] 发言人 A:
+   It's a place where I can talk to some of the most intriguing people to bring some context to our changing world.
+
+[00:53:21 - 00:53:25] 发言人 A:
+   Follow the Reveal podcast feed and look for More to the Story every Wednesday.
+
+[00:56:22 - 00:56:22] 发言人 A:
+  嗯。
+
+[00:59:26 - 00:59:38] 发言人 A:
+  When I interview designers, painters, photographers, movie makers, illustrators, and other visual artists, I talk to them about their lives, their creative processes, and their work.
+
+[01:02:54 - 01:02:58] 发言人 A:
+   But because it's an audio podcast, listeners can't see what we're talking about.
+
+[01:06:20 - 01:06:28] 发言人 A:
+   When I interview musicians, some have agreed to perform a song or two in our little podcast booth, which is an extraordinary gift.
+
+[01:09:59 - 01:10:04] 发言人 A:
+   But not every musician I speak with is a singer-songwriter who can show up in person with a guitar.
+
+[01:13:40 - 01:13:50] 发言人 A:
+   But when I interview poets, I always get them to read some of their work, and poets are wonderful readers of their poems.
+
+[01:17:36 - 01:17:47] 发言人 A:
+   On this episode celebrating the 20th anniversary year of Design Matters, I'd like to play excerpts from some of the poets I've had the pleasure of talking with and listening to.
+
+[01:21:45 - 01:21:53] 发言人 A:
+  Eileen Miles has been publishing poetry for fifty years and is a literary institution in New York City's East Village.
+
+[01:26:00 - 01:26:05] 发言人 A:
+   They're also a novelist, an art journalist, and a writer of opera libretti.
+
+[01:30:18 - 01:30:26] 发言人 A:
+   If you look up the words "hip" or "cool" in my imaginary illustrated dictionary, you will find a headshot of Eileen Miles.
+
+[01:34:47 - 01:34:49] 发言人 A:
+   I spoke with them in twenty seventeen.
+
+[01:39:13 - 01:39:25] 发言人 A:
+  You moved to New York City in nineteen seventy four to be a poet, and you said that all of your life people have asked you what you do, and you say that you are a poet, and they just kind of look at you like you said you are a stripper.
+
+[01:44:01 - 01:44:03] 发言人 A:
+   Still, no, they look at you like you said you were a mime.
+
+[01:48:41 - 01:48:45] 发言人 A:
+   It would be cool if they looked at you if you were they thought you were a stripper.
+
+[01:53:28 - 01:53:30] 发言人 A:
+   They just thought, why.
+
+[01:58:14 - 01:58:17] 发言人 A:
+  Why I mean, I just like what does that person do?
+
+[02:03:04 - 02:03:12] 发言人 A:
+   I mean, even you know, earlier today I had a conversation with somebody, and there was somebody taking pictures, and then he was like, "What do you do all day?"
+
+[02:08:06 - 02:08:09] 发言人 A:
+   I just thought that's so strange.
+
+[02:13:06 - 02:13:07] 发言人 A:
+   Well, what do you do all day?
+
+[02:18:06 - 02:18:09] 发言人 A:
+   You know, part of what's interesting about being a poet is that.
+
+[02:23:11 - 02:23:17] 发言人 A:
+  Nobody knows, you know, that it's sort of like what people don't get is that it's almost like you are like a professional human.
+
+[02:28:26 - 02:28:26] 发言人 A:
+   In what way?
+
+[02:33:36 - 02:33:36] 发言人 A:
+   What do you mean?
+
+[02:38:46 - 02:38:49] 发言人 A:
+   You know, I mean in the same way that there are like epic poems, right?
+
+[02:44:01 - 02:44:11] 发言人 A:
+   And there would be a hero, but really the hero of the epic poem was the poet, the one who wrote the story, you know, who gave mind to the saga kind of.
+
+[02:49:34 - 02:49:44] 发言人 A:
+   And I think that you are still that person, you know, except that the saga is kind of a day, is kind of a postmodern day, and you are sort of in it, kind of telling.
+
+[02:55:16 - 02:55:24] 发言人 A:
+  Telling the story of it, you know, and it doesn't have to be a linear story, but you are just kind of saying what's I am making a mime gesture.
+
+[03:01:04 - 03:01:06] 发言人 A:
+   You are kind of saying what's here.
+
+[03:06:48 - 03:06:57] 发言人 A:
+   You are, yeah, yeah, and I think that's like a very ordinary but like very necessary and sort of completely surreal and phenomenal job, and yet I think that is the job of the poet.
+
+[03:12:50 - 03:13:01] 发言人 A:
+   You've written about how you walked into the Viselka Cafe in October of nineteen seventy five and met the late New York poet Paul Violi, who invited you to a workshop at St.
+
+[03:19:05 - 03:19:09] 发言人 A:
+   Mark's Church, and you went and wrote this about the experience.
+
+[03:25:16 - 03:25:20] 发言人 A:
+   Suddenly, the rest of my history came out of that accidental moment.
+
+[03:31:32 - 03:31:36] 发言人 A:
+   I met Allen Ginsberg and I thought I must be in the right place.
+
+[03:37:52 - 03:37:59] 发言人 A:
+   Every situation spawns another one, and those were the ones that I had the lives I had.
+
+[03:44:22 - 03:44:25] 发言人 A:
+   What do you think your life would have been like if you hadn't met Paul?
+
+[03:50:52 - 03:51:03] 发言人 A:
+  I mean, I so much wrote my novel *Inferno* to say what it was like to be a female coming into New York as a poet in the seventies, you know, because every dude had some book you should read.
+
+[03:57:40 - 03:57:48] 发言人 A:
+   I mean, to quote the art critic Peter Scheldahl, he said, I think he was talking about art in the eighties, and he said there was no top of the heap, there were just a lot of little heaps on the top.
+
+[04:04:35 - 04:04:38] 发言人 A:
+   And that's how the poetry world sort of always was and was then.
+
+[04:11:28 - 04:11:32] 发言人 A:
+   So it was just like it was a question of what other pile I could have wound up in.
+
+[04:18:26 - 04:18:32] 发言人 A:
+   But Paul was my guide into all the, you know, like quote other schools of poetry at the time.
+
+[04:25:32 - 04:25:44] 发言人 A:
+   I mean, we didn't consider other, it was like Black Mountain, it was Beat, it was New York School, it was everything that was sort of not the mainstream American canon of literature, you know, so that was the right place.
+
+[04:32:55 - 04:32:59] 发言人 A:
+   And hopefully I would have found it some other way, but Paul was the guide.
+
+[04:40:14 - 04:40:16] 发言人 A:
+   You have said.
+
+[04:47:33 - 04:47:41] 发言人 A:
+  said that you feel funny about being in the New York School and you prefer, I believe you said, the folk folk poet school, right?
+
+[04:55:08 - 04:55:13] 发言人 A:
+   I mean, I just I think I'm just sort of wanting to be a little more, maybe even more vernacular.
+
+[05:02:45 - 05:02:51] 发言人 A:
+   I mean, even the New York School is kind of precious and like we're about art, you know, and I want that to be less true.
+
+[05:10:30 - 05:10:35] 发言人 A:
+  In an interview in the Paris Review, you stated, "I've made myself homeless.
+
+[05:18:19 - 05:18:22] 发言人 A:
+   I've cut myself off from anything I knew prior to living in New York.
+
+[05:26:10 - 05:26:13] 发言人 A:
+   I did this to myself, so I know exactly how it happened."
+
+[05:34:06 - 05:34:10] 发言人 A:
+   Do you think this was a necessary component to you becoming the writer you are now?
+
+[05:42:07 - 05:42:11] 发言人 A:
+  Yeah, yeah, I mean, I think that we're always translating, right?
+
+[05:50:12 - 05:50:22] 发言人 A:
+   You know, and I think again, and I think any of us who come from another class on any level can't stay home and do, you know, or make you have to take what you have someplace else.
+
+[05:58:33 - 05:58:34] 发言人 A:
+   I mean.
+
+[06:02:39 - 06:02:48] 发言人 A:
+  Even in the poetry world, I've done that with I mean, basically importing male avant-garde styles into kind of a queer or a lesbian world.
+
+[06:07:02 - 06:07:11] 发言人 A:
+   So that I feel like I've operated a lot like a translator of styles and realities, or even bringing a lesbian reality into you know the poetry world.
+
+[06:11:35 - 06:11:42] 发言人 A:
+   I think between me and Jill Soloway, we've brought more lesbian content into the mainstream than there's been in a while.
+
+[06:16:14 - 06:16:19] 发言人 A:
+   Jill Soloway, of course, the creator of the television show Transparent.
+
+[06:20:56 - 06:20:57] 发言人 A:
+   Right.
+
+[06:25:34 - 06:25:36] 发言人 A:
+   Let's talk for a few minutes about Allen Ginsberg.
+
+[06:30:16 - 06:30:31] 发言人 A:
+   You've written quite a bit about his epic poem Howl and have stated that these are some of your favorite lines: "Who lit cigarettes in boxcars, boxcars, boxcars, racketing through snow toward lonesome farms in grandfather night. "
+
+[06:35:27 - 06:35:29] 发言人 A:
+   What is it about those lines that move you so much?
+
+[06:40:26 - 06:40:29] 发言人 A:
+   Well, it's really the boxcars, boxcars, boxcars, you know.
+
+[06:45:30 - 06:45:31] 发言人 A:
+   I love the way you say that boxcars.
+
+[06:50:34 - 06:50:34] 发言人 A:
+   Awesome.
+
+[06:55:38 - 06:55:38] 发言人 A:
+   Why thank you.
+
+[07:00:42 - 07:00:44] 发言人 A:
+   I mean, it's just the metonymy.
+
+[07:05:50 - 07:05:52] 发言人 A:
+  Of poetry, and I think he was.
+
+[07:10:59 - 07:11:08] 发言人 A:
+   I mean, he was a poet very influenced by film, by TV, by the media, and he used the kind of ancient incantatory way of poetry.
+
+[07:16:25 - 07:16:32] 发言人 A:
+   And of course, it just it does the movement of the train across America, plus it carries the part that people don't talk about.
+
+[07:21:56 - 07:22:00] 发言人 A:
+   I think with Howl, as far as I know, is they don't talk about its relationship to the Holocaust.
+
+[07:27:29 - 07:27:33] 发言人 A:
+   You know, those boxcars are carrying lots of Jews to the camps.
+
+[07:33:06 - 07:33:11] 发言人 A:
+   I can't imagine being a Jew in America in the fifties and not thinking about that.
+
+[07:38:51 - 07:38:57] 发言人 A:
+  You stated that Ginsberg was the first poet to send out press releases and that he knew all about marketing and media.
+
+[07:44:44 - 07:44:46] 发言人 A:
+   Did that influence you in any way?
+
+[07:50:34 - 07:50:39] 发言人 A:
+   Yeah, absolutely, because I think he believed that if you have an important message, you've got to get it out.
+
+[07:56:32 - 07:56:34] 发言人 A:
+   Walt Whitman believed that too.
+
+[08:02:29 - 08:02:38] 发言人 A:
+   Patti Smith believed, I mean, that's part of what I loved and felt and saw about Patti, that trembling thing where, you know, like I'm full of this thing and I've got to get it out, you know.
+
+[08:08:43 - 08:08:47] 发言人 A:
+   You published your first book of poetry on a mimeograph machine in 1978.
+
+[08:14:56 - 08:14:59] 发言人 A:
+   Where did you make it?
+
+[08:21:10 - 08:21:12] 发言人 A:
+   How did you distribute it?
+
+[08:27:24 - 08:27:25] 发言人 A:
+   Where is it now?
+
+[08:33:39 - 08:33:40] 发言人 A:
+   Where can we find it?
+
+[08:39:54 - 08:39:58] 发言人 A:
+   Probably, let's see, I wonder, some college libraries have it.
+
+[08:46:16 - 08:46:19] 发言人 A:
+   I don't know which ones, you know, they all have special collections.
+
+[08:52:41 - 08:52:49] 发言人 A:
+   And I'm probably, I'm kind of in the archival moment, so I probably will be sending all of my crap to some college library soon.
+
+[08:59:18 - 08:59:20] 发言人 A:
+   But it was that mimeo machine at St.
+
+[09:05:52 - 09:05:53] 发言人 A:
+   Mark's Church.
+
+[09:12:26 - 09:12:31] 发言人 A:
+   A poet named Jim Brodey, who was like, you know, second, third generation New York School, had a press.
+
+[09:19:10 - 09:19:11] 发言人 A:
+  Think it was called Jim Brody Books.
+
+[09:25:52 - 09:25:53] 发言人 A:
+   You know, he's like, "Why don't you have a book?"
+
+[09:32:35 - 09:32:36] 发言人 A:
+   And I don't know why you should have a book.
+
+[09:39:19 - 09:39:33] 发言人 A:
+   And he ran and there was supposed to be two hundred copies, but somehow we ran out of paper at one hundred and sixty, and then he just kind of handed them to me, and then I just you know mailed them out and had a book party and did everything you knew to do at that time.
+
+[09:46:30 - 09:46:31] 发言人 A:
+   Did you design the cover?
+
+[09:53:30 - 09:53:36] 发言人 A:
+  No, and I was really I mean, my first couple of books were designed by other people, and I was very unhappy with the results.
+
+[10:00:41 - 10:00:44] 发言人 A:
+   And I've been like a pit bull ever since about that.
+
+[10:07:52 - 10:07:58] 发言人 A:
+   I saw you did the lettering on both of your new releases, your re-releases, yes, but we'll talk about that in a little while.
+
+[10:15:13 - 10:15:17] 发言人 A:
+   You gave your first reading at CBGB's on the Bowery in New York City.
+
+[10:22:36 - 10:22:37] 发言人 A:
+   What was that like?
+
+[10:29:57 - 10:29:58] 发言人 A:
+   What did you read?
+
+[10:37:19 - 10:37:30] 发言人 A:
+   You know, I can't I mean, I can sort of remember ish what poems I you know, it was whatever the whatever little pile of poems I regarded as my poems at that time.
+
+[10:45:01 - 10:45:03] 发言人 A:
+   And you know, and it was just this thing.
+
+[10:52:37 - 10:52:45] 发言人 A:
+   It was like the language of poetry is like you there are open mics, and then if they're if you're any good, they were like, would you like to do a feature?
+
+[11:00:26 - 11:00:30] 发言人 A:
+   You know, and then you get to read 10 minutes or a half hour or whatever the thing is.
+
+[11:08:16 - 11:08:23] 发言人 A:
+   I just remember this very intense spotlight and sitting alone on stage and feeling like there was nothing outside of that light and being so scared.
+
+[11:16:17 - 11:16:21] 发言人 A:
+   And then afterwards feeling like that was one of the greatest feelings in the world.
+
+[11:24:19 - 11:24:20] 发言人 A:
+  What do you think of your early work?
+
+[11:32:20 - 11:32:24] 发言人 A:
+   Do you look back on it and feel nostalgic, proud, horrified?
+
+[11:40:28 - 11:40:31] 发言人 A:
+   Nostalgic and proud, not ever horrified.
+
+[11:48:38 - 11:48:40] 发言人 A:
+   I feel like I know what I meant and I knew.
+
+[11:56:49 - 11:56:57] 发言人 A:
+   Like I'll read a poem now or a little piece from Chelsea Girls and I'll just notice how there's a whole novel in that short piece.
+
+[12:05:13 - 12:05:18] 发言人 A:
+   Like, I mean, I think it's in the DNA of everything you write is everything else you're ever going to write.
+
+[12:13:39 - 12:13:40] 发言人 A:
+   Really?
+
+[12:22:01 - 12:22:02] 发言人 A:
+   I think so.
+
+[12:30:25 - 12:30:30] 发言人 A:
+   I always have a hard time looking back on things that I've done and maybe it's because they're just not finished.
+
+[12:38:57 - 12:38:58] 发言人 A:
+   Yeah, you don't know.
+
+[12:47:26 - 12:47:28] 发言人 A:
+   I mean, I think when you're younger you don't know what editing means.
+
+[12:55:59 - 12:56:00] 发言人 A:
+   That's true.
+
+[13:04:31 - 13:04:32] 发言人 A:
+   You know.
+
+[13:13:04 - 13:13:11] 发言人 A:
+   In 1994 you published your first collection of short stories, Chelsea Girls, and last year HarperCollins reprinted it.
+
+[13:21:51 - 13:21:57] 发言人 A:
+   Paris Review described Chelsea Girls as a nonfiction novel or fictional nonfiction.
+
+[13:30:45 - 13:30:49] 发言人 A:
+   You've described it as a series of short autobiographical films.
+
+[13:39:41 - 13:39:43] 发言人 A:
+   Is the book fully autobiographical?
+
+[13:48:37 - 13:48:39] 发言人 A:
+   Well, I don't know what fully means.
+
+[13:57:35 - 13:57:36] 发言人 A:
+   You know, I mean, I think.
+
+[14:06:34 - 14:06:40] 发言人 A:
+  I mean, I just feel like once you put pen to paper or start typing in whatever format, on some level you're lying.
+
+[14:15:45 - 14:15:47] 发言人 A:
+   You know, I mean, I think in what way?
+
+[14:24:53 - 14:24:56] 发言人 A:
+   Well, I just think that it isn't the thing; it's a symbol of the thing.
+
+[14:34:06 - 14:34:13] 发言人 A:
+   You know, the way language is simply symbolic, so you're reducing and expanding and distorting and translating right away.
+
+[14:43:29 - 14:43:33] 发言人 A:
+   The act of writing is a translation and even a form of blindness.
+
+[14:52:53 - 14:52:54] 发言人 A:
+   You know, would you?
+
+[15:02:15 - 15:02:18] 发言人 A:
+  Would you consider reading one of your poems from "I Must Be Living Twice"?
+
+[15:11:42 - 15:11:43] 发言人 A:
+   Yes, I would consider that. "
+
+[15:21:10 - 15:21:11] 发言人 A:
+  Rampant Muse" is that?
+
+[15:30:39 - 15:30:40] 发言人 A:
+   Yes, okay, cool.
+
+[15:40:10 - 15:40:11] 发言人 A:
+   I love that poem.
+
+[15:49:41 - 15:49:43] 发言人 A:
+   It's like a little bit about Robert Creeley.
+
+[15:59:15 - 15:59:16] 发言人 A:
+   Do you know that?
+
+[16:08:49 - 16:08:50] 发言人 A:
+   I did not know that.
+
+[16:18:24 - 16:18:28] 发言人 A:
+   He's got a very famous book of poems called "For Love," and it's.
+
+[16:28:05 - 16:28:06] 发言人 A:
+  And it's really good.
+
+[16:37:44 - 16:37:45] 发言人 A:
+   It's really great.
+
+[16:47:25 - 16:47:28] 发言人 A:
+   And so there was a little bit of, and we're friends, or we were friends.
+
+[16:57:13 - 16:57:20] 发言人 A:
+   Also, somebody, some place around that time said, "Da da da da da," unless you are a rampant lesbian.
+
+[17:07:11 - 17:07:13] 发言人 A:
+   And I said, "And I am.
+
+[17:17:06 - 17:17:08] 发言人 A:
+   How do you become a rampant lesbian?"
+
+[17:27:04 - 17:27:05] 发言人 A:
+   I know, I know.
+
+[17:37:02 - 17:37:04] 发言人 A:
+   I was like, "Of course I am a rampant."
+
+[17:47:02 - 17:47:06] 发言人 A:
+   What are the kind of, and so my rampant muse for her.
+
+[17:57:10 - 17:57:16] 发言人 A:
+  Tuesday night, reading for love on my bed, or writing for love poem is wishing when I stop waiting.
+
+[18:07:26 - 18:07:28] 发言人 A:
+   One thousand times I've read and wrote for love.
+
+[18:17:41 - 18:17:44] 发言人 A:
+   Wear my sneakers, drink my bourbon, be twenty-eight in spite of me.
+
+[18:28:01 - 18:28:03] 发言人 A:
+   In mirrors, Christ, I look fucking old.
+
+[18:38:22 - 18:38:23] 发言人 A:
+   What does the evening mean?
+
+[18:48:44 - 18:48:49] 发言人 A:
+   I could fall for lamplight, radio song, the oval-shaped frame of which he was particularly fond.
+
+[18:59:16 - 18:59:18] 发言人 A:
+   For love, I would dream when my schemes fall through.
+
+[19:09:49 - 19:09:50] 发言人 A:
+  Man, could that little girl dance!
+
+[19:20:22 - 19:20:29] 发言人 A:
+   For love, I will read it ten thousand times for my tomboy cousin Jean Marie, for radio song, for love I would not pity me.
+
+[19:31:08 - 19:31:13] 发言人 A:
+   My twenty-eight sneakers, bourbon, the unseen future of my communications and the lamplight.
+
+[19:41:58 - 19:42:01] 发言人 A:
+   Her, she holds me here so rampantly in her evening beauty.
+
+[19:52:50 - 19:53:01] 发言人 A:
+  That was Eileen Miles in twenty seventeen reading the poem from my rampant muse for her from the book I must be living twice new and selected poems.
+
+[20:04:03 - 20:04:12] 发言人 A:
+   Elizabeth Alexander is a celebrated poet as well as an essayist, memoirist, playwright, philanthropist and academic, in two thousand.
+
+[20:15:23 - 20:15:29] 发言人 A:
+  In two thousand nine, she read a poem she wrote for President Barack Obama at his first inauguration.
+
+[20:26:46 - 20:26:49] 发言人 A:
+   I spoke with her in twenty seventeen.
+
+[20:38:09 - 20:38:11] 发言人 A:
+   Now I understand you also studied ballet.
+
+[20:49:34 - 20:49:35] 发言人 A:
+   I did.
+
+[21:00:59 - 21:01:20] 发言人 A:
+   So we must speak now of Adele, my mother, Adele Logan Alexander, who insisted that I take ballet and every time I wanted to quit, she had this amazing way, which I have not been able to master with my children, who squandered all their talents, to you know, kind of keep me going to whatever the thing was that she thought that I should be doing.
+
+[21:13:05 - 21:13:21] 发言人 A:
+   And there was a moment where it clicked in and I am so glad that she did because once I got good enough to be able to really dance, you know, you repeat and you repeat and you repeat and you practice and you do the same things over and over and over again.
+
+[21:25:22 - 21:25:29] 发言人 A:
+   But eventually you can put it together and make something beautiful and understand it as an expressive art.
+
+[21:37:37 - 21:37:38] 发言人 A:
+   Sort of like life.
+
+[21:49:47 - 21:49:47] 发言人 A:
+   Sort of like life.
+
+[22:01:58 - 22:02:04] 发言人 A:
+  Exactly, so it was my my serious thing, ballet and then modern dance that I did outside of school.
+
+[22:14:21 - 22:14:21] 发言人 A:
+   Um, it was.
+
+[22:22:33 - 22:22:36] 发言人 A:
+  But I loved very, very much, and I was very good at it.
+
+[22:30:52 - 22:30:58] 发言人 A:
+   But being very good at it did not mean being good enough at it to do it, you know.
+
+[22:39:21 - 22:39:28] 发言人 A:
+   So to see that you can devote yourself so thoroughly to something and love something so thoroughly, but what does it mean to really be an artist?
+
+[22:47:57 - 22:47:59] 发言人 A:
+   It's serious business.
+
+[22:56:30 - 22:56:43] 发言人 A:
+   So just because it's fun and just because you go six days a week, that is both separate from the true talent factor and also the X factor that makes you insanely want to keep doing it above all other things.
+
+[23:05:27 - 23:05:36] 发言人 A:
+  Do you think that discipline that you were able to cultivate as a ballet dancer is something that has impacted how you approach your writing?
+
+[23:14:29 - 23:14:31] 发言人 A:
+   It has impacted how I approach every single thing I do.
+
+[23:23:28 - 23:23:48] 发言人 A:
+   Finding a discipline, discipline is discipline is discipline, and understanding that you know you don't get the immediate payback necessarily, and also that just because you've you know got a little flair with a certain shape of poem or turn of phrase or effect, you have to resist.
+
+[23:33:06 - 23:33:10] 发言人 A:
+  Defaulting to that, you have to become well-rounded in your discipline.
+
+[23:42:32 - 23:42:39] 发言人 A:
+   You know, you can be a kicker and not a good jumper, but you've got to learn to be a better jumper.
+
+[23:52:09 - 23:52:16] 发言人 A:
+   You were educated at Sidwell Friends School, the same school that Barack Obama's daughters are now attending in Washington, D.
+
+[24:01:52 - 24:01:53] 发言人 A:
+  C.
+
+[24:11:30 - 24:11:35] 发言人 A:
+   Did it surprise you that Sasha Obama missed her father's farewell speech because she was studying for a test?
+
+[24:21:18 - 24:21:22] 发言人 A:
+  Well, I mean, let me tell you, you know, that is a very serious family.
+
+[24:31:05 - 24:31:06] 发言人 A:
+   Well.
+
+[24:40:53 - 24:41:16] 发言人 A:
+   And if you look at, I mean, if we really think for a minute about what it means to come with grace and integrity as young girls through those eight years, and to parent with grace and integrity under those circumstances, it is really something to behold.
+
+[24:51:27 - 24:51:36] 发言人 A:
+  In your two thousand five book of poetry American Sublime, you wrote a poem titled Tina Green, and I am wondering if you could read that for us.
+
+[25:01:57 - 25:01:58] 发言人 A:
+   I would be happy to read it.
+
+[25:12:20 - 25:12:25] 发言人 A:
+   If you can tell us a little bit about the poem, I was wondering if it was autobiographical.
+
+[25:22:53 - 25:23:14] 发言人 A:
+   Yes, well, it is so, and you know, of course, when a poem is autobiographical, I think sometimes I get a little, you know, hackles up because I want to say like, and it's crafted too, and there are always moments of poetic license, and sometimes I almost remember it like I wrote it rather than as it happened, which is sort of an interesting thing.
+
+[25:34:03 - 25:34:05] 发言人 A:
+   The memory is so fluid.
+
+[25:44:56 - 25:45:03] 发言人 A:
+   Yeah, and I believe poems more than any, I believe anything actually really, or once I've made something, I believe it.
+
+[25:56:03 - 25:56:06] 发言人 A:
+  More than what happened, yes, because it's fixed, perhaps maybe.
+
+[26:07:10 - 26:07:12] 发言人 A:
+   But I was at a different school at the time.
+
+[26:18:18 - 26:18:26] 发言人 A:
+   The story behind here, the speaker attended the Georgetown Day School, that was my happy school, that was a very kind of free, wonderful hippie school.
+
+[26:29:41 - 26:29:46] 发言人 A:
+   It was a beautiful place, and this is a story about the only black teacher I had.
+
+[26:41:07 - 26:41:08] 发言人 A:
+   So it's called Tina Green.
+
+[26:52:32 - 26:52:43] 发言人 A:
+  Small story, hair story, Afro-American story, only black girl in my class story, pre-adolescent story, black teacher story.
+
+[27:04:19 - 27:04:22] 发言人 A:
+   Take your hair out, they beg on the playground.
+
+[27:16:01 - 27:16:05] 发言人 A:
+   The cool girls, the straight and shiny hair girls, the girls who can run.
+
+[27:27:51 - 27:27:53] 发言人 A:
+  Take your hair out, they say it is Washington hot.
+
+[27:39:42 - 27:40:05] 发言人 A:
+   We are running, I do, and it swells, snatches up at the nape, levitates woolly universe, nodding fleece zeppelin run, so I do into school to the only black teacher I'll have until college, the only black teacher I've had to that point, the only black teacher to teach at that school full of white people who tell the truth I love.
+
+[27:52:17 - 27:52:31] 发言人 A:
+  The teacher I love, whose name I love, whose hair I love, takes me in the teacher's bathroom and wordlessly fixes my hair, perfectly, wordlessly fixes my hair into three tight plaits.
+
+[28:04:59 - 28:05:00] 发言人 A:
+   Stunning.
+
+[28:17:29 - 28:17:30] 发言人 A:
+   Thank you.
+
+[28:30:00 - 28:30:05] 发言人 A:
+   The emotion in that poem is so universal.
+
+[28:42:40 - 28:42:42] 发言人 A:
+  And yet, so personal.
+
+[28:55:19 - 28:55:27] 发言人 A:
+   How do you create that kind of connectivity between the personal and the universal?
+
+[29:08:12 - 29:08:23] 发言人 A:
+   You know, in general, I mean, my quick answer is that art that speaks to any of us always comes from a very particular place, and then we find ourselves in it in some kind of way.
+
+[29:21:20 - 29:21:22] 发言人 A:
+   You know, this is fifth grade when we're ten years old.
+
+[29:34:22 - 29:34:29] 发言人 A:
+   We do and don't experience ourselves as people with races in raced bodies, to use the theoretical language.
+
+[29:47:37 - 29:47:43] 发言人 A:
+   You know, I always you know knew I was a black person, but I did not think about it twenty four hours a day.
+
+[30:00:56 - 30:00:59] 发言人 A:
+   I don't think any of us thinks of our race twenty four hours a day.
+
+[30:14:16 - 30:14:23] 发言人 A:
+   You know, Zora Neale Hurston famously and beautifully said, "I feel most black when I am thrown against a stark white background."
+
+[30:27:48 - 30:27:52] 发言人 A:
+   So sometimes understanding us as people with races is a relative thing.
+
+[30:41:21 - 30:41:27] 发言人 A:
+   So I think that everybody, not just people of color, have in them a lot of really interesting, perhaps.
+
+[30:55:03 - 30:55:10] 发言人 A:
+  Unplumbed experiences of understanding yourself in an identity, and in a racial identity.
+
+[31:08:54 - 31:09:00] 发言人 A:
+  You went to Boston University to get your master's degree at the urging of Adele Alexander, your mother.
+
+[31:22:50 - 31:22:52] 发言人 A:
+   Yes, can you tell us why?
+
+[31:36:44 - 31:36:46] 发言人 A:
+   So I was working as a journalist beforehand.
+
+[31:50:41 - 31:50:44] 发言人 A:
+   I was a newspaper gal, Washington Post, Washington Post.
+
+[32:04:42 - 32:04:47] 发言人 A:
+   Yep, both before the summer before I graduated from college and then the year afterwards.
+
+[32:18:51 - 32:18:54] 发言人 A:
+   And it was a very, very interesting job.
+
+[32:33:00 - 32:33:03] 发言人 A:
+   It was fast-paced, people were smart, interesting.
+
+[32:47:12 - 32:47:17] 发言人 A:
+   I liked being sent out into my own city to explore.
+
+[33:01:31 - 33:01:39] 发言人 A:
+   I liked being sent to corners and people who I wouldn't have found on my own and having a reason to ask them about their lives.
+
+[33:16:02 - 33:16:05] 发言人 A:
+   But I was aware that I really did want to do a different kind of writing.
+
+[33:30:32 - 33:30:39] 发言人 A:
+   I learned how to master the form of what a news story looks like and how to have, you know, paragraphs towards the end that could be lopped off.
+
+[33:45:14 - 33:45:22] 发言人 A:
+   But I wanted to surrender to that alchemical process that happens when you make something and don't.
+
+[34:00:05 - 34:00:09] 发言人 A:
+  Don't just record something, and I could feel myself literally.
+
+[34:14:55 - 34:14:56] 发言人 A:
+   It was like a shoreline.
+
+[34:29:44 - 34:29:53] 发言人 A:
+   I could feel myself like wanting to step over, into embellishment, into something else, and I knew that that was not sustainable.
+
+[34:44:49 - 34:44:55] 发言人 A:
+   And I feared I would make a mistake, and I wouldn't know I'd made a mistake.
+
+[34:59:57 - 35:00:01] 发言人 A:
+  I mean, again, this is like believing the things that I write more than how they happened.
+
+[35:15:04 - 35:15:04] 发言人 A:
+   I mean.
+
+[35:30:11 - 35:30:23] 发言人 A:
+   So, I was talking about this, that, and the other, and it was my mother who, and it's fitting that we should speak of it now because the great poet Derek Walcott has just passed away, and he was my teacher and my mentor.
+
+[35:45:42 - 35:45:48] 发言人 A:
+   My mother said, "I saw that that poet whose work you love teaches at Boston University.
+
+[36:01:14 - 36:01:15] 发言人 A:
+   Why don't you just apply to that program?"
+
+[36:16:43 - 36:16:46] 发言人 A:
+   And I had sworn when I graduated from college that I was done with school.
+
+[36:32:17 - 36:32:18] 发言人 A:
+   I wasn't going to go to school anymore.
+
+[36:47:50 - 36:47:52] 发言人 A:
+   Done, done, done, done, done.
+
+[37:03:26 - 37:03:30] 发言人 A:
+   And you know, she knowing me very well, she said, "Oh, you won't get in."
+
+[37:19:11 - 37:19:12] 发言人 A:
+  He's a wicked gauntlet.
+
+[37:34:54 - 37:34:58] 发言人 A:
+   I know, you know, just if you don't get in, then you know you can just stay at that job.
+
+[37:50:44 - 37:50:45] 发言人 A:
+   Fine, you know.
+
+[38:06:32 - 38:06:34] 发言人 A:
+   So I applied and I applied.
+
+[38:22:24 - 38:22:26] 发言人 A:
+   I had short stories which I'd written in college.
+
+[38:38:18 - 38:38:22] 发言人 A:
+   I applied to the fiction program, but I went to study with Walcott and.
+
+[38:54:19 - 38:54:20] 发言人 A:
+  And that changed everything.
+
+[39:10:18 - 39:10:29] 发言人 A:
+   You went to Yale University for your undergraduate degree, and I understand that you studied with John Hershey in your senior year, who you've credited with helping you find your fictive voice.
+
+[39:26:39 - 39:26:49] 发言人 A:
+   But when you got to Boston University, I understand that Derek Walcott looked at your diary and saw your potential as a poet.
+
+[39:43:08 - 39:43:10] 发言人 A:
+   How did he see your diary?
+
+[39:59:31 - 39:59:33] 发言人 A:
+   Because I showed it to him.
+
+[40:11:50 - 40:11:51] 发言人 A:
+  That's pretty brave.
+
+[40:24:10 - 40:24:13] 发言人 A:
+   Well, I mean, again, you know, I knew I was admitted.
+
+[40:36:34 - 40:36:44] 发言人 A:
+   They had tracks, so I was admitted into the fiction track, but I knew that this great poet whose work I read not in school but just on my own was why I was there.
+
+[40:49:16 - 40:49:20] 发言人 A:
+   So I went to his office, and all I knew I couldn't show him stories.
+
+[41:01:55 - 41:02:03] 发言人 A:
+   And I had, it was a diary, and in it I had what I called at the time, it's a phrase that Garrett Hongo uses, word clouds.
+
+[41:14:47 - 41:14:49] 发言人 A:
+   They were just, you know, word stuff.
+
+[41:27:36 - 41:27:38] 发言人 A:
+   And it was what I had to show.
+
+[41:40:27 - 41:40:29] 发言人 A:
+   I had to show him something.
+
+[41:53:20 - 41:53:26] 发言人 A:
+   And so he had a legal pad and he thumbed through and he said, okay, well here's this.
+
+[42:06:25 - 42:06:28] 发言人 A:
+   And then he wrote it out with line breaks and he said, see?
+
+[42:19:30 - 42:19:35] 发言人 A:
+  You're writing poems, but you don't know how to break lines, but that's what makes it a poem.
+
+[42:32:43 - 42:32:51] 发言人 A:
+   He was very kind when he said that, and then he said, "Okay, go, go write some poems and don't come back until you have some to show me."
+
+[42:46:07 - 42:46:09] 发言人 A:
+   You said that he gave you a huge gift.
+
+[42:59:28 - 42:59:31] 发言人 A:
+   He took that cluster of words and he lineated it.
+
+[43:12:52 - 43:12:53] 发言人 A:
+   Yes.
+
+[43:26:15 - 43:26:16] 发言人 A:
+   How do you think he saw that?
+
+[43:39:40 - 43:39:48] 发言人 A:
+   You know, one of the things that he used to say was, "The poem will find its shape, the line will find itself."
+
+[43:53:20 - 43:53:32] 发言人 A:
+   So he would say, "Just start writing and you will see what the natural shape of this poem is," which was very mystifying to me when I first heard it, but I find it to be always absolutely true.
+
+[44:07:18 - 44:07:20] 发言人 A:
+   You know, that you, and that doesn't mean you can't play around.
+
+[44:21:08 - 44:21:11] 发言人 A:
+   You think it's a long-lined poem, you try it that way, but maybe you nip it back.
+
+[44:35:03 - 44:35:06] 发言人 A:
+   But you start to catch a rhythm.
+
+[44:49:01 - 44:49:07] 发言人 A:
+  And you start to sort of say, "Okay, this is the amount," and then you say, "All right, let me in this next line, let me follow that amount."
+
+[45:03:09 - 45:03:12] 发言人 A:
+   Hmm, okay, let's see what about that.
+
+[45:17:17 - 45:17:18] 发言人 A:
+   So is it a negotiation?
+
+[45:31:25 - 45:31:26] 发言人 A:
+   It's a calibration.
+
+[45:45:35 - 45:45:41] 发言人 A:
+   I mean, that process sometimes takes a very long time, but then you've got sort of a mass, and then you can put your hands in the clay.
+
+[45:59:57 - 46:00:00] 发言人 A:
+  I'd like to ask you to read a poem from this period.
+
+[46:14:18 - 46:14:25] 发言人 A:
+   It is from your first book of poems, "The Venus Hottentot," published in nineteen ninety, and the poem is called "Boston."
+
+[46:28:51 - 46:28:54] 发言人 A:
+   Can you tell us a little bit about it before you share it with us?
+
+[46:43:24 - 46:43:30] 发言人 A:
+   So that was in it was a one year master's program and Boston and Cambridge changed a lot.
+
+[46:58:05 - 46:58:07] 发言人 A:
+   This was nineteen eighty five.
+
+[47:12:44 - 47:12:51] 发言人 A:
+   It was still coming out of the period in its history where it had such racial strife around busing.
+
+[47:27:36 - 47:27:40] 发言人 A:
+   It was not a very well desegregated town.
+
+[47:42:29 - 47:42:36] 发言人 A:
+   There were the remnants of that, and it was also a place where I had a hard time finding my community.
+
+[47:57:34 - 47:57:35] 发言人 A:
+  So Boston year.
+
+[48:12:36 - 48:12:45] 发言人 A:
+   My first week in Cambridge, a car full of white boys tried to run me off the road, and spit through the window, open to ask directions.
+
+[48:27:56 - 48:28:13] 发言人 A:
+   I was always asking directions and always driving, to an Armenian market in Watertown to buy figs and string cheese, apricots, dark spices and olives from barrels, tubes of pastes with unreadable Arabic labels.
+
+[48:43:41 - 48:43:45] 发言人 A:
+  I ate stuffed grape leaves and watched my lips swell in the mirror.
+
+[48:59:17 - 48:59:20] 发言人 A:
+   The floors of my apartment would never come clean.
+
+[49:14:56 - 49:15:06] 发言人 A:
+   Whenever I saw other colored people in bookshops or museums or cafeterias, I'd gasp, smile shyly, but they'd disappear before I spoke.
+
+[49:30:54 - 49:30:56] 发言人 A:
+   What would I have said to them?
+
+[49:46:46 - 49:46:49] 发言人 A:
+   Come with me, take me home, are you my mother?
+
+[50:02:43 - 50:02:50] 发言人 A:
+  No, I sat alone in countless Chinese restaurants eating almond cookies, sipping tea with spoons and spoons of sugar.
+
+[50:18:52 - 50:18:54] 发言人 A:
+   Popcorn and coffee was dinner.
+
+[50:34:59 - 50:35:05] 发言人 A:
+   When I fainted from migraine in the grocery store, a Portuguese man above me mouthed no breakfast.
+
+[50:51:16 - 50:51:18] 发言人 A:
+   He gave me orange juice and chocolate bars.
+
+[51:07:32 - 51:07:35] 发言人 A:
+   The color red sprang into relief, singing Wagner's Valkyrie.
+
+[51:23:52 - 51:23:55] 发言人 A:
+   Entire tribes gyrated and drummed in my head.
+
+[51:40:16 - 51:40:26] 发言人 A:
+  I learned the samba from a Brazilian man so tiny, so festooned with glitter, I was certain that he slept inside a filigreed Faberge egg.
+
+[51:56:58 - 51:57:06] 发言人 A:
+   No one at the door, no salesmen, Mormons, meter readers, exterminators, no Harriet Tubman, no one.
+
+[52:13:46 - 52:13:50] 发言人 A:
+   Red notes sounding in a gray trolley town.
+
+[52:30:37 - 52:30:38] 发言人 A:
+  Thank you.
+
+[52:47:26 - 52:47:29] 发言人 A:
+   Sometimes when I read that, I feel like I should say, "But then it got better."
+
+[53:04:21 - 53:04:21] 发言人 A:
+   Well, let's talk about that.
+
+[53:21:13 - 53:21:16] 发言人 A:
+   Yes, you did.
+
+[53:38:11 - 53:38:18] 发言人 A:
+   You know, but it was a very monastic year, Elizabeth Alexander in twenty seventeen.
+
+[53:55:24 - 53:55:28] 发言人 A:
+  This podcast is brought to you by Wise, the app for using money around the globe.
+
+[54:12:38 - 54:12:42] 发言人 A:
+   With Wise, you can send, spend and receive in over forty currencies.
+
+[54:29:56 - 54:29:58] 发言人 A:
+   No markups, no hidden fees.
+
+[54:47:14 - 54:47:22] 发言人 A:
+   Whether you're sending dollars down under, spending pounds in London, or paying freelancers in pesos, you'll get the mid-market exchange rate on every transaction.
+
+[55:04:47 - 55:04:49] 发言人 A:
+   Plus most transfers arrive in less than twenty seconds.
+
+[55:22:17 - 55:22:17] 发言人 A:
+   Join.
+
+[55:39:45 - 55:39:47] 发言人 A:
+  Join fifteen million customers internationally.
+
+[55:57:18 - 55:57:19] 发言人 A:
+   Be smart, get wise.
+
+[56:14:52 - 56:14:53] 发言人 A:
+   Download the Wise app today.
+
+[56:32:27 - 56:32:28] 发言人 A:
+   T's and C's apply.
+
+[56:50:05 - 56:50:11] 发言人 A:
+   One of the best parts for me about hosting Reveal, you know your favorite weekly investigative podcast, is the interviews.
+
+[57:07:55 - 57:08:02] 发言人 A:
+   I love to sit down with people and try to gain a perspective that gives me and our listeners a new way of seeing the world.
+
+[57:25:52 - 57:25:56] 发言人 A:
+   Which is why we're launching More to the Story with me, Al Letson.
+
+[57:43:50 - 57:43:56] 发言人 A:
+   It's a place where I can talk to some of the most intriguing people to bring some context to our changing world.
+
+[58:01:57 - 58:02:01] 发言人 A:
+   Follow the Reveal podcast feed and look for More to the Story every Wednesday.
+
+[58:20:07 - 58:20:07] 发言人 A:
+  嗯。
+
+[58:38:18 - 58:38:23] 发言人 A:
+  Sarah Kay is a writer and poet who is also well known for her spoken word poetry.
+
+[58:56:40 - 58:56:46] 发言人 A:
+   When I spoke with Sarah in 2018, I invited her to read a poem to open the episode.
+
+[59:15:09 - 59:15:15] 发言人 A:
+   The universe has already written the poem you are planning on writing.
+
+[59:33:44 - 59:34:07] 发言人 A:
+  And this is why, you can do nothing but point, at the flock of starlings whose bodies rise and fall in inherited choreography, swarming the sky, in a sweeping curtain that for one blistering moment forms the unmistakable shape, of a giant bird flapping against the sky.
+
+[59:52:59 - 59:53:19] 发言人 A:
+  It is why your mouth forms an, oh, that is not a gasp, but rather, the beginning of, oh, of course, as in, of course the heart of a blue whale is as large as a house, with chambers tall enough to fit a person standing.
+
+[60:12:33 - 60:12:47] 发言人 A:
+   Of course a fig, is only possible when a lady wasp lays her eggs inside a flower, dies and decomposes the fruit, evidence of her transformation.
+
+[60:32:14 - 60:32:20] 发言人 A:
+   Sometimes the poem is so bright, your silly language will not stick to it.
+
+[60:51:53 - 60:51:58] 发言人 A:
+   Sometimes the poem is so true, nobody will believe you.
+
+[61:11:37 - 61:11:44] 发言人 A:
+   I am a bird made of birds, my blue heart a house you can stand up inside of.
+
+[61:31:31 - 61:31:32] 发言人 A:
+   I am dying.
+
+[61:51:21 - 61:51:26] 发言人 A:
+  Here, inside this flower, it is okay.
+
+[62:11:20 - 62:11:22] 发言人 A:
+   It is what I was put here to do.
+
+[62:31:18 - 62:31:20] 发言人 A:
+   Take this fruit.
+
+[62:51:19 - 62:51:21] 发言人 A:
+   It is what I have to offer.
+
+[63:11:22 - 63:11:29] 发言人 A:
+   It may not be first or ever best, but it is the only way to be sure I lived at all.
+
+[63:31:39 - 63:31:44] 发言人 A:
+  Sarah, we just had you read a poem as our cold open of the show today.
+
+[63:52:00 - 63:52:01] 发言人 A:
+   Tell us a little bit about what you read.
+
+[64:12:19 - 64:12:30] 发言人 A:
+   So I have a friend named Kava Akbar, who is also my co-author of a column that three of us write for the Paris Review Online.
+
+[64:28:53 - 64:29:05] 发言人 A:
+  And one time, Kava posted this photo that he had found on the internet, which was that scientists had dissected the heart of a blue whale and hung it from the ceiling.
+
+[64:45:40 - 64:45:49] 发言人 A:
+   And when they did that, it's how they figured out that the heart of a blue whale is so big that each chamber of the heart is big enough for a human to stand up inside of.
+
+[65:02:33 - 65:02:42] 发言人 A:
+   And when Kava shared this photo, he shared it with the caption, "This is just a reminder that the universe has already written the poem you were planning on writing."
+
+[65:19:35 - 65:19:39] 发言人 A:
+   And at the time, I was like, "Oh no, I'm out here trying to be original.
+
+[65:36:36 - 65:36:38] 发言人 A:
+   I'm trying to invent new stuff.
+
+[65:53:37 - 65:53:39] 发言人 A:
+   What do you mean the universe has already thought of everything?
+
+[66:10:40 - 66:10:40] 发言人 A:
+   This is terrible."
+
+[66:27:42 - 66:27:44] 发言人 A:
+   And it really got under my skin.
+
+[66:44:48 - 66:45:07] 发言人 A:
+   But then not too long after that, I saw this video that was making the rounds online that maybe you saw, where there are these birds called starlings that fly in big formations called murmurations, and it's like a cloud of birds, and they usually move in amorphous shapes, but someone had happened to catch a video of these birds and all.
+
+[67:02:29 - 67:02:37] 发言人 A:
+  And all at the same time, the birds moved and formed the shape of a starling in the sky.
+
+[67:20:08 - 67:20:09] 发言人 A:
+   Oh, wow, I did not see that.
+
+[67:37:41 - 67:37:47] 发言人 A:
+   When I saw this video, the first thought I had was, "The universe has already written the poem you were planning on writing."
+
+[67:55:25 - 67:55:30] 发言人 A:
+   And for some reason, in that moment, it no longer upset me, and instead, I thought,
+
+[68:13:13 - 68:13:18] 发言人 A:
+  I thought, well, maybe it's not my job to invent something new with each poem.
+
+[68:31:06 - 68:31:17] 发言人 A:
+   Maybe it just means that it's my turn to hold something to the light for a moment and consider it for whatever time I have.
+
+[68:49:17 - 68:49:22] 发言人 A:
+   Do you think that it is still possible, though, to create original art?
+
+[69:07:29 - 69:07:36] 发言人 A:
+  I don't know, and I also think that maybe thinking about it too much prevents me from making any art at all.
+
+[69:25:49 - 69:25:54] 发言人 A:
+   So not to say I don't care, but I try not to worry about it too much.
+
+[69:44:13 - 69:44:30] 发言人 A:
+   I mean, I think it's so interesting that the notes that we use to make music or the letters that we use to make words and then sentences and then paragraphs and stories and poems or the ingredients that we use to make food, they're all pretty fixed at this point.
+
+[70:03:06 - 70:03:11] 发言人 A:
+   You know, not too many people are inventing a new ingredient.
+
+[70:21:52 - 70:21:59] 发言人 A:
+  We're all creating the same things from the same things, and yet there are unique voices, and I do believe that you are one of them.
+
+[70:40:49 - 70:40:49] 发言人 A:
+   Well, thanks.
+
+[70:59:40 - 70:59:50] 发言人 A:
+   I read that when you were, I think, a freshman in high school, you described yourself as a live wire of nervous hormones and underdeveloped and overexcitable.
+
+[71:18:50 - 71:18:51] 发言人 A:
+   Oh, wow.
+
+[71:37:52 - 71:37:54] 发言人 A:
+   Did you experience all of those emotions again?
+
+[71:56:58 - 71:56:59] 发言人 A:
+   Yes, exactly, exactly.
+
+[72:16:03 - 72:16:06] 发言人 A:
+   I love that quote of yours.
+
+[72:35:14 - 72:35:20] 发言人 A:
+   So one afternoon after school, you went over to a friend's house and watched the documentary Slam Nation.
+
+[72:54:34 - 72:54:45] 发言人 A:
+   You said this about watching slam poetry for the first time: I felt my two secret loves, poetry and theater, had come together, had a baby, a baby I needed to get to know.
+
+[73:14:11 - 73:14:13] 发言人 A:
+   So why were these loves secret?
+
+[73:33:42 - 73:33:44] 发言人 A:
+  That's a great question.
+
+[73:53:15 - 73:53:39] 发言人 A:
+   It's different now for sure, but I think the world that I was a thirteen-year-old in was one in which we didn't have YouTube, for starters, and I had never seen anybody that looked anything like me.
+
+[74:13:36 - 74:13:56] 发言人 A:
+  On a stage before, or really on TV, and so the idea of being a performer or an actress or anything that involved being in the spotlight did not appear to be possible or an option.
+
+[74:34:13 - 74:34:19] 发言人 A:
+   And I don't even think I could articulate that; I know I couldn't articulate that then, but I do think that that had something to do with it.
+
+[74:54:42 - 74:54:44] 发言人 A:
+   And so to risk.
+
+[75:15:10 - 75:15:21] 发言人 A:
+  Saying out loud that that was a dream or a possibility seemed just absolutely absurd, and I would have been laughed out of the building.
+
+[75:35:58 - 75:36:04] 发言人 A:
+   I'm sure that was mainly in my head, but it certainly felt that way, and I also didn't know that poetry.
+
+[75:56:48 - 75:56:58] 发言人 A:
+  Could be performed until that moment, and poems at the time were things I wrote in secret in a notebook that nobody ever saw.
+
+[76:17:53 - 76:17:57] 发言人 A:
+   So that's why both theater and poetry felt like secret loves.
+
+[76:38:57 - 76:39:10] 发言人 A:
+   You were writing these poems on your own in your journals, and then out of the blue, you received a letter informing you that someone had registered you for the New York City Teen Poetry Slam.
+
+[77:00:24 - 77:00:27] 发言人 A:
+   To this day, I believe you have no idea who signed you up.
+
+[77:21:43 - 77:21:43] 发言人 A:
+   Correct.
+
+[77:43:01 - 77:43:02] 发言人 A:
+   What did you think?
+
+[78:04:21 - 78:04:26] 发言人 A:
+   I didn't think much other than I love poems.
+
+[78:25:51 - 78:25:54] 发言人 A:
+  It sounds like there will be other kids there who also love poems.
+
+[78:47:23 - 78:47:27] 发言人 A:
+   Oh, I remember vaguely that documentary I saw a little clip of.
+
+[79:09:00 - 79:09:05] 发言人 A:
+   I remember this is a thing, so I guess I could try it one time.
+
+[79:30:44 - 79:30:51] 发言人 A:
+   I think something that doesn't always get included in the narrative of this is that.
+
+[79:52:37 - 79:52:43] 发言人 A:
+  I grew up very close to Ground Zero, and the eleventh of September happened when I was thirteen.
+
+[80:14:35 - 80:14:44] 发言人 A:
+   And in the time period following, all of the adults around me were very busy trying to keep the world from falling apart.
+
+[80:36:46 - 80:36:49] 发言人 A:
+   Your mom had broken her leg, my ankle broken, her ankle.
+
+[80:58:54 - 80:58:57] 发言人 A:
+   My just everyone, teachers, parents, everyone was really.
+
+[81:21:06 - 81:21:07] 发言人 A:
+  Your brother didn't speak for months.
+
+[81:43:17 - 81:43:27] 发言人 A:
+   Yeah, so there was a lot happening, and as a result, I didn't want to burden anyone with whatever my thirteen-year-old thoughts and feelings and worries were.
+
+[82:05:48 - 82:06:02] 发言人 A:
+   And to be thirteen and try to wrap your head around terrorism was really hard for me, and so the only way that I understood it at the time was that someone had tried to.
+
+[82:28:38 - 82:28:49] 发言人 A:
+  Communicate, there is no room for you here, which I understand is a very oversimplified way of reckoning an act of terrorism, but that's what made sense to a thirteen year old.
+
+[82:51:37 - 82:51:51] 发言人 A:
+   And my parents were thrilled that there was something that I was vaguely curious about and wanted to go try, because it meant a little bit of joy in what was otherwise kind of a dark time.
+
+[83:14:53 - 83:14:54] 发言人 A:
+   and
+
+[83:37:57 - 83:38:25] 发言人 A:
+  Then the reason I think that it captured me so tremendously, was that it was the first time, as a fourteen year old girl, that I felt like a room full of people were listening to me and saw me and, I was allowed to talk about these fears and flaws and joys and doubts in a way that I hadn't before, and in some ways, it felt like the whole room was communicating, there is room for you here.
+
+[84:01:57 - 84:02:02] 发言人 A:
+  And I don't think I've ever forgotten that.
+
+[84:25:39 - 84:25:53] 发言人 A:
+   And I think over and over again, anytime I'm in a room where people have come to listen to me speak, I never take for granted what a gift that is and what it means that people communicate to me that there is room for me here.
+
+[84:49:45 - 84:49:54] 发言人 A:
+  I believe that there was a woman that was in the audience that you described as eight feet tall, having a very specific reaction that really encouraged you.
+
+[85:13:55 - 85:13:56] 发言人 A:
+   Can you share that story?
+
+[85:37:58 - 85:38:19] 发言人 A:
+   Yeah, I mean, the first time that I ever got on stage, I shared a poem and I came off, and it was the first time I'd really performed like that in front of anyone, and I was so nervous, and everyone else in the room was older and cooler, but there was one girl who came and found me and tapped me on the shoulder, and when I turned around, she said, "Hey, I really felt that."
+
+[86:02:42 - 86:02:53] 发言人 A:
+  And to know that something that I had made had had an effect on another person, let alone someone so much older and cooler, was like a lightning bolt.
+
+[86:23:23 - 86:23:32] 发言人 A:
+  You mentioned that you grew up in Lower Manhattan near the World Trade Center, and you were thirteen living in New York City on nine eleven where you experienced the tragedy.
+
+[86:44:12 - 86:44:14] 发言人 A:
+   You've written about it quite beautifully.
+
+[87:04:56 - 87:05:10] 发言人 A:
+   You've written quite a heartbreaking and beautiful essay, and you've also written some really extraordinary poetry about some of the terrorism that we've experienced more recently.
+
+[87:26:07 - 87:26:13] 发言人 A:
+   And there is a poem titled "The Places We Are Not," which I am wondering if you might be able to read today.
+
+[87:47:17 - 87:47:17] 发言人 A:
+  Sure.
+
+[88:08:20 - 88:08:21] 发言人 A:
+   Sure.
+
+[88:29:26 - 88:29:30] 发言人 A:
+   A man, plows his truck, through the crowd.
+
+[88:50:41 - 88:50:57] 发言人 A:
+   Celebrating on the Nice boardwalk, where my, once love, once insisted, that we could make it all the way through a triple layer chocolate mousse, until we were both so full, we could not even bear to lick our spoons.
+
+[89:12:26 - 89:12:29] 发言人 A:
+  I text a friend, "Where are you?"
+
+[89:34:01 - 89:34:08] 发言人 A:
+   Which is code for, "Please tell me these new deaths are not yours this time."
+
+[89:55:50 - 89:55:54] 发言人 A:
+   If I scroll up, I will see the same text I sent her.
+
+[90:17:40 - 90:17:54] 发言人 A:
+  Back when Paris was exploding a few moments or weeks ago, farther up, the same text she sent me when I was in lockdown in Jakarta, as the man across town pulled the pin from his grenade.
+
+[90:39:55 - 90:40:03] 发言人 A:
+   Not yours this time is a song that plays so often I cannot help but know the words.
+
+[91:02:12 - 91:02:15] 发言人 A:
+   Are you okay is the hook.
+
+[91:24:28 - 91:24:37] 发言人 A:
+  Are you okay is code for we are not okay, but please remind me you are breathing.
+
+[91:47:01 - 91:47:12] 发言人 A:
+   Back home, the black men and women I love look into mirrors and wonder if they are lost teeth in the mouth of an impatient god.
+
+[92:09:47 - 92:09:48] 发言人 A:
+  Are you okay?
+
+[92:32:26 - 92:32:28] 发言人 A:
+   I text, impotent.
+
+[92:55:09 - 92:55:11] 发言人 A:
+   Please, remind me you are breathing.
+
+[93:17:56 - 93:18:01] 发言人 A:
+   I am scared is not a good enough reason to not get out of bed.
+
+[93:40:51 - 93:40:54] 发言人 A:
+   The world is falling apart is not a good enough one either.
+
+[94:03:49 - 94:03:59] 发言人 A:
+  I ask my mother if growing older means one wound piled upon another until we are just a collection of hurt, but she insists, no.
+
+[94:27:04 - 94:27:10] 发言人 A:
+   Sometimes someone gets married or has a baby.
+
+[94:50:22 - 94:50:26] 发言人 A:
+   Someone teach me a new song, please.
+
+[95:13:44 - 95:13:49] 发言人 A:
+  Bring me a spoon and a mouth to lean across the table for this time.
+
+[95:37:12 - 95:37:14] 发言人 A:
+   This time I am a jaw of loose teeth.
+
+[96:00:40 - 96:00:42] 发言人 A:
+   I am a collection of string.
+
+[96:24:11 - 96:24:13] 发言人 A:
+   I am a snow globe of worry.
+
+[96:47:43 - 96:47:45] 发言人 A:
+   I am a Rolodex of fear.
+
+[97:11:18 - 97:11:25] 发言人 A:
+   They are placing body bags over children on the sidewalk where I once pushed a bowl away laughing.
+
+[97:35:06 - 97:35:08] 发言人 A:
+   I cannot possibly have any more love.
+
+[97:58:52 - 97:58:53] 发言人 A:
+   I am already full.
+
+[98:22:40 - 98:22:41] 发言人 A:
+  Sarah K.
+
+[98:46:29 - 98:46:30] 发言人 A:
+   in 2018.
+
+[99:10:24 - 99:10:28] 发言人 A:
+  Amber Tamblyn is an award-winning television, film, and theater actor.
+
+[99:34:26 - 99:34:29] 发言人 A:
+   She's also a novelist and a poet.
+
+[99:58:30 - 99:58:39] 发言人 A:
+   I spoke with her in front of a live audience in New York City in early 2020 in celebration of the 15th anniversary of Design Matters.
+
+[100:22:49 - 100:22:54] 发言人 A:
+  You're known for many iconic roles beyond Emily Quartermaine on General Hospital.
+
+[100:47:10 - 100:47:14] 发言人 A:
+   You were Joan Girardi on Joan of Arcadia, Martha M.
+
+[101:11:33 - 101:11:44] 发言人 A:
+   Masters on House, named for one of your actual friends, Martha Masters, Jenny Harper on Two and a Half Men, and Tibby Rollins in the Sisterhood of the Traveling Pants films.
+
+[101:36:15 - 101:36:17] 发言人 A:
+   How do you feel about those roles now?
+
+[102:00:54 - 102:00:56] 发言人 A:
+  I have many feelings.
+
+[102:25:35 - 102:25:38] 发言人 A:
+   I have so many feels.
+
+[102:50:22 - 102:50:35] 发言人 A:
+   I've spent, I think, so much of my now adult life exercising the pain, having an exorcism of the pain of those experiences of growing up in the business.
+
+[103:15:33 - 103:15:39] 发言人 A:
+   But I also have a deep sense of love and pride for those characters and, you know.
+
+[103:40:43 - 103:40:46] 发言人 A:
+  You know, things that you would not expect you could bring off the page.
+
+[104:05:53 - 104:06:00] 发言人 A:
+   You could, and I feel that I did, I guess, in a certain way, especially with things like Sisterhood of the Traveling Pants.
+
+[104:31:13 - 104:31:19] 发言人 A:
+   Who knew that that would be so deep and so filled with emotion and turn out to be such a wonderful, wonderful experience?
+
+[104:56:39 - 104:56:46] 发言人 A:
+   And I came away from that with some of the closest friendships of my life with my cast members, America Ferrera, Blake Lively, and Alexis Bledel.
+
+[105:22:14 - 105:22:18] 发言人 A:
+  But it does really feel like a different life in a certain way.
+
+[105:47:50 - 105:47:58] 发言人 A:
+   It feels very separate than where I've been in the last maybe eight years, eight to ten years almost.
+
+[106:13:37 - 106:13:44] 发言人 A:
+   And for the most part, I haven't really thought much about acting or the things that you know.
+
+[106:39:31 - 106:39:35] 发言人 A:
+  You know, it the way in which it brought joy to my life during those years.
+
+[107:05:26 - 107:05:33] 发言人 A:
+   But I think because I've had so much distance from it, I have a new appreciation for it in a way that I didn't before.
+
+[107:31:31 - 107:31:40] 发言人 A:
+   I'm about to shoot a show for FX and it'll be my first time doing something that I I'm like very, very excited about is a very exciting role.
+
+[107:57:46 - 107:57:54] 发言人 A:
+   And so I have been thinking about it a lot lately, but I haven't I just haven't thought about any acting any of the stuff that I've done in a long time.
+
+[108:24:09 - 108:24:15] 发言人 A:
+   It's interesting that you're bringing it up because it's been at the forefront of my thought lately because of that.
+
+[108:50:35 - 108:50:46] 发言人 A:
+   Well, I have a bunch more questions about it, but I do want to ask you if it's true that you told John Cryer to go fuck himself in your audition for Two and a Half Men, which was in front of Chuck Lorre.
+
+[109:17:17 - 109:17:18] 发言人 A:
+   Oh, 100%.
+
+[109:43:51 - 109:43:52] 发言人 A:
+   So what brought that?
+
+[110:10:25 - 110:10:27] 发言人 A:
+   I think I also told Chuck Lorre to go fuck himself.
+
+[110:37:03 - 110:37:03] 发言人 A:
+   Fair.
+
+[111:03:38 - 111:03:48] 发言人 A:
+   Well, it was the character was this she was sort of supposed to replace the half man idea she was.
+
+[111:30:34 - 111:30:49] 发言人 A:
+  Charlie Harper's daughter, who was basically just a woman version of him, just a alcoholic, foul-mouthed womanizer, and so I also was like, I actually don't really care if I do Two and a Half Men.
+
+[111:57:49 - 111:57:53] 发言人 A:
+   This is not like an audition that's going to break me, and so I was rude.
+
+[112:24:58 - 112:25:02] 发言人 A:
+  To all of the men in the room, and got and I and I often like that, don't they?
+
+[112:52:12 - 112:52:13] 发言人 A:
+   Sometimes they those types of men do.
+
+[113:19:24 - 113:19:27] 发言人 A:
+   I mean, as I said, I know narcissistic white men very well.
+
+[113:46:41 - 113:46:46] 发言人 A:
+   Although both of them are lovely, and John Crier is especially wonderful.
+
+[114:14:05 - 114:14:13] 发言人 A:
+   I think I had also signed in on the audition sheet a fake name, which is kind of like a really messed up thing to do, especially if you are going up first in the morning.
+
+[114:41:40 - 114:41:49] 发言人 A:
+   I think I signed in as Jennifer Lawrence because then everyone who comes after you is looking and they're like, oh fuck, Jennifer Lawrence audition for this shit.
+
+[115:09:26 - 115:09:26] 发言人 A:
+   Shit.
+
+[115:37:03 - 115:37:06] 发言人 A:
+   Okay, I got up my game.
+
+[116:04:46 - 116:04:49] 发言人 A:
+   I was like, you have a little bit of a sadomasochist streak in you.
+
+[116:32:32 - 116:32:33] 发言人 A:
+   I guess so.
+
+[117:00:16 - 117:00:19] 发言人 A:
+   God, Debbie's getting real tonight.
+
+[117:28:05 - 117:28:07] 发言人 A:
+   Someone get me a drink.
+
+[117:55:56 - 117:55:57] 发言人 A:
+   I think we can make that happen.
+
+[118:23:48 - 118:23:55] 发言人 A:
+   You've said that show business is voyeuristic, and that if you are an actress, you are playing that which the voyeur looks at for a living.
+
+[118:51:54 - 118:51:59] 发言人 A:
+   People look at you to escape their realities, to invent their own new realities.
+
+[119:20:02 - 119:20:03] 发言人 A:
+   How do you, how did
+
+[119:48:08 - 119:48:17] 发言人 A:
+  Did you manage to keep your own identity, and how have you been able to avoid the often treacherous pitfalls that other child actors have succumbed to?
+
+[120:16:31 - 120:16:33] 发言人 A:
+  So funny because we were just talking about this.
+
+[120:44:50 - 120:44:53] 发言人 A:
+   I think it's twofold for me.
+
+[121:13:13 - 121:13:23] 发言人 A:
+   Obviously, I think having parents who were a strong support system in my life was a real privilege to have that kind of upbringing and family.
+
+[121:41:53 - 121:42:00] 发言人 A:
+   And I think also poetry, poetry really saved me in a way.
+
+[122:10:37 - 122:10:40] 发言人 A:
+   Poetry was a third parent.
+
+[122:35:14 - 122:35:16] 发言人 A:
+  Poetry was a guardian.
+
+[122:59:53 - 123:00:06] 发言人 A:
+   It was a way for me to reflect on those experiences and be able to put on the page the feelings that I had, whether it was anger or frustration or feeling.
+
+[123:24:57 - 123:25:10] 发言人 A:
+  Invisible or feeling objectified, all of those things, poetry was a real way for me to let those things out early on from a young age, and so I've been writing.
+
+[123:50:13 - 123:50:22] 发言人 A:
+   Most people, well, I'd say maybe less so now, but there was a time at which most people were really shocked that I was a poet, even though I had been publishing.
+
+[124:15:36 - 124:15:41] 发言人 A:
+   You know, the Simon and Schuster book that I wrote, Free Stallion, was poems written age eleven to twenty.
+
+[124:41:00 - 124:41:01] 发言人 A:
+  Twenty-one.
+
+[125:06:21 - 125:06:23] 发言人 A:
+   I had been writing as long as I had been acting.
+
+[125:31:46 - 125:31:53] 发言人 A:
+   These were two coinciding forms of art and expression that I had done from a very young age, and they very much informed each other.
+
+[125:57:24 - 125:57:27] 发言人 A:
+   And one was like a salve to the other in a certain way.
+
+[126:23:01 - 126:23:06] 发言人 A:
+   Well, you said that poetry was one of the few areas in your life where you felt like you had full control.
+
+[126:48:45 - 126:48:47] 发言人 A:
+   Why did it make you feel like you had control?
+
+[127:14:28 - 127:14:29] 发言人 A:
+   Well,
+
+[127:40:11 - 127:40:17] 发言人 A:
+  As an actress, you are creating something that's only really half yours, if that.
+
+[128:06:05 - 128:06:13] 发言人 A:
+   You are putting yourself on the line emotionally, often physically, psychologically, for something you have no control over.
+
+[128:32:10 - 128:32:10] 发言人 A:
+   You are.
+
+[128:58:08 - 128:58:19] 发言人 A:
+  Interpreting the words of someone else that they've written, you are creating the world that a show creator has written and has created that they have envisioned.
+
+[129:24:28 - 129:24:32] 发言人 A:
+   You are moving in the way that a director is telling you to move.
+
+[129:50:46 - 129:50:55] 发言人 A:
+   So much of that is about an interpretation of someone else's art, of all of the people's art around you, which is a great joy.
+
+[130:17:17 - 130:17:20] 发言人 A:
+   And the people who do it really well are masters at it.
+
+[130:43:46 - 130:43:56] 发言人 A:
+   You know, it is using that empathic tool to tell a really deep and important story if that is something that you're very good at.
+
+[131:10:32 - 131:10:33] 发言人 A:
+   But at the same time,
+
+[131:37:11 - 131:37:24] 发言人 A:
+  After the acting experience, and this is something that I think so many people don't understand about our business, is that you probably have only ever seen like thirty percent of the stuff that I have done, if that.
+
+[132:04:15 - 132:04:26] 发言人 A:
+   And that's any actor, that's Meryl Streep, that's the most famous actor and the least known actor, because once you've acted, there is so many other levels that that piece.
+
+[132:31:29 - 132:31:32] 发言人 A:
+  piece of work has to go through in order to succeed to see the light of day.
+
+[132:58:38 - 132:58:46] 发言人 A:
+   It has to be edited very well, and you have to hope that the editor and director are on the same page and that the director directed it well.
+
+[133:26:00 - 133:26:05] 发言人 A:
+   Then you have to hope, even if you have a good film, you have to hope that it goes into a festival.
+
+[133:53:23 - 133:53:26] 发言人 A:
+   And then even if it gets into a festival, you have to hope it gets bought.
+
+[134:20:48 - 134:20:51] 发言人 A:
+   And then if it gets bought, you have to hope they put the right marketing behind it.
+
+[134:48:16 - 134:48:19] 发言人 A:
+   And then if they do that, you still have to hope that people go to theaters and see it.
+
+[135:15:48 - 135:15:50] 发言人 A:
+   Same thing could be said about television.
+
+[135:43:21 - 135:43:23] 发言人 A:
+   You know, you create something all the way through.
+
+[136:10:56 - 136:11:03] 发言人 A:
+   If you're doing a pilot, it may never see the light of day, or it might go on and you know, air for five episodes and disappear.
+
+[136:38:44 - 136:38:47] 发言人 A:
+   So it's a strange industry because you pour your.
+
+[137:06:31 - 137:06:38] 发言人 A:
+  Heart and soul and physical self into things that often no one ever sees or no one knows about.
+
+[137:34:29 - 137:34:48] 发言人 A:
+   So in that way, I really felt like writing for me, at least if I failed by it, I was failing by 100% of my own self-expression, as opposed to 50% of an expression that was part of me that still might fail anyway, if that makes sense.
+
+[138:02:58 - 138:02:58] 发言人 A:
+   Yeah.
+
+[138:31:10 - 138:31:18] 发言人 A:
+  There seems to be a lot of judgment when an actor tries something other than acting, whether it be writing, music, politics, even activism.
+
+[138:59:38 - 138:59:42] 发言人 A:
+   Did it feel it was harder to be taken seriously as a poet because of your celebrity?
+
+[139:28:07 - 139:28:07] 发言人 A:
+   Oh, absolutely.
+
+[139:56:33 - 139:56:34] 发言人 A:
+   I think there was.
+
+[140:25:00 - 140:25:05] 发言人 A:
+   I think I got discouraged early about ever sort of submitting my work or.
+
+[140:53:39 - 140:53:42] 发言人 A:
+  Doing anything with it other than just writing and performing, I would do book tours.
+
+[141:22:20 - 141:22:25] 发言人 A:
+   I would frequent a place called Beyond Baroque in Los Angeles, where I would read a lot.
+
+[141:51:07 - 141:51:24] 发言人 A:
+   And I think around the time I was writing Dark Sparkler, which really, really was a kind of exorcism for me, it was a, I was deep in the middle of a real existential crisis, trying to figure out what I wanted to be outside of this idea of going.
+
+[142:20:23 - 142:20:29] 发言人 A:
+  Going into other people's rooms and auditioning and interpreting their work, and knowing I had so much more to offer.
+
+[142:49:35 - 142:49:37] 发言人 A:
+   Where did the existential crisis stem from?
+
+[143:18:46 - 143:18:53] 发言人 A:
+   Well, it stemmed from the fact that I had only ever really played other people for a living my whole life since I was eleven.
+
+[143:48:08 - 143:48:12] 发言人 A:
+   You know, people always ask me like, "How old were you when you knew you wanted to act?"
+
+[144:17:32 - 144:17:32] 发言人 A:
+   and that.
+
+[144:46:54 - 144:47:02] 发言人 A:
+  Sentence that idea is something that I have come up against and talked about in therapy for so many years.
+
+[145:16:31 - 145:16:35] 发言人 A:
+   To think about how does a child have a choice?
+
+[145:46:08 - 145:46:12] 发言人 A:
+   What choice does the child have in choosing that life?
+
+[146:15:50 - 146:15:52] 发言人 A:
+   It's not really a child's choice.
+
+[146:45:31 - 146:45:33] 发言人 A:
+   That's the choice of adults.
+
+[147:15:14 - 147:15:19] 发言人 A:
+   And then the child spends their time trying to please adults by performing.
+
+[147:45:06 - 147:45:09] 发言人 A:
+   And so then your life becomes performative.
+
+[148:14:58 - 148:15:02] 发言人 A:
+   You are a walking, talking, living performance.
+
+[148:44:56 - 148:44:56] 发言人 A:
+   It's.
+
+[149:14:51 - 149:15:04] 发言人 A:
+  Complicated and so so dark sparkler was sort of this, reckoning for myself coming to terms with myself with also how do you, how do you talk about this pain?
+
+[149:45:11 - 149:45:30] 发言人 A:
+   How do you talk about this invisibility, while still knowing you are the most privileged person in any given room for the money you make, the job you have, the industry you are in, that people would love to be a part of, and and how I was trying to find a way to talk about my experience and my need for.
+
+[150:15:57 - 150:15:59] 发言人 A:
+  A certain kind of death.
+
+[150:46:28 - 150:46:32] 发言人 A:
+   I mean, really, I was seeking death, not literal death, but a metaphorical death.
+
+[151:17:04 - 151:17:14] 发言人 A:
+   I was, I was ceasing and, I was, I was seeking and a ceasing, if that makes sense, an ending to the person that I was when I was younger.
+
+[151:47:57 - 151:48:01] 发言人 A:
+   That person that really didn't have any control over her life.
+
+[152:18:48 - 152:18:59] 发言人 A:
+   While she was creating these incredible characters that bring people so much joy, and I often had so much fun shooting them, there was an entire part of myself that was dying, that was, that was.
+
+[152:49:58 - 152:50:22] 发言人 A:
+  That was not being given an opportunity to thrive and to become more, and that book was a direct I think moment for me to let those things be talked about on a page and to be able to see them and see my own experiences not only writing about these actresses that had literally died but then writing these meta poems in the back about.
+
+[153:21:45 - 153:21:56] 发言人 A:
+  You know, my experience writing about dead actresses, and it was actually Roxane Gay who published the first poem I was like my first published poem ever.
+
+[153:53:30 - 153:53:35] 发言人 A:
+   She published this poem about Brittany Murphy, and I remember submitting it to Pank.
+
+[154:25:15 - 154:25:20] 发言人 A:
+   A friend had said, "You got to submit," you know, it's a great editor there now, and I was like, "No one's ever going to publish my work.
+
+[154:57:04 - 154:57:05] 发言人 A:
+   I am an actress.
+
+[155:28:51 - 155:28:51] 发言人 A:
+   I can't.
+
+[156:00:37 - 156:00:40] 发言人 A:
+   I'll just I'll take myself seriously, and that's fine."
+
+[156:32:29 - 156:32:32] 发言人 A:
+   And I think she wrote me back in like two hours or something.
+
+[157:04:24 - 157:04:34] 发言人 A:
+   It was very exciting, and it was a moment for me to feel like, "Oh, I am, I am can be taken seriously in the art form that I've done as long as I've acted."
+
+[157:36:36 - 157:36:37] 发言人 A:
+   It was a big moment.
+
+[158:08:40 - 158:08:42] 发言人 A:
+   Do you want to read that poem for us?
+
+[158:40:46 - 158:40:47] 发言人 A:
+   Sure.
+
+[159:12:54 - 159:12:55] 发言人 A:
+  Brittany Murphy.
+
+[159:45:05 - 159:45:22] 发言人 A:
+   Her body dies like a spider's, in the shower the blooming flower seeds a cemetery, a pill lodges in the inner pocket of her flesh coat, her breasts were the gifts of ghosts, dark tarps of success.
+
+[160:17:49 - 160:17:54] 发言人 A:
+  Her mouth dribbles over onto the bathroom floor, pollock blood.
+
+[160:50:26 - 160:50:34] 发言人 A:
+   The body is lifted from the red carpet, put in a black bag, taken to the mother's screams for identification.
+
+[161:23:15 - 161:23:20] 发言人 A:
+   The country says good things about the body; they print the best.
+
+[161:52:00 - 161:52:04] 发言人 A:
+  Photos: the least bones, the most peach.
+
+[162:20:49 - 162:20:52] 发言人 A:
+   Candles are lit in the glint of every glam.
+
+[162:49:40 - 162:49:47] 发言人 A:
+   Every magazine stand does the Southern Belle curtsy in her post-box office bomb honor.
+
+[163:18:42 - 163:18:45] 发言人 A:
+   The autopsy finds an easy answer.
+
+[163:47:44 - 163:47:57] 发言人 A:
+  They say good things about the body, how bold her eyes were, bigger than Hepburn's, the way she could turn into her camera close up like life depended on her.
+
+[164:17:11 - 164:17:13] 发言人 A:
+   Amber Tamblyn in twenty twenty.
+
+[164:46:30 - 164:46:42] 发言人 A:
+  You can hear my full interviews and hundreds of other interviews with some of the world's most creative people on our website designmattersmedia dot com or wherever you get your podcasts.
+
+[165:16:13 - 165:16:20] 发言人 A:
+   We'll be back next week with one last special episode called "From the Many Years I've Been Doing Design Matters."
+
+[165:45:57 - 165:46:04] 发言人 A:
+   Yes, this is the twentieth year we've been podcasting Design Matters, and I'd like to thank you for listening.
+
+[166:15:48 - 166:15:53] 发言人 A:
+   And remember, we can talk about making a difference, we can make a difference, or we can do both.
+
+[166:45:43 - 166:45:48] 发言人 A:
+   I am Debbie Millman, and I look forward to talking with you again soon.
+
+[167:15:43 - 167:15:48] 发言人 A:
+  Design Matters is produced by the TED Audio Collective by Curtis Fox Productions.
+
+[167:45:48 - 167:45:57] 发言人 A:
+   The interviews are usually recorded at the Masters in Branding program at the School of Visual Arts in New York City, the first and longest-running branding program in the world.
+
+[168:16:06 - 168:16:10] 发言人 A:
+   The editor-in-chief of Design Matters Media is Emily Weiland.
+
+[168:46:33 - 168:46:39] 发言人 A:
+  I recently had comedian and host of TED's How to Be a Better Human podcast, Chris Duffy, on our show.
+
+[169:17:08 - 169:17:12] 发言人 A:
+   He sat down for a special interview where he talked about how to laugh more at the little things in life.
+
+[169:47:46 - 169:47:51] 发言人 A:
+   One of the ways that we take the least social risk is in conversations with people we don't know that well.
+
+[170:18:29 - 170:18:31] 发言人 A:
+   We tend to just say like, so how are you?
+
+[170:49:12 - 170:49:13] 发言人 A:
+   What do you do?
+
+[171:19:55 - 171:19:59] 发言人 A:
+   There's no risk involved and as a result, it's very unlikely that you and the other person will like laugh or connect.
+
+[171:50:45 - 171:50:54] 发言人 A:
+   So I think you can take like a low risk thing and ask them a question that's just a little unusual, but that you actually are interested in or is a little funny.
+
+[172:21:50 - 172:21:54] 发言人 A:
+   Now the person might be like, this is weird, why are you asking me about terrible soups?
+
+[172:52:53 - 172:53:00] 发言人 A:
+   But you'll probably have a conversation that is a little bit more memorable and funny and has the potential for laughter than other things.
+
+[173:24:06 - 173:24:14] 发言人 A:
+   Get more practical tips on how to be the best you can be by listening to Chris interview TED speakers on his podcast, How to Be a Better Human.
+
+[173:55:29 - 173:55:31] 发言人 A:
+   Listen wherever you get your shows.
+
+============================================================
+
+# LLM 分析结果
+
+## 摘要
+（无总结）

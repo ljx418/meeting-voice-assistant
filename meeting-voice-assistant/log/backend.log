@@ -1,0 +1,984 @@
+INFO:     Started server process [58688]
+INFO:     Waiting for application startup.
+[Config] Loaded environment from /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/app/.env
+[2026-03-27 10:51:48] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:51625 - "WebSocket /api/v1/ws/voice" [accepted]
+[2026-03-27 10:52:23] [INFO] [ws.voice] Initializing session sess_ec6cd446
+INFO:     connection open
+[2026-03-27 10:52:26] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'text']
+[2026-03-27 10:52:26] [INFO] [ws.voice] [Session sess_ec6cd446] Received text message: type=control, action=start, _closed=False
+[2026-03-27 10:52:26] [INFO] [ws.voice] Session sess_ec6cd446: Recognition started
+[2026-03-27 10:52:27] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:27] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 25923 bytes
+[2026-03-27 10:52:27] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=1, total_bytes=25923
+[2026-03-27 10:52:28] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: 喂喂。...
+[2026-03-27 10:52:28] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 10:52:28] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:28] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 27841 bytes
+[2026-03-27 10:52:28] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=2, total_bytes=53764
+[2026-03-27 10:52:29] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:29] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 27234 bytes
+[2026-03-27 10:52:29] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=3, total_bytes=80998
+[2026-03-27 10:52:30] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:30] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 24976 bytes
+[2026-03-27 10:52:30] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=4, total_bytes=105974
+[2026-03-27 10:52:31] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 10:52:31] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:31] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26063 bytes
+[2026-03-27 10:52:31] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=5, total_bytes=132037
+[2026-03-27 10:52:32] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:32] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26759 bytes
+[2026-03-27 10:52:32] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=6, total_bytes=158796
+[2026-03-27 10:52:33] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: Yeah....
+[2026-03-27 10:52:33] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 10:52:33] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:33] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26472 bytes
+[2026-03-27 10:52:33] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=7, total_bytes=185268
+[2026-03-27 10:52:34] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:34] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 27934 bytes
+[2026-03-27 10:52:34] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=8, total_bytes=213202
+[2026-03-27 10:52:35] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 10:52:35] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:35] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26666 bytes
+[2026-03-27 10:52:35] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=9, total_bytes=239868
+[2026-03-27 10:52:36] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:36] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 25866 bytes
+[2026-03-27 10:52:36] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=10, total_bytes=265734
+[2026-03-27 10:52:37] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:37] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26117 bytes
+[2026-03-27 10:52:37] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=11, total_bytes=291851
+[2026-03-27 10:52:38] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 10:52:38] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:38] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 25498 bytes
+[2026-03-27 10:52:38] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=12, total_bytes=317349
+[2026-03-27 10:52:39] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:39] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26356 bytes
+[2026-03-27 10:52:39] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=13, total_bytes=343705
+[2026-03-27 10:52:40] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: Ah....
+[2026-03-27 10:52:40] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 10:52:40] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:40] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 25868 bytes
+[2026-03-27 10:52:40] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=14, total_bytes=369573
+[2026-03-27 10:52:42] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:42] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 25582 bytes
+[2026-03-27 10:52:42] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=15, total_bytes=395155
+[2026-03-27 10:52:43] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:43] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 25669 bytes
+[2026-03-27 10:52:43] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=16, total_bytes=420824
+[2026-03-27 10:52:43] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 25830 bytes
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=17, total_bytes=446654
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'text']
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] Received text message: type=control, action=stop, _closed=False
+[2026-03-27 10:52:44] [INFO] [ws.voice] Session sess_ec6cd446: Recognition stopped
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] Status: processing - 正在保存音频... (10%)
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] _process_after_stop: AUDIO_CACHE_ENABLED=True, audio_chunks len=17
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] Saving audio: 17 chunks, 446654 bytes
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] Audio cached: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_ec6cd446.wav
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] Status: transcribing - 正在识别语音... (30%)
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 16237 bytes
+[2026-03-27 10:52:44] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=18, total_bytes=462891
+[RealtimeASR] No session or empty buffer
+[2026-03-27 10:52:46] [INFO] [ws.voice] [Session sess_ec6cd446] Status: analyzing - 正在分析会议内容... (70%)
+[LLMAnalyzer] Unexpected DashScope response format: {'output': {'choices': [{'message': {'content': '{\n  "summary": "会议记录仅包含简短的开场确认语（如\'喂喂\'、\'Yeah\'、\'Ah\'），无实质性讨论内容，无法识别议程、参与者或具体议题。",\n  "key_points": ["录音起始阶段的语音确认", "无明确发言者身份信息", "未涉及任何业务或技术话题", "缺乏时间戳对应的实质内容", "无法判断会议目的或进展"],\n  "action_items": [],\n  "topics": ["会议开场", "语音确认", "录音质量检查"]\n}', 'role': 'assistant'}, 'finish_reason': 'stop'}]}, 'usage': {'total_tokens': 266, 'output_tokens': 117, 'input_tokens': 149, 'prompt_tokens_details': {'cached_tokens': 0}}, 'request_id': 'dece335d-0c7b-449b-b5ff-346668e4e5c8'}
+[2026-03-27 10:52:50] [INFO] [ws.voice] [Session sess_ec6cd446] Status: completed - 处理完成 (100%)
+[2026-03-27 10:52:50] [INFO] [ws.voice] [Session sess_ec6cd446] Transcript saved to: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_ec6cd446_transcript.txt
+[2026-03-27 11:03:44] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'text']
+[2026-03-27 11:03:44] [INFO] [ws.voice] [Session sess_ec6cd446] Received text message: type=control, action=start, _closed=False
+[2026-03-27 11:03:44] [INFO] [ws.voice] Session sess_ec6cd446: Recognition started
+[2026-03-27 11:03:45] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:45] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 21048 bytes
+[2026-03-27 11:03:45] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=1, total_bytes=21048
+[2026-03-27 11:03:46] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: 嗯。...
+[2026-03-27 11:03:46] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:03:46] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:46] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26518 bytes
+[2026-03-27 11:03:46] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=2, total_bytes=47566
+[2026-03-27 11:03:47] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:47] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26707 bytes
+[2026-03-27 11:03:47] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=3, total_bytes=74273
+[2026-03-27 11:03:48] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:48] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26047 bytes
+[2026-03-27 11:03:48] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=4, total_bytes=100320
+[2026-03-27 11:03:49] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:03:49] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:49] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26593 bytes
+[2026-03-27 11:03:49] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=5, total_bytes=126913
+[2026-03-27 11:03:51] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:51] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 27076 bytes
+[2026-03-27 11:03:51] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=6, total_bytes=153989
+[2026-03-27 11:03:51] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: ....
+[2026-03-27 11:03:51] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:03:52] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:52] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 28113 bytes
+[2026-03-27 11:03:52] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=7, total_bytes=182102
+[2026-03-27 11:03:53] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:53] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 27590 bytes
+[2026-03-27 11:03:53] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=8, total_bytes=209692
+[2026-03-27 11:03:54] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:54] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26326 bytes
+[2026-03-27 11:03:54] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=9, total_bytes=236018
+[2026-03-27 11:03:54] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: Oh....
+[2026-03-27 11:03:54] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:03:55] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:55] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26339 bytes
+[2026-03-27 11:03:55] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=10, total_bytes=262357
+[2026-03-27 11:03:56] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:56] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26373 bytes
+[2026-03-27 11:03:56] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=11, total_bytes=288730
+[2026-03-27 11:03:56] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: Oh....
+[2026-03-27 11:03:56] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:03:57] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:57] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26166 bytes
+[2026-03-27 11:03:57] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=12, total_bytes=314896
+[2026-03-27 11:03:58] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:58] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26316 bytes
+[2026-03-27 11:03:58] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=13, total_bytes=341212
+[2026-03-27 11:03:58] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:03:59] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:03:59] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 27083 bytes
+[2026-03-27 11:03:59] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=14, total_bytes=368295
+[2026-03-27 11:04:00] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:00] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26870 bytes
+[2026-03-27 11:04:00] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=15, total_bytes=395165
+[2026-03-27 11:04:01] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:01] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26302 bytes
+[2026-03-27 11:04:01] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=16, total_bytes=421467
+[2026-03-27 11:04:01] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: Oh....
+[2026-03-27 11:04:01] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:04:02] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:02] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26680 bytes
+[2026-03-27 11:04:02] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=17, total_bytes=448147
+[2026-03-27 11:04:03] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:03] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26132 bytes
+[2026-03-27 11:04:03] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=18, total_bytes=474279
+[2026-03-27 11:04:03] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: Oh....
+[2026-03-27 11:04:03] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:04:04] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:04] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26550 bytes
+[2026-03-27 11:04:04] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=19, total_bytes=500829
+[2026-03-27 11:04:05] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:05] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26214 bytes
+[2026-03-27 11:04:05] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=20, total_bytes=527043
+[2026-03-27 11:04:06] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:04:06] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:06] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26504 bytes
+[2026-03-27 11:04:06] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=21, total_bytes=553547
+[2026-03-27 11:04:07] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:07] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26060 bytes
+[2026-03-27 11:04:07] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=22, total_bytes=579607
+[2026-03-27 11:04:08] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:08] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 28097 bytes
+[2026-03-27 11:04:08] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=23, total_bytes=607704
+[2026-03-27 11:04:08] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: Oh....
+[2026-03-27 11:04:08] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:04:09] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:09] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 27809 bytes
+[2026-03-27 11:04:09] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=24, total_bytes=635513
+[2026-03-27 11:04:10] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:10] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26457 bytes
+[2026-03-27 11:04:10] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=25, total_bytes=661970
+[2026-03-27 11:04:10] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:04:11] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:11] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26050 bytes
+[2026-03-27 11:04:11] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=26, total_bytes=688020
+[2026-03-27 11:04:12] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:12] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26354 bytes
+[2026-03-27 11:04:12] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=27, total_bytes=714374
+[2026-03-27 11:04:13] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:13] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26175 bytes
+[2026-03-27 11:04:13] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=28, total_bytes=740549
+[2026-03-27 11:04:13] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: You....
+[2026-03-27 11:04:13] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:04:14] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:14] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26278 bytes
+[2026-03-27 11:04:14] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=29, total_bytes=766827
+[2026-03-27 11:04:15] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:15] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26217 bytes
+[2026-03-27 11:04:15] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=30, total_bytes=793044
+[2026-03-27 11:04:15] [INFO] [ws.voice] [Session sess_ec6cd446] Interim transcript: Oh....
+[2026-03-27 11:04:15] [INFO] [ws.voice] [Session sess_ec6cd446] Committed audio for interim transcription
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 26243 bytes
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=31, total_bytes=819287
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'text']
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] Received text message: type=control, action=stop, _closed=False
+[2026-03-27 11:04:16] [INFO] [ws.voice] Session sess_ec6cd446: Recognition stopped
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] Status: processing - 正在保存音频... (10%)
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] _process_after_stop: AUDIO_CACHE_ENABLED=True, audio_chunks len=31
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] Saving audio: 31 chunks, 819287 bytes
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] Audio cached: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_ec6cd446.wav
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] Status: transcribing - 正在识别语音... (30%)
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'bytes']
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] Received audio frame: 18532 bytes
+[2026-03-27 11:04:16] [INFO] [ws.voice] [Session sess_ec6cd446] process_audio: audio_chunks len=32, total_bytes=837819
+[RealtimeASR] No session or empty buffer
+[2026-03-27 11:04:19] [INFO] [ws.voice] [Session sess_ec6cd446] Status: analyzing - 正在分析会议内容... (70%)
+[LLMAnalyzer] Unexpected DashScope response format: {'output': {'choices': [{'message': {'content': '{\n  "summary": "会议记录仅包含零散的语气词（如\'Oh\'、\'You\'、\'嗯\'）和无实质内容的停顿，未出现有效发言、议题讨论或决策信息。",\n  "key_points": ["录音中无实质性语言内容", "仅有重复的语气词和短暂停顿", "无法识别发言人或讨论主题", "缺乏明确议程或上下文", "未体现任何业务或协作相关信息"],\n  "action_items": [],\n  "topics": ["会议无效性", "音频质量问题", "记录完整性"]\n}', 'role': 'assistant'}, 'finish_reason': 'stop'}]}, 'usage': {'total_tokens': 353, 'output_tokens': 122, 'input_tokens': 231, 'prompt_tokens_details': {'cached_tokens': 0}}, 'request_id': '8d0e894d-c917-4f56-a4d1-e8e148d52984'}
+[2026-03-27 11:04:22] [INFO] [ws.voice] [Session sess_ec6cd446] Status: completed - 处理完成 (100%)
+[2026-03-27 11:04:22] [INFO] [ws.voice] [Session sess_ec6cd446] Transcript saved to: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_ec6cd446_transcript.txt
+[2026-03-27 11:08:13] [INFO] [ws.voice] [Session sess_ec6cd446] Received data keys: ['type', 'code', 'reason']
+[2026-03-27 11:08:13] [ERROR] [ws.voice] [Session sess_ec6cd446] Error in message loop: Cannot call "receive" once a disconnect message has been received.
+[2026-03-27 11:08:13] [INFO] [ws.voice] Cleaning up session sess_ec6cd446
+INFO:     connection closed
+INFO:     127.0.0.1:52095 - "WebSocket /api/v1/ws/voice" [accepted]
+[2026-03-27 11:08:15] [INFO] [ws.voice] Initializing session sess_f5f8acee
+INFO:     connection open
+[2026-03-27 11:08:18] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'text']
+[2026-03-27 11:08:18] [INFO] [ws.voice] [Session sess_f5f8acee] Received text message: type=control, action=start, _closed=False
+[2026-03-27 11:08:18] [INFO] [ws.voice] Session sess_f5f8acee: Recognition started
+[2026-03-27 11:08:19] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:19] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 28639 bytes
+[2026-03-27 11:08:19] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=1, total_bytes=28639
+[2026-03-27 11:08:20] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: 喂，好。...
+[2026-03-27 11:08:20] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:20] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:20] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26165 bytes
+[2026-03-27 11:08:20] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=2, total_bytes=54804
+[2026-03-27 11:08:21] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:21] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26050 bytes
+[2026-03-27 11:08:21] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=3, total_bytes=80854
+[2026-03-27 11:08:22] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:22] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 25977 bytes
+[2026-03-27 11:08:22] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=4, total_bytes=106831
+[2026-03-27 11:08:23] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:08:23] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:23] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:23] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 25708 bytes
+[2026-03-27 11:08:23] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=5, total_bytes=132539
+[2026-03-27 11:08:24] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:24] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26754 bytes
+[2026-03-27 11:08:24] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=6, total_bytes=159293
+[2026-03-27 11:08:25] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:08:25] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:25] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:25] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27189 bytes
+[2026-03-27 11:08:25] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=7, total_bytes=186482
+[2026-03-27 11:08:26] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:26] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26629 bytes
+[2026-03-27 11:08:26] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=8, total_bytes=213111
+[2026-03-27 11:08:27] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:27] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:27] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26221 bytes
+[2026-03-27 11:08:27] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=9, total_bytes=239332
+[2026-03-27 11:08:28] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:28] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26470 bytes
+[2026-03-27 11:08:28] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=10, total_bytes=265802
+[2026-03-27 11:08:29] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:29] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27201 bytes
+[2026-03-27 11:08:29] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=11, total_bytes=293003
+[2026-03-27 11:08:30] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: ....
+[2026-03-27 11:08:30] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:30] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:30] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26245 bytes
+[2026-03-27 11:08:30] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=12, total_bytes=319248
+[2026-03-27 11:08:31] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:31] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27102 bytes
+[2026-03-27 11:08:31] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=13, total_bytes=346350
+[2026-03-27 11:08:32] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:08:32] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:32] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:32] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26631 bytes
+[2026-03-27 11:08:32] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=14, total_bytes=372981
+[2026-03-27 11:08:33] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:33] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26473 bytes
+[2026-03-27 11:08:33] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=15, total_bytes=399454
+[2026-03-27 11:08:34] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:34] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26284 bytes
+[2026-03-27 11:08:34] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=16, total_bytes=425738
+[2026-03-27 11:08:35] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:35] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:35] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26088 bytes
+[2026-03-27 11:08:35] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=17, total_bytes=451826
+[2026-03-27 11:08:37] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:37] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26512 bytes
+[2026-03-27 11:08:37] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=18, total_bytes=478338
+[2026-03-27 11:08:37] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:38] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:38] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27610 bytes
+[2026-03-27 11:08:38] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=19, total_bytes=505948
+[2026-03-27 11:08:39] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:39] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27045 bytes
+[2026-03-27 11:08:39] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=20, total_bytes=532993
+[2026-03-27 11:08:40] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:40] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27089 bytes
+[2026-03-27 11:08:40] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=21, total_bytes=560082
+[2026-03-27 11:08:40] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:41] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:41] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27377 bytes
+[2026-03-27 11:08:41] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=22, total_bytes=587459
+[2026-03-27 11:08:42] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:42] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 25987 bytes
+[2026-03-27 11:08:42] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=23, total_bytes=613446
+[2026-03-27 11:08:42] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:43] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:43] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 25897 bytes
+[2026-03-27 11:08:43] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=24, total_bytes=639343
+[2026-03-27 11:08:44] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:44] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26335 bytes
+[2026-03-27 11:08:44] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=25, total_bytes=665678
+[2026-03-27 11:08:44] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: This....
+[2026-03-27 11:08:44] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:45] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:45] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 25926 bytes
+[2026-03-27 11:08:45] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=26, total_bytes=691604
+[2026-03-27 11:08:46] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:46] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27859 bytes
+[2026-03-27 11:08:46] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=27, total_bytes=719463
+[2026-03-27 11:08:47] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:47] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27784 bytes
+[2026-03-27 11:08:47] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=28, total_bytes=747247
+[2026-03-27 11:08:47] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:48] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:48] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 28088 bytes
+[2026-03-27 11:08:48] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=29, total_bytes=775335
+[2026-03-27 11:08:49] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:49] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26952 bytes
+[2026-03-27 11:08:49] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=30, total_bytes=802287
+[2026-03-27 11:08:49] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:50] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:50] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27714 bytes
+[2026-03-27 11:08:50] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=31, total_bytes=830001
+[2026-03-27 11:08:51] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:51] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27637 bytes
+[2026-03-27 11:08:51] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=32, total_bytes=857638
+[2026-03-27 11:08:52] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh my God....
+[2026-03-27 11:08:52] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:52] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:52] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26754 bytes
+[2026-03-27 11:08:52] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=33, total_bytes=884392
+[2026-03-27 11:08:53] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:53] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26194 bytes
+[2026-03-27 11:08:53] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=34, total_bytes=910586
+[2026-03-27 11:08:54] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:54] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26155 bytes
+[2026-03-27 11:08:54] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=35, total_bytes=936741
+[2026-03-27 11:08:54] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:55] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:55] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26250 bytes
+[2026-03-27 11:08:55] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=36, total_bytes=962991
+[2026-03-27 11:08:56] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:56] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26261 bytes
+[2026-03-27 11:08:56] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=37, total_bytes=989252
+[2026-03-27 11:08:56] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:57] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:57] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26108 bytes
+[2026-03-27 11:08:57] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=38, total_bytes=1015360
+[2026-03-27 11:08:58] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:58] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26137 bytes
+[2026-03-27 11:08:58] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=39, total_bytes=1041497
+[2026-03-27 11:08:59] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:08:59] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:08:59] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26344 bytes
+[2026-03-27 11:08:59] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=40, total_bytes=1067841
+[2026-03-27 11:09:00] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:00] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26250 bytes
+[2026-03-27 11:09:00] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=41, total_bytes=1094091
+[2026-03-27 11:09:01] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:01] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26213 bytes
+[2026-03-27 11:09:01] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=42, total_bytes=1120304
+[2026-03-27 11:09:01] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Hey....
+[2026-03-27 11:09:01] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:02] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:02] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26230 bytes
+[2026-03-27 11:09:02] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=43, total_bytes=1146534
+[2026-03-27 11:09:03] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:03] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 28565 bytes
+[2026-03-27 11:09:03] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=44, total_bytes=1175099
+[2026-03-27 11:09:04] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:04] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26643 bytes
+[2026-03-27 11:09:04] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=45, total_bytes=1201742
+[2026-03-27 11:09:04] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:09:04] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:05] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:05] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26099 bytes
+[2026-03-27 11:09:05] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=46, total_bytes=1227841
+[2026-03-27 11:09:06] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:06] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26425 bytes
+[2026-03-27 11:09:06] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=47, total_bytes=1254266
+[2026-03-27 11:09:07] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Yeah....
+[2026-03-27 11:09:07] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:07] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:07] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26141 bytes
+[2026-03-27 11:09:07] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=48, total_bytes=1280407
+[2026-03-27 11:09:08] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:08] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26375 bytes
+[2026-03-27 11:09:08] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=49, total_bytes=1306782
+[2026-03-27 11:09:09] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:09] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 25978 bytes
+[2026-03-27 11:09:09] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=50, total_bytes=1332760
+[2026-03-27 11:09:09] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:10] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:10] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26436 bytes
+[2026-03-27 11:09:10] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=51, total_bytes=1359196
+[2026-03-27 11:09:11] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:11] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 25787 bytes
+[2026-03-27 11:09:11] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=52, total_bytes=1384983
+[2026-03-27 11:09:11] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:12] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:12] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26165 bytes
+[2026-03-27 11:09:12] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=53, total_bytes=1411148
+[2026-03-27 11:09:13] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:13] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26006 bytes
+[2026-03-27 11:09:13] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=54, total_bytes=1437154
+[2026-03-27 11:09:14] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:09:14] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:14] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:14] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27106 bytes
+[2026-03-27 11:09:14] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=55, total_bytes=1464260
+[2026-03-27 11:09:15] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:15] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 28290 bytes
+[2026-03-27 11:09:15] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=56, total_bytes=1492550
+[2026-03-27 11:09:16] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:16] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27330 bytes
+[2026-03-27 11:09:16] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=57, total_bytes=1519880
+[2026-03-27 11:09:16] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:17] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:17] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26677 bytes
+[2026-03-27 11:09:17] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=58, total_bytes=1546557
+[2026-03-27 11:09:18] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:18] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27489 bytes
+[2026-03-27 11:09:18] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=59, total_bytes=1574046
+[2026-03-27 11:09:19] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:09:19] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:19] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:19] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27971 bytes
+[2026-03-27 11:09:19] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=60, total_bytes=1602017
+[2026-03-27 11:09:20] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:20] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26134 bytes
+[2026-03-27 11:09:20] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=61, total_bytes=1628151
+[2026-03-27 11:09:21] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:21] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26605 bytes
+[2026-03-27 11:09:21] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=62, total_bytes=1654756
+[2026-03-27 11:09:21] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:09:21] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:22] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:22] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26091 bytes
+[2026-03-27 11:09:22] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=63, total_bytes=1680847
+[2026-03-27 11:09:23] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:23] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26495 bytes
+[2026-03-27 11:09:23] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=64, total_bytes=1707342
+[2026-03-27 11:09:23] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:09:23] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:24] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:24] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26037 bytes
+[2026-03-27 11:09:24] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=65, total_bytes=1733379
+[2026-03-27 11:09:25] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:25] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26625 bytes
+[2026-03-27 11:09:25] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=66, total_bytes=1760004
+[2026-03-27 11:09:26] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:26] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:26] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26034 bytes
+[2026-03-27 11:09:26] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=67, total_bytes=1786038
+[2026-03-27 11:09:27] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:27] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26161 bytes
+[2026-03-27 11:09:27] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=68, total_bytes=1812199
+[2026-03-27 11:09:28] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:28] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:28] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 25822 bytes
+[2026-03-27 11:09:28] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=69, total_bytes=1838021
+[2026-03-27 11:09:29] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:29] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26130 bytes
+[2026-03-27 11:09:29] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=70, total_bytes=1864151
+[2026-03-27 11:09:30] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:30] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26242 bytes
+[2026-03-27 11:09:30] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=71, total_bytes=1890393
+[2026-03-27 11:09:30] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:31] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:31] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26327 bytes
+[2026-03-27 11:09:31] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=72, total_bytes=1916720
+[2026-03-27 11:09:32] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:32] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26350 bytes
+[2026-03-27 11:09:32] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=73, total_bytes=1943070
+[2026-03-27 11:09:32] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:09:32] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:33] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:33] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26256 bytes
+[2026-03-27 11:09:33] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=74, total_bytes=1969326
+[2026-03-27 11:09:34] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:34] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27741 bytes
+[2026-03-27 11:09:34] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=75, total_bytes=1997067
+[2026-03-27 11:09:35] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:35] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:35] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26448 bytes
+[2026-03-27 11:09:35] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=76, total_bytes=2023515
+[2026-03-27 11:09:36] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:36] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26241 bytes
+[2026-03-27 11:09:36] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=77, total_bytes=2049756
+[2026-03-27 11:09:37] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:37] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 27182 bytes
+[2026-03-27 11:09:37] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=78, total_bytes=2076938
+[2026-03-27 11:09:37] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:38] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:38] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26492 bytes
+[2026-03-27 11:09:38] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=79, total_bytes=2103430
+[2026-03-27 11:09:39] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:39] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26238 bytes
+[2026-03-27 11:09:39] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=80, total_bytes=2129668
+[2026-03-27 11:09:39] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:40] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:40] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26281 bytes
+[2026-03-27 11:09:40] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=81, total_bytes=2155949
+[2026-03-27 11:09:41] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:41] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26279 bytes
+[2026-03-27 11:09:41] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=82, total_bytes=2182228
+[2026-03-27 11:09:42] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:09:42] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:42] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:42] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26139 bytes
+[2026-03-27 11:09:42] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=83, total_bytes=2208367
+[2026-03-27 11:09:43] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:43] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26162 bytes
+[2026-03-27 11:09:43] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=84, total_bytes=2234529
+[2026-03-27 11:09:44] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:44] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26119 bytes
+[2026-03-27 11:09:44] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=85, total_bytes=2260648
+[2026-03-27 11:09:44] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: Oh....
+[2026-03-27 11:09:44] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:45] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:45] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26227 bytes
+[2026-03-27 11:09:45] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=86, total_bytes=2286875
+[2026-03-27 11:09:46] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:46] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 26133 bytes
+[2026-03-27 11:09:46] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=87, total_bytes=2313008
+[2026-03-27 11:09:46] [INFO] [ws.voice] [Session sess_f5f8acee] Interim transcript: ....
+[2026-03-27 11:09:46] [INFO] [ws.voice] [Session sess_f5f8acee] Committed audio for interim transcription
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 25855 bytes
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=88, total_bytes=2338863
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'text']
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] Received text message: type=control, action=stop, _closed=False
+[2026-03-27 11:09:47] [INFO] [ws.voice] Session sess_f5f8acee: Recognition stopped
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] Status: processing - 正在保存音频... (10%)
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] _process_after_stop: AUDIO_CACHE_ENABLED=True, audio_chunks len=88
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] Saving audio: 88 chunks, 2338863 bytes
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] Audio cached: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_f5f8acee.wav
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] Status: transcribing - 正在识别语音... (30%)
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'bytes']
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] Received audio frame: 7713 bytes
+[2026-03-27 11:09:47] [INFO] [ws.voice] [Session sess_f5f8acee] process_audio: audio_chunks len=89, total_bytes=2346576
+[RealtimeASR] No session or empty buffer
+[2026-03-27 11:09:50] [INFO] [ws.voice] [Session sess_f5f8acee] Status: analyzing - 正在分析会议内容... (70%)
+[LLMAnalyzer] Unexpected DashScope response format: {'output': {'choices': [{'message': {'content': '{\n  "summary": "会议记录仅包含零散的语气词和简短回应（如\'Oh\'、\'Yeah\'、\'Hey\'），无实质性对话内容，未识别出明确议题、决策或讨论。",\n  "key_points": ["无实质性发言内容", "全部为语气词和短暂停顿", "缺乏清晰发言者身份与上下文", "未出现具体议题、数据或结论", "录音可能无效或处于会议开始前调试阶段"],\n  "action_items": [],\n  "topics": ["会议有效性", "音频质量", "会前准备"]\n}', 'role': 'assistant'}, 'finish_reason': 'stop'}]}, 'usage': {'total_tokens': 485, 'output_tokens': 125, 'input_tokens': 360, 'prompt_tokens_details': {'cached_tokens': 0}}, 'request_id': '0581ca92-977b-4b5f-ba4a-1182e77b73f0'}
+[2026-03-27 11:09:53] [INFO] [ws.voice] [Session sess_f5f8acee] Status: completed - 处理完成 (100%)
+[2026-03-27 11:09:53] [INFO] [ws.voice] [Session sess_f5f8acee] Transcript saved to: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_f5f8acee_transcript.txt
+[2026-03-27 11:14:03] [INFO] [ws.voice] [Session sess_f5f8acee] Received data keys: ['type', 'code', 'reason']
+[2026-03-27 11:14:03] [ERROR] [ws.voice] [Session sess_f5f8acee] Error in message loop: Cannot call "receive" once a disconnect message has been received.
+[2026-03-27 11:14:03] [INFO] [ws.voice] Cleaning up session sess_f5f8acee
+INFO:     connection closed
+INFO:     127.0.0.1:52209 - "WebSocket /api/v1/ws/voice" [accepted]
+[2026-03-27 11:14:04] [INFO] [ws.voice] Initializing session sess_b08bbff4
+INFO:     connection open
+[2026-03-27 11:14:06] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'text']
+[2026-03-27 11:14:06] [INFO] [ws.voice] [Session sess_b08bbff4] Received text message: type=control, action=start, _closed=False
+[2026-03-27 11:14:06] [INFO] [ws.voice] Session sess_b08bbff4: Recognition started
+[RealtimeASR] No session or empty buffer
+[2026-03-27 11:14:08] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:14:08] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:08] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27352 bytes
+[2026-03-27 11:14:08] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=1, total_bytes=27352
+[2026-03-27 11:14:09] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:09] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27741 bytes
+[2026-03-27 11:14:09] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=2, total_bytes=55093
+[2026-03-27 11:14:10] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:10] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 28287 bytes
+[2026-03-27 11:14:10] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=3, total_bytes=83380
+[2026-03-27 11:14:11] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: 喂，哈喽，这是。...
+[2026-03-27 11:14:11] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:14:11] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:11] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27995 bytes
+[2026-03-27 11:14:11] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=4, total_bytes=111375
+[2026-03-27 11:14:12] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:12] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27932 bytes
+[2026-03-27 11:14:12] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=5, total_bytes=139307
+[2026-03-27 11:14:13] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:13] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27333 bytes
+[2026-03-27 11:14:13] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=6, total_bytes=166640
+[2026-03-27 11:14:13] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:14:14] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:14] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26697 bytes
+[2026-03-27 11:14:14] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=7, total_bytes=193337
+[2026-03-27 11:14:15] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:15] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26572 bytes
+[2026-03-27 11:14:15] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=8, total_bytes=219909
+[2026-03-27 11:14:16] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:14:16] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:16] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 28674 bytes
+[2026-03-27 11:14:16] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=9, total_bytes=248583
+[2026-03-27 11:14:17] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:17] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 28130 bytes
+[2026-03-27 11:14:17] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=10, total_bytes=276713
+[2026-03-27 11:14:18] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Oh....
+[2026-03-27 11:14:18] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:14:18] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:18] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27935 bytes
+[2026-03-27 11:14:18] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=11, total_bytes=304648
+[2026-03-27 11:14:19] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:19] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27884 bytes
+[2026-03-27 11:14:19] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=12, total_bytes=332532
+[2026-03-27 11:14:20] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:20] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26240 bytes
+[2026-03-27 11:14:20] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=13, total_bytes=358772
+[2026-03-27 11:14:21] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:14:21] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:21] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27781 bytes
+[2026-03-27 11:14:21] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=14, total_bytes=386553
+[2026-03-27 11:14:22] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:22] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27767 bytes
+[2026-03-27 11:14:22] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=15, total_bytes=414320
+[2026-03-27 11:14:23] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Oh....
+[2026-03-27 11:14:23] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:14:23] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:23] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27591 bytes
+[2026-03-27 11:14:23] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=16, total_bytes=441911
+[2026-03-27 11:14:24] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:24] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26674 bytes
+[2026-03-27 11:14:24] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=17, total_bytes=468585
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27827 bytes
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=18, total_bytes=496412
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'text']
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Received text message: type=control, action=stop, _closed=False
+[2026-03-27 11:14:25] [INFO] [ws.voice] Session sess_b08bbff4: Recognition stopped
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Status: processing - 正在保存音频... (10%)
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] _process_after_stop: AUDIO_CACHE_ENABLED=True, audio_chunks len=18
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Saving audio: 18 chunks, 496412 bytes
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Audio cached: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_b08bbff4.wav
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Status: transcribing - 正在识别语音... (30%)
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 6764 bytes
+[2026-03-27 11:14:25] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=19, total_bytes=503176
+[RealtimeASR] No session or empty buffer
+[2026-03-27 11:14:28] [INFO] [ws.voice] [Session sess_b08bbff4] Status: analyzing - 正在分析会议内容... (70%)
+[LLMAnalyzer] Unexpected DashScope response format: {'output': {'choices': [{'message': {'content': '{\n  "summary": "会议记录仅包含零散的问候语和语气词，无实质性内容或讨论，未形成有效交流。",\n  "key_points": ["录音起始阶段仅有简单问候", "多次出现\'Oh\'等无意义语气词", "无发言者身份、议题或上下文信息", "时长极短（约2.6秒）", "缺乏有效沟通或议程展开"],\n  "action_items": [],\n  "topics": ["会议开场", "语音识别校验", "录音质量检查"]\n}', 'role': 'assistant'}, 'finish_reason': 'stop'}]}, 'usage': {'total_tokens': 269, 'output_tokens': 116, 'input_tokens': 153, 'prompt_tokens_details': {'cached_tokens': 0}}, 'request_id': '19e027e7-1b17-47f9-8baf-dbfe36dfce8d'}
+[2026-03-27 11:14:31] [INFO] [ws.voice] [Session sess_b08bbff4] Status: completed - 处理完成 (100%)
+[2026-03-27 11:14:31] [INFO] [ws.voice] [Session sess_b08bbff4] Transcript saved to: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_b08bbff4_transcript.txt
+[2026-03-27 11:19:38] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'text']
+[2026-03-27 11:19:38] [INFO] [ws.voice] [Session sess_b08bbff4] Received text message: type=control, action=start, _closed=False
+[2026-03-27 11:19:38] [INFO] [ws.voice] Session sess_b08bbff4: Recognition started
+[RealtimeASR] No session or empty buffer
+[2026-03-27 11:19:40] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:19:41] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:41] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 28557 bytes
+[2026-03-27 11:19:41] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=1, total_bytes=28557
+[2026-03-27 11:19:42] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:42] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26083 bytes
+[2026-03-27 11:19:42] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=2, total_bytes=54640
+[2026-03-27 11:19:43] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:43] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26191 bytes
+[2026-03-27 11:19:43] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=3, total_bytes=80831
+[2026-03-27 11:19:43] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: 喂，你好。...
+[2026-03-27 11:19:43] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:19:44] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:44] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 25773 bytes
+[2026-03-27 11:19:44] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=4, total_bytes=106604
+[2026-03-27 11:19:45] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:45] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26200 bytes
+[2026-03-27 11:19:45] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=5, total_bytes=132804
+[2026-03-27 11:19:46] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:46] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27111 bytes
+[2026-03-27 11:19:46] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=6, total_bytes=159915
+[2026-03-27 11:19:46] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:19:47] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:47] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27812 bytes
+[2026-03-27 11:19:47] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=7, total_bytes=187727
+[2026-03-27 11:19:48] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:48] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 28040 bytes
+[2026-03-27 11:19:48] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=8, total_bytes=215767
+[2026-03-27 11:19:48] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:19:49] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:49] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27234 bytes
+[2026-03-27 11:19:49] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=9, total_bytes=243001
+[2026-03-27 11:19:50] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:50] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26100 bytes
+[2026-03-27 11:19:50] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=10, total_bytes=269101
+[2026-03-27 11:19:50] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:19:51] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:51] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26303 bytes
+[2026-03-27 11:19:51] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=11, total_bytes=295404
+[2026-03-27 11:19:52] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:52] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27165 bytes
+[2026-03-27 11:19:52] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=12, total_bytes=322569
+[2026-03-27 11:19:53] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:53] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 28375 bytes
+[2026-03-27 11:19:53] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=13, total_bytes=350944
+[2026-03-27 11:19:53] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Oh....
+[2026-03-27 11:19:53] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:19:54] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:54] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26385 bytes
+[2026-03-27 11:19:54] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=14, total_bytes=377329
+[2026-03-27 11:19:55] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:55] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26381 bytes
+[2026-03-27 11:19:55] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=15, total_bytes=403710
+[2026-03-27 11:19:55] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Oh....
+[2026-03-27 11:19:55] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:19:56] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:56] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26294 bytes
+[2026-03-27 11:19:56] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=16, total_bytes=430004
+[2026-03-27 11:19:57] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:57] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26250 bytes
+[2026-03-27 11:19:57] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=17, total_bytes=456254
+[2026-03-27 11:19:58] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:58] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26468 bytes
+[2026-03-27 11:19:58] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=18, total_bytes=482722
+[2026-03-27 11:19:58] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:19:59] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:19:59] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26594 bytes
+[2026-03-27 11:19:59] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=19, total_bytes=509316
+[2026-03-27 11:20:00] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:00] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26157 bytes
+[2026-03-27 11:20:00] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=20, total_bytes=535473
+[2026-03-27 11:20:00] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Ah....
+[2026-03-27 11:20:00] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:01] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:01] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27825 bytes
+[2026-03-27 11:20:01] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=21, total_bytes=563298
+[2026-03-27 11:20:02] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:02] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27909 bytes
+[2026-03-27 11:20:02] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=22, total_bytes=591207
+[2026-03-27 11:20:03] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:03] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:03] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27872 bytes
+[2026-03-27 11:20:03] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=23, total_bytes=619079
+[2026-03-27 11:20:04] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:04] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26150 bytes
+[2026-03-27 11:20:04] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=24, total_bytes=645229
+[2026-03-27 11:20:05] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:05] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26301 bytes
+[2026-03-27 11:20:05] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=25, total_bytes=671530
+[2026-03-27 11:20:05] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Oh....
+[2026-03-27 11:20:05] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:06] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:06] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 25865 bytes
+[2026-03-27 11:20:06] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=26, total_bytes=697395
+[2026-03-27 11:20:07] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:07] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26644 bytes
+[2026-03-27 11:20:07] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=27, total_bytes=724039
+[2026-03-27 11:20:08] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Ah....
+[2026-03-27 11:20:08] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:08] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:08] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26337 bytes
+[2026-03-27 11:20:08] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=28, total_bytes=750376
+[2026-03-27 11:20:09] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:09] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26314 bytes
+[2026-03-27 11:20:09] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=29, total_bytes=776690
+[2026-03-27 11:20:10] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:10] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26521 bytes
+[2026-03-27 11:20:10] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=30, total_bytes=803211
+[2026-03-27 11:20:10] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:11] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:11] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26198 bytes
+[2026-03-27 11:20:11] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=31, total_bytes=829409
+[2026-03-27 11:20:12] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:12] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26169 bytes
+[2026-03-27 11:20:12] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=32, total_bytes=855578
+[2026-03-27 11:20:12] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: This....
+[2026-03-27 11:20:12] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:13] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:13] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26457 bytes
+[2026-03-27 11:20:13] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=33, total_bytes=882035
+[2026-03-27 11:20:14] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:14] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26229 bytes
+[2026-03-27 11:20:14] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=34, total_bytes=908264
+[2026-03-27 11:20:15] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:15] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26141 bytes
+[2026-03-27 11:20:15] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=35, total_bytes=934405
+[2026-03-27 11:20:15] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Yes....
+[2026-03-27 11:20:15] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:16] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:16] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26375 bytes
+[2026-03-27 11:20:16] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=36, total_bytes=960780
+[2026-03-27 11:20:17] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:17] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26020 bytes
+[2026-03-27 11:20:17] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=37, total_bytes=986800
+[2026-03-27 11:20:18] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:18] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26332 bytes
+[2026-03-27 11:20:18] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=38, total_bytes=1013132
+[2026-03-27 11:20:18] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Oh....
+[2026-03-27 11:20:18] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:19] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:19] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26209 bytes
+[2026-03-27 11:20:19] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=39, total_bytes=1039341
+[2026-03-27 11:20:20] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:20] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26071 bytes
+[2026-03-27 11:20:20] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=40, total_bytes=1065412
+[2026-03-27 11:20:20] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Oh....
+[2026-03-27 11:20:20] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:21] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:21] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 25278 bytes
+[2026-03-27 11:20:21] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=41, total_bytes=1090690
+[2026-03-27 11:20:22] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:22] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26144 bytes
+[2026-03-27 11:20:22] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=42, total_bytes=1116834
+[2026-03-27 11:20:23] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Oh....
+[2026-03-27 11:20:23] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:23] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:23] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26853 bytes
+[2026-03-27 11:20:23] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=43, total_bytes=1143687
+[2026-03-27 11:20:24] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:24] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 28103 bytes
+[2026-03-27 11:20:24] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=44, total_bytes=1171790
+[2026-03-27 11:20:25] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:25] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 28136 bytes
+[2026-03-27 11:20:25] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=45, total_bytes=1199926
+[2026-03-27 11:20:25] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Ah....
+[2026-03-27 11:20:25] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:26] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:26] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 28690 bytes
+[2026-03-27 11:20:26] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=46, total_bytes=1228616
+[2026-03-27 11:20:27] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:27] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26704 bytes
+[2026-03-27 11:20:27] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=47, total_bytes=1255320
+[2026-03-27 11:20:27] [INFO] [ws.voice] [Session sess_b08bbff4] Interim transcript: Oh....
+[2026-03-27 11:20:27] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:28] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:28] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 29175 bytes
+[2026-03-27 11:20:28] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=48, total_bytes=1284495
+[2026-03-27 11:20:29] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:29] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 28745 bytes
+[2026-03-27 11:20:29] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=49, total_bytes=1313240
+[2026-03-27 11:20:30] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:30] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 27425 bytes
+[2026-03-27 11:20:30] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=50, total_bytes=1340665
+[2026-03-27 11:20:30] [INFO] [ws.voice] [Session sess_b08bbff4] Committed audio for interim transcription
+[2026-03-27 11:20:31] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:31] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 26982 bytes
+[2026-03-27 11:20:31] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=51, total_bytes=1367647
+[2026-03-27 11:20:31] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'text']
+[2026-03-27 11:20:31] [INFO] [ws.voice] [Session sess_b08bbff4] Received text message: type=control, action=stop, _closed=False
+[2026-03-27 11:20:31] [INFO] [ws.voice] Session sess_b08bbff4: Recognition stopped
+[2026-03-27 11:20:31] [INFO] [ws.voice] [Session sess_b08bbff4] Status: processing - 正在保存音频... (10%)
+[2026-03-27 11:20:31] [INFO] [ws.voice] [Session sess_b08bbff4] _process_after_stop: AUDIO_CACHE_ENABLED=True, audio_chunks len=51
+[2026-03-27 11:20:31] [INFO] [ws.voice] [Session sess_b08bbff4] Saving audio: 51 chunks, 1367647 bytes
+[2026-03-27 11:20:31] [INFO] [ws.voice] [Session sess_b08bbff4] Audio cached: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_b08bbff4.wav
+[2026-03-27 11:20:31] [INFO] [ws.voice] [Session sess_b08bbff4] Status: transcribing - 正在识别语音... (30%)
+[2026-03-27 11:20:32] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'bytes']
+[2026-03-27 11:20:32] [INFO] [ws.voice] [Session sess_b08bbff4] Received audio frame: 17031 bytes
+[2026-03-27 11:20:32] [INFO] [ws.voice] [Session sess_b08bbff4] process_audio: audio_chunks len=52, total_bytes=1384678
+[RealtimeASR] No session or empty buffer
+[2026-03-27 11:20:34] [INFO] [ws.voice] [Session sess_b08bbff4] Status: analyzing - 正在分析会议内容... (70%)
+[LLMAnalyzer] Unexpected DashScope response format: {'output': {'choices': [{'message': {'content': '{\n  "summary": "会议记录仅包含零散的语气词（如\'Oh\'、\'Ah\'、\'Yes\'、\'This\'），无实质性对话内容，未涉及具体议题、决策或交流信息。",\n  "key_points": ["录音内容全部为无意义语气词", "无发言者身份、姓名或角色信息", "无时间、地点、议程等上下文", "未识别出任何有效语义或主题", "无法推断会议目的或进展"],\n  "action_items": [],\n  "topics": ["无效录音", "语音识别失败", "会议准备问题"]\n}', 'role': 'assistant'}, 'finish_reason': 'stop'}]}, 'usage': {'total_tokens': 421, 'output_tokens': 131, 'input_tokens': 290, 'prompt_tokens_details': {'cached_tokens': 0}}, 'request_id': 'dacfaded-9366-42b6-bb43-61b381f709db'}
+[2026-03-27 11:20:37] [INFO] [ws.voice] [Session sess_b08bbff4] Status: completed - 处理完成 (100%)
+[2026-03-27 11:20:37] [INFO] [ws.voice] [Session sess_b08bbff4] Transcript saved to: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_b08bbff4_transcript.txt
+[2026-03-27 11:21:09] [INFO] [ws.voice] [Session sess_b08bbff4] Received data keys: ['type', 'code', 'reason']
+[2026-03-27 11:21:09] [ERROR] [ws.voice] [Session sess_b08bbff4] Error in message loop: Cannot call "receive" once a disconnect message has been received.
+[2026-03-27 11:21:09] [INFO] [ws.voice] Cleaning up session sess_b08bbff4
+INFO:     connection closed
+INFO:     127.0.0.1:52370 - "WebSocket /api/v1/ws/voice" [accepted]
+[2026-03-27 11:21:10] [INFO] [ws.voice] Initializing session sess_98108f1e
+INFO:     connection open
+[2026-03-27 11:21:13] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'text']
+[2026-03-27 11:21:13] [INFO] [ws.voice] [Session sess_98108f1e] Received text message: type=control, action=start, _closed=False
+[2026-03-27 11:21:13] [INFO] [ws.voice] Session sess_98108f1e: Recognition started
+[2026-03-27 11:21:15] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:15] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 27215 bytes
+[2026-03-27 11:21:15] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=1, total_bytes=27215
+[2026-03-27 11:21:16] [INFO] [ws.voice] [Session sess_98108f1e] Interim transcript: 这是一段。...
+[2026-03-27 11:21:16] [INFO] [ws.voice] [Session sess_98108f1e] Committed audio for interim transcription
+[2026-03-27 11:21:16] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:16] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 27682 bytes
+[2026-03-27 11:21:16] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=2, total_bytes=54897
+[2026-03-27 11:21:17] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:17] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 27106 bytes
+[2026-03-27 11:21:17] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=3, total_bytes=82003
+[2026-03-27 11:21:18] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:18] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 26508 bytes
+[2026-03-27 11:21:18] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=4, total_bytes=108511
+[2026-03-27 11:21:18] [INFO] [ws.voice] [Session sess_98108f1e] Interim transcript: This....
+[2026-03-27 11:21:18] [INFO] [ws.voice] [Session sess_98108f1e] Committed audio for interim transcription
+[2026-03-27 11:21:19] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:19] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 28114 bytes
+[2026-03-27 11:21:19] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=5, total_bytes=136625
+[2026-03-27 11:21:20] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:20] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 27750 bytes
+[2026-03-27 11:21:20] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=6, total_bytes=164375
+[2026-03-27 11:21:21] [INFO] [ws.voice] [Session sess_98108f1e] Committed audio for interim transcription
+[2026-03-27 11:21:21] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:21] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 26293 bytes
+[2026-03-27 11:21:21] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=7, total_bytes=190668
+[2026-03-27 11:21:22] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:22] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 27717 bytes
+[2026-03-27 11:21:22] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=8, total_bytes=218385
+[2026-03-27 11:21:23] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:23] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 25931 bytes
+[2026-03-27 11:21:23] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=9, total_bytes=244316
+[2026-03-27 11:21:23] [INFO] [ws.voice] [Session sess_98108f1e] Interim transcript: Shh....
+[2026-03-27 11:21:23] [INFO] [ws.voice] [Session sess_98108f1e] Committed audio for interim transcription
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 26229 bytes
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=10, total_bytes=270545
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'text']
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] Received text message: type=control, action=stop, _closed=False
+[2026-03-27 11:21:24] [INFO] [ws.voice] Session sess_98108f1e: Recognition stopped
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] Status: processing - 正在保存音频... (10%)
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] _process_after_stop: AUDIO_CACHE_ENABLED=True, audio_chunks len=10
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] Saving audio: 10 chunks, 270545 bytes
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] Audio cached: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_98108f1e.wav
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] Status: transcribing - 正在识别语音... (30%)
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'bytes']
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] Received audio frame: 8303 bytes
+[2026-03-27 11:21:24] [INFO] [ws.voice] [Session sess_98108f1e] process_audio: audio_chunks len=11, total_bytes=278848
+[RealtimeASR] No session or empty buffer
+[2026-03-27 11:21:26] [INFO] [ws.voice] [Session sess_98108f1e] Status: analyzing - 正在分析会议内容... (70%)
+[LLMAnalyzer] Unexpected DashScope response format: {'output': {'choices': [{'message': {'content': '{\n  "summary": "会议记录片段极短且无实质内容，仅包含零散语音片段和静音提示，未传达有效信息或讨论主题。",\n  "key_points": ["录音起始时间均为0.0秒", "存在重复时间戳（0.0s-1.7s出现两次）", "包含无效语音（\'This\'、\'Shh.\'）", "疑似录音测试或误触发片段", "无明确发言人、议题或上下文"],\n  "action_items": [],\n  "topics": ["录音质量", "会议有效性", "语音识别预处理"]\n}', 'role': 'assistant'}, 'finish_reason': 'stop'}]}, 'usage': {'total_tokens': 279, 'output_tokens': 129, 'input_tokens': 150, 'prompt_tokens_details': {'cached_tokens': 0}}, 'request_id': 'e7b110f5-490d-4e9c-923e-2e2fa156d2fa'}
+[2026-03-27 11:21:30] [INFO] [ws.voice] [Session sess_98108f1e] Status: completed - 处理完成 (100%)
+[2026-03-27 11:21:30] [INFO] [ws.voice] [Session sess_98108f1e] Transcript saved to: /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache/sess_98108f1e_transcript.txt
+INFO:     127.0.0.1:55095 - "OPTIONS /api/v1/upload HTTP/1.1" 200 OK
+[2026-03-27 13:50:08] [INFO] [ws.upload] [Upload upload_5e710693] Saving file: /var/folders/ht/f5jw1g3d3qj_bjzr42mz8xkw0000gp/T/voice_upload/upload_5e710693.mp3
+[2026-03-27 13:50:08] [INFO] [ws.upload] [Upload upload_5e710693] File saved: 622592 bytes
+[2026-03-27 13:50:08] [INFO] [ws.upload] [Upload upload_5e710693] Starting transcription...
+[2026-03-27 13:50:12] [INFO] [ws.upload] [Upload upload_5e710693] Transcribed: You're listening to TED Talks Daily, where we brin...
+[2026-03-27 13:50:12] [INFO] [ws.upload] [Upload upload_5e710693] Transcribed:  I'm your host, Elise Hu....
+[2026-03-27 13:50:12] [INFO] [ws.upload] [Upload upload_5e710693] Transcribed:  Like many of us, singer, actress, and mindset coa...
+[2026-03-27 13:50:12] [INFO] [ws.upload] [Upload upload_5e710693] Transcribed:  Over time, she's learned that regardless of what ...
+[2026-03-27 13:50:12] [INFO] [ws.upload] [Upload upload_5e710693] Transcribed:  To do that, we have to understand it....
+[2026-03-27 13:50:12] [INFO] [ws.upload] [Upload upload_5e710693] Transcribed:  In this conversation with scholar and TED Fellow ...
+[LLMAnalyzer] Unexpected DashScope response format: {'output': {'choices': [{'message': {'content': '{\n  "summary": "Rhonda Ross discusses her theory of emotional sovereignty—emphasizing the need to calm internal mental chaos by understanding and owning one\'s emotions, in conversation with Daniel Alexander Jones.",\n  "key_points": [\n    "Emotional sovereignty is the practice of claiming authority over one\'s own feelings.",\n    "Calm begins internally—regardless of external circumstances, inner stillness is essential.",\n    "Understanding the mind is foundational to managing emotional responses.",\n    "Rhonda draws from personal experience with extreme highs and lows to inform her approach."\n  ],\n  "action_items": [],\n  "topics": ["emotional intelligence", "mental wellness", "self-awareness", "mindset coaching"]\n}', 'role': 'assistant'}, 'finish_reason': 'stop'}]}, 'usage': {'total_tokens': 373, 'output_tokens': 145, 'input_tokens': 228, 'prompt_tokens_details': {'cached_tokens': 0}}, 'request_id': '26fa69b3-fb19-4295-9b66-1a00c14643ea'}
+[2026-03-27 13:50:16] [INFO] [ws.upload] [Upload upload_5e710693] Temp file cleaned up
+INFO:     127.0.0.1:55095 - "POST /api/v1/upload HTTP/1.1" 200 OK
+[2026-03-27 13:50:46] [INFO] [ws.upload] [Upload upload_66575c52] Saving file: /var/folders/ht/f5jw1g3d3qj_bjzr42mz8xkw0000gp/T/voice_upload/upload_66575c52.mp3
+[2026-03-27 13:50:46] [INFO] [ws.upload] [Upload upload_66575c52] File saved: 57586557 bytes
+[2026-03-27 13:50:46] [INFO] [ws.upload] [Upload upload_66575c52] Starting transcription...
+[DashScopeFile] File too large for Base64 (54.92MB), will attempt anyway
+[DashScopeFile] Submit failed: 400 - {"request_id":"6bb5c175-5b92-4a0d-8eb6-af2a9292cbc0","code":"InvalidParameter","message":"String value length (20054016) exceeds the maximum allowed (20000000, from `StreamReadConstraints.getMaxStringLength()`)"}
+[DashScopeFile] File recognition error: Failed to submit transcription task
+[2026-03-27 13:50:48] [ERROR] [ws.upload] [Upload upload_66575c52] Error: DashScope file recognition failed: Failed to submit transcription task
+[2026-03-27 13:50:48] [INFO] [ws.upload] [Upload upload_66575c52] Temp file cleaned up
+INFO:     127.0.0.1:55105 - "POST /api/v1/upload HTTP/1.1" 500 Internal Server Error
+[2026-03-27 13:50:59] [INFO] [ws.upload] [Upload upload_d05df3bb] Saving file: /var/folders/ht/f5jw1g3d3qj_bjzr42mz8xkw0000gp/T/voice_upload/upload_d05df3bb.mp3
+[2026-03-27 13:50:59] [INFO] [ws.upload] [Upload upload_d05df3bb] File saved: 9609105 bytes
+[2026-03-27 13:50:59] [INFO] [ws.upload] [Upload upload_d05df3bb] Starting transcription...
+[DashScopeFile] Submit failed: 400 - {"request_id":"5c717c64-ade7-419f-b8d1-7c7035c5f148","code":"BadRequest.TooLarge","message":"Exceeded limit on max bytes per data-uri item : 10485760"}
+[DashScopeFile] File recognition error: Failed to submit transcription task
+[2026-03-27 13:51:00] [ERROR] [ws.upload] [Upload upload_d05df3bb] Error: DashScope file recognition failed: Failed to submit transcription task
+[2026-03-27 13:51:00] [INFO] [ws.upload] [Upload upload_d05df3bb] Temp file cleaned up
+INFO:     127.0.0.1:55107 - "POST /api/v1/upload HTTP/1.1" 500 Internal Server Error
+[2026-03-27 13:57:12] [INFO] [ws.voice] [Session sess_98108f1e] Received data keys: ['type', 'code', 'reason']
+[2026-03-27 13:57:12] [ERROR] [ws.voice] [Session sess_98108f1e] Error in message loop: Cannot call "receive" once a disconnect message has been received.
+[2026-03-27 13:57:12] [INFO] [ws.voice] Cleaning up session sess_98108f1e
+INFO:     connection closed
+INFO:     127.0.0.1:55384 - "WebSocket /api/v1/ws/voice" [accepted]
+[2026-03-27 13:57:14] [INFO] [ws.voice] Initializing session sess_872ecf97
+INFO:     connection open
+[2026-03-27 13:57:20] [INFO] [ws.upload] [Upload upload_72a83cb7] Saving file: /var/folders/ht/f5jw1g3d3qj_bjzr42mz8xkw0000gp/T/voice_upload/upload_72a83cb7.mp3
+[2026-03-27 13:57:21] [INFO] [ws.upload] [Upload upload_72a83cb7] File saved: 9609105 bytes
+[2026-03-27 13:57:21] [INFO] [ws.upload] [Upload upload_72a83cb7] Starting transcription...
+[DashScopeFile] Submit failed: 400 - {"request_id":"098fdcec-1080-43c6-8222-8307d2ec3c01","code":"BadRequest.TooLarge","message":"Exceeded limit on max bytes per data-uri item : 10485760"}
+[DashScopeFile] File recognition error: Failed to submit transcription task
+[2026-03-27 13:57:38] [ERROR] [ws.upload] [Upload upload_72a83cb7] Error: DashScope file recognition failed: Failed to submit transcription task
+[2026-03-27 13:57:38] [INFO] [ws.upload] [Upload upload_72a83cb7] Temp file cleaned up
+INFO:     127.0.0.1:55385 - "POST /api/v1/upload HTTP/1.1" 500 Internal Server Error
+INFO:     Shutting down
+[2026-03-27 13:58:31] [INFO] [ws.voice] [Session sess_872ecf97] Received data keys: ['type', 'code']
+[2026-03-27 13:58:31] [ERROR] [ws.voice] [Session sess_872ecf97] Error in message loop: Cannot call "receive" once a disconnect message has been received.
+[2026-03-27 13:58:31] [INFO] [ws.voice] Cleaning up session sess_872ecf97
+INFO:     connection closed
+INFO:     Waiting for application shutdown.
+[2026-03-27 13:58:31] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [58688]

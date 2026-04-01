@@ -1,0 +1,70 @@
+```json
+{
+  "主题": "通过喜剧表演和虚构的银行客服对话，探讨智能手机如何反映并加剧现代人的欲望、焦虑和孤独感。",
+  "章节划分": [
+    {
+      "章节名称": "节目开场与引入",
+      "起始位置": "speaker_2: you're listening to ted doc's daily",
+      "结束位置": "speaker_2: that's coming up right after a short break"
+    },
+    {
+      "章节名称": "广告插播",
+      "起始位置": "speaker_4: 嗯， this podcast is brought to you by wise",
+      "结束位置": "speaker_5: follow the reveal podcast feed and look for more to the story every wednesday"
+    },
+    {
+      "章节名称": "主讲人登场与表演",
+      "起始位置": "speaker_2: and now are ten talk of the day",
+      "结束位置": "speaker_3: well， thank you"
+    },
+    {
+      "章节名称": "节目收尾与预告",
+      "起始位置": "speaker_2: 嗯， that was mike elbow at ten",
+      "结束位置": "speaker_2: i'll be back tomorrow with a fresh idea for your feet things for listening"
+    },
+    {
+      "章节名称": "附加访谈片段",
+      "起始位置": "speaker_2: i recently had comedian and host of ted how to be a better human podcast christopphe on our show",
+      "结束位置": "speaker_2: what to be a better human listenwhwherever you get your shows"
+    }
+  ],
+  "内容摘要": "本期TED音频节目以喜剧演员Mike Elbow的表演为核心。表演以一段虚构的银行客服电话为形式，客服人员（speaker_0）通过核对Mike（speaker_3）过去24小时的消费记录，戏剧化地揭示了他的日常生活：包括购买健康食品、葡萄酒、约会应用会员、因情感触动而购买电影《请以你的名字呼唤我》并哭泣，以及最终在孤独中酗酒、在社交软件上漫无目的地浏览。这段表演幽默而尖锐地展现了智能手机和数字消费如何精准映射并放大了个人的欲望、焦虑、孤独和自我认知危机。节目在表演前后包含了主持人介绍、广告和节目制作信息，并在最后附加了一段关于如何在日常对话中通过幽默增进人际连接的访谈片段。",
+  "发言人员角色识别": [
+    {
+      "说话人标识": "speaker_2",
+      "角色": "主持人",
+      "判断依据": "负责节目开场、串场、介绍主讲人及内容，并进行节目收尾和预告，是贯穿全篇的引导者。"
+    },
+    {
+      "说话人标识": "speaker_3",
+      "角色": "主讲人/表演者",
+      "判断依据": "自我介绍为Mike Elbow，并进行了核心的喜剧表演，是本期话题的主要阐述者和表演者。"
+    },
+    {
+      "说话人标识": "speaker_0",
+      "角色": "表演者（银行客服）",
+      "判断依据": "在Mike的表演中扮演银行客服Danny，通过询问消费细节来推动叙事，是表演中的关键对话方。"
+    },
+    {
+      "说话人标识": "speaker_4",
+      "角色": "广告播音员",
+      "判断依据": "播报Wise金融服务的广告内容。"
+    },
+    {
+      "说话人标识": "speaker_5",
+      "角色": "推广播音员",
+      "判断依据": "推广另一档名为“more to the story”的播客节目。"
+    },
+    {
+      "说话人标识": "speaker_6",
+      "角色": "表演者（银行语音系统）",
+      "判断依据": "在表演开始时模拟银行自动语音系统的提示音。"
+    },
+    {
+      "说话人标识": "speaker_7",
+      "角色": "访谈嘉宾",
+      "判断依据": "在节目最后的附加片段中，作为被采访者分享关于幽默沟通的观点。"
+    }
+  ]
+}
+```

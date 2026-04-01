@@ -1,0 +1,12 @@
+启动前端服务 (http://localhost:5173)...
+cd frontend && npm run dev
+
+> meeting-voice-assistant-frontend@1.0.0 dev
+> vite
+
+Port 5173 is in use, trying another one...
+
+  VITE v5.4.21  ready in 428 ms
+
+  ➜  Local:   http://localhost:5174/
+  ➜  Network: use --host to expose

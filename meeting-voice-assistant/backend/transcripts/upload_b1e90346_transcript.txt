@@ -1,0 +1,486 @@
+# 会议转写文本
+# Session ID: upload_b1e90346
+# 开始时间: 2026-03-31 16:10:34
+# 总时长: 11:43:31
+# 转写片段数: 157
+# 来源: 文件上传
+
+============================================================
+
+[00:00:04 - 00:00:09] 发言人 A:
+  You're listening to TED Talks Daily, where we bring you new ideas to spark your curiosity every day.
+
+[00:00:18 - 00:00:19] 发言人 A:
+   I'm your host, Elise Hu.
+
+[00:00:30 - 00:00:33] 发言人 A:
+   Oh gosh, I just got a really alarming text from my bank.
+
+[00:00:48 - 00:00:54] 发言人 A:
+   Did you pick up your phone for the 800th time that day, empty of emotion but still feeling a deep lonely ache?
+
+[00:01:15 - 00:01:16] 发言人 A:
+   Yes.
+
+[00:01:39 - 00:01:50] 发言人 A:
+  That's comedian and writer Mike Albo describing a feeling I think we all know a little too well.
+
+[00:02:25 - 00:02:33] 发言人 A:
+   Indeed, we talk a lot about how our phones run our lives, but what happens when they get a little too smart, too reflective of the world around us?
+
+[00:03:15 - 00:03:17] 发言人 A:
+   Yes, I did, but how did you know that?
+
+[00:04:02 - 00:04:15] 发言人 A:
+   And then did you order Call Me By Your Name on iTunes for $7.99 and then finally watch it because you have avoided watching it because as a gay man pushing 50, you don't want to get upset seeing young gorgeous men in love?
+
+[00:05:13 - 00:05:15] 发言人 A:
+   Yes, I did.
+
+[00:06:16 - 00:06:31] 发言人 A:
+   In this part comedy, part memoir, part documentary talk, Mike takes a very personal route to show us the hilarious and painfully relatable ways that our digital lives are reflecting our desires, anxieties, and vanities.
+
+[00:07:46 - 00:07:48] 发言人 A:
+   That's coming up right after a short break.
+
+[00:09:14 - 00:09:18] 发言人 A:
+  This podcast is brought to you by Wise, the app for using money around the globe.
+
+[00:10:49 - 00:10:52] 发言人 A:
+   With Wise, you can send, spend and receive in over forty currencies.
+
+[00:12:27 - 00:12:29] 发言人 A:
+   No markups, no hidden fees.
+
+[00:14:05 - 00:14:13] 发言人 A:
+   Whether you're sending dollars down under, spending pounds in London, or paying freelancers in pesos, you'll get the mid-market exchange rate on every transaction.
+
+[00:15:58 - 00:16:00] 发言人 A:
+   Plus most transfers arrive in less than twenty seconds.
+
+[00:17:48 - 00:17:51] 发言人 A:
+  Join fifteen million customers internationally.
+
+[00:19:39 - 00:19:39] 发言人 A:
+   Join.
+
+[00:21:30 - 00:21:31] 发言人 A:
+   Be smart, get wise.
+
+[00:23:24 - 00:23:25] 发言人 A:
+   Download the Wise app today.
+
+[00:25:20 - 00:25:21] 发言人 A:
+   T's and C's apply.
+
+[00:27:17 - 00:27:24] 发言人 A:
+   One of the best parts for me about hosting Reveal, you know your favorite weekly investigative podcast, is the interviews.
+
+[00:29:27 - 00:29:34] 发言人 A:
+   I love to sit down with people and try to gain a perspective that gives me and our listeners a new way of seeing the world.
+
+[00:31:45 - 00:31:49] 发言人 A:
+   Which is why we're launching More to the Story with me, Al Letson.
+
+[00:34:04 - 00:34:09] 发言人 A:
+   It's a place where I can talk to some of the most intriguing people to bring some context to our changing world.
+
+[00:36:30 - 00:36:34] 发言人 A:
+   Follow the Reveal podcast feed and look for More to the Story every Wednesday.
+
+[00:39:01 - 00:39:01] 发言人 A:
+  嗯。
+
+[00:41:32 - 00:41:34] 发言人 A:
+  And now our TED Talk of the day.
+
+[00:44:09 - 00:44:13] 发言人 A:
+   Hi, hello, hi TED people.
+
+[00:46:53 - 00:46:54] 发言人 A:
+   I'm Mike Albo.
+
+[00:49:36 - 00:49:38] 发言人 A:
+   I'm so excited to be here in Hotlanta.
+
+[00:52:24 - 00:52:29] 发言人 A:
+   Do they still call it that, or is that insulting?
+
+[00:55:19 - 00:55:20] 发言人 A:
+   I'm sorry.
+
+[00:58:12 - 00:58:18] 发言人 A:
+   Anyway, I'm here to talk about our smartphones and how they control our.
+
+[01:01:18 - 01:01:18] 发言人 A:
+  Oh dear.
+
+[01:04:19 - 01:04:22] 发言人 A:
+   Oh gosh, I just got a really alarming text from my bank.
+
+[01:07:27 - 01:07:32] 发言人 A:
+   Do you mind if I just this will just take a second, I'm sorry.
+
+[01:10:42 - 01:10:45] 发言人 A:
+   Hello, thank you for calling American Bank.
+
+[01:13:58 - 01:14:00] 发言人 A:
+   For English, please press one.
+
+[01:17:15 - 01:17:17] 发言人 A:
+   Para español, oprima número dos.
+
+[01:20:36 - 01:20:41] 发言人 A:
+   To report a card lost or stolen, or to report suspicious activity on your account, press one.
+
+[01:24:05 - 01:24:07] 发言人 A:
+  We are experiencing heavy traffic.
+
+[01:27:34 - 01:27:36] 发言人 A:
+   Please hold for the next available representative.
+
+[01:31:05 - 01:31:06] 发言人 A:
+   Your call is.
+
+[01:34:38 - 01:34:39] 发言人 A:
+   Hello, thank you for calling American Bank.
+
+[01:38:13 - 01:38:13] 发言人 A:
+   This is Danny.
+
+[01:41:47 - 01:41:48] 发言人 A:
+   How may I help you?
+
+[01:45:23 - 01:45:27] 发言人 A:
+   Hi, I just received a text that there's a foreign charge on my account.
+
+[01:49:06 - 01:49:08] 发言人 A:
+   Yes, I'll be happy to assist you with that, Mr.
+
+[01:52:49 - 01:52:49] 发言人 A:
+   Albo.
+
+[01:56:30 - 01:56:33] 发言人 A:
+   May I have the last four digits of your social security number?
+
+[02:00:18 - 02:00:19] 发言人 A:
+   Uh, one seven three four.
+
+[02:04:06 - 02:04:07] 发言人 A:
+   Thank you, Mr.
+
+[02:07:54 - 02:07:55] 发言人 A:
+   Albo.
+
+[02:11:44 - 02:11:46] 发言人 A:
+  Yes, it appears there has been some suspicious activity.
+
+[02:15:38 - 02:15:42] 发言人 A:
+   To validate your account, I will need to confirm recent transactions over the last twenty-four hours.
+
+[02:19:39 - 02:19:40] 发言人 A:
+   Is that okay with you, Mister Elba?
+
+[02:23:38 - 02:23:38] 发言人 A:
+   Yes.
+
+[02:27:39 - 02:27:42] 发言人 A:
+   Did you purchase a smoothie in Philadelphia yesterday at six a.
+
+[02:31:46 - 02:31:46] 发言人 A:
+  m.
+
+[02:35:50 - 02:35:51] 发言人 A:
+   for one dollar and fifty cents?
+
+[02:39:57 - 02:39:58] 发言人 A:
+   Weird, no.
+
+[02:44:07 - 02:44:10] 发言人 A:
+  Did you purchase a bubble tea in Puerto Vallarta today at 8 a.
+
+[02:48:22 - 02:48:22] 发言人 A:
+  m.
+
+[02:52:34 - 02:52:35] 发言人 A:
+   for $0.00?
+
+[02:56:48 - 02:56:50] 发言人 A:
+   I did not.
+
+[03:01:05 - 03:01:09] 发言人 A:
+   Did you purchase a chopped salad in Toronto yesterday at 8:30 a.
+
+[03:05:28 - 03:05:28] 发言人 A:
+  m.
+
+[03:09:47 - 03:09:49] 发言人 A:
+   for 37 cents?
+
+[03:14:09 - 03:14:10] 发言人 A:
+   I did not.
+
+[03:18:33 - 03:18:35] 发言人 A:
+   Okay, yes, it seems your account has been hacked.
+
+[03:23:00 - 03:23:04] 发言人 A:
+   If you will allow me to continue with your transactions over the last 24 hours, Mr.
+
+[03:27:32 - 03:27:34] 发言人 A:
+   Albo, just to make sure.
+
+[03:32:05 - 03:32:05] 发言人 A:
+   Okay.
+
+[03:36:37 - 03:36:45] 发言人 A:
+  Did you purchase two organic chicken breasts, brown rice, and a head of broccoli at Whole Foods for $28.11 at 4:59 p.
+
+[03:41:26 - 03:41:26] 发言人 A:
+  m.
+
+[03:46:07 - 03:46:07] 发言人 A:
+   yesterday?
+
+[03:50:49 - 03:50:50] 发言人 A:
+   Yes, I know, so expensive.
+
+[03:55:34 - 03:55:40] 发言人 A:
+   Did you purchase a bottle of wine for $11.50 at Smith Street Wine and Liquor at 5:12 p.
+
+[04:00:30 - 04:00:31] 发言人 A:
+  m.
+
+[04:05:21 - 04:05:21] 发言人 A:
+   yesterday?
+
+[04:10:12 - 04:10:13] 发言人 A:
+   Yes.
+
+[04:15:06 - 04:15:13] 发言人 A:
+  And then did you purchase drinks at Loco Coco Saloon for fourteen dollars at five thirty five pm?
+
+[04:20:13 - 04:20:16] 发言人 A:
+   No, wait, oh yeah, I was with this guy Jeff.
+
+[04:25:18 - 04:25:21] 发言人 A:
+   I was trying to meet someone in public before I, anyway, yes.
+
+[04:30:27 - 04:30:32] 发言人 A:
+   Did you purchase a monthly membership renewal on Grindr?
+
+[04:35:44 - 04:35:45] 发言人 A:
+   Um, yeah.
+
+[04:40:58 - 04:41:01] 发言人 A:
+   Did you purchase an auto renewal membership on Scruff?
+
+[04:46:18 - 04:46:20] 发言人 A:
+   Um, yes, I must have.
+
+[04:51:40 - 04:51:41] 发言人 A:
+  Then at nine thirty p.
+
+[04:57:02 - 04:57:02] 发言人 A:
+  m.,
+
+[05:02:23 - 05:02:28] 发言人 A:
+   did you purchase another bottle of wine from Vino Nino Wine Company on Atlantic Avenue?
+
+[05:07:55 - 05:07:55] 发言人 A:
+   Uh, yes.
+
+[05:13:24 - 05:13:29] 发言人 A:
+   And did you do this because you didn't want the guys at Smith Street Wine to see you buying more wine on the same day?
+
+[05:19:04 - 05:19:04] 发言人 A:
+   Yes, but.
+
+[05:24:40 - 05:24:42] 发言人 A:
+   And did you go home and eat while standing up at the sink?
+
+[05:30:20 - 05:30:23] 发言人 A:
+   Yes, I did, but how did you know that?
+
+[05:36:04 - 05:36:16] 发言人 A:
+   And then did you order Call Me By Your Name on iTunes for seven and ninety-nine cents and then finally watch it because you have avoided watching it because as a gay man pushing fifty, you don't want to get upset seeing young gorgeous men in love?
+
+[05:42:09 - 05:42:11] 发言人 A:
+   Yes, I did.
+
+[05:48:07 - 05:48:15] 发言人 A:
+   And then at the end, did you burst into tears but then go look in the mirror to see how you look when you cry shirtless and then purchase a Peloton membership?
+
+[05:54:18 - 05:54:19] 发言人 A:
+   Yes.
+
+[06:00:24 - 06:00:31] 发言人 A:
+   And then did you take a photo of your torso in the mirror because you realized your abs look good when you are heaving with tears?
+
+[06:06:44 - 06:06:44] 发言人 A:
+   Yes.
+
+[06:12:59 - 06:13:05] 发言人 A:
+  Did you pick up your phone for the eight hundredth time that day, empty of emotion, but still feeling a deep lonely ache?
+
+[06:19:26 - 06:19:26] 发言人 A:
+   Yes.
+
+[06:25:49 - 06:25:55] 发言人 A:
+   And scroll through Scruff, having a number of pointless conversations with headless torsos?
+
+[06:32:23 - 06:32:23] 发言人 A:
+   Yes.
+
+[06:38:52 - 06:38:57] 发言人 A:
+   Drinking your previously purchased wine until you were so sloshed?
+
+[06:45:30 - 06:45:30] 发言人 A:
+   Yes.
+
+[06:52:04 - 06:52:15] 发言人 A:
+  And you cried by yourself, no one else there, just you, a low-income single gay man that no one wants to hear from in society since you are over 40 and make less than $30,000 a year?
+
+[06:58:59 - 06:59:00] 发言人 A:
+   Yes.
+
+[07:05:45 - 07:05:57] 发言人 A:
+   And then did you pass out staring at yet another hot man on your screen you will never meet in person, and then wake up and look at your phone and realize with horror that you were late to get to the airport to go to Atlanta for this TEDx event?
+
+[07:12:55 - 07:12:55] 发言人 A:
+   I did.
+
+[07:19:55 - 07:20:06] 发言人 A:
+   And barely got to the airport on time and landed in Atlanta, got to the Uber and checked Scruff and Grindr again to see if there are any hot guys in Atlanta because this town is indeed full of very sexy men.
+
+[07:27:17 - 07:27:19] 发言人 A:
+   I did, I did, and they are, they are.
+
+[07:34:33 - 07:34:53] 发言人 A:
+   And then you got to the venue and ran out of the Uber and rushed backstage with your phone in your hand and brought it up on stage with you, and then just now, walking on stage, looked down again to see if there are any hot guys to meet right here in the audience, and saw that we, American Bank, had contacted you by text.
+
+[07:42:27 - 07:42:27] 发言人 A:
+  I did.
+
+[07:50:01 - 07:50:05] 发言人 A:
+   I did.
+
+[07:57:46 - 07:57:47] 发言人 A:
+  Well, Mr.
+
+[08:05:28 - 08:05:30] 发言人 A:
+   Albo, it seems your transactions are in order.
+
+[08:13:14 - 08:13:18] 发言人 A:
+   We will cancel the card and you can expect a new one in the next six to ten business days.
+
+[08:21:06 - 08:21:08] 发言人 A:
+   Six to ten business days?
+
+[08:28:59 - 08:29:00] 发言人 A:
+   Is there anything else I can help you with?
+
+[08:36:53 - 08:36:54] 发言人 A:
+   No, thanks, Danny.
+
+[08:44:49 - 08:44:49] 发言人 A:
+   Thank you, Mr.
+
+[08:52:45 - 08:52:45] 发言人 A:
+   Albo.
+
+[09:00:41 - 09:00:44] 发言人 A:
+   We very much appreciate your continued patronage of American Bank.
+
+[09:08:44 - 09:08:45] 发言人 A:
+   Also, you are a drunk gay tramp.
+
+[09:16:47 - 09:16:47] 发言人 A:
+   Goodbye.
+
+[09:24:49 - 09:24:49] 发言人 A:
+   Hey.
+
+[09:32:54 - 09:32:56] 发言人 A:
+  Well, I guess I am.
+
+[09:41:03 - 09:41:04] 发言人 A:
+   Oh, and my time's out.
+
+[09:49:13 - 09:49:14] 发言人 A:
+   Well, thank you.
+
+[09:53:19 - 09:53:21] 发言人 A:
+  嗯嗯嗯。
+
+[09:57:34 - 09:57:38] 发言人 A:
+  That was Mike Albo at TEDxNext 2025.
+
+[10:01:54 - 10:01:58] 发言人 A:
+   If you're curious about TED's curation, find out more at ted.
+
+[10:06:19 - 10:06:21] 发言人 A:
+  com/curationguidelines.
+
+[10:10:44 - 10:10:45] 发言人 A:
+   And that's it for today.
+
+[10:15:09 - 10:15:12] 发言人 A:
+   TED Talks Daily is part of the TED Audio Collective.
+
+[10:19:40 - 10:19:50] 发言人 A:
+   This talk was fact-checked by the TED Research team and produced and edited by our team: Martha Estefanous, Oliver Friedman, Brian Green, Lucy Little, and Tonsica Sungmarneevong.
+
+[10:24:27 - 10:24:29] 发言人 A:
+   This episode was mixed by Lucy Little.
+
+[10:29:09 - 10:29:13] 发言人 A:
+   Additional support from Emma Tobner and Daniela Ballarezo.
+
+[10:33:56 - 10:33:57] 发言人 A:
+   I'm Elise Hu.
+
+[10:38:41 - 10:38:44] 发言人 A:
+   I'll be back tomorrow with a fresh idea for your feed.
+
+[10:43:31 - 10:43:31] 发言人 A:
+   Thanks for listening.
+
+[10:48:31 - 10:48:37] 发言人 A:
+  I recently had comedian and host of TED's How to Be a Better Human podcast, Chris Duffy, on our show.
+
+[10:53:42 - 10:53:46] 发言人 A:
+   He sat down for a special interview where he talked about how to laugh more at the little things in life.
+
+[10:58:57 - 10:59:01] 发言人 A:
+   One of the ways that we take the least social risk is in conversations with people we don't know that well.
+
+[11:04:15 - 11:04:17] 发言人 A:
+   We tend to just say like, so how are you?
+
+[11:09:35 - 11:09:35] 发言人 A:
+   What do you do?
+
+[11:14:53 - 11:14:58] 发言人 A:
+   There's no risk involved, and as a result, it's very unlikely that you and the other person will like laugh or connect.
+
+[11:20:20 - 11:20:29] 发言人 A:
+   So I think you can take like a low risk thing and ask them a question that's just a little unusual, but that you actually are interested in or is a little funny.
+
+[11:26:01 - 11:26:05] 发言人 A:
+   Now the person might be like, this is weird, why are you asking me about terrible soups?
+
+[11:31:40 - 11:31:47] 发言人 A:
+   But you'll probably have a conversation that is a little bit more memorable and funny and has the potential for laughter than other things.
+
+[11:37:30 - 11:37:38] 发言人 A:
+   Get more practical tips on how to be the best you can be by listening to Chris interview TED speakers on his podcast, How to Be a Better Human.
+
+[11:43:29 - 11:43:31] 发言人 A:
+   Listen wherever you get your shows.
+
+============================================================
+
+# LLM 分析结果
+
+## 摘要
+（无总结）

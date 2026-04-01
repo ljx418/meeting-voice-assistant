@@ -1,0 +1,75 @@
+```json
+{
+  "主题": "通过一段虚构的银行客服对话，以幽默讽刺的方式展现智能手机如何记录并反映现代人的欲望、焦虑和孤独的数字生活。",
+  "章节划分": [
+    {
+      "章节名称": "节目开场与引入",
+      "起始位置": "speaker_2: you're listening to ted doc's daily",
+      "结束位置": "speaker_2: that's coming up right after a short break"
+    },
+    {
+      "章节名称": "广告插播",
+      "起始位置": "speaker_4: this podcast is brought to you by wise",
+      "结束位置": "speaker_2: and now are ten talk of the day"
+    },
+    {
+      "章节名称": "主讲人登场与主题引入",
+      "起始位置": "speaker_3: 哼嗨啊，hello，hi，ted people",
+      "结束位置": "speaker_3: i'm sorry"
+    },
+    {
+      "章节名称": "核心表演：银行客服对话",
+      "起始位置": "speaker_6: hello，thank you for calling american bank",
+      "结束位置": "speaker_3: 嘿 well，I guess i am when my times out"
+    },
+    {
+      "章节名称": "节目收尾与制作信息",
+      "起始位置": "speaker_2: 嗯，that was mike elbow at ten",
+      "结束位置": "speaker_2: i'll be back tomorrow with a fresh idea for your feet things for listening"
+    },
+    {
+      "章节名称": "附加内容：另一节目访谈片段",
+      "起始位置": "speaker_2: i recently had comedian and host of ted how to be a better human podcast christopphe on our show",
+      "结束位置": "speaker_2: you get your shows"
+    }
+  ],
+  "内容摘要": "本期TED音频节目以喜剧演员Mike Elbow的表演为核心。表演以一段虚构的银行客服电话形式展开，客服人员（Danny）通过核实账户可疑交易，逐条念出了Mike过去24小时内的所有消费记录。这些记录不仅包括日常购物，更详细揭露了他通过Grindr、Scruff等社交软件寻求联系、购买电影《请以你的名字呼唤我》却因情感触动而避免观看、独自饮酒、对身材的焦虑（购买Peloton会员、自拍）、以及深夜感到孤独并哭泣等一系列高度私密和个人化的行为。这段表演幽默而尖锐地揭示了智能手机和数字服务如何成为我们欲望、焦虑、孤独和脆弱性的忠实记录者与反射镜，展现了数字生活与个人情感状态之间令人不安又啼笑皆非的紧密联系。节目最后还穿插了另一档播客的访谈片段，分享了关于如何通过提问进行更有趣社交的技巧。",
+  "发言人员角色识别": [
+    {
+      "说话人标识": "speaker_2",
+      "角色": "节目主持人",
+      "判断依据": "负责节目开场、串场、介绍主讲人及内容、播报制作人员名单和节目收尾，是贯穿全篇的引导者。"
+    },
+    {
+      "说话人标识": "speaker_3",
+      "角色": "主讲人/表演者 (Mike Elbow)",
+      "判断依据": "在节目中段登场，进行主题演讲，并以第一人称表演了与银行客服对话的喜剧片段，是核心内容的呈现者。"
+    },
+    {
+      "说话人标识": "speaker_0",
+      "角色": "表演中的对话者 (银行客服 Danny)",
+      "判断依据": "在核心表演片段中扮演银行客服人员Danny，通过询问交易细节来推动剧情，揭露主讲人的数字生活轨迹。"
+    },
+    {
+      "说话人标识": "speaker_4",
+      "角色": "广告播报员",
+      "判断依据": "专门播报Wise金融服务的广告内容。"
+    },
+    {
+      "说话人标识": "speaker_5",
+      "角色": "其他节目主持人/推广者",
+      "判断依据": "推广另一档名为“more to the story”的访谈播客节目。"
+    },
+    {
+      "说话人标识": "speaker_6",
+      "角色": "表演中的语音提示",
+      "判断依据": "在表演片段开始时，播放银行客服系统的自动语音提示。"
+    },
+    {
+      "说话人标识": "speaker_7",
+      "角色": "访谈嘉宾 (Christopphe)",
+      "判断依据": "在节目最后的附加内容中，作为被访谈者分享关于社交和幽默的观点。"
+    }
+  ]
+}
+```

@@ -1,0 +1,60 @@
+```json
+{
+  "主题": "TED Audio Collective旗下播客《Design Matters》为庆祝世界诗歌日及节目二十周年，精选了主持人Debbie Millman对诗人Eileen Myles、Elizabeth Alexander、Sarah Kay和Amber Tamblyn的访谈片段，探讨诗歌创作、身份认同与个人经历。",
+  "章节划分": [
+    {
+      "章节名称": "节目开场与介绍",
+      "起始位置": "[00:04 - 00:06] speaker_0: Hey, TED Talks Daily listeners...",
+      "结束位置": "[02:43 - 02:43] speaker_0: Today, they reveal poetry as an intimate and profound practice..."
+    },
+    {
+      "章节名称": "广告插播 (Wise)",
+      "起始位置": "[18:49 - 18:53] speaker_0: This podcast is brought to you by Wise...",
+      "结束位置": "[42:10 - 42:10] speaker_0: ...T's and C's apply."
+    },
+    {
+      "章节名称": "主持人引言与诗人访谈开场",
+      "起始位置": "[42:03 - 42:10] speaker_0: One of the best parts for me about hosting Reveal...",
+      "结束位置": "[77:47 - 77:47] speaker_0: ...I'd like to play excerpts from some of the poets I've had the pleasure of talking with and listening to."
+    },
+    {
+      "章节名称": "Eileen Myles 访谈片段",
+      "起始位置": "[81:45 - 81:53] speaker_0: Eileen Miles has been publishing poetry for fifty years...",
+      "结束位置": "[1193:01 - 1193:01] speaker_0: That was Eileen Miles in twenty seventeen reading the poem..."
+    },
+    {
+      "章节名称": "Elizabeth Alexander 访谈片段",
+      "起始位置": "[1204:03 - 1204:12] speaker_0: Elizabeth Alexander is a celebrated poet...",
+      "结束位置": "[3235:28 - 3235:28] speaker_0: ...Elizabeth Alexander in twenty seventeen."
+    },
+    {
+      "章节名称": "广告插播 (Wise & Reveal)",
+      "起始位置": "[3235:24 - 3235:28] speaker_0: This podcast is brought to you by Wise...",
+      "结束位置": "[3500:07 - 3500:07] speaker_0: 嗯。"
+    },
+    {
+      "章节名称": "Sarah Kay 访谈片段",
+      "起始位置": "[3518:18 - 3518:23] speaker_0: Sarah Kay is a writer and poet...",
+      "结束位置": "[5926:30 - 5926:30] speaker_0: ...Sarah K. in 2018."
+    },
+    {
+      "章节名称": "Amber Tamblyn 访谈片段",
+      "起始位置": "[5950:24 - 5950:28] speaker_0: Amber Tamblyn is an award-winning television...",
+      "结束位置": "[9857:13 - 9857:13] speaker_0: ...Amber Tamblyn in twenty twenty."
+    },
+    {
+      "章节名称": "节目结尾与预告",
+      "起始位置": "[9886:30 - 9886:42] speaker_0: You can hear my full interviews...",
+      "结束位置": "[10435:31 - 10435:31] speaker_0: ...Listen wherever you get your shows."
+    }
+  ],
+  "内容摘要": "本期《Design Matters》播客为庆祝世界诗歌日及节目二十周年，主持人Debbie Millman精选了与四位杰出诗人的访谈片段。诗人Eileen Myles分享了其作为“职业人类”的诗人角色、早期在纽约的诗歌生涯、对艾伦·金斯堡的欣赏，以及诗歌作为翻译和风格融合的实践。Elizabeth Alexander探讨了芭蕾训练对其写作纪律的影响，回忆了种族身份与个人经历的交织（如诗歌《Tina Green》），并讲述了导师德里克·沃尔科特如何引导她发现诗歌形式。Sarah Kay讲述了诗歌如何在她13岁时（恰逢9/11事件）为她提供了表达与归属感，并朗读了反思恐怖主义与个人联系的诗歌《The Places We Are Not》。Amber Tamblyn讨论了童星经历、表演艺术的失控感，以及诗歌如何作为她掌控表达、处理身份危机（如诗集《Dark Sparkler》）的“救赎”与“第三位父母”。整期节目通过诗人的朗读与对话，展现了诗歌作为连接个人体验、记忆与普遍情感的深刻艺术形式。",
+  "发言人员角色识别": [
+    {
+      "说话人标识": "speaker_0",
+      "角色": "主持人/旁白",
+      "判断依据": "贯穿始终的叙述者，介绍节目背景、引导话题、朗读诗人简介和访谈问题，并穿插播客广告和结尾信息，起到串联和主导作用。"
+    }
+  ]
+}
+```

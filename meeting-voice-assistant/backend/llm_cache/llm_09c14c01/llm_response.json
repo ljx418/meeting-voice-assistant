@@ -1,0 +1,70 @@
+```json
+{
+  "主题": "通过个人故事和喜剧表演探讨智能手机如何反映并控制我们的欲望、焦虑和孤独感。",
+  "章节划分": [
+    {
+      "章节名称": "节目开场与引入",
+      "起始位置": "发言人C: you're listening to ted doc's daily...",
+      "结束位置": "发言人C: that's coming up right after a short break."
+    },
+    {
+      "章节名称": "赞助广告与节目预告",
+      "起始位置": "发言人E: 嗯， this podcast is brought to you by wise...",
+      "结束位置": "发言人C: and now are ten talk of the day."
+    },
+    {
+      "章节名称": "TED演讲主体：与银行客服的对话",
+      "起始位置": "发言人D: 哼嗨啊， hello， hi， ted people...",
+      "结束位置": "发言人D: 嘿 well， I guess i am when my times out."
+    },
+    {
+      "章节名称": "节目收尾与制作人员名单",
+      "起始位置": "发言人C: 嗯， that was mike elbow at ten...",
+      "结束位置": "发言人C: i'll be back tomorrow with a fresh idea for your feet things for listening."
+    },
+    {
+      "章节名称": "下期节目预告",
+      "起始位置": "发言人C: i recently had comedian and host of ted how to be a better human podcast christopphe on our show.",
+      "结束位置": "发言人C: you get your shows。"
+    }
+  ],
+  "内容摘要": "本期TED播客以喜剧演员Mike Elbow的演讲为核心。演讲以Mike收到银行关于可疑交易的警报短信为引子，通过他与银行客服“Danny”的对话展开。客服逐条核对了他过去24小时的消费记录，这些记录不仅包括被黑客盗刷的小额交易，更详细地揭示了他个人生活的真实轨迹：购买健康食品与多瓶酒、续费约会软件会员、在不同商店买酒以避免尴尬、独自在家站着吃饭、观看情感电影并哭泣、购买健身会员、自拍、在约会软件上进行无意义的对话，最终醉酒入睡。这段幽默而尖锐的对话生动地展现了智能手机和数字消费记录如何精准地映射出个人的欲望、焦虑、孤独和自省。节目最后还预告了另一期关于如何在生活中寻找更多笑声的访谈。",
+  "发言人员角色识别": [
+    {
+      "说话人标识": "发言人 C",
+      "角色": "节目主持人",
+      "判断依据": "负责节目开场、串场、介绍演讲者和节目收尾，如“you're listening to ted doc's daily”、“i'm your hohost”、“that's it for today”等。"
+    },
+    {
+      "说话人标识": "发言人 D",
+      "角色": "主讲人/表演者 (Mike Elbow)",
+      "判断依据": "进行核心的TED演讲表演，自我介绍为“i'm mike elbow”，并以第一人称讲述个人故事，是内容的主要呈现者。"
+    },
+    {
+      "说话人标识": "发言人 A",
+      "角色": "表演中的对话者 (银行客服 Danny)",
+      "判断依据": "在主讲人的表演段落中，扮演银行客服“Danny”，通过询问消费细节来推动叙事，揭示主讲人的生活状态。"
+    },
+    {
+      "说话人标识": "发言人 E",
+      "角色": "广告播音员",
+      "判断依据": "播报赞助商Wise的广告内容，如“this podcast is brought to you by wise...”。"
+    },
+    {
+      "说话人标识": "发言人 F",
+      "角色": "其他节目主持人/预告员",
+      "判断依据": "宣传另一档播客节目“more to the story”，介绍其访谈特色。"
+    },
+    {
+      "说话人标识": "发言人 G",
+      "角色": "表演中的语音提示",
+      "判断依据": "在表演段落中，扮演银行电话系统的自动语音提示，内容为“for english, please press one...”。"
+    },
+    {
+      "说话人标识": "发言人 H",
+      "角色": "受访嘉宾 (Chris)",
+      "判断依据": "在节目最后的预告部分，作为访谈嘉宾出现，分享关于如何让对话更有趣、引发笑声的建议。"
+    }
+  ]
+}
+```

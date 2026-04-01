@@ -1,0 +1,692 @@
+# 角色与任务
+你是一个专业的会议/音频内容分析助手。你的任务是根据用户提供的语音转写文本，进行深度分析，并严格按照指定格式输出结果。
+
+# 输入说明
+用户将提供一段或多段对话的转写文本。文本中可能包含：
+- 说话人标识（例如 `[SPEAKER_00]`、`Speaker 1` 或 `张三：` 等格式）
+- 时间戳（可选，例如 `[00:01:23]`）
+- 对话内容
+
+你需要基于对话的实际内容进行客观分析，不要添加转写文本中不存在的信息。
+
+# 输出格式
+请以 **JSON** 格式返回，结构如下：
+
+```json
+{{
+  "主题": "一句话概括整个音频的核心议题或主要内容",
+  "章节划分": [
+    {{
+      "章节名称": "例如：开场介绍",
+      "起始位置": "可描述为时间点（如00:00）或关键词（如'开始讨论方案'）",
+      "结束位置": "类似描述"
+    }},
+    {{
+      "章节名称": "技术方案讨论",
+      "起始位置": "...",
+      "结束位置": "..."
+    }}
+    // 依实际章节数量增减
+  ],
+  "内容摘要": "一段约150-300字的摘要，总结关键观点、结论、重要信息，语言简洁通顺。",
+  "发言人员角色识别": [
+    {{
+      "说话人标识": "SPEAKER_00",
+      "角色": "例如：主持人/主讲人/参会者/提问者/决策者",
+      "判断依据": "基于其发言内容、提问方式、总结性话语等简要说明"
+    }},
+    {{
+      "说话人标识": "SPEAKER_01",
+      "角色": "...",
+      "判断依据": "..."
+    }}
+    // 按文本中出现的所有说话人列出
+  ]
+}}
+```
+
+# 重要提示
+1. 只分析文本中实际存在的内容，不要推测未明确表达的信息
+2. 说话人标识使用输入中实际出现的格式
+3. 章节划分应反映对话的自然逻辑分段
+4. 摘要应简洁、准确，包含关键结论和信息点
+
+
+# 待分析的转写文本
+
+[00:04 - 00:06] speaker_0: Hey, TED Talks Daily listeners, I'm Elise Hu.
+[00:12 - 00:19] speaker_0:  Today, a Sunday Pick episode where we share another podcast from the TED Audio Collective, handpicked by us for you.
+[00:32 - 00:41] speaker_0:  Yesterday was World Poetry Day, and we couldn't think of a better way to celebrate one of the world's most ancient art forms than to share this recent episode of Design Matters.
+[01:05 - 01:14] speaker_0:  Host Debbie Millman revisits her conversations with renowned poets Eileen Myles, Elizabeth Alexander, Sarah Kay, and Amber Tamblyn.
+[01:47 - 01:55] speaker_0:  In the episode, she shares excerpts from these poets and their work that reflect on language, identity, memory, and the lived experience that fuels their work.
+[02:37 - 02:43] speaker_0:  Today, they reveal poetry as an intimate and profound practice that resonates far beyond the page.
+[03:32 - 03:36] speaker_0:  You can find episodes of Design Matters wherever you get your podcasts.
+[04:28 - 04:31] speaker_0:  Learn more about the TED Audio Collective at audio collective.
+[05:26 - 05:27] speaker_0:  Ted.
+[06:23 - 06:24] speaker_0:  Com.
+[07:29 - 07:34] speaker_0: Sometimes I almost remember it like I wrote it rather than as it happened.
+[08:44 - 08:47] speaker_0:  In the DNA of everything you write is everything else you're ever going to write.
+[10:03 - 10:06] speaker_0:  From the TED Audio Collective, this is Design Matters with Debbie Millman.
+[11:30 - 11:38] speaker_0: On Design Matters, Debbie talks with some of the most creative people in the world about what they do, how they got to be who they are, and what they're thinking about and working on.
+[13:11 - 13:18] speaker_0:  On this episode, in celebration of the twentieth anniversary of Design Matters, we'll hear from some of the poets that Debbie has interviewed over the years.
+[15:00 - 15:02] speaker_0:  There was an entire part of myself that was dying.
+[16:46 - 16:52] speaker_0:  It felt like the whole room was communicating, there is room for you.
+[18:49 - 18:53] speaker_0: This podcast is brought to you by Wise, the app for using money around the globe.
+[20:54 - 20:58] speaker_0:  With Wise, you can send, spend and receive in over forty currencies.
+[23:04 - 23:05] speaker_0:  No markups, no hidden fees.
+[25:13 - 25:21] speaker_0:  Whether you're sending dollars down under, spending pounds in London, or paying freelancers in pesos, you'll get the mid-market exchange rate on every transaction.
+[27:37 - 27:40] speaker_0:  Plus most transfers arrive in less than twenty seconds.
+[29:59 - 30:01] speaker_0: Join fifteen million customers internationally.
+[32:20 - 32:20] speaker_0:  Join.
+[34:42 - 34:44] speaker_0:  Be smart, get wise.
+[37:08 - 37:09] speaker_0:  Download the Wise app today.
+[39:35 - 39:36] speaker_0:  T's and C's apply.
+[42:03 - 42:10] speaker_0:  One of the best parts for me about hosting Reveal, you know your favorite weekly investigative podcast, is the interviews.
+[44:45 - 44:52] speaker_0:  I love to sit down with people and try to gain a perspective that gives me and our listeners a new way of seeing the world.
+[47:34 - 47:37] speaker_0:  Which is why we're launching More to the Story with me, Al Letson.
+[50:23 - 50:29] speaker_0:  It's a place where I can talk to some of the most intriguing people to bring some context to our changing world.
+[53:21 - 53:25] speaker_0:  Follow the Reveal podcast feed and look for More to the Story every Wednesday.
+[56:22 - 56:22] speaker_0: 嗯。
+[59:26 - 59:38] speaker_0: When I interview designers, painters, photographers, movie makers, illustrators, and other visual artists, I talk to them about their lives, their creative processes, and their work.
+[62:54 - 62:58] speaker_0:  But because it's an audio podcast, listeners can't see what we're talking about.
+[66:20 - 66:28] speaker_0:  When I interview musicians, some have agreed to perform a song or two in our little podcast booth, which is an extraordinary gift.
+[69:59 - 70:04] speaker_0:  But not every musician I speak with is a singer-songwriter who can show up in person with a guitar.
+[73:40 - 73:50] speaker_0:  But when I interview poets, I always get them to read some of their work, and poets are wonderful readers of their poems.
+[77:36 - 77:47] speaker_0:  On this episode celebrating the 20th anniversary year of Design Matters, I'd like to play excerpts from some of the poets I've had the pleasure of talking with and listening to.
+[81:45 - 81:53] speaker_0: Eileen Miles has been publishing poetry for fifty years and is a literary institution in New York City's East Village.
+[86:00 - 86:05] speaker_0:  They're also a novelist, an art journalist, and a writer of opera libretti.
+[90:18 - 90:26] speaker_0:  If you look up the words "hip" or "cool" in my imaginary illustrated dictionary, you will find a headshot of Eileen Miles.
+[94:47 - 94:49] speaker_0:  I spoke with them in twenty seventeen.
+[99:13 - 99:25] speaker_0: You moved to New York City in nineteen seventy four to be a poet, and you said that all of your life people have asked you what you do, and you say that you are a poet, and they just kind of look at you like you said you are a stripper.
+[104:01 - 104:03] speaker_0:  Still, no, they look at you like you said you were a mime.
+[108:41 - 108:45] speaker_0:  It would be cool if they looked at you if you were they thought you were a stripper.
+[113:28 - 113:30] speaker_0:  They just thought, why.
+[118:14 - 118:17] speaker_0: Why I mean, I just like what does that person do?
+[123:04 - 123:12] speaker_0:  I mean, even you know, earlier today I had a conversation with somebody, and there was somebody taking pictures, and then he was like, "What do you do all day?"
+[128:06 - 128:09] speaker_0:  I just thought that's so strange.
+[133:06 - 133:07] speaker_0:  Well, what do you do all day?
+[138:06 - 138:09] speaker_0:  You know, part of what's interesting about being a poet is that.
+[143:11 - 143:17] speaker_0: Nobody knows, you know, that it's sort of like what people don't get is that it's almost like you are like a professional human.
+[148:26 - 148:26] speaker_0:  In what way?
+[153:36 - 153:36] speaker_0:  What do you mean?
+[158:46 - 158:49] speaker_0:  You know, I mean in the same way that there are like epic poems, right?
+[164:01 - 164:11] speaker_0:  And there would be a hero, but really the hero of the epic poem was the poet, the one who wrote the story, you know, who gave mind to the saga kind of.
+[169:34 - 169:44] speaker_0:  And I think that you are still that person, you know, except that the saga is kind of a day, is kind of a postmodern day, and you are sort of in it, kind of telling.
+[175:16 - 175:24] speaker_0: Telling the story of it, you know, and it doesn't have to be a linear story, but you are just kind of saying what's I am making a mime gesture.
+[181:04 - 181:06] speaker_0:  You are kind of saying what's here.
+[186:48 - 186:57] speaker_0:  You are, yeah, yeah, and I think that's like a very ordinary but like very necessary and sort of completely surreal and phenomenal job, and yet I think that is the job of the poet.
+[192:50 - 193:01] speaker_0:  You've written about how you walked into the Viselka Cafe in October of nineteen seventy five and met the late New York poet Paul Violi, who invited you to a workshop at St.
+[199:05 - 199:09] speaker_0:  Mark's Church, and you went and wrote this about the experience.
+[205:16 - 205:20] speaker_0:  Suddenly, the rest of my history came out of that accidental moment.
+[211:32 - 211:36] speaker_0:  I met Allen Ginsberg and I thought I must be in the right place.
+[217:52 - 217:59] speaker_0:  Every situation spawns another one, and those were the ones that I had the lives I had.
+[224:22 - 224:25] speaker_0:  What do you think your life would have been like if you hadn't met Paul?
+[230:52 - 231:03] speaker_0: I mean, I so much wrote my novel *Inferno* to say what it was like to be a female coming into New York as a poet in the seventies, you know, because every dude had some book you should read.
+[237:40 - 237:48] speaker_0:  I mean, to quote the art critic Peter Scheldahl, he said, I think he was talking about art in the eighties, and he said there was no top of the heap, there were just a lot of little heaps on the top.
+[244:35 - 244:38] speaker_0:  And that's how the poetry world sort of always was and was then.
+[251:28 - 251:32] speaker_0:  So it was just like it was a question of what other pile I could have wound up in.
+[258:26 - 258:32] speaker_0:  But Paul was my guide into all the, you know, like quote other schools of poetry at the time.
+[265:32 - 265:44] speaker_0:  I mean, we didn't consider other, it was like Black Mountain, it was Beat, it was New York School, it was everything that was sort of not the mainstream American canon of literature, you know, so that was the right place.
+[272:55 - 272:59] speaker_0:  And hopefully I would have found it some other way, but Paul was the guide.
+[280:14 - 280:16] speaker_0:  You have said.
+[287:33 - 287:41] speaker_0: said that you feel funny about being in the New York School and you prefer, I believe you said, the folk folk poet school, right?
+[295:08 - 295:13] speaker_0:  I mean, I just I think I'm just sort of wanting to be a little more, maybe even more vernacular.
+[302:45 - 302:51] speaker_0:  I mean, even the New York School is kind of precious and like we're about art, you know, and I want that to be less true.
+[310:30 - 310:35] speaker_0: In an interview in the Paris Review, you stated, "I've made myself homeless.
+[318:19 - 318:22] speaker_0:  I've cut myself off from anything I knew prior to living in New York.
+[326:10 - 326:13] speaker_0:  I did this to myself, so I know exactly how it happened."
+[334:06 - 334:10] speaker_0:  Do you think this was a necessary component to you becoming the writer you are now?
+[342:07 - 342:11] speaker_0: Yeah, yeah, I mean, I think that we're always translating, right?
+[350:12 - 350:22] speaker_0:  You know, and I think again, and I think any of us who come from another class on any level can't stay home and do, you know, or make you have to take what you have someplace else.
+[358:33 - 358:34] speaker_0:  I mean.
+[362:39 - 362:48] speaker_0: Even in the poetry world, I've done that with I mean, basically importing male avant-garde styles into kind of a queer or a lesbian world.
+[367:02 - 367:11] speaker_0:  So that I feel like I've operated a lot like a translator of styles and realities, or even bringing a lesbian reality into you know the poetry world.
+[371:35 - 371:42] speaker_0:  I think between me and Jill Soloway, we've brought more lesbian content into the mainstream than there's been in a while.
+[376:14 - 376:19] speaker_0:  Jill Soloway, of course, the creator of the television show Transparent.
+[380:56 - 380:57] speaker_0:  Right.
+[385:34 - 385:36] speaker_0:  Let's talk for a few minutes about Allen Ginsberg.
+[390:16 - 390:31] speaker_0:  You've written quite a bit about his epic poem Howl and have stated that these are some of your favorite lines: "Who lit cigarettes in boxcars, boxcars, boxcars, racketing through snow toward lonesome farms in grandfather night. "
+[395:27 - 395:29] speaker_0:  What is it about those lines that move you so much?
+[400:26 - 400:29] speaker_0:  Well, it's really the boxcars, boxcars, boxcars, you know.
+[405:30 - 405:31] speaker_0:  I love the way you say that boxcars.
+[410:34 - 410:34] speaker_0:  Awesome.
+[415:38 - 415:38] speaker_0:  Why thank you.
+[420:42 - 420:44] speaker_0:  I mean, it's just the metonymy.
+[425:50 - 425:52] speaker_0: Of poetry, and I think he was.
+[430:59 - 431:08] speaker_0:  I mean, he was a poet very influenced by film, by TV, by the media, and he used the kind of ancient incantatory way of poetry.
+[436:25 - 436:32] speaker_0:  And of course, it just it does the movement of the train across America, plus it carries the part that people don't talk about.
+[441:56 - 442:00] speaker_0:  I think with Howl, as far as I know, is they don't talk about its relationship to the Holocaust.
+[447:29 - 447:33] speaker_0:  You know, those boxcars are carrying lots of Jews to the camps.
+[453:06 - 453:11] speaker_0:  I can't imagine being a Jew in America in the fifties and not thinking about that.
+[458:51 - 458:57] speaker_0: You stated that Ginsberg was the first poet to send out press releases and that he knew all about marketing and media.
+[464:44 - 464:46] speaker_0:  Did that influence you in any way?
+[470:34 - 470:39] speaker_0:  Yeah, absolutely, because I think he believed that if you have an important message, you've got to get it out.
+[476:32 - 476:34] speaker_0:  Walt Whitman believed that too.
+[482:29 - 482:38] speaker_0:  Patti Smith believed, I mean, that's part of what I loved and felt and saw about Patti, that trembling thing where, you know, like I'm full of this thing and I've got to get it out, you know.
+[488:43 - 488:47] speaker_0:  You published your first book of poetry on a mimeograph machine in 1978.
+[494:56 - 494:59] speaker_0:  Where did you make it?
+[501:10 - 501:12] speaker_0:  How did you distribute it?
+[507:24 - 507:25] speaker_0:  Where is it now?
+[513:39 - 513:40] speaker_0:  Where can we find it?
+[519:54 - 519:58] speaker_0:  Probably, let's see, I wonder, some college libraries have it.
+[526:16 - 526:19] speaker_0:  I don't know which ones, you know, they all have special collections.
+[532:41 - 532:49] speaker_0:  And I'm probably, I'm kind of in the archival moment, so I probably will be sending all of my crap to some college library soon.
+[539:18 - 539:20] speaker_0:  But it was that mimeo machine at St.
+[545:52 - 545:53] speaker_0:  Mark's Church.
+[552:26 - 552:31] speaker_0:  A poet named Jim Brodey, who was like, you know, second, third generation New York School, had a press.
+[559:10 - 559:11] speaker_0: Think it was called Jim Brody Books.
+[565:52 - 565:53] speaker_0:  You know, he's like, "Why don't you have a book?"
+[572:35 - 572:36] speaker_0:  And I don't know why you should have a book.
+[579:19 - 579:33] speaker_0:  And he ran and there was supposed to be two hundred copies, but somehow we ran out of paper at one hundred and sixty, and then he just kind of handed them to me, and then I just you know mailed them out and had a book party and did everything you knew to do at that time.
+[586:30 - 586:31] speaker_0:  Did you design the cover?
+[593:30 - 593:36] speaker_0: No, and I was really I mean, my first couple of books were designed by other people, and I was very unhappy with the results.
+[600:41 - 600:44] speaker_0:  And I've been like a pit bull ever since about that.
+[607:52 - 607:58] speaker_0:  I saw you did the lettering on both of your new releases, your re-releases, yes, but we'll talk about that in a little while.
+[615:13 - 615:17] speaker_0:  You gave your first reading at CBGB's on the Bowery in New York City.
+[622:36 - 622:37] speaker_0:  What was that like?
+[629:57 - 629:58] speaker_0:  What did you read?
+[637:19 - 637:30] speaker_0:  You know, I can't I mean, I can sort of remember ish what poems I you know, it was whatever the whatever little pile of poems I regarded as my poems at that time.
+[645:01 - 645:03] speaker_0:  And you know, and it was just this thing.
+[652:37 - 652:45] speaker_0:  It was like the language of poetry is like you there are open mics, and then if they're if you're any good, they were like, would you like to do a feature?
+[660:26 - 660:30] speaker_0:  You know, and then you get to read 10 minutes or a half hour or whatever the thing is.
+[668:16 - 668:23] speaker_0:  I just remember this very intense spotlight and sitting alone on stage and feeling like there was nothing outside of that light and being so scared.
+[676:17 - 676:21] speaker_0:  And then afterwards feeling like that was one of the greatest feelings in the world.
+[684:19 - 684:20] speaker_0: What do you think of your early work?
+[692:20 - 692:24] speaker_0:  Do you look back on it and feel nostalgic, proud, horrified?
+[700:28 - 700:31] speaker_0:  Nostalgic and proud, not ever horrified.
+[708:38 - 708:40] speaker_0:  I feel like I know what I meant and I knew.
+[716:49 - 716:57] speaker_0:  Like I'll read a poem now or a little piece from Chelsea Girls and I'll just notice how there's a whole novel in that short piece.
+[725:13 - 725:18] speaker_0:  Like, I mean, I think it's in the DNA of everything you write is everything else you're ever going to write.
+[733:39 - 733:40] speaker_0:  Really?
+[742:01 - 742:02] speaker_0:  I think so.
+[750:25 - 750:30] speaker_0:  I always have a hard time looking back on things that I've done and maybe it's because they're just not finished.
+[758:57 - 758:58] speaker_0:  Yeah, you don't know.
+[767:26 - 767:28] speaker_0:  I mean, I think when you're younger you don't know what editing means.
+[775:59 - 776:00] speaker_0:  That's true.
+[784:31 - 784:32] speaker_0:  You know.
+[793:04 - 793:11] speaker_0:  In 1994 you published your first collection of short stories, Chelsea Girls, and last year HarperCollins reprinted it.
+[801:51 - 801:57] speaker_0:  Paris Review described Chelsea Girls as a nonfiction novel or fictional nonfiction.
+[810:45 - 810:49] speaker_0:  You've described it as a series of short autobiographical films.
+[819:41 - 819:43] speaker_0:  Is the book fully autobiographical?
+[828:37 - 828:39] speaker_0:  Well, I don't know what fully means.
+[837:35 - 837:36] speaker_0:  You know, I mean, I think.
+[846:34 - 846:40] speaker_0: I mean, I just feel like once you put pen to paper or start typing in whatever format, on some level you're lying.
+[855:45 - 855:47] speaker_0:  You know, I mean, I think in what way?
+[864:53 - 864:56] speaker_0:  Well, I just think that it isn't the thing; it's a symbol of the thing.
+[874:06 - 874:13] speaker_0:  You know, the way language is simply symbolic, so you're reducing and expanding and distorting and translating right away.
+[883:29 - 883:33] speaker_0:  The act of writing is a translation and even a form of blindness.
+[892:53 - 892:54] speaker_0:  You know, would you?
+[902:15 - 902:18] speaker_0: Would you consider reading one of your poems from "I Must Be Living Twice"?
+[911:42 - 911:43] speaker_0:  Yes, I would consider that. "
+[921:10 - 921:11] speaker_0: Rampant Muse" is that?
+[930:39 - 930:40] speaker_0:  Yes, okay, cool.
+[940:10 - 940:11] speaker_0:  I love that poem.
+[949:41 - 949:43] speaker_0:  It's like a little bit about Robert Creeley.
+[959:15 - 959:16] speaker_0:  Do you know that?
+[968:49 - 968:50] speaker_0:  I did not know that.
+[978:24 - 978:28] speaker_0:  He's got a very famous book of poems called "For Love," and it's.
+[988:05 - 988:06] speaker_0: And it's really good.
+[997:44 - 997:45] speaker_0:  It's really great.
+[1007:25 - 1007:28] speaker_0:  And so there was a little bit of, and we're friends, or we were friends.
+[1017:13 - 1017:20] speaker_0:  Also, somebody, some place around that time said, "Da da da da da," unless you are a rampant lesbian.
+[1027:11 - 1027:13] speaker_0:  And I said, "And I am.
+[1037:06 - 1037:08] speaker_0:  How do you become a rampant lesbian?"
+[1047:04 - 1047:05] speaker_0:  I know, I know.
+[1057:02 - 1057:04] speaker_0:  I was like, "Of course I am a rampant."
+[1067:02 - 1067:06] speaker_0:  What are the kind of, and so my rampant muse for her.
+[1077:10 - 1077:16] speaker_0: Tuesday night, reading for love on my bed, or writing for love poem is wishing when I stop waiting.
+[1087:26 - 1087:28] speaker_0:  One thousand times I've read and wrote for love.
+[1097:41 - 1097:44] speaker_0:  Wear my sneakers, drink my bourbon, be twenty-eight in spite of me.
+[1108:01 - 1108:03] speaker_0:  In mirrors, Christ, I look fucking old.
+[1118:22 - 1118:23] speaker_0:  What does the evening mean?
+[1128:44 - 1128:49] speaker_0:  I could fall for lamplight, radio song, the oval-shaped frame of which he was particularly fond.
+[1139:16 - 1139:18] speaker_0:  For love, I would dream when my schemes fall through.
+[1149:49 - 1149:50] speaker_0: Man, could that little girl dance!
+[1160:22 - 1160:29] speaker_0:  For love, I will read it ten thousand times for my tomboy cousin Jean Marie, for radio song, for love I would not pity me.
+[1171:08 - 1171:13] speaker_0:  My twenty-eight sneakers, bourbon, the unseen future of my communications and the lamplight.
+[1181:58 - 1182:01] speaker_0:  Her, she holds me here so rampantly in her evening beauty.
+[1192:50 - 1193:01] speaker_0: That was Eileen Miles in twenty seventeen reading the poem from my rampant muse for her from the book I must be living twice new and selected poems.
+[1204:03 - 1204:12] speaker_0:  Elizabeth Alexander is a celebrated poet as well as an essayist, memoirist, playwright, philanthropist and academic, in two thousand.
+[1215:23 - 1215:29] speaker_0: In two thousand nine, she read a poem she wrote for President Barack Obama at his first inauguration.
+[1226:46 - 1226:49] speaker_0:  I spoke with her in twenty seventeen.
+[1238:09 - 1238:11] speaker_0:  Now I understand you also studied ballet.
+[1249:34 - 1249:35] speaker_0:  I did.
+[1260:59 - 1261:20] speaker_0:  So we must speak now of Adele, my mother, Adele Logan Alexander, who insisted that I take ballet and every time I wanted to quit, she had this amazing way, which I have not been able to master with my children, who squandered all their talents, to you know, kind of keep me going to whatever the thing was that she thought that I should be doing.
+[1273:05 - 1273:21] speaker_0:  And there was a moment where it clicked in and I am so glad that she did because once I got good enough to be able to really dance, you know, you repeat and you repeat and you repeat and you practice and you do the same things over and over and over again.
+[1285:22 - 1285:29] speaker_0:  But eventually you can put it together and make something beautiful and understand it as an expressive art.
+[1297:37 - 1297:38] speaker_0:  Sort of like life.
+[1309:47 - 1309:47] speaker_0:  Sort of like life.
+[1321:58 - 1322:04] speaker_0: Exactly, so it was my my serious thing, ballet and then modern dance that I did outside of school.
+[1334:21 - 1334:21] speaker_0:  Um, it was.
+[1342:33 - 1342:36] speaker_0: But I loved very, very much, and I was very good at it.
+[1350:52 - 1350:58] speaker_0:  But being very good at it did not mean being good enough at it to do it, you know.
+[1359:21 - 1359:28] speaker_0:  So to see that you can devote yourself so thoroughly to something and love something so thoroughly, but what does it mean to really be an artist?
+[1367:57 - 1367:59] speaker_0:  It's serious business.
+[1376:30 - 1376:43] speaker_0:  So just because it's fun and just because you go six days a week, that is both separate from the true talent factor and also the X factor that makes you insanely want to keep doing it above all other things.
+[1385:27 - 1385:36] speaker_0: Do you think that discipline that you were able to cultivate as a ballet dancer is something that has impacted how you approach your writing?
+[1394:29 - 1394:31] speaker_0:  It has impacted how I approach every single thing I do.
+[1403:28 - 1403:48] speaker_0:  Finding a discipline, discipline is discipline is discipline, and understanding that you know you don't get the immediate payback necessarily, and also that just because you've you know got a little flair with a certain shape of poem or turn of phrase or effect, you have to resist.
+[1413:06 - 1413:10] speaker_0: Defaulting to that, you have to become well-rounded in your discipline.
+[1422:32 - 1422:39] speaker_0:  You know, you can be a kicker and not a good jumper, but you've got to learn to be a better jumper.
+[1432:09 - 1432:16] speaker_0:  You were educated at Sidwell Friends School, the same school that Barack Obama's daughters are now attending in Washington, D.
+[1441:52 - 1441:53] speaker_0: C.
+[1451:30 - 1451:35] speaker_0:  Did it surprise you that Sasha Obama missed her father's farewell speech because she was studying for a test?
+[1461:18 - 1461:22] speaker_0: Well, I mean, let me tell you, you know, that is a very serious family.
+[1471:05 - 1471:06] speaker_0:  Well.
+[1480:53 - 1481:16] speaker_0:  And if you look at, I mean, if we really think for a minute about what it means to come with grace and integrity as young girls through those eight years, and to parent with grace and integrity under those circumstances, it is really something to behold.
+[1491:27 - 1491:36] speaker_0: In your two thousand five book of poetry American Sublime, you wrote a poem titled Tina Green, and I am wondering if you could read that for us.
+[1501:57 - 1501:58] speaker_0:  I would be happy to read it.
+[1512:20 - 1512:25] speaker_0:  If you can tell us a little bit about the poem, I was wondering if it was autobiographical.
+[1522:53 - 1523:14] speaker_0:  Yes, well, it is so, and you know, of course, when a poem is autobiographical, I think sometimes I get a little, you know, hackles up because I want to say like, and it's crafted too, and there are always moments of poetic license, and sometimes I almost remember it like I wrote it rather than as it happened, which is sort of an interesting thing.
+[1534:03 - 1534:05] speaker_0:  The memory is so fluid.
+[1544:56 - 1545:03] speaker_0:  Yeah, and I believe poems more than any, I believe anything actually really, or once I've made something, I believe it.
+[1556:03 - 1556:06] speaker_0: More than what happened, yes, because it's fixed, perhaps maybe.
+[1567:10 - 1567:12] speaker_0:  But I was at a different school at the time.
+[1578:18 - 1578:26] speaker_0:  The story behind here, the speaker attended the Georgetown Day School, that was my happy school, that was a very kind of free, wonderful hippie school.
+[1589:41 - 1589:46] speaker_0:  It was a beautiful place, and this is a story about the only black teacher I had.
+[1601:07 - 1601:08] speaker_0:  So it's called Tina Green.
+[1612:32 - 1612:43] speaker_0: Small story, hair story, Afro-American story, only black girl in my class story, pre-adolescent story, black teacher story.
+[1624:19 - 1624:22] speaker_0:  Take your hair out, they beg on the playground.
+[1636:01 - 1636:05] speaker_0:  The cool girls, the straight and shiny hair girls, the girls who can run.
+[1647:51 - 1647:53] speaker_0: Take your hair out, they say it is Washington hot.
+[1659:42 - 1660:05] speaker_0:  We are running, I do, and it swells, snatches up at the nape, levitates woolly universe, nodding fleece zeppelin run, so I do into school to the only black teacher I'll have until college, the only black teacher I've had to that point, the only black teacher to teach at that school full of white people who tell the truth I love.
+[1672:17 - 1672:31] speaker_0: The teacher I love, whose name I love, whose hair I love, takes me in the teacher's bathroom and wordlessly fixes my hair, perfectly, wordlessly fixes my hair into three tight plaits.
+[1684:59 - 1685:00] speaker_0:  Stunning.
+[1697:29 - 1697:30] speaker_0:  Thank you.
+[1710:00 - 1710:05] speaker_0:  The emotion in that poem is so universal.
+[1722:40 - 1722:42] speaker_0: And yet, so personal.
+[1735:19 - 1735:27] speaker_0:  How do you create that kind of connectivity between the personal and the universal?
+[1748:12 - 1748:23] speaker_0:  You know, in general, I mean, my quick answer is that art that speaks to any of us always comes from a very particular place, and then we find ourselves in it in some kind of way.
+[1761:20 - 1761:22] speaker_0:  You know, this is fifth grade when we're ten years old.
+[1774:22 - 1774:29] speaker_0:  We do and don't experience ourselves as people with races in raced bodies, to use the theoretical language.
+[1787:37 - 1787:43] speaker_0:  You know, I always you know knew I was a black person, but I did not think about it twenty four hours a day.
+[1800:56 - 1800:59] speaker_0:  I don't think any of us thinks of our race twenty four hours a day.
+[1814:16 - 1814:23] speaker_0:  You know, Zora Neale Hurston famously and beautifully said, "I feel most black when I am thrown against a stark white background."
+[1827:48 - 1827:52] speaker_0:  So sometimes understanding us as people with races is a relative thing.
+[1841:21 - 1841:27] speaker_0:  So I think that everybody, not just people of color, have in them a lot of really interesting, perhaps.
+[1855:03 - 1855:10] speaker_0: Unplumbed experiences of understanding yourself in an identity, and in a racial identity.
+[1868:54 - 1869:00] speaker_0: You went to Boston University to get your master's degree at the urging of Adele Alexander, your mother.
+[1882:50 - 1882:52] speaker_0:  Yes, can you tell us why?
+[1896:44 - 1896:46] speaker_0:  So I was working as a journalist beforehand.
+[1910:41 - 1910:44] speaker_0:  I was a newspaper gal, Washington Post, Washington Post.
+[1924:42 - 1924:47] speaker_0:  Yep, both before the summer before I graduated from college and then the year afterwards.
+[1938:51 - 1938:54] speaker_0:  And it was a very, very interesting job.
+[1953:00 - 1953:03] speaker_0:  It was fast-paced, people were smart, interesting.
+[1967:12 - 1967:17] speaker_0:  I liked being sent out into my own city to explore.
+[1981:31 - 1981:39] speaker_0:  I liked being sent to corners and people who I wouldn't have found on my own and having a reason to ask them about their lives.
+[1996:02 - 1996:05] speaker_0:  But I was aware that I really did want to do a different kind of writing.
+[2010:32 - 2010:39] speaker_0:  I learned how to master the form of what a news story looks like and how to have, you know, paragraphs towards the end that could be lopped off.
+[2025:14 - 2025:22] speaker_0:  But I wanted to surrender to that alchemical process that happens when you make something and don't.
+[2040:05 - 2040:09] speaker_0: Don't just record something, and I could feel myself literally.
+[2054:55 - 2054:56] speaker_0:  It was like a shoreline.
+[2069:44 - 2069:53] speaker_0:  I could feel myself like wanting to step over, into embellishment, into something else, and I knew that that was not sustainable.
+[2084:49 - 2084:55] speaker_0:  And I feared I would make a mistake, and I wouldn't know I'd made a mistake.
+[2099:57 - 2100:01] speaker_0: I mean, again, this is like believing the things that I write more than how they happened.
+[2115:04 - 2115:04] speaker_0:  I mean.
+[2130:11 - 2130:23] speaker_0:  So, I was talking about this, that, and the other, and it was my mother who, and it's fitting that we should speak of it now because the great poet Derek Walcott has just passed away, and he was my teacher and my mentor.
+[2145:42 - 2145:48] speaker_0:  My mother said, "I saw that that poet whose work you love teaches at Boston University.
+[2161:14 - 2161:15] speaker_0:  Why don't you just apply to that program?"
+[2176:43 - 2176:46] speaker_0:  And I had sworn when I graduated from college that I was done with school.
+[2192:17 - 2192:18] speaker_0:  I wasn't going to go to school anymore.
+[2207:50 - 2207:52] speaker_0:  Done, done, done, done, done.
+[2223:26 - 2223:30] speaker_0:  And you know, she knowing me very well, she said, "Oh, you won't get in."
+[2239:11 - 2239:12] speaker_0: He's a wicked gauntlet.
+[2254:54 - 2254:58] speaker_0:  I know, you know, just if you don't get in, then you know you can just stay at that job.
+[2270:44 - 2270:45] speaker_0:  Fine, you know.
+[2286:32 - 2286:34] speaker_0:  So I applied and I applied.
+[2302:24 - 2302:26] speaker_0:  I had short stories which I'd written in college.
+[2318:18 - 2318:22] speaker_0:  I applied to the fiction program, but I went to study with Walcott and.
+[2334:19 - 2334:20] speaker_0: And that changed everything.
+[2350:18 - 2350:29] speaker_0:  You went to Yale University for your undergraduate degree, and I understand that you studied with John Hershey in your senior year, who you've credited with helping you find your fictive voice.
+[2366:39 - 2366:49] speaker_0:  But when you got to Boston University, I understand that Derek Walcott looked at your diary and saw your potential as a poet.
+[2383:08 - 2383:10] speaker_0:  How did he see your diary?
+[2399:31 - 2399:33] speaker_0:  Because I showed it to him.
+[2411:50 - 2411:51] speaker_0: That's pretty brave.
+[2424:10 - 2424:13] speaker_0:  Well, I mean, again, you know, I knew I was admitted.
+[2436:34 - 2436:44] speaker_0:  They had tracks, so I was admitted into the fiction track, but I knew that this great poet whose work I read not in school but just on my own was why I was there.
+[2449:16 - 2449:20] speaker_0:  So I went to his office, and all I knew I couldn't show him stories.
+[2461:55 - 2462:03] speaker_0:  And I had, it was a diary, and in it I had what I called at the time, it's a phrase that Garrett Hongo uses, word clouds.
+[2474:47 - 2474:49] speaker_0:  They were just, you know, word stuff.
+[2487:36 - 2487:38] speaker_0:  And it was what I had to show.
+[2500:27 - 2500:29] speaker_0:  I had to show him something.
+[2513:20 - 2513:26] speaker_0:  And so he had a legal pad and he thumbed through and he said, okay, well here's this.
+[2526:25 - 2526:28] speaker_0:  And then he wrote it out with line breaks and he said, see?
+[2539:30 - 2539:35] speaker_0: You're writing poems, but you don't know how to break lines, but that's what makes it a poem.
+[2552:43 - 2552:51] speaker_0:  He was very kind when he said that, and then he said, "Okay, go, go write some poems and don't come back until you have some to show me."
+[2566:07 - 2566:09] speaker_0:  You said that he gave you a huge gift.
+[2579:28 - 2579:31] speaker_0:  He took that cluster of words and he lineated it.
+[2592:52 - 2592:53] speaker_0:  Yes.
+[2606:15 - 2606:16] speaker_0:  How do you think he saw that?
+[2619:40 - 2619:48] speaker_0:  You know, one of the things that he used to say was, "The poem will find its shape, the line will find itself."
+[2633:20 - 2633:32] speaker_0:  So he would say, "Just start writing and you will see what the natural shape of this poem is," which was very mystifying to me when I first heard it, but I find it to be always absolutely true.
+[2647:18 - 2647:20] speaker_0:  You know, that you, and that doesn't mean you can't play around.
+[2661:08 - 2661:11] speaker_0:  You think it's a long-lined poem, you try it that way, but maybe you nip it back.
+[2675:03 - 2675:06] speaker_0:  But you start to catch a rhythm.
+[2689:01 - 2689:07] speaker_0: And you start to sort of say, "Okay, this is the amount," and then you say, "All right, let me in this next line, let me follow that amount."
+[2703:09 - 2703:12] speaker_0:  Hmm, okay, let's see what about that.
+[2717:17 - 2717:18] speaker_0:  So is it a negotiation?
+[2731:25 - 2731:26] speaker_0:  It's a calibration.
+[2745:35 - 2745:41] speaker_0:  I mean, that process sometimes takes a very long time, but then you've got sort of a mass, and then you can put your hands in the clay.
+[2759:57 - 2760:00] speaker_0: I'd like to ask you to read a poem from this period.
+[2774:18 - 2774:25] speaker_0:  It is from your first book of poems, "The Venus Hottentot," published in nineteen ninety, and the poem is called "Boston."
+[2788:51 - 2788:54] speaker_0:  Can you tell us a little bit about it before you share it with us?
+[2803:24 - 2803:30] speaker_0:  So that was in it was a one year master's program and Boston and Cambridge changed a lot.
+[2818:05 - 2818:07] speaker_0:  This was nineteen eighty five.
+[2832:44 - 2832:51] speaker_0:  It was still coming out of the period in its history where it had such racial strife around busing.
+[2847:36 - 2847:40] speaker_0:  It was not a very well desegregated town.
+[2862:29 - 2862:36] speaker_0:  There were the remnants of that, and it was also a place where I had a hard time finding my community.
+[2877:34 - 2877:35] speaker_0: So Boston year.
+[2892:36 - 2892:45] speaker_0:  My first week in Cambridge, a car full of white boys tried to run me off the road, and spit through the window, open to ask directions.
+[2907:56 - 2908:13] speaker_0:  I was always asking directions and always driving, to an Armenian market in Watertown to buy figs and string cheese, apricots, dark spices and olives from barrels, tubes of pastes with unreadable Arabic labels.
+[2923:41 - 2923:45] speaker_0: I ate stuffed grape leaves and watched my lips swell in the mirror.
+[2939:17 - 2939:20] speaker_0:  The floors of my apartment would never come clean.
+[2954:56 - 2955:06] speaker_0:  Whenever I saw other colored people in bookshops or museums or cafeterias, I'd gasp, smile shyly, but they'd disappear before I spoke.
+[2970:54 - 2970:56] speaker_0:  What would I have said to them?
+[2986:46 - 2986:49] speaker_0:  Come with me, take me home, are you my mother?
+[3002:43 - 3002:50] speaker_0: No, I sat alone in countless Chinese restaurants eating almond cookies, sipping tea with spoons and spoons of sugar.
+[3018:52 - 3018:54] speaker_0:  Popcorn and coffee was dinner.
+[3034:59 - 3035:05] speaker_0:  When I fainted from migraine in the grocery store, a Portuguese man above me mouthed no breakfast.
+[3051:16 - 3051:18] speaker_0:  He gave me orange juice and chocolate bars.
+[3067:32 - 3067:35] speaker_0:  The color red sprang into relief, singing Wagner's Valkyrie.
+[3083:52 - 3083:55] speaker_0:  Entire tribes gyrated and drummed in my head.
+[3100:16 - 3100:26] speaker_0: I learned the samba from a Brazilian man so tiny, so festooned with glitter, I was certain that he slept inside a filigreed Faberge egg.
+[3116:58 - 3117:06] speaker_0:  No one at the door, no salesmen, Mormons, meter readers, exterminators, no Harriet Tubman, no one.
+[3133:46 - 3133:50] speaker_0:  Red notes sounding in a gray trolley town.
+[3150:37 - 3150:38] speaker_0: Thank you.
+[3167:26 - 3167:29] speaker_0:  Sometimes when I read that, I feel like I should say, "But then it got better."
+[3184:21 - 3184:21] speaker_0:  Well, let's talk about that.
+[3201:13 - 3201:16] speaker_0:  Yes, you did.
+[3218:11 - 3218:18] speaker_0:  You know, but it was a very monastic year, Elizabeth Alexander in twenty seventeen.
+[3235:24 - 3235:28] speaker_0: This podcast is brought to you by Wise, the app for using money around the globe.
+[3252:38 - 3252:42] speaker_0:  With Wise, you can send, spend and receive in over forty currencies.
+[3269:56 - 3269:58] speaker_0:  No markups, no hidden fees.
+[3287:14 - 3287:22] speaker_0:  Whether you're sending dollars down under, spending pounds in London, or paying freelancers in pesos, you'll get the mid-market exchange rate on every transaction.
+[3304:47 - 3304:49] speaker_0:  Plus most transfers arrive in less than twenty seconds.
+[3322:17 - 3322:17] speaker_0:  Join.
+[3339:45 - 3339:47] speaker_0: Join fifteen million customers internationally.
+[3357:18 - 3357:19] speaker_0:  Be smart, get wise.
+[3374:52 - 3374:53] speaker_0:  Download the Wise app today.
+[3392:27 - 3392:28] speaker_0:  T's and C's apply.
+[3410:05 - 3410:11] speaker_0:  One of the best parts for me about hosting Reveal, you know your favorite weekly investigative podcast, is the interviews.
+[3427:55 - 3428:02] speaker_0:  I love to sit down with people and try to gain a perspective that gives me and our listeners a new way of seeing the world.
+[3445:52 - 3445:56] speaker_0:  Which is why we're launching More to the Story with me, Al Letson.
+[3463:50 - 3463:56] speaker_0:  It's a place where I can talk to some of the most intriguing people to bring some context to our changing world.
+[3481:57 - 3482:01] speaker_0:  Follow the Reveal podcast feed and look for More to the Story every Wednesday.
+[3500:07 - 3500:07] speaker_0: 嗯。
+[3518:18 - 3518:23] speaker_0: Sarah Kay is a writer and poet who is also well known for her spoken word poetry.
+[3536:40 - 3536:46] speaker_0:  When I spoke with Sarah in 2018, I invited her to read a poem to open the episode.
+[3555:09 - 3555:15] speaker_0:  The universe has already written the poem you are planning on writing.
+[3573:44 - 3574:07] speaker_0: And this is why, you can do nothing but point, at the flock of starlings whose bodies rise and fall in inherited choreography, swarming the sky, in a sweeping curtain that for one blistering moment forms the unmistakable shape, of a giant bird flapping against the sky.
+[3592:59 - 3593:19] speaker_0: It is why your mouth forms an, oh, that is not a gasp, but rather, the beginning of, oh, of course, as in, of course the heart of a blue whale is as large as a house, with chambers tall enough to fit a person standing.
+[3612:33 - 3612:47] speaker_0:  Of course a fig, is only possible when a lady wasp lays her eggs inside a flower, dies and decomposes the fruit, evidence of her transformation.
+[3632:14 - 3632:20] speaker_0:  Sometimes the poem is so bright, your silly language will not stick to it.
+[3651:53 - 3651:58] speaker_0:  Sometimes the poem is so true, nobody will believe you.
+[3671:37 - 3671:44] speaker_0:  I am a bird made of birds, my blue heart a house you can stand up inside of.
+[3691:31 - 3691:32] speaker_0:  I am dying.
+[3711:21 - 3711:26] speaker_0: Here, inside this flower, it is okay.
+[3731:20 - 3731:22] speaker_0:  It is what I was put here to do.
+[3751:18 - 3751:20] speaker_0:  Take this fruit.
+[3771:19 - 3771:21] speaker_0:  It is what I have to offer.
+[3791:22 - 3791:29] speaker_0:  It may not be first or ever best, but it is the only way to be sure I lived at all.
+[3811:39 - 3811:44] speaker_0: Sarah, we just had you read a poem as our cold open of the show today.
+[3832:00 - 3832:01] speaker_0:  Tell us a little bit about what you read.
+[3852:19 - 3852:30] speaker_0:  So I have a friend named Kava Akbar, who is also my co-author of a column that three of us write for the Paris Review Online.
+[3868:53 - 3869:05] speaker_0: And one time, Kava posted this photo that he had found on the internet, which was that scientists had dissected the heart of a blue whale and hung it from the ceiling.
+[3885:40 - 3885:49] speaker_0:  And when they did that, it's how they figured out that the heart of a blue whale is so big that each chamber of the heart is big enough for a human to stand up inside of.
+[3902:33 - 3902:42] speaker_0:  And when Kava shared this photo, he shared it with the caption, "This is just a reminder that the universe has already written the poem you were planning on writing."
+[3919:35 - 3919:39] speaker_0:  And at the time, I was like, "Oh no, I'm out here trying to be original.
+[3936:36 - 3936:38] speaker_0:  I'm trying to invent new stuff.
+[3953:37 - 3953:39] speaker_0:  What do you mean the universe has already thought of everything?
+[3970:40 - 3970:40] speaker_0:  This is terrible."
+[3987:42 - 3987:44] speaker_0:  And it really got under my skin.
+[4004:48 - 4005:07] speaker_0:  But then not too long after that, I saw this video that was making the rounds online that maybe you saw, where there are these birds called starlings that fly in big formations called murmurations, and it's like a cloud of birds, and they usually move in amorphous shapes, but someone had happened to catch a video of these birds and all.
+[4022:29 - 4022:37] speaker_0: And all at the same time, the birds moved and formed the shape of a starling in the sky.
+[4040:08 - 4040:09] speaker_0:  Oh, wow, I did not see that.
+[4057:41 - 4057:47] speaker_0:  When I saw this video, the first thought I had was, "The universe has already written the poem you were planning on writing."
+[4075:25 - 4075:30] speaker_0:  And for some reason, in that moment, it no longer upset me, and instead, I thought,
+[4093:13 - 4093:18] speaker_0: I thought, well, maybe it's not my job to invent something new with each poem.
+[4111:06 - 4111:17] speaker_0:  Maybe it just means that it's my turn to hold something to the light for a moment and consider it for whatever time I have.
+[4129:17 - 4129:22] speaker_0:  Do you think that it is still possible, though, to create original art?
+[4147:29 - 4147:36] speaker_0: I don't know, and I also think that maybe thinking about it too much prevents me from making any art at all.
+[4165:49 - 4165:54] speaker_0:  So not to say I don't care, but I try not to worry about it too much.
+[4184:13 - 4184:30] speaker_0:  I mean, I think it's so interesting that the notes that we use to make music or the letters that we use to make words and then sentences and then paragraphs and stories and poems or the ingredients that we use to make food, they're all pretty fixed at this point.
+[4203:06 - 4203:11] speaker_0:  You know, not too many people are inventing a new ingredient.
+[4221:52 - 4221:59] speaker_0: We're all creating the same things from the same things, and yet there are unique voices, and I do believe that you are one of them.
+[4240:49 - 4240:49] speaker_0:  Well, thanks.
+[4259:40 - 4259:50] speaker_0:  I read that when you were, I think, a freshman in high school, you described yourself as a live wire of nervous hormones and underdeveloped and overexcitable.
+[4278:50 - 4278:51] speaker_0:  Oh, wow.
+[4297:52 - 4297:54] speaker_0:  Did you experience all of those emotions again?
+[4316:58 - 4316:59] speaker_0:  Yes, exactly, exactly.
+[4336:03 - 4336:06] speaker_0:  I love that quote of yours.
+[4355:14 - 4355:20] speaker_0:  So one afternoon after school, you went over to a friend's house and watched the documentary Slam Nation.
+[4374:34 - 4374:45] speaker_0:  You said this about watching slam poetry for the first time: I felt my two secret loves, poetry and theater, had come together, had a baby, a baby I needed to get to know.
+[4394:11 - 4394:13] speaker_0:  So why were these loves secret?
+[4413:42 - 4413:44] speaker_0: That's a great question.
+[4433:15 - 4433:39] speaker_0:  It's different now for sure, but I think the world that I was a thirteen-year-old in was one in which we didn't have YouTube, for starters, and I had never seen anybody that looked anything like me.
+[4453:36 - 4453:56] speaker_0: On a stage before, or really on TV, and so the idea of being a performer or an actress or anything that involved being in the spotlight did not appear to be possible or an option.
+[4474:13 - 4474:19] speaker_0:  And I don't even think I could articulate that; I know I couldn't articulate that then, but I do think that that had something to do with it.
+[4494:42 - 4494:44] speaker_0:  And so to risk.
+[4515:10 - 4515:21] speaker_0: Saying out loud that that was a dream or a possibility seemed just absolutely absurd, and I would have been laughed out of the building.
+[4535:58 - 4536:04] speaker_0:  I'm sure that was mainly in my head, but it certainly felt that way, and I also didn't know that poetry.
+[4556:48 - 4556:58] speaker_0: Could be performed until that moment, and poems at the time were things I wrote in secret in a notebook that nobody ever saw.
+[4577:53 - 4577:57] speaker_0:  So that's why both theater and poetry felt like secret loves.
+[4598:57 - 4599:10] speaker_0:  You were writing these poems on your own in your journals, and then out of the blue, you received a letter informing you that someone had registered you for the New York City Teen Poetry Slam.
+[4620:24 - 4620:27] speaker_0:  To this day, I believe you have no idea who signed you up.
+[4641:43 - 4641:43] speaker_0:  Correct.
+[4663:01 - 4663:02] speaker_0:  What did you think?
+[4684:21 - 4684:26] speaker_0:  I didn't think much other than I love poems.
+[4705:51 - 4705:54] speaker_0: It sounds like there will be other kids there who also love poems.
+[4727:23 - 4727:27] speaker_0:  Oh, I remember vaguely that documentary I saw a little clip of.
+[4749:00 - 4749:05] speaker_0:  I remember this is a thing, so I guess I could try it one time.
+[4770:44 - 4770:51] speaker_0:  I think something that doesn't always get included in the narrative of this is that.
+[4792:37 - 4792:43] speaker_0: I grew up very close to Ground Zero, and the eleventh of September happened when I was thirteen.
+[4814:35 - 4814:44] speaker_0:  And in the time period following, all of the adults around me were very busy trying to keep the world from falling apart.
+[4836:46 - 4836:49] speaker_0:  Your mom had broken her leg, my ankle broken, her ankle.
+[4858:54 - 4858:57] speaker_0:  My just everyone, teachers, parents, everyone was really.
+[4881:06 - 4881:07] speaker_0: Your brother didn't speak for months.
+[4903:17 - 4903:27] speaker_0:  Yeah, so there was a lot happening, and as a result, I didn't want to burden anyone with whatever my thirteen-year-old thoughts and feelings and worries were.
+[4925:48 - 4926:02] speaker_0:  And to be thirteen and try to wrap your head around terrorism was really hard for me, and so the only way that I understood it at the time was that someone had tried to.
+[4948:38 - 4948:49] speaker_0: Communicate, there is no room for you here, which I understand is a very oversimplified way of reckoning an act of terrorism, but that's what made sense to a thirteen year old.
+[4971:37 - 4971:51] speaker_0:  And my parents were thrilled that there was something that I was vaguely curious about and wanted to go try, because it meant a little bit of joy in what was otherwise kind of a dark time.
+[4994:53 - 4994:54] speaker_0:  and
+[5017:57 - 5018:25] speaker_0: Then the reason I think that it captured me so tremendously, was that it was the first time, as a fourteen year old girl, that I felt like a room full of people were listening to me and saw me and, I was allowed to talk about these fears and flaws and joys and doubts in a way that I hadn't before, and in some ways, it felt like the whole room was communicating, there is room for you here.
+[5041:57 - 5042:02] speaker_0: And I don't think I've ever forgotten that.
+[5065:39 - 5065:53] speaker_0:  And I think over and over again, anytime I'm in a room where people have come to listen to me speak, I never take for granted what a gift that is and what it means that people communicate to me that there is room for me here.
+[5089:45 - 5089:54] speaker_0: I believe that there was a woman that was in the audience that you described as eight feet tall, having a very specific reaction that really encouraged you.
+[5113:55 - 5113:56] speaker_0:  Can you share that story?
+[5137:58 - 5138:19] speaker_0:  Yeah, I mean, the first time that I ever got on stage, I shared a poem and I came off, and it was the first time I'd really performed like that in front of anyone, and I was so nervous, and everyone else in the room was older and cooler, but there was one girl who came and found me and tapped me on the shoulder, and when I turned around, she said, "Hey, I really felt that."
+[5162:42 - 5162:53] speaker_0: And to know that something that I had made had had an effect on another person, let alone someone so much older and cooler, was like a lightning bolt.
+[5183:23 - 5183:32] speaker_0: You mentioned that you grew up in Lower Manhattan near the World Trade Center, and you were thirteen living in New York City on nine eleven where you experienced the tragedy.
+[5204:12 - 5204:14] speaker_0:  You've written about it quite beautifully.
+[5224:56 - 5225:10] speaker_0:  You've written quite a heartbreaking and beautiful essay, and you've also written some really extraordinary poetry about some of the terrorism that we've experienced more recently.
+[5246:07 - 5246:13] speaker_0:  And there is a poem titled "The Places We Are Not," which I am wondering if you might be able to read today.
+[5267:17 - 5267:17] speaker_0: Sure.
+[5288:20 - 5288:21] speaker_0:  Sure.
+[5309:26 - 5309:30] speaker_0:  A man, plows his truck, through the crowd.
+[5330:41 - 5330:57] speaker_0:  Celebrating on the Nice boardwalk, where my, once love, once insisted, that we could make it all the way through a triple layer chocolate mousse, until we were both so full, we could not even bear to lick our spoons.
+[5352:26 - 5352:29] speaker_0: I text a friend, "Where are you?"
+[5374:01 - 5374:08] speaker_0:  Which is code for, "Please tell me these new deaths are not yours this time."
+[5395:50 - 5395:54] speaker_0:  If I scroll up, I will see the same text I sent her.
+[5417:40 - 5417:54] speaker_0: Back when Paris was exploding a few moments or weeks ago, farther up, the same text she sent me when I was in lockdown in Jakarta, as the man across town pulled the pin from his grenade.
+[5439:55 - 5440:03] speaker_0:  Not yours this time is a song that plays so often I cannot help but know the words.
+[5462:12 - 5462:15] speaker_0:  Are you okay is the hook.
+[5484:28 - 5484:37] speaker_0: Are you okay is code for we are not okay, but please remind me you are breathing.
+[5507:01 - 5507:12] speaker_0:  Back home, the black men and women I love look into mirrors and wonder if they are lost teeth in the mouth of an impatient god.
+[5529:47 - 5529:48] speaker_0: Are you okay?
+[5552:26 - 5552:28] speaker_0:  I text, impotent.
+[5575:09 - 5575:11] speaker_0:  Please, remind me you are breathing.
+[5597:56 - 5598:01] speaker_0:  I am scared is not a good enough reason to not get out of bed.
+[5620:51 - 5620:54] speaker_0:  The world is falling apart is not a good enough one either.
+[5643:49 - 5643:59] speaker_0: I ask my mother if growing older means one wound piled upon another until we are just a collection of hurt, but she insists, no.
+[5667:04 - 5667:10] speaker_0:  Sometimes someone gets married or has a baby.
+[5690:22 - 5690:26] speaker_0:  Someone teach me a new song, please.
+[5713:44 - 5713:49] speaker_0: Bring me a spoon and a mouth to lean across the table for this time.
+[5737:12 - 5737:14] speaker_0:  This time I am a jaw of loose teeth.
+[5760:40 - 5760:42] speaker_0:  I am a collection of string.
+[5784:11 - 5784:13] speaker_0:  I am a snow globe of worry.
+[5807:43 - 5807:45] speaker_0:  I am a Rolodex of fear.
+[5831:18 - 5831:25] speaker_0:  They are placing body bags over children on the sidewalk where I once pushed a bowl away laughing.
+[5855:06 - 5855:08] speaker_0:  I cannot possibly have any more love.
+[5878:52 - 5878:53] speaker_0:  I am already full.
+[5902:40 - 5902:41] speaker_0: Sarah K.
+[5926:29 - 5926:30] speaker_0:  in 2018.
+[5950:24 - 5950:28] speaker_0: Amber Tamblyn is an award-winning television, film, and theater actor.
+[5974:26 - 5974:29] speaker_0:  She's also a novelist and a poet.
+[5998:30 - 5998:39] speaker_0:  I spoke with her in front of a live audience in New York City in early 2020 in celebration of the 15th anniversary of Design Matters.
+[6022:49 - 6022:54] speaker_0: You're known for many iconic roles beyond Emily Quartermaine on General Hospital.
+[6047:10 - 6047:14] speaker_0:  You were Joan Girardi on Joan of Arcadia, Martha M.
+[6071:33 - 6071:44] speaker_0:  Masters on House, named for one of your actual friends, Martha Masters, Jenny Harper on Two and a Half Men, and Tibby Rollins in the Sisterhood of the Traveling Pants films.
+[6096:15 - 6096:17] speaker_0:  How do you feel about those roles now?
+[6120:54 - 6120:56] speaker_0: I have many feelings.
+[6145:35 - 6145:38] speaker_0:  I have so many feels.
+[6170:22 - 6170:35] speaker_0:  I've spent, I think, so much of my now adult life exercising the pain, having an exorcism of the pain of those experiences of growing up in the business.
+[6195:33 - 6195:39] speaker_0:  But I also have a deep sense of love and pride for those characters and, you know.
+[6220:43 - 6220:46] speaker_0: You know, things that you would not expect you could bring off the page.
+[6245:53 - 6246:00] speaker_0:  You could, and I feel that I did, I guess, in a certain way, especially with things like Sisterhood of the Traveling Pants.
+[6271:13 - 6271:19] speaker_0:  Who knew that that would be so deep and so filled with emotion and turn out to be such a wonderful, wonderful experience?
+[6296:39 - 6296:46] speaker_0:  And I came away from that with some of the closest friendships of my life with my cast members, America Ferrera, Blake Lively, and Alexis Bledel.
+[6322:14 - 6322:18] speaker_0: But it does really feel like a different life in a certain way.
+[6347:50 - 6347:58] speaker_0:  It feels very separate than where I've been in the last maybe eight years, eight to ten years almost.
+[6373:37 - 6373:44] speaker_0:  And for the most part, I haven't really thought much about acting or the things that you know.
+[6399:31 - 6399:35] speaker_0: You know, it the way in which it brought joy to my life during those years.
+[6425:26 - 6425:33] speaker_0:  But I think because I've had so much distance from it, I have a new appreciation for it in a way that I didn't before.
+[6451:31 - 6451:40] speaker_0:  I'm about to shoot a show for FX and it'll be my first time doing something that I I'm like very, very excited about is a very exciting role.
+[6477:46 - 6477:54] speaker_0:  And so I have been thinking about it a lot lately, but I haven't I just haven't thought about any acting any of the stuff that I've done in a long time.
+[6504:09 - 6504:15] speaker_0:  It's interesting that you're bringing it up because it's been at the forefront of my thought lately because of that.
+[6530:35 - 6530:46] speaker_0:  Well, I have a bunch more questions about it, but I do want to ask you if it's true that you told John Cryer to go fuck himself in your audition for Two and a Half Men, which was in front of Chuck Lorre.
+[6557:17 - 6557:18] speaker_0:  Oh, 100%.
+[6583:51 - 6583:52] speaker_0:  So what brought that?
+[6610:25 - 6610:27] speaker_0:  I think I also told Chuck Lorre to go fuck himself.
+[6637:03 - 6637:03] speaker_0:  Fair.
+[6663:38 - 6663:48] speaker_0:  Well, it was the character was this she was sort of supposed to replace the half man idea she was.
+[6690:34 - 6690:49] speaker_0: Charlie Harper's daughter, who was basically just a woman version of him, just a alcoholic, foul-mouthed womanizer, and so I also was like, I actually don't really care if I do Two and a Half Men.
+[6717:49 - 6717:53] speaker_0:  This is not like an audition that's going to break me, and so I was rude.
+[6744:58 - 6745:02] speaker_0: To all of the men in the room, and got and I and I often like that, don't they?
+[6772:12 - 6772:13] speaker_0:  Sometimes they those types of men do.
+[6799:24 - 6799:27] speaker_0:  I mean, as I said, I know narcissistic white men very well.
+[6826:41 - 6826:46] speaker_0:  Although both of them are lovely, and John Crier is especially wonderful.
+[6854:05 - 6854:13] speaker_0:  I think I had also signed in on the audition sheet a fake name, which is kind of like a really messed up thing to do, especially if you are going up first in the morning.
+[6881:40 - 6881:49] speaker_0:  I think I signed in as Jennifer Lawrence because then everyone who comes after you is looking and they're like, oh fuck, Jennifer Lawrence audition for this shit.
+[6909:26 - 6909:26] speaker_0:  Shit.
+[6937:03 - 6937:06] speaker_0:  Okay, I got up my game.
+[6964:46 - 6964:49] speaker_0:  I was like, you have a little bit of a sadomasochist streak in you.
+[6992:32 - 6992:33] speaker_0:  I guess so.
+[7020:16 - 7020:19] speaker_0:  God, Debbie's getting real tonight.
+[7048:05 - 7048:07] speaker_0:  Someone get me a drink.
+[7075:56 - 7075:57] speaker_0:  I think we can make that happen.
+[7103:48 - 7103:55] speaker_0:  You've said that show business is voyeuristic, and that if you are an actress, you are playing that which the voyeur looks at for a living.
+[7131:54 - 7131:59] speaker_0:  People look at you to escape their realities, to invent their own new realities.
+[7160:02 - 7160:03] speaker_0:  How do you, how did
+[7188:08 - 7188:17] speaker_0: Did you manage to keep your own identity, and how have you been able to avoid the often treacherous pitfalls that other child actors have succumbed to?
+[7216:31 - 7216:33] speaker_0: So funny because we were just talking about this.
+[7244:50 - 7244:53] speaker_0:  I think it's twofold for me.
+[7273:13 - 7273:23] speaker_0:  Obviously, I think having parents who were a strong support system in my life was a real privilege to have that kind of upbringing and family.
+[7301:53 - 7302:00] speaker_0:  And I think also poetry, poetry really saved me in a way.
+[7330:37 - 7330:40] speaker_0:  Poetry was a third parent.
+[7355:14 - 7355:16] speaker_0: Poetry was a guardian.
+[7379:53 - 7380:06] speaker_0:  It was a way for me to reflect on those experiences and be able to put on the page the feelings that I had, whether it was anger or frustration or feeling.
+[7404:57 - 7405:10] speaker_0: Invisible or feeling objectified, all of those things, poetry was a real way for me to let those things out early on from a young age, and so I've been writing.
+[7430:13 - 7430:22] speaker_0:  Most people, well, I'd say maybe less so now, but there was a time at which most people were really shocked that I was a poet, even though I had been publishing.
+[7455:36 - 7455:41] speaker_0:  You know, the Simon and Schuster book that I wrote, Free Stallion, was poems written age eleven to twenty.
+[7481:00 - 7481:01] speaker_0: Twenty-one.
+[7506:21 - 7506:23] speaker_0:  I had been writing as long as I had been acting.
+[7531:46 - 7531:53] speaker_0:  These were two coinciding forms of art and expression that I had done from a very young age, and they very much informed each other.
+[7557:24 - 7557:27] speaker_0:  And one was like a salve to the other in a certain way.
+[7583:01 - 7583:06] speaker_0:  Well, you said that poetry was one of the few areas in your life where you felt like you had full control.
+[7608:45 - 7608:47] speaker_0:  Why did it make you feel like you had control?
+[7634:28 - 7634:29] speaker_0:  Well,
+[7660:11 - 7660:17] speaker_0: As an actress, you are creating something that's only really half yours, if that.
+[7686:05 - 7686:13] speaker_0:  You are putting yourself on the line emotionally, often physically, psychologically, for something you have no control over.
+[7712:10 - 7712:10] speaker_0:  You are.
+[7738:08 - 7738:19] speaker_0: Interpreting the words of someone else that they've written, you are creating the world that a show creator has written and has created that they have envisioned.
+[7764:28 - 7764:32] speaker_0:  You are moving in the way that a director is telling you to move.
+[7790:46 - 7790:55] speaker_0:  So much of that is about an interpretation of someone else's art, of all of the people's art around you, which is a great joy.
+[7817:17 - 7817:20] speaker_0:  And the people who do it really well are masters at it.
+[7843:46 - 7843:56] speaker_0:  You know, it is using that empathic tool to tell a really deep and important story if that is something that you're very good at.
+[7870:32 - 7870:33] speaker_0:  But at the same time,
+[7897:11 - 7897:24] speaker_0: After the acting experience, and this is something that I think so many people don't understand about our business, is that you probably have only ever seen like thirty percent of the stuff that I have done, if that.
+[7924:15 - 7924:26] speaker_0:  And that's any actor, that's Meryl Streep, that's the most famous actor and the least known actor, because once you've acted, there is so many other levels that that piece.
+[7951:29 - 7951:32] speaker_0: piece of work has to go through in order to succeed to see the light of day.
+[7978:38 - 7978:46] speaker_0:  It has to be edited very well, and you have to hope that the editor and director are on the same page and that the director directed it well.
+[8006:00 - 8006:05] speaker_0:  Then you have to hope, even if you have a good film, you have to hope that it goes into a festival.
+[8033:23 - 8033:26] speaker_0:  And then even if it gets into a festival, you have to hope it gets bought.
+[8060:48 - 8060:51] speaker_0:  And then if it gets bought, you have to hope they put the right marketing behind it.
+[8088:16 - 8088:19] speaker_0:  And then if they do that, you still have to hope that people go to theaters and see it.
+[8115:48 - 8115:50] speaker_0:  Same thing could be said about television.
+[8143:21 - 8143:23] speaker_0:  You know, you create something all the way through.
+[8170:56 - 8171:03] speaker_0:  If you're doing a pilot, it may never see the light of day, or it might go on and you know, air for five episodes and disappear.
+[8198:44 - 8198:47] speaker_0:  So it's a strange industry because you pour your.
+[8226:31 - 8226:38] speaker_0: Heart and soul and physical self into things that often no one ever sees or no one knows about.
+[8254:29 - 8254:48] speaker_0:  So in that way, I really felt like writing for me, at least if I failed by it, I was failing by 100% of my own self-expression, as opposed to 50% of an expression that was part of me that still might fail anyway, if that makes sense.
+[8282:58 - 8282:58] speaker_0:  Yeah.
+[8311:10 - 8311:18] speaker_0: There seems to be a lot of judgment when an actor tries something other than acting, whether it be writing, music, politics, even activism.
+[8339:38 - 8339:42] speaker_0:  Did it feel it was harder to be taken seriously as a poet because of your celebrity?
+[8368:07 - 8368:07] speaker_0:  Oh, absolutely.
+[8396:33 - 8396:34] speaker_0:  I think there was.
+[8425:00 - 8425:05] speaker_0:  I think I got discouraged early about ever sort of submitting my work or.
+[8453:39 - 8453:42] speaker_0: Doing anything with it other than just writing and performing, I would do book tours.
+[8482:20 - 8482:25] speaker_0:  I would frequent a place called Beyond Baroque in Los Angeles, where I would read a lot.
+[8511:07 - 8511:24] speaker_0:  And I think around the time I was writing Dark Sparkler, which really, really was a kind of exorcism for me, it was a, I was deep in the middle of a real existential crisis, trying to figure out what I wanted to be outside of this idea of going.
+[8540:23 - 8540:29] speaker_0: Going into other people's rooms and auditioning and interpreting their work, and knowing I had so much more to offer.
+[8569:35 - 8569:37] speaker_0:  Where did the existential crisis stem from?
+[8598:46 - 8598:53] speaker_0:  Well, it stemmed from the fact that I had only ever really played other people for a living my whole life since I was eleven.
+[8628:08 - 8628:12] speaker_0:  You know, people always ask me like, "How old were you when you knew you wanted to act?"
+[8657:32 - 8657:32] speaker_0:  and that.
+[8686:54 - 8687:02] speaker_0: Sentence that idea is something that I have come up against and talked about in therapy for so many years.
+[8716:31 - 8716:35] speaker_0:  To think about how does a child have a choice?
+[8746:08 - 8746:12] speaker_0:  What choice does the child have in choosing that life?
+[8775:50 - 8775:52] speaker_0:  It's not really a child's choice.
+[8805:31 - 8805:33] speaker_0:  That's the choice of adults.
+[8835:14 - 8835:19] speaker_0:  And then the child spends their time trying to please adults by performing.
+[8865:06 - 8865:09] speaker_0:  And so then your life becomes performative.
+[8894:58 - 8895:02] speaker_0:  You are a walking, talking, living performance.
+[8924:56 - 8924:56] speaker_0:  It's.
+[8954:51 - 8955:04] speaker_0: Complicated and so so dark sparkler was sort of this, reckoning for myself coming to terms with myself with also how do you, how do you talk about this pain?
+[8985:11 - 8985:30] speaker_0:  How do you talk about this invisibility, while still knowing you are the most privileged person in any given room for the money you make, the job you have, the industry you are in, that people would love to be a part of, and and how I was trying to find a way to talk about my experience and my need for.
+[9015:57 - 9015:59] speaker_0: A certain kind of death.
+[9046:28 - 9046:32] speaker_0:  I mean, really, I was seeking death, not literal death, but a metaphorical death.
+[9077:04 - 9077:14] speaker_0:  I was, I was ceasing and, I was, I was seeking and a ceasing, if that makes sense, an ending to the person that I was when I was younger.
+[9107:57 - 9108:01] speaker_0:  That person that really didn't have any control over her life.
+[9138:48 - 9138:59] speaker_0:  While she was creating these incredible characters that bring people so much joy, and I often had so much fun shooting them, there was an entire part of myself that was dying, that was, that was.
+[9169:58 - 9170:22] speaker_0: That was not being given an opportunity to thrive and to become more, and that book was a direct I think moment for me to let those things be talked about on a page and to be able to see them and see my own experiences not only writing about these actresses that had literally died but then writing these meta poems in the back about.
+[9201:45 - 9201:56] speaker_0: You know, my experience writing about dead actresses, and it was actually Roxane Gay who published the first poem I was like my first published poem ever.
+[9233:30 - 9233:35] speaker_0:  She published this poem about Brittany Murphy, and I remember submitting it to Pank.
+[9265:15 - 9265:20] speaker_0:  A friend had said, "You got to submit," you know, it's a great editor there now, and I was like, "No one's ever going to publish my work.
+[9297:04 - 9297:05] speaker_0:  I am an actress.
+[9328:51 - 9328:51] speaker_0:  I can't.
+[9360:37 - 9360:40] speaker_0:  I'll just I'll take myself seriously, and that's fine."
+[9392:29 - 9392:32] speaker_0:  And I think she wrote me back in like two hours or something.
+[9424:24 - 9424:34] speaker_0:  It was very exciting, and it was a moment for me to feel like, "Oh, I am, I am can be taken seriously in the art form that I've done as long as I've acted."
+[9456:36 - 9456:37] speaker_0:  It was a big moment.
+[9488:40 - 9488:42] speaker_0:  Do you want to read that poem for us?
+[9520:46 - 9520:47] speaker_0:  Sure.
+[9552:54 - 9552:55] speaker_0: Brittany Murphy.
+[9585:05 - 9585:22] speaker_0:  Her body dies like a spider's, in the shower the blooming flower seeds a cemetery, a pill lodges in the inner pocket of her flesh coat, her breasts were the gifts of ghosts, dark tarps of success.
+[9617:49 - 9617:54] speaker_0: Her mouth dribbles over onto the bathroom floor, pollock blood.
+[9650:26 - 9650:34] speaker_0:  The body is lifted from the red carpet, put in a black bag, taken to the mother's screams for identification.
+[9683:15 - 9683:20] speaker_0:  The country says good things about the body; they print the best.
+[9712:00 - 9712:04] speaker_0: Photos: the least bones, the most peach.
+[9740:49 - 9740:52] speaker_0:  Candles are lit in the glint of every glam.
+[9769:40 - 9769:47] speaker_0:  Every magazine stand does the Southern Belle curtsy in her post-box office bomb honor.
+[9798:42 - 9798:45] speaker_0:  The autopsy finds an easy answer.
+[9827:44 - 9827:57] speaker_0: They say good things about the body, how bold her eyes were, bigger than Hepburn's, the way she could turn into her camera close up like life depended on her.
+[9857:11 - 9857:13] speaker_0:  Amber Tamblyn in twenty twenty.
+[9886:30 - 9886:42] speaker_0: You can hear my full interviews and hundreds of other interviews with some of the world's most creative people on our website designmattersmedia dot com or wherever you get your podcasts.
+[9916:13 - 9916:20] speaker_0:  We'll be back next week with one last special episode called "From the Many Years I've Been Doing Design Matters."
+[9945:57 - 9946:04] speaker_0:  Yes, this is the twentieth year we've been podcasting Design Matters, and I'd like to thank you for listening.
+[9975:48 - 9975:53] speaker_0:  And remember, we can talk about making a difference, we can make a difference, or we can do both.
+[10005:43 - 10005:48] speaker_0:  I am Debbie Millman, and I look forward to talking with you again soon.
+[10035:43 - 10035:48] speaker_0: Design Matters is produced by the TED Audio Collective by Curtis Fox Productions.
+[10065:48 - 10065:57] speaker_0:  The interviews are usually recorded at the Masters in Branding program at the School of Visual Arts in New York City, the first and longest-running branding program in the world.
+[10096:06 - 10096:10] speaker_0:  The editor-in-chief of Design Matters Media is Emily Weiland.
+[10126:33 - 10126:39] speaker_0: I recently had comedian and host of TED's How to Be a Better Human podcast, Chris Duffy, on our show.
+[10157:08 - 10157:12] speaker_0:  He sat down for a special interview where he talked about how to laugh more at the little things in life.
+[10187:46 - 10187:51] speaker_0:  One of the ways that we take the least social risk is in conversations with people we don't know that well.
+[10218:29 - 10218:31] speaker_0:  We tend to just say like, so how are you?
+[10249:12 - 10249:13] speaker_0:  What do you do?
+[10279:55 - 10279:59] speaker_0:  There's no risk involved and as a result, it's very unlikely that you and the other person will like laugh or connect.
+[10310:45 - 10310:54] speaker_0:  So I think you can take like a low risk thing and ask them a question that's just a little unusual, but that you actually are interested in or is a little funny.
+[10341:50 - 10341:54] speaker_0:  Now the person might be like, this is weird, why are you asking me about terrible soups?
+[10372:53 - 10373:00] speaker_0:  But you'll probably have a conversation that is a little bit more memorable and funny and has the potential for laughter than other things.
+[10404:06 - 10404:14] speaker_0:  Get more practical tips on how to be the best you can be by listening to Chris interview TED speakers on his podcast, How to Be a Better Human.
+[10435:29 - 10435:31] speaker_0:  Listen wherever you get your shows.

@@ -1,0 +1,14 @@
+INFO:     Will watch for changes in these directories: ['/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8003 (Press CTRL+C to quit)
+INFO:     Started reloader process [29047] using WatchFiles
+INFO:     Started server process [29051]
+INFO:     Waiting for application startup.
+[2026-03-25 16:34:14] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+INFO:     127.0.0.1:65094 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 17:02:56] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [29051]
+INFO:     Stopping reloader process [29047]

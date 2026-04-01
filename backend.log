@@ -1,0 +1,4 @@
+启动后端服务 (http://localhost:8000)...
+cd backend && uvicorn app.main:app --reload --port 8000
+/bin/sh: uvicorn: command not found
+make: *** [backend] Error 127

@@ -1,0 +1,33 @@
+# 会议转写文本
+# Session ID: upload_5319f8c2
+# 开始时间: 2026-03-31 16:22:09
+# 总时长: 00:00:38
+# 转写片段数: 6
+# 来源: 文件上传
+
+============================================================
+
+[00:00:04 - 00:00:09] 发言人 A:
+  You're listening to TED Talks Daily, where we bring you new ideas to spark your curiosity every day.
+
+[00:00:09 - 00:00:10] 发言人 A:
+   I'm your host, Elise Hu.
+
+[00:00:11 - 00:00:20] 发言人 A:
+   Like many of us, singer, actress, and mindset coach Rhonda Ross has experienced the most amazing highs and horrible lows in her life.
+
+[00:00:21 - 00:00:28] 发言人 A:
+   Over time, she's learned that regardless of what we're experiencing, we must first calm the storm inside our minds.
+
+[00:00:28 - 00:00:30] 发言人 A:
+   To do that, we have to understand it.
+
+[00:00:30 - 00:00:38] 发言人 A:
+   In this conversation with scholar and TED Fellow Daniel Alexander Jones, Rhonda shares her theory of emotional sovereignty, the idea that your feelings.
+
+============================================================
+
+# LLM 分析结果
+
+## 摘要
+（无总结）

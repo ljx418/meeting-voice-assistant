@@ -1,0 +1,54 @@
+INFO:     Will watch for changes in these directories: ['/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+INFO:     Started reloader process [28522] using WatchFiles
+INFO:     Started server process [28526]
+INFO:     Waiting for application startup.
+[2026-03-25 16:25:52] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+INFO:     127.0.0.1:64893 - "GET /api/v1/health HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'app/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:26:23] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28526]
+INFO:     Started server process [28550]
+INFO:     Waiting for application startup.
+[2026-03-25 16:26:23] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/asr/dashscope.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:29:43] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28550]
+INFO:     Started server process [28666]
+INFO:     Waiting for application startup.
+[2026-03-25 16:29:45] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/asr/dashscope.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:29:51] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28666]
+INFO:     Started server process [28672]
+INFO:     Waiting for application startup.
+[2026-03-25 16:29:53] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app/core/asr/dashscope.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 16:30:41] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28672]
+INFO:     Started server process [28756]
+INFO:     Waiting for application startup.
+[2026-03-25 16:30:42] [INFO] [meeting_voice] Meeting Voice Assistant starting up...
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+[2026-03-25 17:02:56] [INFO] [meeting_voice] Meeting Voice Assistant shutting down...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [28756]
+INFO:     Stopping reloader process [28522]

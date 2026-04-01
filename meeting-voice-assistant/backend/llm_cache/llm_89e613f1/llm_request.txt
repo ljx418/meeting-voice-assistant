@@ -1,0 +1,303 @@
+# 角色与任务
+你是一个专业的会议/音频内容分析助手。你的任务是根据用户提供的语音转写文本，进行深度分析，并严格按照指定格式输出结果。
+
+# 输入说明
+用户将提供一段或多段对话的转写文本。文本中可能包含：
+- 说话人标识（例如 `[SPEAKER_00]`、`Speaker 1` 或 `张三：` 等格式）
+- 时间戳（可选，例如 `[00:01:23]`）
+- 对话内容
+
+你需要基于对话的实际内容进行客观分析，不要添加转写文本中不存在的信息。
+
+# 输出格式
+请以 **JSON** 格式返回，结构如下：
+
+```json
+{{
+  "主题": "一句话概括整个音频的核心议题或主要内容",
+  "章节划分": [
+    {{
+      "章节名称": "例如：开场介绍",
+      "起始位置": "可描述为时间点（如00:00）或关键词（如'开始讨论方案'）",
+      "结束位置": "类似描述"
+    }},
+    {{
+      "章节名称": "技术方案讨论",
+      "起始位置": "...",
+      "结束位置": "..."
+    }}
+    // 依实际章节数量增减
+  ],
+  "内容摘要": "一段约150-300字的摘要，总结关键观点、结论、重要信息，语言简洁通顺。",
+  "发言人员角色识别": [
+    {{
+      "说话人标识": "SPEAKER_00",
+      "角色": "例如：主持人/主讲人/参会者/提问者/决策者",
+      "判断依据": "基于其发言内容、提问方式、总结性话语等简要说明"
+    }},
+    {{
+      "说话人标识": "SPEAKER_01",
+      "角色": "...",
+      "判断依据": "..."
+    }}
+    // 按文本中出现的所有说话人列出
+  ]
+}}
+```
+
+# 重要提示
+1. 只分析文本中实际存在的内容，不要推测未明确表达的信息
+2. 说话人标识使用输入中实际出现的格式
+3. 章节划分应反映对话的自然逻辑分段
+4. 摘要应简洁、准确，包含关键结论和信息点
+
+
+# 待分析的转写文本
+
+[00:00 - 00:00] speaker_2:  you're listening to ted doc's daily，
+[00:00 - 00:00] speaker_2:  where we renew new ideas to spark your curiosity every day。
+[00:00 - 00:00] speaker_2:  i'm your hohost lelease you ogosh。
+[00:00 - 00:00] speaker_3:  i just got a really alarming text from my bank。
+[00:00 - 00:00] speaker_0:  did you pick up your phone for the eight hundred and time that day empty of emotion，
+[00:00 - 00:00] speaker_0:  but still feeling a deep，
+[00:00 - 00:00] speaker_0:  lonely ache，
+[00:00 - 00:00] speaker_2:  yes。
+[00:00 - 00:00] speaker_0:  and scroll through scruft，
+[00:00 - 00:00] speaker_0:  having a number of pointless conversations with headless torsos that's comedian and writer mike albow describing a feeling。
+[00:00 - 00:00] speaker_2:  i think we all know a little cenwell。
+[00:00 - 00:00] speaker_2:  well，
+[00:00 - 00:00] speaker_2:  indeed，
+[00:00 - 00:00] speaker_2:  we talk a lot about how our phones run our lives。
+[00:00 - 00:00] speaker_2:  but what happens when they get a little too smart，
+[00:00 - 00:00] speaker_2:  too reflective of the world around us？
+[00:00 - 00:00] speaker_3:  yes，
+[00:00 - 00:00] speaker_3:  i did。
+[00:00 - 00:00] speaker_3:  but how did you te back？
+[00:00 - 00:00] speaker_0:  and then did did you call me by your name upon itunes for seven dollars of ninety nine cents？
+[00:00 - 00:00] speaker_0:  and then finally，
+[00:00 - 00:00] speaker_0:  watch it because you have aavoided watchit it as a gay mit pushing it。
+[00:00 - 00:00] speaker_0:  you don't want to get up seseing young，
+[00:00 - 00:00] speaker_0:  gorgeous men in love。
+[00:00 - 00:00] speaker_3:  h，
+[00:00 - 00:00] speaker_3:  yes，
+[00:00 - 00:00] speaker_3:  yes，
+[00:00 - 00:00] speaker_2:  did did in this comeety memewar part documentary talk。
+[00:00 - 00:00] speaker_2:  mike takes a very personal route to show us the hilarious and painfully relatable ways that our digital lives are reflecting our desires anxieties and varities。
+[00:00 - 00:00] speaker_2:  that's coming up right after a short break。
+[00:00 - 00:00] speaker_4: 嗯，
+[00:00 - 00:00] speaker_4:  this podcast is brought to you by wise the app for using money around the globe。
+[00:00 - 00:00] speaker_4:  with wise，
+[00:00 - 00:00] speaker_4:  you can send spend and receive。
+[00:00 - 00:00] speaker_4:  and over forty currencies，
+[00:00 - 00:00] speaker_4:  no markup，
+[00:00 - 00:00] speaker_4:  no hidden fees，
+[00:00 - 00:00] speaker_4:  whether you're sending dollars down under spending pounds in london or paying freelances in in acos。
+[00:00 - 00:00] speaker_4:  you'll get the mid market exchange rate on every transaction plus most transfers arrive in less than twenty seconds。
+[00:00 - 00:00] speaker_4:  you'll fifmillion lion customers internationally，
+[00:00 - 00:00] speaker_4:  be smart，
+[00:00 - 00:00] speaker_4:  get widodownload wise app today，
+[00:00 - 00:00] speaker_4:  every asansees apply one of the best parts for me about hosting review。
+[00:00 - 00:00] speaker_5:  you know，
+[00:00 - 00:00] speaker_5:  your favorite weekly investigate of podcast is the interviews。
+[00:00 - 00:00] speaker_5:  i love to sit down with people and try to gain a perspective that gives me and our listeners a new way of seeing the world，
+[00:00 - 00:00] speaker_5:  which is why we're launching more to the story with me allezson。
+[00:00 - 00:00] speaker_5:  it's a place where i can talk to some of the most intrigupeople people to ing some some tetets or changing world，
+[00:00 - 00:00] speaker_5:  follow the reveal podcast feed and look for more to the story every wednesday，
+[00:00 - 00:00] speaker_2:  and now are ten talk of the day。
+[00:00 - 00:00] speaker_3: 哼嗨啊，
+[00:00 - 00:00] speaker_3:  hello，
+[00:00 - 00:00] speaker_3:  hi，
+[00:00 - 00:00] speaker_3:  ted people。
+[00:00 - 00:00] speaker_3:  i'm mike elbow。
+[00:00 - 00:00] speaker_3:  i'm so excited to be here in hot lanana。
+[00:00 - 00:00] speaker_3:  do they do they still call it that？
+[00:00 - 00:00] speaker_3:  or is that insulting？
+[00:00 - 00:00] speaker_3:  sorry，
+[00:00 - 00:00] speaker_3:  anyway，
+[00:00 - 00:00] speaker_3:  i'm here to talk about our smart phones and how they control our of dear gosh，
+[00:00 - 00:00] speaker_3:  i just got a really alarming text from my bank。
+[00:00 - 00:00] speaker_3:  do you might have i just this？
+[00:00 - 00:00] speaker_3:  it'll just take a second。
+[00:00 - 00:00] speaker_3:  i'm sorry，
+[00:00 - 00:00] speaker_6:  hello，
+[00:00 - 00:00] speaker_6:  thank you for calling american bank for english。
+[00:00 - 00:00] speaker_6:  please press one，
+[00:00 - 00:00] speaker_6:  but if bonyon or pretty mnuedo，
+[00:00 - 00:00] speaker_6:  those to report a card loster stolen or to report suspicious activity on your account。
+[00:00 - 00:00] speaker_6:  press one，
+[00:00 - 00:00] speaker_6:  we are experiencing heavy traffic。
+[00:00 - 00:00] speaker_6:  please hold for the next available representative。
+[00:00 - 00:00] speaker_6:  your call is hello。
+[00:00 - 00:00] speaker_0:  thanks for for calling american bank。
+[00:00 - 00:00] speaker_0:  this is danny how i hope。
+[00:00 - 00:00] speaker_3:  hi。
+[00:00 - 00:00] speaker_3:  i just received detext that there's a foreign charge on my account。
+[00:00 - 00:00] speaker_0:  yes，
+[00:00 - 00:00] speaker_0:  i'll be happy to assist you with that misr albot me。
+[00:00 - 00:00] speaker_0:  i have the last four digits of your social security number。
+[00:00 - 00:00] speaker_3:  um one，
+[00:00 - 00:00] speaker_3:  seven，
+[00:00 - 00:00] speaker_3:  three，
+[00:00 - 00:00] speaker_3:  four。
+[00:00 - 00:00] speaker_0:  thank you，
+[00:00 - 00:00] speaker_0:  misr albot。
+[00:00 - 00:00] speaker_0:  yes，
+[00:00 - 00:00] speaker_0:  it appears there has been some suspicious activity to valiuate acaccount。
+[00:00 - 00:00] speaker_0:  i will need to confirm recent ansactions tions over the last twenty four hours to sell？
+[00:00 - 00:00] speaker_0:  okay，
+[00:00 - 00:00] speaker_0:  with humsterter elaba？
+[00:00 - 00:00] speaker_3:  yes。
+[00:00 - 00:00] speaker_0:  did you purchase a smooth the in philadelphia yesterday at six AM for one dollar and fifty cents？
+[00:00 - 00:00] speaker_0:  weird？
+[00:00 - 00:00] speaker_3:  no。
+[00:00 - 00:00] speaker_0:  did you purchase a bubble tea in port of iarctic today at eight AM for zero dollars？
+[00:00 - 00:00] speaker_0:  and zero cents，
+[00:00 - 00:00] speaker_0:  i did not。
+[00:00 - 00:00] speaker_0:  did you purchase a chop salad and toronto yesterday at eight，
+[00:00 - 00:00] speaker_0:  thirty AM for thirty seven cents，
+[00:00 - 00:00] speaker_3:  i did not。
+[00:00 - 00:00] speaker_0:  okay。
+[00:00 - 00:00] speaker_0:  yes，
+[00:00 - 00:00] speaker_0:  it seems your account has been hacked。
+[00:00 - 00:00] speaker_0:  if you allow me to continue with your transactions of the last twenty four hours，
+[00:00 - 00:00] speaker_0:  mister elbow，
+[00:00 - 00:00] speaker_3:  just to make sure okay。
+[00:00 - 00:00] speaker_0:  did you purchase two organic chicken breasts，
+[00:00 - 00:00] speaker_0:  brown rice and ahead of broccoli at whole foods for twenty eight dollars and eleven cents at four fifty nine pm yesterday。
+[00:00 - 00:00] speaker_3:  yes，
+[00:00 - 00:00] speaker_3:  i know it's so expensive，
+[00:00 - 00:00] speaker_0:  which purchase a bottle of wine，
+[00:00 - 00:00] speaker_0:  four，
+[00:00 - 00:00] speaker_0:  eleven dollars and fifty cents at smith street，
+[00:00 - 00:00] speaker_0:  wine and liquor at five twelve pm yesterday。
+[00:00 - 00:00] speaker_3:  yes。
+[00:00 - 00:00] speaker_0:  and then did you purchase drinks at local coco salloon for fourteen dollars at five thirty five pm？
+[00:00 - 00:00] speaker_3:  no，
+[00:00 - 00:00] speaker_3:  wait。
+[00:00 - 00:00] speaker_3:  oh，
+[00:00 - 00:00] speaker_3:  yeah。
+[00:00 - 00:00] speaker_3:  i was with this guy。
+[00:00 - 00:00] speaker_3:  jeff，
+[00:00 - 00:00] speaker_3:  i was try to meet someone in public before i anyway，
+[00:00 - 00:00] speaker_3:  yes。
+[00:00 - 00:00] speaker_0:  did you purchase a monthly membership renewal on grinder？
+[00:00 - 00:00] speaker_3:  um yeah，
+[00:00 - 00:00] speaker_0:  did you purchase an auto renewal membership on scruft？
+[00:00 - 00:00] speaker_3:  yes，
+[00:00 - 00:00] speaker_3:  i must have than a nine thirty pm。
+[00:00 - 00:00] speaker_0:  did you purchase another bottle of wine from veno ino wine company on atlantic avenue？
+[00:00 - 00:00] speaker_0:  uh，
+[00:00 - 00:00] speaker_3:  yes。
+[00:00 - 00:00] speaker_0:  and did you do this because you didn't want the guys at smiystery wine to see you buying more wine on the same day？
+[00:00 - 00:00] speaker_3:  yes。
+[00:00 - 00:00] speaker_0:  but and did you go home and eat while standing up at the sink？
+[00:00 - 00:00] speaker_0:  yes，
+[00:00 - 00:00] speaker_3:  i did。
+[00:00 - 00:00] speaker_3:  but how did you know back？
+[00:00 - 00:00] speaker_0:  and then did you order call me by your name on itunes for seven dollars and ninety nine cents？
+[00:00 - 00:00] speaker_0:  and then finally，
+[00:00 - 00:00] speaker_0:  watch it because you have avoided ded watching it because as ggay pupushing，
+[00:00 - 00:00] speaker_0:  you don't want want to get upset，
+[00:00 - 00:00] speaker_0:  seeing young gorgeous men in love。
+[00:00 - 00:00] speaker_3:  yes，
+[00:00 - 00:00] speaker_3:  i did。
+[00:00 - 00:00] speaker_0:  and then at the end，
+[00:00 - 00:00] speaker_0:  did you burst into tears？
+[00:00 - 00:00] speaker_0:  but then go look in the mirror to see how you look when you cry shirtless and then purchase a pelaton membership。
+[00:00 - 00:00] speaker_0:  yes。
+[00:00 - 00:00] speaker_0:  and then did you take a photo of your torso in the mirror because you realize your apps look good when you are heving with？
+[00:00 - 00:00] speaker_3:  cheers？
+[00:00 - 00:00] speaker_3:  yes。
+[00:00 - 00:00] speaker_0:  did you pick up your phone for the eight hundred and times that day empty of emotion，
+[00:00 - 00:00] speaker_0:  but still feeling a deep，
+[00:00 - 00:00] speaker_0:  lonely ache？
+[00:00 - 00:00] speaker_0:  yes。
+[00:00 - 00:00] speaker_0:  and scroll through scruff having a number of pottless conversations with headless torsos。
+[00:00 - 00:00] speaker_0:  yes，
+[00:00 - 00:00] speaker_0:  drinking your previously purchased wine until we were so slaashed，
+[00:00 - 00:00] speaker_0:  and you cried by yourself，
+[00:00 - 00:00] speaker_0:  no one else there，
+[00:00 - 00:00] speaker_0:  just you a low incomsingsingle ay，
+[00:00 - 00:00] speaker_0:  man，
+[00:00 - 00:00] speaker_0:  man，
+[00:00 - 00:00] speaker_0:  that no wants to hear from a society said you were over forty and make less than thirty thousand dollars a year。
+[00:00 - 00:00] speaker_0:  yes。
+[00:00 - 00:00] speaker_0:  and then did you pass out staring it yet？
+[00:00 - 00:00] speaker_0:  another hot man on your screen，
+[00:00 - 00:00] speaker_0:  you will never meet perperson，
+[00:00 - 00:00] speaker_0:  then wawake up and look at your phone and realize with horror that you were late to get to the airport to go to atlanta for little next event。
+[00:00 - 00:00] speaker_0:  i did and barely got to the airport on time and landed in atlanta，
+[00:00 - 00:00] speaker_0:  got to the uber and check scruff。
+[00:00 - 00:00] speaker_0:  and and rider again to see if there any hot guys in atlanta，
+[00:00 - 00:00] speaker_0:  because this town is indeed full of very sexy men。
+[00:00 - 00:00] speaker_3:  i did，
+[00:00 - 00:00] speaker_3:  i did，
+[00:00 - 00:00] speaker_3:  and they are they are。
+[00:00 - 00:00] speaker_0:  and then you got to the venue and ran out of the uber and rush back stage with your phone in your hand and brought it up on stage with you。
+[00:00 - 00:00] speaker_0:  and then just now walking on stage，
+[00:00 - 00:00] speaker_0:  look down again to see if there are any hot guys to make right here in the audience and saw that we american bank had contacted dubiby text to ask about potential proradulate purchases on your account。
+[00:00 - 00:00] speaker_3:  i did。
+[00:00 - 00:00] speaker_3:  i did。
+[00:00 - 00:00] speaker_0:  well。
+[00:00 - 00:00] speaker_0:  miss roelboo is seen，
+[00:00 - 00:00] speaker_0:  your transactions are in order。
+[00:00 - 00:00] speaker_0:  we will cancel the card，
+[00:00 - 00:00] speaker_0:  and you can expect a new one in the next six to ten business days，
+[00:00 - 00:00] speaker_3:  six to ten business days。
+[00:00 - 00:00] speaker_0:  is there anything else i can help you with？
+[00:00 - 00:00] speaker_0:  no，
+[00:00 - 00:00] speaker_3:  thanks，
+[00:00 - 00:00] speaker_3:  danny。
+[00:00 - 00:00] speaker_0:  thank you，
+[00:00 - 00:00] speaker_0:  mister albow。
+[00:00 - 00:00] speaker_0:  we've very much appreciate your continued patronage of american bank。
+[00:00 - 00:00] speaker_0:  also，
+[00:00 - 00:00] speaker_0:  you are a drunk gay，
+[00:00 - 00:00] speaker_0:  tramp，
+[00:00 - 00:00] speaker_0:  goodbye。
+[00:00 - 00:00] speaker_3: 嘿 well，
+[00:00 - 00:00] speaker_3:  II guess i am when my times out。
+[00:00 - 00:00] speaker_3:  well，
+[00:00 - 00:00] speaker_3:  thank you。
+[00:00 - 00:00] speaker_2: 嗯，
+[00:00 - 00:00] speaker_2:  that was mike elbow at ten，
+[00:00 - 00:00] speaker_2:  next twenty twenty five。
+[00:00 - 00:00] speaker_2:  if you're curious about ted curation，
+[00:00 - 00:00] speaker_2:  find out more a ted duck comm，
+[00:00 - 00:00] speaker_2:  lash，
+[00:00 - 00:00] speaker_2:  curation guidelines，
+[00:00 - 00:00] speaker_2:  and that's it for today。
+[00:00 - 00:00] speaker_2:  ted tax dailey is part of the ted audio collective。
+[00:00 - 00:00] speaker_2:  this talk was ftchecked by the ted research team and produced in edited by our team。
+[00:00 - 00:00] speaker_2:  martha etaphons，
+[00:00 - 00:00] speaker_2:  oliver，
+[00:00 - 00:00] speaker_2:  freedman，
+[00:00 - 00:00] speaker_2:  brian green，
+[00:00 - 00:00] speaker_2:  lucy little and tonsica，
+[00:00 - 00:00] speaker_2:  a smmarevo。
+[00:00 - 00:00] speaker_2:  this episode was mixed by lucy little，
+[00:00 - 00:00] speaker_2:  additional support from epatona and daniela a balarzzo。
+[00:00 - 00:00] speaker_2:  i'm eleast you。
+[00:00 - 00:00] speaker_2:  i'll be back tomorrow with a fresh idea for your feet things for listening。
+[00:00 - 00:00] speaker_2:  i recently had comedian and host of ted how to be a better human podcast christopphe on our show。
+[00:00 - 00:00] speaker_2:  he sat down for a special interview where he talked about how to laugh more at the little things in life。
+[00:00 - 00:00] speaker_7:  one of the ways that we we take the least social isk and in conversations with people，
+[00:00 - 00:00] speaker_7:  we don't not know。
+[00:00 - 00:00] speaker_7:  well，
+[00:00 - 00:00] speaker_7:  we tend to just say，
+[00:00 - 00:00] speaker_7:  like，
+[00:00 - 00:00] speaker_7:  so，
+[00:00 - 00:00] speaker_7:  how are you？
+[00:00 - 00:00] speaker_7:  um what do you do？
+[00:00 - 00:00] speaker_7:  there's no risk involved。
+[00:00 - 00:00] speaker_7:  and as a result，
+[00:00 - 00:00] speaker_7:  it's very unlikely that you and other person will like laugh or connect。
+[00:00 - 00:00] speaker_7:  so i think you can take like a low risk thing and asked them a question。
+[00:00 - 00:00] speaker_7:  that's just a little unununny that you actually are interested in。
+[00:00 - 00:00] speaker_7:  and is a little funny，
+[00:00 - 00:00] speaker_7:  but the person might be like this is weird。
+[00:00 - 00:00] speaker_7:  why you has to to me about terrible souops，
+[00:00 - 00:00] speaker_7:  but you'll probably have a conversation that is a little bit more memorable and funny and has the potential for laughter than other things，
+[00:00 - 00:00] speaker_2:  yet more practical tips on how to be the best you can be by listening to chris interview ted speakers on his podcast。
+[00:00 - 00:00] speaker_2:  what to be a better human listenwhwherever。
+[00:00 - 00:00] speaker_2:  you get your shows。

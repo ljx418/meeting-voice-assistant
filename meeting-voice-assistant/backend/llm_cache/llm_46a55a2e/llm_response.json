@@ -1,0 +1,25 @@
+```json
+{
+  "主题": "介绍TED播客节目并引出嘉宾Randa Roross关于情绪主权理论的对话",
+  "章节划分": [
+    {
+      "章节名称": "节目开场与介绍",
+      "起始位置": "时间点00:00",
+      "结束位置": "关键词'you're listening to ted talks daily'至'we have to understand it'"
+    },
+    {
+      "章节名称": "引出嘉宾与话题",
+      "起始位置": "关键词'in this conversation with scholar and ted fellow'",
+      "结束位置": "时间点00:30，关键词'shares her theory of emotional sovereign tee'"
+    }
+  ],
+  "内容摘要": "这是一段TED Talks Daily播客节目的开场白。主持人Elleast介绍了本期节目的内容：将与学者兼TED研究员Daniel Alexxander Ones对话，探讨嘉宾Randa Roross（一位歌手、演员和心态教练）提出的“情绪主权”理论。Randa Roross的人生经历过巨大的高峰和低谷，她领悟到无论身处何种境遇，首先要平息内心的风暴，而要做到这一点，就需要理解情绪主权这一概念。节目旨在通过这次对话，为听众带来启发思考的新观点。",
+  "发言人员角色识别": [
+    {
+      "说话人标识": "speaker_1",
+      "角色": "主持人/主讲人",
+      "判断依据": "其发言内容为节目开场白，介绍了节目名称、主持人身份、节目宗旨，并引出了本期嘉宾和核心话题，起到了引导和介绍的作用。"
+    }
+  ]
+}
+```

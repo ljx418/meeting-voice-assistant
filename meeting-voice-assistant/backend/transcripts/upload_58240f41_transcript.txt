@@ -1,0 +1,45 @@
+# 会议转写文本
+# Session ID: upload_58240f41
+# 开始时间: 2026-03-30 17:09:16
+# 总时长: 00:00:30
+# 转写片段数: 10
+# 来源: 文件上传
+
+============================================================
+
+[00:00:00 - 00:00:03] 发言人 B:
+   you're listening to ted talks daily，
+
+[00:00:03 - 00:00:06] 发言人 B:
+   where we bring you new ideas to spark your curiosity every day。
+
+[00:00:06 - 00:00:09] 发言人 B:
+   i'm your host elleast，
+
+[00:00:09 - 00:00:12] 发言人 B:
+   like many，
+
+[00:00:12 - 00:00:15] 发言人 B:
+   many of singsingactress and mindset coach randa roross has experienced the most amazing highs and horrible lows in her life over time。
+
+[00:00:15 - 00:00:18] 发言人 B:
+   she's learned that regardless of what we're experiencing，
+
+[00:00:18 - 00:00:21] 发言人 B:
+   we must first calm the storm inside our minds to do that。
+
+[00:00:21 - 00:00:24] 发言人 B:
+   we have to understand it in this conversation with scholar and ted fellow，
+
+[00:00:24 - 00:00:27] 发言人 B:
+   daniel alexx ander ones rrda shares her theory of emotional sovereign tee。
+
+[00:00:27 - 00:00:30] 发言人 B:
+   the idea that you're feeling，
+
+============================================================
+
+# LLM 分析结果
+
+## 摘要
+（无总结）
