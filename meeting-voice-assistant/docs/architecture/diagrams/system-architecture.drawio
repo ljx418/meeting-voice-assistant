@@ -1,0 +1,203 @@
+<mxfile host="app.diagrams.net" modified="2026-04-01T09:00:00.000Z" agent="Claude" version="24.0.0" type="device">
+  <diagram name="会议语音助手架构图" id="system-architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="会议语音助手 - 系统架构图" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="20" width="400" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Frontend Layer -->
+        <mxCell id="frontend-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E3F2FD;strokeColor=#1976D2;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="360" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="frontend-label" value="前端 Frontend (Vue 3 + Vite)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="85" width="200" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Frontend Components -->
+        <mxCell id="mic" value="🎤 麦克风&#xa;(MediaRecorder)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#2196F3" vertex="1" parent="1">
+          <mxGeometry x="60" y="130" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="waveform" value="📊 波形图&#xa;(AudioWaveform)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#2196F3" vertex="1" parent="1">
+          <mxGeometry x="60" y="200" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uploader" value="📁 文件上传&#xa;(FileUploader)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#2196F3" vertex="1" parent="1">
+          <mxGeometry x="60" y="270" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="transcript-panel" value="📝 转写面板&#xa;(TranscriptPanel)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#2196F3" vertex="1" parent="1">
+          <mxGeometry x="180" y="270" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="meeting-info" value="ℹ️ 会议信息&#xa;(MeetingInfo)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#2196F3" vertex="1" parent="1">
+          <mxGeometry x="180" y="200" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ws-client" value="🔌 WebSocket&#xa;Client" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#90CAF9;strokeColor=#1565C0" vertex="1" parent="1">
+          <mxGeometry x="180" y="130" width="100" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Backend Layer -->
+        <mxCell id="backend-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#388E3C;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="440" y="80" width="400" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="backend-label" value="后端 Backend (FastAPI)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="450" y="85" width="200" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- Backend Components -->
+        <mxCell id="ws-endpoint" value="🌐 WebSocket&#xa;Endpoint&#xa;/ws/voice" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#2E7D32" vertex="1" parent="1">
+          <mxGeometry x="460" y="130" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="upload-endpoint" value="📤 Upload&#xa;Endpoint&#xa;/upload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#2E7D32" vertex="1" parent="1">
+          <mxGeometry x="580" y="130" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="audio-cache" value="💾 音频缓存&#xa;(AudioCache)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#2E7D32" vertex="1" parent="1">
+          <mxGeometry x="460" y="280" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="llm-analyzer" value="🤖 LLM 分析器&#xa;(LLMAnalyzer)&#xa;qwen-plus / minimax" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#A5D6A7;strokeColor=#1B5E20" vertex="1" parent="1">
+          <mxGeometry x="580" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- ASR Adapter Pattern -->
+        <mxCell id="asr-factory" value="⚙️ ASR Factory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF9C4;strokeColor=#F57F17" vertex="1" parent="1">
+          <mxGeometry x="460" y="200" width="240" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- ASR Engines -->
+        <mxCell id="funasr-adapter" value="FunASR&#xa;+说话人分离" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE082;strokeColor=#FF8F00" vertex="1" parent="1">
+          <mxGeometry x="460" y="320" width="70" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="dashscope-adapter" value="DashScope&#xa;Qwen3-ASR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE082;strokeColor=#FF8F00" vertex="1" parent="1">
+          <mxGeometry x="540" y="320" width="70" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="sensevoice-adapter" value="SenseVoice" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE082;strokeColor=#FF8F00" vertex="1" parent="1">
+          <mxGeometry x="620" y="320" width="70" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- FunASR Service Layer -->
+        <mxCell id="funasr-service-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4EC;strokeColor=#C2185B;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="880" y="80" width="280" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="funasr-label" value="FunASR Service (Port 8001)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="890" y="85" width="200" height="25" as="geometry" />
+        </mxCell>
+
+        <mxCell id="funasr-api" value="🔌 API Router&#xa;/recognize" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8BBD9;strokeColor=#AD1457" vertex="1" parent="1">
+          <mxGeometry x="900" y="130" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="m4a-converter" value="🔄 m4a→wav&#xa;(ffmpeg)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8BBD9;strokeColor=#AD1457" vertex="1" parent="1">
+          <mxGeometry x="1020" y="130" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="funasr-model" value="🧠 FunASR Model&#xa;Paraformer + CAM++" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F48FB1;strokeColor=#880E4F" vertex="1" parent="1">
+          <mxGeometry x="900" y="220" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="vad-model" value="🎯 VAD&#xa;(fsmn-vad)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F48FB1;strokeColor=#880E4F" vertex="1" parent="1">
+          <mxGeometry x="900" y="300" width="70" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="spk-model" value="👥 说话人分离&#xa;(CAM++)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F48FB1;strokeColor=#880E4F" vertex="1" parent="1">
+          <mxGeometry x="985" y="300" width="80" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="punc-model" value="📖 标点恢复&#xa;(ct-punc)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F48FB1;strokeColor=#880E4F" vertex="1" parent="1">
+          <mxGeometry x="1080" y="300" width="70" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- External Services -->
+        <mxCell id="dashscope-cloud" value="☁️ 阿里云 DashScope&#xa;(LLM API)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="460" y="450" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="minimax-cloud" value="☁️ MiniMax API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="450" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="deepseek-cloud" value="☁️ DeepSeek API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#7B1FA2;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="760" y="450" width="120" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- Browser -->
+        <mxCell id="browser-label" value="🌐 用户浏览器" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="160" y="60" width="100" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Connection Lines -->
+        <mxCell id="line1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1;dashed=1" edge="1" parent="1" source="mic" target="ws-client">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1" edge="1" parent="1" source="ws-client" target="ws-endpoint">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1;dashed=1" edge="1" parent="1" source="uploader" target="upload-endpoint">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1" edge="1" parent="1" source="upload-endpoint" target="funasr-service-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF8F00;strokeWidth=2;endArrow=classic;endFill=1" edge="1" parent="1" source="asr-factory" target="funasr-service-bg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1" edge="1" parent="1" source="funasr-api" target="m4a-converter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1" edge="1" parent="1" source="m4a-converter" target="funasr-model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1" edge="1" parent="1" source="funasr-model" target="vad-model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1" edge="1" parent="1" source="funasr-model" target="spk-model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1" edge="1" parent="1" source="funasr-model" target="punc-model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1" edge="1" parent="1" source="llm-analyzer" target="dashscope-cloud">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1;dashed=1" edge="1" parent="1" source="llm-analyzer" target="minimax-cloud">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#666666;strokeWidth=1;endArrow=classic;endFill=1;dashed=1" edge="1" parent="1" source="llm-analyzer" target="deepseek-cloud">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend-bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#CCCCCC;strokeWidth=1" vertex="1" parent="1">
+          <mxGeometry x="40" y="430" width="200" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-title" value="图例 Legend" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="435" width="100" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-line1" value="" style="endArrow=classic;html=1;strokeColor=#666666;strokeWidth=1" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="470" as="sourcePoint" />
+            <mxPoint x="100" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-msg1" value="实时数据流" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="110" y="460" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-line2" value="" style="endArrow=classic;html=1;strokeColor=#666666;strokeWidth=1;dashed=1" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="500" as="sourcePoint" />
+            <mxPoint x="100" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend-msg2" value="HTTP 请求" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="110" y="490" width="80" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- Ports -->
+        <mxCell id="port-frontend" value="Port:5173" style="text;html=1;strokeColor=#1976D2;fillColor=#E3F2FD;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="350" y="375" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="port-backend" value="Port:8000" style="text;html=1;strokeColor=#388E3C;fillColor=#E8F5E9;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="800" y="375" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="port-funasr" value="Port:8001" style="text;html=1;strokeColor=#C2185B;fillColor=#FCE4EC;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="1110" y="375" width="60" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
