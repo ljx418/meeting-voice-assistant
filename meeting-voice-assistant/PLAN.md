@@ -233,3 +233,41 @@ frontend/src/
 3. **浏览器访问**: `http://localhost:5173`
 4. **测试录音**: 点击录音按钮，对着麦克风说话，观察实时转写
 5. **验证WebSocket**: 检查后端日志中的音频帧接收和识别结果输出
+
+---
+
+## GraphRAG 知识管理模块（已实现）
+
+详见：`../graphrag-service/` 和 `docs/superpowers/specs/2026-04-08-graphrag-design.md`
+
+### 核心功能
+
+| 功能 | 端点 | 状态 |
+|------|------|------|
+| 文档索引 | POST /api/v1/index | ✅ 已实现 |
+| 知识查询 | POST /api/v1/query | ✅ 已实现 |
+| 动态 top_k | query.top_k 参数 | ✅ 已实现 |
+| 全局汇总 | POST /api/v1/summarize | ✅ 已实现 |
+| 图谱可视化 | GET /api/v1/graph | ✅ 已实现 |
+| 实时上下文注入 | POST /api/v1/realtime/query | ✅ 已实现 |
+| 文档管理 | GET/DELETE /api/v1/documents | ✅ 已实现 |
+
+### 启动方式
+
+```bash
+cd ../graphrag-service
+pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 8002
+```
+
+### 与会议助手集成
+
+在实时转写过程中，可调用 GraphRAG 服务查询领域知识：
+
+```python
+# 实时转写时查询知识
+response = await query_knowledge_during_transcription(
+    query="当前话题相关知识",
+    context="会议正在讨论 GraphRAG 索引构建流程"
+)
+```

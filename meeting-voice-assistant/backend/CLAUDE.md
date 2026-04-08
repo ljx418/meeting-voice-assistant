@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **后端**: Python FastAPI + WebSocket
 - **ASR 引擎**: 阿里云 DashScope / FunASR (本地说话人分离)
 - **LLM**: 阿里云 DashScope (qwen-plus)
+- **知识管理**: GraphRAG 服务 (graphrag-service, port 8002)
 
 ## 技术路线
 
@@ -178,3 +179,41 @@ curl http://localhost:8001/health
   }
 }
 ```
+
+## GraphRAG 知识服务集成
+
+会议助手可选集成 GraphRAG 服务（需单独启动）进行知识查询：
+
+```bash
+# 启动 GraphRAG 服务
+cd ../graphrag-service
+uvicorn app.main:app --host 0.0.0.0 --port 8002
+```
+
+### 实时转写中查询知识
+
+```python
+import httpx
+
+async def query_knowledge_during_transcription(query: str, context: str):
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "http://localhost:8002/api/v1/realtime/query",
+            json={
+                "query": query,
+                "context": context,
+                "namespace": "default",
+                "top_k": 5
+            }
+        )
+        return response.json()
+```
+
+### GraphRAG API 端点
+
+| 端点 | 方法 | 描述 |
+|------|------|------|
+| `/api/v1/realtime/query` | POST | 实时上下文注入查询 |
+| `/api/v1/query` | POST | 知识查询 |
+| `/api/v1/summarize` | POST | 全局汇总 |
+| `/api/v1/graph` | GET | 图谱可视化 |
