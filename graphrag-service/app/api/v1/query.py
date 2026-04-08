@@ -61,10 +61,11 @@ async def query_knowledge(request: QueryRequest) -> QueryResponse:
         # Build sources from source_chunks
         sources = []
         for chunk in result.source_chunks:
+            # Note: SourceChunk does not provide similarity scores, using placeholder
             sources.append(SourceInfo(
                 doc_id=chunk.document_id,
                 chunk=chunk.text[:500] if chunk.text else "",
-                similarity=0.92,
+                similarity=0.92,  # Placeholder - actual similarity not available from GraphRAG
             ))
 
         # Build entities
@@ -117,10 +118,11 @@ async def query_with_realtime_context(request: RealtimeQueryRequest) -> QueryRes
         # Build sources from source_chunks
         sources = []
         for chunk in result.source_chunks:
+            # Note: SourceChunk does not provide similarity scores, using placeholder
             sources.append(SourceInfo(
                 doc_id=chunk.document_id,
                 chunk=chunk.text[:500] if chunk.text else "",
-                similarity=0.92,
+                similarity=0.92,  # Placeholder - actual similarity not available from GraphRAG
             ))
 
         # Build entities
