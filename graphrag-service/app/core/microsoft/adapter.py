@@ -46,9 +46,15 @@ class MicrosoftGraphRAGAdapter(GraphRAGCore):
             settings_yaml.write_text(self._default_settings())
 
     def _default_settings(self) -> str:
-        """生成 GraphRAG settings.yaml"""
+        """生成 GraphRAG settings.yaml
+
+        完整的配置参考 Microsoft GraphRAG 文档:
+        https://github.com/microsoft/graphrag/tree/main/examples
+        """
         return f"""encoding_model: cl100k_base
 skip_workflow: false
+
+# LLM 配置
 llm:
   description: DashScope LLM
   configuration:
@@ -56,6 +62,34 @@ llm:
     api_key: {self.llm_config['api_key']}
     model: {self.llm_config['model']}
     api_base: {self.llm_config['base_url']}
+
+# 嵌入模型配置 (用于向量化和检索)
+embeddings:
+  description: DashScope Embeddings
+  configuration:
+    type: openai_text
+    api_key: {self.llm_config['api_key']}
+    model: text-embedding-v3
+    api_base: {self.llm_config['base_url']}
+
+# 存储配置
+storage:
+  type: file
+  path: ./output
+
+# 报告配置
+reporting:
+  type: file
+  path: ./output/reports
+
+# 搜索配置
+search:
+  type: local
+  local:
+    mode: local
+    vectorizer: embed
+    max_tokens: 7500
+    temperature: 0.0
 """
 
     def _get_namespace_dir(self, namespace: str) -> Path:
@@ -93,6 +127,13 @@ llm:
             shutil.copy2(doc_path, dest_path)
 
             # 运行 graphrag index
+            #
+            # 注意: graphrag CLI 的 index 命令处理的是整个 workspace/input 目录，
+            # 无法指定只处理特定 namespace 下的文件。这会导致:
+            # 1. 如果多个 namespace 同时索引，会相互影响
+            # 2. 已索引的文件重新索引时会累积数据
+            # 解决方案: 可以考虑为每个 namespace 创建独立的 workspace，
+            # 或在运行 index 前清空 output 目录并只保留目标 namespace 的文件
             returncode, stdout, stderr = await self._execute_command(
                 "index",
                 "--root",
@@ -211,8 +252,11 @@ llm:
                         )
                     )
 
-                # 尝试解析 entities
-                for entity_data in output.get("entities", []):
+                # 尝试解析 entities 并应用 top_k 限制
+                # 注意: graphrag CLI 没有直接的 top_k 参数，
+                # 所以我们在返回结果前进行后过滤
+                all_entities = output.get("entities", [])
+                for entity_data in all_entities[:top_k]:
                     entities.append(
                         EntityInfo(
                             entity_id=entity_data.get("id", ""),
@@ -363,7 +407,18 @@ llm:
             return GraphData(nodes=[], edges=[])
 
     async def delete_document(self, doc_id: str, namespace: str) -> None:
-        """删除文档及其关联数据"""
+        """删除文档及其关联数据
+
+        注意: 当前实现仅删除 source 文件 (输入目录中的文件)，
+        不删除 graphrag 已经索引的数据。这是因为:
+        1. graphrag index 命令会处理整个 input 目录并生成全局索引
+        2. 已生成的索引数据 (output 目录) 是累积的，无法单独删除特定文件的索引
+        3. 要彻底清理，需要删除整个 output 目录并重新索引
+
+        如需完全删除，建议:
+        - 删除 source 文件后，手动清理 output 目录
+        - 或为每个 namespace 使用独立的 workspace
+        """
         try:
             # 删除输入目录中的文件
             namespace_dir = self._get_namespace_dir(namespace)
@@ -371,10 +426,8 @@ llm:
             if doc_path.exists():
                 doc_path.unlink()
 
-            # 调用 storage.database.delete_document
-            # 由于 storage 是 placeholder，这里先不实现
-            # from app.storage.database import database
-            # await database.delete_document(doc_id, namespace)
-        except Exception:
-            # 忽略删除错误
+            # graphrag 索引数据无法单独删除，需要整体清理
+        except Exception as e:
+            # 记录错误但继续执行 (静默处理以避免中断流程)
+            # 如需严格错误处理，可在此处记录日志
             pass
