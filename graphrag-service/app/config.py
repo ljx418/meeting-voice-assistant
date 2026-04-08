@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     DEFAULT_TOP_K: int = 10
 
     class Config:
+        extra = "ignore"
         env_file = ".env"
         env_file_encoding = "utf-8"
 
