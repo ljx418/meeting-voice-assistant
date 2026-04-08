@@ -6,7 +6,11 @@ import asyncio
 import json
 import logging
 import shutil
+import uuid
 from pathlib import Path
+from typing import Optional
+
+import pandas as pd
 
 from app.config import settings
 from app.core.base import (
@@ -22,6 +26,7 @@ from app.core.base import (
     SummaryResult,
     BatchIndexResult,
 )
+from app.storage.database import save_entity, save_relationship, save_community
 
 
 logger = logging.getLogger(__name__)
@@ -121,7 +126,26 @@ search:
         )
 
     async def index_document(self, doc_path: Path, namespace: str) -> IndexResult:
-        """索引单个文档"""
+        """索引单个文档
+
+        注意: Namespace 隔离限制
+        --------------------------
+        graphrag CLI 的 index 命令处理的是整个 workspace/input 目录，无法指定只处理
+        特定 namespace 下的文件。这意味着:
+        1. 如果多个 namespace 同时索引，会相互影响
+        2. 已索引的文件重新索引时会累积数据
+        3. 查询时通过 namespace 过滤可以保证返回结果的准确性，但索引本身是跨 namespace 的
+
+        当前的部分缓解措施:
+        - 文件被复制到 namespace 特定的子目录 (input/{namespace}/)
+        - 数据库查询通过 namespace 字段过滤
+        - 但 graphrag CLI 本身会处理 input/ 目录下的所有文件
+
+        建议的生产部署方案:
+        - 为每个 namespace 创建独立的 workspace 目录
+        - 或在运行 index 前清空 output 目录并只保留目标 namespace 的文件
+        """
+        doc_id = doc_path.stem  # Use filename without extension as doc_id
         try:
             # 将文件复制到 namespace 目录
             namespace_dir = self._get_namespace_dir(namespace)
@@ -129,13 +153,6 @@ search:
             await asyncio.to_thread(shutil.copy2, doc_path, dest_path)
 
             # 运行 graphrag index
-            #
-            # 注意: graphrag CLI 的 index 命令处理的是整个 workspace/input 目录，
-            # 无法指定只处理特定 namespace 下的文件。这会导致:
-            # 1. 如果多个 namespace 同时索引，会相互影响
-            # 2. 已索引的文件重新索引时会累积数据
-            # 解决方案: 可以考虑为每个 namespace 创建独立的 workspace，
-            # 或在运行 index 前清空 output 目录并只保留目标 namespace 的文件
             returncode, stdout, stderr = await self._execute_command(
                 "index",
                 "--root",
@@ -150,20 +167,16 @@ search:
                     error=stderr or stdout,
                 )
 
-            # 解析输出获取统计信息
+            # 从 parquet 文件中解析并保存实体、关系、社区数据
             entity_count = 0
             relationship_count = 0
             community_count = 0
 
-            # 尝试从输出中解析计数
-            try:
-                if stdout:
-                    output_json = json.loads(stdout)
-                    entity_count = output_json.get("entity_count", 0)
-                    relationship_count = output_json.get("relationship_count", 0)
-                    community_count = output_json.get("community_count", 0)
-            except json.JSONDecodeError:
-                pass
+            output_dir = self.workspace / "output"
+            if output_dir.exists():
+                entity_count, relationship_count, community_count = await self._parse_and_save_graphrag_output(
+                    output_dir, namespace, doc_id
+                )
 
             return IndexResult(
                 document_id=doc_path.name,
@@ -180,6 +193,80 @@ search:
                 status="failed",
                 error=str(e),
             )
+
+    async def _parse_and_save_graphrag_output(
+        self, output_dir: Path, namespace: str, doc_id: str
+    ) -> tuple[int, int, int]:
+        """解析 GraphRAG 输出的 parquet 文件并保存到数据库
+
+        Args:
+            output_dir: GraphRAG output 目录 (包含 parquet 文件)
+            namespace: 命名空间
+            doc_id: 文档 ID
+
+        Returns:
+            (entity_count, relationship_count, community_count)
+        """
+        entity_count = 0
+        relationship_count = 0
+        community_count = 0
+
+        # 解析 entities parquet
+        entities_file = output_dir / "create_final_entities.parquet"
+        if entities_file.exists():
+            try:
+                df_entities = await asyncio.to_thread(pd.read_parquet, entities_file)
+                for _, row in df_entities.iterrows():
+                    await save_entity(
+                        entity_id=str(row.get("id", uuid.uuid4())),
+                        namespace=namespace,
+                        name=str(row.get("name", "")),
+                        doc_id=doc_id,
+                        entity_type=str(row.get("type", "")) if pd.notna(row.get("type")) else None,
+                        description=str(row.get("description", "")) if pd.notna(row.get("description")) else None,
+                        community_id=str(row.get("community")) if pd.notna(row.get("community")) else None,
+                    )
+                    entity_count += 1
+            except Exception as e:
+                logger.warning(f"Failed to parse entities parquet: {e}")
+
+        # 解析 relationships parquet
+        relationships_file = output_dir / "create_final_relationships.parquet"
+        if relationships_file.exists():
+            try:
+                df_rels = await asyncio.to_thread(pd.read_parquet, relationships_file)
+                for _, row in df_rels.iterrows():
+                    await save_relationship(
+                        rel_id=str(row.get("id", uuid.uuid4())),
+                        source_entity_id=str(row.get("source")),
+                        target_entity_id=str(row.get("target")),
+                        namespace=namespace,
+                        relation_type=str(row.get("type", "")) if pd.notna(row.get("type")) else None,
+                        description=str(row.get("description", "")) if pd.notna(row.get("description")) else None,
+                        weight=float(row.get("weight", 1.0)) if pd.notna(row.get("weight")) else 1.0,
+                    )
+                    relationship_count += 1
+            except Exception as e:
+                logger.warning(f"Failed to parse relationships parquet: {e}")
+
+        # 解析 communities parquet
+        communities_file = output_dir / "create_final_communities.parquet"
+        if communities_file.exists():
+            try:
+                df_comm = await asyncio.to_thread(pd.read_parquet, communities_file)
+                for _, row in df_comm.iterrows():
+                    await save_community(
+                        community_id=str(row.get("id", uuid.uuid4())),
+                        namespace=namespace,
+                        level=int(row.get("level", 0)) if pd.notna(row.get("level")) else None,
+                        summary=str(row.get("summary", "")) if pd.notna(row.get("summary")) else None,
+                        parent_id=str(row.get("parent")) if pd.notna(row.get("parent")) else None,
+                    )
+                    community_count += 1
+            except Exception as e:
+                logger.warning(f"Failed to parse communities parquet: {e}")
+
+        return entity_count, relationship_count, community_count
 
     async def index_documents_batch(
         self, doc_paths: list[Path], namespace: str

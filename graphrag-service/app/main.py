@@ -1,14 +1,24 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1.router import api_router
 from app.config import settings
+from app.storage.database import init_db
 
 app = FastAPI(
     title="GraphRAG Knowledge Service",
     version="1.0.0",
     description="GraphRAG-based knowledge management and query service",
+    lifespan=lifespan,
 )
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Initialize database on startup."""
+    await init_db()
+    yield
 
 app.add_middleware(
     CORSMiddleware,
