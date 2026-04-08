@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **后端**: Python FastAPI + WebSocket
 - **ASR 引擎**: 阿里云 DashScope / FunASR (本地说话人分离)
 - **LLM**: 阿里云 DashScope (qwen-plus)
-- **知识管理**: GraphRAG 服务 (graphrag-service, port 8002)
+- **知识管理**: GraphRAG 模块 (内置于后端, port 8002)
 
 ## 技术路线
 
@@ -32,9 +32,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 运行命令
 
 ```bash
-# 后端 (主服务)
+# 后端 (主服务 - 语音识别 API)
 cd backend
 python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+# GraphRAG 服务 (知识图谱管理 API)
+cd backend
+python3 -m uvicorn app.graphrag.main:app --host 0.0.0.0 --port 8002
 
 # FunASR 服务 (说话人分离，需要单独启动)
 cd backend
@@ -66,6 +70,19 @@ backend/
 │   │   ├── audio_cache.py     # 音频缓存
 │   │   ├── llm_analyzer.py    # LLM 分析
 │   │   └── parser/             # 会议信息解析
+│   ├── graphrag/              # GraphRAG 知识管理模块
+│   │   ├── api/v1/            # API 端点 (index, query, summarize, graph, document, realtime)
+│   │   ├── core/              # GraphRAG Core 抽象 + Microsoft 实现
+│   │   │   ├── base.py        # GraphRAGCore 抽象基类
+│   │   │   ├── registry.py    # 实现注册表
+│   │   │   └── microsoft/    # Microsoft GraphRAG 适配器
+│   │   ├── storage/           # SQLite 存储层
+│   │   │   ├── database.py    # 异步数据库操作
+│   │   │   └── models.py      # SQLAlchemy 模型
+│   │   ├── service/           # 业务服务
+│   │   │   └── context_injector.py  # 实时上下文注入
+│   │   ├── config.py          # GraphRAG 配置
+│   │   └── main.py           # GraphRAG 服务入口
 │   ├── config.py              # 配置管理
 │   └── main.py                # FastAPI 入口
 ├── funasr_service/            # FunASR 说话人分离微服务
@@ -73,6 +90,7 @@ backend/
 │   ├── api.py                 # API 路由
 │   ├── model_loader.py         # 模型加载
 │   └── config.py              # 服务配置
+├── rag_workspace/             # GraphRAG 工作目录
 ├── audio_cache/               # 音频缓存目录
 ├── transcripts/               # 转写文本保存目录
 └── requirements.txt
@@ -180,14 +198,14 @@ curl http://localhost:8001/health
 }
 ```
 
-## GraphRAG 知识服务集成
+## GraphRAG 知识服务
 
-会议助手可选集成 GraphRAG 服务（需单独启动）进行知识查询：
+GraphRAG 模块已迁移到 `backend/app/graphrag/` 目录，作为独立服务运行：
 
 ```bash
 # 启动 GraphRAG 服务
-cd ../graphrag-service
-uvicorn app.main:app --host 0.0.0.0 --port 8002
+cd backend
+python3 -m uvicorn app.graphrag.main:app --host 0.0.0.0 --port 8002
 ```
 
 ### 实时转写中查询知识
@@ -213,10 +231,22 @@ async def query_knowledge_during_transcription(query: str, context: str):
 
 | 端点 | 方法 | 描述 |
 |------|------|------|
-| `/api/v1/realtime/query` | POST | 实时上下文注入查询 |
+| `/api/v1/index` | POST | 文档索引 |
 | `/api/v1/query` | POST | 知识查询 |
 | `/api/v1/summarize` | POST | 全局汇总 |
 | `/api/v1/graph` | GET | 图谱可视化 |
+| `/api/v1/documents` | GET/DELETE | 文档管理 |
+| `/api/v1/realtime/query` | POST | 实时上下文注入查询 |
+
+### GraphRAG 配置 (backend/app/graphrag/config.py)
+
+```env
+GRAPHRAG_SERVICE_PORT=8002
+LLM_PROVIDER=dashscope
+LLM_API_KEY=sk-xxx
+LLM_MODEL=qwen-plus
+GRAPHRAG_WORKSPACE=./rag_workspace
+```
 
 ## 前端路由
 

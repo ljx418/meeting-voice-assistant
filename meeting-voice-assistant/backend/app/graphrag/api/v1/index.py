@@ -7,10 +7,10 @@ from typing import List, Optional
 from fastapi import APIRouter, HTTPException, UploadFile, File, Form
 from pydantic import BaseModel
 
-from app.core.base import IndexResult
-from app.core.registry import get_core
-from app.storage.database import save_document
-from app.config import settings
+from ...core.base import IndexResult
+from ...core.registry import get_core
+from ...storage.database import save_document
+from ...config import settings
 
 router = APIRouter()
 

@@ -238,7 +238,7 @@ frontend/src/
 
 ## GraphRAG 知识管理模块（已实现）
 
-详见：`../graphrag-service/` 和 `docs/superpowers/specs/2026-04-08-graphrag-design.md`
+详见：`backend/app/graphrag/` 和 `docs/superpowers/specs/2026-04-08-graphrag-design.md`
 
 ### 核心功能
 
@@ -255,9 +255,8 @@ frontend/src/
 ### 启动方式
 
 ```bash
-cd ../graphrag-service
-pip install -r requirements.txt
-uvicorn app.main:app --host 0.0.0.0 --port 8002
+cd backend
+python3 -m uvicorn app.graphrag.main:app --host 0.0.0.0 --port 8002
 ```
 
 ### 与会议助手集成
@@ -301,17 +300,16 @@ meeting-voice-assistant/          # 会议语音助手
 │   └── package.json
 │
 ├── backend/                      # FastAPI 后端
-│   └── app/                      # 应用代码
+│   ├── app/
+│   │   ├── api/v1/              # 语音识别 API
+│   │   ├── core/                 # ASR 适配器、LLM 分析
+│   │   ├── graphrag/            # GraphRAG 知识管理模块
+│   │   │   ├── api/v1/          # GraphRAG API 端点
+│   │   │   ├── core/            # GraphRAG Core 抽象 + Microsoft 实现
+│   │   │   └── storage/         # SQLite 存储层
+│   │   └── config.py             # 配置管理
+│   ├── rag_workspace/           # GraphRAG 工作目录
+│   └── requirements.txt
 │
 └── docs/                         # 技术文档
-
-graphrag-service/                # GraphRAG 知识管理服务
-├── frontend/                     # (复用 meeting-voice-assistant 前端)
-├── app/
-│   ├── api/v1/                   # REST API 端点
-│   ├── core/                     # GraphRAG Core 抽象 + 微软实现
-│   ├── storage/                  # SQLite 存储层
-│   └── service/                  # 业务服务
-├── rag_workspace/               # GraphRAG 工作目录
-└── requirements.txt
 ```

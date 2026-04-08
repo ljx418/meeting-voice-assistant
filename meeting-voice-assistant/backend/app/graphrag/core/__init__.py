@@ -1,5 +1,5 @@
 # Core package
-from app.core.base import (
+from .base import (
     CommunityInfo,
     EntityInfo,
     GraphData,
@@ -12,7 +12,7 @@ from app.core.base import (
     SummaryResult,
     BatchIndexResult,
 )
-from app.core.microsoft import MicrosoftGraphRAGAdapter
+from .microsoft import MicrosoftGraphRAGAdapter
 
 __all__ = [
     "GraphRAGCore",

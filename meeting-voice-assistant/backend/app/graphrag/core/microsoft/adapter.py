@@ -12,8 +12,8 @@ from typing import Optional
 
 import pandas as pd
 
-from app.config import settings
-from app.core.base import (
+from ...config import settings
+from ..base import (
     CommunityInfo,
     EntityInfo,
     GraphData,
@@ -207,7 +207,7 @@ search:
             (entity_count, relationship_count, community_count)
         """
         # Lazy import to avoid circular dependency
-        from app.storage.database import save_entity, save_relationship, save_community
+        from ...storage.database import save_entity, save_relationship, save_community
 
         entity_count = 0
         relationship_count = 0
@@ -444,7 +444,7 @@ search:
         self, namespace: str, max_nodes: int = 100
     ) -> GraphData:
         """获取图谱数据用于可视化"""
-        from app.storage.database import get_graph_data as storage_get_graph_data
+        from ...storage.database import get_graph_data as storage_get_graph_data
         return await storage_get_graph_data(namespace, max_nodes)
 
     async def delete_document(self, doc_id: str, namespace: str) -> None:

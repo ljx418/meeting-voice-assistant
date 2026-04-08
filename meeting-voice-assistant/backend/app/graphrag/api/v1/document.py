@@ -7,8 +7,8 @@ from pydantic import BaseModel
 
 from sqlalchemy import select, func
 
-from app.storage.database import async_session, delete_document as db_delete_document
-from app.storage.models import Document, Entity
+from ...storage.database import async_session, delete_document as db_delete_document
+from ...storage.models import Document, Entity
 
 router = APIRouter()
 

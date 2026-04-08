@@ -2,9 +2,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.v1.router import api_router
-from app.config import settings
-from app.storage.database import init_db
+from app.graphrag.api.v1.router import api_router
+from app.graphrag.config import settings
+from app.graphrag.storage.database import init_db
 
 
 @asynccontextmanager

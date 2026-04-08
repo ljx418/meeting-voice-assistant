@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.v1 import document, graph, index, query, realtime, summarize
+from . import document, graph, index, query, realtime, summarize
 
 api_router = APIRouter()
 

@@ -2,10 +2,10 @@
 
 from typing import TYPE_CHECKING, Optional
 
-from app.core.base import GraphRAGCore
+from .base import GraphRAGCore
 
 if TYPE_CHECKING:
-    from app.core.microsoft import MicrosoftGraphRAGAdapter
+    from .microsoft import MicrosoftGraphRAGAdapter
 
 
 class GraphRAGRegistry:
@@ -18,7 +18,7 @@ class GraphRAGRegistry:
         """获取或创建 GraphRAG Core 实例"""
         if cls._instance is None:
             # Import here to avoid circular imports
-            from app.core.microsoft import MicrosoftGraphRAGAdapter
+            from .microsoft import MicrosoftGraphRAGAdapter
             cls._instance = MicrosoftGraphRAGAdapter()
         return cls._instance
 

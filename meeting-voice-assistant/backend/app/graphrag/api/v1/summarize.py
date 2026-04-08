@@ -5,8 +5,8 @@ from typing import List, Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from app.core.base import SummaryResult
-from app.core.registry import get_core
+from ...core.base import SummaryResult
+from ...core.registry import get_core
 
 router = APIRouter()
 

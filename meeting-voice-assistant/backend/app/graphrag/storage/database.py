@@ -6,8 +6,8 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import selectinload
 
 from .models import Base, Document, Entity, Relationship, Community
-from app.config import settings
-from app.core.base import GraphData, GraphNode, GraphEdge
+from ..config import settings
+from ..core.base import GraphData, GraphNode, GraphEdge
 
 
 db_path = settings.GRAPHRAG_WORKSPACE / "graphrag.db"

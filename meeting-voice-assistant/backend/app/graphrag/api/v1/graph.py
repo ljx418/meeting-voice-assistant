@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
-from app.core.base import GraphEdge, GraphNode, GraphData
-from app.core.registry import get_core
+from ...core.base import GraphEdge, GraphNode, GraphData
+from ...core.registry import get_core
 
 router = APIRouter()
 
