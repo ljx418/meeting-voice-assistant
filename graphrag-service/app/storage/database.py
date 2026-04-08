@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from typing import Any, Optional
 
@@ -7,10 +6,12 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import selectinload
 
 from .models import Base, Document, Entity, Relationship, Community
+from app.config import settings
+from app.core.base import GraphData, GraphNode, GraphEdge
 
 
-DB_PATH = os.environ.get("GRAPHRAG_DB_PATH", "./graphrag.db")
-engine = create_async_engine(f"sqlite+aiosqlite:///{DB_PATH}", echo=False)
+db_path = settings.GRAPHRAG_WORKSPACE / "graphrag.db"
+engine = create_async_engine(f"sqlite+aiosqlite:///{db_path}", echo=False)
 async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 
@@ -22,7 +23,7 @@ async def init_db() -> None:
 
 async def get_graph_data(
     namespace: str, max_nodes: int = 100
-) -> dict[str, Any]:
+) -> GraphData:
     """
     Get graph data (nodes and edges) for a given namespace.
 
@@ -31,7 +32,7 @@ async def get_graph_data(
         max_nodes: Maximum number of nodes to return.
 
     Returns:
-        Dictionary with 'nodes' and 'edges' lists.
+        GraphData object with nodes and edges lists.
     """
     async with async_session() as session:
         # Get entities as nodes
@@ -43,20 +44,22 @@ async def get_graph_data(
         result = await session.execute(entity_stmt)
         entities = result.scalars().all()
 
-        nodes = []
+        nodes: list[GraphNode] = []
         entity_ids = []
         for entity in entities:
-            nodes.append({
-                "id": entity.id,
-                "name": entity.name,
-                "type": entity.type,
-                "description": entity.description,
-                "community_id": entity.community_id,
-            })
+            nodes.append(GraphNode(
+                node_id=entity.id,
+                label=entity.name,
+                node_type=entity.type or "unknown",
+                attributes={
+                    "description": entity.description,
+                    "community_id": entity.community_id,
+                },
+            ))
             entity_ids.append(entity.id)
 
         # Get relationships as edges
-        edges = []
+        edges: list[GraphEdge] = []
         if entity_ids:
             edge_stmt = select(Relationship).where(
                 Relationship.namespace == namespace,
@@ -67,16 +70,18 @@ async def get_graph_data(
             relationships = edge_result.scalars().all()
 
             for rel in relationships:
-                edges.append({
-                    "id": rel.id,
-                    "source": rel.source_entity_id,
-                    "target": rel.target_entity_id,
-                    "relation_type": rel.relation_type,
-                    "description": rel.description,
-                    "weight": rel.weight,
-                })
+                edges.append(GraphEdge(
+                    edge_id=rel.id,
+                    source_id=rel.source_entity_id,
+                    target_id=rel.target_entity_id,
+                    relationship=rel.relation_type or "related",
+                    weight=rel.weight or 1.0,
+                    attributes={
+                        "description": rel.description,
+                    },
+                ))
 
-        return {"nodes": nodes, "edges": edges}
+        return GraphData(nodes=nodes, edges=edges)
 
 
 async def save_document(
@@ -87,8 +92,15 @@ async def save_document(
     chunk_count: Optional[int] = None,
     entity_count: Optional[int] = None,
 ) -> None:
-    """Insert a document record."""
+    """Insert a document record (skips if already exists)."""
     async with async_session() as session:
+        # Check if document already exists
+        result = await session.execute(
+            select(Document).where(Document.id == doc_id)
+        )
+        existing = result.scalar_one_or_none()
+        if existing:
+            return  # Skip duplicates
         doc = Document(
             id=doc_id,
             namespace=namespace,
@@ -110,8 +122,15 @@ async def save_entity(
     description: Optional[str] = None,
     community_id: Optional[str] = None,
 ) -> None:
-    """Insert an entity record."""
+    """Insert an entity record (skips if already exists)."""
     async with async_session() as session:
+        # Check if entity already exists
+        result = await session.execute(
+            select(Entity).where(Entity.id == entity_id)
+        )
+        existing = result.scalar_one_or_none()
+        if existing:
+            return  # Skip duplicates
         entity = Entity(
             id=entity_id,
             doc_id=doc_id,
@@ -134,8 +153,15 @@ async def save_relationship(
     description: Optional[str] = None,
     weight: float = 1.0,
 ) -> None:
-    """Insert a relationship record."""
+    """Insert a relationship record (skips if already exists)."""
     async with async_session() as session:
+        # Check if relationship already exists
+        result = await session.execute(
+            select(Relationship).where(Relationship.id == rel_id)
+        )
+        existing = result.scalar_one_or_none()
+        if existing:
+            return  # Skip duplicates
         rel = Relationship(
             id=rel_id,
             source_entity_id=source_entity_id,
@@ -156,8 +182,15 @@ async def save_community(
     summary: Optional[str] = None,
     parent_id: Optional[str] = None,
 ) -> None:
-    """Insert a community record."""
+    """Insert a community record (skips if already exists)."""
     async with async_session() as session:
+        # Check if community already exists
+        result = await session.execute(
+            select(Community).where(Community.id == community_id)
+        )
+        existing = result.scalar_one_or_none()
+        if existing:
+            return  # Skip duplicates
         community = Community(
             id=community_id,
             namespace=namespace,
