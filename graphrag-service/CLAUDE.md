@@ -170,3 +170,12 @@ async def query_knowledge_during_transcription(query: str, context: str):
 ```bash
 pip install graphrag>=0.3.0
 ```
+
+## 前端集成
+
+GraphRAG 服务已集成到 meeting-voice-assistant 前端，可通过以下方式访问：
+
+- **前端地址**: http://localhost:5173/graphrag
+- **功能**: 知识图谱可视化、文档上传/管理、图谱交互
+
+前端源码位于 `meeting-voice-assistant/frontend/src/pages/GraphRAGPage.vue`

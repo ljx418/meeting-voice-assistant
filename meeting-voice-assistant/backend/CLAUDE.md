@@ -217,3 +217,14 @@ async def query_knowledge_during_transcription(query: str, context: str):
 | `/api/v1/query` | POST | 知识查询 |
 | `/api/v1/summarize` | POST | 全局汇总 |
 | `/api/v1/graph` | GET | 图谱可视化 |
+
+## 前端路由
+
+前端采用 vue-router 实现双页面路由：
+
+| 路由 | 页面 | 描述 |
+|------|------|------|
+| `/` | MeetingPage | 会议助手主页面 |
+| `/graphrag` | GraphRAGPage | 知识图谱管理页面 |
+
+页面间可通过头部导航按钮切换。

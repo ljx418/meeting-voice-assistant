@@ -271,3 +271,47 @@ response = await query_knowledge_during_transcription(
     context="会议正在讨论 GraphRAG 索引构建流程"
 )
 ```
+
+### 前端路由
+
+前端采用 vue-router 实现双页面路由：
+
+| 路由 | 页面 | 描述 |
+|------|------|------|
+| `/` | MeetingPage | 会议助手主页面 |
+| `/graphrag` | GraphRAGPage | 知识图谱管理页面 |
+
+### 完整项目结构
+
+```
+meeting-voice-assistant/          # 会议语音助手
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── MeetingPage.vue     # 会议助手页面
+│   │   │   └── GraphRAGPage.vue   # 知识图谱管理页面
+│   │   ├── router/
+│   │   │   └── index.ts           # vue-router 配置
+│   │   ├── components/           # UI 组件
+│   │   ├── composables/          # 组合式函数
+│   │   ├── stores/               # Pinia 状态
+│   │   ├── api/                  # API 客户端
+│   │   ├── App.vue               # 根组件
+│   │   └── main.ts               # 入口
+│   └── package.json
+│
+├── backend/                      # FastAPI 后端
+│   └── app/                      # 应用代码
+│
+└── docs/                         # 技术文档
+
+graphrag-service/                # GraphRAG 知识管理服务
+├── frontend/                     # (复用 meeting-voice-assistant 前端)
+├── app/
+│   ├── api/v1/                   # REST API 端点
+│   ├── core/                     # GraphRAG Core 抽象 + 微软实现
+│   ├── storage/                  # SQLite 存储层
+│   └── service/                  # 业务服务
+├── rag_workspace/               # GraphRAG 工作目录
+└── requirements.txt
+```
