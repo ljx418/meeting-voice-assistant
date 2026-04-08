@@ -26,7 +26,6 @@ from app.core.base import (
     SummaryResult,
     BatchIndexResult,
 )
-from app.storage.database import save_entity, save_relationship, save_community
 
 
 logger = logging.getLogger(__name__)
@@ -207,6 +206,9 @@ search:
         Returns:
             (entity_count, relationship_count, community_count)
         """
+        # Lazy import to avoid circular dependency
+        from app.storage.database import save_entity, save_relationship, save_community
+
         entity_count = 0
         relationship_count = 0
         community_count = 0
