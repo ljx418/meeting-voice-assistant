@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import shutil
-import subprocess
 from pathlib import Path
-from typing import Any
 
 from app.config import settings
 from app.core.base import (
@@ -23,6 +22,9 @@ from app.core.base import (
     SummaryResult,
     BatchIndexResult,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 class MicrosoftGraphRAGAdapter(GraphRAGCore):
@@ -124,7 +126,7 @@ search:
             # 将文件复制到 namespace 目录
             namespace_dir = self._get_namespace_dir(namespace)
             dest_path = namespace_dir / doc_path.name
-            shutil.copy2(doc_path, dest_path)
+            await asyncio.to_thread(shutil.copy2, doc_path, dest_path)
 
             # 运行 graphrag index
             #
@@ -183,23 +185,19 @@ search:
         self, doc_paths: list[Path], namespace: str
     ) -> BatchIndexResult:
         """批量索引文档"""
-        results: list[IndexResult] = []
-        succeeded = 0
-        failed = 0
+        results: list[IndexResult] = await asyncio.gather(*[
+            self.index_document(doc_path, namespace)
+            for doc_path in doc_paths
+        ])
 
-        for doc_path in doc_paths:
-            result = await self.index_document(doc_path, namespace)
-            results.append(result)
-            if result.status == "completed":
-                succeeded += 1
-            else:
-                failed += 1
+        succeeded = sum(1 for r in results if r.status == "completed")
+        failed = len(results) - succeeded
 
         return BatchIndexResult(
             total=len(doc_paths),
             succeeded=succeeded,
             failed=failed,
-            results=results,
+            results=list(results),
         )
 
     async def query(
@@ -357,54 +355,11 @@ search:
         self, namespace: str, max_nodes: int = 100
     ) -> GraphData:
         """获取图谱数据用于可视化"""
-        # 这里应该调用 storage.database.get_graph_data
-        # 但目前 storage 还是 placeholder，先返回空数据
-        try:
-            # 尝试从 workspace 的 output 目录读取图数据
-            output_dir = self.workspace / "output"
-            if not output_dir.exists():
-                return GraphData(nodes=[], edges=[])
-
-            # 查找最新的输出文件
-            output_files = list(output_dir.glob("*.json"))
-            if not output_files:
-                return GraphData(nodes=[], edges=[])
-
-            latest_output = max(output_files, key=lambda p: p.stat().st_mtime)
-
-            with open(latest_output, "r", encoding="utf-8") as f:
-                data = json.load(f)
-
-            nodes: list[GraphNode] = []
-            edges: list[GraphEdge] = []
-
-            # 解析 nodes
-            for node_data in data.get("nodes", [])[:max_nodes]:
-                nodes.append(
-                    GraphNode(
-                        node_id=node_data.get("id", ""),
-                        label=node_data.get("label", ""),
-                        node_type=node_data.get("type", ""),
-                        attributes=node_data.get("attributes", {}),
-                    )
-                )
-
-            # 解析 edges
-            for edge_data in data.get("edges", []):
-                edges.append(
-                    GraphEdge(
-                        edge_id=edge_data.get("id", ""),
-                        source_id=edge_data.get("source", ""),
-                        target_id=edge_data.get("target", ""),
-                        relationship=edge_data.get("relationship", ""),
-                        weight=edge_data.get("weight", 1.0),
-                        attributes=edge_data.get("attributes", {}),
-                    )
-                )
-
-            return GraphData(nodes=nodes, edges=edges)
-        except Exception:
-            return GraphData(nodes=[], edges=[])
+        # namespace isolation is not yet implemented in graphrag
+        raise NotImplementedError(
+            "Namespace isolation in get_graph_data is not yet implemented. "
+            "All namespaces share the same output directory."
+        )
 
     async def delete_document(self, doc_id: str, namespace: str) -> None:
         """删除文档及其关联数据
@@ -428,6 +383,4 @@ search:
 
             # graphrag 索引数据无法单独删除，需要整体清理
         except Exception as e:
-            # 记录错误但继续执行 (静默处理以避免中断流程)
-            # 如需严格错误处理，可在此处记录日志
-            pass
+            logger.warning(f"Failed to delete document {doc_id}: {e}")
