@@ -133,19 +133,12 @@ async def delete_document(
     Returns deletion status.
     """
     try:
-        # Verify document exists
-        async with async_session() as session:
-            stmt = select(Document).where(
-                Document.id == doc_id, Document.namespace == namespace
-            )
-            result = await session.execute(stmt)
-            doc = result.scalar_one_or_none()
+        # Attempt to delete directly - avoids TOCTOU race condition
+        # since delete is idempotent (deleting non-existent returns 0 rows)
+        deleted = await db_delete_document(doc_id, namespace)
 
-            if not doc:
-                raise HTTPException(status_code=404, detail="Document not found")
-
-        # Delete document and associated data
-        await db_delete_document(doc_id, namespace)
+        if not deleted:
+            raise HTTPException(status_code=404, detail="Document not found")
 
         return DeleteResponse(status="deleted", doc_id=doc_id)
     except HTTPException:

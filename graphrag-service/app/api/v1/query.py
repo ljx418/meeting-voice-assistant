@@ -23,7 +23,7 @@ class SourceInfo(BaseModel):
     """Source chunk information."""
     doc_id: str
     chunk: str
-    similarity: float = 0.0
+    similarity: Optional[float] = None  # Not provided by underlying GraphRAG
 
 
 class EntityInfoResponse(BaseModel):
@@ -61,11 +61,10 @@ async def query_knowledge(request: QueryRequest) -> QueryResponse:
         # Build sources from source_chunks
         sources = []
         for chunk in result.source_chunks:
-            # Note: SourceChunk does not provide similarity scores, using placeholder
             sources.append(SourceInfo(
                 doc_id=chunk.document_id,
                 chunk=chunk.text[:500] if chunk.text else "",
-                similarity=0.92,  # Placeholder - actual similarity not available from GraphRAG
+                similarity=None,  # Not provided by underlying GraphRAG
             ))
 
         # Build entities
@@ -118,11 +117,10 @@ async def query_with_realtime_context(request: RealtimeQueryRequest) -> QueryRes
         # Build sources from source_chunks
         sources = []
         for chunk in result.source_chunks:
-            # Note: SourceChunk does not provide similarity scores, using placeholder
             sources.append(SourceInfo(
                 doc_id=chunk.document_id,
                 chunk=chunk.text[:500] if chunk.text else "",
-                similarity=0.92,  # Placeholder - actual similarity not available from GraphRAG
+                similarity=None,  # Not provided by underlying GraphRAG
             ))
 
         # Build entities

@@ -202,13 +202,16 @@ async def save_community(
         await session.commit()
 
 
-async def delete_document(doc_id: str, namespace: str) -> None:
+async def delete_document(doc_id: str, namespace: str) -> bool:
     """
     Delete a document and all its associated entities and relationships.
 
     Args:
         doc_id: The document ID to delete.
         namespace: The namespace to verify ownership.
+
+    Returns:
+        True if the document was deleted, False if it was not found.
     """
     async with async_session() as session:
         # First, get all entity IDs for this document
@@ -242,6 +245,8 @@ async def delete_document(doc_id: str, namespace: str) -> None:
         delete_doc_stmt = delete(Document).where(
             Document.id == doc_id, Document.namespace == namespace
         )
-        await session.execute(delete_doc_stmt)
+        result = await session.execute(delete_doc_stmt)
+        deleted = result.rowcount > 0
 
         await session.commit()
+        return deleted
