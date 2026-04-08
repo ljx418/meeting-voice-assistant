@@ -1,21 +1,71 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
-from app.core.base import GraphEdge, GraphNode
+from app.core.base import GraphEdge, GraphNode, GraphData
+from app.storage.database import get_graph_data
 
 router = APIRouter()
 
 
+class GraphNodeResponse(BaseModel):
+    """Graph node response model for visualization."""
+    id: str
+    name: str
+    type: str
+    size: int = 10
+
+
+class GraphEdgeResponse(BaseModel):
+    """Graph edge response model for visualization."""
+    source: str
+    target: str
+    relation: str
+
+
 class GraphResponse(BaseModel):
-    nodes: list[GraphNode]
-    edges: list[GraphEdge]
-
-
-class GraphQueryParams(BaseModel):
-    namespace: str = "default"
-    max_nodes: int = 100
+    """Graph visualization response."""
+    nodes: list[GraphNodeResponse]
+    edges: list[GraphEdgeResponse]
 
 
 @router.get("/", response_model=GraphResponse)
-async def get_graph(params: GraphQueryParams) -> GraphResponse:
-    raise HTTPException(status_code=501, detail="Not implemented")
+async def get_graph(
+    namespace: str = Query(default="default", description="Namespace to query"),
+    max_nodes: int = Query(default=100, ge=1, le=1000, description="Maximum number of nodes to return"),
+) -> GraphResponse:
+    """
+    Get knowledge graph data for visualization.
+
+    - **namespace**: Namespace to query (default: "default")
+    - **max_nodes**: Maximum number of nodes to return (1-1000, default: 100)
+
+    Returns nodes and edges for graph visualization.
+    """
+    try:
+        graph_data: GraphData = await get_graph_data(namespace, max_nodes)
+
+        # Convert GraphData to response format
+        nodes = [
+            GraphNodeResponse(
+                id=node.node_id,
+                name=node.label,
+                type=node.node_type,
+                size=10,  # Default size, could be derived from node attributes
+            )
+            for node in graph_data.nodes
+        ]
+
+        edges = [
+            GraphEdgeResponse(
+                source=edge.source_id,
+                target=edge.target_id,
+                relation=edge.relationship,
+            )
+            for edge in graph_data.edges
+        ]
+
+        return GraphResponse(nodes=nodes, edges=edges)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get graph data: {str(e)}")
