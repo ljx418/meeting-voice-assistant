@@ -56,6 +56,7 @@ class GraphNode:
     node_id: str
     label: str
     node_type: str
+    size: int = 10
     attributes: dict[str, Any] = field(default_factory=dict)
 
 

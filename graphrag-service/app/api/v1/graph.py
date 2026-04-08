@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
 from app.core.base import GraphEdge, GraphNode, GraphData
-from app.storage.database import get_graph_data
+from app.core.registry import get_core
 
 router = APIRouter()
 
@@ -31,18 +31,18 @@ class GraphResponse(BaseModel):
 @router.get("/", response_model=GraphResponse)
 async def get_graph(
     namespace: str = Query(default="default", description="Namespace to query"),
-    max_nodes: int = Query(default=100, ge=1, le=1000, description="Maximum number of nodes to return"),
+    max_nodes: int = Query(default=100, ge=10, le=500, description="Maximum number of nodes to return"),
 ) -> GraphResponse:
     """
     Get knowledge graph data for visualization.
 
     - **namespace**: Namespace to query (default: "default")
-    - **max_nodes**: Maximum number of nodes to return (1-1000, default: 100)
+    - **max_nodes**: Maximum number of nodes to return (10-500, default: 100)
 
     Returns nodes and edges for graph visualization.
     """
     try:
-        graph_data: GraphData = await get_graph_data(namespace, max_nodes)
+        graph_data: GraphData = await get_core().get_graph_data(namespace, max_nodes)
 
         # Convert GraphData to response format
         nodes = [
@@ -50,7 +50,7 @@ async def get_graph(
                 id=node.node_id,
                 name=node.label,
                 type=node.node_type,
-                size=10,  # Default size, could be derived from node attributes
+                size=node.size,
             )
             for node in graph_data.nodes
         ]

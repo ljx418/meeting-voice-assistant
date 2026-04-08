@@ -355,11 +355,8 @@ search:
         self, namespace: str, max_nodes: int = 100
     ) -> GraphData:
         """获取图谱数据用于可视化"""
-        # namespace isolation is not yet implemented in graphrag
-        raise NotImplementedError(
-            "Namespace isolation in get_graph_data is not yet implemented. "
-            "All namespaces share the same output directory."
-        )
+        from app.storage.database import get_graph_data as storage_get_graph_data
+        return await storage_get_graph_data(namespace, max_nodes)
 
     async def delete_document(self, doc_id: str, namespace: str) -> None:
         """删除文档及其关联数据
