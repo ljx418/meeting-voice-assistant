@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from typing import Any, List, Optional
 
 
 @dataclass
@@ -19,8 +19,8 @@ class EntityInfo:
     entity_id: str
     name: str
     entity_type: str
-    description: str | None = None
-    source_chunk_id: str | None = None
+    description: Optional[str] = None
+    source_chunk_id: Optional[str] = None
     attributes: dict[str, Any] = field(default_factory=dict)
 
 
@@ -28,25 +28,25 @@ class EntityInfo:
 class CommunityInfo:
     community_id: str
     level: int
-    title: str | None = None
-    summary: str | None = None
-    entity_ids: list[str] = field(default_factory=list)
+    title: Optional[str] = None
+    summary: Optional[str] = None
+    entity_ids: List[str] = field(default_factory=list)
 
 
 @dataclass
 class QueryResult:
     query_text: str
     answer: str
-    source_chunks: list[SourceChunk] = field(default_factory=list)
-    entities: list[EntityInfo] = field(default_factory=list)
-    communities: list[CommunityInfo] = field(default_factory=list)
+    source_chunks: List[SourceChunk] = field(default_factory=list)
+    entities: List[EntityInfo] = field(default_factory=list)
+    communities: List[CommunityInfo] = field(default_factory=list)
     confidence: float = 0.0
 
 
 @dataclass
 class SummaryResult:
     summary: str
-    community_summaries: list[CommunityInfo] = field(default_factory=list)
+    community_summaries: List[CommunityInfo] = field(default_factory=list)
     total_entities: int = 0
     total_communities: int = 0
 
@@ -71,8 +71,8 @@ class GraphEdge:
 
 @dataclass
 class GraphData:
-    nodes: list[GraphNode] = field(default_factory=list)
-    edges: list[GraphEdge] = field(default_factory=list)
+    nodes: List[GraphNode] = field(default_factory=list)
+    edges: List[GraphEdge] = field(default_factory=list)
 
 
 @dataclass
@@ -83,7 +83,7 @@ class IndexResult:
     entity_count: int = 0
     relationship_count: int = 0
     community_count: int = 0
-    error: str | None = None
+    error: Optional[str] = None
 
 
 @dataclass
@@ -91,7 +91,7 @@ class BatchIndexResult:
     total: int
     succeeded: int
     failed: int
-    results: list[IndexResult] = field(default_factory=list)
+    results: List[IndexResult] = field(default_factory=list)
 
 
 class GraphRAGCore(ABC):
@@ -104,7 +104,7 @@ class GraphRAGCore(ABC):
 
     @abstractmethod
     async def index_documents_batch(
-        self, doc_paths: list[Path], namespace: str
+        self, doc_paths: List[Path], namespace: str
     ) -> BatchIndexResult:
         """Index multiple documents in batch."""
         pass
@@ -115,14 +115,14 @@ class GraphRAGCore(ABC):
         query_text: str,
         namespace: str,
         top_k: int = 10,
-        context: str | None = None,
+        context: Optional[str] = None,
     ) -> QueryResult:
         """Query the knowledge graph."""
         pass
 
     @abstractmethod
     async def summarize(
-        self, namespace: str, query: str | None = None
+        self, namespace: str, query: Optional[str] = None
     ) -> SummaryResult:
         """Generate a summary of the knowledge graph."""
         pass

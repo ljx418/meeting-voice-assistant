@@ -205,7 +205,7 @@ search:
         query_text: str,
         namespace: str,
         top_k: int = 10,
-        context: str | None = None,
+        context: Optional[str] = None,
     ) -> QueryResult:
         """查询知识图谱"""
         try:
@@ -288,7 +288,7 @@ search:
             )
 
     async def summarize(
-        self, namespace: str, query: str | None = None
+        self, namespace: str, query: Optional[str] = None
     ) -> SummaryResult:
         """生成知识图谱摘要"""
         try:
