@@ -1,0 +1,1 @@
+# Microsoft GraphRAG adapter placeholder
