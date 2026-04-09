@@ -59,6 +59,20 @@
           <button class="btn-upload" @click="triggerFileUpload">选择文件</button>
         </div>
 
+        <!-- 上传历史窗口 -->
+        <div class="upload-history" v-if="uploadHistory.length > 0">
+          <h3>上传历史 ({{ uploadHistory.length }})</h3>
+          <div class="history-list">
+            <div v-for="item in uploadHistory" :key="item.id" class="history-item">
+              <div class="history-info">
+                <span class="history-name" :title="item.filename">{{ item.filename }}</span>
+                <span class="history-meta">{{ item.entity_count || 0 }} 实体 | {{ formatDate(item.indexed_at) }}</span>
+              </div>
+              <button class="btn-delete" @click="deleteDocument(item.id)">×</button>
+            </div>
+          </div>
+        </div>
+
         <!-- 文件夹上传 -->
         <div class="upload-section">
           <h3>文件夹上传</h3>
@@ -205,6 +219,26 @@ const uploadProgress = ref(0)
 const message = ref('')
 const messageType = ref<'success' | 'error'>('success')
 
+// 上传历史
+const uploadHistory = ref<any[]>([])
+
+// 检查文件是否已上传（去重）
+async function checkDuplicate(filename: string): Promise<{exists: boolean, doc?: any}> {
+  try {
+    const res = await fetch(`${GRAPHRAG_API}/documents/check-duplicate`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({filename, namespace: namespace.value})
+    })
+    if (res.ok) {
+      return await res.json()
+    }
+  } catch (e) {
+    console.error('Check duplicate failed:', e)
+  }
+  return {exists: false}
+}
+
 // Refs
 const fileInputRef = ref<HTMLInputElement | null>(null)
 const folderInputRef = ref<HTMLInputElement | null>(null)
@@ -226,7 +260,7 @@ onMounted(() => {
 // 检查服务状态
 async function checkServiceStatus() {
   try {
-    const res = await fetch(`${GRAPHRAG_API}/../`)
+    const res = await fetch(`${GRAPHRAG_API}/../../`)
     serviceStatus.value.connected = res.ok
   } catch {
     serviceStatus.value.connected = false
@@ -238,7 +272,9 @@ async function loadDocuments() {
   try {
     const res = await fetch(`${GRAPHRAG_API}/documents?namespace=${namespace.value}`)
     if (res.ok) {
-      documents.value = await res.json()
+      const docs = await res.json()
+      documents.value = docs
+      uploadHistory.value = docs  // 使用相同数据
     }
   } catch (e) {
     console.error('Failed to load documents:', e)
@@ -325,6 +361,19 @@ async function uploadFiles(files: File[]) {
 
   for (const file of files) {
     uploadingFile.value = file.name
+
+    // 检查是否已存在
+    const dup = await checkDuplicate(file.name)
+    if (dup.exists) {
+      // 弹出选择对话框
+      const action = confirm(`文件 "${file.name}" 已存在。\n选择 "确定" 覆盖，或 "取消" 跳过。`)
+      if (!action) {
+        showMessage(`${file.name} 已跳过`, 'success')
+        continue
+      }
+      // 覆盖模式下继续上传
+    }
+
     const formData = new FormData()
     formData.append('doc', file)
 
@@ -651,6 +700,52 @@ function showMessage(msg: string, type: 'success' | 'error') {
 
 .btn-upload:hover {
   background: #1565c0;
+}
+
+/* 上传历史 */
+.upload-history {
+  margin-bottom: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.upload-history h3 {
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem 0;
+  color: #666;
+}
+
+.history-list {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #eee;
+  gap: 0.5rem;
+}
+
+.history-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-name {
+  display: block;
+  font-size: 0.8rem;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-meta {
+  font-size: 0.7rem;
+  color: #999;
 }
 
 /* 文档列表 */
