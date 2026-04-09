@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 from sqlalchemy import select, func
 
-from ...storage.database import async_session, delete_document as db_delete_document
+from ...storage.database import async_session, delete_document as db_delete_document, clear_all_data as db_clear_all_data
 from ...storage.models import Document, Entity
 
 router = APIRouter()
@@ -111,6 +111,88 @@ async def get_document(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get document: {str(e)}")
+
+
+class CheckDuplicateRequest(BaseModel):
+    """检查重复请求模型"""
+    filename: str
+    namespace: str = "default"
+
+
+class CheckDuplicateResponse(BaseModel):
+    """检查重复响应模型"""
+    exists: bool
+    doc_id: Optional[str] = None
+    entity_count: int = 0
+
+
+@router.post("/check-duplicate", response_model=CheckDuplicateResponse)
+async def check_duplicate(request: CheckDuplicateRequest) -> CheckDuplicateResponse:
+    """
+    检查文件名是否已存在
+
+    - **filename**: 要检查的文件名
+    - **namespace**: 命名空间 (default: "default")
+
+    Returns 是否存在及文档信息
+    """
+    try:
+        async with async_session() as session:
+            stmt = (
+                select(Document.id, func.count(Entity.id).label("entity_count"))
+                .outerjoin(Entity, Document.id == Entity.doc_id)
+                .where(Document.filename == request.filename, Document.namespace == request.namespace)
+                .group_by(Document.id)
+            )
+            result = await session.execute(stmt)
+            row = result.one_or_none()
+
+            if row:
+                return CheckDuplicateResponse(
+                    exists=True,
+                    doc_id=row.id,
+                    entity_count=row.entity_count or 0,
+                )
+            return CheckDuplicateResponse(exists=False)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to check duplicate: {str(e)}")
+
+
+class ClearAllRequest(BaseModel):
+    """清空所有数据请求模型"""
+    namespace: str = "default"
+    confirm: str
+
+
+class ClearAllResponse(BaseModel):
+    """清空所有数据响应模型"""
+    status: str
+    deleted_documents: int
+    deleted_entities: int
+    deleted_relationships: int
+    deleted_communities: int
+
+
+@router.delete("/clear-all", response_model=ClearAllResponse)
+async def clear_all(request: ClearAllRequest) -> ClearAllResponse:
+    """
+    清空 namespace 下的所有数据（危险操作）
+
+    - **namespace**: 要清空的命名空间 (default: "default")
+    - **confirm**: 必须输入 "DELETE ALL" 确认
+
+    Returns 删除统计
+    """
+    if request.confirm != "DELETE ALL":
+        raise HTTPException(status_code=400, detail="Invalid confirmation text")
+
+    try:
+        result = await db_clear_all_data(request.namespace)
+        return ClearAllResponse(status="deleted", **result)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to clear data: {str(e)}")
 
 
 class DeleteResponse(BaseModel):
