@@ -117,6 +117,9 @@
           <button v-if="documents.length > 0" class="btn-refresh" @click="loadDocuments">
             刷新列表
           </button>
+          <button class="btn-clear-view" @click="clearView">
+            🗑️ 清空视图
+          </button>
         </div>
       </aside>
 
@@ -594,6 +597,19 @@ function showMessage(msg: string, type: 'success' | 'error') {
     message.value = ''
   }, 3000)
 }
+
+// 清空视图
+function clearView() {
+  if (!svgRef.value) return
+  d3.select(svgRef.value).selectAll('*').remove()
+  graphNodes.value = []
+  graphEdges.value = []
+  selectedNode.value = null
+  if (simulation.value) {
+    simulation.value.stop()
+    simulation.value = null
+  }
+}
 </script>
 
 <style scoped>
@@ -866,6 +882,22 @@ function showMessage(msg: string, type: 'success' | 'error') {
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.btn-clear-view {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-clear-view:hover {
+  background: #e0e0e0;
 }
 
 /* 图谱 */
