@@ -170,6 +170,10 @@
             <span class="detail-label">连接数:</span>
             <span class="detail-value">{{ selectedNode.connections }}</span>
           </div>
+          <div class="detail-item" v-if="selectedNode?.community_summary">
+            <span class="detail-label">社区摘要:</span>
+            <span class="detail-value">{{ selectedNode.community_summary }}</span>
+          </div>
           <button class="btn-close-detail" @click="selectedNode = null">关闭</button>
         </div>
       </section>
@@ -193,7 +197,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+import * as d3 from 'd3'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -245,6 +250,9 @@ const folderInputRef = ref<HTMLInputElement | null>(null)
 const svgRef = ref<SVGSVGElement | null>(null)
 const graphCanvasRef = ref<HTMLElement | null>(null)
 
+// D3.js simulation
+const simulation = ref<d3.Simulation<any, any> | null>(null)
+
 // 导航
 function goToMeeting() {
   router.push('/')
@@ -255,6 +263,12 @@ onMounted(() => {
   checkServiceStatus()
   loadDocuments()
   loadGraphData()
+})
+
+onUnmounted(() => {
+  if (simulation.value) {
+    simulation.value.stop()
+  }
 })
 
 // 检查服务状态
@@ -403,121 +417,155 @@ async function uploadFiles(files: File[]) {
 function renderGraph() {
   if (!svgRef.value || !graphCanvasRef.value) return
 
-  const svg = svgRef.value
+  const svg = d3.select(svgRef.value)
   const container = graphCanvasRef.value
   const width = container.clientWidth
   const height = container.clientHeight
 
-  svg.setAttribute('width', String(width))
-  svg.setAttribute('height', String(height))
-  svg.innerHTML = ''
+  svg.selectAll('*').remove()
+  svg.attr('width', width).attr('height', height)
 
-  // 创建节点映射
-  const nodeMap = new Map(graphNodes.value.map((n, i) => [n.id, { ...n, index: i }]))
-
-  // 简单力导向布局
-  const positions: Map<string, { x: number; y: number; vx: number; vy: number }> = new Map()
-  graphNodes.value.forEach((node, i) => {
-    positions.set(node.id, {
-      x: width / 2 + (Math.random() - 0.5) * 200,
-      y: height / 2 + (Math.random() - 0.5) * 200,
-      vx: 0,
-      vy: 0,
+  // 创建缩放行为
+  const zoom = d3.zoom<SVGSVGElement, unknown>()
+    .scaleExtent([0.1, 4])
+    .on('zoom', (event) => {
+      g.attr('transform', event.transform)
     })
-  })
 
-  // 力学模拟
-  for (let iter = 0; iter < 100; iter++) {
-    // 节点间排斥力
-    for (const [id1, pos1] of positions) {
-      for (const [id2, pos2] of positions) {
-        if (id1 === id2) continue
-        const dx = pos2.x - pos1.x
-        const dy = pos2.y - pos1.y
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1
-        const force = -500 / (dist * dist)
-        pos1.vx += (dx / dist) * force
-        pos1.vy += (dy / dist) * force
-      }
-    }
+  svg.call(zoom as any)
 
-    // 边引力
-    for (const edge of graphEdges.value) {
-      const source = positions.get(edge.source)
-      const target = positions.get(edge.target)
-      if (!source || !target) continue
-      const dx = target.x - source.x
-      const dy = target.y - source.y
-      const dist = Math.sqrt(dx * dx + dy * dy) || 1
-      const force = dist * 0.01
-      source.vx += (dx / dist) * force
-      source.vy += (dy / dist) * force
-      target.vx -= (dx / dist) * force
-      target.vy -= (dy / dist) * force
-    }
+  // 创建主容器
+  const g = svg.append('g')
 
-    // 中心引力
-    for (const [id, pos] of positions) {
-      pos.vx += (width / 2 - pos.x) * 0.001
-      pos.vy += (height / 2 - pos.y) * 0.001
-    }
+  // 准备数据
+  const nodes = graphNodes.value.map(n => ({...n}))
+  const edges = graphEdges.value.map(e => ({...e}))
 
-    // 更新位置
-    for (const [id, pos] of positions) {
-      pos.x += pos.vx * 0.1
-      pos.y += pos.vy * 0.1
-      pos.x = Math.max(30, Math.min(width - 30, pos.x))
-      pos.y = Math.max(30, Math.min(height - 30, pos.y))
-    }
-  }
+  // 创建力导向仿真
+  const sim = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(edges).id((d: any) => d.id).distance(100))
+    .force('charge', d3.forceManyBody().strength(-300))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide().radius(30))
+
+  simulation.value = sim
 
   // 绘制边
-  for (const edge of graphEdges.value) {
-    const source = positions.get(edge.source)
-    const target = positions.get(edge.target)
-    if (!source || !target) continue
+  const link = g.append('g')
+    .attr('class', 'links')
+    .selectAll('line')
+    .data(edges)
+    .enter()
+    .append('line')
+    .attr('stroke', '#ccc')
+    .attr('stroke-width', 1)
 
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-    line.setAttribute('x1', String(source.x))
-    line.setAttribute('y1', String(source.y))
-    line.setAttribute('x2', String(target.x))
-    line.setAttribute('y2', String(target.y))
-    line.setAttribute('stroke', '#ccc')
-    line.setAttribute('stroke-width', '1')
-    svg.appendChild(line)
-  }
+  // 绘制节点组
+  const node = g.append('g')
+    .attr('class', 'nodes')
+    .selectAll('g')
+    .data(nodes)
+    .enter()
+    .append('g')
+    .style('cursor', 'pointer')
 
-  // 绘制节点
-  for (const node of graphNodes.value) {
-    const pos = positions.get(node.id)
-    if (!pos) continue
+  // 节点圆圈
+  node.append('circle')
+    .attr('r', (d: any) => d.size || 10)
+    .attr('fill', (d: any) => getNodeColor(d.type))
 
-    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g')
-    g.setAttribute('transform', `translate(${pos.x}, ${pos.y})`)
-    g.style.cursor = 'pointer'
+  // 节点标签
+  node.append('text')
+    .attr('dy', '0.35em')
+    .attr('text-anchor', 'middle')
+    .attr('font-size', '10')
+    .attr('fill', '#333')
+    .text((d: any) => d.name?.substring(0, 12) || '')
 
-    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
-    circle.setAttribute('r', String(node.size || 10))
-    circle.setAttribute('fill', getNodeColor(node.type))
-    g.appendChild(circle)
-
-    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-    text.setAttribute('dy', '0.35em')
-    text.setAttribute('text-anchor', 'middle')
-    text.setAttribute('font-size', '10')
-    text.setAttribute('fill', '#333')
-    text.textContent = node.name.substring(0, 12)
-    g.appendChild(text)
-
-    g.addEventListener('click', () => {
-      const connections = graphEdges.value.filter(
-        e => e.source === node.id || e.target === node.id
-      ).length
-      selectedNode.value = { ...node, connections }
+  // 拖拽行为
+  const drag = d3.drag<SVGGElement, any>()
+    .on('start', (event, d) => {
+      if (!event.active) sim.alphaTarget(0.3).restart()
+      d.fx = d.x
+      d.fy = d.y
+    })
+    .on('drag', (event, d) => {
+      d.fx = event.x
+      d.fy = event.y
+    })
+    .on('end', (event, d) => {
+      if (!event.active) sim.alphaTarget(0)
+      d.fx = null
+      d.fy = null
     })
 
-    svg.appendChild(g)
-  }
+  node.call(drag as any)
+
+  // 点击节点 - 显示详情
+  node.on('click', async (event, d: any) => {
+    event.stopPropagation()
+
+    // 高亮选中节点和连接
+    const connectedEdges = edges.filter(e =>
+      e.source.id === d.id || e.target.id === d.id ||
+      e.source === d.id || e.target === d.id
+    )
+    const connectedNodeIds = new Set([
+      d.id,
+      ...connectedEdges.map((e: any) => e.source.id || e.source),
+      ...connectedEdges.map((e: any) => e.target.id || e.target)
+    ])
+
+    // 降低未连接节点和边的透明度
+    node.select('circle').attr('opacity', (n: any) =>
+      connectedNodeIds.has(n.id) ? 1 : 0.2
+    )
+    node.select('text').attr('opacity', (n: any) =>
+      connectedNodeIds.has(n.id) ? 1 : 0.2
+    )
+    link.attr('opacity', (e: any) =>
+      (e.source.id === d.id || e.target.id === d.id ||
+       e.source === d.id || e.target === d.id) ? 1 : 0.2
+    )
+
+    // 获取社区摘要
+    if (d.community_id) {
+      try {
+        const res = await fetch(`${GRAPHRAG_API}/community/${d.community_id}/summary`)
+        if (res.ok) {
+          const summary = await res.json()
+          selectedNode.value = {
+            ...d,
+            connections: connectedEdges.length,
+            community_summary: summary.summary
+          }
+        }
+      } catch (e) {
+        selectedNode.value = {...d, connections: connectedEdges.length}
+      }
+    } else {
+      selectedNode.value = {...d, connections: connectedEdges.length}
+    }
+  })
+
+  // 点击空白处清除选中
+  svg.on('click', () => {
+    selectedNode.value = null
+    node.select('circle').attr('opacity', 1)
+    node.select('text').attr('opacity', 1)
+    link.attr('opacity', 1)
+  })
+
+  // 仿真tick更新位置
+  sim.on('tick', () => {
+    link
+      .attr('x1', (d: any) => d.source.x)
+      .attr('y1', (d: any) => d.source.y)
+      .attr('x2', (d: any) => d.target.x)
+      .attr('y2', (d: any) => d.target.y)
+
+    node.attr('transform', (d: any) => `translate(${d.x},${d.y})`)
+  })
 }
 
 function getNodeColor(type: string): string {
