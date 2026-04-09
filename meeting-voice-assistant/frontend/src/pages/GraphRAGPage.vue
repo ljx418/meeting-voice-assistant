@@ -117,6 +117,9 @@
           <button v-if="documents.length > 0" class="btn-refresh" @click="loadDocuments">
             刷新列表
           </button>
+          <button class="btn-clear-all" @click="openClearAllDialog">
+            ⚠️ 清空所有数据
+          </button>
           <button class="btn-clear-view" @click="clearView">
             🗑️ 清空视图
           </button>
@@ -196,6 +199,42 @@
     <div v-if="message" class="message-toast" :class="messageType">
       {{ message }}
     </div>
+
+    <!-- 清空数据库确认对话框 -->
+    <div v-if="showClearAllDialog" class="modal-overlay" @click.self="showClearAllDialog = false">
+      <div class="modal-content clear-all-dialog">
+        <h3>⚠️ 警告: 将清空所有数据</h3>
+        <div class="warning-text">
+          <p>此操作将删除:</p>
+          <ul>
+            <li>所有文档</li>
+            <li>所有实体</li>
+            <li>所有关系</li>
+            <li>所有社区</li>
+          </ul>
+          <p class="danger">此操作不可恢复！</p>
+        </div>
+        <div class="confirm-input">
+          <label>请输入 <strong>DELETE ALL</strong> 确认:</label>
+          <input
+            v-model="clearAllInput"
+            type="text"
+            placeholder="DELETE ALL"
+            @keyup.enter="clearAllInput === 'DELETE ALL' && executeClearAll()"
+          />
+        </div>
+        <div class="dialog-buttons">
+          <button class="btn-cancel" @click="showClearAllDialog = false">取消</button>
+          <button
+            class="btn-confirm-delete"
+            :disabled="clearAllInput !== 'DELETE ALL'"
+            @click="executeClearAll"
+          >
+            确认删除
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -229,6 +268,45 @@ const messageType = ref<'success' | 'error'>('success')
 
 // 上传历史
 const uploadHistory = ref<any[]>([])
+
+// 清空数据库确认
+const showClearAllDialog = ref(false)
+const clearAllInput = ref('')
+
+function openClearAllDialog() {
+  showClearAllDialog.value = true
+  clearAllInput.value = ''
+}
+
+async function executeClearAll() {
+  if (clearAllInput.value !== 'DELETE ALL') {
+    showMessage('请输入正确的确认文字', 'error')
+    return
+  }
+
+  try {
+    const res = await fetch(`${GRAPHRAG_API}/documents/clear-all`, {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        namespace: namespace.value,
+        confirm: clearAllInput.value
+      })
+    })
+
+    if (res.ok) {
+      showMessage('所有数据已清空', 'success')
+      showClearAllDialog.value = false
+      loadDocuments()
+      loadGraphData()
+    } else {
+      const err = await res.json()
+      showMessage('清空失败: ' + (err.detail || '未知错误'), 'error')
+    }
+  } catch (e) {
+    showMessage('清空失败: ' + e, 'error')
+  }
+}
 
 // 检查文件是否已上传（去重）
 async function checkDuplicate(filename: string): Promise<{exists: boolean, doc?: any}> {
@@ -1083,5 +1161,116 @@ function clearView() {
 
 .message-toast.error {
   background: #f44336;
+}
+
+.btn-clear-all {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.btn-clear-all:hover {
+  background: #d32f2f;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 400px;
+  width: 90%;
+}
+
+.clear-all-dialog h3 {
+  color: #f44336;
+  margin: 0 0 1rem 0;
+}
+
+.warning-text {
+  background: #fff3e0;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.warning-text p {
+  margin: 0 0 0.5rem 0;
+}
+
+.warning-text ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.warning-text .danger {
+  color: #f44336;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.confirm-input {
+  margin-bottom: 1rem;
+}
+
+.confirm-input label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.confirm-input input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.dialog-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.btn-cancel {
+  padding: 0.5rem 1rem;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-confirm-delete {
+  padding: 0.5rem 1rem;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-confirm-delete:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 </style>
