@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Optional
 
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, or_
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import selectinload
 
@@ -250,3 +250,65 @@ async def delete_document(doc_id: str, namespace: str) -> bool:
 
         await session.commit()
         return deleted
+
+
+async def clear_all_data(namespace: str) -> dict:
+    """
+    清空 namespace 下的所有数据（文档、实体、关系、社区）
+
+    Args:
+        namespace: 要清空的命名空间
+
+    Returns:
+        dict: 包含 deleted_documents, deleted_entities, deleted_relationships, deleted_communities
+    """
+    async with async_session() as session:
+        # 获取所有文档
+        doc_stmt = select(Document.id).where(Document.namespace == namespace)
+        doc_result = await session.execute(doc_stmt)
+        doc_ids = [row[0] for row in doc_result.fetchall()]
+
+        # 获取所有实体
+        ent_stmt = select(Entity.id).where(Entity.namespace == namespace)
+        ent_result = await session.execute(ent_stmt)
+        ent_ids = [row[0] for row in ent_result.fetchall()]
+
+        deleted_entities = 0
+        deleted_relationships = 0
+        deleted_communities = 0
+
+        # 删除关系（source 或 target 在 ent_ids 中）
+        if ent_ids:
+            rel_stmt = delete(Relationship).where(
+                or_(
+                    Relationship.source_entity_id.in_(ent_ids),
+                    Relationship.target_entity_id.in_(ent_ids)
+                ),
+                Relationship.namespace == namespace
+            )
+            rel_result = await session.execute(rel_stmt)
+            deleted_relationships = rel_result.rowcount
+
+            # 删除实体
+            ent_del_stmt = delete(Entity).where(Entity.namespace == namespace)
+            ent_result = await session.execute(ent_del_stmt)
+            deleted_entities = ent_result.rowcount
+
+        # 删除社区
+        comm_stmt = delete(Community).where(Community.namespace == namespace)
+        comm_result = await session.execute(comm_stmt)
+        deleted_communities = comm_result.rowcount
+
+        # 删除文档
+        doc_del_stmt = delete(Document).where(Document.namespace == namespace)
+        doc_result = await session.execute(doc_del_stmt)
+        deleted_documents = doc_result.rowcount
+
+        await session.commit()
+
+        return {
+            "deleted_documents": deleted_documents,
+            "deleted_entities": deleted_entities,
+            "deleted_relationships": deleted_relationships,
+            "deleted_communities": deleted_communities,
+        }
