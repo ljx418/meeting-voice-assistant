@@ -1,0 +1,9 @@
+encoding_model: cl100k_base
+skip_workflow: false
+llm:
+  description: DashScope LLM
+  configuration:
+    type: openai_chat
+    api_key: sk-your-key-here
+    model: qwen-plus
+    api_base: https://dashscope.aliyuncs.com

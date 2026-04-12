@@ -233,3 +233,83 @@ frontend/src/
 3. **浏览器访问**: `http://localhost:5173`
 4. **测试录音**: 点击录音按钮，对着麦克风说话，观察实时转写
 5. **验证WebSocket**: 检查后端日志中的音频帧接收和识别结果输出
+
+---
+
+## GraphRAG 知识管理模块（已实现）
+
+详见：`backend/app/graphrag/` 和 `docs/superpowers/specs/2026-04-08-graphrag-design.md`
+
+### 核心功能
+
+| 功能 | 端点 | 状态 |
+|------|------|------|
+| 文档索引 | POST /api/v1/index | ✅ 已实现 |
+| 知识查询 | POST /api/v1/query | ✅ 已实现 |
+| 动态 top_k | query.top_k 参数 | ✅ 已实现 |
+| 全局汇总 | POST /api/v1/summarize | ✅ 已实现 |
+| 图谱可视化 | GET /api/v1/graph | ✅ 已实现 |
+| 实时上下文注入 | POST /api/v1/realtime/query | ✅ 已实现 |
+| 文档管理 | GET/DELETE /api/v1/documents | ✅ 已实现 |
+
+### 启动方式
+
+```bash
+cd backend
+python3 -m uvicorn app.graphrag.main:app --host 0.0.0.0 --port 8002
+```
+
+### 与会议助手集成
+
+在实时转写过程中，可调用 GraphRAG 服务查询领域知识：
+
+```python
+# 实时转写时查询知识
+response = await query_knowledge_during_transcription(
+    query="当前话题相关知识",
+    context="会议正在讨论 GraphRAG 索引构建流程"
+)
+```
+
+### 前端路由
+
+前端采用 vue-router 实现双页面路由：
+
+| 路由 | 页面 | 描述 |
+|------|------|------|
+| `/` | MeetingPage | 会议助手主页面 |
+| `/graphrag` | GraphRAGPage | 知识图谱管理页面 |
+
+### 完整项目结构
+
+```
+meeting-voice-assistant/          # 会议语音助手
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── MeetingPage.vue     # 会议助手页面
+│   │   │   └── GraphRAGPage.vue   # 知识图谱管理页面
+│   │   ├── router/
+│   │   │   └── index.ts           # vue-router 配置
+│   │   ├── components/           # UI 组件
+│   │   ├── composables/          # 组合式函数
+│   │   ├── stores/               # Pinia 状态
+│   │   ├── api/                  # API 客户端
+│   │   ├── App.vue               # 根组件
+│   │   └── main.ts               # 入口
+│   └── package.json
+│
+├── backend/                      # FastAPI 后端
+│   ├── app/
+│   │   ├── api/v1/              # 语音识别 API
+│   │   ├── core/                 # ASR 适配器、LLM 分析
+│   │   ├── graphrag/            # GraphRAG 知识管理模块
+│   │   │   ├── api/v1/          # GraphRAG API 端点
+│   │   │   ├── core/            # GraphRAG Core 抽象 + Microsoft 实现
+│   │   │   └── storage/         # SQLite 存储层
+│   │   └── config.py             # 配置管理
+│   ├── rag_workspace/           # GraphRAG 工作目录
+│   └── requirements.txt
+│
+└── docs/                         # 技术文档
+```

@@ -77,7 +77,8 @@ async def root():
 async def test_write():
     """测试文件写入"""
     import datetime
-    test_dir = Path("/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/audio_cache")
+    from app.config import Config
+    test_dir = Config.AUDIO_CACHE_DIR
     test_file = test_dir / f"test_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
     try:
         test_file.write_text("test write at " + str(datetime.datetime.now()))
