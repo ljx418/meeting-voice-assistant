@@ -22,23 +22,23 @@ async def init_db() -> None:
 
 
 async def get_graph_data(
-    namespace: str, max_nodes: int = 100
+    max_nodes: int = 100,
 ) -> GraphData:
     """
-    Get graph data (nodes and edges) for a given namespace.
+    Get graph data (nodes and edges) for the current environment.
 
     Args:
-        namespace: The namespace to filter by.
         max_nodes: Maximum number of nodes to return.
 
     Returns:
         GraphData object with nodes and edges lists.
+
+    Note: Environment isolation is handled via separate GRAPHRAG_WORKSPACE directories.
     """
     async with async_session() as session:
-        # Get entities as nodes
+        # Get entities as nodes (no namespace filter - environment is isolated)
         entity_stmt = (
             select(Entity)
-            .where(Entity.namespace == namespace)
             .limit(max_nodes)
         )
         result = await session.execute(entity_stmt)
@@ -62,7 +62,6 @@ async def get_graph_data(
         edges: list[GraphEdge] = []
         if entity_ids:
             edge_stmt = select(Relationship).where(
-                Relationship.namespace == namespace,
                 Relationship.source_entity_id.in_(entity_ids),
                 Relationship.target_entity_id.in_(entity_ids),
             )
@@ -250,6 +249,18 @@ async def delete_document(doc_id: str, namespace: str) -> bool:
 
         await session.commit()
         return deleted
+
+
+async def update_entity_community_id(entity_id: str, community_id: str) -> None:
+    """Update an entity's community_id."""
+    async with async_session() as session:
+        result = await session.execute(
+            select(Entity).where(Entity.id == entity_id)
+        )
+        entity = result.scalar_one_or_none()
+        if entity:
+            entity.community_id = community_id
+            await session.commit()
 
 
 async def clear_all_data(namespace: str) -> dict:

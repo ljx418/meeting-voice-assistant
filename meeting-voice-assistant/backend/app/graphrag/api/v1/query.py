@@ -14,7 +14,6 @@ router = APIRouter()
 class QueryRequest(BaseModel):
     """Query request model."""
     query: str = Field(..., description="Query text")
-    namespace: str = Field(default="default", description="Namespace to query")
     top_k: int = Field(default=10, ge=1, le=100, description="Number of top results (1-100)")
     context: Optional[str] = Field(default=None, description="Optional context to prepend to query")
 
@@ -46,16 +45,17 @@ async def query_knowledge(request: QueryRequest) -> QueryResponse:
     Query the knowledge graph.
 
     - **query**: Query text (e.g., "这个项目的技术架构是什么？")
-    - **namespace**: Namespace to query (default: "default")
     - **top_k**: Number of top results to return (1-100, default: 10)
     - **context**: Optional context to prepend to query
 
     Returns the answer with source information and detected entities.
+
+    Note: Environment isolation is handled via separate GRAPHRAG_WORKSPACE directories.
     """
     try:
         core = get_core()
         result: QueryResult = await core.query(
-            request.query, request.namespace, request.top_k, request.context
+            request.query, namespace="default", top_k=request.top_k, context=request.context
         )
 
         # Build sources from source_chunks

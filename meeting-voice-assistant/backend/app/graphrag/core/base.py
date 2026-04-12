@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import Any, List, Optional, AsyncGenerator
 
 
 @dataclass
@@ -111,6 +111,16 @@ class GraphRAGCore(ABC):
         pass
 
     @abstractmethod
+    async def index_document_stream(
+        self, doc_path: Path, namespace: str
+    ) -> AsyncGenerator[dict, None]:
+        """Index a single document with streaming progress.
+
+        Yields progress events as dicts with stage, progress, message, details.
+        """
+        pass
+
+    @abstractmethod
     async def query(
         self,
         query_text: str,
@@ -130,9 +140,12 @@ class GraphRAGCore(ABC):
 
     @abstractmethod
     async def get_graph_data(
-        self, namespace: str, max_nodes: int = 100
+        self, max_nodes: int = 100
     ) -> GraphData:
-        """Retrieve graph data for visualization."""
+        """Retrieve graph data for visualization.
+
+        Note: Environment isolation is handled via separate GRAPHRAG_WORKSPACE directories.
+        """
         pass
 
     @abstractmethod

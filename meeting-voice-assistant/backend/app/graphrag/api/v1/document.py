@@ -23,15 +23,13 @@ class DocumentInfo(BaseModel):
 
 
 @router.get("/", response_model=List[DocumentInfo])
-async def list_documents(
-    namespace: str = Query(default="default", description="Namespace to filter by"),
-) -> List[DocumentInfo]:
+async def list_documents() -> List[DocumentInfo]:
     """
-    List all documents in a namespace.
-
-    - **namespace**: Namespace to filter documents (default: "default")
+    List all documents in the current environment.
 
     Returns a list of documents with metadata including entity count.
+
+    Note: Environment isolation is handled via separate GRAPHRAG_WORKSPACE directories.
     """
     try:
         async with async_session() as session:
@@ -45,7 +43,7 @@ async def list_documents(
                     func.count(Entity.id).label("entity_count"),
                 )
                 .outerjoin(Entity, Document.id == Entity.doc_id)
-                .where(Document.namespace == namespace)
+                .where(Document.namespace == "default")
                 .group_by(Document.id)
             )
             result = await session.execute(stmt)
@@ -69,13 +67,11 @@ async def list_documents(
 @router.get("/{doc_id}", response_model=DocumentInfo)
 async def get_document(
     doc_id: str,
-    namespace: str = Query(default="default", description="Namespace to verify ownership"),
 ) -> DocumentInfo:
     """
     Get details of a specific document.
 
     - **doc_id**: Document ID
-    - **namespace**: Namespace to verify ownership (default: "default")
 
     Returns document details including entity count.
     """
@@ -91,7 +87,7 @@ async def get_document(
                     func.count(Entity.id).label("entity_count"),
                 )
                 .outerjoin(Entity, Document.id == Entity.doc_id)
-                .where(Document.id == doc_id, Document.namespace == namespace)
+                .where(Document.id == doc_id, Document.namespace == "default")
                 .group_by(Document.id)
             )
             result = await session.execute(stmt)
@@ -116,7 +112,6 @@ async def get_document(
 class CheckDuplicateRequest(BaseModel):
     """检查重复请求模型"""
     filename: str
-    namespace: str = "default"
 
 
 class CheckDuplicateResponse(BaseModel):
@@ -132,7 +127,6 @@ async def check_duplicate(request: CheckDuplicateRequest) -> CheckDuplicateRespo
     检查文件名是否已存在
 
     - **filename**: 要检查的文件名
-    - **namespace**: 命名空间 (default: "default")
 
     Returns 是否存在及文档信息
     """
@@ -141,7 +135,7 @@ async def check_duplicate(request: CheckDuplicateRequest) -> CheckDuplicateRespo
             stmt = (
                 select(Document.id, func.count(Entity.id).label("entity_count"))
                 .outerjoin(Entity, Document.id == Entity.doc_id)
-                .where(Document.filename == request.filename, Document.namespace == request.namespace)
+                .where(Document.filename == request.filename, Document.namespace == "default")
                 .group_by(Document.id)
             )
             result = await session.execute(stmt)
@@ -160,7 +154,6 @@ async def check_duplicate(request: CheckDuplicateRequest) -> CheckDuplicateRespo
 
 class ClearAllRequest(BaseModel):
     """清空所有数据请求模型"""
-    namespace: str = "default"
     confirm: str
 
 
@@ -176,9 +169,8 @@ class ClearAllResponse(BaseModel):
 @router.delete("/clear-all", response_model=ClearAllResponse)
 async def clear_all(request: ClearAllRequest) -> ClearAllResponse:
     """
-    清空 namespace 下的所有数据（危险操作）
+    清空当前环境下的所有数据（危险操作）
 
-    - **namespace**: 要清空的命名空间 (default: "default")
     - **confirm**: 必须输入 "DELETE ALL" 确认
 
     Returns 删除统计
@@ -187,7 +179,7 @@ async def clear_all(request: ClearAllRequest) -> ClearAllResponse:
         raise HTTPException(status_code=400, detail="Invalid confirmation text")
 
     try:
-        result = await db_clear_all_data(request.namespace)
+        result = await db_clear_all_data("default")
         return ClearAllResponse(status="deleted", **result)
     except HTTPException:
         raise
@@ -204,20 +196,18 @@ class DeleteResponse(BaseModel):
 @router.delete("/{doc_id}", response_model=DeleteResponse)
 async def delete_document(
     doc_id: str,
-    namespace: str = Query(default="default", description="Namespace to verify ownership"),
 ) -> DeleteResponse:
     """
     Delete a document and its associated entities.
 
     - **doc_id**: Document ID to delete
-    - **namespace**: Namespace to verify ownership (default: "default")
 
     Returns deletion status.
     """
     try:
         # Attempt to delete directly - avoids TOCTOU race condition
         # since delete is idempotent (deleting non-existent returns 0 rows)
-        deleted = await db_delete_document(doc_id, namespace)
+        deleted = await db_delete_document(doc_id, "default")
 
         if not deleted:
             raise HTTPException(status_code=404, detail="Document not found")

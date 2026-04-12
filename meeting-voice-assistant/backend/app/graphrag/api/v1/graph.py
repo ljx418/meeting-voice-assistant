@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
@@ -13,6 +15,8 @@ class GraphNodeResponse(BaseModel):
     name: str
     type: str
     size: int = 10
+    community_id: Optional[str] = None
+    description: Optional[str] = None
 
 
 class GraphEdgeResponse(BaseModel):
@@ -30,19 +34,19 @@ class GraphResponse(BaseModel):
 
 @router.get("/", response_model=GraphResponse)
 async def get_graph(
-    namespace: str = Query(default="default", description="Namespace to query"),
     max_nodes: int = Query(default=100, ge=10, le=500, description="Maximum number of nodes to return"),
 ) -> GraphResponse:
     """
     Get knowledge graph data for visualization.
 
-    - **namespace**: Namespace to query (default: "default")
     - **max_nodes**: Maximum number of nodes to return (10-500, default: 100)
 
     Returns nodes and edges for graph visualization.
+
+    Note: Environment isolation is handled via separate GRAPHRAG_WORKSPACE directories.
     """
     try:
-        graph_data: GraphData = await get_core().get_graph_data(namespace, max_nodes)
+        graph_data: GraphData = await get_core().get_graph_data(max_nodes=max_nodes)
 
         # Convert GraphData to response format
         nodes = [
@@ -51,6 +55,8 @@ async def get_graph(
                 name=node.label,
                 type=node.node_type,
                 size=node.size,
+                community_id=node.attributes.get("community_id"),
+                description=node.attributes.get("description"),
             )
             for node in graph_data.nodes
         ]

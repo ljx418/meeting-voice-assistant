@@ -335,6 +335,7 @@ onUnmounted(() => {
 <style scoped>
 #app {
   min-height: 100vh;
+  width: 100%;
   background: #fafafa;
 }
 

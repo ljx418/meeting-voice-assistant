@@ -36,6 +36,14 @@
             <span class="status-label">社区数量</span>
             <span class="status-value">{{ graphStats.communityCount }}</span>
           </div>
+          <div class="status-actions">
+            <button class="btn-clear-all" @click="openClearAllDialog">
+              ⚠️ 清空所有数据
+            </button>
+            <button class="btn-clear-view" @click="clearView">
+              🗑️ 清空视图
+            </button>
+          </div>
         </div>
 
         <!-- 单文件上传 -->
@@ -45,7 +53,7 @@
             <input
               ref="fileInputRef"
               type="file"
-              accept=".pdf,.txt,.md,.docx"
+              accept=".txt,.md,.pdf,.docx,.doc,.pptx,.xlsx,.csv,.json,.jsonl,.html,.xml,.eml,.msg"
               multiple
               @change="handleFileSelect"
               style="display: none"
@@ -53,7 +61,7 @@
             <div class="upload-hint">
               <span class="upload-icon">📄</span>
               <span>点击或拖拽文件到此处</span>
-              <span class="upload-formats">支持 PDF, TXT, MD, DOCX</span>
+              <span class="upload-formats">支持 TXT, MD, PDF, DOCX, DOC, PPTX, XLSX, CSV, JSON, JSONL, HTML, XML, EML, MSG</span>
             </div>
           </div>
           <button class="btn-upload" @click="triggerFileUpload">选择文件</button>
@@ -114,15 +122,6 @@
               <button class="btn-delete" @click="deleteDocument(doc.id)" title="删除">×</button>
             </div>
           </div>
-          <button v-if="documents.length > 0" class="btn-refresh" @click="loadDocuments">
-            刷新列表
-          </button>
-          <button class="btn-clear-all" @click="openClearAllDialog">
-            ⚠️ 清空所有数据
-          </button>
-          <button class="btn-clear-view" @click="clearView">
-            🗑️ 清空视图
-          </button>
         </div>
       </aside>
 
@@ -131,12 +130,6 @@
         <div class="graph-header">
           <h3>知识图谱</h3>
           <div class="graph-controls">
-            <input
-              v-model="namespace"
-              type="text"
-              placeholder="namespace"
-              class="namespace-input"
-            />
             <button class="btn-refresh-graph" @click="loadGraphData">刷新</button>
           </div>
         </div>
@@ -177,8 +170,16 @@
             <span class="detail-value">{{ selectedNode.connections }}</span>
           </div>
           <div class="detail-item" v-if="selectedNode?.community_summary">
-            <span class="detail-label">社区摘要:</span>
-            <span class="detail-value">{{ selectedNode.community_summary }}</span>
+            <span class="detail-label">社区摘要</span>
+            <span class="community-summary-text">{{ selectedNode.community_summary }}</span>
+          </div>
+          <div class="detail-item" v-if="selectedNode?.entity_count">
+            <span class="detail-label">实体数量</span>
+            <span class="detail-value">{{ selectedNode.entity_count }}</span>
+          </div>
+          <div class="detail-item" v-if="selectedNode?.relationship_count">
+            <span class="detail-label">关系数量</span>
+            <span class="detail-value">{{ selectedNode.relationship_count }}</span>
           </div>
           <button class="btn-close-detail" @click="selectedNode = null">关闭</button>
         </div>
@@ -188,10 +189,11 @@
     <!-- 上传进度 -->
     <div v-if="uploading" class="upload-progress">
       <div class="progress-content">
-        <span>正在上传: {{ uploadingFile }}</span>
+        <span>{{ uploadingFile }} - {{ uploadStatus || '准备中...' }}</span>
         <div class="progress-bar">
           <div class="progress-fill" :style="{ width: uploadProgress + '%' }"></div>
         </div>
+        <span class="progress-percent">{{ uploadProgress }}%</span>
       </div>
     </div>
 
@@ -245,8 +247,8 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// API 配置
-const GRAPHRAG_API = 'http://localhost:8002/api/v1'
+// API 配置 - 使用 vite proxy (开发环境) 或环境变量 (生产环境)
+const GRAPHRAG_API = import.meta.env.VITE_GRAPHRAG_API || '/graphrag-api'
 
 // 状态
 const serviceStatus = ref({ connected: false })
@@ -255,7 +257,6 @@ const graphNodes = ref<any[]>([])
 const graphEdges = ref<any[]>([])
 const graphStats = ref({ entityCount: 0, relationshipCount: 0, communityCount: 0 })
 const graphLoading = ref(false)
-const namespace = ref('default')
 const selectedNode = ref<any>(null)
 const nodeTypes = ['PERSON', 'ORG', 'GPE', 'LOC', 'EVENT', 'TOOL', 'CONCEPT']
 
@@ -263,6 +264,7 @@ const nodeTypes = ['PERSON', 'ORG', 'GPE', 'LOC', 'EVENT', 'TOOL', 'CONCEPT']
 const uploading = ref(false)
 const uploadingFile = ref('')
 const uploadProgress = ref(0)
+const uploadStatus = ref('')  // 流式进度状态文本
 const message = ref('')
 const messageType = ref<'success' | 'error'>('success')
 
@@ -289,7 +291,7 @@ async function executeClearAll() {
       method: 'DELETE',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        namespace: namespace.value,
+        // namespace removed - environment isolation via separate GRAPHRAG_WORKSPACE
         confirm: clearAllInput.value
       })
     })
@@ -314,7 +316,7 @@ async function checkDuplicate(filename: string): Promise<{exists: boolean, doc?:
     const res = await fetch(`${GRAPHRAG_API}/documents/check-duplicate`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({filename, namespace: namespace.value})
+      body: JSON.stringify({filename})
     })
     if (res.ok) {
       return await res.json()
@@ -365,7 +367,7 @@ async function checkServiceStatus() {
 // 加载文档列表
 async function loadDocuments() {
   try {
-    const res = await fetch(`${GRAPHRAG_API}/documents?namespace=${namespace.value}`)
+    const res = await fetch(`${GRAPHRAG_API}/documents`)
     if (res.ok) {
       const docs = await res.json()
       documents.value = docs
@@ -376,13 +378,28 @@ async function loadDocuments() {
   }
 }
 
+// 获取社区摘要
+async function fetchCommunitySummary(communityId: string) {
+  try {
+    const res = await fetch(`${GRAPHRAG_API}/community/${communityId}/summary`)
+    if (res.ok) {
+      return await res.json()
+    }
+  } catch (e) {
+    console.error('[GraphRAG] Failed to fetch community summary:', e)
+  }
+  return null
+}
+
 // 加载图谱数据
 async function loadGraphData() {
   graphLoading.value = true
   try {
-    const res = await fetch(`${GRAPHRAG_API}/graph?namespace=${namespace.value}&max_nodes=100`)
+    console.log('[GraphRAG] Loading graph data...')
+    const res = await fetch(`${GRAPHRAG_API}/graph/?max_nodes=100`)
     if (res.ok) {
       const data = await res.json()
+      console.log('[GraphRAG] Graph data loaded:', data.nodes?.length, 'nodes,', data.edges?.length, 'edges')
       graphNodes.value = data.nodes || []
       graphEdges.value = data.edges || []
       graphStats.value = {
@@ -390,11 +407,15 @@ async function loadGraphData() {
         relationshipCount: graphEdges.value.length,
         communityCount: new Set(graphNodes.value.map(n => n.type)).size,
       }
+      console.log('[GraphRAG] Rendering graph with', graphNodes.value.length, 'nodes')
       await nextTick()
       renderGraph()
+      console.log('[GraphRAG] Graph rendered successfully')
+    } else {
+      console.error('[GraphRAG] Failed to load graph, status:', res.status)
     }
   } catch (e) {
-    console.error('Failed to load graph:', e)
+    console.error('[GraphRAG] Failed to load graph:', e)
   } finally {
     graphLoading.value = false
   }
@@ -404,7 +425,7 @@ async function loadGraphData() {
 async function deleteDocument(docId: string) {
   if (!confirm('确定删除此文档?')) return
   try {
-    const res = await fetch(`${GRAPHRAG_API}/documents/${docId}?namespace=${namespace.value}`, {
+    const res = await fetch(`${GRAPHRAG_API}/documents/${docId}`, {
       method: 'DELETE',
     })
     if (res.ok) {
@@ -449,13 +470,14 @@ function handleDrop(e: DragEvent) {
   }
 }
 
-// 上传文件
+// 上传文件（带流式进度）
 async function uploadFiles(files: File[]) {
   uploading.value = true
   uploadProgress.value = 0
 
   for (const file of files) {
     uploadingFile.value = file.name
+    uploadStatus.value = '准备上传...'
 
     // 检查是否已存在
     const dup = await checkDuplicate(file.name)
@@ -473,35 +495,113 @@ async function uploadFiles(files: File[]) {
     formData.append('doc', file)
 
     try {
-      const res = await fetch(`${GRAPHRAG_API}/index?namespace=${namespace.value}`, {
+      console.log('[GraphRAG] Uploading file with stream:', file.name)
+      uploadStatus.value = '连接服务器...'
+
+      const res = await fetch(`${GRAPHRAG_API}/index/stream`, {
         method: 'POST',
         body: formData,
       })
 
-      if (res.ok) {
-        uploadProgress.value = 100
-        showMessage(`${file.name} 上传成功`, 'success')
-      } else {
+      if (!res.ok) {
+        const err = await res.text()
+        console.error('[GraphRAG] Upload failed:', err)
+        uploadStatus.value = '上传失败'
         showMessage(`${file.name} 上传失败`, 'error')
+        continue
       }
+
+      // 使用 ReadableStream 读取 SSE
+      const reader = res.body?.getReader()
+      if (!reader) {
+        showMessage(`${file.name} 上传失败: 无法读取响应`, 'error')
+        continue
+      }
+
+      const decoder = new TextDecoder()
+      let buffer = ''
+
+      uploadStatus.value = '索引中...'
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || '' // 保留不完整的行
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const event = JSON.parse(line.slice(6))
+              console.log('[GraphRAG] Progress event:', event)
+
+              // 更新进度
+              uploadProgress.value = event.progress || 0
+              uploadStatus.value = event.message || '处理中...'
+
+              // 如果是最后一条日志，显示详情
+              if (event.details?.logs?.length) {
+                console.log('[GraphRAG] Latest log:', event.details.logs[event.details.logs.length - 1])
+              }
+            } catch (e) {
+              // 忽略解析错误
+            }
+          }
+        }
+      }
+
+      // 完成
+      uploadProgress.value = 100
+      uploadStatus.value = '上传成功'
+      console.log('[GraphRAG] Upload stream complete')
+      showMessage(`${file.name} 上传成功`, 'success')
+
     } catch (e) {
+      console.error('[GraphRAG] Upload error:', e)
+      uploadStatus.value = '上传失败'
       showMessage(`${file.name} 上传失败: ${e}`, 'error')
     }
   }
 
   uploading.value = false
-  loadDocuments()
-  loadGraphData()
+  uploadProgress.value = 0
+  uploadStatus.value = ''
+  // 延迟一下再加载图谱，确保服务器端数据已处理完成
+  setTimeout(() => {
+    console.log('[GraphRAG] Reloading graph after upload...')
+    loadDocuments()
+    loadGraphData()
+  }, 1000)
 }
 
 // 渲染图谱
-function renderGraph() {
-  if (!svgRef.value || !graphCanvasRef.value) return
+async function renderGraph() {
+  console.log('[GraphRAG] renderGraph called')
 
-  const svg = d3.select(svgRef.value)
-  const container = graphCanvasRef.value
+  // 等待DOM完全更新
+  await nextTick()
+  await nextTick() // 多等一次确保DOM完全渲染
+  console.log('[GraphRAG] After await nextTick')
+
+  // 直接通过DOM查找SVG元素
+  const svgElement = document.querySelector('.graph-svg') as SVGSVGElement | null
+  const container = document.querySelector('.graph-canvas') as HTMLElement | null
+
+  console.log('[GraphRAG] svgElement:', svgElement)
+  console.log('[GraphRAG] container:', container)
+
+  if (!svgElement || !container) {
+    console.log('[GraphRAG] ERROR: Cannot find SVG or container element')
+    return
+  }
+
+  const svg = d3.select(svgElement)
   const width = container.clientWidth
   const height = container.clientHeight
+
+  console.log('[GraphRAG] Container size:', width, 'x', height)
 
   svg.selectAll('*').remove()
   svg.attr('width', width).attr('height', height)
@@ -522,6 +622,14 @@ function renderGraph() {
   const nodes = graphNodes.value.map(n => ({...n}))
   const edges = graphEdges.value.map(e => ({...e}))
 
+  console.log('[GraphRAG] Prepared nodes:', nodes.length)
+  console.log('[GraphRAG] Prepared edges:', edges.length)
+  console.log('[GraphRAG] First node:', nodes[0])
+  console.log('[GraphRAG] First edge:', edges[0])
+
+  // 创建节点映射以便快速查找
+  const nodeMap = new Map(nodes.map((n: any) => [n.id, n]))
+
   // 创建力导向仿真
   const sim = d3.forceSimulation(nodes)
     .force('link', d3.forceLink(edges).id((d: any) => d.id).distance(100))
@@ -530,6 +638,10 @@ function renderGraph() {
     .force('collision', d3.forceCollide().radius(30))
 
   simulation.value = sim
+
+  console.log('[GraphRAG] Simulation created')
+  console.log('[GraphRAG] Nodes in simulation:', nodes.length)
+  console.log('[GraphRAG] Edges in simulation:', edges.length)
 
   // 绘制边
   const link = g.append('g')
@@ -541,6 +653,8 @@ function renderGraph() {
     .attr('stroke', '#ccc')
     .attr('stroke-width', 1)
 
+  console.log('[GraphRAG] Links appended:', link.size())
+
   // 绘制节点组
   const node = g.append('g')
     .attr('class', 'nodes')
@@ -549,6 +663,8 @@ function renderGraph() {
     .enter()
     .append('g')
     .style('cursor', 'pointer')
+
+  console.log('[GraphRAG] Nodes appended:', node.size())
 
   // 节点圆圈
   node.append('circle')
@@ -610,22 +726,17 @@ function renderGraph() {
     )
 
     // 获取社区摘要
+    let communitySummary = null
     if (d.community_id) {
-      try {
-        const res = await fetch(`${GRAPHRAG_API}/community/${d.community_id}/summary`)
-        if (res.ok) {
-          const summary = await res.json()
-          selectedNode.value = {
-            ...d,
-            connections: connectedEdges.length,
-            community_summary: summary.summary
-          }
-        }
-      } catch (e) {
-        selectedNode.value = {...d, connections: connectedEdges.length}
-      }
-    } else {
-      selectedNode.value = {...d, connections: connectedEdges.length}
+      communitySummary = await fetchCommunitySummary(d.community_id)
+    }
+
+    selectedNode.value = {
+      ...d,
+      connections: connectedEdges.length,
+      community_summary: communitySummary?.summary || '',
+      entity_count: communitySummary?.entity_count || 0,
+      relationship_count: communitySummary?.relationship_count || 0
     }
   })
 
@@ -638,15 +749,42 @@ function renderGraph() {
   })
 
   // 仿真tick更新位置
+  let tickCount = 0
   sim.on('tick', () => {
+    tickCount++
+    if (tickCount <= 3) {
+      console.log(`[GraphRAG] tick ${tickCount}:`, {
+        nodes: nodes.slice(0,2).map(n => ({id: n.id, x: n.x, y: n.y})),
+        links: edges.slice(0,2).map(e => ({source: e.source, target: e.target}))
+      })
+    }
     link
-      .attr('x1', (d: any) => d.source.x)
-      .attr('y1', (d: any) => d.source.y)
-      .attr('x2', (d: any) => d.target.x)
-      .attr('y2', (d: any) => d.target.y)
+      .attr('x1', (d: any) => {
+        const sourceNode = typeof d.source === 'object' ? d.source : nodeMap.get(d.source)
+        return sourceNode?.x || 0
+      })
+      .attr('y1', (d: any) => {
+        const sourceNode = typeof d.source === 'object' ? d.source : nodeMap.get(d.source)
+        return sourceNode?.y || 0
+      })
+      .attr('x2', (d: any) => {
+        const targetNode = typeof d.target === 'object' ? d.target : nodeMap.get(d.target)
+        return targetNode?.x || 0
+      })
+      .attr('y2', (d: any) => {
+        const targetNode = typeof d.target === 'object' ? d.target : nodeMap.get(d.target)
+        return targetNode?.y || 0
+      })
 
     node.attr('transform', (d: any) => `translate(${d.x},${d.y})`)
   })
+
+  // 仿真结束
+  sim.on('end', () => {
+    console.log('[GraphRAG] Simulation ended after', tickCount, 'ticks')
+  })
+
+  console.log('[GraphRAG] renderGraph completed')
 }
 
 function getNodeColor(type: string): string {
@@ -678,8 +816,9 @@ function showMessage(msg: string, type: 'success' | 'error') {
 
 // 清空视图
 function clearView() {
-  if (!svgRef.value) return
-  d3.select(svgRef.value).selectAll('*').remove()
+  const svgElement = svgRef.value || document.querySelector('.graph-svg')
+  if (!svgElement) return
+  d3.select(svgElement).selectAll('*').remove()
   graphNodes.value = []
   graphEdges.value = []
   selectedNode.value = null
@@ -750,6 +889,8 @@ function clearView() {
 .panel-left {
   width: 350px;
   flex-shrink: 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
 }
 
 .panel-right {
@@ -789,6 +930,13 @@ function clearView() {
 
 .status-value.connected {
   color: #4caf50;
+}
+
+.status-actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 /* 上传区域 */
@@ -893,7 +1041,7 @@ function clearView() {
 /* 文档列表 */
 .documents-section {
   flex: 1;
-  overflow: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -901,6 +1049,7 @@ function clearView() {
 .documents-list {
   flex: 1;
   overflow-y: auto;
+  min-height: 60px;
 }
 
 .empty-state {
@@ -995,14 +1144,6 @@ function clearView() {
 .graph-controls {
   display: flex;
   gap: 0.5rem;
-}
-
-.namespace-input {
-  padding: 0.35rem 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  width: 100px;
 }
 
 .btn-refresh-graph {
@@ -1106,6 +1247,18 @@ function clearView() {
   color: #666;
 }
 
+.detail-item.community-summary {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.community-summary-text {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
 .btn-close-detail {
   margin-top: 0.5rem;
   padding: 0.35rem 0.75rem;
@@ -1127,6 +1280,25 @@ function clearView() {
   padding: 1rem 2rem;
   box-shadow: 0 2px 12px rgba(0,0,0,0.15);
   z-index: 100;
+  min-width: 350px;
+}
+
+.progress-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.progress-content span:first-child {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.progress-percent {
+  font-size: 0.8rem;
+  color: #666;
+  text-align: right;
+  margin-top: 0.25rem;
 }
 
 .progress-bar {

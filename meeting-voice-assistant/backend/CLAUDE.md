@@ -200,52 +200,252 @@ curl http://localhost:8001/health
 
 ## GraphRAG 知识服务
 
-GraphRAG 模块已迁移到 `backend/app/graphrag/` 目录，作为独立服务运行：
+GraphRAG 模块已集成到 `backend/app/graphrag/` 目录，作为独立服务运行在 port 8002。
 
-```bash
-# 启动 GraphRAG 服务
-cd backend
-python3 -m uvicorn app.graphrag.main:app --host 0.0.0.0 --port 8002
+### 架构概览
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    GraphRAG 服务 (port 8002)                 │
+├─────────────────────────────────────────────────────────────┤
+│  API Layer (FastAPI)                                         │
+│  └── /api/v1/                                               │
+│      ├── index/        # 文档索引                            │
+│      ├── query/        # 知识查询                            │
+│      ├── summarize/    # 全局汇总                            │
+│      ├── graph/        # 图谱可视化数据                       │
+│      ├── community/   # 社区信息                            │
+│      ├── documents/    # 文档管理                            │
+│      └── realtime/     # 实时上下文注入查询                   │
+├─────────────────────────────────────────────────────────────┤
+│  Core Layer                                                  │
+│  └── MicrosoftGraphRAGAdapter                               │
+│      ├── index_document()      # 文档索引                    │
+│      ├── query()                # 知识查询                    │
+│      ├── summarize()            # 全局摘要                    │
+│      └── get_graph_data()       # 图谱数据                    │
+├─────────────────────────────────────────────────────────────┤
+│  Storage Layer (SQLite)                                      │
+│  └── database.py (异步 SQLAlchemy)                          │
+│      ├── entities, relationships, communities 表            │
+│      └── documents 表                                       │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│            Microsoft GraphRAG CLI (子进程)                   │
+├─────────────────────────────────────────────────────────────┤
+│  graphrag index --root ./rag_workspace --skip-validation     │
+│  graphrag query --root ./rag_workspace --method local/global │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    LLM Provider (LiteLLM)                    │
+├─────────────────────────────────────────────────────────────┤
+│  LLM: MiniMax M2.1 (api.minimax.chat) - 实体/关系提取        │
+│  Embedding: Ollama nomic-embed-text (localhost:11434)       │
+│              ⚠️ LiteLLM 调用 Ollama 有 502 兼容性 bug        │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### 实时转写中查询知识
+### 目录结构
 
-```python
-import httpx
-
-async def query_knowledge_during_transcription(query: str, context: str):
-    async with httpx.AsyncClient() as client:
-        response = await client.post(
-            "http://localhost:8002/api/v1/realtime/query",
-            json={
-                "query": query,
-                "context": context,
-                "namespace": "default",
-                "top_k": 5
-            }
-        )
-        return response.json()
+```
+app/graphrag/
+├── main.py                 # FastAPI 入口
+├── config.py               # 配置管理
+├── api/v1/
+│   ├── __init__.py
+│   ├── router.py           # API 路由聚合
+│   ├── index.py            # 文档索引端点
+│   ├── query.py            # 查询端点
+│   ├── summarize.py        # 汇总端点
+│   ├── graph.py            # 图谱数据端点
+│   ├── community.py        # 社区信息端点
+│   └── document.py         # 文档管理端点
+├── core/
+│   ├── __init__.py
+│   ├── base.py             # GraphRAGCore 抽象基类
+│   ├── registry.py         # 实现注册表
+│   ├── language_detector.py # 语言检测
+│   └── microsoft/
+│       ├── __init__.py
+│       └── adapter.py      # Microsoft GraphRAG 适配器
+├── storage/
+│   ├── __init__.py
+│   ├── models.py           # SQLAlchemy 模型
+│   └── database.py         # 异步数据库操作
+└── service/
+    └── context_injector.py  # 实时上下文注入
 ```
 
 ### GraphRAG API 端点
 
 | 端点 | 方法 | 描述 |
 |------|------|------|
-| `/api/v1/index` | POST | 文档索引 |
-| `/api/v1/query` | POST | 知识查询 |
-| `/api/v1/summarize` | POST | 全局汇总 |
-| `/api/v1/graph` | GET | 图谱可视化 |
-| `/api/v1/documents` | GET/DELETE | 文档管理 |
-| `/api/v1/realtime/query` | POST | 实时上下文注入查询 |
+| `/api/v1/index/` | POST | 文档索引 (multipart/form-data) |
+| `/api/v1/index/batch` | POST | 批量索引 |
+| `/api/v1/query/` | POST | 知识查询 (local/global) |
+| `/api/v1/summarize/` | POST | 全局汇总 |
+| `/api/v1/graph/` | GET | 图谱可视化数据 |
+| `/api/v1/community/{id}/summary` | GET | 社区摘要 |
+| `/api/v1/documents/` | GET | 文档列表 |
+| `/api/v1/documents/{id}` | DELETE | 删除文档 |
+| `/api/v1/realtime/query/` | POST | 实时上下文注入 |
 
-### GraphRAG 配置 (backend/app/graphrag/config.py)
+### 数据流
+
+#### 文档索引流程
+
+```
+1. POST /api/v1/index/ (上传文件)
+       │
+       ▼
+2. MicrosoftGraphRAGAdapter.index_document()
+       │  保存文件到 rag_workspace/input/
+       │  执行 graphrag index --root . (通过 wrapper 自动禁用系统代理)
+       ▼
+3. 解析 output/ 目录下的 parquet 文件
+       │  entities.parquet, relationships.parquet
+       │  communities.parquet
+       ▼
+4. 保存到 SQLite 数据库
+       │  entities, relationships, communities 表
+       ▼
+5. 返回索引结果 (实体数/关系数/社区数)
+```
+
+#### 查询流程
+
+```
+1. POST /api/v1/query/ (查询文本)
+       │
+       ▼
+2. MicrosoftGraphRAGAdapter.query()
+       │  执行 graphrag query --method local
+       ▼
+3. 解析 JSON 结果返回
+```
+
+### GraphRAG 配置
+
+#### 环境变量 (backend/app/graphrag/config.py)
 
 ```env
 GRAPHRAG_SERVICE_PORT=8002
-LLM_PROVIDER=dashscope
-LLM_API_KEY=sk-xxx
-LLM_MODEL=qwen-plus
+LLM_PROVIDER=minimax          # LLM 提供商
+LLM_API_KEY=sk-xxx            # API Key
+LLM_MODEL=MiniMax-M2.1       # 模型名称
+LLM_BASE_URL=https://api.minimax.chat/v1  # API 端点
 GRAPHRAG_WORKSPACE=./rag_workspace
+```
+
+#### settings.yaml (rag_workspace/settings.yaml)
+
+```yaml
+# LLM 配置 (completion)
+completion_models:
+  default_completion_model:
+    type: litellm
+    model_provider: minimax
+    model: MiniMax-M2.1
+    api_key: sk-xxx
+    api_base: https://api.minimax.chat/v1
+
+# Embedding 配置
+embedding_models:
+  default_embedding_model:
+    type: litellm
+    model_provider: ollama
+    model: nomic-embed-text
+    api_base: http://localhost:11434
+    api_key: ollama
+
+# 搜索配置
+search:
+  type: local
+  local:
+    mode: local
+    vectorizer: embed
+    max_tokens: 7500
+    temperature: 0.0
+```
+
+### 已知问题与解决方案
+
+#### 1. macOS 系统代理导致 Ollama embeddings 502 错误 (已解决)
+
+**问题描述**:
+- macOS 的 `networkserviceproxy` (NSS) 在系统级别拦截 HTTP 请求
+- httpx 默认使用 `trust_env=True`，读取系统代理设置
+- Ollama 不支持代理协议，导致 502 Bad Gateway
+
+**解决方案**:
+创建 `/tmp/graphrag_patched.py` 包装脚本，在导入 litellm 之前 patch httpx：
+
+```python
+import httpx
+
+_OriginalClient = httpx.Client
+_OriginalAsyncClient = httpx.AsyncClient
+
+class FixedClient(_OriginalClient):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('trust_env', False)  # 禁用系统代理
+        super().__init__(*args, **kwargs)
+
+httpx.Client = FixedClient
+httpx.AsyncClient = FixedAsyncClient
+```
+
+将 `/usr/local/bin/graphrag` 替换为调用此脚本的 wrapper。
+
+**状态**: ✅ 已解决 - 完全支持 Ollama embeddings
+
+#### 2. 环境隔离（替代 Namespace 方案）
+
+**方案**: 通过不同的 `GRAPHRAG_WORKSPACE` 目录实现环境隔离
+
+| 环境 | GRAPHRAG_WORKSPACE |
+|------|-------------------|
+| 开发环境 | `./rag_workspace_dev` |
+| 生产环境 | `./rag_workspace_prod` |
+
+每个环境有独立的：
+- `input/` 目录 — 存放待索引文档（直接存放，不分子目录）
+- `output/` 目录 — GraphRAG 索引输出
+- `graphrag.db` — SQLite 数据库
+
+**优点**:
+- 简化 API（无需 namespace 参数）
+- 目录结构扁平清晰
+- 环境隔离完全由文件系统保证
+
+#### 3. 文档删除限制
+
+**问题描述**:
+- 删除源文件后，GraphRAG 索引数据仍保留在 output 目录
+- 无法单独删除某个文档的索引
+
+**解决方案**:
+- 删除整个 output 目录后重新索引
+- 或为每个环境使用独立的 workspace
+
+### 启动和测试
+
+```bash
+# 启动 GraphRAG 服务
+cd backend
+source venv312/bin/activate
+python3 -m uvicorn app.graphrag.main:app --host 0.0.0.0 --port 8002
+
+# 测试索引（无需 namespace 参数）
+echo "test content" > /tmp/test.txt
+curl -s -L -X POST "http://localhost:8002/api/v1/index/" -F "doc=@/tmp/test.txt"
+
+# 测试图谱查询
+curl -s "http://localhost:8002/api/v1/graph/?max_nodes=50"
 ```
 
 ## 前端路由
