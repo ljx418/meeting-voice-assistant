@@ -161,17 +161,8 @@ const meetingDate = computed(() => {
 
 const audioDuration = computed(() => audioElement.value?.duration || 0)
 
-// Debug: log store state
-console.log('[MeetingConsole] store.chapters.length:', store.chapters.length)
-console.log('[MeetingConsole] store.chapters:', JSON.stringify(store.chapters).slice(0, 500))
-console.log('[MeetingConsole] store.speakers:', store.speakers)
-console.log('[MeetingConsole] store.decisions:', store.decisions)
-console.log('[MeetingConsole] store.topic:', store.topic)
-
 const chapters = computed(() => {
-  const result = store.chapters.length ? store.chapters : mockChapters
-  console.log('[MeetingConsole] chapters computed, using mockChapters:', !store.chapters.length)
-  return result
+  return store.chapters.length ? store.chapters : mockChapters
 })
 
 const currentChapterData = computed(() => {
@@ -283,7 +274,12 @@ function initAudio() {
     audioElement.value.addEventListener('loadedmetadata', () => {
       if (audioElement.value) {
         totalSeconds.value = audioElement.value.duration
-        console.log('[MeetingConsole] Audio duration:', totalSeconds.value)
+        // If there's a pending seek request, execute it now
+        if (pendingSeekTime.value !== null && audioElement.value.duration > 0) {
+          const seekTime = pendingSeekTime.value
+          pendingSeekTime.value = null
+          audioElement.value.currentTime = seekTime
+        }
       }
     })
     audioElement.value.addEventListener('timeupdate', () => {
@@ -318,15 +314,26 @@ function initAudio() {
 }
 
 // Watch for store.audioUrl changes - update audio when real audio URL is set
+// P0-2: Save current playback position before load, restore after
+let savedPlaybackPosition = 0
+
 watch(() => store.audioUrl, (newUrl) => {
-  console.log('[MeetingConsole] store.audioUrl changed:', newUrl ? 'set' : 'empty')
   if (newUrl && audioElement.value) {
     const src = newUrl || DEMO_AUDIO_URL
     if (audioSrc.value !== src) {
-      console.log('[MeetingConsole] Updating audio src to:', src)
+      // Save current playback position if playing
+      savedPlaybackPosition = audioElement.value.currentTime || 0
       audioSrc.value = src
       audioElement.value.src = src
       audioElement.value.load()
+      // Restore position after metadata loads
+      const restoredPosition = savedPlaybackPosition
+      audioElement.value.addEventListener('loadedmetadata', function restorePosition() {
+        if (audioElement.value) {
+          audioElement.value.currentTime = restoredPosition
+          audioElement.value.removeEventListener('loadedmetadata', restorePosition)
+        }
+      }, { once: true })
     }
   }
 })
@@ -402,50 +409,52 @@ function seekTimeline(e: MouseEvent) {
   // 如果有真实音频，跳转到对应时间
   if (audioElement.value && audioDuration > 0) {
     const audioTime = (percent / 100) * audioDuration
-    console.log('[MeetingConsole] seek audio to:', audioTime, 'duration:', audioDuration)
     audioElement.value.currentTime = audioTime
   }
 }
+
+// Pending seek request (used when audio not loaded yet)
+const pendingSeekTime = ref<number | null>(null)
 
 function jumpToTime(time: number | undefined) {
   if (time === undefined) return
   // Use ACTUAL audio duration for ALL calculations
   const audioDuration = audioElement.value?.duration || 0
-  console.log('[MeetingConsole] jumpToTime RECEIVED:', time,
-    'audioDuration:', audioDuration,
-    'chapters count:', chapters.value.length,
-    'lastChapterEnd:', chapters.value[chapters.value.length - 1]?.end_time)
 
   // If audio loaded, use audio duration. Otherwise use chapter total but VALIDATE it.
   let total: number
   if (audioDuration > 0) {
     total = audioDuration
-    console.log('[MeetingConsole] Using audioDuration:', audioDuration)
   } else {
     // Fallback: use chapter end_time but cap it to a reasonable max
-    // If chapter end_time is hallucinated (e.g., 372s for 18:48 audio), cap it
     const lastChapterEnd = chapters.value[chapters.value.length - 1]?.end_time || 500
-    // Use chapter end_time only if it seems reasonable (less than 30 minutes)
     total = lastChapterEnd < 1800 ? lastChapterEnd : 500
-    console.log('[MeetingConsole] Using fallback total:', total, 'lastChapterEnd was:', lastChapterEnd)
   }
   progressPercent.value = Math.min((time / total) * 100, 100)
   totalSeconds.value = total
   const min = Math.floor(time / 60)
   const sec = Math.floor(time % 60)
   currentTime.value = `${min}:${String(sec).padStart(2, '0')}`
-  console.log('[MeetingConsole] jumpToTime: setting currentTime to', time, 'total:', total, 'audioDuration:', audioDuration)
 
-  // 如果有真实音频，跳转到对应时间
+  // If audio element exists, seek to the time
   if (audioElement.value) {
     if (audioDuration > 0) {
+      // Audio already loaded, seek directly
       audioElement.value.currentTime = time
-      console.log('[MeetingConsole] Audio seeked to:', time, 'audio.duration:', audioDuration)
     } else {
-      console.log('[MeetingConsole] NO audio loaded, cannot seek. audioElement exists:', !!audioElement.value)
+      // Audio not loaded yet, save pending seek and trigger loading
+      pendingSeekTime.value = time
+      // Trigger audio load by setting src and loading
+      const src = store.audioUrl || DEMO_AUDIO_URL
+      if (audioSrc.value !== src) {
+        audioSrc.value = src
+        audioElement.value.src = src
+        audioElement.value.load()
+      } else {
+        // Already has correct src, just trigger metadata load
+        audioElement.value.load()
+      }
     }
-  } else {
-    console.log('[MeetingConsole] NO audioElement, cannot seek')
   }
 }
 
