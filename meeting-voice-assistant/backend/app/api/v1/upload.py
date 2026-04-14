@@ -10,7 +10,7 @@ import tempfile
 import os
 import json
 from pathlib import Path
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from datetime import datetime
 
 from fastapi import APIRouter, UploadFile, File, HTTPException
@@ -57,6 +57,111 @@ def _format_timestamp(seconds: float) -> str:
     minutes = int((seconds % 3600) // 60)
     secs = int(seconds % 60)
     return f"{hours:02d}:{minutes:02d}:{secs:02d}"
+
+
+def _recalculate_chapter_timestamps(chapters: List[Dict[str, Any]], segments: List) -> List[Dict[str, Any]]:
+    """
+    根据实际 ASR segment 时间戳重新计算章节的 start_time 和 end_time
+
+    LLM 生成的章节时间可能不准确（如 hallucinate 导致 end_time < start_time
+    或 end_time 超过实际音频时长）。此函数通过 speaker_summary.source_timestamps
+    重新计算每个章节的起止时间。
+
+    策略：
+    - 遍历所有 speaker_summary 的 source_timestamps
+    - 取所有 speaker 的最早 start 和最晚 end 作为章节边界
+    - 确保 end_time 不超过音频实际时长
+    """
+    if not chapters or not segments:
+        logger.warning("[ChapterTimestamp] Empty chapters or segments, returning as-is")
+        return chapters
+
+    # 计算实际音频时长（基于最后一个 segment 的 end_time）
+    # segments 可能是 TranscriptSegmentResponse 或 TranscriptSegment 对象
+    try:
+        audio_duration = segments[-1].end_time if segments else 0.0
+        logger.info(f"[ChapterTimestamp] audio_duration from last segment: {audio_duration:.1f}s, segments count: {len(segments)}")
+    except (AttributeError, IndexError):
+        audio_duration = 0.0
+        logger.warning("[ChapterTimestamp] Could not get audio_duration from segments")
+
+    # 辅助函数：从 source_timestamps 获取起止时间（处理 dict 和对象）
+    def _get_bounds(stamps) -> tuple:
+        if not stamps:
+            return (0.0, 0.0)
+        starts, ends = [], []
+        for ts in stamps:
+            if isinstance(ts, dict):
+                starts.append(ts.get("开始", ts.get("start", 0)))
+                ends.append(ts.get("结束", ts.get("end", 0)))
+            elif hasattr(ts, 'start') and hasattr(ts, 'end'):
+                starts.append(ts.start)
+                ends.append(ts.end)
+        return (min(starts) if starts else 0.0, max(ends) if ends else 0.0)
+
+    corrected = []
+    for chapter in chapters:
+        original_start = chapter.get("start_time", 0)
+        original_end = chapter.get("end_time", 0)
+        logger.info(f"[ChapterTimestamp] Chapter '{chapter.get('title', 'N/A')}': original start={original_start}, end={original_end}")
+
+        # 从 speaker_summaries 获取时间范围
+        speaker_summaries = chapter.get("speaker_summaries", [])
+        all_starts = []
+        all_ends = []
+
+        for ss in speaker_summaries:
+            source_ts = ss.get("source_timestamps", [])
+            s, e = _get_bounds(source_ts)
+            logger.info(f"[ChapterTimestamp]   Speaker '{ss.get('speaker', 'N/A')}': source_timestamps={source_ts}, bounds=({s:.1f}, {e:.1f})")
+            if s > 0 or e > 0:
+                all_starts.append(s)
+                all_ends.append(e)
+
+        if all_starts and all_ends:
+            new_start = min(all_starts)
+            new_end = min(max(all_ends), audio_duration if audio_duration > 0 else max(all_ends))
+            logger.info(f"[ChapterTimestamp]   Recalculated from timestamps: start={new_start:.1f}, end={new_end:.1f}")
+        else:
+            # 无法从 speaker_summaries 计算，保持原值（后续保护）
+            new_start = original_start
+            new_end = original_end
+            logger.warning(f"[ChapterTimestamp]   No valid timestamps, keeping original: start={new_start}, end={new_end}")
+            # 保护：end 不超过 audio_duration
+            if audio_duration > 0 and new_end > audio_duration:
+                new_end = audio_duration
+                logger.info(f"[ChapterTimestamp]   Capped end to audio_duration: {new_end:.1f}")
+            # 保护：start 不超过 end
+            if new_start > new_end:
+                new_start = max(0, new_end - 60.0)  # fallback: 至少给 60 秒时长
+                logger.warning(f"[ChapterTimestamp]   Fixed start > end, new_start={new_start:.1f}")
+
+        corrected.append({
+            **chapter,
+            "start_time": new_start,
+            "end_time": new_end,
+        })
+
+    logger.info(
+        f"[ChapterTimestamp] Recalculated {len(corrected)} chapters, "
+        f"audio_duration={audio_duration:.1f}s"
+    )
+    for i, ch in enumerate(corrected):
+        logger.info(f"[ChapterTimestamp]   Final chapter[{i}] '{ch.get('title', 'N/A')}': start={ch.get('start_time', 0):.1f}, end={ch.get('end_time', 0):.1f}")
+    return corrected
+
+
+def _save_intermediate_result(session_id: str, stage: str, data: Dict[str, Any]) -> None:
+    """保存中间结果到 workspace/output/{session_id}/{stage}.json"""
+    try:
+        session_dir = config.WORKSPACE_OUTPUT_DIR / session_id
+        session_dir.mkdir(parents=True, exist_ok=True)
+        file_path = session_dir / f"{stage}.json"
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        logger.info(f"[Upload {session_id}] Saved {stage} to {file_path}")
+    except Exception as e:
+        logger.warning(f"[Upload {session_id}] Failed to save {stage}: {e}")
 
 
 async def _save_upload_transcript(session_id: str, transcript_results: List, analysis_result=None) -> None:
@@ -140,8 +245,16 @@ class UploadResponse(BaseModel):
     message: str
     transcript: Optional[str] = None
     segments: Optional[List[TranscriptSegmentResponse]] = None  # 结构化转写片段
+    # 统一格式字段
+    chapters: Optional[List[Dict[str, Any]]] = None
+    theme: Optional[str] = None
+    topics: Optional[List[str]] = None
+    speaker_roles: Optional[List[Dict[str, str]]] = None
+    # 兼容字段
     analysis: Optional[dict] = None
     file_path: Optional[str] = None
+    # 音频 URL（用于前端播放）
+    audio_url: Optional[str] = None
 
 
 @router.post("/upload", response_model=UploadResponse)
@@ -209,21 +322,39 @@ async def upload_audio_file(
     temp_file = temp_dir / f"{session_id}.{ext}"
 
     try:
-        # 保存上传的文件
+        # 保存上传的文件（流式写入，避免大文件 OOM）
         logger.info(f"[Upload {session_id}] Saving file: {temp_file}")
-        content = await file.read()
-        file_size = len(content)
-
-        # 检查文件大小 (DashScope 大文件 API 支持最大 512MB)
         max_size = 512 * 1024 * 1024  # 512MB
-        if file_size > max_size:
-            raise HTTPException(
-                status_code=400,
-                detail=f"文件太大: {file_size / (1024*1024):.1f}MB。最大支持 512MB。"
-            )
+        file_size = 0
 
         with open(temp_file, 'wb') as f:
-            f.write(content)
+            # 先读取一小块检查文件是否过大
+            initial_chunk = await file.read(1024 * 1024)  # 1MB 头
+            if len(initial_chunk) > max_size:
+                f.close()
+                os.remove(temp_file)
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"文件太大: {len(initial_chunk) / (1024*1024):.1f}MB。最大支持 512MB。"
+                )
+            f.write(initial_chunk)
+            file_size = len(initial_chunk)
+
+            # 流式读取剩余内容
+            while True:
+                chunk = await file.read(64 * 1024 * 1024)  # 每次 64MB
+                if not chunk:
+                    break
+                f.write(chunk)
+                file_size += len(chunk)
+                # 写入时检查是否超限
+                if file_size > max_size:
+                    f.close()
+                    os.remove(temp_file)
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"文件太大: {file_size / (1024*1024):.1f}MB。最大支持 512MB。"
+                    )
         logger.info(f"[Upload {session_id}] File saved: {file_size} bytes")
 
         # 更新状态：文件保存完成，开始转写
@@ -247,15 +378,41 @@ async def upload_audio_file(
         logger.info(f"[Upload {session_id}] Starting transcription...")
 
         transcript_results: List = []  # 收集所有 ASRResult
+        speakers: set = set()  # 收集说话人
+        total_duration = 0.0  # 音频总时长
         try:
             # 读取音频文件并转写
             async for result in asr_adapter.recognize_file(temp_file):
                 transcript_results.append(result)
-                # 更新进度：转写中
+                # 收集说话人
+                if result.speaker:
+                    speakers.add(result.speaker)
+                # 收集时长
+                if result.end_time > total_duration:
+                    total_duration = result.end_time
+                # 计算预估剩余时间
+                elapsed = (datetime.now() - status_manager.get(session_id).started_at).total_seconds() if status_manager.get(session_id) else 1
+                processed_count = len(transcript_results)
+                # 简单估算：假设 10% 进度时开始转写，每识别一段估算剩余时间
+                if processed_count > 0 and total_duration > 0:
+                    # 估算完成需要的时间，基于已识别片段占总时长的比例
+                    # 添加边界检查避免除零和负数
+                    denominator = min(0.4, 0.1 + processed_count * 0.02)
+                    if denominator > 0 and elapsed > 0:
+                        estimated_total = elapsed / denominator
+                        remaining = max(0, int(estimated_total - elapsed))
+                    else:
+                        remaining = None
+                else:
+                    remaining = None
+                # 更新进度：转写中 (10-40%)
                 status_manager.update(
                     session_id,
-                    progress=min(40, 10 + len(transcript_results) * 5),
-                    message=f"正在识别语音... 已识别 {len(transcript_results)} 段"
+                    progress=min(40, 10 + len(transcript_results) * 2),
+                    message=f"正在识别语音... 已识别 {len(transcript_results)} 段",
+                    remaining_time_seconds=remaining,
+                    speaker_count=len(speakers),
+                    segment_count=len(transcript_results),
                 )
                 logger.info(f"[Upload {session_id}] Transcribed: {result.text[:50]}...")
 
@@ -267,7 +424,9 @@ async def upload_audio_file(
             session_id,
             stage=ProcessingStage.ANALYZING,
             progress=50,
-            message=f"语音识别完成，共 {len(transcript_results)} 段，开始深度分析..."
+            message=f"语音识别完成，共 {len(transcript_results)} 段，开始深度分析...",
+            speaker_count=len(speakers),
+            segment_count=len(transcript_results),
         )
 
         # 构建转写文本
@@ -283,6 +442,23 @@ async def upload_audio_file(
             )
             for r in transcript_results
         ]
+
+        # 保存转写中间结果
+        _save_intermediate_result(session_id, "transcript", {
+            "stage": "transcription",
+            "segment_count": len(transcript_results),
+            "speaker_count": len(speakers),
+            "total_duration": total_duration,
+            "segments": [
+                {
+                    "text": r.text,
+                    "speaker": r.speaker or "unknown",
+                    "start_time": r.start_time,
+                    "end_time": r.end_time
+                }
+                for r in transcript_results
+            ]
+        })
 
         # 如果有录音，调用 LLM 分析
         analysis_result = None
@@ -342,24 +518,74 @@ async def upload_audio_file(
         # 标记处理完成
         status_manager.complete(session_id, "文件处理完成")
 
+        # 优先使用 audio_analysis_result（AudioAnalyzer 使用 MiniMax/DeepSeek，结构更完整）
+        # 如果没有，则使用 analysis_result（LLMAnalyzer 使用 DashScope）
+        primary_result = audio_analysis_result or analysis_result
+
+        # 转换结果为字典格式
+        def to_dict_list(items, to_dict_attr='to_dict'):
+            """将对象列表转换为字典列表"""
+            result = []
+            for item in items:
+                if hasattr(item, to_dict_attr):
+                    result.append(getattr(item, to_dict_attr)())
+                elif isinstance(item, dict):
+                    result.append(item)
+            return result
+
+        chapters_dict = to_dict_list(primary_result.chapters) if primary_result else []
+        logger.info(f"[Upload {session_id}] LLM returned {len(chapters_dict)} chapters, segments count: {len(segments) if segments else 0}")
+
+        # 关键修复：用实际 ASR segment 时间戳重新计算章节 start_time/end_time
+        # LLM 生成的章节时间可能 hallucinate（如 end_time < start_time 或超出音频时长）
+        if chapters_dict and segments:
+            logger.info(f"[Upload {session_id}] Recalculating chapter timestamps...")
+            chapters_dict = _recalculate_chapter_timestamps(chapters_dict, segments)
+            logger.info(f"[Upload {session_id}] After recalculation: {len(chapters_dict)} chapters")
+        else:
+            logger.warning(f"[Upload {session_id}] Skipping recalculation: chapters={bool(chapters_dict)}, segments={bool(segments)}")
+        speaker_roles_dict = to_dict_list(primary_result.speaker_roles) if primary_result else []
+
+        # 保存分析中间结果
+        if primary_result:
+            _save_intermediate_result(session_id, "analysis", {
+                "stage": "analysis",
+                "theme": primary_result.theme,
+                "summary": primary_result.summary,
+                "chapters": chapters_dict,
+                "speaker_roles": speaker_roles_dict,
+                "topics": primary_result.topics,
+                "key_points": primary_result.key_points,
+                "action_items": primary_result.action_items,
+            })
+
+        # 构建音频 URL（供前端播放使用）
+        audio_url = f"http://localhost:8000/api/v1/upload/{session_id}/audio"
+        logger.info(f"[Upload {session_id}] Audio URL: {audio_url}")
+
         return UploadResponse(
             success=True,
             session_id=session_id,
             message="文件处理完成",
             transcript=transcript_text,
             segments=segments,
+            # 统一格式字段（按段落维度输出）
+            chapters=chapters_dict,
+            theme=primary_result.theme if primary_result else None,
+            topics=primary_result.topics if primary_result else [],
+            speaker_roles=speaker_roles_dict,
+            # 兼容字段（新版统一格式）
             analysis={
-                # 原有分析结果（兼容）
-                "summary": analysis_result.summary if analysis_result else None,
-                "key_points": analysis_result.key_points if analysis_result else [],
-                "action_items": analysis_result.action_items if analysis_result else [],
-                "topics": analysis_result.topics if analysis_result else [],
-                # 新的深度分析结果
-                "theme": audio_analysis_result.theme if audio_analysis_result else None,
-                "chapters": audio_analysis_result.chapters if audio_analysis_result else [],
-                "speaker_roles": audio_analysis_result.speaker_roles if audio_analysis_result else [],
-            } if analysis_result or audio_analysis_result else None,
-            file_path=str(temp_file)
+                "summary": primary_result.summary if primary_result else None,
+                "key_points": primary_result.key_points if primary_result else [],
+                "action_items": primary_result.action_items if primary_result else [],
+                "topics": primary_result.topics if primary_result else [],
+                "theme": primary_result.theme if primary_result else None,
+                "chapters": chapters_dict,
+                "speaker_roles": speaker_roles_dict,
+            } if primary_result else None,
+            file_path=str(temp_file),
+            audio_url=audio_url
         )
 
     except Exception as e:
@@ -367,23 +593,19 @@ async def upload_audio_file(
         import traceback
         logger.error(f"[Upload {session_id}] Traceback: {traceback.format_exc()}")
         status_manager.error(session_id, str(e))
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="文件处理失败，请稍后重试。")
 
     finally:
-        # 清理临时文件
-        try:
-            if temp_file.exists():
-                os.remove(temp_file)
-                logger.info(f"[Upload {session_id}] Temp file cleaned up")
-        except Exception as e:
-            logger.warning(f"[Upload {session_id}] Failed to cleanup temp file: {e}")
+        # 保留临时文件以便前端通过 /upload/{session_id}/audio 访问
+        # 清理由 audio_cache cleanup 或定时任务完成
+        logger.info(f"[Upload {session_id}] Temp file kept at {temp_file} for audio streaming")
 
 
 @router.get("/upload/formats")
 async def get_supported_formats():
     """获取支持的文件格式"""
     return {
-        "supported_formats": [
+        "formats": [
             {"extension": "mp3", "mime_type": "audio/mpeg", "description": "MP3 音频"},
             {"extension": "mp4", "mime_type": "audio/mp4", "description": "MP4 音频/视频"},
             {"extension": "wav", "mime_type": "audio/wav", "description": "WAV 音频"},
@@ -394,6 +616,56 @@ async def get_supported_formats():
         ],
         "max_file_size_mb": 100
     }
+
+
+@router.get("/upload/{session_id}/audio")
+async def get_uploaded_audio(session_id: str):
+    """
+    获取上传的音频文件（用于前端播放）
+
+    Args:
+        session_id: 上传会话 ID
+
+    Returns:
+        Audio file stream
+    """
+    # 临时文件存储在 temp_dir / session_id . ext
+    temp_dir = Path(tempfile.gettempdir()) / "voice_upload"
+
+    # 查找对应的音频文件（尝试各种可能的扩展名）
+    possible_files = []
+    for ext in ['mp3', 'mp4', 'wav', 'm4a', 'ogg', 'flac', 'webm']:
+        f = temp_dir / f"{session_id}.{ext}"
+        if f.exists():
+            possible_files.append(f)
+
+    if not possible_files:
+        logger.warning(f"[Audio] File not found for session {session_id}")
+        raise HTTPException(status_code=404, detail="音频文件不存在或已过期")
+
+    audio_file = possible_files[0]
+    ext = audio_file.suffix.lower()
+
+    # 根据扩展名确定 content-type
+    content_types = {
+        '.mp3': 'audio/mpeg',
+        '.mp4': 'audio/mp4',
+        '.m4a': 'audio/m4a',
+        '.wav': 'audio/wav',
+        '.ogg': 'audio/ogg',
+        '.flac': 'audio/flac',
+        '.webm': 'video/webm',
+    }
+    content_type = content_types.get(ext, 'application/octet-stream')
+
+    logger.info(f"[Audio] Streaming audio for session {session_id}: {audio_file}")
+
+    from fastapi.responses import FileResponse
+    return FileResponse(
+        path=audio_file,
+        media_type=content_type,
+        filename=audio_file.name
+    )
 
 
 # ============ 文本分析接口 ============
@@ -442,12 +714,22 @@ async def analyze_text(request: AnalyzeRequest):
         audio_analyzer = AudioAnalyzer()
         result = audio_analyzer.analyze_transcript(request.text)
 
+        # 转换 AnalysisResult 中的对象为字典
+        def to_dict_list(items):
+            result_list = []
+            for item in items:
+                if hasattr(item, 'to_dict'):
+                    result_list.append(item.to_dict())
+                elif isinstance(item, dict):
+                    result_list.append(item)
+            return result_list
+
         return AnalyzeResponse(
             success=True,
             theme=result.theme,
             summary=result.summary,
-            chapters=result.chapters,
-            speaker_roles=result.speaker_roles,
+            chapters=to_dict_list(result.chapters),
+            speaker_roles=to_dict_list(result.speaker_roles),
             topics=result.topics,
             key_points=result.key_points,
             action_items=result.action_items,

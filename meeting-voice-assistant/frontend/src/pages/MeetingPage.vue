@@ -1,655 +1,1229 @@
 <template>
-  <div id="app">
-    <header class="app-header">
-      <h1>会议语音助手</h1>
-      <p class="subtitle">实时语音识别会议助手</p>
-      <button class="btn-nav" @click="goToGraphRAG">
-        知识图谱 →
-      </button>
+  <div class="upload-page">
+    <!-- Header -->
+    <header class="page-header">
+      <h1 class="page-title">会议音频上传</h1>
     </header>
 
-    <main class="app-main">
-      <!-- 三栏布局 -->
-      <div class="three-panel-layout" ref="layoutRef">
-
-        <!-- 左侧面板：录音控制 + 文件上传 -->
-        <aside class="panel panel-left" :style="{ width: `${leftWidth}px` }">
-          <div class="panel-section">
-            <h3>录音控制</h3>
-            <ControlBar
-              :is-connected="isConnected"
-              :connecting="connecting"
-              :session-id="sessionId"
-              :is-recording="isRecording"
-              @connect="handleConnect"
-              @disconnect="handleDisconnect"
+    <!-- Main Content -->
+    <main class="page-content">
+      <div class="content-wrapper">
+        <!-- Meeting Title Section -->
+        <div class="title-section">
+          <label class="section-label">会议总标题</label>
+          <div class="title-input-wrapper">
+            <input
+              v-if="!meetingTitle"
+              type="text"
+              class="title-input"
+              placeholder="请输入会议总标题"
+              v-model="meetingTitleInput"
             />
-            <AudioRecorder
-              :is-connected="isConnected"
-              :ws-client="client"
-              @start="handleRecordingStart"
-              @pause="handleRecordingPause"
-              @resume="handleRecordingResume"
-              @stop="handleRecordingStop"
-            />
-          </div>
-
-          <div class="panel-section">
-            <h3>文件上传</h3>
-            <FileUploader
-              @transcript="handleFileTranscript"
-              @processing-log="handleProcessingLog"
-              @processing-reset="handleProcessingReset"
-            />
-          </div>
-        </aside>
-
-        <!-- 控制柄1 -->
-        <div
-          class="resize-handle"
-          @mousedown="startResize($event, 1)"
-        ></div>
-
-        <!-- 中间面板：控制台 + 识别结果 -->
-        <section class="panel panel-center" :style="{ width: `${centerWidth}px` }">
-          <!-- 处理状态 Console - 常驻显示 -->
-          <div class="processing-console">
-            <div class="console-header">
-              <span class="console-title">处理日志</span>
-              <button class="console-clear" @click="clearProcessingLogs">清除</button>
+            <div v-else class="title-display">
+              {{ meetingTitle }}
             </div>
-            <div class="console-log">
-              <div v-if="processingLogs.length === 0" class="console-line">
-                <span class="console-time">--:--:--</span>
-                <span class="console-indicator">▸</span>
-                <span class="console-message">等待处理...</span>
+          </div>
+        </div>
+
+        <!-- Processing Status Card (shown while uploading/processing) -->
+        <div v-if="hasProcessingFile" class="processing-section">
+          <div class="processing-header">
+            <div class="processing-info">
+              <span class="processing-file">{{ processingFileName }}</span>
+              <span class="processing-stage" :class="debugStore.stage">
+                {{ getStageLabel(debugStore.stage) }}
+              </span>
+            </div>
+            <div class="processing-progress">
+              <span>{{ debugStore.progress }}%</span>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-bar-container">
+            <div class="progress-bar" :style="{ width: debugStore.progress + '%' }"></div>
+          </div>
+
+          <!-- Stats Row -->
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-label">说话人</span>
+              <span class="stat-value">{{ debugStore.speakerCount || '-' }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">片段数</span>
+              <span class="stat-value">{{ debugStore.segmentCount || '-' }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">剩余时间</span>
+              <span class="stat-value">{{ formatTime(debugStore.remainingTime) }}</span>
+            </div>
+            <div class="stat-item flex-1">
+              <span class="stat-label">状态</span>
+              <span class="stat-value">{{ debugStore.message || '等待中...' }}</span>
+            </div>
+          </div>
+
+          <!-- Quick Results (shown when completed) -->
+          <div v-if="debugStore.stage === 'completed' && debugStore.analysisResult" class="quick-results">
+            <div class="result-theme">
+              <span class="result-label">主题</span>
+              <span class="result-value">{{ debugStore.analysisResult.theme || '-' }}</span>
+            </div>
+            <div class="result-chapters">
+              <span class="result-label">章节</span>
+              <span class="result-value">{{ debugStore.analysisResult.chapters?.length || 0 }} 个</span>
+            </div>
+          </div>
+
+          <!-- Tabs for Details -->
+          <div v-if="debugStore.stage === 'completed'" class="detail-tabs">
+            <button
+              v-for="tab in detailTabs"
+              :key="tab.id"
+              class="tab-btn"
+              :class="{ active: activeDetailTab === tab.id }"
+              @click="activeDetailTab = tab.id"
+            >
+              {{ tab.label }}
+              <span class="tab-count" v-if="tab.count !== undefined">{{ tab.count }}</span>
+            </button>
+          </div>
+
+          <!-- Transcript Preview -->
+          <div v-if="debugStore.stage === 'completed' && activeDetailTab === 'transcript'" class="detail-content">
+            <div v-if="debugStore.transcriptResult" class="segment-list">
+              <div v-for="(seg, idx) in debugStore.transcriptResult.segments?.slice(0, 20)" :key="idx" class="segment-item">
+                <span class="seg-time">[{{ formatTime(seg.start_time) }}]</span>
+                <span class="seg-speaker">{{ seg.speaker }}</span>
+                <span class="seg-text">{{ seg.text }}</span>
               </div>
-              <div
-                v-for="(log, index) in processingLogs"
-                :key="index"
-                class="console-line"
-                :class="{ 'in-progress': log.status === 'progress', completed: log.status === 'completed' }"
-              >
-                <span class="console-time">{{ log.timestamp }}</span>
-                <span class="console-indicator">{{ log.status === 'progress' ? '▸' : '✓' }}</span>
-                <span class="console-message">{{ log.message }}</span>
+              <div v-if="(debugStore.transcriptResult.segments?.length || 0) > 20" class="more-hint">
+                还有 {{ debugStore.transcriptResult.segments.length - 20 }} 个片段...
+              </div>
+            </div>
+            <div v-else class="empty-hint">暂无转写数据</div>
+          </div>
+
+          <!-- Analysis Preview -->
+          <div v-if="debugStore.stage === 'completed' && activeDetailTab === 'analysis'" class="detail-content">
+            <div v-if="debugStore.analysisResult" class="chapter-list">
+              <div v-for="chapter in (debugStore.analysisResult.chapters || []).slice(0, 5)" :key="chapter.id" class="chapter-item">
+                <div class="chapter-header">
+                  <span class="chapter-title">{{ chapter.title }}</span>
+                  <span class="chapter-time">[{{ formatTime(chapter.start_time) }} - {{ formatTime(chapter.end_time) }}]</span>
+                </div>
+                <div class="chapter-summary">{{ chapter.summary }}</div>
+              </div>
+            </div>
+            <div v-else class="empty-hint">暂无分析数据</div>
+          </div>
+        </div>
+
+        <!-- Upload Area (shown when no files) -->
+        <div v-else-if="uploadedFiles.length === 0" class="upload-section">
+          <div
+            class="upload-area"
+            :class="{ 'drag-over': isDragOver }"
+            @dragover.prevent="isDragOver = true"
+            @dragleave="isDragOver = false"
+            @drop.prevent="handleDrop"
+            @click="triggerFileInput"
+          >
+            <div class="upload-icon">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <path d="M20 10V25M20 10L13 17M20 10L27 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 30V34C8 35.1046 8.89543 36 10 36H30C31.1046 36 32 35.1046 32 34V30" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="upload-title">上传会议音频</h3>
+            <p class="upload-hint">拖拽文件到此处，或点击选择文件</p>
+            <p class="upload-formats">支持 MP3、WAV、M4A 格式，最大 500MB</p>
+            <button class="btn-select" type="button">选择文件</button>
+          </div>
+
+          <div class="demo-section">
+            <p class="demo-hint">想快速体验功能？</p>
+            <button class="btn-demo" @click="useDemoAudio">
+              使用示例音频体验
+            </button>
+          </div>
+        </div>
+
+        <!-- Uploaded Files List (shown when files exist and not processing) -->
+        <div v-else class="files-section">
+          <h3 class="files-heading">已添加音频 ({{ uploadedFiles.length }})</h3>
+
+          <div class="files-list">
+            <div
+              v-for="file in uploadedFiles"
+              :key="file.id"
+              class="audio-card"
+            >
+              <div class="card-content">
+                <div class="file-icon">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M4 4V16H16V7L11 2H4Z" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M11 2V5H14" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="file-info">
+                  <div class="file-row">
+                    <span class="file-name">{{ file.name }}</span>
+                    <span class="file-size">{{ file.size }}</span>
+                  </div>
+                  <div class="topic-row">
+                    <span class="topic-name">{{ file.topic || '未分类' }}</span>
+                  </div>
+                  <div class="status-row">
+                    <span class="status-text" :class="file.status">
+                      {{ file.status === 'completed' ? '已完成' : '处理中' }}
+                    </span>
+                    <span class="duration">{{ file.duration || '--:--' }}</span>
+                  </div>
+                </div>
+                <button class="btn-delete" @click="removeFile(file.id)">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="1.33" stroke-linecap="round"/>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
 
-          <!-- 识别结果区域 -->
-          <div class="result-section">
-            <div class="result-header">
-              <span class="result-count">{{ transcripts.length }} 条</span>
-              <button class="btn-clear" @click="clearTranscripts">清空</button>
-            </div>
-            <TranscriptPanel
-              :transcripts="transcripts"
-              :current-text="currentText"
-              mode="realtime"
-            />
+          <div class="add-more">
+            <button class="btn-add-more" @click="triggerFileInput">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="1.33" stroke-linecap="round"/>
+              </svg>
+              继续添加音频
+            </button>
           </div>
-        </section>
-
-        <!-- 控制柄2 -->
-        <div
-          class="resize-handle"
-          @mousedown="startResize($event, 2)"
-        ></div>
-
-        <!-- 右侧面板：会议总结 -->
-        <aside class="panel panel-right" :style="{ width: `${rightWidth}px` }">
-          <SummaryPanel
-            :analysis-result="analysisResult"
-            :chapters="chapters"
-            :transcripts="transcripts"
-            @analysis-result="handleAnalysisResult"
-          />
-        </aside>
-
+        </div>
       </div>
 
-      <!-- 错误提示 -->
-      <div v-if="error" class="error-toast">
-        {{ error.message }}
+      <!-- Bottom Bar (shown when files exist) -->
+      <div v-if="uploadedFiles.length > 0" class="bottom-bar">
+        <div class="bottom-status">
+          <span class="status-text">{{ completedCount }} / {{ uploadedFiles.length }} 个音频已完成</span>
+        </div>
+        <button class="btn-enter-console" @click="enterConsole">
+          进入会议控制台
+        </button>
       </div>
     </main>
+
+    <!-- Hidden file input -->
+    <input
+      ref="fileInputRef"
+      type="file"
+      accept=".mp3,.wav,.m4a,audio/*"
+      multiple
+      hidden
+      @change="handleFileSelect"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useMeetingStore } from '../stores/meeting'
-import { useWebSocket } from '../composables/useWebSocket'
-import ControlBar from '../components/ControlBar.vue'
-import AudioRecorder from '../components/AudioRecorder.vue'
-import TranscriptPanel from '../components/TranscriptPanel.vue'
-import FileUploader from '../components/FileUploader.vue'
-import SummaryPanel from '../components/SummaryPanel.vue'
+import { useMeetingStore, type Chapter } from '../stores/meeting'
+import { useDebugStore } from '../stores/debug'
+import { API_CONFIG } from '../api/config'
+
+// 上传响应类型
+interface UploadResponse {
+  session_id?: string
+  segments?: Array<{ text: string; speaker: string; start_time: number; end_time: number }>
+  chapters?: Chapter[]
+  theme?: string
+  topics?: string[]
+  speaker_roles?: Array<{ speaker: string; role: string; reasoning: string }>
+  summary?: string
+  key_points?: string[]
+  action_items?: string[]
+  audio_url?: string
+}
 
 const router = useRouter()
-const meetingStore = useMeetingStore()
-const {
-  isConnected,
-  sessionId,
-  lastTranscript,
-  error,
-  processingStatus,
-  processingMessage,
-  analysisResult,
-  setAnalysisResult,
-  client,
-  connect,
-  disconnect,
-} = useWebSocket()
+const store = useMeetingStore()
+const debugStore = useDebugStore()
 
-const connecting = ref(false)
-const isRecording = ref(false)
-const currentText = ref('')
+// File input ref
+const fileInputRef = ref<HTMLInputElement | null>(null)
 
-// 面板宽度控制
-const leftWidth = ref(250)
-const centerWidth = ref(500)
-const rightWidth = ref(500)
-const layoutRef = ref<HTMLElement | null>(null)
-let isResizing = false
-let currentHandle = 0
+// State
+const meetingTitleInput = ref('')
+const meetingTitle = computed(() => meetingTitleInput.value)
+const isDragOver = ref(false)
+const activeDetailTab = ref('transcript')
 
-function startResize(e: MouseEvent, handle: number) {
-  isResizing = true
-  currentHandle = handle
-  document.addEventListener('mousemove', doResize)
-  document.addEventListener('mouseup', stopResize)
-  e.preventDefault()
-}
+const uploadedFiles = computed(() => store.uploadedFiles)
 
-function doResize(e: MouseEvent) {
-  if (!isResizing || !layoutRef.value) return
+const completedCount = computed(() =>
+  uploadedFiles.value.filter(f => f.status === 'completed').length
+)
 
-  const layout = layoutRef.value
-  const rect = layout.getBoundingClientRect()
-  const x = e.clientX - rect.left
-  const handleWidth = 12
+// Check if any file is processing
+const hasProcessingFile = computed(() =>
+  store.uploadedFiles.some(f => f.status === 'processing')
+)
 
-  if (currentHandle === 1) {
-    const maxLeft = rect.width - rightWidth.value - handleWidth * 2 - 200
-    const newLeft = Math.max(150, Math.min(x - handleWidth / 2, maxLeft))
-    leftWidth.value = newLeft
-    centerWidth.value = rect.width - leftWidth.value - rightWidth.value - handleWidth * 2
-  } else if (currentHandle === 2) {
-    const minRight = 150
-    const maxRight = rect.width - leftWidth.value - handleWidth * 2 - 200
-    const newRight = Math.max(minRight, Math.min(rect.width - x - handleWidth / 2, maxRight))
-    rightWidth.value = newRight
-    centerWidth.value = rect.width - leftWidth.value - rightWidth.value - handleWidth * 2
-  }
-}
-
-function stopResize() {
-  isResizing = false
-  document.removeEventListener('mousemove', doResize)
-  document.removeEventListener('mouseup', stopResize)
-}
-
-// 处理日志状态
-interface ProcessingLog {
-  timestamp: string
-  message: string
-  status: 'progress' | 'completed'
-}
-
-const processingLogs = ref<ProcessingLog[]>([])
-
-function handleProcessingLog(log: ProcessingLog) {
-  const existingIndex = processingLogs.value.findIndex(
-    (l) => l.timestamp === log.timestamp && l.message.includes(log.message.substring(0, 10))
-  )
-
-  if (existingIndex >= 0) {
-    processingLogs.value[existingIndex] = log
-  } else {
-    processingLogs.value.push(log)
-  }
-}
-
-function handleProcessingReset() {
-  processingLogs.value = []
-}
-
-// 从 store 获取数据
-const transcripts = computed(() => meetingStore.transcripts)
-const chapters = computed(() => meetingStore.chapters)
-
-// 监听 store 的处理状态变化
-watch(processingStatus, (newStatus) => {
-  if (newStatus) {
-    meetingStore.setProcessingStatus(newStatus, processingMessage.value)
-  }
+const processingFileName = computed(() => {
+  const file = store.uploadedFiles.find(f => f.status === 'processing')
+  return file?.name || '处理中'
 })
 
-watch(analysisResult, (newResult) => {
-  if (newResult) {
-    meetingStore.setAnalysisResult(newResult)
+const detailTabs = computed(() => [
+  { id: 'transcript', label: '转写', count: debugStore.transcriptResult?.segments?.length },
+  { id: 'analysis', label: '分析', count: debugStore.analysisResult?.chapters?.length }
+])
+
+function getStageLabel(stage: string): string {
+  const labels: Record<string, string> = {
+    idle: '等待',
+    uploading: '上传中',
+    transcribing: '转写中',
+    analyzing: '分析中',
+    completed: '完成',
+    error: '错误'
   }
-})
-
-// 监听 store 的错误状态
-watch(() => meetingStore.errorMessage, (newError) => {
-  if (newError) {
-    console.error('Meeting error:', newError)
-  }
-})
-
-async function handleConnect() {
-  connecting.value = true
-  try {
-    await connect()
-  } catch (e) {
-    console.error('Connection failed:', e)
-  } finally {
-    connecting.value = false
-  }
+  return labels[stage] || stage
 }
 
-function handleDisconnect() {
-  disconnect()
+function formatTime(seconds: number | null): string {
+  if (seconds === null || seconds === undefined) return '-'
+  const mins = Math.floor(seconds / 60)
+  const secs = Math.floor(seconds % 60)
+  return `${mins}:${secs.toString().padStart(2, '0')}`
 }
 
-client.onResult((data) => {
-  if (data.is_final) {
-    meetingStore.addTranscript({
-      id: `seg_${Date.now()}`,
-      text: data.text,
-      start_time: data.start_time,
-      end_time: data.end_time,
-      speaker: data.speaker,
-      confidence: data.confidence,
-    })
-    currentText.value = ''
-  } else {
-    currentText.value = data.text
-  }
-})
+// SSE Polling
+let pollInterval: number | null = null
 
-function handleRecordingStart() {
-  isRecording.value = true
-}
+function startPolling(sessionId: string) {
+  stopPolling()
 
-function handleRecordingPause() {}
+  async function poll() {
+    try {
+      const response = await fetch(`http://localhost:8000/api/v1/upload/${sessionId}/status`)
+      if (response.ok) {
+        const data = await response.json()
+        debugStore.updateFromSSE(data)
 
-function handleRecordingResume() {}
-
-function handleRecordingStop() {
-  isRecording.value = false
-  currentText.value = ''
-}
-
-function handleAnalysisResult(result: any) {
-  meetingStore.setAnalysisResult(result)
-  setAnalysisResult(result)
-}
-
-function handleFileTranscript(data: { transcript: string; segments?: any[]; analysis?: any }) {
-  if (data.segments && data.segments.length > 0) {
-    for (const seg of data.segments) {
-      meetingStore.addTranscript({
-        id: `file_${Date.now()}_${Math.random()}`,
-        text: seg.text,
-        start_time: seg.start_time,
-        end_time: seg.end_time,
-        speaker: seg.speaker || 'file',
-        confidence: 1.0,
-      })
+        if (data.stage === 'completed') {
+          stopPolling()
+          // Data already populated from upload response, no need to fetch again
+        }
+      }
+    } catch (e) {
+      console.error('[MeetingPage] Poll error:', e)
     }
-  } else if (data.transcript) {
-    meetingStore.addTranscript({
-      id: `file_${Date.now()}`,
-      text: data.transcript,
-      start_time: 0,
-      end_time: 0,
-      speaker: 'file',
-      confidence: 1.0,
+  }
+
+  pollInterval = window.setInterval(poll, 1000)
+  poll()
+}
+
+function stopPolling() {
+  if (pollInterval) {
+    clearInterval(pollInterval)
+    pollInterval = null
+  }
+}
+
+async function fetchFullResult(sessionId: string) {
+  console.log('[MeetingPage] fetchFullResult called with sessionId:', sessionId)
+  try {
+    const response = await fetch(`http://localhost:8000/api/v1/upload/${sessionId}`)
+    console.log('[MeetingPage] fetchFullResult response status:', response.status)
+    if (response.ok) {
+      const data = await response.json()
+      console.log('[MeetingPage] fetchFullResult data keys:', Object.keys(data))
+      populateStoresFromResponse(data)
+    } else {
+      console.error('[MeetingPage] fetchFullResult failed with status:', response.status)
+    }
+  } catch (e) {
+    console.error('[MeetingPage] Fetch result error:', e)
+  }
+}
+
+function populateStoresFromResponse(data: UploadResponse) {
+  console.log('[MeetingPage] populateStoresFromResponse called')
+  console.log('[MeetingPage] data.segments count:', data.segments?.length)
+  console.log('[MeetingPage] data.chapters count:', data.chapters?.length)
+  console.log('[MeetingPage] data.theme:', data.theme)
+
+  // Store in debug store (for inline display)
+  if (data.segments) {
+    const speakerCount = new Set(data.segments.map((s) => s.speaker)).size
+    debugStore.setTranscript({
+      segments: data.segments,
+      speaker_count: speakerCount
     })
-  }
-  if (data.analysis) {
-    meetingStore.setAnalysisResult(data.analysis)
-    setAnalysisResult(data.analysis)
-  }
-}
 
-function clearTranscripts() {
-  meetingStore.clearTranscripts()
-}
+    // Also populate meeting store with speakers
+    const speakers = Array.from(new Set(data.segments.map((s) => s.speaker))).map((spk: string, idx: number) => ({
+      id: spk,
+      name: `发言人 ${String.fromCharCode(65 + idx)}`
+    }))
+    console.log('[MeetingPage] Setting meetingStore speakers:', speakers.length)
+    store.setSpeakers(speakers)
+  }
 
-function goToGraphRAG() {
-  router.push('/graphrag')
+  if (data.chapters) {
+    // Store in debug store - construct analysis result
+    debugStore.setAnalysis({
+      session_id: data.session_id || '',
+      theme: data.theme || '',
+      topics: data.topics || [],
+      chapters: data.chapters,
+      speaker_roles: data.speaker_roles || [],
+      summary: data.summary || ''
+    })
+
+    // Also populate meeting store with chapters
+    const chapters: Chapter[] = data.chapters.map((ch, idx: number) => ({
+      id: `chapter_${idx}`,
+      title: ch.title,
+      start_time: ch.start_time,
+      end_time: ch.end_time,
+      speaker_summaries: ch.speaker_summaries || [],
+      summary: ch.summary || '',
+      decisions: ch.decisions || [],
+      action_items: ch.action_items || []
+    }))
+    console.log('[MeetingPage] Setting meetingStore chapters:', chapters.length)
+    store.setChapters(chapters)
+
+    // Extract decisions and action_items from chapters
+    const allDecisions = chapters.flatMap((ch) =>
+      (ch.decisions || []).map((d) => ({
+        decision: d.decision,
+        source_timestamps: d.source_timestamps || []
+      }))
+    )
+    const allActionItems = chapters.flatMap((ch) =>
+      (ch.action_items || []).map((a) => ({
+        todo: a.todo,
+        source_timestamps: a.source_timestamps || []
+      }))
+    )
+    console.log('[MeetingPage] Setting meetingStore decisions:', allDecisions.length, 'actionItems:', allActionItems.length)
+    store.setDecisions(allDecisions)
+    store.setActionItems(allActionItems)
+
+    // Set topic from analysis
+    if (data.theme) {
+      console.log('[MeetingPage] Setting meetingStore topic:', data.theme)
+      store.setTopic(data.theme)
+    }
+
+    // Set audio URL for playback
+    if (data.audio_url) {
+      console.log('[MeetingPage] Setting meetingStore audioUrl:', data.audio_url)
+      store.setAudioUrl(data.audio_url)
+    }
+  }
+
+  console.log('[MeetingPage] Final meetingStore state:')
+  console.log('  topic:', store.topic)
+  console.log('  speakers:', store.speakers.length)
+  console.log('  chapters:', store.chapters.length)
+  console.log('  decisions:', store.decisions.length)
+  console.log('  actionItems:', store.actionItems.length)
 }
 
 onUnmounted(() => {
-  document.removeEventListener('mousemove', doResize)
-  document.removeEventListener('mouseup', stopResize)
+  stopPolling()
 })
+
+// Methods
+function triggerFileInput() {
+  fileInputRef.value?.click()
+}
+
+function handleDrop(e: DragEvent) {
+  isDragOver.value = false
+  const files = Array.from(e.dataTransfer?.files || [])
+  processFiles(files)
+}
+
+function handleFileSelect(e: Event) {
+  const input = e.target as HTMLInputElement
+  const files = Array.from(input.files || [])
+  processFiles(files)
+  input.value = ''
+}
+
+async function processFiles(files: File[]) {
+  if (files.length === 0) return
+
+  const file = files[0]
+  const sizeMB = (file.size / (1024 * 1024)).toFixed(1)
+  const fileId = `file_${Date.now()}`
+  const tempSessionId = `upload_${Date.now()}`
+
+  // Set session in store
+  store.setMeetingId(tempSessionId)
+  debugStore.sessionId = tempSessionId
+  debugStore.stage = 'uploading'
+  debugStore.progress = 0
+  debugStore.message = '正在上传音频文件...'
+
+  // Add file to list
+  store.addUploadedFile({
+    id: fileId,
+    name: file.name,
+    size: `${sizeMB} MB`,
+    topic: meetingTitleInput.value || '会议记录',
+    status: 'processing',
+    duration: '--:--'
+  })
+
+  store.updateUploadProgress({
+    stage: 'uploading',
+    progress: 0,
+    message: '正在上传音频文件...'
+  })
+
+  // Start polling immediately
+  startPolling(tempSessionId)
+
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    await new Promise<void>((resolve, reject) => {
+      const xhr = new XMLHttpRequest()
+
+      xhr.upload.addEventListener('progress', (e) => {
+        if (e.lengthComputable) {
+          const uploadPercent = Math.round((e.loaded / e.total) * 50)
+          debugStore.progress = uploadPercent
+          debugStore.message = `正在上传... ${uploadPercent}%`
+          store.updateUploadProgress({
+            stage: 'uploading',
+            progress: uploadPercent,
+            message: `正在上传... ${uploadPercent}%`
+          })
+        }
+      })
+
+      xhr.addEventListener('load', () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const response = JSON.parse(xhr.responseText)
+            console.log('[MeetingPage] Upload response:', response)
+
+            const finalSessionId = response.session_id || fileId
+            store.setMeetingId(finalSessionId)
+            debugStore.sessionId = finalSessionId
+
+            // CRITICAL: Populate stores from response data immediately!
+            populateStoresFromResponse(response)
+
+            // Update file status
+            store.updateUploadedFile(fileId, { status: 'completed' })
+
+            // Update store
+            debugStore.stage = 'completed'
+            debugStore.progress = 100
+            debugStore.message = '处理完成'
+
+            resolve()
+          } catch (e) {
+            console.error('[MeetingPage] Failed to parse response:', e)
+            reject(e)
+          }
+        } else {
+          console.error('[MeetingPage] Upload failed:', xhr.status)
+          debugStore.stage = 'error'
+          debugStore.message = `上传失败: ${xhr.status}`
+          store.updateUploadProgress({
+            stage: 'error',
+            progress: 0,
+            message: `上传失败: ${xhr.status}`
+          })
+          reject(new Error(`Upload failed: ${xhr.status}`))
+        }
+      })
+
+      xhr.addEventListener('error', () => {
+        console.error('[MeetingPage] Upload error')
+        debugStore.stage = 'error'
+        debugStore.message = '上传失败'
+        store.updateUploadProgress({
+          stage: 'error',
+          progress: 0,
+          message: '上传失败'
+        })
+        reject(new Error('Upload error'))
+      })
+
+      xhr.open('POST', API_CONFIG.uploadUrl)
+      xhr.send(formData)
+    })
+  } catch (e) {
+    console.error('[MeetingPage] Upload failed:', e)
+    store.updateUploadedFile(fileId, { status: 'pending' })
+  }
+}
+
+function removeFile(id: string) {
+  store.removeUploadedFile(id)
+}
+
+function useDemoAudio() {
+  store.updateUploadProgress({
+    stage: 'uploading',
+    progress: 0,
+    message: '正在准备示例音频...'
+  })
+
+  const demoFiles = [
+    { name: '用户反馈分析.mp3', size: '12.3 MB', topic: '用户反馈与问题分析', duration: '4:00' },
+    { name: '时间规划讨论.mp3', size: '8.7 MB', topic: '时间规划与资源评估', duration: '2:20' },
+    { name: '实施方案制定.mp3', size: '9.5 MB', topic: '实施方案与行动计划', duration: '2:00' }
+  ]
+
+  for (const demo of demoFiles) {
+    store.addUploadedFile({
+      id: `demo_${Date.now()}_${Math.random().toString(36).slice(2)}`,
+      name: demo.name,
+      size: demo.size,
+      topic: demo.topic,
+      status: 'completed',
+      duration: demo.duration
+    })
+  }
+
+  store.setMeetingId(`meeting_${Date.now()}`)
+  store.setTopic(meetingTitleInput.value || 'Q2产品路线图讨论会')
+
+  store.setSpeakers([
+    { id: 'spk1', name: '产品经理', color: '#6366f1' },
+    { id: 'spk2', name: '技术负责人', color: '#10b981' },
+    { id: 'spk3', name: '设计师', color: '#f59e0b' }
+  ])
+
+  store.setDecisions([
+    { decision: '决定采用两阶段实施方案', source_timestamps: [{ start: 0, end: 380 }] },
+    { decision: '资源分配已确定', source_timestamps: [{ start: 380, end: 500 }] }
+  ])
+
+  store.setActionItems([
+    { todo: '王磊：下周三前提交技术方案和工作量评估报告', source_timestamps: [{ start: 450, end: 480 }] },
+    { todo: '李娜：协调用户研究团队，补充功能优先级分析', source_timestamps: [{ start: 480, end: 510 }] },
+    { todo: '张伟：准备技术方案评审会议', source_timestamps: [{ start: 510, end: 540 }] }
+  ])
+
+  router.push('/console')
+}
+
+function enterConsole() {
+  router.push('/console')
+}
 </script>
 
 <style scoped>
-#app {
+.upload-page {
   min-height: 100vh;
-  width: 100%;
-  background: #fafafa;
+  background: #0d0d15;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
 }
 
-.app-header {
-  background: #1976d2;
-  color: white;
-  padding: 1rem 2rem;
-  text-align: center;
+/* Header */
+.page-header {
+  height: 56px;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  padding: 0 24px;
+  background: #1a1a24;
+  border-bottom: 1px solid #2d2d3d;
 }
 
-.app-header h1 {
+.page-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
   margin: 0;
-  font-size: 1.3rem;
 }
 
-.subtitle {
-  margin: 0;
-  font-size: 0.85rem;
-  opacity: 0.9;
+/* Content */
+.page-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 92px;
 }
 
-.btn-nav {
-  margin-left: auto;
-  padding: 0.5rem 1rem;
-  background: rgba(255,255,255,0.2);
-  color: white;
-  border: 1px solid rgba(255,255,255,0.4);
+.content-wrapper {
+  flex: 1;
+  max-width: 896px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 16px;
+}
+
+/* Title Section */
+.title-section {
+  background: #1a1a24;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.section-label {
+  display: block;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+}
+
+.title-input-wrapper {
+  width: 100%;
+}
+
+.title-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  background: #262626;
+  border: 1px solid #3d3d4d;
   border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-nav:hover {
-  background: rgba(255,255,255,0.3);
-}
-
-.app-main {
-  padding: 1rem;
-  height: calc(100vh - 80px);
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
   box-sizing: border-box;
 }
 
-.three-panel-layout {
-  display: flex;
-  flex-direction: row;
-  gap: 0;
-  height: 100%;
+.title-input::placeholder {
+  color: #a1a1a1;
 }
 
-.panel {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  overflow: hidden;
-  flex-shrink: 0;
+.title-input:focus {
+  border-color: #6366f1;
 }
 
-.panel-left {
-  flex: none;
-  width: 300px;
-  background: white;
+.title-display {
+  font-size: 16px;
+  color: #ffffff;
+  padding: 6px 0;
+}
+
+/* Processing Section */
+.processing-section {
+  background: #1a1a24;
   border-radius: 8px;
-  padding: 1rem;
-  overflow-y: auto;
-  max-height: 100%;
+  padding: 20px;
+  margin-bottom: 16px;
 }
 
-.panel-center {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  margin: 0 0.5rem;
-  min-width: 300px;
-}
-
-.panel-right {
-  flex: none;
-  width: 300px;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.resize-handle {
-  width: 12px;
-  background: #f0f0f0;
-  cursor: col-resize;
-  flex-shrink: 0;
-  position: relative;
-  transition: background 0.2s ease;
-  border-radius: 4px;
-}
-
-.resize-handle:hover {
-  background: #e0e0e0;
-}
-
-.resize-handle:active {
-  background: #d0d0d0;
-}
-
-.panel-section {
-  margin-bottom: 1rem;
-}
-
-.panel-section h3 {
-  margin: 0 0 0.75rem 0;
-  font-size: 0.9rem;
-  color: #333;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.5rem;
-}
-
-.result-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  padding: 0 0.5rem 0.5rem 0.5rem;
-}
-
-.result-header {
+.processing-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 0.5rem;
+  margin-bottom: 12px;
 }
 
-.result-count {
-  font-size: 0.8rem;
-  color: #666;
-}
-
-.btn-clear {
-  padding: 0.25rem 0.75rem;
-  background: #f5f5f5;
-  color: #666;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-clear:hover {
-  background: #e0e0e0;
-  color: #333;
-}
-
-.error-toast {
-  position: fixed;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #f44336;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.3s ease;
-  z-index: 1000;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(1rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
-.processing-console {
-  background: #1e1e1e;
-  border-radius: 8px;
-  margin: 0.5rem;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
-.console-header {
+.processing-info {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1rem;
-  background: #2d2d2d;
-  border-bottom: 1px solid #333;
+  gap: 12px;
 }
 
-.console-title {
-  font-size: 0.8rem;
-  color: #888;
+.processing-file {
+  font-size: 14px;
+  color: #ffffff;
   font-weight: 500;
 }
 
-.console-clear {
-  padding: 0.2rem 0.5rem;
-  background: #444;
-  color: #aaa;
+.processing-stage {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.processing-stage.uploading { background: #3b82f6; color: #fff; }
+.processing-stage.transcribing { background: #f59e0b; color: #000; }
+.processing-stage.analyzing { background: #8b5cf6; color: #fff; }
+.processing-stage.completed { background: #22c55e; color: #fff; }
+.processing-stage.error { background: #ef4444; color: #fff; }
+
+.processing-progress {
+  font-size: 14px;
+  color: #a1a1a1;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+  height: 4px;
+  background: #262626;
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #6366f1;
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+/* Stats Row */
+.stats-row {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-item.flex-1 {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+/* Quick Results */
+.quick-results {
+  display: flex;
+  gap: 24px;
+  padding: 12px;
+  background: #141420;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.result-theme, .result-chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.result-label {
+  font-size: 11px;
+  color: #666;
+}
+
+.result-value {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+/* Detail Tabs */
+.detail-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.tab-btn {
+  padding: 6px 12px;
+  background: transparent;
+  color: #a1a1a1;
   border: none;
-  border-radius: 3px;
-  font-size: 0.7rem;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
-.console-clear:hover {
-  background: #555;
-  color: #ccc;
+.tab-btn:hover {
+  background: #262626;
+  color: #ffffff;
 }
 
-.processing-console .console-log {
-  max-height: 225px;
+.tab-btn.active {
+  background: #262626;
+  color: #6366f1;
+}
+
+.tab-count {
+  background: #3d3d4d;
+  padding: 1px 5px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+/* Detail Content */
+.detail-content {
+  max-height: 300px;
   overflow-y: auto;
 }
 
-.console-log {
-  background: #1e1e1e;
-  border-radius: 0;
-  padding: 0.5rem 1rem;
-  font-family: 'Consolas', 'Monaco', monospace;
-  font-size: 0.8rem;
-}
-
-.console-log::-webkit-scrollbar {
-  width: 6px;
-}
-
-.console-log::-webkit-scrollbar-track {
-  background: #2d2d2d;
-}
-
-.console-log::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 3px;
-}
-
-.console-line {
+.segment-list {
   display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.2rem 0;
-  color: #fff;
-  line-height: 1.4;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.console-time {
-  color: #666;
+.segment-item {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: #141420;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.seg-time {
+  color: #6366f1;
+  font-family: monospace;
   flex-shrink: 0;
 }
 
-.console-indicator {
+.seg-speaker {
+  color: #22c55e;
   flex-shrink: 0;
 }
 
-.console-message {
+.seg-text {
+  color: #ffffff;
   flex: 1;
-  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.console-line.in-progress .console-indicator {
-  color: #ffc107;
+.more-hint {
+  text-align: center;
+  padding: 8px;
+  color: #666;
+  font-size: 12px;
 }
 
-.console-line.in-progress .console-message {
-  color: #ffc107;
+.chapter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.console-line.completed .console-indicator {
-  color: #888;
+.chapter-item {
+  padding: 12px;
+  background: #141420;
+  border-radius: 6px;
 }
 
-.console-line.completed .console-message {
-  color: #888;
+.chapter-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
 
-@media (max-width: 1024px) {
-  .three-panel-layout {
-    flex-direction: column;
-    overflow-y: auto;
-  }
+.chapter-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+}
 
-  .panel-left,
-  .panel-center,
-  .panel-right {
-    width: 100% !important;
-    margin: 0 0 0.5rem 0;
-  }
+.chapter-time {
+  font-size: 11px;
+  color: #6366f1;
+  font-family: monospace;
+}
 
-  .resize-handle {
-    display: none;
-  }
+.chapter-summary {
+  font-size: 12px;
+  color: #a1a1a1;
+  line-height: 1.5;
+}
 
-  .panel-left {
-    flex-direction: row;
-    gap: 1rem;
-  }
+.empty-hint {
+  text-align: center;
+  padding: 24px;
+  color: #666;
+  font-size: 13px;
+}
 
-  .panel-section {
-    flex: 1;
-    margin-bottom: 0;
-  }
+/* Upload Section */
+.upload-section {
+  background: #1a1a24;
+  border-radius: 8px;
+  padding: 40px 16px 24px;
+}
 
-  .app-main {
-    height: auto;
-  }
+.upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px;
+  border: 2px dashed #3d3d4d;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.upload-area:hover,
+.upload-area.drag-over {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.upload-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #6366f1;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+
+.upload-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+}
+
+.upload-hint {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 8px 0;
+}
+
+.upload-formats {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 24px 0;
+}
+
+.btn-select {
+  padding: 8px 24px;
+  background: #6366f1;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-select:hover {
+  background: #5558e3;
+}
+
+/* Demo Section */
+.demo-section {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.demo-hint {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 12px 0;
+}
+
+.btn-demo {
+  width: 100%;
+  padding: 10px 24px;
+  background: #262626;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-demo:hover {
+  background: #3d3d4d;
+}
+
+/* Files Section */
+.files-section {
+  background: #1a1a24;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.files-heading {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+}
+
+.files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.audio-card {
+  background: #1a1a24;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.file-icon {
+  width: 20px;
+  height: 20px;
+  color: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+}
+
+.file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+}
+
+.topic-row {
+  margin-bottom: 4px;
+}
+
+.topic-name {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-text {
+  font-size: 12px;
+  color: #00c950;
+}
+
+.status-text.processing {
+  color: #f59e0b;
+}
+
+.duration {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: auto;
+}
+
+.btn-delete {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-delete:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Add More Button */
+.add-more {
+  margin-top: 8px;
+}
+
+.btn-add-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px;
+  background: #262626;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-add-more:hover {
+  background: #3d3d4d;
+}
+
+/* Bottom Bar */
+.bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 92px;
+  background: #1a1a24;
+  border-top: 1px solid #2d2d3d;
+}
+
+.bottom-status {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-enter-console {
+  padding: 10px 24px;
+  background: #6366f1;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-enter-console:hover {
+  background: #5558e3;
 }
 </style>
