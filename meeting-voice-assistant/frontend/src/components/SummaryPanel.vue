@@ -175,6 +175,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { AnalysisResult, Chapter, TranscriptSegment, SpeakerRole } from '../api/types'
+import { API_CONFIG } from '../api/config'
 
 const props = defineProps<{
   analysisResult?: AnalysisResult
@@ -308,7 +309,7 @@ async function uploadTextFile(file: File) {
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 120000) // 2分钟超时
 
-    const response = await fetch('http://localhost:8000/api/v1/analyze', {
+    const response = await fetch(API_CONFIG.analyzeUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

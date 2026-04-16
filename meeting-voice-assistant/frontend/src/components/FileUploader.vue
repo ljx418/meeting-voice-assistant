@@ -93,6 +93,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onUnmounted } from 'vue'
+import { API_CONFIG } from '../api/config'
 
 interface Segment {
   text: string
@@ -252,7 +253,7 @@ let statusPollInterval: number | null = null
 
 async function fetchStatus(sessionId: string) {
   try {
-    const response = await fetch(`http://localhost:8000/api/v1/upload/${sessionId}/status`)
+    const response = await fetch(API_CONFIG.uploadStatusUrl(sessionId))
     if (response.ok) {
       const status: ProcessingStatus = await response.json()
       console.log('[FileUploader] Status update:', status)
@@ -496,7 +497,7 @@ async function uploadFile(file: File) {
         reject(new Error('Upload cancelled'))
       })
 
-      xhr.open('POST', 'http://localhost:8000/api/v1/upload')
+      xhr.open('POST', API_CONFIG.uploadUrl)
       xhr.send(formData)
     })
 

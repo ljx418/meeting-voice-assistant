@@ -41,3 +41,9 @@ nohup.out
 *.tmp
 *.temp
 *.swp
+
+# Claude Code team config
+.claude/
+
+# Workspace output (generated)
+workspace/output/

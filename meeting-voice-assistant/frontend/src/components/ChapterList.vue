@@ -76,18 +76,14 @@ const emit = defineEmits<{
 // Track expanded state for each chapter
 const expandedChapters = ref<Record<string, boolean>>({})
 const activeSpeakerBar = ref<string | null>(null)
-const DEBUG = false
 
 function toggleChapter(chapterId: string) {
   const wasExpanded = !!expandedChapters.value[chapterId]
   expandedChapters.value[chapterId] = !wasExpanded
-  if (DEBUG) console.log('[ChapterList] toggleChapter', chapterId, 'wasExpanded:', wasExpanded, 'nowExpanded:', expandedChapters.value[chapterId])
 }
 
 function isExpanded(chapterId: string): boolean {
-  const result = !!expandedChapters.value[chapterId]
-  if (DEBUG) console.log('[ChapterList] isExpanded', chapterId, result)
-  return result
+  return !!expandedChapters.value[chapterId]
 }
 
 const speakerColors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F']
@@ -136,34 +132,22 @@ function formatTimeRange(timestamps: { start: number; end: number }[], chapterSt
 
 function handleSpeakerBarClick(chapter: Chapter, spkSummary: SpeakerSummary) {
   const timestamps = spkSummary.source_timestamps
-  console.log('[ChapterList] handleSpeakerBarClick:', chapter.title, spkSummary.speaker,
-    'chapter.start_time:', chapter.start_time, 'chapter.end_time:', chapter.end_time,
-    'timestamps:', JSON.stringify(timestamps))
 
   if (!timestamps || timestamps.length === 0) {
-    console.log('[ChapterList] speaker bar click - no timestamps', spkSummary)
     return
   }
 
   // Use the LAST timestamp block to get the speaker's final position in this chapter
   // (a speaker may have multiple speaking turns, we want the last one)
   const lastTimestamp = timestamps[timestamps.length - 1]
-  console.log('[ChapterList] lastTimestamp:', JSON.stringify(lastTimestamp))
 
   if (lastTimestamp) {
     // source_timestamps values from backend are ALREADY absolute time in seconds from audio start
     // (not relative to chapter), so we use them directly without adding chapter.start_time
     const absoluteTime = lastTimestamp.start
 
-    console.log('[ChapterList] speaker bar click', spkSummary.speaker,
-      'ts.start:', lastTimestamp.start,
-      'ts.end:', lastTimestamp.end,
-      'absolute:', absoluteTime,
-      'ALL timestamps:', timestamps.map(t => `(${t.start}-${t.end})`).join(', '))
-
     // Set active state for visual feedback
     activeSpeakerBar.value = chapter.id + '-' + spkSummary.speaker
-    console.log('[ChapterList] activeSpeakerBar set to:', activeSpeakerBar.value)
 
     // Clear active state after 300ms
     setTimeout(() => {
@@ -172,10 +156,7 @@ function handleSpeakerBarClick(chapter: Chapter, spkSummary: SpeakerSummary) {
       }
     }, 300)
 
-    console.log('[ChapterList] EMIT jump-to-time:', absoluteTime)
     emit('jump-to-time', absoluteTime)
-  } else {
-    console.log('[ChapterList] speaker bar click - no timestamp', spkSummary)
   }
 }
 </script>

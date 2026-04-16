@@ -6,8 +6,11 @@
 
 import logging
 from typing import List, Optional, Dict, Any
-from dataclasses import dataclass
-from .state import AudioAnalysisState, TranscriptSegment
+from dataclasses import dataclass, field
+from .state import (
+    AudioAnalysisState, TranscriptSegment, Chapter,
+    SpeakerSummary, SpeakerRole, Decision, ActionItem, SourceTimestamp
+)
 from .graph import AudioAnalysisGraph
 from .llm_client import LLMClient
 from .config import get_config
@@ -22,9 +25,9 @@ class AnalysisResult:
     summary: str
     chapters: List[Dict[str, Any]]
     speaker_roles: List[Dict[str, str]]
-    topics: List[str]  # 兼容现有格式
-    key_points: List[str]  # 兼容现有格式
-    action_items: List[str]  # 兼容现有格式
+    topics: List[str] = field(default_factory=list)
+    key_points: List[str] = field(default_factory=list)
+    action_items: List[Dict[str, Any]] = field(default_factory=list)
     raw_response: str = ""
 
     @classmethod
@@ -41,14 +44,26 @@ class AnalysisResult:
             sentences = [s.strip() for s in state.summary.split("。") if s.strip()]
             key_points = sentences[:5] if sentences else []
 
+        # 从 chapters 中提取所有 action_items
+        all_action_items = []
+        for chapter in state.chapters:
+            for ai in chapter.action_items:
+                all_action_items.append({
+                    "todo": ai.todo,
+                    "source_timestamps": [
+                        {"start": st.start, "end": st.end}
+                        for st in ai.source_timestamps
+                    ]
+                })
+
         return cls(
             theme=state.theme,
             summary=state.summary,
-            chapters=state.chapters,
-            speaker_roles=state.speaker_roles,
+            chapters=[c.to_dict() if isinstance(c, Chapter) else c for c in state.chapters],
+            speaker_roles=[r.to_dict() if isinstance(r, SpeakerRole) else r for r in state.speaker_roles],
             topics=topics,
             key_points=key_points,
-            action_items=action_items,
+            action_items=all_action_items,
             raw_response=state.raw_response,
         )
 
@@ -148,7 +163,7 @@ class AudioAnalyzer:
         transcript_lines = []
         for seg in segments:
             speaker_label = seg.speaker or "unknown"
-            time_range = f"[{self._format_time(seg.start_time)} - {self._format_time(seg.end_time)}]"
+            time_range = f"[{seg.start_time:.1f}s - {seg.end_time:.1f}s]"
             transcript_lines.append(f"{time_range} {speaker_label}: {seg.text}")
 
         transcript_text = "\n".join(transcript_lines)

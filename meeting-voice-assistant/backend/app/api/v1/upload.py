@@ -9,11 +9,12 @@ import uuid
 import tempfile
 import os
 import json
+import atexit
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
@@ -34,6 +35,35 @@ from app.utils.logger import setup_logger
 logger = setup_logger("ws.upload")
 
 router = APIRouter()
+
+# 跟踪所有上传的临时文件，用于清理
+_upload_temp_files: set = set()
+_max_temp_age_seconds = 3600  # 1小时后清理
+
+
+def _cleanup_upload_temp_files():
+    """清理所有上传临时文件（由 atexit 调用）"""
+    import time
+    cleaned = 0
+    for temp_path in list(_upload_temp_files):
+        try:
+            if temp_path.exists():
+                # 只清理超过 max_age 的文件
+                file_age = time.time() - temp_path.stat().st_mtime
+                if file_age > _max_temp_age_seconds:
+                    temp_path.unlink()
+                    cleaned += 1
+                    logger.info(f"[Upload cleanup] Removed old temp file: {temp_path}")
+        except Exception as e:
+            logger.warning(f"[Upload cleanup] Failed to remove {temp_path}: {e}")
+        finally:
+            _upload_temp_files.discard(temp_path)
+    if cleaned > 0:
+        logger.info(f"[Upload cleanup] Cleaned {cleaned} temp files")
+
+
+# 注册进程退出时的清理
+atexit.register(_cleanup_upload_temp_files)
 
 
 def _format_speaker(speaker: str) -> str:
@@ -261,7 +291,8 @@ class UploadResponse(BaseModel):
 async def upload_audio_file(
     file: UploadFile = File(...),
     language: Optional[str] = None,
-    prompt: Optional[str] = None
+    prompt: Optional[str] = None,
+    request: Request = None
 ):
     """
     上传音频/视频文件进行转写
@@ -356,6 +387,9 @@ async def upload_audio_file(
                         detail=f"文件太大: {file_size / (1024*1024):.1f}MB。最大支持 512MB。"
                     )
         logger.info(f"[Upload {session_id}] File saved: {file_size} bytes")
+
+        # 注册临时文件到清理队列
+        _upload_temp_files.add(temp_file)
 
         # 更新状态：文件保存完成，开始转写
         status_manager.update(
@@ -560,7 +594,13 @@ async def upload_audio_file(
             })
 
         # 构建音频 URL（供前端播放使用）
-        audio_url = f"http://localhost:8000/api/v1/upload/{session_id}/audio"
+        # 使用请求的 host，避免硬编码 localhost
+        if request:
+            scheme = request.headers.get("x-forwarded-proto", "http")
+            host = request.headers.get("host", "localhost:8000")
+            audio_url = f"{scheme}://{host}/api/v1/upload/{session_id}/audio"
+        else:
+            audio_url = f"/api/v1/upload/{session_id}/audio"
         logger.info(f"[Upload {session_id}] Audio URL: {audio_url}")
 
         return UploadResponse(

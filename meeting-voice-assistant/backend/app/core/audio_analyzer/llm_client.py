@@ -10,7 +10,7 @@ import logging
 from typing import Optional
 from langchain.chat_models.base import BaseChatModel
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import BaseMessage, HumanMessage
+from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
 from .config import get_config, LLMConfig
 
 logger = logging.getLogger("audio_analyzer.llm_client")
@@ -31,8 +31,10 @@ class MiniMaxChatModel(BaseChatModel):
         messages: list[BaseMessage],
         stop: Optional[list[str]] = None,
         **kwargs
-    ) -> ChatOpenAI._generate:
-        """生成响应"""
+    ):
+        """生成响应 - 返回 ChatResult 格式"""
+        from langchain_core.outputs import ChatGeneration, ChatResult
+
         import aiohttp
         import asyncio
         import threading
@@ -111,7 +113,10 @@ class MiniMaxChatModel(BaseChatModel):
         if done_event.wait(timeout=self.timeout + 10):
             if isinstance(result_holder[0], Exception):
                 raise result_holder[0]
-            return result_holder[0]
+            # 返回 ChatResult 格式（langchain 期望的格式）
+            content = result_holder[0]
+            generation = ChatGeneration(message=AIMessage(content=content))
+            return ChatResult(generations=[generation])
         else:
             raise Exception(f"MiniMax timeout after {self.timeout + 10}s")
 

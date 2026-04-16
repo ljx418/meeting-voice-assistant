@@ -1,0 +1,103 @@
+<mxfile host="embed.diagrams.net">
+  <diagram id="zEXP92CFP-A2HF4lxgg2" name="第 1 页">
+    <mxGraphModel dx="1705" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=14;align=center;verticalAlign=top;spacingLeft=10;spacingRight=10;padding=10;glass=0;shadow=0;" value="Frontend (Vue 3 + TypeScript)" vertex="1">
+          <mxGeometry height="32" width="220" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=14;align=center;verticalAlign=top;spacingLeft=10;spacingRight=10;padding=10;glass=0;shadow=0;" value="Backend (FastAPI + Python)" vertex="1">
+          <mxGeometry height="32" width="220" x="303" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=14;align=center;verticalAlign=top;spacingLeft=10;spacingRight=10;padding=10;glass=0;shadow=0;" value="External Services" vertex="1">
+          <mxGeometry height="32" width="200" x="592" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="swimlane;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;spacingLeft=10;spacingTop=10;padding=10;" value="Components" vertex="1">
+          <mxGeometry height="160" width="180" x="40" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=5;spacingTop=5;fontSize=11;spacingBottom=10;" value="&#xa;  ControlBar.vue&#xa;  AudioRecorder.vue&#xa;  AudioWaveform.vue&#xa;  TranscriptPanel.vue&#xa;  MeetingInfo.vue&#xa;  SummaryPanel.vue&#xa;  FileUploader.vue" vertex="1">
+          <mxGeometry height="160" width="160" x="30" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="1" style="swimlane;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;spacingLeft=10;spacingTop=10;padding=10;" value="Composables" vertex="1">
+          <mxGeometry height="120" width="180" x="40" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="7" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=5;spacingTop=5;fontSize=11;spacingBottom=10;" value="&#xa;  useAudioRecorder&#xa;  useWebSocket" vertex="1">
+          <mxGeometry height="80" width="160" x="30" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="1" style="swimlane;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;spacingLeft=10;spacingTop=10;padding=10;" value="API Layer" vertex="1">
+          <mxGeometry height="100" width="180" x="40" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=5;spacingTop=5;fontSize=11;spacingBottom=10;" value="&#xa;  websocket.ts&#xa;  types.ts" vertex="1">
+          <mxGeometry height="60" width="160" x="30" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="1" style="swimlane;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;spacingLeft=10;spacingTop=10;padding=10;" value="API Routes" vertex="1">
+          <mxGeometry height="120" width="210" x="303" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="12" parent="11" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=5;spacingTop=5;fontSize=11;spacingBottom=10;" value="&#xa;  ws.py (VoiceSession)&#xa;  upload.py&#xa;  health.py" vertex="1">
+          <mxGeometry height="120" width="180" x="30" as="geometry" />
+        </mxCell>
+        <mxCell id="13" parent="1" style="swimlane;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;spacingLeft=10;spacingTop=10;padding=10;" value="Core Modules" vertex="1">
+          <mxGeometry height="280" width="210" x="303" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=5;spacingTop=5;fontSize=10;spacingBottom=10;" value="&#xa;  ASR Adapters&#xa;    - base.py (interface)&#xa;    - factory.py&#xa;    - dashscope.py&#xa;    - funasr_adapter.py&#xa;    - mock.py&#xa;&#xa;  LLM Analyzer&#xa;    - llm_analyzer.py&#xa;&#xa;  Audio Cache&#xa;    - audio_cache.py&#xa;&#xa;  Parser&#xa;    - parser/" vertex="1">
+          <mxGeometry height="240" width="200" x="30" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="15" parent="1" style="swimlane;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;spacingLeft=10;spacingTop=10;padding=10;" value="ASR Engines" vertex="1">
+          <mxGeometry height="120" width="200" x="592" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="16" parent="15" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=5;spacingTop=5;fontSize=10;spacingBottom=10;" value="&#xa;  DashScope&#xa;    - qwen3-asr-flash&#xa;    - qwen3-asr-flash-filetrans&#xa;&#xa;  FunASR&#xa;    - sensevoice&#xa;    - realtime_spk" vertex="1">
+          <mxGeometry height="120" width="180" x="30" as="geometry" />
+        </mxCell>
+        <mxCell id="17" parent="1" style="swimlane;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;spacingLeft=10;spacingTop=10;padding=10;" value="LLM Services" vertex="1">
+          <mxGeometry height="120" width="200" x="592" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="18" parent="17" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=5;spacingTop=5;fontSize=10;spacingBottom=10;" value="&#xa;  DashScope&#xa;    - qwen-plus&#xa;&#xa;  OpenAI&#xa;    - GPT series" vertex="1">
+          <mxGeometry height="80" width="180" x="30" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="19" edge="1" parent="1" source="5" style="endArrow=classic;strokeColor=#333333;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="11" value="WebSocket">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" edge="1" parent="1" source="7" style="endArrow=classic;strokeColor=#333333;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="11" value="HTTP/WebSocket">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="21" edge="1" parent="1" source="9" style="endArrow=classic;strokeColor=#333333;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="11" value="REST API">
+          <mxGeometry relative="1" x="-0.4402" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="270" y="530" />
+              <mxPoint x="270" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="22" edge="1" parent="1" source="11" style="endArrow=classic;strokeColor=#333333;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="13" value="Audio Stream">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="23" edge="1" parent="1" source="13" style="endArrow=classic;strokeColor=#333333;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="15" value="ASR Call">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="24" edge="1" parent="1" source="13" style="endArrow=classic;strokeColor=#333333;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="17" value="LLM Call">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="25" parent="1" style="swimlane;horizontal=0;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;align=left;spacingLeft=10;spacingTop=10;padding=10;startSize=40;" value="Data Flow:&#xa; Real-time Voice" vertex="1">
+          <mxGeometry height="100" width="720" x="40" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="26" parent="25" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=5;spacingTop=5;fontSize=10;spacingBottom=10;" value="1. Microphone → AudioWorkletNode → PCM 16kHz&#xa;  2. WebSocket → VoiceSession.process_audio()&#xa;  3. RealtimeTranscriber → VAD → commit()&#xa;  4. DashScope API → transcript&#xa;  5. LLM Analyzer → summary/action_items&#xa;  6. WebSocket → Frontend display" vertex="1">
+          <mxGeometry height="80" width="620" x="63" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="27" parent="1" style="swimlane;horizontal=0;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;spacingLeft=10;spacingTop=10;padding=10;" value="Pinia Store" vertex="1">
+          <mxGeometry height="110" width="110" x="-100" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="28" parent="27" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=5;spacingTop=5;fontSize=10;spacingBottom=10;" value="&#xa;  meeting.ts" vertex="1">
+          <mxGeometry height="40" width="60" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="29" edge="1" parent="1" source="5" style="endArrow=classic;strokeColor=#333333;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;dashed=1;" target="27" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="30" edge="1" parent="1" source="27" style="endArrow=classic;strokeColor=#333333;strokeWidth=1;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;exitY=1;entryDx=0;entryDy=0;dashed=1;" target="5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

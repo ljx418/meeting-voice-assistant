@@ -4,18 +4,21 @@
 支持从 .env 文件加载配置
 """
 
+import logging
 import os
 from pathlib import Path
 from typing import Optional
 from dotenv import load_dotenv
 
+_logger = logging.getLogger("config")
+
 # 加载 .env 文件
 _env_path = Path(__file__).parent / ".env"
 if _env_path.exists():
     load_dotenv(_env_path)
-    print(f"[Config] Loaded environment from {_env_path}")
+    _logger.info(f"[Config] Loaded environment from {_env_path}")
 else:
-    print(f"[Config] .env file not found at {_env_path}")
+    _logger.warning(f"[Config] .env file not found at {_env_path}")
 
 
 class Config:
@@ -63,6 +66,10 @@ class Config:
     # 转写文本保存配置
     TRANSCRIPTS_DIR: Path = Path(__file__).parent.parent / "transcripts"
     TRANSCRIPTS_DIR.mkdir(exist_ok=True)
+
+    # 中间结果保存目录 (workspace/output/{session_id}/)
+    WORKSPACE_OUTPUT_DIR: Path = Path(__file__).parent.parent.parent / "workspace" / "output"
+    WORKSPACE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # 音频配置
     AUDIO_SAMPLE_RATE: int = int(os.getenv("AUDIO_SAMPLE_RATE", "16000"))

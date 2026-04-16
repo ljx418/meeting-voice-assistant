@@ -43,8 +43,8 @@ class ActionItem:
 class Chapter:
     """章节"""
     title: str
-    start_time: int
-    end_time: int
+    start_time: float
+    end_time: float
     summary: str
     speaker_summaries: List[SpeakerSummary] = field(default_factory=list)
     decisions: List[Decision] = field(default_factory=list)

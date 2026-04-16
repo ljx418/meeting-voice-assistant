@@ -76,10 +76,10 @@ export class VoiceWSClient {
       this.ws.onclose = (event) => {
         console.log('[WS] Connection closed', event.code, event.reason)
         this.stopHeartbeat()
-        // 暂时禁用自动重连，避免混淆
-        // if (this.reconnectAttempts < this.maxReconnectAttempts) {
-        //   this.handleReconnect()
-        // }
+        // 非正常关闭时自动重连（1000 为正常关闭）
+        if (event.code !== 1000 && this.reconnectAttempts < this.maxReconnectAttempts) {
+          this.handleReconnect()
+        }
       }
 
       // 注册 welcome 回调，同时解决 Promise

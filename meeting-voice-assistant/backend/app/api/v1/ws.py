@@ -46,6 +46,7 @@ class VoiceSession:
         self._running = False
         self._processing = False  # 是否正在处理（stop后）
         self._closed = False  # 连接是否已关闭
+        self._tasks: list[asyncio.Task] = []  # 追踪所有异步任务
 
         # 音频缓存
         self.audio_cache = AudioCache(config.AUDIO_CACHE_DIR)
@@ -121,8 +122,8 @@ class VoiceSession:
                 "action": "start",
                 "message": "Recognition started"
             })
-            # 启动实时识别循环
-            asyncio.create_task(self.run_recognition())
+            # 启动实时识别循环（追踪 task 以便 cleanup）
+            self._tasks.append(asyncio.create_task(self.run_recognition()))
 
         elif action == "stop":
             logger.info(f"Session {self.session_id}: Recognition stopped")
@@ -135,8 +136,8 @@ class VoiceSession:
                 "message": "Recognition stopped"
             })
 
-            # 处理后续流程（缓存、识别、分析）
-            asyncio.create_task(self._process_after_stop())
+            # 处理后续流程（缓存、识别、分析，追踪 task）
+            self._tasks.append(asyncio.create_task(self._process_after_stop()))
 
         elif action == "pause":
             self._running = False
@@ -477,6 +478,15 @@ class VoiceSession:
         logger.info(f"Cleaning up session {self.session_id}")
         self._running = False
         self._processing = False
+
+        # 取消所有追踪的任务
+        for task in self._tasks:
+            if not task.done():
+                task.cancel()
+        if self._tasks:
+            await asyncio.gather(*self._tasks, return_exceptions=True)
+        self._tasks.clear()
+
         await self.asr_adapter.close()
         await self.llm_analyzer.close()
         self.meeting_extractor.reset()
@@ -528,6 +538,11 @@ async def voice_websocket(websocket: WebSocket):
                             await session.handle_control(msg)
                         else:
                             logger.warning(f"Unknown message type: {msg_type}")
+                            await websocket.send_json({
+                                "type": "error",
+                                "code": "UNKNOWN_MESSAGE_TYPE",
+                                "message": f"Unknown message type: {msg_type}"
+                            })
                 except Exception as e:
                     logger.error(f"[Session {session.session_id}] Error in message loop: {e}")
                     break

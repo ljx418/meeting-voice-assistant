@@ -34,6 +34,10 @@ class ProcessingInfo:
     started_at: Optional[datetime] = None
     stage_started_at: Optional[datetime] = None
     error: Optional[str] = None
+    # 增强字段
+    remaining_time_seconds: Optional[int] = None  # 预估剩余时间
+    speaker_count: int = 0  # 已识别说话人数量
+    segment_count: int = 0  # 实时返回的片段数量
 
     def to_dict(self) -> dict:
         return {
@@ -46,6 +50,10 @@ class ProcessingInfo:
             "elapsed_seconds": (datetime.now() - self.started_at).total_seconds() if self.started_at else 0,
             "stage_elapsed_seconds": (datetime.now() - self.stage_started_at).total_seconds() if self.stage_started_at else 0,
             "error": self.error,
+            # 增强字段
+            "remaining_time_seconds": self.remaining_time_seconds,
+            "speaker_count": self.speaker_count,
+            "segment_count": self.segment_count,
         }
 
 
@@ -98,6 +106,9 @@ class ProcessingStatusManager:
         stage: Optional[ProcessingStage] = None,
         progress: Optional[int] = None,
         message: Optional[str] = None,
+        remaining_time_seconds: Optional[int] = None,
+        speaker_count: Optional[int] = None,
+        segment_count: Optional[int] = None,
     ) -> ProcessingInfo:
         """更新处理状态"""
         if session_id not in self._status:
@@ -115,6 +126,15 @@ class ProcessingStatusManager:
 
         if message is not None:
             info.message = message
+
+        if remaining_time_seconds is not None:
+            info.remaining_time_seconds = remaining_time_seconds
+
+        if speaker_count is not None:
+            info.speaker_count = speaker_count
+
+        if segment_count is not None:
+            info.segment_count = segment_count
 
         self._notify(session_id)
         return info

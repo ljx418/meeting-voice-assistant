@@ -74,10 +74,12 @@ class MicrosoftGraphRAGAdapter(GraphRAGCore):
             settings_yaml.write_text(self._default_settings())
 
     def _default_settings(self) -> str:
-        """生成 GraphRAG settings.yaml
+        """生成 GraphRAG settings.yaml（不包含明文密钥，使用环境变量）
 
         完整的配置参考 Microsoft GraphRAG 文档:
         https://github.com/microsoft/graphrag/tree/main/examples
+
+        注意：API Key 通过环境变量 $GRAPHRAG_LLM_API_KEY 传入，不写入文件
         """
         return f"""encoding_model: cl100k_base
 skip_workflow: false
@@ -87,7 +89,7 @@ llm:
   description: DashScope LLM
   configuration:
     type: openai_chat
-    api_key: {self.llm_config['api_key']}
+    api_key: ${{GRAPHRAG_LLM_API_KEY}}
     model: {self.llm_config['model']}
     api_base: {self.llm_config['base_url']}
 
@@ -96,7 +98,7 @@ embeddings:
   description: DashScope Embeddings
   configuration:
     type: openai_text
-    api_key: {self.llm_config['api_key']}
+    api_key: ${{GRAPHRAG_LLM_API_KEY}}
     model: text-embedding-v3
     api_base: {self.llm_config['base_url']}
 
@@ -130,9 +132,11 @@ search:
         """运行 graphrag CLI 命令"""
         cmd = ["graphrag"] + list(args)
         # 设置环境变量禁用 httpx trust_env，避免 macOS 系统代理干扰
+        # 同时注入 LLM API Key（settings.yaml 使用 $GRAPHRAG_LLM_API_KEY 占位符）
         env = {
             **os.environ,
             "HTTPX_TRUST_ENV": "false",
+            "GRAPHRAG_LLM_API_KEY": self.llm_config.get("api_key", ""),
         }
         return asyncio.create_subprocess_exec(
             *cmd,
@@ -161,7 +165,8 @@ search:
             dict: 包含 stage, progress, message
         """
         cmd = ["graphrag", "index", "--root", str(self.workspace)]
-        env = {**os.environ, "HTTPX_TRUST_ENV": "false"}
+        # 注入 LLM API Key（settings.yaml 使用 $GRAPHRAG_LLM_API_KEY 占位符）
+        env = {**os.environ, "HTTPX_TRUST_ENV": "false", "GRAPHRAG_LLM_API_KEY": self.llm_config.get("api_key", "")}
 
         process = await asyncio.create_subprocess_exec(
             *cmd,

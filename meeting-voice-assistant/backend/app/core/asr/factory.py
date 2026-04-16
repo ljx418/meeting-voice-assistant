@@ -9,7 +9,7 @@ ASR 适配器工厂
     adapter = ASRFactory.create()  # 从环境变量读取，默认 mock
 """
 
-from typing import Optional, Type
+from typing import Optional, Type, Callable
 import os
 import logging
 
@@ -27,6 +27,9 @@ from ..realtime_spk import RealtimeSpkTranscriber
 
 logger = logging.getLogger(__name__)
 
+# 适配器工厂函数类型
+AdapterFactory = Callable[[], ASRAdapterBase]
+
 
 class ASRFactory:
     """
@@ -39,28 +42,29 @@ class ASRFactory:
     - dashscope: DashScope Qwen3-ASR-Flash (文件识别，最大6MB)
     - dashscope_file: DashScope 大文件识别 (最大512MB)
     - dashscope_realtime: DashScope 实时语音识别 (WebSocket 流式)
-    - whisper: OpenAI Whisper (预留)
+    - funasr: FunASR 本地说话人分离
+    - funasr_realtime: FunASR 实时语音转写 + 说话人分离
     """
 
-    # 注册的适配器映射
-    _adapters: dict[str, Type[ASRAdapterBase]] = {
-        "mock": MockASRAdapter,
-        "aliyun": SenseVoiceAdapter,  # TODO: 后续替换为 AliyunAdapter
-        "sensevoice": SenseVoiceAdapter,
-        "dashscope": DashScopeASRAdapter,
-        "dashscope_file": DashScopeFileASRAdapter,
-        "dashscope_realtime": DashScopeRealtimeASRAdapter,
-        "funasr": FunASRAdapter,  # FunASR 本地说话人分离
-        "funasr_realtime": None,  # FunASR 实时转写 + 说话人分离（使用 RealtimeSpkTranscriber）
-        # 预留: 方便后续添加新的 ASR 引擎
-        # "whisper": WhisperAdapter,
-    }
+    # 注册的适配器工厂函数映射
+    # 每个工厂函数负责创建适配器实例并传递所需配置
+    _adapter_factories: dict[str, AdapterFactory] = {}
 
-    # 注册的转写器映射 (新架构)
-    _transcribers: dict[str, Type[BaseTranscriber]] = {
-        "realtime_transcriber": RealtimeTranscriber,
-        "file_transcriber": FileTranscriber,
-    }
+    @classmethod
+    def _init_adapter_factories(cls) -> dict[str, AdapterFactory]:
+        """延迟初始化适配器工厂映射"""
+        if not cls._adapter_factories:
+            cls._adapter_factories = {
+                "mock": cls._create_mock,
+                "aliyun": cls._create_aliyun,
+                "sensevoice": cls._create_sensevoice,
+                "dashscope": cls._create_dashscope,
+                "dashscope_file": cls._create_dashscope_file,
+                "dashscope_realtime": cls._create_dashscope_realtime,
+                "funasr": cls._create_funasr,
+                "funasr_realtime": cls._create_funasr_realtime,
+            }
+        return cls._adapter_factories
 
     @classmethod
     def create(cls, engine: Optional[str] = None) -> ASRAdapterBase:
@@ -77,36 +81,23 @@ class ASRFactory:
             ASRError: 未知的引擎名称
         """
         engine = engine or os.getenv("ASR_ENGINE", "mock")
+        factories = cls._init_adapter_factories()
 
-        if engine not in cls._adapters:
-            available = list(cls._adapters.keys())
+        if engine not in factories:
+            available = list(factories.keys())
             raise ASRError(
                 f"Unknown ASR engine: {engine}. "
                 f"Available engines: {available}"
             )
 
-        adapter_class = cls._adapters[engine]
         logger.info(f"[ASR Factory] Creating ASR adapter: {engine}")
+        return factories[engine]()
 
-        # 根据引擎类型传递不同配置
-        if engine == "mock":
-            return cls._create_mock()
-        elif engine == "aliyun":
-            return cls._create_aliyun()
-        elif engine == "sensevoice":
-            return cls._create_sensevoice()
-        elif engine == "dashscope":
-            return cls._create_dashscope()
-        elif engine == "dashscope_file":
-            return cls._create_dashscope_file()
-        elif engine == "dashscope_realtime":
-            return cls._create_dashscope_realtime()
-        elif engine == "funasr":
-            return cls._create_funasr()
-        elif engine == "funasr_realtime":
-            return cls._create_funasr_realtime()
-
-        return adapter_class()
+    # 注册的转写器映射 (新架构)
+    _transcribers: dict[str, Type[BaseTranscriber]] = {
+        "realtime_transcriber": RealtimeTranscriber,
+        "file_transcriber": FileTranscriber,
+    }
 
     @classmethod
     def create_transcriber(
@@ -119,7 +110,7 @@ class ASRFactory:
         创建转写器实例 (新架构)
 
         Args:
-            transcriber_type: 转写器类型 ("realtime" 或 "file")
+            transcriber_type: 转写器类型 ("realtime_transcriber" 或 "file_transcriber")
             session_id: 会话 ID
             **kwargs: 传递给转写器的额外参数
 
@@ -129,22 +120,21 @@ class ASRFactory:
         Raises:
             ASRError: 未知的转写器类型
         """
-        if transcriber_type not in cls._transcribers:
-            available = list(cls._transcribers.keys())
+        # 转写器工厂函数映射
+        transcriber_factories = {
+            "realtime_transcriber": lambda: cls._create_realtime_transcriber(session_id, **kwargs),
+            "file_transcriber": lambda: cls._create_file_transcriber(session_id, **kwargs),
+        }
+
+        if transcriber_type not in transcriber_factories:
+            available = list(transcriber_factories.keys())
             raise ASRError(
                 f"Unknown transcriber type: {transcriber_type}. "
                 f"Available types: {available}"
             )
 
-        transcriber_class = cls._transcribers[transcriber_type]
         logger.info(f"[ASR Factory] Creating transcriber: {transcriber_type}")
-
-        if transcriber_type == "realtime_transcriber":
-            return cls._create_realtime_transcriber(session_id, **kwargs)
-        elif transcriber_type == "file_transcriber":
-            return cls._create_file_transcriber(session_id, **kwargs)
-
-        return transcriber_class(session_id=session_id, **kwargs)
+        return transcriber_factories[transcriber_type]()
 
     @classmethod
     def _create_realtime_transcriber(cls, session_id: str, **kwargs) -> RealtimeTranscriber:
@@ -181,13 +171,12 @@ class ASRFactory:
 
     @classmethod
     def _create_aliyun(cls) -> SenseVoiceAdapter:
-        """创建阿里云适配器"""
-        # TODO: 后续替换为 AliyunAdapter
-        logger.info("[ASR Factory] Using Aliyun ASR (SenseVoice adapter placeholder)")
+        """创建阿里云适配器 (使用 SenseVoice 兼容模式)"""
+        logger.info("[ASR Factory] Using Aliyun ASR (SenseVoice compatibility mode)")
         return SenseVoiceAdapter(
-            mode="api",  # 切换到 API 模式
+            mode="api",
             endpoint=os.getenv("ALIYUN_ENDPOINT", "wss://nls-gateway.cn-shanghai.aliyuncs.com/ws/v1"),
-            api_key=os.getenv("ALIYUN_API_KEY"),  # Token
+            api_key=os.getenv("ALIYUN_API_KEY"),
         )
 
     @classmethod
@@ -253,31 +242,26 @@ class ASRFactory:
         )
 
     @classmethod
-    def register(cls, name: str, adapter_class: Type[ASRAdapterBase]) -> None:
+    def register(cls, name: str, factory: AdapterFactory) -> None:
         """
-        注册新的 ASR 适配器
+        注册新的 ASR 适配器工厂
 
         用于插件扩展或运行时注册
 
         Args:
             name: 引擎名称
-            adapter_class: 适配器类
+            factory: 适配器工厂函数
         """
-        if not issubclass(adapter_class, ASRAdapterBase):
-            raise TypeError(
-                f"Adapter class must inherit from ASRAdapterBase, "
-                f"got {adapter_class}"
-            )
-
-        cls._adapters[name] = adapter_class
-        logger.info(f"[ASR Factory] Registered ASR adapter: {name}")
+        cls._init_adapter_factories()
+        cls._adapter_factories[name] = factory
+        logger.info(f"[ASR Factory] Registered ASR adapter factory: {name}")
 
     @classmethod
     def available_engines(cls) -> list[str]:
         """获取所有可用的引擎名称"""
-        return list(cls._adapters.keys())
+        return list(cls._init_adapter_factories().keys())
 
     @classmethod
     def available_transcribers(cls) -> list[str]:
         """获取所有可用的转写器类型"""
-        return list(cls._transcribers.keys())
+        return ["realtime_transcriber", "file_transcriber"]
