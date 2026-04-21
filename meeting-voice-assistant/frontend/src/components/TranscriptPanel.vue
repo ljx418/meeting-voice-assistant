@@ -86,7 +86,10 @@ function formatSpeakerLabel(speaker: string | undefined): string {
   // speaker_0 -> A, speaker_1 -> B, etc.
   if (speaker.startsWith('speaker_')) {
     const index = parseInt(speaker.split('_')[1])
-    return String.fromCharCode(65 + index) // A, B, C, ...
+    if (!isNaN(index)) {
+      return String.fromCharCode(65 + index) // A, B, C, ...
+    }
+    return speaker
   }
   return speaker
 }

@@ -54,10 +54,20 @@ logger = logging.getLogger(__name__)
 
 
 class MicrosoftGraphRAGAdapter(GraphRAGCore):
-    """微软 GraphRAG 实现 + 参数适配"""
+    """微软 GraphRAG 实现 + 参数适配
 
-    def __init__(self):
-        self.workspace = settings.GRAPHRAG_WORKSPACE.resolve()  # Use absolute path
+    支持 session-based workspace 隔离模式。
+    """
+
+    def __init__(self, session_id: str = "default"):
+        """初始化适配器
+
+        Args:
+            session_id: 会话 ID，用于隔离不同会议的 workspace。
+                       如果为 "default"，则使用全局 workspace（向后兼容）。
+        """
+        self.session_id = session_id
+        self.workspace = self._get_workspace_path(session_id)
         self.llm_config = {
             "provider": settings.LLM_PROVIDER,
             "api_key": settings.LLM_API_KEY,
@@ -65,6 +75,23 @@ class MicrosoftGraphRAGAdapter(GraphRAGCore):
             "model": settings.LLM_MODEL,
         }
         self._init_workspace()
+
+    def _get_workspace_path(self, session_id: str) -> Path:
+        """获取 session 对应的 workspace 路径
+
+        Args:
+            session_id: 会话 ID
+
+        Returns:
+            workspace 目录路径。如果 session_id 为 "default"，使用全局 workspace。
+        """
+        if session_id == "default":
+            # 向后兼容：使用全局 workspace
+            return settings.GRAPHRAG_WORKSPACE.resolve()
+        else:
+            # Session 隔离模式：与 workspace_manager 保持一致
+            # workspace_manager 使用: base_dir / f"session_{session_id}"
+            return settings.GRAPHRAG_WORKSPACE / f"session_{session_id}"
 
     def _init_workspace(self) -> None:
         """初始化 GraphRAG workspace"""
@@ -668,14 +695,18 @@ search:
             )
 
     async def get_graph_data(
-        self, max_nodes: int = 100
+        self, max_nodes: int = 100, namespace: str = "default"
     ) -> GraphData:
         """获取图谱数据用于可视化
 
-        Note: Environment isolation is handled via separate GRAPHRAG_WORKSPACE directories.
+        Args:
+            max_nodes: 最大返回节点数
+            namespace: 命名空间（用于数据库查询过滤）
+
+        Note: 每个 session 有独立的 workspace，数据通过 namespace 参数隔离。
         """
         from ...storage.database import get_graph_data as storage_get_graph_data
-        return await storage_get_graph_data(max_nodes=max_nodes)
+        return await storage_get_graph_data(max_nodes=max_nodes, namespace=namespace)
 
     async def delete_document(self, doc_id: str, namespace: str) -> None:
         """删除文档及其关联数据
@@ -704,6 +735,33 @@ search:
             if doc_path.exists():
                 doc_path.unlink()
 
-            # graphrag 索引数据无法单独删除，需要整体清理
+# graphrag 索引数据无法单独删除，需要整体清理
         except Exception as e:
             logger.warning(f"Failed to delete document {doc_id}: {e}")
+
+    def cleanup_workspace(self) -> dict:
+        """清理当前 session 的 workspace 目录
+
+        用于会话结束时清理资源。
+
+        Returns:
+            dict: 包含清理的信息（如删除了哪些目录）
+        """
+        if self.session_id == "default":
+            logger.warning("Cannot cleanup default workspace")
+            return {"status": "skipped", "reason": "default workspace"}
+
+        result = {"status": "success", "cleaned_paths": []}
+
+        try:
+            # 清理 workspace 目录
+            if self.workspace.exists():
+                shutil.rmtree(self.workspace)
+                result["cleaned_paths"].append(str(self.workspace))
+                logger.info(f"Cleaned up workspace: {self.workspace}")
+        except Exception as e:
+            result["status"] = "error"
+            result["error"] = str(e)
+            logger.error(f"Failed to cleanup workspace: {e}")
+
+        return result

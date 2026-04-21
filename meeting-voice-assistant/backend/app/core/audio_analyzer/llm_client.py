@@ -11,7 +11,7 @@ from typing import Optional
 from langchain.chat_models.base import BaseChatModel
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
-from .config import get_config, LLMConfig
+from app.config import config
 
 logger = logging.getLogger("audio_analyzer.llm_client")
 
@@ -24,7 +24,7 @@ class MiniMaxChatModel(BaseChatModel):
     endpoint: str = "https://api.minimax.chat/v1"
     temperature: float = 0.7
     max_tokens: int = 8192
-    timeout: int = 90  # 超时时间（秒）
+    timeout: int = 120  # 超时时间（秒），默认使用 LLM 超时配置
 
     def _generate(
         self,
@@ -38,6 +38,15 @@ class MiniMaxChatModel(BaseChatModel):
         import aiohttp
         import asyncio
         import threading
+
+        # 获取超时配置
+        llm_timeout = 120
+        try:
+            from app.config import config
+            if hasattr(config, 'timeout') and config.timeout.llm_timeout:
+                llm_timeout = int(config.timeout.llm_timeout)
+        except Exception:
+            pass
 
         # 用于在线程中运行的异步代码
         result_holder = [None]  # [error or result]
@@ -76,17 +85,20 @@ class MiniMaxChatModel(BaseChatModel):
                         f"{self.endpoint}/text/chatcompletion_v2",
                         headers=headers,
                         json=payload,
-                        timeout=aiohttp.ClientTimeout(total=self.timeout)
+                        timeout=aiohttp.ClientTimeout(total=llm_timeout)
                     ) as resp:
                         if resp.status != 200:
                             error_text = await resp.text()
                             raise Exception(f"MiniMax API error: {resp.status} - {error_text}")
 
                         result = await resp.json()
+                        # 验证响应结构
+                        if not result or "choices" not in result or not result["choices"]:
+                            raise Exception(f"MiniMax API invalid response: {result}")
                         return result["choices"][0]["message"]["content"]
 
             except asyncio.TimeoutError:
-                raise Exception(f"MiniMax timeout after {self.timeout}s")
+                raise Exception(f"MiniMax timeout after {llm_timeout}s")
             except aiohttp.ClientError as e:
                 raise Exception(f"MiniMax connection error: {e}")
             except Exception as e:
@@ -109,8 +121,8 @@ class MiniMaxChatModel(BaseChatModel):
         thread.daemon = True
         thread.start()
 
-        # 等待结果，带超时
-        if done_event.wait(timeout=self.timeout + 10):
+        # 等待结果，带超时（额外 10 秒缓冲）
+        if done_event.wait(timeout=llm_timeout + 10):
             if isinstance(result_holder[0], Exception):
                 raise result_holder[0]
             # 返回 ChatResult 格式（langchain 期望的格式）
@@ -118,7 +130,7 @@ class MiniMaxChatModel(BaseChatModel):
             generation = ChatGeneration(message=AIMessage(content=content))
             return ChatResult(generations=[generation])
         else:
-            raise Exception(f"MiniMax timeout after {self.timeout + 10}s")
+            raise Exception(f"MiniMax timeout after {llm_timeout + 10}s")
 
     @property
     def _llm_type(self) -> str:
@@ -128,37 +140,47 @@ class MiniMaxChatModel(BaseChatModel):
 class LLMClient:
     """LLM 客户端，支持 MiniMax 主用 + DeepSeek 备用自动切换"""
 
-    def __init__(self, config: Optional[LLMConfig] = None):
-        self.config = config or get_config()
+    def __init__(self, llm_config=None):
+        # llm_config 兼容旧接口，优先使用传入的配置，否则使用统一配置
+        self._llm_config = llm_config or config.llm
         self._primary_model: Optional[BaseChatModel] = None
         self._backup_model: Optional[BaseChatModel] = None
         self._init_models()
 
     def _init_models(self):
         """初始化模型"""
+        # 获取超时配置
+        llm_timeout = 120
+        try:
+            from app.config import config
+            if hasattr(config, 'timeout') and config.timeout.llm_timeout:
+                llm_timeout = int(config.timeout.llm_timeout)
+        except Exception:
+            pass
+
         # MiniMax
-        if self.config.minimax_api_key:
+        if self._llm_config.minimax_api_key:
             try:
                 self._primary_model = MiniMaxChatModel(
-                    model_name=self.config.minimax_model,
-                    api_key=self.config.minimax_api_key,
-                    endpoint=self.config.minimax_endpoint or "https://api.minimax.chat/v1",
-                    timeout=90,
+                    model_name=self._llm_config.minimax_model,
+                    api_key=self._llm_config.minimax_api_key,
+                    endpoint=self._llm_config.minimax_endpoint or "https://api.minimax.chat/v1",
+                    timeout=llm_timeout,
                 )
-                logger.info(f"[LLMClient] Primary: MiniMax ({self.config.minimax_model})")
+                logger.info(f"[LLMClient] Primary: MiniMax ({self._llm_config.minimax_model})")
             except Exception as e:
                 logger.warning(f"[LLMClient] Failed to init MiniMax: {e}")
 
         # DeepSeek 备用
-        if self.config.deepseek_api_key:
+        if self._llm_config.deepseek_api_key:
             try:
                 self._backup_model = ChatOpenAI(
-                    model=self.config.deepseek_model,
-                    api_key=self.config.deepseek_api_key,
-                    base_url=self.config.deepseek_endpoint or "https://api.deepseek.com",
-                    timeout=90,
+                    model=self._llm_config.deepseek_model,
+                    api_key=self._llm_config.deepseek_api_key,
+                    base_url=self._llm_config.deepseek_endpoint or "https://api.deepseek.com",
+                    timeout=llm_timeout,
                 )
-                logger.info(f"[LLMClient] Backup: DeepSeek ({self.config.deepseek_model})")
+                logger.info(f"[LLMClient] Backup: DeepSeek ({self._llm_config.deepseek_model})")
             except Exception as e:
                 logger.warning(f"[LLMClient] Failed to init DeepSeek: {e}")
 

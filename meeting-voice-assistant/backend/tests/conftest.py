@@ -7,6 +7,7 @@ Pytest 配置和 fixtures
 import sys
 from pathlib import Path
 import pytest
+import pytest_asyncio
 import asyncio
 from typing import AsyncIterator
 
@@ -28,14 +29,16 @@ def anyio_backend():
 
 
 @pytest.fixture
-async def mock_audio_chunk():
+def mock_audio_chunk():
     """模拟音频块数据 (100ms, 16kHz, 16-bit, mono)"""
     # 16000 Hz * 0.1s * 2 bytes = 3200 bytes
     return b"\x00" * 3200
 
 
-@pytest.fixture
-async def mock_audio_stream(mock_audio_chunk) -> AsyncIterator[bytes]:
+@pytest_asyncio.fixture
+async def mock_audio_stream(mock_audio_chunk):
     """模拟音频流"""
-    for _ in range(10):
-        yield mock_audio_chunk
+    async def generate():
+        for _ in range(10):
+            yield mock_audio_chunk
+    return generate()

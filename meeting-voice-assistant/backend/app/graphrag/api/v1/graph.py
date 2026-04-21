@@ -35,18 +35,20 @@ class GraphResponse(BaseModel):
 @router.get("/", response_model=GraphResponse)
 async def get_graph(
     max_nodes: int = Query(default=100, ge=10, le=500, description="Maximum number of nodes to return"),
+    session_id: str = Query(default="default", description="Session ID for workspace isolation"),
 ) -> GraphResponse:
     """
     Get knowledge graph data for visualization.
 
     - **max_nodes**: Maximum number of nodes to return (10-500, default: 100)
+    - **session_id**: Session ID for workspace isolation (default: "default")
 
     Returns nodes and edges for graph visualization.
 
-    Note: Environment isolation is handled via separate GRAPHRAG_WORKSPACE directories.
+    Note: Each session has an isolated workspace with its own indexed data.
     """
     try:
-        graph_data: GraphData = await get_core().get_graph_data(max_nodes=max_nodes)
+        graph_data: GraphData = await get_core(session_id).get_graph_data(max_nodes=max_nodes, namespace=session_id)
 
         # Convert GraphData to response format
         nodes = [

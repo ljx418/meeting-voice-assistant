@@ -2,20 +2,33 @@
 ASR 会话基类
 
 定义 ASR 业务的公共接口和通用功能
+
+架构说明:
+- BaseTranscriber: 统一的转写器抽象基类，同时支持新旧接口
+- ASRAdapterBase: 旧版适配器接口 (向后兼容)，继承自 BaseTranscriber
+- TranscriptionSegment/TranscriptionResult: 数据结构
+
+新旧接口映射:
+- ASRAdapterBase.initialize() -> BaseTranscriber.start()
+- ASRAdapterBase.close() -> BaseTranscriber.stop()
+- ASRAdapterBase.connect() -> BaseTranscriber.start()
+- ASRAdapterBase.append_audio() -> BaseTranscriber.process_audio()
+- ASRAdapterBase.commit() -> BaseTranscriber.commit()
+- ASRAdapterBase.get_result() -> BaseTranscriber.get_result()
+- ASRAdapterBase.finish() -> BaseTranscriber.finish()
 """
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Optional, List
+from typing import Optional, List, AsyncIterator
 from pathlib import Path
-import asyncio
 import logging
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
 
-# ========== 旧版适配器接口 (向后兼容) ==========
+# ========== 异常类 ==========
 
 class ASRError(Exception):
     """ASR 异常基类"""
@@ -32,10 +45,12 @@ class ASRRecognitionError(ASRError):
     pass
 
 
+# ========== 数据结构 ==========
+
 @dataclass
 class ASRResult:
     """
-    ASR 识别结果
+    ASR 识别结果 (旧版数据结构，保持向后兼容)
 
     Attributes:
         text: 识别文本
@@ -51,67 +66,6 @@ class ASRResult:
     speaker: str = "unknown"
     confidence: float = 1.0
     is_final: bool = True
-
-
-class ASRAdapterBase(ABC):
-    """
-    ASR 适配器抽象基类
-
-    定义 ASR 适配器的基本接口
-    """
-
-    def __init__(self):
-        self._initialized = False
-
-    @property
-    def is_initialized(self) -> bool:
-        """是否已初始化"""
-        return self._initialized
-
-    @abstractmethod
-    async def initialize(self) -> None:
-        """初始化适配器"""
-        pass
-
-    @abstractmethod
-    async def close(self) -> None:
-        """关闭连接"""
-        pass
-
-    @abstractmethod
-    async def recognize_stream(
-        self,
-        audio_stream,
-        sample_rate: int = 16000,
-        channels: int = 1,
-        sample_width: int = 2
-    ):
-        """
-        流式语音识别
-
-        Args:
-            audio_stream: 音频流
-            sample_rate: 采样率
-            channels: 声道数
-            sample_width: 采样宽度
-        """
-        pass
-
-    @abstractmethod
-    async def recognize_file(self, file_path: Path):
-        """
-        识别音频文件
-
-        Args:
-            file_path: 音频文件路径
-        """
-        pass
-
-    @property
-    @abstractmethod
-    def engine_name(self) -> str:
-        """返回引擎名称"""
-        pass
 
 
 @dataclass
@@ -167,11 +121,19 @@ class TranscriptionResult:
         self.transcript.append(segment)
 
 
+# ========== 统一接口 - BaseTranscriber ==========
+
 class BaseTranscriber(ABC):
     """
-    转写器抽象基类
+    转写器抽象基类 - 统一接口
 
-    定义转写器的基本接口和公共功能
+    定义转写器的基本接口和公共功能，同时支持旧版 ASRAdapterBase 兼容性方法:
+    - initialize() / start() -> 启动转写器
+    - close() / stop() -> 停止转写器
+    - process_audio() / append_audio() -> 添加音频
+    - commit() -> 提交识别
+    - get_result() -> 获取结果
+    - finish() -> 结束会话
     """
 
     def __init__(self, session_id: str):
@@ -194,16 +156,28 @@ class BaseTranscriber(ABC):
         return self._running
 
     @property
-    def duration(self) -> float:
-        """获取当前音频时长"""
-        # 假设 16kHz, 16-bit, mono
-        total_bytes = sum(len(chunk) for chunk in self._audio_chunks)
-        return total_bytes / (16000 * 2)
+    def is_initialized(self) -> bool:
+        """是否已初始化 (兼容 ASRAdapterBase)"""
+        return self._running
+
+    @property
+    def engine_name(self) -> str:
+        """返回引擎名称 (兼容 ASRAdapterBase)"""
+        return self.__class__.__name__
 
     @abstractmethod
     async def start(self) -> None:
         """开始转写"""
         pass
+
+    async def initialize(self) -> None:
+        """初始化 (兼容 ASRAdapterBase)"""
+        await self.start()
+
+    async def connect(self) -> None:
+        """连接 (兼容 ASRAdapterBase)"""
+        if not self._running:
+            await self.start()
 
     @abstractmethod
     async def process_audio(self, audio_data: bytes) -> None:
@@ -215,6 +189,10 @@ class BaseTranscriber(ABC):
         """
         pass
 
+    async def append_audio(self, audio_data: bytes) -> None:
+        """添加音频数据 (兼容 ASRAdapterBase)"""
+        await self.process_audio(audio_data)
+
     @abstractmethod
     async def get_result(self) -> Optional[TranscriptionResult]:
         """
@@ -223,6 +201,23 @@ class BaseTranscriber(ABC):
         Returns:
             TranscriptionResult 或 None (如果有)
         """
+        pass
+
+    async def commit(self) -> Optional[TranscriptionSegment]:
+        """
+        提交缓冲区音频进行识别 (兼容 ASRAdapterBase)
+
+        默认实现: 调用 get_result() 并返回第一个 segment
+        子类可覆盖以提供更精确的实现
+        """
+        result = await self.get_result()
+        if result and result.transcript:
+            return result.transcript[0]
+        return None
+
+    async def finish(self) -> None:
+        """结束会话 (兼容 ASRAdapterBase)"""
+        # 默认实现什么都不做，子类可覆盖
         pass
 
     @abstractmethod
@@ -235,10 +230,15 @@ class BaseTranscriber(ABC):
         """
         pass
 
-    @abstractmethod
+    async def close(self) -> None:
+        """关闭连接 (兼容 ASRAdapterBase)"""
+        await self.stop()
+
     async def cancel(self) -> None:
         """取消转写"""
-        pass
+        self._running = False
+        self._segments.clear()
+        self._audio_chunks.clear()
 
     def add_audio_chunk(self, audio_data: bytes) -> None:
         """添加音频块到缓冲区"""
@@ -278,3 +278,67 @@ class BaseTranscriber(ABC):
             duration=self.duration,
             language="zh"
         )
+
+    @property
+    def duration(self) -> float:
+        """获取当前音频时长"""
+        total_bytes = sum(len(chunk) for chunk in self._audio_chunks)
+        return total_bytes / (16000 * 2)
+
+
+# ========== 旧版接口 - ASRAdapterBase (向后兼容) ==========
+
+class ASRAdapterBase(BaseTranscriber):
+    """
+    ASR 适配器抽象基类 (向后兼容)
+
+    继承自 BaseTranscriber，提供旧版 ASRAdapterBase 接口兼容
+
+    旧接口方法 (已通过 BaseTranscriber 兼容):
+    - initialize() -> start()
+    - close() -> stop()
+    - connect() -> start()
+    - append_audio() -> process_audio()
+    - commit() -> commit()
+    - get_result() -> get_result()
+    - finish() -> finish()
+
+    旧接口属性:
+    - is_initialized -> is_initialized (来自 BaseTranscriber)
+    - engine_name -> engine_name (来自 BaseTranscriber)
+
+    子类需要实现:
+    - recognize_stream() - 流式识别
+    - recognize_file() - 文件识别
+    """
+
+    def __init__(self, session_id: str = "legacy"):
+        # 对于旧的 ASRAdapterBase 不需要 session_id
+        super().__init__(session_id)
+
+    async def recognize_stream(
+        self,
+        audio_stream,
+        sample_rate: int = 16000,
+        channels: int = 1,
+        sample_width: int = 2
+    ) -> AsyncIterator[ASRResult]:
+        """
+        流式语音识别 (旧版接口)
+
+        Args:
+            audio_stream: 音频流
+            sample_rate: 采样率
+            channels: 声道数
+            sample_width: 采样宽度
+        """
+        raise NotImplementedError("Subclass must implement recognize_stream()")
+
+    async def recognize_file(self, file_path: Path) -> AsyncIterator[ASRResult]:
+        """
+        识别音频文件 (旧版接口)
+
+        Args:
+            file_path: 音频文件路径
+        """
+        raise NotImplementedError("Subclass must implement recognize_file()")

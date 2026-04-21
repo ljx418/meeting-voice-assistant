@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import type { Chapter, TimeRange } from '../api/types'
+
+// Re-export types from api/types for consistency
+export type { Chapter, TimeRange }
 
 export interface Segment {
   text: string
@@ -27,17 +31,6 @@ export interface Decision {
 export interface ActionItem {
   todo: string
   source_timestamps: SourceTimestamp[]
-}
-
-export interface Chapter {
-  id: string
-  title: string
-  start_time: number
-  end_time: number
-  speaker_summaries: SpeakerSummary[]
-  summary: string
-  decisions: Decision[]
-  action_items: ActionItem[]
 }
 
 export interface AnalysisResult {

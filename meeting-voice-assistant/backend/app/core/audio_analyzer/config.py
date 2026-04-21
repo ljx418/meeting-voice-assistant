@@ -1,56 +1,34 @@
 """
 音频分析模块配置
+
+已统一到 app.config.py，通过以下方式使用：
+    from app.config import config
+    llm_config = config.llm  # LLMConfig 实例
+
+本文件保留用于向后兼容，建议逐步迁移到统一配置。
 """
 
-import os
-from pathlib import Path
 from typing import Optional
-from dataclasses import dataclass
-from dotenv import load_dotenv
 
-# 加载 .env 文件（从 backend/app/.env）
-_env_path = Path(__file__).parent.parent.parent / ".env"
-if _env_path.exists():
-    load_dotenv(_env_path)
+# 导入统一配置（延迟导入避免循环依赖）
+_config: Optional["LLMConfig"] = None
 
 
-@dataclass
-class LLMConfig:
-    """LLM 配置"""
-    provider: str  # "minimax" or "deepseek"
-    api_key: Optional[str] = None
-    endpoint: Optional[str] = None
-    model: str = "MiniMax/MiniMax-Text-01"
-
-    # MiniMax 配置
-    minimax_api_key: Optional[str] = None
-    minimax_endpoint: Optional[str] = None
-    minimax_model: str = "MiniMax-Text-01"
-
-    # DeepSeek 配置
-    deepseek_api_key: Optional[str] = None
-    deepseek_endpoint: Optional[str] = None
-    deepseek_model: str = "deepseek-chat"
-
-
-def get_llm_config() -> LLMConfig:
-    """从环境变量获取 LLM 配置"""
-    return LLMConfig(
-        provider=os.getenv("AUDIO_ANALYZER_LLM_PROVIDER", "minimax"),
-        minimax_api_key=os.getenv("MINIMAX_API_KEY"),
-        minimax_endpoint=os.getenv("MINIMAX_ENDPOINT", "https://api.minimax.chat/v1"),
-        deepseek_api_key=os.getenv("DEEPSEEK_API_KEY"),
-        deepseek_endpoint=os.getenv("DEEPSEEK_ENDPOINT", "https://api.deepseek.com"),
-    )
-
-
-# 全局配置实例
-_config: Optional[LLMConfig] = None
-
-
-def get_config() -> LLMConfig:
-    """获取全局配置实例"""
+def get_config():
+    """获取全局 LLM 配置实例（兼容旧接口）"""
     global _config
     if _config is None:
-        _config = get_llm_config()
+        from app.config import config as _app_config
+        _config = _app_config.llm
     return _config
+
+
+def get_llm_config():
+    """获取 LLM 配置（兼容旧接口）"""
+    return get_config()
+
+
+# 为向后兼容保留的 LLMConfig 类型提示
+class LLMConfig:
+    """LLM 配置（兼容性别名，指向统一配置）"""
+    pass

@@ -9,16 +9,17 @@ Mock ASR 适配器 - 用于测试
 """
 
 import asyncio
+import inspect
 from typing import AsyncIterator, Optional
 from pathlib import Path
 import logging
 
-from .base import ASRAdapterBase, ASRResult
+from .base import BaseTranscriber, TranscriptionSegment, TranscriptionResult, ASRResult
 
 logger = logging.getLogger(__name__)
 
 
-class MockASRAdapter(ASRAdapterBase):
+class MockASRAdapter(BaseTranscriber):
     """
     Mock ASR 适配器 - 用于测试完整流程
 
@@ -26,6 +27,8 @@ class MockASRAdapter(ASRAdapterBase):
     - 流式返回模拟识别结果
     - 模拟真实 ASR 的延迟
     - 返回包含说话人、时间戳等信息
+
+    实现统一接口 BaseTranscriber，同时保留旧接口兼容性
     """
 
     # 模拟会议文本
@@ -48,121 +51,142 @@ class MockASRAdapter(ASRAdapterBase):
 
     def __init__(
         self,
+        session_id: str = "mock",
         delay: float = 0.8,  # 每个结果之间的延迟(秒)
         text_index: int = 0,  # 起始文本索引
     ):
-        super().__init__()
+        super().__init__(session_id)
         self.delay = delay
         self.text_index = text_index
-        self._is_running = False
         self._current_index = text_index
+        self._results_buffer = []  # 用于存储待 yield 的结果
+        self._audio_buffer = bytearray()
 
-    async def initialize(self) -> None:
-        """初始化 Mock ASR"""
-        logger.info("[Mock ASR] Initializing Mock ASR adapter")
-        self._initialized = True
-        logger.info("[Mock ASR] Mock ASR adapter initialized successfully")
-
-    async def recognize_stream(
-        self,
-        audio_stream: AsyncIterator[bytes],
-        sample_rate: int = 16000,
-        channels: int = 1,
-        sample_width: int = 2,
-    ) -> AsyncIterator[ASRResult]:
-        """
-        模拟流式识别
-
-        监听音频流，当收到足够的音频数据时，生成模拟识别结果。
-        实际使用时不关注音频内容，只是模拟识别流程。
-
-        Args:
-            audio_stream: 音频数据流
-            sample_rate: 采样率
-            channels: 声道数
-            sample_width: 采样位深
-
-        Yields:
-            ASRResult: 模拟识别结果
-        """
-        if not self._initialized:
-            await self.initialize()
-
-        logger.info("[Mock ASR] Starting mock stream recognition")
-        self._is_running = True
+    async def start(self) -> None:
+        """开始转写"""
+        logger.info("[Mock ASR] Starting Mock ASR adapter")
+        self._running = True
         self._current_index = self.text_index
+        self._results_buffer = []
+        self._audio_buffer = bytearray()
+        logger.info("[Mock ASR] Mock ASR adapter started")
 
-        # 监听音频流，模拟处理
-        audio_chunks_received = 0
+    async def process_audio(self, audio_data: bytes) -> None:
+        """处理音频数据"""
+        self.add_audio_chunk(audio_data)
+        self._audio_buffer.extend(audio_data)
 
-        async for audio_chunk in audio_stream:
-            audio_chunks_received += 1
+        # 每收到足够的音频块，生成一个识别结果
+        if len(self._audio_buffer) >= 16000 * 2:  # 1 second of audio
+            await self._generate_result()
 
-            # 每收到 5 个音频块，生成一个识别结果
-            if audio_chunks_received % 5 == 0:
-                if self._current_index >= len(self.SAMPLE_TEXTS):
-                    # 循环使用模拟文本
-                    self._current_index = 0
+    async def _generate_result(self) -> None:
+        """生成识别结果"""
+        if self._current_index >= len(self.SAMPLE_TEXTS):
+            self._current_index = 0
 
-                text = self.SAMPLE_TEXTS[self._current_index]
-                start_time = self._current_index * 3.0
-                end_time = start_time + 2.5
+        text = self.SAMPLE_TEXTS[self._current_index]
+        start_time = self._current_index * 3.0
+        end_time = start_time + 2.5
 
-                result = ASRResult(
-                    text=text,
-                    start_time=start_time,
-                    end_time=end_time,
-                    speaker=f"speaker_{(self._current_index % 2) + 1}",
-                    confidence=0.92 + (self._current_index % 8) * 0.01,
-                )
+        segment = self.create_segment(
+            text=text,
+            start_time=start_time,
+            end_time=end_time,
+            speaker=f"speaker_{(self._current_index % 2) + 1}",
+            confidence=0.92 + (self._current_index % 8) * 0.01,
+            is_final=True
+        )
 
-                logger.debug(f"[Mock ASR] Yielding result: {text[:20]}...")
-                self._current_index += 1
+        self._segments.append(segment)
+        self._results_buffer.append(segment)
+        self._current_index += 1
 
-                yield result
+        # 清理缓冲区
+        self._audio_buffer.clear()
 
-                # 模拟 ASR 处理延迟
-                await asyncio.sleep(self.delay)
+        logger.debug(f"[Mock ASR] Generated result: {text[:20]}...")
 
-            # 检查是否停止
-            if not self._is_running:
-                break
+        # 模拟 ASR 处理延迟
+        await asyncio.sleep(self.delay)
+
+    async def commit(self) -> Optional[TranscriptionSegment]:
+        """提交缓冲区音频进行识别"""
+        if self._results_buffer:
+            return self._results_buffer.pop(0)
+        return None
+
+    async def get_result(self) -> Optional[TranscriptionResult]:
+        """获取转写结果"""
+        if self._results_buffer:
+            segment = self._results_buffer.pop(0)
+            return TranscriptionResult(
+                session_id=self.session_id,
+                transcript=[segment],
+                duration=segment.end_time - segment.start_time
+            )
+        return None
+
+    async def stop(self) -> TranscriptionResult:
+        """停止转写并返回最终结果"""
+        self._running = False
+        self._results_buffer.clear()
+        self._audio_buffer.clear()
+        logger.info("[Mock ASR] Stopped")
+        return self.build_result()
+
+    async def finish(self) -> None:
+        """结束会话"""
+        self._running = False
+        self._audio_buffer.clear()
+        logger.info("[Mock ASR] Session finished")
+
+    # 旧接口兼容
+    async def initialize(self) -> None:
+        """初始化 (兼容旧接口)"""
+        await self.start()
+
+    async def connect(self) -> None:
+        """连接 (兼容旧接口)"""
+        await self.start()
 
     async def close(self) -> None:
-        """关闭 Mock ASR"""
-        logger.info("[Mock ASR] Closing Mock ASR adapter")
-        self._is_running = False
-        self._initialized = False
+        """关闭 (兼容旧接口)"""
+        await self.stop()
 
-    async def recognize_file(self, file_path: Path) -> AsyncIterator[ASRResult]:
+    async def append_audio(self, audio_data: bytes) -> None:
+        """添加音频 (兼容旧接口)"""
+        await self.process_audio(audio_data)
+
+    async def recognize_file(self, file_path: Path):
         """
-        识别音频文件 - Mock 版本
+        识别音频文件（用于文件上传测试）
 
         Args:
             file_path: 音频文件路径
 
         Yields:
-            ASRResult: 模拟识别结果
+            ASRResult: 识别结果
         """
-        if not self._initialized:
-            await self.initialize()
+        logger.info(f"[Mock ASR] Recognizing file: {file_path}")
 
-        logger.info(f"[Mock ASR] Processing file: {file_path}")
+        # 获取文件大小
+        file_size = file_path.stat().st_size if file_path.exists() else 0
+        logger.info(f"[Mock ASR] File size: {file_size} bytes")
 
-        # 模拟文件处理延迟
-        await asyncio.sleep(0.5)
+        # 模拟处理延迟
+        await asyncio.sleep(self.delay)
 
-        # 返回所有模拟文本
+        # 返回模拟结果
         for i, text in enumerate(self.SAMPLE_TEXTS):
-            result = ASRResult(
+            yield ASRResult(
                 text=text,
                 start_time=i * 3.0,
                 end_time=i * 3.0 + 2.5,
                 speaker=f"speaker_{(i % 2) + 1}",
                 confidence=0.92 + (i % 8) * 0.01,
+                is_final=True
             )
-            yield result
-            await asyncio.sleep(0.1)
 
     @property
     def engine_name(self) -> str:

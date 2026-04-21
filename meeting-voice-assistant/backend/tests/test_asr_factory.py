@@ -63,11 +63,17 @@ class TestASRFactory:
         from app.core.asr.base import ASRAdapterBase
 
         class CustomAdapter(ASRAdapterBase):
-            async def initialize(self):
+            async def start(self):
                 pass
 
-            async def close(self):
+            async def stop(self):
+                return self.build_result()
+
+            async def process_audio(self, audio_data: bytes):
                 pass
+
+            async def get_result(self):
+                return None
 
             async def recognize_stream(self, audio_stream, sample_rate=16000, channels=1, sample_width=2):
                 yield None
@@ -130,17 +136,23 @@ class TestMockASRAdapter:
         assert adapter.is_initialized is False
 
     @pytest.mark.asyncio
-    async def test_recognize_stream(self, mock_audio_stream):
+    async def test_recognize_stream(self, mock_audio_chunk):
         """测试流式识别"""
         from app.core.asr.mock import MockASRAdapter
 
         adapter = MockASRAdapter(delay=0.01)
         await adapter.initialize()
 
+        await adapter.start()
         results = []
-        async for result in adapter.recognize_stream(mock_audio_stream):
-            results.append(result)
-            if len(results) >= 3:  # 只取前 3 个结果
+
+        # 模拟发送多个音频块（需要 >= 10 个 chunk 才够 1 秒音频触发结果生成）
+        for _ in range(30):
+            await adapter.process_audio(mock_audio_chunk)
+            result = await adapter.get_result()
+            if result and result.transcript:
+                results.append(result.transcript[0])
+            if len(results) >= 3:
                 break
 
         assert len(results) >= 1

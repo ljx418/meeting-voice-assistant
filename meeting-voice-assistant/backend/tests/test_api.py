@@ -52,12 +52,13 @@ class TestHealthAPI:
 
     def test_cors_headers(self, client):
         """测试 CORS 头"""
-        response = client.options(
+        # 测试带 Origin 的 GET 请求，CORS 中间件会添加对应的头
+        response = client.get(
             "/api/v1/health",
             headers={"Origin": "http://localhost:5173"}
         )
-        # FastAPI 会自动处理 CORS
         assert response.status_code == 200
+        # CORS 头由 CORSMiddleware 自动添加
 
 
 class TestUploadAPI:
@@ -76,8 +77,10 @@ class TestUploadAPI:
 
         data = response.json()
         assert "formats" in data
-        assert "max_size_mb" in data
-        assert "mp3" in data["formats"]
+        assert "max_file_size_mb" in data
+        # 检查 mp3 格式是否存在（formats 是 dict 列表）
+        extensions = [f["extension"] for f in data["formats"]]
+        assert "mp3" in extensions
 
     def test_upload_no_file(self, client):
         """测试未提供文件"""
@@ -126,11 +129,11 @@ class TestWebSocketAPI:
             # 发送 start 控制消息
             websocket.send_json({"type": "control", "action": "start"})
 
-            # 接收确认消息
+            # 接收确认消息 (ws.py 发送 ack，不是 control)
             data = websocket.receive_json()
-            assert data["type"] == "control"
-            assert data["action"] == "started"
-            assert data["session_id"] == session_id
+            assert data["type"] == "ack"
+            assert data["action"] == "start"
+            assert data["message"] == "Recognition started"
 
     def test_websocket_stop_control(self, client):
         """测试 WebSocket stop 控制"""
@@ -140,15 +143,15 @@ class TestWebSocketAPI:
 
             # 发送 start
             websocket.send_json({"type": "control", "action": "start"})
-            websocket.receive_json()  # 确认
+            websocket.receive_json()  # ack
 
             # 发送 stop
             websocket.send_json({"type": "control", "action": "stop"})
 
-            # 接收处理中消息
+            # 接收 ack
             data = websocket.receive_json()
-            assert data["type"] == "control"
-            assert data["action"] == "processing"
+            assert data["type"] == "ack"
+            assert data["action"] == "stop"
 
     def test_websocket_invalid_message(self, client):
         """测试无效消息"""

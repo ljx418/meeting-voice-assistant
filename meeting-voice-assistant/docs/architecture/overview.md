@@ -34,7 +34,7 @@
 │         │                         │                                        │
 │         │                         │ (处理后音频)                            │
 │         ▼                         ▼                                        │
-│  [ASR Adapter Interface]  ──> [ASR Engine: SenseVoice]                       │
+│  [ASR Adapter Interface]  ──> [ASR Engine: DashScope / FunASR / Mock]                                               │
 │         │                                                                   │
 │         │ (原始识别结果)                                                      │
 │         ▼                                                                   │
@@ -75,11 +75,21 @@
 └────────┬────────┘
          │
          ▼
-┌─────────────────┐     ┌─────────────────┐
-│  SenseVoice    │     │   Whisper      │  <- 可扩展
-│   Adapter      │     │   Adapter      │
-└─────────────────┘     └─────────────────┘
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  DashScope     │     │   FunASR        │     │    Mock         │
+│   Adapter      │     │   Adapter       │     │   Adapter       │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
 ```
+
+**支持的引擎**:
+
+| 引擎 | 说明 | 说话人分离 | 文件大小限制 |
+|------|------|-----------|-------------|
+| `mock` | Mock 模拟器 (默认，用于测试) | ❌ | 无限制 |
+| `dashscope_realtime` | DashScope Qwen3-ASR-Flash 实时流式识别 | ❌ | 无限制 |
+| `dashscope_file` | DashScope 大文件识别 (qwen3-asr-flash-filetrans) | ❌ | 512MB |
+| `funasr` | FunASR 本地说话人分离 (Paraformer + CAM++) | ✅ | 无限制 |
+| `funasr_realtime` | FunASR 实时语音转写 + 说话人分离 | ✅ | 无限制 |
 
 ### 3. DFX 设计
 

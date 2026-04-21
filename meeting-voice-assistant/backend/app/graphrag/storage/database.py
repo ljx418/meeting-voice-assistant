@@ -23,22 +23,23 @@ async def init_db() -> None:
 
 async def get_graph_data(
     max_nodes: int = 100,
+    namespace: str = "default",
 ) -> GraphData:
     """
-    Get graph data (nodes and edges) for the current environment.
+    Get graph data (nodes and edges) for a specific namespace (session).
 
     Args:
         max_nodes: Maximum number of nodes to return.
+        namespace: Session namespace for data isolation.
 
     Returns:
         GraphData object with nodes and edges lists.
-
-    Note: Environment isolation is handled via separate GRAPHRAG_WORKSPACE directories.
     """
     async with async_session() as session:
-        # Get entities as nodes (no namespace filter - environment is isolated)
+        # Get entities as nodes (filtered by namespace/session)
         entity_stmt = (
             select(Entity)
+            .where(Entity.namespace == namespace)
             .limit(max_nodes)
         )
         result = await session.execute(entity_stmt)
@@ -64,6 +65,7 @@ async def get_graph_data(
             edge_stmt = select(Relationship).where(
                 Relationship.source_entity_id.in_(entity_ids),
                 Relationship.target_entity_id.in_(entity_ids),
+                Relationship.namespace == namespace,
             )
             edge_result = await session.execute(edge_stmt)
             relationships = edge_result.scalars().all()

@@ -14,7 +14,9 @@ export const API_CONFIG = {
 
   // 完整 HTTP API URL（用于 FileUploader 等使用原始 XHR/fetch 的场景）
   uploadUrl: `${API_BASE_URL}/api/v1/upload`,
-  uploadStatusUrl: (sessionId: string) => `${API_BASE_URL}/api/v1/upload/${sessionId}/status`,
+  uploadStatusUrl: (sessionId: string) => `${API_BASE_URL}/api/v1/upload/${sessionId}/progress`,
+  uploadSSEUrl: (sessionId: string) => `${API_BASE_URL}/api/v1/upload/${sessionId}/status`,
+  uploadSessionUrl: (sessionId: string) => `${API_BASE_URL}/api/v1/upload/${sessionId}`,
   analyzeUrl: `${API_BASE_URL}/api/v1/analyze`,
 
   // WebSocket URL

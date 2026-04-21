@@ -5,32 +5,48 @@ __pycache__/
 .Python
 venv/
 env/
-.env
+.venv/
+*.egg-info/
 
 # Node
 node_modules/
 dist/
+.vite/
+vite.config.ts.timestamp-*
+.hmr.*
 .npm
+
+# Environment (secrets)
+.env
+.env.local
+.env.*.local
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
+*.sublime-workspace
+*.sublime-project
 
 # Audio cache
-backend/audio_cache/*.mp3
-backend/audio_cache/*.wav
-backend/audio_cache/*.m4a
+backend/audio_cache/
+*.mp3
+*.wav
+*.m4a
+*.ogg
+*.flac
 
 # LLM cache
 backend/llm_cache/
 
 # Transcripts (generated)
-backend/transcripts/*.txt
+backend/transcripts/
+*.txt
 
 # Logs
 *.log
+*.log.*
 nohup.out
 
 # macOS
@@ -41,9 +57,40 @@ nohup.out
 *.tmp
 *.temp
 *.swp
+*.swn
+
+# Test coverage
+coverage/
+*.coverage
+htmlcov/
+.pytest_cache/
+
+# Build artifacts
+frontend/coverage/
+frontend/dist/
+backend/dist/
+
+# Database (runtime)
+*.db
+*.db-journal
+rag_workspace/graphrag.db
+
+# GraphRAG output (generated)
+rag_workspace/output/
+rag_workspace/cache/
+
+# Session databases
+sessions.db
 
 # Claude Code team config
 .claude/
 
-# Workspace output (generated)
-workspace/output/
+# Temp directories
+tmp/
+temp/
+workspace/
+
+# Documentation (build)
+docs/_build/
+# Root logs
+../*.log

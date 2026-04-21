@@ -143,8 +143,6 @@ async function handleStart() {
       throw new Error('WebSocket client not available')
     }
     isConnecting.value = true
-    console.log('[Recorder] Starting recording, wsClient:', props.wsClient)
-    console.log('[Recorder] wsClient.start:', props.wsClient.start)
     await startRecording()
     meetingStore.setStatus('recording')
     meetingStore.clearError()

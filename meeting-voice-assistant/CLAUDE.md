@@ -185,6 +185,50 @@ GRAPHRAG_WORKSPACE=./rag_workspace
 | `/console` | MeetingConsolePage | 上传文件管理 (深色主题) |
 | `/graphrag` | GraphRAGPage | 知识图谱管理页面 |
 
+## 认证机制
+
+项目采用 **静态 API Key** 认证方案（参见 `docs/architecture/ADR-001-api-authentication.md`，状态：Accepted）。
+
+### 工作原理
+
+```env
+# 后端 .env - 留空则禁用认证（本地开发模式）
+API_KEY=your-secret-api-key-here
+
+# 前端 .env
+VITE_API_KEY=your-secret-api-key-here
+```
+
+### 认证方式
+
+| 端点 | 认证方式 |
+|------|---------|
+| WebSocket `ws://host/api/v1/ws/voice` | URL query param: `?api_key=<key>` |
+| HTTP 请求 | Header: `X-API-Key: <key>` |
+| `GET /health` | **不保护** - 健康检查需公开 |
+| `GET /upload/formats` | **不保护** - 公开信息 |
+
+### WebSocket 认证示例
+
+```typescript
+// 前端 WebSocket 连接
+const wsUrl = apiKey
+  ? `ws://localhost:8000/api/v1/ws/voice?api_key=${encodeURIComponent(apiKey)}`
+  : 'ws://localhost:8000/api/v1/ws/voice'
+```
+
+### 未受保护的端点
+
+以下端点无需认证：
+- `GET /api/v1/health` - 健康检查
+- `GET /api/v1/upload/formats` - 支持的音频格式
+
+### 安全注意事项
+
+- API Key 在 URL query 中传输，服务器日志会记录，需配置日志过滤
+- 密钥无过期，轮换需重启服务
+- 未来升级路径：多用户需求触发时迁移至 JWT（见 ADR-001 Migration Path）
+
 ## 已知问题
 
 ### 1. macOS 系统代理导致 Ollama embeddings 502 错误
@@ -209,3 +253,67 @@ GRAPHRAG_WORKSPACE=./rag_workspace
 - `frontend/src/components/CLAUDE.md` - Vue 组件说明
 - `frontend/src/composables/CLAUDE.md` - Composables 说明
 - `frontend/src/stores/CLAUDE.md` - Pinia Store 说明
+
+## AgentTeam 团队
+
+项目有一个预配置的 AgentTeam，可用于并行开发任务。
+
+**团队名称**: **`meeting-assistant`**
+当说"启动当前项目团队"时，启动此团队。
+
+### 工作规则
+
+**优先使用本项目团队成员**：
+- 优先使用本项目已经存在的团队成员
+- 优先使用本项目团队的成员描述（见下方团队职责表格）
+- 避免创建新的临时 agent，优先复用现有成员
+
+**API 访问重试规则**：
+- 如果 leader 发现团队成员无法访问 API，应让该成员重试
+- 重试最多 3 次
+- 如果 3 次重试都失败，需要在控制台反馈此问题
+
+### 团队成员
+
+| Agent | 角色 | 工作目录 |
+|-------|------|---------|
+| `team-lead` | 团队负责人 | 项目根目录 |
+| `backend-architect` | 后端架构师 | backend |
+| `backend-dev` | 后端开发工程师 | backend |
+| `backend-tester` | 后端测试工程师 | backend |
+| `frontend-developer` | 前端开发工程师 | frontend |
+| `frontend-dev` | 前端开发工程师 | frontend |
+| `frontend-tester` | 前端测试工程师 | frontend |
+| `architect` | 软件架构师 | 项目根目录 |
+| `product-manager` | 产品经理 | 项目根目录 |
+| `code-reviewer` | 代码审查专家 | 项目根目录 |
+
+### 启动团队
+
+在 Claude Code 中说"启动当前项目团队"时，执行：
+
+1. 如果团队不存在，创建团队：
+```
+TeamCreate
+- team_name: meeting-assistant
+- agent_type: team-lead
+- description: 会议语音助手开发团队
+```
+
+2. 使用 SendMessage 工具向 agents 分配任务，指定 `team_name: meeting-assistant`
+
+配置文件位置：`.claude/teams/meeting-assistant/config.json`
+
+### 团队职责
+
+| Agent | 职责 |
+|-------|------|
+| `backend-architect` | 系统架构设计、数据库设计、安全评审 |
+| `backend-dev` | API开发、ASR适配器、LLM模块、GraphRAG |
+| `backend-tester` | 后端单元测试、集成测试、API测试 |
+| `frontend-developer` | Vue组件开发、WebSocket实时通信、UI优化 |
+| `frontend-dev` | Vue组件开发、性能优化、可访问性 |
+| `frontend-tester` | 前端单元测试、组件测试、UI测试 |
+| `architect` | 技术规范制定、复杂问题解决 |
+| `product-manager` | 产品规划、需求分析、PRD编写、优先级 |
+| `code-reviewer` | 代码质量评审、安全检查、性能评估 |

@@ -35,3 +35,8 @@ app.include_router(api_router, prefix="/api/v1")
 @app.get("/")
 async def root():
     return {"service": "GraphRAG Knowledge Service", "version": "1.0.0"}
+
+
+@app.get("/health")
+async def health():
+    return {"status": "healthy", "service": "graphrag"}

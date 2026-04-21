@@ -97,68 +97,6 @@ class RealtimeTranscriber(BaseTranscriber):
         self._current_speaker = "speaker_0"  # 当前说话人
         self._speaker_count = 0  # 说话人数量
 
-        # 兼容性：适配旧的 VoiceSession 接口
-        self._initialized = False
-
-    # ========== 兼容性方法 (适配旧接口) ==========
-
-    @property
-    def engine_name(self) -> str:
-        """返回引擎名称 (兼容性属性)"""
-        return f"DashScope Realtime (qwen3-asr-flash)"
-
-    @property
-    def mode(self) -> str:
-        """返回模式 (兼容性属性)"""
-        return "realtime"
-
-    @property
-    def is_initialized(self) -> bool:
-        """是否已初始化 (兼容性属性)"""
-        return self._initialized
-
-    async def initialize(self) -> None:
-        """初始化 (兼容旧接口)"""
-        self._initialized = True
-        await self.start()
-
-    async def connect(self) -> None:
-        """连接 (兼容旧接口)"""
-        if not self._session:
-            await self.start()
-
-    async def append_audio(self, audio_data: bytes) -> None:
-        """添加音频 (兼容旧接口)"""
-        await self.process_audio(audio_data)
-
-    async def finish(self) -> None:
-        """结束会话 (兼容旧接口)"""
-        # 提交剩余音频
-        if self._audio_buffer:
-            async with self._buffer_lock:
-                if self._audio_buffer:
-                    audio_data = bytes(self._audio_buffer)
-                    self._audio_buffer.clear()
-                    self._is_speaking = False
-                    self._silence_frames = 0
-
-                    if audio_data:
-                        audio_duration = len(audio_data) / (self.SAMPLE_RATE * 2)
-                        start_time = self._last_commit_cumulative_time
-                        # 发送但不等待结果（因为 session 可能即将关闭）
-                        asyncio.create_task(
-                            self._send_for_transcription(audio_data, start_time, audio_duration)
-                        )
-
-    async def close(self) -> None:
-        """关闭连接 (兼容旧接口)"""
-        self._running = False
-        if self._session:
-            await self._session.close()
-            self._session = None
-
-    # ========== 原有接口 ==========
-
     async def start(self) -> None:
         """开始转写"""
         import time

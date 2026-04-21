@@ -58,3 +58,9 @@ ws.onMessage((msg) => {
 - 组件文件名使用 PascalCase
 - Composables 使用 use 前缀
 - 类型定义放在 `api/types.ts`
+
+## AgentTeam 团队
+
+项目团队配置在项目根目录 `CLAUDE.md` 中。
+
+说"启动当前项目团队"时，启动 `meeting-assistant` 团队。

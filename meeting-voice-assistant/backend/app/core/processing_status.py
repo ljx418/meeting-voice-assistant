@@ -87,6 +87,7 @@ class ProcessingStatusManager:
 
     def start(self, session_id: str) -> ProcessingInfo:
         """开始新的处理任务"""
+        logger.info(f"[ProcessingStatus] start({session_id}) called")
         info = ProcessingInfo(
             session_id=session_id,
             stage=ProcessingStage.UPLOADING,
@@ -96,6 +97,7 @@ class ProcessingStatusManager:
             stage_started_at=datetime.now(),
         )
         self._status[session_id] = info
+        logger.info(f"[ProcessingStatus] start({session_id}) completed, info created")
         self._notify(session_id)
         logger.info(f"[ProcessingStatus] Started: {session_id}")
         return info
@@ -111,7 +113,9 @@ class ProcessingStatusManager:
         segment_count: Optional[int] = None,
     ) -> ProcessingInfo:
         """更新处理状态"""
+        logger.info(f"[ProcessingStatus] update({session_id}) called: stage={stage}, progress={progress}")
         if session_id not in self._status:
+            logger.info(f"[ProcessingStatus] update({session_id}): session not found, calling start()")
             self.start(session_id)
 
         info = self._status[session_id]

@@ -315,6 +315,10 @@ class DashScopeFileASRAdapter(ASRAdapterBase):
         Returns:
             task_id 或 None
         """
+        # 获取超时配置
+        from app.config import config
+        asr_timeout = config.timeout.asr_timeout if hasattr(config, 'timeout') else 60.0
+
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
@@ -340,7 +344,7 @@ class DashScopeFileASRAdapter(ASRAdapterBase):
                 self.async_transcription_url,
                 headers=headers,
                 json=payload,
-                timeout=aiohttp.ClientTimeout(total=60)
+                timeout=aiohttp.ClientTimeout(total=asr_timeout)
             ) as response:
                 if response.status == 200:
                     result = await response.json()
@@ -361,6 +365,9 @@ class DashScopeFileASRAdapter(ASRAdapterBase):
 
                 return None
 
+        except asyncio.TimeoutError:
+            logger.error(f"[DashScopeFile] Submit timeout")
+            raise ASRRecognitionError("ASR 语音识别超时，请检查网络连接")
         except Exception as e:
             logger.error(f"[DashScopeFile] Submit exception: {e}")
             import traceback

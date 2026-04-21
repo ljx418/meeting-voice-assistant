@@ -6,6 +6,9 @@
       <button class="btn-nav" @click="goToMeeting">
         ← 返回会议助手
       </button>
+      <button class="btn-nav-wiki" @click="goToWiki">
+        📖 Wiki 知识库
+      </button>
     </header>
 
     <main class="page-main">
@@ -338,7 +341,11 @@ const simulation = ref<d3.Simulation<any, any> | null>(null)
 
 // 导航
 function goToMeeting() {
-  router.push('/')
+  router.push('/meeting')
+}
+
+function goToWiki() {
+  router.push('/wiki')
 }
 
 // 初始化
@@ -395,11 +402,9 @@ async function fetchCommunitySummary(communityId: string) {
 async function loadGraphData() {
   graphLoading.value = true
   try {
-    console.log('[GraphRAG] Loading graph data...')
     const res = await fetch(`${GRAPHRAG_API}/graph/?max_nodes=100`)
     if (res.ok) {
       const data = await res.json()
-      console.log('[GraphRAG] Graph data loaded:', data.nodes?.length, 'nodes,', data.edges?.length, 'edges')
       graphNodes.value = data.nodes || []
       graphEdges.value = data.edges || []
       graphStats.value = {
@@ -407,12 +412,8 @@ async function loadGraphData() {
         relationshipCount: graphEdges.value.length,
         communityCount: new Set(graphNodes.value.map(n => n.type)).size,
       }
-      console.log('[GraphRAG] Rendering graph with', graphNodes.value.length, 'nodes')
       await nextTick()
       renderGraph()
-      console.log('[GraphRAG] Graph rendered successfully')
-    } else {
-      console.error('[GraphRAG] Failed to load graph, status:', res.status)
     }
   } catch (e) {
     console.error('[GraphRAG] Failed to load graph:', e)
@@ -495,7 +496,6 @@ async function uploadFiles(files: File[]) {
     formData.append('doc', file)
 
     try {
-      console.log('[GraphRAG] Uploading file with stream:', file.name)
       uploadStatus.value = '连接服务器...'
 
       const res = await fetch(`${GRAPHRAG_API}/index/stream`, {
@@ -505,7 +505,6 @@ async function uploadFiles(files: File[]) {
 
       if (!res.ok) {
         const err = await res.text()
-        console.error('[GraphRAG] Upload failed:', err)
         uploadStatus.value = '上传失败'
         showMessage(`${file.name} 上传失败`, 'error')
         continue
@@ -535,16 +534,10 @@ async function uploadFiles(files: File[]) {
           if (line.startsWith('data: ')) {
             try {
               const event = JSON.parse(line.slice(6))
-              console.log('[GraphRAG] Progress event:', event)
 
               // 更新进度
               uploadProgress.value = event.progress || 0
               uploadStatus.value = event.message || '处理中...'
-
-              // 如果是最后一条日志，显示详情
-              if (event.details?.logs?.length) {
-                console.log('[GraphRAG] Latest log:', event.details.logs[event.details.logs.length - 1])
-              }
             } catch (e) {
               // 忽略解析错误
             }
@@ -555,7 +548,6 @@ async function uploadFiles(files: File[]) {
       // 完成
       uploadProgress.value = 100
       uploadStatus.value = '上传成功'
-      console.log('[GraphRAG] Upload stream complete')
       showMessage(`${file.name} 上传成功`, 'success')
 
     } catch (e) {
@@ -570,7 +562,6 @@ async function uploadFiles(files: File[]) {
   uploadStatus.value = ''
   // 延迟一下再加载图谱，确保服务器端数据已处理完成
   setTimeout(() => {
-    console.log('[GraphRAG] Reloading graph after upload...')
     loadDocuments()
     loadGraphData()
   }, 1000)
@@ -578,30 +569,21 @@ async function uploadFiles(files: File[]) {
 
 // 渲染图谱
 async function renderGraph() {
-  console.log('[GraphRAG] renderGraph called')
-
   // 等待DOM完全更新
   await nextTick()
   await nextTick() // 多等一次确保DOM完全渲染
-  console.log('[GraphRAG] After await nextTick')
 
   // 直接通过DOM查找SVG元素
   const svgElement = document.querySelector('.graph-svg') as SVGSVGElement | null
   const container = document.querySelector('.graph-canvas') as HTMLElement | null
 
-  console.log('[GraphRAG] svgElement:', svgElement)
-  console.log('[GraphRAG] container:', container)
-
   if (!svgElement || !container) {
-    console.log('[GraphRAG] ERROR: Cannot find SVG or container element')
     return
   }
 
   const svg = d3.select(svgElement)
   const width = container.clientWidth
   const height = container.clientHeight
-
-  console.log('[GraphRAG] Container size:', width, 'x', height)
 
   svg.selectAll('*').remove()
   svg.attr('width', width).attr('height', height)
@@ -622,11 +604,6 @@ async function renderGraph() {
   const nodes = graphNodes.value.map(n => ({...n}))
   const edges = graphEdges.value.map(e => ({...e}))
 
-  console.log('[GraphRAG] Prepared nodes:', nodes.length)
-  console.log('[GraphRAG] Prepared edges:', edges.length)
-  console.log('[GraphRAG] First node:', nodes[0])
-  console.log('[GraphRAG] First edge:', edges[0])
-
   // 创建节点映射以便快速查找
   const nodeMap = new Map(nodes.map((n: any) => [n.id, n]))
 
@@ -639,10 +616,6 @@ async function renderGraph() {
 
   simulation.value = sim
 
-  console.log('[GraphRAG] Simulation created')
-  console.log('[GraphRAG] Nodes in simulation:', nodes.length)
-  console.log('[GraphRAG] Edges in simulation:', edges.length)
-
   // 绘制边
   const link = g.append('g')
     .attr('class', 'links')
@@ -653,8 +626,6 @@ async function renderGraph() {
     .attr('stroke', '#ccc')
     .attr('stroke-width', 1)
 
-  console.log('[GraphRAG] Links appended:', link.size())
-
   // 绘制节点组
   const node = g.append('g')
     .attr('class', 'nodes')
@@ -663,8 +634,6 @@ async function renderGraph() {
     .enter()
     .append('g')
     .style('cursor', 'pointer')
-
-  console.log('[GraphRAG] Nodes appended:', node.size())
 
   // 节点圆圈
   node.append('circle')
@@ -749,15 +718,7 @@ async function renderGraph() {
   })
 
   // 仿真tick更新位置
-  let tickCount = 0
   sim.on('tick', () => {
-    tickCount++
-    if (tickCount <= 3) {
-      console.log(`[GraphRAG] tick ${tickCount}:`, {
-        nodes: nodes.slice(0,2).map(n => ({id: n.id, x: n.x, y: n.y})),
-        links: edges.slice(0,2).map(e => ({source: e.source, target: e.target}))
-      })
-    }
     link
       .attr('x1', (d: any) => {
         const sourceNode = typeof d.source === 'object' ? d.source : nodeMap.get(d.source)
@@ -778,13 +739,6 @@ async function renderGraph() {
 
     node.attr('transform', (d: any) => `translate(${d.x},${d.y})`)
   })
-
-  // 仿真结束
-  sim.on('end', () => {
-    console.log('[GraphRAG] Simulation ended after', tickCount, 'ticks')
-  })
-
-  console.log('[GraphRAG] renderGraph completed')
 }
 
 function getNodeColor(type: string): string {
@@ -866,6 +820,20 @@ function clearView() {
 }
 
 .btn-nav:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.btn-nav-wiki {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-nav-wiki:hover {
   background: rgba(255,255,255,0.3);
 }
 

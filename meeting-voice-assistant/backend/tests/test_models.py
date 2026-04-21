@@ -10,7 +10,8 @@ backend_path = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(backend_path))
 
 from pydantic import ValidationError
-from app.models import BaseResponse, HealthResponse, AudioConfig, ControlMessage, TranscriptMessage
+from app.models import BaseResponse, HealthResponse
+from app.models.audio import AudioConfig, ControlMessage, TranscriptMessage
 
 
 class TestBaseResponse:

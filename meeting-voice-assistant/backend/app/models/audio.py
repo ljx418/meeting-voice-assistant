@@ -3,7 +3,7 @@
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, Literal
 
 
 class AudioConfig(BaseModel):
@@ -16,7 +16,7 @@ class AudioConfig(BaseModel):
 class ControlMessage(BaseModel):
     """控制消息"""
     type: str = Field(default="control", description="消息类型")
-    action: str = Field(description="动作: start/stop/pause/resume")
+    action: Literal["start", "stop", "pause", "resume"] = Field(description="动作: start/stop/pause/resume")
     metadata: Optional[dict] = Field(default=None, description="元数据")
 
 

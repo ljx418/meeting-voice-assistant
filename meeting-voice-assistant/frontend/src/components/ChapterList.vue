@@ -106,8 +106,19 @@ function getSpeakerPercent(chapter: Chapter, speaker: string): number {
 }
 
 function getSpeakerColor(speaker: string): string {
+  // 首先尝试从 speakers props 中查找
   const index = props.speakers.findIndex(s => s.name === speaker)
   if (index >= 0) return props.speakers[index].color
+
+  // 如果 speaker 是 speaker_N 格式，使用其索引
+  if (speaker?.startsWith('speaker_')) {
+    const idx = parseInt(speaker.split('_')[1])
+    if (!isNaN(idx)) {
+      return speakerColors[Math.abs(idx) % speakerColors.length]
+    }
+  }
+
+  // 否则使用字符串 hash
   let hash = 0
   for (let i = 0; i < speaker.length; i++) {
     hash = speaker.charCodeAt(i) + ((hash << 5) - hash)
@@ -134,17 +145,29 @@ function handleSpeakerBarClick(chapter: Chapter, spkSummary: SpeakerSummary) {
   const timestamps = spkSummary.source_timestamps
 
   if (!timestamps || timestamps.length === 0) {
+    console.warn('[ChapterList] No timestamps for speaker:', spkSummary.speaker)
     return
   }
 
   // Use the LAST timestamp block to get the speaker's final position in this chapter
   // (a speaker may have multiple speaking turns, we want the last one)
   const lastTimestamp = timestamps[timestamps.length - 1]
+  const firstTimestamp = timestamps[0]
 
   if (lastTimestamp) {
     // source_timestamps values from backend are ALREADY absolute time in seconds from audio start
     // (not relative to chapter), so we use them directly without adding chapter.start_time
     const absoluteTime = lastTimestamp.start
+    const firstTime = firstTimestamp?.start ?? 0
+
+    console.log('[ChapterList] Speaker bar click:', {
+      speaker: spkSummary.speaker,
+      chapterId: chapter.id,
+      chapterStartTime: chapter.start_time,
+      timestamps: timestamps,
+      absoluteTime: absoluteTime,  // lastTimestamp.start (used for jump)
+      firstTime: firstTime,        // firstTimestamp.start (alternative)
+    })
 
     // Set active state for visual feedback
     activeSpeakerBar.value = chapter.id + '-' + spkSummary.speaker
@@ -249,8 +272,8 @@ function handleSpeakerBarClick(chapter: Chapter, spkSummary: SpeakerSummary) {
 
 .bars-row {
   display: flex;
-  height: 6px;
-  border-radius: 3px;
+  height: 12px;
+  border-radius: 4px;
   overflow: visible;
   gap: 2px;
 }

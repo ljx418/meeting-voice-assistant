@@ -85,12 +85,41 @@ export interface Participant {
   role?: 'host' | 'notetaker' | 'participant'
 }
 
-// 章节信息
+// 时间范围
+export interface TimeRange {
+  start: number
+  end: number
+}
+
+// 说话人总结
+export interface SpeakerSummary {
+  speaker: string
+  summary: string
+  source_timestamps: TimeRange[]
+}
+
+// 决策
+export interface Decision {
+  decision: string
+  source_timestamps: TimeRange[]
+}
+
+// 行动项
+export interface ActionItem {
+  todo: string
+  source_timestamps: TimeRange[]
+}
+
+// 章节信息（完整类型）
 export interface Chapter {
   id: string
   title: string
   start_time: number
-  end_time?: number
+  end_time: number
+  speaker_summaries: SpeakerSummary[]
+  summary: string
+  decisions: Decision[]
+  action_items: ActionItem[]
 }
 
 // 转写片段

@@ -218,7 +218,8 @@ const speakerColorMap = new Map<string, string>()
 
 function getSpeakerColor(speaker: string): string {
   if (!speakerColorMap.has(speaker)) {
-    speakerColorMap.set(speaker, speakerColors[speakerColorMap.size % speakerColors.length])
+    const colorIndex = speakerColorMap.size % speakerColors.length
+    speakerColorMap.set(speaker, speakerColors[colorIndex])
   }
   return speakerColorMap.get(speaker) || speakerColors[0]
 }
@@ -229,7 +230,10 @@ function formatSpeakerLabel(speaker: string): string {
   if (speaker === 'unknown') return '未知'
   if (speaker.startsWith('speaker_')) {
     const index = parseInt(speaker.split('_')[1])
-    return String.fromCharCode(65 + index) // A, B, C, ...
+    if (!isNaN(index)) {
+      return String.fromCharCode(65 + index) // A, B, C, ...
+    }
+    return speaker
   }
   return speaker
 }
@@ -249,59 +253,100 @@ function formatDuration(seconds: number): string {
   return `${mins}分${secs}秒`
 }
 
-let statusPollInterval: number | null = null
+let statusPollController: AbortController | null = null
 
-async function fetchStatus(sessionId: string) {
+async function startPolling(sessionId: string) {
+  stopPolling()
+  currentSessionId.value = sessionId
+
+  const controller = new AbortController()
+  statusPollController = controller
+
   try {
-    const response = await fetch(API_CONFIG.uploadStatusUrl(sessionId))
-    if (response.ok) {
-      const status: ProcessingStatus = await response.json()
-      console.log('[FileUploader] Status update:', status)
+    const response = await fetch(API_CONFIG.uploadSSEUrl(sessionId), {
+      headers: {
+        'Accept': 'text/event-stream',
+      },
+      signal: controller.signal,
+    })
 
-      processingStage.value = status.stage
-      processingMessage.value = status.message
-      uploadProgress.value = status.progress
+    if (!response.ok) {
+      console.warn(`[FileUploader] SSE poll failed: ${response.status}`)
+      return
+    }
 
-      // 更新阶段开始时间
-      if (status.stage_started_at) {
-        stageStartedAt.value = new Date(status.stage_started_at).getTime()
+    if (!response.body) {
+      console.error('[FileUploader] SSE response body is null')
+      return
+    }
+
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+    let buffer = ''
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read()
+
+        if (done || controller.signal.aborted) {
+          break
+        }
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || ''
+
+        for (const line of lines) {
+          const trimmed = line.trim()
+          if (!trimmed) continue
+
+          // Parse SSE format: "data: {...}"
+          if (trimmed.startsWith('data: ')) {
+            const jsonStr = trimmed.slice(6)
+            try {
+              const data = JSON.parse(jsonStr)
+
+              processingStage.value = data.stage
+              processingMessage.value = data.message
+
+              if (data.progress !== undefined) {
+                uploadProgress.value = data.progress
+              }
+
+              if (data.stage === 'completed') {
+                addLog('处理完成')
+                stopPolling()
+                return
+              } else if (data.stage === 'error') {
+                addLog(`处理出错: ${data.message || '未知错误'}`)
+                stopPolling()
+                return
+              }
+            } catch (e) {
+              console.warn('[FileUploader] Failed to parse SSE data:', jsonStr, e)
+            }
+          }
+        }
       }
-
-      // 检查是否完成或出错
-      if (status.stage === 'completed' || status.stage === 'error') {
-        console.log('[FileUploader] Processing ended:', status.stage)
-        stopPolling()
-      }
+    } finally {
+      reader.releaseLock()
     }
   } catch (e) {
-    console.error('[FileUploader] Failed to fetch status:', e)
+    if ((e as Error).name !== 'AbortError') {
+      console.error('[FileUploader] SSE poll error:', e)
+    }
   }
 }
 
-function startPolling(sessionId: string) {
-  stopPolling()
-  currentSessionId.value = sessionId
-  // 立即获取一次状态
-  fetchStatus(sessionId)
-  // 每秒轮询一次
-  statusPollInterval = window.setInterval(() => {
-    fetchStatus(sessionId)
-  }, 1000)
-}
-
 function stopPolling() {
-  if (statusPollInterval) {
-    clearInterval(statusPollInterval)
-    statusPollInterval = null
+  if (statusPollController) {
+    statusPollController.abort()
+    statusPollController = null
   }
 }
 
 function disconnectStatusStream() {
   stopPolling()
-  if (statusEventSource) {
-    statusEventSource.close()
-    statusEventSource = null
-  }
   if (localTimer) {
     clearInterval(localTimer)
     localTimer = null
@@ -431,10 +476,20 @@ async function uploadFile(file: File) {
             const response = JSON.parse(xhr.responseText)
             uploadProgress.value = 100
             uploadedSessionId = response.session_id
-            console.log('[FileUploader] Upload completed, session_id:', uploadedSessionId)
 
-            if (response.success) {
-              // 更新日志
+            // Backend returns status="processing" for async uploads
+            // Backend returns status="completed" for sync (mock) uploads
+            if (response.status === 'processing') {
+              // Async mode: upload succeeded, processing in background
+              addLog('已完成上传')
+              addLog('正在识别音频内容...')
+              processingStage.value = 'transcribing'
+
+              // Start SSE polling for progress updates
+              startPolling(response.session_id)
+              resolve()
+            } else if (response.status === 'completed') {
+              // Sync mode: results included in response
               completeLastLog('已完成音频识别')
               addLog(`已完成音频识别，共 ${response.segments?.length || 0} 段`)
 
@@ -447,7 +502,6 @@ async function uploadFile(file: File) {
               processingStage.value = 'completed'
               emit('transcript', uploadResult.value)
 
-              // 如果有分析结果，也添加日志
               if (response.analysis) {
                 addLog('正在识别语音内容...')
                 setTimeout(() => {
@@ -457,17 +511,19 @@ async function uploadFile(file: File) {
               } else {
                 addLog('处理完成')
               }
+              resolve()
             } else {
-              completeLastLog(`上传失败: ${response.message || '未知错误'}`)
+              completeLastLog(`上传失败: ${response.message || '未知状态'}`)
               errorMessage.value = response.message || '上传失败'
               processingStage.value = 'error'
+              reject(new Error(errorMessage.value))
             }
           } catch (e) {
             completeLastLog('解析响应失败')
             errorMessage.value = '解析响应失败'
             processingStage.value = 'error'
+            reject(e)
           }
-          resolve()
         } else {
           try {
             const error = JSON.parse(xhr.responseText)

@@ -42,14 +42,19 @@ defineEmits<{
 function getChapterPosition(startTime: number): number {
   // Use actual audio duration when available, fallback to chapter-based total
   const total = props.audioDuration || props.chapters[props.chapters.length - 1]?.end_time || 500
-  return (startTime / total) * 100
+  // Handle case where audio duration is longer than chapter-based total
+  // Avoid division by zero and clamp to valid range
+  if (total <= 0) return 0
+  return Math.min((startTime / total) * 100, 100)
 }
 
 function getChapterWidth(chapter: Chapter): number {
   // Use actual audio duration when available, fallback to chapter-based total
   const total = props.audioDuration || props.chapters[props.chapters.length - 1]?.end_time || 500
   const duration = (chapter.end_time || 0) - chapter.start_time
-  return (duration / total) * 100
+  if (total <= 0) return 0
+  // Calculate percentage but clamp to avoid overflow
+  return Math.max(0, Math.min((duration / total) * 100, 100))
 }
 </script>
 

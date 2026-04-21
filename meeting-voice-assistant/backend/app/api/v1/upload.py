@@ -10,11 +10,12 @@ import tempfile
 import os
 import json
 import atexit
+import time
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
-from fastapi import APIRouter, UploadFile, File, HTTPException, Request
+from fastapi import APIRouter, UploadFile, File, HTTPException, Request, Depends
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
@@ -31,14 +32,19 @@ from app.core.audio_analyzer import AudioAnalyzer, TranscriptSegment
 from app.core.processing_status import get_processing_status_manager, ProcessingStage, ProcessingInfo
 from app.config import config
 from app.utils.logger import setup_logger
+from app.api.v1.auth import verify_api_key
 
-logger = setup_logger("ws.upload")
+logger = setup_logger("upload.process")
+upload_logger = logger  # Alias for clarity in this module
 
 router = APIRouter()
 
 # 跟踪所有上传的临时文件，用于清理
 _upload_temp_files: set = set()
 _max_temp_age_seconds = 3600  # 1小时后清理
+
+# 并发上传限制
+_upload_semaphore = asyncio.Semaphore(3)
 
 
 def _cleanup_upload_temp_files():
@@ -184,7 +190,7 @@ def _recalculate_chapter_timestamps(chapters: List[Dict[str, Any]], segments: Li
 def _save_intermediate_result(session_id: str, stage: str, data: Dict[str, Any]) -> None:
     """保存中间结果到 workspace/output/{session_id}/{stage}.json"""
     try:
-        session_dir = config.WORKSPACE_OUTPUT_DIR / session_id
+        session_dir = config.workspace_output_dir / session_id
         session_dir.mkdir(parents=True, exist_ok=True)
         file_path = session_dir / f"{stage}.json"
         with open(file_path, 'w', encoding='utf-8') as f:
@@ -252,7 +258,7 @@ async def _save_upload_transcript(session_id: str, transcript_results: List, ana
         transcript_text = "\n".join(lines)
 
         # 保存到文件
-        transcript_path = config.TRANSCRIPTS_DIR / f"{session_id}_transcript.txt"
+        transcript_path = config.transcripts_dir / f"{session_id}_transcript.txt"
         transcript_path.write_text(transcript_text, encoding='utf-8')
         logger.info(f"[Upload {session_id}] Transcript saved to: {transcript_path}")
 
@@ -282,176 +288,103 @@ class UploadResponse(BaseModel):
     speaker_roles: Optional[List[Dict[str, str]]] = None
     # 兼容字段
     analysis: Optional[dict] = None
-    file_path: Optional[str] = None
     # 音频 URL（用于前端播放）
     audio_url: Optional[str] = None
 
 
-@router.post("/upload", response_model=UploadResponse)
-async def upload_audio_file(
-    file: UploadFile = File(...),
-    language: Optional[str] = None,
-    prompt: Optional[str] = None,
-    request: Request = None
+class UploadAcceptedResponse(BaseModel):
+    """上传接受响应（异步模式）"""
+    session_id: str
+    message: str
+    status: str = "processing"
+
+
+async def _process_upload_file(
+    session_id: str,
+    temp_file: Path,
+    ext: str,
+    file_size: int,
+    language: Optional[str],
+    prompt: Optional[str],
+    request: Optional[Request],
 ):
     """
-    上传音频/视频文件进行转写
+    后台任务：处理上传文件
 
-    支持格式: mp3, mp4, wav, m4a, ogg, flac, webm
-    注意: 文件大小限制 512MB
-
-    Args:
-        file: 上传的文件
-        language: 可选语言代码 (如 "zh", "en")
-        prompt: 可选提示词，帮助识别
-
-    Returns:
-        UploadResponse: 处理结果
+    实际执行 ASR → GraphRAG → LLM → AudioAnalyzer 的完整处理流程
+    通过 status_manager.update() 推送中间状态到 SSE 端点
     """
-    session_id = f"upload_{uuid.uuid4().hex[:8]}"
-
-    # 初始化处理状态管理器
+    upload_start_time = time.time()
+    logger.info(f"[Upload {session_id}] ========== Background Processing Started ==========")
     status_manager = get_processing_status_manager()
-    status_manager.start(session_id)
+    logger.info(f"[Upload {session_id}] status_manager obtained")
 
-    # 检查文件类型
-    allowed_types = {
-        'audio/mpeg': 'mp3',
-        'audio/mp3': 'mp3',
-        'audio/mp4': 'mp4',
-        'audio/wav': 'wav',
-        'audio/x-wav': 'wav',
-        'audio/m4a': 'm4a',
-        'audio/x-m4a': 'm4a',  # 浏览器可能发送的 MIME 类型
-        'audio/ogg': 'ogg',
-        'audio/flac': 'flac',
-        'video/mp4': 'mp4',
-        'video/webm': 'webm',
-        'application/octet-stream': None,  # 需要根据扩展名判断
-    }
-
-    content_type = file.content_type
-    ext = allowed_types.get(content_type)
-
-    if ext is None and content_type == 'application/octet-stream':
-        # 尝试从文件名判断
-        filename = file.filename or ''
-        for allowed_ext in ['mp3', 'mp4', 'wav', 'm4a', 'ogg', 'flac', 'webm']:
-            if filename.lower().endswith(f'.{allowed_ext}'):
-                ext = allowed_ext
-                break
-
-    if ext is None:
-        raise HTTPException(
-            status_code=400,
-            detail=f"不支持的文件类型: {content_type}. 支持: mp3, mp4, wav, m4a, ogg, flac, webm"
-        )
-
-    # 创建临时文件
-    temp_dir = Path(tempfile.gettempdir()) / "voice_upload"
-    temp_dir.mkdir(exist_ok=True)
-    temp_file = temp_dir / f"{session_id}.{ext}"
-
+    asr_adapter = None
     try:
-        # 保存上传的文件（流式写入，避免大文件 OOM）
-        logger.info(f"[Upload {session_id}] Saving file: {temp_file}")
-        max_size = 512 * 1024 * 1024  # 512MB
-        file_size = 0
-
-        with open(temp_file, 'wb') as f:
-            # 先读取一小块检查文件是否过大
-            initial_chunk = await file.read(1024 * 1024)  # 1MB 头
-            if len(initial_chunk) > max_size:
-                f.close()
-                os.remove(temp_file)
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"文件太大: {len(initial_chunk) / (1024*1024):.1f}MB。最大支持 512MB。"
-                )
-            f.write(initial_chunk)
-            file_size = len(initial_chunk)
-
-            # 流式读取剩余内容
-            while True:
-                chunk = await file.read(64 * 1024 * 1024)  # 每次 64MB
-                if not chunk:
-                    break
-                f.write(chunk)
-                file_size += len(chunk)
-                # 写入时检查是否超限
-                if file_size > max_size:
-                    f.close()
-                    os.remove(temp_file)
-                    raise HTTPException(
-                        status_code=400,
-                        detail=f"文件太大: {file_size / (1024*1024):.1f}MB。最大支持 512MB。"
-                    )
-        logger.info(f"[Upload {session_id}] File saved: {file_size} bytes")
-
-        # 注册临时文件到清理队列
-        _upload_temp_files.add(temp_file)
-
-        # 更新状态：文件保存完成，开始转写
+        # 更新状态：开始转写
+        logger.info(f"[Upload {session_id}] Calling status_manager.update: stage=TRANSCRIBING, progress=10")
         status_manager.update(
             session_id,
             stage=ProcessingStage.TRANSCRIBING,
             progress=10,
             message=f"文件已保存({file_size / (1024*1024):.1f}MB)，开始语音识别..."
         )
+        logger.info(f"[Upload {session_id}] status_manager.update completed, stage=TRANSCRIBING")
+        logger.info(f"[Upload {session_id}] ========== ASR Processing Starting ==========")
 
-        # 初始化 ASR (使用配置的引擎以支持说话人分离)
-        # 如果需要说话人分离，应设置 ASR_ENGINE=funasr
-        asr_engine = config.ASR_ENGINE
-        # 文件上传场景：如果配置是 funasr_realtime，改为 funasr（FunASRAdapter 支持文件识别）
+        # 初始化 ASR
+        asr_engine = config.asr.engine
         if asr_engine == "funasr_realtime":
             asr_engine = "funasr"
         asr_adapter = ASRFactory.create(asr_engine)
         await asr_adapter.initialize()
 
         # 读取并转写音频
+        asr_start_time = time.time()
         logger.info(f"[Upload {session_id}] Starting transcription...")
 
-        transcript_results: List = []  # 收集所有 ASRResult
-        speakers: set = set()  # 收集说话人
-        total_duration = 0.0  # 音频总时长
-        try:
-            # 读取音频文件并转写
-            async for result in asr_adapter.recognize_file(temp_file):
-                transcript_results.append(result)
-                # 收集说话人
-                if result.speaker:
-                    speakers.add(result.speaker)
-                # 收集时长
-                if result.end_time > total_duration:
-                    total_duration = result.end_time
-                # 计算预估剩余时间
-                elapsed = (datetime.now() - status_manager.get(session_id).started_at).total_seconds() if status_manager.get(session_id) else 1
-                processed_count = len(transcript_results)
-                # 简单估算：假设 10% 进度时开始转写，每识别一段估算剩余时间
-                if processed_count > 0 and total_duration > 0:
-                    # 估算完成需要的时间，基于已识别片段占总时长的比例
-                    # 添加边界检查避免除零和负数
-                    denominator = min(0.4, 0.1 + processed_count * 0.02)
-                    if denominator > 0 and elapsed > 0:
-                        estimated_total = elapsed / denominator
-                        remaining = max(0, int(estimated_total - elapsed))
-                    else:
-                        remaining = None
+        transcript_results: List = []
+        speakers: set = set()
+        total_duration = 0.0
+
+        # 异步迭代 ASR 结果
+        async for result in asr_adapter.recognize_file(temp_file):
+            transcript_results.append(result)
+            if result.speaker:
+                speakers.add(result.speaker)
+            if result.end_time > total_duration:
+                total_duration = result.end_time
+
+            # 计算预估剩余时间
+            elapsed = (datetime.now() - status_manager.get(session_id).started_at).total_seconds() if status_manager.get(session_id) else 1
+            processed_count = len(transcript_results)
+            if processed_count > 0 and total_duration > 0:
+                denominator = min(0.4, 0.1 + processed_count * 0.02)
+                if denominator > 0 and elapsed > 0:
+                    estimated_total = elapsed / denominator
+                    remaining = max(0, int(estimated_total - elapsed))
                 else:
                     remaining = None
-                # 更新进度：转写中 (10-40%)
-                status_manager.update(
-                    session_id,
-                    progress=min(40, 10 + len(transcript_results) * 2),
-                    message=f"正在识别语音... 已识别 {len(transcript_results)} 段",
-                    remaining_time_seconds=remaining,
-                    speaker_count=len(speakers),
-                    segment_count=len(transcript_results),
-                )
-                logger.info(f"[Upload {session_id}] Transcribed: {result.text[:50]}...")
+            else:
+                remaining = None
 
-        finally:
-            await asr_adapter.close()
+            # 更新进度：转写中 (10-40%)
+            status_manager.update(
+                session_id,
+                progress=min(40, 10 + len(transcript_results) * 2),
+                message=f"正在识别语音... 已识别 {len(transcript_results)} 段",
+                remaining_time_seconds=remaining,
+                speaker_count=len(speakers),
+                segment_count=len(transcript_results),
+            )
+            logger.info(f"[Upload {session_id}] Transcribed: {result.text[:50]}...")
+
+        await asr_adapter.close()
+        asr_adapter = None  # 标记已关闭
+
+        asr_elapsed = time.time() - asr_start_time
+        logger.info(f"[Upload {session_id}] ========== ASR Completed in {asr_elapsed:.2f}s ==========")
+        logger.info(f"[Upload {session_id}] ASR results: {len(transcript_results)} segments, {len(speakers)} speakers, total_duration={total_duration:.1f}s")
 
         # 更新状态：转写完成，开始分析
         status_manager.update(
@@ -463,10 +396,8 @@ async def upload_audio_file(
             segment_count=len(transcript_results),
         )
 
-        # 构建转写文本
+        # 构建转写文本和片段
         transcript_text = " ".join(r.text for r in transcript_results)
-
-        # 构建结构化转写片段
         segments = [
             TranscriptSegmentResponse(
                 text=r.text,
@@ -494,29 +425,89 @@ async def upload_audio_file(
             ]
         })
 
-        # 如果有录音，调用 LLM 分析
+        # 分析流程
         analysis_result = None
         audio_analysis_result = None
+        graphrag_context = None
+
         if transcript_text:
+            # Step 1: GraphRAG 实体识别
+            graphrag_start_time = time.time()
+            logger.info(f"[Upload {session_id}] ========== GraphRAG Processing Starting ==========")
             try:
-                # 原有 LLM 分析器（兼容）
+                status_manager.update(
+                    session_id,
+                    progress=52,
+                    message="正在进行实体识别和关系抽取..."
+                )
+                import httpx
+                graphrag_service_url = config.graphrag.service_url
+                graphrag_timeout = config.timeout.graphrag_timeout if hasattr(config, 'timeout') else 30.0
+                async with httpx.AsyncClient(timeout=graphrag_timeout) as client:
+                    try:
+                        logger.info(f"[Upload {session_id}] Calling GraphRAG extract API: {graphrag_service_url}/api/v1/extract/")
+                        graphrag_response = await client.post(
+                            f"{graphrag_service_url}/api/v1/extract/",
+                            json={
+                                "text": transcript_text,
+                                "session_id": session_id,
+                                "namespace": "meetings"
+                            }
+                        )
+                        if graphrag_response.status_code == 200:
+                            graphrag_data = graphrag_response.json()
+                            graphrag_context = graphrag_data
+                            entity_count = len(graphrag_data.get('entities', []))
+                            logger.info(f"[Upload {session_id}] GraphRAG extracted {entity_count} entities")
+                    except httpx.TimeoutException:
+                        logger.warning(f"[Upload {session_id}] GraphRAG entity extraction timeout")
+                        graphrag_context = None
+            except Exception as e:
+                logger.warning(f"[Upload {session_id}] GraphRAG entity extraction failed: {e}")
+                graphrag_context = None
+            finally:
+                graphrag_elapsed = time.time() - graphrag_start_time
+                logger.info(f"[Upload {session_id}] ========== GraphRAG Completed in {graphrag_elapsed:.2f}s ==========")
+
+            # Step 2: LLM 分析
+            llm_start_time = time.time()
+            logger.info(f"[Upload {session_id}] ========== LLM Analysis Starting ==========")
+            try:
                 status_manager.update(
                     session_id,
                     progress=55,
                     message="正在进行内容摘要分析..."
                 )
                 llm_analyzer = LLMAnalyzer(
-                    provider=config.LLM_PROVIDER,
-                    api_key=config.LLM_API_KEY,
-                    endpoint=config.LLM_ENDPOINT,
-                    model=config.LLM_MODEL
+                    provider=config.llm.provider,
+                    api_key=config.llm.dashscope_api_key,
+                    endpoint=config.llm.dashscope_endpoint,
+                    model=config.llm.dashscope_model
                 )
-                analysis_result = await llm_analyzer.analyze_text(transcript_text)
-                await llm_analyzer.close()
+                try:
+                    logger.info(f"[Upload {session_id}] Calling LLMAnalyzer.analyze_text_with_graphrag_context()")
+                    analysis_result = await llm_analyzer.analyze_text_with_graphrag_context(
+                        transcript_text, graphrag_context
+                    )
+                    logger.info(f"[Upload {session_id}] LLM analysis completed: theme={analysis_result.theme[:50] if analysis_result and analysis_result.theme else 'N/A'}")
+                except Exception as e:
+                    error_msg = str(e)
+                    if "timeout" in error_msg.lower():
+                        logger.warning(f"[Upload {session_id}] LLM analysis timeout")
+                        analysis_result = None
+                    else:
+                        raise
+                finally:
+                    await llm_analyzer.close()
+                    llm_elapsed = time.time() - llm_start_time
+                    logger.info(f"[Upload {session_id}] ========== LLM Analysis Completed in {llm_elapsed:.2f}s ==========")
             except Exception as e:
                 logger.warning(f"[Upload {session_id}] LLM analysis failed: {e}")
+                analysis_result = None
 
-            # 使用新的 audio_analyzer 进行深度分析
+            # Step 3: AudioAnalyzer 深度分析
+            audio_analyzer_start_time = time.time()
+            logger.info(f"[Upload {session_id}] ========== AudioAnalyzer (Deep Analysis) Starting ==========")
             try:
                 status_manager.update(
                     session_id,
@@ -524,7 +515,6 @@ async def upload_audio_file(
                     message="正在进行深度语义分析..."
                 )
                 audio_analyzer = AudioAnalyzer()
-                # 构建结构化片段
                 segs = [
                     TranscriptSegment(
                         text=r.text,
@@ -535,30 +525,25 @@ async def upload_audio_file(
                     for r in transcript_results
                 ]
                 audio_analysis_result = audio_analyzer.analyze_segments(segs)
-                logger.info(f"[Upload {session_id}] Audio analysis completed: theme={audio_analysis_result.theme[:50] if audio_analysis_result.theme else 'N/A'}...")
+                audio_analyzer_elapsed = time.time() - audio_analyzer_start_time
+                logger.info(f"[Upload {session_id}] AudioAnalyzer completed in {audio_analyzer_elapsed:.2f}s")
 
-                # 更新状态：分析完成
                 status_manager.update(
                     session_id,
                     progress=90,
                     message="分析完成，正在整理结果..."
                 )
             except Exception as e:
-                logger.warning(f"[Upload {session_id}] Audio analysis failed: {e}")
+                audio_analyzer_elapsed = time.time() - audio_analyzer_start_time
+                logger.warning(f"[Upload {session_id}] AudioAnalyzer failed after {audio_analyzer_elapsed:.2f}s: {e}")
 
         # 保存转写文本到文件
         await _save_upload_transcript(session_id, transcript_results, analysis_result)
 
-        # 标记处理完成
-        status_manager.complete(session_id, "文件处理完成")
-
-        # 优先使用 audio_analysis_result（AudioAnalyzer 使用 MiniMax/DeepSeek，结构更完整）
-        # 如果没有，则使用 analysis_result（LLMAnalyzer 使用 DashScope）
+        # 优先使用 audio_analysis_result
         primary_result = audio_analysis_result or analysis_result
 
-        # 转换结果为字典格式
         def to_dict_list(items, to_dict_attr='to_dict'):
-            """将对象列表转换为字典列表"""
             result = []
             for item in items:
                 if hasattr(item, to_dict_attr):
@@ -568,17 +553,12 @@ async def upload_audio_file(
             return result
 
         chapters_dict = to_dict_list(primary_result.chapters) if primary_result else []
-        logger.info(f"[Upload {session_id}] LLM returned {len(chapters_dict)} chapters, segments count: {len(segments) if segments else 0}")
+        speaker_roles_dict = to_dict_list(primary_result.speaker_roles) if primary_result else []
 
-        # 关键修复：用实际 ASR segment 时间戳重新计算章节 start_time/end_time
-        # LLM 生成的章节时间可能 hallucinate（如 end_time < start_time 或超出音频时长）
+        # 重新计算章节时间戳
         if chapters_dict and segments:
             logger.info(f"[Upload {session_id}] Recalculating chapter timestamps...")
             chapters_dict = _recalculate_chapter_timestamps(chapters_dict, segments)
-            logger.info(f"[Upload {session_id}] After recalculation: {len(chapters_dict)} chapters")
-        else:
-            logger.warning(f"[Upload {session_id}] Skipping recalculation: chapters={bool(chapters_dict)}, segments={bool(segments)}")
-        speaker_roles_dict = to_dict_list(primary_result.speaker_roles) if primary_result else []
 
         # 保存分析中间结果
         if primary_result:
@@ -593,52 +573,256 @@ async def upload_audio_file(
                 "action_items": primary_result.action_items,
             })
 
-        # 构建音频 URL（供前端播放使用）
-        # 使用请求的 host，避免硬编码 localhost
+        # 构建音频 URL
         if request:
             scheme = request.headers.get("x-forwarded-proto", "http")
             host = request.headers.get("host", "localhost:8000")
             audio_url = f"{scheme}://{host}/api/v1/upload/{session_id}/audio"
         else:
             audio_url = f"/api/v1/upload/{session_id}/audio"
-        logger.info(f"[Upload {session_id}] Audio URL: {audio_url}")
 
-        return UploadResponse(
-            success=True,
-            session_id=session_id,
-            message="文件处理完成",
-            transcript=transcript_text,
-            segments=segments,
-            # 统一格式字段（按段落维度输出）
-            chapters=chapters_dict,
-            theme=primary_result.theme if primary_result else None,
-            topics=primary_result.topics if primary_result else [],
-            speaker_roles=speaker_roles_dict,
-            # 兼容字段（新版统一格式）
-            analysis={
-                "summary": primary_result.summary if primary_result else None,
-                "key_points": primary_result.key_points if primary_result else [],
-                "action_items": primary_result.action_items if primary_result else [],
-                "topics": primary_result.topics if primary_result else [],
-                "theme": primary_result.theme if primary_result else None,
-                "chapters": chapters_dict,
-                "speaker_roles": speaker_roles_dict,
-            } if primary_result else None,
-            file_path=str(temp_file),
-            audio_url=audio_url
-        )
+        # 保存最终结果
+        _save_intermediate_result(session_id, "result", {
+            "session_id": session_id,
+            "transcript": transcript_text,
+            "segments": [s.model_dump() for s in segments],
+            "chapters": chapters_dict,
+            "theme": primary_result.theme if primary_result else None,
+            "topics": primary_result.topics if primary_result else [],
+            "speaker_roles": speaker_roles_dict,
+            "summary": primary_result.summary if primary_result else None,
+            "key_points": primary_result.key_points if primary_result else [],
+            "action_items": primary_result.action_items if primary_result else [],
+            "audio_url": audio_url,
+        })
+
+        # 标记处理完成
+        status_manager.complete(session_id, "文件处理完成")
+        total_elapsed = time.time() - upload_start_time
+        logger.info(f"[Upload {session_id}] ========== Background Processing Completed in {total_elapsed:.2f}s ==========")
+        logger.info(f"[Upload {session_id}] Summary: segments={len(transcript_results)}, speakers={len(speakers)}, chapters={len(chapters_dict)}")
 
     except Exception as e:
-        logger.error(f"[Upload {session_id}] Error: {e}")
+        total_elapsed = time.time() - upload_start_time
+        logger.error(f"[Upload {session_id}] Background processing error after {total_elapsed:.2f}s: {e}")
         import traceback
         logger.error(f"[Upload {session_id}] Traceback: {traceback.format_exc()}")
         status_manager.error(session_id, str(e))
-        raise HTTPException(status_code=500, detail="文件处理失败，请稍后重试。")
 
     finally:
-        # 保留临时文件以便前端通过 /upload/{session_id}/audio 访问
-        # 清理由 audio_cache cleanup 或定时任务完成
-        logger.info(f"[Upload {session_id}] Temp file kept at {temp_file} for audio streaming")
+        # 确保 ASR 适配器被关闭
+        if asr_adapter is not None:
+            try:
+                await asr_adapter.close()
+            except Exception:
+                pass
+        logger.info(f"[Upload {session_id}] Background task finished")
+
+
+@router.post("/upload", response_model=UploadAcceptedResponse)
+async def upload_audio_file(
+    file: UploadFile = File(...),
+    language: Optional[str] = None,
+    prompt: Optional[str] = None,
+    _auth: str = Depends(verify_api_key)
+):
+    """
+    上传音频/视频文件进行转写（异步模式）
+
+    支持格式: mp3, mp4, wav, m4a, ogg, flac, webm
+    注意: 文件大小限制 512MB
+
+    立即返回 session_id，实际处理在后台进行
+    通过 GET /upload/{session_id}/status SSE 端点订阅处理进度
+
+    Args:
+        file: 上传的文件
+        language: 可选语言代码 (如 "zh", "en")
+        prompt: 可选提示词，帮助识别
+
+    Returns:
+        UploadAcceptedResponse: 包含 session_id，用于订阅状态
+    """
+    session_id = f"upload_{uuid.uuid4().hex[:8]}"
+    upload_start_time = time.time()
+    logger.info(f"[Upload] ========== Upload started for session {session_id} ==========")
+    logger.info(f"[Upload {session_id}] File received: filename={file.filename}, content_type={file.content_type}")
+
+    # 初始化处理状态管理器
+    status_manager = get_processing_status_manager()
+    status_manager.start(session_id)
+
+    # 检查文件类型
+    allowed_types = {
+        'audio/mpeg': 'mp3',
+        'audio/mp3': 'mp3',
+        'audio/mp4': 'mp4',
+        'audio/wav': 'wav',
+        'audio/x-wav': 'wav',
+        'audio/m4a': 'm4a',
+        'audio/x-m4a': 'm4a',
+        'audio/ogg': 'ogg',
+        'audio/flac': 'flac',
+        'video/mp4': 'mp4',
+        'video/webm': 'webm',
+        'application/octet-stream': None,
+    }
+
+    content_type = file.content_type
+    ext = allowed_types.get(content_type)
+
+    if ext is None and content_type == 'application/octet-stream':
+        filename = file.filename or ''
+        for allowed_ext in ['mp3', 'mp4', 'wav', 'm4a', 'ogg', 'flac', 'webm']:
+            if filename.lower().endswith(f'.{allowed_ext}'):
+                ext = allowed_ext
+                break
+
+    if ext is None:
+        raise HTTPException(
+            status_code=400,
+            detail=f"不支持的文件类型: {content_type}. 支持: mp3, mp4, wav, m4a, ogg, flac, webm"
+        )
+
+    # 创建临时文件
+    temp_dir = Path(tempfile.gettempdir()) / "voice_upload"
+    temp_dir.mkdir(exist_ok=True)
+    temp_file = temp_dir / f"{session_id}.{ext}"
+
+    try:
+        # 保存上传的文件（流式写入，避免大文件 OOM）
+        logger.info(f"[Upload {session_id}] Saving file: {temp_file}")
+        max_size = 512 * 1024 * 1024  # 512MB
+        file_size = 0
+
+        with open(temp_file, 'wb') as f:
+            initial_chunk = await file.read(1024 * 1024)  # 1MB 头
+            if len(initial_chunk) > max_size:
+                f.close()
+                os.remove(temp_file)
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"文件太大: {len(initial_chunk) / (1024*1024):.1f}MB。最大支持 512MB。"
+                )
+            f.write(initial_chunk)
+            file_size = len(initial_chunk)
+
+            while True:
+                chunk = await file.read(64 * 1024 * 1024)  # 每次 64MB
+                if not chunk:
+                    break
+                if file_size + len(chunk) > max_size:
+                    f.close()
+                    os.remove(temp_file)
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"文件太大: {(file_size + len(chunk)) / (1024*1024):.1f}MB。最大支持 512MB。"
+                    )
+                f.write(chunk)
+                file_size += len(chunk)
+
+        logger.info(f"[Upload {session_id}] File saved: {file_size} bytes in {time.time() - upload_start_time:.2f}s")
+
+        # 注册临时文件到清理队列
+        _upload_temp_files.add(temp_file)
+
+        # 启动后台任务（受 semaphore 限制并发数）
+        asyncio.create_task(_process_upload_file(
+            session_id=session_id,
+            temp_file=temp_file,
+            ext=ext,
+            file_size=file_size,
+            language=language,
+            prompt=prompt,
+            request=None,  # 后台任务不需要 request
+        ))
+
+        # 立即返回 202 Accepted
+        return UploadAcceptedResponse(
+            session_id=session_id,
+            message="文件上传成功，正在后台处理中",
+            status="processing"
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"[Upload {session_id}] Upload error: {e}")
+        if temp_file.exists():
+            os.remove(temp_file)
+        raise HTTPException(status_code=500, detail="文件上传失败，请稍后重试。")
+
+
+@router.delete("/upload/{session_id}")
+async def delete_upload_session(session_id: str, _auth: str = Depends(verify_api_key)):
+    """
+    删除上传会话的临时文件和会话数据
+
+    Args:
+        session_id: 上传会话 ID (格式: upload_{8_hex_chars})
+
+    Returns:
+        删除结果
+    """
+    import re
+    if not re.match(r'^upload_[0-9a-f]{8}$', session_id):
+        logger.warning(f"[Delete] Invalid session_id format: {session_id}")
+        raise HTTPException(status_code=400, detail="无效的会话 ID")
+
+    deleted_files = []
+    errors = []
+
+    # 删除临时音频文件
+    temp_dir = (Path(tempfile.gettempdir()) / "voice_upload").resolve()
+    for ext in ['mp3', 'mp4', 'wav', 'm4a', 'ogg', 'flac', 'webm']:
+        f = temp_dir / f"{session_id}.{ext}"
+        try:
+            resolved = f.resolve()
+            if str(resolved).startswith(str(temp_dir)) and resolved.exists():
+                resolved.unlink()
+                _upload_temp_files.discard(resolved)
+                deleted_files.append(str(f.name))
+                logger.info(f"[Delete {session_id}] Removed temp file: {resolved}")
+        except Exception as e:
+            errors.append(f"temp file {ext}: {e}")
+
+    # 删除中间结果目录
+    try:
+        session_dir = config.workspace_output_dir / session_id
+        if session_dir.exists():
+            import shutil
+            shutil.rmtree(session_dir)
+            deleted_files.append(f"output/{session_id}/")
+            logger.info(f"[Delete {session_id}] Removed output dir: {session_dir}")
+    except Exception as e:
+        errors.append(f"output dir: {e}")
+
+    # 删除转写文本文件
+    try:
+        transcript_path = config.transcripts_dir / f"{session_id}_transcript.txt"
+        if transcript_path.exists():
+            transcript_path.unlink()
+            deleted_files.append(f"{session_id}_transcript.txt")
+            logger.info(f"[Delete {session_id}] Removed transcript: {transcript_path}")
+    except Exception as e:
+        errors.append(f"transcript: {e}")
+
+    # 清理处理状态
+    try:
+        status_manager = get_processing_status_manager()
+        status_manager.remove(session_id)
+    except Exception:
+        pass
+
+    if not deleted_files and not errors:
+        raise HTTPException(status_code=404, detail="会话不存在或已清理")
+
+    return {
+        "success": True,
+        "session_id": session_id,
+        "deleted": deleted_files,
+        "errors": errors if errors else None,
+    }
 
 
 @router.get("/upload/formats")
@@ -659,7 +843,7 @@ async def get_supported_formats():
 
 
 @router.get("/upload/{session_id}/audio")
-async def get_uploaded_audio(session_id: str):
+async def get_uploaded_audio(session_id: str, _auth: str = Depends(verify_api_key)):
     """
     获取上传的音频文件（用于前端播放）
 
@@ -669,15 +853,81 @@ async def get_uploaded_audio(session_id: str):
     Returns:
         Audio file stream
     """
+    # 安全验证: session_id 格式为 upload_{8_hex_chars}，防止路径遍历
+    import re
+    if not re.match(r'^upload_[0-9a-f]{8}$', session_id):
+        logger.warning(f"[Audio] Invalid session_id format: {session_id}")
+        raise HTTPException(status_code=400, detail="无效的会话 ID")
+
+
+@router.get("/upload/{session_id}")
+async def get_upload_session(session_id: str, _auth: str = Depends(verify_api_key)):
+    """
+    获取上传会话的完整数据（用于恢复会话或获取完整分析结果）
+
+    Args:
+        session_id: 上传会话 ID
+
+    Returns:
+        Session data including segments, chapters, analysis, etc.
+    """
+    import re
+    if not re.match(r'^upload_[0-9a-f]{8}$', session_id):
+        logger.warning(f"[Session] Invalid session_id format: {session_id}")
+        raise HTTPException(status_code=400, detail="无效的会话 ID")
+
+    # 尝试从 workspace/output/ 读取中间结果
+    session_dir = config.workspace_output_dir / session_id
+
+    result = {
+        "session_id": session_id,
+        "segments": None,
+        "chapters": None,
+        "analysis": None,
+    }
+
+    # 读取 transcript 中间结果
+    transcript_file = session_dir / "transcript.json"
+    if transcript_file.exists():
+        try:
+            with open(transcript_file, 'r', encoding='utf-8') as f:
+                result["segments"] = json.load(f).get("segments", [])
+        except Exception as e:
+            logger.warning(f"[Session] Failed to read transcript: {e}")
+
+    # 读取 analysis 中间结果
+    analysis_file = session_dir / "analysis.json"
+    if analysis_file.exists():
+        try:
+            with open(analysis_file, 'r', encoding='utf-8') as f:
+                result["analysis"] = json.load(f)
+                result["chapters"] = result["analysis"].get("chapters", [])
+        except Exception as e:
+            logger.warning(f"[Session] Failed to read analysis: {e}")
+
+    return result
+
     # 临时文件存储在 temp_dir / session_id . ext
     temp_dir = Path(tempfile.gettempdir()) / "voice_upload"
+    # 解析 temp_dir 为绝对路径，防止符号链接攻击
+    temp_dir = temp_dir.resolve()
 
     # 查找对应的音频文件（尝试各种可能的扩展名）
     possible_files = []
     for ext in ['mp3', 'mp4', 'wav', 'm4a', 'ogg', 'flac', 'webm']:
         f = temp_dir / f"{session_id}.{ext}"
-        if f.exists():
-            possible_files.append(f)
+        # 使用 resolve() 解析符号链接，确保文件在预期目录内
+        try:
+            resolved_path = f.resolve()
+            # 安全检查：确保解析后的路径仍在 temp_dir 内
+            if not str(resolved_path).startswith(str(temp_dir)):
+                logger.warning(f"[Audio] Path traversal attempt detected: {resolved_path}")
+                continue
+            if resolved_path.exists():
+                possible_files.append(resolved_path)
+        except (OSError, RuntimeError):
+            # 处理符号链接断裂等情况
+            continue
 
     if not possible_files:
         logger.warning(f"[Audio] File not found for session {session_id}")
@@ -730,7 +980,7 @@ class AnalyzeResponse(BaseModel):
 
 
 @router.post("/analyze", response_model=AnalyzeResponse)
-async def analyze_text(request: AnalyzeRequest):
+async def analyze_text(request: AnalyzeRequest, _auth: str = Depends(verify_api_key)):
     """
     分析文本内容
 
@@ -783,10 +1033,36 @@ async def analyze_text(request: AnalyzeRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ============ 处理状态轮询接口 (JSON) ============
+
+@router.get("/upload/{session_id}/progress")
+async def upload_progress(session_id: str, _auth: str = Depends(verify_api_key)):
+    """
+    获取上传处理进度 (JSON 格式，用于轮询)
+
+    Args:
+        session_id: 上传会话 ID
+
+    Returns:
+        ProcessingInfo as JSON
+    """
+    import re
+    if not re.match(r'^upload_[0-9a-f]{8}$', session_id):
+        raise HTTPException(status_code=400, detail="无效的会话 ID")
+
+    status_manager = get_processing_status_manager()
+    info = status_manager.get(session_id)
+
+    if not info:
+        raise HTTPException(status_code=404, detail="会话不存在或已过期")
+
+    return info.to_dict()
+
+
 # ============ 处理状态 SSE 接口 ============
 
 @router.get("/upload/{session_id}/status")
-async def upload_status_stream(session_id: str):
+async def upload_status_stream(session_id: str, _auth: str = Depends(verify_api_key)):
     """
     订阅上传处理状态更新 (SSE)
 
@@ -804,15 +1080,18 @@ async def upload_status_stream(session_id: str):
         update_event = asyncio.Event()
 
         def on_update(info: ProcessingInfo):
+            logger.info(f"[Upload {session_id}] SSE on_update callback: stage={info.stage}, progress={info.progress}")
             asyncio.create_task(queue.put(info))
             update_event.set()
 
         # 订阅状态更新
         status_manager.subscribe(session_id, on_update)
+        logger.info(f"[Upload {session_id}] SSE subscribed to status updates")
 
         try:
             # 发送初始状态
             initial_info = status_manager.get(session_id)
+            logger.info(f"[Upload {session_id}] SSE initial_info: {initial_info}")
             if initial_info:
                 yield f"event: status\ndata: {json.dumps(initial_info.to_dict())}\n\n"
 
@@ -821,10 +1100,12 @@ async def upload_status_stream(session_id: str):
                 # 等待新状态或超时
                 try:
                     info = await asyncio.wait_for(queue.get(), timeout=30.0)
+                    logger.info(f"[Upload {session_id}] SSE sending: stage={info.stage}, progress={info.progress}")
                     yield f"event: status\ndata: {json.dumps(info.to_dict())}\n\n"
 
                     # 如果处理完成或出错，发送最终状态后关闭
                     if info.stage in (ProcessingStage.COMPLETED, ProcessingStage.ERROR):
+                        logger.info(f"[Upload {session_id}] SSE stream ending: {info.stage}")
                         break
                 except asyncio.TimeoutError:
                     # 发送心跳

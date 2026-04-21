@@ -10,7 +10,6 @@ ASR 适配器工厂
 """
 
 from typing import Optional, Type, Callable
-import os
 import logging
 
 from .base import ASRAdapterBase, ASRError
@@ -24,6 +23,7 @@ from .funasr_adapter import FunASRAdapter
 from .realtime_transcriber import RealtimeTranscriber
 from .file_transcriber import FileTranscriber
 from ..realtime_spk import RealtimeSpkTranscriber
+from app.config import config
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +72,7 @@ class ASRFactory:
         创建 ASR 适配器实例
 
         Args:
-            engine: 引擎名称，默认从环境变量 ASR_ENGINE 获取
+            engine: 引擎名称，默认从统一配置 config.asr.engine 获取
 
         Returns:
             ASRAdapterBase: ASR 适配器实例
@@ -80,7 +80,7 @@ class ASRFactory:
         Raises:
             ASRError: 未知的引擎名称
         """
-        engine = engine or os.getenv("ASR_ENGINE", "mock")
+        engine = engine or config.asr.engine
         factories = cls._init_adapter_factories()
 
         if engine not in factories:
@@ -142,7 +142,7 @@ class ASRFactory:
         logger.info("[ASR Factory] Using RealtimeTranscriber (qwen3-asr-flash streaming with VAD)")
         return RealtimeTranscriber(
             session_id=session_id,
-            api_key=os.getenv("DASHSCOPE_API_KEY"),
+            api_key=config.asr.dashscope_api_key,
             model=kwargs.get("model", "qwen3-asr-flash"),
             language=kwargs.get("language", "zh"),
             max_segment_duration=kwargs.get("max_segment_duration", 10.0),
@@ -155,7 +155,7 @@ class ASRFactory:
         logger.info("[ASR Factory] Using FileTranscriber (qwen3-asr-flash-filetrans)")
         return FileTranscriber(
             session_id=session_id,
-            api_key=os.getenv("DASHSCOPE_API_KEY"),
+            api_key=config.asr.dashscope_api_key,
             model=kwargs.get("model", "qwen3-asr-flash-filetrans"),
             language=kwargs.get("language", "zh"),
             max_wait=kwargs.get("max_wait", 300)
@@ -166,7 +166,7 @@ class ASRFactory:
         """创建 Mock 适配器"""
         logger.info("[ASR Factory] Using Mock ASR (for testing)")
         return MockASRAdapter(
-            delay=float(os.getenv("MOCK_ASR_DELAY", "0.8")),
+            delay=config.asr.mock_delay,
         )
 
     @classmethod
@@ -175,17 +175,17 @@ class ASRFactory:
         logger.info("[ASR Factory] Using Aliyun ASR (SenseVoice compatibility mode)")
         return SenseVoiceAdapter(
             mode="api",
-            endpoint=os.getenv("ALIYUN_ENDPOINT", "wss://nls-gateway.cn-shanghai.aliyuncs.com/ws/v1"),
-            api_key=os.getenv("ALIYUN_API_KEY"),
+            endpoint=config.asr.aliyun_endpoint,
+            api_key=config.asr.aliyun_access_key_secret,
         )
 
     @classmethod
     def _create_sensevoice(cls) -> SenseVoiceAdapter:
         """创建 SenseVoice 本地部署适配器"""
         return SenseVoiceAdapter(
-            mode=os.getenv("SENSEVOICE_MODE", "local"),
-            endpoint=os.getenv("SENSEVOICE_ENDPOINT", "http://localhost:8000"),
-            api_key=os.getenv("SENSEVOICE_API_KEY"),
+            mode=config.asr.sensevoice_mode,
+            endpoint=config.asr.sensevoice_endpoint,
+            api_key=config.asr.sensevoice_api_key,
         )
 
     @classmethod
@@ -193,9 +193,9 @@ class ASRFactory:
         """创建 DashScope 适配器 (用于文件识别)"""
         logger.info("[ASR Factory] Using DashScope ASR (file transcription)")
         return DashScopeASRAdapter(
-            endpoint=os.getenv("DASHSCOPE_ENDPOINT", "https://dashscope.aliyuncs.com/api/v1/services/audio/asr"),
-            api_key=os.getenv("DASHSCOPE_API_KEY"),
-            model=os.getenv("DASHSCOPE_MODEL", "qwen3-asr-flash")
+            endpoint=config.asr.dashscope_endpoint,
+            api_key=config.asr.dashscope_api_key,
+            model=config.asr.dashscope_model
         )
 
     @classmethod
@@ -203,7 +203,7 @@ class ASRFactory:
         """创建 DashScope 大文件识别适配器 (支持最大 512MB+)"""
         logger.info("[ASR Factory] Using DashScope File ASR (qwen3-asr-flash-filetrans, large file)")
         return DashScopeFileASRAdapter(
-            api_key=os.getenv("DASHSCOPE_API_KEY"),
+            api_key=config.asr.dashscope_api_key,
             model="qwen3-asr-flash-filetrans"
         )
 
@@ -213,7 +213,7 @@ class ASRFactory:
         logger.info("[ASR Factory] Using DashScope Realtime ASR (qwen3-asr-flash streaming with VAD)")
         return RealtimeTranscriber(
             session_id="temp",  # 临时，VoiceSession 会用真实的 session_id
-            api_key=os.getenv("DASHSCOPE_API_KEY"),
+            api_key=config.asr.dashscope_api_key,
             model="qwen3-asr-flash",
             language="zh",
             max_segment_duration=10.0,
@@ -225,8 +225,8 @@ class ASRFactory:
         """创建 FunASR 说话人分离适配器"""
         logger.info("[ASR Factory] Using FunASR (local speaker diarization)")
         return FunASRAdapter(
-            endpoint=os.getenv("FUNASR_ENDPOINT", "http://localhost:8001"),
-            timeout=int(os.getenv("FUNASR_TIMEOUT", "3600")),
+            endpoint=config.asr.funasr_endpoint,
+            timeout=config.asr.funasr_timeout,
         )
 
     @classmethod
@@ -235,10 +235,10 @@ class ASRFactory:
         logger.info("[ASR Factory] Using FunASR Realtime (streaming + speaker diarization)")
         return RealtimeSpkTranscriber(
             session_id="temp",  # 临时，VoiceSession 会用真实的 session_id
-            funasr_endpoint=os.getenv("FUNASR_ENDPOINT", "http://localhost:8001"),
-            chunk_duration=float(os.getenv("FUNASR_CHUNK_DURATION", "3.0")),
-            min_chunk_duration=float(os.getenv("FUNASR_MIN_CHUNK_DURATION", "1.0")),
-            max_buffer_duration=float(os.getenv("FUNASR_MAX_BUFFER_DURATION", "10.0")),
+            funasr_endpoint=config.asr.funasr_endpoint,
+            chunk_duration=config.asr.funasr_chunk_duration,
+            min_chunk_duration=config.asr.funasr_min_chunk_duration,
+            max_buffer_duration=config.asr.funasr_max_buffer_duration,
         )
 
     @classmethod

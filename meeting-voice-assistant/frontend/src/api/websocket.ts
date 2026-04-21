@@ -38,7 +38,6 @@ export class VoiceWSClient {
 
   constructor(url: string = 'ws://localhost:8000/api/v1/ws/voice') {
     this.url = url
-    console.log('[WS] WebSocket URL:', this.url)
   }
 
   /**
@@ -46,20 +45,19 @@ export class VoiceWSClient {
    */
   connect(): Promise<void> {
     return new Promise((resolve, reject) => {
-      console.log(`[WS] Connecting to ${this.url}`)
-
       // 如果已有连接，先关闭
       if (this.ws) {
-        console.log('[WS] Closing existing connection')
         this.ws.close()
         this.ws = null
       }
+
+      // Clear previous handlers to prevent duplicates on reconnect
+      this.onWelcomeHandlers = []
 
       this.ws = new WebSocket(this.url)
       this.ws.binaryType = 'arraybuffer'
 
       this.ws.onopen = () => {
-        console.log('[WS] Connection opened')
         this.reconnectAttempts = 0
         this.startHeartbeat()
       }
@@ -74,7 +72,6 @@ export class VoiceWSClient {
       }
 
       this.ws.onclose = (event) => {
-        console.log('[WS] Connection closed', event.code, event.reason)
         this.stopHeartbeat()
         // 非正常关闭时自动重连（1000 为正常关闭）
         if (event.code !== 1000 && this.reconnectAttempts < this.maxReconnectAttempts) {
@@ -84,14 +81,12 @@ export class VoiceWSClient {
 
       // 注册 welcome 回调，同时解决 Promise
       this.onWelcomeHandlers.push((sessionId, config) => {
-        console.log(`[WS] Welcome received: session_id=${sessionId}`)
         resolve()
       })
 
       // 设置超时
       setTimeout(() => {
         if (!this.sessionId) {
-          console.error('[WS] Connection timeout')
           reject(new Error('Connection timeout'))
           this.disconnect()
         }
@@ -106,7 +101,6 @@ export class VoiceWSClient {
     if (typeof event.data === 'string') {
       try {
         const msg = JSON.parse(event.data)
-        console.log('[WS] Received message type:', msg.type)
 
         switch (msg.type) {
           case 'welcome':
@@ -122,11 +116,9 @@ export class VoiceWSClient {
 
           case 'meeting_info':
             // TODO: 触发 meeting_info 回调
-            console.log('[WS] Meeting info:', msg.data)
             break
 
           case 'ack':
-            console.log(`[WS] ACK: ${msg.action} - ${msg.message}`)
             break
 
           case 'error':
@@ -135,17 +127,14 @@ export class VoiceWSClient {
             break
 
           case 'status':
-            console.log(`[WS] Status: ${msg.status} - ${msg.message}`)
             this.onStatusCallback?.(msg as StatusMessage)
             break
 
           case 'processing':
-            console.log(`[WS] Processing: ${msg.stage} - ${msg.message}`)
             this.onProcessingCallback?.(msg as ProcessingMessage)
             break
 
           case 'analysis_result':
-            console.log('[WS] Analysis result received')
             this.onAnalysisResultCallback?.(msg.data as AnalysisResult)
             break
         }
@@ -153,7 +142,7 @@ export class VoiceWSClient {
         console.error('[WS] Failed to parse message:', e)
       }
     } else if (event.data instanceof ArrayBuffer) {
-      console.log(`[WS] Received audio data: ${event.data.byteLength} bytes`)
+      // Binary audio data - no logging needed
     }
   }
 
@@ -161,9 +150,7 @@ export class VoiceWSClient {
    * 发送控制消息
    */
   sendControl(action: ControlMessage['action'], metadata?: ControlMessage['metadata']): void {
-    console.log('[WS] sendControl called, action:', action, 'ws.readyState:', this.ws?.readyState)
     if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
-      console.error('[WS] Cannot send control: not connected, readyState:', this.ws?.readyState)
       return
     }
 
@@ -174,7 +161,6 @@ export class VoiceWSClient {
     }
 
     this.ws.send(JSON.stringify(msg))
-    console.log(`[WS] Sent control: ${action}, message:`, JSON.stringify(msg))
   }
 
   /**
@@ -182,7 +168,6 @@ export class VoiceWSClient {
    */
   sendAudio(frame: ArrayBuffer): void {
     if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
-      console.error('[WS] Cannot send audio: not connected')
       return
     }
 
@@ -288,14 +273,12 @@ export class VoiceWSClient {
    */
   private handleReconnect(): void {
     if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-      console.error('[WS] Max reconnection attempts reached')
       this.onErrorCallback?.(new Error('Max reconnection attempts reached'))
       return
     }
 
     this.reconnectAttempts++
     const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1)
-    console.log(`[WS] Reconnecting in ${delay}ms (attempt ${this.reconnectAttempts})`)
 
     setTimeout(() => {
       this.connect().catch((err) => {

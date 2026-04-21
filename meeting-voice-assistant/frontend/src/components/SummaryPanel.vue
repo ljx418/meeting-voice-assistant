@@ -24,7 +24,12 @@
       <div class="analyze-hint">
         支持 .txt, .text, .log 格式的转写文本文件
       </div>
-      <div v-if="uploadProgress > 0" class="upload-progress">
+      <!-- 错误提示 -->
+    <div v-if="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <div v-if="uploadProgress > 0" class="upload-progress">
         <div class="progress-bar">
           <div class="progress-fill" :style="{ width: `${uploadProgress}%` }"></div>
         </div>
@@ -203,6 +208,7 @@ const speakerColors = [
 const fileInput = ref<HTMLInputElement | null>(null)
 const isAnalyzing = ref(false)
 const uploadProgress = ref(0)
+const errorMessage = ref('')
 
 // 是否有分析结果
 const hasAnalysisResult = computed(() => {
@@ -266,9 +272,11 @@ function formatTime(seconds: number): string {
 
 // 获取说话人标签
 function getSpeakerLabel(speakerId: string): string {
-  if (speakerId.startsWith('speaker_')) {
+  if (speakerId?.startsWith('speaker_')) {
     const idx = parseInt(speakerId.split('_')[1])
-    return String.fromCharCode(65 + idx)
+    if (!isNaN(idx)) {
+      return String.fromCharCode(65 + idx)
+    }
   }
   return speakerId
 }
@@ -277,7 +285,9 @@ function getSpeakerLabel(speakerId: string): string {
 function getSpeakerColor(speakerId: string): string {
   if (speakerId.startsWith('speaker_')) {
     const idx = parseInt(speakerId.split('_')[1])
-    return speakerColors[idx % speakerColors.length]
+    if (!isNaN(idx)) {
+      return speakerColors[idx % speakerColors.length]
+    }
   }
   return speakerColors[0]
 }
@@ -303,7 +313,6 @@ async function uploadTextFile(file: File) {
 
   try {
     const text = await file.text()
-    console.log('[SummaryPanel] File loaded, text length:', text.length)
 
     // 调用分析接口，添加 AbortController 超时
     const controller = new AbortController()
@@ -322,12 +331,10 @@ async function uploadTextFile(file: File) {
     })
 
     clearTimeout(timeoutId)
-    console.log('[SummaryPanel] Response status:', response.status)
     uploadProgress.value = 50
 
     if (response.ok) {
       const result = await response.json()
-      console.log('[SummaryPanel] Analysis result:', result)
 
       if (result.success) {
         const analysisResult: AnalysisResult = {
@@ -339,17 +346,30 @@ async function uploadTextFile(file: File) {
           chapters: result.chapters || [],
           speaker_roles: result.speaker_roles || [],
         }
-        console.log('[SummaryPanel] Emitting analysis-result:', analysisResult)
         uploadProgress.value = 100
         emit('analysis-result', analysisResult)
       }
     } else {
       const errorText = await response.text()
-      console.error('Analysis failed:', response.status, errorText)
+      errorMessage.value = `分析失败: ${errorText || response.status}`
     }
   } catch (error) {
-    console.error('Analysis error:', error)
+    errorMessage.value = `分析错误: ${(error as Error).message}`
   } finally {
+    isAnalyzing.value = false
+    // 延迟清空进度，让用户看到完成状态
+    setTimeout(() => {
+      uploadProgress.value = 0
+    }, 2000)
+    // 清空错误消息
+    setTimeout(() => {
+      errorMessage.value = ''
+    }, 5000)
+    // 清空文件输入
+    if (fileInput.value) {
+      fileInput.value.value = ''
+    }
+}
     isAnalyzing.value = false
     // 延迟清空进度，让用户看到完成状态
     setTimeout(() => {
@@ -426,6 +446,16 @@ h3 {
   margin-top: 0.5rem;
   font-size: 0.75rem;
   color: #999;
+}
+
+.error-message {
+  background: #ffebee;
+  color: #c62828;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+  border-left: 3px solid #c62828;
 }
 
 .upload-progress {

@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from ...core.base import IndexResult
 from ...core.registry import get_core
 from ...storage.database import save_document
-from ...config import settings
+from ...workspace_manager import get_workspace_manager
 
 router = APIRouter()
 
@@ -27,6 +27,7 @@ ALLOWED_EXTENSIONS = {
 class IndexResponse(BaseModel):
     """Index response model."""
     doc_id: str
+    session_id: str
     status: str
     entities_count: int = 0
     relationships_count: int = 0
@@ -36,16 +37,17 @@ class IndexResponse(BaseModel):
 @router.post("/", response_model=dict)
 async def index_document(
     doc: UploadFile = File(...),
+    session_id: str = Form(default="default"),
 ) -> dict:
     """
     Index an uploaded document.
 
     - **doc**: The document file to index (multipart/form-data)
+    - **session_id**: Session ID for workspace isolation (default: "default")
 
     Returns indexing results including entity/relationship/community counts.
 
-    Note: Environment isolation is handled via separate GRAPHRAG_WORKSPACE directories.
-    No namespace parameter needed - all documents in a given environment share the same index.
+    Note: Each session has an isolated workspace with its own input/output directories.
     """
     if not doc.filename:
         raise HTTPException(status_code=400, detail="No filename provided")
@@ -61,8 +63,10 @@ async def index_document(
     # Generate document ID
     doc_id = str(uuid.uuid4())
 
-    # Determine file path in workspace (directly under input/, no namespace subdirectory)
-    workspace_input = settings.GRAPHRAG_WORKSPACE / "input"
+    # Get or create workspace for this session
+    manager = get_workspace_manager()
+    workspace_path = manager.get_workspace(session_id)
+    workspace_input = workspace_path / "input"
     workspace_input.mkdir(parents=True, exist_ok=True)
     file_path = workspace_input / doc.filename
 
@@ -73,15 +77,15 @@ async def index_document(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save file: {str(e)}")
 
-    # Index the document using core (namespace is fixed "default" for backward compat)
+    # Index the document using session-specific core
     try:
-        core = get_core()
-        result: IndexResult = await core.index_document(file_path, namespace="default")
+        core = get_core(session_id)
+        result: IndexResult = await core.index_document(file_path, namespace=session_id)
 
         # Save document record to database
         await save_document(
             doc_id=doc_id,
-            namespace="default",
+            namespace=session_id,
             filename=doc.filename,
             file_path=str(file_path),
             chunk_count=None,
@@ -90,6 +94,7 @@ async def index_document(
 
         response = {
             "doc_id": doc_id,
+            "session_id": session_id,
             "status": result.status,
             "entities_count": result.entity_count,
             "relationships_count": result.relationship_count,
@@ -108,12 +113,13 @@ async def index_progress_stream(
     doc: UploadFile,
     file_path: Path,
     doc_id: str,
+    session_id: str,
 ) -> AsyncGenerator[str, None]:
     """生成 SSE 事件流"""
-    core = get_core()
+    core = get_core(session_id)
 
     # 流式索引
-    async for event in core.index_document_stream(file_path, namespace="default"):
+    async for event in core.index_document_stream(file_path, namespace=session_id):
         yield f"data: {json.dumps(event)}\n\n"
 
         # 如果是完成或错误事件，保存文档记录
@@ -122,7 +128,7 @@ async def index_progress_stream(
                 details = event.get("details", {})
                 await save_document(
                     doc_id=doc_id,
-                    namespace="default",
+                    namespace=session_id,
                     filename=doc.filename,
                     file_path=str(file_path),
                     chunk_count=None,
@@ -133,11 +139,13 @@ async def index_progress_stream(
 @router.post("/stream")
 async def index_document_stream(
     doc: UploadFile = File(...),
+    session_id: str = Form(default="default"),
 ):
     """
     Index an uploaded document with streaming progress (SSE).
 
     - **doc**: The document file to index (multipart/form-data)
+    - **session_id**: Session ID for workspace isolation (default: "default")
 
     Returns Server-Sent Events (SSE) stream with progress updates.
 
@@ -163,8 +171,10 @@ async def index_document_stream(
     # Generate document ID
     doc_id = str(uuid.uuid4())
 
-    # Determine file path in workspace
-    workspace_input = settings.GRAPHRAG_WORKSPACE / "input"
+    # Get or create workspace for this session
+    manager = get_workspace_manager()
+    workspace_path = manager.get_workspace(session_id)
+    workspace_input = workspace_path / "input"
     workspace_input.mkdir(parents=True, exist_ok=True)
     file_path = workspace_input / doc.filename
 
@@ -177,7 +187,7 @@ async def index_document_stream(
 
     # Return SSE stream
     return StreamingResponse(
-        index_progress_stream(doc, file_path, doc_id),
+        index_progress_stream(doc, file_path, doc_id, session_id),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
@@ -198,23 +208,25 @@ class BatchIndexResponse(BaseModel):
 @router.post("/batch", response_model=BatchIndexResponse)
 async def index_documents_batch(
     file_paths: List[str] = Form(...),
+    session_id: str = Form(default="default"),
 ) -> BatchIndexResponse:
     """
     Batch index multiple documents.
 
     - **file_paths**: List of file paths to index
+    - **session_id**: Session ID for workspace isolation (default: "default")
 
     Returns batch indexing results.
 
-    Note: Environment isolation is handled via separate GRAPHRAG_WORKSPACE directories.
+    Note: Each session has an isolated workspace.
     """
     if not file_paths:
         raise HTTPException(status_code=400, detail="No file paths provided")
 
     try:
-        core = get_core()
+        core = get_core(session_id)
         paths = [Path(p) for p in file_paths]
-        result = await core.index_documents_batch(paths, namespace="default")
+        result = await core.index_documents_batch(paths, namespace=session_id)
 
         return BatchIndexResponse(
             total=result.total,
@@ -223,6 +235,7 @@ async def index_documents_batch(
             results=[
                 {
                     "doc_id": r.document_id,
+                    "session_id": session_id,
                     "status": r.status,
                     "entity_count": r.entity_count,
                     "relationship_count": r.relationship_count,

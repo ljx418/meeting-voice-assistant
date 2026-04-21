@@ -10,7 +10,7 @@
         </span>
         <span>返回上传</span>
       </button>
-      <h1 class="console-title">{{ store.topic || '会议记录' }}</h1>
+      <h1 class="console-title">{{ activeTopic }}</h1>
       <div class="console-meta">
         <span class="meta-date">{{ meetingDate }}</span>
         <span class="meta-dot">•</span>
@@ -29,11 +29,17 @@
             <p class="player-subtitle">{{ chapters.length }} 个分段 · {{ totalDuration }}</p>
           </div>
           <div class="player-controls">
-            <button class="btn-play" @click="togglePlay">
+            <button class="btn-play" @click="togglePlay" :disabled="isAudioLoading">
               <span class="play-icon">
-                <svg v-if="!isPlaying" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <!-- Loading spinner -->
+                <svg v-if="isAudioLoading" width="16" height="16" viewBox="0 0 16 16" fill="none" class="loading-spinner">
+                  <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="2" stroke-dasharray="30" stroke-dashoffset="10"/>
+                </svg>
+                <!-- Play icon -->
+                <svg v-else-if="!isPlaying" width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M6 4L12 8L6 12V4Z" fill="currentColor"/>
                 </svg>
+                <!-- Pause icon -->
                 <svg v-else width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <rect x="4" y="3" width="3" height="10" rx="0.5" fill="currentColor"/>
                   <rect x="9" y="3" width="3" height="10" rx="0.5" fill="currentColor"/>
@@ -57,7 +63,7 @@
           <ChapterList
             :chapters="chapters"
             :selected-chapter-id="store.selectedChapterId"
-            :speakers="store.speakers"
+            :speakers="activeSpeakers"
             @select-chapter="selectChapter"
             @jump-to-time="jumpToTime"
           />
@@ -85,6 +91,9 @@
           <button class="tab-item" :class="{ active: activeTab === 'transcript' }" @click="activeTab = 'transcript'">
             语音转文字
           </button>
+          <button class="tab-item" :class="{ active: activeTab === 'decisions' }" @click="activeTab = 'decisions'">
+            待办决策
+          </button>
         </div>
 
         <!-- Notes Panel Component -->
@@ -94,13 +103,65 @@
           @jump-to-time="jumpToTime"
         />
 
-        <!-- Transcript Display (placeholder for now) -->
-        <div v-else class="transcript-panel">
-          <p class="transcript-placeholder">转写内容展示区域</p>
+        <!-- Transcript Display -->
+        <div v-else-if="activeTab === 'transcript'" class="transcript-panel">
+          <div class="transcript-list">
+            <div v-for="(seg, idx) in allTranscripts" :key="idx" class="transcript-item">
+              <span class="seg-time" @click="jumpToTime(seg.start_time)">{{ formatTime(seg.start_time) }}</span>
+              <span class="seg-speaker" :style="{ color: getSpeakerColor(seg.speaker) }">{{ seg.speaker }}</span>
+              <span class="seg-text">{{ seg.text }}</span>
+            </div>
+            <div v-if="allTranscripts.length === 0" class="empty-hint">
+              暂无转写数据
+            </div>
+          </div>
+        </div>
+
+        <!-- Decisions and Action Items -->
+        <div v-else-if="activeTab === 'decisions'" class="decisions-panel">
+          <!-- Decisions Section -->
+          <div class="decisions-section">
+            <h3 class="section-title">决策点</h3>
+            <div class="decisions-list">
+              <div v-for="(dec, idx) in allDecisions" :key="'dec-' + idx" class="decision-item">
+                <div class="decision-icon">✓</div>
+                <div class="decision-content">
+                  <span class="decision-text">{{ dec.decision }}</span>
+                  <span class="decision-time" v-if="dec.source_timestamps?.length">
+                    {{ formatTime(dec.source_timestamps[0]?.start) }}
+                  </span>
+                </div>
+              </div>
+              <div v-if="allDecisions.length === 0" class="empty-hint">
+                暂无决策点
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Items Section -->
+          <div class="actions-section">
+            <h3 class="section-title">待办事项</h3>
+            <div class="actions-list">
+              <div v-for="(item, idx) in allActionItems" :key="'action-' + idx" class="action-item">
+                <div class="action-checkbox">
+                  <input type="checkbox" disabled />
+                </div>
+                <div class="action-content">
+                  <span class="action-text">{{ item.todo }}</span>
+                  <span class="action-time" v-if="item.source_timestamps?.length">
+                    {{ formatTime(item.source_timestamps[0]?.start) }}
+                  </span>
+                </div>
+              </div>
+              <div v-if="allActionItems.length === 0" class="empty-hint">
+                暂无待办事项
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- Right Sidebar (C) - 320px -->
+<!-- Right Sidebar (C) - 320px -->
       <aside class="sidebar-right">
         <!-- GraphRAG Panel Component -->
         <GraphRAGPanel
@@ -109,8 +170,11 @@
           :auto-tags="autoTags"
           :is-searching="isSearching"
           :search-error="searchError"
+          :entities="meetingEntities"
+          :fragments="meetingFragments"
           @search="triggerSearch"
           @update:search-query="searchQuery = $event"
+          @jump-to-time="jumpToTime"
         />
       </aside>
     </div>
@@ -119,7 +183,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useMeetingStore, type Chapter } from '../stores/meeting'
 import ChapterList from '../components/ChapterList.vue'
 import AudioTimeline from '../components/AudioTimeline.vue'
@@ -128,7 +192,20 @@ import GraphRAGPanel from '../components/GraphRAGPanel.vue'
 import { API_CONFIG } from '../api/config'
 
 const router = useRouter()
+const route = useRoute()
 const store = useMeetingStore()
+
+// Load session data from route param if present
+const routeSessionId = computed(() => route.params.sessionId as string | undefined)
+const sessionData = computed(() => {
+  if (routeSessionId.value) {
+    const data = store.getSessionData(routeSessionId.value) ?? null
+    console.log(`[MeetingConsole] sessionData:`, { routeSessionId: routeSessionId.value, hasData: !!data, chaptersCount: data?.chapters?.length })
+    return data
+  }
+  console.log(`[MeetingConsole] sessionData: no routeSessionId`)
+  return null
+})
 
 // Audio element ref
 const audioElement = ref<HTMLAudioElement | null>(null)
@@ -136,6 +213,7 @@ const audioSrc = ref('')
 
 // Audio player state
 const isPlaying = ref(false)
+const isAudioLoading = ref(false)
 const currentTime = ref('0:00')
 const progressPercent = ref(0)
 const totalSeconds = ref(0)
@@ -145,7 +223,69 @@ const audioError = ref('')
 const DEMO_AUDIO_URL = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
 
 // Tab state
-const activeTab = ref<'notes' | 'transcript'>('notes')
+const activeTab = ref<'notes' | 'transcript' | 'decisions'>('notes')
+
+// Speaker colors
+const speakerColors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F']
+
+// All transcripts from all chapters
+const allTranscripts = computed(() => {
+  const transcripts: Array<{ start_time: number; end_time: number; speaker: string; text: string }> = []
+  chapters.value.forEach((ch: Chapter) => {
+    if (ch.speaker_summaries) {
+      ch.speaker_summaries.forEach((spk) => {
+        if (spk.source_timestamps) {
+          spk.source_timestamps.forEach((ts) => {
+            transcripts.push({
+              start_time: ts.start,
+              end_time: ts.end,
+              speaker: spk.speaker,
+              text: spk.summary
+            })
+          })
+        }
+      })
+    }
+  })
+  return transcripts.sort((a, b) => a.start_time - b.start_time)
+})
+
+// All decisions: from sessionData if available, else from chapters
+const allDecisions = computed(() => {
+  if (activeDecisions.value.length) return activeDecisions.value
+  const decisions: Array<{ decision: string; source_timestamps: Array<{ start: number; end: number }> }> = []
+  chapters.value.forEach((ch: Chapter) => {
+    if (ch.decisions) ch.decisions.forEach(d => decisions.push(d))
+  })
+  return decisions
+})
+
+// All action items: from sessionData if available, else from chapters
+const allActionItems = computed(() => {
+  if (activeActionItems.value.length) return activeActionItems.value
+  const items: Array<{ todo: string; source_timestamps: Array<{ start: number; end: number }> }> = []
+  chapters.value.forEach((ch: Chapter) => {
+    if (ch.action_items) ch.action_items.forEach(a => items.push(a))
+  })
+  return items
+})
+
+function getSpeakerColor(speaker: string): string {
+  const index = activeSpeakers.value.findIndex(s => s.name === speaker)
+  if (index >= 0) return activeSpeakers.value[index].color
+  let hash = 0
+  for (let i = 0; i < speaker.length; i++) {
+    hash = speaker.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  return speakerColors[Math.abs(hash) % speakerColors.length]
+}
+
+function formatTime(seconds: number): string {
+  if (!seconds && seconds !== 0) return '-'
+  const mins = Math.floor(seconds / 60)
+  const secs = Math.floor(seconds % 60)
+  return `${mins}:${String(secs).padStart(2, '0')}`
+}
 
 // Search
 const searchQuery = ref('')
@@ -162,8 +302,16 @@ const meetingDate = computed(() => {
 const audioDuration = computed(() => audioElement.value?.duration || 0)
 
 const chapters = computed(() => {
-  return store.chapters.length ? store.chapters : mockChapters
+  // Only use real data - never fallback to mock
+  const src = sessionData.value?.chapters ?? store.chapters
+  return src.length ? src : []
 })
+
+const activeSpeakers = computed(() => sessionData.value?.speakers ?? store.speakers)
+const activeTopic = computed(() => sessionData.value?.theme || store.topic || '会议记录')
+const activeDecisions = computed(() => sessionData.value?.decisions ?? store.decisions)
+const activeActionItems = computed(() => sessionData.value?.actionItems ?? store.actionItems)
+const activeAudioUrl = computed(() => sessionData.value?.audioUrl || store.audioUrl || '')
 
 const currentChapterData = computed(() => {
   if (!store.selectedChapterId && chapters.value.length) {
@@ -193,16 +341,100 @@ const totalDuration = computed(() => {
 
 const autoTags = computed(() => {
   const tags: string[] = []
-  if (store.topic) tags.push(store.topic)
+  if (activeTopic.value) tags.push(activeTopic.value)
   if (currentChapterData.value?.summary) {
-    // 简单提取关键词
     const words = currentChapterData.value.summary.split(/[,，。.]/)
     tags.push(...words.slice(0, 3))
   }
-  store.decisions.forEach(d => {
+  activeDecisions.value.forEach(d => {
     if (d.decision.length < 20) tags.push(d.decision)
   })
   return tags.slice(0, 5)
+})
+
+// Meeting entities extracted from chapters
+const meetingEntities = computed(() => {
+  // Extract unique speakers as entities from mock data
+  const speakerSet = new Set<string>()
+  chapters.value.forEach((ch: Chapter) => {
+    if (ch.speaker_summaries) {
+      ch.speaker_summaries.forEach((spk) => {
+        speakerSet.add(spk.speaker)
+      })
+    }
+  })
+  const speakers = Array.from(speakerSet)
+  const entities: Array<{ name: string; type: string; relations: number; source_meeting_id?: string; timestamp?: number; description?: string }> = []
+
+  // Add speakers as entities with source tracking
+  speakers.forEach((speaker, idx) => {
+    const chapter = chapters.value.find(c => c.speaker_summaries?.some(s => s.speaker === speaker))
+    entities.push({
+      name: speaker,
+      type: '说话人',
+      relations: 3 + Math.floor(Math.random() * 3),
+      source_meeting_id: store.meetingId || 'meeting-' + Date.now(),
+      timestamp: chapter?.start_time ? chapter.start_time * 1000 : undefined,
+      description: chapter?.speaker_summaries?.find(s => s.speaker === speaker)?.summary
+    })
+  })
+
+  // Add topic as entity
+  if (store.topic) {
+    entities.push({
+      name: store.topic,
+      type: '主题',
+      relations: 5,
+      source_meeting_id: store.meetingId || 'meeting-' + Date.now(),
+      timestamp: chapters.value[0]?.start_time ? chapters.value[0].start_time * 1000 : undefined,
+      description: store.topic
+    })
+  }
+
+  // Only add real entities from the meeting data - no mock data
+  // If chapters is empty, return empty entities
+  if (chapters.value.length === 0) {
+    return []
+  }
+
+  return entities.slice(0, 6) // Limit to 6 entities
+})
+
+// Meeting file fragments from RAG
+const meetingFragments = computed(() => {
+  const fragments: Array<{ id: string; name: string; source: string; chunk_length: number; preview: string }> = []
+
+  // Generate fragments from chapter summaries
+  chapters.value.forEach((ch: Chapter, idx) => {
+    if (ch.summary) {
+      fragments.push({
+        id: `frag-${idx}`,
+        name: `会议章节${idx + 1}`,
+        source: ch.title || `章节 ${idx + 1}`,
+        chunk_length: ch.summary.length,
+        preview: ch.summary.length > 60 ? ch.summary.substring(0, 60) + '...' : ch.summary
+      })
+    }
+  })
+
+  // Add speaker summaries as fragments
+  chapters.value.forEach((ch: Chapter, chIdx) => {
+    if (ch.speaker_summaries) {
+      ch.speaker_summaries.forEach((spk, spkIdx) => {
+        if (spk.summary) {
+          fragments.push({
+            id: `frag-spk-${chIdx}-${spkIdx}`,
+            name: spk.speaker,
+            source: '说话人发言',
+            chunk_length: spk.summary.length,
+            preview: spk.summary.length > 50 ? spk.summary.substring(0, 50) + '...' : spk.summary
+          })
+        }
+      })
+    }
+  })
+
+  return fragments.slice(0, 8) // Limit to 8 fragments
 })
 
 // Mock data for demo
@@ -265,7 +497,7 @@ const mockChapters: Chapter[] = [
 
 // Methods
 function goBack() {
-  router.push('/')
+  router.push('/meeting')
 }
 
 function initAudio() {
@@ -273,11 +505,33 @@ function initAudio() {
     audioElement.value = new Audio()
     audioElement.value.addEventListener('loadedmetadata', () => {
       if (audioElement.value) {
-        totalSeconds.value = audioElement.value.duration
+        const dur = audioElement.value.duration
+        console.log('[MeetingConsole] Metadata loaded, duration:', dur)
+        isAudioLoading.value = false
+        totalSeconds.value = dur
         // If there's a pending seek request, execute it now
-        if (pendingSeekTime.value !== null && audioElement.value.duration > 0) {
+        if (pendingSeekTime.value !== null && dur > 0 && dur !== Infinity) {
           const seekTime = pendingSeekTime.value
           pendingSeekTime.value = null
+          console.log('[MeetingConsole] Executing pending seek to:', seekTime)
+          audioElement.value.currentTime = seekTime
+        }
+      }
+    })
+    // Also listen for canplay as fallback - it fires when audio is ready to play
+    audioElement.value.addEventListener('canplay', () => {
+      if (audioElement.value) {
+        const dur = audioElement.value.duration
+        console.log('[MeetingConsole] Canplay, duration:', dur)
+        isAudioLoading.value = false
+        // Only update totalSeconds if not already set
+        if (!totalSeconds.value || totalSeconds.value === Infinity) {
+          totalSeconds.value = dur
+        }
+        if (pendingSeekTime.value !== null && dur > 0 && dur !== Infinity) {
+          const seekTime = pendingSeekTime.value
+          pendingSeekTime.value = null
+          console.log('[MeetingConsole] Canplay: executing pending seek to:', seekTime)
           audioElement.value.currentTime = seekTime
         }
       }
@@ -304,8 +558,8 @@ function initAudio() {
       setTimeout(() => { audioError.value = '' }, 5000)
     })
   }
-  // Use store audioUrl or demo URL
-  const src = store.audioUrl || DEMO_AUDIO_URL
+  // Use session or store audioUrl or demo URL
+  const src = activeAudioUrl.value || DEMO_AUDIO_URL
   if (audioSrc.value !== src) {
     audioSrc.value = src
     audioElement.value.src = src
@@ -313,11 +567,9 @@ function initAudio() {
   }
 }
 
-// Watch for store.audioUrl changes - update audio when real audio URL is set
-// P0-2: Save current playback position before load, restore after
+// Watch for audioUrl changes from session or store
 let savedPlaybackPosition = 0
-
-watch(() => store.audioUrl, (newUrl) => {
+watch(activeAudioUrl, (newUrl) => {
   if (newUrl && audioElement.value) {
     const src = newUrl || DEMO_AUDIO_URL
     if (audioSrc.value !== src) {
@@ -348,11 +600,37 @@ function togglePlay() {
     audioElement.value.pause()
     isPlaying.value = false
   } else {
-    audioElement.value.play().then(() => {
-      isPlaying.value = true
-    }).catch(err => {
-      console.error('[MeetingConsole] Play failed:', err)
-    })
+    // Check if audio is ready to play
+    if (audioElement.value.readyState >= 3) {
+      // HAVE_CURRENT_DATA or more - audio is ready
+      audioElement.value.play().then(() => {
+        isPlaying.value = true
+      }).catch(err => {
+        console.error('[MeetingConsole] Play failed:', err)
+        isPlaying.value = false
+      })
+    } else {
+      // Audio not ready, wait for canplay
+      console.log('[MeetingConsole] Audio not ready for play, waiting...')
+      isAudioLoading.value = true
+      const handleCanPlay = () => {
+        if (audioElement.value) {
+          audioElement.value.play().then(() => {
+            isPlaying.value = true
+          }).catch(err => {
+            console.error('[MeetingConsole] Play failed:', err)
+            isPlaying.value = false
+          })
+        }
+        audioElement.value?.removeEventListener('canplay', handleCanPlay)
+      }
+      audioElement.value.addEventListener('canplay', handleCanPlay)
+      // Trigger loading if not already
+      if (!audioElement.value.src) {
+        audioElement.value.src = activeAudioUrl.value || DEMO_AUDIO_URL
+        audioElement.value.load()
+      }
+    }
   }
 }
 
@@ -421,6 +699,14 @@ function jumpToTime(time: number | undefined) {
   // Use ACTUAL audio duration for ALL calculations
   const audioDuration = audioElement.value?.duration || 0
 
+  console.log('[MeetingConsole] jumpToTime called:', {
+    time: time,
+    audioDuration: audioDuration,
+    audioSrc: audioSrc.value,
+    hasAudioElement: !!audioElement.value,
+    pendingSeekTime: pendingSeekTime.value,
+  })
+
   // If audio loaded, use audio duration. Otherwise use chapter total but VALIDATE it.
   let total: number
   if (audioDuration > 0) {
@@ -430,7 +716,13 @@ function jumpToTime(time: number | undefined) {
     const lastChapterEnd = chapters.value[chapters.value.length - 1]?.end_time || 500
     total = lastChapterEnd < 1800 ? lastChapterEnd : 500
   }
-  progressPercent.value = Math.min((time / total) * 100, 100)
+  // Only clamp when audio duration is known. When using fallback, allow >100%
+  // since actual audio might be longer than chapter-based total.
+  if (audioDuration > 0) {
+    progressPercent.value = Math.min((time / total) * 100, 100)
+  } else {
+    progressPercent.value = (time / total) * 100
+  }
   totalSeconds.value = total
   const min = Math.floor(time / 60)
   const sec = Math.floor(time % 60)
@@ -438,22 +730,30 @@ function jumpToTime(time: number | undefined) {
 
   // If audio element exists, seek to the time
   if (audioElement.value) {
-    if (audioDuration > 0) {
-      // Audio already loaded, seek directly
-      audioElement.value.currentTime = time
-    } else {
-      // Audio not loaded yet, save pending seek and trigger loading
-      pendingSeekTime.value = time
-      // Trigger audio load by setting src and loading
-      const src = store.audioUrl || DEMO_AUDIO_URL
+    // Re-check duration at seek time (audio might have loaded since this function was called)
+    const currentDuration = audioElement.value.duration || 0
+
+    // Always try to seek directly first - this works even if duration is not yet known
+    // The browser will queue the seek and execute when metadata is loaded
+    console.log('[MeetingConsole] Seeking to:', time, 'currentDuration:', currentDuration)
+    audioElement.value.currentTime = time
+
+    // If audio not loaded (duration is 0, NaN, or Infinity), ensure it starts loading
+    if (!currentDuration || currentDuration === Infinity || isNaN(currentDuration)) {
+      console.log('[MeetingConsole] Duration unknown, ensuring audio is loading')
+      isAudioLoading.value = true
+      const src = activeAudioUrl.value || DEMO_AUDIO_URL
       if (audioSrc.value !== src) {
+        // Different src, load it
         audioSrc.value = src
         audioElement.value.src = src
         audioElement.value.load()
-      } else {
-        // Already has correct src, just trigger metadata load
+      } else if (!audioElement.value.src || audioElement.value.src === window.location.href) {
+        // No src set or src is page URL (invalid), set it
+        audioElement.value.src = src
         audioElement.value.load()
       }
+      // If src is already set to DEMO_AUDIO_URL, the seek we just set will apply when loaded
     }
   }
 }
@@ -537,7 +837,11 @@ async function triggerSearch() {
 
 // Initialize
 onMounted(() => {
-  // Do NOT set totalSeconds from chapter data here - let loadedmetadata event set it from actual audio duration
+  // Sync session data to global store if navigated via sessionId route
+  if (routeSessionId.value) {
+    store.setActiveSession(routeSessionId.value)
+  }
+  // Ensure we have chapters - fallback to store.chapters if sessionData is null
   if (chapters.value.length && !store.selectedChapterId) {
     store.setSelectedChapterId(chapters.value[0].id)
   }
@@ -688,6 +992,25 @@ onUnmounted(() => {
   background: #5558e3;
 }
 
+.btn-play:disabled {
+  background: #6366f1;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .time-display {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.9);
@@ -765,5 +1088,150 @@ onUnmounted(() => {
   width: 320px;
   flex-shrink: 0;
   padding: 16px 16px 16px 0;
+}
+
+/* Transcript Panel */
+.transcript-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.transcript-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.transcript-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: #141420;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.transcript-item .seg-time {
+  color: #6366f1;
+  cursor: pointer;
+  flex-shrink: 0;
+  min-width: 50px;
+}
+
+.transcript-item .seg-time:hover {
+  text-decoration: underline;
+}
+
+.transcript-item .seg-speaker {
+  flex-shrink: 0;
+  min-width: 80px;
+  font-weight: 500;
+}
+
+.transcript-item .seg-text {
+  color: rgba(255, 255, 255, 0.8);
+  flex: 1;
+}
+
+/* Decisions Panel */
+.decisions-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.decisions-section,
+.actions-section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 12px;
+}
+
+.decisions-list,
+.actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.decision-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: #141420;
+  border-radius: 6px;
+  border-left: 3px solid #22c55e;
+}
+
+.decision-icon {
+  color: #22c55e;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.decision-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.decision-text {
+  font-size: 13px;
+  color: #fff;
+}
+
+.decision-time {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.action-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: #141420;
+  border-radius: 6px;
+  border-left: 3px solid #f59e0b;
+}
+
+.action-checkbox {
+  flex-shrink: 0;
+}
+
+.action-checkbox input {
+  width: 16px;
+  height: 16px;
+  accent-color: #f59e0b;
+}
+
+.action-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.action-text {
+  font-size: 13px;
+  color: #fff;
+}
+
+.action-time {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.empty-hint {
+  padding: 24px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
 }
 </style>
