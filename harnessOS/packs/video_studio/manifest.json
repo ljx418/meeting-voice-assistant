@@ -1,0 +1,16 @@
+{
+  "name": "video_studio",
+  "version": "0.0.1",
+  "domain": "video_studio",
+  "description": "Stub for AI video creation workflows and multi-agent studio role orchestration.",
+  "status": "stub",
+  "workflows": ["video.brief", "video.script", "video.storyboard", "video.assign_roles", "video.edit_pipeline"],
+  "subagents": ["studio.lead", "director", "scriptwriter", "storyboarder", "editor", "qa.publisher"],
+  "skills": [],
+  "connectors": [],
+  "artifact_kinds": ["brief", "script", "storyboard", "asset_plan", "edit_plan", "publish_report"],
+  "risk_profile": "elevated",
+  "metadata": {
+    "handoff_model": "artifact_chain"
+  }
+}

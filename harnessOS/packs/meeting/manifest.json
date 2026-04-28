@@ -1,0 +1,16 @@
+{
+  "name": "meeting",
+  "version": "0.1.0",
+  "domain": "meeting",
+  "description": "Meeting audio analysis, transcription, minutes generation, and artifact registration.",
+  "status": "active",
+  "workflows": ["meeting.workflow"],
+  "subagents": [],
+  "skills": ["meeting.transcribe", "meeting.minutes"],
+  "connectors": ["meeting-voice-assistant.mcp"],
+  "artifact_kinds": ["analysis", "minutes", "result", "transcript"],
+  "risk_profile": "standard",
+  "metadata": {
+    "validation_audio_dir": "/Users/Zhuanz/Desktop/workspace/音频资料"
+  }
+}

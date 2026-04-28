@@ -1,0 +1,86 @@
+"""Core engine exports."""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:  # pragma: no cover
+    from core.engine.messages import (
+        ConversationMessage,
+        ImageBlock,
+        TextBlock,
+        ToolResultBlock,
+        ToolUseBlock,
+    )
+    from core.engine.query_engine import QueryEngine
+    from core.engine.stream_events import (
+        AssistantTextDelta,
+        AssistantTurnComplete,
+        ToolExecutionCompleted,
+        ToolExecutionStarted,
+    )
+
+__all__ = [
+    "AssistantTextDelta",
+    "AssistantTurnComplete",
+    "ConversationMessage",
+    "ImageBlock",
+    "QueryEngine",
+    "StreamEvent",
+    "TextBlock",
+    "ToolExecutionCompleted",
+    "ToolExecutionStarted",
+    "ToolResultBlock",
+    "ToolUseBlock",
+]
+
+
+def __getattr__(name: str):
+    if name in {"ConversationMessage", "ImageBlock", "TextBlock", "ToolResultBlock", "ToolUseBlock"}:
+        from core.engine.messages import (
+            ConversationMessage,
+            ImageBlock,
+            TextBlock,
+            ToolResultBlock,
+            ToolUseBlock,
+        )
+
+        return {
+            "ConversationMessage": ConversationMessage,
+            "ImageBlock": ImageBlock,
+            "TextBlock": TextBlock,
+            "ToolResultBlock": ToolResultBlock,
+            "ToolUseBlock": ToolUseBlock,
+        }[name]
+
+    if name == "QueryEngine":
+        from core.engine.query_engine import QueryEngine
+
+        return QueryEngine
+
+    if name == "StreamEvent":
+        from core.engine.stream_events import StreamEvent
+
+        return StreamEvent
+
+    if name in {
+        "AssistantTextDelta",
+        "AssistantTurnComplete",
+        "ToolExecutionCompleted",
+        "ToolExecutionStarted",
+    }:
+        from core.engine.stream_events import (
+            AssistantTextDelta,
+            AssistantTurnComplete,
+            ToolExecutionCompleted,
+            ToolExecutionStarted,
+        )
+
+        return {
+            "AssistantTextDelta": AssistantTextDelta,
+            "AssistantTurnComplete": AssistantTurnComplete,
+            "ToolExecutionCompleted": ToolExecutionCompleted,
+            "ToolExecutionStarted": ToolExecutionStarted,
+        }[name]
+
+    raise AttributeError(name)

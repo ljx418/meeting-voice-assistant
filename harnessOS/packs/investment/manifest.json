@@ -1,0 +1,17 @@
+{
+  "name": "investment",
+  "version": "0.0.1",
+  "domain": "investment",
+  "description": "Stub for asset management, investment advice, portfolio management, and strategy backtesting.",
+  "status": "stub",
+  "workflows": ["portfolio.analysis", "advice.generate", "position.manage", "strategy.backtest"],
+  "subagents": ["investment.researcher", "risk.reviewer"],
+  "skills": [],
+  "connectors": [],
+  "artifact_kinds": ["portfolio_report", "advice_report", "backtest_report"],
+  "risk_profile": "high",
+  "metadata": {
+    "requires_tool_policy_middleware": true,
+    "requires_approval": true
+  }
+}

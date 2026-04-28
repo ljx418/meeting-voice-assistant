@@ -1,0 +1,14 @@
+{
+  "name": "knowledge",
+  "version": "0.1.0",
+  "domain": "knowledge",
+  "description": "Local knowledge ingestion and retrieval workflow.",
+  "status": "active",
+  "workflows": ["knowledge.workflow"],
+  "subagents": [],
+  "skills": ["knowledge.ingest", "knowledge.search"],
+  "connectors": ["local.knowledge"],
+  "artifact_kinds": ["note", "summary", "source"],
+  "risk_profile": "standard",
+  "metadata": {}
+}

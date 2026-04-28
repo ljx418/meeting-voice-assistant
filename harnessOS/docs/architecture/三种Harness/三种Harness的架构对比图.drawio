@@ -1,0 +1,172 @@
+<mxfile host="mcp"><diagram name="Page-1"><mxGraphModel>
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- Title -->
+    <mxCell id="title" value="Harness Framework 统一架构分层对比图" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="300" y="10" width="500" height="35" as="geometry"/>
+    </mxCell>
+
+    <!-- Layer Headers -->
+    <mxCell id="layer1_header" value="Layer 1&#xa;接入层" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2d2d2d;strokeColor=#666;fontSize=12;fontColor=#fff;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="20" y="60" width="80" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="layer2_header" value="Layer 2&#xa;运行时" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2d2d2d;strokeColor=#666;fontSize=12;fontColor=#fff;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="20" y="180" width="80" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="layer3_header" value="Layer 3&#xa;编排层" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2d2d2d;strokeColor=#666;fontSize=12;fontColor=#fff;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="20" y="280" width="80" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="layer4_header" value="Layer 4&#xa;能力层" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2d2d2d;strokeColor=#666;fontSize=12;fontColor=#fff;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="20" y="380" width="80" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="layer5_header" value="Layer 5&#xa;存储层" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2d2d2d;strokeColor=#666;fontSize=12;fontColor=#fff;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="20" y="520" width="80" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- Framework Headers -->
+    <mxCell id="deer_header" value="DeerFlow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4472C4;strokeColor=#2F5496;fontSize=14;fontColor=#fff;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="120" y="60" width="150" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="deep_header" value="Deep Agents" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#548235;strokeColor=#385723;fontSize=14;fontColor=#fff;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="290" y="60" width="150" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="oh_header" value="OpenHarness" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C65911;strokeColor=#833C0C;fontSize=14;fontColor=#fff;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="460" y="60" width="150" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- Layer 1: Access Layer -->
+    <!-- DeerFlow Access -->
+    <mxCell id="deer_access" value="Nginx (Port 2026)&#xa;Web UI / Slack / Feishu&#xa;/api/langgraph/* /api/*" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6DCE5;strokeColor=#4472C4;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="120" y="110" width="150" height="55" as="geometry"/>
+    </mxCell>
+    <!-- Deep Agents Access -->
+    <mxCell id="deep_access" value="CLI / ACP Server&#xa;SDK / Python App&#xa;create_deep_agent()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFD9;strokeColor=#548235;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="290" y="110" width="150" height="55" as="geometry"/>
+    </mxCell>
+    <!-- OpenHarness Access -->
+    <mxCell id="oh_access" value="CLI / React TUI&#xa;ohmo Gateway&#xa;Local Session" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C65911;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="460" y="110" width="150" height="55" as="geometry"/>
+    </mxCell>
+
+    <!-- Layer 2: Runtime -->
+    <!-- DeerFlow Runtime -->
+    <mxCell id="deer_runtime" value="LangGraph Server&#xa;make_lead_agent()&#xa;SSE Streaming" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6DCE5;strokeColor=#4472C4;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="120" y="230" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <!-- Deep Agents Runtime -->
+    <mxCell id="deep_runtime" value="LangGraph&#xa;CompiledStateGraph&#xa;(via langchain)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFD9;strokeColor=#548235;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="290" y="230" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <!-- OpenHarness Runtime -->
+    <mxCell id="oh_runtime" value="QueryEngine&#xa;+ run_query() Loop&#xa;Tool-aware Model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C65911;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="460" y="230" width="150" height="45" as="geometry"/>
+    </mxCell>
+
+    <!-- Layer 3: Orchestration -->
+    <!-- DeerFlow Orchestration -->
+    <mxCell id="deer_orch" value="lead_agent&#xa;+ Middleware Pipeline&#xa;ThreadState" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6DCE5;strokeColor=#4472C4;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="120" y="330" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <!-- Deep Agents Orchestration -->
+    <mxCell id="deep_orch" value="Middleware Stack&#xa;TodoList/Skills/SubAgent&#xa;Memory/HITL/Permission" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFD9;strokeColor=#548235;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="290" y="330" width="150" height="45" as="geometry"/>
+    </mxCell>
+    <!-- OpenHarness Orchestration -->
+    <mxCell id="oh_orch" value="HookExecutor&#xa;+ CommandRegistry&#xa;+ PermissionChecker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C65911;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="460" y="330" width="150" height="45" as="geometry"/>
+    </mxCell>
+
+    <!-- Layer 4: Capabilities -->
+    <!-- DeerFlow Capabilities -->
+    <mxCell id="deer_caps" value="Tools + MCP&#xa;Subagents&#xa;Sandbox (Docker/K8s)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6DCE5;strokeColor=#4472C4;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="120" y="430" width="150" height="75" as="geometry"/>
+    </mxCell>
+    <!-- Deep Agents Capabilities -->
+    <mxCell id="deep_caps" value="Built-in Tools&#xa;CompiledSubAgent&#xa;Sandbox Backend" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFD9;strokeColor=#548235;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="290" y="430" width="150" height="75" as="geometry"/>
+    </mxCell>
+    <!-- OpenHarness Capabilities -->
+    <mxCell id="oh_caps" value="ToolRegistry (43+)&#xa;Plugins + Skills&#xa;MCP Servers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C65911;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="460" y="430" width="150" height="75" as="geometry"/>
+    </mxCell>
+
+    <!-- Layer 5: Storage -->
+    <!-- DeerFlow Storage -->
+    <mxCell id="deer_storage" value="Sandbox + Thread Data&#xa;/mnt/user-data/&#xa;uploads/outputs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6DCE5;strokeColor=#4472C4;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="120" y="570" width="150" height="55" as="geometry"/>
+    </mxCell>
+    <!-- Deep Agents Storage -->
+    <mxCell id="deep_storage" value="CompositeBackend&#xa;StateBackend&#xa;FilesystemBackend" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFD9;strokeColor=#548235;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="290" y="570" width="150" height="55" as="geometry"/>
+    </mxCell>
+    <!-- OpenHarness Storage -->
+    <mxCell id="oh_storage" value="SessionBackend&#xa;SessionSnapshot&#xa;MEMORY.md" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C65911;fontSize=9;" vertex="1" parent="1">
+      <mxGeometry x="460" y="570" width="150" height="55" as="geometry"/>
+    </mxCell>
+
+    <!-- Arrows between layers -->
+    <mxCell id="arrow1_deer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4472C4;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="deer_access" target="deer_runtime">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="arrow1_deep" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#548235;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="deep_access" target="deep_runtime">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="arrow1_oh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#C65911;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="oh_access" target="oh_runtime">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="arrow2_deer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4472C4;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="deer_runtime" target="deer_orch">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="arrow2_deep" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#548235;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="deep_runtime" target="deep_orch">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="arrow2_oh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#C65911;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="oh_runtime" target="oh_orch">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="arrow3_deer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4472C4;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="deer_orch" target="deer_caps">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="arrow3_deep" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#548235;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="deep_orch" target="deep_caps">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="arrow3_oh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#C65911;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="oh_orch" target="oh_caps">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="arrow4_deer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4472C4;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="deer_caps" target="deer_storage">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="arrow4_deep" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#548235;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="deep_caps" target="deep_storage">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="arrow4_oh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#C65911;endArrow=classic;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="oh_caps" target="oh_storage">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- Summary Legend -->
+    <mxCell id="legend_title" value="架构特性总结" style="text;html=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+      <mxGeometry x="650" y="60" width="120" height="20" as="geometry"/>
+    </mxCell>
+    <mxCell id="deer_summary" value="DeerFlow&#xa;Full-stack Product Runtime&#xa;三层分离最明显&#xa;Gateway + LangGraph + Frontend" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D6DCE5;strokeColor=#4472C4;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="650" y="90" width="120" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="deep_summary" value="Deep Agents&#xa;SDK / Kernel&#xa;Graph Assembly First&#xa;Middleware Composition" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2EFD9;strokeColor=#548235;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="650" y="180" width="120" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="oh_summary" value="OpenHarness&#xa;Local-first Harness OS&#xa;Query Loop + Commands&#xa;Plugins/Hooks/Permissions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE4D6;strokeColor=#C65911;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="650" y="270" width="120" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- Selection Recommendation -->
+    <mxCell id="selection_title" value="选型建议" style="text;html=1;strokeColor=none;fillColor=none;fontSize=12;fontStyle=1;align=center;" vertex="1" parent="1">
+      <mxGeometry x="650" y="380" width="120" height="20" as="geometry"/>
+    </mxCell>
+    <mxCell id="selection_content" value="会议/知识库&#xa;→ Deep Agents (内核)&#xa;&#xa;多模态/文件&#xa;→ DeerFlow (产品)&#xa;&#xa;本地/插件生态&#xa;→ OpenHarness" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#BF9000;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="650" y="410" width="120" height="120" as="geometry"/>
+    </mxCell>
+  </root>
+</mxGraphModel></diagram></mxfile>

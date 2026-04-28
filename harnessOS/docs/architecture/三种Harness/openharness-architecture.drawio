@@ -1,0 +1,129 @@
+<mxGraphModel>
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+    <mxCell id="title2" value="Deep Agents Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=20;fontStyle=1;fontColor=#10B981;" vertex="1" parent="1">
+      <mxGeometry x="300" y="20" width="300" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="layer-cli" value="CLI Layer" style="swimlane;horizontal=0;startSize=30;fillColor=#ecfdf5;strokeColor=#10B981;fontColor=#047857;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="40" y="80" width="720" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="cli-app" value="CLI App&#xa;(Interactive TUI)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#059669;fontColor=#047857;" vertex="1" parent="1">
+      <mxGeometry x="80" y="95" width="120" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="headless" value="Headless Mode&#xa;(Non-interactive)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#059669;fontColor=#047857;" vertex="1" parent="1">
+      <mxGeometry x="220" y="95" width="120" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="server" value="Server Mode&#xa;(Remote Execution)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1fae5;strokeColor=#059669;fontColor=#047857;" vertex="1" parent="1">
+      <mxGeometry x="360" y="95" width="120" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="layer-langgraph" value="LangGraph Runtime Layer" style="swimlane;horizontal=0;startSize=30;fillColor=#eff6ff;strokeColor=#3B82F6;fontColor=#1d4ed8;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="40" y="160" width="720" height="80" as="geometry"/>
+    </mxCell>
+    <mxCell id="create-agent" value="create_deep_agent()&#xa;(Returns Pregel Graph)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#1d4ed8;" vertex="1" parent="1">
+      <mxGeometry x="80" y="180" width="150" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="pregel" value="Pregel Graph&#xa;(Compiled Graph)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#1d4ed8;" vertex="1" parent="1">
+      <mxGeometry x="250" y="180" width="130" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="checkpoint" value="CheckpointSaver&#xa;(Persistence)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#1d4ed8;" vertex="1" parent="1">
+      <mxGeometry x="400" y="180" width="130" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="streaming" value="Streaming&#xa;(Real-time Output)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#1d4ed8;" vertex="1" parent="1">
+      <mxGeometry x="550" y="180" width="120" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="layer-middleware" value="Middleware Layer" style="swimlane;horizontal=0;startSize=30;fillColor=#fdf4ff;strokeColor=#A855F7;fontColor=#7e22ce;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="40" y="260" width="720" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="model-mw" value="ConfigurableModel&#xa;Middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontColor=#7e22ce;" vertex="1" parent="1">
+      <mxGeometry x="60" y="290" width="120" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="token-state" value="TokenState&#xa;Middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontColor=#7e22ce;" vertex="1" parent="1">
+      <mxGeometry x="200" y="290" width="110" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="ask-user" value="AskUser&#xa;Middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontColor=#7e22ce;" vertex="1" parent="1">
+      <mxGeometry x="330" y="290" width="100" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="memory-mw" value="Memory&#xa;Middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontColor=#7e22ce;" vertex="1" parent="1">
+      <mxGeometry x="450" y="290" width="100" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="skills-mw" value="Skills&#xa;Middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontColor=#7e22ce;" vertex="1" parent="1">
+      <mxGeometry x="570" y="290" width="100" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="layer-backend" value="Backend Layer" style="swimlane;horizontal=0;startSize=30;fillColor=#fff7ed;strokeColor=#F97316;fontColor=#c2410c;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="40" y="380" width="720" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="composite-backend" value="CompositeBackend&#xa;(Router)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffedd5;strokeColor=#ea580c;fontColor=#c2410c;" vertex="1" parent="1">
+      <mxGeometry x="80" y="395" width="130" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="local-shell" value="LocalShellBackend&#xa;(Local Exec)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffedd5;strokeColor=#ea580c;fontColor=#c2410c;" vertex="1" parent="1">
+      <mxGeometry x="230" y="395" width="130" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="filesystem" value="FilesystemBackend&#xa;(File I/O)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffedd5;strokeColor=#ea580c;fontColor=#c2410c;" vertex="1" parent="1">
+      <mxGeometry x="380" y="395" width="130" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="remote-sandbox" value="RemoteSandbox&#xa;(Modal/Daytona)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffedd5;strokeColor=#ea580c;fontColor=#c2410c;" vertex="1" parent="1">
+      <mxGeometry x="530" y="395" width="130" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="layer-tools" value="Tools Layer" style="swimlane;horizontal=0;startSize=30;fillColor=#f0fdfa;strokeColor=#14B8A6;fontColor=#0f766e;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="40" y="460" width="720" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="planning" value="Planning&#xa;(write_todos)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccfbf1;strokeColor=#0d9488;fontColor=#0f766e;" vertex="1" parent="1">
+      <mxGeometry x="60" y="480" width="90" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="filesystem-tools" value="Filesystem&#xa;(read/write/edit)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccfbf1;strokeColor=#0d9488;fontColor=#0f766e;" vertex="1" parent="1">
+      <mxGeometry x="170" y="480" width="100" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="shell-access" value="Shell Access&#xa;(execute)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccfbf1;strokeColor=#0d9488;fontColor=#0f766e;" vertex="1" parent="1">
+      <mxGeometry x="290" y="480" width="90" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="subagent" value="Subagents&#xa;(task delegation)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccfbf1;strokeColor=#0d9488;fontColor=#0f766e;" vertex="1" parent="1">
+      <mxGeometry x="400" y="480" width="90" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="context-mgmt" value="Context Mgmt&#xa;(auto-summarize)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccfbf1;strokeColor=#0d9488;fontColor=#0f766e;" vertex="1" parent="1">
+      <mxGeometry x="510" y="480" width="110" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="mcp-tools" value="MCP Tools&#xa;(langchain-mcp)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ccfbf1;strokeColor=#0d9488;fontColor=#0f766e;" vertex="1" parent="1">
+      <mxGeometry x="640" y="480" width="100" height="45" as="geometry"/>
+    </mxCell>
+    <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;" edge="1" parent="1" source="cli-app" target="create-agent">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;" edge="1" parent="1" source="headless" target="create-agent">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;" edge="1" parent="1" source="server" target="create-agent">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;dashed=1;" edge="1" parent="1" source="create-agent" target="pregel">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;dashed=1;" edge="1" parent="1" source="pregel" target="model-mw">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;dashed=1;" edge="1" parent="1" source="model-mw" target="token-state">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;dashed=1;" edge="1" parent="1" source="token-state" target="ask-user">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;dashed=1;" edge="1" parent="1" source="ask-user" target="memory-mw">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;dashed=1;" edge="1" parent="1" source="memory-mw" target="skills-mw">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;dashed=1;" edge="1" parent="1" source="skills-mw" target="composite-backend">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;" edge="1" parent="1" source="composite-backend" target="local-shell">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;" edge="1" parent="1" source="composite-backend" target="filesystem">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=1;endArrow=none;" edge="1" parent="1" source="composite-backend" target="remote-sandbox">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+  </root>
+</mxGraphModel>

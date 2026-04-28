@@ -1,0 +1,11 @@
+.env
+tui_error.log
+tui_debug.log
+__pycache__/
+*.pyc
+.harnessos/
+.DS_Store
+**/.DS_Store
+*.bkp
+examples/
+harnessOS/openharness

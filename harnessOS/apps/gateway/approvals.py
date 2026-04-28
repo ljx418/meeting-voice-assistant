@@ -1,0 +1,138 @@
+"""Approval request lifecycle for gateway governance."""
+
+from __future__ import annotations
+
+import json
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional, Union
+
+from apps.gateway.persistence import atomic_write_text, read_json_locked, update_json_list_locked
+from apps.gateway.protocol import new_id
+from apps.gateway.secrets import mask_text, mask_value
+
+
+APPROVAL_PENDING = "pending"
+APPROVAL_APPROVED = "approved"
+APPROVAL_REJECTED = "rejected"
+APPROVAL_EXPIRED = "expired"
+APPROVAL_STATUSES = {APPROVAL_PENDING, APPROVAL_APPROVED, APPROVAL_REJECTED, APPROVAL_EXPIRED}
+
+
+class ApprovalError(RuntimeError):
+    """Raised when approval persistence or state transitions fail."""
+
+
+class ApprovalStore:
+    """Filesystem-backed approval request store."""
+
+    def __init__(self, root: Optional[Union[str, Path]] = None) -> None:
+        default_root = Path(__file__).resolve().parents[2] / ".harnessos" / "approvals"
+        self.root = Path(root or default_root).expanduser().resolve()
+        self.index_path = self.root / "index.json"
+
+    def request(
+        self,
+        *,
+        action: str,
+        request_summary: str,
+        trace_id: Optional[str] = None,
+        session_id: Optional[str] = None,
+        turn_id: Optional[str] = None,
+        risk_level: str = "medium",
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
+        """Create a pending approval request."""
+        record = {
+            "approval_id": new_id("appr"),
+            "trace_id": trace_id,
+            "session_id": session_id,
+            "turn_id": turn_id,
+            "risk_level": risk_level,
+            "action": action,
+            "status": APPROVAL_PENDING,
+            "request_summary": mask_text(request_summary),
+            "decision_reason": None,
+            "created_at": datetime.now().isoformat(),
+            "decided_at": None,
+            "metadata": mask_value(metadata or {}),
+        }
+        return update_json_list_locked(
+            self.index_path,
+            lambda records: _append_record(records, record),
+            ApprovalError,
+        )
+
+    def list_approvals(
+        self,
+        *,
+        status: Optional[str] = None,
+        session_id: Optional[str] = None,
+        trace_id: Optional[str] = None,
+    ) -> list[dict[str, Any]]:
+        """List approval records, optionally filtered."""
+        records = self._load_records()
+        if status is not None:
+            if status not in APPROVAL_STATUSES:
+                raise ApprovalError(f"Unsupported approval status: {status}")
+            records = [record for record in records if record.get("status") == status]
+        if session_id is not None:
+            records = [record for record in records if record.get("session_id") == session_id]
+        if trace_id is not None:
+            records = [record for record in records if record.get("trace_id") == trace_id]
+        return records
+
+    def get_approval(self, approval_id: str) -> dict[str, Any]:
+        """Return one approval record."""
+        for record in self._load_records():
+            if record.get("approval_id") == approval_id:
+                return record
+        raise KeyError(f"Approval not found: {approval_id}")
+
+    def approve(self, approval_id: str, *, reason: Optional[str] = None) -> dict[str, Any]:
+        """Approve a pending approval."""
+        return self._decide(approval_id, status=APPROVAL_APPROVED, reason=reason)
+
+    def reject(self, approval_id: str, *, reason: Optional[str] = None) -> dict[str, Any]:
+        """Reject a pending approval."""
+        return self._decide(approval_id, status=APPROVAL_REJECTED, reason=reason)
+
+    def _decide(self, approval_id: str, *, status: str, reason: Optional[str]) -> dict[str, Any]:
+        def decide(records: list[dict[str, Any]]) -> dict[str, Any]:
+            for index, record in enumerate(records):
+                if record.get("approval_id") != approval_id:
+                    continue
+                current_status = record.get("status")
+                if current_status != APPROVAL_PENDING:
+                    raise ApprovalError(
+                        f"Approval {approval_id} is not pending: current status is {current_status}"
+                    )
+                decided = dict(record)
+                decided["status"] = status
+                decided["decision_reason"] = mask_text(reason) if reason is not None else None
+                decided["decided_at"] = datetime.now().isoformat()
+                records[index] = decided
+                return decided
+            raise KeyError(f"Approval not found: {approval_id}")
+
+        return update_json_list_locked(self.index_path, decide, ApprovalError)
+
+    def _load_records(self) -> list[dict[str, Any]]:
+        if not self.index_path.exists():
+            return []
+        payload = read_json_locked(self.index_path, [], ApprovalError)
+        if not isinstance(payload, list):
+            raise ApprovalError(f"Approval index must be a list: {self.index_path}")
+        return [record for record in payload if isinstance(record, dict)]
+
+    def _save_records(self, records: list[dict[str, Any]]) -> None:
+        self.index_path.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write_text(
+            self.index_path,
+            json.dumps(records, ensure_ascii=False, indent=2) + "\n",
+        )
+
+
+def _append_record(records: list[dict[str, Any]], record: dict[str, Any]) -> dict[str, Any]:
+    records.append(record)
+    return record

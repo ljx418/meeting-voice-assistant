@@ -1,0 +1,14 @@
+{
+  "name": "interview",
+  "version": "0.0.1",
+  "domain": "interview",
+  "description": "Stub for interview process management, mock interview, and skill learning workflows.",
+  "status": "stub",
+  "workflows": ["interview.plan", "interview.mock", "skill.learn", "progress.review"],
+  "subagents": ["interview.coach", "skill.tutor"],
+  "skills": [],
+  "connectors": [],
+  "artifact_kinds": ["interview_plan", "mock_review", "learning_plan"],
+  "risk_profile": "standard",
+  "metadata": {}
+}
