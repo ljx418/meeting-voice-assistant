@@ -127,8 +127,11 @@ class GraphRAGConfig(BaseSettings):
 
     auto_index: bool = Field(default=False, description="会议结束后自动触发索引")
     service_url: str = Field(default="http://localhost:8002")
+    service_port: int = Field(default=8002, description="GraphRAG 服务端口")
     workspace: Path = Field(default=Path("./rag_workspace"))
     request_timeout: float = Field(default=30.0, description="GraphRAG 服务请求超时（秒）")
+    index_timeout: float = Field(default=300.0, description="GraphRAG 索引超时（秒）")
+    default_top_k: int = Field(default=10, description="默认返回结果数")
 
     model_config = SettingsConfigDict(env_prefix="GRAPHRAG_", extra="ignore")
 
@@ -141,6 +144,28 @@ class APIConfig(BaseSettings):
     log_file: Optional[str] = Field(default=None)
 
     model_config = SettingsConfigDict(env_prefix="", extra="ignore")
+
+
+class JWTConfig(BaseSettings):
+    """JWT 认证配置"""
+
+    secret_key: str = Field(default="your-super-secret-key-change-in-production", description="JWT 签名密钥")
+    algorithm: str = Field(default="HS256", description="JWT 加密算法")
+    access_token_expire_minutes: int = Field(default=60, description="访问令牌过期时间（分钟）")
+    refresh_token_expire_days: int = Field(default=7, description="刷新令牌过期时间（天）")
+
+    # 开发模式配置
+    dev_mode: bool = Field(default=False, description="开发模式开关")
+    dev_user_id: Optional[str] = Field(default=None, description="开发模式默认用户 ID")
+    dev_bypass_auth: bool = Field(default=False, description="开发模式跳过认证")
+
+    model_config = SettingsConfigDict(
+        env_prefix="JWT_",
+        extra="ignore",
+        env_file=Path(__file__).parent / ".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+    )
 
 
 class TimeoutConfig(BaseSettings):
@@ -167,6 +192,22 @@ class TimeoutConfig(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="TIMEOUT_", extra="ignore")
 
 
+class WatchFolderConfig(BaseSettings):
+    """文件夹监听配置"""
+
+    path: Optional[str] = Field(default=None, description="监听文件夹路径（必填）")
+    enabled: bool = Field(default=False, description="是否启用文件夹监听")
+    auto_index_on_change: bool = Field(default=True, description="文件变化时自动触发索引")
+
+    model_config = SettingsConfigDict(
+        env_prefix="WATCH_FOLDER_",
+        extra="ignore",
+        env_file=Path(__file__).parent / ".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+    )
+
+
 class AppSettings(BaseSettings):
     """应用统一配置"""
 
@@ -183,6 +224,8 @@ class AppSettings(BaseSettings):
     graphrag: GraphRAGConfig = Field(default_factory=GraphRAGConfig)
     api: APIConfig = Field(default_factory=APIConfig)
     timeout: TimeoutConfig = Field(default_factory=TimeoutConfig)
+    watch_folder: WatchFolderConfig = Field(default_factory=WatchFolderConfig)
+    jwt: JWTConfig = Field(default_factory=JWTConfig)
 
     model_config = SettingsConfigDict(
         env_file=Path(__file__).parent / ".env",

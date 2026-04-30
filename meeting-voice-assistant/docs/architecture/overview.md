@@ -53,6 +53,21 @@
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
+## 知识双引擎架构
+
+项目当前除了实时会议语音链路，还增加了一条知识侧双引擎架构：
+
+- `backend/data_service`
+- `backend/app/llmwiki`
+- `backend/app/graphrag`
+- `/api/v1/knowledge/*`
+- `/knowledge`
+
+对应文档入口：
+
+- [Data Service 当前架构状态](../data_service/CURRENT-STATUS.md)
+- [Data Service 当前与目标差距分析](../data_service/current-vs-target-gap.md)
+
 ## 核心设计原则
 
 ### 1. 前后端分离

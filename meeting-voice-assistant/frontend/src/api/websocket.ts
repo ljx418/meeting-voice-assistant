@@ -10,6 +10,7 @@ import type {
   ProcessingMessage,
   AnalysisResult,
 } from './types'
+import { logger } from '../utils/logger'
 
 type StatusHandler = (data: StatusMessage) => void
 type ProcessingHandler = (data: ProcessingMessage) => void
@@ -67,7 +68,7 @@ export class VoiceWSClient {
       }
 
       this.ws.onerror = (error) => {
-        console.error('[WS] WebSocket error:', error)
+        logger.error('[WS] WebSocket error:', { error: String(error) })
         this.onErrorCallback?.(new Error('WebSocket connection failed'))
       }
 
@@ -122,7 +123,7 @@ export class VoiceWSClient {
             break
 
           case 'error':
-            console.error(`[WS] Server error: ${msg.code} - ${msg.message}`)
+            logger.error(`[WS] Server error: ${msg.code} - ${msg.message}`)
             this.onErrorCallback?.(new Error(`${msg.code}: ${msg.message}`))
             break
 
@@ -139,7 +140,7 @@ export class VoiceWSClient {
             break
         }
       } catch (e) {
-        console.error('[WS] Failed to parse message:', e)
+        logger.error('[WS] Failed to parse message:', { error: String(e) })
       }
     } else if (event.data instanceof ArrayBuffer) {
       // Binary audio data - no logging needed
@@ -282,7 +283,7 @@ export class VoiceWSClient {
 
     setTimeout(() => {
       this.connect().catch((err) => {
-        console.error('[WS] Reconnection failed:', err)
+        logger.error('[WS] Reconnection failed:', { error: String(err) })
       })
     }, delay)
   }

@@ -5,15 +5,23 @@ pydantic>=2.5.0
 pydantic-settings>=2.0.0
 python-multipart>=0.0.6
 aiohttp>=3.9.0
+watchdog>=3.0.0
 numpy>=1.26.0
 python-dotenv>=1.0.0
 pydub>=0.25.0
+
+# JWT Authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
 
 # LangChain / LangGraph for audio analysis
 langchain>=0.1.0
 langchain-core>=0.1.0
 langgraph>=0.0.20
 langchain-openai>=0.0.5
+
+# MCP (Model Context Protocol)
+mcp>=1.0.0
 
 # GraphRAG dependencies
 sqlalchemy>=2.0.0

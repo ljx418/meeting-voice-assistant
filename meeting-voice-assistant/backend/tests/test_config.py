@@ -14,7 +14,7 @@ sys.path.insert(0, str(backend_path))
 
 # 设置测试环境变量
 os.environ["ASR_ENGINE"] = "mock"
-os.environ["ASR_MOCK_DELAY"] = "0.5"
+os.environ["ASR_MOCK_DELAY"] = "0.8"  # 设置为与默认值一致，避免测试混淆
 os.environ["LLM_PROVIDER"] = "dashscope"
 os.environ["LLM_MODEL"] = "qwen-plus"
 
@@ -28,7 +28,7 @@ class TestAppSettings:
         """测试默认配置值"""
         # ASR 配置
         assert config.asr.engine == "mock"
-        # 注意：.env 文件会覆盖默认值为 0.8，所以这里使用实际值
+        # 注意：mock_delay 在测试环境由上面的 os.environ 设置为 0.8
         assert config.asr.mock_delay == 0.8
 
         # 音频配置

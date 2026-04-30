@@ -95,6 +95,31 @@ npm run dev
 - GraphRAG API: http://localhost:8002
 - FunASR 服务: http://localhost:8001
 
+## 日志配置
+
+所有服务日志统一输出到 `logs/` 目录：
+
+```bash
+logs/
+├── meeting.log          # 后端主服务日志 (meeting_voice)
+├── backend.log          # ASR/LLM 模块日志
+└── frontend.log         # 前端 WebSocket 日志 (可选)
+```
+
+日志级别通过环境变量配置：
+
+| 环境变量 | 默认值 | 说明 |
+|---------|-------|------|
+| `LOG_LEVEL` | INFO | DEBUG/INFO/WARNING/ERROR |
+| `LOG_FILE` | logs/meeting.log | 日志文件路径 |
+| `VITE_LOG_LEVEL` | info | 前端日志级别 |
+
+日志输出：
+- **后端**: `logs/meeting.log` (main.py)
+- **前端**: 发送至 `/api/v1/logs` 写入 `logs/frontend.log`
+
+前端日志模块位于 `frontend/src/utils/logger.ts`，生产环境启用，通过批量发送日志到后端。
+
 ## 核心功能
 
 ### 1. 实时语音识别 (WebSocket)
@@ -256,64 +281,4 @@ const wsUrl = apiKey
 
 ## AgentTeam 团队
 
-项目有一个预配置的 AgentTeam，可用于并行开发任务。
-
-**团队名称**: **`meeting-assistant`**
-当说"启动当前项目团队"时，启动此团队。
-
-### 工作规则
-
-**优先使用本项目团队成员**：
-- 优先使用本项目已经存在的团队成员
-- 优先使用本项目团队的成员描述（见下方团队职责表格）
-- 避免创建新的临时 agent，优先复用现有成员
-
-**API 访问重试规则**：
-- 如果 leader 发现团队成员无法访问 API，应让该成员重试
-- 重试最多 3 次
-- 如果 3 次重试都失败，需要在控制台反馈此问题
-
-### 团队成员
-
-| Agent | 角色 | 工作目录 |
-|-------|------|---------|
-| `team-lead` | 团队负责人 | 项目根目录 |
-| `backend-architect` | 后端架构师 | backend |
-| `backend-dev` | 后端开发工程师 | backend |
-| `backend-tester` | 后端测试工程师 | backend |
-| `frontend-developer` | 前端开发工程师 | frontend |
-| `frontend-dev` | 前端开发工程师 | frontend |
-| `frontend-tester` | 前端测试工程师 | frontend |
-| `architect` | 软件架构师 | 项目根目录 |
-| `product-manager` | 产品经理 | 项目根目录 |
-| `code-reviewer` | 代码审查专家 | 项目根目录 |
-
-### 启动团队
-
-在 Claude Code 中说"启动当前项目团队"时，执行：
-
-1. 如果团队不存在，创建团队：
-```
-TeamCreate
-- team_name: meeting-assistant
-- agent_type: team-lead
-- description: 会议语音助手开发团队
-```
-
-2. 使用 SendMessage 工具向 agents 分配任务，指定 `team_name: meeting-assistant`
-
-配置文件位置：`.claude/teams/meeting-assistant/config.json`
-
-### 团队职责
-
-| Agent | 职责 |
-|-------|------|
-| `backend-architect` | 系统架构设计、数据库设计、安全评审 |
-| `backend-dev` | API开发、ASR适配器、LLM模块、GraphRAG |
-| `backend-tester` | 后端单元测试、集成测试、API测试 |
-| `frontend-developer` | Vue组件开发、WebSocket实时通信、UI优化 |
-| `frontend-dev` | Vue组件开发、性能优化、可访问性 |
-| `frontend-tester` | 前端单元测试、组件测试、UI测试 |
-| `architect` | 技术规范制定、复杂问题解决 |
-| `product-manager` | 产品规划、需求分析、PRD编写、优先级 |
-| `code-reviewer` | 代码质量评审、安全检查、性能评估 |
+团队配置：`~/.claude/teams/meeting-assistant/config.json`

@@ -19,3 +19,14 @@ class HealthResponse(BaseModel):
     asr_engine: str
     asr_mode: str
     uptime: float
+
+
+# SQLAlchemy 模型
+from app.models.user import User, Base
+
+__all__ = [
+    "BaseResponse",
+    "HealthResponse",
+    "User",
+    "Base",
+]

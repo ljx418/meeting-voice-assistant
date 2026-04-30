@@ -59,7 +59,7 @@ class MicrosoftGraphRAGAdapter(GraphRAGCore):
     支持 session-based workspace 隔离模式。
     """
 
-    def __init__(self, session_id: str = "default"):
+    def __init__(self, session_id: str = "default", workspace: Optional[Path] = None):
         """初始化适配器
 
         Args:
@@ -67,7 +67,7 @@ class MicrosoftGraphRAGAdapter(GraphRAGCore):
                        如果为 "default"，则使用全局 workspace（向后兼容）。
         """
         self.session_id = session_id
-        self.workspace = self._get_workspace_path(session_id)
+        self.workspace = workspace.resolve() if workspace is not None else self._get_workspace_path(session_id)
         self.llm_config = {
             "provider": settings.LLM_PROVIDER,
             "api_key": settings.LLM_API_KEY,

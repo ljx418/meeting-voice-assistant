@@ -25,13 +25,28 @@
           <path d="M11 11L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
         <input
-          v-model="searchQuery"
+          v-model="searchQueryInput"
           type="text"
           class="search-input"
           placeholder="搜索文档..."
-          @input="debouncedSearch"
+          @input="onSearchInput"
         />
+        <button v-if="searchQueryInput" class="clear-btn" @click="clearSearchInput">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M4 4L10 10M10 4L4 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
       </div>
+
+      <!-- Sort dropdown -->
+      <div class="sort-dropdown">
+        <select v-model="sortOrder" class="sort-select" @change="onSortChange">
+          <option value="updated">最近更新</option>
+          <option value="created">最近创建</option>
+          <option value="title">标题排序</option>
+        </select>
+      </div>
+
       <div class="filter-tabs">
         <button
           v-for="tab in filterTabs"
@@ -41,9 +56,20 @@
           @click="setFilter(tab.value)"
         >
           {{ tab.label }}
-          <span class="tab-count" v-if="tab.count !== undefined">{{ tab.count }}</span>
         </button>
       </div>
+    </div>
+
+    <!-- AI Generation Indicator -->
+    <div v-if="searchQueryInput" class="search-indicator">
+      <span class="ai-badge">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M6 3V6L8 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        AI 搜索
+      </span>
+      找到 {{ totalCount }} 个结果
     </div>
 
     <!-- Main Content -->
@@ -120,132 +146,62 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import WikiCard from '../components/WikiCard.vue'
 import TemplateSelector from '../components/TemplateSelector.vue'
-import { API_CONFIG } from '../api/config'
+import { useLLMWiki } from '../composables/useLLMWiki'
 import type { WikiTemplate } from '../api/wiki'
 
-// Types
-interface WikiDocument {
-  id: string
-  title: string
-  content: string
-  doc_type: string
-  parent_id?: string
-  meeting_id?: string
-  tags: string[]
-  version: number
-  is_deleted: boolean
-  created_at: string
-  updated_at: string
-  created_by?: string
-}
+// Use the LLM Wiki composable
+const wiki = useLLMWiki({
+  pageSize: 20,
+})
 
-interface PaginatedResponse {
-  items: WikiDocument[]
-  total: number
-  page: number
-  size: number
-}
+// Destructure state and methods
+const documents = wiki.documents
+const isLoading = wiki.isLoading
+const error = wiki.error
+const searchQuery = wiki.searchQuery
+const activeFilter = wiki.activeFilter
+const currentPage = wiki.currentPage
+const totalCount = wiki.totalCount
+const totalPages = wiki.totalPages
 
-interface FilterTab {
-  label: string
-  value: string
-  count?: number
-}
+// Local state for UI
+const searchQueryInput = ref('')
+const sortOrder = ref('updated')
+const showTemplateSelector = ref(false)
+
+// Filter tabs
+const filterTabs = computed(() => [
+  { label: '全部', value: 'all' },
+  { label: '会议摘要', value: 'meeting_summary' },
+  { label: '会议记录', value: 'meeting_notes' },
+  { label: '页面', value: 'page' },
+])
 
 // Router
 const router = useRouter()
 
-// State
-const documents = ref<WikiDocument[]>([])
-const isLoading = ref(false)
-const error = ref('')
-const searchQuery = ref('')
-const activeFilter = ref('all')
-const currentPage = ref(1)
-const pageSize = ref(20)
-const totalCount = ref(0)
-
-// Template selector
-const showTemplateSelector = ref(false)
-
-// Filter tabs
-const filterTabs = computed<FilterTab[]>(() => [
-  { label: '全部', value: 'all' },
-  { label: '会议摘要', value: 'meeting_summary', count: docTypeCount('meeting_summary') },
-  { label: '会议记录', value: 'meeting_notes', count: docTypeCount('meeting_notes') },
-  { label: '页面', value: 'page', count: docTypeCount('page') },
-])
-
-// Computed
-const totalPages = computed(() => Math.ceil(totalCount.value / pageSize.value))
-
-function docTypeCount(type: string): number {
-  // For now, return undefined (no count shown) - could be calculated from API
-  return undefined
+// Methods
+function onSearchInput() {
+  wiki.debouncedSearch(searchQueryInput.value)
 }
 
-// Methods
-async function loadDocuments() {
-  isLoading.value = true
-  error.value = ''
+function clearSearchInput() {
+  searchQueryInput.value = ''
+  wiki.clearSearch()
+}
 
-  try {
-    const params = new URLSearchParams({
-      page: String(currentPage.value),
-      page_size: String(pageSize.value),
-    })
-
-    if (searchQuery.value) {
-      params.set('search', searchQuery.value)
-    }
-
-    if (activeFilter.value !== 'all') {
-      params.set('doc_type', activeFilter.value)
-    }
-
-    const response = await fetch(`${API_CONFIG.baseUrl}/api/v1/wiki/pages?${params}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-
-    if (!response.ok) {
-      throw new Error(`加载失败: ${response.status}`)
-    }
-
-    const data: PaginatedResponse = await response.json()
-    documents.value = data.items
-    totalCount.value = data.total
-  } catch (err) {
-    error.value = err instanceof Error ? err.message : '加载失败'
-    documents.value = []
-  } finally {
-    isLoading.value = false
-  }
+function onSortChange() {
+  // Sorting would be handled server-side in production
+  // For now, just trigger a refresh
+  wiki.refresh()
 }
 
 function setFilter(filter: string) {
-  activeFilter.value = filter
-  currentPage.value = 1
-  loadDocuments()
-}
-
-let searchTimeout: ReturnType<typeof setTimeout> | null = null
-
-function debouncedSearch() {
-  if (searchTimeout) {
-    clearTimeout(searchTimeout)
-  }
-  searchTimeout = setTimeout(() => {
-    currentPage.value = 1
-    loadDocuments()
-  }, 300)
+  wiki.setFilter(filter)
 }
 
 function goToPage(page: number) {
-  currentPage.value = page
-  loadDocuments()
-  // Scroll to top
+  wiki.goToPage(page)
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
@@ -268,7 +224,8 @@ async function handleTemplateSelect(template: WikiTemplate) {
 
 // Lifecycle
 onMounted(() => {
-  loadDocuments()
+  wiki.fetchDocuments()
+  wiki.loadTags()
 })
 </script>
 
@@ -398,6 +355,48 @@ onMounted(() => {
   color: rgba(255, 255, 255, 0.4);
 }
 
+.clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.clear-btn:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Sort dropdown */
+.sort-dropdown {
+  position: relative;
+}
+
+.sort-select {
+  padding: 6px 28px 6px 12px;
+  background: #262626;
+  border: 1px solid #363636;
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
 .filter-tabs {
   display: flex;
   gap: 4px;
@@ -425,6 +424,30 @@ onMounted(() => {
 .filter-tab.active {
   color: #ffffff;
   background: #262626;
+}
+
+/* AI Search Indicator */
+.search-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: rgba(99, 102, 241, 0.1);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+}
+
+.ai-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 4px;
+  color: #a5b4fc;
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .tab-count {

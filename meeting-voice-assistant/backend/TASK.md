@@ -65,3 +65,32 @@ app/core/audio_analyzer/
 
 - [ ] 拖拽/粘贴文本到 SummaryPanel 进行分析
 - [ ] 验证分析结果正确显示（主题、章节、角色等）
+
+## Meeting MCP Phase1（已完成）
+
+**目标**: 将现有会议能力暴露给智能体使用，优先验证会议场景，不纳入面试工作流。
+
+**状态**: ✅ 已完成
+
+**能力范围**:
+- 通过 `meeting_transcribe_file` 调用统一 ASR 适配器完成本地音视频转写
+- 通过 `meeting_analyze_text` 复用现有 `AudioAnalyzer` / `LLMAnalyzer` 完成会议结构化分析
+- 通过 `meeting_process_file` 完成“转写 + 分析 + artifact 落盘”
+- 通过 `meeting_build_minutes` 基于 session 生成 Markdown 会议纪要
+- 通过 `meeting://agent-guide` 给智能体提供会议场景使用边界
+- 支持无 Python `mcp` 包环境下的 JSON-RPC stdio fallback
+
+**MCP 暴露面**:
+- Resources: `meeting://formats`, `meeting://latest-session`, `meeting://agent-guide`
+- Tools: `meeting_transcribe_file`, `meeting_analyze_text`, `meeting_process_file`, `meeting_build_minutes`
+- Prompt: `meeting_process_recording`
+
+**验收结果**:
+- 编译通过: `python3 -m compileall app/meeting_mcp tests/test_meeting_mcp.py`
+- 回归通过: `58 passed, 2 skipped`
+- 真实音频服务层验证通过: TED MP3 生成转写、分段、分析和 artifacts
+
+**非目标**:
+- 面试进度管理
+- 候选人评分
+- 面试答案提示

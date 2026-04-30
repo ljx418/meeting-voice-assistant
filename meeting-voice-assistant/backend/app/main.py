@@ -16,8 +16,23 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from app.api import router as api_router
 from app.utils.logger import setup_logger
 
+# 配置日志 - 统一输出到 logs 目录
+import os
+from pathlib import Path
+
+# 日志目录
+LOG_DIR = Path(__file__).resolve().parent.parent.parent / "logs"
+LOG_DIR.mkdir(exist_ok=True)
+
+# 日志文件路径
+LOG_FILE = LOG_DIR / "meeting.log"
+
 # 配置日志
-logger = setup_logger("meeting_voice")
+logger = setup_logger(
+    name="meeting_voice",
+    log_file=str(LOG_FILE),
+    use_color=False  # 日志文件不使用彩色
+)
 
 # 创建 FastAPI 应用
 app = FastAPI(

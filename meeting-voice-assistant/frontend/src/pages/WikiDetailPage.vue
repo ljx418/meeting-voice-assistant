@@ -44,7 +44,16 @@
       <main class="main-content">
         <article class="wiki-article">
           <header class="article-header">
-            <span class="doc-type-badge" :class="docTypeClass">{{ docTypeLabel }}</span>
+            <div class="header-top">
+              <span class="doc-type-badge" :class="docTypeClass">{{ docTypeLabel }}</span>
+              <span class="ai-badge-detail">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M6 3V6L8 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+                AI 生成
+              </span>
+            </div>
             <h1 class="article-title">{{ document.title }}</h1>
             <div class="article-meta">
               <span>版本 v{{ document.version }}</span>
@@ -55,7 +64,20 @@
               <span v-for="tag in document.tags" :key="tag" class="tag">{{ tag }}</span>
             </div>
           </header>
-          <div class="article-body markdown-body" v-html="renderedContent"></div>
+
+          <!-- Table of Contents -->
+          <nav v-if="tableOfContents.length > 0" class="toc">
+            <h4 class="toc-title">目录</h4>
+            <ul class="toc-list">
+              <li v-for="item in tableOfContents" :key="item.id" class="toc-item">
+                <a :href="'#' + item.id" :class="{ 'toc-h3': item.level === 3 }" @click.prevent="scrollToHeading(item.id)">
+                  {{ item.text }}
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <div class="article-body markdown-body" v-html="renderedContent" ref="contentRef"></div>
         </article>
       </main>
 
@@ -64,14 +86,37 @@
         <div class="insights-panel">
           <h3 class="panel-title">AI Insights</h3>
 
-          <!-- Entities -->
+          <!-- Table of Contents in sidebar -->
+          <div v-if="tableOfContents.length > 0" class="insight-section">
+            <h4 class="section-title">章节导航</h4>
+            <div class="toc-mini">
+              <a
+                v-for="item in tableOfContents"
+                :key="item.id"
+                :href="'#' + item.id"
+                class="toc-link"
+                :class="{ active: activeHeading === item.id, 'toc-h3': item.level === 3 }"
+                @click.prevent="scrollToHeading(item.id)"
+              >
+                {{ item.text }}
+              </a>
+            </div>
+          </div>
+
+          <!-- Entities with highlighting -->
           <div class="insight-section" v-if="entities.length">
             <h4 class="section-title">实体</h4>
             <div class="entity-list">
-              <div v-for="entity in entities" :key="entity.id" class="entity-item">
+              <button
+                v-for="entity in entities"
+                :key="entity.id"
+                class="entity-item"
+                :class="{ highlighted: highlightedEntity === entity.id }"
+                @click="highlightEntity(entity)"
+              >
                 <span class="entity-name">{{ entity.name }}</span>
                 <span class="entity-type">{{ entity.type }}</span>
-              </div>
+              </button>
             </div>
           </div>
 
@@ -120,7 +165,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { marked } from 'marked'
 import { API_CONFIG } from '../api/config'
@@ -137,6 +182,10 @@ const entities = ref<any[]>([])
 const relationships = ref<any[]>([])
 const toastMessage = ref('')
 const toastType = ref<'success' | 'error'>('success')
+const contentRef = ref<HTMLElement | null>(null)
+const tableOfContents = ref<Array<{ id: string; text: string; level: number }>>([])
+const activeHeading = ref('')
+const highlightedEntity = ref<string | null>(null)
 
 // Computed
 const documentId = computed(() => route.params.id as string)
@@ -159,7 +208,7 @@ const docTypeClass = computed(() => {
 const renderedContent = computed(() => {
   if (!document.value?.content) return ''
   try {
-    return marked(document.value.content, { breaks: true })
+    return marked(document.value.content, { breaks: true, gfm: true })
   } catch {
     return document.value.content
   }
@@ -178,6 +227,69 @@ function goToGraphRAG() {
   router.push('/graphrag')
 }
 
+function scrollToHeading(id: string) {
+  nextTick(() => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      activeHeading.value = id
+    }
+  })
+}
+
+function highlightEntity(entity: any) {
+  highlightedEntity.value = highlightedEntity.value === entity.id ? null : entity.id
+
+  // Add highlight to content
+  if (contentRef.value && highlightedEntity.value) {
+    const regex = new RegExp(`(${entity.name})`, 'gi')
+    // For now, just track which entity is highlighted
+    // Full highlight implementation would require DOM manipulation
+  }
+}
+
+function extractTableOfContents(html: string) {
+  const headings: Array<{ id: string; text: string; level: number }> = []
+  const regex = /<h([2-3])[^>]*id="([^"]*)"[^>]*>([^<]*)<\/h\1>/gi
+  let match
+
+  while ((match = regex.exec(html)) !== null) {
+    const level = parseInt(match[1])
+    const id = match[2]
+    const text = match[3].replace(/<[^>]+>/g, '').trim()
+    headings.push({ id, text, level })
+  }
+
+  return headings
+}
+
+function setupScrollListener() {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activeHeading.value = entry.target.id
+        }
+      })
+    },
+    { rootMargin: '-20% 0px -70% 0px' }
+  )
+
+  // Observe all headings
+  nextTick(() => {
+    if (contentRef.value) {
+      const headings = contentRef.value.querySelectorAll('h2, h3')
+      headings.forEach((heading) => {
+        observer.observe(heading)
+      })
+    }
+  })
+
+  return observer
+}
+
+let scrollObserver: IntersectionObserver | null = null
+
 async function loadDocument() {
   isLoading.value = true
   error.value = ''
@@ -194,6 +306,16 @@ async function loadDocument() {
     }
 
     document.value = await response.json()
+
+    // Extract TOC from rendered content
+    const html = marked(document.value.content || '', { breaks: true, gfm: true }) as string
+    tableOfContents.value = extractTableOfContents(html)
+
+    // Setup scroll observer for heading tracking
+    if (scrollObserver) {
+      scrollObserver.disconnect()
+    }
+    scrollObserver = setupScrollListener()
 
     // Load entities and relationships
     await Promise.all([
@@ -288,6 +410,12 @@ function showToast(message: string, type: 'success' | 'error') {
 // Lifecycle
 onMounted(() => {
   loadDocument()
+})
+
+onUnmounted(() => {
+  if (scrollObserver) {
+    scrollObserver.disconnect()
+  }
 })
 </script>
 
@@ -422,6 +550,25 @@ onMounted(() => {
   font-weight: 500;
   text-transform: uppercase;
   margin-bottom: 12px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.ai-badge-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 4px;
+  color: #a5b4fc;
+  font-size: 11px;
+  font-weight: 500;
 }
 
 .doc-type-badge.meeting-summary {
@@ -603,6 +750,81 @@ onMounted(() => {
   gap: 6px;
 }
 
+/* Table of Contents */
+.toc {
+  margin: 0 0 24px;
+  padding: 16px 20px;
+  background: rgba(99, 102, 241, 0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.toc-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-item {
+  margin: 6px 0;
+}
+
+.toc-item a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.toc-item a:hover {
+  color: #a5b4fc;
+}
+
+.toc-item a.toc-h3 {
+  padding-left: 16px;
+  font-size: 13px;
+}
+
+/* TOC Mini in sidebar */
+.toc-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toc-link {
+  padding: 6px 8px;
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.toc-link:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: #a5b4fc;
+}
+
+.toc-link.active {
+  background: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+}
+
+.toc-link.toc-h3 {
+  padding-left: 16px;
+  font-size: 11px;
+}
+
+/* Entity highlighting */
 .entity-item {
   display: flex;
   justify-content: space-between;
@@ -610,6 +832,20 @@ onMounted(() => {
   padding: 8px 10px;
   background: #262626;
   border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  width: 100%;
+  text-align: left;
+}
+
+.entity-item:hover {
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.entity-item.highlighted {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.15);
 }
 
 .entity-name {

@@ -74,6 +74,10 @@ backend/dist/
 *.db
 *.db-journal
 rag_workspace/graphrag.db
+llmwiki.db
+**/llmwiki.db
+llmwiki_vault/
+**/llmwiki_vault/
 
 # GraphRAG output (generated)
 rag_workspace/output/
@@ -84,6 +88,7 @@ sessions.db
 
 # Claude Code team config
 .claude/
+.llmwiki/
 
 # Temp directories
 tmp/

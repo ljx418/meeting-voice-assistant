@@ -1,2033 +1,1574 @@
 <template>
   <div class="knowledge-page">
-    <!-- Header -->
-    <header class="knowledge-header">
-      <div class="header-left">
-        <button class="btn-back" @click="goBack">
-          <span class="back-icon">←</span>
+    <header class="page-header">
+      <div class="topbar">
+        <button class="btn-back" @click="router.push('/')">
+          <span class="back-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
           <span>返回首页</span>
         </button>
-        <h1 class="page-title">知识管理后台</h1>
-      </div>
-      <div class="header-right">
-        <div class="nav-buttons">
-          <button class="btn-nav" @click="goToWiki">
-            📖 Wiki 知识库
-          </button>
-          <button class="btn-nav" @click="goToGraphRAG">
-            🕸️ 知识图谱
-          </button>
+        <div class="header-actions">
+          <button class="btn-secondary small" @click="router.push('/wiki')">Wiki</button>
+          <button class="btn-secondary small" @click="router.push('/graphrag')">GraphRAG</button>
         </div>
-        <div class="service-indicators">
-          <span class="indicator" :class="status.wiki">
-            <span class="dot"></span>
-            Wiki {{ statusText.wiki }}
-          </span>
-          <span class="indicator" :class="status.graphrag">
-            <span class="dot"></span>
-            GraphRAG {{ statusText.graphrag }}
-          </span>
+      </div>
+
+      <div class="header-grid">
+        <div class="header-copy">
+          <p class="section-kicker">Personal Knowledge Base</p>
+          <h1>知识运营台</h1>
+          <p>统一查看 LLMWiki 页面、GraphRAG 社区、Distill 中间层和质量反馈，面向日常整理、查询和校正。</p>
+        </div>
+        <div class="header-status">
+          <span class="status-chip" :class="{ online: summaryBundle }">{{ summaryStatus }}</span>
+          <span class="status-chip">{{ graphStats.community_count }} 个社区</span>
+          <span class="status-chip">{{ lastUpdated }}</span>
         </div>
       </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="knowledge-body">
-      <!-- Left Sidebar -->
-      <aside class="sidebar-left">
-        <!-- Upload Section -->
-        <div class="sidebar-card">
-          <h3 class="card-title">📁 文件上传</h3>
-          <div class="upload-area" @click="triggerFolderUpload" @dragover.prevent @drop.prevent="handleDrop">
-            <input
-              ref="folderInputRef"
-              type="file"
-              webkitdirectory
-              multiple
-              @change="handleFolderSelect"
-              style="display: none"
-            />
-            <div class="upload-icon">📂</div>
-            <div class="upload-text">点击选择文件夹</div>
-            <div class="upload-hint">或拖拽文件夹到此处</div>
+    <main class="page-stack">
+      <section class="card card--compact">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Overview</p>
+            <h2>当前状态</h2>
           </div>
-          <div v-if="selectedFiles.length > 0" class="selected-files">
-            <div class="files-header">
-              <span>已选 {{ selectedFiles.length }} 个文件</span>
-              <button class="btn-clear" @click="clearSelection">清除</button>
-            </div>
-            <div class="files-list">
-              <div v-for="(file, idx) in selectedFiles.slice(0, 5)" :key="idx" class="file-item">
-                {{ file.name }}
-              </div>
-              <div v-if="selectedFiles.length > 5" class="more-files">
-                还有 {{ selectedFiles.length - 5 }} 个文件...
-              </div>
-            </div>
+        </div>
+        <div class="metric-grid">
+          <div class="stat-item">
+            <span>Summary</span>
+            <strong>{{ summaryBundle?.summary_json?.targets?.join?.(' / ') || '未加载' }}</strong>
           </div>
-          <button class="btn-upload" @click="startIndexing" :disabled="selectedFiles.length === 0 || isIndexing">
-            {{ isIndexing ? '索引中...' : '开始索引' }}
+          <div class="stat-item">
+            <span>Distill</span>
+            <strong>{{ distillOverview }}</strong>
+          </div>
+          <div class="stat-item">
+            <span>LLMWiki</span>
+            <strong>{{ llmwikiPageCount }} 页</strong>
+          </div>
+          <div class="stat-item">
+            <span>GraphRAG</span>
+            <strong>{{ graphStats.relationship_count }} 关系</strong>
+          </div>
+        </div>
+        <div class="quality-strip" aria-label="知识库质量概览">
+          <div>
+            <span>反馈</span>
+            <strong>{{ feedbackSummary.feedback_count || 0 }}</strong>
+          </div>
+          <div>
+            <span>规则</span>
+            <strong>{{ correctionSummary.rule_count || 0 }}</strong>
+          </div>
+          <div>
+            <span>文档</span>
+            <strong>{{ graphStats.document_count || 0 }}</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="card card--workspace">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Workspace</p>
+            <h2>运行与重置</h2>
+          </div>
+        </div>
+        <label class="field-label" for="workspace">Workspace 路径</label>
+        <input
+          id="workspace"
+          v-model="workspace"
+          class="text-input"
+          type="text"
+          placeholder="/Users/Zhuanz/Desktop/workspace/知识库/workspace"
+        />
+        <div class="button-row">
+          <button class="btn-primary" :disabled="isBusy" @click="refreshAll">
+            {{ isBusy ? '刷新中...' : '刷新工作台' }}
+          </button>
+          <button class="btn-secondary" :disabled="ingestLoading" @click="runIngest">
+            {{ ingestLoading ? '执行中...' : '运行 ingest' }}
+          </button>
+          <button class="btn-danger" :disabled="resetLoading" @click="runReset">
+            {{ resetLoading ? '重置中...' : '重置数据服务' }}
           </button>
         </div>
+        <label class="field-label" for="ingest-paths">Ingest 输入</label>
+        <textarea
+          id="ingest-paths"
+          v-model="ingestPathsText"
+          class="text-area"
+          placeholder="每行一个文件或目录绝对路径，例如：&#10;/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split"
+        />
+      </section>
 
-        <!-- Refresh Section -->
-        <div class="sidebar-card">
-          <h3 class="card-title">🔄 数据同步</h3>
-          <button class="btn-refresh" @click="refreshAll" :disabled="isRefreshing">
-            {{ isRefreshing ? '刷新中...' : '刷新全部数据' }}
+      <section class="card card--query">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Unified Query</p>
+            <h2>三种查询模式</h2>
+          </div>
+          <div class="mode-row">
+            <button
+              v-for="mode in queryModes"
+              :key="mode.value"
+              class="mode-btn"
+              :class="{ active: queryMode === mode.value }"
+              @click="queryMode = mode.value"
+            >
+              {{ mode.label }}
+            </button>
+          </div>
+        </div>
+        <div class="query-row">
+          <input
+            v-model="queryText"
+            class="text-input"
+            type="text"
+            placeholder="例如：ComfyUI、OpenClaw、养老金"
+            @keyup.enter="runQuery"
+          />
+          <input v-model.number="topK" class="number-input" type="number" min="1" max="20" />
+          <button class="btn-primary" :disabled="queryLoading" @click="runQuery">
+            {{ queryLoading ? '查询中...' : '开始查询' }}
           </button>
-          <div class="last-update">
-            上次更新: {{ lastUpdateTime }}
-          </div>
         </div>
-
-        <!-- Service Status -->
-        <div class="sidebar-card">
-          <h3 class="card-title">📊 服务状态</h3>
-          <div class="status-list">
-            <div class="status-item">
-              <span class="status-label">Wiki 服务</span>
-              <span class="status-value" :class="status.wiki">
-                {{ statusText.wiki }}
-              </span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">GraphRAG</span>
-              <span class="status-value" :class="status.graphrag">
-                {{ statusText.graphrag }}
-              </span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">文档总数</span>
-              <span class="status-value">{{ stats.docCount }}</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">实体数量</span>
-              <span class="status-value">{{ stats.entityCount }}</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">关系数量</span>
-              <span class="status-value">{{ stats.relationshipCount }}</span>
-            </div>
+        <div class="query-answer">
+          <div class="answer-head">
+            <span>回答</span>
+            <span class="muted">{{ queryBreakdown }}</span>
           </div>
+          <p>{{ queryAnswer }}</p>
         </div>
-      </aside>
-
-      <!-- Main Content Area -->
-      <main class="main-content">
-        <!-- Tab Navigation -->
-        <div class="tab-nav">
+        <div class="stack-list">
           <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            class="tab-btn"
-            :class="{ active: activeTab === tab.id }"
-            @click="activeTab = tab.id"
+            v-for="(hit, index) in queryResults"
+            :key="`${hit.source}-${index}`"
+            class="list-item"
+            @click="inspectHit(hit)"
           >
-            <span class="tab-icon">{{ tab.icon }}</span>
-            <span class="tab-label">{{ tab.label }}</span>
-            <span v-if="tab.count !== undefined" class="tab-count">{{ tab.count }}</span>
+            <div class="list-item-head">
+              <span class="pill">{{ hit.meta?.kind || queryMode }}</span>
+              <span class="muted">score {{ hit.score?.toFixed?.(2) ?? hit.score }}</span>
+            </div>
+            <div class="item-title">{{ hit.title }}</div>
+            <div class="item-body">{{ hit.snippet }}</div>
           </button>
+          <div v-if="!queryResults.length" class="empty-box">运行一次查询后，结果会出现在这里。</div>
+        </div>
+      </section>
+
+      <section class="card card--quality-feedback">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Quality Feedback</p>
+            <h2>质量反馈与校正</h2>
+          </div>
+          <span class="muted">{{ feedbackSummary.feedback_count || 0 }} 条</span>
         </div>
 
-        <!-- Tab Content -->
-        <div class="tab-content">
-          <!-- Wiki 摘要 Tab -->
-          <div v-if="activeTab === 'wiki'" class="tab-panel">
-            <div class="panel-header">
-              <h2>Wiki 文档摘要</h2>
-              <div class="panel-actions">
-                <button class="btn-action" @click="refreshWiki">刷新</button>
-              </div>
-            </div>
-            <div class="wiki-summary-grid">
-              <div class="summary-card">
-                <div class="summary-icon">📄</div>
-                <div class="summary-info">
-                  <span class="summary-value">{{ wikiStats.totalDocs }}</span>
-                  <span class="summary-label">文档总数</span>
-                </div>
-              </div>
-              <div class="summary-card">
-                <div class="summary-icon">📝</div>
-                <div class="summary-info">
-                  <span class="summary-value">{{ wikiStats.totalVersions }}</span>
-                  <span class="summary-label">版本记录</span>
-                </div>
-              </div>
-              <div class="summary-card">
-                <div class="summary-icon">🏷️</div>
-                <div class="summary-info">
-                  <span class="summary-value">{{ wikiStats.totalTags }}</span>
-                  <span class="summary-label">标签数量</span>
-                </div>
-              </div>
-              <div class="summary-card">
-                <div class="summary-icon">📅</div>
-                <div class="summary-info">
-                  <span class="summary-value">{{ wikiStats.recentDocs }}</span>
-                  <span class="summary-label">本周新增</span>
-                </div>
-              </div>
-            </div>
+        <div class="quick-target-row">
+          <button class="btn-secondary small" :disabled="!selectedPageSlug" @click="useCurrentPageAsFeedbackTarget">当前页面</button>
+          <button class="btn-secondary small" :disabled="!selectedGraphNode" @click="useCurrentGraphNodeAsFeedbackTarget">当前节点</button>
+          <button class="btn-secondary small" :disabled="!selectedDistillSource" @click="useCurrentSourceAsFeedbackTarget">当前 Source</button>
+          <button class="btn-secondary small" :disabled="!queryText.trim()" @click="useCurrentQueryAsFeedbackTarget">当前查询</button>
+        </div>
 
-            <!-- Recent Documents -->
-            <div class="section">
-              <h3 class="section-title">最近文档</h3>
-              <div class="doc-list">
-                <div v-for="doc in recentDocs" :key="doc.id" class="doc-item">
-                  <div class="doc-info">
-                    <span class="doc-title">{{ doc.title }}</span>
-                    <span class="doc-type">{{ doc.doc_type }}</span>
-                  </div>
-                  <div class="doc-meta">
-                    <span class="doc-version">v{{ doc.version }}</span>
-                    <span class="doc-date">{{ formatDate(doc.updated_at) }}</span>
-                  </div>
-                </div>
-                <div v-if="recentDocs.length === 0" class="empty-state">
-                  暂无文档，上传文件开始索引
-                </div>
-              </div>
-            </div>
+        <div class="feedback-grid">
+          <select v-model="feedbackTargetType" class="text-input">
+            <option value="page">page</option>
+            <option value="source">source</option>
+            <option value="entity">entity</option>
+            <option value="community">community</option>
+            <option value="query">query</option>
+            <option value="distill_unit">distill_unit</option>
+          </select>
+          <select v-model="feedbackAction" class="text-input">
+            <option value="needs_review">needs_review</option>
+            <option value="rename_suggest">rename_suggest</option>
+            <option value="merge_suggest">merge_suggest</option>
+            <option value="mark_noise">mark_noise</option>
+            <option value="confirm_good">confirm_good</option>
+            <option value="note">note</option>
+          </select>
+        </div>
+        <input v-model="feedbackTargetId" class="text-input" type="text" placeholder="target id / slug / source_id" />
+        <input v-model="feedbackLabel" class="text-input" type="text" placeholder="显示名称，例如页面标题或实体名" />
+        <input v-model="feedbackSuggestedValue" class="text-input" type="text" placeholder="建议修正值，可选" />
+        <textarea v-model="feedbackReason" class="text-area" placeholder="记录为什么要修正、合并或复核" />
+        <div class="button-row">
+          <button class="btn-primary" :disabled="feedbackLoading" @click="submitFeedback">
+            {{ feedbackLoading ? '提交中...' : '提交反馈' }}
+          </button>
+          <button class="btn-secondary" :disabled="feedbackLoading" @click="loadFeedback">刷新反馈</button>
+          <button class="btn-secondary" :disabled="feedbackLoading" @click="buildCorrectionRules">生成规则</button>
+        </div>
 
-            <!-- Top Tags -->
-            <div class="section">
-              <h3 class="section-title">热门标签</h3>
-              <div class="tags-cloud">
-                <span v-for="tag in topTags" :key="tag.name" class="tag-chip">
-                  {{ tag.name }} ({{ tag.count }})
-                </span>
-                <span v-if="topTags.length === 0" class="empty-text">暂无标签</span>
+        <div class="subsection">
+          <h3>最近反馈</h3>
+          <div class="stack-list feedback-list">
+            <div v-for="item in feedbackItems" :key="item.feedback_id" class="list-item static-item">
+              <div class="list-item-head">
+                <span class="pill">{{ item.target_type }} · {{ item.action }}</span>
+                <span class="muted">{{ formatTimestamp(item.created_at) }}</span>
               </div>
+              <div class="item-title">{{ item.label || item.target_id }}</div>
+              <div class="item-body">{{ item.reason || item.suggested_value || item.target_id }}</div>
             </div>
-          </div>
-
-          <!-- 知识图谱 Tab -->
-          <div v-if="activeTab === 'graphrag'" class="tab-panel">
-            <div class="panel-header">
-              <h2>知识图谱概览</h2>
-              <div class="panel-actions">
-                <button class="btn-action" @click="refreshGraph">刷新</button>
-              </div>
-            </div>
-
-            <!-- Graph Stats -->
-            <div class="graph-stats">
-              <div class="graph-stat-card">
-                <span class="stat-number">{{ graphStats.entityCount }}</span>
-                <span class="stat-label">实体</span>
-              </div>
-              <div class="graph-stat-card">
-                <span class="stat-number">{{ graphStats.relationshipCount }}</span>
-                <span class="stat-label">关系</span>
-              </div>
-              <div class="graph-stat-card">
-                <span class="stat-number">{{ graphStats.communityCount }}</span>
-                <span class="stat-label">社区</span>
-              </div>
-            </div>
-
-            <!-- Graph Visualization -->
-            <div class="graph-visualization" ref="graphContainerRef">
-              <svg ref="graphSvgRef" class="main-graph-svg" v-if="graphData.nodes.length"></svg>
-              <div v-else class="graph-placeholder">
-                <div class="placeholder-content">
-                  <span class="placeholder-icon">🔗</span>
-                  <span class="placeholder-text">知识图谱可视化</span>
-                  <span class="placeholder-hint">实体: {{ graphStats.entityCount }} | 关系: {{ graphStats.relationshipCount }}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Entity List Table -->
-            <div class="section">
-              <h3 class="section-title">📋 实体列表</h3>
-              <div class="entity-filters">
-                <input
-                  v-model="entityFilter.name"
-                  type="text"
-                  class="filter-input"
-                  placeholder="搜索实体名称..."
-                />
-                <select v-model="entityFilter.type" class="filter-select">
-                  <option value="">全部类型</option>
-                  <option value="person">人物</option>
-                  <option value="org">组织</option>
-                  <option value="concept">概念</option>
-                  <option value="event">事件</option>
-                </select>
-                <select v-model="entityFilter.source" class="filter-select">
-                  <option value="">全部来源</option>
-                  <option value="meeting">会议</option>
-                  <option value="document">文档</option>
-                </select>
-              </div>
-              <div class="entity-table">
-                <div class="entity-table-header">
-                  <span class="col-name">名称</span>
-                  <span class="col-type">类型</span>
-                  <span class="col-relations">关联数</span>
-                  <span class="col-actions">操作</span>
-                </div>
-                <div v-for="entity in filteredEntities" :key="entity.id" class="entity-table-row">
-                  <span class="col-name">
-                    <span class="entity-color-dot" :style="{ background: getEntityColor(entity.type) }"></span>
-                    {{ entity.name }}
-                  </span>
-                  <span class="col-type">
-                    <span class="entity-type-badge" :style="{ background: getEntityColor(entity.type) }">
-                      {{ entity.type }}
-                    </span>
-                  </span>
-                  <span class="col-relations">{{ entity.relations || 0 }}</span>
-                  <span class="col-actions">
-                    <button class="btn-trace" @click="showEntityTrace(entity)">溯源</button>
-                  </span>
-                </div>
-                <div v-if="filteredEntities.length === 0" class="empty-state">
-                  {{ entityList.length === 0 ? '暂无实体数据' : '没有符合条件的实体' }}
-                </div>
-              </div>
-            </div>
-
-            <!-- Traceability Panel -->
-            <div v-if="traceEntity" class="trace-panel">
-              <div class="trace-header">
-                <h3 class="trace-title">🔍 实体溯源: {{ traceEntity.name }}</h3>
-                <button class="btn-close-trace" @click="traceEntity = null">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                  </svg>
-                </button>
-              </div>
-              <div class="trace-body">
-                <div class="trace-section">
-                  <div class="trace-section-title">基本信息</div>
-                  <div class="trace-info-grid">
-                    <div class="trace-info-item">
-                      <span class="info-label">类型</span>
-                      <span class="info-value">{{ traceEntity.type }}</span>
-                    </div>
-                    <div class="trace-info-item">
-                      <span class="info-label">关联数</span>
-                      <span class="info-value">{{ traceEntity.relations || 0 }}</span>
-                    </div>
-                    <div class="trace-info-item">
-                      <span class="info-label">来源</span>
-                      <span class="info-value">{{ traceEntity.source || '未知' }}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="trace-section" v-if="traceEntity.description">
-                  <div class="trace-section-title">描述</div>
-                  <div class="trace-description">{{ traceEntity.description }}</div>
-                </div>
-                <div class="trace-section">
-                  <div class="trace-section-title">出现会议</div>
-                  <div class="trace-meetings">
-                    <div v-for="meeting in traceEntity.meetings" :key="meeting.id" class="trace-meeting-item">
-                      <span class="meeting-name">{{ meeting.name }}</span>
-                      <span class="meeting-time">{{ formatDate(meeting.time) }}</span>
-                    </div>
-                    <div v-if="!traceEntity.meetings?.length" class="trace-empty">暂无会议记录</div>
-                  </div>
-                </div>
-                <div class="trace-section" v-if="traceEntity.occurrences?.length">
-                  <div class="trace-section-title">原文摘录</div>
-                  <div class="trace-occurrences">
-                    <div v-for="(occ, idx) in traceEntity.occurrences.slice(0, 5)" :key="idx" class="trace-occurrence-item">
-                      <span class="occurrence-time">{{ formatTimestamp(occ.time) }}</span>
-                      <span class="occurrence-text">"{{ occ.text }}"</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Node Detail Panel -->
-            <div v-if="selectedEntity" class="node-detail-panel">
-              <div class="detail-header">
-                <span class="detail-type" :style="{ background: getEntityColor(selectedEntity.type || 'default') }">
-                  {{ selectedEntity.type || '实体' }}
-                </span>
-                <button class="btn-close-detail" @click="selectedEntity = null">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M1 1L13 13M1 13L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                  </svg>
-                </button>
-              </div>
-              <div class="detail-body">
-                <div class="detail-name">{{ selectedEntity.name }}</div>
-                <div v-if="selectedEntity.description" class="detail-description">{{ selectedEntity.description }}</div>
-                <div class="detail-meta">
-                  <span class="meta-item">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
-                      <path d="M6 3V6L8 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                    </svg>
-                    {{ selectedEntity.relations || 0 }} 个关联
-                  </span>
-                  <span v-if="selectedEntity.source" class="meta-item">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 10V3L6 1L10 3V10L6 12L2 10Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-                    </svg>
-                    {{ selectedEntity.source }}
-                  </span>
-                </div>
-                <div v-if="selectedEntity.community" class="detail-community">
-                  所属社区: {{ selectedEntity.community }}
-                </div>
-              </div>
-            </div>
-
-            <!-- Communities -->
-            <div class="section">
-              <h3 class="section-title">社区列表</h3>
-              <div class="community-list">
-                <div v-for="community in communities" :key="community.id" class="community-item">
-                  <div class="community-header">
-                    <span class="community-id">社区 #{{ community.id }}</span>
-                    <span class="community-level">Level {{ community.level }}</span>
-                  </div>
-                  <div class="community-summary">{{ community.summary || '暂无描述' }}</div>
-                  <div class="community-stats">
-                    <span>{{ community.entity_count || 0 }} 实体</span>
-                    <span>{{ community.relationship_count || 0 }} 关系</span>
-                  </div>
-                </div>
-                <div v-if="communities.length === 0" class="empty-state">
-                  暂无社区数据
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 实体/任务 Tab -->
-          <div v-if="activeTab === 'entities'" class="tab-panel">
-            <div class="panel-header">
-              <h2>实体 · 工作流 · 任务</h2>
-              <div class="panel-actions">
-                <button class="btn-action" @click="refreshEntities">刷新</button>
-              </div>
-            </div>
-
-            <!-- Entity Summary -->
-            <div class="section">
-              <h3 class="section-title">📌 实体摘要</h3>
-              <div class="entity-grid">
-                <div
-                  v-for="entity in topEntities"
-                  :key="entity.id"
-                  class="entity-card"
-                  :class="{ selected: selectedEntity?.id === entity.id }"
-                  @click="selectEntity(entity)"
-                >
-                  <div class="entity-header">
-                    <span class="entity-type-badge" :style="{ background: getEntityColor(entity.type || 'default') }">
-                      {{ entity.type }}
-                    </span>
-                  </div>
-                  <div class="entity-name">{{ entity.name }}</div>
-                  <div class="entity-count">出现 {{ entity.count }} 次</div>
-                  <div v-if="entity.source" class="entity-source">
-                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 10V3L6 1L10 3V10L6 12L2 10Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-                    </svg>
-                    {{ entity.source }}
-                  </div>
-                </div>
-                <div v-if="topEntities.length === 0" class="empty-state">
-                  暂无实体数据
-                </div>
-              </div>
-            </div>
-
-            <!-- Long-term Tasks -->
-            <div class="section">
-              <h3 class="section-title">📋 长期任务</h3>
-              <div class="task-list">
-                <div v-for="task in longTermTasks" :key="task.signature" class="task-item">
-                  <div class="task-checkbox">
-                    <input type="checkbox" :checked="task.completed" disabled />
-                  </div>
-                  <div class="task-content">
-                    <div class="task-title">{{ task.signature }}</div>
-                    <div class="task-meta">
-                      出现 {{ task.count }} 次 | 来源 {{ task.occurrences?.length || 0 }} 个会议
-                    </div>
-                  </div>
-                </div>
-                <div v-if="longTermTasks.length === 0" class="empty-state">
-                  暂无长期任务
-                </div>
-              </div>
-            </div>
-
-            <!-- Workflows -->
-            <div class="section">
-              <h3 class="section-title">🔄 工作流</h3>
-              <div class="workflow-list">
-                <div v-for="workflow in workflows" :key="workflow.id" class="workflow-item">
-                  <div class="workflow-header">
-                    <span class="workflow-title">{{ workflow.title }}</span>
-                    <span class="workflow-level">Level {{ workflow.level }}</span>
-                  </div>
-                  <div class="workflow-summary">{{ workflow.summary || '暂无描述' }}</div>
-                </div>
-                <div v-if="workflows.length === 0" class="empty-state">
-                  暂无工作流
-                </div>
-              </div>
-            </div>
+            <div v-if="!feedbackItems.length" class="empty-box">暂无人工反馈。</div>
           </div>
         </div>
-      </main>
-    </div>
+
+        <div class="subsection">
+          <h3>待审核规则</h3>
+          <div class="head-pills">
+            <span class="pill">draft {{ correctionSummary.status_counts?.draft || 0 }}</span>
+            <span class="pill">rules {{ correctionSummary.rule_count || 0 }}</span>
+          </div>
+          <div class="stack-list feedback-list">
+            <div v-for="rule in correctionRules" :key="rule.rule_id" class="list-item static-item">
+              <div class="list-item-head">
+                <span class="pill">{{ rule.rule_type }} · {{ rule.target_type }}</span>
+                <span class="muted">{{ rule.status }}</span>
+              </div>
+              <div class="item-title">{{ rule.current_label || rule.target_id }}</div>
+              <div class="item-body">{{ rule.proposed_value || rule.reason || rule.target_id }}</div>
+            </div>
+            <div v-if="!correctionRules.length" class="empty-box">暂无可审核规则。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card card--full card--graph">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">GraphRAG Communities</p>
+            <h2>社区图可视化</h2>
+          </div>
+          <div class="head-pills">
+            <span class="pill">{{ graphStats.entity_count }} 实体</span>
+            <span class="pill">{{ graphStats.relationship_count }} 关系</span>
+            <span class="pill">{{ graphStats.community_count }} 社区</span>
+          </div>
+        </div>
+
+        <GraphCommunityView
+          :nodes="graphData.nodes"
+          :edges="graphData.edges"
+          :selected-node-id="selectedGraphNode?.id || null"
+          :selected-community-id="selectedCommunity?.id || null"
+          @select-node="selectGraphNode"
+        />
+
+        <div class="subsection">
+          <h3>社区列表</h3>
+          <div class="stack-list">
+            <button
+              v-for="community in graphData.communities"
+              :key="community.id"
+              class="list-item"
+              :class="{ active: selectedCommunity?.id === community.id }"
+              @click="selectCommunity(community)"
+            >
+              <div class="item-title">{{ community.title }}</div>
+              <div class="item-body">{{ community.entity_count }} 实体 · {{ community.relationship_count }} 关系</div>
+            </button>
+            <div v-if="!graphData.communities.length" class="empty-box">当前图谱还没有社区数据。</div>
+          </div>
+        </div>
+
+        <div class="subsection detail-card">
+          <template v-if="selectedCommunity">
+            <h3>{{ selectedCommunity.title }}</h3>
+            <p class="item-body">{{ selectedCommunity.summary }}</p>
+            <div class="head-pills">
+              <span class="pill">ID: {{ selectedCommunity.id }}</span>
+              <span class="pill">{{ selectedCommunity.entity_count }} 实体</span>
+              <span class="pill">{{ selectedCommunity.relationship_count }} 关系</span>
+            </div>
+            <div class="chip-wrap">
+              <span
+                v-for="entityId in selectedCommunity.entity_ids.slice(0, 18)"
+                :key="entityId"
+                class="chip"
+              >
+                {{ entityName(entityId) }}
+              </span>
+            </div>
+          </template>
+          <template v-else-if="selectedGraphNode">
+            <h3>{{ selectedGraphNode.name }}</h3>
+            <p class="item-body">出现 {{ selectedGraphNode.count || 0 }} 次，关联 {{ selectedGraphNode.document_count || 0 }} 个文档。</p>
+            <div class="head-pills">
+              <span class="pill">节点 ID: {{ selectedGraphNode.id }}</span>
+              <span class="pill">社区: {{ selectedGraphNode.community_id || '未分组' }}</span>
+            </div>
+          </template>
+          <div v-else class="empty-box">点击图中的节点或上方社区项，在这里查看详情。</div>
+        </div>
+      </section>
+
+      <section class="card card--llmwiki-summary">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">LLMWiki Summary</p>
+            <h2>状态与摘要预览</h2>
+          </div>
+          <div class="mode-row">
+            <button class="mode-btn" :class="{ active: summaryTab === 'markdown' }" @click="summaryTab = 'markdown'">summary.md</button>
+            <button class="mode-btn" :class="{ active: summaryTab === 'json' }" @click="summaryTab = 'json'">summary.json</button>
+          </div>
+        </div>
+
+        <div class="stat-list">
+          <div class="stat-item">
+            <span>Targets</span>
+            <strong>{{ summaryTargets }}</strong>
+          </div>
+          <div class="stat-item">
+            <span>Stages</span>
+            <strong>{{ summaryStages }}</strong>
+          </div>
+          <div class="stat-item">
+            <span>Sources</span>
+            <strong>{{ summarySources }}</strong>
+          </div>
+        </div>
+
+        <div v-if="summaryTab === 'markdown'" class="content-box prose-block" v-html="summaryHtml"></div>
+        <pre v-else class="content-box code-block">{{ summaryJsonPretty }}</pre>
+      </section>
+
+      <section class="card card--llmwiki-pages">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">LLMWiki Pages</p>
+            <h2>页面预览</h2>
+          </div>
+          <button class="btn-secondary small" @click="router.push('/wiki')">打开 Wiki</button>
+        </div>
+
+        <div class="stack-list">
+          <button
+            v-for="page in summaryBundle?.llmwiki_pages || []"
+            :key="page.slug"
+            class="list-item"
+            :class="{ active: selectedPageSlug === page.slug }"
+            @click="selectPage(page.slug)"
+          >
+            <div class="item-title">{{ page.title }}</div>
+            <div class="item-body">{{ formatTimestamp(page.updated_at) }}</div>
+          </button>
+          <div v-if="!(summaryBundle?.llmwiki_pages || []).length" class="empty-box">当前 workspace 里还没有可预览的 LLMWiki 页面。</div>
+        </div>
+
+        <div class="subsection detail-card">
+          <div class="list-item-head">
+            <h3>{{ selectedPageTitle }}</h3>
+            <span class="muted">{{ selectedPageSlug || '未选择页面' }}</span>
+          </div>
+          <div v-if="pageLoading" class="empty-box">页面加载中...</div>
+          <div v-else-if="selectedPageMarkdown" class="content-box prose-block" v-html="selectedPageHtml"></div>
+          <div v-else class="empty-box">点击上方页面标题，在这里预览具体内容。</div>
+        </div>
+      </section>
+
+      <section class="card card--distill-sources">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Distill Sources</p>
+            <h2>蒸馏源列表</h2>
+          </div>
+          <span class="muted">{{ distillBundle?.available_source_count || 0 }} 个源</span>
+        </div>
+
+        <div class="stack-list">
+          <button
+            v-for="source in distillSources"
+            :key="String(source.source_id)"
+            class="list-item"
+            :class="{ active: selectedDistillSourceId === String(source.source_id) }"
+            @click="selectDistillSource(String(source.source_id))"
+          >
+            <div class="item-title">{{ source.title || source.source_id }}</div>
+            <div class="item-body">{{ source.unit_count || 0 }} units · {{ formatDensity(source.source_density_score) }}</div>
+          </button>
+          <div v-if="!distillSources.length" class="empty-box">当前 workspace 里还没有 distill source 记录。</div>
+        </div>
+      </section>
+
+      <section class="card card--distill-quality">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Distill Quality</p>
+            <h2>中间层质量面板</h2>
+          </div>
+          <span class="muted">schema {{ distillQuality.schema_version || '-' }}</span>
+        </div>
+
+        <div class="stat-list">
+          <div class="stat-item">
+            <span>Source 数</span>
+            <strong>{{ distillQuality.source_count || 0 }}</strong>
+          </div>
+          <div class="stat-item">
+            <span>Unit 数</span>
+            <strong>{{ distillQuality.distilled_unit_count || 0 }}</strong>
+          </div>
+          <div class="stat-item">
+            <span>LLM Enrich</span>
+            <strong>{{ distillQuality.llm_enriched_source_count || 0 }}</strong>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3>Unit Types</h3>
+          <div class="chip-wrap">
+            <span v-for="item in distillUnitKinds" :key="item.key" class="chip">
+              {{ item.key }} · {{ item.value }}
+            </span>
+            <span v-if="!distillUnitKinds.length" class="chip muted-chip">暂无</span>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3>Title Flags</h3>
+          <div class="chip-wrap">
+            <span v-for="item in distillTitleFlags" :key="item.key" class="chip warning-chip">
+              {{ item.key }} · {{ item.value }}
+            </span>
+            <span v-if="!distillTitleFlags.length" class="chip muted-chip">暂无</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card card--distill-detail">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Distill Detail</p>
+            <h2>Source 级蒸馏预览</h2>
+          </div>
+          <span class="muted">{{ selectedDistillSource?.title || '未选择 source' }}</span>
+        </div>
+
+        <template v-if="selectedDistillSource">
+          <div class="head-pills">
+            <span class="pill">density {{ formatDensity(selectedDistillSource.source_density_score) }}</span>
+            <span class="pill">weight {{ formatDensity(selectedDistillSource.source_weight) }}</span>
+            <span class="pill">{{ selectedDistillSource.unit_count || 0 }} units</span>
+          </div>
+
+          <div class="subsection">
+            <h3>Profile</h3>
+            <div class="chip-wrap">
+              <span v-for="item in selectedDistillProfile" :key="item.key" class="chip">
+                {{ item.key }} · {{ item.value }}
+              </span>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <h3>Unit Kind Counts</h3>
+            <div class="chip-wrap">
+              <span v-for="item in selectedDistillKindCounts" :key="item.key" class="chip">
+                {{ item.key }} · {{ item.value }}
+              </span>
+            </div>
+          </div>
+
+          <div class="stack-list">
+            <div v-for="unit in selectedDistillUnits" :key="String(unit.unit_id)" class="list-item static-item">
+              <div class="list-item-head">
+                <span class="pill">{{ unit.kind }}</span>
+                <span class="muted">imp {{ Number(unit.importance || 0).toFixed(2) }}</span>
+              </div>
+              <div class="item-body">{{ unit.text }}</div>
+            </div>
+          </div>
+        </template>
+        <div v-else class="empty-box">点击上方 source，在这里查看 source 级 distill 细节。</div>
+      </section>
+    </main>
+
+    <div v-if="toast" class="toast" :class="toast.type">{{ toast.message }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import * as d3 from 'd3'
+import { marked } from 'marked'
+
+import GraphCommunityView from '@/components/GraphCommunityView.vue'
+import {
+  buildKnowledgeCorrectionRules,
+  fetchKnowledgeDistill,
+  fetchKnowledgeCorrectionRules,
+  fetchKnowledgeFeedback,
+  fetchKnowledgeGraph,
+  fetchKnowledgePage,
+  fetchKnowledgeSummary,
+  ingestKnowledge,
+  queryKnowledge,
+  resetKnowledgeWorkspace,
+  submitKnowledgeFeedback,
+  type KnowledgeCorrectionRule,
+  type KnowledgeFeedbackRecord,
+  type KnowledgeDistillResponse,
+  type KnowledgeGraphResponse,
+  type KnowledgeQueryResponse,
+  type KnowledgeSummaryResponse,
+  type QueryMode,
+} from '@/api/dataService'
+
+const DEFAULT_WORKSPACE = '/Users/Zhuanz/Desktop/workspace/知识库/workspace'
+const WORKSPACE_STORAGE_KEY = 'pageb-data-service-workspace'
 
 const router = useRouter()
 
-// Refs
-const folderInputRef = ref<HTMLInputElement | null>(null)
-const selectedFiles = ref<File[]>([])
-const activeTab = ref('wiki')
-const isIndexing = ref(false)
-const isRefreshing = ref(false)
-const lastUpdateTime = ref('从未')
+const workspace = ref(DEFAULT_WORKSPACE)
+const summaryBundle = ref<KnowledgeSummaryResponse | null>(null)
+const distillBundle = ref<KnowledgeDistillResponse | null>(null)
+const graphData = ref<KnowledgeGraphResponse>({ nodes: [], edges: [], communities: [], stats: { entity_count: 0, relationship_count: 0, community_count: 0, document_count: 0 }, db_path: '' })
+const queryResults = ref<KnowledgeQueryResponse['hits']>([])
+const feedbackItems = ref<KnowledgeFeedbackRecord[]>([])
+const correctionRules = ref<KnowledgeCorrectionRule[]>([])
+const queryMode = ref<QueryMode>('hybrid')
+const queryText = ref('ComfyUI')
+const topK = ref(8)
+const queryAnswer = ref('切换查询模式并输入关键字后，这里会显示聚合回答。')
+const summaryTab = ref<'markdown' | 'json'>('markdown')
+const selectedPageSlug = ref('')
+const selectedPageTitle = ref('')
+const selectedPageMarkdown = ref('')
+const selectedCommunity = ref<any | null>(null)
+const selectedGraphNode = ref<any | null>(null)
+const selectedDistillSourceId = ref('')
+const selectedDistillSourceBundle = ref<KnowledgeDistillResponse | null>(null)
+const ingestPathsText = ref('/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split')
+const lastUpdated = ref('未刷新')
+const feedbackTargetType = ref('page')
+const feedbackTargetId = ref('')
+const feedbackAction = ref('needs_review')
+const feedbackLabel = ref('')
+const feedbackSuggestedValue = ref('')
+const feedbackReason = ref('')
 
-// Stats
-const stats = ref({
-  docCount: '-',
-  entityCount: '-',
-  relationshipCount: '-',
+const summaryLoading = ref(false)
+const graphLoading = ref(false)
+const distillLoading = ref(false)
+const queryLoading = ref(false)
+const ingestLoading = ref(false)
+const resetLoading = ref(false)
+const pageLoading = ref(false)
+const feedbackLoading = ref(false)
+const toast = ref<{ type: 'success' | 'error'; message: string } | null>(null)
+
+const queryModes = [
+  { value: 'llmwiki', label: '纯 LLMWiki' },
+  { value: 'graphrag', label: '纯 GraphRAG' },
+  { value: 'hybrid', label: '混合查询' },
+] satisfies Array<{ value: QueryMode; label: string }>
+
+const isBusy = computed(() => summaryLoading.value || graphLoading.value || distillLoading.value)
+const graphStats = computed(() => graphData.value.stats)
+const summaryTargets = computed(() => summaryBundle.value?.summary_json?.targets?.join?.(', ') || '无')
+const summaryStages = computed(() => summaryBundle.value?.summary_json?.stages?.length || 0)
+const summarySources = computed(() => summaryBundle.value?.summary_json?.sources?.length || 0)
+const summaryStatus = computed(() => summaryBundle.value ? '已加载' : '未加载')
+const summaryHtml = computed(() => marked.parse(summaryBundle.value?.summary_markdown || ''))
+const summaryJsonPretty = computed(() => JSON.stringify(summaryBundle.value?.summary_json || {}, null, 2))
+const selectedPageHtml = computed(() => marked.parse(selectedPageMarkdown.value || ''))
+const llmwikiPageCount = computed(() => summaryBundle.value?.llmwiki_pages.length || 0)
+const distillQuality = computed(() => summaryBundle.value?.quality?.distill || {})
+const distillUnitKinds = computed(() => objectEntries(distillQuality.value.unit_kind_counts || {}))
+const distillTitleFlags = computed(() => objectEntries(distillQuality.value.title_flag_counts || {}))
+const distillSources = computed(() => distillBundle.value?.sources || [])
+const distillOverview = computed(() => `${distillQuality.value.source_count || 0} 源 / ${distillQuality.value.distilled_unit_count || 0} units`)
+const selectedDistillSource = computed(() => selectedDistillSourceBundle.value?.source || null)
+const selectedDistillUnits = computed(() => selectedDistillSourceBundle.value?.units || [])
+const selectedDistillProfile = computed(() => objectEntries(selectedDistillSource.value?.record?.profile || selectedDistillSource.value?.profile || {}))
+const selectedDistillKindCounts = computed(() => objectEntries(selectedDistillSource.value?.record?.unit_kind_counts || selectedDistillSource.value?.unit_kind_counts || {}))
+const feedbackSummary = computed(() => summaryBundle.value?.quality?.manual_feedback || {})
+const correctionSummary = computed(() => summaryBundle.value?.quality?.correction_rules || {})
+const queryBreakdown = computed(() => {
+  if (!queryResults.value.length) return '暂无结果'
+  const buckets = queryResults.value.reduce<Record<string, number>>((acc, hit) => {
+    const key = String(hit.meta?.kind || hit.source || 'unknown')
+    acc[key] = (acc[key] || 0) + 1
+    return acc
+  }, {})
+  return Object.entries(buckets)
+    .slice(0, 4)
+    .map(([key, count]) => `${key} ${count}`)
+    .join(' · ')
 })
 
-const wikiStats = ref({
-  totalDocs: 0,
-  totalVersions: 0,
-  totalTags: 0,
-  recentDocs: 0,
-})
-
-const graphStats = ref({
-  entityCount: 0,
-  relationshipCount: 0,
-  communityCount: 0,
-})
-
-// Status
-const status = ref({
-  wiki: 'unknown',
-  graphrag: 'unknown',
-})
-
-const statusText = computed(() => ({
-  wiki: status.value.wiki === 'connected' ? '已连接' : status.value.wiki === 'error' ? '异常' : '未知',
-  graphrag: status.value.graphrag === 'connected' ? '已连接' : status.value.graphrag === 'error' ? '异常' : '未知',
-}))
-
-// Tabs
-const tabs = [
-  { id: 'wiki', label: 'Wiki 摘要', icon: '📄' },
-  { id: 'graphrag', label: '知识图谱', icon: '🔗' },
-  { id: 'entities', label: '实体 · 任务', icon: '📌' },
-]
-
-// Data
-const recentDocs = ref<any[]>([])
-const topTags = ref<{ name: string; count: number }[]>([])
-const communities = ref<any[]>([])
-const topEntities = ref<any[]>([])
-const longTermTasks = ref<any[]>([])
-const workflows = ref<any[]>([])
-
-// Graph state
-const graphSvgRef = ref<SVGSVGElement | null>(null)
-const graphContainerRef = ref<HTMLElement | null>(null)
-const selectedGraphNode = ref<any>(null)
-const graphSimulation = ref<d3.Simulation<any, any> | null>(null)
-const graphData = ref<{ nodes: any[]; edges: any[] }>({ nodes: [], edges: [] })
-
-// Entity list state
-const selectedEntity = ref<any>(null)
-const entityList = ref<any[]>([])
-const traceEntity = ref<any>(null)
-const entityFilter = ref({ name: '', type: '', source: '' })
-
-const filteredEntities = computed(() => {
-  return entityList.value.filter(e => {
-    const nameMatch = !entityFilter.value.name ||
-      e.name.toLowerCase().includes(entityFilter.value.name.toLowerCase())
-    const typeMatch = !entityFilter.value.type || e.type === entityFilter.value.type
-    const sourceMatch = !entityFilter.value.source || e.source === entityFilter.value.source
-    return nameMatch && typeMatch && sourceMatch
-  })
-})
-
-// Methods
-function goBack() {
-  router.push('/')
+function objectEntries(record: Record<string, any>) {
+  return Object.entries(record)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, value]) => ({ key, value }))
 }
 
-function goToWiki() {
-  router.push('/wiki')
+function showToast(message: string, type: 'success' | 'error' = 'success') {
+  toast.value = { message, type }
+  window.setTimeout(() => {
+    toast.value = null
+  }, 3200)
 }
 
-function goToGraphRAG() {
-  router.push('/graphrag')
+function formatTimestamp(value: number | string | null | undefined) {
+  if (!value) return '-'
+  const date = new Date(typeof value === 'number' ? value * 1000 : value)
+  if (Number.isNaN(date.getTime())) return String(value)
+  return date.toLocaleString('zh-CN')
 }
 
-function triggerFolderUpload() {
-  folderInputRef.value?.click()
+function formatDensity(value: number | string | null | undefined) {
+  const num = Number(value || 0)
+  return Number.isFinite(num) ? num.toFixed(2) : '-'
 }
 
-function handleFolderSelect(event: Event) {
-  const input = event.target as HTMLInputElement
-  if (input.files) {
-    selectedFiles.value = Array.from(input.files)
-  }
+function entityName(entityId: string) {
+  const found = graphData.value.nodes.find((node) => node.id === entityId)
+  return found?.name || entityId
 }
 
-function handleDrop(event: DragEvent) {
-  const items = event.dataTransfer?.items
-  if (items) {
-    const files: File[] = []
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i]
-      if (item.kind === 'file') {
-        const file = item.getAsFile()
-        if (file) files.push(file)
-      }
-    }
-    selectedFiles.value = files
-  }
-}
-
-function clearSelection() {
-  selectedFiles.value = []
-}
-
-async function startIndexing() {
-  if (selectedFiles.value.length === 0) return
-  isIndexing.value = true
-
+async function loadSummary() {
+  summaryLoading.value = true
   try {
-    // TODO: 实现文件索引逻辑
-    // 调用 Wiki API 创建文档，然后触发 GraphRAG 索引
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    alert(`已选择 ${selectedFiles.value.length} 个文件，索引功能开发中...`)
+    const data = await fetchKnowledgeSummary(workspace.value)
+    summaryBundle.value = data
+    if (!selectedPageSlug.value && data.llmwiki_pages.length) {
+      await selectPage(data.llmwiki_pages[0].slug)
+    }
   } finally {
-    isIndexing.value = false
+    summaryLoading.value = false
+  }
+}
+
+async function loadGraph() {
+  graphLoading.value = true
+  try {
+    graphData.value = await fetchKnowledgeGraph(workspace.value, 140)
+    if (!selectedCommunity.value && graphData.value.communities.length) {
+      selectedCommunity.value = graphData.value.communities[0]
+    }
+  } finally {
+    graphLoading.value = false
+  }
+}
+
+async function loadDistill() {
+  distillLoading.value = true
+  try {
+    const data = await fetchKnowledgeDistill(workspace.value, null, 18)
+    distillBundle.value = data
+    if (!selectedDistillSourceId.value && data.sources.length) {
+      await selectDistillSource(String(data.sources[0].source_id))
+    }
+  } finally {
+    distillLoading.value = false
+  }
+}
+
+async function loadFeedback() {
+  feedbackLoading.value = true
+  try {
+    const response = await fetchKnowledgeFeedback(workspace.value, { limit: 20 })
+    feedbackItems.value = response.items || []
+    const rules = await fetchKnowledgeCorrectionRules(workspace.value, { limit: 20, status: 'draft' })
+    correctionRules.value = rules.items || []
+  } finally {
+    feedbackLoading.value = false
+  }
+}
+
+async function buildCorrectionRules() {
+  feedbackLoading.value = true
+  try {
+    const response = await buildKnowledgeCorrectionRules(workspace.value)
+    correctionRules.value = response.rules || response.items || []
+    await loadSummary()
+    showToast('校正规则已生成')
+  } catch (error) {
+    console.error(error)
+    showToast(`规则生成失败: ${String(error)}`, 'error')
+  } finally {
+    feedbackLoading.value = false
   }
 }
 
 async function refreshAll() {
-  isRefreshing.value = true
   try {
-    await Promise.all([
-      refreshWiki(),
-      refreshGraph(),
-      refreshEntities(),
-      checkServices(),
-    ])
-    lastUpdateTime.value = new Date().toLocaleTimeString('zh-CN')
-  } finally {
-    isRefreshing.value = false
-  }
-}
-
-async function refreshWiki() {
-  try {
-    const res = await fetch('/api/v1/wiki/docs?page=1&size=20')
-    if (res.ok) {
-      const data = await res.json()
-      recentDocs.value = data.items || []
-      wikiStats.value.totalDocs = data.total || 0
-    }
-  } catch (e) {
-    console.error('Failed to refresh wiki:', e)
-  }
-
-  try {
-    const res = await fetch('/api/v1/wiki/tags')
-    if (res.ok) {
-      const data = await res.json()
-      topTags.value = (data.data || []).slice(0, 10).map((t: string) => ({ name: t, count: 1 }))
-    }
-  } catch (e) {
-    console.error('Failed to refresh tags:', e)
-  }
-}
-
-async function refreshGraph() {
-  try {
-    const res = await fetch('http://localhost:8002/api/v1/graph/?max_nodes=100')
-    if (res.ok) {
-      const data = await res.json()
-      graphData.value.nodes = data.nodes || []
-      graphData.value.edges = data.edges || []
-      graphStats.value.entityCount = data.nodes?.length || 0
-      graphStats.value.relationshipCount = data.edges?.length || 0
-      // Populate entity list from graph nodes
-      entityList.value = (data.nodes || []).map((n: any) => ({
-        id: n.id || n.name,
-        name: n.name,
-        type: n.type || 'default',
-        relations: n.relations || 0,
-        description: n.description || '',
-        source: n.source || '',
-      }))
-      await nextTick()
-      renderMainGraph()
-    }
-  } catch (e) {
-    console.error('Failed to refresh graph:', e)
-  }
-
-  try {
-    const res = await fetch('http://localhost:8002/api/v1/community/')
-    if (res.ok) {
-      const data = await res.json()
-      communities.value = data.communities?.slice(0, 10) || []
-      graphStats.value.communityCount = data.total || 0
-    }
-  } catch (e) {
-    console.error('Failed to refresh communities:', e)
-  }
-}
-
-async function refreshEntities() {
-  try {
-    const res = await fetch('/api/v1/wiki/workflows')
-    if (res.ok) {
-      const data = await res.json()
-      workflows.value = data.data?.workflows || []
-    }
-  } catch (e) {
-    console.error('Failed to refresh workflows:', e)
-  }
-
-  try {
-    const res = await fetch('/api/v1/wiki/long-term-tasks')
-    if (res.ok) {
-      const data = await res.json()
-      longTermTasks.value = data.data?.long_term_tasks || []
-    }
-  } catch (e) {
-    console.error('Failed to refresh tasks:', e)
-  }
-}
-
-async function checkServices() {
-  // Check Wiki
-  try {
-    const res = await fetch('/api/v1/wiki/docs?page=1&size=1')
-    status.value.wiki = res.ok ? 'connected' : 'error'
-  } catch {
-    status.value.wiki = 'error'
-  }
-
-  // Check GraphRAG
-  try {
-    const res = await fetch('http://localhost:8002/api/v1/graph/')
-    status.value.graphrag = res.ok ? 'connected' : 'error'
-  } catch {
-    status.value.graphrag = 'error'
-  }
-}
-
-function formatDate(dateStr: string): string {
-  if (!dateStr) return '-'
-  const date = new Date(dateStr)
-  return date.toLocaleDateString('zh-CN')
-}
-
-function formatTimestamp(ts: number): string {
-  const date = new Date(ts * 1000)
-  return date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-}
-
-function showEntityTrace(entity: any) {
-  // Build traceability info from graph data
-  const trace: any = {
-    ...entity,
-    meetings: [],
-    occurrences: [],
-  }
-
-  // Find related meetings from graph nodes
-  const relatedNodes = graphData.value.nodes.filter((n: any) =>
-    n.id === entity.id || n.name === entity.name
-  )
-  if (relatedNodes.length > 0) {
-    trace.source = relatedNodes[0].source || '会议记录'
-    trace.description = relatedNodes[0].description || ''
-  }
-
-  // Find edges to count relations
-  const relatedEdges = graphData.value.edges.filter((e: any) => {
-    const srcId = typeof e.source === 'object' ? e.source.id : e.source
-    const tgtId = typeof e.target === 'object' ? e.target.id : e.target
-    return srcId === entity.id || tgtId === entity.id || srcId === entity.name || tgtId === entity.name
-  })
-  trace.relations = relatedEdges.length
-
-  // Simulate meeting sources (in real app, would fetch from API)
-  if (entity.id) {
-    trace.meetings = [
-      { id: '1', name: `会议记录 #${entity.id.slice(0, 8)}`, time: new Date().toISOString() }
-    ]
-  }
-
-  traceEntity.value = trace
-}
-
-// Entity colors for graph
-const entityColors: Record<string, string> = {
-  'person': '#FF6B6B',
-  'organization': '#45B7D1',
-  'location': '#96CEB4',
-  'topic': '#DDA0DD',
-  'decision': '#22c55e',
-  'project': '#f59e0b',
-  'task': '#a78bfa',
-  'default': '#6366f1',
-}
-
-function getEntityColor(type: string): string {
-  return entityColors[type.toLowerCase()] || entityColors['default']
-}
-
-// Render main content graph
-async function renderMainGraph() {
-  if (!graphSvgRef.value || !graphContainerRef.value || !graphData.value.nodes.length) return
-
-  await nextTick()
-
-  const svg = d3.select(graphSvgRef.value)
-  const container = graphContainerRef.value
-  const width = container.clientWidth || 600
-  const height = 280
-
-  svg.selectAll('*').remove()
-  svg.attr('width', width).attr('height', height)
-
-  const nodes = graphData.value.nodes.map((n, idx) => ({
-    ...n,
-    id: n.id || n.name,
-    x: width / 2 + 80 * Math.cos(2 * Math.PI * idx / graphData.value.nodes.length),
-    y: height / 2 + 80 * Math.sin(2 * Math.PI * idx / graphData.value.nodes.length),
-  }))
-
-  const edges = graphData.value.edges.map(e => ({
-    ...e,
-    source: typeof e.source === 'object' ? e.source.id : e.source,
-    target: typeof e.target === 'object' ? e.target.id : e.target,
-  }))
-
-  const nodeMap = new Map(nodes.map(n => [n.id, n]))
-
-  const sim = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(edges).id((d: any) => d.id).distance(80).strength(0.6))
-    .force('charge', d3.forceManyBody().strength(-150))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collision', d3.forceCollide().radius(30))
-    .alphaDecay(0.02)
-
-  graphSimulation.value = sim
-
-  const link = svg.append('g')
-    .selectAll('line')
-    .data(edges)
-    .enter()
-    .append('line')
-    .attr('stroke', '#3d3d4d')
-    .attr('stroke-width', 1.5)
-
-  const node = svg.append('g')
-    .selectAll('g')
-    .data(nodes)
-    .enter()
-    .append('g')
-    .style('cursor', 'pointer')
-
-  node.append('circle')
-    .attr('r', (d: any) => 10 + (d.relations || 1) * 2)
-    .attr('fill', (d: any) => getEntityColor(d.type || 'default'))
-    .attr('stroke', '#1e1e2e')
-    .attr('stroke-width', 2)
-
-  node.append('text')
-    .attr('dy', '0.35em')
-    .attr('text-anchor', 'middle')
-    .attr('font-size', '10')
-    .attr('fill', '#ffffff')
-    .attr('font-weight', '500')
-    .text((d: any) => d.name.length > 8 ? d.name.substring(0, 8) + '...' : d.name)
-
-  node.on('click', (event, d: any) => {
-    event.stopPropagation()
-    selectedGraphNode.value = d
-    selectEntity(d)
-
-    const connectedIds = new Set([d.id])
-    edges.forEach((e: any) => {
-      if (e.source === d.id || (e.source.id && e.source.id === d.id)) connectedIds.add(e.target)
-      if (e.target === d.id || (e.target.id && e.target.id === d.id)) connectedIds.add(e.source)
-    })
-
-    node.select('circle').attr('opacity', (n: any) => connectedIds.has(n.id) ? 1 : 0.3)
-    node.select('text').attr('opacity', (n: any) => connectedIds.has(n.id) ? 1 : 0.3)
-    link.attr('stroke', (e: any) => {
-      const srcId = typeof e.source === 'object' ? e.source.id : e.source
-      const tgtId = typeof e.target === 'object' ? e.target.id : e.target
-      return (srcId === d.id || tgtId === d.id) ? '#6366f1' : '#3d3d4d'
-    }).attr('stroke-width', (e: any) => {
-      const srcId = typeof e.source === 'object' ? e.source.id : e.source
-      const tgtId = typeof e.target === 'object' ? e.target.id : e.target
-      return (srcId === d.id || tgtId === d.id) ? 2.5 : 1.5
-    })
-  })
-
-  const drag = d3.drag<SVGGElement, any>()
-    .on('start', (event, d: any) => {
-      if (!event.active) sim.alphaTarget(0.5).restart()
-      d.fx = d.x
-      d.fy = d.y
-    })
-    .on('drag', (event, d: any) => {
-      d.fx = event.x
-      d.fy = event.y
-    })
-    .on('end', (event, d: any) => {
-      if (!event.active) sim.alphaTarget(0.05).restart()
-      d.fx = null
-      d.fy = null
-    })
-
-  node.call(drag as any)
-
-  svg.on('click', () => {
+    localStorage.setItem(WORKSPACE_STORAGE_KEY, workspace.value)
+    selectedCommunity.value = null
     selectedGraphNode.value = null
-    node.select('circle').attr('opacity', 1)
-    node.select('text').attr('opacity', 1)
-    link.attr('stroke', '#3d3d4d').attr('stroke-width', 1.5)
-  })
-
-  sim.on('tick', () => {
-    link
-      .attr('x1', (d: any) => {
-        const src = typeof d.source === 'object' ? d.source : nodeMap.get(d.source)
-        return src?.x || 0
-      })
-      .attr('y1', (d: any) => {
-        const src = typeof d.source === 'object' ? d.source : nodeMap.get(d.source)
-        return src?.y || 0
-      })
-      .attr('x2', (d: any) => {
-        const tgt = typeof d.target === 'object' ? d.target : nodeMap.get(d.target)
-        return tgt?.x || 0
-      })
-      .attr('y2', (d: any) => {
-        const tgt = typeof d.target === 'object' ? d.target : nodeMap.get(d.target)
-        return tgt?.y || 0
-      })
-    node.attr('transform', (d: any) => `translate(${d.x},${d.y})`)
-  })
+    await Promise.all([loadSummary(), loadGraph(), loadDistill(), loadFeedback()])
+    lastUpdated.value = new Date().toLocaleTimeString('zh-CN')
+    showToast('工作台数据已刷新')
+  } catch (error) {
+    console.error(error)
+    showToast(`刷新失败: ${String(error)}`, 'error')
+  }
 }
 
-function selectEntity(entity: any) {
-  selectedEntity.value = entity
-  stats.value.entityCount = graphData.value.nodes.length
-  stats.value.relationshipCount = graphData.value.edges.length
+async function runQuery() {
+  if (!queryText.value.trim()) {
+    showToast('请输入查询内容', 'error')
+    return
+  }
+  queryLoading.value = true
+  try {
+    const response = await queryKnowledge(workspace.value, queryText.value.trim(), queryMode.value, topK.value)
+    queryResults.value = response.hits
+    queryAnswer.value = response.answer
+  } catch (error) {
+    console.error(error)
+    showToast(`查询失败: ${String(error)}`, 'error')
+  } finally {
+    queryLoading.value = false
+  }
 }
 
-// Lifecycle
+async function runIngest() {
+  const paths = ingestPathsText.value
+    .split('\n')
+    .map((item) => item.trim())
+    .filter(Boolean)
+  if (!paths.length) {
+    showToast('请至少输入一条源文件路径', 'error')
+    return
+  }
+  ingestLoading.value = true
+  try {
+    const result = await ingestKnowledge(workspace.value, paths)
+    const status = result.results.map((item) => `${item.engine}:${item.status}`).join(' | ')
+    showToast(`Ingest 完成，${status}`)
+    await refreshAll()
+  } catch (error) {
+    console.error(error)
+    showToast(`Ingest 失败: ${String(error)}`, 'error')
+  } finally {
+    ingestLoading.value = false
+  }
+}
+
+async function runReset() {
+  const confirmation = window.prompt('这会清空当前 workspace 下的 llmwiki / graphrag / summary 等中间产物，不会删除 row 原始文件。请输入 Delete 确认。', '')
+  if (confirmation !== 'Delete') {
+    showToast('已取消重置', 'error')
+    return
+  }
+  resetLoading.value = true
+  try {
+    const result = await resetKnowledgeWorkspace(workspace.value, confirmation)
+    queryResults.value = []
+    queryAnswer.value = '工作区已重置，请重新执行 ingest 或查询。'
+    selectedPageSlug.value = ''
+    selectedPageTitle.value = ''
+    selectedPageMarkdown.value = ''
+    selectedCommunity.value = null
+    selectedGraphNode.value = null
+    selectedDistillSourceId.value = ''
+    selectedDistillSourceBundle.value = null
+    feedbackItems.value = []
+    correctionRules.value = []
+    showToast(`已清理 ${result.removed.length} 个中间产物`)
+    await refreshAll()
+  } catch (error) {
+    console.error(error)
+    showToast(`重置失败: ${String(error)}`, 'error')
+  } finally {
+    resetLoading.value = false
+  }
+}
+
+async function selectPage(slug: string) {
+  selectedPageSlug.value = slug
+  selectedPageTitle.value = slug
+  pageLoading.value = true
+  try {
+    const response = await fetchKnowledgePage(workspace.value, slug)
+    const page = response.page || {}
+    selectedPageTitle.value = String(page.title || slug)
+    selectedPageMarkdown.value = String(page.body_md || '')
+    useFeedbackTarget('page', slug, selectedPageTitle.value)
+  } catch (error) {
+    console.error(error)
+    selectedPageMarkdown.value = ''
+    showToast(`页面加载失败: ${String(error)}`, 'error')
+  } finally {
+    pageLoading.value = false
+  }
+}
+
+async function selectDistillSource(sourceId: string) {
+  selectedDistillSourceId.value = sourceId
+  try {
+    selectedDistillSourceBundle.value = await fetchKnowledgeDistill(workspace.value, sourceId, 18)
+    const title = selectedDistillSourceBundle.value?.source?.title || sourceId
+    useFeedbackTarget('source', sourceId, String(title))
+  } catch (error) {
+    console.error(error)
+    selectedDistillSourceBundle.value = null
+    showToast(`Distill source 加载失败: ${String(error)}`, 'error')
+  }
+}
+
+function selectCommunity(community: any) {
+  selectedCommunity.value = community
+  selectedGraphNode.value = null
+  useFeedbackTarget('community', String(community.id), String(community.title || community.id))
+}
+
+function selectGraphNode(node: any) {
+  selectedGraphNode.value = node
+  selectedCommunity.value = graphData.value.communities.find((community) => community.id === node.community_id) || null
+  useFeedbackTarget('entity', String(node.id), String(node.name || node.id))
+}
+
+function useFeedbackTarget(targetType: string, targetId: string, label = '') {
+  feedbackTargetType.value = targetType
+  feedbackTargetId.value = targetId
+  feedbackLabel.value = label
+}
+
+function useCurrentPageAsFeedbackTarget() {
+  if (selectedPageSlug.value) useFeedbackTarget('page', selectedPageSlug.value, selectedPageTitle.value)
+}
+
+function useCurrentGraphNodeAsFeedbackTarget() {
+  if (selectedGraphNode.value) {
+    useFeedbackTarget('entity', String(selectedGraphNode.value.id), String(selectedGraphNode.value.name || selectedGraphNode.value.id))
+  }
+}
+
+function useCurrentSourceAsFeedbackTarget() {
+  if (selectedDistillSource.value) {
+    useFeedbackTarget(
+      'source',
+      String(selectedDistillSource.value.source_id || selectedDistillSourceId.value),
+      String(selectedDistillSource.value.title || selectedDistillSourceId.value),
+    )
+  }
+}
+
+function useCurrentQueryAsFeedbackTarget() {
+  const target = queryText.value.trim()
+  if (target) useFeedbackTarget('query', target, target)
+}
+
+async function submitFeedback() {
+  if (!feedbackTargetId.value.trim()) {
+    showToast('请先选择或填写反馈对象', 'error')
+    return
+  }
+  feedbackLoading.value = true
+  try {
+    await submitKnowledgeFeedback(workspace.value, {
+      target_type: feedbackTargetType.value,
+      target_id: feedbackTargetId.value.trim(),
+      action: feedbackAction.value,
+      label: feedbackLabel.value.trim(),
+      suggested_value: feedbackSuggestedValue.value.trim(),
+      reason: feedbackReason.value.trim(),
+      metadata: {
+        selected_page: selectedPageSlug.value,
+        selected_source: selectedDistillSourceId.value,
+        selected_node: selectedGraphNode.value?.id || '',
+      },
+    })
+    feedbackReason.value = ''
+    feedbackSuggestedValue.value = ''
+    await Promise.all([loadFeedback(), loadSummary()])
+    showToast('质量反馈已记录')
+  } catch (error) {
+    console.error(error)
+    showToast(`反馈提交失败: ${String(error)}`, 'error')
+  } finally {
+    feedbackLoading.value = false
+  }
+}
+
+function inspectHit(hit: KnowledgeQueryResponse['hits'][number]) {
+  const kind = hit.meta?.kind
+  if (kind === 'page' && hit.meta?.slug) {
+    selectPage(String(hit.meta.slug))
+    return
+  }
+  if (kind === 'entity' || kind === 'theme') {
+    const node = graphData.value.nodes.find((item) => item.id === hit.source)
+    if (node) selectGraphNode(node)
+    return
+  }
+  if (kind === 'relationship') {
+    const relation = graphData.value.edges.find((item) => item.id === hit.source)
+    if (!relation) return
+    const node = graphData.value.nodes.find((item) => item.id === relation.source)
+    if (node) selectGraphNode(node)
+    return
+  }
+  if (kind === 'unit') {
+    const sourceId = String(hit.source).split(':')[0]
+    const distillSource = distillBundle.value?.sources.find((item) => String(item.source_id) === sourceId)
+    if (distillSource) {
+      selectDistillSource(sourceId)
+    }
+  }
+}
+
+watch(workspace, (value) => {
+  localStorage.setItem(WORKSPACE_STORAGE_KEY, value)
+})
+
 onMounted(async () => {
-  await checkServices()
-  await refreshWiki()
-  await refreshGraph()
-  await refreshEntities()
+  workspace.value = localStorage.getItem(WORKSPACE_STORAGE_KEY) || DEFAULT_WORKSPACE
+  await refreshAll()
+  await runQuery()
 })
 </script>
 
 <style scoped>
 .knowledge-page {
-  height: 100vh;
+  min-height: 100vh;
+  padding: 28px 20px 48px;
+  background: #0f1115;
+  color: #eef2f7;
+}
+
+.page-stack {
+  max-width: 1240px;
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  background: #1a1a24;
-  color: #fff;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 18px;
 }
 
-/* Header */
-.knowledge-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 24px;
-  background: #0d0d15;
-  border-bottom: 1px solid #262626;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.btn-back {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 8px 12px;
-  background: transparent;
-  border: 1px solid #262626;
-  border-radius: 6px;
-  color: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.btn-back:hover {
-  background: #1e1e2e;
-}
-
-.page-title {
-  font-size: 18px;
-  font-weight: 500;
-  margin: 0;
-}
-
-.service-indicators {
-  display: flex;
-  gap: 16px;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 8px;
-  margin-right: 16px;
-}
-
-.btn-nav {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  background: transparent;
-  border: 1px solid #262626;
-  border-radius: 6px;
-  color: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s;
-}
-
-.btn-nav:hover {
-  background: #1e1e2e;
-  border-color: #6366f1;
-}
-
-.indicator {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-}
-
-.indicator .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #666;
-}
-
-.indicator.connected .dot {
-  background: #22c55e;
-}
-
-.indicator.error .dot {
-  background: #ef4444;
-}
-
-/* Body */
-.knowledge-body {
-  flex: 1;
-  display: flex;
+.card {
+  flex: 1 1 360px;
+  min-width: 0;
+  max-height: 720px;
+  padding: 18px;
+  background: #171a20;
+  border: 1px solid #2a3039;
+  border-radius: 8px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
 
-/* Sidebar */
-.sidebar-left {
-  width: 280px;
-  background: #0d0d15;
-  border-right: 1px solid #262626;
-  padding: 16px;
-  overflow-y: auto;
+.card--medium {
+  flex-basis: 360px;
 }
 
-.sidebar-card {
-  background: #1a1a24;
+.card--wide {
+  flex-basis: 520px;
+}
+
+.card--compact {
+  flex-basis: 300px;
+}
+
+.card--workspace,
+.card--query,
+.card--quality-feedback,
+.card--distill-detail {
+  flex-basis: 560px;
+}
+
+.card--workspace,
+.card--query {
+  flex: 1 1 100%;
+  max-height: none;
+}
+
+.card--llmwiki-summary,
+.card--llmwiki-pages {
+  flex-basis: 520px;
+}
+
+.card--distill-sources,
+.card--distill-quality {
+  flex-basis: 360px;
+}
+
+.card--distill-sources,
+.card--distill-quality {
+  max-height: 520px;
+}
+
+.card--full {
+  flex: 1 1 100%;
+}
+
+.card--graph {
+  min-height: 0;
+  max-height: none;
+}
+
+.page-header {
+  max-width: 1240px;
+  margin: 0 auto 18px;
+  padding: 18px;
+  background: #15181e;
+  border: 1px solid #2a3039;
   border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-
-.card-title {
-  font-size: 14px;
-  font-weight: 500;
-  margin: 0 0 12px;
-}
-
-.upload-area {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 24px;
-  border: 2px dashed #262626;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
+  gap: 14px;
 }
 
-.upload-area:hover {
-  border-color: #6366f1;
-  background: rgba(99, 102, 241, 0.1);
-}
-
-.upload-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.upload-text {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.upload-hint {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  margin-top: 4px;
-}
-
-.selected-files {
-  margin-top: 12px;
-  padding: 12px;
-  background: #0d0d15;
-  border-radius: 6px;
-}
-
-.files-header {
+.topbar,
+.header-grid {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.btn-clear {
-  background: transparent;
-  border: none;
-  color: #ef4444;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.files-list {
-  max-height: 100px;
-  overflow-y: auto;
-}
-
-.file-item {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
-  padding: 2px 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.more-files {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.btn-upload {
-  width: 100%;
-  margin-top: 12px;
-  padding: 10px;
-  background: #6366f1;
-  border: none;
-  border-radius: 6px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.btn-upload:disabled {
-  background: #333;
-  cursor: not-allowed;
-}
-
-.btn-refresh {
-  width: 100%;
-  padding: 10px;
-  background: transparent;
-  border: 1px solid #262626;
-  border-radius: 6px;
-  color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.btn-refresh:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.last-update {
-  margin-top: 8px;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-  text-align: center;
-}
-
-.status-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.status-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-}
-
-.status-label {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.status-value {
-  color: #fff;
-}
-
-.status-value.connected {
-  color: #22c55e;
-}
-
-.status-value.error {
-  color: #ef4444;
-}
-
-/* Main Content */
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-/* Tab Nav */
-.tab-nav {
-  display: flex;
-  gap: 4px;
-  padding: 12px 24px;
-  background: #0d0d15;
-  border-bottom: 1px solid #262626;
-}
-
-.tab-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  background: transparent;
-  border: none;
-  border-radius: 6px;
-  color: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
-}
-
-.tab-btn:hover {
-  background: #1e1e2e;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.tab-btn.active {
-  background: #6366f1;
-  color: #fff;
-}
-
-.tab-count {
-  padding: 2px 8px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  font-size: 12px;
-}
-
-/* Tab Content */
-.tab-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 24px;
-}
-
-.tab-panel {
-  max-width: 1200px;
-}
-
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.panel-header h2 {
-  font-size: 20px;
-  font-weight: 500;
-  margin: 0;
-}
-
-.btn-action {
-  padding: 8px 16px;
-  background: transparent;
-  border: 1px solid #262626;
-  border-radius: 6px;
-  color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-/* Wiki Summary */
-.wiki-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-bottom: 32px;
 }
 
-.summary-card {
-  display: flex;
+.topbar {
   align-items: center;
-  gap: 12px;
-  padding: 20px;
-  background: #0d0d15;
-  border-radius: 8px;
 }
 
-.summary-icon {
-  font-size: 24px;
+.header-grid {
+  align-items: flex-end;
 }
 
-.summary-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.summary-value {
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.summary-label {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* Sections */
-.section {
-  margin-bottom: 32px;
-}
-
-.section-title {
-  font-size: 16px;
-  font-weight: 500;
-  margin: 0 0 16px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.doc-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.doc-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  background: #0d0d15;
-  border-radius: 6px;
-}
-
-.doc-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.doc-title {
-  font-size: 14px;
-}
-
-.doc-type {
-  font-size: 11px;
-  padding: 2px 8px;
-  background: #262626;
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.doc-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.tags-cloud {
+.header-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.tag-chip {
-  padding: 6px 12px;
-  background: #0d0d15;
-  border-radius: 16px;
-  font-size: 13px;
+.header-copy h1 {
+  margin: 0 0 6px;
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: #f8fafc;
 }
 
-/* Graph Stats */
-.graph-stats {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+.header-copy p {
+  margin: 0;
+  max-width: 760px;
+  color: #aab4c3;
+  line-height: 1.6;
 }
 
-.graph-stat-card {
-  flex: 1;
+.header-meta,
+.head-pills,
+.mode-row,
+.button-row,
+.quick-target-row,
+.chip-wrap {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.header-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 260px;
+}
+
+.status-chip {
+  display: inline-flex;
   align-items: center;
-  padding: 24px;
-  background: #0d0d15;
+  min-height: 30px;
+  padding: 6px 10px;
+  border: 1px solid #334155;
   border-radius: 8px;
-}
-
-.stat-number {
-  font-size: 32px;
-  font-weight: 600;
-  color: #6366f1;
-}
-
-.stat-label {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.graph-visualization {
-  margin-bottom: 24px;
-}
-
-.graph-placeholder {
-  height: 200px;
-  background: #0d0d15;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.placeholder-content {
-  text-align: center;
-}
-
-.placeholder-icon {
-  font-size: 48px;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.placeholder-text {
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.placeholder-hint {
+  background: #111827;
+  color: #cbd5e1;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  margin-top: 4px;
 }
 
-.community-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+.status-chip.online {
+  border-color: rgba(20, 184, 166, 0.52);
+  color: #99f6e4;
 }
 
-.community-item {
-  padding: 16px;
-  background: #0d0d15;
-  border-radius: 8px;
-}
-
-.community-header {
+.section-head {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 8px;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
-.community-id {
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.community-level {
+.section-kicker {
+  margin: 0 0 4px;
   font-size: 11px;
-  padding: 2px 8px;
-  background: #262626;
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.community-summary {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 8px;
-}
-
-.community-stats {
-  display: flex;
-  gap: 12px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-/* Entity Grid */
-.entity-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-
-.entity-card {
-  padding: 14px;
-  background: #0d0d15;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
-  border: 1px solid transparent;
-}
-
-.entity-card:hover {
-  background: #141420;
-  border-color: #3d3d4d;
-}
-
-.entity-card.selected {
-  border-color: #6366f1;
-  background: #141420;
-}
-
-.entity-header {
-  margin-bottom: 8px;
-}
-
-.entity-type-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 600;
-  color: #ffffff;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: #7c8ca3;
 }
 
-.entity-name {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 6px;
-  color: #ffffff;
+.section-head h2,
+.subsection h3,
+.detail-card h3 {
+  margin: 0;
 }
 
-.entity-type {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 4px;
+.section-head h2 {
+  font-size: 18px;
 }
 
-.entity-count {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-  margin-bottom: 4px;
+.subsection {
+  margin-top: 16px;
 }
 
-.entity-source {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px solid #1a1a24;
-}
-
-/* Task List */
-.task-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.task-item {
-  display: flex;
-  gap: 12px;
-  padding: 12px 16px;
-  background: #0d0d15;
-  border-radius: 6px;
-}
-
-.task-checkbox input {
-  width: 18px;
-  height: 18px;
-}
-
-.task-title {
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
-.task-meta {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-/* Workflow List */
-.workflow-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.workflow-item {
+.detail-card {
   padding: 16px;
-  background: #0d0d15;
+  background: #111827;
+  border: 1px solid #2a3039;
   border-radius: 8px;
 }
 
-.workflow-header {
+.stat-list {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.card--compact .stat-list {
+  gap: 8px;
+}
+
+.stat-item,
+.list-item,
+.content-box {
+  padding: 14px;
+  background: #111827;
+  border: 1px solid #2a3039;
+  border-radius: 8px;
+}
+
+.stat-item span,
+.muted {
+  color: #94a3b8;
+}
+
+.stat-item strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 15px;
+  color: #f8fafc;
+}
+
+.quality-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.quality-strip div {
+  padding: 10px;
+  background: #10151d;
+  border: 1px solid #243140;
+  border-radius: 8px;
+}
+
+.quality-strip span {
+  display: block;
+  color: #8ea0b6;
+  font-size: 12px;
+}
+
+.quality-strip strong {
+  display: block;
+  margin-top: 4px;
+  color: #e2e8f0;
+}
+
+.stack-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list-item {
+  width: 100%;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+button.list-item {
+  border: 1px solid #2a3039;
+}
+
+.list-item:hover {
+  background: #182433;
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+.list-item.active {
+  background: #11212e;
+  border-color: #14b8a6;
+}
+
+.static-item {
+  cursor: default;
+}
+
+.static-item:hover {
+  transform: none;
+}
+
+.list-item-head {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  gap: 10px;
   margin-bottom: 8px;
 }
 
-.workflow-title {
+.item-title {
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.item-body {
+  margin-top: 4px;
+  color: #cbd5e1;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.text-input,
+.number-input,
+.text-area {
+  width: 100%;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 8px;
+  outline: none;
+}
+
+.text-input,
+.number-input {
+  padding: 12px 14px;
   font-size: 14px;
-  font-weight: 500;
 }
 
-.workflow-level {
-  font-size: 11px;
-  padding: 2px 8px;
-  background: #262626;
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 0.6);
+.text-input:focus,
+.number-input:focus,
+.text-area:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.14);
 }
 
-.workflow-summary {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.6);
+.field-label {
+  display: block;
+  margin: 8px 0 6px;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-/* Entity Filters */
-.entity-filters {
+.text-area {
+  margin-top: 12px;
+  min-height: 96px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.query-row {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.query-row .text-input {
+  flex: 1 1 360px;
+}
+
+.feedback-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.card--quality-feedback .text-input {
+  margin-top: 10px;
+}
+
+.card--quality-feedback .feedback-grid .text-input {
+  margin-top: 0;
+}
+
+.quick-target-row {
   margin-bottom: 12px;
 }
 
-.filter-input {
-  flex: 1;
-  padding: 8px 12px;
-  background: #0d0d15;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 13px;
+.feedback-list {
+  max-height: 240px;
+  overflow: auto;
+  padding-right: 2px;
 }
 
-.filter-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+.card--workspace .text-area {
+  min-height: 112px;
 }
 
-.filter-select {
-  padding: 8px 12px;
-  background: #0d0d15;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: rgba(255, 255, 255, 0.8);
+.card--query .stack-list {
+  max-height: 340px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.number-input {
+  width: 88px;
+}
+
+.query-answer {
+  margin: 14px 0;
+  padding: 14px;
+  background: #111827;
+  border: 1px solid #2a3039;
+  border-radius: 8px;
+}
+
+.query-answer p {
+  margin: 10px 0 0;
+  color: #dbeafe;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.answer-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #f8fafc;
   font-size: 13px;
+  font-weight: 700;
+}
+
+.btn-back,
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.mode-btn {
+  border: 0;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
 }
 
-/* Empty State */
-.empty-state {
-  padding: 32px;
+.btn-back,
+.btn-secondary,
+.mode-btn {
+  background: #111827;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  padding: 10px 14px;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+  padding: 10px 14px;
+}
+
+.btn-primary {
+  background: #0f766e;
+  color: #ffffff;
+}
+
+.btn-danger {
+  background: #b91c1c;
+  color: #ffffff;
+}
+
+.mode-btn.active {
+  background: #1e3a5f;
+  border-color: #38bdf8;
+}
+
+.btn-back:hover,
+.btn-primary:hover:not(:disabled),
+.btn-secondary:hover:not(:disabled),
+.btn-danger:hover:not(:disabled),
+.mode-btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-danger:disabled {
+  opacity: 0.56;
+  cursor: not-allowed;
+}
+
+.btn-secondary.small {
+  padding: 8px 12px;
+}
+
+.pill,
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #1f2937;
+  color: #dbeafe;
+  font-size: 12px;
+}
+
+.warning-chip {
+  background: #3a2b12;
+  color: #facc15;
+}
+
+.muted-chip {
+  color: rgba(245, 247, 251, 0.52);
+}
+
+.content-box {
+  margin-top: 12px;
+}
+
+.card--llmwiki-summary .content-box,
+.card--llmwiki-pages .content-box,
+.card--distill-detail .stack-list {
+  max-height: 480px;
+  overflow: auto;
+}
+
+.card--compact .stat-list,
+.card--distill-sources .stack-list,
+.card--distill-quality .chip-wrap {
+  max-height: 280px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.card--distill-sources .stack-list,
+.card--distill-quality .subsection {
+  min-width: 0;
+}
+
+.card--graph :deep(.graph-community-view) {
+  min-height: 480px;
+  max-height: 560px;
+}
+
+.card--graph .stack-list {
+  max-height: 280px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.card--graph .detail-card {
+  max-height: 320px;
+  overflow: auto;
+  padding-right: 14px;
+}
+
+.prose-block {
+  color: #dbe4ef;
+  line-height: 1.72;
+}
+
+.prose-block :deep(code) {
+  padding: 2px 6px;
+  background: #233044;
+  border-radius: 6px;
+}
+
+.code-block {
+  overflow: auto;
+  white-space: pre-wrap;
+  color: #cbd5e1;
+}
+
+.empty-box {
+  padding: 16px;
+  border: 1px dashed #3b4657;
+  border-radius: 8px;
+  color: #94a3b8;
   text-align: center;
-  color: rgba(255, 255, 255, 0.4);
-  background: #0d0d15;
-  border-radius: 8px;
 }
 
-.empty-text {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-/* Main Graph SVG */
-.main-graph-svg {
-  width: 100%;
-  height: 280px;
-  background: #0d0d15;
-  border-radius: 8px;
-}
-
-/* Node Detail Panel (Knowledge Page) */
-.node-detail-panel {
-  padding: 16px;
-  background: #0d0d15;
-  border-radius: 8px;
-  margin-top: 16px;
-}
-
-.detail-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.detail-type {
-  padding: 3px 10px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #ffffff;
-  text-transform: uppercase;
-}
-
-.btn-close-detail {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-}
-
-.btn-close-detail:hover {
-  background: #262626;
-  color: #ffffff;
-}
-
-.detail-body {
-  padding: 4px 0;
-}
-
-.detail-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 6px;
-}
-
-.detail-description {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-
-.detail-meta {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 8px;
-}
-
-.meta-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.detail-community {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-  padding-top: 6px;
-  border-top: 1px solid #262626;
-}
-
-/* Entity Table */
-.entity-table {
-  background: #0d0d15;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.entity-table-header {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 80px;
-  gap: 12px;
-  padding: 12px 16px;
-  background: #141420;
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.6);
-  border-bottom: 1px solid #262626;
-}
-
-.entity-table-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 80px;
-  gap: 12px;
-  padding: 12px 16px;
-  align-items: center;
-  border-bottom: 1px solid #1a1a24;
-  transition: background 0.2s;
-}
-
-.entity-table-row:last-child {
-  border-bottom: none;
-}
-
-.entity-table-row:hover {
-  background: #1a1a24;
-}
-
-.col-name {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: #ffffff;
-}
-
-.entity-color-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.col-type {
-  font-size: 12px;
-}
-
-.entity-type-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 500;
-  color: #ffffff;
-}
-
-.col-relations {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.col-actions {
-  font-size: 12px;
-}
-
-.btn-trace {
-  padding: 4px 10px;
-  background: #262626;
-  border: none;
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
-  font-size: 11px;
-  transition: all 0.2s;
-}
-
-.btn-trace:hover {
-  background: #6366f1;
-  color: #ffffff;
-}
-
-/* Traceability Panel */
-.trace-panel {
-  margin-top: 16px;
-  background: #0d0d15;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.trace-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
   padding: 14px 16px;
-  background: #141420;
-  border-bottom: 1px solid #262626;
-}
-
-.trace-title {
-  font-size: 14px;
-  font-weight: 500;
-  margin: 0;
+  border-radius: 8px;
   color: #ffffff;
+  z-index: 20;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.3);
 }
 
-.btn-close-trace {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: transparent;
-  border: none;
-  border-radius: 4px;
-  color: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  transition: all 0.2s;
+.toast.success {
+  background: rgba(34, 197, 94, 0.94);
 }
 
-.btn-close-trace:hover {
-  background: #262626;
-  color: #ffffff;
+.toast.error {
+  background: rgba(239, 68, 68, 0.94);
 }
 
-.trace-body {
-  padding: 16px;
-}
+@media (max-width: 720px) {
+  .knowledge-page {
+    padding: 18px 12px 36px;
+  }
 
-.trace-section {
-  margin-bottom: 16px;
-}
+  .page-header,
+  .card {
+    padding: 16px;
+  }
 
-.trace-section:last-child {
-  margin-bottom: 0;
-}
+  .page-stack {
+    display: flex;
+    flex-direction: column;
+  }
 
-.trace-section-title {
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
+  .header-copy h1 {
+    font-size: 24px;
+  }
 
-.trace-info-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
+  .query-row,
+  .button-row,
+  .feedback-grid {
+    flex-direction: column;
+  }
 
-.trace-info-item {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
+  .feedback-grid {
+    display: flex;
+  }
 
-.info-label {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.info-value {
-  font-size: 13px;
-  color: #ffffff;
-}
-
-.trace-description {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.5;
-}
-
-.trace-meetings {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.trace-meeting-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  background: #141420;
-  border-radius: 4px;
-}
-
-.meeting-name {
-  font-size: 12px;
-  color: #ffffff;
-}
-
-.meeting-time {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.trace-occurrences {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.trace-occurrence-item {
-  display: flex;
-  gap: 12px;
-  padding: 8px 12px;
-  background: #141420;
-  border-radius: 4px;
-}
-
-.occurrence-time {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.4);
-  flex-shrink: 0;
-  min-width: 70px;
-}
-
-.occurrence-text {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
-}
-
-.trace-empty {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  font-style: italic;
+  .number-input {
+    width: 100%;
+  }
 }
 </style>

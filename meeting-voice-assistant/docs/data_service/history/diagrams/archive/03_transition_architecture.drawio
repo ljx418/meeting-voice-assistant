@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net" modified="2026-04-26T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="data-service-transition" name="第 1 页">
+    <mxGraphModel dx="996" dy="771" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" value="Data Service 过渡态架构（Current -&gt; Target）" vertex="1">
+          <mxGeometry x="420" y="20" width="500" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=16;" value="Phase 1：稳定当前双引擎工作流" vertex="1">
+          <mxGeometry x="40" y="90" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=16;" value="Phase 2-3：正式化中间层 + 收口 GraphRAG" vertex="1">
+          <mxGeometry x="500" y="90" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=16;" value="Phase 4-5：MCP / Agent 化 + 知识产品化" vertex="1">
+          <mxGeometry x="960" y="90" width="380" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="6" parent="1" style="swimlane;horizontal=1;fillColor=#f5f5f5;strokeColor=#666666;rounded=1;fontSize=14;fontStyle=1;verticalAlign=top;spacingTop=16;" value="当前保留能力" vertex="1">
+          <mxGeometry x="40" y="180" width="380" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7" parent="6" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11" value="1. `data_service` 继续作为统一 ingest/query 入口&#xa;2. `distill` 继续由 `data_service` 输出，但开始加 schema version&#xa;3. `llmwiki` 继续消费 distilled material 生成 page&#xa;4. 当前轻量 graph 索引链继续可用&#xa;5. `/knowledge` 继续作为工作台验证入口" vertex="1">
+          <mxGeometry x="20" y="40" width="330" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="8" parent="1" style="swimlane;horizontal=1;fillColor=#f5f5f5;strokeColor=#666666;rounded=1;fontSize=14;fontStyle=1;verticalAlign=top;spacingTop=16;" value="过渡态收口动作" vertex="1">
+          <mxGeometry x="500" y="180" width="380" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="9" parent="8" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11" value="1. `distill/` 正式目录落地：sources / units / manifest / schema&#xa;2. `llmwiki` 只认统一 distill contract&#xa;3. `graphrag` 开始承接更多图索引职责&#xa;4. `data_service` 保留 graph API，但内部逐步改成 adapter 调用&#xa;5. 统一 node / edge / community query model" vertex="1">
+          <mxGeometry x="20" y="40" width="335" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="10" parent="1" style="swimlane;horizontal=1;fillColor=#f5f5f5;strokeColor=#666666;rounded=1;fontSize=14;fontStyle=1;verticalAlign=top;spacingTop=16;" value="目标稳定形态" vertex="1">
+          <mxGeometry x="960" y="180" width="380" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="11" parent="10" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11" value="1. `data_service` = 上游编排 + summary + API + MCP&#xa;2. `distill` = 正式中间契约层&#xa;3. `llmwiki` = 编译与阅读层&#xa;4. `graphrag` = 图谱引擎层&#xa;5. `/knowledge` = 知识运营台&#xa;6. Agent 按任务自动路由 llmwiki / graphrag / hybrid" vertex="1">
+          <mxGeometry x="20" y="40" width="330" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="12" edge="1" parent="1" style="endArrow=classic;html=1;strokeWidth=2;" source="6" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="13" edge="1" parent="1" style="endArrow=classic;html=1;strokeWidth=2;" source="8" target="10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;" value="收口重点&#xa;1. 先稳定 distill&#xa;2. 再迁移 Graph 职责&#xa;3. 最后再继续加强 UI 和 Agent 能力" vertex="1">
+          <mxGeometry x="470" y="590" width="440" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

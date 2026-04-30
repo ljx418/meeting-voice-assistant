@@ -24,6 +24,8 @@ from app.core.session_store import SessionStatus, get_session_store_sync
 from app.config import config
 from app.utils.logger import setup_logger, RequestContext
 from app.api.v1.auth import verify_ws_api_key
+from app.core.auth.jwt_handler import verify_token as verify_jwt_token
+from app.config import config
 from app.api.v1.voice_session import (
     AudioBuffer,
     TranscriptionHandler,
@@ -463,10 +465,42 @@ class VoiceSession:
         self.audio_buffer.close()
 
 
+async def verify_ws_jwt_token(token: str) -> bool:
+    """
+    验证 WebSocket JWT token
+
+    Args:
+        token: query param 中的 JWT token
+
+    Returns:
+        True 表示认证成功，False 表示认证失败
+    """
+    # 开发模式：跳过 JWT 验证
+    if config.jwt.dev_mode and config.jwt.dev_bypass_auth:
+        logger.debug("WS JWT Auth disabled: dev_mode with bypass")
+        return True
+
+    if not token:
+        logger.warning("WS JWT auth failed: missing token")
+        return False
+
+    payload = verify_jwt_token(token)
+    if payload is None:
+        logger.warning("WS JWT auth failed: invalid token")
+        return False
+
+    if payload.get("type") != "access":
+        logger.warning("WS JWT auth failed: invalid token type")
+        return False
+
+    return True
+
+
 @router.websocket("/ws/voice")
 async def voice_websocket(
     websocket: WebSocket,
     api_key: str = Query(None),
+    token: str = Query(None),
     session_id: Optional[str] = Query(None)
 ):
     """
@@ -481,19 +515,37 @@ async def voice_websocket(
     6. 发送 stop 控制消息
     7. 关闭连接
 
-    认证:
-    - WebSocket 不支持自定义 header，api_key 通过 query param 传递
-    - 格式: ws://host/api/v1/ws/voice?api_key=<key>
-    - 未配置 API_KEY 时认证被禁用
+    认证（优先级: JWT > API Key）:
+    - JWT: ?token=<jwt_token> (推荐方式)
+    - API Key: ?api_key=<key> (兼容旧版)
+    - 开发模式: DEV_BYPASS_AUTH=true 时跳过认证
 
     会话恢复:
     - 支持通过 session_id query 参数恢复断开的会话
     - 格式: ws://host/api/v1/ws/voice?session_id=<session_id>
     - 恢复后会收到恢复确认消息，包含已保存的转写记录
     """
-    if not await verify_ws_api_key(websocket, api_key):
-        await websocket.close(code=4001, reason="Unauthorized")
-        return
+    # JWT 认证优先
+    if token:
+        if not await verify_ws_jwt_token(token):
+            await websocket.close(code=4001, reason="Unauthorized")
+            return
+        logger.debug("WS auth: JWT token verified")
+    elif api_key:
+        # API Key 认证（兼容旧版）
+        if not await verify_ws_api_key(websocket, api_key):
+            await websocket.close(code=4001, reason="Unauthorized")
+            return
+        logger.debug("WS auth: API key verified")
+    else:
+        # 开发模式认证
+        if config.jwt.dev_mode and config.jwt.dev_bypass_auth:
+            logger.debug("WS auth: dev mode bypass")
+        else:
+            # 无认证凭证且非开发模式
+            logger.warning("WS auth failed: no credentials provided")
+            await websocket.close(code=4001, reason="Unauthorized")
+            return
 
     session_store = get_session_store_sync()
     session_store.cleanup_expired_sessions(max_age_seconds=3600)

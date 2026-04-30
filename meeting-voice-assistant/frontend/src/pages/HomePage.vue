@@ -36,14 +36,14 @@
         </div>
 
         <!-- Page C: 面试助手 -->
-        <div class="action-card coming-soon" @click="showComingSoon">
+        <div class="action-card" @click="goToInterview">
           <div class="card-icon">💼</div>
           <div class="card-content">
             <h3>Page C</h3>
             <p class="card-subtitle">面试助手</p>
-            <p class="card-desc">敬请期待...</p>
+            <p class="card-desc">投递管理 · 面试进度 · 能力评估</p>
           </div>
-          <span class="card-tag">Coming Soon</span>
+          <span class="card-arrow">→</span>
         </div>
       </div>
     </section>
@@ -174,6 +174,10 @@ function goToMeeting() {
 
 function goToKnowledge() {
   router.push('/knowledge')
+}
+
+function goToInterview() {
+  router.push('/interview')
 }
 
 function showComingSoon() {
