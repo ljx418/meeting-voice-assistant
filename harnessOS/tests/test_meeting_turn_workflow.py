@@ -1,21 +1,50 @@
 from __future__ import annotations
 
+"""Meeting workflow regression tests, including the PhaseA frozen real-audio gate."""
+
 import asyncio
 import os
 import sys
 from pathlib import Path
+
+import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from apps.gateway.artifacts import ArtifactRegistry
-from apps.gateway.meeting import MeetingMcpError, MeetingWorkflow, extract_audio_path
 from apps.gateway.protocol import RpcRequest
 from apps.gateway.runtime import GatewayRuntimePool
 from apps.gateway.service import GatewayService
 from apps.gateway.storage import GatewaySessionStore
-from core.config import get_meeting_mcp_config
+from core.config import FunASRMcpConfig, get_meeting_mcp_config
+from packs.meeting.connector import MeetingMcpError
+from packs.meeting.workflow import MeetingWorkflow, extract_audio_path
+
+
+def _preferred_acceptance_audio(audio_dir: Path) -> Path:
+    audio_files = [
+        path for path in sorted(audio_dir.iterdir())
+        if path.is_file() and path.suffix.lower() in {".mp3", ".wav", ".m4a", ".ogg", ".flac", ".webm", ".mp4"}
+    ]
+    assert audio_files, f"no acceptance audio files found in: {audio_dir}"
+    preferred = os.environ.get("HARNESS_MEETING_ACCEPTANCE_AUDIO_FILE")
+    if preferred:
+        preferred_path = Path(preferred).expanduser().resolve()
+        assert preferred_path.exists(), f"configured acceptance audio file does not exist: {preferred_path}"
+        return preferred_path
+    return min(audio_files, key=lambda path: path.stat().st_size)
+
+
+def _require_real_audio_dir() -> Path:
+    configured = os.environ.get("HARNESS_MEETING_MCP_AUDIO_DIR")
+    if not configured:
+        pytest.skip("real audio acceptance requires HARNESS_MEETING_MCP_AUDIO_DIR")
+    audio_dir = Path(configured).expanduser().resolve()
+    if not audio_dir.exists() or not audio_dir.is_dir():
+        pytest.skip(f"real audio acceptance directory does not exist: {audio_dir}")
+    return audio_dir
 
 
 class FakeAgent:
@@ -178,11 +207,116 @@ def test_turn_start_meeting_registers_artifacts(tmp_path):
             "result",
             "transcript",
         }
+        artifacts_by_kind = {item["kind"]: item for item in listed.result["artifacts"]}
+        lineage = await service.handle_rpc(
+            RpcRequest(id="4", method="artifact.lineage", params={"session_id": session_id, "domain": "meeting"})
+        )
+        assert lineage.error is None
+        assert lineage.result["count"] == 4
+        assert lineage.result["roots"] == [artifacts_by_kind["transcript"]["artifact_id"]]
+        assert lineage.result["leaves"] == [artifacts_by_kind["minutes"]["artifact_id"]]
+        assert lineage.result["edges"] == [
+            {
+                "source_artifact_id": artifacts_by_kind["transcript"]["artifact_id"],
+                "target_artifact_id": artifacts_by_kind["analysis"]["artifact_id"],
+                "relation": "derived_from",
+            },
+            {
+                "source_artifact_id": artifacts_by_kind["analysis"]["artifact_id"],
+                "target_artifact_id": artifacts_by_kind["result"]["artifact_id"],
+                "relation": "derived_from",
+            },
+            {
+                "source_artifact_id": artifacts_by_kind["result"]["artifact_id"],
+                "target_artifact_id": artifacts_by_kind["minutes"]["artifact_id"],
+                "relation": "derived_from",
+            },
+        ]
         minutes_id = meeting["artifacts"]["minutes"]["artifact_id"]
         read = await service.handle_rpc(
-            RpcRequest(id="4", method="artifact.read", params={"artifact_id": minutes_id})
+            RpcRequest(id="5", method="artifact.read", params={"artifact_id": minutes_id})
         )
         assert "测试摘要" in read.result["content"]
+
+    asyncio.run(run())
+
+
+def test_turn_start_meeting_can_transcribe_with_funasr_mcp_stdio(tmp_path):
+    mcp_package = tmp_path / "funasr_service"
+    mcp_package.mkdir()
+    (mcp_package / "__init__.py").write_text("", encoding="utf-8")
+    (mcp_package / "mcp_stdio.py").write_text(
+        """
+import json
+import sys
+
+for line in sys.stdin:
+    request = json.loads(line)
+    method = request.get("method")
+    request_id = request.get("id")
+    if method == "initialize":
+        result = {"protocolVersion": "2024-11-05", "capabilities": {"tools": {}}}
+    elif method == "tools/call":
+        result = {
+            "content": [{
+                "type": "text",
+                "text": json.dumps({"transcript": "FunASR MCP transcript text.", "segments": []}),
+            }],
+            "isError": False,
+        }
+    else:
+        result = {}
+    print(json.dumps({"jsonrpc": "2.0", "id": request_id, "result": result}), flush=True)
+""".strip()
+        + "\n",
+        encoding="utf-8",
+    )
+    audio = tmp_path / "mcp.mp3"
+    audio.write_bytes(b"demo")
+    meeting_service = FakeMeetingService(tmp_path / "meeting-output")
+
+    async def run():
+        registry = ArtifactRegistry(tmp_path / "artifacts")
+        pool = GatewayRuntimePool(
+            agent_factory=lambda _model: FakeAgent(),
+            runtime_backend="simple",
+            store=GatewaySessionStore(tmp_path / "sessions"),
+            artifact_registry=registry,
+        )
+        pool._meeting_workflow.service = meeting_service
+        service = GatewayService(pool)
+        service.connector_registry.funasr_config = FunASRMcpConfig(
+            cwd=str(tmp_path),
+            command=sys.executable,
+            args="-m funasr_service.mcp_stdio",
+            execution="stdio",
+            request_timeout=5,
+            audio_roots=str(tmp_path),
+        )
+        started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
+        response = await service.handle_rpc(
+            RpcRequest(
+                id="2",
+                method="turn.start",
+                params={
+                    "session_id": started.result["session_id"],
+                    "domain": "meeting",
+                    "input": f"请分析 {audio}，生成会议纪要",
+                },
+            )
+        )
+
+        assert response.error is None
+        meeting = response.result["events"][-1]["data"]["meeting"]
+        assert not meeting_service.recording_calls
+        assert meeting_service.text_calls[0]["text"] == "FunASR MCP transcript text."
+        assert meeting["transcription"]["connector_id"] == "funasr_mcp"
+        listed = await service.handle_rpc(
+            RpcRequest(id="3", method="artifact.list", params={"session_id": started.result["session_id"]})
+        )
+        transcript = next(item for item in listed.result["artifacts"] if item["kind"] == "transcript")
+        assert transcript["metadata"]["connector_id"] == "funasr_mcp"
+        assert transcript["metadata"]["connector_job_id"].startswith("job_")
 
     asyncio.run(run())
 
@@ -247,6 +381,31 @@ def test_turn_start_meeting_domain_without_audio_analyzes_text(tmp_path):
     asyncio.run(run())
 
 
+def test_meeting_text_analysis_does_not_require_audio_connector(tmp_path):
+    class FailingConnectorRegistry:
+        def require_available(self, _connector_id: str) -> None:
+            raise RuntimeError("audio connector should not be required for plain text")
+
+    meeting_service = FakeMeetingService()
+
+    async def run():
+        workflow = MeetingWorkflow(
+            meeting_service,
+            artifact_registry=ArtifactRegistry(tmp_path / "artifacts"),
+            connector_registry=FailingConnectorRegistry(),
+        )
+        result = await workflow.run(
+            "今天会议讨论发布计划，张三负责测试，李四负责发布材料。",
+            domain="meeting",
+            session_id="sess_text",
+            turn_id="turn_text",
+        )
+        assert result["status"] == "success"
+        assert meeting_service.text_calls
+
+    asyncio.run(run())
+
+
 def test_turn_start_non_meeting_keeps_normal_chat(tmp_path):
     meeting_service = FakeMeetingService()
 
@@ -271,13 +430,8 @@ def test_turn_start_non_meeting_keeps_normal_chat(tmp_path):
 
 def test_phase1b_real_audio_turn_start_acceptance():
     config = get_meeting_mcp_config()
-    audio_dir = Path(os.environ.get("HARNESS_MEETING_MCP_AUDIO_DIR", config.audio_dir)).expanduser().resolve()
-    assert audio_dir == Path("/Users/Zhuanz/Desktop/workspace/音频资料")
-    audio_files = [
-        path for path in sorted(audio_dir.iterdir())
-        if path.is_file() and path.suffix.lower() in {".mp3", ".wav", ".m4a", ".ogg", ".flac", ".webm", ".mp4"}
-    ]
-    assert audio_files, f"no acceptance audio files found in: {audio_dir}"
+    audio_dir = _require_real_audio_dir()
+    audio_file = _preferred_acceptance_audio(audio_dir)
 
     async def run():
         service = GatewayService()
@@ -288,7 +442,10 @@ def test_phase1b_real_audio_turn_start_acceptance():
                 method="turn.start",
                 params={
                     "session_id": started.result["session_id"],
-                    "input": f"请分析 {audio_files[0]}，生成会议纪要",
+                    "domain": "meeting",
+                    "input": f"请分析 {audio_file}，生成会议纪要",
+                    "engine": config.default_engine,
+                    "language": config.default_language,
                 },
             )
         )
@@ -305,5 +462,30 @@ def test_phase1b_real_audio_turn_start_acceptance():
         assert meeting["segment_count"] > 0
         assert meeting["analysis"]["theme"]
         assert Path(meeting["minutes_path"]).exists()
+
+    asyncio.run(run())
+
+
+def test_turn_start_meeting_failure_surfaces_failed_event_and_text(tmp_path):
+    async def run():
+        service = GatewayService()
+        started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
+        response = await service.handle_rpc(
+            RpcRequest(
+                id="2",
+                method="turn.start",
+                params={
+                    "session_id": started.result["session_id"],
+                    "domain": "meeting",
+                    "input": f"请分析 {tmp_path / 'missing.mp3'}，生成会议纪要",
+                },
+            )
+        )
+
+        assert response.error is None
+        assert response.result["final_text"]
+        failed = response.result["events"][-1]
+        assert failed["type"] == "turn.failed"
+        assert failed["data"]["message"]
 
     asyncio.run(run())

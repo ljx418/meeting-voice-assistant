@@ -22,6 +22,9 @@ def new_core_id(prefix: str) -> str:
 class CoreObject(BaseModel):
     """Base object fields shared by Core records."""
 
+    app_id: str = "default"
+    project_id: Optional[str] = None
+    workspace_id: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
     metadata: Dict[str, Any] = Field(default_factory=dict)
@@ -89,6 +92,20 @@ class JobRecord(CoreObject):
     progress: float = 0.0
     trace_id: Optional[str] = None
     artifact_ids: List[str] = Field(default_factory=list)
+    external_job_ref: Optional[str] = None
+    parent_job_id: Optional[str] = None
+    failure_context: Dict[str, Any] = Field(default_factory=dict)
+
+
+class JobEventRecord(CoreObject):
+    """State transition or progress event for a Core job."""
+
+    event_id: str = Field(default_factory=lambda: new_core_id("jobevt"))
+    job_id: str
+    event_type: str
+    status: str
+    progress: Optional[float] = None
+    message: str = ""
 
 
 class ArtifactRecord(CoreObject):
@@ -104,6 +121,9 @@ class ArtifactRecord(CoreObject):
     name: str = ""
     mime: str = "application/octet-stream"
     parent_ids: List[str] = Field(default_factory=list)
+    external_asset_uri: Optional[str] = None
+    preview_uri: Optional[str] = None
+    thumbnail_uri: Optional[str] = None
 
 
 class ApprovalRecord(CoreObject):
@@ -134,6 +154,23 @@ class TraceRecord(CoreObject):
     input_summary: str = ""
 
 
+class MemoryRecord(CoreObject):
+    """Session or thread memory derived from turns and artifacts."""
+
+    memory_id: str = Field(default_factory=lambda: new_core_id("mem"))
+    session_id: str
+    thread_id: Optional[str] = None
+    source_turn_id: Optional[str] = None
+    source_artifact_id: Optional[str] = None
+    trace_id: Optional[str] = None
+    scope: str = "session"
+    kind: str = "summary"
+    title: str = ""
+    content: str = ""
+    status: str = "active"
+    refs: List[Dict[str, Any]] = Field(default_factory=list)
+
+
 class RetryRecord(CoreObject):
     """Saved context for retrying a blocked or failed turn."""
 
@@ -162,5 +199,15 @@ class ConnectorRecord(CoreObject):
     domain: Optional[str] = None
     version: str = "0.1.0"
     health: str = "unknown"
+    trust_level: str = "untrusted_local"
+    execution_mode: str = "stub"
     capabilities: Dict[str, Any] = Field(default_factory=dict)
     config_ref: Optional[str] = None
+    secret_ref: Optional[str] = None
+    app_scope: List[str] = Field(default_factory=list)
+    allowed_commands: List[str] = Field(default_factory=list)
+    allowed_paths: List[str] = Field(default_factory=list)
+    allowed_network_hosts: List[str] = Field(default_factory=list)
+    network_policy: str = "none"
+    tool_risk_defaults: Dict[str, Any] = Field(default_factory=dict)
+    requires_approval_for: List[str] = Field(default_factory=list)

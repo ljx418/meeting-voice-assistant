@@ -11,16 +11,26 @@ from typing import Any, AsyncIterator, Callable, Dict, Optional
 
 from apps.gateway.approvals import ApprovalStore
 from apps.gateway.artifacts import ArtifactRegistry
-from apps.gateway.meeting import MeetingWorkflow
+from apps.gateway.connector_execution import ConnectorExecutionRuntime
+from apps.gateway.connectors import ConnectorRegistry
 from apps.gateway.policies import PolicyEvaluator
 from apps.gateway.retries import RetryStore
 from apps.gateway.traces import TraceStore
 from apps.gateway.workflows import LeadOrchestrator, WorkflowContext, build_default_orchestrator
+from core.apps import ScopeContext
 from core.packs import PackRegistry, build_default_pack_registry
 from core.services import CoreAppService
 from core.stores import CoreSQLiteStore
-from core.runtime_adapter import OpenHarnessRuntimeAdapter, RuntimeAdapter, RuntimeHandle, SimpleRuntimeAdapter
+from packs.meeting.workflow import MeetingWorkflow
+from core.runtime_adapter import (
+    OpenHarnessRuntimeAdapter,
+    RuntimeAdapter,
+    RuntimeGovernanceContext,
+    RuntimeHandle,
+    SimpleRuntimeAdapter,
+)
 from tools import get_builtin_tools
+from tools.policy_guard import tool_input_hash
 
 from apps.gateway.protocol import GatewayEvent, TurnResult, new_id
 from apps.gateway.storage import GatewaySessionStore
@@ -36,6 +46,9 @@ class RuntimeSession:
 
     session_id: str
     model: str
+    app_id: str = "default"
+    project_id: Optional[str] = None
+    workspace_id: Optional[str] = None
     agent: Any = None
     bundle: Any = None
     handle: Optional[RuntimeHandle] = None
@@ -75,6 +88,7 @@ class GatewayRuntimePool:
         retry_store: Optional[RetryStore] = None,
         orchestrator: Optional[LeadOrchestrator] = None,
         pack_registry: Optional[PackRegistry] = None,
+        connector_registry: Optional[ConnectorRegistry] = None,
         core_store: Optional[CoreSQLiteStore] = None,
         core_service: Optional[CoreAppService] = None,
     ) -> None:
@@ -89,13 +103,26 @@ class GatewayRuntimePool:
         self._policy_evaluator = policy_evaluator or PolicyEvaluator()
         self._retry_store = retry_store or RetryStore()
         self._pack_registry = pack_registry or build_default_pack_registry()
-        self._meeting_workflow = meeting_workflow or MeetingWorkflow(artifact_registry=self._artifact_registry)
+        resolved_core_store = core_store
+        if resolved_core_store is None and core_service is None and store is not None:
+            resolved_core_store = CoreSQLiteStore(self._store.root / "core.sqlite3")
+        self._core_service = core_service or CoreAppService(store=resolved_core_store)
+        self._core_store = self._core_service.store
+        self._connector_registry = connector_registry or ConnectorRegistry(core_service=self._core_service)
+        self._connector_execution_runtime = ConnectorExecutionRuntime(
+            connector_registry=self._connector_registry,
+            core_service=self._core_service,
+            artifact_registry=self._artifact_registry,
+        )
+        self._meeting_workflow = meeting_workflow or MeetingWorkflow(
+            artifact_registry=self._artifact_registry,
+            connector_registry=self._connector_registry,
+            connector_execution_runtime=self._connector_execution_runtime,
+        )
         self._orchestrator = orchestrator or build_default_orchestrator(
             self._meeting_workflow,
             pack_registry=self._pack_registry,
         )
-        self._core_service = core_service or CoreAppService(store=core_store)
-        self._core_store = self._core_service.store
         self._sessions: Dict[str, RuntimeSession] = {}
         self._active_turns: Dict[str, ActiveTurn] = {}
 
@@ -149,6 +176,16 @@ class GatewayRuntimePool:
         """Return the Core v1.5 application service facade."""
         return self._core_service
 
+    @property
+    def connector_registry(self) -> ConnectorRegistry:
+        """Return the connector registry used by domain workflows."""
+        return self._connector_registry
+
+    @property
+    def connector_execution_runtime(self) -> ConnectorExecutionRuntime:
+        """Return the connector execution runtime used by domain workflows."""
+        return self._connector_execution_runtime
+
     async def start_session(
         self,
         *,
@@ -156,8 +193,10 @@ class GatewayRuntimePool:
         session_id: Optional[str] = None,
         agent_messages: Optional[list[Dict[str, str]]] = None,
         backend: Optional[str] = None,
+        scope: Optional[ScopeContext] = None,
     ) -> RuntimeSession:
         """Create and store a new runtime session."""
+        resolved_scope = scope or ScopeContext()
         resolved_model = model or self._model
         resolved_session_id = session_id or new_id("sess")
         resolved_backend = backend or self._runtime_backend
@@ -185,6 +224,9 @@ class GatewayRuntimePool:
         session = RuntimeSession(
             session_id=resolved_session_id,
             model=resolved_model,
+            app_id=resolved_scope.app_id,
+            project_id=resolved_scope.project_id,
+            workspace_id=resolved_scope.workspace_id,
             agent=handle.agent,
             bundle=handle.bundle,
             handle=handle,
@@ -210,6 +252,11 @@ class GatewayRuntimePool:
             session_id=session_id,
             agent_messages=messages,
             backend=snapshot.get("backend"),
+            scope=ScopeContext(
+                app_id=str(snapshot.get("app_id") or "default"),
+                project_id=snapshot.get("project_id") if isinstance(snapshot.get("project_id"), str) else None,
+                workspace_id=snapshot.get("workspace_id") if isinstance(snapshot.get("workspace_id"), str) else None,
+            ),
         )
 
     def get_session(self, session_id: str) -> RuntimeSession:
@@ -260,27 +307,43 @@ class GatewayRuntimePool:
             type="turn.interrupted",
             session_id=session.session_id,
             turn_id=turn_id,
+            app_id=session.app_id,
+            project_id=session.project_id,
+            workspace_id=session.workspace_id,
             data={"message": "Turn interrupted.", "interrupted": True},
         )
         self._append_event(event)
         self._store.save_snapshot(session)
+        self._core_service.record_runtime_session(session)
         return event
 
     def read_events(self, session_id: str) -> list[Dict[str, Any]]:
         """Read persisted protocol events for a session."""
-        return self._store.read_events(session_id)
+        try:
+            return self._core_service.read_session_events(session_id)
+        except KeyError:
+            return self._store.read_events(session_id)
 
     def list_sessions(self) -> list[Dict[str, Any]]:
         """List persisted session snapshots."""
+        sessions = self._core_service.list_session_snapshots()
+        if sessions:
+            return sessions
         return self._store.list_snapshots()
 
     def read_session(self, session_id: str) -> Dict[str, Any]:
         """Read one persisted session snapshot."""
-        return self._store.load_snapshot(session_id)
+        try:
+            return self._core_service.read_session_snapshot(session_id)
+        except KeyError:
+            return self._store.load_snapshot(session_id)
 
     def read_transcript(self, session_id: str) -> list[Dict[str, Any]]:
         """Read a transcript rebuilt from persisted events."""
-        return self._store.read_transcript(session_id)
+        try:
+            return self._core_service.read_session_transcript(session_id)
+        except KeyError:
+            return self._store.read_transcript(session_id)
 
     async def stream_turn(
         self,
@@ -288,12 +351,19 @@ class GatewayRuntimePool:
         session_id: str,
         user_input: str,
         domain: Optional[str] = None,
+        scope: Optional[ScopeContext] = None,
         skip_policy: bool = False,
         retry_of_turn_id: Optional[str] = None,
         approval_id: Optional[str] = None,
+        source_turn_id: Optional[str] = None,
     ) -> AsyncIterator[GatewayEvent]:
         """Submit a user turn and yield normalized gateway events."""
         session = self.get_session(session_id)
+        resolved_scope = scope or ScopeContext(
+            app_id=session.app_id,
+            project_id=session.project_id,
+            workspace_id=session.workspace_id,
+        )
         turn_id = new_id("turn")
         trace_id = self._trace_store.new_trace_id()
         session.state = "running"
@@ -306,6 +376,9 @@ class GatewayRuntimePool:
             "domain": domain,
             "model": session.model,
             "trace_id": trace_id,
+            "app_id": resolved_scope.app_id,
+            "project_id": resolved_scope.project_id,
+            "workspace_id": resolved_scope.workspace_id,
         }
         if retry_of_turn_id:
             started_data["retry_of_turn_id"] = retry_of_turn_id
@@ -315,10 +388,32 @@ class GatewayRuntimePool:
             type="turn.started",
             session_id=session_id,
             turn_id=turn_id,
+            app_id=resolved_scope.app_id,
+            project_id=resolved_scope.project_id,
+            workspace_id=resolved_scope.workspace_id,
             data=started_data,
         )
         self._append_event(started_event)
         yield started_event
+        turn_thread_id: Optional[str] = None
+        try:
+            turn_thread_id = self._core_service.get_turn(turn_id).thread_id
+        except KeyError:
+            turn_thread_id = None
+        memory_context = self._core_service.memory_context_for_turn(
+            session_id=session_id,
+            thread_id=turn_thread_id,
+            domain=domain,
+            trace_id=trace_id,
+            app_id=resolved_scope.app_id,
+            project_id=resolved_scope.project_id,
+            workspace_id=resolved_scope.workspace_id,
+        )
+        runtime_input = (
+            user_input
+            if retry_of_turn_id or approval_id
+            else _with_memory_context(user_input, memory_context)
+        )
 
         try:
             policy_decision = self._policy_evaluator.evaluate_user_input(user_input, domain=domain)
@@ -329,6 +424,9 @@ class GatewayRuntimePool:
                     trace_id=trace_id,
                     session_id=session_id,
                     turn_id=turn_id,
+                    app_id=resolved_scope.app_id,
+                    project_id=resolved_scope.project_id,
+                    workspace_id=resolved_scope.workspace_id,
                     risk_level=policy_decision.risk_level,
                     metadata={"policy": policy_decision.model_dump()},
                 )
@@ -347,6 +445,9 @@ class GatewayRuntimePool:
                     domain=domain,
                     trace_id=trace_id,
                     approval_id=approval["approval_id"],
+                    app_id=resolved_scope.app_id,
+                    project_id=resolved_scope.project_id,
+                    workspace_id=resolved_scope.workspace_id,
                     policy=policy_decision.model_dump(),
                 )
                 self._core_service.record_gateway_retry(retry_context)
@@ -354,6 +455,7 @@ class GatewayRuntimePool:
                     session=session,
                     turn_id=turn_id,
                     trace_id=trace_id,
+                    scope=resolved_scope,
                     result={
                         "status": "success",
                         "content": f"操作需要审批。Approval ID: {approval['approval_id']}",
@@ -370,11 +472,24 @@ class GatewayRuntimePool:
                 session_id=session.session_id,
                 turn_id=turn_id,
                 domain=domain,
+                scope=resolved_scope,
                 artifact_registry=self._artifact_registry,
             )
+            blocked_pack_for_domain = getattr(self._orchestrator.registry, "blocked_pack_for_domain", None)
+            blocked_pack = blocked_pack_for_domain(domain) if callable(blocked_pack_for_domain) else None
+            if blocked_pack is not None:
+                raise RuntimeError(
+                    "Pack assembly blocked for domain "
+                    f"{blocked_pack.domain}: {blocked_pack.disabled_reason} "
+                    f"Missing dependencies: {', '.join(blocked_pack.missing_dependencies)}"
+                )
             workflow = self._orchestrator.registry.select(user_input, workflow_context)
             if workflow is not None:
-                thread = self._core_service.ensure_thread(session_id=session.session_id, domain=workflow.domain)
+                thread = self._core_service.ensure_thread(
+                    session_id=session.session_id,
+                    domain=workflow.domain,
+                    scope=resolved_scope,
+                )
                 job = self._core_service.start_job(
                     workflow_id=workflow.workflow_id,
                     domain=workflow.domain,
@@ -382,6 +497,7 @@ class GatewayRuntimePool:
                     thread_id=thread.thread_id,
                     turn_id=turn_id,
                     trace_id=trace_id,
+                    scope=resolved_scope,
                     metadata={
                         "input": user_input,
                         "pack": _workflow_pack_metadata(self._pack_registry, workflow.workflow_id),
@@ -394,7 +510,15 @@ class GatewayRuntimePool:
                         job_id=job.job_id,
                         status="failed",
                         progress=1.0,
-                        metadata={"error": str(exc)},
+                        metadata={
+                            "error": str(exc),
+                            "failure_context": {
+                                "error_type": type(exc).__name__,
+                                "message": str(exc),
+                                "workflow_id": workflow.workflow_id,
+                                "domain": workflow.domain,
+                            },
+                        },
                     )
                     raise
                 result.setdefault("domain", workflow.domain)
@@ -414,6 +538,7 @@ class GatewayRuntimePool:
                     session=session,
                     turn_id=turn_id,
                     trace_id=trace_id,
+                    scope=resolved_scope,
                     result=result,
                 ):
                     yield event
@@ -423,15 +548,30 @@ class GatewayRuntimePool:
                     session=session,
                     turn_id=turn_id,
                     trace_id=trace_id,
-                    user_input=user_input,
+                    user_input=runtime_input,
+                    scope=resolved_scope,
+                    original_user_input=user_input,
+                    approval_id=approval_id,
+                    source_turn_id=retry_of_turn_id,
                 ):
                     yield event
                 self._store.save_snapshot(session)
                 return
             if session.adapter is not None and session.handle is not None:
-                result = await session.adapter.invoke(session.handle, user_input)
+                result = await session.adapter.invoke(
+                    session.handle,
+                    runtime_input,
+                    governance=self._governance_context(
+                        session_id=session.session_id,
+                        turn_id=turn_id,
+                        trace_id=trace_id,
+                        user_input=user_input,
+                        approval_id=approval_id,
+                        source_turn_id=retry_of_turn_id,
+                    ),
+                )
             else:
-                result = session.agent.invoke(user_input)
+                result = session.agent.invoke(runtime_input)
         except asyncio.CancelledError:
             active_turn = self._active_turns.get(session_id)
             interrupted_event = self._mark_interrupted(session, turn_id=turn_id)
@@ -445,7 +585,10 @@ class GatewayRuntimePool:
                 type="turn.failed",
                 session_id=session_id,
                 turn_id=turn_id,
-                data={"message": str(exc), "recoverable": True},
+                app_id=resolved_scope.app_id,
+                project_id=resolved_scope.project_id,
+                workspace_id=resolved_scope.workspace_id,
+                data={"message": str(exc), "recoverable": True, "trace_id": trace_id},
             )
             self._append_event(failed_event, trace_id=trace_id)
             self._store.save_snapshot(session)
@@ -460,6 +603,7 @@ class GatewayRuntimePool:
             session=session,
             turn_id=turn_id,
             trace_id=trace_id,
+            scope=resolved_scope,
             result=result,
         ):
             yield event
@@ -470,6 +614,7 @@ class GatewayRuntimePool:
         session: RuntimeSession,
         turn_id: str,
         trace_id: str,
+        scope: ScopeContext,
         result: Any,
     ) -> AsyncIterator[GatewayEvent]:
         status = "success"
@@ -492,6 +637,9 @@ class GatewayRuntimePool:
                 type="turn.failed",
                 session_id=session.session_id,
                 turn_id=turn_id,
+                app_id=scope.app_id,
+                project_id=scope.project_id,
+                workspace_id=scope.workspace_id,
                 data={"message": content, "recoverable": True, "trace_id": trace_id, **metadata},
             )
             self._append_event(failed_event)
@@ -504,6 +652,9 @@ class GatewayRuntimePool:
                 type="item.delta",
                 session_id=session.session_id,
                 turn_id=turn_id,
+                app_id=scope.app_id,
+                project_id=scope.project_id,
+                workspace_id=scope.workspace_id,
                 data={"text": content, "trace_id": trace_id},
             )
             self._append_event(delta_event)
@@ -515,6 +666,9 @@ class GatewayRuntimePool:
             type="turn.completed",
             session_id=session.session_id,
             turn_id=turn_id,
+            app_id=scope.app_id,
+            project_id=scope.project_id,
+            workspace_id=scope.workspace_id,
             data={
                 "message": {
                     "role": "assistant",
@@ -527,6 +681,17 @@ class GatewayRuntimePool:
             },
         )
         self._append_event(completed_event)
+        summary_thread_id: Optional[str] = None
+        try:
+            summary_thread_id = self._core_service.get_turn(turn_id).thread_id
+        except KeyError:
+            summary_thread_id = None
+        self._core_service.build_session_summary(
+            session_id=session.session_id,
+            thread_id=summary_thread_id,
+            trace_id=trace_id,
+            scope_context=scope,
+        )
         self._store.save_snapshot(session)
         yield completed_event
 
@@ -534,17 +699,28 @@ class GatewayRuntimePool:
         """Continue a pending turn when supported by the runtime."""
         session = self.get_session(session_id)
         turn_id = new_id("turn")
+        trace_id = self._trace_store.new_trace_id()
         if session.backend == "openharness" and session.adapter is not None and session.handle is not None:
             events: list[GatewayEvent] = []
             text_parts: list[str] = []
             try:
-                async for runtime_event in session.adapter.continue_pending(session.handle):
+                async for runtime_event in session.adapter.continue_pending(
+                    session.handle,
+                    governance=self._governance_context(
+                        session_id=session_id,
+                        turn_id=turn_id,
+                        trace_id=trace_id,
+                    ),
+                ):
                     event = normalize_runtime_event(
                         runtime_event,
                         session_id=session_id,
                         turn_id=turn_id,
                     )
-                    self._append_event(event)
+                    event.app_id = session.app_id
+                    event.project_id = session.project_id
+                    event.workspace_id = session.workspace_id
+                    self._append_event(event, trace_id=trace_id)
                     events.append(event)
                     if event.type == "item.delta":
                         text_parts.append(str(event.data.get("text", "")))
@@ -553,7 +729,10 @@ class GatewayRuntimePool:
                     type="turn.failed",
                     session_id=session_id,
                     turn_id=turn_id,
-                    data={"message": str(exc), "recoverable": True},
+                    app_id=session.app_id,
+                    project_id=session.project_id,
+                    workspace_id=session.workspace_id,
+                    data={"message": str(exc), "recoverable": True, "trace_id": trace_id},
                 )
                 self._append_event(failed)
                 events.append(failed)
@@ -563,12 +742,18 @@ class GatewayRuntimePool:
                     session_id=session_id,
                     turn_id=turn_id,
                     final_text="".join(text_parts),
+                    app_id=session.app_id,
+                    project_id=session.project_id,
+                    workspace_id=session.workspace_id,
                     events=events,
                 )
         event = GatewayEvent(
             type="item.status",
             session_id=session_id,
             turn_id=turn_id,
+            app_id=session.app_id,
+            project_id=session.project_id,
+            workspace_id=session.workspace_id,
             data={
                 "message": "No pending continuation for the current simple runtime.",
                 "continued": False,
@@ -580,6 +765,9 @@ class GatewayRuntimePool:
             session_id=session_id,
             turn_id=turn_id,
             final_text="",
+            app_id=session.app_id,
+            project_id=session.project_id,
+            workspace_id=session.workspace_id,
             events=[event],
         )
 
@@ -589,18 +777,27 @@ class GatewayRuntimePool:
         session_id: str,
         user_input: str,
         domain: Optional[str] = None,
+        scope: Optional[ScopeContext] = None,
         skip_policy: bool = False,
         retry_of_turn_id: Optional[str] = None,
         approval_id: Optional[str] = None,
     ) -> TurnResult:
         """Run a turn and aggregate text for headless clients."""
+        session = self.get_session(session_id)
+        resolved_scope = scope or ScopeContext(
+            app_id=session.app_id,
+            project_id=session.project_id,
+            workspace_id=session.workspace_id,
+        )
         events: list[GatewayEvent] = []
         text_parts: list[str] = []
+        failure_text = ""
         turn_id = ""
         async for event in self.stream_turn(
             session_id=session_id,
             user_input=user_input,
             domain=domain,
+            scope=scope,
             skip_policy=skip_policy,
             retry_of_turn_id=retry_of_turn_id,
             approval_id=approval_id,
@@ -610,10 +807,15 @@ class GatewayRuntimePool:
                 turn_id = event.turn_id
             if event.type == "item.delta":
                 text_parts.append(str(event.data.get("text", "")))
+            elif event.type == "turn.failed" and not failure_text:
+                failure_text = str(event.data.get("message", "") or "")
         return TurnResult(
             session_id=session_id,
             turn_id=turn_id,
-            final_text="".join(text_parts),
+            final_text="".join(text_parts) or failure_text,
+            app_id=resolved_scope.app_id,
+            project_id=resolved_scope.project_id,
+            workspace_id=resolved_scope.workspace_id,
             events=events,
         )
 
@@ -626,17 +828,38 @@ class GatewayRuntimePool:
         )
         return adapter._create_agent(model)
 
-    def _is_approval_approved(self, approval_id: str) -> bool:
+    def _is_approval_approved(self, approval_id: str, expected: Optional[Dict[str, Any]] = None) -> bool:
         try:
             approval = self._approval_store.get_approval(approval_id)
         except Exception:
             return False
-        return approval.get("status") == "approved"
+        if approval.get("status") != "approved":
+            return False
+        if not expected:
+            return True
+        metadata = approval.get("metadata") if isinstance(approval.get("metadata"), dict) else {}
+        binding = metadata.get("binding") if isinstance(metadata.get("binding"), dict) else {}
+        if not binding:
+            return False
+        checks = {
+            "session_id": expected.get("session_id"),
+            "turn_id": expected.get("source_turn_id") or expected.get("turn_id"),
+            "tool_name": expected.get("tool_name"),
+            "action": expected.get("action"),
+            "tool_input_hash": expected.get("tool_input_hash"),
+        }
+        for key, binding_value in binding.items():
+            if key in checks and binding_value and checks.get(key) != binding_value:
+                return False
+        return all(binding.get(key) == value for key, value in checks.items() if value)
 
     def _append_event(self, event: GatewayEvent, *, trace_id: Optional[str] = None) -> None:
         """Persist one event and write its Core trace/item records."""
         if trace_id and "trace_id" not in event.data:
             event.data["trace_id"] = trace_id
+        event.data.setdefault("app_id", event.app_id)
+        event.data.setdefault("project_id", event.project_id)
+        event.data.setdefault("workspace_id", event.workspace_id)
         self._store.append_event(event)
         trace_record = self._trace_store.record_event(event)
         self._core_service.record_gateway_trace(trace_record)
@@ -674,6 +897,9 @@ class GatewayRuntimePool:
         turn_id: str,
         trace_id: str,
         user_input: str,
+        original_user_input: Optional[str] = None,
+        approval_id: Optional[str] = None,
+        source_turn_id: Optional[str] = None,
     ) -> AsyncIterator[GatewayEvent]:
         session.state = "running"
         text_parts: list[str] = []
@@ -684,6 +910,9 @@ class GatewayRuntimePool:
                     session_id=session.session_id,
                     turn_id=turn_id,
                 )
+                event.app_id = session.app_id
+                event.project_id = session.project_id
+                event.workspace_id = session.workspace_id
                 self._append_event(event, trace_id=trace_id)
                 if event.type == "item.delta":
                     text_parts.append(str(event.data.get("text", "")))
@@ -693,13 +922,17 @@ class GatewayRuntimePool:
                 type="turn.failed",
                 session_id=session.session_id,
                 turn_id=turn_id,
+                app_id=session.app_id,
+                project_id=session.project_id,
+                workspace_id=session.workspace_id,
                 data={"message": str(exc), "recoverable": True, "trace_id": trace_id},
             )
             self._append_event(failed_event)
             yield failed_event
             return
         finally:
-            session.state = "idle"
+            if session.state != "interrupted":
+                session.state = "idle"
             session.last_active_at = datetime.now()
 
         if text_parts:
@@ -712,18 +945,36 @@ class GatewayRuntimePool:
         turn_id: str,
         trace_id: str,
         user_input: str,
+        scope: ScopeContext,
+        original_user_input: Optional[str] = None,
+        approval_id: Optional[str] = None,
+        source_turn_id: Optional[str] = None,
     ) -> AsyncIterator[GatewayEvent]:
         session.state = "running"
         text_parts: list[str] = []
         if session.adapter is None or session.handle is None:
             raise RuntimeError("Runtime adapter is not available for this session")
         try:
-            async for runtime_event in session.adapter.stream(session.handle, user_input):
+            async for runtime_event in session.adapter.stream(
+                session.handle,
+                user_input,
+                governance=self._governance_context(
+                    session_id=session.session_id,
+                    turn_id=turn_id,
+                    trace_id=trace_id,
+                    user_input=original_user_input or user_input,
+                    approval_id=approval_id,
+                    source_turn_id=source_turn_id,
+                ),
+            ):
                 event = normalize_runtime_event(
                     runtime_event,
                     session_id=session.session_id,
                     turn_id=turn_id,
                 )
+                event.app_id = scope.app_id
+                event.project_id = scope.project_id
+                event.workspace_id = scope.workspace_id
                 self._append_event(event, trace_id=trace_id)
                 if event.type == "item.delta":
                     text_parts.append(str(event.data.get("text", "")))
@@ -733,17 +984,114 @@ class GatewayRuntimePool:
                 type="turn.failed",
                 session_id=session.session_id,
                 turn_id=turn_id,
+                app_id=scope.app_id,
+                project_id=scope.project_id,
+                workspace_id=scope.workspace_id,
                 data={"message": str(exc), "recoverable": True, "trace_id": trace_id},
             )
             self._append_event(failed_event)
             yield failed_event
             return
         finally:
-            session.state = "idle"
+            if session.state != "interrupted":
+                session.state = "idle"
             session.last_active_at = datetime.now()
 
         if text_parts:
             return
+
+    def _governance_context(
+        self,
+        *,
+        session_id: str,
+        turn_id: str,
+        trace_id: str,
+        user_input: str = "",
+        approval_id: Optional[str] = None,
+        source_turn_id: Optional[str] = None,
+    ) -> RuntimeGovernanceContext:
+        return RuntimeGovernanceContext(
+            session_id=session_id,
+            turn_id=turn_id,
+            trace_id=trace_id,
+            user_input=user_input,
+            approval_id=approval_id,
+            source_turn_id=source_turn_id,
+            policy_evaluator=self._policy_evaluator,
+            approval_checker=self._is_approval_approved,
+            approval_requester=lambda tool_name, tool_input, decision: self._request_tool_approval(
+                session_id=session_id,
+                turn_id=turn_id,
+                trace_id=trace_id,
+                user_input=user_input,
+                tool_name=tool_name,
+                tool_input=tool_input,
+                decision=decision,
+            ),
+        )
+
+    def _request_tool_approval(
+        self,
+        *,
+        session_id: str,
+        turn_id: str,
+        trace_id: str,
+        user_input: str,
+        tool_name: str,
+        tool_input: Any,
+        decision: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        session = self.get_session(session_id)
+        approval = self._approval_store.request(
+            action=str(decision.get("action") or f"tool.{tool_name}"),
+            request_summary=f"Tool {tool_name} requires approval",
+            trace_id=trace_id,
+            session_id=session_id,
+            turn_id=turn_id,
+            app_id=session.app_id,
+            project_id=session.project_id,
+            workspace_id=session.workspace_id,
+            risk_level=str(decision.get("risk_level") or "medium"),
+            metadata={
+                "policy": decision,
+                "tool_name": tool_name,
+                "tool_input": tool_input,
+                "binding": {
+                    "session_id": session_id,
+                    "turn_id": turn_id,
+                    "trace_id": trace_id,
+                    "tool_name": tool_name,
+                    "action": str(decision.get("action") or f"tool.{tool_name}"),
+                    "tool_input_hash": tool_input_hash(tool_input),
+                },
+            },
+        )
+        self._core_service.record_gateway_approval(approval)
+        trace_record = self._trace_store.record_approval_operation(
+            operation="request",
+            approval=approval,
+            status="pending",
+            metadata={"policy": decision, "tool_name": tool_name},
+        )
+        self._core_service.record_gateway_trace(trace_record)
+        retry_context = self._retry_store.create_policy_context(
+            session_id=session_id,
+            turn_id=turn_id,
+            user_input=user_input,
+            domain=None,
+            trace_id=trace_id,
+            approval_id=approval["approval_id"],
+            app_id=session.app_id,
+            project_id=session.project_id,
+            workspace_id=session.workspace_id,
+            policy={
+                **decision,
+                "tool_name": tool_name,
+                "tool_input": tool_input,
+            },
+        )
+        self._core_service.record_gateway_retry(retry_context)
+        return {"approval": approval, "retry_context": retry_context}
 
 
 def normalize_runtime_event(
@@ -863,6 +1211,13 @@ def _workflow_pack_metadata(pack_registry: Any, workflow_id: str) -> Optional[Di
     if pack is None:
         return None
     return {"name": pack.name, "version": pack.version, "status": pack.status}
+
+
+def _with_memory_context(user_input: str, memory_context: Dict[str, Any]) -> str:
+    prompt = memory_context.get("prompt") if isinstance(memory_context, dict) else ""
+    if not isinstance(prompt, str) or not prompt.strip():
+        return user_input
+    return f"{prompt.strip()}\n\nUser request:\n{user_input}"
 
 
 def _artifact_ids_from_workflow_result(result: Dict[str, Any]) -> list[str]:
