@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "68769956f0658fcc",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/68466c76-841d-43e5-b2ce-ea060126059b_生成两份云南菜评价.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/68/68769956f0658fcc.json",
+    "sha256": "e5dadb5af266e92dd719460582dc8d1831932648d5e60a1d1f9666bba6c302ce",
+    "content_hash": "e6fdfc2e4e9bfaf2cd56f53905d41bb29feb06a1433e46ffaf6e3202f83395e7",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "a095aaf5-ad70-433d-b8d2-f4456808b8db",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "68466c76-841d-43e5-b2ce-ea060126059b",
+      "locator": {
+        "kind": "json_path",
+        "path": "68466c76-841d-43e5-b2ce-ea060126059b_生成两份云南菜评价.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "c7c1a9f3-4b9f-4d09-9215-4c85f97b60c7",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "生成两份云南菜评价",
+      "locator": {
+        "kind": "json_path",
+        "path": "68466c76-841d-43e5-b2ce-ea060126059b_生成两份云南菜评价.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "bfcca4c2-f19c-4d8e-b74a-6b4f9ce4eb3c",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "68466c76-841d-43e5-b2ce-ea060126059b_生成两份云南菜评价.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "215b1271-19b2-425d-8d2c-6bf4c54b8f34",
+      "section_id": "a095aaf5-ad70-433d-b8d2-f4456808b8db",
+      "text": "68466c76-841d-43e5-b2ce-ea060126059b",
+      "locator": {
+        "kind": "json_path",
+        "path": "68466c76-841d-43e5-b2ce-ea060126059b_生成两份云南菜评价.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "a96f63c7-c09b-473a-9686-721dda638980",
+      "section_id": "c7c1a9f3-4b9f-4d09-9215-4c85f97b60c7",
+      "text": "生成两份云南菜评价",
+      "locator": {
+        "kind": "json_path",
+        "path": "68466c76-841d-43e5-b2ce-ea060126059b_生成两份云南菜评价.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 13
+    },
+    {
+      "passage_id": "247f7b2f-3301-4ddf-b730-01708a5eec0f",
+      "section_id": "bfcca4c2-f19c-4d8e-b74a-6b4f9ce4eb3c",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "68466c76-841d-43e5-b2ce-ea060126059b_生成两份云南菜评价.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.112749"
+}

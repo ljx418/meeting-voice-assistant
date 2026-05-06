@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.1",
+  "source_id": "4f3c5a04-4807-4a02-bd56-3de16af522b4_端午节看望老人注意事项",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4f3c5a04-4807-4a02-bd56-3de16af522b4_端午节看望老人注意事项.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "端午节看望老人注意事项",
+  "title_flags": [],
+  "source_weight": 1.7528,
+  "source_density_score": 1.0399,
+  "llm_enriched": false,
+  "tags": [
+    "端午节看望老人注",
+    "意事项"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 1,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "risk": 1
+  },
+  "units": [
+    {
+      "unit_id": "4f3c5a04-4807-4a02-bd56-3de16af522b4_端午节看望老人注意事项:risk:1",
+      "kind": "risk",
+      "text": "端午节看望老人注意事项",
+      "importance": 0.7676400000000001,
+      "confidence": 0.59,
+      "source_weight": 1.7528,
+      "source_density_score": 1.0399,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "端午节看望老人注",
+        "意事项"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4f3c5a04-4807-4a02-bd56-3de16af522b4_端午节看望老人注意事项.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

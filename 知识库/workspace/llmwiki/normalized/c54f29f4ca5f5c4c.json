@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "c54f29f4ca5f5c4c",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/eb10cacd-e8cc-4a41-be81-2ad7a81a36e2_武汉今日天气查询.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/c5/c54f29f4ca5f5c4c.json",
+    "sha256": "466f1ce1d760e33fe444ded1a700489cd8c986f32c45e3a75d9f434b82f3503f",
+    "content_hash": "b820adc338f57a0aa6282d5707674d9bfcdbe763b6ea06175fb78a16e9cffd48",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "ee9219c6-de87-4252-a7dc-b73f5dc92956",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "eb10cacd-e8cc-4a41-be81-2ad7a81a36e2",
+      "locator": {
+        "kind": "json_path",
+        "path": "eb10cacd-e8cc-4a41-be81-2ad7a81a36e2_武汉今日天气查询.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "c1f2874b-fc73-4325-8bb7-e3363ec5e218",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "武汉今日天气查询",
+      "locator": {
+        "kind": "json_path",
+        "path": "eb10cacd-e8cc-4a41-be81-2ad7a81a36e2_武汉今日天气查询.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "54720f50-9ba9-4893-bb50-a15432f04e60",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "eb10cacd-e8cc-4a41-be81-2ad7a81a36e2_武汉今日天气查询.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "df742ea5-e58c-4754-a39f-82d61aea4808",
+      "section_id": "ee9219c6-de87-4252-a7dc-b73f5dc92956",
+      "text": "eb10cacd-e8cc-4a41-be81-2ad7a81a36e2",
+      "locator": {
+        "kind": "json_path",
+        "path": "eb10cacd-e8cc-4a41-be81-2ad7a81a36e2_武汉今日天气查询.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "a070e84d-a98d-47b8-888c-d76ee12d6d16",
+      "section_id": "c1f2874b-fc73-4325-8bb7-e3363ec5e218",
+      "text": "武汉今日天气查询",
+      "locator": {
+        "kind": "json_path",
+        "path": "eb10cacd-e8cc-4a41-be81-2ad7a81a36e2_武汉今日天气查询.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 12
+    },
+    {
+      "passage_id": "31893316-28e1-43ba-8be3-153d18fd9fad",
+      "section_id": "54720f50-9ba9-4893-bb50-a15432f04e60",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "eb10cacd-e8cc-4a41-be81-2ad7a81a36e2_武汉今日天气查询.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.041107"
+}

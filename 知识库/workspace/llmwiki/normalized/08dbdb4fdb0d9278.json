@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "08dbdb4fdb0d9278",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/08/08dbdb4fdb0d9278.json",
+    "sha256": "f5dfd78d8316cac29c69ec444be4e492664ca74a3662f1554c386b9f20e50092",
+    "content_hash": "3b61370bd13dcf956432ad3d3b30a4c6dabd997e86b97c14f34a40dd0b3b2010",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "49d20d81-d234-48df-856c-07f6685e3357",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2",
+      "locator": {
+        "kind": "json_path",
+        "path": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "9f71d2f3-ea49-45bf-8862-ccd91f9fdc17",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "租户查看房东消防记录的法律分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "0c4de838-0a64-4d6b-8260-d4a58958be5f",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "9671fd86-f130-49bf-bc23-363dc6f0e61a",
+      "section_id": "49d20d81-d234-48df-856c-07f6685e3357",
+      "text": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2",
+      "locator": {
+        "kind": "json_path",
+        "path": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "20a533c8-c019-4e0a-8680-881a1e2e472e",
+      "section_id": "9f71d2f3-ea49-45bf-8862-ccd91f9fdc17",
+      "text": "租户查看房东消防记录的法律分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "e99a0305-b0f4-44d0-b1cd-1bb81dbb2a47",
+      "section_id": "0c4de838-0a64-4d6b-8260-d4a58958be5f",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.170121"
+}

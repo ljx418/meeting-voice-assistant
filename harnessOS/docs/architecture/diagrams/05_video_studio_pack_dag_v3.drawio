@@ -1,0 +1,45 @@
+<mxfile host="Electron" version="29.6.6">
+  <diagram id="video-studio-pack-dag-v3" name="Video Studio Pack DAG V3">
+    <mxGraphModel dx="1500" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Video Studio Pack V3.0：Multi-Agent Typed DAG" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="390" y="20" width="720" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="brief&#xa;artifact&#xa;owner: studio.lead&#xa;outputs: brief" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="140" width="210" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="script&#xa;agent_task&#xa;owner: scriptwriter&#xa;outputs: script" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="360" y="140" width="210" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="direction&#xa;agent_task&#xa;owner: director&#xa;outputs: direction_notes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="640" y="140" width="210" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="storyboard&#xa;agent_task&#xa;owner: storyboarder&#xa;outputs: storyboard, shot_list" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="920" y="140" width="210" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="render_manifest&#xa;connector_manifest&#xa;owner: editor&#xa;uses: remote_comfyui&#xa;outputs: asset_plan, render_output" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="640" y="380" width="250" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" value="publish_review&#xa;agent_task&#xa;owner: qa.publisher&#xa;outputs: publish_report" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1000" y="380" width="230" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="agents" value="Pack-owned agents&#xa;studio.lead | scriptwriter | director | storyboarder | editor | qa.publisher" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="240" y="620" width="500" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="artifacts" value="Artifact lineage&#xa;brief → script → storyboard → shot_list → asset_plan → render_output → publish_report" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="810" y="620" width="560" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" source="n1" target="n2" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" edge="1" source="n1" target="n3" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" edge="1" source="n2" target="n3" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" edge="1" source="n3" target="n4" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" edge="1" source="n4" target="n5" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" edge="1" source="n5" target="n6" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" edge="1" source="agents" target="n1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#22C55E;dashed=1;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" edge="1" source="n6" target="artifacts" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#EA580C;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.1",
+  "source_id": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "视频创作工作流",
+  "title_flags": [],
+  "source_weight": 1.802,
+  "source_density_score": 1.1,
+  "llm_enriched": false,
+  "tags": [
+    "视频创作工作流"
+  ],
+  "profile": {
+    "sentence_count": 0,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "entity_candidate": 1,
+    "topic_candidate": 1
+  },
+  "units": [
+    {
+      "unit_id": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流:topic:1",
+      "kind": "topic_candidate",
+      "text": "视频创作工作流",
+      "importance": 0.9100999999999999,
+      "confidence": 0.7240000000000001,
+      "source_weight": 1.802,
+      "source_density_score": 1.1,
+      "is_title_derived": true,
+      "is_llm_enriched": false,
+      "tags": [
+        "视频创作工作流"
+      ],
+      "entities": [
+        "视频创作工作流"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流:entity:1",
+      "kind": "entity_candidate",
+      "text": "视频创作工作流",
+      "importance": 0.7901,
+      "confidence": 0.6,
+      "source_weight": 1.802,
+      "source_density_score": 1.1,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "视频创作工作流"
+      ],
+      "entities": [
+        "视频创作工作流"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

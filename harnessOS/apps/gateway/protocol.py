@@ -44,6 +44,9 @@ class GatewayEvent(BaseModel):
     type: str
     session_id: Optional[str] = None
     turn_id: Optional[str] = None
+    app_id: str = "default"
+    project_id: Optional[str] = None
+    workspace_id: Optional[str] = None
     item_id: str = Field(default_factory=lambda: new_id("item"))
     timestamp: datetime = Field(default_factory=datetime.now)
     data: Dict[str, Any] = Field(default_factory=dict)
@@ -55,6 +58,9 @@ class TurnResult(BaseModel):
     session_id: str
     turn_id: str
     final_text: str
+    app_id: str = "default"
+    project_id: Optional[str] = None
+    workspace_id: Optional[str] = None
     events: list[GatewayEvent] = Field(default_factory=list)
 
     @property

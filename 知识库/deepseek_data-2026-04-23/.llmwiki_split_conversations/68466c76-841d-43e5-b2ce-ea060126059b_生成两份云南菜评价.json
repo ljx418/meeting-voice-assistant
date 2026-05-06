@@ -1,0 +1,578 @@
+{
+  "id": "68466c76-841d-43e5-b2ce-ea060126059b",
+  "title": "生成两份云南菜评价",
+  "inserted_at": "2025-10-07T17:12:33.596000+08:00",
+  "updated_at": "2026-02-27T09:55:39.801000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-10-07T17:12:34.184000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "帮我生成两份三十字的云南菜评价"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [
+        "3"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-10-07T17:12:34.197000+08:00",
+        "fragments": [
+          {
+            "type": "RESPONSE",
+            "content": "好的，这里是两份不同风格、均为三十字左右的云南菜评价：\n\n**评价一（突出风味）**\n菌菇火锅太鲜了！汤底浓郁，野生菌香气扑鼻，每一口都是大自然的味道。\n\n**评价二（推荐菜品）**\n汽锅鸡原汁原味，鸡肉嫩滑，汤清味醇。过桥米线配料丰富，地道正宗！"
+          }
+        ]
+      }
+    },
+    "3": {
+      "id": "3",
+      "parent": "2",
+      "children": [
+        "4"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-02-27T09:50:14.881000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "公司按劳动法 员工合同到期不续签 赔偿多少？"
+          }
+        ]
+      }
+    },
+    "4": {
+      "id": "4",
+      "parent": "3",
+      "children": [
+        "5"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-02-27T09:50:14.883000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://bj.12348.gov.cn/lawservice/consult/detail?SiteID=122&ID=103875",
+                "title": "合同到期不续签",
+                "snippet": "补偿标准按您在本单位工作的年限，每满一年给1个月工资；六个月以上不满一年按一年算，不满六个月给半个月工资。月工资以合同终止前12个月的平均工资为准。 以上信内容仅供您参考。",
+                "cite_index": 1,
+                "published_at": 1760976000.0,
+                "site_name": "北京法律服务网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/12348.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://bj.12348.gov.cn/lawservice/consult/detail?SiteID=122&ID=103832",
+                "title": "合同到期不续签",
+                "snippet": "根据您提供的信息/根据您描述的情况，我们为您提供如下信息或建议： 只要您已在本单位连续工作满十年，或连续订立两次固定期限合同且不存在严重违纪、不能胜任工作等法定除外情形，第二次合同期满时您提出续订而单位拒绝续签的，仍构成违法终止，应向您支付“2N”赔偿金...",
+                "cite_index": 2,
+                "published_at": 1760889600.0,
+                "site_name": "北京法律服务网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/12348.gov.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.sz.gov.cn/hdjl/ywzsk/rsj/ldgx/content/post_12255494.html",
+                "title": "解除或者终止劳动合同的经济补偿按照什么标准支付？列入经济补偿金计发的标准是什么？",
+                "snippet": "答：解除或者终止劳动合同的经济补偿按劳动者在本单位工作的年限，每满1年支付1个月工资的标准向劳动者支付。6个月以上不满1年的，按1年计算；不满6个月的，向劳动者支付半个月工资的经济补偿。",
+                "cite_index": 3,
+                "published_at": 1751299200.0,
+                "site_name": "深圳政府在线",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sz.gov.cn",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://credit.sfj.sh.gov.cn/sites/12348/news-detail.jsp?entityid=5fcdf0500e9a4a489eec9ce01e3002a0&category=72b439534a3b42acaa8275e39f95fa44",
+                "title": "劳动合同到期单位不续签，经济补偿金如何计算？",
+                "snippet": "六个月以上不满一年的，按一年计算；不满六个月的，向劳动者支付半个月工资的经济补偿。劳动者月工资高于用人单位所在直辖市、设区的市级人民政府公布的本地区上年度职工月平均工资三倍的，向其支付经济补偿的标准按职工月平均工资三倍的数额支付...",
+                "cite_index": 4,
+                "published_at": 1758038400.0,
+                "site_name": "Sh",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sh.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://fx.lncourt.gov.cn/article/detail/2026/01/id/9181473.shtml",
+                "title": "2026年度：经济补偿N、N+1、2N、2N+1、2(N+1)及61种情形和标准-辽宁省阜新市中级人民法院",
+                "snippet": "经济补偿金＝N+1，用人单位除应向劳动者支付解除劳动合同经济补偿金外，还应额外支付劳动者一个月工资的3种情形（即代通知金）。 赔偿金＝2N...",
+                "cite_index": 5,
+                "published_at": 1769616000.0,
+                "site_name": "Lncourt",
+                "site_icon": "https://cdn.deepseek.com/site-icons/lncourt.gov.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://xfj.sd.gov.cn/articles/ch03767/202505/d42f7694-89b8-4346-bc9c-f3e8a13abc25.shtml",
+                "title": "经济补偿支付标准是如何规定的？",
+                "snippet": "根据劳动合同法第四十七条规定，解除或者终止劳动合同的经济补偿按劳动者在本单位工作的年限，每满1年支付1个月工资的标准向劳动者支付。6个月以上不满1年的，按1年计算；不满6个月的，向劳动者支付半个月工资的经济补偿。",
+                "cite_index": 6,
+                "published_at": 1746460800.0,
+                "site_name": "sd.gov.cn",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sd.gov.cn",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://credit.sfj.sh.gov.cn/sites/12348/news-detail.jsp?entityid=f9549cd78bc64bfb9aca4f3614f57937&category=373fbf8db1c74c21bd14ee152d674994",
+                "title": "单位不续签合同，也不给经济补偿金，如何维权？",
+                "snippet": "因此，单位不跟劳动者续签劳动合同的，应该按其在本单位工作年限，每满一年支付一个月工资的经济补偿。月工资的标准是其劳动合同解除或者终止前十二个月的平均工资。",
+                "cite_index": 7,
+                "published_at": 1744646400.0,
+                "site_name": "Sh",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sh.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://law.rednet.cn/content/646045/97/9327.html",
+                "title": "第450期丨我爸爸在工地出事去世了，老板只赔偿5万",
+                "snippet": "若第二次合同到期不续签，一般不属于违法解除，通常无法主张2N赔偿金。根据《劳动合同法》，合同到期终止属于合法情形，用人单位无需支付2N赔偿金，但需支付经济补偿金（N）。",
+                "cite_index": 8,
+                "published_at": null,
+                "site_name": "湖南红网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/rednet.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://rst.hubei.gov.cn/zfxxgk/fdzdgknr/qtzdgknr/zcwd/12333/202509/t20250908_5766642.shtml",
+                "title": "咨询经济补偿金问题",
+                "snippet": "答复内容：《中华人民共和国劳动合同法》第四十七条规定，经济补偿按劳动者在本单位工作的年限，每满一年支付一个月工资的标准向劳动者支付。六个月以上不满一年的，按一年计算；不满六个月的，向劳动者支付半个月工资的经济补偿。劳动者月工资高于用人单位所在直辖市...",
+                "cite_index": 9,
+                "published_at": 1757347200.0,
+                "site_name": "湖北省人力资源和社会保障厅",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hubei.gov.cn",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.guozunlaw.com/news-71978.html",
+                "title": "【国樽律所】劳动合同到期经济补偿全解析，关键问题与计算标准详解",
+                "snippet": "劳动合同到期终止的经济补偿金是根据员工在单位工作的年限来计算的，具体计算方式如下：经济补偿金 = 员工在单位的工作年限 × 员工月平均薪资，工作年限的计算通常是从员工入职之日起至合同到期日为止。",
+                "cite_index": 10,
+                "published_at": 1745078400.0,
+                "site_name": "国樽律师事务所",
+                "site_icon": "https://cdn.deepseek.com/site-icons/guozunlaw.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户之前让我帮忙生成云南菜评价，现在转向咨询劳动合同到期不续签的赔偿问题，这是个典型的劳动法咨询。用户强调\"公司按劳动法\"，应该是在确认法定赔偿标准。\n\n我需要从几个方面回答：什么情况下需要赔偿、赔偿金额如何计算、以及特殊情形下是否有更高赔偿。如果搜索结果充分，我可以给出清晰的分类说明和计算公式。\n\n看搜索结果，有几个政府官网的信息质量很高。北京12348法律咨询服务网明确说了劳动合同期满单位不续签需支付经济补偿，标准是每满一年一个月工资[citation:1]。深圳人社局和山东信访局的回答也印证了这个标准[citation:3][citation:6]。上海12348法网的回复更详细，引用了具体的法条[citation:4][citation:7]。\n\n关于特殊情况，有个北京12348的咨询提到了\"连续订立两次合同后单位不续签可能构成违法终止\"的情形[citation:2]，辽宁法院网的文章详细列出了N+1和2N的情形[citation:5]，红网的律师解答也提到二次合同到期不续签一般不是违法解除[citation:8]。湖北人社厅的内容补充了高工资封顶12年的规定[citation:9]。\n\n有个律所网站的文章虽然相关，但权威性不如政府官网，作为补充参考[citation:10]。还有个关于工地事故的内容完全不相关，不采用。\n\n我准备先给用户一个清晰的总括，说明通常按N赔偿但有例外。然后分情况说明：普通情况赔N、高工资有封顶、特殊情形可能赔2N。这样用户能快速找到自己对应的情况。计算标准可以用表格呈现，让用户更容易理解。最后留个互动问用户工龄和工资情况，方便进一步帮助计算。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "根据《劳动合同法》的规定，公司在你合同到期时不续签，通常需要支付经济补偿。具体赔多少，主要看你是属于下面哪种情况：\n\n### 1. 一般情况下：公司支付经济补偿（N）\n如果是公司决定不续签，或者公司降低待遇续签而你不同意，那么公司需要按你的工作年限支付**经济补偿金**，也就是我们常说的 **“N”** [citation:1][citation:4][citation:7]。\n*   **计算标准**：按你在公司工作的年限，**每满一年支付一个月工资**。\n*   **不满一年的部分**：六个月以上不满一年的，按一年计算；不满六个月的，支付半个月工资 [citation:1][citation:3]。\n*   **月工资标准**：指的是你在劳动合同终止前**12个月的平均工资**（包含奖金、津贴等应得工资）[citation:3][citation:4]。\n\n### 2. 特殊情况：可能涉及赔偿金（2N）\n如果你已经符合签订**无固定期限劳动合同**的条件（例如：已连续订立二次固定期限合同，或在该单位连续工作满十年），此时公司无权单方面终止，如果公司强行不续签，就属于**违法终止**，应当支付赔偿金，也就是 **“2N”**（即上述经济补偿标准的两倍）[citation:2][citation:8][citation:10]。\n\n### 3. 关于“N+1”的说明\n通常所说的 **“N+1”** 适用于特定的**即时解除**劳动合同情形（如员工患病或不能胜任工作被辞退且未提前30天通知），**并不适用于“合同到期不续签”** 这种情况 [citation:4][citation:5]。\n\n### 4. 计算封顶限制\n如果你的月工资高于当地上年度职工月平均工资的**三倍**，那么补偿金会按**三倍**的金额支付，并且补偿的年限**最高不超过十二年** [citation:4][citation:6][citation:9]。\n\n方便告诉我你在这家公司工作了多久，以及最近12个月的平均工资大概是多少吗？我可以帮你估算一下具体的赔偿金额。"
+          }
+        ]
+      }
+    },
+    "5": {
+      "id": "5",
+      "parent": "4",
+      "children": [
+        "6"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-02-27T09:51:30.246000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "劳动合同终止前12个月的平均工资 算上年终和每个月的绩效工资吗？"
+          }
+        ]
+      }
+    },
+    "6": {
+      "id": "6",
+      "parent": "5",
+      "children": [
+        "7"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-02-27T09:51:30.247000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "http://www.xinzhoupeace.gov.cn/info/1027/5714.htm",
+                "title": "解除劳动合同时经济补偿咋算？打工人得算清这笔账-忻州长安网",
+                "snippet": "比如，李某解除合同前12个月的工资条显示：基本工资5000元/月，绩效奖金平均2000元/月，夜班津贴500元/月。其月平均工资即为7500元...",
+                "cite_index": 1,
+                "published_at": 1751472000.0,
+                "site_name": "xinzhoupeace.gov.cn",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xinzhoupeace.gov.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://xahrss.xa.gov.cn/hdjl/wszx/1959585875487203330.html",
+                "title": "关于劳动争议赔偿金基数的标准问题，是税前还是税后？是否包括年终奖、津贴、加班费？",
+                "snippet": "但根据《中华人民共和国劳动合同法实施条例》第二十七条规定，劳动合同法第四十七条规定的经济补偿的月工资按照劳动者应得工资计算，包括计时工资或者计件工资以及奖金、津贴和补贴等货币性收入，这个是税前应得工资。 请问在遇到经济补偿的时候...",
+                "cite_index": 2,
+                "published_at": 1756224000.0,
+                "site_name": "西安市人力资源和社会保障局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xa.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.workercn.cn/c/2025-02-24/8463027.shtml",
+                "title": "年终奖应否计入经济补偿和赔偿金的计算基数？",
+                "snippet": "年终奖要不要计入离职职工的经济补偿和赔偿金的基数，即离职前12个月的平均工资如何计算，一直困扰着不少职工。最近，廊坊市两级人民法院通过一起案件的审理，对此给出了清楚明确的答案。",
+                "cite_index": 3,
+                "published_at": 1740326400.0,
+                "site_name": "中工网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/workercn.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://syyh.lncourt.gov.cn/article/detail/2024/06/id/7984615.shtml",
+                "title": "解除劳动合同补偿金基数，如何计算？-沈阳市于洪区人民法院",
+                "snippet": "考虑到陈某2021年年终奖为10万余元，而2022年年终奖金仅1万余元，则其经济补偿金基数下降的幅度更加显著。如允许房产公司以恶意拖延磋商的方式...",
+                "cite_index": 4,
+                "published_at": 1718294400.0,
+                "site_name": "沈阳市于洪区人民法院",
+                "site_icon": "https://cdn.deepseek.com/site-icons/lncourt.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.clssn.com/2024/06/17/wap_9931182.html",
+                "title": "经济补偿中的“月工资”是否包括浮动工资",
+                "snippet": "张先生测算的经济补偿“月工资”标准，是劳动合同解除前12个月的上述所有工资数额的平均数，而公司则只将基本工资和技术研发津贴纳入“月工资”计算标准，并声称只有固定工资部分才可以用来计算经济补偿基数。",
+                "cite_index": 5,
+                "published_at": 1718553600.0,
+                "site_name": "中国劳动保障新闻网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/clssn.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://glyffy.gxcourt.gov.cn/article/detail/2024/06/id/7995741.shtml",
+                "title": "解除劳动合同补偿金基数如何计算？-广西壮族自治区永福县人民法院",
+                "snippet": "解除劳动合同时，如存在用人单位应当向劳动者支付经济补偿的情形，经济补偿标准应按劳动者在本单位工作的年限，每满一年支付一个月工资的标准向劳动者支付。然而，有些用人单位利用优势地位，在磋商离职阶段就通过各种手段恶意降薪...",
+                "cite_index": 6,
+                "published_at": 1718294400.0,
+                "site_name": "gxcourt.gov.cn",
+                "site_icon": "https://cdn.deepseek.com/site-icons/gxcourt.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://cdhrss.chengdu.gov.cn/cdrsj/c140462/2025-05/26/content_41bdfcb1372a47dfb3c2dd3354ae1557.shtml",
+                "title": "[咨询] 解除劳动合同经济补偿计算方式",
+                "snippet": "《中华人民共和国劳动合同法》第四十七条规定的经济补偿的月工资按照劳动者应得工资计算 ... 劳动者在劳动合同解除或者终止前12个月的平均工资低于当地最低工资标准的，按照当地最低工资标准计算。劳动者工作不满12个月的，按照实际工作的月数计算平均工资。",
+                "cite_index": 7,
+                "published_at": 1768320000.0,
+                "site_name": "成都市人力资源和社会保障局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chengdu.gov.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.sdcourt.gov.cn/jningweisfy/385991/385992/8050488/index.html",
+                "title": "经济补偿金的计算标准",
+                "snippet": "关于劳动者在劳动合同解除或终止前12个月平均工资的计算标准，我们认为，应指劳动者前12个月所有收入的平均值，包括基本工资、生活补贴、津贴、奖金、加班费等各项收入。之所以如此认定...",
+                "cite_index": 8,
+                "published_at": 1640275200.0,
+                "site_name": "山东省高级人民法院",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sdcourt.gov.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://rsj.xiangyang.gov.cn/ztzl/ldrszc/zcjd/202509/t20250915_3878932.shtml",
+                "title": "经济补偿的计发基数，如何确定？",
+                "snippet": "可以得出,经济补偿支付的计算公式为:解除或终止劳动合同前12个月的月平均工资×工作年限(N)。经济补偿支付标准取决于工作年限和平均工资。解除或终止劳动合同前12个月的平均工资就是我们本期要讨论的经济补偿的计发基数问题。",
+                "cite_index": 9,
+                "published_at": 1758470400.0,
+                "site_name": "襄阳市人力资源和社会保障局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xiangyang.gov.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.lawtime.cn/wenda/q_55153576.html",
+                "title": "终止合同前12个月的平均工资包括哪些",
+                "snippet": "若您每月的工资条中显示“基本工资5000元+绩效奖金2000元+交通补贴500元”，则这三项均需计入平均工资。适用结论：终止合同前12个月的平均工资需涵盖所有常规劳动报酬，不区分固定或浮动类型，只要是用人单位发放的与劳动相关的收入均应计入。",
+                "cite_index": 10,
+                "published_at": 1763481600.0,
+                "site_name": "法律快车",
+                "site_icon": "https://cdn.deepseek.com/site-icons/lawtime.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户之前问了合同到期不续签的赔偿问题，我已经详细解释了N的计算规则。现在用户追问的是\"平均工资\"的具体构成，想知道年终奖和绩效工资是否要算进去。这是个很实际的追问，说明用户正在准备跟公司谈判或核算金额。\n\n我需要从法律依据入手，明确告诉用户这两项是否计入，如果计入的话具体怎么计算，特别是年终奖这种一年一次的怎么分摊到12个月里。\n\n看搜索结果，有好几个政府官网和法院的权威信息。西安市人社局的回复直接引用了《劳动合同法实施条例》第二十七条，明确说月工资按\"应得工资\"计算，包括奖金、津贴[citation:2]。中工网那个案例很有价值，二审法院把年终奖计入基数，计算方式是把年终奖加总除以12得出月平均工资[citation:3]。\n\n襄阳人社局官网对年终奖的分摊方法讲得很细，提到北京高院规定年终奖按每年12个月平均分摊[citation:9]。中国劳动保障新闻网那个案例也很清楚，说绩效工资这种浮动收入也必须计入[citation:5]。\n\n成都人社局明确说了\"应得工资\"就是未扣除税费前的总额[citation:7]。忻州长安网的例子也很直观，把绩效奖金都算进去了[citation:1]。\n\n沈阳于洪区法院那个案例虽然提到了年终奖，但主要讲的是恶意拖延磋商的情况，相关性稍弱[citation:4]。山东省高院的文章主要讲竞业限制补偿金，不是劳动合同终止的情况，不相关[citation:8]。法律快车虽然是律师解答，权威性不如官网[citation:10]。\n\n我计划先给用户明确结论：都要算。然后用法律条文做支撑[citation:2][citation:7][citation:1]，再用案例解释年终奖的分摊方式[citation:3][citation:9]。最后可以引导用户提供工资数据，帮他具体计算。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "**是的，都需要算入。**\n\n根据《劳动合同法实施条例》第二十七条，计算经济补偿的“月工资”是指劳动者的**应得工资**，也就是你未扣除个税和社保公积金前的总额[citation:2][citation:7]。它不仅包括你提到的**月度绩效工资**，也包含**年终奖**[citation:1][citation:3]。\n\n关于年终奖的具体计入方式，通常是**除以12**后分摊到对应的月份中[citation:9]。\n\n为了帮你更准确地估算，方便告诉我：你在这家公司工作了几年？最近12个月的月基本工资、月绩效大概是多少？去年发的年终奖金额是多少？"
+          }
+        ]
+      }
+    },
+    "7": {
+      "id": "7",
+      "parent": "6",
+      "children": [
+        "8"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-02-27T09:55:16.506000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "按武汉为例 我工作三年十个月 最近12个月标准工资2万 绩效工资6千 2024年年终奖12万 实际25年发放到账，计划2026年7月合同到期不续签 预计赔偿多少？"
+          }
+        ]
+      }
+    },
+    "8": {
+      "id": "8",
+      "parent": "7",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-02-27T09:55:16.508000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://m.tingsonglaw.com/ask/detail/2807785",
+                "title": "劳动合同到期、公司不续约",
+                "snippet": "经济补偿按工作年限计算，每满一年支付一个月工资。如果公司违法解除，比如合同还没到期就解约，你可以要求一个月工资数额二倍的赔偿金。 建议先和公司沟通，了解不续约的原因。如果沟通无果...",
+                "cite_index": 1,
+                "published_at": 1767542400.0,
+                "site_name": "Tingsonglaw",
+                "site_icon": "https://cdn.deepseek.com/site-icons/tingsonglaw.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.tingsonglaw.com/ask/detail/2757010",
+                "title": "武汉，2023年的年终奖（个税系统里写的全年一次性奖金，未标明哪年，实际为2023年的年终奖）和提成，2024年11月才发放，2025年2月被裁员，计算赔偿金时，这两部分应纳入月平均工资的核算吗",
+                "snippet": "计算赔偿金时，2023年年终奖和提成应纳入月平均工资核算。根据法律，经济补偿月工资按劳动者应得工资计算，包括奖金、津贴等货币性收入。这两部分虽在2024年11月发放、2025年2月裁员，但属于劳动者正常劳动报酬。解决方案是在计算月平均工资时...",
+                "cite_index": 2,
+                "published_at": 1747497600.0,
+                "site_name": "Tingsonglaw",
+                "site_icon": "https://cdn.deepseek.com/site-icons/tingsonglaw.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.dxh.gov.cn/ZWGK/QZFXXGKML/GGFWXX_devsavepath/SHBZ_devsavepath/ylbz/202509/t20250925_2652461.shtml",
+                "title": "武汉职工医保缴费基数调整",
+                "snippet": "根据《通知》，武汉市2025年度职工基本医疗保险（生育保险）缴费基数调整为7496元。其中 ... 武汉市2025年度职工医保缴费基数按照全省公布的标准，10月1日起执行。",
+                "cite_index": 3,
+                "published_at": 1758729600.0,
+                "site_name": "东西湖区人民政府",
+                "site_icon": "https://cdn.deepseek.com/site-icons/dxh.gov.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.xunlv.cn/ask/info/493417",
+                "title": "补偿金计算月平均工资需要记入前一年折算的年底双薪的年终奖吗？除以的月份是12个月还是13个月呢？",
+                "snippet": "月帮助201720人 所谓奖金应该是在劳动合同里有明确数额或指标达成协议的，而年终奖许多是没有固定数额和时间规定的，可以规避你，但你可以收集年终发放数据后，再申请，帐目里有了此项支出就钉了钉子，单位不能反水了 原问题：《经济补偿金，计算前12个月平均工资里...",
+                "cite_index": 4,
+                "published_at": 1771171200.0,
+                "site_name": "Xunlv",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xunlv.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://ctdsbepaper.hubeidaily.net/pad/content/202509/25/content_327284.html",
+                "title": "武汉职工医保缴费基数调整 楚天都市报",
+                "snippet": "根据《通知》，武汉市2025年度职工基本医疗保险（生育保险）缴费基数调整为7496元。其中，个人缴费基数上限为22488元，个人缴费基数下限4498元。武汉市2025年度职工医保缴费基数按照全省公布的标准，10月1日起执行。",
+                "cite_index": 5,
+                "published_at": 1758729600.0,
+                "site_name": "楚天都市报",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hubeidaily.net",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://news.cnhubei.com/content/2025-09/24/content_19527380.html",
+                "title": "武汉职工医保缴费基数调整，10月1日起执行",
+                "snippet": "根据本次公布的武汉市2025年度全市职工医保缴费标准， 如果武汉市在职职工上年度月平均工资低于或者等于4498元，那么缴费基数按照下限确定为4498元...",
+                "cite_index": 6,
+                "published_at": 1758643200.0,
+                "site_name": "荆楚网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cnhubei.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://tjj.wuhan.gov.cn/hdjl_49/lxxd/lxxd_details.shtml?metadataId=52224&siteId=49",
+                "title": "武汉市年度平均工资",
+                "snippet": "【武汉市统计局】您好，2024武汉市城镇单位在岗职工年平均工资预计在2025年6月下旬发布，届时您可进入武汉市统计局官网——新闻中心——通知公告中进行查询。详情请咨询局综合处...",
+                "cite_index": 7,
+                "published_at": 1737475200.0,
+                "site_name": "武汉市统计局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/wuhan.gov.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://whwb.cjn.cn/html/2025-09/25/content_48089_2662794.htm",
+                "title": "建议每月25日前完成缴费，确保医保待遇不中断",
+                "snippet": "根据《通知》，武汉市2025年度职工基本医疗保险（生育保险）缴费基数调整为7496元。其中，个人缴费基数上限为22488元，个人缴费基数下限4498元 ... 社会保险（医保）缴费基数由社会平均工资决定，每年调整一次，由全省统一公布。我市2025年度职工医保缴费基数按照全省公布的标准...",
+                "cite_index": 8,
+                "published_at": 1758729600.0,
+                "site_name": "长江网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cjn.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.vobao.com/news/1143989780280027129.shtml",
+                "title": "武汉2025社保缴费一览表最新，武汉2025年社保缴费档次明细",
+                "snippet": "2025年武汉市社保缴费基数的上下限为：下限4494元/月，上限22467元/月。这一基数范围是根据上年度全省全口径城镇单位就业人员月平均工资的60%至300%核定的。对于灵活就业人员...",
+                "cite_index": 9,
+                "published_at": 1751472000.0,
+                "site_name": "沃保保险网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/vobao.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.chinastar1.com/?show=3090",
+                "title": "武公中发〔2025〕9号 武汉住房公积金管理中心关于调整2025年度住房公积金缴存基数的通知",
+                "snippet": "各住房公积金缴存单位：  根据国务院《住房公积金管理条例》《武汉住房公积金管理条例》的规定，现将2025年度住房公积金缴存基数调整的有关事项通知如下：  一、缴存基数计算口径  缴存单位应按职工上一年度月平均工资总额调整当年职工 住房公积金缴存基数。2025年度职工住房公积金月缴存基数应按2024年度职工本人月平均工资（即职工2024年度工资总额÷12）核定。  职工工资总额计算口径应按《国家统计",
+                "cite_index": 10,
+                "published_at": null,
+                "site_name": "Chinastar1",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chinastar1.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户之前已经问过赔偿计算方法和工资构成，现在给出了具体的工作年限、薪资数据，需要我帮他计算合同到期不续签的赔偿金额。这是个实际的计算需求，需要准确运用之前讨论的规则。\n\n我计划先计算月平均工资，再确定工作年限对应的月数，最后考虑是否受三倍封顶限制。如果搜索结果中有武汉当地的三倍封顶数据，可以直接引用。\n\n看搜索结果，有几个网页提供了武汉2025年度社保缴费基数标准，其中政府官网和正规媒体发布的信息显示上限为22488元[citation:6][citation:8]，这个数据权威可靠。关于年终奖是否计入月平均工资，有个律师问答明确说明应纳入[citation:2]，虽然权威性一般，但符合法律规定。还有个咨询提到武汉地区补偿金计算的相关规则[citation:1]。\n\n有几个搜索结果不太相关，比如关于公积金缴存基数调整的、社保缴费档次明细的，都与经济补偿金计算无直接关联。统计局那个回复说2024年平均工资要2025年6月发布，时效性不够。\n\n计算思路上：用户2026年7月到期，需要计算2025年7月至2026年6月这12个月的月平均工资。2024年年终奖12万是2025年发放，应该计入这12个月。工作3年10个月按4年计算。\n\n计算过程需要把年终奖分摊到12个月，加上每月2.6万的固定收入。算下来月平均工资3.6万，高于22488元的三倍上限，所以实际补偿基数要按22488元算，乘以4年，得到89952元。\n\n我会先说明月平均工资的计算方法，然后判断是否适用封顶，最后给出具体赔偿金额。同时要提醒用户，2025年7月-2026年6月这期间的收入变化会影响最终结果，建议临近合同到期时重新精确计算。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "根据您提供的信息，您2026年7月合同到期不续签的预计赔偿金额为**89,952元**。\n\n### 计算依据与详细过程\n\n1.  **月平均工资的计算（是否包含年终奖）**\n    您2024年年终奖12万元于2025年发放，这笔钱需要计入您劳动合同终止前12个月（即2025年7月至2026年6月）的平均工资中[citation:2]。计算方式为将年终奖除以12，分摊到每个月。\n\n2.  **计算步骤**\n    *   **计算前12个月总工资**：\n        您的月收入（标准工资+绩效工资）为 20,000元 + 6,000元 = **26,000元**。\n        前12个月工资总额 = (26,000元/月 × 12个月) + 120,000元（年终奖）= 312,000元 + 120,000元 = **432,000元**。\n    *   **计算月平均工资**：\n        月平均工资 = 432,000元 ÷ 12个月 = **36,000元**。\n\n3.  **适用封顶规则（关键点）**\n    根据武汉市2025年度的社保缴费标准，2025年度职工缴费基数上限（即社会平均工资的3倍）为**22,488元**[citation:6][citation:8]。您的月平均工资36,000元已超过此上限。\n    根据《劳动合同法》规定，当劳动者月工资高于当地上年度职工月平均工资3倍的，经济补偿的标准按职工月平均工资3倍的数额支付[citation:1]。因此，计算您赔偿金的基数不是36,000元，而是**22,488元**。\n\n4.  **计算工作年限与最终赔偿**\n    您工作三年十个月，根据规定，六个月以上不满一年的，按一年计算[citation:1]。因此您的补偿年限为**4年**（即赔偿4个月工资）。\n    **赔偿总额** = 22,488元/月 × 4个月 = **89,952元**。\n\n### 特别提示\n*   **时间节点**：以上计算使用了武汉市2025年度的社保缴费上限标准。由于您的合同在2026年7月到期，届时需以武汉市发布的**2026年度**社保缴费上限为准。若2026年上限提高，您的赔偿金会相应增加；若降低，则赔偿金减少。\n*   **精确计算**：建议您在合同到期前2-3个月，根据届时最新的平均工资（2025年7月-2026年6月的实际收入）和最新的社会平均工资封顶线，进行最终核算。"
+          }
+        ]
+      }
+    }
+  }
+}

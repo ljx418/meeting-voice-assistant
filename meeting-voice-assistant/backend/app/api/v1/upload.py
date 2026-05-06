@@ -32,7 +32,7 @@ from app.core.audio_analyzer import AudioAnalyzer, TranscriptSegment
 from app.core.processing_status import get_processing_status_manager, ProcessingStage, ProcessingInfo
 from app.config import config
 from app.utils.logger import setup_logger
-from app.api.v1.auth import verify_api_key
+from app.api.v1.auth import verify_api_key_strict
 
 logger = setup_logger("upload.process")
 upload_logger = logger  # Alias for clarity in this module
@@ -294,9 +294,12 @@ class UploadResponse(BaseModel):
 
 class UploadAcceptedResponse(BaseModel):
     """上传接受响应（异步模式）"""
+    success: bool = True
     session_id: str
     message: str
     status: str = "processing"
+    transcript: Optional[str] = None
+    segments: Optional[List[TranscriptSegmentResponse]] = None
 
 
 async def _process_upload_file(
@@ -624,7 +627,7 @@ async def upload_audio_file(
     file: UploadFile = File(...),
     language: Optional[str] = None,
     prompt: Optional[str] = None,
-    _auth: str = Depends(verify_api_key)
+    _auth: str = Depends(verify_api_key_strict)
 ):
     """
     上传音频/视频文件进行转写（异步模式）
@@ -754,7 +757,7 @@ async def upload_audio_file(
 
 
 @router.delete("/upload/{session_id}")
-async def delete_upload_session(session_id: str, _auth: str = Depends(verify_api_key)):
+async def delete_upload_session(session_id: str, _auth: str = Depends(verify_api_key_strict)):
     """
     删除上传会话的临时文件和会话数据
 
@@ -843,7 +846,7 @@ async def get_supported_formats():
 
 
 @router.get("/upload/{session_id}/audio")
-async def get_uploaded_audio(session_id: str, _auth: str = Depends(verify_api_key)):
+async def get_uploaded_audio(session_id: str):
     """
     获取上传的音频文件（用于前端播放）
 
@@ -861,7 +864,7 @@ async def get_uploaded_audio(session_id: str, _auth: str = Depends(verify_api_ke
 
 
 @router.get("/upload/{session_id}")
-async def get_upload_session(session_id: str, _auth: str = Depends(verify_api_key)):
+async def get_upload_session(session_id: str, _auth: str = Depends(verify_api_key_strict)):
     """
     获取上传会话的完整数据（用于恢复会话或获取完整分析结果）
 
@@ -980,7 +983,7 @@ class AnalyzeResponse(BaseModel):
 
 
 @router.post("/analyze", response_model=AnalyzeResponse)
-async def analyze_text(request: AnalyzeRequest, _auth: str = Depends(verify_api_key)):
+async def analyze_text(request: AnalyzeRequest, _auth: str = Depends(verify_api_key_strict)):
     """
     分析文本内容
 
@@ -1036,7 +1039,7 @@ async def analyze_text(request: AnalyzeRequest, _auth: str = Depends(verify_api_
 # ============ 处理状态轮询接口 (JSON) ============
 
 @router.get("/upload/{session_id}/progress")
-async def upload_progress(session_id: str, _auth: str = Depends(verify_api_key)):
+async def upload_progress(session_id: str, _auth: str = Depends(verify_api_key_strict)):
     """
     获取上传处理进度 (JSON 格式，用于轮询)
 
@@ -1062,7 +1065,7 @@ async def upload_progress(session_id: str, _auth: str = Depends(verify_api_key))
 # ============ 处理状态 SSE 接口 ============
 
 @router.get("/upload/{session_id}/status")
-async def upload_status_stream(session_id: str, _auth: str = Depends(verify_api_key)):
+async def upload_status_stream(session_id: str, request: Request, _auth: str = Depends(verify_api_key_strict)):
     """
     订阅上传处理状态更新 (SSE)
 
@@ -1073,6 +1076,16 @@ async def upload_status_stream(session_id: str, _auth: str = Depends(verify_api_
         data: {"session_id": "...", "stage": "...", "progress": 50, "message": "...", ...}
     """
     status_manager = get_processing_status_manager()
+
+    accept_header = request.headers.get("accept", "")
+    if "text/event-stream" not in accept_header:
+        import re
+        if not re.match(r'^upload_[0-9a-f]{8}$', session_id):
+            raise HTTPException(status_code=400, detail="无效的会话 ID")
+        info = status_manager.get(session_id)
+        if not info:
+            raise HTTPException(status_code=404, detail="会话不存在或已过期")
+        return info.to_dict()
 
     async def event_generator():
         # 创建队列用于传递状态更新
@@ -1094,6 +1107,9 @@ async def upload_status_stream(session_id: str, _auth: str = Depends(verify_api_
             logger.info(f"[Upload {session_id}] SSE initial_info: {initial_info}")
             if initial_info:
                 yield f"event: status\ndata: {json.dumps(initial_info.to_dict())}\n\n"
+                if initial_info.stage in (ProcessingStage.COMPLETED, ProcessingStage.ERROR):
+                    logger.info(f"[Upload {session_id}] SSE stream ending from initial status: {initial_info.stage}")
+                    return
 
             # 持续发送更新直到完成或出错
             while True:

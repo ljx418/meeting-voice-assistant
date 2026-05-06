@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "c148592c7f628285",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/c1/c148592c7f628285.json",
+    "sha256": "860015a273ecb754ea933611be493056f13217bd64a4549e780998054fc5f34b",
+    "content_hash": "2244f552833d6b53f89b4c3dd0cb335f4c261c9c1049b9027d5552ca8c6c1c12",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "4e93e08b-51b8-40ff-918c-1ce94e3d8b4e",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "a6e07831-4df2-4edd-afba-22f33f553f28",
+      "locator": {
+        "kind": "json_path",
+        "path": "a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "6a824c93-355f-47f8-9995-ed0ce140af4d",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "安装openclaw",
+      "locator": {
+        "kind": "json_path",
+        "path": "a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "61836145-824d-445c-bf7d-5d9a7c53a6f8",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "fcc38173-c788-4bd0-911d-e0560175345e",
+      "section_id": "4e93e08b-51b8-40ff-918c-1ce94e3d8b4e",
+      "text": "a6e07831-4df2-4edd-afba-22f33f553f28",
+      "locator": {
+        "kind": "json_path",
+        "path": "a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "2b848184-38c3-4121-b533-dbf5abcdbbaf",
+      "section_id": "6a824c93-355f-47f8-9995-ed0ce140af4d",
+      "text": "安装openclaw",
+      "locator": {
+        "kind": "json_path",
+        "path": "a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 7
+    },
+    {
+      "passage_id": "c1123e22-e74f-4d84-8a3e-b4164d1c23bb",
+      "section_id": "61836145-824d-445c-bf7d-5d9a7c53a6f8",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.008311"
+}

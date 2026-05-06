@@ -1,0 +1,95 @@
+{
+  "source_id": "c17811a8-38e2-42d5-9fee-f0f5eebb559b_已安装VSCode选项验证",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/c17811a8-38e2-42d5-9fee-f0f5eebb559b_已安装VSCode选项验证.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "已安装VSCode选项验证",
+  "title_flags": [],
+  "source_weight": 1.9994,
+  "source_density_score": 1.3407,
+  "llm_enriched": false,
+  "tags": [
+    "已安装",
+    "VSCode",
+    "选项验证",
+    "已安装VSCode选项验证"
+  ],
+  "units": [
+    {
+      "unit_id": "c17811a8-38e2-42d5-9fee-f0f5eebb559b_已安装VSCode选项验证:topic:1",
+      "kind": "topic_candidate",
+      "text": "已安装",
+      "importance": 0.91997,
+      "confidence": 0.7336280000000001,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "c17811a8-38e2-42d5-9fee-f0f5eebb559b_已安装VSCode选项验证:topic:2",
+      "kind": "topic_candidate",
+      "text": "VSCode",
+      "importance": 0.91997,
+      "confidence": 0.7336280000000001,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "c17811a8-38e2-42d5-9fee-f0f5eebb559b_已安装VSCode选项验证:note:1",
+      "kind": "note",
+      "text": "已安装VSCode选项验证",
+      "importance": 0.6999639999999999,
+      "confidence": 0.56,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "c17811a8-38e2-42d5-9fee-f0f5eebb559b_已安装VSCode选项验证:conclusion:1",
+      "kind": "conclusion",
+      "text": "已安装VSCode选项验证",
+      "importance": 0.859958,
+      "confidence": 0.62,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "c17811a8-38e2-42d5-9fee-f0f5eebb559b_已安装VSCode选项验证:entity:1",
+      "kind": "entity_candidate",
+      "text": "已安装",
+      "importance": 0.79997,
+      "confidence": 0.6,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "c17811a8-38e2-42d5-9fee-f0f5eebb559b_已安装VSCode选项验证:entity:2",
+      "kind": "entity_candidate",
+      "text": "VSCode",
+      "importance": 0.79997,
+      "confidence": 0.6,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "c17811a8-38e2-42d5-9fee-f0f5eebb559b_已安装VSCode选项验证:entity:3",
+      "kind": "entity_candidate",
+      "text": "选项验证",
+      "importance": 0.79997,
+      "confidence": 0.6,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

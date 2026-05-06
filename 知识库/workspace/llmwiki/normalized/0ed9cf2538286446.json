@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "0ed9cf2538286446",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/5ee87fd7-8290-4beb-abb5-59fa98e7b935_AI学习.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/0e/0ed9cf2538286446.json",
+    "sha256": "e58a27cad92b50b19db3bee9165c4c3a806bd1e3a5e6b5dc8689e19792a428bd",
+    "content_hash": "416edbf8185abeb4659931989b59c735859f4f71f41cd25cb318ab315663124d",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "da02fd1d-c7c9-4949-a231-827a4ef4d283",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "5ee87fd7-8290-4beb-abb5-59fa98e7b935",
+      "locator": {
+        "kind": "json_path",
+        "path": "5ee87fd7-8290-4beb-abb5-59fa98e7b935_AI学习.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "a72da961-dc3d-4f5c-86fc-5ff4e23b15c7",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "AI学习",
+      "locator": {
+        "kind": "json_path",
+        "path": "5ee87fd7-8290-4beb-abb5-59fa98e7b935_AI学习.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "d06824ea-c9ce-48d7-9f83-8e4b3c4570c1",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "5ee87fd7-8290-4beb-abb5-59fa98e7b935_AI学习.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "8dea8ed3-2f9b-45a4-93cf-018cacca8d0b",
+      "section_id": "da02fd1d-c7c9-4949-a231-827a4ef4d283",
+      "text": "5ee87fd7-8290-4beb-abb5-59fa98e7b935",
+      "locator": {
+        "kind": "json_path",
+        "path": "5ee87fd7-8290-4beb-abb5-59fa98e7b935_AI学习.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "197a988a-0773-4d31-a062-e65dc5a51009",
+      "section_id": "a72da961-dc3d-4f5c-86fc-5ff4e23b15c7",
+      "text": "AI学习",
+      "locator": {
+        "kind": "json_path",
+        "path": "5ee87fd7-8290-4beb-abb5-59fa98e7b935_AI学习.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 4
+    },
+    {
+      "passage_id": "5aa16d62-06fb-47c4-8451-68da89222bad",
+      "section_id": "d06824ea-c9ce-48d7-9f83-8e4b3c4570c1",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "5ee87fd7-8290-4beb-abb5-59fa98e7b935_AI学习.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.783205"
+}

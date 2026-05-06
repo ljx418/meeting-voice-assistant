@@ -1,0 +1,39 @@
+{
+  "source_id": "fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "陈醋的制作原料与工艺",
+  "title_flags": [],
+  "source_weight": 1.7524,
+  "source_density_score": 1.0396,
+  "llm_enriched": false,
+  "tags": [
+    "陈醋的制作原料与",
+    "工艺",
+    "陈醋的制作原料与工艺"
+  ],
+  "units": [
+    {
+      "unit_id": "fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺:topic:1",
+      "kind": "topic_candidate",
+      "text": "陈醋的制作原料与工艺",
+      "importance": 0.90762,
+      "confidence": 0.721584,
+      "source_weight": 1.7524,
+      "source_density_score": 1.0396,
+      "is_title_derived": true,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺:note:1",
+      "kind": "note",
+      "text": "陈醋的制作原料与工艺",
+      "importance": 0.685144,
+      "confidence": 0.56,
+      "source_weight": 1.7524,
+      "source_density_score": 1.0396,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

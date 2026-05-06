@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "e98be1c5e78e1c5e",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7cfbec36-afd7-4512-8d4b-e90e659af679_钢铁雄心4黑冰mod闪退解决.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/e9/e98be1c5e78e1c5e.json",
+    "sha256": "9a0f2188d1ca418207df7aabd28a02a57aa1fed4b8ea0026e48b7bc6ec52da89",
+    "content_hash": "20e512c7d6fd22baa27c4762b825a2cb748dac111d9ebb700ce26cac0ccbd94c",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "864e65e7-d482-4042-a408-4769792476cc",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "7cfbec36-afd7-4512-8d4b-e90e659af679",
+      "locator": {
+        "kind": "json_path",
+        "path": "7cfbec36-afd7-4512-8d4b-e90e659af679_钢铁雄心4黑冰mod闪退解决.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "83e9e623-19be-4699-8cd0-97bdcb5284b1",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "钢铁雄心4黑冰mod闪退解决",
+      "locator": {
+        "kind": "json_path",
+        "path": "7cfbec36-afd7-4512-8d4b-e90e659af679_钢铁雄心4黑冰mod闪退解决.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "28714581-c992-410f-b0d0-fb7c54968ba2",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "7cfbec36-afd7-4512-8d4b-e90e659af679_钢铁雄心4黑冰mod闪退解决.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "f84a9cd6-f9bd-4190-9a97-784e833275ef",
+      "section_id": "864e65e7-d482-4042-a408-4769792476cc",
+      "text": "7cfbec36-afd7-4512-8d4b-e90e659af679",
+      "locator": {
+        "kind": "json_path",
+        "path": "7cfbec36-afd7-4512-8d4b-e90e659af679_钢铁雄心4黑冰mod闪退解决.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "791571e1-e8d9-4c71-bb65-5312bddd5253",
+      "section_id": "83e9e623-19be-4699-8cd0-97bdcb5284b1",
+      "text": "钢铁雄心4黑冰mod闪退解决",
+      "locator": {
+        "kind": "json_path",
+        "path": "7cfbec36-afd7-4512-8d4b-e90e659af679_钢铁雄心4黑冰mod闪退解决.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 17
+    },
+    {
+      "passage_id": "60d68ca4-5e60-420b-bf97-4b7c8e99fc61",
+      "section_id": "28714581-c992-410f-b0d0-fb7c54968ba2",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "7cfbec36-afd7-4512-8d4b-e90e659af679_钢铁雄心4黑冰mod闪退解决.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.153904"
+}

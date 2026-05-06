@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "d63da0963e30cce6",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/6ba9b3e4-7359-426c-94ae-6ef24197cbf2_AI学习废弃于2026028.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/d6/d63da0963e30cce6.json",
+    "sha256": "86a7dfe0446c08afa3ae535ab4e0fee3593a4c7270d58a51b271a1350898c72d",
+    "content_hash": "23871d0e77452d8c630585603e802da341ce9d617d957e1c2e05ea4012bafab2",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "11c7d7da-4c69-4732-8bd4-9c11aa096531",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "6ba9b3e4-7359-426c-94ae-6ef24197cbf2",
+      "locator": {
+        "kind": "json_path",
+        "path": "6ba9b3e4-7359-426c-94ae-6ef24197cbf2_AI学习废弃于2026028.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "603bc0a1-619d-4972-afca-d429c94b918f",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "AI学习（废弃于2026028）",
+      "locator": {
+        "kind": "json_path",
+        "path": "6ba9b3e4-7359-426c-94ae-6ef24197cbf2_AI学习废弃于2026028.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "3cbcd46a-488e-4ecf-9211-86fbbe6a744b",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "6ba9b3e4-7359-426c-94ae-6ef24197cbf2_AI学习废弃于2026028.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "a66727df-88cc-4b17-a4a1-73381b679c89",
+      "section_id": "11c7d7da-4c69-4732-8bd4-9c11aa096531",
+      "text": "6ba9b3e4-7359-426c-94ae-6ef24197cbf2",
+      "locator": {
+        "kind": "json_path",
+        "path": "6ba9b3e4-7359-426c-94ae-6ef24197cbf2_AI学习废弃于2026028.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "ebb74cf9-a756-4b8e-ba56-3faf9f28c12c",
+      "section_id": "603bc0a1-619d-4972-afca-d429c94b918f",
+      "text": "AI学习（废弃于2026028）",
+      "locator": {
+        "kind": "json_path",
+        "path": "6ba9b3e4-7359-426c-94ae-6ef24197cbf2_AI学习废弃于2026028.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 13
+    },
+    {
+      "passage_id": "6f5eb941-3647-4647-8f95-5439dfb6bd07",
+      "section_id": "3cbcd46a-488e-4ecf-9211-86fbbe6a744b",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "6ba9b3e4-7359-426c-94ae-6ef24197cbf2_AI学习废弃于2026028.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.762179"
+}

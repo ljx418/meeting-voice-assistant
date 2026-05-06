@@ -582,6 +582,8 @@ interface SkillEvaluation {
   targetScore?: number
 }
 
+type Skill = SkillEvaluation
+
 interface LearningPlanItem {
   id: string
   title: string
@@ -721,7 +723,7 @@ const editingSkills = ref<Array<Skill & { targetScore: number }>>([])
 
 // ============ Tabs ============
 
-const tabs = [
+const tabs: Array<{ key: 'review' | 'skills' | 'plan'; label: string }> = [
   { key: 'review', label: '全量复盘' },
   { key: 'skills', label: '能力评估' },
   { key: 'plan', label: '学习计划' },
@@ -985,7 +987,7 @@ function loadSkillsFromStorage() {
       { dimension: '项目经验', score: 65, targetScore: 80 },
     ]
   }
-  editingSkills.value = skillEvaluations.value.map(s => ({ ...s }))
+  editingSkills.value = skillEvaluations.value.map(s => ({ ...s, targetScore: s.targetScore ?? s.score }))
 }
 
 function saveSkillsToStorage() {

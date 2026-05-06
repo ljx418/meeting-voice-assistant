@@ -1,0 +1,83 @@
+{
+  "source_id": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "新能源车1000公里续航发展分析",
+  "title_flags": [],
+  "source_weight": 1.9183,
+  "source_density_score": 1.2419,
+  "llm_enriched": false,
+  "tags": [
+    "新能源车",
+    "公里续航发展分析",
+    "新能源车1000公里续航发展分析"
+  ],
+  "units": [
+    {
+      "unit_id": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析:topic:1",
+      "kind": "topic_candidate",
+      "text": "新能源车",
+      "importance": 0.9159149999999999,
+      "confidence": 0.729676,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析:topic:2",
+      "kind": "topic_candidate",
+      "text": "新能源车1000公里续航发展分析",
+      "importance": 0.9159149999999999,
+      "confidence": 0.729676,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析:note:1",
+      "kind": "note",
+      "text": "新能源车1000公里续航发展分析",
+      "importance": 0.695098,
+      "confidence": 0.56,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析:conclusion:1",
+      "kind": "conclusion",
+      "text": "新能源车1000公里续航发展分析",
+      "importance": 0.854281,
+      "confidence": 0.62,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析:entity:1",
+      "kind": "entity_candidate",
+      "text": "新能源车",
+      "importance": 0.7959149999999999,
+      "confidence": 0.6,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析:entity:2",
+      "kind": "entity_candidate",
+      "text": "公里续航发展分析",
+      "importance": 0.7959149999999999,
+      "confidence": 0.6,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

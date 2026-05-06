@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "ff311ba43902246f",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/ff/ff311ba43902246f.json",
+    "sha256": "825436d06145a5ff9ed690af70c78583779ebc6c3f3fa96561f7f3d434a018cc",
+    "content_hash": "b8e5de92c73a5220764ed276eb85a1f3637f4bff037de371f7017df5fd68d2f5",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "eb1682d0-4be6-4bcb-a8aa-df7e9efd4ed8",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "a05680c8-f5bd-44f6-a830-126cc7e084e2",
+      "locator": {
+        "kind": "json_path",
+        "path": "a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "79d0f452-af93-44b5-bdba-453746969c83",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "技术咨询（废弃于20260212）",
+      "locator": {
+        "kind": "json_path",
+        "path": "a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "da28fd11-189c-474e-9b52-b758d1584093",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "886b7767-25b8-4f26-82d9-619d57704f87",
+      "section_id": "eb1682d0-4be6-4bcb-a8aa-df7e9efd4ed8",
+      "text": "a05680c8-f5bd-44f6-a830-126cc7e084e2",
+      "locator": {
+        "kind": "json_path",
+        "path": "a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "1b7e4257-77bc-41df-9448-78dbbb95bac5",
+      "section_id": "79d0f452-af93-44b5-bdba-453746969c83",
+      "text": "技术咨询（废弃于20260212）",
+      "locator": {
+        "kind": "json_path",
+        "path": "a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 15
+    },
+    {
+      "passage_id": "3ba875c6-04c3-497a-8680-80f5b887bc20",
+      "section_id": "da28fd11-189c-474e-9b52-b758d1584093",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.638595"
+}

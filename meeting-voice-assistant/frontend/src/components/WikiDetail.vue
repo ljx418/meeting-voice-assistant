@@ -160,6 +160,7 @@ interface WikiPage {
   summary?: string
   category_id?: string
   meeting_id?: string
+  doc_type?: string
   tags: string[]
   version: number
   is_published: boolean

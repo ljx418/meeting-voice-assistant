@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "d9397e322b468292",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4f871f61-4b08-4d02-a158-9a295121396b_DeepSeek上市传闻核实及信息获取建议.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/d9/d9397e322b468292.json",
+    "sha256": "7f61314042f94c7ec7f4eb98a77907318ab5871a90580b11de4c2cc0201e226f",
+    "content_hash": "7ba3288ab0f0edaf4086e1be93ce027557318bbd78f53d5f76a09a890f1f332c",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "f7c2df14-444f-4c3e-a9bd-dca9d424f192",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "4f871f61-4b08-4d02-a158-9a295121396b",
+      "locator": {
+        "kind": "json_path",
+        "path": "4f871f61-4b08-4d02-a158-9a295121396b_DeepSeek上市传闻核实及信息获取建议.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "3fa2a9b3-7403-4b17-8b84-59f4fb2bf314",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "DeepSeek上市传闻核实及信息获取建议",
+      "locator": {
+        "kind": "json_path",
+        "path": "4f871f61-4b08-4d02-a158-9a295121396b_DeepSeek上市传闻核实及信息获取建议.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "0a8657dc-2501-4fd6-8f21-a2ad8b872f42",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "4f871f61-4b08-4d02-a158-9a295121396b_DeepSeek上市传闻核实及信息获取建议.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "f79b435f-8c03-45b8-89f6-04f637e7d140",
+      "section_id": "f7c2df14-444f-4c3e-a9bd-dca9d424f192",
+      "text": "4f871f61-4b08-4d02-a158-9a295121396b",
+      "locator": {
+        "kind": "json_path",
+        "path": "4f871f61-4b08-4d02-a158-9a295121396b_DeepSeek上市传闻核实及信息获取建议.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "f2be6023-5ef1-4276-97de-d191a6297011",
+      "section_id": "3fa2a9b3-7403-4b17-8b84-59f4fb2bf314",
+      "text": "DeepSeek上市传闻核实及信息获取建议",
+      "locator": {
+        "kind": "json_path",
+        "path": "4f871f61-4b08-4d02-a158-9a295121396b_DeepSeek上市传闻核实及信息获取建议.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "162a9621-98cf-4b95-931c-51470a6d573f",
+      "section_id": "0a8657dc-2501-4fd6-8f21-a2ad8b872f42",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "4f871f61-4b08-4d02-a158-9a295121396b_DeepSeek上市传闻核实及信息获取建议.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.015874"
+}

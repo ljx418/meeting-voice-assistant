@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "10c7b1f6b95ac4be",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/10/10c7b1f6b95ac4be.json",
+    "sha256": "cf0e8313d20ecb08e221a501723a2030f56aca235af51d62e5eb536bf121cb02",
+    "content_hash": "0e724850809892bfdf271c2c46585bd08190349ce237be33155e5bf0a68f76cb",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "005c69c4-8ff8-4f33-b404-bfecabfd273c",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "2c202b58-fe56-48f7-97b4-9b77e82cdea0",
+      "locator": {
+        "kind": "json_path",
+        "path": "2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "3b0e9638-dc72-4ade-b42d-bca6afe54da4",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "中国高层住宅宜居年限分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "d9fa7047-bae9-4b71-80fa-85c7edf6ae36",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "aea14267-7c49-4eac-90b2-ba1ac5fe57c7",
+      "section_id": "005c69c4-8ff8-4f33-b404-bfecabfd273c",
+      "text": "2c202b58-fe56-48f7-97b4-9b77e82cdea0",
+      "locator": {
+        "kind": "json_path",
+        "path": "2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "580e5a84-fc8a-4c3e-b88a-d64c5c08a7bf",
+      "section_id": "3b0e9638-dc72-4ade-b42d-bca6afe54da4",
+      "text": "中国高层住宅宜居年限分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 18
+    },
+    {
+      "passage_id": "3a52ca72-ffe9-47da-bf83-fabdf143116f",
+      "section_id": "d9fa7047-bae9-4b71-80fa-85c7edf6ae36",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.213006"
+}

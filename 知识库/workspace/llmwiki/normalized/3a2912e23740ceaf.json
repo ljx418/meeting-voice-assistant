@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "3a2912e23740ceaf",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/3a/3a2912e23740ceaf.json",
+    "sha256": "30015283c593fb418c04d2236a6e5ec8d0fc2b2baf1c732134bc0ce48d4ce175",
+    "content_hash": "dd5eae588b3fc35089b552681e4a214f491412bd13fad979650f8c30f1b406e2",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "da57562f-953e-40e6-9049-765b65e814ea",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "42a10a65-97d8-4566-bf61-87eab4e9f6d5",
+      "locator": {
+        "kind": "json_path",
+        "path": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "8f80d42d-5ae5-47a5-83b5-8fbb18e1a9c2",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "Bose耳机配对问题排查指南",
+      "locator": {
+        "kind": "json_path",
+        "path": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "8dde8cce-36b1-4749-a4cf-b27ff66e643d",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "f2f15b20-e14c-489d-a034-7e6abcc387b3",
+      "section_id": "da57562f-953e-40e6-9049-765b65e814ea",
+      "text": "42a10a65-97d8-4566-bf61-87eab4e9f6d5",
+      "locator": {
+        "kind": "json_path",
+        "path": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "be858c8d-01f3-4d4c-9db6-a51ac6c478fb",
+      "section_id": "8f80d42d-5ae5-47a5-83b5-8fbb18e1a9c2",
+      "text": "Bose耳机配对问题排查指南",
+      "locator": {
+        "kind": "json_path",
+        "path": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 17
+    },
+    {
+      "passage_id": "ffa9e039-281c-488a-a23b-36cdb835dde6",
+      "section_id": "8dde8cce-36b1-4749-a4cf-b27ff66e643d",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.735888"
+}

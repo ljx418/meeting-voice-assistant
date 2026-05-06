@@ -1,0 +1,46 @@
+<mxfile host="Electron" version="29.6.6">
+  <diagram id="three-framework-v2" name="Framework Integration V2">
+    <mxGraphModel dx="1200" dy="760" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="860" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="harnessOS 三框架贡献关系：V2.0 六大平面 + V3.0 DomainPack 2.0 方向" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="700" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="planes" value="V2.0 六大平面&#xa;&#xa;P1 Client / Gateway&#xa;P2 Protocol App Server&#xa;P3 Harness Core&#xa;P4 Runtime Adapter&#xa;P5 Domain Pack&#xa;P6 Connector / Tool / Store&#xa;&#xa;V3.0：DomainPack 2.0 / Typed DAG / Agent workflow platform" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=14;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="300" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="openharness" value="OpenHarness 贡献&#xa;&#xa;• 当前主 runtime 参考&#xa;• CLI / TUI 交互经验&#xa;• ToolRegistry / MCP / Hooks&#xa;• Permissions / command patterns&#xa;&#xa;落位：P2 / P3 / P4 / P6" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="440" y="90" width="310" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="deepagents" value="DeepAgents 贡献（future）&#xa;&#xa;• 可选执行内核&#xa;• SubAgent / specialist crew 参考&#xa;• Planning / memory / middleware 思路&#xa;&#xa;落位：P4 / P3 / P5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontSize=13;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="810" y="90" width="310" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="deerflow" value="DeerFlow 贡献（reference）&#xa;&#xa;• Workspace / Artifact / Job 参考&#xa;• Connector / Sandbox / external tool pattern&#xa;• Execution-plane 治理经验&#xa;&#xa;落位：P3 / P6" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="440" y="310" width="310" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="rule" value="统一规则&#xa;&#xa;• Core 不直接写业务逻辑&#xa;• Pack 不承载平台 Store / Job / Artifact 通用能力&#xa;• Runtime 只能通过 Adapter 暴露&#xa;• Connector / Tool / Store 是 P6 基础设施平面" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=13;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="810" y="310" width="310" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="v3_direction" value="V3.0 Extension Direction&#xa;&#xa;• DomainPack 2.0 assembly&#xa;• Knowledge-primary data_service_mcp contract&#xa;• Pack-owned agents / roles&#xa;• Typed DAG MVP&#xa;• Connector Stub -&gt; Execution Runtime" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#7C3AED;fontSize=13;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="60" y="530" width="1060" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" source="openharness" target="planes" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" source="deepagents" target="planes" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" source="deerflow" target="planes" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" source="rule" target="planes" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" source="v3_direction" target="planes" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#7C3AED;endArrow=block;endFill=1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

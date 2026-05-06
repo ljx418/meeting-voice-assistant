@@ -1,0 +1,37 @@
+{
+  "source_id": "a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "技术咨询",
+  "title_flags": [
+    "status_marker"
+  ],
+  "source_weight": 1.7546,
+  "source_density_score": 1.0423,
+  "llm_enriched": false,
+  "tags": [],
+  "units": [
+    {
+      "unit_id": "a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212:note:1",
+      "kind": "note",
+      "text": "技术咨询（废弃于20260212）",
+      "importance": 0.685276,
+      "confidence": 0.56,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "a05680c8-f5bd-44f6-a830-126cc7e084e2_技术咨询废弃于20260212:conclusion:1",
+      "kind": "conclusion",
+      "text": "技术咨询（废弃于20260212）",
+      "importance": 0.842822,
+      "confidence": 0.62,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

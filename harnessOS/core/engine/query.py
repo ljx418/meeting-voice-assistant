@@ -37,6 +37,9 @@ MAX_TRACKED_WORK_LOG = 10
 MAX_TRACKED_USER_GOALS = 5
 MAX_TRACKED_ACTIVE_ARTIFACTS = 8
 MAX_TRACKED_VERIFIED_WORK = 10
+DEFAULT_TOOL_RESULT_SPILL_THRESHOLD_CHARS = 24_000
+TOOL_RESULT_SPILL_HEAD_CHARS = 2_000
+TOOL_RESULT_SPILL_TAIL_CHARS = 2_000
 
 
 def _is_prompt_too_long_error(exc: Exception) -> bool:
@@ -438,6 +441,58 @@ def _record_tool_carryover(
         _remember_work_log(context.tool_metadata, entry="Exited plan mode")
 
 
+def _tool_result_spill_threshold(tool_metadata: dict[str, object] | None) -> int:
+    if tool_metadata is None:
+        return DEFAULT_TOOL_RESULT_SPILL_THRESHOLD_CHARS
+    value = tool_metadata.get("tool_result_spill_threshold_chars")
+    if isinstance(value, int) and value > 0:
+        return value
+    return DEFAULT_TOOL_RESULT_SPILL_THRESHOLD_CHARS
+
+
+def _spill_large_tool_result(
+    context: QueryContext,
+    *,
+    tool_name: str,
+    tool_use_id: str,
+    output: str,
+) -> tuple[str, dict[str, object] | None]:
+    threshold = _tool_result_spill_threshold(context.tool_metadata)
+    if len(output) <= threshold:
+        return output, None
+
+    spill_root = context.cwd / ".harnessos" / "tool-results"
+    safe_tool_name = re.sub(r"[^A-Za-z0-9_.-]+", "_", tool_name).strip("._") or "tool"
+    safe_tool_use_id = re.sub(r"[^A-Za-z0-9_.-]+", "_", tool_use_id).strip("._") or "result"
+    spill_path = spill_root / f"{safe_tool_name}-{safe_tool_use_id}.txt"
+    try:
+        spill_root.mkdir(parents=True, exist_ok=True)
+        spill_path.write_text(output, encoding="utf-8")
+    except OSError:
+        log.exception("failed to spill large tool result: tool=%s id=%s", tool_name, tool_use_id)
+        return output, None
+
+    head = output[:TOOL_RESULT_SPILL_HEAD_CHARS].rstrip()
+    tail = output[-TOOL_RESULT_SPILL_TAIL_CHARS:].lstrip()
+    omitted = max(0, len(output) - len(head) - len(tail))
+    summary = (
+        f"Tool result was too large and was written to a local file.\n"
+        f"Tool: {tool_name}\n"
+        f"Characters: {len(output)}\n"
+        f"Path: {spill_path}\n\n"
+        f"Preview (start):\n{head}\n\n"
+        f"[... {omitted} characters omitted; read the file above if full output is needed ...]\n\n"
+        f"Preview (end):\n{tail}"
+    )
+    metadata = {
+        "spilled": True,
+        "path": str(spill_path),
+        "characters": len(output),
+        "omitted_characters": omitted,
+    }
+    return summary, metadata
+
+
 async def run_query(
     context: QueryContext,
     messages: list[ConversationMessage],
@@ -688,18 +743,37 @@ async def _execute_tool_call(
     policy_evaluator = (context.tool_metadata or {}).get("policy_evaluator")
     if policy_evaluator is not None:
         approval_checker = (context.tool_metadata or {}).get("approval_checker")
+        approval_requester = (context.tool_metadata or {}).get("approval_requester")
+        default_approval_id = (context.tool_metadata or {}).get("approval_id")
         blocked, reason, decision = should_block_tool(
             tool_name=tool_name,
             tool_input=tool_input,
             policy_evaluator=policy_evaluator,
             approval_checker=approval_checker if callable(approval_checker) else None,
+            approval_requester=approval_requester if callable(approval_requester) else None,
+            default_approval_id=default_approval_id if isinstance(default_approval_id, str) else None,
+            binding_context={
+                "session_id": (context.tool_metadata or {}).get("session_id"),
+                "turn_id": (context.tool_metadata or {}).get("turn_id"),
+                "source_turn_id": (context.tool_metadata or {}).get("source_turn_id"),
+                "trace_id": (context.tool_metadata or {}).get("trace_id"),
+            },
         )
         if blocked:
             log.debug("tool policy blocked for %s: %s", tool_name, reason)
+            metadata = {"policy": decision}
+            approval = decision.get("approval")
+            retry_context = decision.get("retry_context")
+            if isinstance(approval, dict):
+                metadata["approval"] = approval
+                metadata["approval_id"] = approval.get("approval_id")
+            if isinstance(retry_context, dict):
+                metadata["retry_context"] = retry_context
             return ToolResultBlock(
                 tool_use_id=tool_use_id,
                 content=reason,
                 is_error=True,
+                metadata=metadata,
             )
 
     # Normalize common tool inputs before permission checks so path rules apply
@@ -761,17 +835,28 @@ async def _execute_tool_call(
     elapsed = time.monotonic() - t0
     log.debug("executed %s in %.2fs err=%s output_len=%d",
               tool_name, elapsed, result.is_error, len(result.output or ""))
+    original_output = result.output
+    materialized_output, spill_metadata = _spill_large_tool_result(
+        context,
+        tool_name=tool_name,
+        tool_use_id=tool_use_id,
+        output=original_output,
+    )
+    result_metadata = dict(result.metadata)
+    if spill_metadata is not None:
+        result_metadata["spilled_tool_result"] = spill_metadata
     tool_result = ToolResultBlock(
         tool_use_id=tool_use_id,
-        content=result.output,
+        content=materialized_output,
         is_error=result.is_error,
+        metadata=result_metadata,
     )
     _record_tool_carryover(
         context,
         tool_name=tool_name,
         tool_input=tool_input,
-        tool_output=tool_result.content,
-        tool_result_metadata=result.metadata,
+        tool_output=original_output,
+        tool_result_metadata=result_metadata,
         is_error=tool_result.is_error,
         resolved_file_path=_file_path,
     )

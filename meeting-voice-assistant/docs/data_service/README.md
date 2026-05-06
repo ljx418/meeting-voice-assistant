@@ -13,6 +13,9 @@
 - [当前架构图](./diagrams/01_current_architecture.drawio)
 - [目标架构图](./diagrams/02_target_architecture.drawio)
 6. [开发计划](./2026-04-26-data-service-execution-roadmap.md)
+7. [MCP 外部 Agent 调用说明](./MCP-EXTERNAL-AGENT-GUIDE.md)
+8. [GraphRAG 图谱质量面板阶段报告](./GRAPHRAG-GRAPH-QUALITY-PANEL-REPORT-2026-05-06.md)
+9. [个人知识库管理产品 Gap 文档](./PERSONAL-KNOWLEDGE-PRODUCT-GAP-2026-05-06.md)
 
 ## 历史文档
 

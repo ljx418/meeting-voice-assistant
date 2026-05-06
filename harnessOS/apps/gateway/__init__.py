@@ -10,8 +10,19 @@ warnings.filterwarnings(
 )
 
 from apps.gateway.protocol import GatewayEvent, RpcError, RpcRequest, RpcResponse, TurnResult
-from apps.gateway.runtime import GatewayRuntimePool
-from apps.gateway.service import GatewayService
+
+
+def __getattr__(name: str):
+    """Lazily expose heavy gateway classes without import-time cycles."""
+    if name == "GatewayRuntimePool":
+        from apps.gateway.runtime import GatewayRuntimePool
+
+        return GatewayRuntimePool
+    if name == "GatewayService":
+        from apps.gateway.service import GatewayService
+
+        return GatewayService
+    raise AttributeError(name)
 
 __all__ = [
     "GatewayEvent",

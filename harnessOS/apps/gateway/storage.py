@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional, Union
 
 from apps.gateway.persistence import append_text_locked, atomic_write_text, file_lock, read_json_locked
 from apps.gateway.protocol import GatewayEvent
 from apps.gateway.secrets import mask_value
+
+_SESSION_ID_RE = re.compile(r"^[A-Za-z0-9_.:-]{1,128}$")
 
 
 class GatewaySessionStore:
@@ -33,12 +36,15 @@ class GatewaySessionStore:
         payload = {
             "session_id": session.session_id,
             "model": session.model,
+            "app_id": getattr(session, "app_id", "default"),
+            "project_id": getattr(session, "project_id", None),
+            "workspace_id": getattr(session, "workspace_id", None),
             "state": session.state,
             "backend": getattr(session, "backend", "simple"),
             "interrupted": bool(getattr(session, "interrupted", False)),
             "created_at": session.created_at.isoformat(),
             "last_active_at": session.last_active_at.isoformat(),
-            "agent_messages": agent_messages,
+            "agent_messages": mask_value(agent_messages),
         }
         atomic_write_text(path, json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
 
@@ -143,7 +149,12 @@ class GatewaySessionStore:
         return transcript
 
     def _session_dir(self, session_id: str) -> Path:
-        return self.root / session_id
+        if not _SESSION_ID_RE.fullmatch(str(session_id)):
+            raise ValueError(f"Invalid session_id: {session_id}")
+        path = (self.root / str(session_id)).resolve()
+        if path != self.root and self.root not in path.parents:
+            raise ValueError(f"Invalid session path for session_id: {session_id}")
+        return path
 
 
 def _read_text_locked(path: Path) -> str:

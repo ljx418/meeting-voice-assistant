@@ -1,0 +1,8 @@
+{
+  "execution_owner": "data_service",
+  "status": "indexed",
+  "contract_version": "1.0",
+  "workspace": "/Users/Zhuanz/Desktop/workspace/知识库/workspace",
+  "request_path": null,
+  "state_db": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/graphrag/state/graphrag.db"
+}

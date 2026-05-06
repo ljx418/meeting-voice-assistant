@@ -1,0 +1,712 @@
+{
+  "id": "d117124d-1130-4e49-8ef0-389800bfa869",
+  "title": "成都武汉预期寿命数据对比",
+  "inserted_at": "2025-08-01T12:13:45.228000+08:00",
+  "updated_at": "2025-08-01T12:14:15.028000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-08-01T12:13:45.925000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "成都和武汉的预期寿命"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-08-01T12:13:45.928000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "http://news.chengdu.cn/2022/0520/2264049.shtml",
+                "title": "《成都“十四五”卫生健康发展规划》出炉 到2025年人均预期寿命提高至82.42岁",
+                "snippet": "▲制图 李开红  近日，成都市卫健委发布《成都市“十四五”卫生健康发展规划》。该规划提出，到2025年，卫生健康体系更加完善，公共卫生保障能力显著增强，中医药独特优势和作用进一步发挥，健康科技创新能力明显提升，城乡居民享有优质高效的基本医疗卫生服务，健康产业规模和质量跃升，健康素养水平持续提高，健康环境大幅改善，主要健康指标达到国内一流水平，基本建成西部医学中心。  八大目标  突发重大传染病有效",
+                "cite_index": 1,
+                "published_at": 1653004800.0,
+                "site_name": "红星新闻网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chengdu.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.sohu.com/a/859780355_121106908",
+                "title": "最新发布：2024年武汉人均期望寿命达历史最高水平！_全市_建设_工作",
+                "snippet": "发布于：北京市  2月13日，2025年全市卫生健康工作会议举行，总结去年工作成绩并对今年重点工作任务进行部署。  会议发布的最新数据显示，2024年，我市孕产妇死亡率、婴儿死亡率分别下降到4.79/10万、千分之1.03， 人均期望寿命超过83岁，达历史最高水平；全市居民健康素养水平提升2.92个百分点，达到41.71%；全市健康服务领域产业规模达到1030亿元。  2025年，我市将围绕建设健",
+                "cite_index": 2,
+                "published_at": 1739664000.0,
+                "site_name": "搜狐",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sohu.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://baijiahao.baidu.com/s?id=1733259723598708460",
+                "title": "成都“十四五”卫生健康发展规划：到2025年，人均预期寿命达到82.42岁",
+                "snippet": "近日，成都市卫健委发布《成都市“十四五”卫生健康发展规划》。  该规划提出，到2035年，全市卫生健康实力大幅跃升，卫生健康发展再上新的大台阶。卫生健康体系基本实现现代化，公共卫生服务能力和医疗服务质量、医学教育达到国际一流，中医药实现振兴发展，健康服务业繁荣发展，健康科技创新实力跻身全国前列，健康文明生活方式全面普及，人均预期寿命达到83岁以上。主要健康指标达到高收入国家平均水平，健康公平基本实",
+                "cite_index": 3,
+                "published_at": 1652918400.0,
+                "site_name": "百家号",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.sohu.com/a/859448072_121106908",
+                "title": "武汉最新公布：免费_服务年_建设_筛查",
+                "snippet": "发布于：北京市  2月13日，武汉市召开2025年全市卫生健康工作会议。会上获悉，2024年，武汉市孕产妇死亡率、婴儿死亡率实现双降，人均期望寿命达到历史最高水平。  2025年，武汉市将围绕健康城市建设样板市、公共卫生安全标杆市、国际医疗创新高地、特色中医名城、老年友好及生育友好城市“五个城市”总体目标，为加快建成中部地区崛起重要战略支点和重塑新时代武汉之“重”打牢坚实健康根基。  国民体质监测",
+                "cite_index": 4,
+                "published_at": 1739577600.0,
+                "site_name": "搜狐",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sohu.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.thepaper.cn/newsDetail_forward_18172296",
+                "title": "事关看病就医！成都最新规划来了_澎湃号·媒体_澎湃新闻-The Paper",
+                "snippet": "2022-05-19 20:26  来源：澎湃新闻·澎湃号·媒体  字号  近日，《成都市“十四五”卫生健康发展规划》（以下简称《规划》）发布，提出到2025年，卫生健康体系更加完善，公共卫生保障能力显著增强，中医药独特优势和作用进一步发挥，健康科技创新能力明显提升，城乡居民享有优质高效的基本医疗卫生服务，健康产业规模和质量跃升，健康素养水平持续提高，健康环境大幅改善，主要健康指标达到国内一流水平",
+                "cite_index": 5,
+                "published_at": 1652918400.0,
+                "site_name": "澎湃新闻",
+                "site_icon": "https://cdn.deepseek.com/site-icons/thepaper.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.thepaper.cn/newsDetail_forward_30156029",
+                "title": "武汉最新公布：免费",
+                "snippet": "2025-02-14 09:36  湖北  来源：澎湃新闻·澎湃号·政务  字号  2月13日，武汉市召开2025年全市卫生健康工作会议。会上获悉，2024年，武汉市孕产妇死亡率、婴儿死亡率实现双降，人均期望寿命达到历史最高水平。  2025年，武汉市将围绕健康城市建设样板市、公共卫生安全标杆市、国际医疗创新高地、特色中医名城、老年友好及生育友好城市“五个城市”总体目标，为加快建成中部地区崛起重要",
+                "cite_index": 6,
+                "published_at": 1739491200.0,
+                "site_name": "澎湃新闻",
+                "site_icon": "https://cdn.deepseek.com/site-icons/thepaper.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.360doc.cn/article/74104211_1032986591.html",
+                "title": "事关看病就医！成都最新规划来了",
+                "snippet": "近日，《成都市“十四五”卫生健康发展规划》（以下简称《规划》）发布，提出到2025年，卫生健康体系更加完善，公共卫生保障能力显著增强，中医药独特优势和作用进一步发挥，健康科技创新能力明显提升，城乡居民享有优质高效的基本医疗卫生服务，健康产业规模和质量跃升，健康素养水平持续提高，健康环境大幅改善，主要健康指标达到国内一流水平，基本建成西部医学中心。（点击「链接」查看全文）  到2025年，  人均预",
+                "cite_index": 7,
+                "published_at": 1653350400.0,
+                "site_name": "360doc",
+                "site_icon": "https://cdn.deepseek.com/site-icons/360doc.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.sohu.com/a/859780385_121956423",
+                "title": "武汉人均寿命破83岁！你知道背后有哪些健康秘密吗？_生活_未来的_居民",
+                "snippet": "你有没有想过，随着时间的推移，我们的健康状况会有什么样的变化？近年来，武汉作为一座现代化的城市，不断传来有关居民健康水平提升的好消息。2024年，武汉的人均期望寿命已达到历史新高，超过了83岁，这到底意味着什么？这不仅是一串数字，更是每个人健康生活的缩影。  根据2025年全市卫生健康工作会议的数据，武汉的孕产妇死亡率和婴儿死亡率分别降低到4.79/10万和0.103%。这些令人欣慰的数字背后，体",
+                "cite_index": 8,
+                "published_at": 1739664000.0,
+                "site_name": "搜狐",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sohu.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.waizi.org.cn/rule/47446.html",
+                "title": "成办函〔2018〕23号《成都市人民政府办公厅关于慢性病防治工作的实施意见》",
+                "snippet": "《成都市人民政府办公厅关于慢性病防治工作的实施意见》 成办函〔2018〕23号  各区（市）县政府，市政府各部门，有关单位： 为贯彻落实国务院办公厅《关于印发中国防治慢性病中长期规划（2017－2025年）的通知》（国办发〔2017〕12号）和省政府办公厅《关于印发四川省防治慢性病中长期规划（2017－2025年）的通知》（川办发〔2017〕60号）精神，结合我市实际，现就推进慢性病综合防治工作，",
+                "cite_index": 9,
+                "published_at": 1542153600.0,
+                "site_name": "郑州外资企业服务中心",
+                "site_icon": "https://cdn.deepseek.com/site-icons/waizi.org.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://news.cnhubei.com/content/2025-02/13/content_18942811.html",
+                "title": "武汉发布2025健康“任务单” 将在3个区实施幼儿园近视群体防控试点",
+                "snippet": "湖北日报全媒记者 余瑾毅 通讯员 杜谨宇  2月13日，武汉市召开2025年全市卫生健康工作会议。会上获悉，2024年，武汉市孕产妇死亡率、婴儿死亡率实现双降，人均期望寿命达到历史最高水平。  2025年，武汉市将围绕健康城市建设样板市、公共卫生安全标杆市、国际医疗创新高地、特色中医名城、老年友好及生育友好城市“五个城市”总体目标，为加快建成中部地区崛起重要战略支点和重塑新时代武汉之“重”打牢坚实",
+                "cite_index": 10,
+                "published_at": 1739404800.0,
+                "site_name": "荆楚网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cnhubei.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://scjjzx.hrnewspaper.com/jjzx/health/2018-04-12/32950.html",
+                "title": "成都人均期望寿命将超八十一岁 -四川经济在线",
+                "snippet": "【 http://www.jrtzb.com.cn/ 】 【2018-04-12 18:22:38】 【来源：成都晚报】  健康是公民的基本权利，实现健康长寿是广大人民群众追求美好生活的共同愿望。成都晚报记者昨日获悉，市委、市政府印发的《“健康成都2030”规划纲要》已在市政府网站上全文公布。根据该规划纲要，成都人均期望寿命将从2016年的79.33岁，提升至2020年的81.61岁、2025年的",
+                "cite_index": null,
+                "published_at": 1523491200.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hrnewspaper.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.guozaoke.com/t/37217",
+                "title": "武汉人均期望寿命：83.5岁！",
+                "snippet": "今天，武汉市召开卫生与健康工作会议，宣布建设“健康武汉2035”全面启航！  根据《“健康武汉2035”规划》目标，要求到2030年，武汉人均期望寿命将实现为83岁，2035年将实现为83.5岁，达到发达国家水平。  人均期望寿命是联合国人类发展指数三大核心指标之一，反映了一个国家或城市的整体健康水平，每0.5岁、1岁的增长都依赖于社会的全面进步。  2017年武汉人均期望寿命为81.09岁，接近",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "Guozaoke",
+                "site_icon": "https://cdn.deepseek.com/site-icons/guozaoke.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://baijiahao.baidu.com/s?id=1597516241194126526",
+                "title": "到2020年 成都人均期望寿命超81岁",
+                "snippet": "健康是公民的基本权利，实现健康长寿是广大人民群众追求美好生活的共同愿望。成都晚报记者昨日获悉，市委、市政府印发的《“健康成都2030”规划纲要》已在市政府网站上全文公布。根据该规划纲要，成都人均期望寿命将从2016年的79.33岁，提升至2020年的81.61岁、2025年的82.42岁，2030年则高于82.42岁；在空港新城、淮州新城、简州新城、简阳新城规划新建三级甲等医院及高端合资医疗机构；",
+                "cite_index": null,
+                "published_at": 1523491200.0,
+                "site_name": "百家号",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://wap.reportway.org/hangyexinwen/2910201821555.html",
+                "title": "《“健康武汉2035”规划》：武汉全面推进健康城市建设拉开序幕",
+                "snippet": "|  到2035年，武汉人均期望寿命将达到83.5岁，人人拥有“15分钟健身圈”，主要食品安全抽查99%合格……随着《“健康武汉2035”规划》（下称“规划”）的发布，武汉全面推进健康城市建设拉开序幕。   到2035年，武汉人均期望寿命将达到83.5岁，人人拥有“15分钟健身圈”，主要食品安全抽查99%合格……随着《“健康武汉2035”规划》（下称“规划”）的发布，武汉全面推进健康城市建设拉开序",
+                "cite_index": null,
+                "published_at": 1540771200.0,
+                "site_name": "Reportway",
+                "site_icon": "https://cdn.deepseek.com/site-icons/reportway.org",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://sc.sina.com.cn/news/m/2022-01-25/detail-ikyakumy2416257.shtml",
+                "title": "四川出台“十四五”卫生健康发展规划 到2025年人均预期寿命达78.2岁",
+                "snippet": "2022-01-25 08:19四川日报评论（人参与）  四川大学华西天府医院。（四川大学华西天府医院宣传部供图）  到2025年，全省居民健康生活方式基本普及，健康素养水平持续提升，人均预期寿命达到78.2岁，孕产妇死亡率下降到14.5/10万以下，婴儿死亡率下降到5.2‰以下，5岁以下儿童死亡率下降到6.6‰以下……  不久前，省政府办公厅印发《四川省“十四五”卫生健康发展规划》（以下简称《规",
+                "cite_index": null,
+                "published_at": 1643068800.0,
+                "site_name": "新浪四川",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sina.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://m.wxphoto.com/xzwh/w1/47xxd4x.html",
+                "title": "2030年人类寿命",
+                "snippet": "## 人均期望寿命  人均期望寿命可以反映出一个社会生活质量的高低。  寿命的长短受两方面的制约。一方面，社会经济条件、卫生医疗水平限制着人们的寿命。所以不同的社会，不同的时期，人类寿命的长短有着很大的差别；另一方面，由于体质、遗传因素、生活条件等个人差异，也使每个人的寿命长短相差悬殊。  因此，虽然难以预测具体某个人的寿命有多长，但可以通过科学的方法计算并告知在一定的死亡水平下，预期每个人出生时",
+                "cite_index": null,
+                "published_at": 1673395200.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/wxphoto.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.163.com/dy/article/CIFSTDC405149O61.html",
+                "title": "四川规划慢性病防治 2025年人均期望寿命达78.2岁_手机网易网",
+                "snippet": "四川发布客户端消息 近年来，我省慢性病发病人数快速增加，其导致的死亡占到我省总死亡数的88%。今日，四川发布客户端记者从省卫计委获悉，为遏制我省慢性病快速上升势头，推进健康四川建设，四川制定《四川省慢性病防治中长期规划（2017-2025年）》（以下简称《规划》），部署做好未来几年慢性病防治工作。目前《规划》正面向社会公开征求意见。  形势严峻  慢性病死亡占我省总死亡数的88%  慢性病主要包括",
+                "cite_index": null,
+                "published_at": 1492732800.0,
+                "site_name": "手机网易网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/163.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://news.cjn.cn/sywh/201810/t3296921.htm",
+                "title": "2035年，武汉人均期望寿命将达83.5岁",
+                "snippet": "长江日报融媒体中心10月26日讯（记者罗岚 通讯员陈莉）到2035年，武汉人均期望寿命将实现为83.5岁、人人拥有“15分钟健身圈”、主要食品安全抽查99%合格……《“健康武汉2035”规划》（简称《规划》）为武汉市民描绘了一幅美好且实在的健康城市图景。26日，武汉市召开卫生与健康工作会议，宣布建设“健康武汉2035”全面启航。  根据《规划》目标，要求到2030年，武汉人均期望寿命将实现为83岁",
+                "cite_index": null,
+                "published_at": 1540512000.0,
+                "site_name": "长江网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cjn.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://paper.dzjkb.org.cn/article/4726/8079.html",
+                "title": "2025年 力争人均期望寿命达78.2岁- -记者 白华宇-大众健康报数字报-",
+                "snippet": "记者 白华宇  本报讯 记者从省政府网站获悉，近日，四川省人民政府办公厅印发了《四川省“十四五”医疗卫生服务体系规划》（以下简称《规划》）。《规划》提出，我省将力争在2025年基本建成与我省经济社会发展水平相适应、与居民健康需求相匹配的体系完整、布局合理、分工明确、功能互补、密切协作、运行高效、富有韧性的优质高效整合型医疗卫生服务体系，实现强大的公共卫生体系基本建成、优质均衡的医疗服务体系加快建设",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "Dzjkb",
+                "site_icon": "https://cdn.deepseek.com/site-icons/dzjkb.org.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.yzrb.com/yzrb2/pc/content/202201/11/content_131032.html",
+                "title": "2025年人均预期寿命78.3岁",
+                "snippet": "专业化养老服务机构进社区家庭，企业职工基本养老保险全国统筹  10日发布的《“十四五”公共服务规划》明确，到2025年，公共服务制度体系更加完善，政府保障基本、社会多元参与、全民共建共享的公共服务供给格局基本形成，民生福祉达到新水平。  互联网医疗服务纳入医保支付范围  这份由国家发展改革委等21个部门印发的《规划》明确了“十四五”社会发展与公共服务主要指标——到2025年，每千人口拥有3岁以下婴",
+                "cite_index": null,
+                "published_at": 1641859200.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/yzrb.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://baijiahao.baidu.com/s?id=1722295906660890948",
+                "title": "到2025年 四川人均预期寿命达到78.2岁",
+                "snippet": "封面新闻记者 周家夷  近日，省政府办公厅印发《四川省“十四五”卫生健康发展规划》（以下简称《规划》），明确了未来5年的目标和任务。《规划》提出，到2025年，全省居民健康生活方式基本普及，健康素养水平持续提升，人均预期寿命达到78.2岁。公共卫生临床救治体系全面建成，健康服务能力实现新提升，县域内人人享有均等化的基本医疗卫生服务。  为了让广大网友深入了解《规划》的有关内容，1月18日，四川省人",
+                "cite_index": null,
+                "published_at": 1642464000.0,
+                "site_name": "百家号",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://stock.stockstar.com/IG2022052000003426.shtml",
+                "title": "国办：到2025年人均预期寿命在2020年基础上提高1岁",
+                "snippet": "（原标题：国办：到2025年人均预期寿命在2020年基础上提高1岁）  财联社5月20日讯，国务院办公厅印发《“十四五”国民健康规划》。规划提出，到2025年，卫生健康体系更加完善，中国特色基本医疗卫生制度逐步健全，重大疫情和突发公共卫生事件防控应对能力显著提升，中医药独特优势进一步发挥，健康科技创新能力明显增强，人均预期寿命在2020年基础上继续提高1岁左右，人均健康预期寿命同比例提高。展望20",
+                "cite_index": null,
+                "published_at": 1653004800.0,
+                "site_name": "证券之星",
+                "site_icon": "https://cdn.deepseek.com/site-icons/stockstar.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://epaper.scdaily.cn/shtml/scrb/20220125/268623.shtml",
+                "title": "到 2025 年人均预期寿命达 78.2 岁",
+                "snippet": "- 四川大学华西天府医院。 （四川大学华西天府医院宣传部供图） 到2025年，全省居民健康生活方式基本普及，健康素养水平持续提升，人均预期寿命达到78.2岁，孕产妇死亡率下降到14.5/10万以下，婴儿死亡率下降到5.2‰以下，5岁以下儿童死亡率下降到6.6‰以下……  不久前，省政府办公厅印发《四川省“十四五”卫生健康发展规划》（以下简称《规划》）,为推动四川经济社会高质量发展奠定坚实的健康基础",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "Scdaily",
+                "site_icon": "https://cdn.deepseek.com/site-icons/scdaily.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://qwfb.chinareports.org.cn/qwfb/news/6952.html",
+                "title": "湖北武汉推进健康城市建设 2035年人均期望寿命将达83.5岁 -权威发布- 中国报道网-中国报道杂志唯一官方网站",
+                "snippet": "新华社武汉10月28日电(记者廖君、黎昌政)到2035年，湖北省武汉人均期望寿命将达到83.5岁，人人拥有“15分钟健身圈”，主要食品安全抽查99%合格……26日，武汉发布《“健康武汉2035”规划》，全面推进健康城市建设。  人均期望寿命是联合国人类发展指数三大核心指标之一，反映了一个国家或城市的整体健康水平，其增长依赖于社会的全面进步。2017年武汉人均期望寿命为81.09岁。根据规划，到20",
+                "cite_index": null,
+                "published_at": 1540771200.0,
+                "site_name": "中国报道网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chinareports.org.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://scjjzx.hrnewspaper.com/jjzx/health/2022-02-08/64389.html",
+                "title": "四川省出台十四五卫生健康发展规划 -四川经济在线",
+                "snippet": "【 http://www.hrnewspaper.com/ 】 【2022-02-08 11:11:09】 【来源：四川在线】  到2025年，全省居民健康生活方式基本普及，健康素养水平持续提升，人均预期寿命达到78.2岁，孕产妇死亡率下降到14.5/10万以下，婴儿死亡率下降到5.2‰以下，5岁以下儿童死亡率下降到6.6‰以下……  不久前，省政府办公厅印发《四川省“十四五”卫生健康发展规划》(",
+                "cite_index": null,
+                "published_at": 1644278400.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hrnewspaper.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.yanglegu.com/kuaixun/jrtt/173275.html",
+                "title": "武汉女性平均寿命超过81岁 比男性要高出5岁 - 今日头条 - 养乐谷",
+                "snippet": "小 中 大 字号：   #### 用手机扫描二维码 在手机上继续观看  记者从市妇联获悉，一份最新的武汉妇女儿童发展状况白皮书新鲜出炉。过去5年，武汉女性平均寿命达到81.22岁，比男性高5岁、比5年前提高3.62岁。  女性平均预期寿命81.22岁  “白皮书”中很引人注意的一点是：五年来，妇女平均预期寿命达到81.22岁，比男性高5岁，比“十五”时期提高3.6岁。  在健康方面，妇女病普查率为",
+                "cite_index": null,
+                "published_at": 1749945600.0,
+                "site_name": "Yanglegu",
+                "site_icon": "https://cdn.deepseek.com/site-icons/yanglegu.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.dzrbs.com/dzrbspage/dzwb/html/202201/26/content_62996.html",
+                "title": "我省出台“十四五”卫生健康发展规划",
+                "snippet": "### 到2025年人均预期寿命达78.2岁  版次：01 作者：2022年01月26日  到2025年，全省居民健康生活方式基本普及，健康素养水平持续提升，人均预期寿命达到78.2岁，孕产妇死亡率下降到14.5/10万以下，婴儿死亡率下降到5.2‰以下，5岁以下儿童死亡率下降到6.6‰以下……  日前，省政府办公厅印发《四川省“十四五”卫生健康发展规划》（以下简称《规划》）,为推动四川经济社会高",
+                "cite_index": null,
+                "published_at": 1643155200.0,
+                "site_name": "达州日报网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/dzrbs.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cjbd.com.cn/APPdtxw/2442562.html",
+                "title": "到2035年，人均预期寿命达到80岁以上！-媒体聚焦-长江巴东网",
+                "snippet": "## 字体大小: 小 中 大  事关你我  《“十四五”国民健康规划》来了！  ☟☟☟  到2025年，人均预期寿命在2020年基础上继续提高1岁左右  到2035，人均预期寿命达到80岁以上，人均健康预期寿命逐步提高  推进“三高”（高血压、高血糖、高血脂）共管  高血压、Ⅱ型糖尿病患者基层规范管理服务率达到65%以上  将肺功能检查纳入40岁以上人群常规体检  加强口腔健康工作，12岁儿童龋患",
+                "cite_index": null,
+                "published_at": 1653091200.0,
+                "site_name": "长江巴东网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cjbd.com.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://scdfz.sc.gov.cn/gzdt/zyhy/content_83292",
+                "title": "《四川省“十四五”卫生健康发展规划》提出，2025年全省人均预期寿命要达到78.2岁",
+                "snippet": "四川在线记者 石小宏  近日，省政府办公厅印发《四川省“十四五”卫生健康发展规划》（以下简称《规划》），明确了未来5年的目标和任务。1月18日，省卫健委党组成员、副主任赵汝鹏做客省政府网站，解读《规划》并与广大网友进行互交流。  编制实施《规划》，助推治蜀兴川再上新台阶  赵汝鹏说，“十四五”时期，我省城镇化、人口老龄化进程加速，医疗卫生资源供需矛盾将更加突出，新冠肺炎等新发传染病对公共卫生安全造",
+                "cite_index": null,
+                "published_at": 1642550400.0,
+                "site_name": "Sc",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sc.gov.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://moment.rednet.cn/content/2022/05/21/11296611.html",
+                "title": "重磅文件公布！中国人均预期寿命将超80岁",
+                "snippet": "红网时刻  2022-05-21 08:04:53  字号：小中大  中新网北京5月20日电 20日，国务院办公厅印发的《“十四五”国民健康规划》全文公布，文件提出，到2025年，中国的人均预期寿命在2020年基础上继续提高1岁左右，展望2035年，人均预期寿命达到80岁以上。此外，涉及民众看病就医用药，以及医疗事业、健康产业的一系列重要举措也随之公布。  这些数字要知道  ——2035年中国人均",
+                "cite_index": null,
+                "published_at": 1653091200.0,
+                "site_name": "红网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/rednet.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://scdfz.sc.gov.cn/gzdt/zyhy/content_76815",
+                "title": "到2025年,我省人均预期寿命要达78.2岁 四川省出台“十四五”卫生健康发展规划",
+                "snippet": "四川在线记者 石小宏  到2025年，全省居民健康生活方式基本普及,健康素养水平持续提升,人均预期寿命达到 78.2 岁。公共卫生临床救治体系全面建成，健康服务能力实现新提升，县域内人人享有均等化的基本医疗卫生服务……。近日，省政府办公厅印发《四川省“十四五”卫生健康发展规划》，加快健康四川建设，为推动四川经济社会高质量发展奠定坚实的健康基础。  加快构建现代化卫生健康体系  “规划”提出，加强党",
+                "cite_index": null,
+                "published_at": 1637280000.0,
+                "site_name": "Sc",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sc.gov.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.china.com/domesticgd/10000159/20181028/34284683.html",
+                "title": "武汉推进健康城市建设 ２０３５年人均期望寿命将达８３．５岁",
+                "snippet": "小 大 2018-10-28 10:21:01 新华网 参与评论()人  用微信扫描二维码 分享至好友和朋友圈  扫描到手机×  新华社武汉１０月２８日电（记者廖君、黎昌政）到２０３５年，武汉人均期望寿命将达到８３．５岁，人人拥有“１５分钟健身圈”，主要食品安全抽查９９％合格……２６日，武汉发布《“健康武汉２０３５”规划》，全面推进健康城市建设。  人均期望寿命是联合国人类发展指数三大核心指标之一",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "中华网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/china.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.engtis.com/zixun/jiaoliu/29257.html",
+                "title": "四川出台防治慢病规划",
+                "snippet": "近日，四川省政府印发《四川省防治慢性病中长期规划（2017～2025年）》，提出到2025年，慢性病危险因素水平得到有效控制，实现全人群全生命周期的健康管理，力争30岁～70岁人群因心脑血管疾病、癌症、慢性呼吸系统疾病和糖尿病的过早死亡率较2015年降低20%，人均期望寿命达到78.2岁，有效控制慢性病负担增长。  近日，四川省政府印发《四川省防治慢性病中长期规划(2017～2025年)》，提出到",
+                "cite_index": null,
+                "published_at": 1499904000.0,
+                "site_name": "Engtis",
+                "site_icon": "https://cdn.deepseek.com/site-icons/engtis.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.ciudsrc.com/new_xinwen/yaowen/2018-10-29/135562.html",
+                "title": "城市化网——城镇化门户网站",
+                "snippet": "以传播城市化专业知识为己任  2025年07月25日  星期五  设为首页 | 加入收藏  搜索  武汉推进健康城市建设 2035年人均期望寿命将达83.5岁  时间：2018-10-29 09:51:05 来源：新华网 作者：廖君、黎昌政  到2035年，武汉人均期望寿命将达到83.5岁，人人拥有“15分钟健身圈”，主要食品安全抽查99%合格……26日，武汉发布《“健康武汉2035”规划》，全面",
+                "cite_index": null,
+                "published_at": 1540771200.0,
+                "site_name": "Ciudsrc",
+                "site_icon": "https://cdn.deepseek.com/site-icons/ciudsrc.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://sc.people.com.cn/BIG5/n2/2025/0419/c379470-41201446.html",
+                "title": "四川人均預期壽命78.8歲 成都發布三大門診資源地圖",
+                "snippet": "2025年04月19日06:06 | 來源：川觀新聞  小字號  原標題：四川人均預期壽命78.8歲 成都發布三大門診資源地圖  4月18日，四川省暨成都市第37個愛國衛生月健康促進公益義診活動在省第四人民醫院沙河院區舉辦。  活動現場，省衛生健康委發布系列數據，2024年全省居民健康素養水平達到30.3%，同比增長2.6%，人均預期壽命達到78.8歲，同比提升0.3歲，孕產婦和嬰兒死亡率分別連續",
+                "cite_index": null,
+                "published_at": 1745020800.0,
+                "site_name": "People",
+                "site_icon": "https://cdn.deepseek.com/site-icons/people.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://news.enorth.com.cn/system/2022/05/21/052683129.shtml",
+                "title": "重磅文件公布！中国人均预期寿命将超过80岁-新闻中心-北方网",
+                "snippet": "内容提要：20日，国务院办公厅印发的《“十四五”国民健康规划》全文公布，文件提出，到2025年，中国的人均预期寿命在2020年基础上继续提高1岁左右，展望2035年，人均预期寿命达到80岁以上。  20日，国务院办公厅印发的《“十四五”国民健康规划》全文公布，文件提出，到2025年，中国的人均预期寿命在2020年基础上继续提高1岁左右，展望2035年，人均预期寿命达到80岁以上。此外，涉及民众看病",
+                "cite_index": null,
+                "published_at": 1653091200.0,
+                "site_name": "北方网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/enorth.com.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://scnongye.scol.com.cn/web/detail.aspx?id=58763",
+                "title": "四川农网",
+                "snippet": "2025年,四川人均预期寿命要达78.2岁  发布时间：2021/11/19 11:18:00 来源：四川在线 编辑：傅晓蕾  到2025年,我省人均预期寿命要达78.2岁 四川省出台“十四五”卫生健康发展规划  石小宏  到2025年，全省居民健康生活方式基本普及,健康素养水平持续提升,人均预期寿命达到 78.2 岁。公共卫生临床救治体系全面建成，健康服务能力实现新提升，县域内人人享有均等化的基",
+                "cite_index": null,
+                "published_at": 1637280000.0,
+                "site_name": "四川在线",
+                "site_icon": "https://cdn.deepseek.com/site-icons/scol.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.ysbks.com/zh-mo/ysjd/jrtt/173956.html",
+                "title": "武漢女性平均壽命超過81歲 比男性要高出5歲",
+                "snippet": "小 中 大 字號：   #### 用手機掃描二維碼 在手機上繼續觀看  記者從市婦聯獲悉，一份最新的武漢婦女兒童發展狀況白皮書新鮮出爐。過去5年，武漢女性平均壽命達到81.22歲，比男性高5歲、比5年前提高3.62歲。  女性平均預期壽命81.22歲  “白皮書”中很引人注意的一點是：五年來，婦女平均預期壽命達到81.22歲，比男性高5歲，比“十五”時期提高3.6歲。  在健康方面，婦女病普查率為",
+                "cite_index": null,
+                "published_at": 1745280000.0,
+                "site_name": "養生百科書",
+                "site_icon": "https://cdn.deepseek.com/site-icons/ysbks.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://sc.people.com.cn/BIG5/n2/2021/1119/c345167-35012248.html",
+                "title": "四川出台“十四五”衛生健康發展規劃 到2025年全省人均預期壽命要達78.2歲",
+                "snippet": "2021年11月19日08:10 | 來源：川觀新聞  小字號  原標題：四川出台“十四五”衛生健康發展規劃 到2025年全省人均預期壽命要達78.2歲  到2025年，全省居民健康生活方式基本普及，健康素養水平持續提升，人均預期壽命達到78.2歲。公共衛生臨床救治體系全面建成，健康服務能力實現新提升，縣域內人人享有均等化的基本醫療衛生服務……近日，省政府辦公廳印發《四川省“十四五”衛生健康發展規",
+                "cite_index": null,
+                "published_at": 1637280000.0,
+                "site_name": "People",
+                "site_icon": "https://cdn.deepseek.com/site-icons/people.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://m.qdxin.cn/detail/264728.html",
+                "title": "多部门印发规划：2025年人均预期寿命达78.3岁",
+                "snippet": "###### 2022/01/10 14:22  阅读:  原标题：《“十四五”公共服务规划》：2025年人均预期寿命78.3岁  据国家发展改革委网站消息，近日，国家发展改革委、中央宣传部、教育部等21部门联合印发《“十四五”公共服务规划》(以下简称《规划》)。“十四五”社会发展与公共服务主要指标显示，到2025年，学前教育毛入园率达90%以上，九年义务教育巩固率达96%，人均预期寿命78.3岁",
+                "cite_index": null,
+                "published_at": 1641772800.0,
+                "site_name": "信网手机版",
+                "site_icon": "https://cdn.deepseek.com/site-icons/qdxin.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://d.drcnet.com.cn/?docid=6288414&leafid=25647",
+                "title": "四川省出台“十四五”卫生健康发展规划 到2025年省人均预期寿命要达78.2岁",
+                "snippet": "四川省出台“十四五”卫生健康发展规划 到2025年省人均预期寿命要达78.2  到2025年，四川省居民健康生活方式基本普及，健康素养水平持续提升，人均预期寿命达到78.2岁。公共卫生临床救治体系全面建成，健康服务能力实现新提升，县域内人人享有均等化的基本医疗卫生服务……近日，省政府办公厅印发《四川省“十四五”卫生健康发展规划》（以下简称《规划》），加快健康四川建设，为推动四川经济社会高质量发展奠",
+                "cite_index": null,
+                "published_at": 1637539200.0,
+                "site_name": "Drcnet",
+                "site_icon": "https://cdn.deepseek.com/site-icons/drcnet.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.dehua.net/news/detail-151585.html",
+                "title": "重磅文件公布！中国人均预期寿命将超80岁 - 综合资讯 - 德化资讯",
+                "snippet": "2022-05-21 10:10:46  阅读：8052  20日，国务院办公厅印发的《“十四五”国民健康规划》全文公布，文件提出，到2025年，中国的人均预期寿命在2020年基础上继续提高1岁左右，展望2035年，人均预期寿命达到80岁以上。此外，涉及民众看病就医用药，以及医疗事业、健康产业的一系列重要举措也随之公布。  这些数字要知道  ——2035年中国人均预期寿命达80岁以上  规划介绍，",
+                "cite_index": null,
+                "published_at": 1653091200.0,
+                "site_name": "德化网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/dehua.net",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.pouringspot.com/wsjkw/scwsjkw/zcwj11/2022/7/15/a28303dad2b14bd3b25b51dacdb7c8de.shtml",
+                "title": "关于印发四川省银龄健康工程实施方案（2022-2025年）的通知",
+                "snippet": "川卫发〔2022〕6号  各市（州）卫生健康委、发展改革委、经济和信息化局、教育局、民政局、财政局、人力资源社会保障局、医保局、中医药局，省老龄委相关成员单位，国家委在川医疗机构，委（局）直属有关单位： 为贯彻落实党中央国务院和省委省政府关于老龄健康工作系列决策部署，我们制定了《四川省银龄健康工程实施方案（2022-2025年）》，现印发你们，请结合各地、各有关部门实际，认真贯彻执行。  四川省卫",
+                "cite_index": null,
+                "published_at": 1657843200.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/pouringspot.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.scholarmate.com/S/nmr9iY",
+                "title": "2010—2020年武汉经开区（汉南区）四类主要慢性非传染性疾病早死概率研究",
+                "snippet": "作者：田丽红; 谈利萍; 王红霞; 姚丽娟; 吴亚琼*  来源：华南预防医学, 2022, 48(05): 573-576.  ## 摘要  目的 了解武汉经开区（汉南区）2010—2020年4类主要慢性非传染性疾病（慢性病）早死概率，探索性预测未来变化趋势，为区域慢性病防控策略、综合防控示范区建设提供数据支持。方法 利用2010—2020年武汉经开区（汉南区）户籍居民死亡监测资料，计算慢性病死亡",
+                "cite_index": null,
+                "published_at": 1710892800.0,
+                "site_name": "百度学术",
+                "site_icon": "https://cdn.deepseek.com/site-icons/scholarmate.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://jinwenjiang.cdmp.candocloud.cn/show/1517-933405.html",
+                "title": "温江新闻网",
+                "snippet": "首页>推荐 > 正文  # 四川出台“十四五”卫生健康发展规划！到2025年全省人均预期寿命要达78.2岁  # 四川出台“十四五”卫生健康发展规划！到2025年全省人均预期寿命要达78.2岁  来源：健康四川官微 2021年11月19日 16:18  到2025年，全省居民健康生活方式基本普及，健康素养水平持续提升，人均预期寿命达到78.2岁。公共卫生临床救治体系全面建成，健康服务能力实现新提升",
+                "cite_index": null,
+                "published_at": 1637280000.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/candocloud.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://m-yichang.cjyun.org/p/135425.html",
+                "title": "2035年，武汉人均期望寿命将达83.5岁",
+                "snippet": "从1978年的69.43岁，上升至2017年的81.09岁，改革开放40年，武汉人均期望寿命增长了11.66岁，居于全国前列。26日，武汉市召开卫生与健康工作会议，宣布建设“健康武汉2035”全面启航。会议提出，到2035年实现武汉人均期望寿命83.5岁，达到发达国家水平。  《“健康武汉2035”规划》（简称《规划》）提出，在五大领域统筹谋划“五大工程”，全面推进健康武汉建设。为了稳步前进，《规",
+                "cite_index": null,
+                "published_at": 1540598400.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cjyun.org",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://bbs.mala.cn/forum.php?mod=viewthread&tid=15114221#lastpost",
+                "title": "四川出台《“健康四川2030”规划纲要》到2030年我省人均预期寿命...四川出台《“健康四川2030”规划纲要》到2030年我省人均预期寿命...",
+                "snippet": "手机看新闻：进入四川手机报 短信看新闻：订阅四川特快  四川新闻网成都3月20日讯（记者 刘佩佩）今日，四川新闻网记者从四川卫生与健康大会现场获悉，为推进健康四川建设，提高全省人民健康水平，按照 《“健康中国2030”规划纲要》要求，四川出台了《“健康四川2030”规划纲要》（以下简称《规划纲要》），本《规划纲要》是推进健康四川建设的行动纲领。四川新闻网记者注意到，《规划纲要》中提到，推进“健康四",
+                "cite_index": null,
+                "published_at": 1519344000.0,
+                "site_name": "麻辣社区",
+                "site_icon": "https://cdn.deepseek.com/site-icons/mala.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://m.fznews.com.cn/gngj/20220520/8T2r2wV831.shtml",
+                "title": "国办：到2025年人均预期寿命在2020年基础上继续提高1岁左右",
+                "snippet": "中新网5月20日电 据中国政府网消息，国务院办公厅日前印发《“十四五”国民健康规划》(以下简称《规划》)称，2015年至2020年，我国人均预期寿命从76.34岁提高到77.93岁，到2025年，人均预期寿命在2020年基础上继续提高1岁左右，人均健康预期寿命同比例提高。  《规划》指出，经过努力，我国人民健康水平不断提高。2015年至2020年，人均预期寿命从76.34岁提高到77.93岁，婴儿",
+                "cite_index": null,
+                "published_at": 1653004800.0,
+                "site_name": "Fznews",
+                "site_icon": "https://cdn.deepseek.com/site-icons/fznews.com.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://sc.sina.com.cn/news/m/2021-11-20/detail-iktzqtyu8355230.shtml",
+                "title": "到2025年 四川省人均预期寿命要达78.2岁",
+                "snippet": "2021-11-20 05:00四川在线评论（人参与）  四川在线记者 石小宏  到2025年，全省居民健康生活方式基本普及，健康素养水平持续提升，人均预期寿命达到 78.2 岁。公共卫生临床救治体系全面建成，健康服务能力实现新提升，县域内人人享有均等化的基本医疗卫生服务……。四川省政府办公厅印发《四川省“十四五”卫生健康发展规划》，加快健康四川建设，为推动四川经济社会高质量发展奠定坚实的健康基础",
+                "cite_index": null,
+                "published_at": 1637366400.0,
+                "site_name": "新浪四川",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sina.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://wap.chengdu.cn/1870759",
+                "title": "2025年，四川人均期望寿命可达78.2岁",
+                "snippet": "2017-04-20  成都全搜索新闻网4月20日讯 今日，省卫计委公布《四川省慢性病防治中长期规划（2017-2025年）（征求意见稿）》，并于4月26日前征求公众意见。该意见稿指出：到2025年，人均期望寿命达到78.2岁。推行无烟社区、无烟学校、无烟单位、无烟家庭创建，逐步实现室内公共场所全面禁烟。  原文如下：  关于征求《四川省慢性病防治中长期规划（2017-2025年）  （征求意见稿",
+                "cite_index": null,
+                "published_at": 1492646400.0,
+                "site_name": "红星新闻网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chengdu.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "RESPONSE",
+            "content": "截至2025年的最新数据，成都和武汉的预期寿命如下：\n\n### **成都**\n- **2025年目标**：根据《成都市“十四五”卫生健康发展规划》，到2025年，成都的人均预期寿命目标为**82.42岁**（较“十三五”末的81.52岁有所提升）[citation:1][citation:3][citation:5]。\n- **2035年远景目标**：预计人均预期寿命将进一步提高至**83岁以上**，达到高收入国家平均水平[citation:3]。\n\n### **武汉**\n- **2024年实际数据**：武汉2024年的人均期望寿命已超过**83岁**，创下历史新高，孕产妇死亡率和婴儿死亡率也显著下降[citation:2][citation:8][citation:10]。\n- **2025年目标**：武汉未公布新的预期寿命目标，但2024年的数据已超过成都的2025年目标，显示武汉在公共卫生和医疗服务方面表现突出[citation:4][citation:6]。\n\n### **对比分析**\n- **武汉领先**：武汉2024年的数据（83岁）已超过成都2025年的目标（82.42岁），表明武汉的居民健康水平目前略高于成都。\n- **成都的规划**：成都的预期寿命增长主要依托于医疗资源优化、慢性病防控、中医药发展等举措，如新增三甲医院、建设P2+实验室等[citation:1][citation:5]。\n- **武汉的优势**：武汉在健康城市建设、慢性病管理（如“323”攻坚行动）、医疗数字化（检查结果互认）等方面表现突出，可能推动了寿命的提升[citation:4][citation:10]。\n\n如需更详细的健康政策或数据对比，可参考相关规划文件或政府公告。"
+          }
+        ]
+      }
+    }
+  }
+}

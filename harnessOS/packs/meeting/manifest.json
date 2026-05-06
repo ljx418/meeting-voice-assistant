@@ -1,14 +1,32 @@
 {
   "name": "meeting",
   "version": "0.1.0",
+  "manifest_schema_version": "1",
   "domain": "meeting",
   "description": "Meeting audio analysis, transcription, minutes generation, and artifact registration.",
   "status": "active",
   "workflows": ["meeting.workflow"],
+  "workflow_dsl": {
+    "meeting.workflow": {
+      "entrypoint": "packs.meeting.workflow:MeetingWorkflow",
+      "steps": [
+        {"id": "transcribe", "kind": "connector", "uses": "meeting_voice_mcp", "outputs": ["transcript"]},
+        {"id": "analyze", "kind": "skill", "uses": "meeting.transcribe", "inputs": ["transcript"], "outputs": ["analysis", "result"]},
+        {"id": "minutes", "kind": "skill", "uses": "meeting.minutes", "inputs": ["analysis", "result"], "outputs": ["minutes"]}
+      ]
+    }
+  },
   "subagents": [],
   "skills": ["meeting.transcribe", "meeting.minutes"],
-  "connectors": ["meeting-voice-assistant.mcp"],
+  "policy_bundles": ["meeting.standard"],
+  "connectors": ["meeting_voice_mcp"],
   "artifact_kinds": ["analysis", "minutes", "result", "transcript"],
+  "artifact_schemas": {
+    "transcript": {"lineage": "root"},
+    "analysis": {"parents": ["transcript"]},
+    "result": {"parents": ["analysis"]},
+    "minutes": {"parents": ["result"]}
+  },
   "risk_profile": "standard",
   "metadata": {
     "validation_audio_dir": "/Users/Zhuanz/Desktop/workspace/音频资料"

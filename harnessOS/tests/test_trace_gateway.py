@@ -9,11 +9,11 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from apps.gateway.artifacts import ArtifactRegistry
-from apps.gateway.meeting import MeetingWorkflow
 from apps.gateway.protocol import RpcRequest
 from apps.gateway.runtime import GatewayRuntimePool
 from apps.gateway.service import GatewayService
 from apps.gateway.storage import GatewaySessionStore
+from packs.meeting.workflow import MeetingWorkflow
 from apps.gateway.traces import TraceStore
 from tools.knowledge import kb_ingest
 
@@ -135,6 +135,40 @@ def test_artifact_read_records_trace(tmp_path):
         assert listed.error is None
         assert any(record["event_type"] == "artifact.read" for record in listed.result["traces"])
         assert any(record["trace_id"] == trace_id for record in listed.result["traces"])
+
+    asyncio.run(run())
+
+
+def test_trace_gateway_scope_filters_records(tmp_path):
+    async def run():
+        service = _service(tmp_path)
+        started = await service.handle_rpc(
+            RpcRequest(
+                id="1",
+                method="session.start",
+                params={"scope": {"app_id": "knowledge", "workspace_id": "workspace_k"}},
+            )
+        )
+        session_id = started.result["session_id"]
+
+        turn = await service.handle_rpc(
+            RpcRequest(id="2", method="turn.start", params={"session_id": session_id, "input": "你好"})
+        )
+        assert turn.error is None
+        trace_id = turn.result["trace_id"]
+
+        listed = await service.handle_rpc(
+            RpcRequest(id="3", method="trace.list", params={"session_id": session_id, "app_id": "knowledge"})
+        )
+        assert listed.error is None
+        assert listed.result["count"] >= 3
+        assert all(record["app_id"] == "knowledge" for record in listed.result["traces"])
+
+        denied = await service.handle_rpc(
+            RpcRequest(id="4", method="trace.get", params={"trace_id": trace_id, "app_id": "meeting"})
+        )
+        assert denied.error is not None
+        assert denied.error.code == "INVALID_PARAMS"
 
     asyncio.run(run())
 

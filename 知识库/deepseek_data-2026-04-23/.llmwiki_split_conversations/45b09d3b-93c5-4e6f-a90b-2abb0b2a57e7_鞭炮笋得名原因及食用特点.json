@@ -1,0 +1,159 @@
+{
+  "id": "45b09d3b-93c5-4e6f-a90b-2abb0b2a57e7",
+  "title": "鞭炮笋得名原因及食用特点",
+  "inserted_at": "2025-10-11T19:50:39.291000+08:00",
+  "updated_at": "2025-10-11T19:50:55.191000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-10-11T19:50:39.882000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "鞭炮笋 因何得名"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-10-11T19:50:39.892000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "http://yzlnb.sjzdaily.com.cn/yzlnbpaper/pad/content/202501/17/content_192403.html",
+                "title": "鞭炮笋不是笋",
+                "snippet": "2025年01月17日  近日，很多火锅、麻辣烫餐厅的菜单上都多出一位新成员——鞭炮笋。虽然名字里带“笋”，但它并非“幼年”竹子，而是一种海中蔬菜。  鞭炮笋的叶子为绿色，呈窄条形，提起来像是一串鞭炮，再加上口感脆嫩多汁，咀嚼时会发出很大的响声，故而得名鞭炮笋。  鞭炮笋热量低（11千卡/100克）、膳食纤维含量高（6.6克/100克），还富含钾（389毫克/100克）、磷（64毫克/100克）、",
+                "cite_index": 1,
+                "published_at": 1737043200.0,
+                "site_name": "石家庄新闻网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sjzdaily.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://xuexi.yuesha.com/zh-hant/hanyu/nquumKg=.html",
+                "title": "鞭筍的意思、鞭筍的詳細解釋",
+                "snippet": "## 鞭筍的解釋  亦作“ 鞭筍 ”。竹子地下莖上橫生的芽。 宋 黃庭堅 《謝人惠貓兒頭筍》詩：“ 長沙 一月煨鞭筍， 鸚鵡洲 前人未知。” 宋 範成大 《春日田園雜興》詩之二：“舍後荒畦猶緑秀，鄰家鞭筍過牆來。” 明 李時珍 《本草綱目·菜二·竹筍》：“土人于竹根行鞭時掘取嫩者，謂之鞭筍。”  見“ 鞭筍 ”。  ## 詞語分解  - 鞭的解釋 鞭 ā 驅使牲畜的用具，柔軟像繩子：鞭杆。鞭長莫及",
+                "cite_index": 2,
+                "published_at": null,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/yuesha.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://xuexi.yuesha.com/hanyu/nquumKg=.html",
+                "title": "鞭笋的意思、鞭笋的详细解释",
+                "snippet": "## 鞭笋的解释  亦作“ 鞭笋 ”。竹子地下茎上横生的芽。 宋 黄庭坚 《谢人惠猫儿头笋》诗：“ 长沙 一月煨鞭笋， 鸚鵡洲 前人未知。” 宋 范成大 《春日田园杂兴》诗之二：“舍后荒畦犹緑秀，邻家鞭笋过墙来。” 明 李时珍 《本草纲目·菜二·竹笋》：“土人于竹根行鞭时掘取嫩者，谓之鞭笋。”  见“ 鞭笋 ”。  ## 词语分解  - 鞭的解释 鞭 ā 驱使牲畜的用具，柔软像绳子：鞭杆。鞭长莫及",
+                "cite_index": 3,
+                "published_at": null,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/yuesha.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://baijiahao.baidu.com/s?id=1758432934945544312",
+                "title": "你吃过这种长得像鞭炮一样的菜吗？",
+                "snippet": "你吃过一种名为鞭炮笋的蔬菜吗？它到底是什么东西呢？ 我不允许还有人没有吃过鞭炮笋！鞭炮笋的名字是在市场卖的时候老百姓给取的名字，原因主要是它拎起来很长，像一串鞭炮一样，因此而得名为鞭炮笋。鞭炮笋其实是一种海水蔬菜，它也叫长寿菜，像海带，海东菜，海芦笋等一样，既可当蔬菜食用，也可脱水后用作食品配料，其味道鲜美，口感清脆，用处广泛，吃法多样，是一种高档的深受广大群众喜爱的有机绿色食品！#美食周计划# ",
+                "cite_index": 4,
+                "published_at": 1676908800.0,
+                "site_name": "百家号",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.4hn.org/modules/article/reader.php?aid=1597&cid=171528",
+                "title": "卷八 诸蔬部 诸笋",
+                "snippet": "类别：子部 作者：清·赵学敏 书名：本草纲目拾遗  x干笋 x 纲目竹入苞木类，以笋附菜部，所载亦只苦竹、 竹、淡竹、冬竹诸笋，且于义类多未详尽 。不知春、冬所出，性皆各别，鲜干诸品，味亦迥殊，则入经络主治，自不能合一。陈芝山食品真一笋谱及食纂所载较详，颇近时尚，即取以补之。  春笋 笋谱∶其佳者曰猪蹄红，冬月即生，埋头土中，以锄掘之，可三寸许，其味极鲜，甲 于他笋，未出土名猪蹄红；若长尺许，则其",
+                "cite_index": 5,
+                "published_at": null,
+                "site_name": "布达拉宫 | Potala Palace-灵异事件生活旅行手册",
+                "site_icon": "https://cdn.deepseek.com/site-icons/4hn.org",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://daily.cnnb.com.cn/nbwb/html/2021-07/16/content_1281223.htm?div=-1",
+                "title": "宁波晚报•数字报刊平台",
+                "snippet": "| 第A15版：三江月 | 上一版3 4下一版    | 标题导航    | 2021年07月16日 星期五   鞭笋岂止是清欢  沈潇潇  见市场上有鞭笋上市，便喜滋滋买回家。顿觉生在江南真有口福，一年四季都不缺笋，春有春笋，冬有冬笋，夏秋间则有鞭笋。  说是鞭笋，其实很少有人知道，鞭笋并不是严格意义上的笋。笋是竹子的幼芽，长大了就是竹子。鞭笋是竹鞭，不会像笋那样破土而出，不会长成竹子。《中国林",
+                "cite_index": 6,
+                "published_at": 1626364800.0,
+                "site_name": "Cnnb",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cnnb.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.4hn.org/modules/article/reader.php?aid=574&cid=39403",
+                "title": "正文 ●一之名",
+                "snippet": "类别：子部 作者：不著撰人 书名：笋谱  ○筍者，竹之篛也。竹根曰鞭。鞭節之間乳贅而生者。竹屬，兼草而木，偕少陽之氣歟。故初種，根食土而下求乎母也。  母，水也而潤，下得水而生也。  ○及擢，筍冒土而上。愛乎子也。  子，火也。而炎上鑚竹而生火也。  ○皆自然之性也。竹盛髙平之地。黄白息壤，即是所宜也。  得山阜良（艮？）下田，傷水則死矣。  ○凡植竹，正月二月引根鞭，必西南而行。  負隂就陽也。",
+                "cite_index": 7,
+                "published_at": null,
+                "site_name": "布达拉宫 | Potala Palace-灵异事件生活旅行手册",
+                "site_icon": "https://cdn.deepseek.com/site-icons/4hn.org",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.hao86.com/ciyu_ask_9fd83e43ac9fd83e_content/",
+                "title": "伪笋（僞笋）的意思",
+                "snippet": "指夏秋间竹鞭芽横向生长成为新鞭，其先端的幼嫩部分。亦称鞭笋。  宋 赞宁 《笋谱》：“竹，八月俗谓之小春。热欲去，寒欲来，气至而凉，故曰小春……竹得是气也，根伸而达，亦谓为鞭行。鞭头为笋，俗谓之伪笋。”",
+                "cite_index": 8,
+                "published_at": 1591718400.0,
+                "site_name": "好工具学习工具",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hao86.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "RESPONSE",
+            "content": "你听到“鞭炮笋”这个名字，可能会好奇它和“鞭炮”有什么关系。其实，这个名字主要来源于它的**外形**和**食用时的口感**。\n\n下面这个表格能帮你快速了解“鞭炮笋”得名的原因：\n\n| 得名原因 | 具体描述 |\n| :--- | :--- |\n| **外形似鞭炮** | 提起来像一串鞭炮[citation:1]。 |\n| **口感与声响** | 咀嚼时会发出很大的响声，故而得名[citation:1]。 |\n\n### 💡 补充信息\n\n*   **鞭炮笋的真实身份**：虽然名字带“笋”，但鞭炮笋**并不是我们常说的竹笋**。它是一种**海中蔬菜**（藻类），你也可以把它理解成一种海水蔬菜[citation:1]。因其长长的形态，它也被叫做“长寿菜”[citation:4]。\n\n*   **食用特点和方式**：鞭炮笋口感**脆嫩多汁**[citation:1]。市面上卖的鞭炮笋多为盐渍产品，所以在吃之前通常需要浸泡5-6小时，以冲掉上面的盐分[citation:1]。它的吃法很多样，除了常见的**凉拌**，也适合**煮汤或涮火锅**[citation:1]。\n\n希望以上信息能帮你解开心中的疑惑。"
+          }
+        ]
+      }
+    }
+  }
+}

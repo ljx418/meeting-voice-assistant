@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "a57b47f61bcd53da",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/a5/a57b47f61bcd53da.json",
+    "sha256": "c764dfc4732728564212601f576ce8ae70675c0d80b6b37c8f78dfc96fe2542f",
+    "content_hash": "e0719589ccb4769b79a91b4803ce1a6dd3ccd2fa45f95710494fed7dbfd287da",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "394c65ce-a773-4da0-a6ae-3dffabfe1a11",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "0dec5c7c-3774-4a0b-8832-6969f3909e25",
+      "locator": {
+        "kind": "json_path",
+        "path": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "9119f721-f148-462e-9b4a-5ecf0b33ba27",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "OpenClaw股票观察者搭建指南",
+      "locator": {
+        "kind": "json_path",
+        "path": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "9231fd0d-54d1-487f-97df-c9a38fc08d65",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "c54d25d9-0bbf-4f6f-8bd7-6d707c8c0e6f",
+      "section_id": "394c65ce-a773-4da0-a6ae-3dffabfe1a11",
+      "text": "0dec5c7c-3774-4a0b-8832-6969f3909e25",
+      "locator": {
+        "kind": "json_path",
+        "path": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "0a8a28eb-7cee-4a80-87c0-cfa54c9ee4b4",
+      "section_id": "9119f721-f148-462e-9b4a-5ecf0b33ba27",
+      "text": "OpenClaw股票观察者搭建指南",
+      "locator": {
+        "kind": "json_path",
+        "path": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 18
+    },
+    {
+      "passage_id": "27294bcf-c170-4802-8d24-04dadd7d496c",
+      "section_id": "9231fd0d-54d1-487f-97df-c9a38fc08d65",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:40.990583"
+}

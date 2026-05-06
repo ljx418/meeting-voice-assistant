@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "9ff0566a39fc7930",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/9f/9ff0566a39fc7930.json",
+    "sha256": "020e1e43431cef3d311c64245ce50c32faf15fceb3da8e1ccc4a1708c7f17883",
+    "content_hash": "5e450ca124d09d1c10c678a71a33ad6a7ce606c25f4e2ce935499a018fc2a095",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "de4a02f9-0b1a-43c5-8381-75ac5089d131",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6",
+      "locator": {
+        "kind": "json_path",
+        "path": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "f988479e-28b1-4957-8a6a-04d9eeec497e",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "美加墨世界杯小组赛时间",
+      "locator": {
+        "kind": "json_path",
+        "path": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "3ccef080-92c1-49ec-b839-b05ff6f4a0d5",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "64e75965-84f6-49d2-8504-3c5222d60ae3",
+      "section_id": "de4a02f9-0b1a-43c5-8381-75ac5089d131",
+      "text": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6",
+      "locator": {
+        "kind": "json_path",
+        "path": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "bcd71e52-499b-437f-a52b-015ff90dc1f8",
+      "section_id": "f988479e-28b1-4957-8a6a-04d9eeec497e",
+      "text": "美加墨世界杯小组赛时间",
+      "locator": {
+        "kind": "json_path",
+        "path": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 16
+    },
+    {
+      "passage_id": "20335b14-5984-4f34-a94f-9914a1d322e0",
+      "section_id": "3ccef080-92c1-49ec-b839-b05ff6f4a0d5",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.862149"
+}

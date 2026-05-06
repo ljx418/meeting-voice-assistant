@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "4bfd7a3ca2c09a78",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/4b/4bfd7a3ca2c09a78.json",
+    "sha256": "e7992360a1662ffe79d539595ea41d32ac11b7fa220aaabf375eda897985aa4d",
+    "content_hash": "b6bcf9cc6d29e4f480e2b452c776574d86610a3bf3beb7879d1068d191b3adad",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "a7ef6667-61c6-4d19-8686-b5318f144f95",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "89ddc983-1011-4011-bb4b-6a338c44616f",
+      "locator": {
+        "kind": "json_path",
+        "path": "89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "59752f1b-3274-4325-bc5e-e9342f954c10",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "日历应用创新点与专利技术点分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "58c20258-5510-402a-b4cf-42975dad5133",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "f15b86b1-a458-4619-8c31-526c95aec37b",
+      "section_id": "a7ef6667-61c6-4d19-8686-b5318f144f95",
+      "text": "89ddc983-1011-4011-bb4b-6a338c44616f",
+      "locator": {
+        "kind": "json_path",
+        "path": "89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "a281a539-df0e-4f37-be92-23bb9d85f834",
+      "section_id": "59752f1b-3274-4325-bc5e-e9342f954c10",
+      "text": "日历应用创新点与专利技术点分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "a2dba7ac-500b-41a5-84a6-aead73418525",
+      "section_id": "58c20258-5510-402a-b4cf-42975dad5133",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.065886"
+}

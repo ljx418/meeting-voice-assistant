@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "225169bf95b4d249",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/22/225169bf95b4d249.json",
+    "sha256": "8d2353b01f8739c8e98aa4cb1e03a6fb40a7c4e35bfd447c7ff44e9f1fe45b4d",
+    "content_hash": "5a82c9da3d2cb54631424a6ac7abb8d4cf1eb7b6e00e802d1f0fcab6825c0b89",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "71965a37-7b4f-49d4-ae8c-4a3e18f690e0",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "dea9cd58-e798-4e5f-ab44-e671bf7495bd",
+      "locator": {
+        "kind": "json_path",
+        "path": "dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "6bb5ce55-3a20-4f4d-9fc4-3b6d5ffbbb5b",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "知识助手开发",
+      "locator": {
+        "kind": "json_path",
+        "path": "dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "717b4344-984f-440c-8952-d0b858986118",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "b395af4c-d2bb-4cb8-bb32-47802c066113",
+      "section_id": "71965a37-7b4f-49d4-ae8c-4a3e18f690e0",
+      "text": "dea9cd58-e798-4e5f-ab44-e671bf7495bd",
+      "locator": {
+        "kind": "json_path",
+        "path": "dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "2e555528-a730-48ee-b45e-12408b4f6202",
+      "section_id": "6bb5ce55-3a20-4f4d-9fc4-3b6d5ffbbb5b",
+      "text": "知识助手开发",
+      "locator": {
+        "kind": "json_path",
+        "path": "dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 9
+    },
+    {
+      "passage_id": "3e43b199-e4a3-44ca-bea7-8c6dd575fd77",
+      "section_id": "717b4344-984f-440c-8952-d0b858986118",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.740588"
+}

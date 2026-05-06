@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.1",
+  "source_id": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "LMM中窗口长度与上下文区别解析",
+  "title_flags": [],
+  "source_weight": 1.8363,
+  "source_density_score": 1.1419,
+  "llm_enriched": false,
+  "tags": [
+    "LMM",
+    "中窗口长度与上下",
+    "文区别解析",
+    "LMM中窗口长度与上下文区别解析"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析:topic:1",
+      "kind": "topic_candidate",
+      "text": "LMM",
+      "importance": 0.9118149999999999,
+      "confidence": 0.725676,
+      "source_weight": 1.8363,
+      "source_density_score": 1.1419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "LMM",
+        "中窗口长度与上下",
+        "文区别解析",
+        "LMM中窗口长度与上下文区别解析"
+      ],
+      "entities": [
+        "LMM"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析:topic:2",
+      "kind": "topic_candidate",
+      "text": "LMM中窗口长度与上下文区别解析",
+      "importance": 0.9118149999999999,
+      "confidence": 0.725676,
+      "source_weight": 1.8363,
+      "source_density_score": 1.1419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "LMM",
+        "中窗口长度与上下",
+        "文区别解析",
+        "LMM中窗口长度与上下文区别解析"
+      ],
+      "entities": [
+        "LMM"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析:conclusion:1",
+      "kind": "conclusion",
+      "text": "LMM中窗口长度与上下文区别解析",
+      "importance": 0.848541,
+      "confidence": 0.62,
+      "source_weight": 1.8363,
+      "source_density_score": 1.1419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "LMM",
+        "中窗口长度与上下",
+        "文区别解析",
+        "LMM中窗口长度与上下文区别解析"
+      ],
+      "entities": [
+        "LMM"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析:entity:1",
+      "kind": "entity_candidate",
+      "text": "LMM",
+      "importance": 0.7918149999999999,
+      "confidence": 0.6,
+      "source_weight": 1.8363,
+      "source_density_score": 1.1419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "LMM",
+        "中窗口长度与上下",
+        "文区别解析",
+        "LMM中窗口长度与上下文区别解析"
+      ],
+      "entities": [
+        "LMM"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

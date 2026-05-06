@@ -1,0 +1,199 @@
+{
+  "workspace": "/Users/Zhuanz/Desktop/workspace/知识库/workspace",
+  "scanned_at": "2026-05-06T08:41:40.288469Z",
+  "roots": [
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split"
+  ],
+  "supported_suffixes": [
+    ".csv",
+    ".htm",
+    ".html",
+    ".json",
+    ".markdown",
+    ".md",
+    ".pdf",
+    ".ppt",
+    ".pptx",
+    ".text",
+    ".txt"
+  ],
+  "limit": 20,
+  "truncated": true,
+  "summary": {
+    "current_file_count": 20,
+    "new_count": 0,
+    "modified_count": 0,
+    "deleted_count": 0,
+    "unchanged_count": 20,
+    "unreadable_count": 0,
+    "pending_count": 0
+  },
+  "changes": {
+    "new": [],
+    "modified": [],
+    "deleted": [],
+    "unreadable": []
+  },
+  "files": {
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.json",
+      "name": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.json",
+      "size_bytes": 120,
+      "modified_at": "2026-04-23T08:23:40.122842Z",
+      "mtime_ns": 1776932620122841847,
+      "sha256": "e5f68c7255aa90fc406fbbc724c44b7ad1351d2907a33a322d38382610e7a97b"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/02e8b502-60d6-4e02-bd8c-c3fd00af5dbe_36岁停止工作确保退休资金充足.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/02e8b502-60d6-4e02-bd8c-c3fd00af5dbe_36岁停止工作确保退休资金充足.json",
+      "name": "02e8b502-60d6-4e02-bd8c-c3fd00af5dbe_36岁停止工作确保退休资金充足.json",
+      "size_bytes": 154,
+      "modified_at": "2026-04-23T08:23:40.109480Z",
+      "mtime_ns": 1776932620109479618,
+      "sha256": "5bbdf1a5686221d414c662db12f14daae5df1d2bbbce01bc058710f892eab06d"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/04366e9b-f81d-476e-bf9e-c858ee378e4f_美加墨世界杯.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/04366e9b-f81d-476e-bf9e-c858ee378e4f_美加墨世界杯.json",
+      "name": "04366e9b-f81d-476e-bf9e-c858ee378e4f_美加墨世界杯.json",
+      "size_bytes": 131,
+      "modified_at": "2026-04-23T08:23:40.124414Z",
+      "mtime_ns": 1776932620124414474,
+      "sha256": "c0c88ab63fe2a1ce9681d9536beaff6f67ef8c79870224633b03d804e5d51cb5"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/07e64274-822c-4810-9755-eb4b2875a45d_表11试验流程表是某个临床试验方案中的流程图现在需要根据此建库.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/07e64274-822c-4810-9755-eb4b2875a45d_表11试验流程表是某个临床试验方案中的流程图现在需要根据此建库.json",
+      "name": "07e64274-822c-4810-9755-eb4b2875a45d_表11试验流程表是某个临床试验方案中的流程图现在需要根据此建库.json",
+      "size_bytes": 205,
+      "modified_at": "2026-04-23T08:23:40.119101Z",
+      "mtime_ns": 1776932620119100517,
+      "sha256": "d4b5283be37cf4255e84c0294e22f06dfa793ebff4c8fc8a34b419931288b889"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/0d4e59ae-4935-4a3b-a902-428efae6526f_Hermes使用.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/0d4e59ae-4935-4a3b-a902-428efae6526f_Hermes使用.json",
+      "name": "0d4e59ae-4935-4a3b-a902-428efae6526f_Hermes使用.json",
+      "size_bytes": 125,
+      "modified_at": "2026-04-23T08:23:40.143400Z",
+      "mtime_ns": 1776932620143400476,
+      "sha256": "19407e4cc509f7621cd1b30f93f9764440eed42e76bc8590f2ed29f361f71d38"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.json",
+      "name": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.json",
+      "size_bytes": 148,
+      "modified_at": "2026-04-23T08:23:40.129578Z",
+      "mtime_ns": 1776932620129578163,
+      "sha256": "c764dfc4732728564212601f576ce8ae70675c0d80b6b37c8f78dfc96fe2542f"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/12a0a90a-2885-4323-84c4-85233745d159_AI学习-废弃于20260415.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/12a0a90a-2885-4323-84c4-85233745d159_AI学习-废弃于20260415.json",
+      "name": "12a0a90a-2885-4323-84c4-85233745d159_AI学习-废弃于20260415.json",
+      "size_bytes": 139,
+      "modified_at": "2026-04-23T08:23:40.137025Z",
+      "mtime_ns": 1776932620137025258,
+      "sha256": "d943cdb88a7810a8d8e952d1b7cf504bc30ae2f077027b521e1abc69ca208058"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/13a0d618-9739-4fd9-a373-e52562c64f01_中国核电建设及并网时间数据.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/13a0d618-9739-4fd9-a373-e52562c64f01_中国核电建设及并网时间数据.json",
+      "name": "13a0d618-9739-4fd9-a373-e52562c64f01_中国核电建设及并网时间数据.json",
+      "size_bytes": 152,
+      "modified_at": "2026-04-23T08:23:40.113735Z",
+      "mtime_ns": 1776932620113735227,
+      "sha256": "0f76514b8c0f69dfd5f6e23c2a8f8747a5c0d079f3ddb182c4886f161500e792"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析.json",
+      "name": "15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析.json",
+      "size_bytes": 153,
+      "modified_at": "2026-04-23T08:23:40.107637Z",
+      "mtime_ns": 1776932620107636673,
+      "sha256": "1e52b9528a2b6d4d75d9a39006c25d1f3e9b10d9c27846e551ccc20e935187bd"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.json",
+      "name": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.json",
+      "size_bytes": 164,
+      "modified_at": "2026-04-23T08:23:40.117102Z",
+      "mtime_ns": 1776932620117102446,
+      "sha256": "3e5f36d22f342058ffbd787f8c47ca4bb70be214b725cb9a5d691c97a9edb96f"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1e7d1283-88b0-40f1-98eb-591384d5fb22_米醋与白醋的区别及用途.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1e7d1283-88b0-40f1-98eb-591384d5fb22_米醋与白醋的区别及用途.json",
+      "name": "1e7d1283-88b0-40f1-98eb-591384d5fb22_米醋与白醋的区别及用途.json",
+      "size_bytes": 146,
+      "modified_at": "2026-04-23T08:23:40.103708Z",
+      "mtime_ns": 1776932620103708265,
+      "sha256": "9d39ffedadd882d90f3de0e9710a9ee0f41fab2d7c4caa06c4354f1fb36d6b35"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1ed5cdd9-1e4e-4400-911d-06bbc6860c57_西安丈八路名称来源解析.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1ed5cdd9-1e4e-4400-911d-06bbc6860c57_西安丈八路名称来源解析.json",
+      "name": "1ed5cdd9-1e4e-4400-911d-06bbc6860c57_西安丈八路名称来源解析.json",
+      "size_bytes": 146,
+      "modified_at": "2026-04-23T08:23:40.105223Z",
+      "mtime_ns": 1776932620105222892,
+      "sha256": "e1aeacb44281933be922b9e54184fd8d3705162509a88846c0172d11ba458e1b"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/20defb2c-546b-47cd-b4f5-43e254ad9487_遗体捐献协议与家属意见冲突分析.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/20defb2c-546b-47cd-b4f5-43e254ad9487_遗体捐献协议与家属意见冲突分析.json",
+      "name": "20defb2c-546b-47cd-b4f5-43e254ad9487_遗体捐献协议与家属意见冲突分析.json",
+      "size_bytes": 158,
+      "modified_at": "2026-04-23T08:23:40.107412Z",
+      "mtime_ns": 1776932620107411648,
+      "sha256": "7fa3c73ea4a35eca75033e1f9a7a3c8ff9b4fc0524aa2e6687114ab059594d73"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2719fccd-87f9-462d-abd0-bfd7c1c2da9e_税后50万计算税前工资.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2719fccd-87f9-462d-abd0-bfd7c1c2da9e_税后50万计算税前工资.json",
+      "name": "2719fccd-87f9-462d-abd0-bfd7c1c2da9e_税后50万计算税前工资.json",
+      "size_bytes": 142,
+      "modified_at": "2026-04-23T08:23:40.111755Z",
+      "mtime_ns": 1776932620111754551,
+      "sha256": "f38b959c813c230d400f65847f6d6e4be09dfb393ff18fb89a41ba5c6c5915a7"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.json",
+      "name": "2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.json",
+      "size_bytes": 146,
+      "modified_at": "2026-04-23T08:23:40.108166Z",
+      "mtime_ns": 1776932620108166422,
+      "sha256": "ecd5cfe5d44fbfe2be0fd579f7df14922b0abc7e9b645287ee01ce265ad3a88e"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.json",
+      "name": "2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.json",
+      "size_bytes": 149,
+      "modified_at": "2026-04-23T08:23:40.109160Z",
+      "mtime_ns": 1776932620109160167,
+      "sha256": "cf0e8313d20ecb08e221a501723a2030f56aca235af51d62e5eb536bf121cb02"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.json",
+      "name": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.json",
+      "size_bytes": 129,
+      "modified_at": "2026-04-23T08:23:40.146001Z",
+      "mtime_ns": 1776932620146001267,
+      "sha256": "2f37172ea32a71193dad3a45451a78b044fc8c600c1dfff10561a3b454abac3c"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达782岁.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达782岁.json",
+      "name": "34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达782岁.json",
+      "size_bytes": 144,
+      "modified_at": "2026-04-23T08:23:40.102539Z",
+      "mtime_ns": 1776932620102539391,
+      "sha256": "88ed1446a48b9854fa424bdf9b65a4c21e587db24d1637d63827765a9b7b4dc7"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.json",
+      "name": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.json",
+      "size_bytes": 158,
+      "modified_at": "2026-04-23T08:23:40.103496Z",
+      "mtime_ns": 1776932620103496044,
+      "sha256": "fa534886a8b571d7a79b8668e56ad0934c606f03a634a19f46f0d22c302c466f"
+    },
+    "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/40fd3080-4a2f-417f-896e-b15cf96b69f6_武汉周末小众游推荐.json": {
+      "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/40fd3080-4a2f-417f-896e-b15cf96b69f6_武汉周末小众游推荐.json",
+      "name": "40fd3080-4a2f-417f-896e-b15cf96b69f6_武汉周末小众游推荐.json",
+      "size_bytes": 140,
+      "modified_at": "2026-04-23T08:23:40.127824Z",
+      "mtime_ns": 1776932620127824141,
+      "sha256": "79479b75ea4ebefad3b074003cb78353cb53b6d4b771802fb1f7f49a2a7b8249"
+    }
+  }
+}

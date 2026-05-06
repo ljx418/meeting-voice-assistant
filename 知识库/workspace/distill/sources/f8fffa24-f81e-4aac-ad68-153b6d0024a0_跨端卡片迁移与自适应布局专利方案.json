@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.1",
+  "source_id": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "跨端卡片迁移与自适应布局专利方案",
+  "title_flags": [],
+  "source_weight": 1.8363,
+  "source_density_score": 1.1419,
+  "llm_enriched": false,
+  "tags": [
+    "跨端卡片迁移与自",
+    "适应布局专利方案",
+    "专利方案",
+    "跨端卡片迁移与自适应布局专利方案"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案:topic:1",
+      "kind": "topic_candidate",
+      "text": "专利方案",
+      "importance": 0.9118149999999999,
+      "confidence": 0.725676,
+      "source_weight": 1.8363,
+      "source_density_score": 1.1419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "跨端卡片迁移与自",
+        "适应布局专利方案",
+        "专利方案",
+        "跨端卡片迁移与自适应布局专利方案"
+      ],
+      "entities": [
+        "专利方案"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案:topic:2",
+      "kind": "topic_candidate",
+      "text": "跨端卡片迁移与自适应布局专利方案",
+      "importance": 0.9118149999999999,
+      "confidence": 0.725676,
+      "source_weight": 1.8363,
+      "source_density_score": 1.1419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "跨端卡片迁移与自",
+        "适应布局专利方案",
+        "专利方案",
+        "跨端卡片迁移与自适应布局专利方案"
+      ],
+      "entities": [
+        "专利方案"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案:conclusion:1",
+      "kind": "conclusion",
+      "text": "跨端卡片迁移与自适应布局专利方案",
+      "importance": 0.848541,
+      "confidence": 0.62,
+      "source_weight": 1.8363,
+      "source_density_score": 1.1419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "跨端卡片迁移与自",
+        "适应布局专利方案",
+        "专利方案",
+        "跨端卡片迁移与自适应布局专利方案"
+      ],
+      "entities": [
+        "专利方案"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案:entity:1",
+      "kind": "entity_candidate",
+      "text": "专利方案",
+      "importance": 0.7918149999999999,
+      "confidence": 0.6,
+      "source_weight": 1.8363,
+      "source_density_score": 1.1419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "跨端卡片迁移与自",
+        "适应布局专利方案",
+        "专利方案",
+        "跨端卡片迁移与自适应布局专利方案"
+      ],
+      "entities": [
+        "专利方案"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

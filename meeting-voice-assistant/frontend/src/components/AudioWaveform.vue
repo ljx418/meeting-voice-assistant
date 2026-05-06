@@ -14,7 +14,7 @@ import { ref, watch, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps<{
   audioLevel: number      // 音量级别 0-100
-  audioWaveform: number[] // 波形数据 0-1
+  audioWaveform: readonly number[] // 波形数据 0-1
   isRecording: boolean     // 是否在录音
   isPaused: boolean        // 是否暂停
 }>()

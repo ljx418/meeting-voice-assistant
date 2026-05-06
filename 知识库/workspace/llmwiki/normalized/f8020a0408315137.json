@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "f8020a0408315137",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/f8/f8020a0408315137.json",
+    "sha256": "e5f68c7255aa90fc406fbbc724c44b7ad1351d2907a33a322d38382610e7a97b",
+    "content_hash": "7f59f917864ae6680eb655e6964713804b8151911e18f779c367b95a7e4ae7f5",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "6b419ff5-f680-4b76-b331-44d2862c56ef",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b",
+      "locator": {
+        "kind": "json_path",
+        "path": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "dc35a92c-083e-420e-89b0-22b304394a90",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "ComfyUI",
+      "locator": {
+        "kind": "json_path",
+        "path": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "d7f6133f-00ea-4c02-b84b-6e7a09d5f2f8",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "12174274-bf2b-40f7-a2c1-b7635dae4509",
+      "section_id": "6b419ff5-f680-4b76-b331-44d2862c56ef",
+      "text": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b",
+      "locator": {
+        "kind": "json_path",
+        "path": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "5dfcd0f8-0958-468d-9b44-8ddf839028e3",
+      "section_id": "dc35a92c-083e-420e-89b0-22b304394a90",
+      "text": "ComfyUI",
+      "locator": {
+        "kind": "json_path",
+        "path": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 4
+    },
+    {
+      "passage_id": "7b497ec8-28e7-40de-95b3-791a09d4ec92",
+      "section_id": "d7f6133f-00ea-4c02-b84b-6e7a09d5f2f8",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.543340"
+}

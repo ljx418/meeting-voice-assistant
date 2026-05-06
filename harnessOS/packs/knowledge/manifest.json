@@ -1,14 +1,150 @@
 {
   "name": "knowledge",
   "version": "0.1.0",
+  "manifest_schema_version": "1",
   "domain": "knowledge",
   "description": "Local knowledge ingestion and retrieval workflow.",
   "status": "active",
   "workflows": ["knowledge.workflow"],
-  "subagents": [],
+  "workflow_dsl": {
+    "knowledge.workflow": {
+      "entrypoint": "packs.knowledge.workflow:KnowledgeWorkflow",
+      "steps": [
+        {"id": "route", "kind": "router", "outputs": ["query_intent"]},
+        {"id": "search", "kind": "skill", "uses": "knowledge.search", "inputs": ["query_intent"], "outputs": ["source", "summary"]},
+        {"id": "ingest", "kind": "skill", "uses": "knowledge.ingest", "inputs": ["source"], "outputs": ["note"]}
+      ]
+    }
+  },
+  "workflow_templates": {
+    "knowledge.lifecycle": {
+      "kind": "typed_dag",
+      "entrypoint": "workspace_create",
+      "nodes": [
+        {"id": "workspace_create", "type": "connector", "uses": "data_service_mcp.knowledge_workspace_create", "outputs": ["workspace"]},
+        {"id": "workspace_describe", "type": "connector", "uses": "data_service_mcp.knowledge_workspace_describe", "inputs": ["workspace"], "outputs": ["workspace_description"]},
+        {"id": "source_import", "type": "connector", "uses": "data_service_mcp.knowledge_source_import", "inputs": ["workspace", "source"], "outputs": ["source", "source_ref"]},
+        {"id": "source_list", "type": "connector", "uses": "data_service_mcp.knowledge_source_list", "inputs": ["workspace"], "outputs": ["sources"]},
+        {"id": "build_start", "type": "connector", "uses": "data_service_mcp.knowledge_build_start", "inputs": ["workspace", "source_ref"], "outputs": ["build_id"]},
+        {"id": "build_status", "type": "connector", "uses": "data_service_mcp.knowledge_build_status", "inputs": ["build_id"], "outputs": ["build_status"]},
+        {"id": "query", "type": "connector", "uses": "data_service_mcp.knowledge_query_v2", "inputs": ["workspace", "query_intent"], "outputs": ["summary", "answer", "citations"]},
+        {"id": "quality_feedback", "type": "connector", "uses": "data_service_mcp.knowledge_quality_feedback_v2", "inputs": ["answer", "citations"], "outputs": ["quality_report"]},
+        {"id": "correction_rules", "type": "connector", "uses": "data_service_mcp.knowledge_correction_rules_v2", "inputs": ["quality_report"], "outputs": ["correction_rules"]},
+        {"id": "correction_plan", "type": "connector", "uses": "data_service_mcp.knowledge_correction_plan_v2", "inputs": ["quality_report", "correction_rules"], "outputs": ["correction_plan"]}
+      ],
+      "edges": [
+        ["workspace_create", "workspace_describe"],
+        ["workspace_describe", "source_import"],
+        ["source_import", "build_start"],
+        ["source_import", "source_list"],
+        ["build_start", "build_status"],
+        ["build_status", "query"],
+        ["source_list", "query"],
+        ["query", "quality_feedback"],
+        ["quality_feedback", "correction_rules"],
+        ["correction_rules", "correction_plan"]
+      ]
+    }
+  },
+  "subagents": ["knowledge.curator", "knowledge.quality_reviewer"],
+  "agents": [
+    {
+      "agent_id": "knowledge.curator",
+      "role": "curator",
+      "goal": "Assemble, ingest, and query trusted knowledge workspaces through the Data Service MCP contract.",
+      "workflow_templates": ["knowledge.lifecycle"],
+      "tool_refs": [
+        "data_service_mcp.knowledge_workspace_create",
+        "data_service_mcp.knowledge_workspace_list",
+        "data_service_mcp.knowledge_workspace_describe",
+        "data_service_mcp.knowledge_source_import",
+        "data_service_mcp.knowledge_source_list",
+        "data_service_mcp.knowledge_source_remove",
+        "data_service_mcp.knowledge_build_start",
+        "data_service_mcp.knowledge_build_status",
+        "data_service_mcp.knowledge_build_cancel",
+        "data_service_mcp.knowledge_workspace_archive",
+        "data_service_mcp.knowledge_query_v2",
+        "data_service_mcp.knowledge_ingest_v2"
+      ],
+      "skill_refs": ["knowledge.ingest", "knowledge.search"],
+      "memory_scope": "knowledge.workspace",
+      "handoff_targets": ["knowledge.quality_reviewer"]
+    },
+    {
+      "agent_id": "knowledge.quality_reviewer",
+      "role": "quality_reviewer",
+      "goal": "Evaluate answer quality, citation coverage, and correction plans before publishing knowledge artifacts.",
+      "workflow_templates": ["knowledge.lifecycle"],
+      "tool_refs": [
+        "data_service_mcp.knowledge_quality_summary_v2",
+        "data_service_mcp.knowledge_quality_feedback_v2",
+        "data_service_mcp.knowledge_correction_rules_v2",
+        "data_service_mcp.knowledge_review_correction_rule_v2",
+        "data_service_mcp.knowledge_correction_plan_v2"
+      ],
+      "skill_refs": ["knowledge.search"],
+      "memory_scope": "knowledge.quality",
+      "handoff_targets": ["knowledge.curator"]
+    }
+  ],
   "skills": ["knowledge.ingest", "knowledge.search"],
-  "connectors": ["local.knowledge"],
-  "artifact_kinds": ["note", "summary", "source"],
+  "policy_bundles": ["knowledge.standard"],
+  "connectors": ["local.knowledge", "data_service_mcp"],
+  "connector_capabilities": {
+    "data_service_mcp": {
+      "tools": [
+        "knowledge_workspace_create",
+        "knowledge_workspace_list",
+        "knowledge_workspace_describe",
+        "knowledge_source_import",
+        "knowledge_source_list",
+        "knowledge_source_remove",
+        "knowledge_build_start",
+        "knowledge_build_status",
+        "knowledge_build_cancel",
+        "knowledge_workspace_archive",
+        "knowledge_ingest_v2",
+        "knowledge_query_v2",
+        "knowledge_quality_summary_v2",
+        "knowledge_correction_plan_v2",
+        "knowledge_quality_feedback_v2",
+        "knowledge_correction_rules_v2",
+        "knowledge_review_correction_rule_v2",
+        "knowledge_query",
+        "knowledge_quality_summary",
+        "knowledge_quality_feedback",
+        "knowledge_correction_rules",
+        "knowledge_review_correction_rule",
+        "knowledge_correction_plan"
+      ],
+      "resources": [
+        "data_service://summary",
+        "data_service://layout",
+        "data_service://build-status",
+        "data_service://quality-report"
+      ]
+    }
+  },
+  "memory_scopes": {
+    "knowledge.workspace": {"retention": "workspace_lifecycle", "artifact_kinds": ["source", "summary", "note"]},
+    "knowledge.quality": {"retention": "review_lifecycle", "artifact_kinds": ["quality_report", "correction_plan"]}
+  },
+  "evaluation_rules": {
+    "assembly": ["required_connectors_present", "required_connector_capabilities_present"],
+    "quality": ["citations_required", "low_signal_sources_flagged", "correction_plan_required_on_quality_failure"]
+  },
+  "artifact_kinds": ["note", "summary", "source", "quality_report", "correction_plan"],
+  "artifact_schemas": {
+    "source": {"lineage": "root"},
+    "summary": {"parents": ["source"]},
+    "note": {"parents": ["source"]},
+    "quality_report": {"parents": ["summary"]},
+    "correction_plan": {"parents": ["quality_report"]}
+  },
   "risk_profile": "standard",
-  "metadata": {}
+  "metadata": {
+    "connector_strategy": "contract_stub",
+    "target_version": "3.0"
+  }
 }

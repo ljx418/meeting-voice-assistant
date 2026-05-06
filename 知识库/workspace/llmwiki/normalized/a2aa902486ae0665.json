@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "a2aa902486ae0665",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/07e64274-822c-4810-9755-eb4b2875a45d_表11试验流程表是某个临床试验方案中的流程图现在需要根据此建库.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/a2/a2aa902486ae0665.json",
+    "sha256": "d4b5283be37cf4255e84c0294e22f06dfa793ebff4c8fc8a34b419931288b889",
+    "content_hash": "c2c175b6e1d040b7df0db53f66f9af3bbbe16c352746b875168e7809cce6f14d",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "62fe4e9d-8b9e-4971-9b1e-2704949f0666",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "07e64274-822c-4810-9755-eb4b2875a45d",
+      "locator": {
+        "kind": "json_path",
+        "path": "07e64274-822c-4810-9755-eb4b2875a45d_表11试验流程表是某个临床试验方案中的流程图现在需要根据此建库.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "30da1788-b64a-4959-8fc1-47462edb30da",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "表11试验流程表是某个临床试验方案中的流程图，现在需要根据此建库",
+      "locator": {
+        "kind": "json_path",
+        "path": "07e64274-822c-4810-9755-eb4b2875a45d_表11试验流程表是某个临床试验方案中的流程图现在需要根据此建库.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "9d3782ee-e70b-4db5-b2e5-42fbdb10160a",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "07e64274-822c-4810-9755-eb4b2875a45d_表11试验流程表是某个临床试验方案中的流程图现在需要根据此建库.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "26fb816b-08c3-4b95-ac42-6c2a549d4682",
+      "section_id": "62fe4e9d-8b9e-4971-9b1e-2704949f0666",
+      "text": "07e64274-822c-4810-9755-eb4b2875a45d",
+      "locator": {
+        "kind": "json_path",
+        "path": "07e64274-822c-4810-9755-eb4b2875a45d_表11试验流程表是某个临床试验方案中的流程图现在需要根据此建库.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "3e37f2ed-2141-4361-9815-ed6d52ea177f",
+      "section_id": "30da1788-b64a-4959-8fc1-47462edb30da",
+      "text": "表11试验流程表是某个临床试验方案中的流程图，现在需要根据此建库",
+      "locator": {
+        "kind": "json_path",
+        "path": "07e64274-822c-4810-9755-eb4b2875a45d_表11试验流程表是某个临床试验方案中的流程图现在需要根据此建库.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 45
+    },
+    {
+      "passage_id": "b8496272-c368-4e46-95d3-568cc156db73",
+      "section_id": "9d3782ee-e70b-4db5-b2e5-42fbdb10160a",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "07e64274-822c-4810-9755-eb4b2875a45d_表11试验流程表是某个临床试验方案中的流程图现在需要根据此建库.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.267483"
+}

@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "e2619fc0c4fefd3d",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/e2/e2619fc0c4fefd3d.json",
+    "sha256": "3e5f36d22f342058ffbd787f8c47ca4bb70be214b725cb9a5d691c97a9edb96f",
+    "content_hash": "af02b89500f05bc49a63c4922045693601ded50234559f6886f5d8af5a3a983a",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "761fbdf6-74bf-4a91-96df-85d91dbd3de9",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "1a351897-0b3d-4779-a6de-e11ffd61fe8a",
+      "locator": {
+        "kind": "json_path",
+        "path": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "744a5786-1322-49fd-8b24-3a114fa697e2",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "中国民营航天公司上市进展及股东情况",
+      "locator": {
+        "kind": "json_path",
+        "path": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "27a47d31-0a39-4863-955f-a14c4b9a748a",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "f7bce408-52d1-474a-ac3d-dfd916fc8cc3",
+      "section_id": "761fbdf6-74bf-4a91-96df-85d91dbd3de9",
+      "text": "1a351897-0b3d-4779-a6de-e11ffd61fe8a",
+      "locator": {
+        "kind": "json_path",
+        "path": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "22099d8f-2429-41a2-b2c1-cc4f50709dcc",
+      "section_id": "744a5786-1322-49fd-8b24-3a114fa697e2",
+      "text": "中国民营航天公司上市进展及股东情况",
+      "locator": {
+        "kind": "json_path",
+        "path": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "39ea0b64-8496-4b91-af29-925a9052da29",
+      "section_id": "27a47d31-0a39-4863-955f-a14c4b9a748a",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.320564"
+}

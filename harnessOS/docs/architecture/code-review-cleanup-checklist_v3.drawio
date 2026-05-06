@@ -1,0 +1,28 @@
+<mxfile host="Electron" version="29.6.6">
+  <diagram id="review-checklist-v3" name="Review Checklist V3">
+    <mxGraphModel dx="1200" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="harnessOS V3.0 代码检视清单 / Review Gate" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="260" y="20" width="680" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="core_gateway" value="Core / Gateway Boundary&lt;br&gt;&lt;br&gt;□ 新业务逻辑未写入 Core&lt;br&gt;□ Gateway 未新增业务专用旁路&lt;br&gt;□ Runtime 调用都经过 RuntimeAdapter&lt;br&gt;□ JSON-RPC result/error 互斥" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="90" y="95" width="460" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="scope" value="Scope Isolation&lt;br&gt;&lt;br&gt;□ records 写入包含 app_id / project_id / workspace_id&lt;br&gt;□ list/query 默认按 ScopeContext 过滤&lt;br&gt;□ namespace isolation tests 覆盖同名 session/job/artifact" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="650" y="95" width="460" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="pack_connector" value="Pack / Connector&lt;br&gt;&lt;br&gt;□ workflow 来自 Pack manifest&lt;br&gt;□ PackAssemblyResult 返回 status / missing_dependencies / conflicts / blocked_reason / next_actions&lt;br&gt;□ Connector 通过 ConnectorRegistry 接入&lt;br&gt;□ Connector descriptor 包含 security model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="90" y="310" width="460" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="job_artifact" value="Job / Artifact / Governance&lt;br&gt;&lt;br&gt;□ JobRecord 包含 scope / progress / failure_context / artifact_ids&lt;br&gt;□ ArtifactRecord 包含 external_asset_uri / preview_uri / thumbnail_uri / parent_ids&lt;br&gt;□ 大文件和媒体文件不能 artifact.read 全文读取&lt;br&gt;□ 高风险 tool/job/artifact persistence 经过 Policy / Approval / Trace" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="650" y="310" width="460" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="migration" value="Meeting / Knowledge Migration&lt;br&gt;&lt;br&gt;□ Meeting MCP / FunASR MCP 不硬编码路径&lt;br&gt;□ Meeting legacy facade 内部走 Pack workflow&lt;br&gt;□ Knowledge MCP 只调用 lifecycle/v2 tools&lt;br&gt;□ Knowledge workflow 不直接读写 data_service 内部目录" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="220" y="550" width="760" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

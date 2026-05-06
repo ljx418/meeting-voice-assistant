@@ -1,16 +1,138 @@
 {
   "name": "video_studio",
   "version": "0.0.1",
+  "manifest_schema_version": "1",
   "domain": "video_studio",
-  "description": "Stub for AI video creation workflows and multi-agent studio role orchestration.",
-  "status": "stub",
-  "workflows": ["video.brief", "video.script", "video.storyboard", "video.assign_roles", "video.edit_pipeline"],
+  "description": "AI video studio MVP workflow for planning, asset, and render-output lineage artifacts.",
+  "status": "active",
+  "workflows": ["video.workflow"],
+  "workflow_dsl": {
+    "video.workflow": {
+      "entrypoint": "packs.video_studio.workflow:VideoStudioWorkflow",
+      "steps": [
+        {"id": "brief", "kind": "artifact", "outputs": ["brief"]},
+        {"id": "script", "kind": "skill", "uses": "video.script", "inputs": ["brief"], "outputs": ["script"]},
+        {"id": "storyboard", "kind": "skill", "uses": "video.storyboard", "inputs": ["script"], "outputs": ["storyboard", "shot_list"]},
+        {"id": "render_manifest", "kind": "connector_manifest", "uses": "remote_comfyui", "inputs": ["shot_list"], "outputs": ["asset_plan", "render_output"]}
+      ]
+    }
+  },
+  "workflow_templates": {
+    "video.pipeline": {
+      "kind": "multi_agent_typed_dag",
+      "entrypoint": "brief",
+      "nodes": [
+        {"id": "brief", "type": "artifact", "owner": "studio.lead", "outputs": ["brief"]},
+        {"id": "script", "type": "agent", "owner": "scriptwriter", "inputs": ["brief"], "outputs": ["script"]},
+        {"id": "direction", "type": "agent", "owner": "director", "inputs": ["brief", "script"], "outputs": ["direction_notes"]},
+        {"id": "storyboard", "type": "agent", "owner": "storyboarder", "inputs": ["script", "direction_notes"], "outputs": ["storyboard", "shot_list"]},
+        {"id": "render_manifest", "type": "connector", "owner": "editor", "uses": "remote_comfyui", "inputs": ["shot_list"], "outputs": ["asset_plan", "render_output"]},
+        {"id": "publish_review", "type": "agent", "owner": "qa.publisher", "inputs": ["render_output", "asset_plan"], "outputs": ["publish_report"]}
+      ],
+      "edges": [
+        ["brief", "script"],
+        ["brief", "direction"],
+        ["script", "direction"],
+        ["direction", "storyboard"],
+        ["storyboard", "render_manifest"],
+        ["render_manifest", "publish_review"]
+      ]
+    }
+  },
   "subagents": ["studio.lead", "director", "scriptwriter", "storyboarder", "editor", "qa.publisher"],
+  "agents": [
+    {
+      "agent_id": "studio.lead",
+      "role": "orchestrator",
+      "goal": "Translate user intent into a scoped creative brief and coordinate the video pipeline.",
+      "workflow_templates": ["video.pipeline"],
+      "tool_refs": ["artifact.register", "job.create"],
+      "skill_refs": ["video.brief"],
+      "memory_scope": "video.project",
+      "handoff_targets": ["scriptwriter", "director"]
+    },
+    {
+      "agent_id": "scriptwriter",
+      "role": "scriptwriter",
+      "goal": "Create a concise script aligned to the brief and production constraints.",
+      "workflow_templates": ["video.pipeline"],
+      "tool_refs": ["artifact.register"],
+      "skill_refs": ["video.script"],
+      "memory_scope": "video.project",
+      "handoff_targets": ["director", "storyboarder"]
+    },
+    {
+      "agent_id": "director",
+      "role": "director",
+      "goal": "Convert brief and script into visual direction notes and scene intent.",
+      "workflow_templates": ["video.pipeline"],
+      "tool_refs": ["artifact.register"],
+      "skill_refs": ["video.direction"],
+      "memory_scope": "video.project",
+      "handoff_targets": ["storyboarder"]
+    },
+    {
+      "agent_id": "storyboarder",
+      "role": "storyboarder",
+      "goal": "Produce storyboard and shot list artifacts with stable lineage.",
+      "workflow_templates": ["video.pipeline"],
+      "tool_refs": ["artifact.register"],
+      "skill_refs": ["video.storyboard"],
+      "memory_scope": "video.project",
+      "handoff_targets": ["editor"]
+    },
+    {
+      "agent_id": "editor",
+      "role": "render_planner",
+      "goal": "Prepare connector-ready render manifests without invoking remote render execution in Phase 5-A.",
+      "workflow_templates": ["video.pipeline"],
+      "tool_refs": ["remote_comfyui.render_manifest"],
+      "skill_refs": ["video.render_plan"],
+      "memory_scope": "video.render",
+      "handoff_targets": ["qa.publisher"]
+    },
+    {
+      "agent_id": "qa.publisher",
+      "role": "qa_publisher",
+      "goal": "Review output lineage, publish readiness, and acceptance signals for video artifacts.",
+      "workflow_templates": ["video.pipeline"],
+      "tool_refs": ["artifact.lineage"],
+      "skill_refs": ["video.qa"],
+      "memory_scope": "video.review",
+      "handoff_targets": []
+    }
+  ],
   "skills": [],
-  "connectors": [],
-  "artifact_kinds": ["brief", "script", "storyboard", "asset_plan", "edit_plan", "publish_report"],
+  "policy_bundles": ["video.planning"],
+  "connectors": ["remote_comfyui"],
+  "connector_capabilities": {
+    "remote_comfyui": {
+      "modes": ["txt2img", "txt2video", "image_to_video"]
+    }
+  },
+  "memory_scopes": {
+    "video.project": {"retention": "project_lifecycle", "artifact_kinds": ["brief", "script", "storyboard", "shot_list"]},
+    "video.render": {"retention": "render_lifecycle", "artifact_kinds": ["asset_plan", "render_output"]},
+    "video.review": {"retention": "review_lifecycle", "artifact_kinds": ["publish_report"]}
+  },
+  "evaluation_rules": {
+    "assembly": ["required_connectors_present", "required_connector_capabilities_present"],
+    "quality": ["artifact_lineage_complete", "render_manifest_contract_only", "publish_report_required_before_external_delivery"]
+  },
+  "artifact_kinds": ["brief", "script", "storyboard", "shot_list", "asset_plan", "render_output", "edit_plan", "publish_report"],
+  "artifact_schemas": {
+    "brief": {"lineage": "root"},
+    "script": {"parents": ["brief"]},
+    "storyboard": {"parents": ["script"]},
+    "shot_list": {"parents": ["storyboard"]},
+    "asset_plan": {"parents": ["shot_list"]},
+    "render_output": {"parents": ["asset_plan"]},
+    "publish_report": {"parents": ["render_output"]}
+  },
   "risk_profile": "elevated",
   "metadata": {
-    "handoff_model": "artifact_chain"
+    "handoff_model": "artifact_chain",
+    "connector_strategy": "contract_stub",
+    "target_version": "3.0"
   }
 }

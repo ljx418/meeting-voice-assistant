@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "llmwiki": {
+      "command": "/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/venv312/bin/python",
+      "args": ["-m", "llmwiki.mcp_stdio"],
+      "cwd": "/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/app",
+      "env": {
+        "LLMWIKI_DB_PATH": "./llmwiki.db",
+        "LLMWIKI_VAULT_PATH": "./llmwiki_vault"
+      }
+    },
+    "data_service": {
+      "command": "/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/venv312/bin/python",
+      "args": ["-m", "data_service.mcp_stdio"],
+      "cwd": "/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend",
+      "env": {
+        "PYTHONPATH": "/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend",
+        "DATA_SERVICE_WORKSPACE": "/Users/Zhuanz/Desktop/workspace/知识库/workspace"
+      }
+    }
+  }
+}

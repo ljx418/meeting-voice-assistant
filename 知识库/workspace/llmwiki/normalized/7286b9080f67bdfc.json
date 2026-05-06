@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "7286b9080f67bdfc",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/04366e9b-f81d-476e-bf9e-c858ee378e4f_美加墨世界杯.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/72/7286b9080f67bdfc.json",
+    "sha256": "c0c88ab63fe2a1ce9681d9536beaff6f67ef8c79870224633b03d804e5d51cb5",
+    "content_hash": "481f3eb2c149e604f95f463a067003c32ab8c6e2bb3db4c1a964648eb53fdd59",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "3a4d6286-331e-4f84-94e4-bb656ef51c7f",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "04366e9b-f81d-476e-bf9e-c858ee378e4f",
+      "locator": {
+        "kind": "json_path",
+        "path": "04366e9b-f81d-476e-bf9e-c858ee378e4f_美加墨世界杯.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "1943dfd1-e690-48bb-8b31-d42f75964caf",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "美加墨世界杯",
+      "locator": {
+        "kind": "json_path",
+        "path": "04366e9b-f81d-476e-bf9e-c858ee378e4f_美加墨世界杯.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "1e0a3641-401f-4179-9b96-bf2a72373b0e",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "04366e9b-f81d-476e-bf9e-c858ee378e4f_美加墨世界杯.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "35d03e8c-b75c-4055-8c3c-e1ed107aef75",
+      "section_id": "3a4d6286-331e-4f84-94e4-bb656ef51c7f",
+      "text": "04366e9b-f81d-476e-bf9e-c858ee378e4f",
+      "locator": {
+        "kind": "json_path",
+        "path": "04366e9b-f81d-476e-bf9e-c858ee378e4f_美加墨世界杯.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "1382cb34-c705-4ebb-bbe7-838eaf7c5fb9",
+      "section_id": "1943dfd1-e690-48bb-8b31-d42f75964caf",
+      "text": "美加墨世界杯",
+      "locator": {
+        "kind": "json_path",
+        "path": "04366e9b-f81d-476e-bf9e-c858ee378e4f_美加墨世界杯.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 9
+    },
+    {
+      "passage_id": "821e85d3-ac35-4842-a611-1dbaf38e9740",
+      "section_id": "1e0a3641-401f-4179-9b96-bf2a72373b0e",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "04366e9b-f81d-476e-bf9e-c858ee378e4f_美加墨世界杯.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.562048"
+}

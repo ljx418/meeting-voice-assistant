@@ -1,0 +1,50 @@
+{
+  "source_id": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "211机械硕士考武汉公务员岗位分析",
+  "title_flags": [],
+  "source_weight": 1.7546,
+  "source_density_score": 1.0423,
+  "llm_enriched": false,
+  "tags": [
+    "机械硕士考武汉公",
+    "务员岗位分析",
+    "211机械硕士考武汉公务员岗位分析"
+  ],
+  "units": [
+    {
+      "unit_id": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析:topic:1",
+      "kind": "topic_candidate",
+      "text": "211机械硕士考武汉公务员岗位分析",
+      "importance": 0.9077299999999999,
+      "confidence": 0.721692,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": true,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析:note:1",
+      "kind": "note",
+      "text": "211机械硕士考武汉公务员岗位分析",
+      "importance": 0.685276,
+      "confidence": 0.56,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析:conclusion:1",
+      "kind": "conclusion",
+      "text": "211机械硕士考武汉公务员岗位分析",
+      "importance": 0.842822,
+      "confidence": 0.62,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

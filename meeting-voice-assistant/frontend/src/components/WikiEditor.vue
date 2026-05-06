@@ -123,7 +123,7 @@ let autoSaveTimer: ReturnType<typeof setInterval> | null = null
 
 // Initialize content from template
 if (props.template) {
-  content.value = props.template.content
+  content.value = props.template.content || ''
   title.value = props.template.name
 }
 

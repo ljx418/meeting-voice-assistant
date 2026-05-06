@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "af46f74b022a7c61",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7bf2c6cc-ea30-4c3f-921b-267d27d813a9_临床试验流程自动化建库方案.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/af/af46f74b022a7c61.json",
+    "sha256": "a0d1a6b06789ff4a9d1f7571d45cb09b40a99ee87303f865fb5b27e5d665d2d1",
+    "content_hash": "5fd1c342e0d88927f336222ec3b34327ea7708896d15fa960bdd6ec9c001e267",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "49fb7be2-ccd1-41d4-b730-5bc5e28b7205",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "7bf2c6cc-ea30-4c3f-921b-267d27d813a9",
+      "locator": {
+        "kind": "json_path",
+        "path": "7bf2c6cc-ea30-4c3f-921b-267d27d813a9_临床试验流程自动化建库方案.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "4b8ce331-2583-4b14-b544-cd369b22ed3a",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "临床试验流程自动化建库方案",
+      "locator": {
+        "kind": "json_path",
+        "path": "7bf2c6cc-ea30-4c3f-921b-267d27d813a9_临床试验流程自动化建库方案.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "59a7bc43-69f0-4b32-87ee-42b4a6bdb5c3",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "7bf2c6cc-ea30-4c3f-921b-267d27d813a9_临床试验流程自动化建库方案.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "ac467a1e-f6fc-4103-8ddd-54625fc88eb9",
+      "section_id": "49fb7be2-ccd1-41d4-b730-5bc5e28b7205",
+      "text": "7bf2c6cc-ea30-4c3f-921b-267d27d813a9",
+      "locator": {
+        "kind": "json_path",
+        "path": "7bf2c6cc-ea30-4c3f-921b-267d27d813a9_临床试验流程自动化建库方案.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "543a53f1-56e9-420a-b0d2-7730783943c6",
+      "section_id": "4b8ce331-2583-4b14-b544-cd369b22ed3a",
+      "text": "临床试验流程自动化建库方案",
+      "locator": {
+        "kind": "json_path",
+        "path": "7bf2c6cc-ea30-4c3f-921b-267d27d813a9_临床试验流程自动化建库方案.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 19
+    },
+    {
+      "passage_id": "01aa795e-c4eb-4d95-8180-99bb871b53ea",
+      "section_id": "59a7bc43-69f0-4b32-87ee-42b4a6bdb5c3",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "7bf2c6cc-ea30-4c3f-921b-267d27d813a9_临床试验流程自动化建库方案.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.283922"
+}

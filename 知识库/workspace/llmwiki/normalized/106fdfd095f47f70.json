@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "106fdfd095f47f70",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/10/106fdfd095f47f70.json",
+    "sha256": "2f37172ea32a71193dad3a45451a78b044fc8c600c1dfff10561a3b454abac3c",
+    "content_hash": "3498d4f2e49d315c44f7c24ccebfd290fd21400263a567b1099edd7bb32a79d7",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "6f4206fe-e41a-4530-a44e-87e1c7c833c9",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "34a473e3-fc17-43d3-8196-1b5a205b045e",
+      "locator": {
+        "kind": "json_path",
+        "path": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "2280bba5-9010-44ad-ac76-90c8b247ae01",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "安装ClaudeCode",
+      "locator": {
+        "kind": "json_path",
+        "path": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "b2315ddc-44dd-4a1d-8381-51fd726843ca",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "e41155bf-4997-4ade-95d7-f0f2f405102d",
+      "section_id": "6f4206fe-e41a-4530-a44e-87e1c7c833c9",
+      "text": "34a473e3-fc17-43d3-8196-1b5a205b045e",
+      "locator": {
+        "kind": "json_path",
+        "path": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "3e781c28-a2ba-489b-b177-d1b44ca3386f",
+      "section_id": "2280bba5-9010-44ad-ac76-90c8b247ae01",
+      "text": "安装ClaudeCode",
+      "locator": {
+        "kind": "json_path",
+        "path": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 8
+    },
+    {
+      "passage_id": "116567c7-07d5-44a1-a184-04ef0f9436b6",
+      "section_id": "b2315ddc-44dd-4a1d-8381-51fd726843ca",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.563130"
+}

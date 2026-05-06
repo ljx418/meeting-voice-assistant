@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "87b57bcf3d3a64cb",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/de590cf5-e83a-45dd-a103-cad70fd8fac9_Cursor国内使用限制.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/87/87b57bcf3d3a64cb.json",
+    "sha256": "cdb0f84279b19797bf6f8ca98e823fcb95ba74d81325751e0643413ccdbee5dd",
+    "content_hash": "a683c03ff9fab74dc4e4111bbfa25341a52689f898ca3742a9a9cf95e56c16cd",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "68eb26ad-4119-4224-927c-a3b00eb84c7e",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "de590cf5-e83a-45dd-a103-cad70fd8fac9",
+      "locator": {
+        "kind": "json_path",
+        "path": "de590cf5-e83a-45dd-a103-cad70fd8fac9_Cursor国内使用限制.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "f389e171-d772-4d77-82d8-8add0e9c5f75",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "Cursor国内使用限制",
+      "locator": {
+        "kind": "json_path",
+        "path": "de590cf5-e83a-45dd-a103-cad70fd8fac9_Cursor国内使用限制.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "b045caa2-4317-48f5-9b10-ed8d413b5771",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "de590cf5-e83a-45dd-a103-cad70fd8fac9_Cursor国内使用限制.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "bf3f504b-53d4-4bbb-8a20-2f6bf0b7f8fa",
+      "section_id": "68eb26ad-4119-4224-927c-a3b00eb84c7e",
+      "text": "de590cf5-e83a-45dd-a103-cad70fd8fac9",
+      "locator": {
+        "kind": "json_path",
+        "path": "de590cf5-e83a-45dd-a103-cad70fd8fac9_Cursor国内使用限制.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "8b773e8a-e38a-4099-bf57-84fa0a13b6cd",
+      "section_id": "f389e171-d772-4d77-82d8-8add0e9c5f75",
+      "text": "Cursor国内使用限制",
+      "locator": {
+        "kind": "json_path",
+        "path": "de590cf5-e83a-45dd-a103-cad70fd8fac9_Cursor国内使用限制.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 12
+    },
+    {
+      "passage_id": "80b17a11-5bc8-4cf5-b285-a9e1fc7bc5d2",
+      "section_id": "b045caa2-4317-48f5-9b10-ed8d413b5771",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "de590cf5-e83a-45dd-a103-cad70fd8fac9_Cursor国内使用限制.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.581672"
+}

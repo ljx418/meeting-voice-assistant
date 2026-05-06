@@ -1,0 +1,38 @@
+{
+  "source_id": "7beadd41-1d84-44bb-95f3-c863cf248b1e_简历润色与优化建议",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7beadd41-1d84-44bb-95f3-c863cf248b1e_简历润色与优化建议.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "简历润色与优化建议",
+  "title_flags": [],
+  "source_weight": 1.7521,
+  "source_density_score": 1.0392,
+  "llm_enriched": false,
+  "tags": [
+    "简历润色与优化建",
+    "简历润色与优化建议"
+  ],
+  "units": [
+    {
+      "unit_id": "7beadd41-1d84-44bb-95f3-c863cf248b1e_简历润色与优化建议:topic:1",
+      "kind": "topic_candidate",
+      "text": "简历润色与优化建议",
+      "importance": 0.907605,
+      "confidence": 0.721568,
+      "source_weight": 1.7521,
+      "source_density_score": 1.0392,
+      "is_title_derived": true,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "7beadd41-1d84-44bb-95f3-c863cf248b1e_简历润色与优化建议:note:1",
+      "kind": "note",
+      "text": "简历润色与优化建议",
+      "importance": 0.6851259999999999,
+      "confidence": 0.56,
+      "source_weight": 1.7521,
+      "source_density_score": 1.0392,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

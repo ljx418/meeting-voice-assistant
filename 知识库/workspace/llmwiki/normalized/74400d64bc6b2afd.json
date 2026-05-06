@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "74400d64bc6b2afd",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/edf65431-9841-42c8-8de7-3e34c643800a_香农极限及其在通信中的应用.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/74/74400d64bc6b2afd.json",
+    "sha256": "80e2919a4ffeffe8a04e39b34ac5fa93e520b75fd97f14636f33f68ffe3cc987",
+    "content_hash": "70b935af4a02ef5ca11cf78d766f6d82897a84889463323a2f57919a9c177539",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "8f0375be-b438-414b-9eb1-34bed6b95de5",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "edf65431-9841-42c8-8de7-3e34c643800a",
+      "locator": {
+        "kind": "json_path",
+        "path": "edf65431-9841-42c8-8de7-3e34c643800a_香农极限及其在通信中的应用.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "d2b3e3c3-15c6-435f-8ad4-ae062698da00",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "香农极限及其在通信中的应用",
+      "locator": {
+        "kind": "json_path",
+        "path": "edf65431-9841-42c8-8de7-3e34c643800a_香农极限及其在通信中的应用.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "57cb6305-ef18-4b76-ae23-9efcd91baba1",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "edf65431-9841-42c8-8de7-3e34c643800a_香农极限及其在通信中的应用.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "1e73ff6b-d257-484c-82df-df3251e29c64",
+      "section_id": "8f0375be-b438-414b-9eb1-34bed6b95de5",
+      "text": "edf65431-9841-42c8-8de7-3e34c643800a",
+      "locator": {
+        "kind": "json_path",
+        "path": "edf65431-9841-42c8-8de7-3e34c643800a_香农极限及其在通信中的应用.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "4760921a-4446-4633-b4b7-86926c91e2e6",
+      "section_id": "d2b3e3c3-15c6-435f-8ad4-ae062698da00",
+      "text": "香农极限及其在通信中的应用",
+      "locator": {
+        "kind": "json_path",
+        "path": "edf65431-9841-42c8-8de7-3e34c643800a_香农极限及其在通信中的应用.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 19
+    },
+    {
+      "passage_id": "33fccc96-ebde-4ba5-a17b-fdd7e2361f3b",
+      "section_id": "57cb6305-ef18-4b76-ae23-9efcd91baba1",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "edf65431-9841-42c8-8de7-3e34c643800a_香农极限及其在通信中的应用.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.841029"
+}

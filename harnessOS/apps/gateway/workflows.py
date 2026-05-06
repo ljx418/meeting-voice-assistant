@@ -2,13 +2,57 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Any, Optional, Protocol
+from dataclasses import dataclass, field
+from typing import Any, Callable, Optional, Protocol
 
 from apps.gateway.artifacts import ArtifactRegistry
-from apps.gateway.meeting import MeetingWorkflow
-from core.packs import PackRegistry
-from tools.knowledge import kb_ingest, kb_search
+from core.apps import ScopeContext
+from core.packs import PackAssemblyResult, PackRegistry
+from packs.meeting.workflow import MeetingWorkflow
+
+
+AVAILABLE_WORKFLOW_CONNECTORS = {"meeting_voice_mcp", "local.knowledge", "data_service_mcp", "remote_comfyui"}
+AVAILABLE_CONNECTOR_CAPABILITIES = {
+    "data_service_mcp": {
+        "tools": {
+            "knowledge_workspace_create",
+            "knowledge_workspace_list",
+            "knowledge_workspace_describe",
+            "knowledge_source_import",
+            "knowledge_source_list",
+            "knowledge_source_remove",
+            "knowledge_build_start",
+            "knowledge_build_status",
+            "knowledge_build_cancel",
+            "knowledge_workspace_archive",
+            "knowledge_ingest_v2",
+            "knowledge_query_v2",
+            "knowledge_quality_summary_v2",
+            "knowledge_correction_plan_v2",
+            "knowledge_quality_feedback_v2",
+            "knowledge_correction_rules_v2",
+            "knowledge_review_correction_rule_v2",
+            "knowledge_query",
+            "knowledge_quality_summary",
+            "knowledge_quality_feedback",
+            "knowledge_correction_rules",
+            "knowledge_review_correction_rule",
+            "knowledge_correction_plan",
+        },
+        "resources": {
+            "data_service://summary",
+            "data_service://layout",
+            "data_service://build-status",
+            "data_service://quality-report",
+        },
+    },
+    "remote_comfyui": {
+        "modes": {"txt2img", "txt2video", "image_to_video"},
+    },
+}
+AVAILABLE_POLICY_BUNDLES = {"core.readonly", "meeting.standard", "knowledge.standard", "video.planning"}
+COMPATIBLE_PACK_SCHEMA_VERSIONS = {"1"}
+SUPPORTED_WORKFLOW_IDS = {"meeting.workflow", "knowledge.workflow", "video.workflow"}
 
 
 @dataclass(frozen=True)
@@ -18,6 +62,7 @@ class WorkflowContext:
     session_id: str
     turn_id: str
     domain: Optional[str] = None
+    scope: ScopeContext = field(default_factory=ScopeContext)
     artifact_registry: Optional[ArtifactRegistry] = None
 
 
@@ -38,9 +83,15 @@ class DomainWorkflow(Protocol):
 class WorkflowRegistry:
     """Ordered registry of domain workflows."""
 
-    def __init__(self, pack_registry: Optional[PackRegistry] = None) -> None:
+    def __init__(
+        self,
+        pack_registry: Optional[PackRegistry] = None,
+        *,
+        assemblies: Optional[list[PackAssemblyResult]] = None,
+    ) -> None:
         self._workflows: list[DomainWorkflow] = []
         self._pack_registry = pack_registry
+        self._assemblies_by_domain = {assembly.domain: assembly for assembly in assemblies or []}
 
     def register(self, workflow: DomainWorkflow) -> None:
         """Register one workflow."""
@@ -55,19 +106,33 @@ class WorkflowRegistry:
                 "workflow_id": workflow.workflow_id,
                 "domain": workflow.domain,
                 "priority": workflow.priority,
+                "assembly_status": "manual",
+                "assembly_source": "manual",
             }
             if self._pack_registry is not None:
                 pack = self._pack_registry.get_workflow_pack(workflow.workflow_id)
                 if pack is not None:
+                    assembly = self._assemblies_by_domain.get(pack.domain)
                     metadata.update(
                         {
                             "pack_name": pack.name,
                             "pack_version": pack.version,
                             "pack_status": pack.status,
+                            "assembly_status": assembly.status if assembly else "unknown",
+                            "assembly_source": "pack",
                         }
                     )
             workflows.append(metadata)
         return workflows
+
+    def blocked_pack_for_domain(self, domain: Optional[str]) -> Optional[PackAssemblyResult]:
+        """Return a blocked assembly for an explicit domain, if any."""
+        if not domain:
+            return None
+        assembly = self._assemblies_by_domain.get(domain)
+        if assembly is not None and assembly.status == "blocked":
+            return assembly
+        return None
 
     def select(self, user_input: str, context: WorkflowContext) -> Optional[DomainWorkflow]:
         """Select the first workflow that can handle the turn."""
@@ -100,7 +165,7 @@ class LeadOrchestrator:
 
 
 class MeetingDomainWorkflow:
-    """Adapter that exposes the existing MeetingWorkflow through DomainWorkflow."""
+    """Adapter that exposes the Meeting pack workflow through DomainWorkflow."""
 
     workflow_id = "meeting.workflow"
     domain = "meeting"
@@ -121,71 +186,43 @@ class MeetingDomainWorkflow:
         )
 
 
-class KnowledgeWorkflow:
-    """Minimal knowledge workflow backed by existing kb tools."""
-
-    workflow_id = "knowledge.workflow"
-    domain = "knowledge"
-    priority = 50
-
-    def should_handle(self, user_input: str, context: WorkflowContext) -> bool:
-        if context.domain == "knowledge":
-            return True
-        if context.domain and context.domain != "knowledge":
-            return False
-        lowered = user_input.lower()
-        return any(keyword in lowered for keyword in ("knowledge", "知识", "知识库", "检索", "搜索", "查询", "wiki"))
-
-    async def run(self, user_input: str, context: WorkflowContext) -> dict[str, Any]:
-        if _looks_like_ingest(user_input):
-            document = _extract_document(user_input)
-            result = kb_ingest(document, title="Knowledge Workflow Note")
-            content = f"知识库内容已登记。\n{result}"
-            return {
-                "status": "success",
-                "content": content,
-                "knowledge": {"operation": "ingest", "result": result, "sources": []},
-            }
-
-        result = kb_search(user_input, top_k=5)
-        content = f"知识检索已完成。\n{result}"
-        return {
-            "status": "success",
-            "content": content,
-            "knowledge": {
-                "operation": "search",
-                "query": user_input,
-                "result": result,
-                "sources": _extract_source_lines(result),
-            },
-        }
-
-
 def build_default_orchestrator(
     meeting_workflow: MeetingWorkflow,
     *,
     pack_registry: Optional[PackRegistry] = None,
 ) -> LeadOrchestrator:
     """Build the default gateway workflow orchestrator."""
-    registry = WorkflowRegistry(pack_registry=pack_registry)
-    registry.register(MeetingDomainWorkflow(meeting_workflow))
-    registry.register(KnowledgeWorkflow())
+    workflow_factories = _default_workflow_factories(meeting_workflow)
+    assemblies: list[PackAssemblyResult] = []
+    if pack_registry is not None:
+        assemblies = pack_registry.list_assemblies(
+            supported_workflows=SUPPORTED_WORKFLOW_IDS,
+            available_connectors=AVAILABLE_WORKFLOW_CONNECTORS,
+            available_connector_capabilities=AVAILABLE_CONNECTOR_CAPABILITIES,
+            available_policy_bundles=AVAILABLE_POLICY_BUNDLES,
+            compatible_manifest_schema_versions=COMPATIBLE_PACK_SCHEMA_VERSIONS,
+        )
+    registry = WorkflowRegistry(pack_registry=pack_registry, assemblies=assemblies)
+    if pack_registry is None:
+        for workflow_factory in workflow_factories.values():
+            registry.register(workflow_factory())
+    else:
+        for assembly in assemblies:
+            if assembly.status != "assembled":
+                continue
+            for workflow_id in assembly.registered_workflows:
+                workflow_factory = workflow_factories.get(workflow_id)
+                if workflow_factory is not None:
+                    registry.register(workflow_factory())
     return LeadOrchestrator(registry)
 
 
-def _looks_like_ingest(user_input: str) -> bool:
-    lowered = user_input.lower()
-    return any(keyword in lowered for keyword in ("ingest", "录入", "写入知识库", "加入知识库", "保存到知识库"))
+def _default_workflow_factories(meeting_workflow: MeetingWorkflow) -> dict[str, Callable[[], DomainWorkflow]]:
+    from packs.knowledge.workflow import KnowledgeWorkflow
+    from packs.video_studio.workflow import VideoStudioWorkflow
 
-
-def _extract_document(user_input: str) -> str:
-    for marker in ("：", ":", "\n"):
-        if marker in user_input:
-            candidate = user_input.split(marker, 1)[1].strip()
-            if candidate:
-                return candidate
-    return user_input.strip()
-
-
-def _extract_source_lines(result: str) -> list[str]:
-    return [line.strip() for line in result.splitlines() if line.strip().startswith("ID:")]
+    return {
+        "meeting.workflow": lambda: MeetingDomainWorkflow(meeting_workflow),
+        "knowledge.workflow": KnowledgeWorkflow,
+        "video.workflow": VideoStudioWorkflow,
+    }

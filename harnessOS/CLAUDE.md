@@ -103,25 +103,27 @@ harnessOS - 项目名称待定
 
 | 文件 | 描述 |
 |------|------|
-| `docs/architecture/unified-harness-comparison.drawio` | **统一架构对比图** - 三框架5层对比 |
-| `docs/architecture/deerflow-architecture.drawio` | DeerFlow 2.0 架构图 |
-| `docs/architecture/deep-agents-architecture.drawio` | Deep Agents 架构图 |
-| `docs/architecture/openharness-architecture.drawio` | OpenHarness 架构图 |
+| `docs/architecture/current-vs-target-gap_v2.drawio` | **当前与目标架构差距图** - 当前六平面目标口径 |
+| `docs/architecture/diagrams/01_current_architecture_v2.drawio` | 当前架构图 |
+| `docs/architecture/diagrams/02_target_architecture_v2.drawio` | 目标架构图 |
+| `docs/history/architecture/reference-frameworks/deerflow-architecture.drawio` | DeerFlow 2.0 历史参考图 |
+| `docs/history/architecture/reference-frameworks/deep-agents-architecture.drawio` | Deep Agents 历史参考图 |
+| `docs/history/architecture/reference-frameworks/openharness-architecture.drawio` | OpenHarness 历史参考图 |
 
 ### API 设计文档
 
 | 文件 | 描述 |
 |------|------|
-| `docs/api/unified-message-schema.md` | 统一消息模式 (ConversationMessage, StreamEvent, etc.) |
-| `docs/api/gateway-endpoints.md` | API Gateway 端点设计 |
-| `docs/api/orchestrator-interface.md` | 编排器接口 (IntentRouter, WorkflowDispatcher, etc.) |
-| `docs/api/llm-provider-config.md` | LLM Provider 配置 |
+| `docs/api/unified-message-schema_v2.md` | 统一消息模式 (ConversationMessage, StreamEvent, etc.) |
+| `docs/api/gateway-endpoints_v2.md` | API Gateway 端点设计 |
+| `docs/api/orchestrator-interface_v2.md` | 编排器接口 (IntentRouter, WorkflowDispatcher, etc.) |
+| `docs/api/llm-provider-config_v2.md` | LLM Provider 配置 |
 
 ### 测试验收计划
 
 | 文件 | 描述 |
 |------|------|
-| `docs/test-acceptance-plan.md` | 完整测试验收计划 (Phase 0-5) |
+| `docs/test-acceptance-plan_v2.md` | 完整测试验收计划 (Phase 0-5) |
 
 ### 外部 API 清单
 

@@ -71,7 +71,7 @@ def check_graphrag_cli_health() -> Dict[str, Any]:
         }
     try:
         result = subprocess.run(
-            [cli_path, "--version"],
+            [cli_path, "--help"],
             capture_output=True,
             text=True,
             timeout=10,

@@ -136,6 +136,42 @@
 
 ---
 
+## Phase 5-C: Connector Execution Runtime - FunASR / Data Service MCP 增量
+
+**目标**: 将 FunASR 从纯 HTTP 微服务补齐为 MCP stdio connector，使后续 ASR 调用可以通过 harnessOS connector 边界执行。
+
+### 验收条件
+- [x] `meeting-voice-assistant/backend/funasr_service` 新增 `funasr_service.mcp_stdio`
+- [x] MCP tools 暴露 `funasr_health` 与 `funasr_recognize_file`
+- [x] MCP resource 暴露 `funasr://capabilities`
+- [x] `funasr_recognize_file` 通过 HTTP proxy 调用现有 FunASR `/recognize`
+- [x] harnessOS Connector Registry 注册 `funasr_mcp`
+- [x] 默认测试不依赖真实 FunASR 模型或 8001 服务
+- [x] ConnectorExecutionRuntime 接入 gated MCP stdio client，默认仍保持 connector stub
+- [x] data_service_mcp 通过持久 MCP stdio session 完成真实 Knowledge lifecycle E2E
+- [ ] Phase 5-D 后续增量：FunASR MCP 真实 stdio 调用接入 Meeting workflow
+
+## Phase 5-D: Cross-domain MCP Workflow Stabilization
+
+**目标**: 用 MCP connector 串起 Meeting 与 Knowledge 双域工作流
+
+### 验收条件
+- [ ] Knowledge MCP smoke 固化：依赖检查 + `create -> import -> build -> query -> feedback -> review -> plan -> archive`
+- [ ] FunASR MCP 真实调用：`funasr_health -> funasr_recognize_file`
+- [ ] Meeting workflow 支持通过 `funasr_mcp` 执行转写
+- [ ] Meeting -> Knowledge E2E：`audio -> transcript -> minutes -> knowledge import/build/query`
+- [ ] 全链路 artifact lineage 可追踪 audio、transcript、minutes、knowledge source、build operation、query result
+- [ ] 默认测试不依赖真实 FunASR 模型或 data_service server
+
+### 任务清单
+- [ ] 固化 `scripts/e2e_data_service_mcp_validation.py` 为显式集成验收脚本
+- [ ] 新增 FunASR MCP 显式集成验收脚本
+- [ ] Meeting Pack 转写路径接入 `funasr_mcp`
+- [ ] 新增 cross-domain workflow runner
+- [ ] 更新验收文档和故障排查说明
+
+---
+
 ## Phase 3: 多代理与自动化 (Multi-Agent & Automation)
 
 **目标**: 从单体助手变成可分工的 agent 系统
@@ -205,6 +241,38 @@
 
 ---
 
+## 当前活动剩余开发计划（V3）
+
+当前活动路线以以下文档为准：
+
+- `docs/design/V3.0/v3_development_plan_multi_app_core.md`
+- `docs/design/V3.0/v3_current_gap_analysis.md`
+- `docs/architecture/CURRENT-STATUS_v3.md`
+- `docs/test-acceptance-plan_v3.md`
+
+已完成并进入基线的内容：
+
+- [x] Meeting / Knowledge / Video workflow 已从 Gateway 迁入 Domain Pack。
+- [x] Meeting MCP connector/service 已迁入 `packs/meeting/connector.py`。
+- [x] Meeting artifact lineage 用户态验收脚本已作为当前回归基线。
+- [x] Phase 4-B2 Remote ComfyUI scaffold 延期保留，不作为当前主验收线。
+- [x] Phase 4-C Core-native RPC Router 已完成 method registry、capability registry、compat alias 和稳定错误码回归。
+- [x] Phase 4-D Tool-level Approval Automation 已完成工具执行层自动 approval request、拒绝阻断 retry、批准后工具执行回归。
+- [x] Phase 5-A Pack DSL / Skill / Policy Bundle Assembly 已完成 DomainPack 2.0 Assembly Kernel、Knowledge data_service_mcp Contract Stub、Pack-owned agents 查询面和 Typed DAG 回归。
+- [x] Phase 5-B Memory & Session Intelligence 已完成 Core-native memory records、session summary、artifact-backed memory refs、memory RPC 和 turn memory context MVP。
+- [x] Phase 5-C Connector Execution Runtime 已完成 connector submit/poll/cancel/collect、Core job/events/artifact、data_service_mcp gated stdio execution 和 Knowledge lifecycle 持久 MCP session MVP。
+- [x] V2 历史 Phase 5-D 已完成当前集成 MVP 级别的 FunASR MCP 真实调用、Meeting workflow MCP 转写、Meeting -> Knowledge 跨域 runner 和一次真实 FunASR/data_service 验收。
+
+当前剩余开发顺序：
+
+- [x] V3.0-PhaseA：scope 默认过滤、迁移/回填、namespace isolation、默认主线和显式真实音频验收已完成，并已冻结为回归基线
+- [ ] V3.0-PhaseB：补齐 PackAssemblyResult 正式合同、connector descriptor/security model
+- [ ] V3.0-PhaseC：补齐 artifact read policy 冻结、job/artifact/runtime governance hardening
+- [ ] V3.0-PhaseD：完成 Meeting Pack 真正以外部服务可复验的真实音频 E2E 与 legacy facade equivalence
+- [ ] V3.0-PhaseE：完成 Knowledge Pack data_service_mcp E2E 与 data boundary 验收
+
+---
+
 ## 当前进度
 
 ### 已完成
@@ -214,36 +282,40 @@
 - [x] Phase 0.5 协议控制面：headless CLI + Gateway 协议模型 + session/turn 最小闭环
 - [x] Phase 0.6 协议收口：RuntimeBundle 优先/fallback、session list/read/transcript、`/v1/rpc`、stdio JSONL
 - [x] Phase 0.7 控制面收口：active turn cancellation、headless CLI 回归、真实模型 smoke 标记、RPC/stdio 同构
+- [x] V2 Phase 4-B0/B1：Domain Pack workflow 迁移、Meeting connector 迁移、artifact lineage 查询与用户态验收基线
+- [x] V2 Phase 4-C：Core-native RPC Router，`method.list`、registry capabilities、compat alias 和稳定错误码已完成
+- [x] V2 Phase 4-D：Tool-level Approval Automation，工具执行层自动审批、reject 阻断 retry、approved approval id 放行工具执行已完成
+- [x] V2 Phase 5-A：DomainPack 2.0 Assembly Kernel，Typed DAG、Pack-owned agents、data_service_mcp Contract Stub 和 blocked/degraded 语义已完成
+- [x] V2 Phase 5-B：Memory & Session Intelligence，Core memory records、deterministic session summary、artifact refs 和 turn context 注入已完成
+- [x] V2 Phase 5-C：Connector Execution Runtime，connector lifecycle、gated MCP stdio execution、Core job/events/artifact 和 Knowledge lifecycle 持久 MCP session 已完成当前 MVP
+- [x] V2 Phase 5-D：Cross-domain MCP Workflow Stabilization，FunASR MCP stdio execution、Meeting workflow MCP 转写、Knowledge MCP stdio gate、Meeting -> Knowledge 跨域 runner 和真实跨域验收已完成当前集成 MVP
 
 ### 进行中
-- [ ] Phase 0 剩余任务：CI 搭建、lead_orchestrator 基础版
-- [ ] Phase 1 前置：Lead Orchestrator 基础版与 domain workflow 接入设计
+- [ ] V3.0-PhaseB 到 V3.0-PhaseE 当前主线：以 V3 active plan 收口 pack、governance、meeting、knowledge
 
 ### 待开始
-- [ ] Phase 1：Lead Orchestrator + 会议/面试/知识库三条主链路
-- [ ] Phase 2：权限/审计/隔离/恢复
-- [ ] Phase 3：多代理/自动化
-- [ ] Phase 4：视频工作流
-- [ ] Phase 5：开源/商用
+- [ ] Phase 6：Productization / Open Source / Commercial Readiness
 
 ---
 
 ## 项目架构参考
 
 ### 架构图位置
-- `docs/architecture/unified-harness-comparison.drawio` - 统一架构对比图
-- `docs/architecture/deerflow-architecture.drawio` - DeerFlow 架构图
-- `docs/architecture/deep-agents-architecture.drawio` - Deep Agents 架构图
-- `docs/architecture/openharness-architecture.drawio` - OpenHarness 架构图
+- `docs/architecture/current-vs-target-gap_v2.drawio` - 当前与目标架构差距图
+- `docs/architecture/diagrams/01_current_architecture_v2.drawio` - 当前架构图
+- `docs/architecture/diagrams/02_target_architecture_v2.drawio` - 目标架构图
+- `docs/history/architecture/reference-frameworks/deerflow-architecture.drawio` - DeerFlow 历史参考图
+- `docs/history/architecture/reference-frameworks/deep-agents-architecture.drawio` - Deep Agents 历史参考图
+- `docs/history/architecture/reference-frameworks/openharness-architecture.drawio` - OpenHarness 历史参考图
 
 ### API 设计文档
-- `docs/api/unified-message-schema.md` - 统一消息模式
-- `docs/api/gateway-endpoints.md` - API Gateway 端点
-- `docs/api/orchestrator-interface.md` - 编排器接口
-- `docs/api/llm-provider-config.md` - LLM 提供者配置
+- `docs/api/unified-message-schema_v2.md` - 统一消息模式
+- `docs/api/gateway-endpoints_v2.md` - API Gateway 端点
+- `docs/api/orchestrator-interface_v2.md` - 编排器接口
+- `docs/api/llm-provider-config_v2.md` - LLM 提供者配置
 
 ### 测试验收计划
-- `docs/test-acceptance-plan.md` - 完整测试验收计划
+- `docs/test-acceptance-plan_v2.md` - 完整测试验收计划
 
 ### 参考代码
 - `examples/deer-flow/` - DeerFlow 代码

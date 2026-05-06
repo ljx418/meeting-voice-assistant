@@ -1,0 +1,208 @@
+{
+  "schema_version": "1.1",
+  "source_id": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "国际金价与黄金ETF涨跌逻辑分析",
+  "title_flags": [],
+  "source_weight": 2.0003,
+  "source_density_score": 1.3419,
+  "llm_enriched": false,
+  "tags": [
+    "国际金价与黄金",
+    "ETF",
+    "涨跌逻辑分析",
+    "国际金价与黄金ETF涨跌逻辑分析"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 3,
+    "topic_candidate": 3
+  },
+  "units": [
+    {
+      "unit_id": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析:topic:1",
+      "kind": "topic_candidate",
+      "text": "ETF",
+      "importance": 0.920015,
+      "confidence": 0.733676,
+      "source_weight": 2.0003,
+      "source_density_score": 1.3419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析",
+        "国际金价与黄金ETF涨跌逻辑分析"
+      ],
+      "entities": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析:topic:2",
+      "kind": "topic_candidate",
+      "text": "涨跌逻辑分析",
+      "importance": 0.920015,
+      "confidence": 0.733676,
+      "source_weight": 2.0003,
+      "source_density_score": 1.3419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析",
+        "国际金价与黄金ETF涨跌逻辑分析"
+      ],
+      "entities": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析:topic:3",
+      "kind": "topic_candidate",
+      "text": "国际金价与黄金ETF涨跌逻辑分析",
+      "importance": 0.920015,
+      "confidence": 0.733676,
+      "source_weight": 2.0003,
+      "source_density_score": 1.3419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析",
+        "国际金价与黄金ETF涨跌逻辑分析"
+      ],
+      "entities": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析:conclusion:1",
+      "kind": "conclusion",
+      "text": "国际金价与黄金ETF涨跌逻辑分析",
+      "importance": 0.860021,
+      "confidence": 0.62,
+      "source_weight": 2.0003,
+      "source_density_score": 1.3419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析",
+        "国际金价与黄金ETF涨跌逻辑分析"
+      ],
+      "entities": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析:entity:1",
+      "kind": "entity_candidate",
+      "text": "国际金价与黄金",
+      "importance": 0.8000149999999999,
+      "confidence": 0.6,
+      "source_weight": 2.0003,
+      "source_density_score": 1.3419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析",
+        "国际金价与黄金ETF涨跌逻辑分析"
+      ],
+      "entities": [
+        "国际金价与黄金"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析:entity:2",
+      "kind": "entity_candidate",
+      "text": "ETF",
+      "importance": 0.8000149999999999,
+      "confidence": 0.6,
+      "source_weight": 2.0003,
+      "source_density_score": 1.3419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析",
+        "国际金价与黄金ETF涨跌逻辑分析"
+      ],
+      "entities": [
+        "ETF"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析:entity:3",
+      "kind": "entity_candidate",
+      "text": "涨跌逻辑分析",
+      "importance": 0.8000149999999999,
+      "confidence": 0.6,
+      "source_weight": 2.0003,
+      "source_density_score": 1.3419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "国际金价与黄金",
+        "ETF",
+        "涨跌逻辑分析",
+        "国际金价与黄金ETF涨跌逻辑分析"
+      ],
+      "entities": [
+        "涨跌逻辑分析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

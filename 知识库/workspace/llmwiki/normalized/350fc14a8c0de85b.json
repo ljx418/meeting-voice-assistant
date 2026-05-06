@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "350fc14a8c0de85b",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1ed5cdd9-1e4e-4400-911d-06bbc6860c57_西安丈八路名称来源解析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/35/350fc14a8c0de85b.json",
+    "sha256": "e1aeacb44281933be922b9e54184fd8d3705162509a88846c0172d11ba458e1b",
+    "content_hash": "2af3285a8fceb61fe48616e4398a68978eebd1f0802e718f24f5bd30312ce6b5",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "ff868793-666f-45d7-9f84-7f4264022eaa",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "1ed5cdd9-1e4e-4400-911d-06bbc6860c57",
+      "locator": {
+        "kind": "json_path",
+        "path": "1ed5cdd9-1e4e-4400-911d-06bbc6860c57_西安丈八路名称来源解析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "04121fa8-5f78-4ed1-a8ca-17e5e8ac6c86",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "西安丈八路名称来源解析",
+      "locator": {
+        "kind": "json_path",
+        "path": "1ed5cdd9-1e4e-4400-911d-06bbc6860c57_西安丈八路名称来源解析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "67343221-a10c-442e-9e94-7b21fc73f402",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "1ed5cdd9-1e4e-4400-911d-06bbc6860c57_西安丈八路名称来源解析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "9c1ecc7a-a576-4d6e-a466-647c62860968",
+      "section_id": "ff868793-666f-45d7-9f84-7f4264022eaa",
+      "text": "1ed5cdd9-1e4e-4400-911d-06bbc6860c57",
+      "locator": {
+        "kind": "json_path",
+        "path": "1ed5cdd9-1e4e-4400-911d-06bbc6860c57_西安丈八路名称来源解析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "457e3af8-2f3d-4a5c-8fe2-b0e04d14beb3",
+      "section_id": "04121fa8-5f78-4ed1-a8ca-17e5e8ac6c86",
+      "text": "西安丈八路名称来源解析",
+      "locator": {
+        "kind": "json_path",
+        "path": "1ed5cdd9-1e4e-4400-911d-06bbc6860c57_西安丈八路名称来源解析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 16
+    },
+    {
+      "passage_id": "37a3b009-3e2f-407f-9cb1-f77546498790",
+      "section_id": "67343221-a10c-442e-9e94-7b21fc73f402",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "1ed5cdd9-1e4e-4400-911d-06bbc6860c57_西安丈八路名称来源解析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.618038"
+}

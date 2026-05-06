@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "8c1b0068601d428d",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/aaf82d37-e86e-466a-aff3-31254a34f0f8_手机游戏中国式人生设计框架.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/8c/8c1b0068601d428d.json",
+    "sha256": "6608a1535c52fd75cf589063a8a18c87836564d3c69937cbc7d67539d9c6517b",
+    "content_hash": "ae39bb0c6e8f40dc7a4d4892bcc576635b6d9574f125d89f76b900b7e7d7b945",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "681b5167-098c-464f-8fd2-4ab1e6a76695",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "aaf82d37-e86e-466a-aff3-31254a34f0f8",
+      "locator": {
+        "kind": "json_path",
+        "path": "aaf82d37-e86e-466a-aff3-31254a34f0f8_手机游戏中国式人生设计框架.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "34a087fb-7313-4404-b839-f8e8cdb06041",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "手机游戏《中国式人生》设计框架",
+      "locator": {
+        "kind": "json_path",
+        "path": "aaf82d37-e86e-466a-aff3-31254a34f0f8_手机游戏中国式人生设计框架.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "43a1e6f9-81f9-423a-8d9f-a7c14f72bc39",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "aaf82d37-e86e-466a-aff3-31254a34f0f8_手机游戏中国式人生设计框架.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "de101d2d-0756-4e0d-b812-4beacc795683",
+      "section_id": "681b5167-098c-464f-8fd2-4ab1e6a76695",
+      "text": "aaf82d37-e86e-466a-aff3-31254a34f0f8",
+      "locator": {
+        "kind": "json_path",
+        "path": "aaf82d37-e86e-466a-aff3-31254a34f0f8_手机游戏中国式人生设计框架.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "cd48cf6d-6f56-499d-970f-107be7b61102",
+      "section_id": "34a087fb-7313-4404-b839-f8e8cdb06041",
+      "text": "手机游戏《中国式人生》设计框架",
+      "locator": {
+        "kind": "json_path",
+        "path": "aaf82d37-e86e-466a-aff3-31254a34f0f8_手机游戏中国式人生设计框架.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 20
+    },
+    {
+      "passage_id": "056ebdaf-510a-476d-a424-d200baccfe25",
+      "section_id": "43a1e6f9-81f9-423a-8d9f-a7c14f72bc39",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "aaf82d37-e86e-466a-aff3-31254a34f0f8_手机游戏中国式人生设计框架.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.215164"
+}

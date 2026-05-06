@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.1",
+  "source_id": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "超聚变公司股权结构及背景介绍",
+  "title_flags": [],
+  "source_weight": 1.8357,
+  "source_density_score": 1.1411,
+  "llm_enriched": false,
+  "tags": [
+    "超聚变公司股权结",
+    "构及背景介绍",
+    "介绍",
+    "超聚变公司股权结构及背景介绍"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍:topic:1",
+      "kind": "topic_candidate",
+      "text": "介绍",
+      "importance": 0.911785,
+      "confidence": 0.7256440000000001,
+      "source_weight": 1.8357,
+      "source_density_score": 1.1411,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "超聚变公司股权结",
+        "构及背景介绍",
+        "介绍",
+        "超聚变公司股权结构及背景介绍"
+      ],
+      "entities": [
+        "介绍"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍:topic:2",
+      "kind": "topic_candidate",
+      "text": "超聚变公司股权结构及背景介绍",
+      "importance": 0.911785,
+      "confidence": 0.7256440000000001,
+      "source_weight": 1.8357,
+      "source_density_score": 1.1411,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "超聚变公司股权结",
+        "构及背景介绍",
+        "介绍",
+        "超聚变公司股权结构及背景介绍"
+      ],
+      "entities": [
+        "介绍"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍:conclusion:1",
+      "kind": "conclusion",
+      "text": "超聚变公司股权结构及背景介绍",
+      "importance": 0.848499,
+      "confidence": 0.62,
+      "source_weight": 1.8357,
+      "source_density_score": 1.1411,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "超聚变公司股权结",
+        "构及背景介绍",
+        "介绍",
+        "超聚变公司股权结构及背景介绍"
+      ],
+      "entities": [
+        "介绍"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍:entity:1",
+      "kind": "entity_candidate",
+      "text": "介绍",
+      "importance": 0.791785,
+      "confidence": 0.6,
+      "source_weight": 1.8357,
+      "source_density_score": 1.1411,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "超聚变公司股权结",
+        "构及背景介绍",
+        "介绍",
+        "超聚变公司股权结构及背景介绍"
+      ],
+      "entities": [
+        "介绍"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

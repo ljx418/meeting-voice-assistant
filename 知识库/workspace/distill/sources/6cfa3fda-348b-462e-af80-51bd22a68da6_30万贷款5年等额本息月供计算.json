@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.1",
+  "source_id": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "30万贷款5年等额本息月供计算",
+  "title_flags": [],
+  "source_weight": 1.836,
+  "source_density_score": 1.1415,
+  "llm_enriched": false,
+  "tags": [
+    "万贷款",
+    "年等额本息月供计",
+    "30万贷款5年等额本息月供计算"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算:topic:1",
+      "kind": "topic_candidate",
+      "text": "万贷款",
+      "importance": 0.9117999999999999,
+      "confidence": 0.7256600000000001,
+      "source_weight": 1.836,
+      "source_density_score": 1.1415,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "万贷款",
+        "年等额本息月供计",
+        "30万贷款5年等额本息月供计算"
+      ],
+      "entities": [
+        "万贷款"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算:topic:2",
+      "kind": "topic_candidate",
+      "text": "30万贷款5年等额本息月供计算",
+      "importance": 0.9117999999999999,
+      "confidence": 0.7256600000000001,
+      "source_weight": 1.836,
+      "source_density_score": 1.1415,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "万贷款",
+        "年等额本息月供计",
+        "30万贷款5年等额本息月供计算"
+      ],
+      "entities": [
+        "万贷款"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算:conclusion:1",
+      "kind": "conclusion",
+      "text": "30万贷款5年等额本息月供计算",
+      "importance": 0.8485199999999999,
+      "confidence": 0.62,
+      "source_weight": 1.836,
+      "source_density_score": 1.1415,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "万贷款",
+        "年等额本息月供计",
+        "30万贷款5年等额本息月供计算"
+      ],
+      "entities": [
+        "万贷款"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算:entity:1",
+      "kind": "entity_candidate",
+      "text": "万贷款",
+      "importance": 0.7918,
+      "confidence": 0.6,
+      "source_weight": 1.836,
+      "source_density_score": 1.1415,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "万贷款",
+        "年等额本息月供计",
+        "30万贷款5年等额本息月供计算"
+      ],
+      "entities": [
+        "万贷款"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

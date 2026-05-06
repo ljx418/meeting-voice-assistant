@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.1",
+  "source_id": "15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "中国养老金5000元以上人数分析",
+  "title_flags": [],
+  "source_weight": 1.9183,
+  "source_density_score": 1.2419,
+  "llm_enriched": false,
+  "tags": [
+    "中国养老金",
+    "元以上人数分析",
+    "投资",
+    "宏观政策",
+    "中国养老金5000元以上人数分析"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 2,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析:topic:1",
+      "kind": "topic_candidate",
+      "text": "投资",
+      "importance": 0.9159149999999999,
+      "confidence": 0.729676,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国养老金",
+        "元以上人数分析",
+        "投资",
+        "宏观政策",
+        "中国养老金5000元以上人数分析"
+      ],
+      "entities": [
+        "中国养老金",
+        "元以上人数分析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析:topic:2",
+      "kind": "topic_candidate",
+      "text": "宏观政策",
+      "importance": 0.9159149999999999,
+      "confidence": 0.729676,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国养老金",
+        "元以上人数分析",
+        "投资",
+        "宏观政策",
+        "中国养老金5000元以上人数分析"
+      ],
+      "entities": [
+        "中国养老金",
+        "元以上人数分析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析:conclusion:1",
+      "kind": "conclusion",
+      "text": "中国养老金5000元以上人数分析",
+      "importance": 0.854281,
+      "confidence": 0.62,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国养老金",
+        "元以上人数分析",
+        "投资",
+        "宏观政策",
+        "中国养老金5000元以上人数分析"
+      ],
+      "entities": [
+        "中国养老金",
+        "元以上人数分析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析:entity:1",
+      "kind": "entity_candidate",
+      "text": "中国养老金",
+      "importance": 0.7959149999999999,
+      "confidence": 0.6,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国养老金",
+        "元以上人数分析",
+        "投资",
+        "宏观政策",
+        "中国养老金5000元以上人数分析"
+      ],
+      "entities": [
+        "中国养老金"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析:entity:2",
+      "kind": "entity_candidate",
+      "text": "元以上人数分析",
+      "importance": 0.7959149999999999,
+      "confidence": 0.6,
+      "source_weight": 1.9183,
+      "source_density_score": 1.2419,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国养老金",
+        "元以上人数分析",
+        "投资",
+        "宏观政策",
+        "中国养老金5000元以上人数分析"
+      ],
+      "entities": [
+        "元以上人数分析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/15d80ddf-b312-4331-bc10-6b643da72466_中国养老金5000元以上人数分析.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "14aed7f9f18dd0b4",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/e2a4f85a-c7eb-4d41-87e3-ca7de12bcaf1_过期啤酒饮用建议.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/14/14aed7f9f18dd0b4.json",
+    "sha256": "e2f50d2a90a371b3169bca6de05bc5a611b9e0fdb070dc5d3be1655e25fc518a",
+    "content_hash": "dce2400581d97bee12bb403b2f63646859973730f99b7317287b6527a49c8af9",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "3834d3f0-45af-40e9-bba4-bc11e300e501",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "e2a4f85a-c7eb-4d41-87e3-ca7de12bcaf1",
+      "locator": {
+        "kind": "json_path",
+        "path": "e2a4f85a-c7eb-4d41-87e3-ca7de12bcaf1_过期啤酒饮用建议.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "3507d666-9fca-4222-a128-0384a8b15b12",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "过期啤酒饮用建议",
+      "locator": {
+        "kind": "json_path",
+        "path": "e2a4f85a-c7eb-4d41-87e3-ca7de12bcaf1_过期啤酒饮用建议.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "2fa1eb1b-2fd7-488c-9736-a45095ef4d5e",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "e2a4f85a-c7eb-4d41-87e3-ca7de12bcaf1_过期啤酒饮用建议.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "dda82c09-df82-4d89-ac61-ef2f1d3ab3e6",
+      "section_id": "3834d3f0-45af-40e9-bba4-bc11e300e501",
+      "text": "e2a4f85a-c7eb-4d41-87e3-ca7de12bcaf1",
+      "locator": {
+        "kind": "json_path",
+        "path": "e2a4f85a-c7eb-4d41-87e3-ca7de12bcaf1_过期啤酒饮用建议.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "656082f9-bac1-43ff-a122-18ecfdabb546",
+      "section_id": "3507d666-9fca-4222-a128-0384a8b15b12",
+      "text": "过期啤酒饮用建议",
+      "locator": {
+        "kind": "json_path",
+        "path": "e2a4f85a-c7eb-4d41-87e3-ca7de12bcaf1_过期啤酒饮用建议.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 12
+    },
+    {
+      "passage_id": "880978f5-602b-45a1-bb5c-65894c90bcd0",
+      "section_id": "2fa1eb1b-2fd7-488c-9736-a45095ef4d5e",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "e2a4f85a-c7eb-4d41-87e3-ca7de12bcaf1_过期啤酒饮用建议.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.462773"
+}

@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "de289127f60d770b",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/451d8bfd-1beb-4109-9db8-886327c53965_管培生实践移植案例.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/de/de289127f60d770b.json",
+    "sha256": "7283bca30291e6214cde5c223540afe1278ec01ece11261bc65f3724e676c731",
+    "content_hash": "18254bee1c3fc382bd5b76016a9e54eb5bb94f090f97f916ae7b33d0a64f66d8",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "6b1ab84e-dbe4-4dec-8fc4-498b38373141",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "451d8bfd-1beb-4109-9db8-886327c53965",
+      "locator": {
+        "kind": "json_path",
+        "path": "451d8bfd-1beb-4109-9db8-886327c53965_管培生实践移植案例.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "85ad1ced-0b23-4b76-8f33-b6facf515271",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "管培生实践移植案例",
+      "locator": {
+        "kind": "json_path",
+        "path": "451d8bfd-1beb-4109-9db8-886327c53965_管培生实践移植案例.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "8d280fc1-cd71-4309-be53-064f1a571a34",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "451d8bfd-1beb-4109-9db8-886327c53965_管培生实践移植案例.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "b314f605-8eab-47e5-a7fe-11f85301aeda",
+      "section_id": "6b1ab84e-dbe4-4dec-8fc4-498b38373141",
+      "text": "451d8bfd-1beb-4109-9db8-886327c53965",
+      "locator": {
+        "kind": "json_path",
+        "path": "451d8bfd-1beb-4109-9db8-886327c53965_管培生实践移植案例.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "a3006170-8f76-4555-9474-82788a2a3e83",
+      "section_id": "85ad1ced-0b23-4b76-8f33-b6facf515271",
+      "text": "管培生实践移植案例",
+      "locator": {
+        "kind": "json_path",
+        "path": "451d8bfd-1beb-4109-9db8-886327c53965_管培生实践移植案例.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 13
+    },
+    {
+      "passage_id": "377ddbf7-8bc8-4089-8191-d7d90d747829",
+      "section_id": "8d280fc1-cd71-4309-be53-064f1a571a34",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "451d8bfd-1beb-4109-9db8-886327c53965_管培生实践移植案例.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.095325"
+}

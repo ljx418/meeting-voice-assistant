@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.1",
+  "source_id": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "VBA提取访视日期代码",
+  "title_flags": [],
+  "source_weight": 1.9168,
+  "source_density_score": 1.2399,
+  "llm_enriched": false,
+  "tags": [
+    "VBA",
+    "提取访视日期代码",
+    "软件开发",
+    "VBA提取访视日期代码"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "entity_candidate": 2,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码:topic:1",
+      "kind": "topic_candidate",
+      "text": "软件开发",
+      "importance": 0.91584,
+      "confidence": 0.729596,
+      "source_weight": 1.9168,
+      "source_density_score": 1.2399,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "VBA",
+        "提取访视日期代码",
+        "软件开发",
+        "VBA提取访视日期代码"
+      ],
+      "entities": [
+        "VBA",
+        "提取访视日期代码"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码:topic:2",
+      "kind": "topic_candidate",
+      "text": "VBA",
+      "importance": 0.91584,
+      "confidence": 0.729596,
+      "source_weight": 1.9168,
+      "source_density_score": 1.2399,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "VBA",
+        "提取访视日期代码",
+        "软件开发",
+        "VBA提取访视日期代码"
+      ],
+      "entities": [
+        "VBA",
+        "提取访视日期代码"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码:entity:1",
+      "kind": "entity_candidate",
+      "text": "VBA",
+      "importance": 0.79584,
+      "confidence": 0.6,
+      "source_weight": 1.9168,
+      "source_density_score": 1.2399,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "VBA",
+        "提取访视日期代码",
+        "软件开发",
+        "VBA提取访视日期代码"
+      ],
+      "entities": [
+        "VBA"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码:entity:2",
+      "kind": "entity_candidate",
+      "text": "提取访视日期代码",
+      "importance": 0.79584,
+      "confidence": 0.6,
+      "source_weight": 1.9168,
+      "source_density_score": 1.2399,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "VBA",
+        "提取访视日期代码",
+        "软件开发",
+        "VBA提取访视日期代码"
+      ],
+      "entities": [
+        "提取访视日期代码"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

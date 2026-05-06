@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "ecfd101601d2e081",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/ec/ecfd101601d2e081.json",
+    "sha256": "ecd5cfe5d44fbfe2be0fd579f7df14922b0abc7e9b645287ee01ce265ad3a88e",
+    "content_hash": "b08f675217a354506b8aee138228d5af932b8c760ae3c62624610f842c2a0ca3",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "fa5aa152-b5c0-4be3-b3dc-2b26e0ceb652",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "2b5973a8-177b-451f-a690-6d9ef31f8c8c",
+      "locator": {
+        "kind": "json_path",
+        "path": "2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "3cf99a19-1983-4533-ab54-e928c199f28c",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "四代住宅概念及特点解析",
+      "locator": {
+        "kind": "json_path",
+        "path": "2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "e992219f-3a70-4395-aad8-86d5218f3faf",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "51a737fe-78a6-4ba6-80ab-19dab41bc322",
+      "section_id": "fa5aa152-b5c0-4be3-b3dc-2b26e0ceb652",
+      "text": "2b5973a8-177b-451f-a690-6d9ef31f8c8c",
+      "locator": {
+        "kind": "json_path",
+        "path": "2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "e1f16b7d-89d3-4484-a8cb-655cd14eac76",
+      "section_id": "3cf99a19-1983-4533-ab54-e928c199f28c",
+      "text": "四代住宅概念及特点解析",
+      "locator": {
+        "kind": "json_path",
+        "path": "2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 16
+    },
+    {
+      "passage_id": "2f26c51f-7588-40f2-b41a-a132bf8f1768",
+      "section_id": "e992219f-3a70-4395-aad8-86d5218f3faf",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.195153"
+}

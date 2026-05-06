@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.1",
+  "source_id": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "租户查看房东消防记录的法律分析",
+  "title_flags": [],
+  "source_weight": 1.754,
+  "source_density_score": 1.0415,
+  "llm_enriched": false,
+  "tags": [
+    "租户查看房东消防",
+    "记录的法律分析",
+    "租户查看房东消防记录的法律分析"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "topic_candidate": 1
+  },
+  "units": [
+    {
+      "unit_id": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析:topic:1",
+      "kind": "topic_candidate",
+      "text": "租户查看房东消防记录的法律分析",
+      "importance": 0.9077,
+      "confidence": 0.7216600000000001,
+      "source_weight": 1.754,
+      "source_density_score": 1.0415,
+      "is_title_derived": true,
+      "is_llm_enriched": false,
+      "tags": [
+        "租户查看房东消防",
+        "记录的法律分析",
+        "租户查看房东消防记录的法律分析"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析:conclusion:1",
+      "kind": "conclusion",
+      "text": "租户查看房东消防记录的法律分析",
+      "importance": 0.84278,
+      "confidence": 0.62,
+      "source_weight": 1.754,
+      "source_density_score": 1.0415,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "租户查看房东消防",
+        "记录的法律分析",
+        "租户查看房东消防记录的法律分析"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8131bc42-21d6-4f75-8d15-5f7bd8e9eef2_租户查看房东消防记录的法律分析.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

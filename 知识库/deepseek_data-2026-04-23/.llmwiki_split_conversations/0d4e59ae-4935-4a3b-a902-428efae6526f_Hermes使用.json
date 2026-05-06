@@ -1,0 +1,250 @@
+{
+  "id": "0d4e59ae-4935-4a3b-a902-428efae6526f",
+  "title": "Hermes使用",
+  "inserted_at": "2026-04-20T11:06:22.702000+08:00",
+  "updated_at": "2026-04-22T22:26:31.207000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-22T10:23:34.648000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "Hermes与OpenClaw有什么区别，我之前使用过Openclaw，它们俩从架构上有什么区别、技术上有什么偏好、使用上有什么不同？我现在需要做一个面向软件开发团队的内部培训材料，你给我搜集一下全网关于上述几个问题的答案并基于此做出一个用于内部培训的PPT大纲"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [
+        "3"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-22T10:23:34.649000+08:00",
+        "fragments": [
+          {
+            "type": "THINK",
+            "content": "用户需要一份关于Hermes和OpenClaw对比的内部培训材料PPT大纲，要求覆盖架构、技术偏好和使用差异。用户之前用过OpenClaw，所以需要突出对比。这两个项目都涉及AI智能体，但方向可能不同，得先了解各自的基本定位和技术栈。同时搜索它们各自的信息，以及直接的对比文章，应该能快速摸清轮廓。"
+          },
+          {
+            "type": "TOOL_SEARCH"
+          },
+          {
+            "type": "THINK",
+            "content": "搜索结果很丰富，找到了好几篇对比文章和各自的技术解析。用户提到的架构、技术、使用三个维度都有覆盖。这些文章看起来都比较新，发布时间集中在2026年4月，正好是这两个项目最火的时候。为了获取详细对比信息，需要点开这几篇看起来最核心的对比文章和架构解析文章，看看具体是怎么分析的。"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "THINK",
+            "content": "打开的几篇文章提供了非常详尽的对比信息，涵盖了设计哲学、技术栈、记忆系统、技能机制、安全机制等方方面面。用户要的是内部培训材料，PPT大纲的结构可以按对比分析的常见逻辑来组织。先给出核心结论，然后分别介绍两个项目的基本情况，再深入对比架构、技术偏好和使用体验，最后结合团队背景给出选型建议和实操指南。这样既能满足对比分析的需求，也能为团队提供决策参考。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "# Hermes 与 OpenClaw 对比分析及内部培训 PPT 大纲\n\n\n## 一、搜集到的核心信息综述\n\n### 1. 项目背景与定位\n\n**Hermes Agent** 由 Nous Research（知名开源模型系列 Hermes 的团队）开发，于 2026 年 2 月正式发布 v0.1.0。其核心定位是“自我演化的智能体”，主打 Python 轻量级架构、持久化记忆和技能自生成能力。发布两个月内 GitHub Star 突破 4.7 万，连续占据趋势榜首位。[reference:0][reference:1]\n\n**OpenClaw** 由奥地利个人开发者创建，是 2026 年初首个现象级 AI Agent 项目，GitHub Star 突破 16 万。核心定位是“多通道调度中枢” / “AI 操作系统”，主打 TypeScript 全平台控制、多账号编排、成熟的插件生态和企业级稳定性。[reference:2][reference:3]\n\n### 2. 核心设计哲学的差异\n\n这是两者最根本的区别。OpenClaw 是“配置驱动”的灵活工具箱，强调人工编排与多模型调度；Hermes Agent 是“学习驱动”的长期搭档，具备自主反思、记忆沉淀与持续进化能力。[reference:4]\n\n社区有一句精炼的总结：“Hermes 是教 AI ‘怎么把活干好’，OpenClaw 是在解决‘怎么管好这帮干活的 AI’。”[reference:5]\n\n另一个生动的比喻是：OpenClaw 像一台“超级路由器”——追求连接一切的广度；Hermes Agent 像一个“会成长的系统”——追求自我进化的深度。[reference:6]\n\n\n## 二、架构对比\n\n### Hermes Agent 架构\n\n采用分层架构设计，底层集成主流大语言模型接口，中间层构建技能管理中枢，上层通过消息网关实现多平台接入。[reference:7]\n\n**核心架构组件：**\n\n| 组件 | 说明 |\n|------|------|\n| **四级分层记忆** | L1 核心记忆（MEMORY.md，约 800 tokens）、L2 用户画像（USER.md，约 500 tokens）、L3 长时记忆（SQLite FTS5 全文检索）、L4 技能库（结构化 Markdown 文档）[reference:8] |\n| **自进化闭环** | 内置“执行-评估-抽象-优化”四步流程，搭配 Atropos 强化学习框架，可自动提炼技能、反哺模型[reference:9] |\n| **统一消息网关** | 支持 Telegram、Discord、飞书、企业微信等 15+ 平台[reference:10] |\n| **安全沙盒** | 默认内置 Camofox 反检测浏览器、Tirith 安全沙箱等 47 个内置工具[reference:11] |\n\n整体定位为“轻量后端 + 重 Agent 循环”。[reference:12]\n\n### OpenClaw 架构\n\n采用 Channels → Agents → Tools 三层分层解耦架构，向“操作系统形态”演进。[reference:13]\n\n**核心架构组件：**\n\n| 组件 | 说明 |\n|------|------|\n| **Gateway（网关层）** | 作为中央路由器和事件驱动的消息总线，负责任务调度、生命周期管理和事件路由；通过 WebSocket 维护与各平台的长连接，将异构协议统一转换为内部事件流[reference:14] |\n| **Agent（智能体层）** | 主 Agent 接收用户输入后进行意图理解和任务分解，支持 sub-agent 隔离执行和结果回传[reference:15] |\n| **Tools & Plugins（工具插件层）** | 技能生态丰富，支持网页调研、浏览器自动化等，完全依赖人工编写或社区下载[reference:16] |\n| **记忆系统** | 以 Markdown 文件为基础载体（SOUL.md、AGENTS.md），高级记忆能力需额外插件实现；最新版本引入了 ContextEngine 插件接口和 Dreaming 离线思考机制[reference:17][reference:18] |\n| **任务调度** | v2026.3.31 版本将 ACP、subagent、cron、后台 CLI 四种执行体统一到 SQLite-backed 任务账本[reference:19] |\n\n整体定位为“重 Gateway 平台 + 分布式 Node 架构”。[reference:20]\n\n### 架构差异总结\n\n| 维度 | Hermes Agent | OpenClaw |\n|------|-------------|----------|\n| 设计范式 | 单核心智能体，越用越强 | 分布式控制中枢，多 Agent 协同 |\n| 架构重心 | 重 Agent 循环，轻后端 | 重 Gateway 平台，调度优先 |\n| 记忆架构 | 原生四级分层，自动管理 | Markdown 文件驱动，手动维护 + 插件扩展 |\n| 扩展方式 | MCP、ACP、messaging 接口 | 插件市场 + Channel 适配器 |\n| 安全设计 | 默认内置沙盒 + 审批流程 | 需手动配置边界 |\n| 技术成熟度 | 代码架构现代，持续快速迭代 | 生态极丰富，社区极度活跃但安全问题频发 |\n\n\n## 三、技术偏好对比\n\n### 技术栈对比\n\n| 维度 | Hermes Agent | OpenClaw |\n|------|-------------|----------|\n| **开发语言** | Python 3.8+ | TypeScript |\n| **本地模型态度** | 视为“第一公民”，只需几行配置指向 Ollama 即可无缝接入[reference:21] | 视为“供应商”之一，与其他云端服务平级，需要适配[reference:22] |\n| **部署门槛** | 极低，一键安装脚本，5 美元/月 VPS 即可运行[reference:23] | 较重，需要配置多组件，适合有运维经验的团队 |\n| **运行环境** | Linux / macOS / WSL2 / Android Termux，优先适配 Linux 云端部署[reference:24] | 本地优先，支持 Docker 部署[reference:25] |\n| **模型支持** | 兼容 Nous Portal、OpenRouter、Anthropic、OpenAI、智谱 GLM 等 12+ 服务商[reference:26] | 支持 Anthropic、OpenAI、Ollama 本地模型等，需配置 API 密钥[reference:27] |\n| **工具库依赖** | requests、sqlite3、markdown 等，简洁 Pythonic[reference:28] | 依赖 selenium、beautifulsoup4、pyautogui 等自动化工具链[reference:29] |\n| **定时调度** | 原生内置 Cron，支持标准 cron 表达式，任务跑在隔离 session 中[reference:30][reference:31] | 支持 at、every、cron 三种调度类型，持久化到本地 JSON[reference:32] |\n\n### 技术哲学偏好\n\n**Hermes Agent 的技术偏好：**\n- Python 优先 → 代码主干清晰易读，适合 Python 技术栈团队二次开发[reference:33]\n- 自动化优先 → 技能自动生成、记忆自动管理、安全自动保障\n- 本地模型优先 → 与 Ollama 等本地模型集成体验最佳[reference:34]\n- 轻量优先 → 5 美元 VPS 即可运行，对资源要求友好[reference:35]\n\n**OpenClaw 的技术偏好：**\n- TypeScript / Node.js 生态 → 适合前端/全栈团队\n- 可控性优先 → 一切行为源于配置文件，开发者有完全掌控权[reference:36]\n- 生态广度优先 → 海量第三方技能库，社区活跃度极高\n- 企业级部署优先 → 多 Agent 隔离运行、多账号编排、设备配对安全策略[reference:37][reference:38]\n\n\n## 四、使用体验对比\n\n### 对比矩阵\n\n| 使用维度 | Hermes Agent | OpenClaw |\n|---------|-------------|----------|\n| **上手门槛** | 一键安装，交互式配置向导，新手友好[reference:39] | 需要理解 Gateway/Skills/Memory 三大组件，配置工作较多[reference:40] |\n| **长期使用体验** | 越用越强——技能库持续累积，越用越懂你[reference:41] | 每次使用体验稳定，但不会自动进化 |\n| **多任务处理** | 支持 delegate_task 单任务和最多 3 个并行子任务，子 Agent 环境完全隔离[reference:42] | 支持 sub-agent 后台隔离执行和结果回传，可配置嵌套深度[reference:43] |\n| **技能获取方式** | 自动生成 + 人工干预——从任务中自动提取并固化为 Skill 文件[reference:44] | 手动编写或社区下载——能力边界由预置技能决定[reference:45] |\n| **记忆管理** | 全程自动，零人工维护[reference:46] | 手动编辑 SOUL.md、AGENTS.md，高级能力需插件[reference:47] |\n| **安全操作** | 开箱即用，危险命令自动审批、容器隔离[reference:48] | 需自行配置权限边界，灵活性高但风险自担[reference:49] |\n| **定时任务** | 内置调度器，一条命令搞定[reference:50] | 需要单独安装 Cron Skill 实现[reference:51] |\n| **终端体验** | 完整终端支持，多行编辑、历史记录[reference:52] | 基础终端界面 |\n| **Token 成本** | 逐层渐进加载技能，先看目录再展开，Token 消耗优化较好[reference:53] | 倾向维护超大上下文窗口，若不限制则 Token 消耗极快[reference:54] |\n\n### 功能重合度说明\n\n需要特别指出，两者在功能列表上的重合度非常高。浏览器自动化、TTS、Vision 视觉、图像生成、语音交互、Telegram/Discord/Slack 等 20+ 平台接入，两边全都有。[reference:55]\n\n关键区别不在于“有什么功能”，而在于“功能的来源和管理方式”——Hermes 的技能是自动生成的，OpenClaw 的技能是人工配置的。[reference:56]\n\n### 典型使用场景\n\n**Hermes Agent 更适合：**\n- 个人使用、长时自动运行、编码场景——让 Agent 为你指引工作流程[reference:57]\n- 处理复杂、模糊指令的私人助理，如“帮我整理这周关于竞品的碎片信息并生成简报”[reference:58]\n- 希望 AI 自主学会操作习惯，而非一遍遍教 AI 工具使用规则的用户\n- 追求越用越强、沉淀经验的长期场景[reference:59]\n\n**OpenClaw 更适合：**\n- 需求明确且流程固定的场景，如定时抓取特定网站数据并格式化输出[reference:60]\n- 需要一个统一界面调度多个不同 AI 模型和本地脚本的开发者[reference:61]\n- 多账号、多通道、团队级调度平台——企业级稳定优先[reference:62]\n- 享受搭建复杂自动化工作流乐趣的高级开发者/极客[reference:63]\n\n### 两者互补使用\n\nHermes 负责记住偏好设定、使用习惯和 Skill 迭代，具备完整对话收录能力；OpenClaw 负责实际执行，Skills 数量和接入平台广度有优势。两者配合使用，各取所长。[reference:64]\n\n\n## 五、内部培训 PPT 大纲\n\n### 建议结构（约 20-25 页）\n\n\n**第 1 页：封面**\n- 标题：Hermes vs OpenClaw——两大开源 AI Agent 框架对比分析\n- 副标题：面向软件开发团队的技术选型培训\n- 日期 + 主讲人\n\n---\n\n**第一部分：背景引入（约 3 页）**\n\n**第 2 页：为什么需要了解 AI Agent 框架？**\n- AI 正从“问答式 AI”向“自主代理”范式转变\n- 2026 年开源 AI Agent 爆发式增长\n- 本培训目标：帮助团队理解两大主流框架的差异，为项目选型提供参考\n\n**第 3 页：两大框架速览**\n- 左侧：Hermes Agent（“爱马仕”）——Nous Research 出品，2026 年 2 月发布，47k+ Stars\n- 右侧：OpenClaw（“龙虾”）——个人开发者出品，2026 年初爆火，160k+ Stars\n- 核心一句话定位：Hermes = 自进化引擎；OpenClaw = 多通道调度中枢\n\n**第 4 页：核心设计哲学差异（关键结论页）**\n- OpenClaw：配置驱动的编排者 → 让人定义规则，Agent 执行规则\n- Hermes：学习驱动的进化体 → 让 Agent 自己学会做事\n- 经典总结：“Hermes 教 AI 怎么把活干好，OpenClaw 管好这帮干活的 AI”\n\n---\n\n**第二部分：架构深度对比（约 4 页）**\n\n**第 5 页：Hermes Agent 架构一览**\n- 分层架构图：模型接口层 → 技能管理中枢 → 消息网关层\n- 四级记忆架构：L1 核心记忆 → L2 用户画像 → L3 长时记忆 → L4 技能库\n- 自进化闭环：“执行-评估-抽象-优化”四步流程\n- 架构定位：“轻量后端 + 重 Agent 循环”\n\n**第 6 页：OpenClaw 架构一览**\n- Channels → Agents → Tools 三层分层解耦架构\n- Gateway 作为中央路由器的核心作用\n- 记忆机制：从 Markdown 文件到 ContextEngine 插件化 + Dreaming 离线思考\n- 架构定位：“重 Gateway 平台 + 分布式 Node 架构”\n\n**第 7 页：架构对比一览表**\n- 维度对比表格（设计范式、架构重心、记忆架构、扩展方式、安全设计）\n- 补充说明：两者在功能上重合度极高（都支持多平台接入、浏览器自动化、TTS、Vision 等），差异在于实现方式\n\n**第 8 页：为什么架构选择如此重要？**\n- 决定二次开发难度和扩展方向\n- 决定运维方式和资源消耗\n- 决定团队技术栈的适配程度\n- 案例：如果你团队都是 Python 开发者，Hermes 的代码主干读起来一点不费劲\n\n---\n\n**第三部分：技术偏好对比（约 4 页）**\n\n**第 9 页：技术栈一览**\n- 对比表格：开发语言、部署门槛、运行环境、模型支持、工具链依赖、定时调度\n- 关键差异：Hermes = Python 轻量；OpenClaw = TypeScript 全栈平台\n\n**第 10 页：本地模型支持度深度对比**\n- Hermes：本地模型是“第一公民”，指向 Ollama 只需几行配置\n- OpenClaw：本地模型是“供应商”之一，体验类似调用外部 API\n- 选型启示：如果团队计划大量使用本地模型（隐私/成本考量），Hermes 更“原生”\n\n**第 11 页：技术哲学偏好**\n- Hermes 偏好：Python 优先 → 自动化优先 → 本地模型优先 → 轻量优先\n- OpenClaw 偏好：TypeScript 生态 → 可控性优先 → 生态广度优先 → 企业级部署优先\n- 讨论：你的团队更认同哪种技术哲学？\n\n**第 12 页：安全与运维对比**\n- Hermes：默认内置沙盒 + 审批流程 + 容器隔离，开箱即用\n- OpenClaw：需手动配置权限边界，灵活性高但风险自担\n- Token 成本差异：Hermes 逐层渐进加载 → 优化；OpenClaw 超大上下文 → 需限制\n\n---\n\n**第四部分：使用体验对比（约 4 页）**\n\n**第 13 页：上手门槛与学习曲线**\n- Hermes：一键安装 + 交互式配置向导，5 美元 VPS 即可跑\n- OpenClaw：需要理解 Gateway/Skills/Memory 三大组件，配置工作较多\n- 基于你（团队）已有 OpenClaw 经验的情况，重点说明切换到 Hermes 的迁移成本\n\n**第 14 页：长期使用体验差异**\n- Hermes：越用越强——技能库持续累积，AI 越来越懂你\n- OpenClaw：每次体验稳定——但不会自动进化\n- 技能获取方式：自动生成 vs 手动编写（这是最核心的区别）\n\n**第 15 页：记忆管理方式对比**\n- Hermes：全程自动，四级分层记忆，零人工维护\n- OpenClaw：手动编辑 SOUL.md、AGENTS.md，高级能力需插件\n- 适合不同性格的用户：Hermes 适合“懒人”与长期使用，OpenClaw 适合喜欢深度定制的用户\n\n**第 16 页：典型使用场景对照**\n- Hermes 最适合：个人长期使用、编码场景、处理模糊指令、沉淀经验\n- OpenClaw 最适合：多账号调度、团队级平台、固定流程自动化、极客定制\n- 两者可以互补：Hermes 负责“记忆和进化”，OpenClaw 负责“执行和连接”\n\n---\n\n**第五部分：团队选型建议（约 3 页）**\n\n**第 17 页：选型决策树**\n- 一张流程图帮助团队做决策：\n  - 团队主要技术栈 → Python 技术栈 → 倾向 Hermes\n  - 团队主要技术栈 → TypeScript/Node.js → 倾向 OpenClaw\n  - 核心需求是“长期沉淀经验” → 倾向 Hermes\n  - 核心需求是“多账号/多平台调度” → 倾向 OpenClaw\n  - 希望开箱即用、省心 → 倾向 Hermes\n  - 享受深度定制、掌控一切 → 倾向 OpenClaw\n\n**第 18 页：迁移路径建议**\n- 已有 OpenClaw 使用经验的团队 → Hermes 的迁移成本评估\n- 技能迁移：OpenClaw 的技能需要人工改写为 Hermes 格式，但 Hermes 可以自动生成新技能\n- 部署对比：Hermes 的部署更轻量\n- 混合使用可能性：两者配合使用，各取所长\n\n**第 19 页：生态现状与潜在风险**\n- OpenClaw 生态现状：社区极度活跃，技能库海量，但安全问题频发（恶意代码注入、权限滥用），Token 消耗可能超出预期\n- Hermes 生态现状：社区规模尚不及 OpenClaw，但代码架构现代，尚未面临大规模平台封禁风险，对个人用户更友好\n- 两者都在快速迭代中（OpenClaw 曾 5 天 5 个版本号；Hermes 已发布 v0.8.0，集成浏览器控制）\n\n---\n\n**第六部分：实操指南（约 2 页）**\n\n**第 20 页：Hermes Agent 快速上手**\n- 环境要求：Linux / macOS / WSL2，Python 3.11+，推荐 16GB+ 内存\n- 安装命令：`curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash`\n- 配置模型：`hermes setup` → 选择模型提供商\n- 运行：`hermes start`\n\n**第 21 页：OpenClaw 快速回顾**\n- 基于团队已有经验，简要回顾核心配置要点\n- 最新版本关键特性：ContextEngine 插件接口（上下文管理自由插拔）、Dreaming 离线思考机制、任务账本统一\n- 两者核心命令对比表\n\n---\n\n**第七部分：总结与展望（约 2 页）**\n\n**第 22 页：核心要点回顾**\n- 架构差异：单核心自进化 vs 分布式多通道调度\n- 技术偏好：Python 轻量自动化 vs TypeScript 企业级可控\n- 使用差异：自动生成技能/记忆 vs 手动配置编排\n- 选型本质：控制感 vs 省心度——OpenClaw 提供极致灵活的操作系统，上限取决于技术水平；Hermes 提供能自主进化的长期搭档\n\n**第 23 页：Q&A + 团队讨论**\n- 开放式问题：\n  - 结合我们团队的项目场景，你更倾向于哪个框架？为什么？\n  - 是否需要安排一次 Hermes Agent 的团队试用？\n  - 混合使用方案是否可行？\n\n\n### 附加建议\n\n1. **针对已有 OpenClaw 经验的团队**：建议在第 13 页和第 18 页重点展开，帮助团队成员理解从 OpenClaw 切换到 Hermes 的迁移路径和成本。\n\n2. **建议补充的 Demo 环节**：可在培训中加入 10-15 分钟的现场演示——分别展示 Hermes 自动生成 Skill 的过程和 OpenClaw 配置 Skill 的过程，让团队直观感受两者的核心差异。\n\n3. **参考资料**：PPT 附录中可列出关键参考文章链接（阿里云开发者社区系列文章、AI Indeed 技术指南、36氪分析文章等），方便团队成员进一步深入阅读。\n\n4. **后续跟踪**：建议在培训后 1-2 周内组织一次团队试用反馈会，收集实际使用体验，为最终选型提供数据支持。"
+          }
+        ]
+      }
+    },
+    "3": {
+      "id": "3",
+      "parent": "2",
+      "children": [
+        "4"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-22T10:37:24.122000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "以下是我的另外一个基于hermes文生视频工作流的介绍，现在需要将它作为本培训材料的一部分，作为实践部分进行补充，修改你之前的培训大纲：好的，这是一份结构化的开发计划文档，可直接用于向你的开发团队展示，并作为后续迭代的最佳实践指南。\n\n---\n\n## 🎬 Hermes AI 视频导演：本地化全自动视频创作平台开发计划\n\n### 1. 项目愿景与目标\n\n将 Hermes Agent 打造成一个**具备自主学习与编排能力的AI视频导演**，实现对本地算力（RTX 4090）和多种AI工具的智能调度，完成从创意接收到成片发布的全流程自动化。\n\n**核心目标：**\n- **全流程闭环**：覆盖“创意沟通 → 台本撰写 → 视频生成 → 剪辑后期 → 审查修改”的全链路。\n- **本地优先，成本可控**：核心视频生成模型（Wan2.2 等）本地部署，文字模型按需调用云端 API，兼顾质量与成本。\n- **便捷交互**：以飞书为入口，实现自然语言驱动的远程指挥与结果交付。\n- **自我进化**：利用 Hermes 的记忆与技能系统，持续沉淀最佳实践，让系统越用越聪明。\n\n### 2. 系统架构全景图\n\n```mermaid\nflowchart TB\n    subgraph A[用户交互层]\n        A1[飞书/Web 前端]\n    end\n\n    subgraph B[Hermes 核心调度层 - WSL2]\n        B1[项目编排与任务拆解]\n        B2[三层记忆系统<br>（会话/持久/技能）]\n        B3[提示词优化引擎]\n        B4[MCP 客户端]\n    end\n\n    subgraph C[工具与模型层]\n        C1[云端大模型 API<br>（DeepSeek/MiniMax）]\n        C2[本地 ComfyUI + Wan2.2]\n        C3[MCP 视频剪辑服务器]\n    end\n\n    subgraph D[持久化与交付]\n        D1[本地视频文件库]\n        D2[社交平台发布接口]\n    end\n\n    A1 <-->|WebSocket| B\n    B -- 调用 --> C1\n    B -- 通过MCP协议调度 --> C2\n    B -- 通过MCP协议调度 --> C3\n    C2 & C3 -- 返回结果 --> B\n    B --> D1\n    B -.-> D2\n```\n\n### 3. 分阶段开发里程碑\n\n| 阶段 | 核心任务 | 交付物与验收标准 |\n| :--- | :--- | :--- |\n| **Phase 1: 基础打通**<br>✅ 已完成 | 1. WSL2 部署 Hermes<br>2. Windows 部署 ComfyUI + Wan2.2<br>3. 配置 `comfyui-mcp-server` 实现 Hermes 与 ComfyUI 双向通信 | **成果**：在飞书发送指令，Hermes 可调用 ComfyUI 生成图片/视频。<br>**验收**：成功生成“自画像”。 |\n| **Phase 2: 导演能力构建**<br>🔄 进行中 | 1. 开发“提示词专家”技能，内嵌结构化公式<br>2. 实现“项目编排”工作流，能拆解复杂指令<br>3. 构建基础视频生成工作流（T2V, 首尾帧控制） | **成果**：Hermes 能将简单梗概扩写为专业分镜脚本，并调度生成高质量片段。<br>**验收**：输入“赛博朋克风少女奔跑”，输出结构完整、画面符合的5秒视频。 |\n| **Phase 3: 后期与学习闭环**<br>⏳ 计划中 | 1. 集成 `mcp-video` 服务器，实现视频拼接、转场、配乐<br>2. 启用三层记忆，记录用户偏好（如风格、音量）<br>3. 开发“智能质检”技能，能对比反馈并自我修正 | **成果**：Hermes 可自动完成从片段生成到成片剪辑，并根据意见自我优化。<br>**验收**：提出“背景音乐太吵”后，后续视频自动将音量调低至设定值。 |\n| **Phase 4: 发布与运维**<br>📅 未来规划 | 1. 接入小红书/B站发布 API 或 RPA 工具<br>2. 开发 Web 管理面板，查看任务队列与历史作品<br>3. 实现多用户协作与权限管理 | **成果**：形成完整的“创意→成片→发布”商业化闭环。<br>**验收**：一键将审核通过的视频发布到指定平台。 |\n\n### 4. 关键技术配置清单\n\n#### 4.1 Hermes 核心配置 (`~/.hermes/config.yaml`)\n\n```yaml\n# 模型配置：混合调用云端与本地\nllm:\n  provider: openai\n  api_key: sk-xxxxx\n  base_url: https://api.deepseek.com/v1\n  model: deepseek-chat\n\n# 本地 Ollama 备用（用于隐私任务）\nlocal_llm:\n  provider: ollama\n  base_url: http://localhost:11434\n  model: gemma4:26b\n\n# MCP 服务器集成\nmcp_servers:\n  - name: comfyui-video\n    command: comfyui-mcp-server\n    env:\n      COMFYUI_URL: http://localhost:8188\n      WORKFLOW_DIR: /home/user/hermes/workflows\n  - name: video-editor\n    command: mcp-video\n    args: [\"--ffmpeg-path\", \"/usr/bin/ffmpeg\"]\n\n# 三层记忆配置\nmemory:\n  conversation: true\n  persistent:\n    enabled: true\n    storage_path: ~/.hermes/memory/persistent.db\n  skills:\n    enabled: true\n    repo_path: ~/.hermes/skills\n```\n\n#### 4.2 核心技能（Skills）目录结构\n\n```\n~/.hermes/skills/\n├── script-doctor/          # 提示词优化技能\n│   ├── skill.md\n│   └── prompt_templates.json\n├── video-editor/           # 视频剪辑技能\n│   ├── skill.md\n│   └── workflow.json\n└── quality-check/          # 质检与修正技能\n    ├── skill.md\n    └── rules.yaml\n```\n\n每个 `skill.md` 包含技能的触发条件、执行步骤和可调用的 MCP 工具列表。\n\n### 5. 最佳实践总结（团队开发规范）\n\n| 维度 | 规范要求 | 价值说明 |\n| :--- | :--- | :--- |\n| **提示词管理** | 所有视频生成提示词必须遵循“主体+场景+运动+美学+风格”结构化公式，并沉淀为 `script-doctor` 技能的模板。 | 确保生成画面的一致性、高质量与可复现性。 |\n| **工作流封装** | 任何被多次调用的 ComfyUI 工作流，都必须导出为 JSON 并注册到 MCP 服务器，成为 Hermes 可发现的标准工具。 | 降低后续调用复杂度，实现工具化管理。 |\n| **记忆与学习** | 所有用户偏好、历史修改意见必须写入持久记忆；经过验证的优化方案必须固化为新技能或更新已有技能。 | 驱动系统持续自进化，减少重复人工调优。 |\n| **错误处理** | MCP 工具调用失败时，Hermes 应具备重试机制，并将错误日志记录到 `~/.hermes/logs`，便于团队排查。 | 保证生产环境稳定性。 |\n| **版本控制** | 所有技能、工作流 JSON、配置文件均纳入 Git 管理，分支对应开发/测试/生产环境。 | 实现基础设施即代码（IaC），便于团队协作与回滚。 |\n\n### 6. 预期成果与性能指标\n\n- **生成效率**：单条5秒视频（640x640）生成时间 ≤ 10分钟（Wan2.2 5B）。\n- **剪辑效率**：3个片段拼接+配乐+字幕全自动处理 ≤ 2分钟。\n- **交互响应**：飞书指令到 Hermes 首字节响应 ≤ 3秒。\n- **学习效果**：同类修改意见提出后，后续任务自动修正率达 90% 以上。\n\n### 7. 后续演进方向\n\n1. **多智能体协作**：引入专门的“剪辑师”、“音效师”子 Agent，由 Hermes 主控调度。\n2. **云端渲染扩展**：集成 Shotstack 等云渲染服务，突破本地算力瓶颈，实现 4K 长视频生成。\n3. **A/B 测试框架**：对不同提示词模板、模型参数进行自动化 A/B 测试，数据驱动优化。\n4. **商业化 API 封装**：将整套能力封装为 RESTful API，对外提供视频生成 SaaS 服务。\n\n---\n\n这份计划清晰地展示了“从0到1”再到“从1到N”的演进路径，既有已完成的基础验证，也有明确的技术深度和业务价值。你可以直接基于此文档向团队分配任务，并以 Phase 的里程碑作为考核节点。"
+          }
+        ]
+      }
+    },
+    "4": {
+      "id": "4",
+      "parent": "3",
+      "children": [
+        "5"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-22T10:37:24.123000+08:00",
+        "fragments": [
+          {
+            "type": "THINK",
+            "content": "好的，用户这次提供了一个非常具体的Hermes文生视频工作流开发计划，要求将其作为实践部分补充到之前我为他制作的Hermes与OpenClaw对比培训大纲里。\n\n用户是软件开发团队的成员，正在准备内部培训材料。他之前已经让我做过一个全面的对比分析和大纲，现在他手头有一个实际的项目计划，想把它作为案例加入，让培训内容更生动、更具实操性。\n\n我需要仔细看看这个工作流计划。它确实很完整，有项目愿景、架构图、分阶段里程碑、配置清单和最佳实践。这个案例完美地展示了Hermes在具体场景中的深度应用，正好能印证之前理论对比中提到的Hermes“自进化”、“技能沉淀”和“本地优先”的特点。\n\n我的任务是把这份计划有机地融入原有大纲。不能只是简单贴上去，而要让它成为原有理论部分的鲜活例证。我想，最佳方式是新增一个专门的“实践案例”部分，放在原有内容之后。这样，团队成员先理解抽象的区别，再看到一个真实的、自己团队可能用到的项目，理解会更深刻。\n\n我可以设计大约6页新的幻灯片。第一页作为实践部分的引言，点明这个案例的价值。然后花几页详细介绍这个“AI视频导演”项目本身，包括架构、阶段规划等。但最关键的是，要有一页专门用来“回扣理论”，明确指出这个案例的哪些具体设计体现了Hermes的核心优势（比如自主编排、技能进化、MCP工具调用），并和OpenClaw做个对照，说明为什么这个场景用Hermes更合适。\n\n最后，为了让培训更有实际指导意义，我可以在选型建议部分增加一个基于这个案例的实践检验框架，引导团队思考具体的技术决策。整体上，新的大纲结构会更丰满，从理论到实践再到决策，形成一个完整的闭环。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "好的，完全理解。将这个具体的“Hermes AI 视频导演”项目作为实践案例融入培训材料，将极大地提升培训的说服力和实用性。它能把抽象的理论对比，转化为团队成员可以触摸、评估和借鉴的真实技术路径。\n\n我已将您的项目计划深度整合到原有大纲中，形成一份更完整、更具实操指导意义的升级版培训大纲。\n\n### **升级版培训大纲结构**\n\n*   **第一部分：背景与理论**（原大纲第1-19页，保持不变）\n*   **第二部分：实践案例深度剖析——Hermes AI 视频导演**（新增，约6页）\n*   **第三部分：选型、总结与展望**（原大纲第17-23页，优化与合并）\n\n---\n\n### **新增部分：实践案例深度剖析（约6页）**\n\n此部分可直接插入在原大纲的第五部分“团队选型建议”之后，作为理论与实践的结合点。\n\n**第 20 页：实践案例引入——从理论到实战的桥梁**\n\n*   **标题**：案例研究：构建一个基于 Hermes 的本地化全自动视频创作平台\n*   **内容**：\n    *   **引出问题**：理论对比已清晰，但在我们团队的实际开发场景中，Hermes 架构的优势究竟如何体现？\n    *   **展示案例**：介绍“Hermes AI 视频导演”项目，一个旨在利用本地算力（RTX 4090），通过自然语言驱动，完成从创意到成片的全流程自动化平台。\n    *   **案例目标**：通过剖析此项目，让团队直观感受 Hermes 的架构设计、技术偏好如何在真实项目中落地，并评估其解决实际问题的能力。\n\n**第 21 页：项目架构剖析——Hermes 核心优势的集中体现**\n\n*   **标题**：系统架构全景图：如何串起本地算力与云端模型\n*   **内容**：\n    *   **展示架构图**：使用项目计划中的 Mermaid 流程图。\n    *   **架构分层解读**（紧密结合前文理论）：\n        *   **用户交互层**：以飞书为入口，体现 Hermes 多平台接入能力。\n        *   **Hermes 核心调度层 (WSL2)**：强调其作为“大脑”的核心作用。\n            *   `项目编排与任务拆解`：对应 Hermes 处理复杂指令的能力。\n            *   `三层记忆系统`：对应 Hermes 原生四级记忆的实践应用，用于存储用户偏好、成功的工作流参数。\n            *   `MCP 客户端`：展现 Hermes 通过标准协议扩展工具的能力。\n        *   **工具与模型层**：混合调用云端 LLM API（文字处理）和本地 ComfyUI+Wan2.2（视频生成），完美契合 Hermes “本地模型为第一公民”和混合模型调用的技术偏好。\n        *   **持久化与交付**：本地文件管理和平台发布接口。\n\n**第 22 页：分阶段实现路径——看 Hermes 的“自进化”如何发生**\n\n*   **标题**：开发里程碑：从“基础打通”到“学习闭环”\n*   **内容**：以表格形式展示 Phase 1 至 Phase 4，并**高亮标注**每个阶段如何利用 Hermes 的核心特性。\n    *   **Phase 1: 基础打通 (✅已完成)**\n        *   **关键动作**：Hermes 通过 `comfyui-mcp-server` 调用 ComfyUI。\n        *   **对应 Hermes 能力**：**工具扩展性 (MCP/ACP协议)**。\n        *   **验收成果**：“成功生成自画像”视频。\n    *   **Phase 2: 导演能力构建 (🔄进行中)**\n        *   **关键动作**：开发“提示词专家”技能，实现复杂指令拆解。\n        *   **对应 Hermes 能力**：**技能系统 (Skills) 和任务分解能力**。\n        *   **验收成果**：输入梗概，输出高质量分镜脚本和5秒视频。\n    *   **Phase 3: 后期与学习闭环 (⏳计划中)**\n        *   **关键动作**：集成视频剪辑工具，启用三层记忆，开发“智能质检”技能。\n        *   **对应 Hermes 能力**：**自进化闭环 (执行-评估-抽象-优化) 和持久化记忆**。\n        *   **验收成果**：自动完成剪辑，并能根据反馈（如“音乐太吵”）在下一次自动修正。\n    *   **Phase 4: 发布与运维 (📅未来规划)**\n        *   **关键动作**：接入发布 API，开发管理面板。\n        *   **对应 Hermes 能力**：**完整的产品化与生态集成能力**。\n\n**第 23 页：技术配置与规范——将最佳实践固化为代码**\n\n*   **标题**：关键技术与团队规范：如何确保项目可维护、可进化\n*   **内容**：\n    *   **配置即架构**：展示 `config.yaml` 核心片段，说明如何通过配置驱动模型选择、MCP 服务器集成和记忆系统设置。\n    *   **技能（Skills）目录结构**：展示 `~/.hermes/skills/` 下的标准目录结构 (`script-doctor/`, `video-editor/`, `quality-check/`)，强调每个技能都是一个独立的、可版本管理的模块。\n    *   **团队开发规范**：用表格形式提炼并展示项目计划中的 5 条最佳实践。\n        *   `提示词管理` → **对应技能沉淀**\n        *   `工作流封装` → **对应工具标准化**\n        *   `记忆与学习` → **对应自我进化机制**\n        *   `错误处理` → **对应生产稳定性**\n        *   `版本控制` → **对应基础设施即代码 (IaC)**\n\n**第 24 页：OpenClaw 实现此项目的“替代方案”推演**\n\n*   **标题**：思维实验：如果用 OpenClaw 构建，会有何不同？\n*   **内容**：通过对比，进一步凸显 Hermes 在特定场景下的适用性。\n    *   **相同点**：OpenClaw 同样可以通过开发 Channel 接入飞书，通过开发 Plugin 调用 ComfyUI API，也能实现类似的技术串联。\n    *   **关键差异点**：\n        1.  **调度方式**：OpenClaw 更依赖开发者在 Gateway 层编写详细的编排逻辑；Hermes 更倾向于让 Agent 自主决策和拆解任务。\n        2.  **技能进化**：OpenClaw 的技能（Plugin）是静态的，优化需要人工修改代码并重新部署；Hermes 的技能可由 Agent 在执行任务后**自动提炼和更新**，实现真正的“越用越强”。\n        3.  **状态记忆**：OpenClaw 的记忆依赖手动维护的 Markdown 文件或额外的插件；Hermes 的多级记忆是原生的、自动的，能无缝记录用户偏好。\n    *   **结论**：对于这个强调“创意过程自动化”和“长期经验沉淀”的项目，**Hermes 的“自进化”架构提供了更根本的、面向未来的优势**。OpenClaw 更适合流程固定、逻辑明确、不需要频繁进化的调度场景。\n\n**第 25 页：案例小结与团队启示**\n\n*   **标题**：从这个案例中我们学到了什么？\n*   **内容**：\n    *   **理论验证**：此案例完整验证了 Hermes 在架构（分层、记忆）、技术偏好（Python、本地优先）、使用体验（自进化、自动化）上的核心优势。\n    *   **技术可行性**：证明了基于 Hermes 构建一个涉及本地 GPU 调度、多工具编排的复杂 AI 应用是**完全可行**的，且有清晰的实施路径。\n    *   **团队启发**：\n        1.  **思维转变**：从“我们写死流程让 AI 执行”（OpenClaw 模式）转向“我们教会 AI 如何思考和进化”（Hermes 模式）。\n        2.  **技能复用**：此项目中开发的`script-doctor`、`video-editor`等技能，未来可被其他 Hermes Agent 实例复用。\n        3.  **选型参考**：此案例为团队未来评估类似“创造性、长周期、需经验积累”的 AI 项目，提供了强有力的选型依据。\n\n---\n\n### **原大纲后续部分优化调整**\n\n*   **原第 17-19 页（团队选型建议）**：\n    *   **第 26 页（原第17页）**：更新“选型决策树”，增加一个分支：**“项目类型是否为‘创造性生成’或‘需长期经验沉淀’？→ 是 → 强烈倾向 Hermes”**。\n    *   **第 27 页（原第18页）**：更新“迁移路径建议”，可提及“参考‘视频导演’项目的 Phase 1 经验，从 OpenClaw 迁移一个工具到 Hermes 并封装为 MCP 服务器的技术路径是清晰的”。\n    *   **第 28 页（原第19页）**：保持不变。\n\n*   **原第 20-21 页（实操指南）**：\n    *   **第 29 页**：将标题改为 **“Hermes 实操入门：以‘视频导演’项目 Phase 1 为例”**。内容聚焦于如何配置 MCP 服务器、创建第一个 Skill 来调用 ComfyUI，更具实战性。\n    *   **第 30 页**：OpenClaw 快速回顾（保持原样）。\n\n*   **原第 22-23 页（总结与展望）**：\n    *   **第 31-32 页**：更新总结部分，将“视频导演”案例作为 Hermes 架构优势的典型例证进行强调。\n\n这样修改后，您的培训材料就形成了 **“理论对比 → 实战剖析 → 选型决策”** 的完整闭环，逻辑严密，说服力强，对开发团队将有极高的参考价值。"
+          }
+        ]
+      }
+    },
+    "5": {
+      "id": "5",
+      "parent": "4",
+      "children": [
+        "6"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-22T10:41:26.725000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "你把我的整个项目流程图也附上，然后把这个PPT大纲的全部内容发给我"
+          }
+        ]
+      }
+    },
+    "6": {
+      "id": "6",
+      "parent": "5",
+      "children": [
+        "7"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-22T10:41:26.726000+08:00",
+        "fragments": [
+          {
+            "type": "THINK",
+            "content": "我们需提供一个完整的PPT大纲，内容涵盖原有的Hermes与OpenClaw对比理论部分，以及新增的Hermes AI视频导演实践案例部分，并特别要求附上项目流程图。由于之前对话中已有Mermaid流程图代码，需要将其包含在PPT大纲的相应位置。需要将整个大纲完整输出，结构清晰，便于用户制作PPT。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "好的，这是将项目流程图也包含在内的完整 PPT 大纲，共 32 页。您可以直接据此制作培训课件。\n\n---\n\n## Hermes vs OpenClaw：两大开源 AI Agent 框架对比分析\n\n### 面向软件开发团队的内部培训材料\n\n---\n\n### 第 1 页：封面\n\n- **标题**：Hermes vs OpenClaw——两大开源 AI Agent 框架对比分析\n- **副标题**：面向软件开发团队的技术选型培训\n- **日期** + **主讲人**\n\n---\n\n## 第一部分：背景引入\n\n### 第 2 页：为什么需要了解 AI Agent 框架？\n\n- AI 正从“问答式 AI”向“自主代理”范式转变\n- 2026 年开源 AI Agent 呈爆发式增长\n- **培训目标**：帮助团队理解两大主流框架的差异，为项目选型提供参考依据\n\n### 第 3 页：两大框架速览\n\n| | **Hermes Agent** | **OpenClaw** |\n|---|---|---|\n| **出品方** | Nous Research（知名开源模型团队） | 个人开发者 |\n| **发布时间** | 2026 年 2 月发布 v0.1.0 | 2026 年初爆火 |\n| **GitHub Stars** | 47k+ | 160k+ |\n| **核心定位** | **自进化引擎**——“教 AI 怎么把活干好” | **多通道调度中枢**——“管好这帮干活的 AI” |\n\n### 第 4 页：核心设计哲学差异（关键结论页）\n\n- **OpenClaw**：配置驱动的**编排者** → 让人定义规则，Agent 执行规则\n- **Hermes**：学习驱动的**进化体** → 让 Agent 自己学会做事\n\n> 社区经典总结：“Hermes 是教 AI ‘怎么把活干好’，OpenClaw 是在解决‘怎么管好这帮干活的 AI’。”\n\n> 比喻：“OpenClaw 像一台超级路由器——追求连接一切的广度；Hermes Agent 像一个会成长的系统——追求自我进化的深度。”\n\n---\n\n## 第二部分：架构深度对比\n\n### 第 5 页：Hermes Agent 架构一览\n\n- **分层架构图**（文字描述）：\n  - **底层**：模型接口层（支持 Nous Portal、OpenRouter、Anthropic、OpenAI、智谱 GLM 等 12+ 服务商）\n  - **中间层**：技能管理中枢\n  - **上层**：统一消息网关（支持 Telegram、Discord、飞书、企业微信等 15+ 平台）\n\n- **四级记忆架构**：\n  - L1 核心记忆（MEMORY.md，约 800 tokens）\n  - L2 用户画像（USER.md，约 500 tokens）\n  - L3 长时记忆（SQLite FTS5 全文检索）\n  - L4 技能库（结构化 Markdown 文档）\n\n- **自进化闭环**：“执行 → 评估 → 抽象 → 优化”四步流程，搭配 Atropos 强化学习框架\n\n- **架构定位**：**“轻量后端 + 重 Agent 循环”**\n\n### 第 6 页：OpenClaw 架构一览\n\n- **三层分层解耦架构**：Channels → Agents → Tools\n- **Gateway（网关层）** 核心作用：\n  - 作为中央路由器和事件驱动的消息总线\n  - 通过 WebSocket 维护各平台长连接\n  - 将异构协议统一转换为内部事件流\n\n- **记忆机制演进**：\n  - 基础形态：Markdown 文件（SOUL.md、AGENTS.md）\n  - 最新版本：ContextEngine 插件接口 + Dreaming 离线思考机制\n\n- **任务调度**：v2026.3.31 版本统一四种执行体到 SQLite-backed 任务账本\n\n- **架构定位**：**“重 Gateway 平台 + 分布式 Node 架构”**\n\n### 第 7 页：架构对比一览表\n\n| 维度 | Hermes Agent | OpenClaw |\n|---|---|---|\n| 设计范式 | 单核心智能体，越用越强 | 分布式控制中枢，多 Agent 协同 |\n| 架构重心 | 重 Agent 循环，轻后端 | 重 Gateway 平台，调度优先 |\n| 记忆架构 | 原生四级分层，自动管理 | Markdown 文件驱动，手动维护 + 插件扩展 |\n| 扩展方式 | MCP、ACP、messaging 接口 | 插件市场 + Channel 适配器 |\n| 安全设计 | 默认内置沙盒 + 审批流程 | 需手动配置边界 |\n| 技术成熟度 | 代码架构现代，持续快速迭代 | 生态极丰富，社区极度活跃 |\n\n> **补充说明**：两者在功能上重合度极高（多平台接入、浏览器自动化、TTS、Vision 等均支持），核心差异在于**功能的来源和管理方式**——Hermes 技能自动生成，OpenClaw 技能人工配置。\n\n### 第 8 页：为什么架构选择如此重要？\n\n- 决定**二次开发难度**和**扩展方向**\n- 决定**运维方式**和**资源消耗**\n- 决定**团队技术栈**的适配程度\n\n> 案例：如果团队都是 Python 开发者，Hermes 的代码主干读起来一点不费劲；如果团队是 TypeScript/Node.js 全栈，OpenClaw 的生态更自然。\n\n---\n\n## 第三部分：技术偏好对比\n\n### 第 9 页：技术栈一览\n\n| 维度 | Hermes Agent | OpenClaw |\n|---|---|---|\n| 开发语言 | Python 3.8+ | TypeScript |\n| 部署门槛 | 极低，一键安装脚本，5 美元/月 VPS 即可运行 | 较重，需要配置多组件 |\n| 运行环境 | Linux / macOS / WSL2 / Android Termux | 本地优先，支持 Docker |\n| 模型支持 | 兼容 12+ 服务商 | Anthropic、OpenAI、Ollama 本地模型等 |\n| 工具链依赖 | requests、sqlite3、markdown 等，简洁 Pythonic | selenium、beautifulsoup4、pyautogui 等自动化工具链 |\n| 定时调度 | 原生内置 Cron，支持标准表达式 | 支持 at、every、cron 三种调度类型 |\n\n### 第 10 页：本地模型支持度深度对比\n\n| | Hermes Agent | OpenClaw |\n|---|---|---|\n| 对本地模型的态度 | 视为 **“第一公民”**，指向 Ollama 只需几行配置 | 视为 **“供应商”之一**，与其他云端服务平级，需要适配 |\n| 集成体验 | 无缝接入，体验原生 | 体验类似调用外部 API |\n| 选型启示 | 如果团队计划大量使用本地模型（隐私/成本考量），Hermes 更“原生” | 适合云端模型为主的场景 |\n\n### 第 11 页：技术哲学偏好\n\n**Hermes 的技术偏好：**\n- Python 优先 → 代码主干清晰易读\n- 自动化优先 → 技能自动生成、记忆自动管理\n- 本地模型优先 → 与 Ollama 等本地模型集成体验最佳\n- 轻量优先 → 5 美元 VPS 即可运行\n\n**OpenClaw 的技术偏好：**\n- TypeScript / Node.js 生态 → 适合前端/全栈团队\n- 可控性优先 → 一切行为源于配置文件，开发者有完全掌控权\n- 生态广度优先 → 海量第三方技能库，社区活跃度极高\n- 企业级部署优先 → 多 Agent 隔离运行、多账号编排\n\n### 第 12 页：安全与运维对比\n\n| 维度 | Hermes Agent | OpenClaw |\n|---|---|---|\n| 安全机制 | 默认内置沙盒 + 审批流程 + 容器隔离，开箱即用 | 需手动配置权限边界，灵活性高但风险自担 |\n| Token 成本 | 逐层渐进加载技能（先看目录再展开），优化较好 | 倾向维护超大上下文窗口，需主动限制否则消耗极快 |\n| 运维友好度 | 安装即用，运维负担小 | 功能强大但配置复杂，需有运维经验 |\n\n---\n\n## 第四部分：使用体验对比\n\n### 第 13 页：上手门槛与学习曲线\n\n| | Hermes Agent | OpenClaw |\n|---|---|---|\n| 安装体验 | 一键安装 + 交互式配置向导，新手友好 | 需要理解 Gateway/Skills/Memory 三大组件，配置工作较多 |\n| 初次使用 | 5 美元 VPS 即可跑起来 | 需规划多组件部署方案 |\n\n> **针对本团队的情况**：团队已有 OpenClaw 使用经验，切换到 Hermes 的迁移成本评估见第 27 页。\n\n### 第 14 页：长期使用体验差异\n\n| 维度 | Hermes Agent | OpenClaw |\n|---|---|---|\n| 使用趋势 | **越用越强**——技能库持续累积，AI 越来越懂你 | **每次体验稳定**——但不会自动进化 |\n| 技能获取方式 | **自动生成** + 人工干预——从任务中自动提取并固化为 Skill 文件 | **手动编写或社区下载**——能力边界由预置技能决定 |\n| 适用性格 | 适合“懒人”与长期使用 | 适合喜欢深度定制的用户 |\n\n### 第 15 页：记忆管理方式对比\n\n| | Hermes Agent | OpenClaw |\n|---|---|---|\n| 记忆载体 | 四级分层记忆（L1~L4） | SOUL.md、AGENTS.md Markdown 文件 |\n| 维护方式 | 全程自动，零人工维护 | 手动编辑，高级能力需插件 |\n| 进化能力 | 自动沉淀用户偏好和成功经验 | 需人工总结并更新配置文件 |\n\n### 第 16 页：典型使用场景对照\n\n**Hermes Agent 更适合：**\n- 个人长期使用、编码场景——让 Agent 为你指引工作流程\n- 处理复杂、模糊指令的私人助理（如“帮我整理这周关于竞品的碎片信息并生成简报”）\n- 希望 AI 自主学会操作习惯的用户\n- 追求**越用越强、沉淀经验**的长期场景\n\n**OpenClaw 更适合：**\n- 需求明确且流程固定的场景（如定时抓取特定网站数据）\n- 需要统一界面调度多个不同 AI 模型和本地脚本的开发者\n- 多账号、多通道、团队级调度平台——企业级稳定优先\n- 享受搭建复杂自动化工作流乐趣的高级开发者/极客\n\n> **两者可互补使用**：Hermes 负责“记忆偏好和技能迭代”，OpenClaw 负责“多通道执行和连接”。\n\n---\n\n## 第五部分：团队选型建议\n\n### 第 17 页：选型决策树\n\n```mermaid\nflowchart TD\n    Start([开始选型]) --> Q1{团队主要技术栈？}\n    Q1 -->|Python| R1[倾向 Hermes]\n    Q1 -->|TypeScript/Node.js| R2[倾向 OpenClaw]\n    \n    Start --> Q2{核心需求是什么？}\n    Q2 -->|长期沉淀经验| R1\n    Q2 -->|多账号/多平台调度| R2\n    \n    Start --> Q3{运维偏好？}\n    Q3 -->|开箱即用、省心| R1\n    Q3 -->|深度定制、掌控一切| R2\n    \n    Start --> Q4{项目类型？}\n    Q4 -->|创造性生成 / 需长期经验积累| R1\n    Q4 -->|固定流程自动化| R2\n```\n\n### 第 18 页：迁移路径建议（针对已有 OpenClaw 经验团队）\n\n| 迁移维度 | 评估 |\n|---|---|\n| 技能迁移 | OpenClaw 的技能需人工改写为 Hermes 格式，但 Hermes 可**自动生成**新技能 |\n| 部署对比 | Hermes 部署更轻量（一键脚本 vs 多组件配置） |\n| 学习成本 | Python 栈团队上手快；TypeScript 栈团队需适应 |\n| 混合使用 | 两者可配合——Hermes 负责“记忆和进化”，OpenClaw 负责“执行和连接” |\n\n### 第 19 页：生态现状与潜在风险\n\n| | Hermes Agent | OpenClaw |\n|---|---|---|\n| 社区活跃度 | 增长迅猛（发布两月 47k Stars），规模尚不及 OpenClaw | 社区极度活跃（160k+ Stars），技能库海量 |\n| 安全风险 | 内置沙盒机制，尚未面临大规模安全事件 | 已曝出恶意代码注入、权限滥用等问题 |\n| 平台封禁风险 | 对个人用户友好，风险较低 | 因行为模式易被识别，存在封禁风险 |\n| 迭代速度 | 快速迭代，已发布 v0.8.0（集成浏览器控制） | 极快迭代，曾 5 天 5 个版本号 |\n\n---\n\n## 第六部分：实践案例——Hermes AI 视频导演\n\n### 第 20 页：实践案例引入——从理论到实战的桥梁\n\n- **标题**：案例研究：构建一个基于 Hermes 的本地化全自动视频创作平台\n- **引出问题**：理论对比已清晰，但在实际开发场景中，Hermes 架构的优势究竟如何体现？\n- **案例介绍**：“Hermes AI 视频导演”项目\n  - **目标**：利用本地算力（RTX 4090），通过自然语言驱动，完成从创意到成片的全流程自动化\n  - **愿景**：将 Hermes Agent 打造成一个具备自主学习与编排能力的 AI 视频导演\n- **案例目标**：通过剖析此项目，直观感受 Hermes 的架构设计、技术偏好如何在真实项目中落地\n\n### 第 21 页：项目架构全景图\n\n- **标题**：系统架构全景图：如何串起本地算力与云端模型\n\n```mermaid\nflowchart TB\n    subgraph A[用户交互层]\n        A1[飞书/Web 前端]\n    end\n\n    subgraph B[Hermes 核心调度层 - WSL2]\n        B1[项目编排与任务拆解]\n        B2[三层记忆系统<br>（会话/持久/技能）]\n        B3[提示词优化引擎]\n        B4[MCP 客户端]\n    end\n\n    subgraph C[工具与模型层]\n        C1[云端大模型 API<br>（DeepSeek/MiniMax）]\n        C2[本地 ComfyUI + Wan2.2]\n        C3[MCP 视频剪辑服务器]\n    end\n\n    subgraph D[持久化与交付]\n        D1[本地视频文件库]\n        D2[社交平台发布接口]\n    end\n\n    A1 <-->|WebSocket| B\n    B -- 调用 --> C1\n    B -- 通过MCP协议调度 --> C2\n    B -- 通过MCP协议调度 --> C3\n    C2 & C3 -- 返回结果 --> B\n    B --> D1\n    B -.-> D2\n```\n\n- **架构分层解读**（对应 Hermes 核心能力）：\n  - **用户交互层**：以飞书为入口 → 体现 Hermes 多平台接入能力\n  - **Hermes 核心调度层**：项目编排、三层记忆、MCP 客户端 → 对应“重 Agent 循环”和“工具扩展性”\n  - **工具与模型层**：云端 API + 本地 ComfyUI → 体现“混合模型调用”和“本地优先”偏好\n  - **持久化与交付**：本地文件管理 + 平台发布接口\n\n### 第 22 页：分阶段实现路径——看 Hermes 的“自进化”如何发生\n\n| 阶段 | 核心任务 | Hermes 能力对应 | 交付物与验收标准 |\n|---|---|---|---|\n| **Phase 1: 基础打通** ✅ | WSL2 部署 Hermes；Windows 部署 ComfyUI + Wan2.2；配置 `comfyui-mcp-server` 实现双向通信 | **工具扩展性（MCP/ACP 协议）** | 飞书发送指令，Hermes 调用 ComfyUI 生成图片/视频。验收：成功生成“自画像” |\n| **Phase 2: 导演能力构建** 🔄 | 开发“提示词专家”技能；实现“项目编排”工作流；构建 T2V 等基础视频工作流 | **技能系统 + 任务分解能力** | 输入“赛博朋克风少女奔跑”，输出结构完整、画面符合的 5 秒视频 |\n| **Phase 3: 后期与学习闭环** ⏳ | 集成 `mcp-video` 服务器（拼接/转场/配乐）；启用三层记忆；开发“智能质检”技能 | **自进化闭环 + 持久化记忆** | 自动完成剪辑，并能根据反馈（如“音乐太吵”）在下一次自动修正 |\n| **Phase 4: 发布与运维** 📅 | 接入小红书/B站发布 API；开发 Web 管理面板；实现多用户协作 | **产品化与生态集成能力** | 一键将审核通过的视频发布到指定平台 |\n\n### 第 23 页：技术配置与规范——将最佳实践固化为代码\n\n**① Hermes 核心配置（`~/.hermes/config.yaml` 片段）**\n```yaml\nllm:\n  provider: openai\n  api_key: sk-xxxxx\n  base_url: https://api.deepseek.com/v1\n  model: deepseek-chat\n\nmcp_servers:\n  - name: comfyui-video\n    command: comfyui-mcp-server\n    env:\n      COMFYUI_URL: http://localhost:8188\n\nmemory:\n  conversation: true\n  persistent:\n    enabled: true\n    storage_path: ~/.hermes/memory/persistent.db\n  skills:\n    enabled: true\n    repo_path: ~/.hermes/skills\n```\n\n**② 技能（Skills）目录结构**\n```\n~/.hermes/skills/\n├── script-doctor/          # 提示词优化技能\n│   ├── skill.md\n│   └── prompt_templates.json\n├── video-editor/           # 视频剪辑技能\n│   ├── skill.md\n│   └── workflow.json\n└── quality-check/          # 质检与修正技能\n    ├── skill.md\n    └── rules.yaml\n```\n\n**③ 团队开发规范（5 条最佳实践）**\n\n| 维度 | 规范要求 | 价值说明 |\n|---|---|---|\n| 提示词管理 | 遵循“主体+场景+运动+美学+风格”公式，沉淀为模板 | 确保画面一致、高质量、可复现 |\n| 工作流封装 | 多次调用的 ComfyUI 工作流导出 JSON 并注册到 MCP | 工具化管理，降低调用复杂度 |\n| 记忆与学习 | 用户偏好和修改意见写入持久记忆；验证后的方案固化为技能 | 驱动系统自进化，减少重复调优 |\n| 错误处理 | MCP 调用失败时重试并记录日志到 `~/.hermes/logs` | 保证生产稳定性 |\n| 版本控制 | 所有技能、工作流、配置文件纳入 Git 管理 | 基础设施即代码（IaC），便于协作与回滚 |\n\n### 第 24 页：OpenClaw 实现此项目的“替代方案”推演\n\n- **标题**：思维实验：如果用 OpenClaw 构建，会有何不同？\n\n| 维度 | Hermes 实现方式 | OpenClaw 替代方案 |\n|---|---|---|\n| 飞书接入 | 原生消息网关支持 | 需开发 Channel 适配器 |\n| ComfyUI 调用 | MCP 协议标准化集成 | 需开发 Plugin 调用 API |\n| 任务拆解 | Agent 自主决策和拆解 | 需在 Gateway 层编写详细编排逻辑 |\n| 技能进化 | **自动提炼和更新**，无需人工干预 | Plugin 是静态的，优化需修改代码并重新部署 |\n| 状态记忆 | 多级记忆原生支持，自动记录用户偏好 | 依赖手动维护的 Markdown 文件或额外插件 |\n\n> **结论**：对于强调“创意过程自动化”和“长期经验沉淀”的项目，**Hermes 的“自进化”架构提供了更根本的、面向未来的优势**。OpenClaw 更适合流程固定、逻辑明确、不需要频繁进化的调度场景。\n\n### 第 25 页：案例小结与团队启示\n\n- **理论验证**：此案例完整验证了 Hermes 在架构（分层、记忆）、技术偏好（Python、本地优先）、使用体验（自进化、自动化）上的核心优势。\n- **技术可行性**：证明了基于 Hermes 构建涉及本地 GPU 调度、多工具编排的复杂 AI 应用**完全可行**，且有清晰的实施路径。\n- **团队启发**：\n  1. **思维转变**：从“我们写死流程让 AI 执行”（OpenClaw 模式）转向“我们教会 AI 如何思考和进化”（Hermes 模式）\n  2. **技能复用**：本项目开发的 `script-doctor`、`video-editor` 等技能，未来可被其他 Hermes Agent 实例复用\n  3. **选型参考**：此案例为团队未来评估“创造性、长周期、需经验积累”的 AI 项目提供了强有力的选型依据\n\n---\n\n## 第七部分：实操指南\n\n### 第 26 页：Hermes 实操入门——以“视频导演”项目 Phase 1 为例\n\n- **环境要求**：Linux / macOS / WSL2，Python 3.11+，推荐 16GB+ 内存\n- **安装命令**：\n  ```bash\n  curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash\n  ```\n- **配置模型**：`hermes setup` → 选择模型提供商\n- **运行**：`hermes start`\n- **Phase 1 关键步骤复现**：\n  1. 在 Windows 端启动 ComfyUI（确保 API 端口 8188 可访问）\n  2. 配置 `comfyui-mcp-server`\n  3. 在 `config.yaml` 中注册 MCP 服务器\n  4. 在飞书中发送指令测试调用\n\n### 第 27 页：OpenClaw 快速回顾\n\n- 基于团队已有经验，简要回顾核心配置要点\n- 最新版本关键特性：\n  - ContextEngine 插件接口（上下文管理自由插拔）\n  - Dreaming 离线思考机制\n  - 任务账本统一到 SQLite\n- **核心命令对比表**：\n\n| 操作 | Hermes | OpenClaw |\n|---|---|---|\n| 启动 | `hermes start` | `openclaw start` |\n| 配置 | `hermes setup` | 编辑 `config.yaml` |\n| 技能管理 | 自动生成 + `hermes skill create` | 手动编写或 `openclaw plugin install` |\n| 查看日志 | `hermes logs` | `openclaw logs` |\n\n---\n\n## 第八部分：总结与展望\n\n### 第 28 页：核心要点回顾\n\n| 对比维度 | Hermes Agent | OpenClaw |\n|---|---|---|\n| 架构差异 | 单核心自进化（重 Agent 循环） | 分布式多通道调度（重 Gateway 平台） |\n| 技术偏好 | Python 轻量自动化，本地模型优先 | TypeScript 企业级可控，生态广度优先 |\n| 使用差异 | 自动生成技能/记忆，越用越强 | 手动配置编排，稳定但不会自动进化 |\n| 选型本质 | **省心度**——提供能自主进化的长期搭档 | **控制感**——提供极致灵活的操作系统 |\n\n> **实践验证**：“Hermes AI 视频导演”项目证明了 Hermes 在复杂创意自动化场景下的独特优势。\n\n### 第 29 页：展望与讨论\n\n- **未来趋势**：AI Agent 正从“工具调用”走向“自主进化”\n- **团队讨论议题**：\n  1. 结合我们团队的项目场景，你更倾向于哪个框架？为什么？\n  2. 是否需要安排一次 Hermes Agent 的团队试用？\n  3. “视频导演”项目中的技能沉淀思路能否复用到其他项目？\n  4. 混合使用方案（Hermes + OpenClaw）是否可行？\n\n### 第 30 页：Q&A\n\n- **开放式问答环节**\n- 建议后续跟踪：培训后 1-2 周内组织团队试用反馈会\n\n### 第 31 页：参考资料\n\n- Hermes Agent 官方文档：https://github.com/NousResearch/hermes-agent\n- OpenClaw 官方文档：https://github.com/openclaw/openclaw\n- 阿里云开发者社区系列分析文章\n- AI Indeed 技术指南\n- 36氪分析文章\n\n### 第 32 页：致谢\n\n- 感谢参与！\n- 欢迎后续交流讨论\n\n---\n\n以上是完整的 32 页 PPT 大纲，包含项目流程图（Mermaid 代码形式）和全部内容。您可以直接据此制作培训课件，如需将 Mermaid 代码转为图片，可使用 Mermaid Live Editor 或本地工具渲染后插入 PPT。"
+          }
+        ]
+      }
+    },
+    "7": {
+      "id": "7",
+      "parent": "6",
+      "children": [
+        "8"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-22T22:25:21.592000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "Hermes 如何配置为开机自启动 让我可以在PC开机时就通过飞书实现访问"
+          }
+        ]
+      }
+    },
+    "8": {
+      "id": "8",
+      "parent": "7",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-22T22:25:21.594000+08:00",
+        "fragments": [
+          {
+            "type": "THINK",
+            "content": "用户想了解如何将Hermes配置为开机自启动，以便在PC开机后就能通过飞书访问。我需要提供在Windows、Linux（包括WSL2）和macOS系统上的配置方法。为了全面获取信息，我需要同时进行多项搜索，涵盖不同操作系统和环境。"
+          },
+          {
+            "type": "TOOL_SEARCH"
+          },
+          {
+            "type": "THINK",
+            "content": "搜索结果显示了一些相关页面。为了全面了解Hermes的开机自启动配置，我们需要同时打开这些页面。"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "THINK",
+            "content": "这些结果提供了在不同操作系统上配置开机自启动的详细信息。我的回答将涵盖Windows、macOS、Linux（包括WSL2）等系统。我计划先概述整体方案，然后分操作系统提供具体配置步骤。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "让 Hermes 开机自启并与飞书保持连接，是实现“开机即用”体验的关键一步。根据你的 PC 环境，有不同的最佳方案。\n\n### 💻 核心方案：选择最适合你的自启路径\n\n我把几种主流方案的核心信息整理成了下面这个表格，方便你快速决策：\n\n| 操作系统 | 推荐方案 | 核心工具 | 关键步骤 |\n| :--- | :--- | :--- | :--- |\n| **Windows (通过WSL2)** | Windows 任务计划程序 | 任务计划程序 (Task Scheduler) | 创建登录时触发的任务，执行WSL命令，在tmux会话中启动`hermes gateway`[reference:0]。 |\n| **macOS** | 官方推荐 | launchd | 通过`hermes gateway setup`交互式配置，生成`.plist`文件实现自启[reference:1]。 |\n| **Linux (裸机/服务器)** | 服务器级推荐 | systemd | 创建`.service`服务文件，通过`systemctl enable`设置开机自启[reference:2][reference:3]。 |\n| **WSL2 (Systemd)** | 仅限Win11新版本 | systemd (WSL内部) | 启用WSL的systemd支持，再通过`systemctl`管理服务[reference:4]。 |\n\n---\n\n### 🪟 Windows (WSL2) 环境\n\n在 Windows 上，最稳定、推荐的方式是通过 WSL2 运行 Hermes，并结合 Windows 任务计划程序实现开机自启。这是官方推荐方案，能有效避免兼容性问题[reference:5][reference:6]。\n\n#### 1. 准备工作：在 WSL2 中安装 `tmux`\n\n首先，确保你的 WSL2 系统中安装了 `tmux` 工具，它能让 Hermes 在后台持续运行。\n\n```bash\nsudo apt update\nsudo apt install tmux\n```\n\n#### 2. 创建任务计划程序\n\n*   1. 按 `Win + R`，输入 `taskschd.msc` 并回车，打开“任务计划程序”[reference:7]。\n*   2. 在右侧操作栏点击“创建任务”（不是“创建基本任务”）[reference:8][reference:9]。\n\n#### 3. 配置任务\n\n**常规选项卡**：\n*   **名称**：填写一个易于识别的名称，如 `Hermes Agent AutoStart`。\n*   **安全选项**：勾选“不管用户是否登录都要运行”，并同时勾选“使用最高权限运行”[reference:10]。\n\n**触发器选项卡**：\n*   点击“新建”，在“开始任务”下拉菜单中选择“登录时”[reference:11]。\n\n**操作选项卡**：\n*   点击“新建”，按以下信息填写：\n    *   **操作**：启动程序\n    *   **程序或脚本**：`wsl`\n    *   **添加参数**：`-d <你的WSL发行版名称> -- bash -lc 'tmux new -s hermes -d \"hermes gateway run\"'`\n        > **注意**：请将 `<你的WSL发行版名称>` 替换为你实际的发行版名称（如 `Ubuntu-22.04`），可通过 `wsl -l -v` 命令查看。\n    *   **起始于**：可留空。\n\n这个参数的作用是让 WSL 启动你指定的发行版，并在一个名为 `hermes` 的后台 tmux 会话中执行 `hermes gateway run` 命令[reference:12]。\n\n**条件选项卡**：\n*   **重要**：取消勾选“只有在计算机使用交流电源时才启动此任务”，以确保笔记本用户也能正常自启。\n\n---\n\n### ​🍎 macOS 环境\n\n在 macOS 上，可以利用其原生的 `launchd` 服务来实现开机自启。\n\n#### 1. 通过 Hermes 配置向导生成服务\n\n在终端中运行以下命令，它会引导你创建一个 launchd 配置文件：\n\n```bash\nhermes gateway setup\n```\n\n这个交互式向导会询问你是否要设置开机自启，按提示操作即可。完成后，它通常会在 `~/Library/LaunchAgents/` 目录下生成一个 `.plist` 文件，用于管理服务[reference:13]。\n\n#### 2. 手动加载服务（如果需要）\n\n如果向导没有自动加载，你可以手动执行以下命令来加载并启动服务：\n\n```bash\n# 加载服务\nlaunchctl load ~/Library/LaunchAgents/com.nousresearch.hermes.plist\n\n# 启动服务\nlaunchctl start com.nousresearch.hermes\n```\n\n---\n\n### 🐧 Linux (裸机/服务器) 环境\n\n在 Linux 系统上，使用 `systemd` 是最佳实践，它提供了强大的进程守护功能。\n\n#### 1. 创建 systemd 服务文件\n\n使用 `sudo` 权限创建一个新的服务文件：\n\n```bash\nsudo nano /etc/systemd/system/hermes-gateway.service\n```\n\n将以下内容粘贴到文件中，并保存退出：\n\n```ini\n[Unit]\nDescription=Hermes Agent Gateway Service\nAfter=network.target\n\n[Service]\nType=simple\nUser=$USER\nWorkingDirectory=/home/$USER/.hermes\nExecStart=/home/$USER/.hermes/venv/bin/hermes gateway --port 9119\nRestart=always\nRestartSec=10\nStandardOutput=journal\nStandardError=journal\n\n[Install]\nWantedBy=multi-user.target\n```\n\n> **注意**：\n> *   `User` 和 `WorkingDirectory` 中的 `$USER` 请替换为你的实际用户名。\n> *   `ExecStart` 中的路径需确保指向你的 Hermes 可执行文件。通常，通过官方脚本安装后，它位于 `~/.hermes/venv/bin/hermes`[reference:14]。\n\n#### 2. 启用并启动服务\n\n```bash\n# 重新加载 systemd 配置\nsudo systemctl daemon-reload\n\n# 启用服务，使其开机自启\nsudo systemctl enable hermes-gateway\n\n# 立即启动服务\nsudo systemctl start hermes-gateway\n\n# 检查服务状态\nsudo systemctl status hermes-gateway\n```\n\n---\n\n### 💡 注意事项与验证\n\n1.  **环境变量**：如果在 `systemd` 或 `launchd` 服务中启动的 Hermes 找不到某些依赖或 API Key，可能需要显式地在服务文件中配置 `Environment` 或 `EnvironmentFile` 来注入环境变量[reference:15]。\n2.  **验证自启动**：完成配置后，重启电脑。登录后，可以通过以下方法验证：\n    *   **检查进程**：在 WSL 终端中使用 `ps aux | grep hermes` 或 `tmux ls`；在 Linux/macOS 中使用 `systemctl status hermes-gateway` 或 `launchctl list | grep hermes`。\n    *   **最终测试**：通过飞书给 Hermes 机器人发送一条消息，如果收到回复，则说明配置成功。"
+          }
+        ]
+      }
+    }
+  }
+}

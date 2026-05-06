@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.1",
+  "source_id": "d117124d-1130-4e49-8ef0-389800bfa869_成都武汉预期寿命数据对比",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/d117124d-1130-4e49-8ef0-389800bfa869_成都武汉预期寿命数据对比.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "成都武汉预期寿命数据对比",
+  "title_flags": [],
+  "source_weight": 1.7531,
+  "source_density_score": 1.0403,
+  "llm_enriched": false,
+  "tags": [
+    "成都武汉预期寿命",
+    "数据对比",
+    "成都武汉预期寿命数据对比"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "topic_candidate": 1
+  },
+  "units": [
+    {
+      "unit_id": "d117124d-1130-4e49-8ef0-389800bfa869_成都武汉预期寿命数据对比:topic:1",
+      "kind": "topic_candidate",
+      "text": "成都武汉预期寿命数据对比",
+      "importance": 0.907655,
+      "confidence": 0.721612,
+      "source_weight": 1.7531,
+      "source_density_score": 1.0403,
+      "is_title_derived": true,
+      "is_llm_enriched": false,
+      "tags": [
+        "成都武汉预期寿命",
+        "数据对比",
+        "成都武汉预期寿命数据对比"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/d117124d-1130-4e49-8ef0-389800bfa869_成都武汉预期寿命数据对比.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "d117124d-1130-4e49-8ef0-389800bfa869_成都武汉预期寿命数据对比:conclusion:1",
+      "kind": "conclusion",
+      "text": "成都武汉预期寿命数据对比",
+      "importance": 0.8427169999999999,
+      "confidence": 0.62,
+      "source_weight": 1.7531,
+      "source_density_score": 1.0403,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "成都武汉预期寿命",
+        "数据对比",
+        "成都武汉预期寿命数据对比"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/d117124d-1130-4e49-8ef0-389800bfa869_成都武汉预期寿命数据对比.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

@@ -116,6 +116,23 @@ class VoiceSession:
     def transcripts(self) -> list:
         return self.transcription_handler.transcripts
 
+    @property
+    def audio_chunks(self) -> list[bytes]:
+        """Compatibility view for older tests and integrations."""
+        return self.audio_buffer.chunks
+
+    @property
+    def _max_audio_chunks(self) -> int:
+        return self.audio_buffer.max_chunks
+
+    @property
+    def _max_audio_bytes(self) -> int:
+        return self.audio_buffer.max_total_bytes
+
+    @property
+    def _max_total_bytes(self) -> int:
+        return self.audio_buffer.max_total_bytes
+
     def _restore_state(self) -> None:
         """恢复会话状态"""
         if self.state_manager.restore():

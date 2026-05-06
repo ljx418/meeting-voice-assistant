@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "dcdc7637a8059b5a",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7c8f5831-33b8-470e-ab6a-3ffa29ebebe6_宏观政策-废弃于20260417.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/dc/dcdc7637a8059b5a.json",
+    "sha256": "ec2f5bad7a3c4b25a1f9485d6d10e35d15390519e106c6188e7d69e35dd2f5f3",
+    "content_hash": "8564a9d8423c60d5af406fca4c6b0f3d8a54318189d74619607d8c20a359587c",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "c52b2308-c44f-42fa-816c-3fda4d422da0",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "7c8f5831-33b8-470e-ab6a-3ffa29ebebe6",
+      "locator": {
+        "kind": "json_path",
+        "path": "7c8f5831-33b8-470e-ab6a-3ffa29ebebe6_宏观政策-废弃于20260417.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "aff38a64-ccfb-49e3-841d-741ba71ab74f",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "宏观政策-废弃于20260417",
+      "locator": {
+        "kind": "json_path",
+        "path": "7c8f5831-33b8-470e-ab6a-3ffa29ebebe6_宏观政策-废弃于20260417.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "403d4998-602e-4175-ab94-6a1367537111",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "7c8f5831-33b8-470e-ab6a-3ffa29ebebe6_宏观政策-废弃于20260417.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "ebfb84c9-5a02-44ac-b37f-41d2569b20bf",
+      "section_id": "c52b2308-c44f-42fa-816c-3fda4d422da0",
+      "text": "7c8f5831-33b8-470e-ab6a-3ffa29ebebe6",
+      "locator": {
+        "kind": "json_path",
+        "path": "7c8f5831-33b8-470e-ab6a-3ffa29ebebe6_宏观政策-废弃于20260417.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "6d9dad9b-5609-459e-ba11-494deff4bf83",
+      "section_id": "aff38a64-ccfb-49e3-841d-741ba71ab74f",
+      "text": "宏观政策-废弃于20260417",
+      "locator": {
+        "kind": "json_path",
+        "path": "7c8f5831-33b8-470e-ab6a-3ffa29ebebe6_宏观政策-废弃于20260417.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 15
+    },
+    {
+      "passage_id": "9dab9dab-828a-493d-b577-d6b3611ece51",
+      "section_id": "403d4998-602e-4175-ab94-6a1367537111",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "7c8f5831-33b8-470e-ab6a-3ffa29ebebe6_宏观政策-废弃于20260417.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.235766"
+}

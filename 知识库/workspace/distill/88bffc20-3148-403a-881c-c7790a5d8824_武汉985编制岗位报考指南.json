@@ -1,0 +1,83 @@
+{
+  "source_id": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "武汉985编制岗位报考指南",
+  "title_flags": [],
+  "source_weight": 1.9174,
+  "source_density_score": 1.2407,
+  "llm_enriched": false,
+  "tags": [
+    "武汉",
+    "编制岗位报考指南",
+    "武汉985编制岗位报考指南"
+  ],
+  "units": [
+    {
+      "unit_id": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南:topic:1",
+      "kind": "topic_candidate",
+      "text": "武汉",
+      "importance": 0.91587,
+      "confidence": 0.729628,
+      "source_weight": 1.9174,
+      "source_density_score": 1.2407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南:topic:2",
+      "kind": "topic_candidate",
+      "text": "武汉985编制岗位报考指南",
+      "importance": 0.91587,
+      "confidence": 0.729628,
+      "source_weight": 1.9174,
+      "source_density_score": 1.2407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南:note:1",
+      "kind": "note",
+      "text": "武汉985编制岗位报考指南",
+      "importance": 0.695044,
+      "confidence": 0.56,
+      "source_weight": 1.9174,
+      "source_density_score": 1.2407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南:conclusion:1",
+      "kind": "conclusion",
+      "text": "武汉985编制岗位报考指南",
+      "importance": 0.8542179999999999,
+      "confidence": 0.62,
+      "source_weight": 1.9174,
+      "source_density_score": 1.2407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南:entity:1",
+      "kind": "entity_candidate",
+      "text": "武汉",
+      "importance": 0.79587,
+      "confidence": 0.6,
+      "source_weight": 1.9174,
+      "source_density_score": 1.2407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南:entity:2",
+      "kind": "entity_candidate",
+      "text": "编制岗位报考指南",
+      "importance": 0.79587,
+      "confidence": 0.6,
+      "source_weight": 1.9174,
+      "source_density_score": 1.2407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

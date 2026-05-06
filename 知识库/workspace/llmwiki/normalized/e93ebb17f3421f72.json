@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "e93ebb17f3421f72",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/e9/e93ebb17f3421f72.json",
+    "sha256": "044824b00c92efca5fc34b4189dbbeb4b7af2bf0cca4c14388a3a7c14ebd40f8",
+    "content_hash": "6baeba206308fa6749849040d05e41487d956088d4cf460941fba0a0a33f3695",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "39ad7842-0557-4b1e-98bc-1979a57b15ba",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "f8fffa24-f81e-4aac-ad68-153b6d0024a0",
+      "locator": {
+        "kind": "json_path",
+        "path": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "4679281e-1a6f-471f-a9bd-f424d73fd57b",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "跨端卡片迁移与自适应布局专利方案",
+      "locator": {
+        "kind": "json_path",
+        "path": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "0a32a928-8c1e-4c9b-b8de-7d36b740cd77",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "2e2cec1b-047f-4cb7-bafc-b31d451d4a75",
+      "section_id": "39ad7842-0557-4b1e-98bc-1979a57b15ba",
+      "text": "f8fffa24-f81e-4aac-ad68-153b6d0024a0",
+      "locator": {
+        "kind": "json_path",
+        "path": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "5716e05b-32ff-4000-86b5-f21be7cd88d0",
+      "section_id": "4679281e-1a6f-471f-a9bd-f424d73fd57b",
+      "text": "跨端卡片迁移与自适应布局专利方案",
+      "locator": {
+        "kind": "json_path",
+        "path": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "1eb6adbb-8aad-4bbc-927d-4eade67bbdc5",
+      "section_id": "0a32a928-8c1e-4c9b-b8de-7d36b740cd77",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "f8fffa24-f81e-4aac-ad68-153b6d0024a0_跨端卡片迁移与自适应布局专利方案.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.779571"
+}

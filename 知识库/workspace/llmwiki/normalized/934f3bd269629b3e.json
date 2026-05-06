@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "934f3bd269629b3e",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2719fccd-87f9-462d-abd0-bfd7c1c2da9e_税后50万计算税前工资.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/93/934f3bd269629b3e.json",
+    "sha256": "f38b959c813c230d400f65847f6d6e4be09dfb393ff18fb89a41ba5c6c5915a7",
+    "content_hash": "cf8716dcb136478d06d4c2206918bbea3d883a4cc058901ba31a04ff51a64937",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "e6fe1c6e-e8c6-42f5-9ce0-16708239ab0d",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "2719fccd-87f9-462d-abd0-bfd7c1c2da9e",
+      "locator": {
+        "kind": "json_path",
+        "path": "2719fccd-87f9-462d-abd0-bfd7c1c2da9e_税后50万计算税前工资.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "8aeac458-1fd7-4560-a753-4141bc2c44d8",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "税后50万计算税前工资",
+      "locator": {
+        "kind": "json_path",
+        "path": "2719fccd-87f9-462d-abd0-bfd7c1c2da9e_税后50万计算税前工资.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "a8a72bb2-ff40-4993-93a9-2eb1514e487b",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "2719fccd-87f9-462d-abd0-bfd7c1c2da9e_税后50万计算税前工资.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "ff2e0a89-8f88-4eb1-8635-45009d121a5f",
+      "section_id": "e6fe1c6e-e8c6-42f5-9ce0-16708239ab0d",
+      "text": "2719fccd-87f9-462d-abd0-bfd7c1c2da9e",
+      "locator": {
+        "kind": "json_path",
+        "path": "2719fccd-87f9-462d-abd0-bfd7c1c2da9e_税后50万计算税前工资.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "544820c9-4092-4a30-9c0c-8bd02aadeddb",
+      "section_id": "8aeac458-1fd7-4560-a753-4141bc2c44d8",
+      "text": "税后50万计算税前工资",
+      "locator": {
+        "kind": "json_path",
+        "path": "2719fccd-87f9-462d-abd0-bfd7c1c2da9e_税后50万计算税前工资.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 14
+    },
+    {
+      "passage_id": "c0c68daa-5b94-4f7e-8cf5-8f33fb008a72",
+      "section_id": "a8a72bb2-ff40-4993-93a9-2eb1514e487b",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "2719fccd-87f9-462d-abd0-bfd7c1c2da9e_税后50万计算税前工资.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.041342"
+}

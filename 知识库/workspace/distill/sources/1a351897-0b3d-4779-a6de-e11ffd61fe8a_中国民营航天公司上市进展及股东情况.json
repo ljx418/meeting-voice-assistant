@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.1",
+  "source_id": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "中国民营航天公司上市进展及股东情况",
+  "title_flags": [],
+  "source_weight": 1.7546,
+  "source_density_score": 1.0423,
+  "llm_enriched": false,
+  "tags": [
+    "中国民营航天公司",
+    "上市进展及股东情",
+    "投资",
+    "中国民营航天公司上市进展及股东情况"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况:topic:1",
+      "kind": "topic_candidate",
+      "text": "投资",
+      "importance": 0.9077299999999999,
+      "confidence": 0.721692,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国民营航天公司",
+        "上市进展及股东情",
+        "投资",
+        "中国民营航天公司上市进展及股东情况"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况:topic:2",
+      "kind": "topic_candidate",
+      "text": "中国民营航天公司上市进展及股东情况",
+      "importance": 0.9077299999999999,
+      "confidence": 0.721692,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国民营航天公司",
+        "上市进展及股东情",
+        "投资",
+        "中国民营航天公司上市进展及股东情况"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况:conclusion:1",
+      "kind": "conclusion",
+      "text": "中国民营航天公司上市进展及股东情况",
+      "importance": 0.842822,
+      "confidence": 0.62,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国民营航天公司",
+        "上市进展及股东情",
+        "投资",
+        "中国民营航天公司上市进展及股东情况"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1a351897-0b3d-4779-a6de-e11ffd61fe8a_中国民营航天公司上市进展及股东情况.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

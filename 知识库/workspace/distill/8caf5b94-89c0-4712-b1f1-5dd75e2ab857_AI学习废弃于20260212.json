@@ -1,0 +1,50 @@
+{
+  "source_id": "8caf5b94-89c0-4712-b1f1-5dd75e2ab857_AI学习废弃于20260212",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8caf5b94-89c0-4712-b1f1-5dd75e2ab857_AI学习废弃于20260212.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "AI学习",
+  "title_flags": [
+    "status_marker"
+  ],
+  "source_weight": 1.7546,
+  "source_density_score": 1.0423,
+  "llm_enriched": false,
+  "tags": [
+    "ai学习"
+  ],
+  "units": [
+    {
+      "unit_id": "8caf5b94-89c0-4712-b1f1-5dd75e2ab857_AI学习废弃于20260212:topic:1",
+      "kind": "topic_candidate",
+      "text": "ai学习",
+      "importance": 0.9077299999999999,
+      "confidence": 0.721692,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "8caf5b94-89c0-4712-b1f1-5dd75e2ab857_AI学习废弃于20260212:note:1",
+      "kind": "note",
+      "text": "AI学习（废弃于20260212）",
+      "importance": 0.685276,
+      "confidence": 0.56,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "8caf5b94-89c0-4712-b1f1-5dd75e2ab857_AI学习废弃于20260212:conclusion:1",
+      "kind": "conclusion",
+      "text": "AI学习（废弃于20260212）",
+      "importance": 0.842822,
+      "confidence": 0.62,
+      "source_weight": 1.7546,
+      "source_density_score": 1.0423,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

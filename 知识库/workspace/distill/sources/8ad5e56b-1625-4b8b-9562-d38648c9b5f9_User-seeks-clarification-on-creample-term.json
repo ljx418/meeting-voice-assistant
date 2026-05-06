@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.1",
+  "source_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "User seeks clarification on creample term",
+  "title_flags": [],
+  "source_weight": 1.8445,
+  "source_density_score": 1.1519,
+  "llm_enriched": false,
+  "tags": [
+    "User",
+    "seeks",
+    "clarification",
+    "creample",
+    "term",
+    "User seeks clarification on creample term"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term:topic:1",
+      "kind": "topic_candidate",
+      "text": "User",
+      "importance": 0.912225,
+      "confidence": 0.726076,
+      "source_weight": 1.8445,
+      "source_density_score": 1.1519,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "User",
+        "seeks",
+        "clarification",
+        "creample",
+        "term",
+        "User seeks clarification on creample term"
+      ],
+      "entities": [
+        "User"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term:topic:2",
+      "kind": "topic_candidate",
+      "text": "User seeks clarification on creample term",
+      "importance": 0.912225,
+      "confidence": 0.726076,
+      "source_weight": 1.8445,
+      "source_density_score": 1.1519,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "User",
+        "seeks",
+        "clarification",
+        "creample",
+        "term",
+        "User seeks clarification on creample term"
+      ],
+      "entities": [
+        "User"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term:conclusion:1",
+      "kind": "conclusion",
+      "text": "User seeks clarification on creample term.",
+      "importance": 0.849115,
+      "confidence": 0.62,
+      "source_weight": 1.8445,
+      "source_density_score": 1.1519,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "User",
+        "seeks",
+        "clarification",
+        "creample",
+        "term",
+        "User seeks clarification on creample term"
+      ],
+      "entities": [
+        "User"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term:entity:1",
+      "kind": "entity_candidate",
+      "text": "User",
+      "importance": 0.792225,
+      "confidence": 0.6,
+      "source_weight": 1.8445,
+      "source_density_score": 1.1519,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "User",
+        "seeks",
+        "clarification",
+        "creample",
+        "term",
+        "User seeks clarification on creample term"
+      ],
+      "entities": [
+        "User"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

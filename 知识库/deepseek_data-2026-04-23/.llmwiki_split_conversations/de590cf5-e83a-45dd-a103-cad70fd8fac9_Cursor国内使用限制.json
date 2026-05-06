@@ -1,0 +1,689 @@
+{
+  "id": "de590cf5-e83a-45dd-a103-cad70fd8fac9",
+  "title": "Cursor国内使用限制",
+  "inserted_at": "2026-04-13T14:02:00.214000+08:00",
+  "updated_at": "2026-04-21T10:14:37.199000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2026-04-13T14:02:14.948000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "国内登录不了cursor吗"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [
+        "3"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2026-04-13T14:02:14.951000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://m.thepaper.cn/newsDetail_forward_31211974",
+                "title": "AI开发圈地震！Cursor多款模型在中国大陆不能用了，程序员要求退钱",
+                "snippet": "Cursor还提到，如果用户在近期支付了订阅费用，但由于模型提供商不支持服务而失去了对模型的访问权限，可以直接在Cursor控制面板中申请按比例退款。如果在Cursor中选用Auto（自动）模式，Cursor会自动选用在当前地区可用的模型。",
+                "cite_index": 1,
+                "published_at": 1752854400.0,
+                "site_name": "澎湃新闻",
+                "site_icon": "https://cdn.deepseek.com/site-icons/thepaper.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cursor-ide.com/blog/cursor-guonei-guide-2025",
+                "title": "Cursor国内使用完全指南2025：突破限制、省钱技巧与团队协作方案[含解决方案对比表]",
+                "snippet": "自2025年7月17日起，Cursor对中国大陆IP实施了访问限制，用户会遇到\"User is unauthorized\"、\"Model not available\"等错误。但这并非无解，以下是经过社区验证的完整解决方案矩阵。",
+                "cite_index": 2,
+                "published_at": 1752854400.0,
+                "site_name": "Cursor IDE中文站",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cursor-ide.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://g.pconline.com.cn/x/1957/19574388.html",
+                "title": "cursor如何重新登录",
+                "snippet": "一、通过官网重新登录 1. 注销当前账号 * 对于网页版Cursor，用户可以在浏览器窗口右上角找到个人头像图标，点击进入账户管理界面，选择“注销”或“退出登录”选项。",
+                "cite_index": 3,
+                "published_at": 1756483200.0,
+                "site_name": "太平洋科技",
+                "site_icon": "https://cdn.deepseek.com/site-icons/pconline.com.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://aicoding.juejin.cn/post/7529784149563424807",
+                "title": "cursor区域限制解决方法，cursor提示“Model not available“ 的原因",
+                "snippet": "第一种解决方法（推荐） 目前的解决方式，就是挂上你的魔法（TZ）之后，然后开启TUN模式，也就是全局路由。 TUN模式的核心作用是将你设备上所有的网络流量都通过代理隧道进行转发。",
+                "cite_index": 4,
+                "published_at": 1753200000.0,
+                "site_name": "掘金",
+                "site_icon": "https://cdn.deepseek.com/site-icons/juejin.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cursor-ide.com/blog/cursor-region-restriction-vpn-guide",
+                "title": "Cursor地区限制完全解决指南：This Model Provider Doesn't Serve Your Region修复方案",
+                "snippet": "Cursor本身并不限制任何地区的用户，它只是一个AI编程工具的前端界面。真正实施地区限制的是背后的模型提供商——Anthropic（Claude的开发者）和OpenAI（GPT系列的开发者）。这两家公司都有明确的服务条款 ... TUN模式（也称为虚拟网卡模式）是解决Cursor地区限制最彻底、最稳定的方案。它通过在操作系统底层创建一个虚拟网络接口...",
+                "cite_index": 5,
+                "published_at": 1764432000.0,
+                "site_name": "Cursor IDE中文站",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cursor-ide.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://g.pconline.com.cn/x/1982/19826512.html",
+                "title": "cursor怎么切换账号登录",
+                "snippet": "在Cursor编辑器界面左下角，点击显示当前用户名或头像的区域，弹出菜单中选择“Sign Out”（退出登录）。若未看到该选项，需确认是否已登录——未登录状态下此区域显示“Sign In”。系统会弹出确认对话框...",
+                "cite_index": 6,
+                "published_at": 1758038400.0,
+                "site_name": "太平洋科技",
+                "site_icon": "https://cdn.deepseek.com/site-icons/pconline.com.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cnblogs.com/dingshaohua/p/19378905#commentform",
+                "title": "Cursor锁区问题",
+                "snippet": "现在 Cursor 对 国区 进行了锁区，即使你开了会员，好的/新的 模型都不可用了，如果开了 Auto 模式，它回复也是使用的一些其它一些低端模型完成的 ... - （若你开启了话）关掉 科学工具>系统代理和TUN，且规则默认普通（无须全局代理）即可！",
+                "cite_index": 7,
+                "published_at": 1766246400.0,
+                "site_name": "博客园",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cnblogs.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://forum.cursor.com/t/the-desktop-application-is-not-authorized-to-the-account/138205#p-279219-operating-system-4",
+                "title": "The desktop application is not authorized to the account(",
+                "snippet": "Please try the steps below: - Temporarily disable your firewall/antivirus, this is the most common cause of login callback issues on Windows - Run network diagnostics: Cursor Settings > Network > Run Diagnostics and share the results",
+                "cite_index": 8,
+                "published_at": 1760889600.0,
+                "site_name": "Cursor - Community Forum",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cursor.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://juejin.cn/post/7530071264712589363",
+                "title": "Cursor 解决锁区问题（详细步骤）",
+                "snippet": "首先得有 新网络v，并打开 全局模式。 再把 Cursor 设置中 Network 为 HTTP1.1 或 HTTP1.0。 重启 Cursor 即可进行对话。 如果还不行，则检测一下网络情况，或者尝试下",
+                "cite_index": 9,
+                "published_at": 1753200000.0,
+                "site_name": "掘金",
+                "site_icon": "https://cdn.deepseek.com/site-icons/juejin.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cursor-ide.com/blog/cursor-china-guide",
+                "title": "Cursor国内使用完整指南：2025年7月最新版本效率提升126%【附支付教程】",
+                "snippet": "深入解析2025年7月Cursor 1.2版本在国内的使用方法，包含支付宝付费、模型限制解决、性能优化技巧。通过laozhang.ai API服务节省70%成本，立即注册送额度。",
+                "cite_index": 10,
+                "published_at": 1752854400.0,
+                "site_name": "Cursor IDE中文站",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cursor-ide.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "RESPONSE",
+            "content": "**国内可以登录和使用 Cursor 的基础功能，但自 2025 年 7 月起，直接使用 Claude、GPT-4 等高级模型会受限**[citation:1]。\n\n具体限制情况和解决方法如下：\n\n### 🔍 受限的表现\n*   **手动选模型报错**：关闭 `Auto` 模式后，选择 Claude 或 GPT-4 模型，会提示 \"Model not available\" 或 \"This model provider doesn't serve your region\"[citation:1][citation:9]。\n*   **模型列表缺失**：在模型选择器中，若只能看到少数几个模型（如 DeepSeek），说明被限制，核心主力模型被隐藏了[citation:7]。\n\n### 🛠️ 解决方法\n虽然有限制，但通过以下方法可以恢复使用：\n*   **开启 TUN 模式**：在代理软件（如 Clash Verge）中开启 **TUN 模式**，接管电脑所有流量。同时在 Cursor 设置（`Cmd/Ctrl + ,`）中将 Network 里的 HTTP 兼容模式改为 **HTTP/1.1**，重启即可[citation:4][citation:5][citation:9]。\n*   **修改配置文件**：按 `Cmd/Ctrl + Shift + P` 搜索 `settings.json`，添加以下代理配置（端口号以你的软件为准，通常是 7890），保存后重启[citation:7][citation:9]：\n```json\n\"http.proxy\": \"http://127.0.0.1:7890\",\n\"http.proxyStrictSSL\": false,\n\"cursor.general.disableHttp2\": true\n```\n*   **切换国内模型**：如果网络问题不好解决，可以在模型选择器中直接选用 **DeepSeek** 等国内可用模型，虽然能力有差异，但可满足基础编码需求[citation:1]。\n\n### 💡 其他建议\n*   **使用 Auto 模式**：开启 `Auto` 模式虽然会自动避开受限模型，但遇到复杂问题时可能会明显“降智”[citation:1]。\n*   **退款途径**：如果付费后无法接受限制，可以登录 Cursor 官网后台，在 Billing 页面按比例申请退款[citation:1]。\n\n操作中如果遇到某个步骤卡住了，或者不确定代理端口怎么查，可以告诉我，我再帮你看看～"
+          }
+        ]
+      }
+    },
+    "3": {
+      "id": "3",
+      "parent": "2",
+      "children": [
+        "4"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2026-04-13T14:09:00.906000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "在VS CODE上用claude code、cursor、通义工具，需要哪些条件，是否需要API KEY，注册登录等"
+          }
+        ]
+      }
+    },
+    "4": {
+      "id": "4",
+      "parent": "3",
+      "children": [
+        "5"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2026-04-13T14:09:00.907000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://docs.ksyun.com/documents/44928?tpl=scaling&type=3",
+                "title": "在VSCode中使用Claude Code for VS Code接入星流平台模型API服务教程",
+                "snippet": "一、操作简介 本教程适用于Mac os与Windows版VS Code，在正式开始前请确保您已开通星流API服务，并完成API Key创建，如您尚未开通请查看快速上手 ### 二...",
+                "cite_index": 1,
+                "published_at": 1765814400.0,
+                "site_name": "金山云",
+                "site_icon": "https://cdn.deepseek.com/site-icons/ksyun.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://vsokolov.org/courses/caio/cursor-setup-guide.html",
+                "title": "Cursor IDE Setup Guide",
+                "snippet": "Cursor is an AI-powered code editor built on VS Code. It allows you to: - Write code with AI assistance - Ask questions about your code ... - When Cursor opens, you’ll see a welcome screen - Click Sign In to create a free account",
+                "cite_index": 2,
+                "published_at": 1769616000.0,
+                "site_name": "Vadim Sokolov",
+                "site_icon": "https://cdn.deepseek.com/site-icons/vsokolov.org",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://help.aliyun.com/zh/emr/emr-serverless-spark/getting-started/use-vs-code-psychic-code-to-submit-tasks-to-serverless-spark",
+                "title": "使用VS Code+通义灵码提交任务至Serverless Spark",
+                "snippet": "通义灵码（Tongyi Lingma）—— 阿里云官方 AI 编程插件 安装完成后，使用您的阿里云账号登录通义灵码。 在状态栏点击“通义灵码”图标，将对话框中模式切换为 Agent 模式。 配置 VSCode 支持的 Shell。",
+                "cite_index": 3,
+                "published_at": 1761235200.0,
+                "site_name": "阿里云文档中心",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aliyun.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://help.aliyun.com/zh/lingma/user-guide/inline-chat?spm=a2c4g.11186623.help-menu-2804669.d_2_2.10942b61R5Q8jn&scm=20140722.H_2922468._.OR_help-T_cn~zh-V_1",
+                "title": "使用行间会话与代码进行智能会话-智能编码助手通义灵码-阿里云",
+                "snippet": "如需体验行间会话功能，需在 VS Code、JetBrains IDEs 中，将通义灵码升级 2.5.3（VS Code）/2.5.2（JetBrains IDEs）或以上版本。",
+                "cite_index": 4,
+                "published_at": 1747497600.0,
+                "site_name": "阿里云文档中心",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aliyun.com",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.sitepoint.com/how-to-setup-claude-code-vs-code-complete-guide/",
+                "title": "How to Install Claude Code in VS Code: 2025 Setup Guide",
+                "snippet": "Create an Anthropic account and ... After creating an account, navigate to \"API Keys\" and generate a new key. This path requires adding a payment method and operates on usage-based billing. ... Both OAuth and API key methods result in a fully authenticated session. API keys persist until revoked.",
+                "cite_index": 5,
+                "published_at": 1773936000.0,
+                "site_name": "SitePoint",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sitepoint.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://blog.csdn.net/weixin_74399364/article/details/154481969",
+                "title": "Cursor讲解",
+                "snippet": "最后一项：安装终端命令，方便后续从终端直接启动 Cursor code command即使用VScode命令启动 Cursor 建议只用cursor就好了，区分开cursor和VScode 然后选择好自己想要的界面风格",
+                "cite_index": 6,
+                "published_at": 1762358400.0,
+                "site_name": "CSDN博客",
+                "site_icon": "https://cdn.deepseek.com/site-icons/csdn.net",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.alibabacloud.com/help/tc/emr/emr-serverless-spark/getting-started/use-vs-code-psychic-code-to-submit-tasks-to-serverless-spark",
+                "title": "使用VS Code+通義靈碼提交任務至Serverless Spark - Alibaba Cloud",
+                "snippet": "使用者能夠快速產生Spark任務代碼並將其提交至Serverless Spark進行執行。本文將為您詳細介紹如何使用上述工具提交Serverless ... 安裝完成後，使用您的阿里雲帳號登入通義靈碼。 在狀態列點擊“通義靈碼”表徵圖，將對話方塊中模式切換為 Agent 模式。",
+                "cite_index": 7,
+                "published_at": 1761321600.0,
+                "site_name": "Alibaba Cloud",
+                "site_icon": "https://cdn.deepseek.com/site-icons/alibabacloud.com",
+                "query_indexes": [
+                  2,
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.w3cschool.cn/javascript/javascript-tongyilingma.html",
+                "title": "JavaScript AI 通义灵码 VSCode插件安装与功能详解",
+                "snippet": "通义灵码是由阿里云技术团队打造的智能编码助手。它基于通义大模型 ... 通义灵码提供了代码注释功能，它可以根据你的代码生成对应的注释，方便代码阅读和维护。 使用代码注释需要先选中需要注释的代码,代码左上角会出现一个按钮，点击即可选择代码注释功能。",
+                "cite_index": 8,
+                "published_at": 1741708800.0,
+                "site_name": "W3Cschool.cn",
+                "site_icon": "https://cdn.deepseek.com/site-icons/w3cschool.cn",
+                "query_indexes": [
+                  3,
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://skywork.ai/blog/how-to-set-up-claude-code-sdk-with-vs-code-in-10-minutes/",
+                "title": "How to set up Claude Code SDK with VS Code in 10 minutes - Skywork ai",
+                "snippet": "What you’ll get in 10 minutes You’ll install the official VS Code extension, wire up your API key, and (optionally) connect the CLI so Claude can read your repo context and propose edits with inline diffs.",
+                "cite_index": 9,
+                "published_at": 1760457600.0,
+                "site_name": "Skywork.ai",
+                "site_icon": "https://cdn.deepseek.com/site-icons/skywork.ai",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://coder.com/docs/user-guides/workspace-access/cursor",
+                "title": "Cursor | Coder Docs",
+                "snippet": "Open a workspace in Cursor - From the Cursor Command Palette (coder and select Coder: Login. Follow the prompts to login and copy your session token. Paste the session token in the Paste your API key box in Cursor. Select",
+                "cite_index": 10,
+                "published_at": null,
+                "site_name": "Coder",
+                "site_icon": "https://cdn.deepseek.com/site-icons/coder.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "RESPONSE",
+            "content": "这三个工具的使用方式差异很大：**Cursor 是独立的编辑器，Claude Code 和通义灵码是 VS Code 插件**。下面我把它们的核心要求整理成表格，方便你对比：\n\n| 工具 | 安装方式 | 需要API Key？ | 需要注册/登录？ | 免费额度 |\n|------|---------|--------------|----------------|---------|\n| **Cursor** | 独立IDE（从官网下载） | ❌ 不需要 | ✅ 需要（用Google/GitHub登录）[citation:2] | 新用户14天免费试用，含50次高级提问[citation:6] |\n| **Claude Code** | VS Code插件 | ✅ 需要 | ✅ 需要（Anthropic账号OAuth登录或用API Key）[citation:5] | 无免费额度，按API调用量计费（需绑定支付）[citation:5] |\n| **通义灵码** | VS Code插件 | ❌ 不需要 | ✅ 需要（阿里云账号登录）[citation:3][citation:8] | 免费[citation:8] |\n\n---\n\n## 详细说明\n\n### 1. Cursor\n- **它不是一个插件，而是一个独立的编辑器**，基于VS Code内核开发[citation:6]，界面和操作习惯和VS Code几乎一样\n- 下载地址：cursor.sh[citation:2]\n- 安装后打开，用邮箱、Google或GitHub账号登录即可获得免费试用[citation:2][citation:6]\n- **不需要申请API Key**，AI功能由Cursor官方提供\n- 试用期结束后需订阅（$20/月）或\"无限续杯\"（用新邮箱+重置机器码）[citation:6]\n\n### 2. Claude Code（VS Code插件）\n- 需要先安装 **Node.js 18+** 和 **VS Code 1.85+**[citation:5]\n- 在扩展商店搜索 \"Claude Code\"（发布方：Anthropic）安装[citation:5]\n- **两种认证方式任选其一**：\n  - **OAuth登录**：订阅Claude Pro（$20/月）或Max，浏览器授权登录[citation:5]\n  - **API Key**：在Anthropic控制台生成API Key，设置为环境变量 `ANTHROPIC_API_KEY`[citation:5][citation:9]\n- 按实际使用量计费，**没有免费额度**\n\n### 3. 通义灵码（VS Code插件）\n- 最简单：扩展商店搜索 \"Tongyi Lingma\" 安装即可[citation:8]\n- 用**阿里云账号**登录（支持手机号、支付宝、钉钉等）[citation:3][citation:8]\n- **完全免费**，无需任何API Key\n- 支持代码续写、注释生成、单元测试、智能问答等功能[citation:4][citation:8]\n\n---\n\n## 我的建议\n\n- **如果追求省心免费**：首选**通义灵码**，直接装插件、登录就能用，功能足够日常开发[citation:8]\n- **如果想体验顶级模型**：可以试试 **Cursor** 的免费试用，或者订阅 Claude Pro 后使用 **Claude Code**（但需要付费）[citation:5][citation:6]\n- **如果网络受限**：Cursor 和 Claude Code 都需要能访问外网，通义灵码是国内服务，网络最稳定\n\n如果想了解某个工具的具体配置步骤，比如怎么设置 API Key 或注册账号，可以再问我～"
+          }
+        ]
+      }
+    },
+    "5": {
+      "id": "5",
+      "parent": "4",
+      "children": [
+        "6"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2026-04-13T14:27:36.712000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "为什么通义没办法像claude code一样开独立对话框，我一跟通义对话，就看不到我的工作区"
+          }
+        ]
+      }
+    },
+    "6": {
+      "id": "6",
+      "parent": "5",
+      "children": [
+        "7"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2026-04-13T14:27:36.713000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://cn.aliyun.com/sswb/1659746.html?from_alibabacloud=",
+                "title": "通义灵码遮挡 的相关内容",
+                "snippet": "VSCode插件通义灵码对话框遮挡停止按钮，不能能使用shift+enter换行 插件版本1.3.6 如图所示，当插件正在输出时，对话框上方会出现停止按钮 但文本较长时，对话框会把停止按钮遮挡住，使得不能中断回答。 另外...",
+                "cite_index": 1,
+                "published_at": 1722528000.0,
+                "site_name": "阿里云",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aliyun.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://xiaoan.cc/article/tong-yi-ling-ma-ide-zheng-shi-fa-bu-guo-chan-ai-bian-cheng-g-ac",
+                "title": "通义灵码 IDE 正式发布：国产 AI 编程工具全面升级 - AI导航",
+                "snippet": "在编辑器任意位置与 AI 聊天，快速修改、补充或生成代码。 三、当前不足与开发中功能 虽然通义灵码功能丰富，但当前仍存在部分限制，例如： - 暂未支持联网搜索，信息能力需依赖本地或插件扩展...",
+                "cite_index": 2,
+                "published_at": 1748620800.0,
+                "site_name": "xiaoan.cc",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xiaoan.cc",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://help.aliyun.com/zh/lingma/user-guide/inline-chat?spm=a2c4g.11186623.help-menu-2804669.d_2_2.10942b61R5Q8jn&scm=20140722.H_2922468._.OR_help-T_cn~zh-V_1",
+                "title": "使用行间会话与代码进行智能会话-智能编码助手通义灵码-阿里云",
+                "snippet": "行间会话（Inline Chat）支持开发者在代码编辑器区域进行对话，开发者可以通过自然语言对话的方式进行单个文件内的代码修改或进行即时提问 ... 通过使用快捷键 ⌘ ⇧ I（Ctl Shift I）直接唤起会话窗口...",
+                "cite_index": 3,
+                "published_at": 1747497600.0,
+                "site_name": "阿里云文档中心",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aliyun.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://blog.csdn.net/sinat_25207217/article/details/144588012",
+                "title": "visual stuidio 安装通义灵码 vs将对话窗口调整到右侧",
+                "snippet": "默认的位置有个问题，AI对话窗口和管理器窗口不能同时展示，用起来不是很方便。 将编辑器区域纵向拆分成左右两部分，看起来一切都好，但是新打开文件的时候会自动展示在编辑器当前活跃的那半部分，所以也不是特别理想。 最佳实践...",
+                "cite_index": 4,
+                "published_at": 1734537600.0,
+                "site_name": "CSDN博客",
+                "site_icon": "https://cdn.deepseek.com/site-icons/csdn.net",
+                "query_indexes": [
+                  3,
+                  4
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://developer.aliyun.com/article/1676361",
+                "title": "通义灵码 AI IDE使用体验（3）项目优化及bug修复",
+                "snippet": "简介： 本文介绍了使用通义灵码 AI IDE进行项目重构与优化的全过程，涵盖页面调整、UI更新、功能修复等内容，并展示了多次优化后的成果与仍存在的问题。",
+                "cite_index": 5,
+                "published_at": 1754582400.0,
+                "site_name": "阿里云开发者社区",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aliyun.com",
+                "query_indexes": [
+                  4
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://developer.aliyun.com/ask/655519",
+                "title": "通义灵码，对话框问题",
+                "snippet": "对话框问题 | # 通义灵码，对话框问题 1、对话界面，针对代码的相关操作需要框选，copilot默认当前屏幕内代码 2、对话界面，没有清除对话记录的按钮或操作 展开 收起",
+                "cite_index": 6,
+                "published_at": 1718812800.0,
+                "site_name": "阿里云开发者社区",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aliyun.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://cn.aliyun.com/sswb/1296437.html?from_alibabacloud=",
+                "title": "通义灵码vs code插件对话 的相关内容",
+                "snippet": "通义灵码vscode插件对话区域文本输出逻辑 建议在提问之后能够把当前问题滚动到对话区域的顶部，然后开始渲染回答，能够保证回答块在渲染的时候不会随着回答行数增加而自动向上移动，导致阅读时目光需要追随回答向上移动，体验非常不好。",
+                "cite_index": 7,
+                "published_at": 1715011200.0,
+                "site_name": "阿里云",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aliyun.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.sagesoft.cn/bbs/viewthread.php?tid=14546&extra=page%3D3%26amp%3Borderby%3Ddateline%26amp%3Bfilter%3D7948800&ordertype=1",
+                "title": "通义灵码智能问答指南 - 高效解决编码问题",
+                "snippet": "当您对某段代码有疑问或期望针对代码进行一些问题解决时，选中代码后，在智能问答窗口的输入框中输入您的问题，通义灵码将围绕选中代码与您开展对话。",
+                "cite_index": 8,
+                "published_at": 1746547200.0,
+                "site_name": "赛捷",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sagesoft.cn",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://cn.aliyun.com/sswb/1757706.html?from_alibabacloud=",
+                "title": "UI界面功能 的相关内容",
+                "snippet": "请求给通义灵码添上UI界面修改功能 我在使用时发现pycharm通义灵码插件在智能问答视图上字体过小，并且由于我设背景图的缘故，视图与字体的颜色与之融合程度过大，导致整个智能问答视图观感较差，难以看清。并且...",
+                "cite_index": 9,
+                "published_at": 1733932800.0,
+                "site_name": "阿里云",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aliyun.com",
+                "query_indexes": [
+                  4
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://blog.csdn.net/SUNGUOGUO1/article/details/146136421",
+                "title": "TONGYI Lingma（通义灵码）,GitHub Copilot和Cursor 对比",
+                "snippet": "对话式编程 ✅ 支持 IDE 内问答（中文优化） ... AI 深度集成：对话式编程、项目级代码理解。 独立 IDE 体验：无需依赖其他编辑器（如 VS Code）。 隐私保护：本地化处理敏感代码。",
+                "cite_index": 10,
+                "published_at": 1741449600.0,
+                "site_name": "CSDN博客",
+                "site_icon": "https://cdn.deepseek.com/site-icons/csdn.net",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "RESPONSE",
+            "content": "你这个感觉我特别懂——Claude Code 的对话框是悬浮在代码上的，而通义灵码的侧边栏一打开就把代码挤到一边去了，确实影响写代码的节奏。\n\n不过通义灵码其实有**两种对话模式**，你目前用的只是其中一种。换另一种模式，就能像 Claude Code 一样边看代码边聊天了。\n\n## 🔍 你遇到的情况\n你现在打开的是通义灵码的**主侧边栏对话窗口**（快捷键 `Cmd+Shift+L`）[citation:8]。这个窗口默认会占据编辑器右侧或左侧的一大块区域，把工作区挤到另一边，所以你会觉得\"看不到工作区\"了[citation:4]。\n\n## 💡 解决方案：用\"行间对话\"\n通义灵码有一个叫 **Inline Chat（行间对话）** 的功能，就是专门解决这个痛点的——**它会在代码编辑器区域内直接弹出一个悬浮的小输入框**，用完就消失，完全不占地方[citation:3]。\n\n### 怎么调出来？\n- **快捷键唤起**：在代码文件里直接按 `Cmd+Shift+I`（Mac）或 `Ctrl+Shift+I`（Windows）[citation:3]\n- **鼠标唤起**：选中一段代码后，点击代码行号旁边出现的通义灵码图标[citation:3]\n\n唤起后，光标位置会出现一个小输入框，你直接输入需求，AI 会直接在代码上给出修改建议，整个过程你的工作区布局完全不受影响。\n\n### 注意事项\nVS Code 版的通义灵码通过快捷键唤起行间对话后，目前**只支持\"编辑模式\"**（生成/修改代码），不支持纯问答模式[citation:3]。但日常改代码、加注释、优化逻辑已经完全够用了。\n\n## 🖱️ 另一个小技巧：把侧边栏\"收起来\"\n如果你还是想用主对话框，也可以调整一下窗口布局：\n- 把通义灵码的侧边栏拖到编辑器**右侧**\n- 打开 VS Code 的\"视图 → 外观 → 向右移动侧边栏位置\"（或者直接把图标拖过去）\n- 然后把侧边栏设置为**自动隐藏**（鼠标移开就缩回去）\n\n这样大部分时间代码都是全屏的，需要用的时候鼠标挪过去展开就行[citation:4]。\n\n## 📌 总结一下\n\n| 问题 | 解决方案 |\n|------|---------|\n| 一对话就看不到代码 | 用 **Inline Chat**（`Cmd+Shift+I`），悬浮输入，不占空间 |\n| 还是想用主对话框 | 把侧边栏挪到右侧 + 开启自动隐藏 |\n| 想彻底解决体验问题 | 试试通义灵码官方出的 **Lingma IDE**，原生设计，更流畅[citation:2] |\n\n下次试试 `Cmd+Shift+I` 这个快捷键，应该能解决你的困扰～"
+          }
+        ]
+      }
+    },
+    "7": {
+      "id": "7",
+      "parent": "6",
+      "children": [
+        "8"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-21T10:08:11.963000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "横向对比一下国内各家已经退出tokenplan的大模型供应商 哪家的大模型服务品质最高？"
+          }
+        ]
+      }
+    },
+    "8": {
+      "id": "8",
+      "parent": "7",
+      "children": [
+        "9"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-21T10:08:11.965000+08:00",
+        "fragments": [
+          {
+            "type": "THINK",
+            "content": "用户想横向对比国内已推出Token/用量计费计划（token plan）的大模型供应商，并评估哪家服务品质最高。我需要提供一份全面的对比分析，涵盖模型性能、价格、稳定性、安全性等方面。为了全面获取信息，我将同时进行多项搜索，涵盖不同供应商的Token计费计划、性能对比、价格、稳定性、安全性以及综合评测。"
+          },
+          {
+            "type": "TOOL_SEARCH"
+          },
+          {
+            "type": "THINK",
+            "content": "搜索结果显示了一些相关页面。为了全面获取信息，我们需要同时打开这些页面。"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "THINK",
+            "content": "这些页面提供了关于token计划、价格、性能排名等信息。为了更全面地了解情况，我们还需要进一步搜索其他供应商的信息，比如字节跳动的豆包、腾讯的混元、月之暗面的Kimi、Minimax等。"
+          },
+          {
+            "type": "TOOL_SEARCH"
+          },
+          {
+            "type": "THINK",
+            "content": "这些信息涵盖了价格、性能排名、套餐对比等。接下来，我需要组织回答，进行横向对比。回答将涵盖DeepSeek、字节豆包、阿里通义、智谱GLM、腾讯混元、月之暗面Kimi、MiniMax、小米MiMo等主要供应商。对比维度包括：模型性能、Token计费价格、套餐方案、稳定性与服务质量等。最后会给出一个总结，并指出哪家服务品质最高。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "要找出“服务品质最高”的大模型，其实是在几个各有取舍的选项间找到最适合你的那一个。根据你使用的场景，你的“最佳选择”可能会有所不同。\n\n总的来说，如果你需要最扎实的硬实力，**DeepSeek是首选**；如果追求稳定和性价比，可以重点考虑**阿里通义**和**字节豆包**。\n\n### 📈 主流大模型关键指标速览\n\n| 供应商 | 旗舰模型 (Top 1) | 主打模型价格（输入/输出） | 稳定性（用户反馈） | 核心特点 |\n| :--- | :--- | :--- | :--- | :--- |\n| **DeepSeek** | DeepSeek-V3.2-Speciale | V3: ¥0.2 / ¥0.8 (每百万Token)[reference:0] | ★★★★☆ (高峰期偶有延迟)[reference:1] | **性能天花板**，开源生态好 |\n| **阿里通义** | Qwen3.5-Plus | Qwen-Max: ¥0.24 / ¥0.96 (每百万Token)[reference:2] | 待补充 | **聚合平台**，可调用多家模型[reference:3]，中文表达自然[reference:4] |\n| **字节豆包** | Doubao-Seed-2.0-pro | Pro-32k: ¥0.008 / ¥0.02 (每千Token)[reference:5] | 待补充 | **价格杀手**，性价比极高 |\n| **智谱AI** | GLM-5 | GLM-4-Plus: ¥5.1 / ¥5.4 (每百万Token)[reference:6] | ★★★★★ (企业级服务稳定)[reference:7] | **企业级稳定性**，模型能力强[reference:8] |\n| **腾讯混元** | 混元Pro | HY2.0 Instruct: ¥4.5 / ¥11.13 (每百万Token)[reference:9] | 待补充 | 企业级应用，中文专业领域出色[reference:10] |\n| **MiniMax** | M2.7 | 按Token Plan套餐付费 | ★★★★☆ (订阅用户稳定性较好)[reference:11] | **全模态支持** (文本/语音/视频等)[reference:12]，迭代速度快[reference:13] |\n| **Kimi** | K2.5 | 按量付费 | ★★★☆☆ (免费用户限制较多)[reference:14] | 长文本能力强，90%缓存命中率[reference:15] |\n| **百度文心** | ERNIE 4.0 | ERNIE 4.0: ¥3.8 / ¥9.8 (每万Token)[reference:16] | 待补充 | 中文语境理解传统优势[reference:17] |\n\n---\n\n### 👑 “品质之王”候选深度解读\n\n#### 🏆 DeepSeek：性能领先，但需一点耐心\n*   **服务品质体现**：综合实力在艾媒、中国电信等多个榜单排名第一[reference:18][reference:19][reference:20]。其极致的成本优势迫使全球同行降价，并已形成强大的开发者生态[reference:21]。\n*   **你需要知道的**：高峰期调用可能会有轻微延迟[reference:22]。此外，4月11日曾因资源紧张短暂暂停API充值，虽然很快恢复，但也反映出其受欢迎程度之高[reference:23]。\n\n#### ⚖️ 阿里通义：平衡之选，一个套餐走天下\n*   **服务品质体现**：在榜单中稳居前列[reference:24][reference:25]。其“百炼”平台独树一帜，一个套餐即可调用DeepSeek、智谱GLM5等多家模型[reference:26]。\n*   **你需要知道的**：近日阿里云宣布大幅削减API免费额度，全面推行按量付费，标志着“白嫖”时代结束[reference:27]。\n\n#### 💰 字节豆包：性价比之王，成本敏感者的福音\n*   **服务品质体现**：榜单排名前三[reference:28][reference:29]。其Pro版模型定价仅为同类竞品的1/3至1/10，极致性价比令人印象深刻[reference:30]。\n*   **你需要知道的**：价格优势背后，长文本模型的API调用价格会有所提升（例如输入0.51元/千Token），需根据场景选择[reference:31]。\n\n### 📊 其他值得关注的竞争者\n\n#### 🏢 智谱AI & 腾讯混元：企业级的可靠选择\n*   **智谱AI**：企业级服务稳定性获得了用户最高评分[reference:32]。尽管2026年一季度API定价上调了83%，但市场需求依然强劲[reference:33][reference:34]。\n*   **腾讯混元**：在特定领域表现出色，并与腾讯生态深度融合[reference:35]。旗下混元-Lite模型已宣布全面免费[reference:36]。\n\n#### ✨ 特色鲜明的挑战者\n*   **MiniMax**：全模态订阅计划覆盖多种内容生成，迭代速度极快[reference:37]。套餐设计最灵活，但价格也相对较高[reference:38]。\n*   **Kimi**：长文本能力是其王牌，高达90%的缓存命中率能有效降低API调用成本[reference:39]。但对免费用户的体验有一定限制[reference:40]。\n*   **百度文心**：在中文语境理解方面具有传统优势，适合需要高水准中文理解的应用[reference:41]。\n*   **小米MiMo**：新入局者，其Token Plan打破了“5小时token使用限额”的行业常规，更有“月付39元”的亲民套餐[reference:42]。\n\n### 💎 总结：如何找到你的“品质之选”\n\n*   **追求极致性能和性价比**：**DeepSeek**是不二之选，但需接受其高峰期可能的延迟。\n*   **看重稳定、平衡与灵活性**：**阿里通义（百炼）** 是最稳妥的选择。\n*   **对价格极度敏感、业务量大**：**字节豆包**的极致性价比优势明显。\n*   **企业级应用，对稳定性要求苛刻**：**智谱AI** 和 **腾讯混元** 是值得信赖的伙伴。\n\n大模型市场竞争激烈，今天的最优解明天可能就会变化。如果你有具体的应用场景（比如代码生成、内容创作或企业级应用），可以告诉我，我能帮你做更细致的对比～"
+          }
+        ]
+      }
+    },
+    "9": {
+      "id": "9",
+      "parent": "8",
+      "children": [
+        "10"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-21T10:13:44.302000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "横向对比一下国内各家有Token Plan的大模型供应商 哪家的大模型服务品质最高？"
+          }
+        ]
+      }
+    },
+    "10": {
+      "id": "10",
+      "parent": "9",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-04-21T10:13:44.303000+08:00",
+        "fragments": [
+          {
+            "type": "THINK",
+            "content": "用户想了解国内提供Token Plan的大模型供应商，并对比哪家服务品质最高。我需要提供一份全面的对比，涵盖DeepSeek、阿里通义、字节豆包、智谱AI、腾讯混元、MiniMax、Kimi、百度文心等。为了全面获取信息，我将同时进行多项搜索，以覆盖各家供应商的Token Plan细节、价格、服务品质、性能表现以及综合对比。"
+          },
+          {
+            "type": "TOOL_SEARCH"
+          },
+          {
+            "type": "THINK",
+            "content": "搜索结果显示了一些相关页面。为了全面了解各家大模型的Token Plan，我们需要同时打开这些页面。"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "TOOL_OPEN"
+          },
+          {
+            "type": "THINK",
+            "content": "这些搜索结果提供了关于Token Plan的详细信息。接下来，我们需要对比服务品质。为了全面获取信息，我们需要同时进行多项搜索，涵盖用户评价、专业评测、性能对比、稳定性、综合排名以及企业级服务等方面。"
+          },
+          {
+            "type": "TOOL_SEARCH"
+          },
+          {
+            "type": "THINK",
+            "content": "我需要根据这些搜索结果来回答用户的问题。我的回答将包含一个引言、一个表格对比各家Token Plan的关键信息、一个服务品质综合对比部分，以及一个总结。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "根据实测和专业评测数据，当前市场上“服务品质”最均衡、最值得推荐的，是**阿里云百炼平台**。这主要是因为它在当前大模型服务品质的几个核心维度上表现最均衡。\n\n下面我为你梳理了各家提供Token Plan的厂商和平台的详细情况。\n\n### ⚙️ Token Plan横向对比\n\n#### DeepSeek\n\nDeepSeek 当前无固定月费的Token Plan套餐，主要采用按量计费的模式。\n\n*   **价格/月**：按量计费。\n*   **模型/性能**：V3.2-Exp（128K上下文），性能第一梯队，但稳定性存在波动[reference:0][reference:1]。\n*   **关键特点**：无月费套餐，主打按量付费，技术实力强但商业化稳定性受关注。\n*   **官方/文档**：[platform.deepseek.com](https://platform.deepseek.com)\n\n#### 阿里云·百炼\n\n阿里云·百炼平台以其聚合属性著称，一个平台可接入通义、GLM5、MiniMax等多家顶尖模型[reference:2]。\n\n*   **价格/月**：40多元～百余元。\n*   **模型/性能**：聚合平台（Qwen3、GLM5等），拥有完善的企业级云基础设施[reference:3]。\n*   **关键特点**：聚合平台，套餐灵活，背靠阿里云生态，稳定性突出。\n*   **官方/文档**：[bailian.console.aliyun.com](https://bailian.console.aliyun.com)\n\n#### MiniMax\n\nMiniMax 的Token Plan升级后，其入门价格（29元/月）和额度透明度上对个人开发者非常友好[reference:4][reference:5]。\n\n*   **价格/月**：29元 - 899元。\n*   **模型/性能**：M2.7（文本单模态），实测稳定性最佳[reference:6]。\n*   **关键特点**：入门门槛最低，套餐灵活多样，用量规则清晰。\n*   **官方/文档**：[platform.minimaxi.com](https://platform.minimaxi.com)\n\n#### 智谱GLM\n\n智谱GLM是国内最早推出Coding Plan的厂商之一，主力模型GLM5能力处于国内第一梯队[reference:7][reference:8]。\n\n*   **价格/月**：49元 - 469元。\n*   **模型/性能**：GLM5（744B参数，代码SOTA），模型能力国内第一梯队[reference:9]。\n*   **关键特点**：最早推出Coding Plan，模型能力强，但近期有涨价且曾出现并发不足[reference:10][reference:11][reference:12]。\n*   **官方/文档**：[bigmodel.cn](https://bigmodel.cn)\n\n#### Kimi\n\nKimi 提供简洁的套餐方案，其K2.5模型原生支持多模态，Agent能力是其亮点[reference:13]。\n\n*   **价格/月**：49元 - 699元。\n*   **模型/性能**：K2.5（原生多模态，256K上下文），Agent能力强，但实际服务评价存在两极分化[reference:14][reference:15]。\n*   **关键特点**：套餐简洁，多模态能力，但有个人使用限制和稳定性争议。\n*   **官方/文档**：[platform.moonshot.cn](https://platform.moonshot.cn)\n\n#### 字节·豆包\n\n字节豆包在公有云大模型调用量上占据近半壁江山，以低成本、高性能著称[reference:16][reference:17]。\n\n*   **价格/月**：暂无固定月费Token Plan，主要按量计费。\n*   **模型/性能**：豆包1.6（全模态），调用量市场第一，但缺乏固定月费套餐[reference:18]。\n*   **关键特点**：调用量市场第一，性能强劲，但无固定月费套餐。\n*   **官方/文档**：[console.volcengine.com/ark](https://console.volcengine.com/ark)\n\n#### 小米MiMo\n\n小米MiMo是Token Plan新玩家，月费39元起，其Standard套餐（39元/月）的token额度具有市场竞争力[reference:19][reference:20]。\n\n*   **价格/月**：39元 - 659元。\n*   **模型/性能**：MiMo（大模型新入局者），市场新入局者，持续观察。\n*   **关键特点**：新入局，套餐设计有亮点，但整体服务品质尚待市场长期验证[reference:21]。\n*   **官方/文档**：[暂无]\n\n#### 阶跃星辰\n\n阶跃星辰也推出了面向开发者的Token Plan套餐，但其套餐的具体信息相对不透明[reference:22]。\n\n*   **价格/月**：暂无明确信息。\n*   **模型/性能**：暂无明确信息。\n*   **关键特点**：推出了Token Plan，但信息相对不透明。\n*   **官方/文档**：[暂无]\n\n---\n\n> **注**：由于AI领域信息变化很快，表格中的价格和套餐细节可能会随时调整，建议以各平台的官方文档为准。\n\n### 📊 “服务品质”综合对比\n\n服务品质，即稳定性、模型能力、性价比的综合体验。\n\n*   **稳定性与综合服务品质**：从实际测试和开发者反馈来看，**阿里云百炼**背靠阿里云强大的基础设施，其企业级的稳定性值得信赖[reference:23]。而根据专业媒体的实测，**MiniMax** 的M2.7模型在稳定性这一项上表现最佳[reference:24]。\n*   **模型能力**：**智谱GLM5** 的模型能力处于国内第一梯队，在复杂任务处理上非常扎实[reference:25]。**MiniMax** 的M2.5模型在SWE-Bench Verified编程评测中获得了高达**80.2%** 的分数，编程能力非常突出[reference:26]。\n*   **性价比**：如果你是个人开发者，预算有限，**MiniMax 29元/月**的入门门槛非常友好[reference:27]。此外，**小米MiMo 39元/月**的套餐在额度上也具备一定竞争力[reference:28]。对于追求极致性价比的用户，**DeepSeek** 0.2元/百万tokens（缓存命中）的输入价格极具吸引力[reference:29]。\n*   **特色与创新**：\n    *   **小米MiMo** 作为新入局者，其Token Plan套餐打破了5小时token使用限额的常规[reference:30]。\n    *   **阶跃星辰** 也加入了Token Plan的竞争中，但信息相对不透明[reference:31]。\n    *   **阿里云百炼** 的“聚合平台”模式是一个独特优势，一个套餐即可调用多家模型[reference:32]。\n\n### 💎 总结\n\n*   **追求均衡的综合体验，不想纠结选哪家**：首选**阿里云百炼**。它的聚合平台模式让你一个套餐体验多家最强模型，背靠阿里云，稳定性有保障，是当前阶段最稳妥、最省心的“品质之选”[reference:33]。\n*   **最看重模型硬实力，用于解决复杂问题**：可以关注**智谱GLM**的Pro或Max套餐，其GLM5模型的能力处于国内顶尖水平[reference:34]。\n*   **追求极致性价比，希望低成本试用**：**MiniMax** 29元/月的入门套餐和**小米MiMo** 39元/月的套餐都是不错的选择[reference:35][reference:36]。不介意按量付费的话，**DeepSeek** 是性能价格比之王[reference:37]。\n\n大模型的服务品质是动态变化的，如果你有具体的应用场景，比如用于企业级Agent开发，或是个人辅助编程，告诉我你的具体需求，我可以帮你做更细致的推荐～"
+          }
+        ]
+      }
+    }
+  }
+}

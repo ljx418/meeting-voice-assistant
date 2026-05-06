@@ -495,6 +495,18 @@ def test_semantic_topic_slug_rejects_weak_title_fragments():
     assert compiler._semantic_topic_slug("User seeks clarification on creample term", "creample is a coined term") == "creample"
 
 
+def test_semantic_topic_slug_covers_low_signal_title_anchors():
+    compiler = WikiCompiler(LLMWikiConfig())
+
+    assert compiler._semantic_topic_slug("36岁停止工作确保退休资金充足", "") == "退休资金"
+    assert compiler._semantic_topic_slug("管培生实践移植案例", "") == "管培生"
+    assert compiler._semantic_topic_slug("端午节看望老人注意事项", "") == "端午节"
+    assert compiler._semantic_topic_slug("生成两份云南菜评价", "") == "云南菜"
+    assert compiler._semantic_topic_slug("车企相关", "") == "车企"
+    assert compiler._semantic_topic_slug("跨设备智能卡片交互系统专利", "") == "智能卡片"
+    assert compiler._semantic_topic_slug("香农极限及其在通信中的应用", "") == "香农极限"
+
+
 def test_conversation_overview_extracts_steps():
     extractor = ChatJsonExtractor()
     overview = extractor._conversation_overview(

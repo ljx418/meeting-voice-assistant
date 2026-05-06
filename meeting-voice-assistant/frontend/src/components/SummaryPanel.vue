@@ -369,16 +369,6 @@ async function uploadTextFile(file: File) {
     if (fileInput.value) {
       fileInput.value.value = ''
     }
-}
-    isAnalyzing.value = false
-    // 延迟清空进度，让用户看到完成状态
-    setTimeout(() => {
-      uploadProgress.value = 0
-    }, 2000)
-    // 清空文件输入
-    if (fileInput.value) {
-      fileInput.value.value = ''
-    }
   }
 }
 </script>

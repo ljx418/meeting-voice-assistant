@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "da5e294c6d7a2e33",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/da/da5e294c6d7a2e33.json",
+    "sha256": "8fb2888ddc550854b33474eca3d7b35fa0d0d5de3b0f8406b7d2ad68c3b1c66a",
+    "content_hash": "eda1b34a423387c204c8109f73e66619219e1b5f8b5ff5a3a03890b9900b74cf",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "99ae81b6-2560-444b-9bd7-6510d530bf79",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "6cfa3fda-348b-462e-af80-51bd22a68da6",
+      "locator": {
+        "kind": "json_path",
+        "path": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "04615131-2d4f-4345-b63d-3d6de0a40499",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "30万贷款5年等额本息月供计算",
+      "locator": {
+        "kind": "json_path",
+        "path": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "f20e1d86-3b88-4025-a2e1-f5cc196c58b4",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "65b27d06-afde-471b-9cd2-bf8eb3644448",
+      "section_id": "99ae81b6-2560-444b-9bd7-6510d530bf79",
+      "text": "6cfa3fda-348b-462e-af80-51bd22a68da6",
+      "locator": {
+        "kind": "json_path",
+        "path": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "42539c2f-88a7-4210-bd27-856065fe7b6e",
+      "section_id": "04615131-2d4f-4345-b63d-3d6de0a40499",
+      "text": "30万贷款5年等额本息月供计算",
+      "locator": {
+        "kind": "json_path",
+        "path": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 19
+    },
+    {
+      "passage_id": "c1d4ca9b-2ac0-48bd-b439-49c172975f15",
+      "section_id": "f20e1d86-3b88-4025-a2e1-f5cc196c58b4",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "6cfa3fda-348b-462e-af80-51bd22a68da6_30万贷款5年等额本息月供计算.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.259934"
+}

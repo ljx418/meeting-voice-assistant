@@ -229,7 +229,7 @@ function goToGraphRAG() {
 
 function scrollToHeading(id: string) {
   nextTick(() => {
-    const element = document.getElementById(id)
+    const element = globalThis.document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
       activeHeading.value = id

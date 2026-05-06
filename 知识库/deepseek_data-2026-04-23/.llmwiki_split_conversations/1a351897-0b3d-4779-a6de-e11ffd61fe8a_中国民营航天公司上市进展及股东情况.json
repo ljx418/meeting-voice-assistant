@@ -1,0 +1,1771 @@
+{
+  "id": "1a351897-0b3d-4779-a6de-e11ffd61fe8a",
+  "title": "中国民营航天公司上市进展及股东情况",
+  "inserted_at": "2026-01-12T16:14:23.706000+08:00",
+  "updated_at": "2026-01-30T14:41:33.950000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-12T16:14:28.043000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "帮我梳理一下现阶段（2026年初）中国民营航天的头部公司和他们今年的计划，按照A股上市、即将上市的顺序告诉我他们的股份情况，按份额排序告诉他们对应的top5"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [
+        "3"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-12T16:14:28.047000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://gwlink.foundersc.com/infoResearchMacro/19000246.jhtml",
+                "title": "宏观研究详情页",
+                "snippet": "太空计算卫星：中科星图、佳缘科技、普天科技、顺灏股份、开普云； 卫星总装运营：中国卫星、中国卫通、星图测控、航天智装、上海沪工...",
+                "cite_index": 1,
+                "published_at": 1766764800.0,
+                "site_name": "方正证券网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/foundersc.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://stcn.com/article/detail/3572469.html",
+                "title": "蓝箭航天冲刺商业火箭第一股 万亿赛道谁最受益？",
+                "snippet": "蓝箭航天有望成为“中国商业火箭第一股”。 不过，1月5日晚，在中国证券业协会官网发布的“2026年第一批首发企业现场检查抽查名单”中，蓝箭航天被抽中现场检查。这是否会对其IPO进程产生影响...",
+                "cite_index": 2,
+                "published_at": 1767628800.0,
+                "site_name": "证券时报官方网站",
+                "site_icon": "https://cdn.deepseek.com/site-icons/stcn.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.jiuyangongshe.com/a/jk48f7zs85",
+                "title": "商业航天股权生态全解析，概念股一览",
+                "snippet": "解析：三江航天隶属中国航天科工集团，拥有深厚的固体火箭技术背景。轮胎骨架材料制造商大业股份持有其4.21%股份，这种“跨界”投资体现了上市公司对航天这一顶级高端制造品牌的价值追逐。",
+                "cite_index": 3,
+                "published_at": 1767974400.0,
+                "site_name": "韭研公社",
+                "site_icon": "https://cdn.deepseek.com/site-icons/jiuyangongshe.com",
+                "query_indexes": [
+                  2,
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://caifuhao.eastmoney.com/news/20251228120653871095130",
+                "title": "商业航天第一股启动上市，前20名股东名单，受益上市公司全景图",
+                "snippet": "一、创始人及团队股东（持股超42%） 1. 张昌武（自然人） 持股比例：直接持股16.03%，通过湖州星瀚、淮安天绘等平台间接控制约26%，合计掌控超42%股权",
+                "cite_index": 4,
+                "published_at": 1766851200.0,
+                "site_name": "财富号东方财富网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/eastmoney.com",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://mnews.tianyancha.com/ll_tbxk9wmepo.html",
+                "title": "12月题材：商业航天公司介绍（2026年有望上市）",
+                "snippet": "蓝箭航天、天兵科技、中科宇航、星河动力、星际荣耀、微纳星空、国星宇航、屹信航天被并称为中国商业航天的“八小虎”。八家均成立于2015-2019年间，已各自完成多轮融资，估值合计突破千亿元，并先后与A股上市公司形成“供应链+股权”双绑定。（一）蓝箭航天蓝箭航天是国内首家拿到全部准...",
+                "cite_index": 5,
+                "published_at": null,
+                "site_name": "Tianyancha",
+                "site_icon": "https://cdn.deepseek.com/site-icons/tianyancha.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.36kr.com/p/3596624653009159",
+                "title": "5家“中国SpaceX”准备上市-36氪",
+                "snippet": "当马斯克的SpaceX估值1.5万亿美元（约合人民币10.5万亿元），计划2026年冲击全球最大IPO时，中国的商业航天同行们也没闲着。 蓝箭航天、天兵科技、星河动力、星际荣耀、中科宇航五家头部企业，已全部启动科创板IPO辅导，集体向“中国商业航天第一股”发起冲击。",
+                "cite_index": 6,
+                "published_at": 1767974400.0,
+                "site_name": "36kr",
+                "site_icon": "https://cdn.deepseek.com/site-icons/36kr.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://cs.com.cn/tzjj/smjj/202601/t20260112_6532789.html",
+                "title": "商业航天迎来开门红 资本抢滩太空新赛道",
+                "snippet": "国金证券在最新研报中明确提出，2026年将是中国商业航天产业的阿尔法元年，行业逻辑将从单纯的题材映射转向基于供应链业绩兑现的基本面投资。梅花创投创始合伙人吴世春也表示，非常看好商业航天带来的产业飞跃，该行业已从早期的技术验证迈入工程应用与规模化发展的新...",
+                "cite_index": 7,
+                "published_at": 1768147200.0,
+                "site_name": "Cs",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cs.com.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://caifuhao.eastmoney.com/news/20260102193301141483660",
+                "title": "科创板IPO在即：商业火箭五小龙全景梳理",
+                "snippet": "（2）投资方：金风科技（旗下江瀚资产持股5%）、国家制造业转型升级基金、羽翔成长、碧蓝投资、鲁信创投（持股0.89%）、张江高科（旗下张江燧锋持股0.95%）等。",
+                "cite_index": 8,
+                "published_at": 1767283200.0,
+                "site_name": "财富号东方财富网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/eastmoney.com",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.hexun.com/2026-01-11/223114476.html",
+                "title": "真没想到！风电龙头竟然承包了半壁航天供应链",
+                "snippet": "目前国内5家民营航天龙头筹备A股上市，星河动力和中科宇航发展较快，2025年二者商业订单火箭发射次数及送入卫星数领先，市占率居前。2026年可回收火箭技术难有实际收入，上游供应链企业可关注这两大龙头。泰胜风能是其供应商...",
+                "cite_index": 9,
+                "published_at": 1768060800.0,
+                "site_name": "Hexun",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hexun.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.hexun.com/stock/2026-01-09/223108486.html",
+                "title": "刚刚，大利好！2026年商业航天元年有望开启",
+                "snippet": "新年伊始，蓝箭航天冲刺IPO，有望成“商业航天第一股”；星河动力将择机发射“谷神星一号海射型”火箭，若顺利有望成2026年首家发射的民营航天企业。当下商业航天呈现民企加速参与、发射密度提升、关键技术不断验证等特征。投研角度关注两点...",
+                "cite_index": 10,
+                "published_at": 1767888000.0,
+                "site_name": "Hexun",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hexun.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "好的，用户想了解中国民营航天头部公司的情况，特别是按照上市状态和股份份额来排序。我需要梳理清楚这些公司的上市进展、股东结构，并整理出关键的上市公司股东及其持股情况。\n\n我打算先整理出主要的民营航天公司，然后分别介绍它们的上市进展和2026年计划，最后汇总分析关键的上市公司股东持股情况。根据搜索结果，[citation:6][citation:8]提到了五家主要公司，这个信息比较全面。关于上市进展，[citation:2][citation:8]提供了蓝箭航天的详细信息，[citation:8]也提到了其他几家的IPO进展，这些信息很有价值。\n\n对于2026年计划，[citation:6][citation:8]提到了一些公司的技术发展目标，比如蓝箭航天要提升朱雀三号的可重复使用技术，天兵科技计划首飞天龙三号等。关于股份情况，[citation:2][citation:3][citation:4]提供了蓝箭航天的详细股东信息，特别是金风科技、鲁信创投等的持股比例。其他公司的股东信息在[citation:3][citation:8]中也有提及。\n\n我考虑用表格来清晰展示每家公司的上市进展和2026年关键计划，这样用户可以直观对比。然后再用另一个表格整理前五名上市公司股东及其持股情况，按持股比例排序。最后补充一些行业背景信息，帮助用户理解这个领域的发展态势。\n\n从[citation:7]可以看到，商业航天正从技术验证迈向规模化商用，2026年可能是行业发展的关键年份。这些背景信息能让用户对整个领域有更全面的认识。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "根据你的要求，我梳理了截至2026年初中国民营航天主要头部公司的情况，包括其上市进展、2026年计划，以及通过它们关联的、已上市的前五大A股股东。\n\n首先要明确的是，这些备受关注的民营航天公司本身**目前均未上市**，但都进入了冲刺IPO的阶段。以下信息汇总了多家券商及财经媒体的梳理。\n\n### 🚀 头部民营航天公司梳理\n\n目前处于行业第一梯队、并已明确启动上市程序的公司主要有以下五家[citation:6][citation:8]：\n\n| 公司名称 | 上市进展 (截至2026年1月初) | 2026年关键计划与目标 |\n| :--- | :--- | :--- |\n| **蓝箭航天** | **科创板IPO申请已受理**，有望成为“商业航天第一股”[citation:2][citation:7]。 | 提升**朱雀三号**可重复使用火箭技术，并加速产能建设[citation:2][citation:6]。 |\n| **天兵科技** | 已于2025年10月完成IPO辅导备案[citation:8]。 | 计划实现**天龙三号**大型液体火箭的首飞[citation:6][citation:8]。 |\n| **星河动力** | 已于2025年10月完成IPO辅导备案[citation:8]。 | 计划实现**智神星一号**可重复使用液体火箭的首飞，并择机进行海上发射[citation:8][citation:10]。 |\n| **星际荣耀** | 处于上市辅导阶段[citation:8]。 | 计划实现**双曲线二号**可重复使用火箭的首飞[citation:6][citation:8]。 |\n| **中科宇航** | 已于2025年8月完成IPO辅导备案[citation:8]。 | 计划实现**力箭二号**可重复使用液体火箭的首飞[citation:8]。 |\n\n### 📊 关联的A股上市公司股东 (按持股比例梳理)\n这些民营航天公司的股东中包含了多家A股上市公司。由于各公司未完全披露详尽的股东名册，以下是根据现有信息整理的、持股相对显著的前五名A股公司。**“持股主体”指其投资的民营航天公司。**\n\n| 排名 | A股上市公司 (代码) | 持股主体 | 持股情况说明 (基于公开信息) |\n| :--- | :--- | :--- | :--- |\n| **1** | **金风科技** (002202) | 蓝箭航天 | 通过直接和间接方式合计持股，有报道称比例约为**10.1%**，是已知持股比例最高的A股公司[citation:4]。 |\n| **2** | **鲁信创投** (600783) | 蓝箭航天 | 通过参股的投资主体合计持有约**0.89%** 的股权[citation:2][citation:3]。 |\n| **3** | **南钢股份** (600282) | 星际荣耀 | 持有星际荣耀**2.3%** 的股份[citation:8]。 |\n| **4** | **越秀资本** (000987) | 中科宇航 | 持有中科宇航**0.64%** 的股份[citation:3][citation:8]。 |\n| **5** | **泰胜风能** (300129) | 星河动力 | 是星河动力的投资方之一，同时是其供应商[citation:3][citation:9]。具体持股比例未在搜索结果中明确披露。 |\n\n### 💡 行业背景与观察\n*   **政策驱动明确**：2025年底，上交所专门发布了**商业火箭企业适用科创板第五套上市标准的指引**，为这些暂未盈利但技术领先的公司打开了上市通道，被市场视为行业资本化的关键一步[citation:1][citation:7]。\n*   **行业处于投入期**：这些公司普遍处于高研发投入阶段，尚未稳定盈利[citation:2]。2026年的核心任务是**验证可重复使用火箭技术**并实现首飞，这是降低成本、实现商业化的关键[citation:6]。\n*   **信息局限性**：由于非上市公司信息披露有限，上述持股比例主要来源于相关上市公司的公告或媒体报道，可能与最终情况存在差异。更精确的数据需以这些民营航天公司正式发布的招股说明书为准。\n\n如果你想深入了解某一家民营航天公司的具体技术路线（如液氧甲烷、液氧煤油等），或者其产业链上的上市公司供应商，我可以为你提供进一步的分析。"
+          }
+        ]
+      }
+    },
+    "3": {
+      "id": "3",
+      "parent": "2",
+      "children": [
+        "4"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:25:08.055000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "介绍一下中国20万颗卫星的发射计划，具体对应的时间节点，介绍一下其他国家的发射计划和份额占比"
+          }
+        ]
+      }
+    },
+    "4": {
+      "id": "4",
+      "parent": "3",
+      "children": [
+        "5"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:25:08.058000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://www.cls.cn/detail/2253832",
+                "title": "超20万颗！中国新增多个星座计划申请 全球太空资源竞争趋于白热化",
+                "snippet": "我国低轨卫星互联网从2025年下半年已进入批量发射建设阶段，2026年有望迎来更大批量发射，产业发展进一步加速。建议关注信科移动、海格通信、通宇通讯、国博电子、陕西华达、震有科技...",
+                "cite_index": 1,
+                "published_at": 1767974400.0,
+                "site_name": "财联社",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cls.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.taibo.cn/p/97988",
+                "title": "全球首颗商业高轨中继卫星 “苍宇一号”进入工程研制阶段",
+                "snippet": "据苍宇星座的规划，2026年将发射苍宇一号高轨卫星，形成60%的低轨轨道覆盖和40%的地表覆盖；2027年完成高轨三星组网，形成100%的低轨轨道覆盖能力和南北纬80°之间的地表覆盖能力；2030年完成13颗星的苍宇星座建设，形成全天时全天候的轨道及地表覆盖能力。",
+                "cite_index": 2,
+                "published_at": 1753027200.0,
+                "site_name": "泰伯网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/taibo.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.bursa.ro/european-space-agency-prepares-for-a-record-year-in-space-65-launches-planned-28280851",
+                "title": "European Space Agency prepares for a record year in space: 65 launches planned",
+                "snippet": "The European Space Agency (ESA) is preparing for the most intense year in its history, with 65 satellite launches and space missions planned in 2026, an unprecedented level, which will exceed the record set in 2025, when 46 launches were carried out.",
+                "cite_index": 3,
+                "published_at": 1768147200.0,
+                "site_name": "Ziarul Bursa",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bursa.ro",
+                "query_indexes": [
+                  2,
+                  4
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://zj.dexunzhenggu.cn/archives/29651.html",
+                "title": "全球航天迈入“周更发射时代”：320次发射创纪录，中国商业航天迎规模化拐点",
+                "snippet": "商业力量的崛起是“周更发射时代”的核心驱动力。美国SpaceX一家企业便完成138次发射，占美国发射总量的84.7%，其猎鹰9号助推器已实现32次重复使用，通过规模化与可回收技术将发射成本降至传统火箭的1/10。",
+                "cite_index": 4,
+                "published_at": 1766505600.0,
+                "site_name": "德讯证顾",
+                "site_icon": "https://cdn.deepseek.com/site-icons/dexunzhenggu.cn",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.stnn.cc/c/2025-09-16/4005301.shtml",
+                "title": "亚马逊预计 到2026年底 “柯伊伯计划”卫星将覆盖26个国家",
+                "snippet": "弗里曼于当地时间周一在巴黎世界太空商业周活动上透露，柯伊伯项目后续将部署覆盖更多南半球地区的卫星，到2026年底覆盖多达26个国家，并于2027年延伸至赤道区域。",
+                "cite_index": 5,
+                "published_at": 1757952000.0,
+                "site_name": "星岛环球网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/stnn.cc",
+                "query_indexes": [
+                  4,
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.fortunebusinessinsights.com/zh/enquiry/request-sample-pdf/satellites-market-112818",
+                "title": "Request Sample Pdf - 卫星市场规模、份额、增长分析、预测，2034 年",
+                "snippet": "卫星市场规模、份额、按类型（小型卫星（纳米卫星、微型卫星、小型卫星）、中型卫星和大型卫星）、按轨道类型（LEO、MEO、GEO、HEO）、按组件（有效载荷 ... 热控制系统（ADCS、电信和数据处理系统）） ... 政府和国防）和区域预测，2026-2034 年",
+                "cite_index": 6,
+                "published_at": null,
+                "site_name": "Fortune Business Insights",
+                "site_icon": "https://cdn.deepseek.com/site-icons/fortunebusinessinsights.com",
+                "query_indexes": [
+                  5
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://cww.net.cn/article?id=E6ABE3BD3A474A35A17ACA623B42E029",
+                "title": "中国新增20万颗卫星申请！全球低轨卫星竞争日趋白热化",
+                "snippet": "进入2026年初，先是星链宣布把约4400颗原运行于约550公里轨道的卫星降至480公里高度，形成新的“星链专属轨道层”。随后，有消息显示我国向ITU申请了超20万颗卫星的频轨资源，这意味着卫星频轨已经进入国家战略层面。",
+                "cite_index": 7,
+                "published_at": 1768147200.0,
+                "site_name": "Cww",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cww.net.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://huacheng.gz-cmc.com/pages/2025/11/29/SF1476887850d692ba1b0249199e30bc.html",
+                "title": "“五羊星座”先导A星将于明年发射",
+                "snippet": "其中，“五羊星座”先导A星计划于2026年三四月间发射；“五羊星座”一期计划于2026年底前发射5至10颗卫星，实现低纬度地区两天全覆盖；“五羊星座”二期计划于2028年发射15至20颗卫星，实现低纬度地区半天全覆盖；此后，“五羊星座”计划与其他“星座”合作，至2035年构成拥有1008颗卫星的“五...",
+                "cite_index": 8,
+                "published_at": 1764345600.0,
+                "site_name": "Gz-cmc",
+                "site_icon": "https://cdn.deepseek.com/site-icons/gz-cmc.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.iccsz.com//Site/CN/News/2025/10/20/20251020020742877196.htm",
+                "title": "软银联手开发星地光通信 拟2026年发射验证卫星",
+                "snippet": "该合作团体包括日本信息通信研究机构、Kiyohara Optics和ArkEdge Space，计划于2026年发射一颗低地球轨道卫星，以验证空间与地面之间的光无线通信。 目前光无线通信设备正在开发中，其设计兼具紧凑、轻量和节能的特点，同时能够实现10Gbit/s的高速双向通信。软银在一份声明中表示...",
+                "cite_index": 9,
+                "published_at": 1760889600.0,
+                "site_name": "讯石光通讯网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/iccsz.com",
+                "query_indexes": [
+                  2,
+                  4
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/lastest/rptid/812198187198/index.phtml",
+                "title": "商业航天行业深度报告：深空经济启新篇 火箭发射迎机遇",
+                "snippet": "2024年全球共发射航天器2873颗，其中美国达2269颗，占比超80%，体现出其在卫星制造与部署上的强大优势。美国火箭发射次数近五年复合增长率近30%，2024全年完成164次发射，同比增长40.1%...",
+                "cite_index": 10,
+                "published_at": 1758816000.0,
+                "site_name": "新浪",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sina.com.cn",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户对航天领域有持续兴趣，之前询问了中国民营航天公司的现状，现在转向了解卫星发射计划和国际竞争格局。这个问题涉及具体数据、时间节点和份额，要求比较精确。\n\n我需要从中国最近宣布的20万颗卫星计划入手，详细解释其背景、时间节点和参与主体，然后扩展到全球其他主要国家的竞争态势，最后分析竞争格局。\n\n根据搜索结果，[citation:1]和[citation:7]都提供了非常详细和最新的关于中国20万颗卫星计划的信息，内容权威且互补。[citation:1]来自财联社，时效性极好，[citation:7]来自通信世界网，提供了更详细的星座分类和具体数据。这两个来源都能满足用户对具体数据和时间节点的需求。\n\n关于其他国家计划，[citation:7]也提供了相当全面的国际竞争格局分析，包括美国、欧洲、印度等国的不同策略。[citation:3]关于欧洲航天局2026年发射计划的信息也很具体，但更偏向年度发射而非长期星座计划。[citation:5]关于亚马逊柯伊伯计划的信息很直接有用。\n\n[citation:2]关于中国商业高轨卫星的信息与用户问题相关性较弱。[citation:4]主要讲发射频率而非星座计划本身。[citation:6]是一个市场报告页面没有实际内容。[citation:8]关于广州五羊星座的信息虽相关但只是小规模区域性计划。[citation:9]关于日本软银光通信试验的技术细节太专业。[citation:10]的券商报告提供了一些背景但时效性稍差。\n\n我打算用表格来清晰展示中国各星座计划的细节，这样用户可以一目了然地看到各主体的申报规模和时间要求。然后分别介绍美国、欧洲和其他国家的竞争策略，最后总结当前竞争态势和关键观察点。表格能让复杂数据变得直观，便于用户快速把握核心信息。\n\n在回答中我会强调这些申报计划与实际发射的区别，以及国际竞争的白热化状态，帮助用户理解这不仅是技术竞赛，更是战略资源争夺。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "针对你关注的卫星发射计划及国际竞争格局，下图汇总了基于2026年初最新信息整理的核心动态：\n\n```mermaid\nflowchart LR\n    subgraph CN[中国最新申报：超20万颗]\n        direction LR\n        A1(“无线电创新院<br>（CTC-1/2星座）”) --> A2(19.3万颗)\n        B1[“其他主体（星网/移动等）<br>多个星座”] --> B2(约1万颗)\n    end\n\n    subgraph US[美国主导企业]\n        S1(“SpaceX (星链)”) --> S2(“已部署: 超8000颗<br>最新授权: 再增7500颗”)\n        A1(“Amazon (柯伊伯)”) --> A2(“计划: 超3200颗<br>目标: 2026年底覆盖26国”)\n    end\n\n    subgraph Others[其他主要竞争者]\n        O1(“欧盟 (IRIS2计划)”) --> O2(“计划: 约300颗<br>特点: 政府主导”)\n        O3(“英国 (OneWeb)”) --> O4(“计划: 约660颗<br>状态: 基本部署完成”)\n        O5(“法国 (E-Space)”) --> O6(“申报: 11.6万颗<br>特点: 初创公司”)\n        O7(“印度”) --> O8(“特点: 性价比优势<br>商业发射服务突出”)\n    end\n\n    CN --> Competition[“全球低轨资源竞争白热化<br>核心：频谱与轨道‘先到先得’”]\n    US --> Competition\n    Others --> Competition\n```\n\n接下来，我们详细解读各方的具体计划、时间节点和竞争态势。\n\n### 🛰️ 中国：申报规模巨大，部署时间紧迫\n中国在2025年底向国际电信联盟（ITU）集中申报了超过20万颗卫星的频谱和轨道资源，这是一次战略性的“资源占位”[citation:1][citation:7]。具体情况如下：\n\n| 申报主体 | 星座计划示例 | 申报规模（约） | 关键时间节点与要求 |\n| :--- | :--- | :--- | :--- |\n| **无线电创新院** | CTC-1, CTC-2 | 19.3万颗[citation:1][citation:7] | 需在**7年**内发射首批10%（约1.93万颗），**14年**内完成全部部署[citation:1][citation:7]。 |\n| **其他多家机构**<br>（中国星网、中国移动等） | GW星座、千帆星座等 | 合计约1万颗[citation:7] | 同样需遵循上述ITU时限要求。 |\n\n> 注：**“申报”不等于“发射”**。截至2025年底，中国实际发射的低轨卫星约**489颗**[citation:7]，与申报规模差距巨大，这意味着未来十年将进入**超高强度的密集发射期**。业内预计，中国低轨卫星互联网已从2025年下半年进入批量发射阶段，2026年有望迎来更大批量发射[citation:1]。\n\n### 🌍 全球竞争格局：多元策略，激烈角逐\n全球低轨空间竞争已趋白热化，各国策略各异：\n*   **美国：商业巨头主导**：美国凭借**SpaceX**和**Amazon**等公司，在部署规模和进度上大幅领先。\n    *   **SpaceX (星链)**：截至2026年1月初，已在轨运行超8000颗卫星[citation:1]。2026年1月，其第二代“星链”（Gen2）再获授权增加**7500颗**卫星[citation:1][citation:7]。\n    *   **Amazon (柯伊伯计划)**：计划构建超**3200颗**卫星的星座，目标在**2026年底**将服务覆盖至**26个国家**[citation:5]。\n*   **欧洲：政府与联盟推动**：欧洲正通过政府项目和扶持本土企业追赶。\n    *   **欧盟IRIS2计划**：一个自主的卫星通信网络，计划部署约**300颗**卫星，预计2030年提供服务[citation:7]。\n    *   **企业层面**：欧洲航天局（ESA）计划在**2026年进行创纪录的65次发射**[citation:3]，其中大部分用于部署意大利主导的**Iride**地球观测星座（33颗卫星）[citation:3]。\n*   **其他竞争者**：\n    *   **英国OneWeb**：规划的**约660颗**卫星已基本部署完成，侧重政府与企业服务[citation:7]。\n    *   **法国E-Space**：初创公司，已提交**11.6万颗**卫星的“信号灯”计划申请[citation:7]。\n    *   **印度**：凭借高性价比的发射服务和明确的星座计划，正成为不可忽视的力量[citation:7]。\n\n### 🔭 竞争核心与观察点\n当前竞争的本质是**对不可再生的低轨频谱和轨道战略资源的争夺**，规则是 **“先申报先得”** [citation:1][citation:7]。有分析指出，低地球轨道理论容量约6万颗，截至2025年5月利用率已超18%[citation:1]。各国巨量申报将进一步加剧资源紧张。\n\n对于中国而言，**运力是核心瓶颈**。将申报的巨量卫星按时送入太空，取决于可重复使用火箭技术的成熟与产能（如之前讨论的蓝箭航天“朱雀三号”等）[citation:4]。同时，这也将带动整条航天产业链（卫星制造、发射服务、地面设备、应用运营）进入高速发展期[citation:1][citation:10]。\n\n### 💎 总结\n总的来说，中国近期的20万颗卫星申报是一次关键的太空资源布局，但面临紧迫的发射时间表。全球竞赛中，美国在部署进度上领先，欧洲在加速整合，其他多国也以不同策略入局。这场竞赛不仅是科技实力的比拼，更是国家战略和未来产业主导权的博弈。\n\n如果你对某个特定国家的星座计划（如欧盟IRIS2）、或是中国申报星座中某个具体主体（如中国星网）的更多细节感兴趣，我可以为你提供进一步的信息。"
+          }
+        ]
+      }
+    },
+    "5": {
+      "id": "5",
+      "parent": "4",
+      "children": [
+        "6"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:30:58.871000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "详细介绍一下中国申报星座具体有哪些主体"
+          }
+        ]
+      }
+    },
+    "6": {
+      "id": "6",
+      "parent": "5",
+      "children": [
+        "7"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:30:58.873000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://kjj.taiyuan.gov.cn/kjdt2/20260112/30276797.html",
+                "title": "我国新增超20万颗卫星申请",
+                "snippet": "其他申报主体包括中国星网、中国移动、垣信卫星等。 值得注意的是，本轮申报不再局限于传统意义上的卫星运营商，无线电创新院、商业航天企业、基础电信运营商等主体均囊括在内。业内人士认为...",
+                "cite_index": 1,
+                "published_at": 1768147200.0,
+                "site_name": "Taiyuan",
+                "site_icon": "https://cdn.deepseek.com/site-icons/taiyuan.gov.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.futunn.com/post/67207752/over-200000-satellites-china-submits-multiple-new-constellation-project-applications?futusource=news_newspage_recommend&level=2&data_ticket=1768049604755334",
+                "title": "超20万颗！中国新增多个星座计划申请 全球太空资源竞争趋于白热化",
+                "snippet": "其中，规模最大的两个星座为无线电创新院CTC-1和CTC-2，卫星规模均为96714颗。 公开信息显示，无线电创新院于2025年12月30日在雄安新区登记注册，是我国无线电管理技术领域首家以技术创新和成果转化为目标的新型研发机构。",
+                "cite_index": 2,
+                "published_at": 1767974400.0,
+                "site_name": "富途牛牛",
+                "site_icon": "https://cdn.deepseek.com/site-icons/futunn.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.c114.com.cn/w2768-1299710.html",
+                "title": "“星网”加速，运营商如何构筑天地一体网络商业化生态",
+                "snippet": "中国星网作为GW星座的建设主体，规划到2029年底前发射约1300颗卫星，2035年完成约1.3万颗卫星的全球部署，构建覆盖空天地海的6G网络基础骨架。这种“顶层设计+市场参与”的模式既保障了战略资源的集中投入，又通过引入上海垣信“千帆星座”（54颗在轨）...",
+                "cite_index": 3,
+                "published_at": 1767974400.0,
+                "site_name": "C114通信网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/c114.com.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.taibo.cn/newsflashes/30961023",
+                "title": "2664颗卫星！中国移动正式“出手” ，中轨+低轨协同组网",
+                "snippet": "1月12日消息，中国移动已申报超大规模卫星星座计划，申报总数近20万颗，创国内新纪录。其中，中国移动申报两个星座，分别为CHINAMOBILE-L1（2520颗低轨卫星）和CHINAMOBILE-M1（144颗中轨卫星），总计2664颗。中国移动具备投资...",
+                "cite_index": 4,
+                "published_at": 1768233600.0,
+                "site_name": "泰伯网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/taibo.cn",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://baike.baidu.com/item/%E2%80%9C%E5%8D%83%E5%B8%86%E6%98%9F%E5%BA%A7%E2%80%9D%E8%AE%A1%E5%88%92/64755673?anchor=2&fragment=2#2",
+                "title": "“千帆星座”计划",
+                "snippet": "“千帆星座”是中国版“星链”的重要组成部分，其目标是在未来打造一个由超1.5万颗低轨宽频多媒体卫星构成的庞大星座，此次发射将以“一箭18星”的配置完成。 [3]",
+                "cite_index": 5,
+                "published_at": 1766678400.0,
+                "site_name": "百度百科",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  4
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cls.cn/detail/2253832",
+                "title": "超20万颗！中国新增多个星座计划申请 全球太空资源竞争趋于白热化",
+                "snippet": "本次卫星频谱轨申报运营主体全面扩容，涉及中国星网、上海垣信、中国移动、中国电信、无线电频谱开发利用和技术创新研究院（无线电创新院）、国电高科、航天驭星、银河航天等多家公司机构。",
+                "cite_index": 6,
+                "published_at": 1767974400.0,
+                "site_name": "财联社",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cls.cn",
+                "query_indexes": [
+                  0,
+                  1,
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://36kr.com/p/3404144985623940",
+                "title": "国家队出手，中国版“星链”提速-36氪",
+                "snippet": "其中，GW 星座是中国第一个巨型卫星互联网计划，也是中国首个空天一体 6G 互联网计划，由国家卫星互联网公司（中国卫星网络集团，简称中国星网）牵头管理。GW 星座为高低轨混合星座...",
+                "cite_index": 7,
+                "published_at": 1768060800.0,
+                "site_name": "36kr",
+                "site_icon": "https://cdn.deepseek.com/site-icons/36kr.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://epaper.cs.com.cn/zgzqb/wap/html/2025-06/23/nw.D110000zgzqb_20250623_1-A05.htm",
+                "title": "中国证券报 - 卫星通信站上移动通信主舞台",
+                "snippet": "时空道宇正在部署规划全球低轨卫星通信星座“吉利星座”，一期规划部署72颗卫星，目标实现全球实时的物联通信；二期规划部署72颗卫星，目标实现全球IoT-NTN物联通信语音通话服务；三期规划264颗卫星，目标实现存量手机直连卫星通信服务。该负责人介绍...",
+                "cite_index": 8,
+                "published_at": 1750608000.0,
+                "site_name": "Cs",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cs.com.cn",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.thepaper.cn/newsDetail_forward_30713282",
+                "title": "低轨卫星“千帆星座”已完成五批次组网卫星发射，未来还有这些计划",
+                "snippet": "作为我国首个进入正式组网阶段的巨型低轨商业卫星星座，千帆星座一期部署648颗卫星，提供区域网络覆盖；二期部署1296颗卫星，提供全球网络覆盖；三期规划超过1.5万颗卫星...",
+                "cite_index": 9,
+                "published_at": 1745424000.0,
+                "site_name": "澎湃新闻",
+                "site_icon": "https://cdn.deepseek.com/site-icons/thepaper.cn",
+                "query_indexes": [
+                  4
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://tech.youth.cn/wztt/202601/t20260112_16457505.htm",
+                "title": "我国新增超20万颗卫星申请_科技频道_中国青年网",
+                "snippet": "科技日报北京1月11日电 （记者崔爽）11日，国际电信联盟（ITU）官网显示，2025年12月25日到31日期间，我国正式向ITU提交新增20.3万颗卫星的频率与轨道资源申请，覆盖14个卫星星座，包括中低轨卫星。据统计，这是我国迄今规模最大的一次国际频轨集中申报行动。  其中，无线电频谱开发利用和技术创新研究院（以下简称“无线电创新院”）申报的CTC-1与CTC-2两个星座，各申请96714颗卫星",
+                "cite_index": 10,
+                "published_at": 1768147200.0,
+                "site_name": "中青网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/youth.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户在了解中国20万颗卫星发射计划后，现在想深入了解这些申报星座的具体主体情况，这确实是个很关键的问题。\n\n我需要从几个方面来构建回答：先总体介绍这次大规模申报的基本情况和主要主体，然后用表格形式清晰列出各个主体及其特点，最后分析背后的战略意义和挑战。如果搜索结果足够详实，我会重点引用权威来源的信息。\n\n[citation:1]和[citation:10]来自太原市科技局和科技日报，权威性很高，明确指出了20.3万颗卫星的申报总数，并确认无线电创新院占95%以上，其他主体包括中国星网、中国移动、垣信卫星等。[citation:6]来自财联社，也提到了类似的主体名单。\n\n[citation:4]泰伯网的报道专门介绍了中国移动的申报情况，提供了2664颗卫星的具体数字，这个信息很有价值。[citation:5]百度百科对“千帆星座”的介绍非常详细，包括1.5万颗的规划规模、实施主体上海垣信卫星等，内容全面。[citation:7]36氪的报道虽然权威性稍低，但提供了GW星座12992颗的具体规划数字，以及无线电创新院的背景信息。\n\n[citation:3]和[citation:8]的时效性不够好，前者主要讨论运营商生态，后者主要讲卫星通信展会，与用户当前关注的具体申报主体信息关联度不够紧密。[citation:2]来自富途牛牛，权威性相对较低，但内容与其他权威来源基本一致。\n\n我准备用一个表格来清晰展示这些主体，让用户能一目了然地看到各个申报主体的规模、特点和时间要求。然后分析这次申报的战略意义，包括资源抢占、产业链推动等，最后指出面临的运力挑战和未来的发展前景。这样既能提供具体的申报主体信息，又能帮助用户理解整个申报行动的背景和意义。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "根据最新公开信息，在2025年底集中向国际电信联盟（ITU）提交超20万颗卫星资源申请的中国申报主体，呈现“国家队主导、多方参与”的格局[citation:1][citation:10]。以下是根据其申报规模和性质划分的主要主体：\n\n| 主体类型 | 申报主体名称 | 在本次申报中的角色与已知规模 | 关键特点与背景 |\n| :--- | :--- | :--- | :--- |\n| **新型研发机构** | **无线电频谱开发利用和技术创新研究院** | **绝对主力**：申报了**CTC-1**与**CTC-2**两个星座，各**96,714**颗，合计**193,428**颗，占本次申报总量的**95%以上**[citation:1][citation:10]。 | 2025年12月30日新成立，由**国家无线电监测中心、中国星网、中国电科**等7家单位联合共建[citation:6]。其申报具有强烈的**国家战略资源占位**意图[citation:1]。 |\n| **国家队核心** | **中国卫星网络集团有限公司** | **主要参与方**：具体申报数量未明确披露，但被多次提及为本次申报的核心主体之一[citation:1][citation:2][citation:6]。 | 我国卫星互联网的“国家队”和牵头单位，负责建设**GW（国网）星座**，**长期规划约1.3万颗卫星**，目标是构建国家空天一体网络[citation:3][citation:7]。 |\n| **电信运营商** | **中国移动** | **独立申报方**：申报了“CHINAMOBILE-L1”（2520颗低轨）和“CHINAMOBILE-M1”（144颗中轨）星座，总计**2664**颗[citation:4]。 | 作为基础电信运营商，其申报意味着正从地面网络向“天地一体”融合演进，具备投资、运营到商业化的完整能力[citation:4]。 |\n| | **中国电信** | **主要参与方**：被列为本次申报的参与主体之一[citation:6]。 | 拥有并运营**天通**高轨卫星移动通信系统，在卫星通信应用方面经验丰富[citation:3]。 |\n| **商业航天公司** | **上海垣信卫星科技有限公司** | **主要参与方**：被列为本次申报的参与主体之一[citation:1][citation:10]。 | 负责建设运营**“千帆星座”**，这是我国另一个巨型星座，**总规划超过1.5万颗卫星**，已进入常态化组网发射阶段[citation:5][citation:9]。 |\n| | **银河航天、航天驭星、国电高科等** | **参与方**：被报道提及为本次申报的参与机构[citation:2][citation:6]。 | 代表了一批在卫星制造、测控运营、物联网应用等细分领域的商业航天企业。 |\n\n### 🌐 申报行动的背景与展望\n这次超大规模集中申报，核心目的是在“**先登先占**”的国际规则下，为我国未来数十年的太空发展**抢占稀缺的频谱和轨道战略资源**[citation:1][citation:6]。值得注意的是，**“申报”不等于“实际发射”**，ITU规则要求在申报后的限期内（通常为首颗卫星发射后7年内）完成一定比例的发射，才能保留相应资源[citation:1][citation:6]。\n\n因此，这20多万颗的申报规模，既是长远布局，也**对我国未来的火箭发射能力、卫星制造产能和成本控制提出了极限挑战**。以“国家队”中国星网和商业公司“垣信卫星”为首的多个星座已进入密集组网期[citation:3][citation:5][citation:9]，而像“无线电创新院”申报的近20万颗卫星，则更像是一张面向未来的“资源许可证”，其具体实施路径和节奏有待观察。\n\n总而言之，这次申报的主体构成反映了中国正以“**举国体制+市场力量**”的模式，系统性地布局低轨太空资源，为未来全球卫星互联网竞争打下基础。\n\n如果你对其中某个特定星座（如GW星座、千帆星座）的详细建设进展，或者对国际电联（ITU）的申报和协调规则更感兴趣，我可以为你提供更具体的介绍。"
+          }
+        ]
+      }
+    },
+    "7": {
+      "id": "7",
+      "parent": "6",
+      "children": [
+        "8"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:33:08.427000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "无线电创新院是啥介绍一下 他有没有实际的运载能力？"
+          }
+        ]
+      }
+    },
+    "8": {
+      "id": "8",
+      "parent": "7",
+      "children": [
+        "9"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:33:08.430000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://www.chinastarmarket.cn/detail/2255870",
+                "title": "申请20万颗卫星的无线电创新院业务范围公示",
+                "snippet": "宗旨为从事无线电频谱开发利用和技术创新工作及相关领域公益事业，其业务范围包含：围绕无线电管理技术和无线电频谱利用技术开展科学研究、技术创新、成果转化、人才培养等；申建国家级、省部级重点实验室和创新平台；承接各类科技项目；组织建设孵化转化基地...",
+                "cite_index": 1,
+                "published_at": 1768233600.0,
+                "site_name": "Chinastarmarket",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chinastarmarket.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://baike.baidu.com/item/%E6%97%A0%E7%BA%BF%E7%94%B5%E5%88%9B%E6%96%B0%E9%99%A2/67202066",
+                "title": "无线电创新院",
+                "snippet": "这是中国无线电管理技术领域首家以技术创新和成果转化为目标的新型研发机构，以服务卫星互联网产业、研究电磁空间技术、挖掘频谱资源价值潜力为愿景，聚焦频谱开发利用与技术创新深度融合，着力搭建无线电领域集关键技术研发...",
+                "cite_index": 2,
+                "published_at": 1767024000.0,
+                "site_name": "百度百科",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cww.net.cn/article?id=606647",
+                "title": "申请19.3万颗卫星资源的无线电创新院业务范围公示",
+                "snippet": "该院宗旨为从事无线电频谱开发利用和技术创新工作及相关领域公益事业，其业务范围包含：围绕无线电管理技术和无线电频谱利用技术开展科学研究、技术创新、成果转化、人才培养等；申建国家级、省部级重点实验室和创新平台；承接各类科技项目；组织建设孵化转化基地...",
+                "cite_index": 3,
+                "published_at": 1768233600.0,
+                "site_name": "Cww",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cww.net.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.aigupiao.com/view/detail/3828638#from_comBtn",
+                "title": "万亿商业航天的核心方向",
+                "snippet": "无线电创新院（全称：无线电频谱开发利用和技术创新研究院）成立于2025年12月30日，是我国无线电管理技术领域首家以技术创新和成果转化为目标的新型研发机构。",
+                "cite_index": 4,
+                "published_at": 1768060800.0,
+                "site_name": "Aigupiao",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aigupiao.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cls.cn/detail/2254191",
+                "title": "【九点特供】中国新增20万颗卫星申请，19万颗来自刚成立的无线电创新院，业内专家认为无线电创新院有望助力在近地卫星的发射和运营能力上赶超SpaceX，这家公司实控人为无线电创新院的7家组建单位之一",
+                "snippet": "九点特供  2026.01.12 07:59 星期一  往期回顾：1月5日08:02《九点特供》追踪到蓝箭航天科创板IPO获受理拟融资75亿元，指出此次受理恰逢科创板第五套上市标准扩围落地之际，标志着资本市场对商业航天等前沿科技领域的支持进入实质落地阶段，提及金风科技，其在1月6日至9日收获4连板。  单篇付费￥38可解锁全文  大势研判+热点前瞻，盘前必读的特供早报！  ￥688起  立即购买 ",
+                "cite_index": 5,
+                "published_at": 1768147200.0,
+                "site_name": "财联社",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cls.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.sohu.com/a/974641709_115362?scm=10001.325_13-325_13.0.0-0-0-0-0.5_1334",
+                "title": "我国新增20万颗卫星申请！什么信号？专家解读",
+                "snippet": "无线电创新院将以服务卫星互联网产业、研究电磁空间技术、挖掘频谱资源价值潜力为愿景，聚焦频谱开发利用与技术创新深度融合，着力搭建无线电领域集关键技术研发、成果孵化与产业赋能于一体的政产学研用联合创新平台，推动无线电频谱资源高效利用与技术创新。",
+                "cite_index": 6,
+                "published_at": 1767974400.0,
+                "site_name": "Sohu",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sohu.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://caifuhao.eastmoney.com/news/20260110161003119153370",
+                "title": "以下是该研究院的精简要点：一、共建单位（7家）•国家无线电监测中心（牵头）•河北_财富号_东方财富网",
+                "snippet": "• 我国无线电管理技术领域首家以技术创新+成果转化为目标的新型研发机构 • 聚焦频谱开发利用与技术创新融合，搭建政产学研用联合创新平台 • 主攻关键技术研发、成果孵化、产业赋能，服务卫星互联网与电磁空间技术发展",
+                "cite_index": 7,
+                "published_at": 1767974400.0,
+                "site_name": "财富号东方财富网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/eastmoney.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://caifuhao.eastmoney.com/news/20260110180935062041270",
+                "title": "无线电创新院雄安启航 频谱技术助推新型工业化",
+                "snippet": "无线电创新院将以服务卫星互联网产业 ... 挖掘频谱资源价值潜力为愿景，聚焦频谱开发利用与技术创新深度融合，着力搭建无线电领域集关键技术研发、成果孵化与产业赋能于一体的政产学研用联合创新平台，推动无线电频谱资源高效利用与技术创新。",
+                "cite_index": 8,
+                "published_at": 1767974400.0,
+                "site_name": "财富号东方财富网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/eastmoney.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户之前询问了中国民营航天公司和卫星发射计划，现在专门追问无线电创新院的性质和运载能力，说明用户对这个新成立的机构很感兴趣，想了解它在整个卫星发射体系中的角色。\n\n我需要清晰回答两个核心问题：无线电创新院是什么机构，它是否具备运载能力。如果搜索结果充分，我会先介绍机构性质，然后明确回答运载能力问题，最后说明它与其他发射主体的关系。\n\n[citation:2]的百度百科信息非常完整，涵盖了成立时间、共建单位、定位等核心信息，权威性也较好。[citation:1][citation:3]提供了业务范围信息，虽然来源权威性一般，但内容与百科一致可以谨慎参考。[citation:6]的搜狐转载报道信息全面，包含专家观点和时间节点，来源相对可靠。\n\n关于运载能力，所有搜索结果都没有提到无线电创新院有火箭或发射能力，[citation:6]明确提到它需要整合产业资源来完成任务，这说明它本身没有运载能力。这个结论很重要，需要明确告知用户。\n\n[citation:4]和[citation:7][citation:8]虽然提供了一些信息，但主要是财经自媒体或投资观点，权威性不足，我不会主要依赖这些。[citation:5]内容基本无法查看，无法使用。\n\n考虑到机构信息比较复杂，我可以用一个简洁的表格来展示基本属性，这样用户能快速了解关键信息。然后重点解释它的“协调者”角色和与具体执行单位的关系，这样能帮用户理解中国卫星发射体系的运作方式。\n\n我会强调无线电创新院是一个新型研发和协调机构，不是执行发射的操作实体，这样用户就能明白它在中国庞大卫星计划中的准确定位。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "**无线电创新院（无线电频谱开发利用和技术创新研究院）是2025年12月30日新成立的国家级新型研发机构，它本身不拥有火箭，也不具备实际的卫星发射运载能力[citation:2][citation:6]。**\n\n它的核心职能是**技术研发、资源协调与战略规划**，而非执行具体发射。以下是它的关键信息：\n\n### 🏢 机构性质与定位\n| 属性 | 具体说明 |\n| :--- | :--- |\n| **成立时间** | 2025年12月30日[citation:2] |\n| **注册地点** | 河北雄安新区[citation:1][citation:2] |\n| **机构性质** | 我国无线电管理领域首家以**技术创新和成果转化**为目标的新型研发机构[citation:2][citation:6][citation:8]。 |\n| **共建单位** | 由国家无线电监测中心（牵头）、河北雄安新区管委会、河北省工信厅、**中国卫星网络集团有限公司（中国星网）**、**中国电子科技集团有限公司**、南京航空航天大学、北京交通大学等7家单位联合共建[citation:2][citation:7]。 |\n| **核心职责** | 聚焦**无线电频谱**技术的开发利用，搭建“政产学研用”平台，服务于卫星互联网等国家战略产业[citation:2][citation:8]。 |\n| **近期重大动作** | 成立后立即向国际电信联盟（ITU）提交了**CTC-1**和**CTC-2**两个巨型星座的频轨资源申请，合计**19.3万颗**卫星，占中国2025年底20.3万颗卫星申请总量的95%以上[citation:1][citation:2][citation:6]。 |\n\n### 🚀 关于运载能力的明确回答\n无线电创新院**没有自己的火箭和发射场**。它的角色是“规划者”和“协调者”：\n1.  **它负责“占位”**：根据“先登先占”的国际规则，代表国家集中申报频谱与轨道这一战略性资源[citation:6]。\n2.  **发射由产业链完成**：实际将卫星送上天的任务，会由**中国航天科技集团、中国航天科工集团**等“国家队”，以及**蓝箭航天**等**商业航天公司**来承担[citation:6]。例如，其共建单位中的**中国星网**，就是负责建设和运营卫星星座的核心实体。\n\n专家解读认为，无线电创新院的意义在于整合国家级力量，以争取在未来卫星的**发射和运营能力**上形成竞争力[citation:6]。\n\n### 📅 后续关键时间节点\n根据ITU规则，无线电创新院申报的星座需要在规定时间内完成发射以保留资源：\n*   **7年内**：发射首批10%（约1.93万颗）卫星[citation:6]。\n*   **14年内**：完成全部卫星的部署[citation:6]。\n\n因此，中国商业航天产业将在未来十年面临密集发射的极限挑战。\n\n总结来说，无线电创新院是中国为争夺未来太空资源而设立的“**国家级战略规划与协调中心**”，它制定蓝图并协调资源，而具体的卫星制造、火箭发射等任务，则由现有的航天工业体系来执行。\n\n如果你想进一步了解可能承接这些发射任务的中国主要火箭型号（如长征系列、朱雀系列等）或其研制公司，我可以为你详细介绍。"
+          }
+        ]
+      }
+    },
+    "9": {
+      "id": "9",
+      "parent": "8",
+      "children": [
+        "10"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:44:43.052000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "介绍一下卫星领域的单粒子翻转"
+          }
+        ]
+      }
+    },
+    "10": {
+      "id": "10",
+      "parent": "9",
+      "children": [
+        "11"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:44:43.054000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://www.opticsjournal.net/Articles/OJ8525b0f1793943c4/SupplMat",
+                "title": "基于SRAM在轨监测的单粒子翻转事件特征与空间环境响应关系研究",
+                "snippet": "基于SRAM在轨监测的单粒子翻转事件特征与空间环境响应关系研究 Study on characteristics of in-orbit SRAM single event upsets and their correlation with the space environment ... 基于SRAM在轨监测的单粒子翻转事件特征与空间环境响应关系研究[J].",
+                "cite_index": 1,
+                "published_at": 1760457600.0,
+                "site_name": "中国光学期刊网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/opticsjournal.net",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.sepc.ac.cn/kepu2_4_3.html",
+                "title": "无标题文档",
+                "snippet": "其影响的程度可以是小差错、死锁甚至卫星的报废。粒子轰击改变星上软件状态的途径还有物理损伤或电荷沉积造成翻转，两种自然现象可能导致这种问题：银河宇宙线和太阳高能粒子。",
+                "cite_index": 2,
+                "published_at": null,
+                "site_name": "空间环境预报中心",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sepc.ac.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://wap.cnki.net/touch/web/Journal/Article/XXYD201203024.html",
+                "title": "一种单粒子翻转机制及其解决方法-信息与电子工程2012年03期-手机知网",
+                "snippet": "针对某款超深亚微米专用集成电路(ASIC)出现的异常单粒子翻转现象,分析了导致异常翻转的机制,针对这种机制提出了2种解决方法,并给出了2种解决方法的适用范围。重离子试验结果表明...",
+                "cite_index": 3,
+                "published_at": null,
+                "site_name": "手机知网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cnki.net",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www-kepuchina-cn-443.webvpn.imac.edu.cn/article/articleinfo?business_type=100&classify=0&ar_id=203865",
+                "title": "[科普中国]-单粒子翻转",
+                "snippet": "概念单粒子翻转英文缩写SEU（Single-Event Upsets），航天电子学术语，原因是在空间环境下存在着大量高能带电粒子，计算机中的CMOS电子元器件受到地球磁场、宇宙射线等照射，引起电位状态的跳变，“0”变成“1” ... 但一般不会造成器件的物理性损伤。",
+                "cite_index": 4,
+                "published_at": 1640880000.0,
+                "site_name": "内蒙古艺术学院",
+                "site_icon": "https://cdn.deepseek.com/site-icons/imac.edu.cn",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www-kepuchina-cn-443.webvpn.imac.edu.cn/article/articleinfo?business_type=100&classify=0&ar_id=197024",
+                "title": "[科普中国]-空间辐射单粒子效应",
+                "snippet": "单粒子效应是继等离子体充电效应之后又一威胁航天器安全的主要空间环境效应，而且随航天器系统复杂程度和器件集成度的增加，单粒子效应的危害会更加严重2。 本词条内容贡献者为...",
+                "cite_index": 5,
+                "published_at": 1640880000.0,
+                "site_name": "内蒙古艺术学院",
+                "site_icon": "https://cdn.deepseek.com/site-icons/imac.edu.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://library.cnu.ac.kr/eds/detail/edscoj_edscoj.xdyywl202201015?briefLink=%2Feds%2Fbrief%2FdiscoveryResult%3Fst%3DKWRD%26service_type%3Dbrief%26si%3DAU%26q%3D%2522Yuan%252C%2BJingshuang%2522%26",
+                "title": "상세정보",
+                "snippet": "通过流片和封装后对芯片进行了抗单粒子翻转试验.试验结果表明,采用的2种版图加固方法可使单粒子翻转数下降95％以上;当入射重离子LET值为37 MeV·cm2·mg-1时,电荷补偿原理的版图加固结构抗单粒子翻转性能更强;28 nm工艺下,版图加固最优敏感节点对的距离为3倍标准单位距离.",
+                "cite_index": 6,
+                "published_at": null,
+                "site_name": "Cnu",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cnu.ac.kr",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://swe.ssa.esa.int/de-DE/web/guest/sco_services",
+                "title": "Spacecraft Operation Services - Space Weather",
+                "snippet": "For example, cosmic rays (GCRs) and solar energetic particles (SEPs) are known causes of single event upsets (SEUs) such as latch-ups in onboard electronics systems, often resulting in instruments and potentially platforms automatically going into safe mode. In the worst case...",
+                "cite_index": 7,
+                "published_at": null,
+                "site_name": "Space Weather",
+                "site_icon": "https://cdn.deepseek.com/site-icons/esa.int",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cma.gov.cn/2011xzt/2013zhuant/20130606/2013060601/201306/t20130608_216168.html",
+                "title": "行星际空间与航天器",
+                "snippet": "非常高能的带电粒子能在航天器电子学器件中沉积足够的电荷量，干扰集成器件的记忆状态，产生伪信号，这就是单粒子翻转事件。单粒子翻转事件本身并不发生硬件损伤，是状态可以恢复的“软”错误。但它导致航天器控制系统的逻辑状态紊乱时就可能发生灾难性后果。",
+                "cite_index": 8,
+                "published_at": 1370707200.0,
+                "site_name": "中国气象局政府门户网站",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cma.gov.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://wap.cnki.net/qikan-BDTQ801.000.html",
+                "title": "单粒子效应对卫星空间运行可靠性影响",
+                "snippet": "主要论述单粒子效应对卫星中微电子器件的辐射损伤机理。提出提高集成电路抗单粒子翻转和单粒子闭锁的技术路径。 [关键词]： 单粒子翻转，单粒子闭锁，失效机理",
+                "cite_index": 9,
+                "published_at": null,
+                "site_name": "手机知网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cnki.net",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cnki.com.cn/Article/CJFDTOTAL-XDXK202206010.htm",
+                "title": "一种抗单粒子效应的加固技术研究",
+                "snippet": "【摘要】： 针对数字波控电路在星载控制电路应用中存在的单粒子翻转效应问题，提出了一种基于DICE单元的双稳态D触发器设计改进，设计了一种能够抵御众多类型单粒子翻转效应的D触发器，并基于该D触发器，结合电路级单粒子加固技术设计了一款串并转换芯片。测试表明...",
+                "cite_index": 10,
+                "published_at": null,
+                "site_name": "知网空间",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cnki.com.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "好的，用户询问卫星领域的单粒子翻转，这确实是一个很专业的问题，特别是在讨论了中国雄心勃勃的发射计划之后，了解这些卫星在太空中可能面临的威胁很有必要。\n\n我需要向用户清晰解释什么是单粒子翻转。我会先给出一个直白易懂的定义，然后系统性地介绍它的原理、影响和防护措施。如果搜索结果充分，我可以用表格来整理关键信息，让用户一目了然。\n\n根据搜索结果，[citation:4]对单粒子翻转的定义非常清晰准确，指出它是宇宙高能粒子导致器件逻辑状态改变的现象，同时强调这不是永久性物理损伤。[citation:2]提供了很好的原理说明，解释了银河宇宙线和太阳高能粒子这两种主要来源，这个信息很重要。[citation:5]则解释了单粒子翻转是\"单粒子效应\"的一种，这个分类有助于用户理解更广阔的背景。\n\n关于实际影响和案例，[citation:4]提到了我国实践四号卫星和风云一号卫星的具体案例，这些真实的例子很有说服力。[citation:8]也证实了实践四号的监测数据，权威性很高。\n\n在防护措施方面，[citation:4]提到了增加冗余度的方法，[citation:6]则提供了具体的技术细节，显示通过版图加固可以使翻转数下降95%以上，这个数据很关键。\n\n[citation:1]和[citation:3]等虽然也相关，但前者主要关注特定监测技术，后者则讨论具体电路的解决方法，对于一般性介绍来说不是最核心的信息。\n\n我考虑先用一个简洁的表格概括单粒子翻转的核心要点，然后再分原理、影响、防护三个部分详细展开。这样既能快速抓住重点，又能深入了解细节。最后可以联系之前讨论的卫星发射计划，让用户意识到这个问题的实际重要性。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "单粒子翻转（SEU）是卫星在轨运行面临的严重风险之一[citation:4]，指的是一个来自太空的**高能粒子（质子或重离子）击中卫星芯片**，导致其存储的“0”变成“1”，或“1”变成“0”，从而引发系统错误[citation:2][citation:4]。\n\n简单来说，这就像是太空射线“点错”了电脑里的一个比特。\n\n### 📌 核心概念一览\n\n| 方面 | 关键信息 |\n| :--- | :--- |\n| **本质** | 高能粒子引起的、**可恢复**的逻辑状态错误（“软错误”），通常不造成物理损坏[citation:4][citation:8]。 |\n| **主要源头** | **银河宇宙线**（持续存在）和**太阳高能粒子**（太阳活动剧烈时爆发）[citation:2]。 |\n| **易发器件** | 存储器件（如RAM）最敏感，其次是CPU等[citation:4]。 |\n| **主要影响** | 可能导致数据错误、程序跑飞、仪器异常，严重时可致卫星功能失效[citation:2][citation:4]。 |\n| **核心防护思路** | **加固**（选用抗辐射芯片、设计加固电路）和 **冗余**（关键系统多重备份）[citation:4][citation:6]。 |\n\n### 🔬 原理、影响与防护\n\n1.  **如何发生**：太空中的高能粒子（能量>50MeV[citation:2]）穿透卫星外壳，击中芯片的“灵敏区”并产生额外电荷，足以“欺骗”电路改变其存储的逻辑状态[citation:4][citation:5]。\n2.  **有何影响**：单个翻转可能只导致一个数据错误[citation:4]。但如果恰好翻转了**控制指令、程序计数器或姿态控制数据**，就可能导致仪器关机、系统死锁乃至卫星失控等严重故障[citation:2]。我国风云一号（B）气象卫星就曾因此失效[citation:4]。\n3.  **如何防护**：主要通过“**加固**”和“**冗余**”两类手段。例如，通过特殊版图设计分离电路敏感节点，可降低95%以上的翻转[citation:6]；而在系统层面，NASA等机构会采用**三重模块冗余**，即用三套系统同时计算并投票表决，确保结果正确[citation:4]。\n\n### 💎 总结与展望\n随着卫星电子系统日益复杂、芯片集成度不断提高，单粒子翻转的威胁也在加大[citation:5]。对于我们之前讨论的中国规划发射的数万乃至数十万颗卫星，确保每一颗都具备足够的抗辐射能力，是其长期稳定运行、发挥效能的底层技术挑战之一。\n\n如果你对某一种具体的防护技术（如DICE单元加固）或历史上著名的卫星故障案例想了解更多，我可以进一步介绍。"
+          }
+        ]
+      }
+    },
+    "11": {
+      "id": "11",
+      "parent": "10",
+      "children": [
+        "12"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:46:33.676000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "从卫星产业的上下游，目前哪些股票是出于低估值装填"
+          }
+        ]
+      }
+    },
+    "12": {
+      "id": "12",
+      "parent": "11",
+      "children": [
+        "15"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:46:33.679000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://www.linebank.com.tw/wealth-investment/topics/2876",
+                "title": "Starlink換機潮 台股5檔評價重估 - 熱門話題 - 理財網 | LINE Bank",
+                "snippet": "在資本市場層面，SpaceX 傳出最快將於 2026 年啟動 IPO，市場預期其上市將有助於衛星產業估值體系重新定錨，進一步帶動相關供應鏈本益比（P/E）重估，台股衛星族群可望受惠於整體評價上修。而就個別公司來看...",
+                "cite_index": 1,
+                "published_at": null,
+                "site_name": "Linebank",
+                "site_icon": "https://cdn.deepseek.com/site-icons/linebank.com.tw",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.stcn.com/article/detail/3580366.html",
+                "title": "资本狂热卡位商业航天：“绝不错过2026年大热门” 产业链上下游投资空间广阔，“太空算力”争夺战一触即发",
+                "snippet": "大洋彼岸的美国，马斯克旗下的SpaceX正在推进IPO计划，估值或将达1.5万亿美元；OpenAI也计划将算力中心搬到太空 ... 尤其是那些估值已达百亿元、上市后有望冲击千亿市值的火箭、卫星核心企业背后的资本，更没有理由提前套现离场。不过...",
+                "cite_index": 2,
+                "published_at": 1767888000.0,
+                "site_name": "证券时报官方网站",
+                "site_icon": "https://cdn.deepseek.com/site-icons/stcn.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://wantrich.chinatimes.com/news/20251031900252-420101",
+                "title": "錯過iPhone、AI飆股 別再錯過下波「太空商機」！華通、昇達科等太空3雄誰最賺？它估賺1股本、本益比才12倍",
+                "snippet": "隨著全球衛星發射量暴增，華通低軌營收占比，預估將從2021年的3%提升到2026年的22.2%，成長速度堪比火箭升空！9月營收74.9億元、月增14%，今年營收可望續創高峰。法人預估2025年EPS約5元...",
+                "cite_index": 3,
+                "published_at": 1761840000.0,
+                "site_name": "Chinatimes",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chinatimes.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://stocknews.scol.com.cn/shtml/jrtzb/20251220/1066484.html",
+                "title": "传导效应正重塑全球资本价值判断",
+                "snippet": "A股低轨卫星概念受SpaceX估值引导，可能在2026年爆发出巨大的行情潜力，与英伟达对于摩尔线程和沐曦股份所呈现的现实驱动特征类似。在多重利好叠加下，板块行情将从早期的概念炒作阶段...",
+                "cite_index": 4,
+                "published_at": null,
+                "site_name": "金融投资报",
+                "site_icon": "https://cdn.deepseek.com/site-icons/scol.com.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cs.com.cn/gppd/gsyj/202601/t20260108_6532197.html",
+                "title": "中信建投任宏道：商业航天开启黄金发展期 关注三大投资机遇",
+                "snippet": "商业航天无疑是跨年行情的强势主线，Wind数据显示，自2025年11月21日以来，截至2026年1月7日，万得商业航天主题指数累计涨幅超60%。",
+                "cite_index": 5,
+                "published_at": 1767801600.0,
+                "site_name": "Cs",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cs.com.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://hk.investing.com/analysis/article-117406",
+                "title": "2026年第一擊：亞太衛星",
+                "snippet": "新年第一擊：央企亞太衛星（1045，市值20億元）。 全球首富馬斯克的SpaceX，計劃今年年中上市，坊間目前估值1.5萬億美元...",
+                "cite_index": 6,
+                "published_at": 1766937600.0,
+                "site_name": "Investing.com 香港",
+                "site_icon": "https://cdn.deepseek.com/site-icons/investing.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://uanalyze.com.tw/articles/2239743847",
+                "title": "SpaceX上市掀「太空圈地戰」！華通、燿華還能追？他點名「這3檔」才是真龍頭：又貴又大、美系客戶非它不可 | 優分析UAnalyze - 理解市場．參與市場",
+                "snippet": "總結來說，2026 年的太空商機，首選技術門檻高的核心持股（昇達科、萊德、IET），並留意正進行價值重估的 PCB 族群（華通、燿華），在股價拉回支撐線時，將是最佳的佈局時機。",
+                "cite_index": 7,
+                "published_at": 1767888000.0,
+                "site_name": "優分析UAnalyze - 理解市場．參與市場",
+                "site_icon": "https://cdn.deepseek.com/site-icons/uanalyze.com.tw",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://wallstreetcn.com/articles/3762511",
+                "title": "商业航天2026——从大国叙事到商业闭环的奇点时刻",
+                "snippet": "国金证券认为，2026年被视为中国商业航天从概念走向业绩的“阿尔法元年”，行业投资逻辑将转向基本面。其核心驱动力在于政策窗口期（保轨道资源的组网硬约束）、技术突破（可回收火箭降成本）与资本转向（估值体系从宏大叙事转向订单能见度）的多重共振。届时...",
+                "cite_index": 8,
+                "published_at": 1767456000.0,
+                "site_name": "华尔街见闻",
+                "site_icon": "https://cdn.deepseek.com/site-icons/wallstreetcn.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://guba.eastmoney.com/news,001208,1651065886.html",
+                "title": "以下为整合原有测算框架、新增多领域利润增长测算、国企改革与收购协同效应的完整分析_华菱线缆(001208)股吧_东方财富网股吧",
+                "snippet": "二、未来三年（2026-2028）商业航天分年度测算（原框架保留） - 2026年：卫星发射2300颗（国家1300+民企1000）；火箭800枚（传统70%+可回收30%）。销售额12.8亿元...",
+                "cite_index": 9,
+                "published_at": 1767974400.0,
+                "site_name": "股吧",
+                "site_icon": "https://cdn.deepseek.com/site-icons/eastmoney.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://caifuhao.eastmoney.com/news/20260110183925569767650",
+                "title": "震有科技——商业航天核心网龙头，稀缺牌照铸就千亿壁垒，目标市值550亿元",
+                "snippet": "评级：买入（首次覆盖）  核心观点  震有科技作为国内唯一持有卫星核心网运营牌照的民营通信企业，已完成“卫星核心网+地面站+终端模组+行业应用”的商业航天全链条布局，深度卡位低轨卫星星座建设黄金赛道。伴随国内“星网”星座加速组网、商业航天应用场景爆发，公司核心网设备与运营服务将迎来订单密集兑现期。我们预计公司2026-2028年营收增速分别达65%/72%/60%，参考卫星通信板块估值溢价，给予2",
+                "cite_index": 10,
+                "published_at": 1767974400.0,
+                "site_name": "财富号东方财富网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/eastmoney.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "好的，用户在之前的对话中已经深入了解了卫星产业链各个环节，现在希望从投资角度找出当前处于低估状态的股票，"
+          }
+        ]
+      }
+    },
+    "15": {
+      "id": "15",
+      "parent": "12",
+      "children": [
+        "16"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:46:55.631000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "从卫星产业的上下游，目前哪些股票是出于低估值状态"
+          }
+        ]
+      }
+    },
+    "16": {
+      "id": "16",
+      "parent": "15",
+      "children": [
+        "17"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:46:55.635000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "http://vip.stock.finance.sina.com.cn/q/go.php/vReport_Show/kind/lastest/rptid/821581613160/index.phtml",
+                "title": "电子：商业航天发展提速 重视产业链上下游投资机会",
+                "snippet": "中国新增20 万颗卫星申请，提振整体产业链预期近期一则消息进一步打开了行业的想象空间。2025 年12 月中国向国际电信联盟ITU 申请了超过20 万颗卫星的频轨资源。这个数量不仅是大幅超越了我国过往申请的低轨卫星数量总数5.13 万颗...",
+                "cite_index": 1,
+                "published_at": 1768147200.0,
+                "site_name": "Sina",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sina.com.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://wantrich.chinatimes.com/news/20251031900252-420101",
+                "title": "錯過iPhone、AI飆股 別再錯過下波「太空商機」！華通、昇達科等太空3雄誰最賺？它估賺1股本、本益比才12倍",
+                "snippet": "隨著全球衛星發射量暴增，華通低軌營收占比，預估將從2021年的3%提升到2026年的22.2%，成長速度堪比火箭升空！9月營收74.9億元、月增14%，今年營收可望續創高峰。法人預估2025年EPS約5元...",
+                "cite_index": 2,
+                "published_at": 1761840000.0,
+                "site_name": "Chinatimes",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chinatimes.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://render.alipay.com/p/yuyan/180020010001268694/index.html?commentId=2021003132616356DGca7a417eefa14db390b3aa1213acdd45",
+                "title": "观点",
+                "snippet": "一、部分核心个股涨幅参考 （数据统计至2026年1月上旬）： 1.中国卫星 卫星制造与运营 上涨超165% (据公开报道) 卫星总装龙头，行情启动初期的核心龙头，涨幅巨大。",
+                "cite_index": 3,
+                "published_at": null,
+                "site_name": "Alipay",
+                "site_icon": "https://cdn.deepseek.com/site-icons/alipay.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.jrj.com.cn/madapter/finance/2025/12/31152054860203.shtml",
+                "title": "国金证券：2026年中国商业航天将迎来工业化爆发期过渡关键节点",
+                "snippet": "中国商业航天开始到达从政策孵化期向工业化爆发期过渡的关键节点。2026年将是中国商业航天产业的阿尔法元年，行业逻辑将从单纯的题材映射转向基于供应链业绩兑现的基本面投资。重点关注深度绑定商业火箭/星座供应链的A股上市公司...",
+                "cite_index": 4,
+                "published_at": 1767110400.0,
+                "site_name": "手机金融界",
+                "site_icon": "https://cdn.deepseek.com/site-icons/jrj.com.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.linebank.com.tw/wealth-investment/topics/2876",
+                "title": "Starlink換機潮 台股5檔評價重估 - 熱門話題 - 理財網 | LINE Bank",
+                "snippet": "在資本市場層面，SpaceX 傳出最快將於 2026 年啟動 IPO，市場預期其上市將有助於衛星產業估值體系重新定錨，進一步帶動相關供應鏈本益比（P/E）重估，台股衛星族群可望受惠於整體評價上修。而就個別公司來看...",
+                "cite_index": 5,
+                "published_at": null,
+                "site_name": "Linebank",
+                "site_icon": "https://cdn.deepseek.com/site-icons/linebank.com.tw",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://api3.cls.cn/share/article/2240562?os=web&sv=698&app=",
+                "title": "商业航天板块年内涨80% 产业链公司如何分食这场盛宴？",
+                "snippet": "财联社  财经通讯社  科创板日报记者 黄修眉 王楚凡 责编 曾乐 2025-12-26 09:05 ①即将进入的2026年，卫星需求将迎来显著放量，更将带动从火箭到卫星制造、载荷配套等全产业链的协同发展；                 ②相关上市公司普遍认为随着产业进入快车道，公司业务亦将随之受益；但在液体可回收火箭技术完全成熟前，产业链中最确定的Alpha收益来自高价值量、高准入壁垒的卫星核",
+                "cite_index": 6,
+                "published_at": 1766678400.0,
+                "site_name": "Cls",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cls.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://uanalyze.com.tw/articles/2239743847",
+                "title": "SpaceX上市掀「太空圈地戰」！華通、燿華還能追？他點名「這3檔」才是真龍頭：又貴又大、美系客戶非它不可 | 優分析UAnalyze - 理解市場．參與市場",
+                "snippet": "總結來說，2026 年的太空商機，首選技術門檻高的核心持股（昇達科、萊德、IET），並留意正進行價值重估的 PCB 族群（華通、燿華），在股價拉回支撐線時，將是最佳的佈局時機。",
+                "cite_index": 7,
+                "published_at": 1767888000.0,
+                "site_name": "優分析UAnalyze - 理解市場．參與市場",
+                "site_icon": "https://cdn.deepseek.com/site-icons/uanalyze.com.tw",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://ieknet.iek.org.tw/ieknews/news_open.aspx?actiontype=ieknews&indu_idno=0&nsl_id=07bb1cc797ac4f36ae9ff0d8c873538f",
+                "title": "華通、信錦 卡位低軌衛星商機|產業新聞|產科國際所【IEK產業情報網】",
+                "snippet": "- 工商時報，楊絡懸／台北報導 - 2025/10/21 上午4:40 - 1787  低軌衛星通訊正成為台廠新戰場，原本深耕消費電子領域的HDI（高密度互連板）大廠華通（2313）與軸承廠信錦（1582），近年同步將布局延伸至太空軌道，從智慧手機、顯示器跨入衛星通訊主鏈與地面接收站零組件，積極卡位「軌道經濟」。法人預期，兩家公司將於2026年迎來低軌業務放量，成為下一波營收成長引擎。  華通在全",
+                "cite_index": 8,
+                "published_at": null,
+                "site_name": "IEK產業情報網",
+                "site_icon": "https://cdn.deepseek.com/site-icons/iek.org.tw",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.chinatimes.com/cn/newspapers/20260113000285-260206?chdtv",
+                "title": "低轨卫星续热 台链营运沾光 - 证券．权证",
+                "snippet": "## 升达科、耀登、镭洋2025年营收齐衝高、2026年有望持续受惠  低轨卫星产业正在高速成长，全球星链布建、卫星通讯商转与应用扩散同步推进，带动供应链需求快速放大。升达科（3491）、耀登（3138）与镭洋科技（6980）2025年全年营收分别创下歷史新高或歷史次高，营运表现强劲。  随低轨卫星建置与商用初期阶段，产业动能尚未见顶，市场普遍看好卫星发射数量增加、终端设备普及与应用场域扩大带动，",
+                "cite_index": 9,
+                "published_at": 1768233600.0,
+                "site_name": "中時新聞網",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chinatimes.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://mnews.tianyancha.com/ll_agkjufb1f1.html",
+                "title": "商业航天极度低估板块——星间激光通信+星载路由板块核心标的梳理+烽火通信深度推荐$久之洋(SZ300516)$",
+                "snippet": "商业航天极度低估板块——星间激光通信+星载路由板块核心标的梳理+烽火通信深度推荐$久之洋(SZ300516)$ $烽火通信(SH600498)$ $中国卫星(SH600118)$ 星间激光通信是低轨卫星互联核心链路、星载路由是星座组网调度核心，二者共同构成卫星互联网“天基神经中枢”，国内核心玩家分系统级、部件级两类，其中烽火通信（600498）是兼具双赛道技术壁垒与商业化落地能力的绝对龙头，具体.",
+                "cite_index": 10,
+                "published_at": 1766505600.0,
+                "site_name": "Tianyancha",
+                "site_icon": "https://cdn.deepseek.com/site-icons/tianyancha.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户之前问了很多关于卫星产业的技术和规划问题，现在转向了投资角度，想知道目前卫星产业上下游有哪些股票处于低估值状态。这个问题比较具体，需要分析卫星产业链各环节公司的估值情况。\n\n我需要先梳理卫星产业链的完整结构，然后从搜索结果中找出关于估值的具体信息，最后给出合理的投资建议。如果能找到具有对比性的数据表格会很有帮助。\n\n根据搜索结果，[citation:1]提供了非常完整的产业链分类，华福证券这份研报权威性不错，将商业航天分为火箭制造与发射、卫星制造、卫星有效载荷、地面设备与应用运营、上游材料与设备五大环节，并列举了大量相关标的。这个结构很适合作为分析框架。\n\n关于估值，[citation:2][citation:7][citation:9]主要关注台股标的，提供了一些本益比数据比如华通本益比不到15倍[citation:2]、启碁本益比12倍[citation:2]。而[citation:3]对A股市场的分析更有价值，它明确指出了不同梯队公司的估值状态，提到\"涨幅适中、逻辑正向的核心配套\"公司估值相对合理，并列举了天银机电、高华科技等具体公司。\n\n[citation:6]通过科创板日报的采访，提供了产业链公司业务进展的一手信息，能帮助判断哪些公司的业务即将放量但股价可能还未充分反映。[citation:4]从行业周期角度分析2026年是关键节点，这有助于理解整个产业的估值逻辑。\n\n[citation:5][citation:8][citation:10]的相关性较弱，要么信息不够具体，要么权威性一般，我会谨慎参考。\n\n我打算用一个表格来整理产业链各环节的潜在低估标的，这样用户能直观看到不同环节的代表公司和估值逻辑。表格可以包含环节、代表公司、估值状态与逻辑、参考来源等列，这样信息呈现会比较清晰。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "要筛选卫星产业链中处于低估状态的股票，首先需要区分“绝对低估”（如低市盈率）和**“相对低估”**（指公司受益于卫星产业大发展，但当前股价尚未充分反映其未来增长潜力）。目前市场上更受关注的是后一类机会[citation:3]。\n\n以下是卫星产业链各环节中，部分被市场认为具有“相对低估”潜力的公司梳理：\n\n| 产业链环节 | 代表公司 (代码) | 估值状态与逻辑 | 信息来源 |\n| :--- | :--- | :--- | :--- |\n| **卫星核心单机与载荷**<br>(高价值、高壁垒) | **天银机电** (300342) | 星敏感器龙头，是低轨卫星的**核心增量部件**，业务直接受益于卫星批量生产，被认为**涨幅适中、逻辑正向**[citation:3]。 | 第三方市场观点[citation:3] |\n| | **高华科技** (688539) | 传感器供应商，属于卫星/火箭批产中的**直接耗材或必需部件**，订单能见度高，**估值相对合理**[citation:3]。 | 第三方市场观点[citation:3] |\n| | **臻镭科技** (688270) | 特种射频芯片核心厂商，但需注意其市盈率(TTM)极高（超350倍），**存在估值风险**[citation:3]。 | 第三方市场观点[citation:3] |\n| **上游材料与部件**<br>(确定性受益扩产) | **超捷股份** (301005) / **飞沃科技** (301232) | 提供紧固件、结构件，是产业扩产的**确定性受益者**。相较于已暴涨的总装龙头，**估值相对合理**[citation:3]。 | 第三方市场观点[citation:3] |\n| | **铂力特** (688333) | 增材制造龙头，与约30家商业航天客户合作，多个项目进入批量阶段。但当前商业航天业务占比较小，若2026年行业放量，**业务弹性大**[citation:6]。 | 公司访谈[citation:6] |\n| **地面设备与终端** | **启碁** (6285.TW) | 台股网通大厂，星链路由器主要供应商之一。法人预估2026年本益比仅约12倍，被认为 **“够便宜”** [citation:2]。 | 台媒财经报道[citation:2] |\n| **火箭配套与发射** | **航宇科技** (688239) | 航天锻件供应商，与国内多家头部商业火箭公司合作。其航天业务营收占比约5%，**规模尚处发展初期**，潜力待释放[citation:6]。 | 公司访谈[citation:6] |\n\n### 💡 如何理解当前的“估值”与投资逻辑\n1.  **区分“绝对”与“相对”低估**：由于卫星产业处于爆发前期，很多公司利润尚未释放，传统市盈率估值（绝对低估）可能失效。当前更主流的逻辑是寻找 **“相对低估”** ——即那些**业务与卫星批量生产强相关、订单确定性强，但股价尚未被过度炒作的公司**[citation:3]。\n2.  **关注产业核心瓶颈与高价值环节**：多家机构指出，在火箭可回收技术完全成熟前，产业链中**最确定的投资机会来自卫星本身的核心单机与载荷**，如相控阵T/R组件、激光通信、星敏感器等，这些部件技术壁垒高、价值量大[citation:4][citation:6]。\n3.  **重视2026年关键节点**：2026年被普遍视为中国商业航天从技术验证迈向**工业化批量生产**的关键过渡年[citation:4]。随着卫星发射需求放量，**深度绑定商业火箭和卫星供应链的上市公司业绩有望率先兑现**[citation:4]。\n\n总结来说，寻找卫星产业链的“低估”机会，目前应重点关注**卫星核心配套部件**和**上游材料/制造**领域，筛选那些业务高度相关、增长确定但股价尚未透支预期的公司。\n\n如果你对产业链中某个特定细分环节（比如激光通信、卫星遥感应用等）的投资逻辑更感兴趣，我可以为你提供进一步的分析。"
+          }
+        ]
+      }
+    },
+    "17": {
+      "id": "17",
+      "parent": "16",
+      "children": [
+        "18"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:50:41.555000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "2026的火箭行业具体有哪些披露的发射计划及意义，再从投资角度分析，告知我这些计划对应哪些上下游公司有相关性"
+          }
+        ]
+      }
+    },
+    "18": {
+      "id": "18",
+      "parent": "17",
+      "children": [
+        "19"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-13T14:50:41.558000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://api3.cls.cn/share/article/2247238?os=ios&sv=818&app=",
+                "title": "商业航天2026年迎“大年”：多款新型火箭待首飞，发射工位快速扩容",
+                "snippet": "深蓝航天相关负责人对财联社记者确认，目前，深蓝航天的工作重心，已从关键技术攻关，转向“星云一号”的首飞准备与早期商业运营部署。“星云一号”计划于2026年春节前后发射，其核心任务是通过验证入轨发射与一子级垂直回收的全流程，将多年积累的技术能力转化为可重复...",
+                "cite_index": 1,
+                "published_at": 1767456000.0,
+                "site_name": "Cls",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cls.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/industry/rptid/821581613160/index.phtml",
+                "title": "电子：商业航天发展提速 重视产业链上下游投资机会",
+                "snippet": "火箭配套（结构、动力、控制等）：航天电子、航天动力、超捷股份、豪能股份、航宇科技、银邦股份、泰胜风能、中集安瑞科、理工导航、国科军工、高华科技、西部材料、飞沃科技。发射新技术与回收...",
+                "cite_index": 2,
+                "published_at": 1768147200.0,
+                "site_name": "新浪",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sina.com.cn",
+                "query_indexes": [
+                  1,
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.jrj.com.cn/madapter/finance/2025/12/31152054860203.shtml",
+                "title": "国金证券：2026年中国商业航天将迎来工业化爆发期过渡关键节点",
+                "snippet": "中国商业航天开始到达从政策孵化期向工业化爆发期过渡的关键节点。2026年将是中国商业航天产业的阿尔法元年，行业逻辑将从单纯的题材映射转向基于供应链业绩兑现的基本面投资。重点关注深度绑定商业火箭/星座供应链的A股上市公司...",
+                "cite_index": 3,
+                "published_at": 1767110400.0,
+                "site_name": "手机金融界",
+                "site_icon": "https://cdn.deepseek.com/site-icons/jrj.com.cn",
+                "query_indexes": [
+                  3,
+                  1,
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://vip.stock.finance.sina.com.cn/q/go.php/vReport_Show/kind/lastest/rptid/819969807277/index.phtml",
+                "title": "军工行业2026年年度策略报告：御风而行：乘政策技术共振之势 绘商业航天新纪元",
+                "snippet": "投资主线：聚焦火箭产业链与卫星载荷两大高景气赛道基于产业趋势，我们建议重点布局两条核心赛道：一是商业火箭产业链，包括火箭总体、发动机，以及核心配套的环形锻件、特种连接器等；二是卫星制造与应用链，涵盖卫星平台、通信载荷、核心芯片及地面设备。",
+                "cite_index": 4,
+                "published_at": 1766592000.0,
+                "site_name": "Sina",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sina.com.cn",
+                "query_indexes": [
+                  4,
+                  3,
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://vip.stock.finance.sina.com.cn/q/go.php/vReport_Show/kind/lastest/rptid/820848910059/index.phtml",
+                "title": "计算机行业周观点：2026 商业航天有望更加精彩",
+                "snippet": "民营火箭公司星际荣耀的双曲线三号可重复使用运载火箭计划于 2026 年上半年在海南文昌执行首飞任务，目标是一次性实现“入轨＋海上回收”的关键技术突破。此外，2025 年星河动力相继完成了智神星一号火箭二子级动力系统试车与一子级七机并联海上平台试车...",
+                "cite_index": 5,
+                "published_at": 1767456000.0,
+                "site_name": "Sina",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sina.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://epaper.stcn.com/con/202601/09/content_2877754.html",
+                "title": "证券时报电子报实时通过手机APP、网站免费阅读重大财经新闻资讯及上市公司公告",
+                "snippet": "近期，蓝箭航天、天兵科技、星河动力、星际荣耀、中科宇航这五家被称作“中国版SpaceX”的企业，正集体向“商业火箭第一股”发起冲击，且估值均已站上百亿元台阶。",
+                "cite_index": 6,
+                "published_at": 1767888000.0,
+                "site_name": "证券时报",
+                "site_icon": "https://cdn.deepseek.com/site-icons/stcn.com",
+                "query_indexes": [
+                  1,
+                  2,
+                  4,
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://dxpress.gelonghui.com/live/2244209",
+                "title": "中信建投： 商业航天开启黄金发展期 关注三大投资机遇",
+                "snippet": "格隆汇1月8日｜中信建投证券分析师任宏道表示，当前我国大运力可回收火箭已迈入集中“突破期”，全链条政策支持体系亦同步成型，2026年企业完成IPO、火箭密集首飞、星座组网提速等催化因素将接踵而至。从估值逻辑来看...",
+                "cite_index": 7,
+                "published_at": 1767801600.0,
+                "site_name": "Gelonghui",
+                "site_icon": "https://cdn.deepseek.com/site-icons/gelonghui.com",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://dxpress.gelonghui.com/p/3324629",
+                "title": "商业火箭：航天发射新力量，可复用开启低成本航天时代",
+                "snippet": "本篇报告我们梳理国内外商业火箭发展情况、技术路线和降本路径，希望为围绕商业航天及航天发射环节的投资提供参考 ... 2）2014年以来国内商业火箭企业快速成长，多型火箭已实现连续成功发射、执行商业发射任务 ... 我们认为有望成为国内火箭运力的有力补充。",
+                "cite_index": 8,
+                "published_at": 1764864000.0,
+                "site_name": "Gelonghui",
+                "site_icon": "https://cdn.deepseek.com/site-icons/gelonghui.com",
+                "query_indexes": [
+                  4
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.iresearch.cn/yx/2025/12/543365.shtml",
+                "title": "和众汇富研究手记：商业火箭竞速正酣开启可回收时代",
+                "snippet": "业内普遍预判，2026年将成为中国火箭可回收时代的元年，这场关乎太空经济成本革命的竞速赛，正牵引着产业链上下游的资源集聚与价值重估。",
+                "cite_index": 9,
+                "published_at": 1766678400.0,
+                "site_name": "艾瑞网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/iresearch.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cnfin.com/yw-lb/detail/20260107/4361692_1.html",
+                "title": "蓝箭航天正式冲刺“商业火箭第一股” 行业商业化拐点何时到来？",
+                "snippet": "新华财经北京1月7日电（梁怡）2025年末，蓝箭航天科创板IPO获受理，正式冲刺“商业火箭第一股”，拟募资75亿元。1月5日，中证协公布2026年第一批首发企业现场检查抽签名单，其中蓝箭航天在内的11家公司被抽中现场检查。",
+                "cite_index": 10,
+                "published_at": 1767715200.0,
+                "site_name": "Cnfin",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cnfin.com",
+                "query_indexes": [
+                  4
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户之前问了卫星产业链低估值股票的问题，现在想深入了解2026年火箭发射计划及其投资价值，这是一个非常具体且专业的问题。\n\n我需要从三个维度回答：一是梳理2026年披露的火箭发射计划，二是分析这些计划的意义，三是从投资角度找出相关的上下游公司。如果搜索结果充分，我计划用一个表格清晰展示发射计划，然后分段分析意义和投资机会。\n\n[citation:1]财联社的报道非常详细，直接列出了引力一号、星云一号、智神星一号、力箭二号等多款火箭的首飞计划，权威性中等但信息量丰富。[citation:3][citation:4][citation:5]分别来自国金证券、湘财证券、开源证券的专业研报，都提到2026年是关键转折点，权威性很好。[citation:8]中金研究的分析虽然时间稍早，但对可复用技术的分析很专业。\n\n[citation:2]华福证券的研报特别有价值，它按照产业链环节详细列出了上下游公司，这正好能满足用户第三部分的需求。[citation:7]中信建投的观点也很关键，强调从概念炒作转向业绩兑现的转变。\n\n[citation:6][citation:9][citation:10]虽然也相关，但主要是行业现象描述或个别公司分析，相关性不如前几个强，我会选择性参考。\n\n我准备用一个表格来展示主要的发射计划，这样信息更直观。对于意义和投资分析，我会综合多个来源的专业观点，特别是[citation:2]的产业链分类非常有帮助。这样既能满足用户对具体计划的需求，又能提供专业的投资视角。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "根据最新信息，2026年是中国商业航天从技术验证转向工业化批量生产的关键过渡年[citation:3][citation:5]。下表汇总了已披露的主要新型火箭发射计划：\n\n| 火箭型号 (研发公司) | 2026年核心计划与意义 | 关键时间/状态 |\n| :--- | :--- | :--- |\n| **智神星一号** (星河动力) | 中大型可重复使用液体火箭**首飞**，目标打造规模化低成本太空运输体系[citation:1]。 | 遥一火箭已完成总装总测，**即将首飞**[citation:1][citation:5]。 |\n| **星云一号** (深蓝航天) | 验证入轨发射与一子级垂直回收，目标提供**可重复、低成本**的太空运输服务[citation:1]。 | 计划于**2026年春节前后首飞**[citation:1]。 |\n| **力箭二号** (中科宇航) | 未来将成为**大规模星座组网和空间站货运**的主力火箭，并逐步迭代至可回收型[citation:1]。 | 有望于**近期首飞**[citation:1]。 |\n| **天龙三号** (天兵科技) | 大型液体可回收火箭首飞，对标猎鹰9号，采用多项新技术，**首飞后计划实现每年超30次商业发射**[citation:9]。 | 首飞在即[citation:1]，已进入倒计时[citation:9]。 |\n| **双曲线三号** (星际荣耀) | 可重复使用运载火箭**首飞**，目标一次性实现 **“入轨+海上回收”** 关键技术突破[citation:5]。 | 计划于**2026年上半年首飞**[citation:5]。 |\n| **引力二号** (东方空间) | 进入研发关键冲刺阶段，旨在年内尽早实现首飞[citation:1]。 | 年内尽早实现首飞（不含回收）[citation:1]。 |\n| **长征十二号乙/长征十号** (国家队) | 可复用火箭技术验证，服务于载人航天等国家任务，**提升主流运力市场的发射能力**[citation:5]。 | 预计2026年首飞[citation:5]。 |\n\n### 🚀 这些密集发射计划的意义\n2026年的火箭“首飞潮”不仅是技术突破，更是行业发展的关键拐点：\n1.  **突破运力瓶颈**：国内“星网”和“千帆”等巨型星座已进入高频组网期，存在巨大的发射需求[citation:3][citation:5]。可回收火箭技术是**降低发射成本、实现高频发射的核心路径**[citation:4][citation:8]。2026年有望结构性缓解长期制约中国星座部署的“运力赤字”问题[citation:3]。\n2.  **驱动行业逻辑转变**：行业发展逻辑正从题材概念转向**基于供应链业绩兑现的基本面投资**[citation:3]。随着火箭发射频率和卫星工厂产能的爬坡，产业链公司的现金流和业绩有望显著改善[citation:3]。\n3.  **资本市场的关键节点**：多家头部火箭公司正集体冲刺IPO[citation:6][citation:10]，这为一级市场资本提供了明确的退出预期，有望形成产业与资本的正向循环[citation:6]。\n\n### 📈 投资角度：关注直接受益的上下游公司\n根据多家券商研报，随着发射计划落地，以下产业链环节的公司将直接受益：\n\n| 产业链环节 | 核心受益逻辑 | 相关上市公司举例 (可作为分析参考) |\n| :--- | :--- | :--- |\n| **火箭制造与发射服务** | 直接受益于发射需求放量和核心配套订单。 | **航天动力**、**航天电子**[citation:2][citation:5]、**航宇科技**[citation:2]、**超捷股份**[citation:2][citation:5]、**斯瑞新材**[citation:5]、**高华科技**[citation:2][citation:5]。 |\n| **卫星制造与核心载荷** | 卫星批量生产组网，带动平台、通信载荷及核心芯片需求。 | **中国卫星**[citation:2][citation:5]、**天银机电**[citation:2][citation:5]、**臻镭科技**[citation:2]、**国博电子**[citation:2]、**航天环宇**[citation:2][citation:5]。 |\n| **上游材料与核心部件** | 火箭可回收与卫星轻量化，提升对特种材料、高端部件的需求。 | **光威复材**[citation:2][citation:9]、**菲利华**[citation:2]、**银邦股份**[citation:2][citation:5]、**西部材料**[citation:2][citation:5]。 |\n| **地面设备与测运控** | 卫星数量激增，驱动地面站、终端和测控服务需求。 | **海格通信**[citation:2]、**中国卫通**[citation:2]、**震有科技**[citation:2]、**航天宏图**[citation:2][citation:5]。 |\n\n### 💎 总结\n总的来说，2026年火箭发射计划的核心是 **“验证可回收，突破运力瓶颈”**，这标志着行业正式从技术验证迈向商业化和规模化[citation:3][citation:7]。\n\n从投资角度看，应重点关注深度绑定商业火箭和卫星供应链的上市公司[citation:3]，特别是**火箭核心配套**和**卫星核心载荷**这两个高景气、高价值的环节[citation:2][citation:4]。随着发射任务密集执行，相关公司的业绩能见度有望持续提升。\n\n如果你想深入了解某一特定火箭型号（如“智神星一号”）的技术细节，或对产业链中某个细分领域（如“卫星激光通信”）的投资逻辑有更多疑问，我可以为你提供更详细的信息。"
+          }
+        ]
+      }
+    },
+    "19": {
+      "id": "19",
+      "parent": "18",
+      "children": [
+        "20"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-30T14:38:50.280000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "中国申报的20万个卫星轨道，这类卫星归档总量有多少？还有多少没被申请"
+          }
+        ]
+      }
+    },
+    "20": {
+      "id": "20",
+      "parent": "19",
+      "children": [
+        "21"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-30T14:38:50.282000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "http://finance.people.com.cn/BIG5/n1/2026/0119/c1004-40648216.html",
+                "title": "20萬顆衛星申報 開啟中國商業航天總動員",
+                "snippet": "2025年12月29日，中國向國際電信聯盟（ITU）一次性提交20.3萬顆低軌衛星頻軌資源申請，引爆全球航天界。資本市場反應更為直接，A股商業航天板塊連續大漲，市場仿佛已窺見下一個“人工智能”級別的產業浪潮。",
+                "cite_index": 1,
+                "published_at": 1768752000.0,
+                "site_name": "人民网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/people.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.chinanews.com.cn/gn/2026/01-30/10562194.shtml",
+                "title": "20万颗卫星申报背后：雄心与现实",
+                "snippet": "2025年末，我国向国际电信联盟(ITU)申报超20万颗卫星频轨资源的消息引发关注，申报数量之多被认为“史无前例”。 当前，以卫星互联网为代表的低轨卫星应用成为各国关注的焦点 ... 占据更多轨道、频率资源。此次申报自然是在资源竞争中的一次“卡位”...",
+                "cite_index": 2,
+                "published_at": null,
+                "site_name": "中国新闻网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chinanews.com.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.chinatimes.com/realtimenews/20260124003192-260409?chdtv",
+                "title": "頻軌先到先得、發射拚速度 大陸太空強國路線圖全面展開 - 兩岸",
+                "snippet": "2026年開年，商業太空領域火熱，從發射場一路「熱」至資本市場。1月19日，在海南商業太空發射場，長征十二號運載火箭成功將衛星互聯網低軌19組衛星送入預定軌道。此前不久...",
+                "cite_index": 3,
+                "published_at": 1769270400.0,
+                "site_name": "中時新聞網",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chinatimes.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://big5.news.cn/gate/big5/www.news.cn/tech/20260112/fcfaf74691dc49d9b1d7d99cac61b3bb/c.html",
+                "title": "我國新增超20萬顆衛星申請",
+                "snippet": "11日，國際電信聯盟（ITU）官網顯示，2025年12月25日到31日期間，我國正式向ITU提交新增20.3萬顆衛星的頻率與軌道資源申請，覆蓋14個衛星星座，包括中低軌衛星。據統計...",
+                "cite_index": 4,
+                "published_at": 1768147200.0,
+                "site_name": "新华网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/news.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://eu.36kr.com/zh/p/3638753406405761",
+                "title": "史无前例！揭秘我国20万颗卫星申报背后的“大棋局”",
+                "snippet": "更引人瞩目的是我国申报的卫星规模，总数突破20万颗。申报主体分布广泛，既包括中国星网、上海垣信等专业卫星运营商，银河航天、国电高科等商业航天企业，也有中国电信、中国移动等电信运营商。",
+                "cite_index": 5,
+                "published_at": 1768320000.0,
+                "site_name": "36kr",
+                "site_icon": "https://cdn.deepseek.com/site-icons/36kr.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://views.ce.cn/view/ent/202601/t20260126_2726910.shtml",
+                "title": "向太空要空间",
+                "snippet": "不久前，我国向国际电信联盟提交新增20.3万颗卫星的频率与轨道资源申请，覆盖14个卫星星座，创下我国申报数量新纪录。低轨空间容量有限，卫星轨道与频率遵循“先申先得”原则，大规模申报的背后，是对未来产业空间的提前布局。",
+                "cite_index": 6,
+                "published_at": 1769356800.0,
+                "site_name": "中国经济网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/ce.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.i-media.tw/Article/Detail/44056",
+                "title": "太空「圈地」先到先得？陸一次申報逾20萬顆低軌衛星 | i-media 愛傳媒",
+                "snippet": "2025年年底，中國大陸向國際電信聯盟（ITU）一次性申報超過20萬顆衛星的軌道與頻率資源，引發國際航太與通訊產業高度關注。申報數量之龐大，被外界形容為「史無前例」，也再度凸顯低軌衛星資源競逐已進入白熱化階段。",
+                "cite_index": 7,
+                "published_at": 1769443200.0,
+                "site_name": "I-media",
+                "site_icon": "https://cdn.deepseek.com/site-icons/i-media.tw",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.binance.me/zh-CN/square/post/35230090993089",
+                "title": "一转眼就长大 (@Square-Creator-573e04ab420a)的见解",
+                "snippet": "中国此前已陆续申报约5.13万颗低轨卫星，此次新增20万颗的申报，直接锁定了未来发展的核心资源 ... 频轨申请提交后，需在7年内发射首颗卫星，并在后续7年内完成全部部署，否则资源将自动失效。",
+                "cite_index": 8,
+                "published_at": 1768665600.0,
+                "site_name": "Binance",
+                "site_icon": "https://cdn.deepseek.com/site-icons/binance.me",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://stock.10jqka.com.cn/hks/20260128/c674374204.shtml",
+                "title": "目标20万颗：中国“批量造星”时代来临",
+                "snippet": "据国家航天局在2026年1月公布数据显示，2025年全年入轨商业卫星311颗，占比我国全年入轨卫星总数84%。 如果以2025年的部署标准来计算，完成20万颗的部署目标恐怕有些“天方夜谭”。然而在政策引导及行业创新的驱动下...",
+                "cite_index": 9,
+                "published_at": 1769529600.0,
+                "site_name": "同花顺财经",
+                "site_icon": "https://cdn.deepseek.com/site-icons/10jqka.com.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://finance.people.com.cn/BIG5/n1/2026/0119/c1004-40647887.html",
+                "title": "我國為何一口氣申報20萬顆衛星",
+                "snippet": "低軌軌道與頻譜資源具有物理稀缺性和不可再生性。當前技術下低軌衛星的安全部署上限僅約10萬顆，最樂觀的估算也就17.5萬顆，而全球申報總量早已突破這一閾值。各國都在加速衛星申報布局...",
+                "cite_index": 10,
+                "published_at": 1768752000.0,
+                "site_name": "人民网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/people.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "好的，用户想知道我国20万颗卫星申报总量有多少、还剩多少没被申请，这涉及到全球空间资源的竞争格局。我需要从总量估算、已申报规模和剩余空间几个角度来分析。\n\n我打算先说明近地轨道容量的有限性，这是理解问题的前提。然后分析全球目前的申报态势，最后探讨\"未申请\"空间的含义。\n\n根据搜索结果，多个权威信息源提供了明确数据。[citation:1]指出基于技术和安全间距，低轨可安全部署卫星上限仅约10万颗，全球规划总量已突破此阈值。[citation:3]提到近地轨道最多容纳约17.5万颗卫星，而全球各国向ITU申报总量已远超这一上限。\n\n关于中国申报的具体情况，[citation:4]和[citation:5]确认中国此次申报了20.3万颗卫星，其中无线电创新院一家就申报了19.3万颗。其他申报主体还包括中国星网、中国移动、垣信卫星等[citation:4]。\n\n全球其他主要申报方面，[citation:5]提到已有多个国家申报了单份规模超10万颗的卫星网络资料，如MARVEL SPACE COMMUNICATIONS申报了17万颗，E-SPACE和KEPLER COMMUNICATIONS各申报了11万颗。而[citation:2]则指出SpaceX的\"星链\"计划申报数量已从最初的4425颗攀升至超过4.2万颗，最新的数字更是达到7.2万颗。\n\n综合这些数据，我可以给用户一个清晰的对比。考虑到这些权威信息源的表述相对一致，我准备用表格来直观展示全球主要申报方的数据，这样能让用户更清楚地了解当前竞争态势。\n\n在回答的最后，我需要特别强调\"未申请空间\"的实际含义，因为真正的竞争不仅在于物理空间，更在于稀缺的频谱资源。[citation:2]和[citation:5]都提到了这一点，认为中国此次大规模申报更多是战略性\"资源占位\"和\"战略储备\"，为未来发展预留资源池。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "关于中国申报的20万颗卫星对应的“轨道”总量，以及还有多少没被申请，**首先需要明确一个核心事实：近地轨道（特别是低轨道）的物理容量是有限的，并非“取之不尽”**。以下是根据现有信息，对全球低轨空间容量和竞争态势的梳理。\n\n### 🛰️ 全球近地轨道容量上限\n业内普遍认为，基于当前技术水平和轨道安全间距要求，低地球轨道（距地表约200公里至2000公里）能**安全、有效部署的卫星数量存在明确上限**。但这个上限数值有多种估算，主要观点有：\n*   **较保守估算**：可安全部署卫星的上限约**10万颗**[citation:1][citation:10]。\n*   **较乐观估算**：最多可容纳约**17.5万颗**卫星[citation:3][citation:10]。\n*   **另一种观点**：结合技术与频率等因素限制，容量大概在**6万颗**左右[citation:2][citation:5]。\n\n**关键结论是：无论按哪种估算，全球已申报的卫星计划总量早已远超这些上限。**\n\n### 📄 全球主要低轨卫星申报态势\n以下表格汇总了主要国家和公司的公开申报数据，可以直观看到竞争态势：\n\n| 申报方 | 国家/地区 | 申报规模（约） | 状态与备注 |\n| :--- | :--- | :--- | :--- |\n| **中国（2025年底最新申报）** | 中国 | **20.3万颗** | 一次性集中申报，其中**无线电创新院**申报的**CTC-1/2星座占19.3万颗**[citation:4][citation:5]。 |\n| **SpaceX（星链）** | 美国 | **7.2万颗** (已获批超4万颗) | 正在部署中，已是全球最大在轨星座[citation:2][citation:5]。 |\n| **OneWeb** | 英国 | 曾申请**4.8万颗** | 目前实际在轨约600颗[citation:2]。 |\n| **亚马逊（柯伊伯计划）** | 美国 | **超3200颗** | 正在部署中。 |\n| **其他多国申报** | 如卢旺达、法国等 | **单份超10万颗** | 例如，已有公司申报了**17万颗**、**11万颗**等巨型星座[citation:5][citation:10]。 |\n\n### 🔭 “还有多少没被申请？”——如何理解\n1.  **物理空间 vs 可用资源**：简单说，**优质的轨道和频率资源基本已被“瓜分殆尽”**。真正稀缺的是能实现高效通信且互不干扰的**特定频段**。一旦某个频率被使用，相邻频段也可能因干扰而无法使用[citation:2]。\n2.  **申报不等于实际占用**：根据国际电信联盟（ITU）“先申报先协调”的规则，大规模申报是为了获得未来协调、使用资源的**“优先谈判权”** 和 **“战略储备”**[citation:2][citation:5]。最终实际发射的数量，会根据技术、成本、市场需求和国际协调结果动态调整，可能远少于申报数[citation:4]。\n3.  **中国的战略意图**：中国此次超大规模申报，核心目的就是在“先到先得”的规则下，为未来数十年的发展**锁定尽可能多的轨道和频率“资源池”**，确保在太空互联网和6G竞争中拥有战略基础[citation:1][citation:5][citation:10]。这更多是一种**战略性的“资源占位”和前瞻布局**。\n\n总结来说，从纯粹的物理轨道来看，近地轨道仍有空间，但从**可用的、有商业价值的优质轨道和频率资源**角度看，全球竞争已进入白热化阶段，剩余未申请的、可自由使用的“黄金”资源已经非常稀少。各国正在通过申报进行战略卡位，未来真正的挑战在于将纸面申报转化为实际的发射和部署能力。\n\n如果你想进一步了解中国此次申报的20.3万颗卫星具体需要满足哪些发射时间表，或者主要面临哪些挑战，我可以为你提供更详细的分析。"
+          }
+        ]
+      }
+    },
+    "21": {
+      "id": "21",
+      "parent": "20",
+      "children": [
+        "22"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-30T14:40:48.387000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "中国这次申报的20万颗计划啥时候能获得审批结果，可能获批多少》"
+          }
+        ]
+      }
+    },
+    "22": {
+      "id": "22",
+      "parent": "21",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-30T14:40:48.389000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://big5.news.cn/gate/big5/www.news.cn/tech/20260112/fcfaf74691dc49d9b1d7d99cac61b3bb/c.html",
+                "title": "我國新增超20萬顆衛星申請",
+                "snippet": "11日，國際電信聯盟（ITU）官網顯示，2025年12月25日到31日期間，我國正式向ITU提交新增20.3萬顆衛星的頻率與軌道資源申請，覆蓋14個衛星星座，包括中低軌衛星。據統計...",
+                "cite_index": 1,
+                "published_at": 1768147200.0,
+                "site_name": "新华网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/news.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://dzh.com.cn/index/detail?mod=txs&url=/wap/data/news/txs/2026/01/511683.json",
+                "title": "申请数量超20万颗 我国向国际电信联盟申报卫星星座规划出炉",
+                "snippet": "日前，国际电信联盟（ITU）官网披露的最新数据显示，2025年12月，我国共向ITU申报了总数超20万颗的超大规模卫星星座部署规划，涵盖约14个星座，创下我国卫星星座申报数量的新纪录。",
+                "cite_index": 2,
+                "published_at": null,
+                "site_name": "Dzh",
+                "site_icon": "https://cdn.deepseek.com/site-icons/dzh.com.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.ofcom.org.uk/cy/spectrum/space-and-satellites/updates-to-procedures-for-the-management-of-satellite-filings/",
+                "title": "Consultation: Updates to Procedures for the management of satellite filings",
+                "snippet": "This process, the management of satellite filings, takes place within a framework of international rules operated by the International Telecommunication Union (ITU). ... We publish Procedures which applicants must follow when applying for a satellite filing and which set out ongoing requirements for satellite operators. ... This document consults on our propos...",
+                "cite_index": 3,
+                "published_at": 1743264000.0,
+                "site_name": "Ofcom",
+                "site_icon": "https://cdn.deepseek.com/site-icons/ofcom.org.uk",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://fundrwd.entiebank.com.tw/w/wp/wp05A.djhtm?a=%7BE3F1297E-F1E6-47E5-A996-8D54ABAC8A8F%7D&c=NA",
+                "title": "新聞本文",
+                "snippet": "SpaceX原先申請發射近30,000顆Starlink衛星，但目前僅獲FCC核准其中15,000顆。依據許可條件，SpaceX須於2028年12月前完成部署50%衛星並投入運作，其餘須於2031年底前完成，另外須在2027年11月前履行部署7,500顆第一代Starlink衛星。",
+                "cite_index": 4,
+                "published_at": 1768147200.0,
+                "site_name": "Entiebank",
+                "site_icon": "https://cdn.deepseek.com/site-icons/entiebank.com.tw",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://lifeboat.com/blog/page/6426?s&background=white%5C%5C%27",
+                "title": "Lifeboat Foundation News Blog - Page 6426",
+                "snippet": "According to the FCC order, OneWeb must launch and operate 50% of the maximum number of proposed space stations, or 1,000 satellites, by Aug. 26, 2026. The remaining satellites must be launched and operated by Aug. 26...",
+                "cite_index": 5,
+                "published_at": null,
+                "site_name": "Lifeboat Foundation",
+                "site_icon": "https://cdn.deepseek.com/site-icons/lifeboat.com",
+                "query_indexes": [
+                  4
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://finance.people.com.cn/BIG5/n1/2026/0119/c1004-40648216.html",
+                "title": "20萬顆衛星申報 開啟中國商業航天總動員",
+                "snippet": "2025年12月29日，中國向國際電信聯盟（ITU）一次性提交20.3萬顆低軌衛星頻軌資源申請，引爆全球航天界。資本市場反應更為直接，A股商業航天板塊連續大漲，市場仿佛已窺見下一個“人工智能”級別的產業浪潮。",
+                "cite_index": 6,
+                "published_at": 1768752000.0,
+                "site_name": "人民网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/people.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.hkcna.hk/docDetail.jsp?id=101214400&channel=2813",
+                "title": "中國申請20萬顆衛星頻軌資源 競逐低軌戰略高地 | 電訊",
+                "snippet": "目前，中國已獲批低軌衛星總數達5.13萬顆，包括中國星網GW星座（12992顆）、垣信千帆星座（超1.5萬顆）等。相較之下，SpaceX已發射超1萬顆“星鏈”衛星，申請第二代系統共4.2萬顆。",
+                "cite_index": 7,
+                "published_at": 1768147200.0,
+                "site_name": "香港新聞網",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hkcna.hk",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://gxt.fujian.gov.cn/zmhd/cjwt/wxd/202504/t20250403_6796943.htm",
+                "title": "投入使用卫星网络需履行国际电联规定的卫星网络申报、协调、登记以及维护等阶段有哪些程序？",
+                "snippet": "在卫星网络申报阶段，由卫星操作单位编制相关材料，通过工业和信息化部向国际电联报送提前公布资料、协调资料、规划频段PART A资料等，以及相应开展与之相关的资料补充、修改和澄清等工作。首次申报卫星网络的...",
+                "cite_index": 8,
+                "published_at": 1742400000.0,
+                "site_name": "Fujian",
+                "site_icon": "https://cdn.deepseek.com/site-icons/fujian.gov.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.199it.com/archives/1806151.html",
+                "title": "FCC：2026年SpaceX星链卫星总数将达15000颗",
+                "snippet": "根据FCC要求，SpaceX必须在2028年12月1日之前，将获批第二代卫星数量的至少50%发射入轨、部署至指定轨道并投入运营，其余卫星必须在2031年12月前完成发射。同时...",
+                "cite_index": 9,
+                "published_at": 1768147200.0,
+                "site_name": "199it",
+                "site_icon": "https://cdn.deepseek.com/site-icons/199it.com",
+                "query_indexes": [
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://ieknet.iek.org.tw/ieknews/news_open.aspx?actiontype=ieknews&indu_idno=3&nsl_id=a1a2c346da794670aabe630004f35771",
+                "title": "低軌衛星商轉 中華電搶頭香|資通訊|產業新聞|產科國際所【IEK產業情報網】",
+                "snippet": "中華電信4日宣布，6月3日已取得政府核可的OneWeb低軌衛星固定通信商用許可，OneWeb即刻商轉，成為國內首家獲得此許可的業者，領航台灣低軌衛星通信時代正式到來。",
+                "cite_index": 10,
+                "published_at": null,
+                "site_name": "IEK產業情報網",
+                "site_icon": "https://cdn.deepseek.com/site-icons/iek.org.tw",
+                "query_indexes": [
+                  4
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "好的，用户之前详细了解了中国申报20万颗卫星的情况，现在想知道这个计划什么时候能出审批结果以及可能获批多少，这个问题直接关系到中国未来的太空资源布局和产业链发展。\n\n我需要从两个方面来回答：首先是国际电联（ITU）的审批流程和时间，然后是获批数量的分析。如果搜索结果中有相关信息，我会构建一个清晰的解释框架。\n\n根据搜索结果[citation:1][citation:6][citation:7]都来自权威媒体，详细说明了这次申报的具体情况，包括申报主体、数量规模和时间信息。[citation:7]还提到中国目前已获批低轨卫星总数为5.13万颗，这对分析获批可能性很有帮助。[citation:8]来自福建省工信厅官网，详细解释了ITU的卫星网络申报流程，权威性很高，这对理解审批过程非常有用。\n\n不过关于\"什么时候能获得审批结果\"这个问题，所有搜索结果都没有提供具体的时间表。[citation:1][citation:6]都提到ITU的申报只是第一步，后续还有协调、登记等复杂流程，这暗示审批可能需要较长时间。\n\n关于可能获批多少，[citation:6]提到业内共识是低轨可安全部署卫星的上限约10万颗，而全球规划总量已突破这一阈值。[citation:7]提到中国目前已获批5.13万颗，包括星网GW星座和千帆星座等。结合这些信息，我可以分析获批数量可能受到物理上限、国际协调和技术能力等多重因素影响。\n\n我准备先解释ITU的复杂流程，说明为什么没有简单的时间表，然后用表格分析影响获批数量的关键因素，最后给出相对理性的预期。这样的结构应该能全面回答用户的问题。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "关于你关心的中国20万颗卫星申报何时出结果及能获批多少，这是一个涉及复杂国际规则和长期竞争的问题。\n\n首先需要明确的是，**这不是一个“提交后等待批复”的简单流程**。根据国际电信联盟（ITU）的规则，提交申报资料只是第一步，后续是漫长的国际协调和谈判过程，没有固定的“审批截止日”[citation:1][citation:6][citation:8]。\n\n### 📄 ITU申报的核心流程与关键时间点\n根据福建省工信厅的官方说明，ITU的卫星网络启用流程大致分为申报、协调、登记和维护几个阶段[citation:8]。\n*   **申报阶段**：中国已于2025年12月完成了第一步，即向ITU提交了卫星网络资料[citation:1][citation:7]。\n*   **协调阶段**：这是最关键且最耗时的一步。接下来，工信部将组织申报单位，与可能受影响的**其他国家卫星网络和地面无线电业务**进行技术磋商，以确保频率共用兼容[citation:8]。这个过程可能持续数年，涉及大量双边或多边谈判。\n*   **登记与维护阶段**：完成协调后，资料才会被登记进国际频率总表，取得国际认可地位[citation:8]。之后还需按计划发射卫星来“维护”这些资源的权利。\n\n因此，我们无法得知确切的“结果出炉”日期，但中国在提交申请后，需要遵循ITU设定的 **“履约倒计时”**：\n| 关键履约节点 | ITU规定要求（从提交申请起算） |\n| :--- | :--- |\n| **首星入轨** | **7年**内发射首颗卫星并稳定运行90天[citation:6][citation:7]。 |\n| **初步部署** | **9年**内部署完成申报总量的10%[citation:2][citation:6]。 |\n| **全部部署** | **14年**内完成全部申报卫星的部署[citation:2][citation:6][citation:7]。 |\n> 注：若未能在规定时间内履约，对应资源的优先权将按比例收回[citation:6]。目前已知中国此前已获批的低轨卫星总数约为5.13万颗[citation:7]。\n\n### 📈 关于“可能获批多少”的分析\n“获批”不是一个最终数字，而是在动态协调中逐步确定的。最终的部署规模会受多重因素影响：\n1.  **物理上限与国际竞争**：业内共识是，基于安全间距，低轨可安全部署的卫星上限约**10万颗**，而全球各国的规划总量早已远超此限[citation:6]。包括SpaceX（已申报数万颗）、OneWeb等在内的激烈竞争，使得任何超大星座计划都必须在国际协调中做出调整[citation:6][citation:9]。\n2.  **战略意图与技术经济现实**：此次超大规模申报的核心目的是在“先申报先协调”的规则下，**抢占未来发展的频谱与轨道“战略资源池”**，为国家长远发展预留空间[citation:2][citation:6]。最终的**实际部署数量**会根据技术成熟度、发射成本、市场需求和国际协调结果动态优化，通常会远低于申报数量[citation:1][citation:2]。\n3.  **国内产业能力**：最终能落地多少，根本上取决于中国的**火箭发射能力**和**卫星制造成本**。要支撑万星组网，必须实现高频次、低成本的发射[citation:6]。\n\n### 💎 总结与展望\n总的来说，这20.3万颗卫星的申报，其战略意义更在于**“锁定谈判席位”和“争取发展空间”**，而非一个必须完成的硬性指标。没有简单的“审批结果日”，获批规模也难以预测，它将是未来十多年国际博弈、技术突破和产业发展的综合结果。\n\n可以确定的是，这场太空资源竞赛已经为中国商业航天产业链（包括火箭制造、卫星生产、地面设备等）设定了一个明确的长期目标，并开启了严格的履约倒计时[citation:6]。\n\n如果你对ITU具体的协调规则，或者中国目前已获批在轨的卫星星座（如星网GW星座、千帆星座）的具体进展想了解更多，我可以为你进一步介绍。"
+          }
+        ]
+      }
+    }
+  }
+}

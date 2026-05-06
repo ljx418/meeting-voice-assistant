@@ -20,6 +20,7 @@ def get_builtin_tools(
     *,
     policy_evaluator: Any = None,
     approval_checker: Optional[Callable[[str], bool]] = None,
+    approval_requester: Optional[Callable[[str, Any, dict[str, Any]], dict[str, Any]]] = None,
 ) -> List[Tool]:
     """Get all builtin tools for harnessOS.
 
@@ -34,6 +35,7 @@ def get_builtin_tools(
             func=func,
             policy_evaluator=policy_evaluator,
             approval_checker=approval_checker,
+            approval_requester=approval_requester,
         )
 
     return [

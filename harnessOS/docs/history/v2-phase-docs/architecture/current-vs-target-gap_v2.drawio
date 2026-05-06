@@ -1,0 +1,163 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram id="current-vs-target-gap" name="Current vs Target Gap">
+    <mxGraphModel dx="1394" dy="901" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1950" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=28;fontStyle=1" value="harnessOS 当前架构 vs 目标架构差异图" vertex="1">
+          <mxGeometry height="50" width="980" x="310" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontColor=#4B5563" value="事实基线：Baseline v1.5-E + Phase 5-D 集成 MVP；下一阶段：Phase 6 / Phase 5-D hardening；目标：V3.0 可装配 Agent 工作流平台基座" vertex="1">
+          <mxGeometry height="40" width="1080" x="260" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="current_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=18;fontStyle=1" value="事实基线 / Baseline v1.5-E + Phase 5-D MVP" vertex="1">
+          <mxGeometry height="50" width="400" x="70" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=18;fontStyle=1" value="主要差距 / 待迁移能力" vertex="1">
+          <mxGeometry height="50" width="400" x="600" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="target_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=18;fontStyle=1" value="目标架构 / V2.0" vertex="1">
+          <mxGeometry height="50" width="400" x="1130" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_clients" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F9FF;strokeColor=#38BDF8;align=left;spacingLeft=12;fontSize=13" value="用户入口层&lt;br&gt;&lt;br&gt;• 普通 CLI 可调用模型&lt;br&gt;• harness run / headless CLI 已可用&lt;br&gt;• --oh Textual TUI 已接入&lt;br&gt;• Web / API 仍是骨架" vertex="1">
+          <mxGeometry height="95" width="400" x="70" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_gateway" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F9FF;strokeColor=#38BDF8;align=left;spacingLeft=12;fontSize=13" value="Gateway / 协议边界&lt;br&gt;&lt;br&gt;• apps/gateway 已去 ohmo 化&lt;br&gt;• RpcRequest / RpcResponse / GatewayEvent&lt;br&gt;• session.start/resume/list/read/transcript&lt;br&gt;• turn.start/continue/interrupt/retry&lt;br&gt;• artifact.register/list/get/read&lt;br&gt;• trace.list/get 已完成&lt;br&gt;• approval.request/list/get/approve/reject 已完成&lt;br&gt;• policy.evaluate 已完成&lt;br&gt;• pack.list/get 已完成&lt;br&gt;• connector.list/get/health 已完成&lt;br&gt;• job.list/get/cancel 已完成&lt;br&gt;• FastAPI app.state GatewayService + Depends&lt;br&gt;• /v1/runs + SSE + /v1/rpc&lt;br&gt;• stdio JSONL server" vertex="1">
+          <mxGeometry height="252.5" width="400" x="70" y="317.5" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_orch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F9FF;strokeColor=#38BDF8;align=left;spacingLeft=12;fontSize=13" value="编排层&lt;br&gt;&lt;br&gt;• Lead Orchestrator MVP&lt;br&gt;• DomainWorkflow Registry&lt;br&gt;• Pack Registry MVP&lt;br&gt;• meeting.workflow 已迁入 pack&lt;br&gt;• knowledge.workflow 已迁入 pack&lt;br&gt;• video.workflow 已迁入 pack&lt;br&gt;• workflow.list 可查看 pack 元数据&lt;br&gt;• pack.list/get 可查看五个 pack&lt;br&gt;• 普通会议音频路径可自动路由" vertex="1">
+          <mxGeometry height="170" width="400" x="70" y="602.5" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_runtime" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F9FF;strokeColor=#38BDF8;align=left;spacingLeft=12;fontSize=13" value="Runtime Adapter + Store&lt;br&gt;&lt;br&gt;• RuntimeHandle / RuntimeAdapter MVP&lt;br&gt;• SimpleRuntimeAdapter：invoke&lt;br&gt;• OpenHarnessRuntimeAdapter：stream / continue&lt;br&gt;• GatewayRuntimePool 通过 adapter start / close&lt;br&gt;• session.list/read/events/transcript Core 优先&lt;br&gt;• legacy snapshot + events.jsonl 保持兼容" vertex="1">
+          <mxGeometry height="120" width="400" x="70" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_exec" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F9FF;strokeColor=#38BDF8;align=left;spacingLeft=12;fontSize=13" value="执行与治理&lt;br&gt;&lt;br&gt;• workspace/kb/artifact 基础工具&lt;br&gt;• Tool Policy Guard 已包住 builtin tools&lt;br&gt;• Core engine tool loop 可执行前阻断&lt;br&gt;• Artifact Registry 已登记会议产物&lt;br&gt;• TraceStore 已记录 turn/tool/artifact/workflow&lt;br&gt;• ApprovalStore 已记录 pending/approved/rejected&lt;br&gt;• PolicyEvaluator 已做 turn 预检审批 gate&lt;br&gt;• RetryStore 已支持 approved 后 turn.retry 续跑&lt;br&gt;• Secret Masker 已接入持久化边界&lt;br&gt;• Local persistence 已加锁 + 原子写" vertex="1">
+          <mxGeometry height="190" width="400" x="70" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_protocol" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=12;fontSize=13" value="协议差距&lt;br&gt;&lt;br&gt;已完成：本地 RPC + FastAPI /v1/runs + SSE&lt;br&gt;已完成：artifact / trace / approval / policy / retry&lt;br&gt;已完成：Core protocol models + CoreAppService&lt;br&gt;已完成：Session / Thread / Turn / Item / Artifact / Trace / Approval / Retry 基础对象&lt;br&gt;已完成：session start/close Core-native mutation&lt;br&gt;已完成：turn/item Core-native mutation&lt;br&gt;已完成：session.get / thread.list / turn.get / turn.items&lt;br&gt;已完成：core.artifact.list / core.trace.list / core.approval.list / core.retry.list&lt;br&gt;需要补：Core-native RPC router" vertex="1">
+          <mxGeometry height="220" width="400" x="600" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_runtime" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=12;fontSize=13" value="运行时剩余差距&lt;br&gt;&lt;br&gt;已完成：RuntimeBundle 优先 + Simple fallback&lt;br&gt;已完成：snapshot + events.jsonl + transcript&lt;br&gt;已完成：turn.continue -&gt; continue_pending&lt;br&gt;已完成：active turn cancellation&lt;br&gt;已完成：policy-blocked turn.retry&lt;br&gt;需要补：通用 workflow retry / ToolRegistry 幂等" vertex="1">
+          <mxGeometry height="130" width="400" x="600" y="435" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_domain" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=12;fontSize=13" value="业务差距&lt;br&gt;&lt;br&gt;已完成：meeting.* RPC + turn.start meeting workflow&lt;br&gt;已完成：knowledge workflow MVP&lt;br&gt;已完成：Lead Orchestrator + DomainWorkflow Registry&lt;br&gt;已完成 MVP：Pack Visibility &amp; Manifest&lt;br&gt;已完成：meeting / knowledge / video_studio active pack&lt;br&gt;已完成：meeting/knowledge/video workflow 实现迁入 pack&lt;br&gt;已完成：Meeting MCP connector 实现迁入 pack&lt;br&gt;已完成：FunASR MCP connector contract + gated stdio&lt;br&gt;已完成：Meeting artifact lineage 查询 MVP&lt;br&gt;已完成 MVP：DomainPack 2.0 / Typed DAG / Pack-owned agents&lt;br&gt;已完成 MVP：Knowledge data_service_mcp connector contract/stub + gated stdio&lt;br&gt;已完成 MVP：Meeting -&gt; Knowledge cross-domain MCP&lt;br&gt;延期保留：asset/render manifest scaffold" vertex="1">
+          <mxGeometry height="190" width="400" x="600" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_infra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=12;fontSize=13" value="基础设施差距&lt;br&gt;&lt;br&gt;已完成 MVP：Artifact / Trace / Approval / Policy / Retry&lt;br&gt;已完成 MVP：Job Record &amp; Tracking&lt;br&gt;已完成 MVP：Background Job Worker / job.events&lt;br&gt;已完成 MVP：Tool Execution Guard&lt;br&gt;已完成 MVP：Runtime Adapter Boundary&lt;br&gt;已完成：CoreSQLiteStore + CoreAppService facade&lt;br&gt;已完成 MVP：Core-native session / event store&lt;br&gt;已完成代码层：Pack Assembly MVP&lt;br&gt;已完成 MVP：Connector Registry&lt;br&gt;已完成 MVP：Artifact lineage query&lt;br&gt;已完成 MVP：Core-native RPC router / tool approval 自动化&lt;br&gt;已完成：funasr_mcp descriptor + MCP stdio entry&lt;br&gt;已完成 MVP：Connector Execution Runtime + gated MCP stdio&lt;br&gt;延期保留：remote_comfyui connector descriptor&lt;br&gt;需要补：connector timeout / cancel / retry hardening&lt;br&gt;需要补：通用 DAG runtime / agent lifecycle" vertex="1">
+          <mxGeometry height="247" width="400" x="600" y="773" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_quality" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=12;fontSize=13" value="工程化差距&lt;br&gt;&lt;br&gt;已完成：gateway 协议单测&lt;br&gt;需要补：协议 golden tests、CLI 回归测试&lt;br&gt;会话恢复测试、工具事件测试、错误码与超时策略&lt;br&gt;清理双命名空间兼容风险" vertex="1">
+          <mxGeometry height="125" width="400" x="600" y="1030" as="geometry" />
+        </mxCell>
+        <mxCell id="target_clients" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;align=left;spacingLeft=12;fontSize=13" value="P1 Client / Gateway Plane&lt;br&gt;&lt;br&gt;• CLI / Headless&lt;br&gt;• Web / Admin Console&lt;br&gt;• Bot / Automation&lt;br&gt;• Gateway 只做入口适配" vertex="1">
+          <mxGeometry height="95" width="400" x="1130" y="195" as="geometry" />
+        </mxCell>
+        <mxCell id="target_gateway" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;align=left;spacingLeft=12;fontSize=13" value="P2 Protocol App Server Plane&lt;br&gt;&lt;br&gt;• Core-native JSON-RPC&lt;br&gt;• SSE / stdio JSONL / WS Proxy&lt;br&gt;• Method Router / Event Stream&lt;br&gt;• Thread / Turn / Item wire model" vertex="1">
+          <mxGeometry height="105" width="400" x="1130" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="target_adapter" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;align=left;spacingLeft=12;fontSize=13" value="P3 Harness Core Plane&lt;br&gt;&lt;br&gt;• Session / Thread / Turn / Item&lt;br&gt;• Pack Assembly Kernel&lt;br&gt;• Agent Registry / Typed DAG metadata&lt;br&gt;• Policy / Approval / Retry / Trace&lt;br&gt;• Job Service / Artifact Service" vertex="1">
+          <mxGeometry height="115" width="400" x="1130" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="target_runtime" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;align=left;spacingLeft=12;fontSize=13" value="P4 Runtime Adapter Plane&lt;br&gt;&lt;br&gt;• OpenHarness Adapter&lt;br&gt;• SimpleRuntime Adapter&lt;br&gt;• Future DeepAgents Adapter&lt;br&gt;• Tool metadata / approval injection" vertex="1">
+          <mxGeometry height="105" width="400" x="1130" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="target_domain" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;align=left;spacingLeft=12;fontSize=13" value="P5 Domain Pack Plane&lt;br&gt;&lt;br&gt;• DomainPack 2.0&lt;br&gt;• Knowledge Pack primary&lt;br&gt;• Typed DAG workflow templates&lt;br&gt;• Pack-owned agents / roles&lt;br&gt;• skills / policy bundles / artifact schemas&lt;br&gt;• data_service_mcp connector contract" vertex="1">
+          <mxGeometry height="115" width="400" x="1130" y="835" as="geometry" />
+        </mxCell>
+        <mxCell id="target_store" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;align=left;spacingLeft=12;fontSize=13" value="P6 Connector / Tool / Store Plane&lt;br&gt;&lt;br&gt;• Local MCP / Native Tools&lt;br&gt;• data_service_mcp tool contracts&lt;br&gt;• workspace / source / build lifecycle&lt;br&gt;• Connector Registry + health / capabilities&lt;br&gt;• SQLite first / future pluggable stores" vertex="1">
+          <mxGeometry height="115" width="400" x="1130" y="975" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_flow1" edge="1" parent="1" source="cur_clients" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0284C7;endArrow=block;endFill=1;" target="cur_gateway">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_flow2" edge="1" parent="1" source="cur_gateway" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0284C7;endArrow=block;endFill=1;" target="cur_orch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_flow3" edge="1" parent="1" source="cur_orch" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0284C7;endArrow=block;endFill=1;" target="cur_runtime">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_flow4" edge="1" parent="1" source="cur_runtime" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0284C7;endArrow=block;endFill=1;" target="cur_exec">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="target_flow1" edge="1" parent="1" source="target_clients" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;endArrow=block;endFill=1;" target="target_gateway">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="target_flow2" edge="1" parent="1" source="target_gateway" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;endArrow=block;endFill=1;" target="target_adapter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="target_flow3" edge="1" parent="1" source="target_adapter" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;endArrow=block;endFill=1;" target="target_runtime">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="target_flow4" edge="1" parent="1" source="target_runtime" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;endArrow=block;endFill=1;" target="target_domain">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="target_flow5" edge="1" parent="1" source="target_domain" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16A34A;endArrow=block;endFill=1;" target="target_store">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_arrow1" edge="1" parent="1" source="cur_gateway" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;dashed=1;endArrow=block;endFill=1;fontSize=12;fontColor=#92400E;" target="gap_protocol" value="协议已起步">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_arrow2" edge="1" parent="1" source="cur_runtime" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;dashed=1;endArrow=block;endFill=1;fontSize=12;fontColor=#92400E;" target="gap_runtime" value="需升级运行时池">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="570" y="830" />
+              <mxPoint x="570" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gap_arrow3" edge="1" parent="1" source="cur_orch" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;dashed=1;endArrow=block;endFill=1;fontSize=12;fontColor=#92400E;" target="gap_domain" value=" ">
+          <mxGeometry relative="1" x="-0.0013" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="535" y="680" />
+              <mxPoint x="535" y="640" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gap_arrow4" edge="1" parent="1" source="gap_protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;dashed=1;endArrow=block;endFill=1;fontSize=12;fontColor=#92400E;" target="target_gateway" value="补齐后进入目标边界">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1080" y="240" />
+              <mxPoint x="1080" y="398" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gap_arrow5" edge="1" parent="1" source="gap_runtime" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;dashed=1;endArrow=block;endFill=1;fontSize=12;fontColor=#92400E;" target="target_runtime" value="补齐后进入 Adapter">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1070" y="470" />
+              <mxPoint x="1070" y="710" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gap_arrow6" edge="1" parent="1" source="gap_domain" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;dashed=1;endArrow=block;endFill=1;fontSize=12;fontColor=#92400E;" target="target_domain" value="补齐后承载业务">
+          <mxGeometry relative="1" x="0.001" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1070" y="720" />
+              <mxPoint x="1070" y="930" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="priority" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=12;fontSize=13;arcSize=3;" value="整体开发计划&lt;br&gt;&lt;br&gt;已完成&lt;br&gt;Phase 0：协议骨架 / headless / session-turn / event log&lt;br&gt;Phase 1：Meeting MCP RPC + 真实音频验收 + 聊天自动编排 + Artifact + Workflow&lt;br&gt;Phase 2-A~F：Trace / Approval / Policy / Retry / Secret / Persistence&lt;br&gt;Phase 3-A：App lifecycle + GatewayService DI&lt;br&gt;Roadmap Phase 3-B：Core-native session / event store MVP&lt;br&gt;Roadmap Phase 3-C：Background Job Worker / job.events MVP&lt;br&gt;Roadmap Phase 3-D：Adapter 级治理注入 MVP&lt;br&gt;Roadmap Phase 3-E：Pack Assembly MVP&lt;br&gt;Roadmap Phase 3-F：Connector Registry MVP&lt;br&gt;Phase 4-A：Video Studio Pack MVP&lt;br&gt;Phase 4-B0：Domain Pack Workflow Loader&lt;br&gt;Phase 4-B1：Artifact Lineage Query MVP&lt;br&gt;Phase 4-B2：Remote ComfyUI scaffold 延期保留&lt;br&gt;Phase 4-C：Core-native RPC Router MVP&lt;br&gt;Phase 4-D：Tool-level Approval Automation MVP&lt;br&gt;Phase 5-A：DomainPack 2.0 Assembly Kernel + data_service_mcp Contract Stub MVP&lt;br&gt;Phase 5-B：Memory &amp; Session Intelligence MVP&lt;br&gt;Phase 5-C：Connector Execution Runtime MVP&lt;br&gt;Phase 5-D：Cross-domain MCP Workflow 集成 MVP&lt;br&gt;Review Cleanup Gate：代码检视集中清理 + Second Review Gate&lt;br&gt;Baseline v1.5-E：Protocol / Store / Pack Visibility / Job Tracking / Tool Guard / Runtime Adapter Boundary&lt;br&gt;V2.0：目标架构与开发计划文档已采纳&lt;br&gt;&lt;br&gt;剩余开发计划&lt;br&gt;Phase 5-D hardening：connector timeout / cancel / retryable failure / operation dashboard&lt;br&gt;Phase 6：Productization / Open Source / Commercial Readiness，冻结协议版本、扩展开发体验、发布与治理边界" vertex="1">
+          <mxGeometry height="480" width="1460" x="50" y="1170" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=18;fontStyle=1" value="开发阶段验收情况 / Roadmap Acceptance Matrix" vertex="1">
+          <mxGeometry height="45" width="1460" x="70" y="1660" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_done" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;align=left;spacingLeft=12;fontSize=12" value="已完成 / Done&lt;br&gt;&lt;br&gt;• Phase 0：CLI / API / RPC / stdio 最小闭环&lt;br&gt;• Phase 3-A：App lifecycle + GatewayService DI&lt;br&gt;• 验收要求：对应自动化回归通过，文档和 drawio 同步" vertex="1">
+          <mxGeometry height="225" width="350" x="70" y="1725" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_mvp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0F9FF;strokeColor=#0284C7;align=left;spacingLeft=12;fontSize=12" value="已完成 MVP / Done MVP&lt;br&gt;&lt;br&gt;• Phase 1：Meeting MCP + Artifact + Workflow&lt;br&gt;• Phase 2-A~F：Trace / Approval / Policy / Retry / Secret / Persistence&lt;br&gt;• Baseline v1.5-E：Pack Visibility、Job Tracking、Tool Guard、Runtime Boundary&lt;br&gt;• Roadmap 3-B：Core-native session/events 查询&lt;br&gt;• Roadmap 3-C：in-process worker + job.events" vertex="1">
+          <mxGeometry height="225" width="420" x="440" y="1725" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_next" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=12;fontSize=12" value="已完成 / Current&lt;br&gt;&lt;br&gt;• Phase 3-D：Adapter governance，默认路径已注入治理上下文&lt;br&gt;• Phase 3-E：Pack Assembly MVP，meeting/knowledge 由 manifest 装配，真实音频验收通过&lt;br&gt;• Phase 3-F：Connector Registry，connector.list/get/health 可用&lt;br&gt;• Phase 4-A：Video Studio 规划产物 MVP&lt;br&gt;• Phase 4-B1：Meeting artifact lineage query MVP&lt;br&gt;• Phase 4-B2：ComfyUI scaffold 延期保留&lt;br&gt;• Phase 4-C：Core-native RPC Router MVP&lt;br&gt;• Phase 4-D：Tool Approval Automation MVP&lt;br&gt;• Phase 5-A：DomainPack 2.0 / Knowledge-primary MVP&lt;br&gt;• Phase 5-B：Memory &amp; Session Intelligence MVP&lt;br&gt;• Phase 5-C 增量：funasr_mcp contract / MCP stdio entry&lt;br&gt;&lt;br&gt;下一步 / Next Roadmap&lt;br&gt;• Phase 5-C：真实 MCP client execution&lt;br&gt;• Phase 6：Productization / Open Source Readiness&lt;br&gt;• End-to-end connector execution deferred to Phase 5-C" vertex="1">
+          <mxGeometry height="275" width="350" x="880" y="1725" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_rule" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=12;fontSize=12" value="统一验收规则&lt;br&gt;&lt;br&gt;• 标准样本：fixtures/audio_samples/&lt;br&gt;• 验收脚本：scripts/e2e_meeting_validation.sh&lt;br&gt;• 当前未落地 fixture 前，本机真实音频只作为 local validation evidence&lt;br&gt;• 每阶段完成后清理外部会议产物和 .harnessos 记录" vertex="1">
+          <mxGeometry height="225" width="260" x="1270" y="1725" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

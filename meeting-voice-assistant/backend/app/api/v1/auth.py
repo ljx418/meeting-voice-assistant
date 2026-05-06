@@ -9,10 +9,12 @@
 - 开发模式：DEV_BYPASS_AUTH=true 时跳过认证
 """
 
+import secrets
 import uuid
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi.security import APIKeyHeader
 from pydantic import BaseModel, EmailStr, Field
 
 from app.config import config
@@ -31,6 +33,7 @@ from app.utils.logger import setup_logger
 logger = setup_logger("auth.api")
 
 router = APIRouter(prefix="/auth", tags=["认证"])
+api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 
 
 # ============ Request/Response Models ============
@@ -347,14 +350,13 @@ async def verify_ws_api_key(websocket, api_key: str) -> bool:
         return False
 
     # 获取配置的 API Key
-    configured_key = config.api.get("API_KEY") if hasattr(config, 'api') else None
+    configured_key = getattr(config.api, "api_key", None) if hasattr(config, "api") else None
 
     # 如果没有配置 API Key，验证总是失败
     if not configured_key:
         return False
 
-    # 简单比较
-    return api_key == configured_key
+    return secrets.compare_digest(api_key, configured_key)
 
 
 async def verify_ws_jwt_token(token: str) -> bool:
@@ -372,7 +374,7 @@ async def verify_ws_jwt_token(token: str) -> bool:
 
 # ============ HTTP 认证依赖 ============
 
-async def verify_api_key(api_key: str = Depends(lambda: None)) -> str:
+async def verify_api_key(api_key: Optional[str] = Depends(api_key_header)) -> str:
     """
     API Key 认证依赖
 
@@ -389,8 +391,26 @@ async def verify_api_key(api_key: str = Depends(lambda: None)) -> str:
             detail="API key required",
         )
 
-    configured_key = config.api.get("API_KEY") if hasattr(config, 'api') else None
-    if not configured_key or api_key != configured_key:
+    configured_key = getattr(config.api, "api_key", None) if hasattr(config, "api") else None
+    if not configured_key or not secrets.compare_digest(api_key, configured_key):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid API key",
+        )
+
+    return api_key
+
+
+async def verify_api_key_strict(api_key: Optional[str] = Depends(api_key_header)) -> str:
+    """API Key dependency that does not honor dev bypass."""
+    if not api_key:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="API key required",
+        )
+
+    configured_key = getattr(config.api, "api_key", None) if hasattr(config, "api") else None
+    if not configured_key or not secrets.compare_digest(api_key, configured_key):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid API key",

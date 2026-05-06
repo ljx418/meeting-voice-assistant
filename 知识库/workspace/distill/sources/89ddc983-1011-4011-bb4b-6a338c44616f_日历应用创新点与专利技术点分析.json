@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.1",
+  "source_id": "89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "日历应用创新点与专利技术点分析",
+  "title_flags": [],
+  "source_weight": 1.754,
+  "source_density_score": 1.0415,
+  "llm_enriched": false,
+  "tags": [
+    "日历应用创新点与",
+    "专利技术点分析",
+    "日历应用创新点与专利技术点分析"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "topic_candidate": 1
+  },
+  "units": [
+    {
+      "unit_id": "89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析:topic:1",
+      "kind": "topic_candidate",
+      "text": "日历应用创新点与专利技术点分析",
+      "importance": 0.9077,
+      "confidence": 0.7216600000000001,
+      "source_weight": 1.754,
+      "source_density_score": 1.0415,
+      "is_title_derived": true,
+      "is_llm_enriched": false,
+      "tags": [
+        "日历应用创新点与",
+        "专利技术点分析",
+        "日历应用创新点与专利技术点分析"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析:conclusion:1",
+      "kind": "conclusion",
+      "text": "日历应用创新点与专利技术点分析",
+      "importance": 0.84278,
+      "confidence": 0.62,
+      "source_weight": 1.754,
+      "source_density_score": 1.0415,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "日历应用创新点与",
+        "专利技术点分析",
+        "日历应用创新点与专利技术点分析"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/89ddc983-1011-4011-bb4b-6a338c44616f_日历应用创新点与专利技术点分析.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

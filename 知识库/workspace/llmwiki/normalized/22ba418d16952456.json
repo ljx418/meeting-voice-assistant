@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "22ba418d16952456",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/df24653d-37a5-43a0-9451-b7e0bae16163_mac电脑使用.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/22/22ba418d16952456.json",
+    "sha256": "6a63df89d12a5ee2b4abd73604b0c4fc97f83cc2e4355eca3af65b310444ccb4",
+    "content_hash": "9ca2d27d6ce4d0d0d6f97bc5427888c0785e1ee896b01d25e46ee108ce5c8bca",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "626bf57f-200f-4647-a930-a563d30e2acf",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "df24653d-37a5-43a0-9451-b7e0bae16163",
+      "locator": {
+        "kind": "json_path",
+        "path": "df24653d-37a5-43a0-9451-b7e0bae16163_mac电脑使用.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "873459f4-8c2b-4248-b53e-50b8907c65e3",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "mac电脑使用",
+      "locator": {
+        "kind": "json_path",
+        "path": "df24653d-37a5-43a0-9451-b7e0bae16163_mac电脑使用.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "14c578b1-c336-457c-923a-916581396a18",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "df24653d-37a5-43a0-9451-b7e0bae16163_mac电脑使用.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "11aaa6db-c1e5-419b-816e-6aae6af34c9d",
+      "section_id": "626bf57f-200f-4647-a930-a563d30e2acf",
+      "text": "df24653d-37a5-43a0-9451-b7e0bae16163",
+      "locator": {
+        "kind": "json_path",
+        "path": "df24653d-37a5-43a0-9451-b7e0bae16163_mac电脑使用.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "192e98f7-98a9-40a2-8b1e-c4c01c19c9d8",
+      "section_id": "873459f4-8c2b-4248-b53e-50b8907c65e3",
+      "text": "mac电脑使用",
+      "locator": {
+        "kind": "json_path",
+        "path": "df24653d-37a5-43a0-9451-b7e0bae16163_mac电脑使用.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 8
+    },
+    {
+      "passage_id": "d48399e0-5574-485f-8225-0c486cf9d237",
+      "section_id": "14c578b1-c336-457c-923a-916581396a18",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "df24653d-37a5-43a0-9451-b7e0bae16163_mac电脑使用.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.427698"
+}

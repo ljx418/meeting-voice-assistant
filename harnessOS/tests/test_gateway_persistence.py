@@ -69,6 +69,29 @@ def test_retry_store_concurrent_policy_contexts_are_not_lost(tmp_path):
     assert {record["retry_id"] for record in records} == {record["retry_id"] for record in index}
 
 
+def test_retry_store_reserves_context_once(tmp_path):
+    store = RetryStore(tmp_path / "retries")
+    record = store.create_policy_context(
+        session_id="sess",
+        turn_id="turn",
+        user_input="请写入 file.txt",
+        domain=None,
+        trace_id="trace",
+        approval_id="appr",
+        policy={"requires_approval": True},
+    )
+
+    reserved = store.mark_retrying(record["retry_id"])
+    assert reserved["status"] == "retrying"
+
+    try:
+        store.mark_retrying(record["retry_id"])
+    except Exception as exc:
+        assert "not pending" in str(exc)
+    else:
+        raise AssertionError("retry context should only be reserved once")
+
+
 def test_artifact_registry_concurrent_registers_are_not_lost(tmp_path):
     artifact_file = tmp_path / "source.txt"
     artifact_file.write_text("hello", encoding="utf-8")
@@ -95,3 +118,32 @@ def test_session_snapshot_is_atomic_and_readable(tmp_path):
     snapshot = store.load_snapshot("sess_persist")
     assert snapshot["session_id"] == "sess_persist"
     assert snapshot["backend"] == "simple"
+
+
+def test_session_snapshot_masks_agent_messages(tmp_path):
+    from datetime import datetime
+
+    store = GatewaySessionStore(tmp_path / "sessions")
+    session = SnapshotSession(datetime.now())
+    session.agent = type(
+        "Agent",
+        (),
+        {"messages": [{"role": "user", "content": "secret sk-test-1234567890"}]},
+    )()
+
+    store.save_snapshot(session)
+    snapshot_text = (tmp_path / "sessions" / "sess_persist" / "snapshot.json").read_text(encoding="utf-8")
+
+    assert "sk-test-1234567890" not in snapshot_text
+    assert "[REDACTED]" in snapshot_text
+
+
+def test_session_store_rejects_path_traversal_session_id(tmp_path):
+    store = GatewaySessionStore(tmp_path / "sessions")
+
+    try:
+        store.load_snapshot("../outside")
+    except ValueError as exc:
+        assert "Invalid session_id" in str(exc)
+    else:
+        raise AssertionError("path traversal session id should fail")

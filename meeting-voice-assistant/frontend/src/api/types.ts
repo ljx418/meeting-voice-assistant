@@ -114,6 +114,7 @@ export interface ActionItem {
 export interface Chapter {
   id: string
   title: string
+  章节名称?: string
   start_time: number
   end_time: number
   speaker_summaries: SpeakerSummary[]
@@ -130,6 +131,7 @@ export interface TranscriptSegment {
   end_time: number
   speaker?: string
   confidence: number
+  is_final?: boolean
 }
 
 // 会议状态

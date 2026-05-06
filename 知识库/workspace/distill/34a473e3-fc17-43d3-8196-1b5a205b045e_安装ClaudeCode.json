@@ -1,0 +1,72 @@
+{
+  "source_id": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "安装ClaudeCode",
+  "title_flags": [],
+  "source_weight": 1.8351,
+  "source_density_score": 1.1403,
+  "llm_enriched": false,
+  "tags": [
+    "ClaudeCode",
+    "ai学习",
+    "安装ClaudeCode"
+  ],
+  "units": [
+    {
+      "unit_id": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode:topic:1",
+      "kind": "topic_candidate",
+      "text": "ai学习",
+      "importance": 0.911755,
+      "confidence": 0.725612,
+      "source_weight": 1.8351,
+      "source_density_score": 1.1403,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode:topic:2",
+      "kind": "topic_candidate",
+      "text": "ClaudeCode",
+      "importance": 0.911755,
+      "confidence": 0.725612,
+      "source_weight": 1.8351,
+      "source_density_score": 1.1403,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode:note:1",
+      "kind": "note",
+      "text": "安装ClaudeCode",
+      "importance": 0.690106,
+      "confidence": 0.56,
+      "source_weight": 1.8351,
+      "source_density_score": 1.1403,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode:conclusion:1",
+      "kind": "conclusion",
+      "text": "安装ClaudeCode",
+      "importance": 0.848457,
+      "confidence": 0.62,
+      "source_weight": 1.8351,
+      "source_density_score": 1.1403,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "34a473e3-fc17-43d3-8196-1b5a205b045e_安装ClaudeCode:entity:1",
+      "kind": "entity_candidate",
+      "text": "ClaudeCode",
+      "importance": 0.791755,
+      "confidence": 0.6,
+      "source_weight": 1.8351,
+      "source_density_score": 1.1403,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

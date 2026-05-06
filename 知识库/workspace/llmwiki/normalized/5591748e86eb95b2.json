@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "5591748e86eb95b2",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/55/5591748e86eb95b2.json",
+    "sha256": "49738c16eecd3b4a3f1838daeb2e849a5a9be39246d21889fd3d29a6cf7ce160",
+    "content_hash": "7e69d49475efe6947d178a85e40294859d247784498df9a330b36add50601147",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "0b1a27f4-7f8b-4e1c-89b4-30f183195b03",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "8d470276-df58-475e-962a-5316bd7eaa7d",
+      "locator": {
+        "kind": "json_path",
+        "path": "8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "18374463-b74f-457b-9e25-33deaa6a4052",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "专家模式与快速模式对比",
+      "locator": {
+        "kind": "json_path",
+        "path": "8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "18d51c23-e0be-4cfd-be25-966097cc4aeb",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "ef1ada8a-a6fe-4155-befc-7ca93ed65877",
+      "section_id": "0b1a27f4-7f8b-4e1c-89b4-30f183195b03",
+      "text": "8d470276-df58-475e-962a-5316bd7eaa7d",
+      "locator": {
+        "kind": "json_path",
+        "path": "8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "4f190bb8-e1f9-4a42-b1a4-4397c050485d",
+      "section_id": "18374463-b74f-457b-9e25-33deaa6a4052",
+      "text": "专家模式与快速模式对比",
+      "locator": {
+        "kind": "json_path",
+        "path": "8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 16
+    },
+    {
+      "passage_id": "d6d97cbc-5890-453e-a81f-3b9fdb89ed72",
+      "section_id": "18d51c23-e0be-4cfd-be25-966097cc4aeb",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.495667"
+}

@@ -1,0 +1,40 @@
+<mxfile host="Electron" version="29.6.6">
+  <diagram id="target-architecture-v3" name="Target Architecture V3">
+    <mxGraphModel dx="1200" dy="860" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="harnessOS V3.0 目标架构：六大平面 + Active Overlay" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="800" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="绿色 stable / 黄色 V3.0-PhaseA~PhaseE active / 灰色 V3.x+ deferred" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="360" y="70" width="580" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" value="Plane-1 Client / Gateway Plane [stable]&lt;br&gt;&lt;br&gt;CLI / Headless&lt;br&gt;FastAPI / SSE / JSON-RPC / stdio JSONL&lt;br&gt;Web / Bot / Automation future clients&lt;br&gt;Rule: no business-specific Gateway bypass" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=14;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="80" y="140" width="360" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" value="Plane-2 Protocol App Server Plane [active]&lt;br&gt;&lt;br&gt;JSON-RPC / SSE / stdio JSONL&lt;br&gt;protocol version&lt;br&gt;method / event / error registry&lt;br&gt;Python SDK early, TypeScript SDK later" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="470" y="140" width="360" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" value="Plane-3 Harness Core Plane [active]&lt;br&gt;&lt;br&gt;AppProfile / AppRegistry / ScopeContext&lt;br&gt;Session / Thread / Turn / Item&lt;br&gt;Job / Artifact / Trace / Policy / Approval / Retry&lt;br&gt;Store filtering by scope" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="860" y="140" width="360" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" value="Plane-4 Runtime Adapter Plane [active]&lt;br&gt;&lt;br&gt;OpenHarness Adapter&lt;br&gt;SimpleRuntime Adapter&lt;br&gt;Future adapter slot&lt;br&gt;Default governance injection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="80" y="360" width="360" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" value="Plane-5 Domain Pack Plane [active]&lt;br&gt;&lt;br&gt;Pack manifest schema&lt;br&gt;PackAssemblyResult&lt;br&gt;Meeting / Knowledge E2E migration samples&lt;br&gt;Interview / Investment / Video Studio deferred" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="470" y="360" width="360" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="p6" value="Plane-6 Connector / Tool / Store Plane [active]&lt;br&gt;&lt;br&gt;ConnectorRegistry&lt;br&gt;capabilities / health / config_ref / secret_ref / app_scope&lt;br&gt;Connector security descriptor&lt;br&gt;SQLite scope migration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="860" y="360" width="360" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay" value="V3.0 Active Overlay&lt;br&gt;&lt;br&gt;V3.0-PhaseA: Multi-App Core Readiness&lt;br&gt;V3.0-PhaseB: Pack Assembly + Connector Registry&lt;br&gt;V3.0-PhaseC: Job / Artifact / Governance Hardening&lt;br&gt;V3.0-PhaseD: Meeting Pack E2E Migration&lt;br&gt;V3.0-PhaseE: Knowledge Pack E2E Migration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=14;align=left;spacingLeft=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="190" y="585" width="420" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="deferred" value="V3.x+ Deferred&lt;br&gt;&lt;br&gt;Low-Code Workflow Runtime&lt;br&gt;Core Memory System&lt;br&gt;Feedback Optimization Loop&lt;br&gt;Workflow Library&lt;br&gt;distributed queue / GPU scheduling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#94A3B8;fontSize=14;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="690" y="585" width="420" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

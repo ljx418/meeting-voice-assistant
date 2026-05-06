@@ -1,0 +1,51 @@
+{
+  "source_id": "4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "社保缴费与退休金关系",
+  "title_flags": [],
+  "source_weight": 1.7524,
+  "source_density_score": 1.0396,
+  "llm_enriched": false,
+  "tags": [
+    "社保缴费与退休金",
+    "关系",
+    "宏观政策",
+    "社保缴费与退休金关系"
+  ],
+  "units": [
+    {
+      "unit_id": "4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系:topic:1",
+      "kind": "topic_candidate",
+      "text": "宏观政策",
+      "importance": 0.90762,
+      "confidence": 0.721584,
+      "source_weight": 1.7524,
+      "source_density_score": 1.0396,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系:topic:2",
+      "kind": "topic_candidate",
+      "text": "社保缴费与退休金关系",
+      "importance": 0.90762,
+      "confidence": 0.721584,
+      "source_weight": 1.7524,
+      "source_density_score": 1.0396,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系:note:1",
+      "kind": "note",
+      "text": "社保缴费与退休金关系",
+      "importance": 0.685144,
+      "confidence": 0.56,
+      "source_weight": 1.7524,
+      "source_density_score": 1.0396,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

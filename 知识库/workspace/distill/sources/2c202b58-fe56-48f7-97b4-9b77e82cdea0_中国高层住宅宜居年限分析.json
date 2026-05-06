@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.1",
+  "source_id": "2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "中国高层住宅宜居年限分析",
+  "title_flags": [],
+  "source_weight": 1.7531,
+  "source_density_score": 1.0403,
+  "llm_enriched": false,
+  "tags": [
+    "中国高层住宅宜居",
+    "中国高层住宅宜居年限分析"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "topic_candidate": 1
+  },
+  "units": [
+    {
+      "unit_id": "2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析:topic:1",
+      "kind": "topic_candidate",
+      "text": "中国高层住宅宜居年限分析",
+      "importance": 0.907655,
+      "confidence": 0.721612,
+      "source_weight": 1.7531,
+      "source_density_score": 1.0403,
+      "is_title_derived": true,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国高层住宅宜居",
+        "中国高层住宅宜居年限分析"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析:conclusion:1",
+      "kind": "conclusion",
+      "text": "中国高层住宅宜居年限分析",
+      "importance": 0.8427169999999999,
+      "confidence": 0.62,
+      "source_weight": 1.7531,
+      "source_density_score": 1.0403,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国高层住宅宜居",
+        "中国高层住宅宜居年限分析"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2c202b58-fe56-48f7-97b4-9b77e82cdea0_中国高层住宅宜居年限分析.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

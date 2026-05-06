@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "fd6a3fb9e0e50388",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/20defb2c-546b-47cd-b4f5-43e254ad9487_遗体捐献协议与家属意见冲突分析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/fd/fd6a3fb9e0e50388.json",
+    "sha256": "7fa3c73ea4a35eca75033e1f9a7a3c8ff9b4fc0524aa2e6687114ab059594d73",
+    "content_hash": "fe694336ddb0c60df2c62aff26a2c8b8f91c0ddb47e7dbeb21d288abebcf4a47",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "0643aed9-541a-48ef-b7a9-fc508122f409",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "20defb2c-546b-47cd-b4f5-43e254ad9487",
+      "locator": {
+        "kind": "json_path",
+        "path": "20defb2c-546b-47cd-b4f5-43e254ad9487_遗体捐献协议与家属意见冲突分析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "db336502-e7e5-42e1-a060-ea97125fb55f",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "遗体捐献协议与家属意见冲突分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "20defb2c-546b-47cd-b4f5-43e254ad9487_遗体捐献协议与家属意见冲突分析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "802c8d86-fb37-4fb0-9eb8-5533327ca127",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "20defb2c-546b-47cd-b4f5-43e254ad9487_遗体捐献协议与家属意见冲突分析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "288a621f-ab39-49e4-aba3-f90edcd0ecd9",
+      "section_id": "0643aed9-541a-48ef-b7a9-fc508122f409",
+      "text": "20defb2c-546b-47cd-b4f5-43e254ad9487",
+      "locator": {
+        "kind": "json_path",
+        "path": "20defb2c-546b-47cd-b4f5-43e254ad9487_遗体捐献协议与家属意见冲突分析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "245cb6cc-a58e-45a8-a8e6-b7a4b027c154",
+      "section_id": "db336502-e7e5-42e1-a060-ea97125fb55f",
+      "text": "遗体捐献协议与家属意见冲突分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "20defb2c-546b-47cd-b4f5-43e254ad9487_遗体捐献协议与家属意见冲突分析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "4ed47bd7-2fac-42c6-8583-3d595630299e",
+      "section_id": "802c8d86-fb37-4fb0-9eb8-5533327ca127",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "20defb2c-546b-47cd-b4f5-43e254ad9487_遗体捐献协议与家属意见冲突分析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.820534"
+}

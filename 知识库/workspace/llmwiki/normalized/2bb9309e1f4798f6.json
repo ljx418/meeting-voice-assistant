@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "2bb9309e1f4798f6",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/2b/2bb9309e1f4798f6.json",
+    "sha256": "fa534886a8b571d7a79b8668e56ad0934c606f03a634a19f46f0d22c302c466f",
+    "content_hash": "1bc54378e23fffca44cfc21a391dc35cba9b69d7a327038c7f951a96839b7227",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "62cb618f-4b75-4226-bc93-e1ed0b613f23",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c",
+      "locator": {
+        "kind": "json_path",
+        "path": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "70a44ed2-8410-47cc-805d-4f5a91ebca35",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "211机械硕士考武汉公务员岗位分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "c1e28568-58fe-4396-bc14-2dcf989f5330",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "bac32f9c-b65f-4d40-953a-f4d2441a20bc",
+      "section_id": "62cb618f-4b75-4226-bc93-e1ed0b613f23",
+      "text": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c",
+      "locator": {
+        "kind": "json_path",
+        "path": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "74136eed-1519-46a7-b8e5-058198eae973",
+      "section_id": "70a44ed2-8410-47cc-805d-4f5a91ebca35",
+      "text": "211机械硕士考武汉公务员岗位分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "64fa3c93-75ea-4d3d-b7ae-6211576a5b03",
+      "section_id": "c1e28568-58fe-4396-bc14-2dcf989f5330",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "4034672c-4e43-4a00-a2a7-30eff4aa1e9c_211机械硕士考武汉公务员岗位分析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.888831"
+}

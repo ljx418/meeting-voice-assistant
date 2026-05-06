@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.1",
+  "source_record_fields": [
+    "source_id",
+    "path",
+    "authority",
+    "title",
+    "title_flags",
+    "source_weight",
+    "source_density_score",
+    "llm_enriched",
+    "tags",
+    "profile",
+    "unit_kind_counts",
+    "units"
+  ],
+  "unit_fields": [
+    "unit_id",
+    "source_id",
+    "kind",
+    "authority",
+    "text",
+    "normalized_text",
+    "importance",
+    "confidence",
+    "source_weight",
+    "source_density_score",
+    "is_title_derived",
+    "is_llm_enriched",
+    "tags",
+    "entities",
+    "relations",
+    "provenance"
+  ]
+}

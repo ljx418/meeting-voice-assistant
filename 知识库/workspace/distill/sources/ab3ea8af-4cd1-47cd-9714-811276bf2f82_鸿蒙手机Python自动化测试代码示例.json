@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.1",
+  "source_id": "ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "鸿蒙手机Python自动化测试代码示例",
+  "title_flags": [],
+  "source_weight": 1.9193,
+  "source_density_score": 1.243,
+  "llm_enriched": false,
+  "tags": [
+    "鸿蒙手机",
+    "Python",
+    "自动化测试代码示",
+    "软件开发",
+    "鸿蒙手机Python自动化测试代码示例"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 2,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例:topic:1",
+      "kind": "topic_candidate",
+      "text": "软件开发",
+      "importance": 0.9159649999999999,
+      "confidence": 0.72972,
+      "source_weight": 1.9193,
+      "source_density_score": 1.243,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "鸿蒙手机",
+        "Python",
+        "自动化测试代码示",
+        "软件开发",
+        "鸿蒙手机Python自动化测试代码示例"
+      ],
+      "entities": [
+        "鸿蒙手机",
+        "Python"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例:topic:2",
+      "kind": "topic_candidate",
+      "text": "鸿蒙手机",
+      "importance": 0.9159649999999999,
+      "confidence": 0.72972,
+      "source_weight": 1.9193,
+      "source_density_score": 1.243,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "鸿蒙手机",
+        "Python",
+        "自动化测试代码示",
+        "软件开发",
+        "鸿蒙手机Python自动化测试代码示例"
+      ],
+      "entities": [
+        "鸿蒙手机",
+        "Python"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例:conclusion:1",
+      "kind": "conclusion",
+      "text": "鸿蒙手机Python自动化测试代码示例",
+      "importance": 0.854351,
+      "confidence": 0.62,
+      "source_weight": 1.9193,
+      "source_density_score": 1.243,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "鸿蒙手机",
+        "Python",
+        "自动化测试代码示",
+        "软件开发",
+        "鸿蒙手机Python自动化测试代码示例"
+      ],
+      "entities": [
+        "鸿蒙手机",
+        "Python"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例:entity:1",
+      "kind": "entity_candidate",
+      "text": "鸿蒙手机",
+      "importance": 0.7959649999999999,
+      "confidence": 0.6,
+      "source_weight": 1.9193,
+      "source_density_score": 1.243,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "鸿蒙手机",
+        "Python",
+        "自动化测试代码示",
+        "软件开发",
+        "鸿蒙手机Python自动化测试代码示例"
+      ],
+      "entities": [
+        "鸿蒙手机"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例:entity:2",
+      "kind": "entity_candidate",
+      "text": "Python",
+      "importance": 0.7959649999999999,
+      "confidence": 0.6,
+      "source_weight": 1.9193,
+      "source_density_score": 1.243,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "鸿蒙手机",
+        "Python",
+        "自动化测试代码示",
+        "软件开发",
+        "鸿蒙手机Python自动化测试代码示例"
+      ],
+      "entities": [
+        "Python"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ab3ea8af-4cd1-47cd-9714-811276bf2f82_鸿蒙手机Python自动化测试代码示例.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

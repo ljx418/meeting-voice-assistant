@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "d5ba78c6e442ceaa",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/f2da3dc6-651b-44a0-b331-28d355e82c6a_2024年A股板块突破前期高点分析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/d5/d5ba78c6e442ceaa.json",
+    "sha256": "3a1d6ad6a6039134045e617220f03b17558f83d15936100e63410d428aa625d9",
+    "content_hash": "3466465655e3aacb6a8bdecaa8a54f0aadb205353a2079f3712b73db893b7a38",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "981f8560-b99a-4424-9756-5987e8db0452",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "f2da3dc6-651b-44a0-b331-28d355e82c6a",
+      "locator": {
+        "kind": "json_path",
+        "path": "f2da3dc6-651b-44a0-b331-28d355e82c6a_2024年A股板块突破前期高点分析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "63a2e9dc-f722-4082-9293-3c4e622e1a6f",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "2024年A股板块突破前期高点分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "f2da3dc6-651b-44a0-b331-28d355e82c6a_2024年A股板块突破前期高点分析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "ee2ec870-3e89-47f0-a7dc-4e6b5b8a10c6",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "f2da3dc6-651b-44a0-b331-28d355e82c6a_2024年A股板块突破前期高点分析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "1c5f6131-29e4-493a-a608-91b398ba6426",
+      "section_id": "981f8560-b99a-4424-9756-5987e8db0452",
+      "text": "f2da3dc6-651b-44a0-b331-28d355e82c6a",
+      "locator": {
+        "kind": "json_path",
+        "path": "f2da3dc6-651b-44a0-b331-28d355e82c6a_2024年A股板块突破前期高点分析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "b278569f-b94a-4079-856a-0222f0c17fbb",
+      "section_id": "63a2e9dc-f722-4082-9293-3c4e622e1a6f",
+      "text": "2024年A股板块突破前期高点分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "f2da3dc6-651b-44a0-b331-28d355e82c6a_2024年A股板块突破前期高点分析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 21
+    },
+    {
+      "passage_id": "54aea8fa-5d26-4918-8806-ffd2a105d53c",
+      "section_id": "ee2ec870-3e89-47f0-a7dc-4e6b5b8a10c6",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "f2da3dc6-651b-44a0-b331-28d355e82c6a_2024年A股板块突破前期高点分析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.490483"
+}

@@ -1,0 +1,81 @@
+<mxfile host="Electron" version="29.6.6">
+  <diagram id="video-flow-plane-call-relations-v3" name="Video Flow Plane Call Relations V3">
+    <mxGraphModel dx="1800" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Video Flow V3：六大平面调用关系" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="520" y="20" width="760" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="蓝色：入口 / 协议；黄色：Core / Runtime / Pack / Connector；绿色：已具备规划链路；灰色：V1 远端生成待补" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="330" y="80" width="1140" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="current_header" value="当前 V3 规划型 Video Flow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=18;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="150" width="1680" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="p1" value="Plane-1 Client / Studio UI&#xa;&#xa;用户输入视频需求&#xa;未来承接 Studio UI / BFF&#xa;当前入口：turn.start(domain=video_studio)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=14;align=center;spacing=6" vertex="1" parent="1">
+          <mxGeometry x="70" y="250" width="230" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" value="Plane-2 Protocol App Server&#xa;&#xa;RPC / stream / scope 解析&#xa;pack/workflow/job/artifact 方法面&#xa;GatewayService 统一入口" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=14;align=center;spacing=6" vertex="1" parent="1">
+          <mxGeometry x="350" y="250" width="240" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" value="Plane-3 Harness Core&#xa;&#xa;session / turn / job / artifact / trace&#xa;scope 隔离 / lineage / 治理证据&#xa;统一保存 workflow 执行事实" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=center;spacing=6" vertex="1" parent="1">
+          <mxGeometry x="660" y="250" width="260" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" value="Plane-4 Runtime Adapter&#xa;&#xa;Simple / OpenHarness / future runtime&#xa;注入 governance metadata&#xa;屏蔽 invoke / stream 差异" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=center;spacing=6" vertex="1" parent="1">
+          <mxGeometry x="980" y="250" width="240" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" value="Plane-5 Domain Pack&#xa;&#xa;video.workflow / video.pipeline&#xa;工位：studio.lead / scriptwriter / director / storyboarder / editor / qa.publisher&#xa;定义产物合同与 evaluation rules" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=center;spacing=6" vertex="1" parent="1">
+          <mxGeometry x="1280" y="235" width="390" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="workflow_chain" value="当前已落地规划产物链&#xa;&#xa;brief → script → storyboard → shot_list → asset_plan → render_output&#xa;artifact.lineage 与 job.list 已可查询" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="430" y="445" width="900" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="role_panel" value="角色 / 工位定义来自 Plane-5 manifest&#xa;&#xa;每个角色具备：goal / skill_refs / tool_refs / memory_scope / handoff_targets&#xa;这让视频流不再只是 prompt，而是可编排工作流" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="110" y="575" width="720" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="core_panel" value="Plane-3 负责产出管理与治理&#xa;&#xa;artifact kind / owner session-turn / parent_ids / job artifact_ids / trace evidence&#xa;未来 quality board 也应以这里的结构化证据为基底" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="900" y="575" width="740" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="future_header" value="未来 Video Flow V1：远端生成闭环" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=18;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="740" width="1680" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="future_input" value="输入：文生视频需求 / 长剧情 / 多角色 / 多镜头约束" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="90" y="845" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="future_pack" value="Pack 扩展：&#xa;workflow template + render policy + review policy + quality rules + external asset contracts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="410" y="830" width="310" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="future_connector" value="Connector 扩展：&#xa;remote_comfyui / TTS / FFmpeg / 素材检索 / 角色一致性模型&#xa;submit / poll / cancel / collect 真正闭环" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="800" y="830" width="340" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="future_core" value="Core 扩展：&#xa;external artifact URI / preview / thumbnail / 大文件策略 / 长任务治理 / 失败恢复" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="1200" y="830" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="future_output" value="输出：&#xa;render_output URIs / publish_report / quality board / 可追踪 lineage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="1540" y="845" width="170" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="v4_note" value="V4 不是只补一个 UI，而是把：Workflow Descriptor + Agent Descriptor + Quality Board + Nested Embedding 做成正式平台能力。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="220" y="1040" width="1360" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" edge="1" source="p1" target="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" edge="1" source="p2" target="p3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" edge="1" source="p3" target="p4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" edge="1" source="p4" target="p5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" edge="1" source="p5" target="workflow_chain" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#059669;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" edge="1" source="future_input" target="future_pack" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" edge="1" source="future_pack" target="future_connector" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" edge="1" source="future_connector" target="future_core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#64748B;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e9" edge="1" source="future_core" target="future_output" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#059669;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

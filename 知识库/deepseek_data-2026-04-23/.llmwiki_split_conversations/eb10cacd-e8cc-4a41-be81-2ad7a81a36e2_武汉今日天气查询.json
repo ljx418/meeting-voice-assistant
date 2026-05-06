@@ -1,0 +1,163 @@
+{
+  "id": "eb10cacd-e8cc-4a41-be81-2ad7a81a36e2",
+  "title": "武汉今日天气查询",
+  "inserted_at": "2026-02-28T14:44:17.346000+08:00",
+  "updated_at": "2026-02-28T15:05:19.790000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-02-28T15:05:03.197000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "查询今天的武汉天气"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-02-28T15:05:03.200000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://nmc.cn/publish/forecast/AHB/wuhan.html",
+                "title": "武汉-天气预报",
+                "snippet": "02/28 周六 小雨 ... 东北风 微风 03/01 周日 ... 11℃ 7℃ 多云 西北风 微风 03/02 周一 ... 03/03 周二",
+                "cite_index": 1,
+                "published_at": 1772208000.0,
+                "site_name": "中国气象局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/nmc.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.weather.com.cn/weather/101200101.shtml",
+                "title": "武汉天气预报,武汉7天天气预报,武汉15天天气预报,武汉天气查询",
+                "snippet": "28日（今天） 小雨 13/8℃ <3级 # 1日（明天） 小雨转阴 13/6℃ 3-4级转<3级 ... 3日（周二）",
+                "cite_index": 2,
+                "published_at": 1772208000.0,
+                "site_name": "中国天气网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/weather.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.weather.com.cn/weather40d/101200101.shtml",
+                "title": "【武汉天气】武汉40天天气预报,武汉更长预报,武汉天气日历,武汉日历,15天天气预报,天气预报一周",
+                "snippet": "蓝天预报综合天气现象、能见度、空气质量等因子，预测未来一周的天空状况。 - 天空蔚蓝 可见透彻蓝天，或有蓝天白云美景。 - 天空淡蓝 天空不够清澈，以浅蓝色为主。",
+                "cite_index": 3,
+                "published_at": 1772208000.0,
+                "site_name": "中国天气网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/weather.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.hubeidaily.net/pc/c_5188212.html",
+                "title": "武汉今明阴雨天气来袭、风力加大，添衣防雨别大意",
+                "snippet": "湖北日报讯（记者汤炜玮、通讯员高琪清）2月28日，武汉市阴天转小雨，局地中雨，晚上部分地区有雨雾，偏北风2到3级转3到4级、阵风5到6级，气温9～14℃。空气污染扩散气象条件预报等级为二级（较好）...",
+                "cite_index": 4,
+                "published_at": 1772208000.0,
+                "site_name": "湖北日报新闻客户端",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hubeidaily.net",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://ctdsb.net/c1676_202602/2672730.html",
+                "title": "最低1℃，还有8级大风！湖北下一波冷空气已预订",
+                "snippet": "据中国天气网消息 2月28日至3月2日 ... 合肥、武汉、长沙等地 明后天最高气温仅7至12℃ 3月3日至6日 还将有冷空气影响我国",
+                "cite_index": 5,
+                "published_at": 1772208000.0,
+                "site_name": "极目新闻",
+                "site_icon": "https://cdn.deepseek.com/site-icons/ctdsb.net",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.ifeng.com/c/8r41OToHiOH?ch=ttsearch",
+                "title": "小雨中雨+7级偏北风！湖北气温挺进20℃后又回落",
+                "snippet": "气象监测数据显示，武汉白天气温在9-11℃，北风一吹，体感更冷，17时体感温度仅7.9℃。 “短袖，袄子，一夜切换。”武汉冯先生太熟悉天气的套路了。",
+                "cite_index": 6,
+                "published_at": 1772035200.0,
+                "site_name": "凤凰资讯",
+                "site_icon": "https://cdn.deepseek.com/site-icons/ifeng.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.qq.com/rain/a/20260228A0270V00",
+                "title": "【今日天气预报】武汉2026年02月28日天气预报，小雨，北风＜3级，空气质量良",
+                "snippet": "武汉02月28日（周六）天气预报，白天天气现象小雨, 风向风力: 北风＜3级, 气温13摄氏度。夜间天气现象小雨, 风向风力: 东北风＜3级, 气温9摄氏度。空气质量53良...",
+                "cite_index": 7,
+                "published_at": 1772208000.0,
+                "site_name": "腾讯网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/qq.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.dxh.gov.cn/ZWGK/QZFXXGKML/ggqsydwxxgk/qixiang/202602/t20260227_2732965.shtml",
+                "title": "东西湖区2026年2月28日天气预报",
+                "snippet": "今天晚上：阴天 明天白天：阴天转小雨 最高气温：14℃， 最低气温：7℃ 湿度：55－95％， 风：偏北风2到3级、阵风4到5级 明天晚上到后天白天天气：阴天有小到中雨",
+                "cite_index": 8,
+                "published_at": 1772121600.0,
+                "site_name": "武汉市东西湖区人民政府",
+                "site_icon": "https://cdn.deepseek.com/site-icons/dxh.gov.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户想查询今天武汉的天气情况，这是一个需要实时天气信息的实用性问题，对时效性和准确性要求较高。\n\n我计划从今天的天气状况、气温范围、风力情况这几个核心维度来回答，如果搜索结果充分，还可以补充一些生活提示。\n\n来看搜索结果的质量。中国气象局官网的数据非常详尽[citation:1]，包含今天的小雨天气、13℃/9℃的气温、北风微风，还有逐小时预报，权威性很高。中国天气网的7天预报也是中央气象台数据[citation:2]，时效性好，同样显示小雨13/8℃。\n\n湖北日报的报道是省级官方媒体[citation:4]，今天13:30发布，提供了详细的天气分析和风力信息，提到局地中雨和阵风5到6级，时效性和权威性都不错。腾讯网转载的天气预报[citation:7]信息全面，还包含了空气质量53良和相对湿度81%的数据，可以作为补充。\n\n有个搜索结果是40天预报[citation:3]，时效性不如短期预报，但包含今天的实况数据。东西湖区政府网站[citation:8]虽然是官方来源，但发布的是区级预报，不如市级全面。凤凰网的新闻[citation:6]发布日期稍早，是2月25日的预报，时效性不足。极目新闻那篇[citation:5]主要讲湖北整体天气，对武汉的针对性不够强。\n\n综合来看，我准备以中国气象局[citation:1]和中国天气网[citation:2]的数据为基础，结合湖北日报[citation:4]的权威报道，确认今天武汉小雨、气温9-14℃、北风2-3级转3-4级。腾讯网[citation:7]的空气质量数据可以作为补充信息。\n\n回答结构上，先给出核心天气信息，然后补充生活提示，让用户出行更有参考价值。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "今天（2月28日）武汉是小雨天气，出门记得带伞🌂。根据最新预报，今天气温在 **9℃ 到 14℃** 之间，早晚较凉，注意适当添衣[citation:1][citation:2][citation:4]。\n\n* **☔ 天气情况**：**阴天转小雨**，部分地区可能有中雨，晚上局部有雨雾[citation:4]。全天相对湿度较高，体感会比较阴冷[citation:1][citation:7]。\n* **🌬️ 风力大小**：为**北风 2到3级**，下午会逐渐增强到3到4级，江河湖面阵风可达5到6级[citation:4]。\n* **🍃 空气质量**：**良**，适合在室内正常活动[citation:7]。\n\n今天不太适合洗车，因为雨水容易把车弄脏[citation:7]。雨天路滑，出行请注意安全。"
+          }
+        ]
+      }
+    }
+  }
+}

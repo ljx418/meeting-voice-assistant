@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.1",
+  "source_id": "4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "小米SU7玻璃防晒性能解析",
+  "title_flags": [],
+  "source_weight": 1.9994,
+  "source_density_score": 1.3407,
+  "llm_enriched": false,
+  "tags": [
+    "小米",
+    "SU7",
+    "玻璃防晒性能解析",
+    "小米SU7玻璃防晒性能解析"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 3,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析:topic:1",
+      "kind": "topic_candidate",
+      "text": "小米",
+      "importance": 0.91997,
+      "confidence": 0.7336280000000001,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "小米",
+        "SU7",
+        "玻璃防晒性能解析",
+        "小米SU7玻璃防晒性能解析"
+      ],
+      "entities": [
+        "小米",
+        "SU7",
+        "玻璃防晒性能解析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析:topic:2",
+      "kind": "topic_candidate",
+      "text": "SU7",
+      "importance": 0.91997,
+      "confidence": 0.7336280000000001,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "小米",
+        "SU7",
+        "玻璃防晒性能解析",
+        "小米SU7玻璃防晒性能解析"
+      ],
+      "entities": [
+        "小米",
+        "SU7",
+        "玻璃防晒性能解析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析:conclusion:1",
+      "kind": "conclusion",
+      "text": "小米SU7玻璃防晒性能解析",
+      "importance": 0.859958,
+      "confidence": 0.62,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "小米",
+        "SU7",
+        "玻璃防晒性能解析",
+        "小米SU7玻璃防晒性能解析"
+      ],
+      "entities": [
+        "小米",
+        "SU7",
+        "玻璃防晒性能解析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析:entity:1",
+      "kind": "entity_candidate",
+      "text": "小米",
+      "importance": 0.79997,
+      "confidence": 0.6,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "小米",
+        "SU7",
+        "玻璃防晒性能解析",
+        "小米SU7玻璃防晒性能解析"
+      ],
+      "entities": [
+        "小米"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析:entity:2",
+      "kind": "entity_candidate",
+      "text": "SU7",
+      "importance": 0.79997,
+      "confidence": 0.6,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "小米",
+        "SU7",
+        "玻璃防晒性能解析",
+        "小米SU7玻璃防晒性能解析"
+      ],
+      "entities": [
+        "SU7"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析:entity:3",
+      "kind": "entity_candidate",
+      "text": "玻璃防晒性能解析",
+      "importance": 0.79997,
+      "confidence": 0.6,
+      "source_weight": 1.9994,
+      "source_density_score": 1.3407,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "小米",
+        "SU7",
+        "玻璃防晒性能解析",
+        "小米SU7玻璃防晒性能解析"
+      ],
+      "entities": [
+        "玻璃防晒性能解析"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4c365393-53dc-41ed-a9be-90be8c0a89d8_小米SU7玻璃防晒性能解析.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

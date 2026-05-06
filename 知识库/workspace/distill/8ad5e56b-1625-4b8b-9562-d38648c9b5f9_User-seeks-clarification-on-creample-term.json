@@ -1,0 +1,75 @@
+{
+  "source_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "User seeks clarification on creample term",
+  "title_flags": [],
+  "source_weight": 1.8445,
+  "source_density_score": 1.1519,
+  "llm_enriched": false,
+  "tags": [
+    "User",
+    "seeks",
+    "clarification",
+    "creample",
+    "term",
+    "User seeks clarification on creample term"
+  ],
+  "units": [
+    {
+      "unit_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term:topic:1",
+      "kind": "topic_candidate",
+      "text": "User",
+      "importance": 0.912225,
+      "confidence": 0.726076,
+      "source_weight": 1.8445,
+      "source_density_score": 1.1519,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term:topic:2",
+      "kind": "topic_candidate",
+      "text": "User seeks clarification on creample term",
+      "importance": 0.912225,
+      "confidence": 0.726076,
+      "source_weight": 1.8445,
+      "source_density_score": 1.1519,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term:note:1",
+      "kind": "note",
+      "text": "User seeks clarification on creample term.",
+      "importance": 0.69067,
+      "confidence": 0.56,
+      "source_weight": 1.8445,
+      "source_density_score": 1.1519,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term:conclusion:1",
+      "kind": "conclusion",
+      "text": "User seeks clarification on creample term.",
+      "importance": 0.849115,
+      "confidence": 0.62,
+      "source_weight": 1.8445,
+      "source_density_score": 1.1519,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "8ad5e56b-1625-4b8b-9562-d38648c9b5f9_User-seeks-clarification-on-creample-term:entity:1",
+      "kind": "entity_candidate",
+      "text": "User",
+      "importance": 0.792225,
+      "confidence": 0.6,
+      "source_weight": 1.8445,
+      "source_density_score": 1.1519,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

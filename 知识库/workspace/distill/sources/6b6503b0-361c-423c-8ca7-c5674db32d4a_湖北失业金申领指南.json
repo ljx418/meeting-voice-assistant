@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.1",
+  "source_id": "6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "湖北失业金申领指南",
+  "title_flags": [],
+  "source_weight": 1.7521,
+  "source_density_score": 1.0392,
+  "llm_enriched": false,
+  "tags": [
+    "湖北失业金申领指",
+    "湖北失业金申领指南"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "topic_candidate": 1
+  },
+  "units": [
+    {
+      "unit_id": "6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南:topic:1",
+      "kind": "topic_candidate",
+      "text": "湖北失业金申领指南",
+      "importance": 0.907605,
+      "confidence": 0.721568,
+      "source_weight": 1.7521,
+      "source_density_score": 1.0392,
+      "is_title_derived": true,
+      "is_llm_enriched": false,
+      "tags": [
+        "湖北失业金申领指",
+        "湖北失业金申领指南"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "source_id": "1e7d1283-88b0-40f1-98eb-591384d5fb22_米醋与白醋的区别及用途",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/1e7d1283-88b0-40f1-98eb-591384d5fb22_米醋与白醋的区别及用途.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "米醋与白醋的区别及用途",
+  "title_flags": [],
+  "source_weight": 1.7528,
+  "source_density_score": 1.0399,
+  "llm_enriched": false,
+  "tags": [
+    "米醋与白醋的区别",
+    "及用途",
+    "米醋与白醋的区别及用途"
+  ],
+  "units": [
+    {
+      "unit_id": "1e7d1283-88b0-40f1-98eb-591384d5fb22_米醋与白醋的区别及用途:topic:1",
+      "kind": "topic_candidate",
+      "text": "米醋与白醋的区别及用途",
+      "importance": 0.90764,
+      "confidence": 0.721596,
+      "source_weight": 1.7528,
+      "source_density_score": 1.0399,
+      "is_title_derived": true,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "1e7d1283-88b0-40f1-98eb-591384d5fb22_米醋与白醋的区别及用途:note:1",
+      "kind": "note",
+      "text": "米醋与白醋的区别及用途",
+      "importance": 0.685168,
+      "confidence": 0.56,
+      "source_weight": 1.7528,
+      "source_density_score": 1.0399,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

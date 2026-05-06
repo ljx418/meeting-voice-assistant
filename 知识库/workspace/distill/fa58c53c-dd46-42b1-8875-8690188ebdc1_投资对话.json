@@ -1,0 +1,49 @@
+{
+  "source_id": "fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "投资对话",
+  "title_flags": [],
+  "source_weight": 1.8033,
+  "source_density_score": 1.1015,
+  "llm_enriched": false,
+  "tags": [
+    "投资对话",
+    "投资"
+  ],
+  "units": [
+    {
+      "unit_id": "fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话:topic:1",
+      "kind": "topic_candidate",
+      "text": "投资",
+      "importance": 0.9101649999999999,
+      "confidence": 0.72406,
+      "source_weight": 1.8033,
+      "source_density_score": 1.1015,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话:topic:2",
+      "kind": "topic_candidate",
+      "text": "投资对话",
+      "importance": 0.9101649999999999,
+      "confidence": 0.72406,
+      "source_weight": 1.8033,
+      "source_density_score": 1.1015,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话:entity:1",
+      "kind": "entity_candidate",
+      "text": "投资对话",
+      "importance": 0.790165,
+      "confidence": 0.6,
+      "source_weight": 1.8033,
+      "source_density_score": 1.1015,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

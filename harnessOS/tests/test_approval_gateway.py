@@ -130,3 +130,61 @@ def test_approval_invalid_status_filter_returns_error(tmp_path):
         assert response.error.code == "RUNTIME_ERROR"
 
     asyncio.run(run())
+
+
+def test_approval_gateway_scope_filters_and_blocks_cross_app_decisions(tmp_path):
+    async def run():
+        service = _service(tmp_path)
+        requested = await service.handle_rpc(
+            RpcRequest(
+                id="s1",
+                method="approval.request",
+                params={
+                    "action": "publish",
+                    "request_summary": "Scoped approval",
+                    "trace_id": "trace_scope",
+                    "scope": {"app_id": "knowledge", "workspace_id": "workspace_k"},
+                },
+            )
+        )
+        assert requested.error is None
+        approval_id = requested.result["approval"]["approval_id"]
+        assert requested.result["approval"]["app_id"] == "knowledge"
+
+        listed = await service.handle_rpc(
+            RpcRequest(id="s2", method="approval.list", params={"app_id": "knowledge"})
+        )
+        assert listed.error is None
+        assert listed.result["count"] == 1
+
+        denied = await service.handle_rpc(
+            RpcRequest(id="s3", method="approval.get", params={"approval_id": approval_id, "app_id": "meeting"})
+        )
+        assert denied.error is not None
+        assert denied.error.code == "INVALID_PARAMS"
+
+        denied_approve = await service.handle_rpc(
+            RpcRequest(
+                id="s4",
+                method="approval.approve",
+                params={"approval_id": approval_id, "app_id": "meeting", "reason": "wrong scope"},
+            )
+        )
+        assert denied_approve.error is not None
+        assert denied_approve.error.code == "INVALID_PARAMS"
+
+        approved = await service.handle_rpc(
+            RpcRequest(
+                id="s5",
+                method="approval.approve",
+                params={
+                    "approval_id": approval_id,
+                    "scope": {"app_id": "knowledge", "workspace_id": "workspace_k"},
+                    "reason": "ok",
+                },
+            )
+        )
+        assert approved.error is None
+        assert approved.result["approval"]["status"] == "approved"
+
+    asyncio.run(run())

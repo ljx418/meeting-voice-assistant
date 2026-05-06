@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "d295bda3da7cfe0a",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/d2/d295bda3da7cfe0a.json",
+    "sha256": "c156f02dd0b86709f50f60ce2b6f948d5770d2b9fa0736f9ca942237d8ddcc3a",
+    "content_hash": "588a11481145d100d080cbda5732f42f63f741dc9f5b8eaeb884660e728bbbe4",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "2501c981-9a90-495d-93e8-d88eb320454a",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "5434ade0-0468-4ef0-93ca-b20d7b46d612",
+      "locator": {
+        "kind": "json_path",
+        "path": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "b3eec873-324a-4239-9257-1b723dcff034",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "CN118368356A专利信息查询指南",
+      "locator": {
+        "kind": "json_path",
+        "path": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "f653c2b0-7927-4793-8724-23c8004606ce",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "8e0f8299-7731-49ea-b278-008fa0e31758",
+      "section_id": "2501c981-9a90-495d-93e8-d88eb320454a",
+      "text": "5434ade0-0468-4ef0-93ca-b20d7b46d612",
+      "locator": {
+        "kind": "json_path",
+        "path": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "0bcdd348-5295-4149-843c-259d8d50905e",
+      "section_id": "b3eec873-324a-4239-9257-1b723dcff034",
+      "text": "CN118368356A专利信息查询指南",
+      "locator": {
+        "kind": "json_path",
+        "path": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 19
+    },
+    {
+      "passage_id": "6529061a-fabb-4b5d-b9b2-f96f1caab27d",
+      "section_id": "f653c2b0-7927-4793-8724-23c8004606ce",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.147154"
+}

@@ -669,7 +669,8 @@ function populateStoresFromResponse(data: UploadResponse) {
     // Also populate meeting store with speakers
     const speakers = Array.from(new Set(data.segments.map((s) => s.speaker))).map((spk: string, idx: number) => ({
       id: spk,
-      name: `发言人 ${String.fromCharCode(65 + idx)}`
+      name: `发言人 ${String.fromCharCode(65 + idx)}`,
+      color: ''
     }))
     store.setSpeakers(speakers)
   }
@@ -1073,19 +1074,20 @@ function removeFile(id: string) {
 
 function enterFileConsole(file: { id: string; sessionId?: string }) {
   if (file.sessionId) {
-    const sessionData = store.getSessionData(file.sessionId)
+    const sessionId = file.sessionId
+    const sessionData = store.getSessionData(sessionId)
     if (!sessionData || !sessionData.chapters?.length) {
       // Fetch session data from backend if not available or incomplete
-      fetchFullResult(file.sessionId).then(() => {
-        store.setActiveSession(file.sessionId)
-        router.push(`/console/${file.sessionId}`)
+      fetchFullResult(sessionId).then(() => {
+        store.setActiveSession(sessionId)
+        router.push(`/console/${sessionId}`)
       }).catch(() => {
-        store.setActiveSession(file.sessionId)
-        router.push(`/console/${file.sessionId}`)
+        store.setActiveSession(sessionId)
+        router.push(`/console/${sessionId}`)
       })
     } else {
-      store.setActiveSession(file.sessionId)
-      router.push(`/console/${file.sessionId}`)
+      store.setActiveSession(sessionId)
+      router.push(`/console/${sessionId}`)
     }
   }
 }

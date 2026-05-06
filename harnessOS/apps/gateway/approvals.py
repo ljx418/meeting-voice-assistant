@@ -39,6 +39,9 @@ class ApprovalStore:
         trace_id: Optional[str] = None,
         session_id: Optional[str] = None,
         turn_id: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
         risk_level: str = "medium",
         metadata: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
@@ -48,6 +51,9 @@ class ApprovalStore:
             "trace_id": trace_id,
             "session_id": session_id,
             "turn_id": turn_id,
+            "app_id": app_id,
+            "project_id": project_id,
+            "workspace_id": workspace_id,
             "risk_level": risk_level,
             "action": action,
             "status": APPROVAL_PENDING,
@@ -69,6 +75,9 @@ class ApprovalStore:
         status: Optional[str] = None,
         session_id: Optional[str] = None,
         trace_id: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
     ) -> list[dict[str, Any]]:
         """List approval records, optionally filtered."""
         records = self._load_records()
@@ -80,6 +89,12 @@ class ApprovalStore:
             records = [record for record in records if record.get("session_id") == session_id]
         if trace_id is not None:
             records = [record for record in records if record.get("trace_id") == trace_id]
+        if app_id is not None:
+            records = [record for record in records if record.get("app_id") == app_id]
+        if project_id is not None:
+            records = [record for record in records if record.get("project_id") == project_id]
+        if workspace_id is not None:
+            records = [record for record in records if record.get("workspace_id") == workspace_id]
         return records
 
     def get_approval(self, approval_id: str) -> dict[str, Any]:

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.1",
+  "source_id": "dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "知识助手开发",
+  "title_flags": [],
+  "source_weight": 1.802,
+  "source_density_score": 1.1,
+  "llm_enriched": false,
+  "tags": [
+    "知识助手开发",
+    "软件开发"
+  ],
+  "profile": {
+    "sentence_count": 0,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "entity_candidate": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发:topic:1",
+      "kind": "topic_candidate",
+      "text": "软件开发",
+      "importance": 0.9100999999999999,
+      "confidence": 0.7240000000000001,
+      "source_weight": 1.802,
+      "source_density_score": 1.1,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "知识助手开发",
+        "软件开发"
+      ],
+      "entities": [
+        "知识助手开发"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发:topic:2",
+      "kind": "topic_candidate",
+      "text": "知识助手开发",
+      "importance": 0.9100999999999999,
+      "confidence": 0.7240000000000001,
+      "source_weight": 1.802,
+      "source_density_score": 1.1,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "知识助手开发",
+        "软件开发"
+      ],
+      "entities": [
+        "知识助手开发"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发:entity:1",
+      "kind": "entity_candidate",
+      "text": "知识助手开发",
+      "importance": 0.7901,
+      "confidence": 0.6,
+      "source_weight": 1.802,
+      "source_density_score": 1.1,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "知识助手开发",
+        "软件开发"
+      ],
+      "entities": [
+        "知识助手开发"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/dea9cd58-e798-4e5f-ab44-e671bf7495bd_知识助手开发.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

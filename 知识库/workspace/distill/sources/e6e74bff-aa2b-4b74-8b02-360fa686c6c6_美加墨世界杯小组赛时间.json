@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.1",
+  "source_id": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "美加墨世界杯小组赛时间",
+  "title_flags": [],
+  "source_weight": 1.7528,
+  "source_density_score": 1.0399,
+  "llm_enriched": false,
+  "tags": [
+    "美加墨世界杯小组",
+    "赛时间",
+    "美加墨世界杯小组赛时间"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "topic_candidate": 1
+  },
+  "units": [
+    {
+      "unit_id": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间:topic:1",
+      "kind": "topic_candidate",
+      "text": "美加墨世界杯小组赛时间",
+      "importance": 0.90764,
+      "confidence": 0.721596,
+      "source_weight": 1.7528,
+      "source_density_score": 1.0399,
+      "is_title_derived": true,
+      "is_llm_enriched": false,
+      "tags": [
+        "美加墨世界杯小组",
+        "赛时间",
+        "美加墨世界杯小组赛时间"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/e6e74bff-aa2b-4b74-8b02-360fa686c6c6_美加墨世界杯小组赛时间.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

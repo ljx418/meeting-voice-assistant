@@ -1,0 +1,37 @@
+{
+  "source_id": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "ComfyUI",
+  "title_flags": [],
+  "source_weight": 1.8042,
+  "source_density_score": 1.1027,
+  "llm_enriched": false,
+  "tags": [
+    "ComfyUI"
+  ],
+  "units": [
+    {
+      "unit_id": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI:topic:1",
+      "kind": "topic_candidate",
+      "text": "ComfyUI",
+      "importance": 0.91021,
+      "confidence": 0.7241080000000001,
+      "source_weight": 1.8042,
+      "source_density_score": 1.1027,
+      "is_title_derived": true,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "015c4b3f-2e90-49d2-ab7e-1d39baaef74b_ComfyUI:entity:1",
+      "kind": "entity_candidate",
+      "text": "ComfyUI",
+      "importance": 0.79021,
+      "confidence": 0.6,
+      "source_weight": 1.8042,
+      "source_density_score": 1.1027,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

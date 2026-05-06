@@ -33,6 +33,7 @@ from harnessOS.openharness.hooks import HookEvent, HookExecutor
 from harnessOS.openharness.permissions.checker import PermissionChecker
 from harnessOS.openharness.tools.base import ToolExecutionContext
 from harnessOS.openharness.tools.base import ToolRegistry
+from tools.policy_guard import should_block_tool
 
 AUTO_COMPACT_STATUS_MESSAGE = "Auto-compacting conversation memory to keep things fast and focused."
 REACTIVE_COMPACT_STATUS_MESSAGE = "Prompt too long; compacting conversation memory and retrying."
@@ -697,6 +698,33 @@ async def _execute_tool_call(
             content=f"Invalid input for {tool_name}: {exc}",
             is_error=True,
         )
+
+    policy_evaluator = (context.tool_metadata or {}).get("policy_evaluator")
+    if policy_evaluator is not None:
+        approval_checker = (context.tool_metadata or {}).get("approval_checker")
+        approval_requester = (context.tool_metadata or {}).get("approval_requester")
+        default_approval_id = (context.tool_metadata or {}).get("approval_id")
+        blocked, reason, decision_payload = should_block_tool(
+            tool_name=tool_name,
+            tool_input=tool_input,
+            policy_evaluator=policy_evaluator,
+            approval_checker=approval_checker if callable(approval_checker) else None,
+            approval_requester=approval_requester if callable(approval_requester) else None,
+            default_approval_id=default_approval_id if isinstance(default_approval_id, str) else None,
+            binding_context={
+                "session_id": (context.tool_metadata or {}).get("session_id"),
+                "turn_id": (context.tool_metadata or {}).get("turn_id"),
+                "source_turn_id": (context.tool_metadata or {}).get("source_turn_id"),
+                "trace_id": (context.tool_metadata or {}).get("trace_id"),
+            },
+        )
+        if blocked:
+            log.debug("tool policy blocked for %s: %s", tool_name, reason)
+            return ToolResultBlock(
+                tool_use_id=tool_use_id,
+                content=reason,
+                is_error=True,
+            )
 
     # Normalize common tool inputs before permission checks so path rules apply
     # consistently across built-in tools that use `file_path`, `path`, or

@@ -12,8 +12,11 @@ from pydantic import BaseModel
 from core.protocol import (
     ApprovalRecord,
     ArtifactRecord,
+    ConnectorRecord,
     ItemRecord,
+    JobEventRecord,
     JobRecord,
+    MemoryRecord,
     RetryRecord,
     SessionRecord,
     ThreadRecord,
@@ -22,6 +25,24 @@ from core.protocol import (
 )
 
 RecordT = TypeVar("RecordT", bound=BaseModel)
+
+SCOPE_MIGRATION_NAME = "v3_001_add_scope_columns"
+SCOPE_MIGRATION_TABLES = (
+    "sessions",
+    "threads",
+    "turns",
+    "items",
+    "jobs",
+    "job_events",
+    "artifacts",
+    "trace_records",
+    "memory_records",
+    "approvals",
+    "retries",
+    "connectors",
+)
+LEGACY_SCOPE_DEFAULT_APP_ID = "default"
+LEGACY_SCOPE_MEETING_APP_ID = "meeting"
 
 
 class CoreSQLiteStore:
@@ -45,6 +66,9 @@ class CoreSQLiteStore:
                 PRAGMA journal_mode=WAL;
                 CREATE TABLE IF NOT EXISTS sessions (
                     session_id TEXT PRIMARY KEY,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
                     payload TEXT NOT NULL,
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
@@ -54,6 +78,9 @@ class CoreSQLiteStore:
                     session_id TEXT NOT NULL,
                     domain TEXT,
                     status TEXT NOT NULL,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
                     payload TEXT NOT NULL,
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
@@ -65,6 +92,9 @@ class CoreSQLiteStore:
                     thread_id TEXT NOT NULL,
                     state TEXT NOT NULL,
                     trace_id TEXT,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
                     payload TEXT NOT NULL,
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
@@ -78,6 +108,9 @@ class CoreSQLiteStore:
                     turn_id TEXT NOT NULL,
                     item_type TEXT NOT NULL,
                     status TEXT NOT NULL,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
                     payload TEXT NOT NULL,
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
@@ -91,11 +124,27 @@ class CoreSQLiteStore:
                     workflow_id TEXT NOT NULL,
                     domain TEXT,
                     status TEXT NOT NULL,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
                     payload TEXT NOT NULL,
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 );
                 CREATE INDEX IF NOT EXISTS idx_jobs_thread ON jobs(thread_id);
+                CREATE TABLE IF NOT EXISTS job_events (
+                    event_id TEXT PRIMARY KEY,
+                    job_id TEXT NOT NULL,
+                    event_type TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
+                    payload TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_job_events_job ON job_events(job_id);
                 CREATE TABLE IF NOT EXISTS artifacts (
                     artifact_id TEXT PRIMARY KEY,
                     owner_session_id TEXT,
@@ -103,6 +152,9 @@ class CoreSQLiteStore:
                     owner_turn_id TEXT,
                     domain TEXT,
                     kind TEXT NOT NULL,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
                     payload TEXT NOT NULL,
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
@@ -115,6 +167,9 @@ class CoreSQLiteStore:
                     turn_id TEXT,
                     event_type TEXT NOT NULL,
                     status TEXT NOT NULL,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
                     payload TEXT NOT NULL,
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
@@ -122,12 +177,35 @@ class CoreSQLiteStore:
                 CREATE INDEX IF NOT EXISTS idx_trace_records_trace ON trace_records(trace_id);
                 CREATE INDEX IF NOT EXISTS idx_trace_records_session ON trace_records(session_id);
                 CREATE INDEX IF NOT EXISTS idx_trace_records_turn ON trace_records(turn_id);
+                CREATE TABLE IF NOT EXISTS memory_records (
+                    memory_id TEXT PRIMARY KEY,
+                    session_id TEXT NOT NULL,
+                    thread_id TEXT,
+                    source_turn_id TEXT,
+                    source_artifact_id TEXT,
+                    scope TEXT NOT NULL,
+                    kind TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
+                    payload TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_memory_session ON memory_records(session_id);
+                CREATE INDEX IF NOT EXISTS idx_memory_thread ON memory_records(thread_id);
+                CREATE INDEX IF NOT EXISTS idx_memory_kind ON memory_records(kind);
+                CREATE INDEX IF NOT EXISTS idx_memory_source_artifact ON memory_records(source_artifact_id);
                 CREATE TABLE IF NOT EXISTS approvals (
                     approval_id TEXT PRIMARY KEY,
                     target_type TEXT NOT NULL,
                     target_id TEXT NOT NULL,
                     decision TEXT NOT NULL,
                     risk_class TEXT NOT NULL,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
                     payload TEXT NOT NULL,
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
@@ -140,14 +218,59 @@ class CoreSQLiteStore:
                     source_turn_id TEXT NOT NULL,
                     approval_id TEXT,
                     status TEXT NOT NULL,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
                     payload TEXT NOT NULL,
                     created_at TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 );
                 CREATE INDEX IF NOT EXISTS idx_retries_session ON retries(session_id);
                 CREATE INDEX IF NOT EXISTS idx_retries_approval ON retries(approval_id);
+                CREATE TABLE IF NOT EXISTS connectors (
+                    connector_id TEXT PRIMARY KEY,
+                    kind TEXT NOT NULL,
+                    domain TEXT,
+                    health TEXT NOT NULL,
+                    app_id TEXT NOT NULL DEFAULT 'default',
+                    project_id TEXT,
+                    workspace_id TEXT,
+                    payload TEXT NOT NULL,
+                    created_at TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS idx_connectors_domain ON connectors(domain);
+                CREATE INDEX IF NOT EXISTS idx_connectors_health ON connectors(health);
                 """
             )
+            self._ensure_scope_columns(conn)
+            conn.executescript(
+                """
+                CREATE INDEX IF NOT EXISTS idx_sessions_scope ON sessions(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_threads_scope ON threads(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_turns_scope ON turns(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_items_scope ON items(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_jobs_scope ON jobs(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_job_events_scope ON job_events(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_artifacts_scope ON artifacts(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_trace_records_scope ON trace_records(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_memory_scope_context ON memory_records(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_approvals_scope ON approvals(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_retries_scope ON retries(app_id, project_id, workspace_id);
+                CREATE INDEX IF NOT EXISTS idx_connectors_scope ON connectors(app_id, project_id, workspace_id);
+                """
+            )
+
+    def scope_migration_status(self) -> Dict[str, Any]:
+        """Return the frozen PhaseA scope migration semantics."""
+        return {
+            "migration_name": SCOPE_MIGRATION_NAME,
+            "tables": list(SCOPE_MIGRATION_TABLES),
+            "strategy": "forward_only",
+            "rollback": "non_destructive",
+            "default_backfill_app_id": LEGACY_SCOPE_DEFAULT_APP_ID,
+            "meeting_backfill_app_id": LEGACY_SCOPE_MEETING_APP_ID,
+        }
 
     def save_session(self, record: SessionRecord) -> SessionRecord:
         self._upsert(
@@ -162,8 +285,18 @@ class CoreSQLiteStore:
     def get_session(self, session_id: str) -> SessionRecord:
         return self._get("sessions", "session_id", session_id, SessionRecord)
 
-    def list_sessions(self) -> List[SessionRecord]:
-        return self._list("sessions", SessionRecord)
+    def list_sessions(
+        self,
+        *,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+    ) -> List[SessionRecord]:
+        return self._list(
+            "sessions",
+            SessionRecord,
+            filters=_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
+        )
 
     def save_thread(self, record: ThreadRecord) -> ThreadRecord:
         self._upsert(
@@ -182,8 +315,22 @@ class CoreSQLiteStore:
     def get_thread(self, thread_id: str) -> ThreadRecord:
         return self._get("threads", "thread_id", thread_id, ThreadRecord)
 
-    def list_threads(self, *, session_id: Optional[str] = None) -> List[ThreadRecord]:
-        return self._list("threads", ThreadRecord, filters={"session_id": session_id})
+    def list_threads(
+        self,
+        *,
+        session_id: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+    ) -> List[ThreadRecord]:
+        return self._list(
+            "threads",
+            ThreadRecord,
+            filters={
+                "session_id": session_id,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
+            },
+        )
 
     def save_turn(self, record: TurnRecord) -> TurnRecord:
         self._upsert(
@@ -203,8 +350,24 @@ class CoreSQLiteStore:
     def get_turn(self, turn_id: str) -> TurnRecord:
         return self._get("turns", "turn_id", turn_id, TurnRecord)
 
-    def list_turns(self, *, thread_id: Optional[str] = None, session_id: Optional[str] = None) -> List[TurnRecord]:
-        return self._list("turns", TurnRecord, filters={"thread_id": thread_id, "session_id": session_id})
+    def list_turns(
+        self,
+        *,
+        thread_id: Optional[str] = None,
+        session_id: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+    ) -> List[TurnRecord]:
+        return self._list(
+            "turns",
+            TurnRecord,
+            filters={
+                "thread_id": thread_id,
+                "session_id": session_id,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
+            },
+        )
 
     def save_item(self, record: ItemRecord) -> ItemRecord:
         self._upsert(
@@ -225,8 +388,24 @@ class CoreSQLiteStore:
     def get_item(self, item_id: str) -> ItemRecord:
         return self._get("items", "item_id", item_id, ItemRecord)
 
-    def list_items(self, *, turn_id: Optional[str] = None, thread_id: Optional[str] = None) -> List[ItemRecord]:
-        return self._list("items", ItemRecord, filters={"turn_id": turn_id, "thread_id": thread_id})
+    def list_items(
+        self,
+        *,
+        turn_id: Optional[str] = None,
+        thread_id: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+    ) -> List[ItemRecord]:
+        return self._list(
+            "items",
+            ItemRecord,
+            filters={
+                "turn_id": turn_id,
+                "thread_id": thread_id,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
+            },
+        )
 
     def save_job(self, record: JobRecord) -> JobRecord:
         self._upsert(
@@ -256,6 +435,9 @@ class CoreSQLiteStore:
         turn_id: Optional[str] = None,
         domain: Optional[str] = None,
         status: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
     ) -> List[JobRecord]:
         return self._list(
             "jobs",
@@ -266,6 +448,42 @@ class CoreSQLiteStore:
                 "turn_id": turn_id,
                 "domain": domain,
                 "status": status,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
+            },
+        )
+
+    def save_job_event(self, record: JobEventRecord) -> JobEventRecord:
+        self._upsert(
+            "job_events",
+            "event_id",
+            record.event_id,
+            record,
+            extra={
+                "job_id": record.job_id,
+                "event_type": record.event_type,
+                "status": record.status,
+            },
+        )
+        return record
+
+    def list_job_events(
+        self,
+        *,
+        job_id: Optional[str] = None,
+        event_type: Optional[str] = None,
+        status: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+    ) -> List[JobEventRecord]:
+        return self._list(
+            "job_events",
+            JobEventRecord,
+            filters={
+                "job_id": job_id,
+                "event_type": event_type,
+                "status": status,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
             },
         )
 
@@ -292,13 +510,25 @@ class CoreSQLiteStore:
         self,
         *,
         owner_thread_id: Optional[str] = None,
+        owner_session_id: Optional[str] = None,
+        owner_turn_id: Optional[str] = None,
         domain: Optional[str] = None,
         kind: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
     ) -> List[ArtifactRecord]:
         return self._list(
             "artifacts",
             ArtifactRecord,
-            filters={"owner_thread_id": owner_thread_id, "domain": domain, "kind": kind},
+            filters={
+                "owner_thread_id": owner_thread_id,
+                "owner_session_id": owner_session_id,
+                "owner_turn_id": owner_turn_id,
+                "domain": domain,
+                "kind": kind,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
+            },
         )
 
     def save_trace_record(self, record: TraceRecord) -> TraceRecord:
@@ -327,6 +557,9 @@ class CoreSQLiteStore:
         session_id: Optional[str] = None,
         turn_id: Optional[str] = None,
         event_type: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
     ) -> List[TraceRecord]:
         return self._list(
             "trace_records",
@@ -336,6 +569,53 @@ class CoreSQLiteStore:
                 "session_id": session_id,
                 "turn_id": turn_id,
                 "event_type": event_type,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
+            },
+        )
+
+    def save_memory(self, record: MemoryRecord) -> MemoryRecord:
+        self._upsert(
+            "memory_records",
+            "memory_id",
+            record.memory_id,
+            record,
+            extra={
+                "session_id": record.session_id,
+                "thread_id": record.thread_id,
+                "source_turn_id": record.source_turn_id,
+                "source_artifact_id": record.source_artifact_id,
+                "scope": record.scope,
+                "kind": record.kind,
+                "status": record.status,
+            },
+        )
+        return record
+
+    def get_memory(self, memory_id: str) -> MemoryRecord:
+        return self._get("memory_records", "memory_id", memory_id, MemoryRecord)
+
+    def list_memory(
+        self,
+        *,
+        session_id: Optional[str] = None,
+        thread_id: Optional[str] = None,
+        kind: Optional[str] = None,
+        source_artifact_id: Optional[str] = None,
+        status: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+    ) -> List[MemoryRecord]:
+        return self._list(
+            "memory_records",
+            MemoryRecord,
+            filters={
+                "session_id": session_id,
+                "thread_id": thread_id,
+                "kind": kind,
+                "source_artifact_id": source_artifact_id,
+                "status": status,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
             },
         )
 
@@ -363,11 +643,19 @@ class CoreSQLiteStore:
         decision: Optional[str] = None,
         target_type: Optional[str] = None,
         target_id: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
     ) -> List[ApprovalRecord]:
         return self._list(
             "approvals",
             ApprovalRecord,
-            filters={"decision": decision, "target_type": target_type, "target_id": target_id},
+            filters={
+                "decision": decision,
+                "target_type": target_type,
+                "target_id": target_id,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
+            },
         )
 
     def save_retry(self, record: RetryRecord) -> RetryRecord:
@@ -394,11 +682,57 @@ class CoreSQLiteStore:
         session_id: Optional[str] = None,
         approval_id: Optional[str] = None,
         status: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
     ) -> List[RetryRecord]:
         return self._list(
             "retries",
             RetryRecord,
-            filters={"session_id": session_id, "approval_id": approval_id, "status": status},
+            filters={
+                "session_id": session_id,
+                "approval_id": approval_id,
+                "status": status,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
+            },
+        )
+
+    def save_connector(self, record: ConnectorRecord) -> ConnectorRecord:
+        self._upsert(
+            "connectors",
+            "connector_id",
+            record.connector_id,
+            record,
+            extra={
+                "kind": record.kind,
+                "domain": record.domain,
+                "health": record.health,
+            },
+        )
+        return record
+
+    def get_connector(self, connector_id: str) -> ConnectorRecord:
+        return self._get("connectors", "connector_id", connector_id, ConnectorRecord)
+
+    def list_connectors(
+        self,
+        *,
+        domain: Optional[str] = None,
+        kind: Optional[str] = None,
+        health: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+    ) -> List[ConnectorRecord]:
+        return self._list(
+            "connectors",
+            ConnectorRecord,
+            filters={
+                "domain": domain,
+                "kind": kind,
+                "health": health,
+                **_scope_filters(app_id=app_id, project_id=project_id, workspace_id=workspace_id),
+            },
         )
 
     def import_legacy_sessions(self, legacy_root: Union[str, Path]) -> int:
@@ -415,31 +749,46 @@ class CoreSQLiteStore:
             snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
             if not isinstance(snapshot, dict) or not snapshot.get("session_id"):
                 continue
+            events: list[Dict[str, Any]] = []
+            events_path = snapshot_path.parent / "events.jsonl"
+            if events_path.exists():
+                for line in events_path.read_text(encoding="utf-8").splitlines():
+                    if line.strip():
+                        event = json.loads(line)
+                        if isinstance(event, dict):
+                            events.append(event)
+            scope = _legacy_scope_context(snapshot, events)
             session = SessionRecord(
                 session_id=str(snapshot["session_id"]),
                 client_type="legacy_gateway",
+                app_id=scope["app_id"],
+                project_id=scope["project_id"],
+                workspace_id=scope["workspace_id"],
                 status=str(snapshot.get("state") or "unknown"),
                 metadata={"legacy_snapshot": snapshot},
             )
             self.save_session(session)
             thread = ThreadRecord(
                 session_id=session.session_id,
+                app_id=scope["app_id"],
+                project_id=scope["project_id"],
+                workspace_id=scope["workspace_id"],
                 title=f"Legacy session {session.session_id}",
                 metadata={"legacy_import": True},
             )
             self.save_thread(thread)
-            events_path = snapshot_path.parent / "events.jsonl"
-            if events_path.exists():
+            if events:
                 turn_by_legacy_id: Dict[str, str] = {}
-                for line in events_path.read_text(encoding="utf-8").splitlines():
-                    if not line.strip():
-                        continue
-                    event = json.loads(line)
+                for event in events:
+                    event_scope = _legacy_scope_context(snapshot, [event], base_scope=scope)
                     legacy_turn_id = str(event.get("turn_id") or "legacy")
                     if legacy_turn_id not in turn_by_legacy_id:
                         turn = TurnRecord(
                             session_id=session.session_id,
                             thread_id=thread.thread_id,
+                            app_id=event_scope["app_id"],
+                            project_id=event_scope["project_id"],
+                            workspace_id=event_scope["workspace_id"],
                             input=_legacy_event_input(event),
                             state="imported",
                             metadata={"legacy_turn_id": legacy_turn_id},
@@ -450,6 +799,9 @@ class CoreSQLiteStore:
                         session_id=session.session_id,
                         thread_id=thread.thread_id,
                         turn_id=turn_by_legacy_id[legacy_turn_id],
+                        app_id=event_scope["app_id"],
+                        project_id=event_scope["project_id"],
+                        workspace_id=event_scope["workspace_id"],
                         item_type=str(event.get("type") or "legacy.event"),
                         content={"legacy_event": event},
                         status="imported",
@@ -463,6 +815,18 @@ class CoreSQLiteStore:
         conn.row_factory = sqlite3.Row
         return conn
 
+    def _ensure_scope_columns(self, conn: sqlite3.Connection) -> None:
+        for table in SCOPE_MIGRATION_TABLES:
+            existing = {row["name"] for row in conn.execute(f"PRAGMA table_info({table})").fetchall()}
+            if "app_id" not in existing:
+                conn.execute(
+                    f"ALTER TABLE {table} ADD COLUMN app_id TEXT NOT NULL DEFAULT '{LEGACY_SCOPE_DEFAULT_APP_ID}'"
+                )
+            if "project_id" not in existing:
+                conn.execute(f"ALTER TABLE {table} ADD COLUMN project_id TEXT")
+            if "workspace_id" not in existing:
+                conn.execute(f"ALTER TABLE {table} ADD COLUMN workspace_id TEXT")
+
     def _upsert(
         self,
         table: str,
@@ -473,6 +837,7 @@ class CoreSQLiteStore:
         extra: Dict[str, Any],
     ) -> None:
         payload = _dump_record(record)
+        extra = {**_record_scope_extra(record), **extra}
         columns = [key_column, *extra.keys(), "payload", "created_at", "updated_at"]
         values = [
             key_value,
@@ -532,6 +897,27 @@ def _dump_record(record: BaseModel) -> str:
     return record.json()
 
 
+def _record_scope_extra(record: BaseModel) -> Dict[str, Any]:
+    return {
+        "app_id": str(getattr(record, "app_id", "default") or "default"),
+        "project_id": getattr(record, "project_id", None),
+        "workspace_id": getattr(record, "workspace_id", None),
+    }
+
+
+def _scope_filters(
+    *,
+    app_id: Optional[str] = None,
+    project_id: Optional[str] = None,
+    workspace_id: Optional[str] = None,
+) -> Dict[str, Optional[str]]:
+    return {
+        "app_id": app_id,
+        "project_id": project_id,
+        "workspace_id": workspace_id,
+    }
+
+
 def _load_record(payload: str, model: Type[RecordT]) -> RecordT:
     if hasattr(model, "model_validate_json"):
         return model.model_validate_json(payload)
@@ -549,3 +935,94 @@ def _legacy_event_input(event: Dict[str, Any]) -> str:
     if isinstance(data, dict) and isinstance(data.get("input"), str):
         return data["input"]
     return ""
+
+
+def _legacy_scope_context(
+    snapshot: Dict[str, Any],
+    events: Sequence[Dict[str, Any]],
+    *,
+    base_scope: Optional[Dict[str, Optional[str]]] = None,
+) -> Dict[str, Optional[str]]:
+    base_scope = dict(base_scope or {})
+    snapshot_scope = _legacy_scope_from_mapping(snapshot)
+    event_scopes = [_legacy_scope_from_mapping(event.get("data")) for event in events if isinstance(event, dict)]
+
+    app_id = (
+        _first_text(
+            base_scope.get("app_id"),
+            snapshot_scope["app_id"],
+            *[scope["app_id"] for scope in event_scopes],
+        )
+        or _legacy_inferred_app_id(snapshot, events)
+        or LEGACY_SCOPE_DEFAULT_APP_ID
+    )
+    return {
+        "app_id": app_id,
+        "project_id": _first_text(
+            base_scope.get("project_id"),
+            snapshot_scope["project_id"],
+            *[scope["project_id"] for scope in event_scopes],
+        ),
+        "workspace_id": _first_text(
+            base_scope.get("workspace_id"),
+            snapshot_scope["workspace_id"],
+            *[scope["workspace_id"] for scope in event_scopes],
+        ),
+    }
+
+
+def _legacy_scope_from_mapping(payload: Any) -> Dict[str, Optional[str]]:
+    if not isinstance(payload, dict):
+        return {"app_id": None, "project_id": None, "workspace_id": None}
+    scope = payload.get("scope")
+    scope_payload = scope if isinstance(scope, dict) else {}
+    return {
+        "app_id": _text_or_none(scope_payload.get("app_id")) or _text_or_none(payload.get("app_id")),
+        "project_id": _text_or_none(scope_payload.get("project_id")) or _text_or_none(payload.get("project_id")),
+        "workspace_id": _text_or_none(scope_payload.get("workspace_id")) or _text_or_none(payload.get("workspace_id")),
+    }
+
+
+def _legacy_inferred_app_id(snapshot: Dict[str, Any], events: Sequence[Dict[str, Any]]) -> Optional[str]:
+    if _mapping_contains_meeting(snapshot):
+        return LEGACY_SCOPE_MEETING_APP_ID
+    for event in events:
+        if _mapping_contains_meeting(event):
+            return LEGACY_SCOPE_MEETING_APP_ID
+        data = event.get("data") if isinstance(event, dict) else None
+        if isinstance(data, dict) and _mapping_contains_meeting(data):
+            return LEGACY_SCOPE_MEETING_APP_ID
+    return None
+
+
+def _mapping_contains_meeting(payload: Any) -> bool:
+    if not isinstance(payload, dict):
+        return False
+    domain = _text_or_none(payload.get("domain"))
+    if domain == LEGACY_SCOPE_MEETING_APP_ID:
+        return True
+    for key in ("path", "audio_path", "source_path", "input"):
+        value = _text_or_none(payload.get(key))
+        if value and _looks_like_meeting_audio_path(value):
+            return True
+    return False
+
+
+def _looks_like_meeting_audio_path(value: str) -> bool:
+    lowered = value.lower()
+    return lowered.endswith((".wav", ".mp3", ".m4a", ".aac", ".flac"))
+
+
+def _first_text(*values: Optional[str]) -> Optional[str]:
+    for value in values:
+        text = _text_or_none(value)
+        if text is not None:
+            return text
+    return None
+
+
+def _text_or_none(value: Any) -> Optional[str]:
+    if not isinstance(value, str):
+        return None
+    stripped = value.strip()
+    return stripped or None

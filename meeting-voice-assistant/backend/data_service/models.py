@@ -80,6 +80,7 @@ class ArtifactLayout:
     quality_dir: Path
     quality_feedback_jsonl: Path
     quality_correction_rules_json: Path
+    quality_correction_plan_json: Path
 
     @classmethod
     def from_workspace(cls, workspace: Path) -> "ArtifactLayout":
@@ -112,6 +113,7 @@ class ArtifactLayout:
             quality_dir=workspace / "quality",
             quality_feedback_jsonl=workspace / "quality" / "feedback.jsonl",
             quality_correction_rules_json=workspace / "quality" / "correction_rules.json",
+            quality_correction_plan_json=workspace / "quality" / "correction_plan.json",
         )
 
     def ensure_directories(self) -> None:

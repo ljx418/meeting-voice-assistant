@@ -1,0 +1,365 @@
+{
+  "id": "e6e74bff-aa2b-4b74-8b02-360fa686c6c6",
+  "title": "美加墨世界杯小组赛时间",
+  "inserted_at": "2026-03-02T16:10:01.796000+08:00",
+  "updated_at": "2026-03-02T16:15:00.750000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-03-02T16:10:04.027000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "用北京时间表示美加墨世界杯的比赛时间（具体周几），标粗表示 德国、西班牙、阿根廷的小组赛比赛"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [
+        "3"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-03-02T16:10:04.028000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://app.xinhuanet.com/news/article.html?articleId=7f0b010f4b1234442d27d51d25526b94",
+                "title": "球迷友好！美加墨世界杯完整赛程公布",
+                "snippet": "北京时间12月7日，FIFA官方公布了2026美加墨世界杯的全部赛程，由于本届赛事在北美进行，时差的原因导致不少比赛将会在北京时间早上进行，不同比赛的场次时间跨度从北京时间0点-中午12点，可以说对广大中国足球迷来说十分友好。",
+                "cite_index": 1,
+                "published_at": 1765036800.0,
+                "site_name": "新华网客户端",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xinhuanet.com",
+                "query_indexes": [
+                  0,
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.qiumiwu.com/news/1836579125261",
+                "title": "2026世界杯小组赛德国队赛程安排详情一览",
+                "snippet": "2026美加墨世界杯将在北京时间2026年6月12日正式开打，目前小组赛抽签结果和赛程时间安排已经知晓。今天把目光锁定在了欧洲区。这支球队拿到过世界杯冠军...",
+                "cite_index": 2,
+                "published_at": 1766678400.0,
+                "site_name": "球迷屋",
+                "site_icon": "https://cdn.deepseek.com/site-icons/qiumiwu.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.qiumiwu.com/news/1832004919467",
+                "title": "2026世界杯赛程西班牙时间表详情一览",
+                "snippet": "根据官方公布的消息，西班牙在本届世界杯中分到了H组，具体赛程如下（均为北京时间）： 西班牙VS佛得角 6月16日00:00 亚特兰大体育场",
+                "cite_index": 3,
+                "published_at": null,
+                "site_name": "球迷屋",
+                "site_icon": "https://cdn.deepseek.com/site-icons/qiumiwu.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.ifeng.com/c/8otDaZQKphC?ch=ttsearch",
+                "title": "2026年美加墨世界杯完整赛程公布",
+                "snippet": "L组英格兰队与克罗地亚队之间的“强强对话”将于6月17日在达拉斯进行；I组姆巴佩领衔的法国队与拥有哈兰德的挪威队将在小组赛相遇，这场比赛将于6月26日在波士顿进行。 本届世界杯决赛将于北美东部时间7月19日15点(北京时间20日凌晨3点)在纽约/新泽西举行。",
+                "cite_index": 4,
+                "published_at": 1765036800.0,
+                "site_name": "凤凰网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/ifeng.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://en.as.com/resultados/futbol/mundial/calendario/",
+                "title": "Mundial 2026 fixture by days",
+                "snippet": "Group D 00:00ET Australia AUS - Winner Of Uefa Play Off Path C - - - Group E 13:00ET Germany GER - Curaçao CUR - - Group F 16:00ET Netherlands NDL - Japan JAP - - Group E 19...",
+                "cite_index": 5,
+                "published_at": 1770739200.0,
+                "site_name": "Diario AS",
+                "site_icon": "https://cdn.deepseek.com/site-icons/as.com",
+                "query_indexes": [
+                  1,
+                  2,
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://voice.hupu.com/bbs/636179695",
+                "title": "世界杯-国际足球-国际足球资讯-虎扑社区",
+                "snippet": "虎扑12月07日讯 2026美加墨世界杯赛程正式公布，时间表如下： （注：所标注时间均为北京时间） 6月12日 3:00 墨西哥vs南非（A组） 10:00 韩国vs丹麦/捷克/爱尔兰/北马其顿（A组）",
+                "cite_index": 6,
+                "published_at": 1765036800.0,
+                "site_name": "虎扑",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hupu.com",
+                "query_indexes": [
+                  2,
+                  1,
+                  3
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.zhibo8.com/zuqiu/2025-12-07/693366b6759e5native.htm",
+                "title": "2026世界杯小组赛赛程：揭幕战6月12日3点，阿根廷6月17日9点首战",
+                "snippet": "直播吧12月7日讯 2026美加墨世界杯赛程正式公布，小组赛一共72场比赛，不同比赛场次时间跨度从北京时间0点-中午12点。本届揭幕战将在6月12日凌晨3点打响，墨西哥vs南非！阿根廷6月17日9点小组赛首战对战阿尔及利亚...",
+                "cite_index": 7,
+                "published_at": 1765036800.0,
+                "site_name": "Zhibo8",
+                "site_icon": "https://cdn.deepseek.com/site-icons/zhibo8.com",
+                "query_indexes": [
+                  3,
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://big5.cctv.com/gate/big5/news.cctv.com/2025/12/07/ARTIed0j3yTpjYf5334NSUYH251207.shtml",
+                "title": "美加墨世界盃賽程公佈：6月11日打響揭幕戰 7月19日進行決賽",
+                "snippet": "北京時間12月7日，2026年美加墨世界盃賽程公佈，揭幕戰將於當地時間6月11日在墨西哥城進行，由東道主墨西哥對陣南非。決賽將在當地時間7月19日舉行，比賽場地是大都會人壽體育場（紐約/新澤西）。",
+                "cite_index": 8,
+                "published_at": 1765036800.0,
+                "site_name": "央视网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cctv.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://onefootball.com/en/news/fifa-world-cup-2026-fixture-list-and-kickoff-times-in-full-42059993",
+                "title": "FIFA World Cup 2026 fixture list and kickoff times in full",
+                "snippet": "June 14 - Germany vs Curacao at 1pm (19:00 GMT) – Houston Stadium, Houston, US - Netherlands vs Japan at 4pm (22:00 GMT) – Dallas Stadium, Dallas, US",
+                "cite_index": 9,
+                "published_at": 1765036800.0,
+                "site_name": "OneFootball",
+                "site_icon": "https://cdn.deepseek.com/site-icons/onefootball.com",
+                "query_indexes": [
+                  1,
+                  2
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户想要2026美加墨世界杯用北京时间表示的小组赛赛程，并且特别要求标粗德国、西班牙、阿根廷这三支球队的比赛，还要注明具体是周几。这是一个需要整理和格式化数据的需求。\n\n我需要从搜索结果中提取这三个球队的所有小组赛信息，包括比赛时间、对手和轮次，然后换算成北京时间并标注星期几。如果搜索结果信息充分且一致，我可以用表格形式呈现，让用户一目了然。\n\n看搜索结果，多个体育媒体都发布了详细的赛程[citation:7][citation:6]，央视网的权威性最高[citation:8]，新华网也有完整报道[citation:1]。有个英文网站提供了完整的赛程表[citation:5]，可以作为交叉验证。球迷屋的两个网页分别针对德国队和西班牙队给出了详细时间[citation:2][citation:3]，虽然权威性一般但信息具体。\n\n关于这三个球队的比赛时间，各搜索结果基本一致：德国队三场比赛分别是6月15日01:00、6月21日04:00、6月26日04:00[citation:2][citation:7]；西班牙队分别是6月16日00:00、6月22日00:00、6月27日08:00[citation:3][citation:7]；阿根廷队分别是6月17日09:00、6月23日01:00、6月28日10:00[citation:7][citation:1]。这些时间都是北京时间，可以直接使用。\n\n凤凰网和虎扑的报道[citation:4][citation:6]主要是整体赛程介绍，与用户要求的三个球队关联不大。OneFootball的英文网站[citation:9]虽然提供了完整赛程，但时间表述方式与用户要求的北京时间格式不同。\n\n我需要计算每个比赛对应的星期几。2026年6月15日是周一，6月21日是周日，6月26日是周五；6月16日是周二，6月22日是周一，6月27日是周六；6月17日是周三，6月23日是周二，6月28日是周日。这些推算结果需要确保准确。\n\n信息比较充分且一致，可以用表格形式呈现，把三个球队分开列示，每个球队的三场比赛按轮次顺序排列，用加粗突出球队名称和比赛场次。最后可以加一句简单的观赛祝福。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "好的，这是用北京时间表示的2026年美加墨世界杯小组赛阶段，**德国、西班牙、阿根廷**三支球队的具体比赛时间：\n\n### 🇩🇪 德国队（E组）小组赛赛程\n| 比赛轮次 | 对阵双方 | 北京时间 | 星期几 |\n| :--- | :--- | :--- | :--- |\n| **第一轮** | **德国 vs 库拉索** | 6月15日 01:00 | 周一 [citation:2][citation:7] |\n| **第二轮** | **德国 vs 科特迪瓦** | 6月21日 04:00 | 周日 [citation:2][citation:7] |\n| **第三轮** | **厄瓜多尔 vs 德国** | 6月26日 04:00 | 周五 [citation:2][citation:7] |\n\n### 🇪🇸 西班牙队（H组）小组赛赛程\n| 比赛轮次 | 对阵双方 | 北京时间 | 星期几 |\n| :--- | :--- | :--- | :--- |\n| **第一轮** | **西班牙 vs 佛得角** | 6月16日 00:00 | 周二 [citation:3][citation:7] |\n| **第二轮** | **西班牙 vs 沙特阿拉伯** | 6月22日 00:00 | 周一 [citation:3][citation:7] |\n| **第三轮** | **乌拉圭 vs 西班牙** | 6月27日 08:00 | 周六 [citation:3][citation:7] |\n\n### 🇦🇷 阿根廷队（J组）小组赛赛程\n| 比赛轮次 | 对阵双方 | 北京时间 | 星期几 |\n| :--- | :--- | :--- | :--- |\n| **第一轮** | **阿根廷 vs 阿尔及利亚** | 6月17日 09:00 | 周三 [citation:1][citation:7] |\n| **第二轮** | **阿根廷 vs 奥地利** | 6月23日 01:00 | 周二 [citation:7] |\n| **第三轮** | **约旦 vs 阿根廷** | 6月28日 10:00 | 周日 [citation:1][citation:7] |\n\n希望这份赛程能帮助你更好地规划观赛时间，到时一起享受足球盛宴！"
+          }
+        ]
+      }
+    },
+    "3": {
+      "id": "3",
+      "parent": "2",
+      "children": [
+        "4"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-03-02T16:13:44.602000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "我需要全部赛程的具体开赛时间"
+          }
+        ]
+      }
+    },
+    "4": {
+      "id": "4",
+      "parent": "3",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-03-02T16:13:44.603000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://app.xinhuanet.com/news/article.html?articleId=7f0b010f4b1234442d27d51d25526b94",
+                "title": "球迷友好！美加墨世界杯完整赛程公布",
+                "snippet": "北京时间12月7日，FIFA官方公布了2026美加墨世界杯的全部赛程，由于本届赛事在北美进行，时差的原因导致不少比赛将会在北京时间早上进行，不同比赛的场次时间跨度从北京时间0点-中午12点，可以说对广大中国足球迷来说十分友好。",
+                "cite_index": 1,
+                "published_at": 1765036800.0,
+                "site_name": "新华网客户端",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xinhuanet.com",
+                "query_indexes": [
+                  0,
+                  1,
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://sports.ycwb.com/ikinvjitkl/content_53837412.htm",
+                "title": "2026世界杯完整赛程出炉，球员们不得不接受酷暑考验",
+                "snippet": "北京时间内12月7日凌晨，2026美加墨世界杯赛程公布仪式在美国举行。揭幕战为墨西哥对阵南非，比赛时间是北京时间2026年6月12日凌晨3时，在墨西哥城球场举行。决赛将于7月20日凌晨3时在纽约新泽西体育场举行。",
+                "cite_index": 2,
+                "published_at": 1765036800.0,
+                "site_name": "羊城晚报",
+                "site_icon": "https://cdn.deepseek.com/site-icons/ycwb.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.southcn.com/node_041c82d55b/0d2bdb51c3.shtml",
+                "title": "美加墨世界杯完整赛程确定：揭幕战与决赛均在北京时间凌晨3点",
+                "snippet": "其中，墨西哥队与南非队的揭幕战将定于北京时间2026年6月12日3:00开球（以下时间均为北京时间），而最终的决赛将安排在7月20日3:00进行。",
+                "cite_index": 3,
+                "published_at": 1765036800.0,
+                "site_name": "南方网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/southcn.com",
+                "query_indexes": [
+                  0,
+                  2,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.zhibo8.com/zuqiu/2025-12-07/693366b6759e5native.htm",
+                "title": "2026世界杯小组赛赛程：揭幕战6月12日3点，阿根廷6月17日9点首战",
+                "snippet": "直播吧12月7日讯 2026美加墨世界杯赛程正式公布，小组赛一共72场比赛，不同比赛场次时间跨度从北京时间0点-中午12点。本届揭幕战将在6月12日凌晨3点打响，墨西哥vs南非！阿根廷6月17日9点小组赛首战对战阿尔及利亚...",
+                "cite_index": 4,
+                "published_at": 1765036800.0,
+                "site_name": "Zhibo8",
+                "site_icon": "https://cdn.deepseek.com/site-icons/zhibo8.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.zhibo8.com/zuqiu/2025-12-07/6934e838ba25fnative.htm",
+                "title": "豆浆油条配足球！2026世界杯有44场7点后开球 半决赛+决赛凌晨3点",
+                "snippet": "在2026世界杯上，将有44场比赛于北京时间7点及以后开球，其中小组赛35场，淘汰赛9场，半决赛和决赛都将在凌晨3点开球，三、四名决赛则是凌晨5点。",
+                "cite_index": 5,
+                "published_at": 1765036800.0,
+                "site_name": "Zhibo8",
+                "site_icon": "https://cdn.deepseek.com/site-icons/zhibo8.com",
+                "query_indexes": [
+                  2,
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://sports.jschina.com.cn/zhtx/202512/t20251208_s69362dcce4b00994037dea04.shtml",
+                "title": "2026世界杯揭幕战和决赛均为北京时间凌晨开球_中国江苏网",
+                "snippet": "新华社华盛顿12月6日电 国际足联6日公布了2026年美加墨世界杯的完整赛程，揭幕战与决赛分别于北京时间6月12日、7月20日凌晨3点打响。该版赛程所有标注的时间均为夏令时的北美东部时间，届时将与北京时间相差12小时。",
+                "cite_index": 6,
+                "published_at": 1765123200.0,
+                "site_name": "中国江苏网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/jschina.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.yzwb.net/news/ty/202512/t20251207_297715.html",
+                "title": "上班摸鱼看球？世界杯赛程揭晓",
+                "snippet": "北京时间12月7日凌晨，2026美加墨世界杯赛程正式公布，小组赛一共72场比赛，不同比赛场次时间跨度从北京时间0点—中午12点。 本届揭幕战将在6月12日凌晨3点打响，由墨西哥vs南非。挪威vs法国的焦点大战将在6月27日3点进行。",
+                "cite_index": 7,
+                "published_at": 1765036800.0,
+                "site_name": "紫牛新闻",
+                "site_icon": "https://cdn.deepseek.com/site-icons/yzwb.net",
+                "query_indexes": [
+                  1,
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.cqcb.com/tiyu/2025-12-07/6023474_pc.html",
+                "title": "2026美加墨世界杯赛程公布-上游新闻 汇聚向上的力量",
+                "snippet": "北京时间12月7日凌晨，2026年美加墨世界杯赛程公布，具体赛程如下（赛程标注时间为北京时间） 据悉，欧洲区附加赛包括意大利、瑞典、土耳其、丹麦队等队。意大利队若成功晋级...",
+                "cite_index": 8,
+                "published_at": 1765036800.0,
+                "site_name": "上游新闻",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cqcb.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.yunnan.cn/system/2025/12/08/033764903.shtml",
+                "title": "2026世界杯揭幕战和决赛均为北京时间凌晨开球_体育_新闻频道_云南网",
+                "snippet": "国际足联6日公布了2026年美加墨世界杯的完整赛程，揭幕战与决赛分别于北京时间6月12日、7月20日凌晨3点打响。该版赛程所有标注的时间均为夏令时的北美东部时间，届时将与北京时间相差12小时。",
+                "cite_index": 9,
+                "published_at": 1765123200.0,
+                "site_name": "云南网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/yunnan.cn",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.olympics.com/en/news/fifa-world-cup-2026-all-teams-groups-venues-and-final-match-schedules",
+                "title": "FIFA World Cup 2026: All teams, groups, venues and final match schedules",
+                "snippet": "An unprecedented 48 national teams will feature in 12 groups of four in the tournament, which will run from 11 June to 19 July 2026. ... FIFA World Cup 2026 final match schedule All times are listed in Eastern Time. ## Group A fixtures...",
+                "cite_index": 10,
+                "published_at": 1765036800.0,
+                "site_name": "Olympics.com",
+                "site_icon": "https://cdn.deepseek.com/site-icons/olympics.com",
+                "query_indexes": [
+                  2
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户之前问过德国、西班牙、阿根廷三队的小组赛时间，现在想要全部赛程的具体开赛时间。这是一个很明确的扩展需求，需要我提供完整的104场比赛时间表。\n\n我需要整理从小组赛到决赛的所有场次，包括附加赛球队尚未确定的情况，同时标注北京时间对应的星期几。信息量大但结构清晰，按比赛阶段和小组顺序组织会比较直观。\n\n看搜索结果，有多个权威来源都提供了完整赛程。新华网客户端[citation:1]、直播吧[citation:4][citation:5]、紫牛新闻[citation:7]、上游新闻[citation:8]都给出了详细的北京时间版赛程，信息一致性很高。直播吧的赛程最为详尽[citation:4]，包含了小组赛到淘汰赛的全部场次和时间，虽然作为体育资讯网站权威性中等，但与其他正规媒体信息完全吻合。\n\n羊城晚报[citation:2]、南方网[citation:3]、中国江苏网[citation:6]、云南网[citation:9]这些正规媒体也确认了核心信息，包括揭幕战和决赛时间。Olympics官网[citation:10]提供了英文版赛程和场地信息，可以作为补充参考。\n\n关于附加赛球队未确定的情况，多个来源都有说明[citation:1][citation:4][citation:8]，需要在表格中标注清楚。\n\n我准备按小组赛（A-L组）、1/16决赛、1/8决赛、1/4决赛、半决赛、季军战、决赛的顺序整理。每个表格包含轮次/场次、对阵双方、北京时间、星期几四列。时间信息以直播吧[citation:4]的详细赛程为准，星期几可以自行推算补充。\n\n最后需要提醒用户注意，附加赛球队需等2026年3月才能最终确定[citation:8][citation:10]，届时可能会有微调。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "好的，这是2026年美加墨世界杯从小组赛到决赛的全部赛程，所有时间均已转换为北京时间，并附上了对应的星期几，方便您规划观赛。\n\n### 2026美加墨世界杯完整赛程（北京时间）\n\n#### 小组赛赛程\n\n| 小组 | 轮次 | 对阵双方 | 北京时间 | 星期几 |\n| :--- | :--- | :--- | :--- | :--- |\n| **A组** | 第一轮 | 墨西哥 vs 南非 | 6月12日 03:00 | 周五 |\n| | 第一轮 | 韩国 vs 欧洲附加赛球队D | 6月12日 10:00 | 周五 |\n| | 第二轮 | 欧洲附加赛球队D vs 南非 | 6月19日 00:00 | 周五 |\n| | 第二轮 | 墨西哥 vs 韩国 | 6月19日 09:00 | 周五 |\n| | 第三轮 | 欧洲附加赛球队D vs 墨西哥 | 6月25日 09:00 | 周四 |\n| | 第三轮 | 南非 vs 韩国 | 6月25日 09:00 | 周四 |\n| **B组** | 第一轮 | 加拿大 vs 欧洲附加赛球队A | 6月13日 03:00 | 周六 |\n| | 第一轮 | 卡塔尔 vs 瑞士 | 6月14日 03:00 | 周日 |\n| | 第二轮 | 瑞士 vs 欧洲附加赛球队A | 6月19日 03:00 | 周五 |\n| | 第二轮 | 加拿大 vs 卡塔尔 | 6月19日 06:00 | 周五 |\n| | 第三轮 | 瑞士 vs 加拿大 | 6月25日 03:00 | 周四 |\n| | 第三轮 | 欧洲附加赛球队A vs 卡塔尔 | 6月25日 03:00 | 周四 |\n| **C组** | 第一轮 | 巴西 vs 摩洛哥 | 6月14日 06:00 | 周日 |\n| | 第一轮 | 海地 vs 苏格兰 | 6月14日 09:00 | 周日 |\n| | 第二轮 | 苏格兰 vs 摩洛哥 | 6月20日 06:00 | 周六 |\n| | 第二轮 | 巴西 vs 海地 | 6月20日 09:00 | 周六 |\n| | 第三轮 | 苏格兰 vs 巴西 | 6月25日 06:00 | 周四 |\n| | 第三轮 | 摩洛哥 vs 海地 | 6月25日 06:00 | 周四 |\n| **D组** | 第一轮 | 美国 vs 巴拉圭 | 6月13日 09:00 | 周六 |\n| | 第一轮 | 澳大利亚 vs 欧洲附加赛球队C | 6月13日 12:00 | 周六 |\n| | 第二轮 | 欧洲附加赛球队C vs 巴拉圭 | 6月19日 12:00 | 周五 |\n| | 第二轮 | 美国 vs 澳大利亚 | 6月20日 03:00 | 周六 |\n| | 第三轮 | 欧洲附加赛球队C vs 美国 | 6月26日 10:00 | 周五 |\n| | 第三轮 | 巴拉圭 vs 澳大利亚 | 6月26日 10:00 | 周五 |\n| **E组** | 第一轮 | **德国 vs 库拉索** | **6月15日 01:00** | **周一** |\n| | 第一轮 | 科特迪瓦 vs 厄瓜多尔 | 6月15日 07:00 | 周一 |\n| | 第二轮 | **德国 vs 科特迪瓦** | **6月21日 04:00** | **周日** |\n| | 第二轮 | 厄瓜多尔 vs 库拉索 | 6月21日 08:00 | 周日 |\n| | 第三轮 | 厄瓜多尔 vs **德国** | **6月26日 04:00** | **周五** |\n| | 第三轮 | 库拉索 vs 科特迪瓦 | 6月26日 04:00 | 周五 |\n| **F组** | 第一轮 | 荷兰 vs 日本 | 6月15日 04:00 | 周一 |\n| | 第一轮 | 欧洲附加赛球队B vs 突尼斯 | 6月15日 10:00 | 周一 |\n| | 第二轮 | 荷兰 vs 欧洲附加赛球队B | 6月21日 01:00 | 周日 |\n| | 第二轮 | 突尼斯 vs 日本 | 6月20日 12:00 | 周六 |\n| | 第三轮 | 日本 vs 欧洲附加赛球队B | 6月26日 07:00 | 周五 |\n| | 第三轮 | 突尼斯 vs 荷兰 | 6月26日 07:00 | 周五 |\n| **G组** | 第一轮 | 伊朗 vs 新西兰 | 6月16日 09:00 | 周二 |\n| | 第一轮 | 比利时 vs 埃及 | 6月16日 03:00 | 周二 |\n| | 第二轮 | 比利时 vs 伊朗 | 6月22日 03:00 | 周一 |\n| | 第二轮 | 新西兰 vs 埃及 | 6月22日 09:00 | 周一 |\n| | 第三轮 | 埃及 vs 伊朗 | 6月27日 11:00 | 周六 |\n| | 第三轮 | 新西兰 vs 比利时 | 6月27日 11:00 | 周六 |\n| **H组** | 第一轮 | **西班牙 vs 佛得角** | **6月16日 00:00** | **周二** |\n| | 第一轮 | 沙特 vs 乌拉圭 | 6月16日 06:00 | 周二 |\n| | 第二轮 | **西班牙 vs 沙特** | **6月22日 00:00** | **周一** |\n| | 第二轮 | 乌拉圭 vs 佛得角 | 6月22日 06:00 | 周一 |\n| | 第三轮 | 佛得角 vs 沙特 | 6月27日 08:00 | 周六 |\n| | 第三轮 | 乌拉圭 vs **西班牙** | **6月27日 08:00** | **周六** |\n| **I组** | 第一轮 | 法国 vs 塞内加尔 | 6月16日 03:00 | 周二 |\n| | 第一轮 | 洲际附加赛球队2 vs 挪威 | 6月16日 06:00 | 周二 |\n| | 第二轮 | 法国 vs 洲际附加赛球队2 | 6月23日 05:00 | 周二 |\n| | 第二轮 | 挪威 vs 塞内加尔 | 6月23日 08:00 | 周二 |\n| | 第三轮 | 挪威 vs 法国 | 6月27日 03:00 | 周六 |\n| | 第三轮 | 塞内加尔 vs 洲际附加赛球队2 | 6月27日 03:00 | 周六 |\n| **J组** | 第一轮 | **阿根廷 vs 阿尔及利亚** | **6月17日 09:00** | **周三** |\n| | 第一轮 | 奥地利 vs 约旦 | 6月16日 12:00 | 周二 |\n| | 第二轮 | **阿根廷 vs 奥地利** | **6月23日 01:00** | **周二** |\n| | 第二轮 | 约旦 vs 阿尔及利亚 | 6月23日 11:00 | 周二 |\n| | 第三轮 | 阿尔及利亚 vs 奥地利 | 6月28日 10:00 | 周日 |\n| | 第三轮 | 约旦 vs **阿根廷** | **6月28日 10:00** | **周日** |\n| **K组** | 第一轮 | 葡萄牙 vs 洲际附加赛球队1 | 6月18日 01:00 | 周四 |\n| | 第一轮 | 乌兹别克斯坦 vs 哥伦比亚 | 6月18日 10:00 | 周四 |\n| | 第二轮 | 葡萄牙 vs 乌兹别克斯坦 | 6月24日 01:00 | 周三 |\n| | 第二轮 | 哥伦比亚 vs 洲际附加赛球队1 | 6月24日 10:00 | 周三 |\n| | 第三轮 | 哥伦比亚 vs 葡萄牙 | 6月28日 07:30 | 周日 |\n| | 第三轮 | 洲际附加赛球队1 vs 乌兹别克斯坦 | 6月28日 07:30 | 周日 |\n| **L组** | 第一轮 | 英格兰 vs 克罗地亚 | 6月18日 04:00 | 周四 |\n| | 第一轮 | 加纳 vs 巴拿马 | 6月18日 07:00 | 周四 |\n| | 第二轮 | 英格兰 vs 加纳 | 6月24日 04:00 | 周三 |\n| | 第二轮 | 巴拿马 vs 克罗地亚 | 6月24日 07:00 | 周三 |\n| | 第三轮 | 巴拿马 vs 英格兰 | 6月28日 05:00 | 周日 |\n| | 第三轮 | 克罗地亚 vs 加纳 | 6月28日 05:00 | 周日 |\n\n#### 淘汰赛赛程\n\n| 比赛阶段 | 场次 | 对阵形势 | 北京时间 | 星期几 |\n| :--- | :--- | :--- | :--- | :--- |\n| **1/16决赛** | 比赛73 | A2 vs B2 | 6月29日 03:00 | 周一 |\n| | 比赛76 | C1 vs F2 | 6月30日 01:00 | 周二 |\n| | 比赛74 | E1 vs A/B/C/D/F3 | 6月30日 04:30 | 周二 |\n| | 比赛75 | F1 vs C2 | 6月30日 09:00 | 周二 |\n| | 比赛78 | E2 vs I2 | 7月1日 01:00 | 周三 |\n| | 比赛77 | I1 vs C/D/F/G/H3 | 7月1日 05:00 | 周三 |\n| | 比赛79 | A1 vs C/E/F/H/I3 | 7月1日 09:00 | 周三 |\n| | 比赛80 | L1 vs E/H/I/J/K3 | 7月2日 00:00 | 周四 |\n| | 比赛82 | G1 vs A/E/H/I/J3 | 7月2日 04:00 | 周四 |\n| | 比赛81 | D1 vs B/E/F/I/J3 | 7月2日 08:00 | 周四 |\n| | 比赛84 | H1 vs J2 | 7月3日 03:00 | 周五 |\n| | 比赛83 | K2 vs L2 | 7月3日 07:00 | 周五 |\n| | 比赛85 | B1 vs E/F/G/I/J3 | 7月3日 11:00 | 周五 |\n| | 比赛88 | D2 vs G2 | 7月4日 02:00 | 周六 |\n| | 比赛86 | J1 vs H2 | 7月4日 06:00 | 周六 |\n| | 比赛87 | K1 vs D/E/I/J/L3 | 7月4日 09:30 | 周六 |\n| **1/8决赛** | 比赛90 | 比赛73胜者 vs 比赛75胜者 | 7月5日 01:00 | 周日 |\n| | 比赛89 | 比赛74胜者 vs 比赛77胜者 | 7月5日 05:00 | 周日 |\n| | 比赛91 | 比赛76胜者 vs 比赛78胜者 | 7月6日 04:00 | 周一 |\n| | 比赛92 | 比赛79胜者 vs 比赛80胜者 | 7月6日 08:00 | 周一 |\n| | 比赛93 | 比赛83胜者 vs 比赛84胜者 | 7月7日 03:00 | 周二 |\n| | 比赛94 | 比赛81胜者 vs 比赛82胜者 | 7月7日 08:00 | 周二 |\n| | 比赛95 | 比赛86胜者 vs 比赛88胜者 | 7月8日 00:00 | 周三 |\n| | 比赛96 | 比赛85胜者 vs 比赛87胜者 | 7月8日 04:00 | 周三 |\n| **1/4决赛** | 比赛97 | 比赛89胜者 vs 比赛90胜者 | 7月10日 04:00 | 周五 |\n| | 比赛98 | 比赛93胜者 vs 比赛94胜者 | 7月11日 03:00 | 周六 |\n| | 比赛99 | 比赛91胜者 vs 比赛92胜者 | 7月12日 05:00 | 周日 |\n| | 比赛100 | 比赛95胜者 vs 比赛96胜者 | 7月12日 09:00 | 周日 |\n| **半决赛** | 比赛101 | 比赛97胜者 vs 比赛98胜者 | 7月15日 03:00 | 周三 |\n| | 比赛102 | 比赛99胜者 vs 比赛100胜者 | 7月16日 03:00 | 周四 |\n| **季军战** | | 比赛101负者 vs 比赛102负者 | 7月19日 05:00 | 周日 |\n| **决赛** | | 比赛101胜者 vs 比赛102胜者 | 7月20日 03:00 | 周一 |\n\n**温馨提示：**\n*   赛程中“附加赛球队”需等待2026年3月的附加赛结束后才能最终确定[citation:8][citation:10]。\n*   以上信息根据国际足联公布的赛程整理，具体开球时间可能会有微调，建议关注官方渠道获取最终信息[citation:6][citation:9]。"
+          }
+        ]
+      }
+    }
+  }
+}

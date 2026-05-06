@@ -38,6 +38,9 @@ class TraceStore:
             trace_id=trace_id,
             session_id=event.session_id,
             turn_id=event.turn_id,
+            app_id=event.app_id,
+            project_id=event.project_id,
+            workspace_id=event.workspace_id,
             event_type=event.type,
             status=_status_from_event_type(event.type),
             metadata={
@@ -72,6 +75,9 @@ class TraceStore:
             trace_id=resolved_trace_id,
             session_id=session_id or artifact.get("session_id"),
             turn_id=turn_id or artifact.get("turn_id"),
+            app_id=artifact.get("app_id"),
+            project_id=artifact.get("project_id"),
+            workspace_id=artifact.get("workspace_id"),
             event_type=f"artifact.{operation}",
             status=status,
             metadata=mask_value(metadata or {}),
@@ -96,6 +102,9 @@ class TraceStore:
             trace_id=trace_id,
             session_id=approval.get("session_id"),
             turn_id=approval.get("turn_id"),
+            app_id=approval.get("app_id"),
+            project_id=approval.get("project_id"),
+            workspace_id=approval.get("workspace_id"),
             event_type=f"approval.{operation}",
             status=status or str(approval.get("status") or operation),
             metadata=mask_value(metadata or {}),
@@ -122,6 +131,9 @@ class TraceStore:
         turn_id: Optional[str] = None,
         artifact_id: Optional[str] = None,
         event_type: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
     ) -> list[dict[str, Any]]:
         """List trace records, optionally filtered."""
         records = self._load_records()
@@ -135,6 +147,12 @@ class TraceStore:
             records = [record for record in records if artifact_id in (record.get("artifact_ids") or [])]
         if event_type is not None:
             records = [record for record in records if record.get("event_type") == event_type]
+        if app_id is not None:
+            records = [record for record in records if record.get("app_id") == app_id]
+        if project_id is not None:
+            records = [record for record in records if record.get("project_id") == project_id]
+        if workspace_id is not None:
+            records = [record for record in records if record.get("workspace_id") == workspace_id]
         return records
 
     def get_trace(self, trace_id: str) -> dict[str, Any]:
@@ -154,6 +172,9 @@ class TraceStore:
         trace_id: str,
         session_id: Optional[str],
         turn_id: Optional[str],
+        app_id: Optional[str],
+        project_id: Optional[str],
+        workspace_id: Optional[str],
         event_type: str,
         status: str,
         metadata: dict[str, Any],
@@ -162,6 +183,9 @@ class TraceStore:
             "trace_id": trace_id,
             "session_id": session_id,
             "turn_id": turn_id,
+            "app_id": app_id,
+            "project_id": project_id,
+            "workspace_id": workspace_id,
             "event_type": event_type,
             "workflow_id": None,
             "artifact_ids": [],

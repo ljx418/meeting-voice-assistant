@@ -13,6 +13,7 @@ from apps.gateway.secrets import mask_text, mask_value
 
 
 RETRY_PENDING_APPROVAL = "pending_approval"
+RETRY_RETRYING = "retrying"
 RETRY_RETRIED = "retried"
 
 
@@ -37,6 +38,9 @@ class RetryStore:
         domain: Optional[str],
         trace_id: str,
         approval_id: str,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
         policy: dict[str, Any],
     ) -> dict[str, Any]:
         """Save the original turn that was blocked by policy approval."""
@@ -48,6 +52,9 @@ class RetryStore:
             "domain": domain,
             "trace_id": trace_id,
             "approval_id": approval_id,
+            "app_id": app_id,
+            "project_id": project_id,
+            "workspace_id": workspace_id,
             "status": RETRY_PENDING_APPROVAL,
             "workflow_id": None,
             "failure_message": None,
@@ -97,6 +104,23 @@ class RetryStore:
                 updated["retried_at"] = datetime.now().isoformat()
                 updated["retry_turn_id"] = retry_turn_id
                 updated["retry_trace_id"] = retry_trace_id
+                records[index] = updated
+                return updated
+            raise KeyError(f"Retry context not found: {retry_id}")
+
+        return update_json_list_locked(self.index_path, update, RetryError)
+
+    def mark_retrying(self, retry_id: str) -> dict[str, Any]:
+        """Atomically reserve one retry context before executing side effects."""
+        def update(records: list[dict[str, Any]]) -> dict[str, Any]:
+            for index, record in enumerate(records):
+                if record.get("retry_id") != retry_id:
+                    continue
+                if record.get("status") != RETRY_PENDING_APPROVAL:
+                    raise RetryError(f"Retry context is not pending: {retry_id}")
+                updated = dict(record)
+                updated["status"] = RETRY_RETRYING
+                updated["retrying_at"] = datetime.now().isoformat()
                 records[index] = updated
                 return updated
             raise KeyError(f"Retry context not found: {retry_id}")

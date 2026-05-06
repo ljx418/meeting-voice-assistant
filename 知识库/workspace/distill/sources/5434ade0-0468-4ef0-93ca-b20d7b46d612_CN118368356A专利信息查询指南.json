@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.1",
+  "source_id": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "CN118368356A专利信息查询指南",
+  "title_flags": [],
+  "source_weight": 1.9196,
+  "source_density_score": 1.2434,
+  "llm_enriched": false,
+  "tags": [
+    "CN118368356A",
+    "专利信息查询指南",
+    "CN118368356A专利信息查询指南"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 2,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南:topic:1",
+      "kind": "topic_candidate",
+      "text": "CN118368356A",
+      "importance": 0.91598,
+      "confidence": 0.729736,
+      "source_weight": 1.9196,
+      "source_density_score": 1.2434,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "CN118368356A",
+        "专利信息查询指南",
+        "CN118368356A专利信息查询指南"
+      ],
+      "entities": [
+        "CN118368356A",
+        "专利信息查询指南"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南:topic:2",
+      "kind": "topic_candidate",
+      "text": "CN118368356A专利信息查询指南",
+      "importance": 0.91598,
+      "confidence": 0.729736,
+      "source_weight": 1.9196,
+      "source_density_score": 1.2434,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "CN118368356A",
+        "专利信息查询指南",
+        "CN118368356A专利信息查询指南"
+      ],
+      "entities": [
+        "CN118368356A",
+        "专利信息查询指南"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南:conclusion:1",
+      "kind": "conclusion",
+      "text": "CN118368356A专利信息查询指南",
+      "importance": 0.854372,
+      "confidence": 0.62,
+      "source_weight": 1.9196,
+      "source_density_score": 1.2434,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "CN118368356A",
+        "专利信息查询指南",
+        "CN118368356A专利信息查询指南"
+      ],
+      "entities": [
+        "CN118368356A",
+        "专利信息查询指南"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南:entity:1",
+      "kind": "entity_candidate",
+      "text": "CN118368356A",
+      "importance": 0.7959799999999999,
+      "confidence": 0.6,
+      "source_weight": 1.9196,
+      "source_density_score": 1.2434,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "CN118368356A",
+        "专利信息查询指南",
+        "CN118368356A专利信息查询指南"
+      ],
+      "entities": [
+        "CN118368356A"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南:entity:2",
+      "kind": "entity_candidate",
+      "text": "专利信息查询指南",
+      "importance": 0.7959799999999999,
+      "confidence": 0.6,
+      "source_weight": 1.9196,
+      "source_density_score": 1.2434,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "CN118368356A",
+        "专利信息查询指南",
+        "CN118368356A专利信息查询指南"
+      ],
+      "entities": [
+        "专利信息查询指南"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/5434ade0-0468-4ef0-93ca-b20d7b46d612_CN118368356A专利信息查询指南.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

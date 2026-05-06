@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "219f638caf483bb4",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/13a0d618-9739-4fd9-a373-e52562c64f01_中国核电建设及并网时间数据.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/21/219f638caf483bb4.json",
+    "sha256": "0f76514b8c0f69dfd5f6e23c2a8f8747a5c0d079f3ddb182c4886f161500e792",
+    "content_hash": "7044ba80e428b603cbb9556a30273b55ef8e386e9386ac6acb3e0939a85e1519",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "283d6a7c-26cc-4480-97fe-751bd9c34dec",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "13a0d618-9739-4fd9-a373-e52562c64f01",
+      "locator": {
+        "kind": "json_path",
+        "path": "13a0d618-9739-4fd9-a373-e52562c64f01_中国核电建设及并网时间数据.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "9aaa57f4-d7f2-497b-ae87-606bcad35805",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "中国核电建设及并网时间数据",
+      "locator": {
+        "kind": "json_path",
+        "path": "13a0d618-9739-4fd9-a373-e52562c64f01_中国核电建设及并网时间数据.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "7e5b219d-a0c4-4476-bb00-7ddedf669e18",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "13a0d618-9739-4fd9-a373-e52562c64f01_中国核电建设及并网时间数据.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "a17baa28-219b-48ce-a5d1-2eacba490d11",
+      "section_id": "283d6a7c-26cc-4480-97fe-751bd9c34dec",
+      "text": "13a0d618-9739-4fd9-a373-e52562c64f01",
+      "locator": {
+        "kind": "json_path",
+        "path": "13a0d618-9739-4fd9-a373-e52562c64f01_中国核电建设及并网时间数据.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "f36e0842-f01d-497f-bb65-816dc4686e22",
+      "section_id": "9aaa57f4-d7f2-497b-ae87-606bcad35805",
+      "text": "中国核电建设及并网时间数据",
+      "locator": {
+        "kind": "json_path",
+        "path": "13a0d618-9739-4fd9-a373-e52562c64f01_中国核电建设及并网时间数据.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 19
+    },
+    {
+      "passage_id": "dc3ea5bd-6e33-426e-9831-991ba63cef9b",
+      "section_id": "7e5b219d-a0c4-4476-bb00-7ddedf669e18",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "13a0d618-9739-4fd9-a373-e52562c64f01_中国核电建设及并网时间数据.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.356910"
+}

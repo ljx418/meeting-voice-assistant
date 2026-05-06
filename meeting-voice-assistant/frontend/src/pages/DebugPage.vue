@@ -259,7 +259,7 @@ const stageClass = computed(() => ({
 
 // Reactive session_id: use URL param first, then fall back to meetingStore
 const currentSessionId = computed(() => {
-  return (route.query.session_id as string) || meetingStore.sessionId
+  return (route.query.session_id as string) || meetingStore.activeSessionId || ''
 })
 
 // Watch for session_id changes and start/stop polling accordingly
@@ -377,7 +377,7 @@ onMounted(() => {
   // Sync with meeting store if available
   if (meetingStore.chapters.length > 0) {
     store.setAnalysis({
-      session_id: store.sessionId,
+      session_id: store.sessionId || '',
       theme: meetingStore.topic,
       topics: [],
       chapters: meetingStore.chapters,

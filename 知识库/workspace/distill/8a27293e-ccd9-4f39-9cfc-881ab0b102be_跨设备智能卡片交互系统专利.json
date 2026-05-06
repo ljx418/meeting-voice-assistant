@@ -1,0 +1,50 @@
+{
+  "source_id": "8a27293e-ccd9-4f39-9cfc-881ab0b102be_跨设备智能卡片交互系统专利",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8a27293e-ccd9-4f39-9cfc-881ab0b102be_跨设备智能卡片交互系统专利.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "跨设备智能卡片交互系统专利",
+  "title_flags": [],
+  "source_weight": 1.7534,
+  "source_density_score": 1.0407,
+  "llm_enriched": false,
+  "tags": [
+    "跨设备智能卡片交",
+    "互系统专利",
+    "跨设备智能卡片交互系统专利"
+  ],
+  "units": [
+    {
+      "unit_id": "8a27293e-ccd9-4f39-9cfc-881ab0b102be_跨设备智能卡片交互系统专利:topic:1",
+      "kind": "topic_candidate",
+      "text": "跨设备智能卡片交互系统专利",
+      "importance": 0.90767,
+      "confidence": 0.721628,
+      "source_weight": 1.7534,
+      "source_density_score": 1.0407,
+      "is_title_derived": true,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "8a27293e-ccd9-4f39-9cfc-881ab0b102be_跨设备智能卡片交互系统专利:note:1",
+      "kind": "note",
+      "text": "跨设备智能卡片交互系统专利",
+      "importance": 0.6852039999999999,
+      "confidence": 0.56,
+      "source_weight": 1.7534,
+      "source_density_score": 1.0407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "8a27293e-ccd9-4f39-9cfc-881ab0b102be_跨设备智能卡片交互系统专利:conclusion:1",
+      "kind": "conclusion",
+      "text": "跨设备智能卡片交互系统专利",
+      "importance": 0.842738,
+      "confidence": 0.62,
+      "source_weight": 1.7534,
+      "source_density_score": 1.0407,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

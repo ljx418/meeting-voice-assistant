@@ -6,10 +6,17 @@ Loads settings from environment variables and .env files.
 
 import os
 from functools import lru_cache
+from pathlib import Path
 from typing import Optional
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+def _preferred_meeting_backend_python() -> str:
+    """Prefer the backend-managed Python env when it exists."""
+    candidate = Path("/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/venv312/bin/python")
+    return str(candidate) if candidate.exists() else "python3"
 
 
 class LLMConfig(BaseSettings):
@@ -64,7 +71,10 @@ class MeetingMcpConfig(BaseSettings):
         default="/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend",
         description="Working directory for the meeting MCP server",
     )
-    command: str = Field(default="python3", description="Command used to start the meeting MCP server")
+    command: str = Field(
+        default_factory=_preferred_meeting_backend_python,
+        description="Command used to start the meeting MCP server",
+    )
     args: str = Field(
         default="-m app.meeting_mcp.mcp_stdio",
         description="Space-separated arguments used to start the meeting MCP server",
@@ -91,6 +101,79 @@ class MeetingMcpConfig(BaseSettings):
             self.audio_dir = os.environ["HARNESS_MEETING_AUDIO_DIR"]
 
 
+class FunASRMcpConfig(BaseSettings):
+    """FunASR MCP integration configuration."""
+
+    cwd: str = Field(
+        default="/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend",
+        description="Working directory for the FunASR MCP server",
+    )
+    command: str = Field(
+        default_factory=_preferred_meeting_backend_python,
+        description="Command used to start the FunASR MCP server",
+    )
+    args: str = Field(
+        default="-m funasr_service.mcp_stdio",
+        description="Space-separated arguments used to start the FunASR MCP server",
+    )
+    execution: str = Field(default="contract_stub", description="Execution mode: contract_stub or stdio")
+    endpoint: str = Field(default="http://localhost:8001", description="FunASR HTTP service endpoint")
+    audio_roots: str = Field(
+        default="/Users/Zhuanz/Desktop/workspace/音频资料:/tmp",
+        description="Colon-separated local roots allowed for FunASR MCP file inputs",
+    )
+    request_timeout: int = Field(default=3600, description="FunASR MCP request timeout in seconds")
+    max_file_size_mb: int = Field(default=500, description="Maximum local audio file size in MB")
+
+    model_config = SettingsConfigDict(env_prefix="HARNESS_FUNASR_MCP_", extra="ignore")
+
+    @property
+    def argv(self) -> list[str]:
+        """Return parsed MCP server arguments."""
+        return [item for item in self.args.split(" ") if item]
+
+
+class DataServiceMcpConfig(BaseSettings):
+    """Data Service MCP integration configuration."""
+
+    cwd: str = Field(
+        default="/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend",
+        description="Working directory for the Data Service MCP server",
+    )
+    command: str = Field(
+        default_factory=_preferred_meeting_backend_python,
+        description="Command used to start the Data Service MCP server",
+    )
+    args: str = Field(
+        default="-m data_service.mcp_stdio",
+        description="Space-separated arguments used to start the Data Service MCP server",
+    )
+    execution: str = Field(
+        default="contract_stub",
+        description="Execution mode: contract_stub or stdio",
+    )
+    request_timeout: int = Field(default=3600, description="Data Service MCP request timeout in seconds")
+    workspace_root: Optional[str] = Field(default=None, description="Managed workspace root for Data Service")
+    allowed_workspace_roots: Optional[str] = Field(default=None, description="Allowed workspace roots")
+    allowed_source_roots: Optional[str] = Field(default=None, description="Allowed source roots")
+
+    model_config = SettingsConfigDict(env_prefix="HARNESS_DATA_SERVICE_MCP_", extra="ignore")
+
+    @property
+    def argv(self) -> list[str]:
+        """Return parsed MCP server arguments."""
+        return [item for item in self.args.split(" ") if item]
+
+
+class ComfyUIConfig(BaseSettings):
+    """Remote ComfyUI connector configuration."""
+
+    base_url: Optional[str] = Field(default=None, description="Base URL for a remote ComfyUI server")
+    request_timeout: int = Field(default=300, description="ComfyUI request timeout in seconds")
+
+    model_config = SettingsConfigDict(env_prefix="HARNESS_COMFYUI_", extra="ignore")
+
+
 class AppConfig(BaseSettings):
     """Main application configuration."""
     llm: LLMConfig = Field(default_factory=LLMConfig)
@@ -99,6 +182,9 @@ class AppConfig(BaseSettings):
     memory: MemoryConfig = Field(default_factory=MemoryConfig)
     workspace: WorkspaceConfig = Field(default_factory=WorkspaceConfig)
     meeting_mcp: MeetingMcpConfig = Field(default_factory=MeetingMcpConfig)
+    funasr_mcp: FunASRMcpConfig = Field(default_factory=FunASRMcpConfig)
+    data_service_mcp: DataServiceMcpConfig = Field(default_factory=DataServiceMcpConfig)
+    comfyui: ComfyUIConfig = Field(default_factory=ComfyUIConfig)
 
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -131,3 +217,18 @@ def get_server_config() -> ServerConfig:
 def get_meeting_mcp_config() -> MeetingMcpConfig:
     """Get Meeting MCP integration configuration."""
     return get_app_config().meeting_mcp
+
+
+def get_funasr_mcp_config() -> FunASRMcpConfig:
+    """Get FunASR MCP integration configuration."""
+    return get_app_config().funasr_mcp
+
+
+def get_data_service_mcp_config() -> DataServiceMcpConfig:
+    """Get Data Service MCP integration configuration."""
+    return get_app_config().data_service_mcp
+
+
+def get_comfyui_config() -> ComfyUIConfig:
+    """Get remote ComfyUI connector configuration."""
+    return get_app_config().comfyui

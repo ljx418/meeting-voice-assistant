@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.1",
+  "source_id": "528de066-597b-49b9-96c4-66d33e01946a_中国离婚流程及注意事项",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/528de066-597b-49b9-96c4-66d33e01946a_中国离婚流程及注意事项.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "中国离婚流程及注意事项",
+  "title_flags": [],
+  "source_weight": 1.7528,
+  "source_density_score": 1.0399,
+  "llm_enriched": false,
+  "tags": [
+    "中国离婚流程及注",
+    "意事项"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 1,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "risk": 1
+  },
+  "units": [
+    {
+      "unit_id": "528de066-597b-49b9-96c4-66d33e01946a_中国离婚流程及注意事项:risk:1",
+      "kind": "risk",
+      "text": "中国离婚流程及注意事项",
+      "importance": 0.7676400000000001,
+      "confidence": 0.59,
+      "source_weight": 1.7528,
+      "source_density_score": 1.0399,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "中国离婚流程及注",
+        "意事项"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/528de066-597b-49b9-96c4-66d33e01946a_中国离婚流程及注意事项.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

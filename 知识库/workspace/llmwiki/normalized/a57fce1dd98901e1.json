@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "a57fce1dd98901e1",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/a5/a57fce1dd98901e1.json",
+    "sha256": "64d79b8e3a41519e405ac0f2d83a16e9777a950dd241b9fe363faccb7dd460a7",
+    "content_hash": "ae89527cdbe4bf3c7af79fcf33a86c187da600e3d3e3a0a48711f0cc14e3fc64",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "c3c2cdda-d481-4bc0-8b55-d32433419f38",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "75d4a5f3-9190-4758-b15c-afae925e648f",
+      "locator": {
+        "kind": "json_path",
+        "path": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "daa45cce-783c-41d7-9b70-7bb95aa1b4f9",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "VBA提取访视日期代码",
+      "locator": {
+        "kind": "json_path",
+        "path": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "84b0afa3-d709-449c-98b1-68c3ed02cd5d",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "327b3e72-39c9-4803-a730-718e636cbbab",
+      "section_id": "c3c2cdda-d481-4bc0-8b55-d32433419f38",
+      "text": "75d4a5f3-9190-4758-b15c-afae925e648f",
+      "locator": {
+        "kind": "json_path",
+        "path": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "0800f3f4-3665-4991-b394-51897b1606ce",
+      "section_id": "daa45cce-783c-41d7-9b70-7bb95aa1b4f9",
+      "text": "VBA提取访视日期代码",
+      "locator": {
+        "kind": "json_path",
+        "path": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 14
+    },
+    {
+      "passage_id": "d1efff53-5611-443e-a6ff-a9d2acdd0914",
+      "section_id": "84b0afa3-d709-449c-98b1-68c3ed02cd5d",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "75d4a5f3-9190-4758-b15c-afae925e648f_VBA提取访视日期代码.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.518208"
+}

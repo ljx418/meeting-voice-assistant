@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "bfcca88893ef9138",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/bf/bfcca88893ef9138.json",
+    "sha256": "9cb78437dbf8e8b7ee7ca00388bc1095724052891490959f25748638c5fbfa75",
+    "content_hash": "8f964fcd0e29a8a597c08edbbae992d4145704d18c94672a9a81e6895dee1d64",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "62d79336-dccf-4ccf-966a-950f309c4f41",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "6b6503b0-361c-423c-8ca7-c5674db32d4a",
+      "locator": {
+        "kind": "json_path",
+        "path": "6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "2afb1f75-dee1-44f9-87e5-db897570e884",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "湖北失业金申领指南",
+      "locator": {
+        "kind": "json_path",
+        "path": "6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "69f99fd5-9e02-4057-88ef-1e4088b750c1",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "c0689766-ad1f-4e4a-9438-191a6d5f8c92",
+      "section_id": "62d79336-dccf-4ccf-966a-950f309c4f41",
+      "text": "6b6503b0-361c-423c-8ca7-c5674db32d4a",
+      "locator": {
+        "kind": "json_path",
+        "path": "6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "e8b71e89-1113-4316-9180-71dbbcecc880",
+      "section_id": "2afb1f75-dee1-44f9-87e5-db897570e884",
+      "text": "湖北失业金申领指南",
+      "locator": {
+        "kind": "json_path",
+        "path": "6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 13
+    },
+    {
+      "passage_id": "70a0c5c3-7701-42ef-89dd-5263d9b580f8",
+      "section_id": "69f99fd5-9e02-4057-88ef-1e4088b750c1",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "6b6503b0-361c-423c-8ca7-c5674db32d4a_湖北失业金申领指南.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.526459"
+}

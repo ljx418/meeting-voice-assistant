@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "5ee5cb73f3da4008",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/5e/5ee5cb73f3da4008.json",
+    "sha256": "36e7c39fdde9df724b4ca18c837a5a92db847fa8e7ee5bd2c423d30420500910",
+    "content_hash": "6be5a5678bb2bedd9a3416d037ceb95e423962b3688b4b60916b6df3b6fab967",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "bed50db0-4d11-43d0-a365-61ea17213a48",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "fea5342f-0ff6-4857-997d-9b3d4de62ea7",
+      "locator": {
+        "kind": "json_path",
+        "path": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "c48f4f99-7dac-41e9-949c-b78363842d7f",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "超聚变公司股权结构及背景介绍",
+      "locator": {
+        "kind": "json_path",
+        "path": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "ae7f4cde-d43b-48c3-b097-d65f3bb3ca77",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "f39c488c-b662-480d-889f-134c982875bb",
+      "section_id": "bed50db0-4d11-43d0-a365-61ea17213a48",
+      "text": "fea5342f-0ff6-4857-997d-9b3d4de62ea7",
+      "locator": {
+        "kind": "json_path",
+        "path": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "84162c60-61cb-4fd1-8258-7de5bd2ffc16",
+      "section_id": "c48f4f99-7dac-41e9-949c-b78363842d7f",
+      "text": "超聚变公司股权结构及背景介绍",
+      "locator": {
+        "kind": "json_path",
+        "path": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 21
+    },
+    {
+      "passage_id": "d83fc7d2-07cb-4044-9656-cb2466f8f0bf",
+      "section_id": "ae7f4cde-d43b-48c3-b097-d65f3bb3ca77",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "fea5342f-0ff6-4857-997d-9b3d4de62ea7_超聚变公司股权结构及背景介绍.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.658026"
+}

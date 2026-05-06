@@ -1,0 +1,39 @@
+{
+  "source_id": "8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "专家模式与快速模式对比",
+  "title_flags": [],
+  "source_weight": 1.7528,
+  "source_density_score": 1.0399,
+  "llm_enriched": false,
+  "tags": [
+    "专家模式与快速模",
+    "式对比",
+    "专家模式与快速模式对比"
+  ],
+  "units": [
+    {
+      "unit_id": "8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比:topic:1",
+      "kind": "topic_candidate",
+      "text": "专家模式与快速模式对比",
+      "importance": 0.90764,
+      "confidence": 0.721596,
+      "source_weight": 1.7528,
+      "source_density_score": 1.0399,
+      "is_title_derived": true,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "8d470276-df58-475e-962a-5316bd7eaa7d_专家模式与快速模式对比:note:1",
+      "kind": "note",
+      "text": "专家模式与快速模式对比",
+      "importance": 0.685168,
+      "confidence": 0.56,
+      "source_weight": 1.7528,
+      "source_density_score": 1.0399,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "3b0f7a6ac4c40e34",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/3b/3b0f7a6ac4c40e34.json",
+    "sha256": "fc8dabf622d35d223332ef594524c34bf377c563c160d5b5c39ae48eb91845ed",
+    "content_hash": "4fb5e2c5129c60527c34012d26275bdb126ef58fa6f96003ca661637a92618b8",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "3f6d1bed-aa39-4963-8d48-d1a2232739ae",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "fd0604a2-7c25-4749-af53-79692556f912",
+      "locator": {
+        "kind": "json_path",
+        "path": "fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "c7b69b74-0945-4a0d-bd10-857cc72444ff",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "陈醋的制作原料与工艺",
+      "locator": {
+        "kind": "json_path",
+        "path": "fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "9ef632e5-ef88-4067-82aa-d89762fc16f6",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "dafb0675-59d4-4a27-97a5-5d0cefe2619c",
+      "section_id": "3f6d1bed-aa39-4963-8d48-d1a2232739ae",
+      "text": "fd0604a2-7c25-4749-af53-79692556f912",
+      "locator": {
+        "kind": "json_path",
+        "path": "fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "8028905f-d747-4061-9e2d-af40112b4878",
+      "section_id": "c7b69b74-0945-4a0d-bd10-857cc72444ff",
+      "text": "陈醋的制作原料与工艺",
+      "locator": {
+        "kind": "json_path",
+        "path": "fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 15
+    },
+    {
+      "passage_id": "3ae2b55e-b805-4b0e-b54c-0fc0c8d88305",
+      "section_id": "9ef632e5-ef88-4067-82aa-d89762fc16f6",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "fd0604a2-7c25-4749-af53-79692556f912_陈醋的制作原料与工艺.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.638027"
+}

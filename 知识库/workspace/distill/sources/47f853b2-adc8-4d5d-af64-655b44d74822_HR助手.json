@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.1",
+  "source_id": "47f853b2-adc8-4d5d-af64-655b44d74822_HR助手",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/47f853b2-adc8-4d5d-af64-655b44d74822_HR助手.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "HR助手",
+  "title_flags": [],
+  "source_weight": 1.802,
+  "source_density_score": 1.1,
+  "llm_enriched": false,
+  "tags": [
+    "助手",
+    "HR助手"
+  ],
+  "profile": {
+    "sentence_count": 0,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "entity_candidate": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "47f853b2-adc8-4d5d-af64-655b44d74822_HR助手:topic:1",
+      "kind": "topic_candidate",
+      "text": "助手",
+      "importance": 0.9100999999999999,
+      "confidence": 0.7240000000000001,
+      "source_weight": 1.802,
+      "source_density_score": 1.1,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "助手",
+        "HR助手"
+      ],
+      "entities": [
+        "助手"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/47f853b2-adc8-4d5d-af64-655b44d74822_HR助手.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "47f853b2-adc8-4d5d-af64-655b44d74822_HR助手:topic:2",
+      "kind": "topic_candidate",
+      "text": "HR助手",
+      "importance": 0.9100999999999999,
+      "confidence": 0.7240000000000001,
+      "source_weight": 1.802,
+      "source_density_score": 1.1,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "助手",
+        "HR助手"
+      ],
+      "entities": [
+        "助手"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/47f853b2-adc8-4d5d-af64-655b44d74822_HR助手.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "47f853b2-adc8-4d5d-af64-655b44d74822_HR助手:entity:1",
+      "kind": "entity_candidate",
+      "text": "助手",
+      "importance": 0.7901,
+      "confidence": 0.6,
+      "source_weight": 1.802,
+      "source_density_score": 1.1,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "助手",
+        "HR助手"
+      ],
+      "entities": [
+        "助手"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/47f853b2-adc8-4d5d-af64-655b44d74822_HR助手.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

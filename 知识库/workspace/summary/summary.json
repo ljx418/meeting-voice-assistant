@@ -1,0 +1,142 @@
+{
+  "workspace": "/Users/Zhuanz/Desktop/workspace/知识库/workspace",
+  "targets": [
+    "llmwiki",
+    "graphrag"
+  ],
+  "stages": [
+    "row",
+    "extract",
+    "normalize",
+    "distill",
+    "llmwiki_compile",
+    "graphrag_index",
+    "summary"
+  ],
+  "distill_policy": {
+    "raw_ingest_mode": "single_write",
+    "shared_extract_normalize": true,
+    "graphrag_prefers_distill": true,
+    "llmwiki_prefers_readable_and_distill": true,
+    "secondary_chat_enters_unverified": true
+  },
+  "distill_schema_version": "1.1",
+  "sources": [],
+  "quality": {
+    "distill": {
+      "schema_version": "1.1",
+      "source_count": 86,
+      "distilled_unit_count": 248,
+      "llm_enriched_source_count": 0,
+      "title_flag_counts": {
+        "status_marker": 6
+      },
+      "unit_kind_counts": {
+        "conclusion": 53,
+        "entity_candidate": 65,
+        "example": 1,
+        "fact_candidate": 1,
+        "risk": 4,
+        "topic_candidate": 124
+      }
+    },
+    "llmwiki": {
+      "page_count": 87
+    },
+    "graphrag": {
+      "execution_owner": "data_service",
+      "entity_count": 56,
+      "theme_count": 208,
+      "relationship_count": 212,
+      "community_count": 28,
+      "top_communities": [
+        {
+          "title": "ai学习",
+          "score": 28.4263,
+          "entity_count": 4,
+          "relationship_count": 3
+        },
+        {
+          "title": "宏观政策",
+          "score": 26.0422,
+          "entity_count": 9,
+          "relationship_count": 8
+        },
+        {
+          "title": "投资",
+          "score": 22.6655,
+          "entity_count": 8,
+          "relationship_count": 7
+        },
+        {
+          "title": "软件开发",
+          "score": 16.8557,
+          "entity_count": 7,
+          "relationship_count": 6
+        },
+        {
+          "title": "武汉",
+          "score": 10.3037,
+          "entity_count": 7,
+          "relationship_count": 6
+        },
+        {
+          "title": "Hermes",
+          "score": 8.5013,
+          "entity_count": 3,
+          "relationship_count": 2
+        },
+        {
+          "title": "知识助手开发",
+          "score": 8.189,
+          "entity_count": 3,
+          "relationship_count": 2
+        },
+        {
+          "title": "OpenClaw",
+          "score": 8.0888,
+          "entity_count": 4,
+          "relationship_count": 3
+        }
+      ]
+    },
+    "manual_feedback": {
+      "feedback_count": 0,
+      "action_counts": {},
+      "target_type_counts": {},
+      "latest_at": ""
+    },
+    "correction_rules": {
+      "rule_count": 0,
+      "status_counts": {},
+      "rule_type_counts": {},
+      "target_type_counts": {}
+    }
+  },
+  "layout": {
+    "row_manifest": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/row_manifest.json",
+    "raw": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw",
+    "readable": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/readable",
+    "normalized": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/normalized",
+    "distill": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/distill",
+    "distill_sources": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/distill/sources",
+    "distill_units": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/distill/units",
+    "distill_manifest": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/distill/manifest.json",
+    "distill_schema": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/distill/schema.json",
+    "llmwiki_pages": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/pages",
+    "graphrag_input": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/graphrag/input",
+    "graphrag_state": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/graphrag/state",
+    "summary_dir": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/summary",
+    "summary_md": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/summary/summary.md",
+    "summary_json": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/summary/summary.json",
+    "quality_dir": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/quality",
+    "quality_feedback": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/quality/feedback.jsonl",
+    "quality_correction_rules": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/quality/correction_rules.json"
+  },
+  "notes": [
+    "Users write data once; internal processing fans out after normalize/distill.",
+    "LLMWiki consumes readable and distilled material for compilation and provenance.",
+    "GraphRAG consumes distilled, high-information units rather than raw fulltext by default.",
+    "GraphRAG execution owner: app.graphrag."
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "83d8a8e1bf7d0e60",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/9e988641-9ab8-417c-a9e8-bd6ea7c9c803_AI大模型产业链全景与发展现状.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/83/83d8a8e1bf7d0e60.json",
+    "sha256": "2206dea611ded77d90395331e9fc014cc13a6cfd07edbd33d2a691db9038636a",
+    "content_hash": "7ee35f2d2f24aaddb803df1475b6b2bb3cb6de3b2621c79d2e7ca7768b875d29",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "fd5af270-b80b-4d0a-b7f0-aed12fadf132",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "9e988641-9ab8-417c-a9e8-bd6ea7c9c803",
+      "locator": {
+        "kind": "json_path",
+        "path": "9e988641-9ab8-417c-a9e8-bd6ea7c9c803_AI大模型产业链全景与发展现状.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "8eace018-04ef-4b20-a05d-50692849523c",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "AI大模型产业链全景与发展现状",
+      "locator": {
+        "kind": "json_path",
+        "path": "9e988641-9ab8-417c-a9e8-bd6ea7c9c803_AI大模型产业链全景与发展现状.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "245fa832-8c59-4c43-ae28-9cb2adc1ad62",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "9e988641-9ab8-417c-a9e8-bd6ea7c9c803_AI大模型产业链全景与发展现状.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "030a99ff-9ed7-4d92-8caf-a9b2754d23ff",
+      "section_id": "fd5af270-b80b-4d0a-b7f0-aed12fadf132",
+      "text": "9e988641-9ab8-417c-a9e8-bd6ea7c9c803",
+      "locator": {
+        "kind": "json_path",
+        "path": "9e988641-9ab8-417c-a9e8-bd6ea7c9c803_AI大模型产业链全景与发展现状.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "b1999808-1460-4636-ad21-de41b8031cca",
+      "section_id": "8eace018-04ef-4b20-a05d-50692849523c",
+      "text": "AI大模型产业链全景与发展现状",
+      "locator": {
+        "kind": "json_path",
+        "path": "9e988641-9ab8-417c-a9e8-bd6ea7c9c803_AI大模型产业链全景与发展现状.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 21
+    },
+    {
+      "passage_id": "72398743-152d-4907-aa64-d78a383e470b",
+      "section_id": "245fa832-8c59-4c43-ae28-9cb2adc1ad62",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "9e988641-9ab8-417c-a9e8-bd6ea7c9c803_AI大模型产业链全景与发展现状.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.912585"
+}

@@ -43,6 +43,10 @@ class LLMWikiEngineAdapter:
                 "skipped": result.get("skipped", 0),
                 "distilled_unit_count": len(units),
                 "input_contract_version": contract_payload["contract_version"],
+                "quality_plan_apply": {
+                    "status": "skipped",
+                    "reason": "quality_plan_is_applied_at_read_time",
+                },
             },
         )
 

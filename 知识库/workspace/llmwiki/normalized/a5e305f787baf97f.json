@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "a5e305f787baf97f",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达782岁.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/a5/a5e305f787baf97f.json",
+    "sha256": "88ed1446a48b9854fa424bdf9b65a4c21e587db24d1637d63827765a9b7b4dc7",
+    "content_hash": "6b4631f9d9a0d3b8ebe4656af59aa31e4cf0b5805da3fc4222ac9c97ef7314c4",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "f603f0e9-6bdf-4f4a-83e2-888cb151b21c",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "34c9ceec-91d5-46bf-a246-1cb71c2dabc3",
+      "locator": {
+        "kind": "json_path",
+        "path": "34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达782岁.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "95fc0d98-0f77-4f31-b580-3b387d0892d8",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "中国人平均寿命达78.2岁",
+      "locator": {
+        "kind": "json_path",
+        "path": "34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达782岁.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "a93e5828-5a62-4cd9-9160-5e37fe858471",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达782岁.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "09b0befd-fec0-44a5-926c-fab414faddcd",
+      "section_id": "f603f0e9-6bdf-4f4a-83e2-888cb151b21c",
+      "text": "34c9ceec-91d5-46bf-a246-1cb71c2dabc3",
+      "locator": {
+        "kind": "json_path",
+        "path": "34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达782岁.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "d3ccc00d-ab33-4d12-bace-2f6d03980be2",
+      "section_id": "95fc0d98-0f77-4f31-b580-3b387d0892d8",
+      "text": "中国人平均寿命达78.2岁",
+      "locator": {
+        "kind": "json_path",
+        "path": "34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达782岁.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 15
+    },
+    {
+      "passage_id": "d5d18421-55a6-4ef9-8964-e7f9eae61e5f",
+      "section_id": "a93e5828-5a62-4cd9-9160-5e37fe858471",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达782岁.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.091804"
+}

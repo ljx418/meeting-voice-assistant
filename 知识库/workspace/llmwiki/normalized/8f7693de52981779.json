@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "8f7693de52981779",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/8f/8f7693de52981779.json",
+    "sha256": "bab6516057dd36ef4461712c0c7dc830d1871e3e195fce76e03b679fab2b29f6",
+    "content_hash": "181039a1cfff95657de77fba7c30259e023f7bea4cedb792e6d27bc5127779a5",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "a331b7b2-7512-4767-a9cc-2e0e2ada6480",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "a99617b5-ffb0-455b-a7bb-b70823a757a5",
+      "locator": {
+        "kind": "json_path",
+        "path": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "6ba3b0fe-ea8a-4e6e-abe1-8844e29f8d12",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "LMM中窗口长度与上下文区别解析",
+      "locator": {
+        "kind": "json_path",
+        "path": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "5c3b7a16-9b9d-4e09-af6b-2f5822a116ca",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "b29302e7-9e84-40fe-93a1-ea95e7fefc58",
+      "section_id": "a331b7b2-7512-4767-a9cc-2e0e2ada6480",
+      "text": "a99617b5-ffb0-455b-a7bb-b70823a757a5",
+      "locator": {
+        "kind": "json_path",
+        "path": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "3209f9d3-87a6-4803-852e-379907e90f0f",
+      "section_id": "6ba3b0fe-ea8a-4e6e-abe1-8844e29f8d12",
+      "text": "LMM中窗口长度与上下文区别解析",
+      "locator": {
+        "kind": "json_path",
+        "path": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 21
+    },
+    {
+      "passage_id": "a5e85770-56cc-48ef-97a4-cd62d5be6962",
+      "section_id": "5c3b7a16-9b9d-4e09-af6b-2f5822a116ca",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "a99617b5-ffb0-455b-a7bb-b70823a757a5_LMM中窗口长度与上下文区别解析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.436437"
+}

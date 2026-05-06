@@ -1,0 +1,52 @@
+<mxfile host="Electron" version="29.6.6">
+  <diagram id="knowledge-pack-dag-v3" name="Knowledge Pack DAG V3">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Knowledge Pack V3.0：data_service_mcp Typed DAG" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="360" y="20" width="680" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="agent_curator" value="Agent&#xa;knowledge.curator&#xa;workspace / ingest / query" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="agent_quality" value="Agent&#xa;knowledge.quality_reviewer&#xa;quality / correction" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="610" width="220" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" value="workspace_create&#xa;connector_tool&#xa;data_service_mcp.knowledge_workspace_create&#xa;outputs: workspace" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="360" y="95" width="260" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" value="source_import&#xa;connector_tool&#xa;knowledge_source_import&#xa;outputs: source, source_ref" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="700" y="95" width="260" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" value="build_start&#xa;connector_tool&#xa;knowledge_build_start&#xa;outputs: build_id" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="1040" y="95" width="260" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" value="build_status&#xa;connector_tool&#xa;knowledge_build_status&#xa;outputs: build_status" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="1040" y="295" width="260" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" value="query&#xa;connector_tool&#xa;knowledge_query&#xa;outputs: summary, answer, citations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="700" y="295" width="260" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" value="quality_feedback&#xa;connector_tool&#xa;knowledge_quality_feedback&#xa;outputs: quality_report" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="360" y="500" width="260" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" value="correction_plan&#xa;connector_tool&#xa;knowledge_correction_plan&#xa;outputs: correction_plan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="700" y="500" width="260" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="artifacts" value="Artifact lineage&#xa;source → summary → quality_report → correction_plan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="360" y="700" width="600" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" source="n1" target="n2" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" edge="1" source="n2" target="n3" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" edge="1" source="n3" target="n4" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" edge="1" source="n4" target="n5" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" edge="1" source="n5" target="n6" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" edge="1" source="n6" target="n7" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" edge="1" source="agent_curator" target="n1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;dashed=1;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" edge="1" source="agent_quality" target="n6" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#DB2777;dashed=1;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e9" edge="1" source="n7" target="artifacts" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#64748B;endArrow=block;endFill=1"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

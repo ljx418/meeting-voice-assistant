@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "4c1669a7258f68b1",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/cf92ff49-663f-4631-82af-962137be5c14_钢4攻略.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/4c/4c1669a7258f68b1.json",
+    "sha256": "27f1aa47daff43b88ff0a0cee9612b23395774ecfbdbeba6b6669d3a6d62fd16",
+    "content_hash": "78935a14e7d0769fd8329c9f0cc924ea1150f511dfa4d03d4360355c2588066f",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "65cf9648-e1c2-46c5-b4eb-3b6a29292ddc",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "cf92ff49-663f-4631-82af-962137be5c14",
+      "locator": {
+        "kind": "json_path",
+        "path": "cf92ff49-663f-4631-82af-962137be5c14_钢4攻略.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "c3d1dbde-8c33-4ec0-b198-4e77aa2ed917",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "钢4攻略",
+      "locator": {
+        "kind": "json_path",
+        "path": "cf92ff49-663f-4631-82af-962137be5c14_钢4攻略.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "f6b1b4ef-c6d3-4c7a-abd5-e9619ed67845",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "cf92ff49-663f-4631-82af-962137be5c14_钢4攻略.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "f1fea128-0144-42de-9d91-ffc8f761bb60",
+      "section_id": "65cf9648-e1c2-46c5-b4eb-3b6a29292ddc",
+      "text": "cf92ff49-663f-4631-82af-962137be5c14",
+      "locator": {
+        "kind": "json_path",
+        "path": "cf92ff49-663f-4631-82af-962137be5c14_钢4攻略.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "f5b171db-5049-4049-8837-18a37c8b6214",
+      "section_id": "c3d1dbde-8c33-4ec0-b198-4e77aa2ed917",
+      "text": "钢4攻略",
+      "locator": {
+        "kind": "json_path",
+        "path": "cf92ff49-663f-4631-82af-962137be5c14_钢4攻略.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 5
+    },
+    {
+      "passage_id": "33dbc69d-5dee-4d45-ae5d-98bdcfdb4308",
+      "section_id": "f6b1b4ef-c6d3-4c7a-abd5-e9619ed67845",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "cf92ff49-663f-4631-82af-962137be5c14_钢4攻略.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.408609"
+}

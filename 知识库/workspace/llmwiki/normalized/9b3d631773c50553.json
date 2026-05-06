@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "9b3d631773c50553",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/996f6ceb-74bb-4897-861f-e96a4437b9dc_医保资金长期不用去向解析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/9b/9b3d631773c50553.json",
+    "sha256": "1a8953b42db007d763c1ab5206df0e3961383440af296b826f83006f897fdca4",
+    "content_hash": "9b063d79566c383bd189e461c1efa18a04e60ab350bf57c62c3c8a0e8086989a",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "1f9a5b66-6044-4d62-ad6e-28b7017464cb",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "996f6ceb-74bb-4897-861f-e96a4437b9dc",
+      "locator": {
+        "kind": "json_path",
+        "path": "996f6ceb-74bb-4897-861f-e96a4437b9dc_医保资金长期不用去向解析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "a9d34189-02b4-4dec-aafa-507427ffa7ed",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "医保资金长期不用去向解析",
+      "locator": {
+        "kind": "json_path",
+        "path": "996f6ceb-74bb-4897-861f-e96a4437b9dc_医保资金长期不用去向解析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "8831ae83-8e4b-4532-a051-71fb1bbfb728",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "996f6ceb-74bb-4897-861f-e96a4437b9dc_医保资金长期不用去向解析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "6b35c139-83d2-4d70-a445-d49d8c377e2d",
+      "section_id": "1f9a5b66-6044-4d62-ad6e-28b7017464cb",
+      "text": "996f6ceb-74bb-4897-861f-e96a4437b9dc",
+      "locator": {
+        "kind": "json_path",
+        "path": "996f6ceb-74bb-4897-861f-e96a4437b9dc_医保资金长期不用去向解析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "f8a25ddb-3cb4-412f-b4ed-d23e4aabf2e7",
+      "section_id": "a9d34189-02b4-4dec-aafa-507427ffa7ed",
+      "text": "医保资金长期不用去向解析",
+      "locator": {
+        "kind": "json_path",
+        "path": "996f6ceb-74bb-4897-861f-e96a4437b9dc_医保资金长期不用去向解析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 18
+    },
+    {
+      "passage_id": "f157ffe8-cb7b-4c9b-99df-ac8ef0bb08ba",
+      "section_id": "8831ae83-8e4b-4532-a051-71fb1bbfb728",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "996f6ceb-74bb-4897-861f-e96a4437b9dc_医保资金长期不用去向解析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.194438"
+}

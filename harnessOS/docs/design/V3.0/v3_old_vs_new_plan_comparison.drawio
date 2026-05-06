@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" modified="2026-05-05T00:00:00.000Z" agent="harnessOS" version="24.7.17">
+  <diagram id="v3-old-vs-new" name="V3.0 Old vs New Plan">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="harnessOS V3.0 Plan Shift" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=26;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="350" y="30" width="700" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="old" value="Old V3.0 Direction&#xa;&#xa;File: v3_evolution_direction.md&#xa;&#xa;• Generic Workflow Model&#xa;• Low-Code Workflow Runtime&#xa;• DomainPack 2.0&#xa;• Core Memory System&#xa;• Feedback Optimization Loop&#xa;• Workflow / Pack Library" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=15;align=left;spacingLeft=16" vertex="1" parent="1">
+          <mxGeometry x="120" y="130" width="440" height="360" as="geometry"/>
+        </mxCell>
+        <mxCell id="new" value="New V3.0 Development Plan&#xa;&#xa;File: v3_development_plan_multi_app_core.md&#xa;&#xa;• V3.0-PhaseA Multi-App Core Readiness&#xa;• V3.0-PhaseB Pack Assembly + Connector Registry&#xa;• V3.0-PhaseC Job / Artifact / Governance Hardening&#xa;• V3.0-PhaseD Meeting Pack E2E Migration&#xa;• V3.0-PhaseE Knowledge Pack E2E Migration&#xa;&#xa;Then: V3.1 Interview / V3.2 Investment / V3.3 Video Studio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;fontSize=15;align=left;spacingLeft=16" vertex="1" parent="1">
+          <mxGeometry x="820" y="130" width="460" height="360" as="geometry"/>
+        </mxCell>
+        <mxCell id="bridge" value="Priority Shift&#xa;&#xa;From platform vision first&#xa;to stable reusable Core first" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#D97706;fontSize=15;align=center" vertex="1" parent="1">
+          <mxGeometry x="600" y="245" width="180" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge1" edge="1" source="old" target="bridge" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#64748B;endArrow=block;endFill=1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge2" edge="1" source="bridge" target="new" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#64748B;endArrow=block;endFill=1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="scope" value="New Core Rule&#xa;&#xa;No business logic in Core / Gateway.&#xa;All business capability enters through AppProfile + Pack + Connector + RuntimeAdapter.&#xa;All records carry app_id / project_id / workspace_id." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#475569;fontSize=15;align=center" vertex="1" parent="1">
+          <mxGeometry x="300" y="570" width="800" height="150" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

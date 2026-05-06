@@ -1,0 +1,39 @@
+{
+  "source_id": "2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "四代住宅概念及特点解析",
+  "title_flags": [],
+  "source_weight": 1.7528,
+  "source_density_score": 1.0399,
+  "llm_enriched": false,
+  "tags": [
+    "四代住宅概念及特",
+    "点解析",
+    "四代住宅概念及特点解析"
+  ],
+  "units": [
+    {
+      "unit_id": "2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析:topic:1",
+      "kind": "topic_candidate",
+      "text": "四代住宅概念及特点解析",
+      "importance": 0.90764,
+      "confidence": 0.721596,
+      "source_weight": 1.7528,
+      "source_density_score": 1.0399,
+      "is_title_derived": true,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "2b5973a8-177b-451f-a690-6d9ef31f8c8c_四代住宅概念及特点解析:note:1",
+      "kind": "note",
+      "text": "四代住宅概念及特点解析",
+      "importance": 0.685168,
+      "confidence": 0.56,
+      "source_weight": 1.7528,
+      "source_density_score": 1.0399,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

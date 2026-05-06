@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.1",
+  "source_id": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "OpenClaw股票观察者搭建指南",
+  "title_flags": [],
+  "source_weight": 1.8366,
+  "source_density_score": 1.1423,
+  "llm_enriched": false,
+  "tags": [
+    "OpenClaw",
+    "股票观察者搭建指",
+    "ai学习",
+    "投资",
+    "OpenClaw股票观察者搭建指南"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南:topic:1",
+      "kind": "topic_candidate",
+      "text": "ai学习",
+      "importance": 0.9118299999999999,
+      "confidence": 0.725692,
+      "source_weight": 1.8366,
+      "source_density_score": 1.1423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "OpenClaw",
+        "股票观察者搭建指",
+        "ai学习",
+        "投资",
+        "OpenClaw股票观察者搭建指南"
+      ],
+      "entities": [
+        "OpenClaw"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南:topic:2",
+      "kind": "topic_candidate",
+      "text": "投资",
+      "importance": 0.9118299999999999,
+      "confidence": 0.725692,
+      "source_weight": 1.8366,
+      "source_density_score": 1.1423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "OpenClaw",
+        "股票观察者搭建指",
+        "ai学习",
+        "投资",
+        "OpenClaw股票观察者搭建指南"
+      ],
+      "entities": [
+        "OpenClaw"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南:conclusion:1",
+      "kind": "conclusion",
+      "text": "OpenClaw股票观察者搭建指南",
+      "importance": 0.848562,
+      "confidence": 0.62,
+      "source_weight": 1.8366,
+      "source_density_score": 1.1423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "OpenClaw",
+        "股票观察者搭建指",
+        "ai学习",
+        "投资",
+        "OpenClaw股票观察者搭建指南"
+      ],
+      "entities": [
+        "OpenClaw"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南:entity:1",
+      "kind": "entity_candidate",
+      "text": "OpenClaw",
+      "importance": 0.7918299999999999,
+      "confidence": 0.6,
+      "source_weight": 1.8366,
+      "source_density_score": 1.1423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "OpenClaw",
+        "股票观察者搭建指",
+        "ai学习",
+        "投资",
+        "OpenClaw股票观察者搭建指南"
+      ],
+      "entities": [
+        "OpenClaw"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/0dec5c7c-3774-4a0b-8832-6969f3909e25_OpenClaw股票观察者搭建指南.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

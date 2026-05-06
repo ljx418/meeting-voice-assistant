@@ -1,0 +1,72 @@
+{
+  "source_id": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "Bose耳机配对问题排查指南",
+  "title_flags": [],
+  "source_weight": 1.8357,
+  "source_density_score": 1.1411,
+  "llm_enriched": false,
+  "tags": [
+    "Bose",
+    "耳机配对问题排查",
+    "Bose耳机配对问题排查指南"
+  ],
+  "units": [
+    {
+      "unit_id": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南:topic:1",
+      "kind": "topic_candidate",
+      "text": "Bose",
+      "importance": 0.911785,
+      "confidence": 0.7256440000000001,
+      "source_weight": 1.8357,
+      "source_density_score": 1.1411,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南:topic:2",
+      "kind": "topic_candidate",
+      "text": "Bose耳机配对问题排查指南",
+      "importance": 0.911785,
+      "confidence": 0.7256440000000001,
+      "source_weight": 1.8357,
+      "source_density_score": 1.1411,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南:note:1",
+      "kind": "note",
+      "text": "Bose耳机配对问题排查指南",
+      "importance": 0.6901419999999999,
+      "confidence": 0.56,
+      "source_weight": 1.8357,
+      "source_density_score": 1.1411,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南:conclusion:1",
+      "kind": "conclusion",
+      "text": "Bose耳机配对问题排查指南",
+      "importance": 0.848499,
+      "confidence": 0.62,
+      "source_weight": 1.8357,
+      "source_density_score": 1.1411,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "42a10a65-97d8-4566-bf61-87eab4e9f6d5_Bose耳机配对问题排查指南:entity:1",
+      "kind": "entity_candidate",
+      "text": "Bose",
+      "importance": 0.791785,
+      "confidence": 0.6,
+      "source_weight": 1.8357,
+      "source_density_score": 1.1411,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

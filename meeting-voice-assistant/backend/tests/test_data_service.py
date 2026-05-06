@@ -2,6 +2,8 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
 from data_service import (
     ArtifactLayout,
     DataService,
@@ -39,6 +41,7 @@ def test_artifact_layout_from_workspace(tmp_path):
     assert layout.quality_dir == (workspace / "quality").resolve()
     assert layout.quality_feedback_jsonl == (workspace / "quality" / "feedback.jsonl").resolve()
     assert layout.quality_correction_rules_json == (workspace / "quality" / "correction_rules.json").resolve()
+    assert layout.quality_correction_plan_json == (workspace / "quality" / "correction_plan.json").resolve()
 
 
 def test_data_service_builds_single_ingest_dual_engine_plan(tmp_path):
@@ -64,6 +67,25 @@ def test_data_service_builds_single_ingest_dual_engine_plan(tmp_path):
     ]
     assert plan.distill_policy["graphrag_prefers_distill"] is True
     assert len(plan.sources) == 2
+
+
+def test_data_service_directory_ingest_skips_symlink_outside_source_root(tmp_path):
+    source_dir = tmp_path / "source"
+    source_dir.mkdir()
+    inside = source_dir / "inside.md"
+    inside.write_text("# Inside\n", encoding="utf-8")
+    outside = tmp_path / "outside.md"
+    outside.write_text("# Secret\n", encoding="utf-8")
+    link = source_dir / "linked-secret.md"
+    try:
+        link.symlink_to(outside)
+    except OSError as exc:
+        pytest.skip(f"symlink unavailable: {exc}")
+
+    service = DataService(tmp_path / "workspace")
+    plan = service.build_ingest_plan([str(source_dir)])
+
+    assert [Path(source.path) for source in plan.sources] == [inside.resolve()]
 
 
 def test_data_service_expands_directory_paths(tmp_path):
@@ -168,6 +190,471 @@ def test_data_service_builds_draft_correction_rules_from_feedback(tmp_path):
     assert merge_rule["proposed_value"] == "Canonical Entity"
 
 
+def test_data_service_reviews_correction_rule_and_preserves_status_on_rebuild(tmp_path):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+    service.record_quality_feedback(
+        target_type="entity",
+        target_id="old-entity",
+        action="merge_suggest",
+        label="Old Entity",
+        suggested_value="Canonical Entity",
+        reason="同一实体需要合并",
+    )
+    rules = service.read_quality_correction_rules(limit=10)
+    rule_id = rules["items"][0]["rule_id"]
+
+    reviewed = service.review_quality_correction_rule(
+        rule_id=rule_id,
+        status="approved",
+        reviewer="tester",
+        note="确认合并",
+    )
+
+    assert reviewed["rule"]["status"] == "approved"
+    assert reviewed["rule"]["reviewer"] == "tester"
+    assert reviewed["summary"]["status_counts"]["approved"] == 1
+    rebuilt = service.build_quality_correction_rules()
+    assert rebuilt["rules"][0]["status"] == "approved"
+    assert rebuilt["rules"][0]["review_note"] == "确认合并"
+    summary_payload = json.loads(service.layout.summary_json.read_text(encoding="utf-8"))
+    assert summary_payload["quality"]["correction_rules"]["status_counts"]["approved"] == 1
+
+
+def test_data_service_revokes_approved_rule_and_removes_it_from_plan(tmp_path):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+    service.record_quality_feedback(
+        target_type="entity",
+        target_id="old-entity",
+        action="rename_suggest",
+        label="Old Entity",
+        suggested_value="Canonical Entity",
+    )
+    rule_id = service.read_quality_correction_rules(limit=10)["items"][0]["rule_id"]
+    approved = service.review_quality_correction_rule(rule_id=rule_id, status="approved", reviewer="tester")
+    assert approved["correction_plan"]["source_rule_count"] == 1
+
+    revoked = service.review_quality_correction_rule(
+        rule_id=rule_id,
+        status="revoked",
+        reviewer="tester",
+        note="误批准，撤回",
+    )
+
+    assert revoked["rule"]["status"] == "revoked"
+    assert revoked["summary"]["status_counts"]["revoked"] == 1
+    plan = service.read_quality_correction_plan()
+    assert plan["source_rule_count"] == 0
+    assert plan["summary"]["action_count"] == 0
+    rebuilt = service.build_quality_correction_rules()
+    assert rebuilt["rules"][0]["status"] == "revoked"
+
+
+def test_data_service_builds_approved_correction_plan_and_applies_graph_policy(tmp_path, monkeypatch):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+    service.record_quality_feedback(
+        target_type="entity",
+        target_id="noise-entity",
+        action="mark_noise",
+        label="Noise Entity",
+        reason="图谱噪音",
+    )
+    service.record_quality_feedback(
+        target_type="entity",
+        target_id="old-entity",
+        action="rename_suggest",
+        label="Old Entity",
+        suggested_value="Canonical Entity",
+        reason="展示名称不自然",
+    )
+    service.layout.ensure_directories()
+    (service.layout.llmwiki_pages_dir / "old-entity.md").write_text(
+        "# Old Entity\n\nOld Entity appears in this page.\n",
+        encoding="utf-8",
+    )
+    rules = service.read_quality_correction_rules(limit=10)["items"]
+    for rule in rules:
+        service.review_quality_correction_rule(rule_id=rule["rule_id"], status="approved", reviewer="tester")
+
+    def fake_snapshot(workspace_path, *, max_nodes):
+        return {
+            "nodes": [
+                {"id": "noise-entity", "label": "Noise Entity", "name": "Noise Entity", "type": "entity"},
+                {"id": "old-entity", "label": "Old Entity", "name": "Old Entity", "type": "entity"},
+            ],
+            "edges": [{"source": "noise-entity", "target": "old-entity"}],
+            "communities": [{"id": "c1", "title": "C1", "entity_ids": ["noise-entity", "old-entity"], "entity_count": 2}],
+            "stats": {"entity_count": 2, "relationship_count": 1, "community_count": 1, "document_count": 1},
+            "db_path": str(Path(workspace_path) / "graphrag" / "state" / "graphrag.db"),
+            "source": "app.graphrag.bridge",
+        }
+
+    monkeypatch.setattr("app.graphrag.service.read_workspace_graph_snapshot", fake_snapshot)
+    plan = service.build_quality_correction_plan()
+
+    assert service.layout.quality_correction_plan_json.exists()
+    assert plan["source_rule_count"] == 2
+    assert plan["summary"]["action_counts"] == {"rename_target": 1, "suppress_target": 1}
+    assert plan["summary"]["impacted_action_count"] == 2
+    assert plan["summary"]["impact_counts"]["graph_nodes"] == 2
+    assert plan["summary"]["impact_counts"]["llmwiki_pages"] == 1
+    rename_action = next(item for item in plan["actions"] if item["action"] == "rename_target")
+    assert rename_action["impact"]["graph_nodes"][0]["name"] == "Old Entity"
+    assert rename_action["impact"]["llmwiki_pages"][0]["slug"] == "old-entity"
+
+    graph = service.get_graph_snapshot(max_nodes=20)
+
+    assert [node["name"] for node in graph["nodes"]] == ["Canonical Entity"]
+    assert graph["edges"] == []
+    assert graph["communities"][0]["entity_ids"] == ["old-entity"]
+    assert graph["quality_plan"]["applied_action_count"] == 2
+    assert graph["quality_plan"]["suppressed_node_count"] == 1
+    assert graph["quality_diagnostics"]["summary"]["top_community_count"] == 1
+    assert graph["quality_diagnostics"]["summary"]["isolated_node_count"] == 1
+
+
+def test_data_service_graph_snapshot_includes_quality_diagnostics(tmp_path, monkeypatch):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+
+    def fake_snapshot(workspace_path, *, max_nodes):
+        return {
+            "nodes": [
+                {
+                    "id": "central-entity",
+                    "label": "Central Entity",
+                    "name": "Central Entity",
+                    "type": "entity",
+                    "node_type": "entity",
+                    "document_count": 3,
+                    "weighted_count": 3.0,
+                },
+                {
+                    "id": "isolated-entity",
+                    "label": "Isolated Entity",
+                    "name": "Isolated Entity",
+                    "type": "entity",
+                    "node_type": "entity",
+                    "document_count": 1,
+                    "weighted_count": 1.0,
+                },
+                {
+                    "id": "theme-1",
+                    "label": "Theme",
+                    "name": "Theme",
+                    "type": "theme",
+                    "node_type": "theme",
+                    "document_count": 1,
+                    "weighted_count": 1.0,
+                },
+            ],
+            "edges": [{"source": "central-entity", "target": "theme-1", "label": "belongs_to"}],
+            "communities": [
+                {
+                    "id": "community-strong",
+                    "title": "Strong Community",
+                    "entity_ids": ["central-entity", "theme-1"],
+                    "entity_count": 2,
+                    "relationship_count": 1,
+                    "score": 4.0,
+                },
+                {
+                    "id": "community-weak",
+                    "title": "Weak Community",
+                    "entity_ids": ["isolated-entity"],
+                    "entity_count": 1,
+                    "relationship_count": 0,
+                    "score": 1.0,
+                },
+            ],
+            "stats": {"entity_count": 2, "theme_count": 1, "relationship_count": 1, "community_count": 2, "document_count": 3},
+            "source": "app.graphrag.bridge",
+            "db_path": "",
+        }
+
+    monkeypatch.setattr("app.graphrag.service.read_workspace_graph_snapshot", fake_snapshot)
+    graph = service.get_graph_snapshot(max_nodes=20)
+    diagnostics = graph["quality_diagnostics"]
+
+    assert diagnostics["schema_version"] == "1.0"
+    assert [item["id"] for item in diagnostics["top_communities"][:2]] == ["community-strong", "community-weak"]
+    assert diagnostics["weak_communities"][0]["feedback_target"]["target_type"] == "community"
+    assert diagnostics["weak_communities"][0]["feedback_target"]["suggested_action"] == "needs_review"
+    assert diagnostics["isolated_nodes"][0]["id"] == "isolated-entity"
+    assert diagnostics["isolated_nodes"][0]["feedback_target"]["suggested_action"] == "mark_noise"
+    assert diagnostics["low_value_nodes"][0]["id"] == "isolated-entity"
+
+
+def test_data_service_applies_correction_plan_to_graphrag_query(tmp_path, monkeypatch):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+    service.record_quality_feedback(
+        target_type="entity",
+        target_id="noise-entity",
+        action="mark_noise",
+        label="Noise Entity",
+    )
+    service.record_quality_feedback(
+        target_type="entity",
+        target_id="old-entity",
+        action="rename_suggest",
+        label="Old Entity",
+        suggested_value="Canonical Entity",
+    )
+    for rule in service.read_quality_correction_rules(limit=10)["items"]:
+        service.review_quality_correction_rule(rule_id=rule["rule_id"], status="approved")
+    service.build_quality_correction_plan()
+
+    def fake_query(workspace_path, query_text, *, top_k):
+        return {
+            "graph_model_version": DataService.GRAPH_QUERY_MODEL_VERSION,
+            "nodes": [
+                {"id": "noise-entity", "label": "Noise Entity", "name": "Noise Entity", "type": "entity"},
+                {"id": "old-entity", "label": "Old Entity", "name": "Old Entity", "type": "entity"},
+            ],
+            "edges": [{"source": "noise-entity", "target": "old-entity"}],
+            "communities": [],
+            "hits": [
+                {"title": "Entity: Noise Entity", "snippet": "Noise Entity hit", "source": "noise-entity", "score": 1.0, "meta": {"kind": "entity"}},
+                {"title": "Entity: Old Entity", "snippet": "Old Entity hit", "source": "old-entity", "score": 0.9, "meta": {"kind": "entity"}},
+            ],
+            "units": [],
+            "stats": {"entity_count": 2, "relationship_count": 1, "community_count": 0, "document_count": 1},
+            "source": "app.graphrag.bridge",
+        }
+
+    monkeypatch.setattr("app.graphrag.service.query_workspace_graph", fake_query)
+    result = service.query_graphrag("entity", top_k=5)
+
+    assert [node["name"] for node in result.engine_payloads["graphrag"]["nodes"]] == ["Canonical Entity"]
+    assert result.engine_payloads["graphrag"]["edges"] == []
+    assert [hit.title for hit in result.hits] == ["Entity: Canonical Entity"]
+    assert result.hits[0].snippet == "Canonical Entity hit"
+    assert result.hits[0].meta["kind"] == "entity"
+    assert result.engine_payloads["graphrag"]["quality_plan"]["suppressed_node_count"] == 1
+    impact = result.engine_payloads["graphrag"]["quality_plan"]["query_hit_impact"]
+    assert impact["suppressed_count"] == 1
+    assert impact["rewritten_count"] == 1
+    assert impact["suppressed_hits"][0]["title"] == "Entity: Noise Entity"
+    assert impact["rewritten_hits"][0]["original_title"] == "Entity: Old Entity"
+
+
+def test_data_service_applies_correction_plan_to_llmwiki_query(tmp_path, monkeypatch):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+    service.record_quality_feedback(
+        target_type="page",
+        target_id="noise-page",
+        action="mark_noise",
+        label="Noise Page",
+    )
+    service.record_quality_feedback(
+        target_type="page",
+        target_id="old-page",
+        action="rename_suggest",
+        label="Old Page",
+        suggested_value="Canonical Page",
+    )
+    for rule in service.read_quality_correction_rules(limit=10)["items"]:
+        service.review_quality_correction_rule(rule_id=rule["rule_id"], status="approved")
+    service.build_quality_correction_plan()
+
+    class FakeEngine:
+        def __init__(self, config):
+            self.config = config
+
+        def search(self, query_text, *, top_k, scope):
+            return {
+                "pages": [
+                    {"title": "Noise Page", "snippet": "Noise Page body", "result_id": "noise-page", "score": 1.0},
+                    {"title": "Old Page", "snippet": "Old Page body", "result_id": "old-page", "score": 0.9},
+                ],
+                "passages": [],
+            }
+
+    monkeypatch.setattr("data_service.service.WikiEngine", FakeEngine)
+    result = service.query_llmwiki("page", top_k=5)
+
+    assert [hit.title for hit in result.hits] == ["Canonical Page"]
+    assert result.hits[0].snippet == "Canonical Page body"
+    impact = result.engine_payloads["llmwiki"]["quality_plan"]["query_hit_impact"]
+    assert impact["suppressed_count"] == 1
+    assert impact["rewritten_count"] == 1
+
+
+def test_data_service_graph_policy_merges_existing_canonical_and_updates_community(tmp_path, monkeypatch):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+    service.record_quality_feedback(
+        target_type="entity",
+        target_id="old-entity",
+        action="merge_suggest",
+        label="Old Entity",
+        suggested_value="Canonical Entity",
+    )
+    service.record_quality_feedback(
+        target_type="community",
+        target_id="c1",
+        action="rename_suggest",
+        label="Noisy Community",
+        suggested_value="Canonical Community",
+    )
+    for rule in service.read_quality_correction_rules(limit=10)["items"]:
+        service.review_quality_correction_rule(rule_id=rule["rule_id"], status="approved")
+
+    def fake_snapshot(workspace_path, *, max_nodes):
+        return {
+            "nodes": [
+                {"id": "old-entity", "label": "Old Entity", "name": "Old Entity", "type": "entity", "node_type": "entity"},
+                {"id": "canonical-entity", "label": "Canonical Entity", "name": "Canonical Entity", "type": "entity", "node_type": "entity"},
+                {"id": "theme-1", "label": "Theme", "name": "Theme", "type": "theme", "node_type": "theme"},
+            ],
+            "edges": [
+                {"source": "old-entity", "target": "theme-1", "label": "rel"},
+                {"source": "canonical-entity", "target": "theme-1", "label": "rel"},
+            ],
+            "communities": [
+                {"id": "c1", "title": "Noisy Community", "entity_ids": ["old-entity", "canonical-entity"], "entity_count": 2},
+            ],
+            "stats": {"entity_count": 2, "theme_count": 1, "relationship_count": 2, "community_count": 1, "document_count": 1},
+            "source": "app.graphrag.bridge",
+            "db_path": "",
+        }
+
+    monkeypatch.setattr("app.graphrag.service.read_workspace_graph_snapshot", fake_snapshot)
+    service.build_quality_correction_plan()
+    graph = service.get_graph_snapshot(max_nodes=20)
+
+    assert [node["id"] for node in graph["nodes"]] == ["canonical-entity", "theme-1"]
+    assert graph["edges"] == [{"source": "canonical-entity", "target": "theme-1", "label": "rel"}]
+    assert graph["communities"][0]["title"] == "Canonical Community"
+    assert graph["communities"][0]["entity_ids"] == ["canonical-entity"]
+    assert graph["stats"]["entity_count"] == 1
+    assert graph["stats"]["theme_count"] == 1
+
+
+def test_data_service_applies_correction_plan_to_llmwiki_page(tmp_path, monkeypatch):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+    service.record_quality_feedback(
+        target_type="page",
+        target_id="old-page",
+        action="rename_suggest",
+        label="Old Page",
+        suggested_value="Canonical Page",
+    )
+    rule = service.read_quality_correction_rules(limit=10)["items"][0]
+    service.review_quality_correction_rule(rule_id=rule["rule_id"], status="approved")
+    service.build_quality_correction_plan()
+
+    class FakeEngine:
+        def __init__(self, config):
+            self.config = config
+
+        def read_page(self, slug):
+            return {
+                "page": {
+                    "slug": slug,
+                    "title": "Old Page",
+                    "summary": "Old Page summary",
+                    "body_md": "# Old Page\n\nOld Page body.",
+                },
+                "sources": [],
+                "citations": [],
+                "backlinks": [{"slug": "old-page", "title": "Old Page"}],
+            }
+
+    monkeypatch.setattr("data_service.service.WikiEngine", FakeEngine)
+    page = service.read_llmwiki_page("old-page")
+
+    assert page["page"]["title"] == "Canonical Page"
+    assert "Canonical Page body" in page["page"]["body_md"]
+    assert page["backlinks"][0]["title"] == "Canonical Page"
+    assert page["quality_plan"]["applied_action_count"] == 1
+
+
+def test_data_service_applies_correction_plan_to_llmwiki_markdown_files(tmp_path):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+    service.layout.ensure_directories()
+    page_path = service.layout.llmwiki_pages_dir / "old-page.md"
+    page_path.write_text("# Old Page\n\nOld Page body.\n", encoding="utf-8")
+    service.record_quality_feedback(
+        target_type="page",
+        target_id="old-page",
+        action="rename_suggest",
+        label="Old Page",
+        suggested_value="Canonical Page",
+    )
+    rule = service.read_quality_correction_rules(limit=10)["items"][0]
+    service.review_quality_correction_rule(rule_id=rule["rule_id"], status="approved")
+    service.build_quality_correction_plan()
+
+    result = service.apply_quality_plan_to_llmwiki_markdown_files()
+
+    assert result["status"] == "applied"
+    assert result["updated_count"] == 1
+    rewritten = page_path.read_text(encoding="utf-8")
+    assert "# Canonical Page" in rewritten
+    assert "Canonical Page body" in rewritten
+    assert "Old Page" not in rewritten
+
+
+def test_data_service_marks_suppressed_llmwiki_markdown_file(tmp_path):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+    service.layout.ensure_directories()
+    page_path = service.layout.llmwiki_pages_dir / "noise-page.md"
+    page_path.write_text("# Noise Page\n\nNoise Page body.\n", encoding="utf-8")
+    service.record_quality_feedback(
+        target_type="page",
+        target_id="noise-page",
+        action="mark_noise",
+        label="Noise Page",
+    )
+    rule = service.read_quality_correction_rules(limit=10)["items"][0]
+    service.review_quality_correction_rule(rule_id=rule["rule_id"], status="approved")
+    service.build_quality_correction_plan()
+
+    result = service.apply_quality_plan_to_llmwiki_markdown_files()
+
+    assert result["updated_pages"][0]["quality_suppressed"] is True
+    assert page_path.read_text(encoding="utf-8").startswith("<!-- quality_suppressed: true -->")
+
+
+def test_data_service_marks_merged_llmwiki_topic_and_appends_canonical_signal(tmp_path):
+    workspace = tmp_path / "workspace"
+    service = DataService(workspace)
+    service.layout.ensure_directories()
+    old_path = service.layout.llmwiki_pages_dir / "old-topic.md"
+    canonical_path = service.layout.llmwiki_pages_dir / "canonical-topic.md"
+    old_path.write_text("# Old Topic\n\nOld Topic detail.\n", encoding="utf-8")
+    canonical_path.write_text("# Canonical Topic\n\nCanonical Topic detail.\n", encoding="utf-8")
+    service.record_quality_feedback(
+        target_type="page",
+        target_id="old-topic",
+        action="merge_suggest",
+        label="Old Topic",
+        suggested_value="Canonical Topic",
+    )
+    rule = service.read_quality_correction_rules(limit=10)["items"][0]
+    service.review_quality_correction_rule(rule_id=rule["rule_id"], status="approved")
+    service.build_quality_correction_plan()
+
+    result = service.apply_quality_plan_to_llmwiki_markdown_files()
+
+    old_body = old_path.read_text(encoding="utf-8")
+    canonical_body = canonical_path.read_text(encoding="utf-8")
+    assert result["updated_pages"][0]["quality_merged_into"] == "Canonical Topic"
+    assert "<!-- quality_merged_into: Canonical Topic -->" in old_body
+    assert "This page has been merged into [[Canonical Topic]]" in old_body
+    assert "## Merged Topic Signals" in canonical_body
+    assert "<!-- quality_merge_source: old-topic -->" in canonical_body
+    assert "Old Topic detail." in canonical_body
+
+
 def test_data_service_builds_distilled_units(tmp_path):
     workspace = tmp_path / "workspace"
     doc = tmp_path / "openclaw.json"
@@ -176,6 +663,7 @@ def test_data_service_builds_distilled_units(tmp_path):
     plan = service.build_ingest_plan([str(doc)])
 
     units = service.build_distilled_units(plan)
+    service.write_summary_files(plan)
 
     assert len(units) >= 2
     assert any(unit.kind == DistilledUnitKind.TOPIC_CANDIDATE for unit in units)
@@ -371,6 +859,109 @@ def test_data_service_adds_title_fallback_question_for_semantic_title_only_sourc
     assert source_payload["unit_kind_counts"]["question"] >= 1
     assert "米醋" in source_payload["tags"]
     assert "白醋" in source_payload["tags"]
+
+
+def test_data_service_records_low_signal_diagnostics_for_zero_unit_source(tmp_path):
+    workspace = tmp_path / "workspace"
+    doc = tmp_path / "low_signal.json"
+    doc.write_text(
+        json.dumps(
+            {
+                "title": "记录",
+                "turns": [
+                    {"role": "user", "content": "你好"},
+                    {"role": "assistant", "content": "好的"},
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    service = DataService(workspace)
+    plan = service.build_ingest_plan([str(doc)])
+
+    units = service.build_distilled_units(plan)
+    service.write_summary_files(plan)
+
+    assert [unit for unit in units if unit.source_id == doc.stem] == []
+    source_payload = json.loads((service.layout.distill_sources_dir / f"{doc.stem}.json").read_text(encoding="utf-8"))
+    manifest_payload = json.loads(service.layout.distill_manifest.read_text(encoding="utf-8"))
+    summary_payload = json.loads(service.layout.summary_json.read_text(encoding="utf-8"))
+
+    assert source_payload["profile"]["zero_unit"] is True
+    assert source_payload["profile_debug"]["low_signal"]["zero_unit"] is True
+    assert "no_safe_title_fallback" in source_payload["profile_debug"]["low_signal"]["reasons"]
+    assert manifest_payload["quality"]["zero_unit_count"] == 1
+    assert manifest_payload["quality"]["zero_unit_sources"][0]["source_id"] == doc.stem
+    assert summary_payload["quality"]["distill"]["zero_unit_count"] == 1
+
+
+def test_data_service_records_title_fallback_low_signal_coverage(tmp_path):
+    workspace = tmp_path / "workspace"
+    doc = tmp_path / "fallback_covered.json"
+    doc.write_text(
+        json.dumps(
+            {
+                "title": "中国核电建设及并网时间数据",
+                "turns": [],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    service = DataService(workspace)
+    plan = service.build_ingest_plan([str(doc)])
+
+    units = service.build_distilled_units(plan)
+    conclusions = [unit for unit in units if unit.kind == DistilledUnitKind.CONCLUSION]
+    source_payload = json.loads((service.layout.distill_sources_dir / f"{doc.stem}.json").read_text(encoding="utf-8"))
+    manifest_payload = json.loads(service.layout.distill_manifest.read_text(encoding="utf-8"))
+
+    assert not conclusions
+    assert source_payload["profile"]["zero_unit"] is False
+    assert source_payload["profile_debug"]["low_signal"]["title_fallbacks"]["fact_candidate"] is True
+    assert "title_only_conservatively_covered" in source_payload["profile_debug"]["low_signal"]["reasons"]
+    assert manifest_payload["quality"]["zero_unit_count"] == 0
+    assert manifest_payload["quality"]["title_fallback_source_counts"]["fact_candidate"] == 1
+
+
+def test_data_service_conservatively_covers_real_low_signal_titles(tmp_path):
+    workspace = tmp_path / "workspace"
+    titles = [
+        "36岁停止工作确保退休资金充足",
+        "管培生实践移植案例",
+        "端午节看望老人注意事项",
+        "生成两份云南菜评价",
+        "车企相关",
+        "跨设备智能卡片交互系统专利",
+        "User seeks clarification on creample term.",
+        "香农极限及其在通信中的应用",
+    ]
+    docs = []
+    for index, title in enumerate(titles):
+        doc = tmp_path / f"low_signal_{index}.json"
+        doc.write_text(json.dumps({"title": title, "turns": []}, ensure_ascii=False), encoding="utf-8")
+        docs.append(str(doc))
+    service = DataService(workspace)
+    plan = service.build_ingest_plan(docs)
+
+    units = service.build_distilled_units(plan)
+    conclusions = [unit for unit in units if unit.kind == DistilledUnitKind.CONCLUSION]
+    manifest_payload = json.loads(service.layout.distill_manifest.read_text(encoding="utf-8"))
+    source_units = {
+        source["title"]: [
+            unit for unit in units
+            if unit.source_id == source["source_id"]
+        ]
+        for source in manifest_payload["sources"]
+    }
+
+    assert manifest_payload["quality"]["zero_unit_count"] == 0
+    assert not conclusions
+    assert all(source_units[title] for title in titles)
+    assert any(unit.text == "退休资金" for unit in units if unit.kind == DistilledUnitKind.ENTITY_CANDIDATE)
+    assert any(unit.text == "creample" for unit in units if unit.kind == DistilledUnitKind.ENTITY_CANDIDATE)
+    assert manifest_payload["quality"]["title_fallback_source_count"] >= 7
 
 
 def test_data_service_prefers_inner_json_title_over_filename(tmp_path):
@@ -967,7 +1558,7 @@ def test_graphrag_cli_health_check_reports_healthy_cli(monkeypatch):
 
     class HealthyCliResult:
         returncode = 0
-        stdout = "graphrag 1.0.0"
+        stdout = "Usage: graphrag [OPTIONS] COMMAND [ARGS]..."
         stderr = ""
 
     monkeypatch.setattr("app.graphrag.service.data_service_runner.shutil.which", lambda _: "/usr/local/bin/graphrag")
@@ -981,7 +1572,7 @@ def test_graphrag_cli_health_check_reports_healthy_cli(monkeypatch):
         "reason": "ok",
         "path": "/usr/local/bin/graphrag",
         "returncode": 0,
-        "stdout": "graphrag 1.0.0",
+        "stdout": "Usage: graphrag [OPTIONS] COMMAND [ARGS]...",
         "stderr": "",
     }
 

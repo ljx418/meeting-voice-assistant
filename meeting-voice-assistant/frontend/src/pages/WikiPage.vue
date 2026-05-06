@@ -83,7 +83,7 @@
       <!-- Error State -->
       <div v-else-if="error" class="error-state">
         <p class="error-message">{{ error }}</p>
-        <button class="btn-secondary" @click="loadDocuments">重试</button>
+        <button class="btn-secondary" @click="wiki.fetchDocuments">重试</button>
       </div>
 
       <!-- Empty State -->

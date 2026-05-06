@@ -1,0 +1,50 @@
+{
+  "source_id": "a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "安装openclaw",
+  "title_flags": [],
+  "source_weight": 1.7524,
+  "source_density_score": 1.0396,
+  "llm_enriched": false,
+  "tags": [
+    "openclaw",
+    "ai学习",
+    "安装openclaw"
+  ],
+  "units": [
+    {
+      "unit_id": "a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw:topic:1",
+      "kind": "topic_candidate",
+      "text": "ai学习",
+      "importance": 0.90762,
+      "confidence": 0.721584,
+      "source_weight": 1.7524,
+      "source_density_score": 1.0396,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw:topic:2",
+      "kind": "topic_candidate",
+      "text": "安装openclaw",
+      "importance": 0.90762,
+      "confidence": 0.721584,
+      "source_weight": 1.7524,
+      "source_density_score": 1.0396,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    },
+    {
+      "unit_id": "a6e07831-4df2-4edd-afba-22f33f553f28_安装openclaw:note:1",
+      "kind": "note",
+      "text": "安装openclaw",
+      "importance": 0.685144,
+      "confidence": 0.56,
+      "source_weight": 1.7524,
+      "source_density_score": 1.0396,
+      "is_title_derived": false,
+      "is_llm_enriched": false
+    }
+  ]
+}

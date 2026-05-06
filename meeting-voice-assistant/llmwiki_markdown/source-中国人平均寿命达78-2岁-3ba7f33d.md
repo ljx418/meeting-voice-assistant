@@ -1,0 +1,28 @@
+# 中国人平均寿命达78 2岁
+
+- kind: source_note
+- sources: 3ba7f33d73d4cbd8
+## Question
+
+中国人平均寿命达78.2岁
+
+## Core Conclusion
+
+# 中国人平均寿命达78.2岁
+
+## Source Signals
+
+- 中国人平均寿命达78 2岁
+
+## Verification Status
+
+- This page is derived from chat material and should be treated as secondary guidance until corroborated by primary documents.
+
+## Evidence
+
+- # 中国人平均寿命达78.2岁
+
+## Source Context
+
+- Path: `/private/var/folders/ht/f5jw1g3d3qj_bjzr42mz8xkw0000gp/T/pytest-of-Zhuanz/pytest-136/test_derive_source_title_prefe0/.llmwiki_docs_conversations/34c9ceec-91d5-46bf-a246-1cb71c2dabc3_中国人平均寿命达78_2岁.md`
+- Keywords: 中国人平均寿命达78, 2岁, 问答正文

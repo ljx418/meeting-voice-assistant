@@ -11,6 +11,11 @@ from typing import Any, Optional, Union
 from apps.gateway.persistence import atomic_write_text, read_json_locked, update_json_list_locked
 from apps.gateway.protocol import new_id
 from apps.gateway.secrets import mask_value
+from core.config import get_meeting_mcp_config
+
+
+MAX_INLINE_ARTIFACT_READ_BYTES = 1024 * 1024
+VIDEO_MIME_PREFIXES = ("video/",)
 
 
 class ArtifactError(RuntimeError):
@@ -20,10 +25,16 @@ class ArtifactError(RuntimeError):
 class ArtifactRegistry:
     """Register existing output files as harnessOS artifacts."""
 
-    def __init__(self, root: Optional[Union[str, Path]] = None) -> None:
+    def __init__(
+        self,
+        root: Optional[Union[str, Path]] = None,
+        *,
+        allowed_roots: Optional[list[Union[str, Path]]] = None,
+    ) -> None:
         default_root = Path(__file__).resolve().parents[2] / ".harnessos" / "artifacts"
         self.root = Path(root or default_root).expanduser().resolve()
         self.index_path = self.root / "index.json"
+        self.allowed_roots = _default_allowed_roots(self.root, allowed_roots)
 
     def register_file(
         self,
@@ -31,6 +42,9 @@ class ArtifactRegistry:
         *,
         session_id: Optional[str] = None,
         turn_id: Optional[str] = None,
+        app_id: str = "default",
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
         domain: Optional[str] = None,
         kind: Optional[str] = None,
         metadata: Optional[dict[str, Any]] = None,
@@ -39,11 +53,16 @@ class ArtifactRegistry:
         file_path = Path(path).expanduser().resolve()
         if not file_path.exists() or not file_path.is_file():
             raise ArtifactError(f"Artifact file does not exist: {file_path}")
+        if not _is_under_allowed_root(file_path, self.allowed_roots):
+            raise ArtifactError(f"Artifact file is outside allowed roots: {file_path}")
 
         record = {
             "artifact_id": new_id("art"),
             "session_id": session_id,
             "turn_id": turn_id,
+            "app_id": app_id,
+            "project_id": project_id,
+            "workspace_id": workspace_id,
             "domain": domain,
             "kind": kind or file_path.stem,
             "name": file_path.name,
@@ -59,12 +78,61 @@ class ArtifactRegistry:
             ArtifactError,
         )
 
+    def register_external(
+        self,
+        *,
+        external_asset_uri: str,
+        session_id: Optional[str] = None,
+        turn_id: Optional[str] = None,
+        app_id: str = "default",
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
+        domain: Optional[str] = None,
+        kind: str = "external_asset",
+        name: str = "",
+        mime: str = "application/octet-stream",
+        preview_uri: Optional[str] = None,
+        thumbnail_uri: Optional[str] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
+        """Register an external asset without copying or reading its content."""
+        if not external_asset_uri.strip():
+            raise ArtifactError("external_asset_uri is required")
+        record = {
+            "artifact_id": new_id("art"),
+            "session_id": session_id,
+            "turn_id": turn_id,
+            "app_id": app_id,
+            "project_id": project_id,
+            "workspace_id": workspace_id,
+            "domain": domain,
+            "kind": kind,
+            "name": name or external_asset_uri.rsplit("/", 1)[-1],
+            "path": None,
+            "uri": external_asset_uri,
+            "external_asset_uri": external_asset_uri,
+            "preview_uri": preview_uri,
+            "thumbnail_uri": thumbnail_uri,
+            "mime": mime,
+            "size": None,
+            "created_at": datetime.now().isoformat(),
+            "metadata": mask_value(metadata or {}),
+        }
+        return update_json_list_locked(
+            self.index_path,
+            lambda records: _append_record(records, record),
+            ArtifactError,
+        )
+
     def list_artifacts(
         self,
         *,
         session_id: Optional[str] = None,
         domain: Optional[str] = None,
         kind: Optional[str] = None,
+        app_id: Optional[str] = None,
+        project_id: Optional[str] = None,
+        workspace_id: Optional[str] = None,
     ) -> list[dict[str, Any]]:
         """List registered artifacts, optionally filtered."""
         records = self._load_index()
@@ -74,6 +142,12 @@ class ArtifactRegistry:
             records = [record for record in records if record.get("domain") == domain]
         if kind is not None:
             records = [record for record in records if record.get("kind") == kind]
+        if app_id is not None:
+            records = [record for record in records if record.get("app_id", "default") == app_id]
+        if project_id is not None:
+            records = [record for record in records if record.get("project_id") == project_id]
+        if workspace_id is not None:
+            records = [record for record in records if record.get("workspace_id") == workspace_id]
         return records
 
     def get_artifact(self, artifact_id: str) -> dict[str, Any]:
@@ -86,14 +160,29 @@ class ArtifactRegistry:
     def read_artifact(self, artifact_id: str) -> dict[str, Any]:
         """Read one artifact as text or JSON."""
         record = self.get_artifact(artifact_id)
-        path = Path(str(record.get("path", "")))
+        mime = str(record.get("mime") or "application/octet-stream")
+        if any(mime.startswith(prefix) for prefix in VIDEO_MIME_PREFIXES):
+            raise ArtifactError("Video artifacts cannot be read inline; use artifact.read_metadata.")
+        size = record.get("size")
+        if isinstance(size, int) and size > MAX_INLINE_ARTIFACT_READ_BYTES:
+            raise ArtifactError("Large artifacts cannot be read inline; use artifact.read_metadata.")
+        raw_path = record.get("path")
+        if not isinstance(raw_path, str) or not raw_path:
+            raise ArtifactError("External artifacts cannot be read inline; use artifact.read_metadata.")
+        path = Path(raw_path).expanduser().resolve()
         if not path.exists() or not path.is_file():
             raise ArtifactError(f"Artifact file does not exist: {path}")
+        if not _is_under_allowed_root(path, self.allowed_roots):
+            raise ArtifactError(f"Artifact file is outside allowed roots: {path}")
         text = path.read_text(encoding="utf-8")
         content: Any = text
         if record.get("mime") == "application/json" or path.suffix.lower() == ".json":
             content = json.loads(text)
         return {"artifact": mask_value(record), "content": mask_value(content)}
+
+    def read_metadata(self, artifact_id: str) -> dict[str, Any]:
+        """Return artifact metadata without reading content."""
+        return {"artifact": mask_value(self.get_artifact(artifact_id))}
 
     def _load_index(self) -> list[dict[str, Any]]:
         if not self.index_path.exists():
@@ -121,3 +210,32 @@ def _guess_mime(path: Path) -> str:
 def _append_record(records: list[dict[str, Any]], record: dict[str, Any]) -> dict[str, Any]:
     records.append(record)
     return record
+
+
+def _default_allowed_roots(
+    root: Path,
+    configured: Optional[list[Union[str, Path]]],
+) -> list[Path]:
+    roots = [root, root.parent, Path(__file__).resolve().parents[2]]
+    if configured:
+        roots.extend(Path(item).expanduser() for item in configured)
+    try:
+        meeting_config = get_meeting_mcp_config()
+        meeting_cwd = Path(meeting_config.cwd).expanduser()
+        roots.append(meeting_cwd)
+        roots.append(meeting_cwd.parent)
+        if meeting_config.output_root:
+            roots.append(Path(meeting_config.output_root).expanduser())
+    except Exception:
+        pass
+    resolved: list[Path] = []
+    for item in roots:
+        try:
+            resolved.append(item.resolve())
+        except OSError:
+            continue
+    return resolved
+
+
+def _is_under_allowed_root(path: Path, allowed_roots: list[Path]) -> bool:
+    return any(path == root or root in path.parents for root in allowed_roots)

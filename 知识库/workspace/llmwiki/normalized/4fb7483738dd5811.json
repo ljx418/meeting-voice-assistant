@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "4fb7483738dd5811",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/4f/4fb7483738dd5811.json",
+    "sha256": "3f22a0f3774e05c1e00f33628214f66371ff4387de56d7978e6a337dad27622f",
+    "content_hash": "f04f343b9ae05e2f9ad80d9ec6086944c9418e09d06a5b180be1f7b92e528d6a",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "d6f3113c-d94a-441c-be82-b4f8dcfe82a8",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "4347334e-0fd0-42f8-8e76-1e838179b7ee",
+      "locator": {
+        "kind": "json_path",
+        "path": "4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "f79fd5a4-9a5f-4e93-a76a-54671c28f526",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "社保缴费与退休金关系",
+      "locator": {
+        "kind": "json_path",
+        "path": "4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "3cbe2d45-2756-4c7a-bd78-3c7722a9d6e7",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "d9f908df-dfbe-4575-9cc3-0b88a106be50",
+      "section_id": "d6f3113c-d94a-441c-be82-b4f8dcfe82a8",
+      "text": "4347334e-0fd0-42f8-8e76-1e838179b7ee",
+      "locator": {
+        "kind": "json_path",
+        "path": "4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 23
+    },
+    {
+      "passage_id": "af727a38-7653-41ae-9e78-07b3c226f43b",
+      "section_id": "f79fd5a4-9a5f-4e93-a76a-54671c28f526",
+      "text": "社保缴费与退休金关系",
+      "locator": {
+        "kind": "json_path",
+        "path": "4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 15
+    },
+    {
+      "passage_id": "3692f7da-b535-4be6-a26e-94e3f7ece4ea",
+      "section_id": "3cbe2d45-2756-4c7a-bd78-3c7722a9d6e7",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "4347334e-0fd0-42f8-8e76-1e838179b7ee_社保缴费与退休金关系.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.511224"
+}

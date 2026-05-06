@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.1",
+  "source_id": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "知识助手开发",
+  "title_flags": [
+    "status_marker"
+  ],
+  "source_weight": 1.837,
+  "source_density_score": 1.1426,
+  "llm_enriched": false,
+  "tags": [
+    "知识助手开发",
+    "软件开发"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410:topic:1",
+      "kind": "topic_candidate",
+      "text": "软件开发",
+      "importance": 0.9118499999999999,
+      "confidence": 0.725704,
+      "source_weight": 1.837,
+      "source_density_score": 1.1426,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "知识助手开发",
+        "软件开发"
+      ],
+      "entities": [
+        "知识助手开发"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.json",
+        "title_flags": [
+          "status_marker"
+        ]
+      }
+    },
+    {
+      "unit_id": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410:topic:2",
+      "kind": "topic_candidate",
+      "text": "知识助手开发",
+      "importance": 0.9118499999999999,
+      "confidence": 0.725704,
+      "source_weight": 1.837,
+      "source_density_score": 1.1426,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "知识助手开发",
+        "软件开发"
+      ],
+      "entities": [
+        "知识助手开发"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.json",
+        "title_flags": [
+          "status_marker"
+        ]
+      }
+    },
+    {
+      "unit_id": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410:conclusion:1",
+      "kind": "conclusion",
+      "text": "知识助手开发-废弃于20260410",
+      "importance": 0.84859,
+      "confidence": 0.62,
+      "source_weight": 1.837,
+      "source_density_score": 1.1426,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "知识助手开发",
+        "软件开发"
+      ],
+      "entities": [
+        "知识助手开发"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.json",
+        "title_flags": [
+          "status_marker"
+        ]
+      }
+    },
+    {
+      "unit_id": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410:entity:1",
+      "kind": "entity_candidate",
+      "text": "知识助手开发",
+      "importance": 0.7918499999999999,
+      "confidence": 0.6,
+      "source_weight": 1.837,
+      "source_density_score": 1.1426,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "知识助手开发",
+        "软件开发"
+      ],
+      "entities": [
+        "知识助手开发"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.json",
+        "title_flags": [
+          "status_marker"
+        ]
+      }
+    }
+  ]
+}

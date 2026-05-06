@@ -56,6 +56,15 @@ export interface WikiDocumentVersion {
   created_by?: string
 }
 
+export interface WikiTemplate {
+  id: string
+  name: string
+  description?: string
+  doc_type?: DocType | string
+  content?: string
+  tags?: string[]
+}
+
 export interface WikiSearchResult {
   id: string
   title: string

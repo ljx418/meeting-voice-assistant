@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.1",
+  "source_id": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "Excel多表同时筛选中心数据",
+  "title_flags": [],
+  "source_weight": 1.836,
+  "source_density_score": 1.1415,
+  "llm_enriched": false,
+  "tags": [
+    "Excel",
+    "多表同时筛选中心",
+    "数据",
+    "Excel多表同时筛选中心数据"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 1,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据:topic:1",
+      "kind": "topic_candidate",
+      "text": "Excel",
+      "importance": 0.9117999999999999,
+      "confidence": 0.7256600000000001,
+      "source_weight": 1.836,
+      "source_density_score": 1.1415,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "Excel",
+        "多表同时筛选中心",
+        "数据",
+        "Excel多表同时筛选中心数据"
+      ],
+      "entities": [
+        "Excel"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据:topic:2",
+      "kind": "topic_candidate",
+      "text": "Excel多表同时筛选中心数据",
+      "importance": 0.9117999999999999,
+      "confidence": 0.7256600000000001,
+      "source_weight": 1.836,
+      "source_density_score": 1.1415,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "Excel",
+        "多表同时筛选中心",
+        "数据",
+        "Excel多表同时筛选中心数据"
+      ],
+      "entities": [
+        "Excel"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据:conclusion:1",
+      "kind": "conclusion",
+      "text": "Excel多表同时筛选中心数据",
+      "importance": 0.8485199999999999,
+      "confidence": 0.62,
+      "source_weight": 1.836,
+      "source_density_score": 1.1415,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "Excel",
+        "多表同时筛选中心",
+        "数据",
+        "Excel多表同时筛选中心数据"
+      ],
+      "entities": [
+        "Excel"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据:entity:1",
+      "kind": "entity_candidate",
+      "text": "Excel",
+      "importance": 0.7918,
+      "confidence": 0.6,
+      "source_weight": 1.836,
+      "source_density_score": 1.1415,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "Excel",
+        "多表同时筛选中心",
+        "数据",
+        "Excel多表同时筛选中心数据"
+      ],
+      "entities": [
+        "Excel"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

@@ -33,7 +33,7 @@ def _safe_error_msg(e: Exception) -> str:
     return f"{error_type}: 分析服务暂时不可用"
 
 
-class LLMTimeoutError(Exception):
+class LLMTimeoutError(asyncio.TimeoutError):
     """LLM 分析超时错误"""
     def __init__(self, message: str = "LLM 分析超时，服务器负载较高"):
         self.message = message

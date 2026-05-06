@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "c6de920a118994c3",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/c6/c6de920a118994c3.json",
+    "sha256": "db80b9b52f9f1f26cac89020c0cc9d24d96d6b5fa7bac266385d7d7da7d3a1d7",
+    "content_hash": "e36a25bd149ad1f5e13d69a5da4096eff960f5037f58ff2ca07de9646f143ea4",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "0246c9d9-1f54-4a28-a7b1-ec7d65d290a8",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "ad4d79a1-485f-4695-a67d-2afa69dab385",
+      "locator": {
+        "kind": "json_path",
+        "path": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "13e2fb79-c6bf-4fb6-8f8b-03cb2067f0da",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "Excel多表同时筛选中心数据",
+      "locator": {
+        "kind": "json_path",
+        "path": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "7b5a98fa-53ae-4339-be7e-26ad68526e52",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "369d1693-96b7-4c4e-b04d-9ec7d2337517",
+      "section_id": "0246c9d9-1f54-4a28-a7b1-ec7d65d290a8",
+      "text": "ad4d79a1-485f-4695-a67d-2afa69dab385",
+      "locator": {
+        "kind": "json_path",
+        "path": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 24
+    },
+    {
+      "passage_id": "15dd01ba-5d7c-4cdb-bc1a-99383b1c2523",
+      "section_id": "13e2fb79-c6bf-4fb6-8f8b-03cb2067f0da",
+      "text": "Excel多表同时筛选中心数据",
+      "locator": {
+        "kind": "json_path",
+        "path": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 18
+    },
+    {
+      "passage_id": "253e9170-d5c5-4bc1-aaa7-cf96ea237108",
+      "section_id": "7b5a98fa-53ae-4339-be7e-26ad68526e52",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "ad4d79a1-485f-4695-a67d-2afa69dab385_Excel多表同时筛选中心数据.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:40.952258"
+}

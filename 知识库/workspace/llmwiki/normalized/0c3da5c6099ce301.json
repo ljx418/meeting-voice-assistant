@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "0c3da5c6099ce301",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/0c/0c3da5c6099ce301.json",
+    "sha256": "145570cb1b1cd6bc6ea8834235a384135a2339bec46d54e19dee20018653f173",
+    "content_hash": "f5747eb8b819c5e10552114c7d00c8e70a00d9a960802f585ca351ab79805f90",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "abf7c91b-8f5a-4140-88d3-cfd485ea065d",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de",
+      "locator": {
+        "kind": "json_path",
+        "path": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "cfc4de1d-f91c-40fa-90a8-c76d4feb539b",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "视频创作工作流",
+      "locator": {
+        "kind": "json_path",
+        "path": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "ac150630-f2db-442b-8806-54c7b5486e64",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "ceb952d2-0981-4256-bffd-f614079d2b9a",
+      "section_id": "abf7c91b-8f5a-4140-88d3-cfd485ea065d",
+      "text": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de",
+      "locator": {
+        "kind": "json_path",
+        "path": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "e68113f4-3363-49a7-9d08-7d91a23b7947",
+      "section_id": "cfc4de1d-f91c-40fa-90a8-c76d4feb539b",
+      "text": "视频创作工作流",
+      "locator": {
+        "kind": "json_path",
+        "path": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 10
+    },
+    {
+      "passage_id": "d05c4dfb-e3e3-46d2-9da6-03e503e2ccfb",
+      "section_id": "ac150630-f2db-442b-8806-54c7b5486e64",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "b8fc20f4-6d71-43a0-a0bb-dbacb3e840de_视频创作工作流.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.377040"
+}

@@ -60,6 +60,20 @@ curl -X POST http://localhost:8010/v1/rpc \
 python3 -m apps.gateway.stdio_server
 ```
 
+## Python Environments
+
+- harnessOS local development and tests should use `.venv/bin/python`.
+- Real Meeting MCP / FunASR MCP / Data Service MCP execution should prefer the adjacent backend interpreter:
+  `/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/venv312/bin/python`
+- `core/config/__init__.py` now defaults `HARNESS_MEETING_MCP_COMMAND`,
+  `HARNESS_FUNASR_MCP_COMMAND`, and `HARNESS_DATA_SERVICE_MCP_COMMAND` to that
+  `venv312` interpreter when it exists, and only falls back to system `python3`
+  when it does not.
+- If you want deterministic real-audio or real-MCP acceptance, create and keep
+  that adjacent `venv312` complete with the backend dependencies installed.
+- Run a preflight check before real MCP acceptance:
+  `.venv/bin/python scripts/check_real_mcp_env.py`
+
 If startup reports that a port is in use, inspect it with:
 
 ```bash
@@ -104,10 +118,10 @@ harnessOS/
 
 ```bash
 # Run in development mode
-python3 main.py --port 8010 --no-reload
+.venv/bin/python main.py --port 8010 --no-reload
 
 # Run core protocol tests
-PYTHONPYCACHEPREFIX=/tmp/harnessos-pycache python3 -m pytest \
+PYTHONPYCACHEPREFIX=/tmp/harnessos-pycache .venv/bin/python -m pytest \
   tests/test_gateway_protocol.py \
   tests/test_gateway_interrupt.py \
   tests/test_api_runs.py \
@@ -117,7 +131,7 @@ PYTHONPYCACHEPREFIX=/tmp/harnessos-pycache python3 -m pytest \
   tests/test_model_smoke.py
 
 # Optional real-model smoke test
-HARNESSOS_RUN_MODEL_SMOKE=1 python3 -m pytest -m smoke_model
+HARNESSOS_RUN_MODEL_SMOKE=1 .venv/bin/python -m pytest -m smoke_model
 ```
 
 ## License

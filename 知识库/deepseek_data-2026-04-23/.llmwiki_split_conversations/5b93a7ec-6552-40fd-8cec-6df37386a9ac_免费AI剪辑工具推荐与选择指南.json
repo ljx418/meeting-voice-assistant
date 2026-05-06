@@ -1,0 +1,163 @@
+{
+  "id": "5b93a7ec-6552-40fd-8cec-6df37386a9ac",
+  "title": "免费AI剪辑工具推荐与选择指南",
+  "inserted_at": "2026-01-21T09:19:15.977000+08:00",
+  "updated_at": "2026-01-21T09:19:55.784000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-21T09:19:17.344000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "有没有好用的免费ai剪辑工具可以推荐"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2026-01-21T09:19:17.347000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://www.aitop100.cn/infomation/details/26688.html",
+                "title": "AI视频编辑神器Diffusion Studio Pro：本地优先，免费用，视频创作要起飞！",
+                "snippet": "一款名叫 Diffusion Studio Pro的AI视频编辑工具正式亮相，据说能把CapCut和Cursor的优点都结合起来，简直是视频创作者的福音 ... CapCut等传统工具，它在本地化运行和多模态 AI集成方面具有独特优势。小编认为...",
+                "cite_index": 1,
+                "published_at": 1749139200.0,
+                "site_name": "Aitop100",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aitop100.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.aitop100.cn/infomation/details/28557.html",
+                "title": "AutoClip：开源免费AI视频剪辑工具完全使用指南 - 自动化视频处理的革命性解决方案",
+                "snippet": "AutoClip是一款基于人工智能技术的开源免费视频剪辑工具，专门设计用于实现全流程自动化视频处理。作为新一代AI视频编辑解决方案，AutoClip能够智能识别视频中的高光片段，自动进行精准切片，并基于内容主题提供智能合集推荐功能。",
+                "cite_index": 2,
+                "published_at": 1755878400.0,
+                "site_name": "Aitop100",
+                "site_icon": "https://cdn.deepseek.com/site-icons/aitop100.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://blockchain.news/zh/ainews/pixverse-launches-free-ai-video-creation-tools-text-to-video-keyframe-transitions-upscale-more-zh",
+                "title": "PixVerse发布免费AI视频制作工具：文本转视频、关键帧转场、视频增强等功能全覆盖 | AI快讯详情",
+                "snippet": "PixVerse最近宣布将其所有生成功能免费开放，包括文本转视频、图像转视频、关键帧过渡、视频扩展、视频升级、唇同步、自动音效和病毒式模板，这标志着AI视频生成领域的重大变革。根据PixVerse于2025年8月29日的推文...",
+                "cite_index": 3,
+                "published_at": null,
+                "site_name": "Blockchain News",
+                "site_icon": "https://cdn.deepseek.com/site-icons/blockchain.news",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://g.pconline.com.cn/ai/product/259.html",
+                "title": "veed.io",
+                "snippet": "VEED.IO是一个免费的AI视频编辑器，提供文字到视频、头像、自动字幕、语音翻译等功能。用户可以在线录制、编辑和分享视频。 ## 核心功能 AI视频增强 提升视频分辨率至8K",
+                "cite_index": 4,
+                "published_at": 1750003200.0,
+                "site_name": "Pconline",
+                "site_icon": "https://cdn.deepseek.com/site-icons/pconline.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.movavi.com/zh/learning-portal/best-ai-video-editing-software.html",
+                "title": "2026年10款最強免費AI影片製作軟體 【AI影片生成器推薦比較】",
+                "snippet": "簡單易用、功能豐富，且配備了 AI 編輯工具的軟體：Movavi Video Editor ... Vmaker AI 是一款AI影片編輯器，能在幾分鐘內將您的原始影片轉變為令人驚嘆的影片。Vmaker AI 會分析您的原始影片...",
+                "cite_index": 5,
+                "published_at": 1761235200.0,
+                "site_name": "Movavi",
+                "site_icon": "https://cdn.deepseek.com/site-icons/movavi.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.capcut.com/zh-tw/resource/ai-video-cut",
+                "title": "免費 AI 影片剪輯指南：輕鬆剪輯、自動修剪與創建短影片",
+                "snippet": "作為一個 AI 驅動的視頻剪輯工具，專為加速視頻創作而設計，CapCut 應用程式幫助您迅速從素材剪輯到即刻發布的影片。它的雙智能引擎自動處理亮點剪輯和背景移除。這意味著您可以將全長視頻轉換為熱度短片，移除混亂背景，或創建品牌專屬剪輯，而不需要任何技術剪輯知識。",
+                "cite_index": 6,
+                "published_at": 1753372800.0,
+                "site_name": "CapCut",
+                "site_icon": "https://cdn.deepseek.com/site-icons/capcut.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://g.pconline.com.cn/ai/product/336.html?ad=9419",
+                "title": "FlexClip",
+                "snippet": "免费版可使用基础编辑功能和部分模板，但导出视频会有水印且分辨率受限（720p）。部分AI工具（如高级字幕生成）有每日使用次数限制，付费计划（起价9.99美元/月）可解锁全部功能。",
+                "cite_index": 7,
+                "published_at": 1750003200.0,
+                "site_name": "Pconline",
+                "site_icon": "https://cdn.deepseek.com/site-icons/pconline.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://vizologi.com/zh-TW/%E6%9C%89%E6%B2%92%E6%9C%89%E5%85%8D%E8%B2%BB%E7%9A%84%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7%E5%B7%A5%E5%85%B7%E5%8F%AF%E4%BB%A5%E7%B7%A8%E8%BC%AF%E8%A6%96%E9%A0%BB/",
+                "title": "有沒有免費的 AI 工具可以編輯影片？",
+                "snippet": "Descript 在免費產品中脫穎而出 人工智能視頻 編輯工具擁有獨特的功能，可提升編輯體驗。這款應用程式採用人工智慧轉錄技術，用戶只需修改生成的腳本即可編輯影片內容，整個過程直觀易懂。",
+                "cite_index": 8,
+                "published_at": 1752595200.0,
+                "site_name": "Vizologi",
+                "site_icon": "https://cdn.deepseek.com/site-icons/vizologi.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "好的，用户想找免费的AI剪辑工具，这是一个很实用的需求，现在确实有不少这类工具可以选择。我打算先梳理搜索结果中的可用工具，然后根据用户可能的场景和需求进行有针对性的推荐。\n\n根据我看到的搜索结果，有几个不错的免费选项值得考虑。[citation:3]中提到PixVerse最近宣布完全免费开放其所有生成功能，包括文本转视频、图像转视频等，这对于想尝试AI生成视频的用户来说是个很好的起点。[citation:5]虽然来自商业软件网站，权威性一般，但内容比较全面，提到了Vmaker AI、Pictory等工具，这些都有免费方案。[citation:4]和[citation:7]介绍了VEED.IO和FlexClip，都是基于云的在线工具，免费版功能足够基础使用。[citation:6]来自CapCut官方，权威性很高，详细介绍了他们的AI剪辑功能，这对需要自动剪辑和背景去除的用户很有帮助。\n\n[citation:2]介绍的AutoClip看起来功能很强大，特别是自动化处理方面，但需要一定技术基础进行部署。[citation:1]和[citation:8]的信息相对宽泛，可以作为补充参考。\n\n考虑到用户可能需要快速比较不同工具的特点，我准备用表格形式清晰展示核心工具的差异，这样能帮助用户根据自身需求做出选择。表格会包含工具名称、核心AI功能、适合场景、免费方案详情和获取方式等关键信息。\n\n除了工具推荐，我还可以提供一些选择建议，比如明确自己的主要需求、考虑技术门槛、了解免费限制等，这些都能帮助用户更好地决策。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "目前确实有不少好用的免费AI剪辑工具，它们能帮你自动完成剪辑、加字幕、甚至从零生成视频。你可以根据下面的表格快速了解几个主流选择：\n\n| 工具名称 | 核心AI功能亮点 | 主要适合场景 | 免费方案详情 | 获取与使用 |\n| :--- | :--- | :--- | :--- | :--- |\n| **PixVerse**[citation:3] | 文/图生视频、视频增强、自动口型同步 | **AI视频生成**、创意短片制作 | 所有生成功能免费开放[citation:3] | 在线使用（具体网址需搜索“PixVerse”） |\n| **CapCut（剪映）**[citation:6] | **AI自动剪辑**(AutoCut)、智能去背景、自动字幕 | **短视频创作**（如抖音、YouTube Shorts）、快速粗剪 | 功能免费，导出视频无强制水印[citation:6] | 移动端App或在线版 |\n| **VEED.IO**[citation:4] | 自动字幕生成、AI语音生成、背景去除 | **在线快速编辑**、添加字幕和翻译、播客剪辑 | 基础功能免费，高级功能需付费[citation:4] | 在线网页工具 |\n| **FlexClip**[citation:7] | AI视频生成（根据文字生成）、智能图像处理、自动字幕 | 制作营销视频、社交媒体内容、简易视频演示 | 免费版可用，导出视频带水印[citation:7] | 在线网页工具 |\n| **AutoClip**[citation:2] | **全流程自动化**：智能切片、高光检测、自动生成标题 | **处理长视频**（如录播、课程），批量生成片段 | 开源免费，需自行部署（有一定技术门槛）[citation:2] | GitHub开源项目（需本地部署） |\n\n### 🛠️ 如何选择适合你的工具？\n你可以根据以下思路缩小选择范围：\n*   **明确主要需求**：想**从零生成创意视频**，可优先尝试**PixVerse**；如果主要是**剪辑现有素材**（如旅行、活动录像），**CapCut**和**VEED.IO**的自动化功能会更实用[citation:4][citation:6]；需要**批量处理长视频**（网课、会议录像）提取精华，可以研究**AutoClip**[citation:2]。\n*   **考虑技术门槛**：**CapCut、VEED.IO、FlexClip**都是即开即用的在线工具或APP，上手简单[citation:4][citation:6][citation:7]。而**AutoClip**作为开源工具，需要在电脑上部署，适合不怕折腾、有技术背景的用户[citation:2]。\n*   **了解免费的限制**：注意“免费”的具体条款，例如**FlexClip**免费版导出的视频可能带有水印，而**CapCut**导出通常无水印[citation:6][citation:7]。大部分在线工具的免费版也会有导出分辨率、视频时长或功能次数的限制[citation:4][citation:7]。\n\n如果你愿意分享你主要想剪辑什么类型的视频（比如是日常生活记录、游戏精彩瞬间、还是产品介绍），我可以给你更具体的建议。"
+          }
+        ]
+      }
+    }
+  }
+}

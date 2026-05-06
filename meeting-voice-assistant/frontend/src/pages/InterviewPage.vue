@@ -468,7 +468,7 @@ const selectedApp = computed(() =>
 
 const upcomingCount = computed(() => store.upcomingInterviews.length)
 
-const filterTabs = computed(() => [
+const filterTabs = computed<Array<{ key: 'all' | ApplicationStatus; label: string; count: number }>>(() => [
   { key: 'all', label: '全部', count: store.totalApplications },
   { key: 'submitted', label: '已投递', count: store.applicationsByStatus.submitted.length },
   { key: 'reviewing', label: '审核中', count: store.applicationsByStatus.reviewing.length },

@@ -1,0 +1,732 @@
+{
+  "id": "6b6503b0-361c-423c-8ca7-c5674db32d4a",
+  "title": "湖北失业金申领指南",
+  "inserted_at": "2025-07-27T12:40:16.716000+08:00",
+  "updated_at": "2025-07-27T12:41:23.253000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2025-07-27T12:40:17.308000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "湖北失业金领取"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-reasoner",
+        "inserted_at": "2025-07-27T12:40:17.311000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "http://www.shiyan.gov.cn/zcjd/zcwdpt/smzj_97420/202507/t20250722_4783418.shtml",
+                "title": "符合哪些条件，可以领取失业保险金？",
+                "snippet": "来源： 湖北省劳动就业服务中心  问：为什么要参加失业保险？  答：根据《中华人民共和国社会保险法》，职工应当参加失业保险，由用人单位和职工按照国家规定共同缴纳失业保险费。参加失业保险可保障失业人员失业期间的基本生活，促进失业人员再就业，维护劳动者的合法权益和社会稳定。  问：如何参加失业保险？  答：用人单位在登记管理机关办理登记时同步办理社会保险登记。失业保险费由税务机关按法定比例统一征收。用",
+                "cite_index": 1,
+                "published_at": 1753142400.0,
+                "site_name": "十堰政府网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/shiyan.gov.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.sohu.com/a/902547033_121123856",
+                "title": "武汉失业金该怎么领？正确操作是这样的！_保险金_社保_人员",
+                "snippet": "发布于：山西省  如果你在武汉失业了  提前了解这笔钱  ——失业保险金  你是不是也会好奇  失业金一个月能领多少钱？  具体怎么申领呢？  一起来看看吧  👇👇  武汉失业保险金  ✅申领条件  参保缴费1年以上  非因本人意愿中断就业  已进行失业登记并有求职要求的失业人员  参保缴费1年以上  非因本人意愿中断就业  已进行失业登记并有求职要求的失业人员  ※同时符合以上条件，可向失业保险",
+                "cite_index": 2,
+                "published_at": 1749427200.0,
+                "site_name": "搜狐",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sohu.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://rsj.ezhou.gov.cn/ztzl/jsjf/202503/t20250321_694412.html",
+                "title": "2025年鄂州市失业保险金申领服务指南",
+                "snippet": "一、政策依据  根据《中华人民共和国社会保险法》（中华人民共和国主席令第35号）、《湖北省失业保险实施办法》（湖北省人民政府令第235号）等文件规定  二、享受对象及条件  同时具备下列条件的失业人员可以申领失业保险金：  1.按照规定参加失业保险，失业前所在单位和本人已经缴纳失业保险费满1年的；  2.非因本人意愿中断就业；  3.已办理失业登记并有求职要求的。  三、“一事联办”事项  1.失",
+                "cite_index": 3,
+                "published_at": 1742515200.0,
+                "site_name": "鄂州市人力资源和社会保障局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/ezhou.gov.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.sohu.com/a/915264508_121123856?scm=10001.325_13-325_13.0.0.5_32&spm=smpc.channel_248.block3_308_NDdFbm_1_fd.1.1752844506030HSn6XGh_324",
+                "title": "湖北省失业金领取条件及标准一览！_保险金_服务_信息",
+                "snippet": "2025-07-18 19:00  发布于：山西省  对于失业的朋友来说  申领失业保险金  能多一份保障和助力  符合条件可以申领失业金  具体怎么领、能领多少？  今日小编为大家解答  👇👇👇  谁能领？  ✅同时具备下列条件的失业人员，可以领取失业保险金：  按照规定参加失业保险，所在单位和本人已按照规定缴费满1年的；  非因本人意愿中断就业的；  已办理失业登记并有求职要求的。  💡非因本",
+                "cite_index": 4,
+                "published_at": 1752883200.0,
+                "site_name": "搜狐",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sohu.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.bala.iask.sina.com.cn/p/dhqJYD9s06Ne.html",
+                "title": "失业保险金掌上12333申领操作指南-扒拉扒拉",
+                "snippet": "好评回答  办理条件：失业前所在单位已办理失业保险金申报告知及失业登记手续；职工医保关系已接续至灵活就业窗口参保；已进行手机支付宝实名认证；持有武汉市二代以上社会保障卡。  操作方式：  1.下载并点击“掌上12333”→点击“电子社保卡” →点击“失业金申领” →点击“失业保险金线上申领渠道查询” →选择湖北省→武汉市→点开“支付宝城市服务”二维码→扫描“支付宝城市服务二维码” →链接到支付宝“",
+                "cite_index": 5,
+                "published_at": 1661299200.0,
+                "site_name": "新浪爱问",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sina.com.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.xishui.gov.cn/zwgk/grassroots/6635983/1336391.html",
+                "title": "如何申领失业保险金",
+                "snippet": "1.申领条件：①按照规定参加失业保险，所在单位和本人已按照规定缴费满1年的；②非因本人意愿中断就业的。  2.领取期限：失业人员失业前所在单位和本人按照规定缴费时间满1年的，失业后发给3个月失业保险金，以后每增加1年缴费时间，增发2个月的失业保险金，领取失业保险金的期限最长为24个月。失业人员重新就业满1年后再次失业的，其缴费时间重新计算。领取失业保险金的期限与前次失业应领取而尚未领取失业保险金的",
+                "cite_index": 6,
+                "published_at": 1740614400.0,
+                "site_name": "浠水县人民政府",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xishui.gov.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://rsj.wuhan.gov.cn:443/wechat/rdwt/202311/t20231102_2292769.html",
+                "title": "申领失业保险金需满足什么条件？如何线上申领失业保险金？",
+                "snippet": "申领失业保险金需满足如下条件：  （1）缴纳失业保险费满一年，无失业保险欠费；  （2）非因本人意愿中断就业，失业前所在单位已办理社保停保；  （3）持有武汉市二代以上社会保障卡。  失业人员线上申领失业保险金途径如下：  （1）手机支付宝办理：登录手机支付宝（需已进行实名认证），搜索‘武汉人社’→选择‘武汉人社’→业务经办·失业人员新增，按照提示完整、真实、准确填写信息，完成申领手续。  （2）",
+                "cite_index": 7,
+                "published_at": 1698883200.0,
+                "site_name": "武汉市人力资源和社会保障局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/wuhan.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.163.com/dy/article/JKQL6MI70525HK8S.html",
+                "title": "你知道在蔡甸申请失业金可以拿到多少钱吗？",
+                "snippet": "0  分享至  在武汉失业后  如果要申请失业保险金  能申请到多少钱呢？  怎么申领呢？  今天小编和大家讲一下  一起来看看吧  武汉失业保险金最低标准  根据湖北省人力资源和社会保障厅、湖北省财政厅发布的《关于调整失业人员失业保险金发放标准的通知》(鄂人社发〔2024〕4号)——  从2024年2月1日起，将全省失业人员失业保险金发放标准按照最低工资标准的90%进行联动调整。  全省失业保险",
+                "cite_index": 8,
+                "published_at": 1735689600.0,
+                "site_name": "网易",
+                "site_icon": "https://cdn.deepseek.com/site-icons/163.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://hbdaye.gov.cn/zfxxgk/dfbmptlj/szbm/dyszwfwhdsjgljjgsz/fdzdgknr_16647/qtzdgknr_20288/hygq_20294/202408/t20240829_1146255.html",
+                "title": "失业保险金网上办理流程",
+                "snippet": "（一）领取失业保险金需同时满足以下条件  1、按照规定参加失业保险，所在单位和本人已按规定履行缴费义务满1年；  2、非因本人意愿中断就业的；  3、已办理失业登记，并有求职要求的；  （二）网上申领操作指引  1、湖北政务服务网http://zwfw.hubei.gov.cn（登录后选择黄石大冶地区，搜索“失业保险金申领”事项在线办理）  2、“掌上12333”手机APP（点击首页“更多服务”进",
+                "cite_index": 9,
+                "published_at": 1724889600.0,
+                "site_name": "大冶政府网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hbdaye.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://jingzhou.cjyun.org/p/392720.html",
+                "title": "超全！荆州失业保险金申领指南来了！",
+                "snippet": "荆州失业保险金申领指南来了！  线上线下均可办理  符合条件者可享受多项待遇  荆州失业保险金这样申领↓↓↓  1.网上办  1.电脑登陆国家社会保险公共服务平:http://si.12333.gov.cn/。进入首页，点击“失业保险”页面→“失业保险金申领”→“失业保险金网上申领”，后续按流程操作即可。  2.电脑登陆湖北政务服务网：http://zwfw.hubei.gov.cn/。进入首页，",
+                "cite_index": 10,
+                "published_at": 1687737600.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/cjyun.org",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m12333.cn/qa/iemm.html",
+                "title": "武汉市失业保险金申领“一事联办”指南（附咨询电话）",
+                "snippet": "为方便群众办事，减少服务对象跑路。失业人员申领失业保险金、失业登记、代缴职工医保、《就业创业证》申领、价格临时补贴、失业保险待遇社保卡发放，实行“打包”办理。申领失业保险金的同时即视同或由经办机构代为申请实现上述关联事项。失业保险金申领可通过线上或线下方式办理。  办理条件：失业前所在单位已办理失业保险金申报告知手续；职工医保关系已接续至灵活就业窗口参保；持有武汉市二代以上社会保障卡。  一、线上",
+                "cite_index": null,
+                "published_at": 1622678400.0,
+                "site_name": "人社通",
+                "site_icon": "https://cdn.deepseek.com/site-icons/m12333.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://shebao100.cn/pedia/eg_86229.html",
+                "title": "恩施失业保险金2025申领指南：条件/发放标准/申请流程-社百网",
+                "snippet": "发布问题  * 选择城市：  * 问题标题：  （字数限制为5-30字）  * 问题描述：  （字数限制为10-500字）  图片上传格式支持JPEG、JPG、PNG，不超过5M  最多可上传3张，已上传 0/3  提交  取消  匿名  近期搜索  热门搜索  发布  小程序  扫一扫访问小程序  APP  APP下载  首页 > 百科 > 恩施失业保险金2025申领指南：条件/发放标准/申请流",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "Shebao100",
+                "site_icon": "https://cdn.deepseek.com/site-icons/shebao100.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.huangpi.gov.cn/fbjd_33/xxgkml/gysyjs/shbz_mh/shbx/202005/t20200525_1332325.html",
+                "title": "通过掌上12333办理失业保险金申领指南",
+                "snippet": "发文单位   发文字号  发文日期  效力状态  索引号  主题分类   为保障失业人员失业期间的基本生活，请及时办理失业保险金申领，可通过“掌上12333”办理手续。  办理条件：失业前所在单位已办理失业保险金申报告知及失业登记手续；职工医保关系已接续至灵活就业窗口参保；已进行手机支付宝实名认证；持有武汉市二代以上社会保障卡。  操作方式：  1.下载并点击“掌上12333”→点击“电子社保卡”",
+                "cite_index": null,
+                "published_at": 1590364800.0,
+                "site_name": "武汉市黄陂区人民政府",
+                "site_icon": "https://cdn.deepseek.com/site-icons/huangpi.gov.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.xe.gov.cn/xxgk/dfbmpttlj/xz/xrsj/gkml/jy/202507/t20250704_1715593.shtml",
+                "title": "宣恩县失业保险金申领指南",
+                "snippet": "发布时间：2025-07-04 14:53 来源：宣恩县人力资源和社会保障局 作者： 字体：加大 减小  根据《湖北省失业保险实施办法》（湖北省人民政府令第235号）以及恩施州《失业保险基金精细化使用实施细则（试行）》（恩施州就才发﹝2024﹞2号）等政策规定，将申领失业保险金有关事项告知如下：  一、申领条件  （一）按照规定参加失业保险，所在单位和本人已按照规定缴费满1年的（含在不同用人单位的",
+                "cite_index": null,
+                "published_at": 1751587200.0,
+                "site_name": "宣恩县人民政府门户网站",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xe.gov.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://rst.hubei.gov.cn/bmdt/ztzl/ywzl/rshmzcjwj/hmzc/bszn/202205/t20220527_4148781.shtml",
+                "title": "失业保险金申请--湖北省人力资源和社会保障厅",
+                "snippet": "字号：  一、政策依据  1．《失业保险条例》（中华人民共和国国务院令第258号）；  2．《湖北省失业保险实施办法》（湖北省人民政府令第235号）；  3．《人力资源社会保障部办公厅关于进一步推进失业保险金“畅通领、安全办”的通知》（人社厅发〔2020〕24号）。  二、受理条件  1．按照规定参加失业保险，所在单位和本人已按照规定缴费满1年的；  2．非因本人意愿中断就业的；  3．已办理失业",
+                "cite_index": null,
+                "published_at": 1653609600.0,
+                "site_name": "湖北省人力资源和社会保障厅",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hubei.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://m.gkmao.com/news/shiyebx/806129.html",
+                "title": "2025荆门市失业金多少钱一个月,荆门市失业金办理流程领取条件",
+                "snippet": "## 失业金发放标准  最新消息：社保费率首降 失业保险费率降至2%  失业保险金按荆门最低工资标准的80%，由社会保险经办机构按月发放。省人民政府可以根据国家规定和本省实际情况作适当调整，但不得高于荆门最低工资标准或者低于荆门市居民最低生活保障标准。  推荐阅读：失业保险费率降低政策关注热点  1、失业保险费率降低,由3%降低至2%。  2、单位和个人缴费具体比例由各地在充分考虑提高失业保险待遇",
+                "cite_index": null,
+                "published_at": 1689552000.0,
+                "site_name": "Gkmao",
+                "site_icon": "https://cdn.deepseek.com/site-icons/gkmao.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.xishui.gov.cn/zwgk/grassroots/6636610/1213806.html",
+                "title": "申领失业保险金办事指南",
+                "snippet": "一、政策依据  《社会保险法》《湖北省失业保险实施办法》《省人社厅省财政厅关于做好扩大失业保险保障范围保生活稳岗位工作的通知》（鄂人社发〔2020〕23号）  二、受理条件  （1）按照规定参加失业保险，所在单位和本人已按照规定缴费满1年的；（2）非因本人意愿中断就业的；（3）已办理失业登记并有求职要求的。  三、行使层级  县  四、受理方式  线上办理：  1、注册登录国家社会保险公共服务平台",
+                "cite_index": null,
+                "published_at": 1724284800.0,
+                "site_name": "浠水县人民政府",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xishui.gov.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.hubeidaily.net/pc/c_2392266.html",
+                "title": "失业保险金只能领一次？最多领24个月？权威解答来了",
+                "snippet": "湖北日报客户端广水频道 2024-03-21 10:04:24  哪些人能领失业保险金？  失业保险金只能领一次？  最多领24个月？  领取失业保险金有没有时间限制？  ……  很多小伙伴们对失业保险金的  相关事项并不清楚  别急，党端辟谣带您一文搞定！  哪些人能领失业保险金？  根据《湖北省失业保险实施办法》  申领失业保险金  需同时满足以下条件  （一）按照规定参加失业保险，所在单位和",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "湖北日报新闻客户端",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hubeidaily.net",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.nbdnews.cn/12/12/36/16899.html",
+                "title": "武汉失业保险金领取+发放+查询答疑汇总",
+                "snippet": "问题1：符合哪些条件可以申领失业保险金  失业前用人单位和本人已经缴纳失业保险费满一年，非因本人意愿中断就业的失业人员可以申领失业保险金。  “非因本人意愿中断就业”包括被用人单位开除、除名、辞退、终止或解除劳动合同等情形。  问题2：通过哪些渠道申领失业保险金  1.手机端申领  （1）微信办理：登录微信（需已进行实名认证），点击“发现→小程序→搜索“武汉人社”或“武汉社保”→业务经办·失业人员",
+                "cite_index": null,
+                "published_at": 1712880000.0,
+                "site_name": "Nbdnews",
+                "site_icon": "https://cdn.deepseek.com/site-icons/nbdnews.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://rsc.hzau.edu.cn/info/1055/1443.htm",
+                "title": "服务指南",
+                "snippet": "##### 失业保险金申领指南  武汉市符合条件的失业人员，可通过手机支付宝或微信申领失业保险金，并且实行“一事联办”。失业保险金申领成功，视同已进行失业登记、失业保险金发放至失业人员社会保障卡金融账户、为失业人员缴纳职工医保费和大额医保费、发放价格临时补贴。  联系地址：行政楼207 联系人：李德鹏 027-87281995  - 01 办理条件：1.缴纳失业保险费满一年，无失业保险欠费；2.非",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "华中农业大学",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hzau.edu.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.hubeidaily.net/mobile/c_3187156.html",
+                "title": "失业保险金如何申领？指南送上——》",
+                "snippet": "湖北日报客户端 2024-10-01 15:31:21  离职失业不要慌，失业保险把你帮；  政务微信支付宝，便捷申领不用跑。  大厅申领身份证，家里申领用手机。  监利市失业保险金申领流程  一、申领失业保险金的条件  《失业保险条例》（国务院第258号令 1999年发布）规定申领失业保险金的条件如下：  1、按照规定参加失业保险，所在单位和本人已按照规定履行缴费义务满1年的；  2、非本人意愿",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "湖北日报新闻客户端",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hubeidaily.net",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://m.wh.bendibao.com/live/171841.shtm",
+                "title": "武汉失业金怎么申请领取？- 武汉本地宝",
+                "snippet": "参保职工或失业人员可通过湖北政务服务网、手机支付宝和微信的“武汉人社”小程序线上办理失业保险金申领；也可到参保地社保经办机构线下办理。  已在湖北政务服务网（http://zwfw.hubei.gov.cn/）完成“注册”个人登录登录成功后，返回首页进入页面“特色服务”点击“企业职工养老保险信息系统”选择武汉市及参保所在区、社保网上申报进入“湖北省企业职工社会保险网上办事大厅”选择“失业保险待遇”",
+                "cite_index": null,
+                "published_at": 1698710400.0,
+                "site_name": "武汉本地宝",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bendibao.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.wh.bendibao.com/live/171841.shtm",
+                "title": "武汉失业金怎么申请领取？- 武汉本地宝",
+                "snippet": "参保职工或失业人员可通过湖北政务服务网、手机支付宝和微信的“武汉人社”小程序线上办理失业保险金申领；也可到参保地社保经办机构线下办理。  已在湖北政务服务网（http://zwfw.hubei.gov.cn/）完成“注册”个人登录登录成功后，返回首页进入页面“特色服务”点击“企业职工养老保险信息系统”选择武汉市及参保所在区、社保网上申报进入“湖北省企业职工社会保险网上办事大厅”选择“失业保险待遇”",
+                "cite_index": null,
+                "published_at": 1698710400.0,
+                "site_name": "武汉本地宝",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bendibao.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://baijiahao.baidu.com/s?id=1730592153125249789",
+                "title": "失业金如何申领？操作攻略请收好",
+                "snippet": "本文转自：长江日报  失业保险金申领、失业登记  可以同时办理啦！  1次申请即可办理5项业务  完成失业保险金申领，视同已进行失业登记，失业保险金发放至失业人员社会保障卡金融账户，还可以享受由失业保险基金代缴职工医保费和大额医保费、发放价格临时补贴等多项待遇。  失业人员无需前往社保经办机构，网上申领更便捷。  具体如何办理？  带您了解掌上申领全过程  01  【办理条件】  1、缴纳失业保险",
+                "cite_index": null,
+                "published_at": 1650412800.0,
+                "site_name": "百家号",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://baijiahao.baidu.com/s?id=1786245967227128681",
+                "title": "武汉失业保险金怎么领取？这篇详细办理指南建议收藏！",
+                "snippet": "武汉市符合条件的失业人员申领失业保险金，实行“一事联办”。失业保险金申领成功，视同已进行失业登记、失业保险金发放至失业人员社会保障卡金融账户、为失业人员缴纳职工医保费、生育保险费和大额医保费、发放价格临时补贴。  一、武汉失业保险金办理条件  1、缴纳失业保险费满一年，无失业保险欠费；  2、非因本人意愿中断就业，失业前所在单位已办理社保停保；  3、持有武汉市二代以上社会保障卡。  二、武汉失业",
+                "cite_index": null,
+                "published_at": 1703462400.0,
+                "site_name": "百家号",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.es.gov.cn/xxgk/dfbmptlj/sz/srsj/ZC/QTZDGKWJ/202311/t20231106_1501980.shtml",
+                "title": "恩施市申领“失业保险金一件事”办事指南",
+                "snippet": "一、申领事项名称  申领失业保险金一件事  二、联办事项  （一）失业登记；  （二）失业保险金申领；  （三）代缴基本医疗保险费。  三、申领对象：恩施市参保失业人员  四、申领条件：  1、按照规定参加失业保险，所在单位和本人已按照规定缴费满1年的；  2、非因本人意愿中断就业的；  （失业人员有求职要求，申请时同步办理失业登记。）  五、申领材料：本人身份证或社会保障卡（免提交）  六、待遇",
+                "cite_index": null,
+                "published_at": 1691539200.0,
+                "site_name": "恩施市人民政府门户网站",
+                "site_icon": "https://cdn.deepseek.com/site-icons/es.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://si12333.cn/qa/mybyb.html",
+                "title": "湖北省 如何领取失业保险金？足不出户领失业保险金？失业登记、申领失业保险金指南…",
+                "snippet": "换工作并非易事，如果中间的“空白期”比较长，经济压力也会越来越大，那么，如何领取失业保险金呢？别急，现在就给你支招。鄂汇办、湖北政务服务网已上线的“申领失业保险金”一事联办主题，三件事能够“打包”一次办结：  ●失业登记  ●申领失业保险金  ●代缴基本医疗保险费  快来随小鄂看看具体怎么办理吧！  方式一：鄂汇办  1.打开并登录鄂汇办APP，在首页搜索“失业保险金”  2.选择“申领失业保险金",
+                "cite_index": null,
+                "published_at": 1703462400.0,
+                "site_name": "Si12333",
+                "site_icon": "https://cdn.deepseek.com/site-icons/si12333.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.yichang.bendibao.com/mip/333.shtm",
+                "title": "宜昌失业保险金领取指南- 宜昌本地宝",
+                "snippet": "### 办理条件  1.按照规定参加失业保险，所在单位和本人已按照规定履行缴费义务满1年  2.非因本人意愿中断就业，即失业人员不愿意中断就业  3.已办理失业登记，并有求职要求  4.终止劳动合同人员  5.被用人单位解除劳动合同的  6.被用人单位开除、除名或辞退的  7.与用人单位解除劳动合同的、  ### 办理材料  1、失业保险最后参保地为城区的，本人携带社保卡或身份证，到宜昌市民之家一",
+                "cite_index": null,
+                "published_at": 1747353600.0,
+                "site_name": "Bendibao",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bendibao.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://m.huaxiashiwen.com/news/shiyebx/1036134.html",
+                "title": "2025年武汉失业保险金怎么领取条件(发放时间多少钱每月)",
+                "snippet": "输入分数测能上的大学  失业保险金是指失业保险经办机构按规定支付给符合条件的失业人员的基本生活费用,它是最主要的失业保险待遇。那么武汉失业保险金怎么领取条件(发放时间多少钱每月)，跟现代语文网小编来简单的了解一下吧。  测一测你能上的大学  ## 一、武汉失业保险金怎么领取条件  1、缴纳失业保险费满一年，无失业保险欠费。  2、非因本人意愿中断就业，失业前所在单位已办理社保停保。  3、持有武汉",
+                "cite_index": null,
+                "published_at": 1683849600.0,
+                "site_name": "Huaxiashiwen",
+                "site_icon": "https://cdn.deepseek.com/site-icons/huaxiashiwen.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://gkml.xiaogan.gov.cn/c/ycsrlzyhshbzj/wgjy/288370.jhtml",
+                "title": "【失业保险服务】“申领失业保险金”一事联办",
+                "snippet": "“申领失业保险金”一事联办  一、“申领失业保险金”一事联办方式  1.联办事项：失业登记；失业保险金申领；代缴基本医疗保险费（免申办）。  2.联办方式：在湖北政务网“一事联办”专区中选择“申领失业保险金”，实现一表申请、并联审批、打包办理，通过减材料、减时限、减跑动、减环节，让服务对象享受到高效、优质、便捷的政务服务。  二、“申领失业保险金”办事指南  （一）申报材料清单  根据《人力资源和",
+                "cite_index": null,
+                "published_at": 1753228800.0,
+                "site_name": "Xiaogan",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xiaogan.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://wuhan.kuyiso.com/news/303b868788ab.html",
+                "title": "武汉失业保险金申领网址+流程+发放办法",
+                "snippet": "为保障失业人员失业期间的基本生活，请及时办理失业保险金申领手续。可通过手机支付宝或到失业保险窗口办理手续。  手机支付宝办理指南  申领网址(入口)：支付宝APP  办理条件：缴纳失业保险费满一年，无失业保险欠费；非因本人意愿中断就业，失业前所在单位已办理社保停保；无医疗保险欠费；持有武汉市二代以上社会保障卡。????  操作方式：  登录手机支付宝（需已进行实名认证），搜索‘武汉人社’→选择‘武",
+                "cite_index": null,
+                "published_at": 1697932800.0,
+                "site_name": "酷易搜",
+                "site_icon": "https://cdn.deepseek.com/site-icons/kuyiso.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://rsj.hg.gov.cn/xwdt/bszn/1126442.html",
+                "title": "黄冈市本级失业保险金申领指南",
+                "snippet": "1、文件依据：《社会保险法》、《湖北省失业保险实施办法》、《省人社厅省财政厅关于做好扩大失业保险保障范围保生活稳岗位工作的通知》（鄂人社发〔2020〕23号）  2、申请条件：①失业前用人单位和本人已经缴纳失业保险费满一年的；②非因个人意愿中断就业的。  3、领取期限：失业人员失业前所在用人单位和本人累计缴费满1年的，领取3个月的失业保险金，每增加1年缴费时间，增发2个月的失业保险金，以此类推，领",
+                "cite_index": null,
+                "published_at": 1663891200.0,
+                "site_name": "黄冈市人力资源和社会保障局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hg.gov.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.chibi.gov.cn/bmlb/rsj/zwgk_5819/rsrc/202311/t20231103_3340213.shtml",
+                "title": "赤壁市失业保险金申领”一事联办“办事指南",
+                "snippet": "赤壁市符合条件的失业人员申领失业保险金，实行＂一事联办”。失业保险金申领成功，同时进行失业登记、失业保险金发放至失业人员社会保障卡金融账户、为失业人员缴纳职工医保费和大额医保费、发放价格临时补贴。  一、办理条件  1．按规定缴纳失业保险费满一年，无失业保险欠费；  2．非因本人意愿中断就业，失业前所在单位已办理社保停保；  二、办理方式  （一）线上办理  1．湖北政务服务网申领（http：／／",
+                "cite_index": null,
+                "published_at": 1698969600.0,
+                "site_name": "Chibi",
+                "site_icon": "https://cdn.deepseek.com/site-icons/chibi.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://zwfwhdsj.jingzhou.gov.cn/gzhd/lxgs/202505/t20250526_1013256.shtml",
+                "title": "荆州市数据局",
+                "snippet": "当前位置： 来信公示  【咨询】荆州市申领失业金所需材料  咨询如何领取抵押权证。  来信时间2025年05月25日 09:18  来信人市民  受理回复  诉求人您好，申领失业金需提供：（1）本人身份证；（2）本人社保卡（社保卡的金融功能需激活,激活需要本人到银行申请处理）；（3）《解除劳动合同通知书》（注：不是《离职证明》，如果没有《解除劳动合同通知书》，请找原单位出具，如果通知书内失业原因为",
+                "cite_index": null,
+                "published_at": 1748131200.0,
+                "site_name": "Jingzhou",
+                "site_icon": "https://cdn.deepseek.com/site-icons/jingzhou.gov.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://wuhan.kuyiso.com/news/801qlrdd959c.html",
+                "title": "武汉失业保险金怎么领取？附申领指南",
+                "snippet": "武汉失业保险金申领指南  一、申领方式：  武汉市符合条件的失业人员，可通过手机支付宝或微信申领失业保险金，并且实行“一事联办”。失业保险金申领成功，视同已进行失业登记、失业保险金发放至失业人员社会保障卡金融账户、为失业人员缴纳职工基本医疗保险费和大额医疗保险费、发放价格临时补贴。  二、申领条件：  1.缴纳失业保险费满一年，无失业保险欠费；  2.非因本人意愿中断就业，失业前所在单位已办理社保",
+                "cite_index": null,
+                "published_at": 1691193600.0,
+                "site_name": "酷易搜",
+                "site_icon": "https://cdn.deepseek.com/site-icons/kuyiso.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.163.com/dy/article/JJESCLC10525HK8S.html",
+                "title": "1989元/月！武汉失业金申请指南→",
+                "snippet": "0  分享至  之前一直有宝子问小编  失业金发放标准是什么？  怎么领取？  一起来了解一下吧  在武汉如何申领失业保险金?  PART.01  申领条件  参保缴费1年以上  非因本人意愿中断就业  已进行失业登记并有求职要求的失业人员  ※同时符合以上条件，可向失业保险经办机构申领失业保险金。  PART.02  办理指南  失业人员申领失业保险金即可同步进行失业登记，无需另行办理，线上线下",
+                "cite_index": null,
+                "published_at": 1734220800.0,
+                "site_name": "网易",
+                "site_icon": "https://cdn.deepseek.com/site-icons/163.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.wh.bendibao.com/live/109585.shtm",
+                "title": "武汉失业金如何办理？办理入口在哪？- 武汉本地宝",
+                "snippet": "导语 为保障失业人员失业期间的基本生活，请及时办理失业保险金申领手续。可通过手机支付宝或到失业保险窗口办理手续。  为保障失业人员失业期间的基本生活，请及时办理失业保险金申领手续。可通过手机支付宝或到失业保险窗口办理手续。  一、手机支付宝办理  办理条件：失业前所在单位已办理失业保险金申报告知及失业登记手续;职工医保关系已接续至灵活就业窗口参保;已进行手机支付宝实名认证;持有武汉市二代以上社会保",
+                "cite_index": null,
+                "published_at": 1604016000.0,
+                "site_name": "武汉本地宝",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bendibao.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.163.com/dy/article/JH1SCIQU054593S0.html?spss=dy_author",
+                "title": "989元！武汉失业金领取→",
+                "snippet": "0  分享至  之前一直有宝子  问小编失业金要怎么领取？  线上线下都可以办理哦  一起来看看吧  在武汉如何申领失业保险金?  PART.0  申领条件  - 参保缴费1年以上 - 非因本人意愿中断就业 - 已进行失业登记并有求职要求的失业人员  ※同时符合以上条件，可向失业保险经办机构申领失业保险金。  PART.02  办理指南  失业人员申领失业保险金即可同步进行失业登记，无需另行办理，",
+                "cite_index": null,
+                "published_at": 1731628800.0,
+                "site_name": "网易",
+                "site_icon": "https://cdn.deepseek.com/site-icons/163.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://k.sina.com.cn/article_7517400647_1c0126e4705902tt6o.html",
+                "title": "武汉市失业保险金如何办理？官方公布最新指南",
+                "snippet": "本文转自：长江日报  武汉市失业保险金如何办理？  为何失业保险待遇发放失败？  据武汉市人力资源和社会保障局官网  今日最新发布的  武汉市失业保险待遇发放信息变更指南  失业保险金“一事联办”申领指南  以上问题都有了详细解答  详情如下  一、武汉市失业保险待遇发放信息变更指南  武汉市领取失业保险待遇人员，因银行账户挂失、变更等原因导致待遇发放失败的，请办理发放银行账户信息变更手续。  办",
+                "cite_index": null,
+                "published_at": 1645142400.0,
+                "site_name": "新浪",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sina.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://rsj.xiaogan.gov.cn/c/xgsrlzyhshbzj/bszn/314343.jhtml",
+                "title": "“申领失业保险金”一事联办服务指南",
+                "snippet": "一、适用情形  失业人员失业前按照规定参加失业保险，所在单位和个人已按照规定缴费满1年及以上；非因本人意愿中断就业；已经进行失业登记并有求职要求的。  二、联办事项  （一）失业登记  （二）【省集中企保系统】失业保险金申领  （三）代缴基本医疗保险费  三、办理依据  《中华人民共和国社会保险法》《失业保险条例》《失业保险金申领发放办法》《关于推进失业保险金“畅通领、安全办”的通知》《湖北省失业",
+                "cite_index": null,
+                "published_at": 1753142400.0,
+                "site_name": "孝感市人社局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xiaogan.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.sohu.com/a/539533100_100199096/?pvid=000115_3w_a",
+                "title": "失业金如何申领？操作攻略请收好_保险金_医保_金融账户",
+                "snippet": "失业保险金申领、失业登记  可以同时办理啦！  1次申请即可办理5项业务  完成失业保险金申领，视同已进行失业登记，失业保险金发放至失业人员社会保障卡金融账户，还可以享受由失业保险基金代缴职工医保费和大额医保费、发放价格临时补贴等多项待遇。  失业人员无需前往社保经办机构，网上申领更便捷。  具体如何办理？  带您了解掌上申领全过程  01  【办理条件】  1、缴纳失业保险费满一年，无失业保险欠",
+                "cite_index": null,
+                "published_at": 1650412800.0,
+                "site_name": "Sohu",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sohu.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://rsj.wuhan.gov.cn/zwgk_17/zc/qtzdgkwj/tzgsgg/202208/t20220812_2022595.html?eqid=c54a276200198a2200000004646482c9",
+                "title": "武汉市失业保险金“一事联办”申领指南",
+                "snippet": "武汉市符合条件的失业人员申领失业保险金，实行“一事联办”。失业保险金申领成功，视同已进行失业登记、失业保险金发放至失业人员社会保障卡金融账户、为失业人员缴纳职工医保费、生育保险费和大额医保费、发放价格临时补贴。  办理条件：1.缴纳失业保险费满一年，无失业保险欠费；2.非因本人意愿中断就业，失业前所在单位已办理社保停保；3.持有武汉市二代以上社会保障卡。  办理方式：  1.湖北政务服务网申领（h",
+                "cite_index": null,
+                "published_at": 1712102400.0,
+                "site_name": "武汉市人力资源和社会保障局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/wuhan.gov.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://jingmen.gov.cn/art/2025/7/8/art_26534_1163573.html",
+                "title": "失业保险金申领",
+                "snippet": "## 业务概述  失业保险是我国社会保障制度的重要组成部分，旨在保障失业人员失业期间的基本生活，促进失业人员再就业。  ## 申领条件  1、失业前用人单位和本人已经缴纳失业保险费满一年的；  2、非因本人意愿中断就业的；  3、已经进行失业登记，并有求职要求的。  ## 发放标准  荆门城区（含屈家岭）1755元/月，沙洋、钟祥、京山1620元/月。  ## 享受期限  失业人员失业前所在单位和",
+                "cite_index": null,
+                "published_at": 1751932800.0,
+                "site_name": "荆门市人民政府",
+                "site_icon": "https://cdn.deepseek.com/site-icons/jingmen.gov.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://shebao100.cn/news/86137.html",
+                "title": "恩施州失业保险金申领指南-社百网",
+                "snippet": "发布问题  * 选择城市：  * 问题标题：  （字数限制为5-30字）  * 问题描述：  （字数限制为10-500字）  图片上传格式支持JPEG、JPG、PNG，不超过5M  最多可上传3张，已上传 0/3  提交  取消  匿名  近期搜索  热门搜索  发布  小程序  扫一扫访问小程序  APP  APP下载  首页 > 快讯 > 恩施州失业保险金申领指南  恩施州失业保险金申领指南 ",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "Shebao100",
+                "site_icon": "https://cdn.deepseek.com/site-icons/shebao100.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.gongan.gov.cn/gzhd/wdzsk/ndbz/202312/t20231227_895651.shtml",
+                "title": "咨询领取失业金的条件及流程。",
+                "snippet": "失业保险缴费满1年以上，非本人意愿离职且持有单位开具的解除劳动合同通知书，在解除劳动合同关系之日起60日内，可申领失业金；线上可通过支付宝（微信）电子社保卡-全国失业金申领，线下可携带身份证、社保卡、解除劳动合同书到窗口申请。  鄂ICP备11002588号-1 鄂公网安备 42102202000035号 网站标识码：4210220025  主办：公安县人民政府办公室 承办：公安县政务服务和大数据",
+                "cite_index": null,
+                "published_at": 1715299200.0,
+                "site_name": "Gongan",
+                "site_icon": "https://cdn.deepseek.com/site-icons/gongan.gov.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.xianning.gov.cn/wsbs/sb/shiybx/bzgf/202501/t20250110_3874566.shtml",
+                "title": "湖北省人力资源和社会保障厅 省财政厅关于调整失业人员失业保险金发放标准的通知",
+                "snippet": "来源：湖北省人力资源和社会保障厅 日期：2025-01-10 浏览量：1375 字号：大 中小 分享到：  各市、州、县人力资源和社会保障局、财政局：  根据《省人民政府办公厅关于加快推进失业保险省级统筹的实施意见》（鄂政办发〔2022〕46号）、《省人民政府办公厅关于调整全省最低工资标准的通知》（鄂政办发〔2024〕2号）有关要求，决定从2024年2月1日起，将全省失业人员失业保险金发放标准按照",
+                "cite_index": null,
+                "published_at": 1736553600.0,
+                "site_name": "咸宁市人民政府门户网站",
+                "site_icon": "https://cdn.deepseek.com/site-icons/xianning.gov.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://ding-hr.loongair.cn/hrnews/202501198741.html",
+                "title": "武汉市失业保险金每月能领多少",
+                "snippet": "• HR动态, 产品 • 阅读 15  本文将详细介绍2025年武汉市失业保险金的计算标准、申请资格和条件、不同场景下的领取金额差异、申请流程、常见问题及解决方案，以及政策变化对领取金额的影响，帮助您全面了解失业保险金的相关信息。  ### 1. 武汉市失业保险金计算标准  2025年，武汉市失业保险金的计算标准依然是基于当地最低工资标准和失业人员的缴费年限来综合确定。具体计算方式如下：  - 基",
+                "cite_index": null,
+                "published_at": 1736467200.0,
+                "site_name": "长龙航空",
+                "site_icon": "https://cdn.deepseek.com/site-icons/loongair.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://rsj.hg.gov.cn/ztzl/jyzczsb/zcjd/1244845.html",
+                "title": "失业保险金申领政策解答",
+                "snippet": "一、什么样的失业人员可以领取失业保险金？  （1）失业前所在单位和本人已照规定参加失业保险，且缴费满1年的；  （2）非因本人意愿中断就业的；  二、职工失业后如何领取失业保险金？  线下办理：持本人正常使用社保卡前往黄冈市政务服务中心（黄州区永安路特1号）一楼人社服务区13号窗口办理。  线上办理：失业人员可通过注册登录国家社会保险公共服务平台、湖北政务服务网、鄂汇办APP、“黄冈人社”微信公众",
+                "cite_index": null,
+                "published_at": 1697673600.0,
+                "site_name": "黄冈市人力资源和社会保障局",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hg.gov.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.nbdnews.cn/21/15/39/27172.html",
+                "title": "武汉失业保险金申领可以通过哪些渠道办理？",
+                "snippet": "参保职工或失业人员可通过湖北政务服务网、手机支付宝和微信的“武汉人社”小程序线上办理失业保险金申领;也可到参保地社保经办机构线下办理。  一、湖北政务服务网申领  (1)已在湖北政务服务网(http://zwfw.hubei.gov.cn/)完成“注册”  (2)个人登录  (3)登录成功后，返回首页进入页面“特色服务”  (4)点击“企业职工养老保险信息系统”  (5)选择武汉市及参保所在区、社",
+                "cite_index": null,
+                "published_at": 1718928000.0,
+                "site_name": "Nbdnews",
+                "site_icon": "https://cdn.deepseek.com/site-icons/nbdnews.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://baijiahao.baidu.com/s?id=1819923550100815962",
+                "title": "失业了，怎么领失业保险金？线上、线下办理流程介绍",
+                "snippet": "有购买失业金的宝子们，在失业后，怎么领取失业保险金呢？  一、申领条件：  1、失业前，失业险已交满1年。  2、非因本人原因中断就业，包括开除、辞退、裁员、企业单方面解除或终止劳动合同情形。  需要符合失业金领取条件的，才能办理。  二、办理方式  1、线下办理：可以携带身份证、社保卡和被迫离职的材料，到社保服务大厅领取和填写申请表，在失业窗口办理。  2、线上办理，在当地政务网或当地人社小程序",
+                "cite_index": null,
+                "published_at": 1735603200.0,
+                "site_name": "百家号",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "THINK",
+            "content": "嗯，用户询问湖北失业金领取的问题。这是一个关于失业保险金申领的问题，用户可能是湖北的失业人员，需要了解如何申请失业保险金。\n\n我看到了很多搜索结果，其中包含湖北省失业保险金申领的条件、流程、标准等信息。需要整理这些信息，给用户一个全面清晰的回答。\n\n关于申领条件，根据搜索结果，湖北失业金申领需要同时满足三个条件：第一是按照规定参加失业保险，所在单位和本人已按规定缴费满1年[citation:1][citation:4]；第二是非因本人意愿中断就业[citation:1][citation:3]；第三是已办理失业登记并有求职要求[citation:1][citation:3]。\n\n关于非因本人意愿中断就业的具体情形，搜索结果中提供了详细说明，包括劳动合同期满终止、用人单位解除劳动合同、协商一致解除劳动合同、因用人单位违法行为导致劳动者主动离职等[citation:2][citation:4]。\n\n关于失业保险金标准，湖北省失业保险金按当地最低工资90%发放[citation:1][citation:4]。从2024年2月1日起，全省失业保险金标准分三档：1989元/月、1755元/月、1620元/月[citation:8]。\n\n关于领取期限，失业人员失业前缴费满1年的，发给3个月失业保险金，以后每增加1年缴费时间，增发2个月的失业保险金，领取期限最长为24个月[citation:1][citation:3]。\n\n关于申领方式，湖北失业金申领非常便捷，线上线下均可办理。线上可以通过湖北政务服务网、支付宝、微信小程序等渠道办理[citation:3][citation:7]。线下可以到参保地社保经办机构办理[citation:3]。\n\n关于停发情形，搜索结果中列出了多种停发失业保险金的情形，包括重新就业、入学、应征入伍、移居境外、享受养老保险待遇等[citation:1][citation:3]。\n\n此外，搜索结果还提到了一些重要注意事项：领取失业保险金期间，失业保险经办机构会为失业人员缴纳职工基本医疗保险费[citation:1][citation:3]；失业人员可以个人身份缴纳基本养老保险费[citation:2]；重新就业后再次失业的，缴费时间重新计算，领取期限可与前次未领取期限合并计算，最长不超过24个月[citation:3]。\n\n考虑设计回答时将这些信息组织成几个主要部分：申领条件、发放标准、申领流程、停发情形、注意事项等。会在回复时使用标题、分段等方式使信息更清晰易读，在关键信息处适当加粗。还会准备在最后给出一个简短的总结，帮助用户快速把握重点。"
+          },
+          {
+            "type": "RESPONSE",
+            "content": "根据湖北省失业保险政策，以下是失业金领取的详细指南，涵盖申领条件、发放标准、申领流程及注意事项：\n\n---\n\n### 📋 一、申领条件  \n需同时满足以下条件：  \n1. **参保缴费满1年**：失业前所在单位和本人已按规定缴纳失业保险费满1年，且无欠费[citation:1][citation:4][citation:7]。  \n2. **非本人意愿中断就业**：包括以下情形：  \n   - 劳动合同期满或用人单位解散终止合同；  \n   - 用人单位因经营困难、客观变化解除劳动合同；  \n   - 被用人单位辞退（如违纪或无法胜任工作）；  \n   - 协商一致解除合同；  \n   - 因单位欠薪、欠社保等违法行为导致主动离职[citation:2][citation:4][citation:10]。  \n3. **已办理失业登记并有求职要求**：申领失业金时同步完成失业登记，无需单独办理[citation:2][citation:4]。\n\n---\n\n### 💰 二、发放标准与期限  \n1. **发放标准**：  \n   - 按失业前参保地最低工资的**90%** 发放，2024年2月起全省分三档：  \n     - **1989元/月**（如武汉等一类地区）  \n     - **1755元/月**（二类地区）  \n     - **1620元/月**（三类地区，如鄂州）[citation:4][citation:8]。  \n2. **领取期限**：  \n   - 缴费满1年可领**3个月**；  \n   - 每增加1年缴费，增发**2个月**；  \n   - 最长不超过**24个月**[citation:1][citation:3][citation:6]。  \n   > 💡 例：缴费满3年，可领3 + 2×2 = **7个月**失业金。\n\n---\n\n### 📱 三、申领流程（线上/线下）  \n**线上渠道（推荐）**：  \n1. **湖北政务服务网**：  \n   - 登录后搜索“失业保险金申领”→选择参保地→填写信息并提交[citation:3][citation:9]。  \n2. **支付宝/微信**：  \n   - 支付宝搜索“武汉人社”小程序→“失业人员新增”；  \n   - 微信搜索“电子社保卡”小程序→“失业保险待遇申领”[citation:2][citation:7][citation:8]。  \n3. **掌上12333 APP**：  \n   - 首页“失业保险金网上申领”→按流程操作[citation:5][citation:9]。  \n\n**线下渠道**：  \n- 到**参保地社保经办机构**办理（需带社保卡/身份证）[citation:3][citation:9]。  \n> ⏱️ **审核时效**：线上申领后，次月发放至社保卡金融账户（需提前激活银行卡功能）[citation:9]。\n\n---\n\n### ⚠️ 四、停发情形  \n出现以下情况需主动申报停领，否则可能追回款项：  \n- 重新就业（含签订劳动合同或单位参保）；  \n- 入学全日制学校、参军、移居境外；  \n- 享受养老保险待遇；  \n- 无正当理由拒接3次职业介绍/培训[citation:1][citation:3][citation:6]。\n\n---\n\n### 💎 五、注意事项  \n1. **医保代缴**：领取失业金期间，由失业保险基金**代缴职工医保**（含生育保险），个人无需缴费[citation:1][citation:4]。  \n2. **养老保险**：可同时以灵活就业身份缴纳养老保险，不影响失业金领取[citation:2][citation:10]。  \n3. **多次申领**：重新就业满1年后再次失业，缴费时间重新计算；不满1年可续领前次剩余待遇[citation:3][citation:6]。  \n4. **异地申领**：在**最后参保地**申领，也可转回户籍地（需办理转移手续）[citation:10]。\n\n---\n\n### 💎 总结  \n湖北失业金申领核心是 **“缴满1年+非自愿离职”**，线上通过政务网或支付宝/微信即可办理，次月到账。期间医保由基金代缴，养老可自缴，停发情形需及时申报。若流程有疑，可拨打湖北人社咨询电话 **☎️ 027-12333** 或至参保地经办机构核实[citation:3][citation:7][citation:9]。"
+          }
+        ]
+      }
+    }
+  }
+}

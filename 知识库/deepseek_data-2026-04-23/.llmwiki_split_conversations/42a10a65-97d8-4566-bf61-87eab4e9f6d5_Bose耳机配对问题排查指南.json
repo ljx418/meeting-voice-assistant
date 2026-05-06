@@ -1,0 +1,803 @@
+{
+  "id": "42a10a65-97d8-4566-bf61-87eab4e9f6d5",
+  "title": "Bose耳机配对问题排查指南",
+  "inserted_at": "2025-05-30T22:08:38.255000+08:00",
+  "updated_at": "2025-05-30T22:23:40.085000+08:00",
+  "mapping": {
+    "root": {
+      "id": "root",
+      "parent": null,
+      "children": [
+        "1"
+      ],
+      "message": null
+    },
+    "1": {
+      "id": "1",
+      "parent": "root",
+      "children": [
+        "2"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-05-30T22:08:38.559000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "Bose utrl的耳机一直配对不上 长按耳机盒也没用"
+          }
+        ]
+      }
+    },
+    "2": {
+      "id": "2",
+      "parent": "1",
+      "children": [
+        "3"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-05-30T22:08:38.559000+08:00",
+        "fragments": [
+          {
+            "type": "RESPONSE",
+            "content": "如果您的 **Bose Ultra** 耳机一直无法配对，且长按充电盒按钮无效，可以按照以下步骤排查和解决：\n\n---\n\n### **1. 基础检查**\n- **确保耳机有电**：将耳机放入充电盒并连接充电线，确认指示灯亮起（充电至少15分钟后再尝试）。\n- **重启耳机**：  \n  - 将耳机放回充电盒，合上盖子等待30秒。  \n  - 重新打开盒子，长按盒背按钮 **10秒以上**（直到指示灯白灯快速闪烁或出现配对提示）。  \n  - 松开按钮，重新进入配对模式。\n\n---\n\n### **2. 手机/设备端操作**\n- **关闭蓝牙其他设备干扰**：  \n  - 进入手机设置 → 蓝牙，关闭其他已连接的设备，或忘记之前的Bose耳机记录。  \n- **重新搜索配对**：  \n  - 在手机蓝牙列表中点击“刷新”，选择“Bose Ultra”进行配对。  \n  - 若提示密码，尝试输入 **0000** 或 **1234**。\n\n---\n\n### **3. 重置耳机**\n如果仍无效，尝试 **恢复出厂设置**：  \n1. 将耳机放入充电盒，保持开盖状态。  \n2. 长按充电盒背部按钮 **30秒**（直到指示灯红灯闪烁后熄灭）。  \n3. 关闭盒子等待10秒，重新开盖并正常配对。\n\n---\n\n### **4. 其他可能原因**\n- **固件问题**：  \n  - 通过 **Bose Music App** 检查是否有固件更新（需先用另一台设备成功配对后更新）。  \n- **硬件故障**：  \n  - 检查充电盒指示灯是否正常亮起，耳机放入盒内是否充电（排除接触不良）。  \n  - 如果所有方法无效，可能是硬件故障，联系 **Bose售后** 或购买渠道保修。\n\n---\n\n### **5. 联系官方支持**\n访问Bose官网支持页面或拨打客服电话，提供耳机序列号（在盒内或保修卡上）获取进一步帮助。\n\n希望这些步骤能解决问题！如果仍有疑问，可以补充描述具体现象（如指示灯状态、手机型号等），我会进一步协助。"
+          }
+        ]
+      }
+    },
+    "3": {
+      "id": "3",
+      "parent": "2",
+      "children": [
+        "4"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-05-30T22:13:57.389000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "bose utrul怎么看是没电了"
+          }
+        ]
+      }
+    },
+    "4": {
+      "id": "4",
+      "parent": "3",
+      "children": [
+        "5"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-05-30T22:13:57.389000+08:00",
+        "fragments": [
+          {
+            "type": "RESPONSE",
+            "content": "要判断 **Bose Ultra** 耳机或充电盒是否没电，可以通过 **指示灯状态** 和 **手机/App 提示** 来确认。以下是具体方法：\n\n---\n\n### **1. 耳机没电的提示**\n- **指示灯（耳机放入充电盒时）**  \n  - **红灯常亮**：耳机正在充电。  \n  - **红灯熄灭**：耳机已充满电。  \n  - **无灯光**：可能是充电盒没电，或耳机未接触好（尝试重新放置耳机）。  \n\n- **语音提示**  \n  - 当耳机电量低时（约剩余10%-20%），会听到 **“Battery low”**（电量低）的语音提示。  \n  - 完全没电时，耳机可能会自动关机，无法开机或配对。\n\n- **手机/App 显示**  \n  - 连接手机后，在 **蓝牙设备列表** 或 **Bose Music App** 中会显示耳机电量（如显示红色或“低电量”）。\n\n---\n\n### **2. 充电盒没电的提示**\n- **盒外指示灯（开盖或按按钮时）**  \n  - **白灯闪烁**：充电盒有电，耳机可配对。  \n  - **红灯闪烁**：充电盒电量低（需充电）。  \n  - **无反应**：充电盒可能完全没电（连接充电器后观察是否亮灯）。  \n\n- **充电盒充电状态**  \n  - 连接充电器时：  \n    - **白灯常亮**：正在充电。  \n    - **白灯熄灭**：已充满。  \n  - 如果连接充电器后仍不亮灯，可能是充电线/接口故障。\n\n---\n\n### **3. 快速检查步骤**\n1. 将耳机放入充电盒，合盖充电至少 **10分钟**。  \n2. 打开盒盖，观察指示灯：  \n   - 如果耳机或盒子指示灯亮起（白/红色），说明在充电。  \n   - 如果无反应，尝试更换充电线或充电头。  \n3. 长按充电盒背部按钮 **10秒**，看是否能进入配对模式（白灯闪烁）。  \n\n---\n\n### **4. 其他注意事项**\n- **接触不良**：用棉签清洁耳机金属触点和充电盒内部触点。  \n- **充电盒故障**：如果充电盒连接电源后仍不亮灯，可能是硬件问题，需联系Bose售后。  \n\n如果问题依旧，建议通过 **Bose Music App** 检查设备状态，或重置耳机（长按充电盒按钮30秒恢复出厂设置）。"
+          }
+        ]
+      }
+    },
+    "5": {
+      "id": "5",
+      "parent": "4",
+      "children": [
+        "6"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-05-30T22:20:22.305000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "电量低会导致无法正常配对吗"
+          }
+        ]
+      }
+    },
+    "6": {
+      "id": "6",
+      "parent": "5",
+      "children": [
+        "7"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-05-30T22:20:22.305000+08:00",
+        "fragments": [
+          {
+            "type": "RESPONSE",
+            "content": "是的，**电量过低**可能会导致 **Bose Ultra 耳机无法正常配对**，具体表现和解决方法如下：  \n\n---\n\n### **🔋 电量低对配对的影响**\n1. **耳机无法开机或进入配对模式**  \n   - 如果耳机电量**完全耗尽**，放入充电盒后可能无法自动开机，长按按钮也可能无反应。  \n   - 即使进入配对模式（白灯闪烁），也可能因电量不足导致配对失败或连接不稳定。  \n\n2. **充电盒电量不足，无法给耳机供电**  \n   - 如果充电盒本身没电，耳机放入后**无法充电**，导致一直无法配对。  \n   - 此时，长按充电盒按钮可能无反应（指示灯不亮）。  \n\n3. **手机显示配对失败或频繁断开**  \n   - 低电量时，蓝牙信号可能变弱，导致配对过程中断或连接后立即断开。  \n\n---\n\n### **✅ 解决方法**\n#### **1. 先确保耳机和充电盒有电**\n- **充电盒**：用 **USB-C 线** 连接电源（5V/1A 或更高），观察指示灯：  \n  - **白灯常亮** → 正在充电  \n  - **白灯熄灭** → 已充满  \n  - **无反应** → 换充电线或插座测试（可能是充电器问题）  \n- **耳机**：放入充电盒并合上盖子，充电 **10分钟以上** 再尝试配对。  \n\n#### **2. 强制重启耳机（针对无响应）**\n1. 将耳机放入充电盒，保持开盖。  \n2. 长按充电盒背部按钮 **30秒**（直到指示灯红灯闪烁）。  \n3. 关闭盒盖等待10秒，重新开盖，按按钮进入配对模式（白灯闪烁）。  \n\n#### **3. 手机端操作**\n- 进入手机 **蓝牙设置** → 忘记已保存的 **Bose Ultra** 记录。  \n- 重新搜索并配对。  \n\n#### **4. 检查固件（如果已配对过）**\n- 打开 **Bose Music App**，查看是否有固件更新（低电量可能导致固件异常）。  \n\n---\n\n### **⚠️ 如果仍然无法配对**\n- 可能是 **电池老化** 或 **硬件故障**，建议联系 **Bose 官方售后** 检测。  \n\n希望这些方法能帮到你！如果问题依旧，可以告诉我具体现象（比如指示灯状态、手机提示等），我会进一步帮你分析。 🎧🔋"
+          }
+        ]
+      }
+    },
+    "7": {
+      "id": "7",
+      "parent": "6",
+      "children": [
+        "8"
+      ],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-05-30T22:22:55.866000+08:00",
+        "fragments": [
+          {
+            "type": "REQUEST",
+            "content": "黄白灯闪烁 应该怎么处理"
+          }
+        ]
+      }
+    },
+    "8": {
+      "id": "8",
+      "parent": "7",
+      "children": [],
+      "message": {
+        "files": [],
+        "model": "deepseek-chat",
+        "inserted_at": "2025-05-30T22:22:55.866000+08:00",
+        "fragments": [
+          {
+            "type": "SEARCH",
+            "results": [
+              {
+                "url": "https://www.3dmxku.com/daquan/zonghe/5477056.html",
+                "title": "bose耳机黄灯一直闪是在充电吗",
+                "snippet": "是的，bose耳机黄灯一直闪代表正在充电。 因为当Bose耳机电量低于一定程度时，会进入充电状态，此时耳机上的黄色指示灯会闪烁。 等到电池充满后，黄灯就会停止闪烁并变为绿色或熄灭。 同时需要注意的是，充电时应该使用原装充电器或者经过官方认证的充电器，以免对耳机电池造成损害。  不对，红灯常亮，代表一直在充电，而黄灯代表有音频正在输出",
+                "cite_index": 1,
+                "published_at": 1713484800.0,
+                "site_name": "3dmxku",
+                "site_icon": "https://cdn.deepseek.com/site-icons/3dmxku.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.manualslib.com/manual/3549246/Bose-Soundlink-Home.html?page=105#manual",
+                "title": "首先尝试这些解决方案; 其他解决方案 - Bose SOUNDLINK HOME Important Safety Instructions Manual [Page 105]",
+                "snippet": "Table of Contents  Advertisement  Available languages  首先尝试这些解决方案  如果扬声器出现问题：  • 关闭并重新打开扬声器的电源（请参见第 18 页） 。  • 为扬声器充电（请参见第 23 页） 。  • 检查状态指示灯（请参见第 25 页） 。  • 提高扬声器、设备和音乐应用的音量。  • 将您的设备靠近扬声器（9 米） ，并远离任",
+                "cite_index": 2,
+                "published_at": 1727654400.0,
+                "site_name": "ManualsLib",
+                "site_icon": "https://cdn.deepseek.com/site-icons/manualslib.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.360doc.cn/article/29732628_896337629.html",
+                "title": "菜鸟宝典：音响保养很关键 常识技巧解忧",
+                "snippet": "一、功放发热  此现象为正常现象，请注意不要在功放上放置其他物品（如DVD，桌布等）这样便于散热。  二、音箱不出声音  1、先检查电源是否插好，设备能正常加电。  2、检查功放面板上speakerA/B是否开启。  3、检查功放信号输入设备是否调节在正确位置。  三、电视声音使用音响来播放  使用音频线将电视和功放连接（电视输出端“线路输出/output”连接功放输入端“TV/DTV”；并把功放",
+                "cite_index": 3,
+                "published_at": 1583193600.0,
+                "site_name": "360doc",
+                "site_icon": "https://cdn.deepseek.com/site-icons/360doc.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.b2b18.com/news/show-1071913.html",
+                "title": "bose故障排除",
+                "snippet": "Bose故障排除指南一、常见问题及解决方法1. 音频播放问题- 问题描述：播放音乐时声音突然中断或出现杂音。- 解决方法：- 检查设备连接：确保所有连接线都正确连接。- 重启设备：有时简单的重启可以解决临时性的问题。- 检查音源：确认音乐源设备是否正常工作。- 软件更新：检查Bose设备是否安装了最  Bose故障排除指南  一、常见问题及解决方法  1. 音频播放问题  - 问题描述：播放音乐时",
+                "cite_index": 4,
+                "published_at": 1748390400.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/b2b18.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.bose.cn/zh_cn/support/articles/HC2515/productCodes/sounddock_2/article.html",
+                "title": "遥控器是间歇性的或无法控制您的 Bose 产品",
+                "snippet": "## 如果您的 Bose 遥控器无法正常工作，或者有时只能控制 Bose 产品的功能，请尝试以下操作：  ### 如果塑料包装仍在遥控器上，请尝试将其卸下。  新的遥控器通常用塑料包装。 这种包装 可能会缩小遥控器的范围，当 电池变弱或包装不 干净时，可能会使其变得更有粘性。  ### 确保产品上的遥控器传感器未处于直接光线下。  如果您的产品上的遥控传感器位于非常明亮的区域 （即 在阳光或光线过",
+                "cite_index": 5,
+                "published_at": 1538006400.0,
+                "site_name": "Bose",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bose.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://100why.cn/content/1578857.html",
+                "title": "BOSE音箱连接闪烁？原因竟然是这个！快速解决方法揭秘",
+                "snippet": "生活随笔 收集整理的这篇文章主要介绍了 BOSE音箱连接闪烁？原因竟然是这个！快速解决方法揭秘 小编觉得挺不错的,现在分享给大家,帮大家做个参考.  最近，我在使用我的bose音箱时遇到了一个问题，就是它连接时老是闪烁。这让我感到非常困惑，于是我开始了解并尝试解决这个问题。下面我将分享我的经验和解决方法。  1.定位问题  首先，我们需要确定问题的具体原因。通常，bose音箱连接时闪烁可能有以下几",
+                "cite_index": 6,
+                "published_at": 1718928000.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/100why.cn",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://bk.taobao.com/k/erji_265/946d5e19d5fe5b205433aff07f6e3bcc.html",
+                "title": "BOSE耳机 坏掉怎么办？教科书般的维修指南来啦！🔧",
+                "snippet": "2025-04-15 10:00:39  BOSE耳机出了问题，别急，这篇指南带你找到最靠谱的解决方案！从官方售后到配件更换，还有保养小贴士，让你的BOSE耳机恢复如初！别再焦虑，赶紧收藏起来，关键时刻用得上！  家人们，BOSE耳机坏了是不是让你瞬间失去了音乐的灵魂？别担心，今天就来手把手教你如何搞定这些问题！无论是耳塞松动还是电池续航力下降，这篇文章都能帮你找到解决之道！💪  ## 🎧官方售后",
+                "cite_index": 7,
+                "published_at": 1744675200.0,
+                "site_name": "Taobao",
+                "site_icon": "https://cdn.deepseek.com/site-icons/taobao.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.b2b18.com/news/show-1039943.html",
+                "title": "bose故障维修",
+                "snippet": "Bose故障维修解答1. 常见Bose设备故障及维修方法1.1 音响设备无声音- 故障现象：音响设备连接正常，但无声音输出。- 可能原因：- 1. 音量设置过小或关闭。- 2. 音频线连接不牢固或损坏。- 3. 音响设备内部电路故障。- 维修方法：  Bose故障维修解答  1. 常见Bose设备故障及维修方法  1.1 音响设备无声音  - 故障现象：音响设备连接正常，但无声音输出。  - 可能",
+                "cite_index": 8,
+                "published_at": 1748390400.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/b2b18.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://post.smzdm.com/p/a5xg5k8l/#comments",
+                "title": "Bose小水壶音箱充电故障，自己动动手省下200块_蓝牙音箱_什么值得买",
+                "snippet": "2024-09-05 11:33:16 22点赞 12收藏 21评论  家里有一个Bose SoundLink Revolve蓝牙音箱俗称小水壶，原本一直用得好好的但前两天电量剩余10%出现提示后对它进行充电，但插入充电线后电源灯只是闪一下红色就灭了，电也充不进去。  因为已经使用了好几年，我怀疑是电池故障充不进电于是到网上搜索一下，普遍的反映是两种问题，1是电池坏了需要更换电池，2是充电线路板坏",
+                "cite_index": 9,
+                "published_at": 1725494400.0,
+                "site_name": "什么值得买",
+                "site_icon": "https://cdn.deepseek.com/site-icons/smzdm.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://pad.sthifi.com/bbs.php?act=view&id=124088&page=1",
+                "title": "关于音响用电的几个问题，有没有你想知道的？",
+                "snippet": "查看：4005 回复：0 发烧bin 为何音响开机时，电灯会闪一下？  答：这是因为音响器材开机时，由于器材内部大容量电容，在关机前处于空载的放电状态，按下电源开关时，电容马上从变压器吸取电力，由于吸取的电流极大（称为充电电流），以致于电力突然下降，日光灯自然会暗一下了。  一般的后级只要滤波电容容量总和超过20,000μF，开机时就会发生此现象。因此部分设计完善的大功率扩大机，在开机时具有\"缓冲",
+                "cite_index": 10,
+                "published_at": 1161475200.0,
+                "site_name": "Sthifi",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sthifi.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.100ye.com/g81076239.html",
+                "title": "西湖区博士BOSE音响维修，秉承诚信为立足之本_上海影视音响功放维修网",
+                "snippet": "价格：面议 2025-05-16 06:00:01 1402次浏览  调整音量时会出现噼里啪啦的响声，声音时大时小。  想必这个应该是普通用户碰到常见的问题，相信很多用户都会有这样的体会。在使用一段时间之后，调节音响的音量的时候会出现这种问题。很多用户干脆就固定不动音箱上面的声音滑轮，利用电脑系统的音量调节来对声音进行控制，这无疑是个权宜之计，但是没有解决根本问题。  原因：电位器故障。  事实上",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/100ye.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.100ye.com/g80776365.html",
+                "title": "上海黄浦区博士BOSE音响维修，多年经验值得信赖_上海影视音响功放维修网",
+                "snippet": "价格：面议 2024-08-20 02:00:01 1318次浏览  电源及接地点处理  很多功放滤波电容偏小，有时只有l000μF左右，并在具两端并一只0.22μF的CBB电容，这样不但可以降低功放在静态时的噪声，而且可以提高功放在大动态时的瞬态力度。有些功放即使经上述处理后仍有噪声，可能是接地点不当，一般接地点应选择在滤波电容附近，并采用“一点接地法”才好。  输出级  如果输出级的静态电位偏",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/100ye.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.gumeimei.com/g81076056.html",
+                "title": "嘉定区博士BOSE音响维修，以诚待客",
+                "snippet": "2024-12-02 04:00:01 1129次浏览  价 格：面议  短路/断路法  短路检查法是将某元件、某电路直接短路或用电容短接，以快速判断故障部位。如将静噪控制管的基极对地短路，看静噪电路是否误动作;将卡拉OK或音响效果处理电路的输入端与输出端短接，以判断此电路有无故障;用一只电容将某一级放大电路的输入端与地(或输出端)之间短路，可以判断出自激啸叫、交流声等故障是发生在本级电路，还是前",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/gumeimei.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://ala.baidu.com/p/7950967491?pid=144919678110",
+                "title": "猫人故障求解。",
+                "snippet": "g-shock吧 关注：298,989贴子：3,311,675  换电池以后电量显示与秒数同步闪烁，本来是正常现象。一般十五分钟后会自动搜波盖上后盖后按键正常操作。  现在是过十五分钟后仍然电量与秒数同步闪烁，不搜波，单个按键没反应。  按C,D,E三个按键会显示SLR,再按D键显示TLT代表什么意思？  按A,C,D,E可以进检测模式证明按键可用。多次换电池以及AC正常收波了一次，但是传感器只有",
+                "cite_index": null,
+                "published_at": 1659139200.0,
+                "site_name": "百度贴吧",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.bose.hk/zh_hk/support/articles/HC32/productCodes/soundlink_ae_headphones_ii/article.html",
+                "title": "電池壽命短",
+                "snippet": "## 如果電池電量比預期的更快耗盡，請嘗試以下操作：  ### 檢查並安裝任何可用的產品更新。  在電腦上、請造訪 btu.bose.com 並依照指示操作、以確保您的產品具備最新的功能與增強功能。 請參閱 更新產品的軟件或固件。  ### 檢查電池是否已充電。  確保電池未耗盡。 有關詳情，請參閱 檢查剩餘電池電量 和 爲耳機充電。  ### 請務必在產品未使用時關閉產品電源。  爲節省電池電量",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "Bose",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bose.hk",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.360doc.com/content/22/1212/19/36030718_1060010620.shtml",
+                "title": "关于音响用电一些不得不知的小知识（上）",
+                "snippet": "为何音响开机时，电灯会闪一下？  答：这是因为音响器材开机时，由于器材内部大容量电容，在关机前处于空载的放电状态，按下电源开关时，电容马上从变压器吸取电力，由于吸取的电流极大（称为充电电流），以致于电力突然下降，日光灯自然会暗一下了。  一般的后级只要滤波电容容量总和超过20,000μF，开机时就会发生此现象。因此部份设计完善的大功率扩大机，在开机时具有'缓冲电路'，也就是说开机时会经过大型电阻缓",
+                "cite_index": null,
+                "published_at": 1670803200.0,
+                "site_name": "个人图书馆",
+                "site_icon": "https://cdn.deepseek.com/site-icons/360doc.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://shzxgs.gzzwz.com.cn/xueyuan/478.html",
+                "title": "灯一直闪烁是怎么回事",
+                "snippet": "灯一直闪烁可能会给我们带来许多困扰，不仅影响了我们的日常生活，还可能暗示着电路或灯具存在一些潜在的问题。虽然闪烁的灯具在一些情况下可能只是小问题，但在其他情况下，它们可能会是更为严重的电气故障的预兆。那么，灯一直闪烁是怎么回事？  灯一直闪烁是怎么回事：  1. 灯泡问题  最常见的灯闪烁原因之一是灯泡本身存在问题。灯泡老化、损坏或接触不良都可能导致闪烁现象。尤其是荧光灯和LED灯，它们的闪烁往往",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/gzzwz.com.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://tieba.baidu.com/p/5936315984",
+                "title": "bose soundsport 充电问题 不能充满 插上即绿灯_bose吧_百度贴吧",
+                "snippet": "只看楼主收藏回复  整个周六的下午都在解决 soundsport 蓝牙耳机充电的问题， 总结一下这个耳机的问题：  1. 插上黄灯闪，然后不定期的变成绿色，打开耳机提示提示100% ，然后马上掉到30%、60%、70% 都有可能。  2.电池续航变短，一首歌 耗10%电量 。  3.换了各种充电线，各种电源 仍然没有改善。  4.右耳刚开机的时候会有电流声音，持续几十秒消失。  5.电源位置开胶（",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "百度贴吧",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://m.mydrivers.com/xiaozhi/newsview.aspx?tid=955504&f=toutiao",
+                "title": "真世界级降噪大师！Bose QC消噪耳机Ultra评测：戴上它 整个世界都安静了",
+                "snippet": "12-29 19:26  一、前言：Bose首推沉浸式空间音频 带入到头戴耳机中  现如今，降噪耳机相信大家已不陌生，但你知道世界上第一款降噪耳机是哪个品牌吗？  没错，就是1964年成立的Bose品牌。  时至今日，Bose品牌对降噪耳机已经有了近60年的产品设计和研发经验，可以说是降噪耳机领域的元老了。  今年，Bose品牌推出了新一代头戴式耳机——Bose QuietComfort消噪耳机U",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "快科技",
+                "site_icon": "https://cdn.deepseek.com/site-icons/mydrivers.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.bose.hk/zh_hk/support/articles/HC2562/productCodes/QCUH-HEADPHONEARN/article.html",
+                "title": "電池 LED 狀態指示燈呈紅色和白色閃爍",
+                "snippet": "## 電池 LED 指示燈呈紅色和白色閃爍表示內部故障。 請嘗試進行以下操作：  ### 請嘗試為產品充電幾分鐘。  如果電池電量很低，您的產品可能會進入電池保護狀態。 如果發生這種情況，語音提示可能不會發出聲音，並會提醒您電池電量不足的狀態。 請嘗試為產品充電幾分鐘、然後再試一次。  ### 更新產品的固件  更新耳機 的韌體將可清除紅色和白色的故障、且您的耳機可能會在更新後正常運作。 請造訪 ",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "Bose",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bose.hk",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.bose.cn/zh_cn/support/articles/HC2482/productCodes/bose_music_amplifier/article.html",
+                "title": "Bose Music Amplifier",
+                "snippet": "从 2025 年销售至今  Back to article  3328  # 产品无音频  ## 如果您的产品似乎设置正确但未发出声音，请尝试以下操作：  ### 确保系统已正确连接。  连接可能松动或不正确。 检查互连电缆两端的安装和位置。 有关系统连接的信息 ，请参阅设置产品。  ### 确保在 Bose 应用程序中选择了正确的音频源。  所需音频源可能已更改。功放正面的 Bluetooth ",
+                "cite_index": null,
+                "published_at": 1538006400.0,
+                "site_name": "Bose",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bose.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://wenwen.sogou.com/z/q729302632.htm",
+                "title": "bose蓝牙耳机充电时一闪一闪的怎么回事?充很久还是开不了机，谢谢！",
+                "snippet": "1620 次浏览2016.01.19 提问  ## 最佳答案  ## 最佳答案 本回答由达人推荐  2019.11.04 回答  这种情况不正常的,应该是蓝牙耳机的电池有问题,充不进电,还无法开机。 建议拿到bose的售后服务中心去检测一下,维修或是更换新的电池使用。 1. 第一，拿到缤特力的的售后网点，让帮忙检测一下是维修或者更换电池等事宜。 2. 第二，拿到专门卖蓝牙的地方，他们都同维修蓝牙的",
+                "cite_index": null,
+                "published_at": 1453161600.0,
+                "site_name": "搜狗问问",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sogou.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://club.autohome.com.cn/bbs/threadowner/c12f37e473a21e02/77614976-1.html#pvareaid=6835660",
+                "title": "拆开两驱门板看BOSE喇叭，另外关于流媒体导致充电变慢的解决方法",
+                "snippet": "其实很早就想看看这个喇叭究竟是不是BOSE喇叭，事实证明传言是假的，这个跟BOSE没有一点关系，这次趁着加装电耳和360全景的时候拆开给大家看看这个喇叭长啥样。  另外有车友反应装完流媒体之后充电变慢的问题，我自己的也遇到同样的问题，接下来告诉大家原因，以及解决方法  下面咱们先看看充电变慢的问题，直接图文描述给大家看  首先借用之前安装流媒体时候发的一张图片，黄色箭头代表最前面点烟器对应的保险丝",
+                "cite_index": null,
+                "published_at": 1542672000.0,
+                "site_name": "汽车之家",
+                "site_icon": "https://cdn.deepseek.com/site-icons/autohome.com.cn",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://hkjum1053748.51sole.com/companynewsdetail_272227404.htm",
+                "title": "BOSE故障总结 博士音响维修及解决方案",
+                "snippet": "2024-01-07 下午 7时27分13秒 星期日  中国.博士.BOSE音响维修  24h服务热线: 020-3620.2029 010-5360.5920  急修用户: 183-2073.5336（） 020-8568.1121  BOSE音响常见故障  一、调整音量时出现噼里啪啦的声音，音量时大时小。  这是在多媒体音箱身上出现次数多的故障，相信很多用户都有这样的体会，在使用一段时间后，调",
+                "cite_index": null,
+                "published_at": 1704585600.0,
+                "site_name": "搜了网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/51sole.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://product.tdk.cn/zh/contact/faq/power-supplies-0028.html",
+                "title": "请说明一下输出电压过低时的检查重点。 | FAQ | TDK Product Center",
+                "snippet": "- 电源和电子负载 > - DC-DC开关电源 / - AC-DC电源  A. ［原因①］输出电压值设置过低： V.ADJ或输出电压外部可变功能中，输出电压设置过低。 ［原因②］电流值低于最小输出电流： 在多输出电源中，V1（5V）的输出电流低于最小输出电流值时，其他输出可能无法输出正常电压。 ［原因③］未正确施加输入电压： 低于输入电压范围时，可能会导致输出电压过低。 ［原因④］过电流保护功能处",
+                "cite_index": null,
+                "published_at": 1667952000.0,
+                "site_name": "TDK Product Center",
+                "site_icon": "https://cdn.deepseek.com/site-icons/tdk.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.945.com.tw/articles/detail/247?srsltid=AfmBOoq2LbPJ2Ok14_XgS4OppggMpLYEIWlwFHdWULcTKit_cDz8aX70",
+                "title": "插座沒電原因是什麼？三步驟教你排除故障！｜找師傅好文章",
+                "snippet": "您有水電修繕需求？  # 插座沒電原因是什麼？三步驟教你排除故障！  人氣 352483  插座是我們居家生活中不可或缺的裝置，也是家裡所有電子產品的重要連結，插座若故障，接踵而來的麻煩與不便可想而知。  插座不通電，有可能出了什麼問題？又該怎麼辦才好？  ## 一、測試插座是否正常  當插座不通電，可以先嘗試使用另一個插孔或插座，先確認是插座問題還是電器故障。若電器在另一個插座能通電，就表示原本",
+                "cite_index": null,
+                "published_at": 1716422400.0,
+                "site_name": "945",
+                "site_icon": "https://cdn.deepseek.com/site-icons/945.com.tw",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://auto.hexun.com/2025-05-30/219327480.html",
+                "title": "低音炮没有低音如何维修？低音炮低音故障维修方法有哪些？-汽车频道-和讯网",
+                "snippet": "在汽车音响系统中，低音炮能为我们带来震撼的低音效果，然而当它出现没有低音的故障时，会极大影响听觉体验。下面就为大家详细介绍一些常见的低音炮低音故障维修方法。  首先要进行的是简单的外观检查。查看低音炮的电源线是否连接稳固，很多时候低音炮没有低音可能仅仅是电源线松动导致供电不足。同时，检查音频线的连接情况，音频线松动、损坏都可能造成信号传输不畅，进而影响低音效果。另外，检查低音炮的音量调节旋钮，看是",
+                "cite_index": null,
+                "published_at": 1748563200.0,
+                "site_name": "和讯汽车",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hexun.com",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.boselatam.com/en_ar/support/guides/articles/productCode/soundlink_color_ii/guides.html.search.html",
+                "title": "How To's",
+                "snippet": "## Bose SoundLink Color Bluetooth® Speaker II  Sold from 1970 – present  Enter a search term in the field above.  Nothing found. Please enter a valid search (i.e., connection help, no audio from headp",
+                "cite_index": null,
+                "published_at": 1538006400.0,
+                "site_name": "Boselatam",
+                "site_icon": "https://cdn.deepseek.com/site-icons/boselatam.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.jdbbs.com/thread-420103-3-20.html",
+                "title": "与音响无关，但与电有关",
+                "snippet": "31楼  楼主| 发表于 2004-11-10 21:53 | 只看该作者  [s:8] [s:8] [s:16] [s:16] [s:29] [s:29] 下面是引用Leunyabill于2004-11-9 7:31 PM发表的 :  大事件!!!   Leunyabill 当前离线  0 主题   32楼  发表于 2004-11-11 12:46 | 只看该作者   | 下面是引用dcs97",
+                "cite_index": null,
+                "published_at": 1100044800.0,
+                "site_name": "Jdbbs",
+                "site_icon": "https://cdn.deepseek.com/site-icons/jdbbs.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://baijiahao.baidu.com/s?id=1744019938101957401",
+                "title": "卖个耳机也要双重标准？Bose耳机售后国内国外两重天",
+                "snippet": "你在用Bose耳机吗？如果你没有买，那恭喜你了；如果准备买，不推荐国内购买这种产品；已经买了，发现问题直接扔掉算了。因为，Bose耳机已经“暴雷”：国内维修需要重金，而在国外发现问题免费换新免费修。  不少网友质疑：这家企业难道卖个耳机也要执行双重标准？  上海市民范女士用亲身经历告诉了她的消费经历：她购买不到2年的旗舰款Bose博士大鲨降噪耳机无法配对苹果手机，到店咨询后被告知，售价2299元的",
+                "cite_index": null,
+                "published_at": 1663200000.0,
+                "site_name": "百家号",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baidu.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.manualowl.com/m/Bose/Ultra-Open-Earbuds/Manual/730599?page=733#manual",
+                "title": "Bose Ultra Open Earbuds Owners Guide - Page 733",
+                "snippet": "## 电池、更新和错误状态  View all Bose Ultra Open Earbuds manuals  Add to My Manuals  Save this manual to your list of manuals  ### Page 733 highlights  系统状态 充满电 正在充电 2 3 更新软件 3 秒） 26 页）。 Bose | 3 1 S C H  耳机和充",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "ManualOwl.com",
+                "site_icon": "https://cdn.deepseek.com/site-icons/manualowl.com",
+                "query_indexes": [
+                  0,
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.bose.cn/zh_cn/support/troubleshooting/articles/productCode/soundlink_mobile_leather_2/troubleshooting.html",
+                "title": "故障排除",
+                "snippet": "欢迎浏览全新 BOSE.CN  ## SoundLink® 蓝牙便携扬声器 II  从 2012 到 2015 期间销售  电源  Bluetooth®  电池  声音  控件  如果您的产品似乎已通电，但无法按预期开机：  如果产品上的电池 LED 状态指示灯呈红色且快速闪烁，请尝试以下操作：  如果在检查电池电量或为电池充电时，产品上的电池 LED 状态指示灯始终显示电量不足，请尝试以下操作：",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "Bose",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bose.cn",
+                "query_indexes": [
+                  1,
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://news.qq.com/rain/a/20250521A04IT700?suid=&media_id=",
+                "title": "真的去修了喇叭_腾讯新闻",
+                "snippet": "+关注  上周五（5月16日）我在《木耳》里的话还言犹在耳，这里我再抄三遍：「这几天，我正在很认真地学习手工焊接喇叭的教程。」「这几天，我正在很认真地学习手工焊接喇叭的教程。」「这几天，我正在很认真地学习手工焊接喇叭的教程。」然后我就真的去修了音箱，并且比我想象的要简单得多。事情经过如下：三周前，我朋友送我一台黑胶一体机，就是黑胶唱机和音箱合而为一的机器（这在设计上不科学，国外把这种类型产品叫做 ",
+                "cite_index": null,
+                "published_at": 1747785600.0,
+                "site_name": "腾讯网",
+                "site_icon": "https://cdn.deepseek.com/site-icons/qq.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://manual3.jvckenwood.com/accessory/headphones/contents/ha-z55t/en/GOUMSYwtibohsn.php",
+                "title": "Troubleshooting",
+                "snippet": "### Main Unit  Symptom  Action  ---|---  Unable to pair  Place both earphones into the charging case, wait for the indicator light to turn off or on, followed by taking out both earphones again at the",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "JVC",
+                "site_icon": "https://cdn.deepseek.com/site-icons/jvckenwood.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.wy34.com/question/1787160887",
+                "title": "我的音响系统音量突然变小，如何调整？",
+                "snippet": "1小时前 |浏览0次  来自石嘴山市陶乐镇网友提问  回答该问题即可获得 2 经验值，问题被采纳即可获得 2 经验值！登录，我要回答  全部回答  - 如果您的音响系统的音量突然变小，您可以尝试以下几种方法进行调整： 1. **检查电源**：确保音响系统已经正确连接到电源并已打开。 2. **调节音量控制**： - 如果音响系统有物理音量旋钮或按钮，请尝试将其调高。 - 如果是遥控器或其他远程控制",
+                "cite_index": null,
+                "published_at": 1748476800.0,
+                "site_name": "Wy34",
+                "site_icon": "https://cdn.deepseek.com/site-icons/wy34.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.100ye.cn/g81165473.html",
+                "title": "上海普陀区山灵，音响维修",
+                "snippet": "2025-05-27 04:46:01 1305次浏览  价 格：面议  TRS：高阻输入部分通常要用6.35cm TRS立体声接头作平衡输入，尽量不要用6.35 TS单音(声)接头作非平衡输入，而现在我们用的大部分音源播放设备如：CD、VCD、DVD、MD、MP3等以及大部分乐器的输出信号通常都是高阻信号。  电源灯指示正常无声音输出，但听到输出继电器吸合声  故障排除：先用表测量功率放大器的供",
+                "cite_index": null,
+                "published_at": 1748304000.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/100ye.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://auto.hexun.com/2025-05-28/219286014.html",
+                "title": "手机蓝牙坏了该怎么办？手机蓝牙坏了可能是什么原因？-汽车频道-和讯网",
+                "snippet": "在现代生活中，手机蓝牙功能十分实用，它能让我们轻松连接汽车音响、蓝牙耳机等设备。然而，当手机蓝牙出现故障无法正常使用时，着实会给我们带来诸多不便。接下来，就为大家详细分析手机蓝牙损坏的可能原因以及相应的解决办法。  手机蓝牙出现问题，可能是由多种原因造成的。首先是软件方面的因素。系统故障是常见原因之一，手机系统在运行过程中可能会出现一些小故障，影响蓝牙功能的正常使用。比如系统版本过低，可能存在蓝牙",
+                "cite_index": null,
+                "published_at": 1748390400.0,
+                "site_name": "和讯汽车",
+                "site_icon": "https://cdn.deepseek.com/site-icons/hexun.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.bose.co.nz/en_nz/support/articles/HC2718/productCodes/QCUE-HEADPHONEIN/article.html?srsltid=AfmBOoo71F_OB3pXA4YJJMklL9sF2kHcHByev_6p6IDY-j00H5NfPm4H",
+                "title": "Article",
+                "snippet": "## Bose QuietComfort Ultra Earbuds  Sold from 2023 – present  NOT YOUR PRODUCT?  Enter a search term in the field above.  Nothing found. Please enter a valid search (e.g. connection help, no audio fro",
+                "cite_index": null,
+                "published_at": 1538092800.0,
+                "site_name": "Bose",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bose.co.nz",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://m.winvk.com/info/535432.html",
+                "title": "bose耳机充电黄灯闪动",
+                "snippet": "bose耳机充电黄灯闪动的原因及解决方法：更换同样电压电流的充电器试试，这种情况充电充不上；如果充电器换了，还是这样，就考虑是耳机充电电路和电池的问题，需要发回售后中心更换。  BOSE是全美国最大的扬声器厂家之一，总部坐落在美国麻省，单是从事研究开发的工程师就有几百人，是一家全资独立公司。产品在汽车音响领域和航天科技领域也同样有着出色的表现。除了民用产品，Bose在专业音响领域也有广泛的开拓。B",
+                "cite_index": null,
+                "published_at": 1674259200.0,
+                "site_name": "Winvk",
+                "site_icon": "https://cdn.deepseek.com/site-icons/winvk.com",
+                "query_indexes": [
+                  1
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://bbs-pc.edifier.com/post/37165",
+                "title": "有没有懂耳机的大佬帮忙诊断一下这耳机是咋回事-漫步者社区",
+                "snippet": "福利活动  更多  4286 热度  夏季打卡丨捕捉夏季音浪赢耳机  70天03小时29分后结束  8461 热度  有奖活动丨夏日晒单赢音箱  已结束  1.0 万 热度  有奖活动丨晒音乐角落赢好礼  已结束  有没有懂耳机的大佬帮忙诊断一下这耳机是咋回事  这个耳机买了也没多久，就老是听歌的时候突然滋啦一声，那感觉跟漏了电似的，然后就接着断联，之后在慢慢的自己连接上了，就经常反复这样，我去网",
+                "cite_index": null,
+                "published_at": 1748476800.0,
+                "site_name": "Edifier",
+                "site_icon": "https://cdn.deepseek.com/site-icons/edifier.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://www.yaling.com.cn/dianlu/jichengdianlu/123847.html",
+                "title": "电源盒输出电压变低,开关电源输出电压低怎么办?",
+                "snippet": "驱动器会根据输入电源的参数调整输出电流和电压，以确保电机的正常运行。电源:4轴电机驱动器一般需要接电源供电，电源的常用输入电压为220V AC，它通常由电源、控制电路和输出电路组成，输出电路部分:输出电路将控制电路产生的信号传递给电机，控制其运动，打开满格电压开关，断开一节电池电压至60v，电量显示明显下降，只剩下一格电量，证明仪器工作正常。  输出电路需要提供足够的功率和电流来驱动电机正常工作。",
+                "cite_index": null,
+                "published_at": 1748563200.0,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/yaling.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "http://t.cj.sina.com.cn/articles/view/1823348853/6cae187502001cu9u",
+                "title": "修复我的BOSE QC35",
+                "snippet": "作者：shiyi___  新人发帖，大佬轻喷  我的qc35  来历  一次无聊逛朋友圈，有个骑友把他的耳机拆费了，于是我联系他想帮忙修一下，骑友很爽快直接送我了。  再次感谢我如此慷慨的骑友。  拿到后发现问题不大。  断了的部分我用胶水粘好了 还不错  按键排线断了，其实是可以焊接的；无奈没有材料和设备，尝试后效果不理想，于是阿宝上找配件，98块一套配件。由于我只有按键排线，其他的又在小黄鱼出",
+                "cite_index": null,
+                "published_at": 1703462400.0,
+                "site_name": "Sina",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sina.com.cn",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://blog.csdn.net/weixin_56386428/article/details/148289489",
+                "title": "蓝牙耳机出现“滋滋滋滋”的电流声？这份攻略请查收",
+                "snippet": "如今，蓝牙耳机已经成为我们日常生活中必不可少的设备，不论是通勤、运动还是工作时，都随处可见。有时候使用耳机时，会出现一些小故障，如蓝牙耳机有杂音滋滋滋，像电流一样的声音，很影响听歌体验。为此，今天驱动哥就给大家分享几种简单的方法。  ### 方法一：重新配对耳机与设备  如果连接状态没有问题，但杂音依然存在，尝试断开并重新配对耳机与设备。有时候，蓝牙连接的稳定性较差，可能会导致音频传输过程中出现杂",
+                "cite_index": null,
+                "published_at": 1748390400.0,
+                "site_name": "CSDN博客",
+                "site_icon": "https://cdn.deepseek.com/site-icons/csdn.net",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.baixiu.org/repair/11928400.html",
+                "title": "BO音响全国 BO音响售后维修服务电话",
+                "snippet": "服务区域  广州市-荔湾区  服务范围  工业机器，数码产品，小家电  发布日期  2025-05-28 12:58:25  标签  进入主页 在线咨询  点击查看联系方式  温馨提示：此页面服务由第三方为您提供，交易前请仔细核对商家真实资质，勿信夸张宣传和承诺，勿轻易相信预付定金、汇款等交易方式; 此页面所发布文字及图片均由网民自行发布，如有侵权请联系发布者删除。  产品介绍  BO音响维修热线",
+                "cite_index": null,
+                "published_at": 1748390400.0,
+                "site_name": "Baixiu",
+                "site_icon": "https://cdn.deepseek.com/site-icons/baixiu.org",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.bose.tw/zh_tw/support/articles/HC2563/productCodes/qc_earbuds/article.html",
+                "title": "Bose 消噪耳塞",
+                "snippet": "從 2020 年銷售至今  這不是您的產品？  Back to article  3348  # 重設產品  ## 重置可以重新啓動您的產品，也 可以清除本地存儲的產品設置，如配對的設備列表。 瞭解可重設產品的選項。  ## 重置可以重新啓動您的產品，也 可以清除本地存儲的產品設置，如配對的設備列表。 瞭解可重設產品的選項。  ### 重設耳塞式耳機。  這款轉售 斜紋布釘鞋 可搭配先前 連線的B",
+                "cite_index": null,
+                "published_at": 1538006400.0,
+                "site_name": "Bose",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bose.tw",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.sony.com.hk/zh/electronics/support/audio-systems-mhc-series/articles/00025095?srsltid=AfmBOorMGgXvO9LgdiC_m6QFsBaIBOP21DN_THFCpnZkT9vPRIBNBLE4",
+                "title": "家用音訊裝置的顯示器閃爍 PUSH POWER / PROTECT / PROTECTOR。",
+                "snippet": "注意：如果需要特定型號資訊才能完成這些步驟，請參閱產品隨附的說明書。  若家用音訊裝置的顯示器交替顯示 PROTECT / PROTECTOR 和 PUSH POWER 的字詞，或是顯示 PROTECT 或 PROTECTOR 的字詞，可能是外接喇叭問題或連線問題觸發保護電路。請嘗試下列步驟以解決此問題：  注意：每一步驟皆代表此問題的可能解決方法，因此請在完成各步驟後確認 A/V 接收器狀態。 ",
+                "cite_index": null,
+                "published_at": 1669939200.0,
+                "site_name": "Sony 香港網站",
+                "site_icon": "https://cdn.deepseek.com/site-icons/sony.com.hk",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.bose.hk/zh_hk/support/articles/HC2474/productCodes/l1_model_ii/article.html",
+                "title": "更新產品的軟件或固件",
+                "snippet": "## 軟體與韌體更新可改善產品功能與穩定性。 安裝任何可用的更新，使您的產品保持最佳運行狀態。  ### 若要更新 ToneMatch 音頻引擎：  - 連接 ToneMatch 混音 器 RT 選項 提示：電源 供應器可使用 dfor T1 、 T4S 或 T8S 。 或者、 L1 Model 1S 或 Model II 功率底座可用於電源 T1 或 T4S - 將 USB 纜線從 電腦連接 至",
+                "cite_index": null,
+                "published_at": 1538006400.0,
+                "site_name": "Bose",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bose.hk",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              },
+              {
+                "url": "https://www.bjgbwx.com/zhishi/jdwx/1066.html",
+                "title": "液晶电视屏闪怎么办_简单到家",
+                "snippet": "2025-03-28  2  电源的5V电压负载过重，电压拉得太低，或后信号处理器出现问题，部分电路损坏。此时，需要逐一排除问题部件，更换故障部件，电压恢复正常。  服务推荐  荣耀畅玩8A  30元起  抽屉开锁  30元起  VIVO Y93S  30元起  快速预约服务  获取验证码  电话预约：400-027-1712  热门资讯  小天鹅洗衣机e12是什么故障?  一、小天鹅滚筒洗衣机e",
+                "cite_index": null,
+                "published_at": null,
+                "site_name": "",
+                "site_icon": "https://cdn.deepseek.com/site-icons/bjgbwx.com",
+                "query_indexes": [
+                  0
+                ],
+                "is_hidden": false
+              }
+            ]
+          },
+          {
+            "type": "RESPONSE",
+            "content": "如果您的 **Bose 耳机/音箱** 出现 **黄白灯闪烁** 的情况，可能是设备在提示某种状态或故障。以下是可能的原因及解决方法：  \n\n---\n\n### **1. 黄灯闪烁（充电状态）**  \n- **可能原因**：  \n  - 耳机/音箱正在充电（低电量时黄灯闪烁，充满后可能变绿或熄灭）[citation:1]。  \n  - 充电异常（如充电线接触不良、充电盒/底座故障）。  \n- **解决方法**：  \n  - 使用 **原装充电器** 或 **认证充电线** 重新充电。  \n  - 检查充电接口是否干净，避免接触不良。  \n  - 如果充电后仍无变化，尝试 **更换充电线或充电头**。  \n\n---\n\n### **2. 白灯闪烁（蓝牙配对/连接问题）**  \n- **可能原因**：  \n  - 设备处于 **配对模式**（白灯闪烁表示可被搜索）。  \n  - 蓝牙连接不稳定或中断。  \n- **解决方法**：  \n  - **重新配对**：  \n    1. 进入手机 **蓝牙设置** → 忘记已配对的 Bose 设备。  \n    2. 长按耳机/音箱的 **配对按钮**（通常需长按 5-10 秒）直到白灯闪烁。  \n    3. 在手机蓝牙列表中选择设备重新连接[citation:6]。  \n  - **重启设备**：  \n    - 将耳机放入充电盒并关闭盖子，等待 30 秒后重新打开。  \n    - 对音箱，可尝试 **断电 10 秒后重新开机**。  \n\n---\n\n### **3. 黄白灯交替闪烁（故障提示）**  \n- **可能原因**：  \n  - 固件异常或硬件故障。  \n  - 电池电量极低或充电问题。  \n- **解决方法**：  \n  - **强制重启**：  \n    - 耳机：放入充电盒，长按配对按钮 **30 秒** 直到红灯闪烁（恢复出厂设置）[citation:4]。  \n    - 音箱：尝试 **重置**（参考说明书或 Bose 官方支持）。  \n  - **检查固件更新**：  \n    - 使用 **Bose Music App** 检查是否有可用更新[citation:6]。  \n  - **联系售后**：  \n    - 如果问题依旧，可能是电池或主板故障，建议联系 **Bose 官方客服** 或前往授权维修点[citation:7]。  \n\n---\n\n### **4. 其他可能情况**  \n- **充电盒/底座问题**：  \n  - 如果耳机放入充电盒后仍闪烁，可能是充电盒电量不足或接触不良，尝试 **给充电盒充电** 或清洁金属触点[citation:9]。  \n- **环境干扰**：  \n  - 某些灯光或电磁干扰可能导致指示灯异常，尝试在 **不同环境下测试**[citation:10]。  \n\n---\n\n### **总结**  \n| **指示灯状态** | **可能原因** | **解决方法** |\n|--------------|------------|------------|\n| **黄灯闪烁** | 充电中/充电异常 | 更换充电线、检查接口、用原装充电器 |\n| **白灯闪烁** | 配对模式/蓝牙问题 | 重新配对、重启设备 |\n| **黄白交替闪** | 固件/硬件故障 | 强制重启、更新固件、联系售后 |\n\n如果以上方法无效，建议访问 **[Bose 官方支持](https://www.bose.com/support)** 或拨打客服电话进一步排查。"
+          }
+        ]
+      }
+    }
+  }
+}

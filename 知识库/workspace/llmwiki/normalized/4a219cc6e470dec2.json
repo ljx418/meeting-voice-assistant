@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "4a219cc6e470dec2",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/4a/4a219cc6e470dec2.json",
+    "sha256": "2ca6ae542f0a1217d2791f10fb06612f508be5e234a46b24a1d7412a356e4dae",
+    "content_hash": "40bc9b68391cdfba3618b0d8c1d4d5d36b4bda9bf9c9f7c612f8f165a0188d05",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "92072e52-121c-48ea-9ecd-d231cb3c422b",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "9a07955d-f08d-46b1-a3d4-e03e307f1225",
+      "locator": {
+        "kind": "json_path",
+        "path": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "306c592b-b4b3-4eeb-a4d5-4c79c4d4f7ab",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "新能源车1000公里续航发展分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "2b94f19a-a831-4245-8860-b29c0f012216",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "968ed9bb-50ab-436d-bdcd-5c963a62d8e1",
+      "section_id": "92072e52-121c-48ea-9ecd-d231cb3c422b",
+      "text": "9a07955d-f08d-46b1-a3d4-e03e307f1225",
+      "locator": {
+        "kind": "json_path",
+        "path": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "2ba12073-5b54-4117-b556-c9235899ecbb",
+      "section_id": "306c592b-b4b3-4eeb-a4d5-4c79c4d4f7ab",
+      "text": "新能源车1000公里续航发展分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 20
+    },
+    {
+      "passage_id": "72fe9719-13a4-451d-b3fb-7947a882f323",
+      "section_id": "2b94f19a-a831-4245-8860-b29c0f012216",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "9a07955d-f08d-46b1-a3d4-e03e307f1225_新能源车1000公里续航发展分析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.801432"
+}

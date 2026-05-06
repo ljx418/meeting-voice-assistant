@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "0ed2f17c77b20571",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/0e/0ed2f17c77b20571.json",
+    "sha256": "23b354fa7e72d59f32b2e053003036934e86d7b94a7070a4eb869ad67507d8a7",
+    "content_hash": "ff576888d9ff86a16cb35db4be551fdf1e374974dc54af3f4791cd8c7dea760a",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "d9fe8f01-66b9-49d9-bcef-19cbb77d619b",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4",
+      "locator": {
+        "kind": "json_path",
+        "path": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "86078aa6-fe96-4183-ae3b-2785f3eafa26",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "知识助手开发-废弃于20260410",
+      "locator": {
+        "kind": "json_path",
+        "path": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "20c4e1f9-1f61-4411-aa09-6f0a8bd0996d",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "b52277cb-e09d-48eb-8b22-e7dc1695d2e1",
+      "section_id": "d9fe8f01-66b9-49d9-bcef-19cbb77d619b",
+      "text": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4",
+      "locator": {
+        "kind": "json_path",
+        "path": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 26
+    },
+    {
+      "passage_id": "f388d0ba-ec51-4496-bed1-613d0177237f",
+      "section_id": "86078aa6-fe96-4183-ae3b-2785f3eafa26",
+      "text": "知识助手开发-废弃于20260410",
+      "locator": {
+        "kind": "json_path",
+        "path": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 18
+    },
+    {
+      "passage_id": "a944c56a-282d-4b3e-b41d-6847c0a3e833",
+      "section_id": "20c4e1f9-1f61-4411-aa09-6f0a8bd0996d",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "a9abbf7e-fa13-40b4-a08f-54d78a16d6e4_知识助手开发-废弃于20260410.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.443990"
+}

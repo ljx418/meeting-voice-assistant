@@ -106,17 +106,21 @@ def create_harness_agent_with_minimax(
 from core.runtime_adapter.adapters import (  # noqa: E402
     OpenHarnessRuntimeAdapter,
     RuntimeAdapter,
+    RuntimeGovernanceContext,
     RuntimeHandle,
     SimpleRuntimeAdapter,
+    inject_runtime_governance,
     snapshot_messages,
 )
 
 __all__ = [
     "OpenHarnessRuntimeAdapter",
     "RuntimeAdapter",
+    "RuntimeGovernanceContext",
     "RuntimeHandle",
     "SimpleRuntimeAdapter",
     "create_harness_agent",
     "create_harness_agent_with_minimax",
+    "inject_runtime_governance",
     "snapshot_messages",
 ]

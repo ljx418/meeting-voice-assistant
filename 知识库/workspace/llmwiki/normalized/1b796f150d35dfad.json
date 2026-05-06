@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "1b796f150d35dfad",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/1b/1b796f150d35dfad.json",
+    "sha256": "d1518e9384d04671d7cdaf53d1851d4ebf171384b4366b5c3ff94c2a6b977b84",
+    "content_hash": "9f44a64cdbcbcf22407a822bb9cfcc659f4b899c3c2d51cd6c05edd7c7f91901",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "4efe4361-4662-4726-bf96-ae0e1e801a0d",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "7070be77-82f4-4638-9d56-23e09989f331",
+      "locator": {
+        "kind": "json_path",
+        "path": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "6b0d56f8-8e9c-4882-838e-4500b1649538",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "国际金价与黄金ETF涨跌逻辑分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "64d84b41-660c-49c6-8f92-4096fa50f8d4",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "2c5d6d31-4438-4471-8f4b-96207fb7e596",
+      "section_id": "4efe4361-4662-4726-bf96-ae0e1e801a0d",
+      "text": "7070be77-82f4-4638-9d56-23e09989f331",
+      "locator": {
+        "kind": "json_path",
+        "path": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "0d9e2cc8-501f-4e1c-8e84-134d3c793428",
+      "section_id": "6b0d56f8-8e9c-4882-838e-4500b1649538",
+      "text": "国际金价与黄金ETF涨跌逻辑分析",
+      "locator": {
+        "kind": "json_path",
+        "path": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 21
+    },
+    {
+      "passage_id": "065bef1b-732e-452c-a488-f88e71e5f66a",
+      "section_id": "64d84b41-660c-49c6-8f92-4096fa50f8d4",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "7070be77-82f4-4638-9d56-23e09989f331_国际金价与黄金ETF涨跌逻辑分析.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.337315"
+}

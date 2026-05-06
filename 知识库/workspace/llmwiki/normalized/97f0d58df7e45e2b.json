@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "97f0d58df7e45e2b",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/97/97f0d58df7e45e2b.json",
+    "sha256": "54ba8f529880c896afdcca8d418a6e725086717b81763da4cb5acc288fa1b0ee",
+    "content_hash": "2924f9d6c020c658674c66fdf367173c58908da3dab35b94a61463fd93b7c61e",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "66d0d0fc-c917-4bb5-b00d-67d19f58a025",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "fa58c53c-dd46-42b1-8875-8690188ebdc1",
+      "locator": {
+        "kind": "json_path",
+        "path": "fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "7040f8c1-78d0-491a-ab46-26206b9b1501",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "投资对话",
+      "locator": {
+        "kind": "json_path",
+        "path": "fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "d5c63b8c-56be-4f06-b711-980b4faf63ed",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "1a153d75-2d6e-4737-81d1-16ffc699bc62",
+      "section_id": "66d0d0fc-c917-4bb5-b00d-67d19f58a025",
+      "text": "fa58c53c-dd46-42b1-8875-8690188ebdc1",
+      "locator": {
+        "kind": "json_path",
+        "path": "fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "0edd3645-0dbf-48b2-a4b7-581a4adef4bb",
+      "section_id": "7040f8c1-78d0-491a-ab46-26206b9b1501",
+      "text": "投资对话",
+      "locator": {
+        "kind": "json_path",
+        "path": "fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 6
+    },
+    {
+      "passage_id": "a2197b89-c14a-4f2d-8ab3-e37405356103",
+      "section_id": "d5c63b8c-56be-4f06-b711-980b4faf63ed",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "fa58c53c-dd46-42b1-8875-8690188ebdc1_投资对话.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.303345"
+}

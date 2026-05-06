@@ -9,18 +9,19 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from apps.gateway.artifacts import ArtifactRegistry
-from apps.gateway.meeting import MeetingWorkflow
 from apps.gateway.protocol import RpcRequest
 from apps.gateway.runtime import GatewayRuntimePool
 from apps.gateway.service import GatewayService
 from apps.gateway.storage import GatewaySessionStore
 from apps.gateway.workflows import (
-    KnowledgeWorkflow,
     LeadOrchestrator,
     MeetingDomainWorkflow,
     WorkflowContext,
     WorkflowRegistry,
 )
+from packs.meeting.workflow import MeetingWorkflow
+from packs.knowledge.workflow import KnowledgeWorkflow
+from packs.video_studio.workflow import VideoStudioWorkflow
 from tools.knowledge import kb_ingest
 
 
@@ -66,6 +67,26 @@ def test_workflow_registry_selects_explicit_domain(tmp_path):
     assert registry.list_workflows()[0]["domain"] == "meeting"
 
 
+def test_default_runtime_uses_meeting_pack_workflow(tmp_path):
+    pool = GatewayRuntimePool(
+        agent_factory=lambda _model: FakeAgent(),
+        runtime_backend="simple",
+        store=GatewaySessionStore(tmp_path),
+        artifact_registry=ArtifactRegistry(tmp_path / "artifacts"),
+    )
+
+    assert pool.orchestrator.registry.list_workflows()[0]["domain"] == "meeting"
+    meeting_workflow = pool.orchestrator.registry._workflows[0]
+    assert meeting_workflow.workflow.__class__.__module__ == "packs.meeting.workflow"
+
+
+def test_gateway_meeting_module_is_compatibility_export_only():
+    import apps.gateway.meeting as gateway_meeting
+
+    assert gateway_meeting.MeetingWorkflow.__module__ == "packs.meeting.workflow"
+    assert gateway_meeting.MeetingGatewayService.__module__ == "packs.meeting.connector"
+
+
 def test_lead_orchestrator_runs_knowledge_workflow():
     kb_ingest("会议 MCP 支持语音转写和会议纪要。", title="Meeting MCP")
     registry = WorkflowRegistry()
@@ -86,6 +107,37 @@ def test_lead_orchestrator_runs_knowledge_workflow():
     asyncio.run(run())
 
 
+def test_lead_orchestrator_runs_video_studio_workflow(tmp_path):
+    registry = WorkflowRegistry()
+    registry.register(VideoStudioWorkflow())
+    orchestrator = LeadOrchestrator(registry)
+
+    async def run():
+        result = await orchestrator.run_if_applicable(
+            "请为主题: 城市夜跑 生成一个短视频脚本和分镜",
+            WorkflowContext(
+                session_id="sess",
+                turn_id="turn",
+                artifact_registry=ArtifactRegistry(tmp_path / "artifacts"),
+            ),
+        )
+        assert result is not None
+        assert result["domain"] == "video_studio"
+        assert result["workflow_id"] == "video.workflow"
+        assert "视频工作流规划已完成" in result["content"]
+        assert set(result["artifact_records"]) == {
+            "brief",
+            "script",
+            "storyboard",
+            "shot_list",
+            "asset_plan",
+            "render_output",
+        }
+        assert result["video_studio"]["brief"]["title"] == "城市夜跑"
+
+    asyncio.run(run())
+
+
 def test_gateway_workflow_list_and_knowledge_route(tmp_path):
     kb_ingest("harnessOS 的 Phase 1-D 目标是 Lead Orchestrator。", title="Phase 1-D")
 
@@ -99,8 +151,18 @@ def test_gateway_workflow_list_and_knowledge_route(tmp_path):
         )
         listed = await service.handle_rpc(RpcRequest(id="w1", method="workflow.list"))
         assert listed.error is None
-        assert {item["domain"] for item in listed.result["workflows"]} == {"meeting", "knowledge"}
-        assert {item["pack_name"] for item in listed.result["workflows"]} == {"meeting", "knowledge"}
+        assert {item["domain"] for item in listed.result["workflows"]} == {
+            "meeting",
+            "knowledge",
+            "video_studio",
+        }
+        assert {item["pack_name"] for item in listed.result["workflows"]} == {
+            "meeting",
+            "knowledge",
+            "video_studio",
+        }
+        assert {item["assembly_status"] for item in listed.result["workflows"]} == {"assembled"}
+        assert {item["assembly_source"] for item in listed.result["workflows"]} == {"pack"}
 
         started = await service.handle_rpc(RpcRequest(id="s1", method="session.start"))
         response = await service.handle_rpc(

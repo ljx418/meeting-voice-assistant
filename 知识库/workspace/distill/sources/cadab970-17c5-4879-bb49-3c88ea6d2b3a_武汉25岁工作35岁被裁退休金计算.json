@@ -1,0 +1,155 @@
+{
+  "schema_version": "1.1",
+  "source_id": "cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "武汉25岁工作35岁被裁退休金计算",
+  "title_flags": [],
+  "source_weight": 1.9186,
+  "source_density_score": 1.2423,
+  "llm_enriched": false,
+  "tags": [
+    "武汉",
+    "岁被裁退休金计算",
+    "宏观政策",
+    "武汉25岁工作35岁被裁退休金计算"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "entity_candidate": 2,
+    "topic_candidate": 2
+  },
+  "units": [
+    {
+      "unit_id": "cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算:topic:1",
+      "kind": "topic_candidate",
+      "text": "宏观政策",
+      "importance": 0.9159299999999999,
+      "confidence": 0.729692,
+      "source_weight": 1.9186,
+      "source_density_score": 1.2423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "武汉",
+        "岁被裁退休金计算",
+        "宏观政策",
+        "武汉25岁工作35岁被裁退休金计算"
+      ],
+      "entities": [
+        "武汉",
+        "岁被裁退休金计算"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算:topic:2",
+      "kind": "topic_candidate",
+      "text": "武汉",
+      "importance": 0.9159299999999999,
+      "confidence": 0.729692,
+      "source_weight": 1.9186,
+      "source_density_score": 1.2423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "武汉",
+        "岁被裁退休金计算",
+        "宏观政策",
+        "武汉25岁工作35岁被裁退休金计算"
+      ],
+      "entities": [
+        "武汉",
+        "岁被裁退休金计算"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算:conclusion:1",
+      "kind": "conclusion",
+      "text": "武汉25岁工作35岁被裁退休金计算",
+      "importance": 0.854302,
+      "confidence": 0.62,
+      "source_weight": 1.9186,
+      "source_density_score": 1.2423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "武汉",
+        "岁被裁退休金计算",
+        "宏观政策",
+        "武汉25岁工作35岁被裁退休金计算"
+      ],
+      "entities": [
+        "武汉",
+        "岁被裁退休金计算"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算:entity:1",
+      "kind": "entity_candidate",
+      "text": "武汉",
+      "importance": 0.79593,
+      "confidence": 0.6,
+      "source_weight": 1.9186,
+      "source_density_score": 1.2423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "武汉",
+        "岁被裁退休金计算",
+        "宏观政策",
+        "武汉25岁工作35岁被裁退休金计算"
+      ],
+      "entities": [
+        "武汉"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算:entity:2",
+      "kind": "entity_candidate",
+      "text": "岁被裁退休金计算",
+      "importance": 0.79593,
+      "confidence": 0.6,
+      "source_weight": 1.9186,
+      "source_density_score": 1.2423,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "武汉",
+        "岁被裁退休金计算",
+        "宏观政策",
+        "武汉25岁工作35岁被裁退休金计算"
+      ],
+      "entities": [
+        "岁被裁退休金计算"
+      ],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/cadab970-17c5-4879-bb49-3c88ea6d2b3a_武汉25岁工作35岁被裁退休金计算.json",
+        "title_flags": []
+      }
+    }
+  ]
+}

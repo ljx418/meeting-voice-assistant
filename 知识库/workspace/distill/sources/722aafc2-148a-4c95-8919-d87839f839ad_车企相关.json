@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.1",
+  "source_id": "722aafc2-148a-4c95-8919-d87839f839ad_车企相关",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/722aafc2-148a-4c95-8919-d87839f839ad_车企相关.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "车企相关",
+  "title_flags": [],
+  "source_weight": 1.72,
+  "source_density_score": 1.0,
+  "llm_enriched": false,
+  "tags": [],
+  "profile": {
+    "sentence_count": 0,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {},
+  "units": []
+}

@@ -8,7 +8,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from apps.gateway.meeting import (
+from packs.meeting.connector import (
     MEETING_MCP_STDIO_LIMIT,
     MeetingGatewayService,
     MeetingMcpError,
@@ -107,6 +107,9 @@ class FakeLongTranscriptMeetingClient(FakeMeetingClient):
 
 
 def _meeting_service(tmp_path: Path) -> MeetingGatewayService:
+    module_path = tmp_path / "app" / "meeting_mcp" / "mcp_stdio.py"
+    module_path.parent.mkdir(parents=True, exist_ok=True)
+    module_path.write_text("# fake meeting mcp module\n", encoding="utf-8")
     config = MeetingMcpConfig(
         cwd=str(tmp_path),
         command="python3",
@@ -117,6 +120,9 @@ def _meeting_service(tmp_path: Path) -> MeetingGatewayService:
 
 
 def _long_transcript_meeting_service(tmp_path: Path) -> MeetingGatewayService:
+    module_path = tmp_path / "app" / "meeting_mcp" / "mcp_stdio.py"
+    module_path.parent.mkdir(parents=True, exist_ok=True)
+    module_path.write_text("# fake meeting mcp module\n", encoding="utf-8")
     config = MeetingMcpConfig(
         cwd=str(tmp_path),
         command="python3",

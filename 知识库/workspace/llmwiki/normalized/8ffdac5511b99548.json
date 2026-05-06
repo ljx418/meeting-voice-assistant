@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "8ffdac5511b99548",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/8f/8ffdac5511b99548.json",
+    "sha256": "ee66afd84c23155af93bb7761b37897ef3015d9a3afcff6e6fd8f46ae2c00f32",
+    "content_hash": "d188f2f0b1a42d3ecad4b7a108bdff6fc3cb66fa2d985ba118526beba137ba92",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "cc9ace79-7122-4b7d-8555-a32c8b72b6a4",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "88bffc20-3148-403a-881c-c7790a5d8824",
+      "locator": {
+        "kind": "json_path",
+        "path": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "75d48c6a-3c27-419a-a4af-effe6215fcea",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "武汉985编制岗位报考指南",
+      "locator": {
+        "kind": "json_path",
+        "path": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "b34d476f-b53f-402d-a215-e7aac15156e5",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "41841fa6-16f0-48c0-94d5-f11981e2d8ec",
+      "section_id": "cc9ace79-7122-4b7d-8555-a32c8b72b6a4",
+      "text": "88bffc20-3148-403a-881c-c7790a5d8824",
+      "locator": {
+        "kind": "json_path",
+        "path": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "f300b554-c6aa-4abf-90c6-72939e360e88",
+      "section_id": "75d48c6a-3c27-419a-a4af-effe6215fcea",
+      "text": "武汉985编制岗位报考指南",
+      "locator": {
+        "kind": "json_path",
+        "path": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 16
+    },
+    {
+      "passage_id": "f04b1ce8-d994-4573-9b4a-f2e3d0ee3d1c",
+      "section_id": "b34d476f-b53f-402d-a215-e7aac15156e5",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "88bffc20-3148-403a-881c-c7790a5d8824_武汉985编制岗位报考指南.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.478896"
+}

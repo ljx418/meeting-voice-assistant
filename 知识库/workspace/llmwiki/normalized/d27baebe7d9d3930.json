@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "d27baebe7d9d3930",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/40fd3080-4a2f-417f-896e-b15cf96b69f6_武汉周末小众游推荐.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/d2/d27baebe7d9d3930.json",
+    "sha256": "79479b75ea4ebefad3b074003cb78353cb53b6d4b771802fb1f7f49a2a7b8249",
+    "content_hash": "53d357c5310c14b13d1e75116c56292d831cdcea888657d9e8542bde96822333",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "57176cae-613e-4b28-9bc0-babdbf099a05",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "40fd3080-4a2f-417f-896e-b15cf96b69f6",
+      "locator": {
+        "kind": "json_path",
+        "path": "40fd3080-4a2f-417f-896e-b15cf96b69f6_武汉周末小众游推荐.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "85e34bab-991e-4aa2-8856-99e339721a0d",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "武汉周末小众游推荐",
+      "locator": {
+        "kind": "json_path",
+        "path": "40fd3080-4a2f-417f-896e-b15cf96b69f6_武汉周末小众游推荐.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "2c8247ef-1bd5-4ede-8335-517e6cf24ba5",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "40fd3080-4a2f-417f-896e-b15cf96b69f6_武汉周末小众游推荐.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "44102021-7566-4c26-b8da-229644d15ee2",
+      "section_id": "57176cae-613e-4b28-9bc0-babdbf099a05",
+      "text": "40fd3080-4a2f-417f-896e-b15cf96b69f6",
+      "locator": {
+        "kind": "json_path",
+        "path": "40fd3080-4a2f-417f-896e-b15cf96b69f6_武汉周末小众游推荐.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 25
+    },
+    {
+      "passage_id": "40792a1c-3e5a-45a7-b971-10065108c4ef",
+      "section_id": "85e34bab-991e-4aa2-8856-99e339721a0d",
+      "text": "武汉周末小众游推荐",
+      "locator": {
+        "kind": "json_path",
+        "path": "40fd3080-4a2f-417f-896e-b15cf96b69f6_武汉周末小众游推荐.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 13
+    },
+    {
+      "passage_id": "6e0c32f7-94f4-4825-9c30-5013776907b1",
+      "section_id": "2c8247ef-1bd5-4ede-8335-517e6cf24ba5",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "40fd3080-4a2f-417f-896e-b15cf96b69f6_武汉周末小众游推荐.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:41.695730"
+}

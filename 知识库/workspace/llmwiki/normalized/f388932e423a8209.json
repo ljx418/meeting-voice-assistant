@@ -1,0 +1,88 @@
+{
+  "source": {
+    "source_id": "f388932e423a8209",
+    "title": "conversation id",
+    "authority": "PRIMARY_DOC",
+    "source_type": "json",
+    "original_path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/722aafc2-148a-4c95-8919-d87839f839ad_车企相关.json",
+    "stored_path": "/Users/Zhuanz/Desktop/workspace/知识库/workspace/llmwiki/raw/f3/f388932e423a8209.json",
+    "sha256": "76caf1148ab2df9f2123f37c62e1fe5332e39bc22f909f1e26e0e6292c3cd5b3",
+    "content_hash": "a5888ab8115d744fac5ed3985516b162aae935ec3f723c9a8108cf01ab15c966",
+    "extractor_name": "JsonExtractor",
+    "extractor_version": "1.0"
+  },
+  "sections": [
+    {
+      "section_id": "f52fc979-31c4-4bdb-84f3-7e69a7201c10",
+      "kind": "paragraph",
+      "title": "conversation_id",
+      "text": "722aafc2-148a-4c95-8919-d87839f839ad",
+      "locator": {
+        "kind": "json_path",
+        "path": "722aafc2-148a-4c95-8919-d87839f839ad_车企相关.conversation_id"
+      },
+      "order_index": 0
+    },
+    {
+      "section_id": "51546915-5f6a-4bbb-a7d9-7b6119246ca5",
+      "kind": "paragraph",
+      "title": "title",
+      "text": "车企相关",
+      "locator": {
+        "kind": "json_path",
+        "path": "722aafc2-148a-4c95-8919-d87839f839ad_车企相关.title"
+      },
+      "order_index": 1
+    },
+    {
+      "section_id": "06d1f1bf-0fa4-4db9-ba7b-43a58b90c8a9",
+      "kind": "paragraph",
+      "title": "created_at",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "722aafc2-148a-4c95-8919-d87839f839ad_车企相关.created_at"
+      },
+      "order_index": 2
+    }
+  ],
+  "passages": [
+    {
+      "passage_id": "99d84950-1934-4e9b-b724-5b86ed699e07",
+      "section_id": "f52fc979-31c4-4bdb-84f3-7e69a7201c10",
+      "text": "722aafc2-148a-4c95-8919-d87839f839ad",
+      "locator": {
+        "kind": "json_path",
+        "path": "722aafc2-148a-4c95-8919-d87839f839ad_车企相关.conversation_id",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 22
+    },
+    {
+      "passage_id": "d796b2b9-c408-4cc9-bcc3-5537c4f4aff1",
+      "section_id": "51546915-5f6a-4bbb-a7d9-7b6119246ca5",
+      "text": "车企相关",
+      "locator": {
+        "kind": "json_path",
+        "path": "722aafc2-148a-4c95-8919-d87839f839ad_车企相关.title",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 6
+    },
+    {
+      "passage_id": "e3ebd579-7ce0-4afc-af75-c0af39556f8e",
+      "section_id": "06d1f1bf-0fa4-4db9-ba7b-43a58b90c8a9",
+      "text": "",
+      "locator": {
+        "kind": "json_path",
+        "path": "722aafc2-148a-4c95-8919-d87839f839ad_车企相关.created_at",
+        "passage_order": 0
+      },
+      "order_index": 0,
+      "token_count_est": 0
+    }
+  ],
+  "generated_at": "2026-04-25T09:35:42.669699"
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.1",
+  "source_id": "f3da53b3-d36a-4d6f-9e4f-c4af1b921c45_温启动概念及其应用领域解析",
+  "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/f3da53b3-d36a-4d6f-9e4f-c4af1b921c45_温启动概念及其应用领域解析.json",
+  "authority": "SECONDARY_CHAT",
+  "title": "温启动概念及其应用领域解析",
+  "title_flags": [],
+  "source_weight": 1.7534,
+  "source_density_score": 1.0407,
+  "llm_enriched": false,
+  "tags": [
+    "温启动概念及其应",
+    "用领域解析",
+    "温启动概念及其应用领域解析"
+  ],
+  "profile": {
+    "sentence_count": 1,
+    "question_count": 0,
+    "step_count": 0,
+    "risk_count": 0,
+    "example_count": 0,
+    "fact_count": 0
+  },
+  "unit_kind_counts": {
+    "conclusion": 1,
+    "topic_candidate": 1
+  },
+  "units": [
+    {
+      "unit_id": "f3da53b3-d36a-4d6f-9e4f-c4af1b921c45_温启动概念及其应用领域解析:topic:1",
+      "kind": "topic_candidate",
+      "text": "温启动概念及其应用领域解析",
+      "importance": 0.90767,
+      "confidence": 0.721628,
+      "source_weight": 1.7534,
+      "source_density_score": 1.0407,
+      "is_title_derived": true,
+      "is_llm_enriched": false,
+      "tags": [
+        "温启动概念及其应",
+        "用领域解析",
+        "温启动概念及其应用领域解析"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/f3da53b3-d36a-4d6f-9e4f-c4af1b921c45_温启动概念及其应用领域解析.json",
+        "title_flags": []
+      }
+    },
+    {
+      "unit_id": "f3da53b3-d36a-4d6f-9e4f-c4af1b921c45_温启动概念及其应用领域解析:conclusion:1",
+      "kind": "conclusion",
+      "text": "温启动概念及其应用领域解析",
+      "importance": 0.842738,
+      "confidence": 0.62,
+      "source_weight": 1.7534,
+      "source_density_score": 1.0407,
+      "is_title_derived": false,
+      "is_llm_enriched": false,
+      "tags": [
+        "温启动概念及其应",
+        "用领域解析",
+        "温启动概念及其应用领域解析"
+      ],
+      "entities": [],
+      "provenance": {
+        "path": "/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split/f3da53b3-d36a-4d6f-9e4f-c4af1b921c45_温启动概念及其应用领域解析.json",
+        "title_flags": []
+      }
+    }
+  ]
+}
