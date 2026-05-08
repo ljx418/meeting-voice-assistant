@@ -371,10 +371,16 @@ class KnowledgeMcpWorkflowRunner:
                 },
             )
         except Exception as exc:
+            failure_context = {
+                "type": "connector_execution_failed",
+                "retryable": True,
+                "message": str(exc),
+            }
             failed = self.connector_runtime.core_service.update_job(
                 job_id=running.job_id,
                 status="failed",
                 progress=1.0,
+                failure_context=failure_context,
                 metadata={
                     "message": f"connector {DATA_SERVICE_CONNECTOR_ID}.{tool} failed: {exc}",
                     "connector_execution": {
@@ -384,11 +390,7 @@ class KnowledgeMcpWorkflowRunner:
                         "error": str(exc),
                         "mode": "mcp_stdio_session",
                     },
-                    "failure_context": {
-                        "type": "connector_execution_failed",
-                        "retryable": True,
-                        "message": str(exc),
-                    },
+                    "failure_context": failure_context,
                 },
             )
             submitted = self.connector_runtime._job_payload(failed)

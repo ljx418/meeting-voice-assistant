@@ -69,6 +69,7 @@ class WorkflowContext:
     domain: Optional[str] = None
     scope: ScopeContext = field(default_factory=ScopeContext)
     artifact_registry: Optional[ArtifactRegistry] = None
+    approval_id: Optional[str] = None
 
 
 class DomainWorkflow(Protocol):
@@ -203,13 +204,19 @@ class PackDomainWorkflow:
         parameters = inspect.signature(method).parameters
         if "context" in parameters:
             return await method(user_input, context)
-        if "domain" in parameters or "session_id" in parameters or "turn_id" in parameters:
-            return await method(
-                user_input,
-                domain=context.domain,
-                session_id=context.session_id,
-                turn_id=context.turn_id,
-            )
+        kwargs: dict[str, Any] = {}
+        if "domain" in parameters:
+            kwargs["domain"] = context.domain
+        if "session_id" in parameters:
+            kwargs["session_id"] = context.session_id
+        if "turn_id" in parameters:
+            kwargs["turn_id"] = context.turn_id
+        if "scope" in parameters:
+            kwargs["scope"] = context.scope
+        if "approval_id" in parameters:
+            kwargs["approval_id"] = context.approval_id
+        if kwargs:
+            return await method(user_input, **kwargs)
         return await method(user_input)
 
 
@@ -232,6 +239,8 @@ class MeetingDomainWorkflow:
             domain=context.domain,
             session_id=context.session_id,
             turn_id=context.turn_id,
+            scope=context.scope,
+            approval_id=context.approval_id,
         )
 
 

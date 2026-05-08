@@ -115,6 +115,8 @@ class GatewayRuntimePool:
             connector_registry=self._connector_registry,
             core_service=self._core_service,
             artifact_registry=self._artifact_registry,
+            trace_store=self._trace_store,
+            approval_store=self._approval_store,
         )
         self._meeting_workflow = meeting_workflow or MeetingWorkflow(
             artifact_registry=self._artifact_registry,
@@ -484,6 +486,7 @@ class GatewayRuntimePool:
                 domain=domain,
                 scope=resolved_scope,
                 artifact_registry=self._artifact_registry,
+                approval_id=approval_id,
             )
             blocked_pack_for_domain = getattr(self._orchestrator.registry, "blocked_pack_for_domain", None)
             blocked_pack = blocked_pack_for_domain(domain) if callable(blocked_pack_for_domain) else None
@@ -516,23 +519,34 @@ class GatewayRuntimePool:
                 try:
                     result = await workflow.run(user_input, workflow_context)
                 except Exception as exc:
+                    failure_context = {
+                        "error_type": type(exc).__name__,
+                        "message": str(exc),
+                        "workflow_id": workflow.workflow_id,
+                        "domain": workflow.domain,
+                    }
                     self._core_service.update_job(
                         job_id=job.job_id,
                         status="failed",
                         progress=1.0,
+                        failure_context=failure_context,
                         metadata={
                             "error": str(exc),
-                            "failure_context": {
-                                "error_type": type(exc).__name__,
-                                "message": str(exc),
-                                "workflow_id": workflow.workflow_id,
-                                "domain": workflow.domain,
-                            },
+                            "failure_context": failure_context,
                         },
                     )
                     raise
                 result.setdefault("domain", workflow.domain)
                 result.setdefault("workflow_id", workflow.workflow_id)
+                self._persist_workflow_approval_retry_context(
+                    result=result,
+                    session_id=session.session_id,
+                    turn_id=turn_id,
+                    user_input=user_input,
+                    domain=workflow.domain,
+                    trace_id=trace_id,
+                    scope=resolved_scope,
+                )
                 artifact_ids = _artifact_ids_from_workflow_result(result)
                 job_status = "failed" if str(result.get("status", "success")) == "error" else "completed"
                 completed_job = self._core_service.update_job(
@@ -575,6 +589,7 @@ class GatewayRuntimePool:
                         session_id=session.session_id,
                         turn_id=turn_id,
                         trace_id=trace_id,
+                        scope=resolved_scope,
                         user_input=user_input,
                         approval_id=approval_id,
                         source_turn_id=retry_of_turn_id,
@@ -720,6 +735,11 @@ class GatewayRuntimePool:
                         session_id=session_id,
                         turn_id=turn_id,
                         trace_id=trace_id,
+                        scope=ScopeContext(
+                            app_id=session.app_id,
+                            project_id=session.project_id,
+                            workspace_id=session.workspace_id,
+                        ),
                     ),
                 ):
                     event = normalize_runtime_event(
@@ -863,6 +883,50 @@ class GatewayRuntimePool:
                 return False
         return all(binding.get(key) == value for key, value in checks.items() if value)
 
+    def _persist_workflow_approval_retry_context(
+        self,
+        *,
+        result: dict[str, Any],
+        session_id: str,
+        turn_id: str,
+        user_input: str,
+        domain: Optional[str],
+        trace_id: str,
+        scope: ScopeContext,
+    ) -> None:
+        """Persist retry context for workflow-level approval gates."""
+        if not result.get("approval_required"):
+            return
+        approval = result.get("approval")
+        if not isinstance(approval, dict):
+            return
+        approval_id = approval.get("approval_id")
+        if not isinstance(approval_id, str) or not approval_id:
+            return
+        try:
+            self._retry_store.get_by_approval(approval_id)
+            return
+        except KeyError:
+            pass
+        retry_context = self._retry_store.create_policy_context(
+            session_id=session_id,
+            turn_id=turn_id,
+            user_input=user_input,
+            domain=domain,
+            trace_id=trace_id,
+            approval_id=approval_id,
+            app_id=scope.app_id,
+            project_id=scope.project_id,
+            workspace_id=scope.workspace_id,
+            policy={
+                "action": "connector.submit",
+                "source": "workflow",
+                "workflow_id": result.get("workflow_id"),
+            },
+        )
+        self._core_service.record_gateway_retry(retry_context)
+        result["retry_context"] = retry_context
+
     def _append_event(self, event: GatewayEvent, *, trace_id: Optional[str] = None) -> None:
         """Persist one event and write its Core trace/item records."""
         if trace_id and "trace_id" not in event.data:
@@ -972,6 +1036,7 @@ class GatewayRuntimePool:
                     session_id=session.session_id,
                     turn_id=turn_id,
                     trace_id=trace_id,
+                    scope=scope,
                     user_input=original_user_input or user_input,
                     approval_id=approval_id,
                     source_turn_id=source_turn_id,
@@ -1016,14 +1081,19 @@ class GatewayRuntimePool:
         session_id: str,
         turn_id: str,
         trace_id: str,
+        scope: Optional[ScopeContext] = None,
         user_input: str = "",
         approval_id: Optional[str] = None,
         source_turn_id: Optional[str] = None,
     ) -> RuntimeGovernanceContext:
+        resolved_scope = scope or ScopeContext()
         return RuntimeGovernanceContext(
             session_id=session_id,
             turn_id=turn_id,
             trace_id=trace_id,
+            app_id=resolved_scope.app_id,
+            project_id=resolved_scope.project_id,
+            workspace_id=resolved_scope.workspace_id,
             user_input=user_input,
             approval_id=approval_id,
             source_turn_id=source_turn_id,

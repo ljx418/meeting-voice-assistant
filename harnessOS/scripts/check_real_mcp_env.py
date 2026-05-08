@@ -51,9 +51,13 @@ def build_report() -> dict[str, Any]:
 
     checks = {
         "harness_python": _python_check(HARNESS_VENV, imports=("pytest",)),
-        "meeting_mcp_python": _python_check(Path(meeting.command), imports=("mcp", "aiohttp")),
-        "funasr_mcp_python": _python_check(Path(funasr.command), imports=("mcp", "aiohttp")),
-        "data_service_mcp_python": _python_check(Path(data_service.command), imports=("mcp",)),
+        "meeting_mcp_python": _python_check(Path(meeting.command), imports=("mcp", "aiohttp"), cwd=meeting.cwd),
+        "funasr_mcp_python": _python_check(
+            Path(funasr.command),
+            imports=("mcp", "funasr_service.mcp_stdio"),
+            cwd=funasr.cwd,
+        ),
+        "data_service_mcp_python": _python_check(Path(data_service.command), imports=("mcp",), cwd=data_service.cwd),
         "meeting_http_health": _http_check("http://127.0.0.1:8000/api/v1/health") if configured_audio_dir else _disabled_check("HARNESS_MEETING_MCP_AUDIO_DIR is not set"),
         "funasr_http_health": _http_check("http://127.0.0.1:8001/health") if configured_audio_dir else _disabled_check("HARNESS_MEETING_MCP_AUDIO_DIR is not set"),
         "audio_dir": {
@@ -106,10 +110,14 @@ def build_report() -> dict[str, Any]:
     }
 
 
-def _python_check(path: Path, *, imports: tuple[str, ...]) -> dict[str, Any]:
+def _python_check(path: Path, *, imports: tuple[str, ...], cwd: str | None = None) -> dict[str, Any]:
     path = path.expanduser()
     if not path.exists():
         return {"ok": False, "path": str(path), "reason": "missing"}
+    resolved_cwd = Path(cwd).expanduser() if cwd else None
+    env = os.environ.copy()
+    if resolved_cwd is not None:
+        env["PYTHONPATH"] = f"{resolved_cwd}{os.pathsep}{env.get('PYTHONPATH', '')}".rstrip(os.pathsep)
     command = [
         str(path),
         "-c",
@@ -123,6 +131,8 @@ def _python_check(path: Path, *, imports: tuple[str, ...]) -> dict[str, Any]:
             check=True,
             capture_output=True,
             text=True,
+            cwd=str(resolved_cwd) if resolved_cwd and resolved_cwd.exists() else None,
+            env=env,
             timeout=15,
         )
         output = completed.stdout.strip()
@@ -131,6 +141,7 @@ def _python_check(path: Path, *, imports: tuple[str, ...]) -> dict[str, Any]:
             "ok": True,
             "path": str(path),
             "imports": list(imports),
+            "cwd": str(resolved_cwd) if resolved_cwd else None,
             "details": details,
         }
     except (subprocess.CalledProcessError, subprocess.TimeoutExpired, json.JSONDecodeError) as exc:
@@ -138,6 +149,7 @@ def _python_check(path: Path, *, imports: tuple[str, ...]) -> dict[str, Any]:
             "ok": False,
             "path": str(path),
             "imports": list(imports),
+            "cwd": str(resolved_cwd) if resolved_cwd else None,
             "reason": str(exc),
         }
 

@@ -13,7 +13,7 @@ Codex 实现 V3.0 时必须以 `v3_development_plan_multi_app_core.md` 为准。
 | `v3_development_plan_multi_app_core.md` | ACTIVE PLAN | 当前 V3.0-PhaseA 到 V3.0-PhaseE 的实现 source of truth。 |
 | `v3_phasea_multi_app_core_readiness.md` | FROZEN PHASEA BASELINE | V3.0-PhaseA 详细实施文件；2026-05-06 完成验收后转为冻结基线。 |
 | `v3_phasea_multi_app_core_readiness_acceptance.md` | FROZEN PHASEA ACCEPTANCE | V3.0-PhaseA 辅助验收基线与证据记录模板；后续只做证据追加和缺陷修正说明。 |
-| `v3_phaseb_pack_connector_registry.md` | ACTIVE PHASEB IMPLEMENTATION | V3.0-PhaseB 详细实施文件；用于展开 PackAssemblyResult、ConnectorRegistry 与 Connector Security Model 的实施边界。 |
+| `v3_phaseb_pack_connector_registry.md` | COMPLETED PHASEB BASELINE | V3.0-PhaseB 详细实施文件；2026-05-08 完成收官验收后转为 Pack / Connector 装配边界冻结基线。 |
 | `v3_current_gap_analysis.md` | CODE FACTS / GAP AUDIT | 当前代码事实、缺口和阻塞项审计。 |
 | `v3_evolution_direction.md` | V3.x+ FUTURE BLUEPRINT | 低代码、Memory、Feedback、Workflow Library 等远期方向。 |
 | `v3_old_vs_new_plan_comparison.md` | DECISION RECORD | 旧 V3.0 蓝图与当前 active plan 的取舍记录。 |
@@ -26,6 +26,13 @@ Codex 实现 V3.0 时必须以 `v3_development_plan_multi_app_core.md` 为准。
 - V3.0-PhaseC Job / Artifact / Governance Hardening
 - V3.0-PhaseD Meeting Reference Pack Validation
 - V3.0-PhaseE Knowledge Reference Pack Validation
+
+当前活动阶段切换为：
+
+- V3.0-PhaseA：COMPLETED / FROZEN BASELINE（2026-05-06）
+- V3.0-PhaseB：COMPLETED / PHASE CLOSEOUT BASELINE（2026-05-08）
+- V3.0-PhaseC：ACTIVE NEXT PHASE
+- V3.0-PhaseD/E：PLANNED
 
 ## Numbering Rule
 

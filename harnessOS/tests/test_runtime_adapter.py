@@ -79,6 +79,9 @@ def test_simple_runtime_adapter_injects_governance_metadata():
             session_id="sess_meta",
             turn_id="turn_meta",
             trace_id="trace_meta",
+            app_id="meeting",
+            project_id="project_a",
+            workspace_id="workspace_a",
             policy_evaluator=object(),
             approval_checker=lambda _approval_id: True,
         )
@@ -88,6 +91,9 @@ def test_simple_runtime_adapter_injects_governance_metadata():
         assert handle.agent.tool_metadata["session_id"] == "sess_meta"
         assert handle.agent.tool_metadata["turn_id"] == "turn_meta"
         assert handle.agent.tool_metadata["trace_id"] == "trace_meta"
+        assert handle.agent.tool_metadata["app_id"] == "meeting"
+        assert handle.agent.tool_metadata["project_id"] == "project_a"
+        assert handle.agent.tool_metadata["workspace_id"] == "workspace_a"
         assert "policy_evaluator" in handle.agent.tool_metadata
         assert callable(handle.agent.tool_metadata["approval_checker"])
 

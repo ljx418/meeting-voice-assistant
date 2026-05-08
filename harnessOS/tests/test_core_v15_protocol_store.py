@@ -8,6 +8,7 @@ from types import SimpleNamespace
 import pytest
 
 from core.jobs import BackgroundJobWorker
+from core.apps import ScopeContext
 from core.protocol import (
     ApprovalRecord,
     ArtifactRecord,
@@ -234,10 +235,54 @@ def test_core_app_service_job_lifecycle(tmp_path) -> None:
     assert completed.artifact_ids == ["art_minutes"]
     assert service.list_jobs(session_id="sess_job", domain="meeting", status="completed")[0].job_id == job.job_id
     assert service.list_job_events(job_id=job.job_id)[-1].event_type == "job.completed"
+    traces = service.list_trace_records(trace_id="trace_job")
+    assert [trace.event_type for trace in traces] == ["job.queued", "job.started", "job.completed"]
+    assert {trace.session_id for trace in traces} == {"sess_job"}
+    assert {trace.turn_id for trace in traces} == {"turn_job"}
+    assert traces[-1].artifact_ids == ["art_minutes"]
 
     cancelled = service.cancel_job(job.job_id, reason="manual")
     assert cancelled.status == "completed"
     assert service.list_job_events(job_id=job.job_id)[-1].event_type == "job.cancel_ignored"
+    ignored = service.list_trace_records(trace_id="trace_job")[-1]
+    assert ignored.event_type == "job.cancel_ignored"
+    assert ignored.session_id == "sess_job"
+
+
+def test_core_app_service_failed_job_trace_keeps_origin_context(tmp_path) -> None:
+    store = CoreSQLiteStore(tmp_path / "core.sqlite3")
+    service = CoreAppService(store=store)
+
+    job = service.create_job(
+        workflow_id="background.workflow",
+        domain="background",
+        session_id="sess_failed_job",
+        turn_id="turn_failed_job",
+        trace_id="trace_failed_job",
+        scope=ScopeContext(app_id="meeting", workspace_id="workspace_m"),
+        external_job_ref="external_1",
+        parent_job_id="job_parent",
+    )
+    service.update_job(
+        job_id=job.job_id,
+        status="failed",
+        progress=1.0,
+        failure_context={
+            "type": "background_worker_failed",
+            "retryable": False,
+            "message": "boom",
+        },
+    )
+
+    failed = service.list_trace_records(trace_id="trace_failed_job")[-1]
+    assert failed.event_type == "job.failed"
+    assert failed.session_id == "sess_failed_job"
+    assert failed.turn_id == "turn_failed_job"
+    assert failed.workflow_id == "background.workflow"
+    assert failed.metadata["metadata"]["failure_context"]["message"] == "boom"
+    assert failed.metadata["metadata"]["external_job_ref"] == "external_1"
+    assert failed.app_id == "meeting"
+    assert failed.workspace_id == "workspace_m"
 
 
 def test_core_app_service_session_summary_and_artifact_memory_refs(tmp_path) -> None:
@@ -310,11 +355,14 @@ async def test_background_job_worker_lifecycle(tmp_path) -> None:
         await asyncio.sleep(0)
         return {"artifact_ids": ["art_worker"], "message": "done"}
 
-    job = worker.submit(workflow_id="meeting.workflow", handler=handler, domain="meeting")
+    scope = ScopeContext(app_id="meeting", project_id="project_a", workspace_id="workspace_a")
+    job = worker.submit(workflow_id="meeting.workflow", handler=handler, domain="meeting", scope=scope)
     assert job.status == "queued"
+    assert job.app_id == "meeting"
 
     completed = await worker.wait(job.job_id)
     assert completed.status == "completed"
+    assert completed.workspace_id == "workspace_a"
     assert completed.progress == 1.0
     assert completed.artifact_ids == ["art_worker"]
     assert [event.event_type for event in service.list_job_events(job_id=job.job_id)] == [
@@ -322,6 +370,8 @@ async def test_background_job_worker_lifecycle(tmp_path) -> None:
         "job.running",
         "job.completed",
     ]
+    traces = service.list_trace_records(event_type="job.completed", app_id="meeting", workspace_id="workspace_a")
+    assert traces
 
 
 @pytest.mark.asyncio
@@ -336,6 +386,8 @@ async def test_background_job_worker_failure_context(tmp_path) -> None:
     job = worker.submit(workflow_id="meeting.workflow", handler=handler, domain="meeting")
     failed = await worker.wait(job.job_id)
     assert failed.status == "failed"
+    assert failed.failure_context["error_type"] == "RuntimeError"
+    assert failed.failure_context["message"] == "boom"
     assert failed.metadata["failure_context"]["error_type"] == "RuntimeError"
     assert failed.metadata["failure_context"]["message"] == "boom"
 

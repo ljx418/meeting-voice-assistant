@@ -50,19 +50,23 @@ def main() -> int:
         }, ensure_ascii=False, indent=2))
         return 2
 
-    submitted = _run_rpc(service, RpcRequest(
-        id="funasr-submit",
-        method="connector.submit",
-        params={
-            "connector_id": "funasr_mcp",
-            "tool": "funasr_recognize_file",
-            "input": {"path": str(audio_path.resolve())},
-        },
-    ))
+    tool_health = _submit_with_approval(
+        service,
+        request_id="funasr-tool-health",
+        tool="funasr_health",
+        payload={},
+    )
+    submitted = _submit_with_approval(
+        service,
+        request_id="funasr-submit",
+        tool="funasr_recognize_file",
+        payload={"path": str(audio_path.resolve())},
+    )
     status = submitted["job"]["status"]
     print(json.dumps({
         "status": "ok" if status == "completed" else status,
         "health": health,
+        "tool_health": tool_health,
         "submission": submitted,
     }, ensure_ascii=False, indent=2))
     return 0 if status == "completed" else 1
@@ -78,6 +82,36 @@ def _run_rpc(service: GatewayService, request: RpcRequest) -> dict:
         return response.result
 
     return asyncio.run(run())
+
+
+def _submit_with_approval(service: GatewayService, *, request_id: str, tool: str, payload: dict) -> dict:
+    submitted = _run_rpc(service, RpcRequest(
+        id=request_id,
+        method="connector.submit",
+        params={
+            "connector_id": "funasr_mcp",
+            "tool": tool,
+            "input": payload,
+        },
+    ))
+    if not submitted.get("approval_required"):
+        return submitted
+    approval_id = submitted["approval"]["approval_id"]
+    _run_rpc(service, RpcRequest(
+        id=f"{request_id}-approve",
+        method="approval.approve",
+        params={"approval_id": approval_id, "reason": "Explicit local FunASR MCP acceptance."},
+    ))
+    return _run_rpc(service, RpcRequest(
+        id=f"{request_id}-approved",
+        method="connector.submit",
+        params={
+            "connector_id": "funasr_mcp",
+            "tool": tool,
+            "input": payload,
+            "approval_id": approval_id,
+        },
+    ))
 
 
 if __name__ == "__main__":

@@ -177,8 +177,10 @@ def test_gateway_workflow_list_and_knowledge_route(tmp_path):
         completed = response.result["events"][-1]
         assert completed["data"]["domain"] == "knowledge"
         assert completed["data"]["workflow_id"] == "knowledge.workflow"
-        assert "知识检索已完成" in response.result["final_text"]
-        assert "标准入口：connector data_service_mcp.knowledge_query_v2" in response.result["final_text"]
+        assert completed["data"]["approval_required"] is True
+        assert "操作需要审批" in response.result["final_text"]
+        assert completed["data"]["knowledge"]["connector_id"] == "data_service_mcp"
+        assert completed["data"]["knowledge"]["tool"] == "knowledge_query_v2"
 
         artifacts = await service.handle_rpc(
             RpcRequest(
@@ -188,8 +190,7 @@ def test_gateway_workflow_list_and_knowledge_route(tmp_path):
             )
         )
         assert artifacts.error is None
-        connector_result = next(item for item in artifacts.result["artifacts"] if item["kind"] == "connector_result")
-        assert connector_result["metadata"]["connector_id"] == "data_service_mcp"
+        assert not [item for item in artifacts.result["artifacts"] if item["kind"] == "connector_result"]
 
     asyncio.run(run())
 

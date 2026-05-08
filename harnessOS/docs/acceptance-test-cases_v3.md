@@ -31,6 +31,16 @@
 | V3.0-PhaseB-AC06 | Sample-pack neutrality | external/sample pack fixture + `workflow.list` / `turn.start` | 新增 sample pack 的发现、装配、注册与执行不需要修改 Core/Gateway 业务逻辑 |
 | V3.0-PhaseB-AC07 | Descriptor-driven assembly | `pack.list/get` + `connector.list/get/health` | 装配结果由 AppProfile + Pack manifest + ConnectorRegistry 推导；sample connector 可通过 descriptor definition 注入，而不是固定业务常量集合 |
 
+2026-05-08 收官证据：
+
+- 平台链路回归：
+  - `.venv/bin/python -m pytest tests/test_pack_registry.py tests/test_gateway_protocol.py tests/test_lead_orchestrator.py tests/test_v3_multi_app_core.py -q -k 'test_default_pack_registry_loads_active_and_stub_packs or test_pack_registry_resolves_pack_by_domain_and_workflow or test_pack_registry_evaluates_default_pack_assembly or test_pack_registry_marks_active_pack_blocked_when_connector_missing or test_pack_registry_marks_active_pack_blocked_when_policy_bundle_missing or test_pack_registry_marks_active_pack_blocked_when_schema_version_incompatible or test_pack_registry_marks_active_pack_blocked_when_connector_capability_missing or test_pack_registry_marks_external_pack_blocked_when_target_version_incompatible or test_gateway_pack_list_and_get_returns_phaseb_pack_contract_fields or test_gateway_pack_list_and_get_support_app_profile_pack_paths or test_gateway_can_register_and_run_external_pack_workflow_from_manifest_entrypoint or test_gateway_connector_registry_lists_meeting_mcp or test_gateway_reference_pack_standard_entry_consistency or test_connector_registry_supports_descriptor_driven_custom_connector or test_gateway_connector_submit_blocks_unallowlisted_payload_path or test_gateway_workflow_list_and_knowledge_route'` -> `15 passed`
+- 显式真实服务验收：
+  - `scripts/check_real_mcp_env.py` -> `status=ok`
+  - `scripts/e2e_funasr_mcp_validation.py` -> `status=ok`
+  - `scripts/e2e_data_service_mcp_validation.py` -> `status=ok`
+  - `scripts/e2e_meeting_to_knowledge_mcp_validation.py` -> `status=ok`
+
 ## 4. V3.0-PhaseC Job / Artifact / Governance Hardening
 
 | ID | 用例 | 命令/入口 | 预期 |
@@ -38,7 +48,7 @@
 | V3.0-PhaseC-AC01 | Job worker MVP | job service tests | queued/running/succeeded/failed/cancelled、progress、failure_context、artifact_ids 可查询 |
 | V3.0-PhaseC-AC02 | External job ref | connector execution tests | external_job_ref 与 parent_job_id 持久化 |
 | V3.0-PhaseC-AC03 | External artifact | `artifact.register_external` | external_asset_uri、preview_uri、thumbnail_uri、metadata 可查询 |
-| V3.0-PhaseC-AC04 | Large file policy | `artifact.read` | 在现有视频/大文件/external-only 阻断基础上，音频/图片/binary/大文件拒绝全文读取并返回统一错误码 |
+| V3.0-PhaseC-AC04 | Large file policy | `artifact.read` | 在现有视频/音频/图片/binary/大文件/external-only 阻断基础上，媒体与大文件拒绝全文读取并返回统一错误码 |
 | V3.0-PhaseC-AC05 | Artifact lineage | `artifact.lineage` | parent_ids 可形成 brief -> script -> render_output 等链路 fixture |
 | V3.0-PhaseC-AC06 | Governance injection | runtime adapter tests | policy、approval、trace、secret hygiene、scope context 默认注入 |
 

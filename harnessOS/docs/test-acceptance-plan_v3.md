@@ -96,7 +96,7 @@ PhaseB 验收重点：
 - `/Users/Zhuanz/Desktop/workspace/音频资料` 仍是当前开发机上的有效样本目录，但它只是本地实现事实，不再是仓库测试合同。
 - FunASR / Meeting MCP 真实服务需要显式启动或显式环境变量开启。
 - harnessOS 自身测试应使用 `.venv/bin/python`。
-- 相邻 `meeting-voice-assistant/backend/venv312` 现在是默认优先的真实 MCP 解释器来源；若该环境缺依赖，真实音频与真实 MCP 验收不应判定为代码已通过。
+- FunASR MCP 默认优先使用 `/Users/Zhuanz/Desktop/workspace/voice_service/.venv/bin/python`；Meeting / Data Service MCP 仍使用各自配置的 backend 解释器。
 
 建议环境基线：
 
@@ -106,6 +106,9 @@ harnessOS:
 
 meeting-voice-assistant backend:
   /Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/venv312/bin/python
+
+voice_service FunASR MCP:
+  /Users/Zhuanz/Desktop/workspace/voice_service/.venv/bin/python
 ```
 
 建议在显式真实验收前先执行：

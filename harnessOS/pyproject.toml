@@ -23,6 +23,15 @@ dependencies = [
     "loguru>=0.7.0",
     "python-dotenv>=1.0.0",
     "orjson>=3.10.0",
+    "croniter>=2.0.0",
+    "pyperclip>=1.9.0",
+    "pyyaml>=6.0",
+    "questionary>=2.0.1",
+    "watchfiles>=0.20.0",
+    "slack-sdk>=3.0.0",
+    "python-telegram-bot>=21.0.0",
+    "discord.py>=2.0.0",
+    "lark-oapi>=1.5.0",
 ]
 
 [project.scripts]
@@ -33,6 +42,7 @@ dev = ["pytest>=9.0.0", "pytest-asyncio>=1.0.0", "ruff>=0.14.0", "httpx>=0.28.0"
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+testpaths = ["tests"]
 markers = [
     "smoke_model: real model smoke tests, skipped unless HARNESSOS_RUN_MODEL_SMOKE=1",
 ]

@@ -4,15 +4,18 @@ from __future__ import annotations
 
 import json
 import os
+import hashlib
 from pathlib import Path
 import subprocess
 import threading
 from typing import Any, Optional
 from urllib.parse import urlparse
 
+from apps.gateway.approvals import APPROVAL_APPROVED, ApprovalStore
 from apps.gateway.artifacts import ArtifactRegistry
 from apps.gateway.connectors import ConnectorRegistry
 from apps.gateway.persistence import atomic_write_text
+from apps.gateway.traces import TraceStore
 from core.apps import ScopeContext
 from core.services import CoreAppService
 
@@ -29,10 +32,14 @@ class ConnectorExecutionRuntime:
         connector_registry: ConnectorRegistry,
         core_service: CoreAppService,
         artifact_registry: ArtifactRegistry,
+        trace_store: Optional[TraceStore] = None,
+        approval_store: Optional[ApprovalStore] = None,
     ) -> None:
         self.connector_registry = connector_registry
         self.core_service = core_service
         self.artifact_registry = artifact_registry
+        self.trace_store = trace_store or TraceStore()
+        self.approval_store = approval_store or ApprovalStore()
 
     def submit(
         self,
@@ -46,6 +53,7 @@ class ConnectorExecutionRuntime:
         scope: Optional[ScopeContext] = None,
         defer: bool = False,
         parent_artifact_ids: Optional[list[str]] = None,
+        approval_id: Optional[str] = None,
     ) -> dict[str, Any]:
         """Submit one connector operation as a Core job."""
         connector = self.connector_registry.get_connector(connector_id)
@@ -54,27 +62,122 @@ class ConnectorExecutionRuntime:
         if tool not in set(connector.get("capabilities", {}).get("tools", [])):
             raise ValueError(f"Connector {connector_id} does not expose tool: {tool}")
 
-        job = self.core_service.create_job(
-            workflow_id=f"connector.{connector_id}.{tool}",
-            domain=connector.get("domain"),
-            session_id=session_id,
-            turn_id=turn_id,
-            trace_id=trace_id,
-            scope=resolved_scope,
-            metadata={
-                "connector_execution": {
-                    "connector_id": connector_id,
-                    "tool": tool,
-                    "payload": dict(payload or {}),
-                    "mode": "deferred" if defer else "sync_stub",
+        approved_ids: list[str] = []
+        job = None
+        if "external_call" in set(connector.get("requires_approval_for") or []):
+            approval_context = _approval_context(
+                connector_id=connector_id,
+                tool=tool,
+                payload=dict(payload or {}),
+                session_id=session_id,
+                turn_id=turn_id,
+                scope=resolved_scope,
+            )
+            if approval_id is None:
+                job = self.core_service.create_job(
+                    workflow_id=f"connector.{connector_id}.{tool}",
+                    domain=connector.get("domain"),
+                    session_id=session_id,
+                    turn_id=turn_id,
+                    trace_id=trace_id,
+                    scope=resolved_scope,
+                    metadata={
+                        "connector_execution": {
+                            "connector_id": connector_id,
+                            "tool": tool,
+                            "payload": dict(payload or {}),
+                            "mode": "deferred" if defer else "sync_stub",
+                        }
+                    },
+                )
+                approval = self.approval_store.request(
+                    action="connector.submit",
+                    request_summary=f"Approve connector execution {connector_id}.{tool}",
+                    trace_id=trace_id,
+                    session_id=session_id,
+                    turn_id=turn_id,
+                    app_id=resolved_scope.app_id,
+                    project_id=resolved_scope.project_id,
+                    workspace_id=resolved_scope.workspace_id,
+                    risk_level="high",
+                    metadata={"approval_context": approval_context, "job_id": job.job_id},
+                )
+                self.core_service.record_gateway_approval(approval)
+                self._record_connector_trace(
+                    connector=connector,
+                    tool=tool,
+                    job_id=job.job_id,
+                    trace_id=trace_id,
+                    session_id=session_id,
+                    turn_id=turn_id,
+                    scope=resolved_scope,
+                    status="approval_required",
+                    approval_ids=[str(approval["approval_id"])],
+                    metadata={"requirement": "external_call", "approval_context": approval_context},
+                )
+                return {
+                    **self._job_payload(job),
+                    "approval_required": True,
+                    "approval": approval,
+                    "retry_context": {
+                        "connector_id": connector_id,
+                        "tool": tool,
+                        "input": dict(payload or {}),
+                        "session_id": session_id,
+                        "turn_id": turn_id,
+                        "approval_id": approval["approval_id"],
+                    },
                 }
-            },
-        )
+            approval = self._validated_connector_approval(approval_id, approval_context)
+            approved_ids = [str(approval["approval_id"])]
+            stored_job_id = approval.get("metadata", {}).get("job_id")
+            if not isinstance(stored_job_id, str) or not stored_job_id:
+                raise ValueError(f"approval is missing connector job binding: {approval_id}")
+            job = self.core_service.get_job(stored_job_id)
+            if job.status in TERMINAL_JOB_STATUSES:
+                return self._job_payload(job)
+            session_id = job.session_id
+            turn_id = job.turn_id
+            trace_id = trace_id or job.trace_id
+            resolved_scope = ScopeContext(
+                app_id=job.app_id,
+                project_id=job.project_id,
+                workspace_id=job.workspace_id,
+            )
+        if job is None:
+            job = self.core_service.create_job(
+                workflow_id=f"connector.{connector_id}.{tool}",
+                domain=connector.get("domain"),
+                session_id=session_id,
+                turn_id=turn_id,
+                trace_id=trace_id,
+                scope=resolved_scope,
+                metadata={
+                    "connector_execution": {
+                        "connector_id": connector_id,
+                        "tool": tool,
+                        "payload": dict(payload or {}),
+                        "mode": "deferred" if defer else "sync_stub",
+                    }
+                },
+            )
         running = self.core_service.update_job(
             job_id=job.job_id,
             status="running",
             progress=0.1,
             metadata={"message": f"connector {connector_id}.{tool} started"},
+        )
+        self._record_connector_trace(
+            connector=connector,
+            tool=tool,
+            job_id=running.job_id,
+            trace_id=trace_id,
+            session_id=session_id,
+            turn_id=turn_id,
+            scope=resolved_scope,
+            status="running",
+            approval_ids=approved_ids,
+            metadata={"defer": defer, "parent_artifact_ids": list(parent_artifact_ids or [])},
         )
         if defer:
             worker = threading.Thread(
@@ -89,6 +192,7 @@ class ConnectorExecutionRuntime:
                     "trace_id": trace_id,
                     "scope": resolved_scope,
                     "parent_artifact_ids": list(parent_artifact_ids or []),
+                    "approval_ids": approved_ids,
                 },
                 daemon=True,
             )
@@ -105,6 +209,7 @@ class ConnectorExecutionRuntime:
             trace_id=trace_id,
             scope=resolved_scope,
             parent_artifact_ids=list(parent_artifact_ids or []),
+            approval_ids=approved_ids,
         )
 
     def _run_deferred_job(
@@ -119,6 +224,7 @@ class ConnectorExecutionRuntime:
         trace_id: Optional[str],
         scope: ScopeContext,
         parent_artifact_ids: list[str],
+        approval_ids: list[str],
     ) -> None:
         try:
             self._execute_job(
@@ -131,6 +237,7 @@ class ConnectorExecutionRuntime:
                 trace_id=trace_id,
                 scope=scope,
                 parent_artifact_ids=parent_artifact_ids,
+                approval_ids=approval_ids,
             )
         except Exception:
             return
@@ -147,8 +254,10 @@ class ConnectorExecutionRuntime:
         trace_id: Optional[str],
         scope: ScopeContext,
         parent_artifact_ids: list[str],
+        approval_ids: Optional[list[str]] = None,
     ) -> dict[str, Any]:
         connector_id = str(connector["connector_id"])
+        resolved_approval_ids = list(approval_ids or [])
         try:
             job = self.core_service.get_job(job_id)
             if job.status == "cancelled":
@@ -197,6 +306,19 @@ class ConnectorExecutionRuntime:
                     },
                 },
             )
+            self._record_connector_trace(
+                connector=connector,
+                tool=tool,
+                job_id=job_id,
+                trace_id=trace_id,
+                session_id=session_id,
+                turn_id=turn_id,
+                scope=scope,
+                status="completed",
+                artifact_ids=[artifact["artifact_id"]],
+                approval_ids=resolved_approval_ids,
+                metadata={"artifact_id": artifact["artifact_id"]},
+            )
             return {
                 **self._job_payload(completed),
                 "artifact": artifact,
@@ -226,7 +348,40 @@ class ConnectorExecutionRuntime:
                     "message": str(exc),
                 },
             )
+            self._record_connector_trace(
+                connector=connector,
+                tool=tool,
+                job_id=job_id,
+                trace_id=trace_id,
+                session_id=session_id,
+                turn_id=turn_id,
+                scope=scope,
+                status="failed",
+                approval_ids=resolved_approval_ids,
+                metadata={"failure_context": failed.failure_context},
+            )
             return self._job_payload(failed)
+
+    def _validated_connector_approval(
+        self,
+        approval_id: str,
+        approval_context: dict[str, Any],
+    ) -> dict[str, Any]:
+        approval = self.approval_store.get_approval(approval_id)
+        if approval.get("status") != APPROVAL_APPROVED:
+            raise ValueError(f"approval is not approved: {approval_id}")
+        if approval.get("action") != "connector.submit":
+            raise ValueError(f"approval is not valid for connector.submit: {approval_id}")
+        stored_context = approval.get("metadata", {}).get("approval_context")
+        if not isinstance(stored_context, dict):
+            raise ValueError(f"approval does not match connector submission: {approval_id}")
+        expected_context = dict(approval_context)
+        stored_comparable = dict(stored_context)
+        expected_context.pop("turn_id", None)
+        stored_comparable.pop("turn_id", None)
+        if stored_comparable != expected_context:
+            raise ValueError(f"approval does not match connector submission: {approval_id}")
+        return approval
 
     def poll(self, *, job_id: str) -> dict[str, Any]:
         """Return one connector job plus lifecycle events."""
@@ -236,6 +391,17 @@ class ConnectorExecutionRuntime:
     def cancel(self, *, job_id: str, reason: Optional[str] = None) -> dict[str, Any]:
         """Cancel a queued or running connector job."""
         job = self.core_service.cancel_job(job_id, reason=reason)
+        self._record_connector_trace(
+            connector=None,
+            tool=None,
+            job_id=job_id,
+            trace_id=job.trace_id,
+            session_id=job.session_id,
+            turn_id=job.turn_id,
+            scope=ScopeContext(app_id=job.app_id, project_id=job.project_id, workspace_id=job.workspace_id),
+            status="cancelled",
+            metadata={"reason": reason},
+        )
         return self._job_payload(job)
 
     def collect(self, *, job_id: str) -> dict[str, Any]:
@@ -249,6 +415,18 @@ class ConnectorExecutionRuntime:
             owner_session_id=job.session_id,
             owner_turn_id=job.turn_id,
             domain=job.domain,
+        )
+        self._record_connector_trace(
+            connector=None,
+            tool=None,
+            job_id=job_id,
+            trace_id=job.trace_id,
+            session_id=job.session_id,
+            turn_id=job.turn_id,
+            scope=ScopeContext(app_id=job.app_id, project_id=job.project_id, workspace_id=job.workspace_id),
+            status="collected",
+            artifact_ids=list(job.artifact_ids),
+            metadata={"artifact_count": len(artifacts)},
         )
         return {
             **self._job_payload(job),
@@ -264,6 +442,45 @@ class ConnectorExecutionRuntime:
         if capabilities.get("contract_only"):
             return
         raise RuntimeError(f"Connector {connector.get('connector_id')} is not executable: {health}")
+
+    def _record_connector_trace(
+        self,
+        *,
+        connector: Optional[dict[str, Any]],
+        tool: Optional[str],
+        job_id: str,
+        trace_id: Optional[str],
+        session_id: Optional[str],
+        turn_id: Optional[str],
+        scope: ScopeContext,
+        status: str,
+        artifact_ids: Optional[list[str]] = None,
+        approval_ids: Optional[list[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> None:
+        connector_id = str(connector.get("connector_id")) if connector else None
+        workflow_id = f"connector.{connector_id}.{tool}" if connector_id and tool else None
+        record = {
+            "trace_id": trace_id or self.trace_store.new_trace_id(),
+            "session_id": session_id,
+            "turn_id": turn_id,
+            "app_id": scope.app_id,
+            "project_id": scope.project_id,
+            "workspace_id": scope.workspace_id,
+            "event_type": "connector.execution",
+            "status": status,
+            "workflow_id": workflow_id,
+            "artifact_ids": artifact_ids or [],
+            "approval_ids": approval_ids or [],
+            "input_summary": f"{connector_id or 'connector'} {tool or ''}".strip(),
+            "metadata": {
+                "job_id": job_id,
+                "connector_id": connector_id,
+                "tool": tool,
+                **(metadata or {}),
+            },
+        }
+        self.core_service.record_gateway_trace(record)
 
     def _enforce_security_policy(self, connector: dict[str, Any], payload: dict[str, Any]) -> None:
         execution_mode = str(
@@ -567,6 +784,32 @@ def _decode_mcp_content(content: list[Any]) -> list[Any]:
         else:
             decoded.append(item)
     return decoded
+
+
+def _approval_context(
+    *,
+    connector_id: str,
+    tool: str,
+    payload: dict[str, Any],
+    session_id: Optional[str],
+    turn_id: Optional[str],
+    scope: ScopeContext,
+) -> dict[str, Any]:
+    return {
+        "connector_id": connector_id,
+        "tool": tool,
+        "payload_digest": _payload_digest(payload),
+        "session_id": session_id,
+        "turn_id": turn_id,
+        "app_id": scope.app_id,
+        "project_id": scope.project_id,
+        "workspace_id": scope.workspace_id,
+    }
+
+
+def _payload_digest(payload: dict[str, Any]) -> str:
+    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def _connector_payload_paths(payload: dict[str, Any], metadata: dict[str, Any]) -> list[Path]:

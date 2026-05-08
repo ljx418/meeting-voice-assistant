@@ -22,6 +22,9 @@ GOVERNANCE_METADATA_KEYS = (
     "session_id",
     "turn_id",
     "trace_id",
+    "app_id",
+    "project_id",
+    "workspace_id",
     "user_input",
     "approval_id",
     "source_turn_id",
@@ -48,6 +51,9 @@ class RuntimeGovernanceContext:
     session_id: str
     turn_id: str
     trace_id: str
+    app_id: str = "default"
+    project_id: Optional[str] = None
+    workspace_id: Optional[str] = None
     user_input: str = ""
     approval_id: Optional[str] = None
     source_turn_id: Optional[str] = None
@@ -61,8 +67,13 @@ class RuntimeGovernanceContext:
             "session_id": self.session_id,
             "turn_id": self.turn_id,
             "trace_id": self.trace_id,
+            "app_id": self.app_id,
             "user_input": self.user_input,
         }
+        if self.project_id:
+            metadata["project_id"] = self.project_id
+        if self.workspace_id:
+            metadata["workspace_id"] = self.workspace_id
         if self.approval_id:
             metadata["approval_id"] = self.approval_id
         if self.source_turn_id:

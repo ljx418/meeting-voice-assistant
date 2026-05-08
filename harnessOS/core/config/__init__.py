@@ -19,6 +19,12 @@ def _preferred_meeting_backend_python() -> str:
     return str(candidate) if candidate.exists() else "python3"
 
 
+def _preferred_voice_service_python() -> str:
+    """Prefer the voice-service Python env for FunASR MCP when it exists."""
+    candidate = Path("/Users/Zhuanz/Desktop/workspace/voice_service/.venv/bin/python")
+    return str(candidate) if candidate.exists() else "python3"
+
+
 class LLMConfig(BaseSettings):
     """LLM provider configuration."""
     provider: str = Field(default="deepseek", description="LLM provider (deepseek, openai, anthropic)")
@@ -109,7 +115,7 @@ class FunASRMcpConfig(BaseSettings):
         description="Working directory for the FunASR MCP server",
     )
     command: str = Field(
-        default_factory=_preferred_meeting_backend_python,
+        default_factory=_preferred_voice_service_python,
         description="Command used to start the FunASR MCP server",
     )
     args: str = Field(

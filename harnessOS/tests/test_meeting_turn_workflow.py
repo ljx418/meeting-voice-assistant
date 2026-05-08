@@ -241,7 +241,7 @@ def test_turn_start_meeting_registers_artifacts(tmp_path):
     asyncio.run(run())
 
 
-def test_turn_start_meeting_can_transcribe_with_funasr_mcp_stdio(tmp_path):
+def test_turn_start_meeting_can_transcribe_with_funasr_mcp_stdio(tmp_path, monkeypatch):
     mcp_package = tmp_path / "funasr_service"
     mcp_package.mkdir()
     (mcp_package / "__init__.py").write_text("", encoding="utf-8")
@@ -293,6 +293,16 @@ for line in sys.stdin:
             request_timeout=5,
             audio_roots=str(tmp_path),
         )
+        original_get_connector = service.connector_registry.get_connector
+
+        def get_connector_without_test_approval(connector_id):
+            connector = original_get_connector(connector_id)
+            if connector_id == "funasr_mcp":
+                connector = dict(connector)
+                connector["requires_approval_for"] = []
+            return connector
+
+        monkeypatch.setattr(service.connector_registry, "get_connector", get_connector_without_test_approval)
         started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
         response = await service.handle_rpc(
             RpcRequest(
@@ -322,6 +332,96 @@ for line in sys.stdin:
         transcript = next(item for item in listed.result["artifacts"] if item["kind"] == "transcript")
         assert transcript["metadata"]["connector_id"] == "funasr_mcp"
         assert transcript["metadata"]["connector_job_id"].startswith("job_")
+
+    asyncio.run(run())
+
+
+def test_turn_retry_meeting_funasr_mcp_approval_reuses_connector_job(tmp_path):
+    mcp_package = tmp_path / "funasr_service"
+    mcp_package.mkdir()
+    (mcp_package / "__init__.py").write_text("", encoding="utf-8")
+    (mcp_package / "mcp_stdio.py").write_text(
+        """
+import json
+import sys
+
+for line in sys.stdin:
+    request = json.loads(line)
+    method = request.get("method")
+    request_id = request.get("id")
+    if method == "initialize":
+        result = {"protocolVersion": "2024-11-05", "capabilities": {"tools": {}}}
+    elif method == "tools/call":
+        result = {
+            "content": [{
+                "type": "text",
+                "text": json.dumps({"transcript": "Approved FunASR transcript.", "segments": []}),
+            }],
+            "isError": False,
+        }
+    else:
+        result = {}
+    print(json.dumps({"jsonrpc": "2.0", "id": request_id, "result": result}), flush=True)
+""".strip()
+        + "\n",
+        encoding="utf-8",
+    )
+    audio = tmp_path / "approval.mp3"
+    audio.write_bytes(b"demo")
+
+    async def run():
+        pool = GatewayRuntimePool(
+            agent_factory=lambda _model: FakeAgent(),
+            runtime_backend="simple",
+            store=GatewaySessionStore(tmp_path / "sessions"),
+            artifact_registry=ArtifactRegistry(tmp_path / "artifacts"),
+        )
+        pool._meeting_workflow.service = FakeMeetingService(tmp_path / "meeting-output")
+        service = GatewayService(pool)
+        service.connector_registry.funasr_config = FunASRMcpConfig(
+            cwd=str(tmp_path),
+            command=sys.executable,
+            args="-m funasr_service.mcp_stdio",
+            execution="stdio",
+            request_timeout=5,
+            audio_roots=str(tmp_path),
+        )
+        started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
+        blocked = await service.handle_rpc(
+            RpcRequest(
+                id="2",
+                method="turn.start",
+                params={
+                    "session_id": started.result["session_id"],
+                    "domain": "meeting",
+                    "input": f"请分析 {audio}，生成会议纪要",
+                },
+            )
+        )
+        assert blocked.error is None
+        completed = blocked.result["events"][-1]
+        assert completed["data"]["approval_required"] is True
+        approval_id = completed["data"]["approval"]["approval_id"]
+        connector_job_id = completed["data"]["meeting"]["transcription"]["connector_job_id"]
+        retries = service.core_service.list_retries(approval_id=approval_id, status="pending_approval")
+        assert [retry.approval_id for retry in retries] == [approval_id]
+
+        approved = await service.handle_rpc(
+            RpcRequest(id="3", method="approval.approve", params={"approval_id": approval_id})
+        )
+        assert approved.error is None
+        retried = await service.handle_rpc(
+            RpcRequest(
+                id="4",
+                method="turn.retry",
+                params={"session_id": started.result["session_id"], "approval_id": approval_id},
+            )
+        )
+        assert retried.error is None
+        assert "会议分析已完成。" in retried.result["final_text"]
+        meeting = retried.result["events"][-1]["data"]["meeting"]
+        assert meeting["transcription"]["connector_job_id"] == connector_job_id
+        assert service.core_service.get_job(connector_job_id).status == "completed"
 
     asyncio.run(run())
 

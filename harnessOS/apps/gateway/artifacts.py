@@ -16,10 +16,42 @@ from core.config import get_meeting_mcp_config
 
 MAX_INLINE_ARTIFACT_READ_BYTES = 1024 * 1024
 VIDEO_MIME_PREFIXES = ("video/",)
+AUDIO_MIME_PREFIXES = ("audio/",)
+IMAGE_MIME_PREFIXES = ("image/",)
+INLINE_JSON_MIME_TYPES = {"application/json"}
+INLINE_TEXT_MIME_PREFIXES = ("text/",)
+BINARY_MIME_TYPES = {"application/octet-stream"}
 
 
 class ArtifactError(RuntimeError):
     """Raised when artifact registration or reading fails."""
+
+
+class ArtifactReadBlockedError(ArtifactError):
+    """Raised when inline artifact reading is blocked by the platform policy."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        reason: str,
+        artifact: dict[str, Any],
+        trace_id: Optional[str] = None,
+    ) -> None:
+        super().__init__(message)
+        self.reason = reason
+        self.artifact = mask_value(artifact)
+        self.trace_id = trace_id
+
+    def to_error_data(self) -> dict[str, Any]:
+        data = {
+            "reason": self.reason,
+            "artifact": self.artifact,
+            "suggested_method": "artifact.read_metadata",
+        }
+        if self.trace_id:
+            data["trace_id"] = self.trace_id
+        return data
 
 
 class ArtifactRegistry:
@@ -161,11 +193,10 @@ class ArtifactRegistry:
         """Read one artifact as text or JSON."""
         record = self.get_artifact(artifact_id)
         mime = str(record.get("mime") or "application/octet-stream")
-        if any(mime.startswith(prefix) for prefix in VIDEO_MIME_PREFIXES):
-            raise ArtifactError("Video artifacts cannot be read inline; use artifact.read_metadata.")
         size = record.get("size")
-        if isinstance(size, int) and size > MAX_INLINE_ARTIFACT_READ_BYTES:
-            raise ArtifactError("Large artifacts cannot be read inline; use artifact.read_metadata.")
+        block = _inline_read_block(mime=mime, size=size, path=record.get("path"))
+        if block is not None:
+            raise ArtifactReadBlockedError(block["message"], reason=block["reason"], artifact=record)
         raw_path = record.get("path")
         if not isinstance(raw_path, str) or not raw_path:
             raise ArtifactError("External artifacts cannot be read inline; use artifact.read_metadata.")
@@ -174,11 +205,19 @@ class ArtifactRegistry:
             raise ArtifactError(f"Artifact file does not exist: {path}")
         if not _is_under_allowed_root(path, self.allowed_roots):
             raise ArtifactError(f"Artifact file is outside allowed roots: {path}")
-        text = path.read_text(encoding="utf-8")
-        content: Any = text
-        if record.get("mime") == "application/json" or path.suffix.lower() == ".json":
+        if _is_json_artifact(mime=mime, path=path):
+            text = path.read_text(encoding="utf-8")
             content = json.loads(text)
-        return {"artifact": mask_value(record), "content": mask_value(content)}
+            return {"artifact": mask_value(record), "content": mask_value(content)}
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError as exc:
+            raise ArtifactReadBlockedError(
+                "Binary artifacts cannot be read inline; use artifact.read_metadata.",
+                reason="binary",
+                artifact=record,
+            ) from exc
+        return {"artifact": mask_value(record), "content": mask_value(text)}
 
     def read_metadata(self, artifact_id: str) -> dict[str, Any]:
         """Return artifact metadata without reading content."""
@@ -198,6 +237,38 @@ class ArtifactRegistry:
             self.index_path,
             json.dumps(records, ensure_ascii=False, indent=2) + "\n",
         )
+
+
+def _inline_read_block(*, mime: str, size: Any, path: Any) -> Optional[dict[str, str]]:
+    if any(mime.startswith(prefix) for prefix in VIDEO_MIME_PREFIXES):
+        return {"reason": "media", "message": "Video artifacts cannot be read inline; use artifact.read_metadata."}
+    if any(mime.startswith(prefix) for prefix in AUDIO_MIME_PREFIXES):
+        return {"reason": "media", "message": "Audio artifacts cannot be read inline; use artifact.read_metadata."}
+    if any(mime.startswith(prefix) for prefix in IMAGE_MIME_PREFIXES):
+        return {"reason": "media", "message": "Image artifacts cannot be read inline; use artifact.read_metadata."}
+    if isinstance(size, int) and size > MAX_INLINE_ARTIFACT_READ_BYTES:
+        return {"reason": "large", "message": "Large artifacts cannot be read inline; use artifact.read_metadata."}
+    if not isinstance(path, str) or not path:
+        return {
+            "reason": "external_only",
+            "message": "External artifacts cannot be read inline; use artifact.read_metadata.",
+        }
+    if mime in BINARY_MIME_TYPES:
+        return {"reason": "binary", "message": "Binary artifacts cannot be read inline; use artifact.read_metadata."}
+    if _is_inline_text_mime(mime) or mime in INLINE_JSON_MIME_TYPES:
+        return None
+    return {
+        "reason": "unsupported_mime",
+        "message": "Binary artifacts cannot be read inline; use artifact.read_metadata.",
+    }
+
+
+def _is_inline_text_mime(mime: str) -> bool:
+    return any(mime.startswith(prefix) for prefix in INLINE_TEXT_MIME_PREFIXES)
+
+
+def _is_json_artifact(*, mime: str, path: Path) -> bool:
+    return mime in INLINE_JSON_MIME_TYPES or path.suffix.lower() == ".json"
 
 
 def _guess_mime(path: Path) -> str:

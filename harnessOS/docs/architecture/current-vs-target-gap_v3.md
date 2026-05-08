@@ -45,8 +45,8 @@
 | 阶段 | 状态 | 说明 |
 | --- | --- | --- |
 | V3.0-PhaseA | COMPLETED / FROZEN BASELINE（2026-05-06） | 已重新完成前检查、默认回归和显式真实音频验收；后续不得被新规格直接覆写。 |
-| V3.0-PhaseB | ACTIVE NEXT PHASE | 当前主开发阶段。 |
-| V3.0-PhaseC | PLANNED | 等待 PhaseB 交付稳定后进入。 |
+| V3.0-PhaseB | COMPLETED / PHASE CLOSEOUT BASELINE（2026-05-08） | Pack / Connector 装配边界已完成平台链路与显式真实服务双轨验收。 |
+| V3.0-PhaseC | ACTIVE NEXT PHASE | 以 PhaseB 收官证据为基线进入 Job / Artifact / Governance Hardening。 |
 | V3.0-PhaseD | PLANNED | 等待 PhaseB/PhaseC 稳定后进入。 |
 | V3.0-PhaseE | PLANNED | 等待前置阶段稳定后进入。 |
 
@@ -145,8 +145,8 @@ Plane-1 Client / Gateway
 | Core records 已开始包含 scope 字段 | 写入路径和查询路径未全覆盖；底层 Store 不传 scope 仍可全量查询 | Gateway/Core service 调用链强制携带 ScopeContext，普通 list/query 默认过滤 | V3.0-PhaseA | Plane-2/Plane-3/Plane-6 | namespace isolation、legacy backfill、scope bypass fixture | P0 |
 | SQLite Store 已是主持久化基础 | 已有命名 migration 语义和 legacy backfill fixture，但底层 `list_*` 不传 scope 仍是受控 bypass | `v3_001_add_scope_columns` forward-only migration 可回归 | V3.0-PhaseA | Plane-3/Plane-6 | migration test、legacy import fixture、compat flag test | P0 |
 | Gateway RPC 可用 | 运行时仍返回 `v1alpha`；protocol version/method/event/error registry 未冻结 | `v1alpha3` protocol contract 和 errors registry 可供 SDK 使用 | V3.0-PhaseA 和 V3.0-PhaseB | Plane-2/Plane-3 | protocol registry tests | P0 |
-| Pack scaffold 可见，PackAssemblyResult 已有正式合同 | external pack version policy、cross-app severity 与 sample-pack neutrality 仍未完全收口 | PackAssemblyResult 表达 assembled/blocked/degraded/stub，包含 conflicts、blocked_reason、next_actions，并对 external pack / connector gap 给出稳定解释 | V3.0-PhaseB | Plane-3/Plane-5 | pack.get response、missing dependency fixture、conflict fixture | P0 |
-| Connector execution 有基础 | ConnectorRegistry descriptor 数据仍主要在 Python 中声明，manifest/config 驱动尚未完全落地 | ConnectorRegistry 管理 capabilities/health/config/secret/security，并支持 descriptor/config 驱动 | V3.0-PhaseB | Plane-5/Plane-6 | connector.health、blocked untrusted connector | P0 |
+| Pack scaffold 可见，PackAssemblyResult 已完成正式合同 | descriptor 数据外置化与 cross-app 解释文本仍可继续优化，但不再阻塞装配边界 | PackAssemblyResult 表达 assembled/blocked/degraded/stub，包含 conflicts、blocked_reason、next_actions，并对 external pack / connector gap 给出稳定解释 | V3.0-PhaseC / V3.0-PhaseD / V3.0-PhaseE | Plane-3/Plane-5 | pack.get response、missing dependency fixture、conflict fixture | P1 |
+| Connector execution 有基础 | ConnectorRegistry descriptor 数据仍主要在 Python 中声明，manifest/config 驱动尚未完全落地 | ConnectorRegistry 管理 capabilities/health/config/secret/security，并支持 descriptor/config 驱动 | V3.0-PhaseC / V3.0-PhaseD / V3.0-PhaseE | Plane-5/Plane-6 | connector.health、blocked untrusted connector | P1 |
 | Job worker MVP 已存在 | 状态机、progress、failure_context、artifact_ids 不完整 | queued/running/succeeded/failed/cancelled 和 artifact binding 可查询 | V3.0-PhaseC | Plane-3/Plane-6 | job state tests | P0 |
 | Artifact metadata-only read 有基础 | 当前已阻断视频/大文件/external-only；音频/图片/binary、错误码和 JSON-RPC error shape 需统一 | `artifact.read` 对大文件/媒体/binary 拒绝全文读取并返回 metadata 建议和统一错误码 | V3.0-PhaseC | Plane-3/Plane-6 | artifact read policy tests | P0 |
 | RuntimeAdapter 已存在 | 治理注入还不统一 | RuntimeAdapter 默认注入 scope/policy/approval/trace/secret hygiene | V3.0-PhaseC | Plane-3/Plane-4/Plane-6 | runtime governance tests | P0 |
@@ -362,7 +362,8 @@ V3.0-PhaseA 的详细实施文件与辅助验收基线已独立落盘到：
 - Gateway / RuntimePool 的 pack assembly 输入已开始从 `app_registry + connector_registry` 推导；Meeting / Knowledge 的 assembly 不再只依赖固定 connector 常量集合。
 - pack assembly 现在会同时校验 registry 可用性与 AppProfile enabled connectors；未显式启用的 connector 会返回 `app_profile_connector:*` blocked dependency。
 - external pack `metadata.target_version` 已进入 assembly policy：缺失 target_version 目前记为 degraded，不兼容 target_version 记为 blocked。
-- external pack version policy、severity 分层、descriptor 数据外置化和 Meeting/Knowledge 标准装配入口去硬编码化仍需本阶段继续收口。
+- 2026-05-08 已完成一轮 PhaseB 收官验收：平台链路回归 `15 passed`，显式真实服务验收 `check_real_mcp_env / funasr_mcp / data_service_mcp / meeting_to_knowledge_mcp` 均返回 `status=ok`。
+- PhaseB 的未尽事项已转入 PhaseC / D / E，不再作为 Pack / Connector 装配边界阻塞项。
 
 | 切片 | 目标 | 主要改动 | 影响平面 | 完成标准 |
 | --- | --- | --- | --- | --- |
@@ -391,7 +392,13 @@ V3.0-PhaseA 的详细实施文件与辅助验收基线已独立落盘到：
 - B7：descriptor-driven workflow registration
   - 开发目的：让 reference pack 的发现和注册不再依赖平台层静态业务枚举。
 
-风险：connector 声明被误当成 policy authority、external pack 版本不兼容、Meeting/Knowledge 仍保留硬编码路径、sample pack 仍需要修改平台层静态 factory。
+风险：connector descriptor 外置化节奏不足、reference pack 真实业务质量波动、外部服务运行环境不一致会影响显式集成验收稳定性。
+
+收官结论：
+
+- V3.0-PhaseB 已完成。
+- 后续只允许缺陷修复、证据追加和与实际实现一致的文档校正。
+- Pack / Connector 的后续演进以 PhaseC 的治理硬化、PhaseD 的 Meeting reference pack validation、PhaseE 的 Knowledge reference pack validation 显式承接。
 
 退出门：PackAssemblyResult 可解释 blocked；connector.health 可用；meeting/knowledge connector assembly 不硬编码路径；新增 sample pack 不需要新增平台业务分支。
 
@@ -501,6 +508,8 @@ V3.0-PhaseA 的详细实施文件与辅助验收基线已独立落盘到：
 | V3.0-PhaseB-AC03 | V3.0-PhaseB | External pack paths | external pack fixture | 外部 pack 可加载；版本不兼容时返回 blocked | fixture 结果 | P0 |
 | V3.0-PhaseB-AC04 | V3.0-PhaseB | Connector Registry | `connector.health` / `connector.get` | 通过 registry 暴露 capabilities、health、config_ref、secret_ref、app_scope | connector 响应 | P0 |
 | V3.0-PhaseB-AC05 | V3.0-PhaseB | Connector 安全模型 | untrusted stdio fixture | 未 allowlist command/path/network 被 blocked；合法 connector 不被误拦截 | policy 结果 | P0 |
+| V3.0-PhaseB-AC06 | V3.0-PhaseB | Sample-pack neutrality | external/sample pack fixture + `workflow.list` / `turn.start` | 新增 sample pack 的发现、装配、注册与执行不需要修改 Core/Gateway 业务逻辑 | 测试输出 | P0 |
+| V3.0-PhaseB-AC07 | V3.0-PhaseB | Descriptor-driven assembly | `pack.list/get` + `connector.list/get/health` | 装配结果由 AppProfile + Pack manifest + ConnectorRegistry 推导；sample connector 可通过 descriptor definition 注入 | 测试输出 | P0 |
 | V3.0-PhaseC-AC01 | V3.0-PhaseC | Job 状态机 | job service tests | queued/running/succeeded/failed/cancelled 可查询 | 测试输出 | P0 |
 | V3.0-PhaseC-AC02 | V3.0-PhaseC | Artifact 大文件策略 | artifact read tests | media/binary/large/external-only 拒绝全文读取 | error code 断言 | P0 |
 | V3.0-PhaseC-AC03 | V3.0-PhaseC | Artifact lineage | artifact.lineage fixture | parent_ids 可查询 | lineage 输出 | P0 |
@@ -508,6 +517,16 @@ V3.0-PhaseA 的详细实施文件与辅助验收基线已独立落盘到：
 | V3.0-PhaseC-AC05 | V3.0-PhaseC | Meeting 回归 | meeting real audio e2e | C 阶段改动不破坏会议链路 | 真实音频证据 | P0 |
 | V3.0-PhaseD-AC01 | V3.0-PhaseD | Meeting Pack 真实音频 | real audio E2E | transcript、analysis、result、minutes artifacts | artifact ids | P0 |
 | V3.0-PhaseD-AC02 | V3.0-PhaseD | Legacy 等价性 | legacy facade vs pack workflow test | artifacts 等价 | 对比报告 | P0 |
+
+2026-05-08 PhaseB 收官证据：
+
+- 平台链路回归：
+  - `.venv/bin/python -m pytest tests/test_pack_registry.py tests/test_gateway_protocol.py tests/test_lead_orchestrator.py tests/test_v3_multi_app_core.py -q -k 'test_default_pack_registry_loads_active_and_stub_packs or test_pack_registry_resolves_pack_by_domain_and_workflow or test_pack_registry_evaluates_default_pack_assembly or test_pack_registry_marks_active_pack_blocked_when_connector_missing or test_pack_registry_marks_active_pack_blocked_when_policy_bundle_missing or test_pack_registry_marks_active_pack_blocked_when_schema_version_incompatible or test_pack_registry_marks_active_pack_blocked_when_connector_capability_missing or test_pack_registry_marks_external_pack_blocked_when_target_version_incompatible or test_gateway_pack_list_and_get_returns_phaseb_pack_contract_fields or test_gateway_pack_list_and_get_support_app_profile_pack_paths or test_gateway_can_register_and_run_external_pack_workflow_from_manifest_entrypoint or test_gateway_connector_registry_lists_meeting_mcp or test_gateway_reference_pack_standard_entry_consistency or test_connector_registry_supports_descriptor_driven_custom_connector or test_gateway_connector_submit_blocks_unallowlisted_payload_path or test_gateway_workflow_list_and_knowledge_route'` -> `15 passed`
+- 显式真实服务验收：
+  - `scripts/check_real_mcp_env.py` -> `status=ok`
+  - `scripts/e2e_funasr_mcp_validation.py` -> `status=ok`
+  - `scripts/e2e_data_service_mcp_validation.py` -> `status=ok`
+  - `scripts/e2e_meeting_to_knowledge_mcp_validation.py` -> `status=ok`
 | V3.0-PhaseD-AC03 | V3.0-PhaseD | Meeting lineage | artifact/job/trace queries | job、trace、turn、artifact 关联完整 | lineage 查询 | P0 |
 | V3.0-PhaseD-AC04 | V3.0-PhaseD | 硬编码路径清理 | rg/static tests | 标准入口不依赖硬编码 meeting path | rg 输出 | P1 |
 | V3.0-PhaseE-AC01 | V3.0-PhaseE | Knowledge MCP E2E | data_service_mcp acceptance | ingest/search/citation 成功 | operation ids | P0 |

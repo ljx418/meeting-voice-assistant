@@ -29,8 +29,8 @@
 | 阶段 | 当前状态 | 变更控制 |
 | --- | --- | --- |
 | V3.0-PhaseA | COMPLETED / FROZEN BASELINE（2026-05-06） | 仅允许缺陷修复、验收证据追加、与实际实现一致的文档校正；不得被后续规格漂移直接覆写。 |
-| V3.0-PhaseB | ACTIVE NEXT PHASE | 当前主开发阶段。 |
-| V3.0-PhaseC | PLANNED | 以 PhaseB 交付稳定后再进入。 |
+| V3.0-PhaseB | COMPLETED / PHASE CLOSEOUT BASELINE（2026-05-08） | Pack / Connector 装配边界已完成收官验收；后续仅允许缺陷修复、证据追加和文档校正。 |
+| V3.0-PhaseC | ACTIVE NEXT PHASE | 以 PhaseB 收官证据为基线进入 Job / Artifact / Governance Hardening。 |
 | V3.0-PhaseD | PLANNED | 以 PhaseB/PhaseC 交付稳定后再进入。 |
 | V3.0-PhaseE | PLANNED | 以 PhaseB/PhaseC/PhaseD 交付稳定后再进入。 |
 
@@ -82,7 +82,7 @@ PR slices / implementation order：
 
 ### V3.0-PhaseB：Pack Assembly + Connector Registry
 
-阶段状态：ACTIVE NEXT PHASE
+阶段状态：COMPLETED / PHASE CLOSEOUT BASELINE（2026-05-08）
 
 详细实施文件：`docs/design/V3.0/v3_phaseb_pack_connector_registry.md`
 
@@ -98,7 +98,7 @@ PR slices / implementation order：
 - PackAssemblyResult 已补齐 `app_id`、`conflicts`、`degraded`、`blocked_reason` / `disabled_reason` 等正式合同字段，并已通过 `pack.list/get` 暴露。
 - PackRegistry 已开始显式拒绝 duplicate pack name / domain / workflow_id；external pack roots 不再 silent overwrite。
 - Connector descriptor 已开始稳定输出 security fields，并在执行前阻断未 allowlist 的 stdio command/path 与不满足 network policy 的 remote connector。
-- external pack version policy、severity 分层和 Meeting / Knowledge 的标准装配入口去硬编码化仍需在本阶段继续收口。
+- 2026-05-08 已完成平台链路与显式真实服务双轨验收；PhaseB 的剩余工作已转入 PhaseC / PhaseD / PhaseE。
 
 Definition of Done：
 
@@ -126,6 +126,17 @@ PR slices / implementation order：
 - Meeting / Knowledge 的标准装配入口回到 pack/registry，不再以硬编码路径作为主入口。
 - 新增 sample/reference pack 的发现与装配不再要求修改 Core/Gateway 业务逻辑。
 
+当前验收状态：
+
+- 2026-05-08 平台链路收官回归：
+  - `.venv/bin/python -m pytest tests/test_pack_registry.py tests/test_gateway_protocol.py tests/test_lead_orchestrator.py tests/test_v3_multi_app_core.py -q -k 'test_default_pack_registry_loads_active_and_stub_packs or test_pack_registry_resolves_pack_by_domain_and_workflow or test_pack_registry_evaluates_default_pack_assembly or test_pack_registry_marks_active_pack_blocked_when_connector_missing or test_pack_registry_marks_active_pack_blocked_when_policy_bundle_missing or test_pack_registry_marks_active_pack_blocked_when_schema_version_incompatible or test_pack_registry_marks_active_pack_blocked_when_connector_capability_missing or test_pack_registry_marks_external_pack_blocked_when_target_version_incompatible or test_gateway_pack_list_and_get_returns_phaseb_pack_contract_fields or test_gateway_pack_list_and_get_support_app_profile_pack_paths or test_gateway_can_register_and_run_external_pack_workflow_from_manifest_entrypoint or test_gateway_connector_registry_lists_meeting_mcp or test_gateway_reference_pack_standard_entry_consistency or test_connector_registry_supports_descriptor_driven_custom_connector or test_gateway_connector_submit_blocks_unallowlisted_payload_path or test_gateway_workflow_list_and_knowledge_route'` -> `15 passed`
+- 2026-05-08 显式真实服务验收：
+  - `scripts/check_real_mcp_env.py` -> `status=ok`
+  - `scripts/e2e_funasr_mcp_validation.py` -> `status=ok`
+  - `scripts/e2e_data_service_mcp_validation.py` -> `status=ok`
+  - `scripts/e2e_meeting_to_knowledge_mcp_validation.py` -> `status=ok`
+- 以当前文档口径，V3.0-PhaseB 已达到完成定义；后续相关工作只允许作为 PhaseC / D / E 的显式承接项继续推进。
+
 ### V3.0-PhaseC：Job / Artifact / Governance Hardening
 
 - JobRecord 增加 `app_id/project_id/workspace_id`、`external_job_ref`、`parent_job_id`、`progress`、`failure_context`、`artifact_ids`。
@@ -136,11 +147,12 @@ PR slices / implementation order：
 
 Definition of Done：
 
-- Job 状态机支持 queued/running/succeeded/failed/cancelled。
+- Job 状态机支持 queued/running/completed/failed/cancelled。
 - JobRecord 支持 progress、failure_context、external_job_ref、parent_job_id、artifact_ids。
-- Artifact large file policy 和错误码冻结。
+- Artifact large file policy 和 `ARTIFACT_READ_BLOCKED` JSON-RPC error shape 冻结。
 - Policy 覆盖 tool invocation、job execution、artifact persistence。
 - RuntimeAdapter 默认注入 scope、policy、approval、trace、secret hygiene。
+- 当前代码状态：`failure_context` 已同时写入 `JobRecord.failure_context` 顶层字段与 metadata；`artifact.read` 已阻断视频、音频、图片、binary、external-only 和大文件 inline read，并返回 `ARTIFACT_READ_BLOCKED`、blocked reason、metadata-only artifact 与 `artifact.read_metadata` 建议；job、connector execution、artifact read/lineage 已进入 Core trace；RuntimeAdapter governance metadata 已包含 scope 三元组。
 
 PR slices / implementation order：
 
@@ -395,7 +407,7 @@ Connector descriptor 增加：
 - stdio connector 的 command/path/network 必须经过 allowlist。
 - secret_ref 只能传引用，不能把密钥写入 manifest 或 trace。
 
-当前代码状态：ConnectorRegistry 已能登记 Meeting/FunASR/Data Service/ComfyUI 等 connector，并能执行 `connector.health`；内置 connector 现已开始通过 descriptor definition 驱动注册，而不是散落在平台层的条件分支。V3.0-PhaseB 剩余工作是继续压缩内置业务描述、把更多 descriptor 字段收敛到 config/manifest 输入，并证明新增 sample connector 不需要新增平台业务判断。
+当前代码状态：ConnectorRegistry 已能登记 Meeting/FunASR/Data Service/ComfyUI 等 connector，并能执行 `connector.health`；内置 connector 现已开始通过 descriptor definition 驱动注册，而不是散落在平台层的条件分支。PhaseB 收官后，剩余 descriptor 外置化工作转入后续阶段，不再阻塞 Pack / Connector 装配边界完成判定。
 
 参考：
 
@@ -435,7 +447,7 @@ V3.0-PhaseC 只实现本地最小 worker，不实现分布式调度。
 - external-only artifact：拒绝 content read，返回 external_asset_uri metadata。
 - 大于 `MAX_INLINE_ARTIFACT_BYTES`：拒绝 content read。
 
-当前代码状态：已阻断 video、large 和 external-only artifact inline read；audio/image/binary 分类、统一错误码和 JSON-RPC error shape 仍需在 V3.0-PhaseC 冻结。
+当前代码状态：已阻断 video、audio、image、binary、large 和 external-only artifact inline read；统一错误码和 JSON-RPC error shape 仍需在 V3.0-PhaseC 冻结。
 
 默认阈值：`MAX_INLINE_ARTIFACT_BYTES = 1048576`。
 
@@ -536,14 +548,14 @@ Knowledge Pack 必须：
 
 ## 14. 当前落地切片
 
-当前代码已完成 V3.0-PhaseA 基座的一部分和 V3.0-PhaseC 的 artifact/job 部分硬化，但以下均属于基础实现，不等于阶段验收完成：
+当前代码已完成 V3.0-PhaseA 冻结基线、V3.0-PhaseB 收官闭环，以及 V3.0-PhaseC 的 artifact/job 起步硬化：
 
 - `core.apps` 新增 AppProfile/AppRegistry/ScopeContext。
 - Core records 与 SQLite Store 支持 `app_id/project_id/workspace_id`。
 - Gateway RPC 开始接受 scope 参数。
 - Artifact 支持 external registration 和 metadata-only read。
-- `artifact.read` 拒绝视频、大文件和 external-only 全量读取。
-- PackAssemblyResult 已有 assembled/blocked/stub 基础。
+- `artifact.read` 拒绝视频、音频、图片、binary、大文件和 external-only 全量读取。
+- PackAssemblyResult 已完成 assembled/blocked/degraded/stub 正式合同。
 - ConnectorExecutionRuntime 已能创建 connector job 并登记结果 artifact。
 
-下一步进入 V3.0-PhaseB 的 PackAssemblyResult 完整合同、Connector Security Model 和 manifest/config 驱动对齐；同时补 V3.0-PhaseA 的 protocol version、migration/backfill 与 scope bypass 边界，再推进 Meeting / Knowledge 标准迁移。
+下一步进入 V3.0-PhaseC 的 Job / Artifact / Governance Hardening；Meeting / Knowledge 的真实业务质量、legacy facade 等价和 data boundary 验收分别转入 PhaseD / PhaseE。

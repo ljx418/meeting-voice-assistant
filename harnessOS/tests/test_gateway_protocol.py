@@ -170,6 +170,21 @@ class ArtifactWorkflowOrchestrator:
         }
 
 
+async def _approve_connector_submission(service: GatewayService, submitted, params: dict):
+    assert submitted.error is None
+    assert submitted.result["approval_required"] is True
+    approval_id = submitted.result["approval"]["approval_id"]
+    approved = await service.handle_rpc(
+        RpcRequest(id=f"approve-{approval_id}", method="approval.approve", params={"approval_id": approval_id})
+    )
+    assert approved.error is None
+    retry_params = dict(params)
+    retry_params["approval_id"] = approval_id
+    return await service.handle_rpc(
+        RpcRequest(id=f"retry-{approval_id}", method="connector.submit", params=retry_params)
+    )
+
+
 def test_gateway_rpc_happy_path(tmp_path):
     async def run():
         pool = GatewayRuntimePool(
@@ -776,6 +791,86 @@ def test_gateway_connector_registry_lists_meeting_mcp(tmp_path):
     asyncio.run(run())
 
 
+def test_gateway_reference_pack_standard_entry_consistency(tmp_path):
+    audio = tmp_path / "meeting.mp3"
+    audio.write_bytes(b"demo")
+
+    async def run():
+        pool = GatewayRuntimePool(
+            model="fake-model",
+            agent_factory=lambda _model: FakeAgent(),
+            runtime_backend="simple",
+            store=GatewaySessionStore(tmp_path / "sessions"),
+            artifact_registry=ArtifactRegistry(tmp_path / "artifacts"),
+            core_store=CoreSQLiteStore(tmp_path / "core.sqlite3"),
+        )
+        pool._meeting_workflow.service = FakeMeetingService(tmp_path / "meeting-output")
+        service = GatewayService(pool)
+
+        workflows = await service.handle_rpc(RpcRequest(id="w1", method="workflow.list"))
+        assert workflows.error is None
+        workflow_by_domain = {item["domain"]: item for item in workflows.result["workflows"]}
+        assert workflow_by_domain["meeting"]["pack_name"] == "meeting"
+        assert workflow_by_domain["meeting"]["assembly_status"] == "assembled"
+        assert workflow_by_domain["knowledge"]["pack_name"] == "knowledge"
+        assert workflow_by_domain["knowledge"]["assembly_status"] == "assembled"
+
+        meeting_pack = await service.handle_rpc(
+            RpcRequest(id="p1", method="pack.get", params={"domain": "meeting"})
+        )
+        assert meeting_pack.error is None
+        assert meeting_pack.result["pack"]["assembly"]["status"] == "assembled"
+        assert meeting_pack.result["pack"]["connector_refs"] == ["meeting_voice_mcp", "funasr_mcp"]
+
+        knowledge_pack = await service.handle_rpc(
+            RpcRequest(id="p2", method="pack.get", params={"domain": "knowledge"})
+        )
+        assert knowledge_pack.error is None
+        assert knowledge_pack.result["pack"]["assembly"]["status"] == "assembled"
+        assert knowledge_pack.result["pack"]["connector_refs"] == ["local.knowledge", "data_service_mcp"]
+
+        meeting_health = await service.handle_rpc(
+            RpcRequest(id="c1", method="connector.health", params={"connector_id": "meeting_voice_mcp"})
+        )
+        assert meeting_health.error is None
+        assert meeting_health.result["health"]["status"] == "available"
+
+        knowledge_health = await service.handle_rpc(
+            RpcRequest(id="c2", method="connector.health", params={"connector_id": "data_service_mcp"})
+        )
+        assert knowledge_health.error is None
+        assert knowledge_health.result["health"]["status"] in {"available", "contract_stub"}
+
+        started = await service.handle_rpc(RpcRequest(id="s1", method="session.start"))
+        session_id = started.result["session_id"]
+
+        meeting_turn = await service.handle_rpc(
+            RpcRequest(
+                id="t1",
+                method="turn.start",
+                params={"session_id": session_id, "input": f"会议录音 {audio}"},
+            )
+        )
+        assert meeting_turn.error is None
+        assert meeting_turn.result["events"][-1]["data"]["workflow_id"] == "meeting.workflow"
+        assert "标准入口：connector meeting_voice_mcp.meeting_process_file" in meeting_turn.result["final_text"]
+
+        knowledge_turn = await service.handle_rpc(
+            RpcRequest(
+                id="t2",
+                method="turn.start",
+                params={"session_id": session_id, "input": "检索知识库 Mike Elbow"},
+            )
+        )
+        assert knowledge_turn.error is None
+        assert knowledge_turn.result["events"][-1]["data"]["workflow_id"] == "knowledge.workflow"
+        assert knowledge_turn.result["events"][-1]["data"]["approval_required"] is True
+        assert "操作需要审批" in knowledge_turn.result["final_text"]
+        assert knowledge_turn.result["events"][-1]["data"]["knowledge"]["tool"] == "knowledge_query_v2"
+
+    asyncio.run(run())
+
+
 def test_connector_registry_supports_descriptor_driven_custom_connector(tmp_path):
     registry = _build_custom_connector_registry(tmp_path)
 
@@ -803,7 +898,7 @@ def test_gateway_connector_execution_submit_poll_collect_and_cancel(tmp_path):
         started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
         session_id = started.result["session_id"]
 
-        submitted = await service.handle_rpc(
+        pending_submit = await service.handle_rpc(
             RpcRequest(
                 id="submit",
                 method="connector.submit",
@@ -815,8 +910,32 @@ def test_gateway_connector_execution_submit_poll_collect_and_cancel(tmp_path):
                 },
             )
         )
+        assert pending_submit.error is None
+        assert pending_submit.result["approval_required"] is True
+        assert "artifact" not in pending_submit.result
+        pending_job_id = pending_submit.result["job"]["job_id"]
+        approval_id = pending_submit.result["approval"]["approval_id"]
+        approved = await service.handle_rpc(
+            RpcRequest(id="approve-submit", method="approval.approve", params={"approval_id": approval_id})
+        )
+        assert approved.error is None
+
+        submitted = await service.handle_rpc(
+            RpcRequest(
+                id="submit-approved",
+                method="connector.submit",
+                params={
+                    "connector_id": "data_service_mcp",
+                    "tool": "knowledge_query",
+                    "session_id": session_id,
+                    "input": {"query": "demo"},
+                    "approval_id": approval_id,
+                },
+            )
+        )
         assert submitted.error is None
         job_id = submitted.result["job"]["job_id"]
+        assert job_id == pending_job_id
         assert submitted.result["job"]["status"] == "completed"
         assert submitted.result["artifact"]["kind"] == "connector_result"
         assert [event["event_type"] for event in submitted.result["events"]] == [
@@ -824,6 +943,26 @@ def test_gateway_connector_execution_submit_poll_collect_and_cancel(tmp_path):
             "job.running",
             "job.completed",
         ]
+        mismatched = await service.handle_rpc(
+            RpcRequest(
+                id="submit-mismatched-approval",
+                method="connector.submit",
+                params={
+                    "connector_id": "data_service_mcp",
+                    "tool": "knowledge_query",
+                    "session_id": session_id,
+                    "input": {"query": "different"},
+                    "approval_id": approval_id,
+                },
+            )
+        )
+        assert mismatched.error is not None
+        assert mismatched.error.code == "INVALID_PARAMS"
+        data_service_jobs = service.core_service.list_jobs(
+            session_id=session_id,
+            domain="knowledge",
+        )
+        assert len([job for job in data_service_jobs if job.workflow_id.endswith(".knowledge_query")]) == 1
 
         polled = await service.handle_rpc(
             RpcRequest(id="poll", method="connector.poll", params={"job_id": job_id})
@@ -839,8 +978,14 @@ def test_gateway_connector_execution_submit_poll_collect_and_cancel(tmp_path):
         assert collected.result["artifacts"][0]["kind"] == "connector_result"
         assert collected.result["artifact_lineage"]["count"] == 1
         assert core_store.get_job(job_id).artifact_ids == [submitted.result["artifact"]["artifact_id"]]
+        connector_traces = service.core_service.list_trace_records(
+            event_type="connector.execution",
+            session_id=session_id,
+        )
+        statuses = {trace.status for trace in connector_traces}
+        assert {"running", "completed", "approval_required", "collected"}.issubset(statuses)
 
-        funasr_submitted = await service.handle_rpc(
+        funasr_pending = await service.handle_rpc(
             RpcRequest(
                 id="funasr-submit",
                 method="connector.submit",
@@ -852,11 +997,30 @@ def test_gateway_connector_execution_submit_poll_collect_and_cancel(tmp_path):
                 },
             )
         )
+        assert funasr_pending.error is None
+        assert funasr_pending.result["approval_required"] is True
+        funasr_approval_id = funasr_pending.result["approval"]["approval_id"]
+        await service.handle_rpc(
+            RpcRequest(id="funasr-approve", method="approval.approve", params={"approval_id": funasr_approval_id})
+        )
+        funasr_submitted = await service.handle_rpc(
+            RpcRequest(
+                id="funasr-submit-approved",
+                method="connector.submit",
+                params={
+                    "connector_id": "funasr_mcp",
+                    "tool": "funasr_recognize_file",
+                    "session_id": session_id,
+                    "input": {"path": "/tmp/demo.wav"},
+                    "approval_id": funasr_approval_id,
+                },
+            )
+        )
         assert funasr_submitted.error is None
         assert funasr_submitted.result["job"]["status"] == "completed"
         assert funasr_submitted.result["artifact"]["metadata"]["connector_id"] == "funasr_mcp"
 
-        deferred = await service.handle_rpc(
+        deferred_pending = await service.handle_rpc(
             RpcRequest(
                 id="defer",
                 method="connector.submit",
@@ -865,6 +1029,24 @@ def test_gateway_connector_execution_submit_poll_collect_and_cancel(tmp_path):
                     "tool": "knowledge_build_status",
                     "session_id": session_id,
                     "defer": True,
+                },
+            )
+        )
+        assert deferred_pending.error is None
+        deferred_approval_id = deferred_pending.result["approval"]["approval_id"]
+        await service.handle_rpc(
+            RpcRequest(id="defer-approve", method="approval.approve", params={"approval_id": deferred_approval_id})
+        )
+        deferred = await service.handle_rpc(
+            RpcRequest(
+                id="defer-approved",
+                method="connector.submit",
+                params={
+                    "connector_id": "data_service_mcp",
+                    "tool": "knowledge_build_status",
+                    "session_id": session_id,
+                    "defer": True,
+                    "approval_id": deferred_approval_id,
                 },
             )
         )
@@ -880,6 +1062,118 @@ def test_gateway_connector_execution_submit_poll_collect_and_cancel(tmp_path):
         assert cancelled.error is None
         assert cancelled.result["job"]["status"] == "cancelled"
         assert cancelled.result["terminal"] is True
+
+    asyncio.run(run())
+
+
+def test_knowledge_workflow_connector_approval_can_retry_to_completion(tmp_path):
+    async def run():
+        service = GatewayService(
+            GatewayRuntimePool(
+                model="fake-model",
+                agent_factory=lambda _model: FakeAgent(),
+                runtime_backend="simple",
+                store=GatewaySessionStore(tmp_path),
+                artifact_registry=ArtifactRegistry(tmp_path / "artifacts"),
+                core_store=CoreSQLiteStore(tmp_path / "core.sqlite3"),
+            )
+        )
+        started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
+        session_id = started.result["session_id"]
+        blocked = await service.handle_rpc(
+            RpcRequest(
+                id="2",
+                method="turn.start",
+                params={"session_id": session_id, "domain": "knowledge", "input": "检索知识库 PhaseC"},
+            )
+        )
+        assert blocked.error is None
+        completed = blocked.result["events"][-1]
+        assert completed["data"]["approval_required"] is True
+        approval_id = completed["data"]["approval"]["approval_id"]
+        connector_job_id = completed["data"]["knowledge"]["job"]["job_id"]
+        retries = service.core_service.list_retries(approval_id=approval_id, status="pending_approval")
+        assert [retry.approval_id for retry in retries] == [approval_id]
+
+        approved = await service.handle_rpc(
+            RpcRequest(id="3", method="approval.approve", params={"approval_id": approval_id})
+        )
+        assert approved.error is None
+        retried = await service.handle_rpc(
+            RpcRequest(
+                id="4",
+                method="turn.retry",
+                params={"session_id": session_id, "approval_id": approval_id},
+            )
+        )
+        assert retried.error is None
+        assert "知识检索已完成" in retried.result["final_text"]
+        retry_completed = retried.result["events"][-1]
+        assert retry_completed["data"]["knowledge"]["job"]["job_id"] == connector_job_id
+        assert retry_completed["data"]["knowledge"]["job"]["status"] == "completed"
+        assert service.core_service.get_job(connector_job_id).status == "completed"
+
+    asyncio.run(run())
+
+
+def test_job_and_connector_rpcs_enforce_scope_and_inherit_session_scope(tmp_path):
+    async def run():
+        service = GatewayService(
+            GatewayRuntimePool(
+                model="fake-model",
+                agent_factory=lambda _model: FakeAgent(),
+                runtime_backend="simple",
+                store=GatewaySessionStore(tmp_path),
+                artifact_registry=ArtifactRegistry(tmp_path / "artifacts"),
+                core_store=CoreSQLiteStore(tmp_path / "core.sqlite3"),
+            )
+        )
+        started = await service.handle_rpc(
+            RpcRequest(
+                id="1",
+                method="session.start",
+                params={"scope": {"app_id": "knowledge", "workspace_id": "workspace_k"}},
+            )
+        )
+        assert started.error is None
+        session_id = started.result["session_id"]
+        pending = await service.handle_rpc(
+            RpcRequest(
+                id="2",
+                method="connector.submit",
+                params={
+                    "connector_id": "data_service_mcp",
+                    "tool": "knowledge_query",
+                    "session_id": session_id,
+                    "input": {"query": "scope"},
+                },
+            )
+        )
+        assert pending.error is None
+        job_id = pending.result["job"]["job_id"]
+        assert pending.result["job"]["app_id"] == "knowledge"
+        assert pending.result["job"]["workspace_id"] == "workspace_k"
+
+        for method in ("job.get", "job.events", "job.cancel", "connector.poll", "connector.cancel", "connector.collect"):
+            denied = await service.handle_rpc(
+                RpcRequest(
+                    id=f"denied-{method}",
+                    method=method,
+                    params={"job_id": job_id, "app_id": "meeting"},
+                )
+            )
+            assert denied.error is not None, method
+            assert denied.error.code == "INVALID_PARAMS"
+
+        allowed = await service.handle_rpc(
+            RpcRequest(
+                id="allowed-job",
+                method="job.get",
+                params={"job_id": job_id, "app_id": "knowledge", "workspace_id": "workspace_k"},
+            )
+        )
+        assert allowed.error is None
+        assert allowed.result["job"]["job_id"] == job_id
 
     asyncio.run(run())
 
@@ -949,23 +1243,25 @@ for line in sys.stdin:
             allowed_source_roots=str(tmp_path),
         )
         started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
+        submit_params = {
+            "connector_id": "data_service_mcp",
+            "tool": "knowledge_query_v2",
+            "session_id": started.result["session_id"],
+            "input": {
+                "workspace_id": "project-knowledge",
+                "query": "Content",
+                "mode": "hybrid",
+                "top_k": 8,
+            },
+        }
         submitted = await service.handle_rpc(
             RpcRequest(
                 id="submit",
                 method="connector.submit",
-                params={
-                    "connector_id": "data_service_mcp",
-                    "tool": "knowledge_query_v2",
-                    "session_id": started.result["session_id"],
-                    "input": {
-                        "workspace_id": "project-knowledge",
-                        "query": "Content",
-                        "mode": "hybrid",
-                        "top_k": 8,
-                    },
-                },
+                params=submit_params,
             )
         )
+        submitted = await _approve_connector_submission(service, submitted, submit_params)
 
         assert submitted.error is None
         assert submitted.result["job"]["status"] == "completed"
@@ -1033,18 +1329,20 @@ for line in sys.stdin:
             allowed_source_roots=str(tmp_path),
         )
         started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
+        submit_params = {
+            "connector_id": "data_service_mcp",
+            "tool": "knowledge_query_v2",
+            "session_id": started.result["session_id"],
+            "defer": True,
+        }
         deferred = await service.handle_rpc(
             RpcRequest(
                 id="2",
                 method="connector.submit",
-                params={
-                    "connector_id": "data_service_mcp",
-                    "tool": "knowledge_query_v2",
-                    "session_id": started.result["session_id"],
-                    "defer": True,
-                },
+                params=submit_params,
             )
         )
+        deferred = await _approve_connector_submission(service, deferred, submit_params)
         assert deferred.error is None
         job_id = deferred.result["job"]["job_id"]
         assert deferred.result["job"]["status"] == "running"
@@ -1115,20 +1413,23 @@ for line in sys.stdin:
             allowed_source_roots=str(tmp_path),
         )
         started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
+        submit_params = {
+            "connector_id": "data_service_mcp",
+            "tool": "knowledge_query_v2",
+            "session_id": started.result["session_id"],
+        }
         submitted = await service.handle_rpc(
             RpcRequest(
                 id="2",
                 method="connector.submit",
-                params={
-                    "connector_id": "data_service_mcp",
-                    "tool": "knowledge_query_v2",
-                    "session_id": started.result["session_id"],
-                },
+                params=submit_params,
             )
         )
+        submitted = await _approve_connector_submission(service, submitted, submit_params)
         assert submitted.error is None
         assert submitted.result["job"]["status"] == "failed"
         failure = submitted.result["job"]["metadata"]["failure_context"]
+        assert submitted.result["job"]["failure_context"]["message"] == failure["message"]
         assert "backend exploded" in failure["message"]
         assert submitted.result["job"]["artifact_ids"] == []
 
@@ -1179,20 +1480,23 @@ for line in sys.stdin:
             allowed_source_roots=str(tmp_path / "sources"),
         )
         started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
+        submit_params = {
+            "connector_id": "data_service_mcp",
+            "tool": "knowledge_query_v2",
+            "session_id": started.result["session_id"],
+            "input": {"workspace_id": "/etc/passwd"},
+        }
         submitted = await service.handle_rpc(
             RpcRequest(
                 id="2",
                 method="connector.submit",
-                params={
-                    "connector_id": "data_service_mcp",
-                    "tool": "knowledge_query_v2",
-                    "session_id": started.result["session_id"],
-                    "input": {"workspace_id": "/etc/passwd"},
-                },
+                params=submit_params,
             )
         )
+        submitted = await _approve_connector_submission(service, submitted, submit_params)
         assert submitted.error is None
         assert submitted.result["job"]["status"] == "failed"
+        assert "connector_security_blocked" in submitted.result["job"]["failure_context"]["message"]
         assert "connector_security_blocked" in submitted.result["job"]["metadata"]["failure_context"]["message"]
 
     asyncio.run(run())

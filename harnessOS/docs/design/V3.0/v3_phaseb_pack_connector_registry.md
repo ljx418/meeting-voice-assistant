@@ -1,6 +1,6 @@
 # harnessOS V3.0-PhaseB Pack Assembly + Connector Registry
 
-文档状态：ACTIVE PHASEB IMPLEMENTATION。本文是 `docs/design/V3.0/v3_development_plan_multi_app_core.md` 中 `V3.0-PhaseB` 的详细实施文件。
+文档状态：COMPLETED PHASEB BASELINE（2026-05-08）。本文是 `docs/design/V3.0/v3_development_plan_multi_app_core.md` 中 `V3.0-PhaseB` 的详细实施文件与收官验收基线。
 
 ## 1. 阶段目标与意义
 
@@ -37,13 +37,12 @@ V3.0-PhaseA 冻结的是 multi-app scope/core 隔离边界；V3.0-PhaseB 要冻�
 - Meeting pack 现在已显式声明 `meeting_voice_mcp + funasr_mcp` 两个标准 connector，并要求对应 tool capability；meeting workflow 的最终输出也会显式标注实际走过的 connector 标准入口。
 - `connector.submit(defer=True)` 已具备后台执行路径，MCP `isError=true` 也会被映射为 failed job。
 
-仍未完全收口的边界：
+PhaseB 收官后转入后续阶段的边界：
 
-- external pack version policy 仍需进一步冻结为明确退出门，而不只是当前实现行为。
-- cross-app assembly conflicts 的 severity 分层仍需继续收口，尤其是 shared-domain / multi-profile 情况下的解释文本。
-- ConnectorRegistry 虽然已经转向 definition-driven registration，但 built-in descriptor 数据仍主要在 Python 中声明，后续还需继续向 config/manifest 驱动推进。
-- Meeting / Knowledge 虽然已经开始通过 registry/assembly 收口，但其“标准入口彻底去硬编码化”仍需作为本阶段退出门明确验证。
-- 静态 workflow factory 目前已降级为兼容 fallback，但仍需在文档和验收中明确：新增 sample pack 的主路径不得再依赖平台层静态业务枚举。
+- ConnectorRegistry 虽然已经转向 definition-driven registration，但 built-in descriptor 数据仍主要在 Python 中声明；后续继续在 PhaseC / D / E 向 config/manifest 驱动推进。
+- cross-app assembly conflicts 的更细粒度 severity 文案仍可在后续阶段继续收紧，但不再阻塞 PhaseB 关闭。
+- Meeting / Knowledge 后续的真实业务质量、legacy facade 等价和 data boundary 验收转入 PhaseD / E，不再作为 PhaseB 平台装配边界阻塞项。
+- 静态 workflow factory 已降级为兼容 fallback；后续只允许做兼容维护，不再作为平台主扩展路径。
 
 ## 3. 架构影响范围
 
@@ -250,7 +249,7 @@ V3.0-PhaseA 冻结的是 multi-app scope/core 隔离边界；V3.0-PhaseB 要冻�
 - 至少有一组 external/sample pack fixture 证明 pack 可被发现和装配，而无需新增平台业务分支。
 - 文档和实现都明确静态 workflow factory 只是过渡实现，不是平台正式扩展方式。
 
-## 5. PhaseB 退出门
+## 5. PhaseB 退出门与收官证据
 
 V3.0-PhaseB 完成时，至少要满足以下条件：
 
@@ -260,3 +259,24 @@ V3.0-PhaseB 完成时，至少要满足以下条件：
 - 未 allowlist 的 stdio command/path/network 会被 blocked。
 - Meeting / Knowledge 的标准装配入口回到 pack/registry，不再以硬编码路径作为主入口。
 - 新增参考 pack 的装配不应再要求修改 Core/Gateway 业务逻辑。
+
+2026-05-08 收官结论：
+
+- 上述 6 项退出门均已有平台回归或显式集成证据。
+- `PhaseB` 现定义为已完成；后续相关工作只允许作为 `PhaseC`、`PhaseD` 或 `PhaseE` 的延续项承接。
+
+2026-05-08 平台链路验收证据：
+
+- `.venv/bin/python -m pytest tests/test_pack_registry.py tests/test_gateway_protocol.py tests/test_lead_orchestrator.py tests/test_v3_multi_app_core.py -q -k 'test_default_pack_registry_loads_active_and_stub_packs or test_pack_registry_resolves_pack_by_domain_and_workflow or test_pack_registry_evaluates_default_pack_assembly or test_pack_registry_marks_active_pack_blocked_when_connector_missing or test_pack_registry_marks_active_pack_blocked_when_policy_bundle_missing or test_pack_registry_marks_active_pack_blocked_when_schema_version_incompatible or test_pack_registry_marks_active_pack_blocked_when_connector_capability_missing or test_pack_registry_marks_external_pack_blocked_when_target_version_incompatible or test_gateway_pack_list_and_get_returns_phaseb_pack_contract_fields or test_gateway_pack_list_and_get_support_app_profile_pack_paths or test_gateway_can_register_and_run_external_pack_workflow_from_manifest_entrypoint or test_gateway_connector_registry_lists_meeting_mcp or test_gateway_reference_pack_standard_entry_consistency or test_connector_registry_supports_descriptor_driven_custom_connector or test_gateway_connector_submit_blocks_unallowlisted_payload_path or test_gateway_workflow_list_and_knowledge_route'` -> `15 passed`
+
+2026-05-08 显式真实服务验收证据：
+
+- `.venv/bin/python scripts/check_real_mcp_env.py` 在显式设置 `HARNESS_MEETING_MCP_AUDIO_DIR`、`HARNESS_FUNASR_MCP_EXECUTION=stdio`、`HARNESS_DATA_SERVICE_MCP_EXECUTION=stdio` 后返回 `status=ok`
+- `.venv/bin/python scripts/e2e_funasr_mcp_validation.py --audio "/Users/Zhuanz/Desktop/workspace/音频资料/TED演讲对话_My bank called in the middle of my TED Talk  Mike .mp3"` -> `status=ok`
+- `.venv/bin/python scripts/e2e_data_service_mcp_validation.py` -> `status=ok`
+- `.venv/bin/python scripts/e2e_meeting_to_knowledge_mcp_validation.py --audio "/Users/Zhuanz/Desktop/workspace/音频资料/TED演讲对话_My bank called in the middle of my TED Talk  Mike .mp3"` -> `status=ok`
+
+当前外部环境备注：
+
+- `funasr_mcp` 的显式 stdio 验收当前使用 `/Users/Zhuanz/Desktop/workspace/voice_service/.venv/bin/python` 作为 MCP 解释器基线。
+- 前检查验证 `mcp + funasr_service.mcp_stdio`；真实 HTTP 服务和音频目录仍属于显式集成验收前置，不进入默认回归。

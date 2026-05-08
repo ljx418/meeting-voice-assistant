@@ -56,7 +56,25 @@ class KnowledgeWorkflow:
             session_id=context.session_id,
             turn_id=context.turn_id,
             scope=context.scope,
+            approval_id=getattr(context, "approval_id", None),
         )
+        if submitted.get("approval_required"):
+            approval = submitted.get("approval") or {}
+            approval_id = approval.get("approval_id")
+            return {
+                "status": "success",
+                "content": f"操作需要审批。Approval ID: {approval_id}",
+                "approval_required": True,
+                "approval": approval,
+                "retry_context": submitted.get("retry_context"),
+                "knowledge": {
+                    "operation": "ingest" if ingest_mode else "search",
+                    "tool": tool,
+                    "input": payload,
+                    "connector_id": DATA_SERVICE_CONNECTOR_ID,
+                    "job": submitted.get("job"),
+                },
+            }
         artifact = submitted.get("artifact") or {}
         envelope = _read_connector_result_envelope(artifact.get("path"))
         lines = [

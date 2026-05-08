@@ -119,8 +119,9 @@ def test_stdio_server_connector_submit():
     payload = json.loads(process.stdout)
     assert payload["id"] == "cs1"
     assert payload["error"] is None
-    assert payload["result"]["job"]["status"] == "completed"
-    assert payload["result"]["artifact"]["kind"] == "connector_result"
+    assert payload["result"]["approval_required"] is True
+    assert payload["result"]["job"]["status"] == "queued"
+    assert "artifact" not in payload["result"]
     assert "NotOpenSSLWarning" not in process.stderr
 
 

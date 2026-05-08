@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
+import os
 import re
 from pathlib import Path
 from typing import Any, Optional
@@ -14,6 +16,7 @@ from apps.gateway.connectors import (
     FUNASR_MCP_CONNECTOR_ID,
     MEETING_VOICE_MCP_CONNECTOR_ID,
 )
+from core.apps import ScopeContext
 from packs.meeting.connector import (
     MeetingGatewayService,
     MeetingMcpError,
@@ -58,6 +61,8 @@ class MeetingWorkflow:
         domain: Optional[str] = None,
         session_id: Optional[str] = None,
         turn_id: Optional[str] = None,
+        scope: Optional[ScopeContext] = None,
+        approval_id: Optional[str] = None,
     ) -> dict[str, Any]:
         """Run a meeting task and return text plus structured metadata."""
         audio_path = extract_audio_path(user_input)
@@ -70,8 +75,12 @@ class MeetingWorkflow:
                     audio_path,
                     session_id=session_id,
                     turn_id=turn_id,
+                    scope=scope,
+                    approval_id=approval_id,
                     connector=funasr_connector,
                 )
+                if result.get("approval_required"):
+                    return result
             else:
                 result = await self.service.process_recording(
                     audio_path,
@@ -124,6 +133,8 @@ class MeetingWorkflow:
         *,
         session_id: Optional[str],
         turn_id: Optional[str],
+        scope: Optional[ScopeContext],
+        approval_id: Optional[str],
         connector: dict[str, Any],
     ) -> dict[str, Any]:
         path = Path(audio_path).expanduser().resolve()
@@ -135,7 +146,41 @@ class MeetingWorkflow:
             payload={"path": str(path)},
             session_id=session_id,
             turn_id=turn_id,
+            scope=scope,
+            approval_id=approval_id,
         )
+        if submitted.get("approval_required"):
+            approval = submitted.get("approval") or {}
+            requested_approval_id = approval.get("approval_id")
+            return {
+                "status": "success",
+                "content": f"操作需要审批。Approval ID: {requested_approval_id}",
+                "approval_required": True,
+                "approval": approval,
+                "retry_context": submitted.get("retry_context"),
+                "meeting": {
+                    "source_path": str(path),
+                    "transcription": {
+                        "connector_id": FUNASR_MCP_CONNECTOR_ID,
+                        "connector_job_id": submitted.get("job", {}).get("job_id"),
+                        "mode": connector.get("metadata", {}).get("execution"),
+                        "tool": "funasr_recognize_file",
+                    },
+                    "execution": {
+                        "mode": "funasr_mcp_then_meeting_mcp_analysis",
+                        "steps": [
+                            {
+                                "connector_id": FUNASR_MCP_CONNECTOR_ID,
+                                "tool": "funasr_recognize_file",
+                            },
+                            {
+                                "connector_id": MEETING_VOICE_MCP_CONNECTOR_ID,
+                                "tool": "meeting_analyze_text",
+                            },
+                        ],
+                    },
+                },
+            }
         if submitted["job"]["status"] != "completed":
             failure = submitted["job"].get("metadata", {}).get("failure_context") or {}
             message = failure.get("message") or submitted["job"]["status"]
@@ -143,7 +188,12 @@ class MeetingWorkflow:
         transcript = _extract_funasr_transcript(submitted)
         if not transcript.strip():
             raise MeetingMcpError("FunASR MCP transcription returned empty transcript")
-        result = await self.service.analyze_text(transcript, title=path.stem)
+        result = await self._analyze_transcript_with_fallback(
+            audio_path=path,
+            transcript=transcript,
+            submitted=submitted,
+            connector=connector,
+        )
         result["source_path"] = str(path)
         result["transcription"] = {
             "connector_id": FUNASR_MCP_CONNECTOR_ID,
@@ -177,6 +227,106 @@ class MeetingWorkflow:
             result["artifacts"] = artifacts
         artifacts.setdefault("transcript", self._write_funasr_transcript_artifact(path, transcript, result))
         return result
+
+    async def _analyze_transcript_with_fallback(
+        self,
+        *,
+        audio_path: Path,
+        transcript: str,
+        submitted: dict[str, Any],
+        connector: dict[str, Any],
+    ) -> dict[str, Any]:
+        timeout = _meeting_analysis_timeout()
+        try:
+            return await asyncio.wait_for(
+                self.service.analyze_text(transcript, title=audio_path.stem),
+                timeout=timeout,
+            )
+        except Exception as exc:
+            return self._build_local_analysis_result(
+                audio_path=audio_path,
+                transcript=transcript,
+                submitted=submitted,
+                connector=connector,
+                fallback_reason=str(exc),
+            )
+
+    def _build_local_analysis_result(
+        self,
+        *,
+        audio_path: Path,
+        transcript: str,
+        submitted: dict[str, Any],
+        connector: dict[str, Any],
+        fallback_reason: str,
+    ) -> dict[str, Any]:
+        output_dir = self.artifact_registry.root / "meeting" / "local_analysis" / audio_path.stem
+        output_dir.mkdir(parents=True, exist_ok=True)
+        summary = transcript.strip().replace("\n", " ")[:500]
+        analysis = {
+            "theme": audio_path.stem,
+            "summary": summary,
+            "fallback_reason": fallback_reason,
+        }
+        result_payload = {
+            "source_path": str(audio_path),
+            "transcript_chars": len(transcript),
+            "analysis": analysis,
+            "transcription_artifact_id": submitted.get("artifact", {}).get("artifact_id"),
+        }
+        transcript_path = output_dir / "transcript.json"
+        analysis_path = output_dir / "analysis.json"
+        result_path = output_dir / "result.json"
+        minutes_path = output_dir / "minutes.md"
+        transcript_path.write_text(
+            json.dumps(
+                {
+                    "source_path": str(audio_path),
+                    "transcript": transcript,
+                    "connector_job_id": submitted.get("job", {}).get("job_id"),
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        analysis_path.write_text(json.dumps(analysis, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        result_path.write_text(json.dumps(result_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        minutes_path.write_text(
+            f"# {audio_path.stem}\n\n## 摘要\n\n{summary}\n",
+            encoding="utf-8",
+        )
+        return {
+            "source_path": str(audio_path),
+            "session_id": None,
+            "transcript_chars": len(transcript),
+            "segment_count": 0,
+            "analysis": analysis,
+            "minutes_path": str(minutes_path),
+            "raw": {"transcript": transcript, "analysis_fallback": True},
+            "artifacts": {
+                "transcript": str(transcript_path),
+                "analysis": str(analysis_path),
+                "result": str(result_path),
+                "minutes": str(minutes_path),
+            },
+            "execution": {
+                "mode": "funasr_mcp_then_local_meeting_analysis",
+                "fallback_reason": fallback_reason,
+                "steps": [
+                    {
+                        "connector_id": FUNASR_MCP_CONNECTOR_ID,
+                        "tool": "funasr_recognize_file",
+                    },
+                    {
+                        "connector_id": MEETING_VOICE_MCP_CONNECTOR_ID,
+                        "tool": "meeting_analyze_text",
+                        "fallback": "local_analysis",
+                    },
+                ],
+            },
+        }
 
     def _write_funasr_transcript_artifact(
         self,
@@ -381,3 +531,10 @@ def _walk_transcript_candidates(value: Any) -> list[Any]:
         for item in value:
             candidates.extend(_walk_transcript_candidates(item))
     return candidates
+
+
+def _meeting_analysis_timeout() -> float:
+    try:
+        return max(1.0, float(os.getenv("HARNESS_MEETING_ANALYSIS_TIMEOUT", "30")))
+    except ValueError:
+        return 30.0

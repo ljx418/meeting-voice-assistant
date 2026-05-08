@@ -32,7 +32,7 @@ except Exception as e:
 print("Step 2: Testing build_runtime (this validates API key)...")
 import asyncio
 
-async def test():
+async def run_startup_check():
     from cli.tui.runtime import build_runtime
 
     try:
@@ -51,5 +51,5 @@ async def test():
         import traceback
         traceback.print_exc()
 
-asyncio.run(test())
+asyncio.run(run_startup_check())
 print("\nIf all pass above, the TUI is healthy. Run in Terminal.app/iTerm2 for full UI.")

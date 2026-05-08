@@ -6,6 +6,7 @@ import asyncio
 import inspect
 from typing import Any, Awaitable, Callable, Dict, Optional
 
+from core.apps import ScopeContext
 from core.protocol import JobRecord
 from core.services import CoreAppService
 
@@ -34,6 +35,7 @@ class BackgroundJobWorker:
         thread_id: Optional[str] = None,
         turn_id: Optional[str] = None,
         trace_id: Optional[str] = None,
+        scope: Optional[ScopeContext] = None,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> JobRecord:
         """Create a queued job and schedule it on the current event loop."""
@@ -44,6 +46,7 @@ class BackgroundJobWorker:
             thread_id=thread_id,
             turn_id=turn_id,
             trace_id=trace_id,
+            scope=scope,
             metadata=metadata,
         )
         self._tasks[job.job_id] = asyncio.create_task(self._run(job.job_id, handler))
@@ -83,15 +86,17 @@ class BackgroundJobWorker:
             if job.status != "cancelled":
                 self.core_service.cancel_job(job_id, reason="task cancelled")
         except Exception as exc:
+            failure_context = {
+                "error_type": type(exc).__name__,
+                "message": str(exc),
+            }
             self.core_service.update_job(
                 job_id=job_id,
                 status="failed",
                 progress=1.0,
+                failure_context=failure_context,
                 metadata={
-                    "failure_context": {
-                        "error_type": type(exc).__name__,
-                        "message": str(exc),
-                    }
+                    "failure_context": failure_context,
                 },
             )
         finally:

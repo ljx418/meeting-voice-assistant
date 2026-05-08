@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any, Awaitable, Callable, Dict, Optional
 
 from apps.gateway.approvals import APPROVAL_APPROVED, ApprovalStore
-from apps.gateway.artifacts import ArtifactRegistry
+from apps.gateway.artifacts import ArtifactReadBlockedError, ArtifactRegistry
 from apps.gateway.persistence import atomic_write_text
 from apps.gateway.connector_execution import ConnectorExecutionRuntime
 from apps.gateway.connectors import ConnectorRegistry, MEETING_VOICE_MCP_CONNECTOR_ID
@@ -74,6 +74,8 @@ class GatewayService:
             connector_registry=self.connector_registry,
             core_service=self.core_service,
             artifact_registry=self.artifact_registry,
+            trace_store=self.trace_store,
+            approval_store=self.approval_store,
         )
         self.rpc_router = RpcRouter()
         self._register_rpc_methods()
@@ -292,16 +294,56 @@ class GatewayService:
 
     async def core_artifact_lineage(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Return a Core artifact lineage graph."""
+        scope = self._resolve_request_scope(params)
+        artifact_id = _optional_str(params, "artifact_id")
+        if artifact_id is not None:
+            anchor = self.core_service.get_artifact(artifact_id)
+            self._ensure_record_in_scope(_dump_core_record(anchor), scope, params, label="artifact")
         return self.core_service.artifact_lineage(
-            artifact_id=_optional_str(params, "artifact_id"),
+            artifact_id=artifact_id,
             owner_session_id=_optional_str(params, "owner_session_id") or _optional_str(params, "session_id"),
             owner_turn_id=_optional_str(params, "owner_turn_id") or _optional_str(params, "turn_id"),
             domain=_optional_str(params, "domain"),
             kind=_optional_str(params, "kind"),
-            app_id=_optional_str(params, "app_id"),
-            project_id=_optional_str(params, "project_id"),
-            workspace_id=_optional_str(params, "workspace_id"),
+            app_id=_scope_filter(params, "app_id", scope.app_id),
+            project_id=_scope_filter(params, "project_id", scope.project_id),
+            workspace_id=_scope_filter(params, "workspace_id", scope.workspace_id),
         )
+
+    async def artifact_lineage(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Return artifact lineage and record a governance trace."""
+        result = await self.core_artifact_lineage(params)
+        scope = self._resolve_request_scope(params)
+        trace_id = _optional_str(params, "trace_id") or self.trace_store.new_trace_id()
+        artifact_ids = [
+            artifact["artifact_id"]
+            for artifact in result.get("artifacts", [])
+            if isinstance(artifact, dict) and isinstance(artifact.get("artifact_id"), str)
+        ]
+        trace_record = {
+            "trace_id": trace_id,
+            "session_id": _optional_str(params, "owner_session_id") or _optional_str(params, "session_id"),
+            "turn_id": _optional_str(params, "owner_turn_id") or _optional_str(params, "turn_id"),
+            "app_id": scope.app_id,
+            "project_id": scope.project_id,
+            "workspace_id": scope.workspace_id,
+            "event_type": "artifact.lineage",
+            "status": "success",
+            "artifact_ids": artifact_ids,
+            "approval_ids": [],
+            "input_summary": str(_optional_str(params, "artifact_id") or "artifact.lineage"),
+            "metadata": {
+                "filters": {
+                    "artifact_id": _optional_str(params, "artifact_id"),
+                    "domain": _optional_str(params, "domain"),
+                    "kind": _optional_str(params, "kind"),
+                },
+                "count": result.get("count"),
+            },
+        }
+        self.core_service.record_gateway_trace(trace_record)
+        result["trace_id"] = trace_id
+        return result
 
     async def core_job_list(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """List Core v1.5 job records."""
@@ -348,20 +390,44 @@ class GatewayService:
     async def job_get(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Return one Core job record."""
         job_id = _require_str(params, "job_id")
-        return {"job": _dump_core_record(self.core_service.get_job(job_id))}
+        job = self.core_service.get_job(job_id)
+        self._ensure_record_in_scope(
+            _dump_core_record(job),
+            self._resolve_request_scope(params),
+            params,
+            label="job",
+        )
+        return {"job": _dump_core_record(job)}
 
     async def job_events(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Return Core job lifecycle events."""
         job_id = _optional_str(params, "job_id")
         event_type = _optional_str(params, "event_type")
         status = _optional_str(params, "status")
+        scope = self._resolve_request_scope(params)
+        if job_id is not None:
+            self._ensure_record_in_scope(
+                _dump_core_record(self.core_service.get_job(job_id)),
+                scope,
+                params,
+                label="job",
+            )
         events = self.core_service.list_job_events(job_id=job_id, event_type=event_type, status=status)
-        return {"events": [_dump_core_record(event) for event in events], "count": len(events)}
+        records = [_dump_core_record(event) for event in events]
+        if params.get("scope_mode") != "all":
+            records = [record for record in records if self._record_matches_scope(record, scope)]
+        return {"events": records, "count": len(records)}
 
     async def job_cancel(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Cancel one Core job record."""
         job_id = _require_str(params, "job_id")
         reason = _optional_str(params, "reason")
+        self._ensure_record_in_scope(
+            _dump_core_record(self.core_service.get_job(job_id)),
+            self._resolve_request_scope(params),
+            params,
+            label="job",
+        )
         return {"job": _dump_core_record(self.core_service.cancel_job(job_id, reason=reason))}
 
     async def memory_list(self, params: Dict[str, Any]) -> Dict[str, Any]:
@@ -603,32 +669,55 @@ class GatewayService:
 
     async def connector_submit(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Submit one connector execution job."""
+        session_id = _optional_str(params, "session_id")
         return self.connector_execution_runtime.submit(
             connector_id=_require_str(params, "connector_id"),
             tool=_require_str(params, "tool"),
             payload=_optional_dict(params, "input"),
-            session_id=_optional_str(params, "session_id"),
+            session_id=session_id,
             turn_id=_optional_str(params, "turn_id"),
             trace_id=_optional_str(params, "trace_id"),
-            scope=self._resolve_request_scope(params),
+            scope=self._resolve_request_scope_for_session(params, session_id),
             defer=_optional_bool(params, "defer"),
             parent_artifact_ids=_optional_str_list(params, "parent_artifact_ids"),
+            approval_id=_optional_str(params, "approval_id"),
         )
 
     async def connector_poll(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Poll one connector execution job."""
-        return self.connector_execution_runtime.poll(job_id=_require_str(params, "job_id"))
+        job_id = _require_str(params, "job_id")
+        self._ensure_record_in_scope(
+            _dump_core_record(self.core_service.get_job(job_id)),
+            self._resolve_request_scope(params),
+            params,
+            label="job",
+        )
+        return self.connector_execution_runtime.poll(job_id=job_id)
 
     async def connector_cancel(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Cancel one connector execution job."""
+        job_id = _require_str(params, "job_id")
+        self._ensure_record_in_scope(
+            _dump_core_record(self.core_service.get_job(job_id)),
+            self._resolve_request_scope(params),
+            params,
+            label="job",
+        )
         return self.connector_execution_runtime.cancel(
-            job_id=_require_str(params, "job_id"),
+            job_id=job_id,
             reason=_optional_str(params, "reason"),
         )
 
     async def connector_collect(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Collect artifacts for one connector execution job."""
-        return self.connector_execution_runtime.collect(job_id=_require_str(params, "job_id"))
+        job_id = _require_str(params, "job_id")
+        self._ensure_record_in_scope(
+            _dump_core_record(self.core_service.get_job(job_id)),
+            self._resolve_request_scope(params),
+            params,
+            label="job",
+        )
+        return self.connector_execution_runtime.collect(job_id=job_id)
 
     async def artifact_register(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Register an existing local file as a harnessOS artifact."""
@@ -761,14 +850,43 @@ class GatewayService:
     async def artifact_read(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Read artifact content."""
         artifact_id = _require_str(params, "artifact_id")
-        payload = self.artifact_registry.read_artifact(artifact_id)
+        metadata_payload = self.artifact_registry.read_metadata(artifact_id)
         self._ensure_record_in_scope(
-            payload["artifact"],
+            metadata_payload["artifact"],
             self._resolve_request_scope(params),
             params,
             label="artifact",
         )
-        trace_record = self.trace_store.record_artifact_operation(operation="read", artifact=payload["artifact"])
+        try:
+            payload = self.artifact_registry.read_artifact(artifact_id)
+        except ArtifactReadBlockedError as exc:
+            trace_record = self.trace_store.record_artifact_operation(
+                operation="read",
+                artifact=metadata_payload["artifact"],
+                trace_id=_optional_str(params, "trace_id"),
+                status="blocked",
+                metadata={
+                    "blocked_reason": exc.reason,
+                    "suggested_method": "artifact.read_metadata",
+                },
+            )
+            self.core_service.record_gateway_trace(trace_record)
+            exc.trace_id = trace_record["trace_id"]
+            raise
+        except Exception:
+            trace_record = self.trace_store.record_artifact_operation(
+                operation="read",
+                artifact=metadata_payload["artifact"],
+                trace_id=_optional_str(params, "trace_id"),
+                status="failed",
+            )
+            self.core_service.record_gateway_trace(trace_record)
+            raise
+        trace_record = self.trace_store.record_artifact_operation(
+            operation="read",
+            artifact=payload["artifact"],
+            trace_id=_optional_str(params, "trace_id"),
+        )
         self.core_service.record_gateway_trace(trace_record)
         payload["trace_id"] = trace_record["trace_id"]
         return payload
@@ -1143,6 +1261,7 @@ class GatewayService:
                 error=RpcError(
                     code=_error_code(exc),
                     message=str(exc),
+                    data=_error_data(exc),
                 ),
             )
 
@@ -1213,7 +1332,7 @@ class GatewayService:
         router.register("artifact.read", self.artifact_read, capability="artifacts")
         router.register(
             "artifact.lineage",
-            self.core_artifact_lineage,
+            self.artifact_lineage,
             capability="artifact_lineage",
             alias_of="core.artifact.lineage",
         )
@@ -1251,6 +1370,20 @@ class GatewayService:
             app_id=app_id,
             project_id=project_id,
             workspace_id=workspace_id,
+        )
+
+    def _resolve_request_scope_for_session(self, params: Dict[str, Any], session_id: Optional[str]):
+        if _params_include_scope(params) or session_id is None:
+            return self._resolve_request_scope(params)
+        try:
+            session = self.runtime_pool.read_session(session_id)
+        except Exception:
+            return self._resolve_request_scope(params)
+        return self._resolve_request_scope(
+            params,
+            app_id=_optional_text_value(session.get("app_id")),
+            project_id=_optional_text_value(session.get("project_id")),
+            workspace_id=_optional_text_value(session.get("workspace_id")),
         )
 
     def _ensure_session_in_scope(self, session: Dict[str, Any], scope, params: Dict[str, Any]) -> None:
@@ -1396,6 +1529,8 @@ def _without_params(handler: Callable[[], Awaitable[Dict[str, Any]]]) -> Callabl
 
 
 def _error_code(exc: Exception) -> str:
+    if isinstance(exc, ArtifactReadBlockedError):
+        return "ARTIFACT_READ_BLOCKED"
     if isinstance(exc, KeyError):
         return "SESSION_NOT_FOUND"
     if isinstance(exc, ValueError):
@@ -1403,3 +1538,10 @@ def _error_code(exc: Exception) -> str:
     if isinstance(exc, LookupError):
         return "METHOD_NOT_FOUND"
     return "RUNTIME_ERROR"
+
+
+def _error_data(exc: Exception) -> Dict[str, Any]:
+    if hasattr(exc, "to_error_data") and callable(getattr(exc, "to_error_data")):
+        data = exc.to_error_data()
+        return data if isinstance(data, dict) else {}
+    return {}

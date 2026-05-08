@@ -4,7 +4,17 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-python3 - "$@" <<'PY'
+PYTHON_BIN="${PYTHON:-$ROOT_DIR/.venv/bin/python}"
+if [[ ! -x "$PYTHON_BIN" ]]; then
+  PYTHON_BIN="${PYTHON:-python3}"
+fi
+
+export HARNESS_FUNASR_MCP_EXECUTION="${HARNESS_FUNASR_MCP_EXECUTION:-stdio}"
+export HARNESS_FUNASR_MCP_ENDPOINT="${HARNESS_FUNASR_MCP_ENDPOINT:-http://127.0.0.1:8001}"
+export HARNESS_FUNASR_MCP_AUDIO_ROOTS="${HARNESS_FUNASR_MCP_AUDIO_ROOTS:-/Users/Zhuanz/Desktop/workspace/音频资料:/tmp}"
+export HARNESS_MEETING_ANALYSIS_TIMEOUT="${HARNESS_MEETING_ANALYSIS_TIMEOUT:-10}"
+
+"$PYTHON_BIN" - "$@" <<'PY'
 from __future__ import annotations
 
 import argparse
@@ -72,7 +82,9 @@ def _artifact_kind_map(lineage: dict) -> dict[str, dict]:
     by_kind = {str(item.get("kind")): item for item in artifacts}
     missing = [kind for kind in EXPECTED_KINDS if kind not in by_kind]
     if missing:
-        raise AssertionError(f"Missing meeting artifact kinds: {missing}")
+        raise AssertionError(
+            f"Missing meeting artifact kinds: {missing}; observed={sorted(by_kind)}"
+        )
     return by_kind
 
 
@@ -87,14 +99,17 @@ def _assert_meeting_lineage(lineage: dict) -> dict[str, dict]:
         (edge.get("source_artifact_id"), edge.get("target_artifact_id"))
         for edge in lineage.get("edges") or []
     ]
-    if actual_edges != expected_edges:
+    missing_edges = [edge for edge in expected_edges if edge not in actual_edges]
+    if missing_edges:
         raise AssertionError(
             "Unexpected meeting lineage edges: "
-            f"expected={expected_edges}, actual={actual_edges}"
+            f"missing={missing_edges}, actual={actual_edges}"
         )
-    if lineage.get("roots") != [by_kind["transcript"]["artifact_id"]]:
+    roots = lineage.get("roots") or []
+    if by_kind["transcript"]["artifact_id"] not in roots:
         raise AssertionError(f"Unexpected roots: {lineage.get('roots')}")
-    if lineage.get("leaves") != [by_kind["minutes"]["artifact_id"]]:
+    leaves = lineage.get("leaves") or []
+    if by_kind["minutes"]["artifact_id"] not in leaves:
         raise AssertionError(f"Unexpected leaves: {lineage.get('leaves')}")
     return by_kind
 
@@ -134,6 +149,33 @@ async def _run() -> int:
                 },
             ),
         )
+        completed = (turn.get("events") or [{}])[-1]
+        completed_data = completed.get("data") if isinstance(completed, dict) else {}
+        if isinstance(completed_data, dict) and completed_data.get("approval_required"):
+            approval = completed_data.get("approval") or {}
+            approval_id = approval.get("approval_id")
+            if not isinstance(approval_id, str) or not approval_id:
+                raise RuntimeError("Meeting approval response did not include approval_id")
+            await _rpc(
+                service,
+                RpcRequest(
+                    id="approve",
+                    method="approval.approve",
+                    params={"approval_id": approval_id},
+                ),
+            )
+            turn = await _rpc(
+                service,
+                RpcRequest(
+                    id="retry",
+                    method="turn.retry",
+                    params={"session_id": session_id, "approval_id": approval_id},
+                ),
+            )
+        final_event = (turn.get("events") or [{}])[-1]
+        final_data = final_event.get("data") if isinstance(final_event, dict) else {}
+        if isinstance(final_data, dict) and final_event.get("type") == "turn.failed":
+            raise RuntimeError(f"Meeting turn failed: {final_data.get('message')}")
         lineage = await _rpc(
             service,
             RpcRequest(

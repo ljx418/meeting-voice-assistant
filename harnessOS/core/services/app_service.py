@@ -949,12 +949,28 @@ class CoreAppService:
         metadata: Optional[Dict[str, Any]] = None,
     ) -> JobEventRecord:
         """Append a job lifecycle event."""
+        job: Optional[JobRecord] = None
+        try:
+            job = self.store.get_job(job_id)
+        except KeyError:
+            job = None
         if scope is None:
-            try:
-                job = self.store.get_job(job_id)
+            if job is not None:
                 scope = ScopeContext(app_id=job.app_id, project_id=job.project_id, workspace_id=job.workspace_id)
-            except KeyError:
+            else:
                 scope = ScopeContext()
+        event_metadata = dict(metadata or {})
+        if job is not None:
+            event_metadata.setdefault("workflow_id", job.workflow_id)
+            event_metadata.setdefault("domain", job.domain)
+            if job.external_job_ref is not None:
+                event_metadata.setdefault("external_job_ref", job.external_job_ref)
+            if job.parent_job_id is not None:
+                event_metadata.setdefault("parent_job_id", job.parent_job_id)
+            if job.artifact_ids:
+                event_metadata.setdefault("artifact_ids", list(job.artifact_ids))
+            if job.failure_context:
+                event_metadata.setdefault("failure_context", dict(job.failure_context))
         event = JobEventRecord(
             job_id=job_id,
             app_id=scope.app_id,
@@ -964,9 +980,33 @@ class CoreAppService:
             status=status,
             progress=progress,
             message=message,
-            metadata=dict(metadata or {}),
+            metadata=event_metadata,
         )
-        return self.store.save_job_event(event)
+        saved = self.store.save_job_event(event)
+        self.store.save_trace_record(
+            TraceRecord(
+                trace_id=str(event_metadata.get("trace_id") or (job.trace_id if job is not None else None) or f"trace_{job_id}"),
+                app_id=saved.app_id,
+                project_id=saved.project_id,
+                workspace_id=saved.workspace_id,
+                session_id=job.session_id if job is not None else None,
+                turn_id=job.turn_id if job is not None else None,
+                event_type=event_type,
+                status=status,
+                workflow_id=str(event_metadata.get("workflow_id") or "") or None,
+                artifact_ids=list(job.artifact_ids) if job is not None else _text_list(event_metadata.get("artifact_ids")),
+                input_summary=message,
+                metadata=mask_value(
+                    {
+                        "job_id": job_id,
+                        "job_event_id": saved.event_id,
+                        "progress": progress,
+                        "metadata": event_metadata,
+                    }
+                ),
+            )
+        )
+        return saved
 
     def get_session(self, session_id: str) -> SessionRecord:
         return self.store.get_session(session_id)
