@@ -1,6 +1,6 @@
 # Local Knowledge Governance Service 当前状态
 
-更新时间：2026-05-07
+更新时间：2026-05-08
 
 ## 一句话定义
 
@@ -25,6 +25,10 @@
 ## 已具备能力
 
 - MCP stdio server：lifecycle tools、v2 envelope tools、旧 tools 兼容。
+- Session MCP MVP：支持 `knowledge_session_create/get/list/close/delete`、结构化
+  `knowledge_session_ingest`、session build、session graph snapshot、neighbors、
+  community summary、session query 和 actor summary。会议应用已经通过该 MCP contract
+  恢复会议级 speaker-aware GraphRAG 接入。
 - CLI：`python -m data_service ingest/query/summary/distill/boundary/graphrag-execute`。
 - HTTP API：workspace/source/build/query/graph/distill/trace/quality/reset 等能力。
 - workspace lifecycle：create/list/describe/archive。
@@ -179,3 +183,5 @@ workspace/
 - `docx` 与 `yaml/yml` 格式扩展。
 - typed distill units 升级。
 - GraphRAG owner 边界继续下沉。
+- Session GraphRAG 从 MVP 启发式抽取继续升级到正式 distill / relation extractor /
+  source trace 管线，并保持 MCP contract 不破坏。

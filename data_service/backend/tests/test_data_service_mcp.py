@@ -36,6 +36,20 @@ async def test_data_service_mcp_lists_quality_tools():
         "knowledge_build_start",
         "knowledge_build_status",
         "knowledge_build_cancel",
+        "knowledge_session_create",
+        "knowledge_session_get",
+        "knowledge_session_list",
+        "knowledge_session_close",
+        "knowledge_session_delete",
+        "knowledge_session_ingest",
+        "knowledge_session_build_start",
+        "knowledge_session_build_status",
+        "knowledge_session_build_cancel",
+        "knowledge_graph_snapshot",
+        "knowledge_graph_neighbors",
+        "knowledge_community_summary",
+        "knowledge_session_query",
+        "knowledge_actor_summary",
     }
 
 
@@ -620,3 +634,234 @@ async def test_data_service_mcp_keeps_per_call_workspaces_isolated(tmp_path):
 
     assert summary_a["quality"]["manual_feedback"]["feedback_count"] == 1
     assert summary_b["quality"]["manual_feedback"]["feedback_count"] == 0
+
+
+@pytest.mark.asyncio
+async def test_data_service_mcp_session_lifecycle_ingest_build_and_delete(monkeypatch, tmp_path):
+    pytest.importorskip("mcp")
+    from data_service import mcp_stdio
+
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(tmp_path / "managed"))
+    workspace_id = json.loads((await mcp_stdio.call_tool("knowledge_workspace_create", {"name": "Meeting KB"}))[0].text)["workspace_id"]
+
+    created = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_session_create",
+                {
+                    "workspace_id": workspace_id,
+                    "external_id": "meeting-2026-05-08-001",
+                    "session_type": "meeting",
+                    "title": "项目发布计划会议",
+                    "ephemeral": True,
+                    "ttl_seconds": 86400,
+                    "metadata": {"meeting_id": "meeting-2026-05-08-001"},
+                },
+            )
+        )[0].text
+    )
+    assert created["status"] == "ok"
+    assert created["data"]["created"] is True
+    session_id = created["data"]["session"]["session_id"]
+
+    duplicate = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_session_create",
+                {
+                    "workspace_id": workspace_id,
+                    "external_id": "meeting-2026-05-08-001",
+                    "session_type": "meeting",
+                },
+            )
+        )[0].text
+    )
+    assert duplicate["data"]["created"] is False
+    assert duplicate["data"]["session"]["session_id"] == session_id
+
+    turns = [
+        {"record_id": "turn-0001", "actor_id": "speaker_0", "actor_label": "张三", "role": "speaker", "start_time": 1.0, "end_time": 4.0, "text": "我们下周一完成最终验收。"},
+        {"record_id": "turn-0002", "actor_id": "speaker_1", "actor_label": "李四", "role": "speaker", "start_time": 4.0, "end_time": 8.0, "text": "我负责整理发布材料和测试报告。"},
+        {"record_id": "turn-0003", "actor_id": "speaker_2", "actor_label": "王五", "role": "speaker", "start_time": 8.0, "end_time": 12.0, "text": "风险是验收环境可能延期。"},
+        {"record_id": "turn-0004", "actor_id": "speaker_0", "actor_label": "张三", "role": "speaker", "start_time": 12.0, "end_time": 15.0, "text": "测试今天必须完成。"},
+        {"record_id": "turn-0005", "actor_id": "speaker_1", "actor_label": "李四", "role": "speaker", "start_time": 15.0, "end_time": 18.0, "text": "发布计划需要客户确认吗？"},
+        {"record_id": "turn-0006", "actor_id": "speaker_2", "actor_label": "王五", "role": "speaker", "start_time": 18.0, "end_time": 20.0, "text": "我会跟进验收环境问题。"},
+        {"record_id": "turn-0007", "actor_id": "speaker_0", "actor_label": "张三", "role": "speaker", "start_time": 20.0, "end_time": 24.0, "text": "确认发布计划按原排期推进。"},
+        {"record_id": "turn-0008", "actor_id": "speaker_1", "actor_label": "李四", "role": "speaker", "start_time": 24.0, "end_time": 28.0, "text": "我提交最终验收材料。"},
+        {"record_id": "turn-0009", "actor_id": "speaker_2", "actor_label": "王五", "role": "speaker", "start_time": 28.0, "end_time": 32.0, "text": "如果测试失败，需要回滚方案。"},
+        {"record_id": "turn-0010", "actor_id": "speaker_0", "actor_label": "张三", "role": "speaker", "start_time": 32.0, "end_time": 36.0, "text": "最终验收通过后发布。"},
+    ]
+    ingested = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_session_ingest",
+                {
+                    "workspace_id": workspace_id,
+                    "session_id": session_id,
+                    "source_type": "transcript",
+                    "content_format": "turns",
+                    "title": "项目发布计划会议转写",
+                    "records": turns,
+                    "metadata": {"meeting_id": "meeting-2026-05-08-001", "language": "zh"},
+                },
+            )
+        )[0].text
+    )
+    assert ingested["data"]["source"]["record_count"] == 10
+
+    started = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_session_build_start",
+                {"workspace_id": workspace_id, "session_id": session_id, "mode": "full"},
+            )
+        )[0].text
+    )
+    operation_id = started["operation_id"]
+    for _ in range(80):
+        status = json.loads(
+            (
+                await mcp_stdio.call_tool(
+                    "knowledge_session_build_status",
+                    {"workspace_id": workspace_id, "session_id": session_id, "operation_id": operation_id},
+                )
+            )[0].text
+        )
+        if status["status"] in {"succeeded", "failed", "blocked", "cancelled"}:
+            break
+        await asyncio.sleep(0.05)
+    assert status["status"] == "succeeded"
+    assert status["data"]["results"]["unit_count"] >= 10
+
+    snapshot = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_graph_snapshot",
+                {"workspace_id": workspace_id, "scope": "session", "session_id": session_id, "node_types": ["actor", "unit", "topic", "entity", "source"]},
+            )
+        )[0].text
+    )
+    nodes = snapshot["data"]["nodes"]
+    edges = snapshot["data"]["edges"]
+    assert {node["type"] for node in nodes} >= {"actor", "unit", "topic", "entity", "source"}
+    assert {node["id"] for node in nodes} >= {"actor:speaker_0", "actor:speaker_1", "actor:speaker_2"}
+    assert any(edge["type"] == "actor_proposed_decision" for edge in edges)
+    assert any(edge["source_refs"][0]["record_id"] == "turn-0001" for edge in edges if edge.get("source_refs"))
+    assert snapshot["data"]["communities"]
+
+    actor_summary = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_actor_summary",
+                {"workspace_id": workspace_id, "session_id": session_id, "actor_id": "speaker_0", "unit_types": ["statement", "decision", "task", "risk", "question"]},
+            )
+        )[0].text
+    )
+    assert actor_summary["data"]["actor"]["label"] == "张三"
+    assert actor_summary["data"]["decisions"]
+    assert all(ref["record_id"].startswith("turn-") for ref in actor_summary["data"]["source_refs"])
+
+    query = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_session_query",
+                {"workspace_id": workspace_id, "session_id": session_id, "query": "最终验收", "top_k": 5},
+            )
+        )[0].text
+    )
+    assert query["data"]["hits"]
+    assert "workspace_context" not in query["data"]
+
+    closed = json.loads((await mcp_stdio.call_tool("knowledge_session_close", {"workspace_id": workspace_id, "session_id": session_id}))[0].text)
+    assert closed["status"] == "closed"
+    blocked_write = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_session_ingest",
+                {"workspace_id": workspace_id, "session_id": session_id, "content_format": "text", "content": "closed write"},
+            )
+        )[0].text
+    )
+    assert blocked_write["status"] == "blocked"
+
+    deleted = json.loads((await mcp_stdio.call_tool("knowledge_session_delete", {"workspace_id": workspace_id, "session_id": session_id}))[0].text)
+    assert deleted["status"] == "disposed"
+    disposed_snapshot = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_graph_snapshot",
+                {"workspace_id": workspace_id, "scope": "session", "session_id": session_id},
+            )
+        )[0].text
+    )
+    assert disposed_snapshot["status"] == "disposed"
+
+
+@pytest.mark.asyncio
+async def test_data_service_mcp_session_scope_isolates_two_sessions(monkeypatch, tmp_path):
+    pytest.importorskip("mcp")
+    from data_service import mcp_stdio
+
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(tmp_path / "managed"))
+    workspace_id = json.loads((await mcp_stdio.call_tool("knowledge_workspace_create", {"name": "Scoped KB"}))[0].text)["workspace_id"]
+
+    async def build_session(external_id, actor_id, text):
+        created = json.loads((await mcp_stdio.call_tool("knowledge_session_create", {"workspace_id": workspace_id, "external_id": external_id}))[0].text)
+        session_id = created["data"]["session"]["session_id"]
+        await mcp_stdio.call_tool(
+            "knowledge_session_ingest",
+            {
+                "workspace_id": workspace_id,
+                "session_id": session_id,
+                "source_type": "transcript",
+                "content_format": "turns",
+                "records": [{"record_id": "turn-0001", "actor_id": actor_id, "actor_label": actor_id, "text": text}],
+            },
+        )
+        started = json.loads((await mcp_stdio.call_tool("knowledge_session_build_start", {"workspace_id": workspace_id, "session_id": session_id}))[0].text)
+        for _ in range(80):
+            status = json.loads(
+                (
+                    await mcp_stdio.call_tool(
+                        "knowledge_session_build_status",
+                        {"workspace_id": workspace_id, "session_id": session_id, "operation_id": started["operation_id"]},
+                    )
+                )[0].text
+            )
+            if status["status"] in {"succeeded", "failed", "blocked", "cancelled"}:
+                break
+            await asyncio.sleep(0.05)
+        assert status["status"] == "succeeded"
+        return session_id
+
+    session_a = await build_session("meeting-a", "speaker_a", "A 项目最终验收通过。")
+    session_b = await build_session("meeting-b", "speaker_b", "B 项目预算风险需要处理。")
+
+    query_a = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_session_query",
+                {"workspace_id": workspace_id, "session_id": session_a, "query": "预算风险", "top_k": 10},
+            )
+        )[0].text
+    )
+    assert query_a["data"]["hits"] == []
+
+    snapshot_a = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_graph_snapshot",
+                {"workspace_id": workspace_id, "scope": "session", "session_id": session_a},
+            )
+        )[0].text
+    )
+    snapshot_b = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_graph_snapshot",
+                {"workspace_id": workspace_id, "scope": "session", "session_id": session_b},
+            )
+        )[0].text
+    )
+    assert snapshot_a["data"]["communities"][0]["id"] != snapshot_b["data"]["communities"][0]["id"]
+    assert "speaker_b" not in {node["id"].replace("actor:", "") for node in snapshot_a["data"]["nodes"] if node["type"] == "actor"}

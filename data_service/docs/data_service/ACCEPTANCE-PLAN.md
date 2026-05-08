@@ -1,6 +1,6 @@
 # Local Knowledge Governance Service 验收计划
 
-更新时间：2026-05-07
+更新时间：2026-05-08
 
 ## 验收目标
 
@@ -130,6 +130,32 @@ knowledge_workspace_create
 - 业务可预期失败返回 `blocked` envelope。
 - 同一 workspace build 不并发写产物。
 - archived workspace 写操作返回 `blocked`。
+
+## Session MCP / 会议知识验收
+
+当前会议应用恢复链路依赖 Data Service session MCP。必须保留以下真实 stdio MCP 流程：
+
+```text
+knowledge_workspace_create
+-> knowledge_session_create
+-> knowledge_session_ingest(content_format="turns")
+-> knowledge_session_build_start(mode="full")
+-> knowledge_session_build_status
+-> knowledge_graph_snapshot(scope="session")
+-> knowledge_actor_summary
+-> knowledge_session_query
+-> knowledge_session_close
+-> knowledge_session_delete
+```
+
+通过标准：
+
+- 至少 3 个 speaker、10 个 turn 的会议转写能生成 actor/unit/topic/entity/source 节点。
+- speaker 必须作为 `actor` 节点出现，不只作为普通 entity。
+- actor 到 decision/task/risk/question/statement 的关系边带 `source_refs`。
+- 同一 workspace 下两场会议的 graph/community/query 结果互不串扰。
+- `knowledge_session_delete` 后对应 session graph 返回 disposed / not found。
+- 会议应用通过 MCP 调用本服务，不 import Data Service 内部模块。
 
 ## 控制台验收
 
