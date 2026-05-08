@@ -5,6 +5,7 @@
 """
 
 import logging
+import re
 from typing import List, Optional, Dict, Any
 from dataclasses import dataclass, field
 from .state import (
@@ -144,8 +145,11 @@ class AudioAnalyzer:
         # 运行工作流
         result_state = self.graph.run(state)
 
-        # 返回结果
-        return AnalysisResult.from_state(result_state)
+        result = AnalysisResult.from_state(result_state)
+        if self._needs_local_fallback(result):
+            logger.warning("[AudioAnalyzer] LLM analysis returned empty result, using local fallback")
+            return self._build_fallback_result(transcript_text=transcript_text, segments=[])
+        return result
 
     def analyze_segments(self, segments: List[TranscriptSegment]) -> AnalysisResult:
         """
@@ -177,11 +181,117 @@ class AudioAnalyzer:
         # 运行工作流
         result_state = self.graph.run(state)
 
-        # 返回结果
-        return AnalysisResult.from_state(result_state)
+        result = AnalysisResult.from_state(result_state)
+        if self._needs_local_fallback(result):
+            logger.warning("[AudioAnalyzer] LLM analysis returned empty result, using local fallback")
+            return self._build_fallback_result(transcript_text=transcript_text, segments=segments)
+        return result
 
     def _format_time(self, seconds: float) -> str:
         """格式化时间"""
         mins = int(seconds // 60)
         secs = int(seconds % 60)
         return f"{mins:02d}:{secs:02d}"
+
+    def _needs_local_fallback(self, result: AnalysisResult) -> bool:
+        """判断 LLM 结果是否足够前端展示。"""
+        return not (
+            result.theme
+            or result.summary
+            or result.chapters
+            or result.speaker_roles
+            or result.key_points
+        )
+
+    def _build_fallback_result(
+        self,
+        transcript_text: str,
+        segments: List[TranscriptSegment],
+    ) -> AnalysisResult:
+        """LLM 不可用时基于时间戳生成基础结构化分析。"""
+        normalized_text = " ".join(transcript_text.split())
+        clean_lines = []
+        for line in transcript_text.splitlines():
+            line = re.sub(r"^\[[^\]]+\]\s*", "", line).strip()
+            if line:
+                clean_lines.append(line)
+
+        summary_source = " ".join(clean_lines) or normalized_text
+        summary = summary_source[:500]
+        if len(summary_source) > 500:
+            summary += "..."
+
+        if segments:
+            duration = max((seg.end_time for seg in segments), default=0.0)
+            chapter_count = max(1, min(6, int(duration // 180) + 1))
+            window = duration / chapter_count if chapter_count else duration
+            chapters = []
+            for idx in range(chapter_count):
+                start = idx * window
+                end = duration if idx == chapter_count - 1 else (idx + 1) * window
+                chapter_segments = [
+                    seg for seg in segments
+                    if seg.end_time >= start and seg.start_time <= end
+                ]
+                if not chapter_segments:
+                    continue
+                chapter_text = " ".join(seg.text.strip() for seg in chapter_segments if seg.text.strip())
+                speakers = sorted({seg.speaker or "unknown" for seg in chapter_segments})
+                speaker_summaries = []
+                for speaker in speakers:
+                    speaker_segments = [seg for seg in chapter_segments if (seg.speaker or "unknown") == speaker]
+                    if not speaker_segments:
+                        continue
+                    speaker_text = " ".join(seg.text.strip() for seg in speaker_segments if seg.text.strip())
+                    speaker_summaries.append(SpeakerSummary(
+                        speaker=speaker,
+                        summary=speaker_text[:220] + ("..." if len(speaker_text) > 220 else ""),
+                        source_timestamps=[
+                            SourceTimestamp(
+                                start=speaker_segments[0].start_time,
+                                end=speaker_segments[-1].end_time,
+                            )
+                        ],
+                    ))
+                chapters.append(Chapter(
+                    title=f"第 {idx + 1} 部分",
+                    start_time=start,
+                    end_time=end,
+                    summary=chapter_text[:320] + ("..." if len(chapter_text) > 320 else ""),
+                    speaker_summaries=speaker_summaries,
+                    decisions=[],
+                    action_items=[],
+                ).to_dict())
+
+            speaker_roles = [
+                SpeakerRole(
+                    speaker=speaker,
+                    role="发言人",
+                    reasoning="基于语音识别说话人分离结果生成",
+                ).to_dict()
+                for speaker in sorted({seg.speaker or "unknown" for seg in segments})
+            ]
+            key_points = [chapter["summary"] for chapter in chapters[:5] if chapter.get("summary")]
+        else:
+            chapters = [{
+                "title": "转写内容",
+                "start_time": 0,
+                "end_time": 0,
+                "summary": summary,
+                "speaker_summaries": [],
+                "decisions": [],
+                "action_items": [],
+            }] if summary else []
+            speaker_roles = []
+            key_points = [summary] if summary else []
+
+        return AnalysisResult(
+            theme="音频内容分析",
+            summary=summary,
+            chapters=chapters,
+            speaker_roles=speaker_roles,
+            topics=["音频转写", "自动分析"],
+            key_points=key_points,
+            action_items=[],
+            raw_response="local_fallback",
+        )

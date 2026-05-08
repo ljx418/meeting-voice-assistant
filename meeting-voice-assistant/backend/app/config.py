@@ -84,7 +84,7 @@ class LLMConfig(BaseSettings):
     # MiniMax LLM 配置
     minimax_api_key: Optional[str] = Field(default=None)
     minimax_endpoint: str = Field(default="https://api.minimax.chat/v1")
-    minimax_model: str = Field(default="MiniMax-Text-01")
+    minimax_model: str = Field(default="MiniMax-M2.7")
 
     # DeepSeek LLM 配置
     deepseek_api_key: Optional[str] = Field(default=None)
@@ -132,6 +132,16 @@ class KnowledgeServiceConfig(BaseSettings):
     request_timeout: float = Field(default=30.0, description="知识服务请求超时（秒）")
     index_timeout: float = Field(default=300.0, description="知识服务构建超时（秒）")
     default_top_k: int = Field(default=10, description="默认返回结果数")
+    mcp_enabled: bool = Field(default=False, description="是否通过 Data Service MCP 接入会议知识图谱")
+    mcp_command: str = Field(default="python3 -m data_service.mcp_stdio", description="Data Service MCP stdio 启动命令")
+    mcp_backend_path: Optional[Path] = Field(default=None, description="data_service/backend 路径，用于设置 MCP 进程 cwd/PYTHONPATH")
+    mcp_workspace_id: str = Field(default="meeting-knowledge", description="会议知识默认 workspace_id")
+    mcp_workspace_name: str = Field(default="Meeting Knowledge", description="会议知识默认 workspace 名称")
+    mcp_session_ephemeral: bool = Field(default=True, description="会议知识 session 是否默认临时")
+    mcp_session_ttl_seconds: int = Field(default=86400, description="临时会议知识 session TTL")
+    mcp_build_poll_interval: float = Field(default=0.5, description="Data Service session build 轮询间隔")
+    mcp_build_timeout: float = Field(default=120.0, description="Data Service session build 超时")
+    mcp_delete_on_close: bool = Field(default=True, description="关闭会议时是否删除临时 session 图谱")
 
     model_config = SettingsConfigDict(env_prefix="KNOWLEDGE_SERVICE_", extra="ignore")
 

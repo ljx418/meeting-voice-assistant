@@ -76,3 +76,55 @@
 
 - JSON/TXT: 返回文件内容
 - SRT: 返回字幕文件 (带时间戳)
+
+## 上传会话结果
+
+### GET /api/v1/upload/{session_id}
+
+获取上传会话的转写、分析和外部 Data Service session graph 信息。
+
+**响应新增字段**
+
+```json
+{
+  "session_id": "upload_ab12cd34",
+  "segments": [],
+  "chapters": [],
+  "analysis": {},
+  "knowledge_session": {
+    "status": "ok",
+    "workspace_id": "meeting-knowledge",
+    "session_id": "ksess_xxx",
+    "external_id": "upload_ab12cd34",
+    "source_id": "src_xxx",
+    "operation_id": "sop_xxx",
+    "build_status": "succeeded",
+    "warnings": []
+  },
+  "session_graph": {
+    "nodes": [],
+    "edges": [],
+    "communities": [],
+    "stats": {}
+  },
+  "speaker_summaries": []
+}
+```
+
+`knowledge_session.status` 可能为 `ok`、`degraded`、`disabled`、`closed` 或 `disposed`。知识图谱降级不影响会议转写和摘要结果。
+
+### POST /api/v1/upload/{session_id}/knowledge/close
+
+关闭并按配置清理上传会话关联的 Data Service session graph。
+
+**响应**
+
+```json
+{
+  "success": true,
+  "session_id": "upload_ab12cd34",
+  "status": "disposed",
+  "workspace_id": "meeting-knowledge",
+  "warnings": []
+}
+```

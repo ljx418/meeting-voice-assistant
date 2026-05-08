@@ -29,6 +29,7 @@ from app.core.asr import ASRFactory
 from app.core.audio_cache import AudioCache
 from app.core.llm_analyzer import LLMAnalyzer, AnalysisResult
 from app.core.audio_analyzer import AudioAnalyzer, TranscriptSegment
+from app.core.data_service_mcp_client import DataServiceMcpClient
 from app.core.processing_status import get_processing_status_manager, ProcessingStage, ProcessingInfo
 from app.config import config
 from app.utils.logger import setup_logger
@@ -200,6 +201,61 @@ def _save_intermediate_result(session_id: str, stage: str, data: Dict[str, Any])
         logger.warning(f"[Upload {session_id}] Failed to save {stage}: {e}")
 
 
+def _read_intermediate_result(session_id: str, stage: str) -> Dict[str, Any]:
+    """读取 workspace/output/{session_id}/{stage}.json"""
+    try:
+        file_path = config.workspace_output_dir / session_id / f"{stage}.json"
+        if not file_path.exists():
+            return {}
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        logger.warning(f"[Upload {session_id}] Failed to read {stage}: {e}")
+        return {}
+
+
+def _log_stage(session_id: str, stage: str, event: str, message: str = "", **extra: Any) -> None:
+    """统一记录上传处理阶段日志。"""
+    payload = f"[Upload {session_id}] [stage={stage}] {event}"
+    if message:
+        payload += f": {message}"
+    if extra:
+        payload += f" | extra={extra}"
+    logger.info(payload)
+
+
+async def _asr_keepalive(
+    session_id: str,
+    status_manager,
+    started_at: float,
+    stop_event: asyncio.Event,
+) -> None:
+    """FunASR 整文件识别期间保持前端状态可见。"""
+    while not stop_event.is_set():
+        try:
+            await asyncio.wait_for(stop_event.wait(), timeout=5.0)
+        except asyncio.TimeoutError:
+            info = status_manager.get(session_id)
+            if not info or info.stage != ProcessingStage.TRANSCRIBING:
+                continue
+            elapsed = int(time.time() - started_at)
+            status_manager.update(
+                session_id,
+                stage=ProcessingStage.TRANSCRIBING,
+                progress=max(info.progress, 10),
+                message=f"FunASR 识别中，已耗时 {elapsed} 秒...",
+                speaker_count=info.speaker_count,
+                segment_count=info.segment_count,
+            )
+            _log_stage(
+                session_id,
+                "transcribing",
+                "heartbeat",
+                elapsed_seconds=elapsed,
+                progress=info.progress,
+            )
+
+
 async def _save_upload_transcript(session_id: str, transcript_results: List, analysis_result=None) -> None:
     """保存上传文件的转写文本到文件"""
     if not transcript_results:
@@ -290,6 +346,10 @@ class UploadResponse(BaseModel):
     analysis: Optional[dict] = None
     # 音频 URL（用于前端播放）
     audio_url: Optional[str] = None
+    # 外部 Data Service MCP 会话结果
+    knowledge_session: Optional[Dict[str, Any]] = None
+    session_graph: Optional[Dict[str, Any]] = None
+    speaker_summaries: Optional[List[Dict[str, Any]]] = None
 
 
 class UploadAcceptedResponse(BaseModel):
@@ -326,6 +386,7 @@ async def _process_upload_file(
     asr_adapter = None
     try:
         # 更新状态：开始转写
+        _log_stage(session_id, "transcribing", "start", file_size=file_size, ext=ext)
         logger.info(f"[Upload {session_id}] Calling status_manager.update: stage=TRANSCRIBING, progress=10")
         status_manager.update(
             session_id,
@@ -346,42 +407,51 @@ async def _process_upload_file(
         # 读取并转写音频
         asr_start_time = time.time()
         logger.info(f"[Upload {session_id}] Starting transcription...")
+        keepalive_stop = asyncio.Event()
+        keepalive_task = asyncio.create_task(
+            _asr_keepalive(session_id, status_manager, asr_start_time, keepalive_stop)
+        )
 
         transcript_results: List = []
         speakers: set = set()
         total_duration = 0.0
 
-        # 异步迭代 ASR 结果
-        async for result in asr_adapter.recognize_file(temp_file):
-            transcript_results.append(result)
-            if result.speaker:
-                speakers.add(result.speaker)
-            if result.end_time > total_duration:
-                total_duration = result.end_time
+        try:
+            # 异步迭代 ASR 结果
+            async for result in asr_adapter.recognize_file(temp_file):
+                transcript_results.append(result)
+                if result.speaker:
+                    speakers.add(result.speaker)
+                if result.end_time > total_duration:
+                    total_duration = result.end_time
 
-            # 计算预估剩余时间
-            elapsed = (datetime.now() - status_manager.get(session_id).started_at).total_seconds() if status_manager.get(session_id) else 1
-            processed_count = len(transcript_results)
-            if processed_count > 0 and total_duration > 0:
-                denominator = min(0.4, 0.1 + processed_count * 0.02)
-                if denominator > 0 and elapsed > 0:
-                    estimated_total = elapsed / denominator
-                    remaining = max(0, int(estimated_total - elapsed))
+                # 计算预估剩余时间
+                elapsed = (datetime.now() - status_manager.get(session_id).started_at).total_seconds() if status_manager.get(session_id) else 1
+                processed_count = len(transcript_results)
+                if processed_count > 0 and total_duration > 0:
+                    denominator = min(0.4, 0.1 + processed_count * 0.02)
+                    if denominator > 0 and elapsed > 0:
+                        estimated_total = elapsed / denominator
+                        remaining = max(0, int(estimated_total - elapsed))
+                    else:
+                        remaining = None
                 else:
                     remaining = None
-            else:
-                remaining = None
 
-            # 更新进度：转写中 (10-40%)
-            status_manager.update(
-                session_id,
-                progress=min(40, 10 + len(transcript_results) * 2),
-                message=f"正在识别语音... 已识别 {len(transcript_results)} 段",
-                remaining_time_seconds=remaining,
-                speaker_count=len(speakers),
-                segment_count=len(transcript_results),
-            )
-            logger.info(f"[Upload {session_id}] Transcribed: {result.text[:50]}...")
+                # 更新进度：转写中 (10-40%)
+                status_manager.update(
+                    session_id,
+                    stage=ProcessingStage.TRANSCRIBING,
+                    progress=min(40, 10 + len(transcript_results) * 2),
+                    message=f"正在识别语音... 已识别 {len(transcript_results)} 段",
+                    remaining_time_seconds=remaining,
+                    speaker_count=len(speakers),
+                    segment_count=len(transcript_results),
+                )
+                logger.info(f"[Upload {session_id}] Transcribed: {result.text[:50]}...")
+        finally:
+            keepalive_stop.set()
+            await keepalive_task
 
         await asr_adapter.close()
         asr_adapter = None  # 标记已关闭
@@ -389,8 +459,18 @@ async def _process_upload_file(
         asr_elapsed = time.time() - asr_start_time
         logger.info(f"[Upload {session_id}] ========== ASR Completed in {asr_elapsed:.2f}s ==========")
         logger.info(f"[Upload {session_id}] ASR results: {len(transcript_results)} segments, {len(speakers)} speakers, total_duration={total_duration:.1f}s")
+        _log_stage(
+            session_id,
+            "transcribing",
+            "complete",
+            elapsed_seconds=round(asr_elapsed, 2),
+            segments=len(transcript_results),
+            speakers=len(speakers),
+            total_duration=round(total_duration, 1),
+        )
 
         # 更新状态：转写完成，开始分析
+        _log_stage(session_id, "analyzing", "start", segments=len(transcript_results), speakers=len(speakers))
         status_manager.update(
             session_id,
             stage=ProcessingStage.ANALYZING,
@@ -449,6 +529,7 @@ async def _process_upload_file(
             # Step 2: LLM 分析
             llm_start_time = time.time()
             logger.info(f"[Upload {session_id}] ========== LLM Analysis Starting ==========")
+            _log_stage(session_id, "llm_analysis", "start")
             try:
                 status_manager.update(
                     session_id,
@@ -478,6 +559,7 @@ async def _process_upload_file(
                     await llm_analyzer.close()
                     llm_elapsed = time.time() - llm_start_time
                     logger.info(f"[Upload {session_id}] ========== LLM Analysis Completed in {llm_elapsed:.2f}s ==========")
+                    _log_stage(session_id, "llm_analysis", "complete", elapsed_seconds=round(llm_elapsed, 2))
             except Exception as e:
                 logger.warning(f"[Upload {session_id}] LLM analysis failed: {e}")
                 analysis_result = None
@@ -485,6 +567,7 @@ async def _process_upload_file(
             # Step 3: AudioAnalyzer 深度分析
             audio_analyzer_start_time = time.time()
             logger.info(f"[Upload {session_id}] ========== AudioAnalyzer (Deep Analysis) Starting ==========")
+            _log_stage(session_id, "audio_analyzer", "start")
             try:
                 status_manager.update(
                     session_id,
@@ -504,6 +587,13 @@ async def _process_upload_file(
                 audio_analysis_result = audio_analyzer.analyze_segments(segs)
                 audio_analyzer_elapsed = time.time() - audio_analyzer_start_time
                 logger.info(f"[Upload {session_id}] AudioAnalyzer completed in {audio_analyzer_elapsed:.2f}s")
+                _log_stage(
+                    session_id,
+                    "audio_analyzer",
+                    "complete",
+                    elapsed_seconds=round(audio_analyzer_elapsed, 2),
+                    chapters=len(getattr(audio_analysis_result, "chapters", []) or []),
+                )
 
                 status_manager.update(
                     session_id,
@@ -550,6 +640,49 @@ async def _process_upload_file(
                 "action_items": primary_result.action_items,
             })
 
+        knowledge_result: Dict[str, Any]
+        if config.knowledge_service.mcp_enabled and segments:
+            try:
+                status_manager.update(
+                    session_id,
+                    progress=92,
+                    message="正在写入会议知识图谱..."
+                )
+                mcp_client = DataServiceMcpClient()
+                knowledge_result = await mcp_client.ingest_meeting_session(
+                    meeting_id=session_id,
+                    title=(primary_result.theme if primary_result else "") or f"会议 {session_id}",
+                    segments=[s.model_dump() for s in segments],
+                    metadata={
+                        "theme": primary_result.theme if primary_result else "",
+                        "topics": primary_result.topics if primary_result else [],
+                    },
+                )
+                _save_intermediate_result(session_id, "knowledge", knowledge_result)
+                status_manager.update(
+                    session_id,
+                    progress=96,
+                    message="会议知识图谱已生成" if knowledge_result.get("status") == "ok" else "会议知识图谱已降级，转写分析结果可用"
+                )
+            except Exception as e:
+                knowledge_result = {"status": "degraded", "warnings": [str(e)]}
+                _save_intermediate_result(session_id, "knowledge", knowledge_result)
+                logger.warning(f"[Upload {session_id}] Data Service MCP handoff failed: {e}")
+        else:
+            knowledge_result = {
+                "status": "disabled",
+                "warnings": ["Data Service MCP is disabled or no segments were produced"],
+                "workspace_id": config.knowledge_service.mcp_workspace_id,
+                "external_id": session_id,
+                "session_id": None,
+                "source_id": None,
+                "operation_id": None,
+                "session_graph": None,
+                "speaker_summaries": [],
+                "communities": [],
+            }
+            _save_intermediate_result(session_id, "knowledge", knowledge_result)
+
         # 构建音频 URL
         if request:
             scheme = request.headers.get("x-forwarded-proto", "http")
@@ -571,6 +704,19 @@ async def _process_upload_file(
             "key_points": primary_result.key_points if primary_result else [],
             "action_items": primary_result.action_items if primary_result else [],
             "audio_url": audio_url,
+            "knowledge_session": {
+                "status": knowledge_result.get("status"),
+                "warnings": knowledge_result.get("warnings", []),
+                "workspace_id": knowledge_result.get("workspace_id"),
+                "session_id": knowledge_result.get("session_id"),
+                "external_id": knowledge_result.get("external_id", session_id),
+                "source_id": knowledge_result.get("source_id"),
+                "operation_id": knowledge_result.get("operation_id"),
+                "build_status": knowledge_result.get("build_status"),
+            },
+            "session_graph": knowledge_result.get("session_graph"),
+            "speaker_summaries": knowledge_result.get("speaker_summaries", []),
+            "communities": knowledge_result.get("communities", []),
         })
 
         # 标记处理完成
@@ -578,10 +724,12 @@ async def _process_upload_file(
         total_elapsed = time.time() - upload_start_time
         logger.info(f"[Upload {session_id}] ========== Background Processing Completed in {total_elapsed:.2f}s ==========")
         logger.info(f"[Upload {session_id}] Summary: segments={len(transcript_results)}, speakers={len(speakers)}, chapters={len(chapters_dict)}")
+        _log_stage(session_id, "completed", "complete", elapsed_seconds=round(total_elapsed, 2))
 
     except Exception as e:
         total_elapsed = time.time() - upload_start_time
         logger.error(f"[Upload {session_id}] Background processing error after {total_elapsed:.2f}s: {e}")
+        _log_stage(session_id, "error", "complete", str(e), elapsed_seconds=round(total_elapsed, 2))
         import traceback
         logger.error(f"[Upload {session_id}] Traceback: {traceback.format_exc()}")
         status_manager.error(session_id, str(e))
@@ -624,6 +772,7 @@ async def upload_audio_file(
     upload_start_time = time.time()
     logger.info(f"[Upload] ========== Upload started for session {session_id} ==========")
     logger.info(f"[Upload {session_id}] File received: filename={file.filename}, content_type={file.content_type}")
+    _log_stage(session_id, "uploading", "start", filename=file.filename or "", content_type=file.content_type or "")
 
     # 初始化处理状态管理器
     status_manager = get_processing_status_manager()
@@ -699,6 +848,13 @@ async def upload_audio_file(
                 file_size += len(chunk)
 
         logger.info(f"[Upload {session_id}] File saved: {file_size} bytes in {time.time() - upload_start_time:.2f}s")
+        _log_stage(
+            session_id,
+            "uploading",
+            "complete",
+            bytes=file_size,
+            elapsed_seconds=round(time.time() - upload_start_time, 2),
+        )
 
         # 注册临时文件到清理队列
         _upload_temp_files.add(temp_file)
@@ -765,6 +921,11 @@ async def delete_upload_session(session_id: str, _auth: str = Depends(verify_api
 
     # 删除中间结果目录
     try:
+        if config.knowledge_service.mcp_enabled:
+            knowledge_result = _read_intermediate_result(session_id, "knowledge")
+            if knowledge_result:
+                close_result = await DataServiceMcpClient().close_meeting_session(knowledge_result)
+                logger.info(f"[Delete {session_id}] Data Service session close result: {close_result}")
         session_dir = config.workspace_output_dir / session_id
         if session_dir.exists():
             import shutil
@@ -802,6 +963,78 @@ async def delete_upload_session(session_id: str, _auth: str = Depends(verify_api
     }
 
 
+@router.post("/upload/{session_id}/knowledge/close")
+async def close_upload_knowledge_session(session_id: str, _auth: str = Depends(verify_api_key_strict)):
+    """
+    关闭并按配置清理上传会话关联的 Data Service session graph。
+    """
+    import re
+    if not re.match(r'^upload_[0-9a-f]{8}$', session_id):
+        logger.warning(f"[KnowledgeClose] Invalid session_id format: {session_id}")
+        raise HTTPException(status_code=400, detail="无效的会话 ID")
+
+    knowledge_result = _read_intermediate_result(session_id, "knowledge")
+    if not knowledge_result:
+        return {
+            "success": True,
+            "session_id": session_id,
+            "status": "skipped",
+            "warnings": ["No Data Service knowledge session recorded"],
+        }
+
+    close_result = await DataServiceMcpClient().close_meeting_session(knowledge_result)
+    updated = {
+        **knowledge_result,
+        "closed": close_result,
+        "status": close_result.get("status", knowledge_result.get("status")),
+    }
+    _save_intermediate_result(session_id, "knowledge", updated)
+
+    result = _read_intermediate_result(session_id, "result")
+    if result:
+        result["knowledge_session"] = {
+            **dict(result.get("knowledge_session") or {}),
+            "status": close_result.get("status"),
+            "warnings": close_result.get("warnings", []),
+        }
+        _save_intermediate_result(session_id, "result", result)
+
+    return {"success": True, "session_id": session_id, **close_result}
+
+
+class KnowledgeSearchRequest(BaseModel):
+    query: str = Field(..., min_length=1, description="搜索问题或关键词")
+    top_k: int = Field(default=8, ge=1, le=20, description="返回结果数量")
+    include_workspace_context: bool = Field(default=True, description="是否同时搜索本地知识库上下文")
+
+
+@router.post("/upload/{session_id}/knowledge/search")
+async def search_upload_knowledge_session(
+    session_id: str,
+    request: KnowledgeSearchRequest,
+    _auth: str = Depends(verify_api_key_strict),
+):
+    """
+    在当前上传会话的 GraphRAG 图谱内搜索，并按需带上本地知识库/文档上下文。
+    """
+    import re
+    if not re.match(r'^upload_[0-9a-f]{8}$', session_id):
+        logger.warning(f"[KnowledgeSearch] Invalid session_id format: {session_id}")
+        raise HTTPException(status_code=400, detail="无效的会话 ID")
+
+    knowledge_result = _read_intermediate_result(session_id, "knowledge")
+    if not knowledge_result:
+        raise HTTPException(status_code=404, detail="未找到该会议关联的知识图谱会话")
+
+    result = await DataServiceMcpClient().query_meeting_session(
+        knowledge_session=knowledge_result,
+        query=request.query.strip(),
+        top_k=request.top_k,
+        include_workspace_context=request.include_workspace_context,
+    )
+    return {"success": result.get("status") not in {"blocked", "failed"}, **result}
+
+
 @router.get("/upload/formats")
 async def get_supported_formats():
     """获取支持的文件格式"""
@@ -836,6 +1069,50 @@ async def get_uploaded_audio(session_id: str):
         logger.warning(f"[Audio] Invalid session_id format: {session_id}")
         raise HTTPException(status_code=400, detail="无效的会话 ID")
 
+    # 临时文件存储在 temp_dir / session_id . ext
+    temp_dir = (Path(tempfile.gettempdir()) / "voice_upload").resolve()
+
+    # 查找对应的音频文件（尝试各种可能的扩展名）
+    possible_files = []
+    for ext in ['mp3', 'mp4', 'wav', 'm4a', 'ogg', 'flac', 'webm']:
+        f = temp_dir / f"{session_id}.{ext}"
+        try:
+            resolved_path = f.resolve()
+            if not str(resolved_path).startswith(str(temp_dir)):
+                logger.warning(f"[Audio] Path traversal attempt detected: {resolved_path}")
+                continue
+            if resolved_path.exists():
+                possible_files.append(resolved_path)
+        except (OSError, RuntimeError):
+            continue
+
+    if not possible_files:
+        logger.warning(f"[Audio] File not found for session {session_id}")
+        raise HTTPException(status_code=404, detail="音频文件不存在或已过期")
+
+    audio_file = possible_files[0]
+    ext = audio_file.suffix.lower()
+
+    content_types = {
+        '.mp3': 'audio/mpeg',
+        '.mp4': 'audio/mp4',
+        '.m4a': 'audio/m4a',
+        '.wav': 'audio/wav',
+        '.ogg': 'audio/ogg',
+        '.flac': 'audio/flac',
+        '.webm': 'video/webm',
+    }
+    content_type = content_types.get(ext, 'application/octet-stream')
+
+    logger.info(f"[Audio] Streaming audio for session {session_id}: {audio_file}")
+
+    from fastapi.responses import FileResponse
+    return FileResponse(
+        path=audio_file,
+        media_type=content_type,
+        filename=audio_file.name
+    )
+
 
 @router.get("/upload/{session_id}")
 async def get_upload_session(session_id: str, _auth: str = Depends(verify_api_key_strict)):
@@ -861,6 +1138,10 @@ async def get_upload_session(session_id: str, _auth: str = Depends(verify_api_ke
         "segments": None,
         "chapters": None,
         "analysis": None,
+        "knowledge_session": None,
+        "session_graph": None,
+        "speaker_summaries": [],
+        "communities": [],
     }
 
     # 读取 transcript 中间结果
@@ -882,57 +1163,20 @@ async def get_upload_session(session_id: str, _auth: str = Depends(verify_api_ke
         except Exception as e:
             logger.warning(f"[Session] Failed to read analysis: {e}")
 
-    return result
-
-    # 临时文件存储在 temp_dir / session_id . ext
-    temp_dir = Path(tempfile.gettempdir()) / "voice_upload"
-    # 解析 temp_dir 为绝对路径，防止符号链接攻击
-    temp_dir = temp_dir.resolve()
-
-    # 查找对应的音频文件（尝试各种可能的扩展名）
-    possible_files = []
-    for ext in ['mp3', 'mp4', 'wav', 'm4a', 'ogg', 'flac', 'webm']:
-        f = temp_dir / f"{session_id}.{ext}"
-        # 使用 resolve() 解析符号链接，确保文件在预期目录内
+    result_file = session_dir / "result.json"
+    if result_file.exists():
         try:
-            resolved_path = f.resolve()
-            # 安全检查：确保解析后的路径仍在 temp_dir 内
-            if not str(resolved_path).startswith(str(temp_dir)):
-                logger.warning(f"[Audio] Path traversal attempt detected: {resolved_path}")
-                continue
-            if resolved_path.exists():
-                possible_files.append(resolved_path)
-        except (OSError, RuntimeError):
-            # 处理符号链接断裂等情况
-            continue
+            with open(result_file, 'r', encoding='utf-8') as f:
+                final_result = json.load(f)
+            result["knowledge_session"] = final_result.get("knowledge_session")
+            result["session_graph"] = final_result.get("session_graph")
+            result["speaker_summaries"] = final_result.get("speaker_summaries", [])
+            result["communities"] = final_result.get("communities", [])
+            result["audio_url"] = final_result.get("audio_url")
+        except Exception as e:
+            logger.warning(f"[Session] Failed to read result: {e}")
 
-    if not possible_files:
-        logger.warning(f"[Audio] File not found for session {session_id}")
-        raise HTTPException(status_code=404, detail="音频文件不存在或已过期")
-
-    audio_file = possible_files[0]
-    ext = audio_file.suffix.lower()
-
-    # 根据扩展名确定 content-type
-    content_types = {
-        '.mp3': 'audio/mpeg',
-        '.mp4': 'audio/mp4',
-        '.m4a': 'audio/m4a',
-        '.wav': 'audio/wav',
-        '.ogg': 'audio/ogg',
-        '.flac': 'audio/flac',
-        '.webm': 'video/webm',
-    }
-    content_type = content_types.get(ext, 'application/octet-stream')
-
-    logger.info(f"[Audio] Streaming audio for session {session_id}: {audio_file}")
-
-    from fastapi.responses import FileResponse
-    return FileResponse(
-        path=audio_file,
-        media_type=content_type,
-        filename=audio_file.name
-    )
+    return result
 
 
 # ============ 文本分析接口 ============

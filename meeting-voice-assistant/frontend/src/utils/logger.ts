@@ -2,7 +2,7 @@
  * 前端日志模块 - 将日志发送到后端
  */
 
-const LOG_ENDPOINT = '/api/v1/logs'
+const LOG_ENDPOINT = '/api/v1/logs/'
 const LOG_LEVELS = ['debug', 'info', 'warn', 'error'] as const
 type LogLevel = typeof LOG_LEVELS[number]
 
@@ -20,7 +20,7 @@ class FrontendLogger {
   private flushInterval: number | null = null
 
   constructor() {
-    this.enabled = import.meta.env.DEV === false  // 生产环境启用
+    this.enabled = import.meta.env.VITE_ENABLE_FRONTEND_LOGS !== 'false'
     this.level = (import.meta.env.VITE_LOG_LEVEL as LogLevel) || 'info'
     this.startFlushTimer()
   }
@@ -61,8 +61,6 @@ class FrontendLogger {
   }
 
   log(level: LogLevel, message: string, context?: Record<string, unknown>): void {
-    if (!this.enabled || !this.shouldLog(level)) return
-
     const entry: LogEntry = {
       timestamp: new Date().toISOString(),
       level,
@@ -70,13 +68,14 @@ class FrontendLogger {
       context,
     }
 
-    this.buffer.push(entry)
-
     // 同时输出到控制台
     const consoleMethod = level === 'error' ? console.error
       : level === 'warn' ? console.warn
       : console.log
     consoleMethod(`[${level.toUpperCase()}] ${message}`, context || '')
+
+    if (!this.enabled || !this.shouldLog(level)) return
+    this.buffer.push(entry)
   }
 
   debug(message: string, context?: Record<string, unknown>): void {
@@ -100,6 +99,10 @@ class FrontendLogger {
       clearInterval(this.flushInterval)
     }
     this.flush()
+  }
+
+  flushNow(): Promise<void> {
+    return this.flush()
   }
 }
 

@@ -132,7 +132,7 @@ if ! check_port 5173 "Frontend"; then
     echo "  跳过 Frontend (已运行)"
 else
     cd "$FRONTEND_DIR"
-    npm run dev &
+    VITE_API_KEY="${VITE_API_KEY:-${API_KEY:-local-dev-key}}" npm run dev &
     echo "  Frontend PID: $!"
     wait_for_service "http://localhost:5173" "Frontend"
 fi

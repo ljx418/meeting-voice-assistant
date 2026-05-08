@@ -206,7 +206,7 @@ start_frontend() {
     fi
 
     # 在后台启动
-    nohup npm run dev > ../logs/frontend.log 2>&1 &
+    VITE_API_KEY="${VITE_API_KEY:-${API_KEY:-local-dev-key}}" nohup npm run dev > ../logs/frontend.log 2>&1 &
     echo $! > ../logs/frontend.pid
 
     # 等待启动

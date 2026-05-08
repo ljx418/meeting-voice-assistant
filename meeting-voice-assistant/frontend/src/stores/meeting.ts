@@ -47,6 +47,24 @@ export interface UploadedFileItem {
   message?: string
 }
 
+export interface KnowledgeSessionState {
+  status?: string
+  warnings?: string[]
+  workspace_id?: string
+  session_id?: string
+  external_id?: string
+  source_id?: string
+  operation_id?: string
+  build_status?: string
+}
+
+export interface SessionGraphState {
+  nodes: any[]
+  edges: any[]
+  communities: any[]
+  stats?: Record<string, any>
+}
+
 export interface SessionData {
   sessionId: string
   fileId: string
@@ -63,6 +81,10 @@ export interface SessionData {
   speakers: Speaker[]
   decisions: Decision[]
   actionItems: ActionItem[]
+  knowledgeSession?: KnowledgeSessionState | null
+  sessionGraph?: SessionGraphState | null
+  speakerSummaries?: any[]
+  knowledgeStatus?: string
 }
 
 export const useMeetingStore = defineStore('meeting', () => {
@@ -84,6 +106,10 @@ export const useMeetingStore = defineStore('meeting', () => {
   const decisions = ref<Decision[]>([])
   const actionItems = ref<ActionItem[]>([])
   const speakers = ref<Speaker[]>([])
+  const knowledgeSession = ref<KnowledgeSessionState | null>(null)
+  const sessionGraph = ref<SessionGraphState | null>(null)
+  const speakerSummaries = ref<any[]>([])
+  const knowledgeStatus = ref<string>('')
 
   // ============ 上传状态 ============
   const audioUrl = ref<string>('')
@@ -172,6 +198,10 @@ export const useMeetingStore = defineStore('meeting', () => {
     decisions.value = []
     actionItems.value = []
     speakers.value = []
+    knowledgeSession.value = null
+    sessionGraph.value = null
+    speakerSummaries.value = []
+    knowledgeStatus.value = ''
     selectedChapterId.value = null
     uploadProgress.value = { stage: 'idle', progress: 0 }
     audioUrl.value = ''
@@ -193,6 +223,12 @@ export const useMeetingStore = defineStore('meeting', () => {
   function setDecisions(newDecisions: Decision[]) { decisions.value = newDecisions }
   function setActionItems(newActionItems: ActionItem[]) { actionItems.value = newActionItems }
   function setSpeakers(newSpeakers: Speaker[]) { speakers.value = newSpeakers }
+  function setKnowledgeSession(newSession: KnowledgeSessionState | null) {
+    knowledgeSession.value = newSession
+    knowledgeStatus.value = newSession?.status || ''
+  }
+  function setSessionGraph(newGraph: SessionGraphState | null) { sessionGraph.value = newGraph }
+  function setSpeakerSummaries(newSummaries: any[]) { speakerSummaries.value = newSummaries }
 
   // ============ 上传 Actions ============
   function addUploadedFile(file: UploadedFileItem) { uploadedFiles.value.push(file) }
@@ -232,6 +268,10 @@ export const useMeetingStore = defineStore('meeting', () => {
       speakers: [],
       decisions: [],
       actionItems: [],
+      knowledgeSession: null,
+      sessionGraph: null,
+      speakerSummaries: [],
+      knowledgeStatus: '',
       ...(existing || {}),
       ...data,
     }
@@ -256,6 +296,10 @@ export const useMeetingStore = defineStore('meeting', () => {
         speakers.value = data.speakers
         audioUrl.value = data.audioUrl
         topic.value = data.theme
+        knowledgeSession.value = data.knowledgeSession || null
+        sessionGraph.value = data.sessionGraph || null
+        speakerSummaries.value = data.speakerSummaries || []
+        knowledgeStatus.value = data.knowledgeStatus || data.knowledgeSession?.status || ''
       }
     }
   }
@@ -267,6 +311,7 @@ export const useMeetingStore = defineStore('meeting', () => {
     meetingId, topic, participants, transcripts, chapters, currentSpeaker,
     status, startTime, endTime, processingStatus, processingMessage,
     analysisResult, errorMessage, decisions, actionItems, speakers,
+    knowledgeSession, sessionGraph, speakerSummaries, knowledgeStatus,
     audioUrl, uploadProgress, uploadedFiles,
     sessionMap, activeSessionId,
     selectedChapterId,
@@ -275,6 +320,7 @@ export const useMeetingStore = defineStore('meeting', () => {
     clearTranscripts, setCurrentSpeaker, addChapter, setChapters, setStatus,
     reset, setProcessingStatus, setAnalysisResult, setError, clearError,
     setDecisions, setActionItems, setSpeakers,
+    setKnowledgeSession, setSessionGraph, setSpeakerSummaries,
     addUploadedFile, updateUploadedFile, removeUploadedFile, setAudioUrl,
     setUploadProgress, updateUploadProgress,
     setSessionData, getSessionData, setActiveSession,

@@ -32,6 +32,10 @@ export interface KnowledgeSummaryResponse {
 }
 
 export interface KnowledgeGraphResponse {
+  scope?: string
+  session_id?: string
+  workspace_id?: string
+  status?: string
   nodes: any[]
   edges: any[]
   communities: any[]
@@ -40,6 +44,9 @@ export interface KnowledgeGraphResponse {
     relationship_count: number
     community_count: number
     document_count: number
+    node_count?: number
+    edge_count?: number
+    source_count?: number
   }
   db_path: string
   quality_plan?: Record<string, any>
@@ -374,6 +381,15 @@ export function cancelKnowledgeBuild(workspace: string, operationId: string, rea
 
 export function fetchKnowledgeGraph(workspace: string, maxNodes = 120) {
   return postJson<KnowledgeGraphResponse>('/graph', { workspace, max_nodes: maxNodes })
+}
+
+export function fetchKnowledgeSessionGraph(workspaceId: string, sessionId: string, maxNodes = 160) {
+  return postJson<KnowledgeGraphResponse>('/graph', {
+    workspace_id: workspaceId,
+    session_id: sessionId,
+    scope: 'session',
+    max_nodes: maxNodes,
+  })
 }
 
 export function queryKnowledge(workspace: string, query: string, mode: QueryMode, topK = 8) {

@@ -113,7 +113,11 @@ class ProcessingStatusManager:
         segment_count: Optional[int] = None,
     ) -> ProcessingInfo:
         """更新处理状态"""
-        logger.info(f"[ProcessingStatus] update({session_id}) called: stage={stage}, progress={progress}")
+        logger.info(
+            f"[ProcessingStatus] update({session_id}) called: "
+            f"stage={stage}, progress={progress}, message={message}, "
+            f"speakers={speaker_count}, segments={segment_count}"
+        )
         if session_id not in self._status:
             logger.info(f"[ProcessingStatus] update({session_id}): session not found, calling start()")
             self.start(session_id)
@@ -152,7 +156,7 @@ class ProcessingStatusManager:
             info.message = message
             info.stage_started_at = datetime.now()
             self._notify(session_id)
-            logger.info(f"[ProcessingStatus] Completed: {session_id}")
+            logger.info(f"[ProcessingStatus] Completed: {session_id}, message={message}")
         return self._status.get(session_id)
 
     def error(self, session_id: str, error_message: str) -> ProcessingInfo:

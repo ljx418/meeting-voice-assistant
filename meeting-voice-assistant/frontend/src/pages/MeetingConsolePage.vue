@@ -161,12 +161,94 @@
         </div>
       </section>
 
-<!-- Right Sidebar (C) - external knowledge service boundary -->
+      <!-- Right Sidebar (C) - meeting knowledge context -->
       <aside class="sidebar-right">
-        <div class="knowledge-service-card">
-          <h3>Knowledge Service</h3>
-          <p>会议应用只负责转写和分析；知识固化、GraphRAG、Wiki 和 trace 由独立 data_service 提供。</p>
-          <button class="btn-knowledge-service" @click="router.push('/knowledge')">打开服务控制台</button>
+        <div class="knowledge-panel">
+          <div class="knowledge-header">
+            <div>
+              <h3>会议 GraphRAG</h3>
+              <p>{{ graphStatsText }}</p>
+            </div>
+            <span class="knowledge-status" :class="activeKnowledgeSession?.status || 'missing'">
+              {{ formatKnowledgeStatus(activeKnowledgeSession?.status) }}
+            </span>
+          </div>
+
+          <div v-if="activeKnowledgeSession?.warnings?.length" class="knowledge-warning">
+            {{ activeKnowledgeSession.warnings.join('；') }}
+          </div>
+
+          <section class="knowledge-section">
+            <div class="section-row">
+              <h4>社区摘要</h4>
+              <span>{{ activeCommunities.length }}</span>
+            </div>
+            <div v-if="activeCommunities.length" class="community-list">
+              <article v-for="community in activeCommunities.slice(0, 3)" :key="community.id" class="community-card">
+                <strong>{{ community.title || community.id }}</strong>
+                <p>{{ community.summary || '暂无摘要' }}</p>
+              </article>
+            </div>
+            <div v-else class="knowledge-empty">暂无社区摘要</div>
+          </section>
+
+          <section class="knowledge-section">
+            <div class="section-row">
+              <h4>本地文档搜索</h4>
+              <button class="btn-link" @click="openKnowledgeConsole">控制台</button>
+            </div>
+            <form class="knowledge-search" @submit.prevent="runKnowledgeSearch">
+              <input
+                v-model="knowledgeQuery"
+                type="search"
+                placeholder="搜索会议内容或本地知识库"
+                :disabled="knowledgeSearchLoading"
+              />
+              <button type="submit" :disabled="knowledgeSearchLoading || !knowledgeQuery.trim()">
+                {{ knowledgeSearchLoading ? '搜索中' : '搜索' }}
+              </button>
+            </form>
+            <div class="query-suggestions">
+              <button
+                v-for="suggestion in querySuggestions"
+                :key="suggestion"
+                type="button"
+                @click="useSuggestion(suggestion)"
+              >
+                {{ suggestion }}
+              </button>
+            </div>
+            <div v-if="knowledgeSearchError" class="knowledge-warning">
+              {{ knowledgeSearchError }}
+            </div>
+            <div v-if="knowledgeSearchResults.length" class="search-results">
+              <article v-for="(hit, idx) in knowledgeSearchResults" :key="`${hit.source || hit.title}-${idx}`" class="search-hit">
+                <div class="hit-title">
+                  <span>{{ hit.title || hit.source || '相关内容' }}</span>
+                  <small>{{ formatScore(hit.score) }}</small>
+                </div>
+                <p>{{ hit.snippet || '暂无摘要' }}</p>
+                <small>{{ formatHitSource(hit) }}</small>
+              </article>
+            </div>
+            <div v-else-if="knowledgeSearchTouched && !knowledgeSearchLoading" class="knowledge-empty">
+              未找到匹配内容
+            </div>
+          </section>
+
+          <section class="knowledge-section">
+            <div class="section-row">
+              <h4>说话人关联</h4>
+              <span>{{ activeSpeakerSummaries.length }}</span>
+            </div>
+            <div v-if="activeSpeakerSummaries.length" class="speaker-summary-list">
+              <article v-for="summary in activeSpeakerSummaries.slice(0, 4)" :key="summary.actor?.actor_id" class="speaker-summary-card">
+                <strong>{{ summary.actor?.label || summary.actor?.actor_id }}</strong>
+                <p>{{ summary.summary || '暂无摘要' }}</p>
+              </article>
+            </div>
+            <div v-else class="knowledge-empty">暂无说话人关联</div>
+          </section>
         </div>
       </aside>
     </div>
@@ -180,10 +262,33 @@ import { useMeetingStore, type Chapter } from '../stores/meeting'
 import ChapterList from '../components/ChapterList.vue'
 import AudioTimeline from '../components/AudioTimeline.vue'
 import NotesPanel from '../components/NotesPanel.vue'
+import { API_CONFIG, authHeaders } from '../api/config'
 
 const router = useRouter()
 const route = useRoute()
 const store = useMeetingStore()
+
+interface UploadSessionResponse {
+  session_id: string
+  segments?: Array<{ text: string; speaker: string; start_time: number; end_time: number }>
+  chapters?: Chapter[]
+  analysis?: any
+  audio_url?: string
+  knowledge_session?: any
+  session_graph?: any
+  speaker_summaries?: any[]
+  communities?: any[]
+}
+
+interface KnowledgeHit {
+  title?: string
+  snippet?: string
+  source?: string
+  score?: number
+  kind?: string
+  meta?: Record<string, any>
+  source_refs?: any[]
+}
 
 // Load session data from route param if present
 const routeSessionId = computed(() => route.params.sessionId as string | undefined)
@@ -196,6 +301,12 @@ const sessionData = computed(() => {
   console.log(`[MeetingConsole] sessionData: no routeSessionId`)
   return null
 })
+
+const knowledgeQuery = ref('')
+const knowledgeSearchLoading = ref(false)
+const knowledgeSearchTouched = ref(false)
+const knowledgeSearchError = ref('')
+const knowledgeSearchResults = ref<KnowledgeHit[]>([])
 
 // Audio element ref
 const audioElement = ref<HTMLAudioElement | null>(null)
@@ -277,7 +388,147 @@ function formatTime(seconds: number): string {
   return `${mins}:${String(secs).padStart(2, '0')}`
 }
 
-// Search
+function formatKnowledgeStatus(status?: string): string {
+  const labels: Record<string, string> = {
+    ok: '可用',
+    degraded: '降级',
+    disabled: '未启用',
+    disposed: '已清理',
+    closed: '已关闭',
+  }
+  return labels[status || ''] || '未知'
+}
+
+function formatScore(score?: number): string {
+  if (typeof score !== 'number') return ''
+  return `${Math.round(score * 100)}%`
+}
+
+function formatHitSource(hit: KnowledgeHit): string {
+  if (hit.kind) return hit.kind
+  if (hit.meta?.path) return hit.meta.path
+  if (hit.source) return hit.source
+  return '本地知识库'
+}
+
+function transformUploadSession(sessionId: string, data: UploadSessionResponse) {
+  const analysis = data.analysis || {}
+  const chaptersData = data.chapters || analysis.chapters || []
+  const segments = data.segments || []
+  const speakers = Array.from(new Set(segments.map(s => s.speaker))).map((spk, idx) => ({
+    id: spk,
+    name: spk,
+    color: speakerColors[idx % speakerColors.length],
+  }))
+  const decisions = chaptersData.flatMap((ch: any) =>
+    (ch.decisions || []).map((d: any) => ({ decision: d.decision, source_timestamps: d.source_timestamps || [] }))
+  )
+  const actionItems = chaptersData.flatMap((ch: any) =>
+    (ch.action_items || []).map((a: any) => ({ todo: a.todo, source_timestamps: a.source_timestamps || [] }))
+  )
+
+  store.setSessionData(sessionId, {
+    sessionId,
+    fileId: `file_${sessionId}`,
+    fileName: sessionId,
+    progress: 100,
+    stage: 'completed',
+    message: '处理完成',
+    chapters: chaptersData,
+    segments,
+    audioUrl: data.audio_url || `/api/v1/upload/${sessionId}/audio`,
+    theme: analysis.theme || '',
+    topics: analysis.topics || [],
+    speakerRoles: analysis.speaker_roles || [],
+    speakers,
+    decisions,
+    actionItems,
+    knowledgeSession: data.knowledge_session || null,
+    sessionGraph: data.session_graph || null,
+    speakerSummaries: data.speaker_summaries || [],
+    knowledgeStatus: data.knowledge_session?.status || '',
+  })
+  store.setActiveSession(sessionId)
+}
+
+async function loadRouteSession() {
+  const sessionId = routeSessionId.value
+  if (!sessionId || store.getSessionData(sessionId)) return
+  const response = await fetch(API_CONFIG.uploadSessionUrl(sessionId), {
+    headers: authHeaders(),
+  })
+  if (!response.ok) {
+    console.warn('[MeetingConsole] Failed to load session', sessionId, response.status)
+    return
+  }
+  const data = await response.json()
+  transformUploadSession(sessionId, data)
+}
+
+function useSuggestion(suggestion: string) {
+  knowledgeQuery.value = suggestion
+  runKnowledgeSearch()
+}
+
+async function runKnowledgeSearch() {
+  const sessionId = routeSessionId.value || store.activeSessionId
+  const query = knowledgeQuery.value.trim()
+  if (!sessionId || !query) return
+
+  knowledgeSearchTouched.value = true
+  knowledgeSearchLoading.value = true
+  knowledgeSearchError.value = ''
+  try {
+    const response = await fetch(API_CONFIG.uploadKnowledgeSearchUrl(sessionId), {
+      method: 'POST',
+      headers: authHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify({
+        query,
+        top_k: 8,
+        include_workspace_context: true,
+      }),
+    })
+    const data = await response.json()
+    if (!response.ok) {
+      throw new Error(data?.detail || `搜索失败: ${response.status}`)
+    }
+    const sessionHits = data.hits || []
+    const workspaceHits = data.workspace_context?.hits || []
+    knowledgeSearchResults.value = [...sessionHits, ...workspaceHits].slice(0, 8)
+  } catch (error) {
+    knowledgeSearchResults.value = []
+    knowledgeSearchError.value = error instanceof Error ? error.message : String(error)
+  } finally {
+    knowledgeSearchLoading.value = false
+  }
+}
+
+function closeCurrentKnowledgeSession() {
+  const sessionId = routeSessionId.value || store.activeSessionId
+  if (!sessionId || !activeKnowledgeSession.value?.session_id) return
+  fetch(API_CONFIG.uploadKnowledgeCloseUrl(sessionId), {
+    method: 'POST',
+    headers: authHeaders(),
+    keepalive: true,
+  }).catch((error) => {
+    console.warn('[MeetingConsole] Knowledge session close failed', error)
+  })
+}
+
+function openKnowledgeConsole() {
+  const session = activeKnowledgeSession.value
+  if (!session?.session_id) {
+    router.push('/knowledge')
+    return
+  }
+  const params = new URLSearchParams({
+    scope: 'session',
+    workspace_id: session.workspace_id || 'meeting-knowledge',
+    session_id: session.session_id,
+  })
+  window.location.href = `http://127.0.0.1:8003/knowledge?${params.toString()}#graph-panel`
+}
+
 // Computed
 const meetingDate = computed(() => {
   const now = new Date()
@@ -297,6 +548,33 @@ const activeTopic = computed(() => sessionData.value?.theme || store.topic || '�
 const activeDecisions = computed(() => sessionData.value?.decisions ?? store.decisions)
 const activeActionItems = computed(() => sessionData.value?.actionItems ?? store.actionItems)
 const activeAudioUrl = computed(() => sessionData.value?.audioUrl || store.audioUrl || '')
+const activeKnowledgeSession = computed(() => sessionData.value?.knowledgeSession || store.knowledgeSession)
+const activeSessionGraph = computed(() => sessionData.value?.sessionGraph || store.sessionGraph)
+const activeSpeakerSummaries = computed(() => sessionData.value?.speakerSummaries || store.speakerSummaries || [])
+const activeCommunities = computed(() => {
+  const graphCommunities = activeSessionGraph.value?.communities || []
+  if (graphCommunities.length) return graphCommunities
+  return []
+})
+
+const graphStatsText = computed(() => {
+  const stats = activeSessionGraph.value?.stats
+  if (!stats) return '暂无图谱统计'
+  return `${stats.actor_count || 0} 说话人 · ${stats.unit_count || 0} 知识单元 · ${stats.community_count || 0} 社区`
+})
+
+const querySuggestions = computed(() => {
+  const suggestions: string[] = []
+  chapters.value.slice(0, 3).forEach((chapter) => {
+    if (chapter.title) suggestions.push(chapter.title)
+  })
+  activeSpeakerSummaries.value.slice(0, 2).forEach((summary: any) => {
+    const label = summary.actor?.label || summary.actor?.actor_id
+    if (label) suggestions.push(`${label} 相关内容`)
+  })
+  if (activeTopic.value && activeTopic.value !== '会议记录') suggestions.push(activeTopic.value)
+  return Array.from(new Set(suggestions)).slice(0, 5)
+})
 
 const currentChapterData = computed(() => {
   if (!store.selectedChapterId && chapters.value.length) {
@@ -646,9 +924,10 @@ function jumpToTime(time: number | undefined) {
 }
 
 // Initialize
-onMounted(() => {
+onMounted(async () => {
   // Sync session data to global store if navigated via sessionId route
   if (routeSessionId.value) {
+    await loadRouteSession()
     store.setActiveSession(routeSessionId.value)
   }
   // Ensure we have chapters - fallback to store.chapters if sessionData is null
@@ -663,6 +942,7 @@ onUnmounted(() => {
     audioElement.value.pause()
     audioElement.value = null
   }
+  closeCurrentKnowledgeSession()
 })
 </script>
 
@@ -900,33 +1180,192 @@ onUnmounted(() => {
   padding: 16px 16px 16px 0;
 }
 
-.knowledge-service-card {
+.knowledge-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   padding: 16px;
   background: #141420;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
+  max-height: calc(100vh - 88px);
+  overflow-y: auto;
 }
 
-.knowledge-service-card h3 {
-  margin: 0 0 8px;
+.knowledge-header,
+.section-row,
+.hit-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.knowledge-header h3,
+.knowledge-section h4 {
+  margin: 0;
   font-size: 15px;
+  color: #fafafa;
 }
 
-.knowledge-service-card p {
-  margin: 0 0 14px;
-  color: rgba(255, 255, 255, 0.65);
+.knowledge-header p,
+.community-card p,
+.speaker-summary-card p,
+.search-hit p {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.knowledge-status {
+  flex-shrink: 0;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #a7f3d0;
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.knowledge-status.degraded,
+.knowledge-status.disabled,
+.knowledge-status.missing {
+  color: #fde68a;
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.32);
+}
+
+.knowledge-status.disposed,
+.knowledge-status.closed {
+  color: #fecaca;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.32);
+}
+
+.knowledge-warning {
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #facc15;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.knowledge-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-row span {
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 12px;
+}
+
+.community-list,
+.speaker-summary-list,
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.community-card,
+.speaker-summary-card,
+.search-hit {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+}
+
+.community-card strong,
+.speaker-summary-card strong,
+.hit-title span {
+  color: #ffffff;
   font-size: 13px;
-  line-height: 1.5;
 }
 
-.btn-knowledge-service {
-  width: 100%;
-  padding: 9px 12px;
+.hit-title small,
+.search-hit small {
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 11px;
+}
+
+.knowledge-search {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.knowledge-search input {
+  min-width: 0;
+  height: 34px;
+  padding: 0 10px;
+  color: #f8fafc;
+  background: #0f0f18;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  outline: none;
+}
+
+.knowledge-search input:focus {
+  border-color: #6366f1;
+}
+
+.knowledge-search button,
+.btn-link,
+.query-suggestions button {
   border: 0;
   border-radius: 6px;
-  color: #fff;
-  background: #6366f1;
   cursor: pointer;
+}
+
+.knowledge-search button {
+  height: 34px;
+  padding: 0 12px;
+  color: #ffffff;
+  background: #6366f1;
+}
+
+.knowledge-search button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn-link {
+  padding: 0;
+  color: #a5b4fc;
+  background: transparent;
+  font-size: 12px;
+}
+
+.query-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.query-suggestions button {
+  max-width: 100%;
+  padding: 5px 8px;
+  color: rgba(255, 255, 255, 0.74);
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.26);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.knowledge-empty {
+  padding: 10px;
+  color: rgba(255, 255, 255, 0.46);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  font-size: 12px;
 }
 
 /* Transcript Panel */

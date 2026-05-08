@@ -155,6 +155,41 @@
             </div>
             <div v-else class="empty-hint">暂无分析数据</div>
           </div>
+
+          <!-- Knowledge Graph Preview -->
+          <div v-if="debugStore.stage === 'completed' && activeDetailTab === 'knowledge'" class="detail-content">
+            <div class="knowledge-status-row">
+              <span class="knowledge-pill" :class="store.knowledgeSession?.status || 'missing'">
+                {{ formatKnowledgeStatus(store.knowledgeSession?.status) }}
+              </span>
+              <span class="knowledge-meta">
+                {{ graphStatsText }}
+              </span>
+            </div>
+            <div v-if="store.knowledgeSession?.warnings?.length" class="knowledge-warning">
+              {{ store.knowledgeSession.warnings.join('；') }}
+            </div>
+            <div v-if="store.sessionGraph?.nodes?.length" class="knowledge-grid">
+              <div class="knowledge-column">
+                <h4>社区摘要</h4>
+                <div v-for="community in (store.sessionGraph.communities || []).slice(0, 5)" :key="community.id" class="knowledge-card">
+                  <strong>{{ community.title || community.id }}</strong>
+                  <p>{{ community.summary || '暂无摘要' }}</p>
+                </div>
+              </div>
+              <div class="knowledge-column">
+                <h4>说话人关联</h4>
+                <div v-for="summary in (store.speakerSummaries || []).slice(0, 5)" :key="summary.actor?.actor_id" class="knowledge-card">
+                  <strong>{{ summary.actor?.label || summary.actor?.actor_id }}</strong>
+                  <p>{{ summary.summary || '暂无摘要' }}</p>
+                  <span class="knowledge-card-meta">
+                    决策 {{ summary.decisions?.length || 0 }} · 任务 {{ summary.tasks?.length || 0 }} · 风险 {{ summary.risks?.length || 0 }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div v-else class="empty-hint">暂无会议知识图谱数据</div>
+          </div>
         </div>
 
         <!-- Upload Area (shown when no files) -->
@@ -297,9 +332,10 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMeetingStore, type Chapter } from '../stores/meeting'
 import { useDebugStore } from '../stores/debug'
-import { API_CONFIG } from '../api/config'
+import { API_CONFIG, authHeaders } from '../api/config'
 import ProcessFlowChart from '../components/ProcessFlowChart.vue'
 import { useProcessFlow } from '../composables/useProcessFlow'
+import { logger } from '../utils/logger'
 
 // 上传响应类型
 interface UploadResponse {
@@ -313,6 +349,10 @@ interface UploadResponse {
   key_points?: string[]
   action_items?: string[]
   audio_url?: string
+  knowledge_session?: any
+  session_graph?: any
+  speaker_summaries?: any[]
+  communities?: any[]
 }
 
 const router = useRouter()
@@ -425,8 +465,26 @@ const processingFileName = computed(() => {
 
 const detailTabs = computed(() => [
   { id: 'transcript', label: '转写', count: debugStore.transcriptResult?.segments?.length },
-  { id: 'analysis', label: '分析', count: debugStore.analysisResult?.chapters?.length }
+  { id: 'analysis', label: '分析', count: debugStore.analysisResult?.chapters?.length },
+  { id: 'knowledge', label: '知识图谱', count: store.sessionGraph?.stats?.node_count || store.sessionGraph?.nodes?.length || 0 }
 ])
+
+const graphStatsText = computed(() => {
+  const stats = store.sessionGraph?.stats
+  if (!stats) return '无图谱统计'
+  return `${stats.actor_count || 0} 说话人 · ${stats.unit_count || 0} 知识单元 · ${stats.community_count || 0} 社区`
+})
+
+function formatKnowledgeStatus(status?: string): string {
+  const labels: Record<string, string> = {
+    ok: '知识图谱可用',
+    degraded: '知识图谱降级',
+    disabled: '知识图谱未启用',
+    disposed: '知识图谱已清理',
+    closed: '知识会话已关闭',
+  }
+  return labels[status || ''] || '知识图谱未知'
+}
 
 function getStageLabel(stage: string): string {
   const labels: Record<string, string> = {
@@ -464,6 +522,83 @@ const activeXHRs = new Map<string, XMLHttpRequest>()
 
 // SSE Polling map: fileId → abort controller
 const pollControllers = new Map<string, AbortController>()
+const fallbackPollTimers = new Map<string, number>()
+const navigatingToConsole = ref(false)
+
+function shouldMirrorToDebugStore(sessionId: string) {
+  return !debugStore.sessionId || debugStore.sessionId === sessionId
+}
+
+function applyStatusUpdate(fileId: string, sessionId: string, data: any, source: 'sse' | 'poll') {
+  if (!data?.stage) {
+    logger.debug('[MeetingPage] Ignore non-status progress payload', { fileId, sessionId, source, data })
+    return
+  }
+
+  const progress = data.progress ?? store.getSessionData(sessionId)?.progress ?? 0
+  const message = data.message ?? ''
+
+  logger.info('[MeetingPage] Progress status received', {
+    fileId,
+    sessionId,
+    source,
+    stage: data.stage,
+    progress,
+    segmentCount: data.segment_count,
+    speakerCount: data.speaker_count,
+    remainingTime: data.remaining_time_seconds,
+  })
+
+  store.updateUploadedFile(fileId, {
+    progress,
+    stage: data.stage,
+    message,
+  })
+  store.setSessionData(sessionId, {
+    progress,
+    stage: data.stage,
+    message,
+  })
+
+  if (shouldMirrorToDebugStore(sessionId)) {
+    debugStore.updateFromSSE(data)
+  }
+}
+
+function startFallbackPolling(fileId: string, sessionId: string, reason: string) {
+  if (fallbackPollTimers.has(fileId)) return
+
+  logger.warn('[MeetingPage] Starting fallback progress polling', { fileId, sessionId, reason })
+  const timer = window.setInterval(async () => {
+    try {
+      const response = await fetch(API_CONFIG.uploadStatusUrl(sessionId), {
+        headers: authHeaders(),
+      })
+      if (!response.ok) {
+        logger.warn('[MeetingPage] Fallback poll HTTP failed', { fileId, sessionId, status: response.status })
+        return
+      }
+
+      const data = await response.json()
+      applyStatusUpdate(fileId, sessionId, data, 'poll')
+
+      if (data.stage === 'completed') {
+        stopFilePolling(fileId)
+        await fetchFullResultAndPrepareKnowledgeHandoff(sessionId, fileId)
+      } else if (data.stage === 'error') {
+        stopFilePolling(fileId)
+        store.updateUploadedFile(fileId, { status: 'error', stage: 'error' })
+      }
+    } catch (e) {
+      logger.error('[MeetingPage] Fallback poll error', {
+        fileId,
+        sessionId,
+        error: e instanceof Error ? e.message : String(e),
+      })
+    }
+  }, 1000)
+  fallbackPollTimers.set(fileId, timer)
+}
 
 async function startFilePolling(fileId: string, sessionId: string) {
   stopFilePolling(fileId)
@@ -472,31 +607,35 @@ async function startFilePolling(fileId: string, sessionId: string) {
   pollControllers.set(fileId, controller)
   const pollStartTime = Date.now()
 
-  console.log(`[MeetingPage] SSE polling started`, { fileId, sessionId, url: API_CONFIG.uploadSSEUrl(sessionId) })
+  logger.info('[MeetingPage] SSE polling started', { fileId, sessionId, url: API_CONFIG.uploadSSEUrl(sessionId) })
 
   try {
     const response = await fetch(API_CONFIG.uploadSSEUrl(sessionId), {
-      headers: {
+      headers: authHeaders({
         'Accept': 'text/event-stream',
-      },
+      }),
       signal: controller.signal,
     })
 
     if (!response.ok) {
-      console.warn(`[MeetingPage] SSE poll HTTP failed: ${response.status} ${response.statusText}`, { fileId, sessionId })
+      logger.warn('[MeetingPage] SSE HTTP failed', { fileId, sessionId, status: response.status, statusText: response.statusText })
+      startFallbackPolling(fileId, sessionId, `sse-http-${response.status}`)
       return
     }
 
     if (!response.body) {
-      console.error('[MeetingPage] SSE response body is null', { fileId, sessionId })
+      logger.error('[MeetingPage] SSE response body is null', { fileId, sessionId })
+      startFallbackPolling(fileId, sessionId, 'sse-empty-body')
       return
     }
 
-    console.log(`[MeetingPage] SSE stream connected, reading...`, { fileId, sessionId })
+    logger.info('[MeetingPage] SSE stream connected', { fileId, sessionId })
 
     const reader = response.body.getReader()
     const decoder = new TextDecoder()
     let buffer = ''
+    let currentEvent = 'message'
+    let sawTerminalStatus = false
 
     try {
       while (true) {
@@ -514,46 +653,54 @@ async function startFilePolling(fileId: string, sessionId: string) {
           const trimmed = line.trim()
           if (!trimmed) continue
 
+          if (trimmed.startsWith('event:')) {
+            currentEvent = trimmed.slice(6).trim()
+            continue
+          }
+
           // Parse SSE format: "data: {...}"
           if (trimmed.startsWith('data: ')) {
             const jsonStr = trimmed.slice(6)
             try {
               const data = JSON.parse(jsonStr)
+              if (currentEvent === 'heartbeat' || !data.stage) {
+                currentEvent = 'message'
+                continue
+              }
 
-              console.log(`[MeetingPage] SSE stage: ${data.stage} | progress: ${data.progress}% | message: ${data.message}`, {
+              logger.info('[MeetingPage] SSE status received', {
                 sessionId,
+                fileId,
+                stage: data.stage,
+                progress: data.progress,
+                message: data.message,
                 remainingTime: data.remaining_time_seconds,
                 speakerCount: data.speaker_count,
                 segmentCount: data.segment_count
               })
 
-              // Update per-file progress in store
-              store.updateUploadedFile(fileId, {
-                progress: data.progress,
-                stage: data.stage,
-                message: data.message,
-              })
-              store.setSessionData(sessionId, {
-                progress: data.progress ?? 0,
-                stage: data.stage ?? '',
-                message: data.message ?? '',
-              })
-              // Also sync to debugStore for flow chart (last active file)
-              console.log(`[MeetingPage] SSE received, calling debugStore.updateFromSSE: stage=${data.stage}`, { sessionId, fileId })
-              debugStore.updateFromSSE(data)
-              console.log(`[MeetingPage] debugStore.stage is now: ${debugStore.stage}`)
+              applyStatusUpdate(fileId, sessionId, data, 'sse')
 
               // Stop on terminal states
               if (data.stage === 'completed' || data.stage === 'error') {
-                console.log(`[MeetingPage] SSE stream ended: ${data.stage}`, { sessionId, fileId })
+                sawTerminalStatus = true
+                logger.info('[MeetingPage] SSE terminal status received', { sessionId, fileId, stage: data.stage })
                 // 异步模式下，completed 时获取完整结果
                 if (data.stage === 'completed') {
                   fetchFullResultAndPrepareKnowledgeHandoff(sessionId, fileId)
+                } else {
+                  store.updateUploadedFile(fileId, { status: 'error', stage: 'error' })
                 }
                 return
               }
+              currentEvent = 'message'
             } catch (e) {
-              console.warn('[MeetingPage] Failed to parse SSE data:', jsonStr, e)
+              logger.warn('[MeetingPage] Failed to parse SSE data', {
+                fileId,
+                sessionId,
+                payload: jsonStr,
+                error: e instanceof Error ? e.message : String(e),
+              })
             }
           }
         }
@@ -561,11 +708,22 @@ async function startFilePolling(fileId: string, sessionId: string) {
     } finally {
       reader.releaseLock()
     }
+
+    if (!controller.signal.aborted && !sawTerminalStatus) {
+      const elapsedMs = Date.now() - pollStartTime
+      logger.warn('[MeetingPage] SSE ended before terminal status', { fileId, sessionId, elapsedMs })
+      startFallbackPolling(fileId, sessionId, 'sse-ended')
+    }
   } catch (e) {
     if ((e as Error).name === 'AbortError') {
       // Expected abort, ignore
     } else {
-      console.error('[MeetingPage] Poll error:', e)
+      logger.error('[MeetingPage] SSE poll error', {
+        fileId,
+        sessionId,
+        error: e instanceof Error ? e.message : String(e),
+      })
+      startFallbackPolling(fileId, sessionId, 'sse-exception')
     }
   }
 }
@@ -576,11 +734,18 @@ function stopFilePolling(fileId: string) {
     controller.abort()
     pollControllers.delete(fileId)
   }
+  const timer = fallbackPollTimers.get(fileId)
+  if (timer) {
+    clearInterval(timer)
+    fallbackPollTimers.delete(fileId)
+  }
 }
 
 function stopAllPolling() {
   pollControllers.forEach((controller) => controller.abort())
   pollControllers.clear()
+  fallbackPollTimers.forEach((timer) => clearInterval(timer))
+  fallbackPollTimers.clear()
 }
 
 // Kept for backward compat reference — no longer used directly
@@ -598,7 +763,10 @@ function stopPolling() {
 
 async function fetchFullResult(sessionId: string) {
   try {
-    const response = await fetch(API_CONFIG.uploadSessionUrl(sessionId))
+    logger.info('[MeetingPage] Fetch full result started', { sessionId })
+    const response = await fetch(API_CONFIG.uploadSessionUrl(sessionId), {
+      headers: authHeaders(),
+    })
     if (response.ok) {
       const data = await response.json()
       //后端返回 { session_id, segments, chapters, analysis }
@@ -611,21 +779,29 @@ async function fetchFullResult(sessionId: string) {
         topics: data.analysis?.topics,
         speaker_roles: data.analysis?.speaker_roles,
         summary: data.analysis?.summary,
+        knowledge_session: data.knowledge_session,
+        session_graph: data.session_graph,
+        speaker_summaries: data.speaker_summaries,
+        communities: data.communities,
         audio_url: `/api/v1/upload/${sessionId}/audio`,
       }
       populateStoresFromResponse(transformed)
       // Also save to session
       saveSessionFromResponse(sessionId, data.session_id || sessionId, '', transformed)
+      logger.info('[MeetingPage] Fetch full result completed', { sessionId, segments: transformed.segments?.length })
     }
   } catch (e) {
-    console.error('[MeetingPage] Fetch result error:', e)
+    logger.error('[MeetingPage] Fetch result error', { sessionId, error: e instanceof Error ? e.message : String(e) })
   }
 }
 
 // SSE completed 时调用：获取完整结果并准备知识服务交接
 async function fetchFullResultAndPrepareKnowledgeHandoff(sessionId: string, fileId: string) {
   try {
-    const response = await fetch(API_CONFIG.uploadSessionUrl(sessionId))
+    logger.info('[MeetingPage] Fetch final result started', { sessionId, fileId })
+    const response = await fetch(API_CONFIG.uploadSessionUrl(sessionId), {
+      headers: authHeaders(),
+    })
     if (response.ok) {
       const data = await response.json()
       const transformed = {
@@ -636,6 +812,10 @@ async function fetchFullResultAndPrepareKnowledgeHandoff(sessionId: string, file
         topics: data.analysis?.topics,
         speaker_roles: data.analysis?.speaker_roles,
         summary: data.analysis?.summary,
+        knowledge_session: data.knowledge_session,
+        session_graph: data.session_graph,
+        speaker_summaries: data.speaker_summaries,
+        communities: data.communities,
         audio_url: `/api/v1/upload/${sessionId}/audio`,
       }
       populateStoresFromResponse(transformed)
@@ -643,12 +823,18 @@ async function fetchFullResultAndPrepareKnowledgeHandoff(sessionId: string, file
       prepareKnowledgeHandoff(transformed)
       // Mark as completed
       store.updateUploadedFile(fileId, { status: 'completed', progress: 100, stage: 'completed' })
+      logger.info('[MeetingPage] Fetch final result completed', {
+        sessionId,
+        fileId,
+        segments: transformed.segments?.length,
+        chapters: transformed.chapters?.length,
+      })
     } else {
-      console.error('[MeetingPage] Failed to fetch full result:', response.status)
+      logger.error('[MeetingPage] Failed to fetch full result', { sessionId, fileId, status: response.status })
       store.updateUploadedFile(fileId, { status: 'error', stage: 'error' })
     }
   } catch (e) {
-    console.error('[MeetingPage] Fetch result error:', e)
+    logger.error('[MeetingPage] Fetch final result error', { sessionId, fileId, error: e instanceof Error ? e.message : String(e) })
     store.updateUploadedFile(fileId, { status: 'error', stage: 'error' })
   }
 }
@@ -670,6 +856,10 @@ function populateStoresFromResponse(data: UploadResponse) {
     }))
     store.setSpeakers(speakers)
   }
+
+  store.setKnowledgeSession(data.knowledge_session || null)
+  store.setSessionGraph(data.session_graph || null)
+  store.setSpeakerSummaries(data.speaker_summaries || [])
 
   if (data.chapters) {
     // Store in debug store - construct analysis result
@@ -817,9 +1007,11 @@ async function prepareKnowledgeHandoff(data: UploadResponse) {
     const markdown = convertMeetingToMarkdown(data)
     const title = data.theme || store.topic || `会议_${Date.now()}`
     const filename = `${title.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '_')}.md`
-    console.info('[MeetingPage] Knowledge ingestion delegated to external data_service adapter:', {
+    console.info('[MeetingPage] Knowledge ingestion handled by external data_service MCP adapter:', {
       filename,
       bytes: markdown.length,
+      status: data.knowledge_session?.status,
+      data_service_session_id: data.knowledge_session?.session_id,
     })
   } catch (e) {
     console.error('[MeetingPage] Knowledge ingestion delegation error:', e)
@@ -830,7 +1022,27 @@ onUnmounted(() => {
   activeXHRs.forEach(xhr => xhr.abort())
   activeXHRs.clear()
   stopAllPolling()
+  if (!navigatingToConsole.value) {
+    closeKnowledgeSessions()
+  }
 })
+
+function closeKnowledgeSessions() {
+  const sessionIds = new Set<string>()
+  store.uploadedFiles.forEach((file) => {
+    if (file.sessionId) sessionIds.add(file.sessionId)
+  })
+  if (store.activeSessionId) sessionIds.add(store.activeSessionId)
+  sessionIds.forEach((sessionId) => {
+    fetch(API_CONFIG.uploadKnowledgeCloseUrl(sessionId), {
+      method: 'POST',
+      headers: authHeaders(),
+      keepalive: true,
+    }).catch((error) => {
+      logger.warn('[MeetingPage] Knowledge session close failed', { sessionId, error: error instanceof Error ? error.message : String(error) })
+    })
+  })
+}
 
 // Methods
 function triggerFileInput() {
@@ -867,7 +1079,7 @@ async function uploadSingleFile(file: File) {
     totalStartedAt.value = Date.now()
   }
 
-  console.log(`[MeetingPage] uploadSingleFile started: ${file.name}`, { fileId, sessionId: tempSessionId, fileSize: `${sizeMB}MB` })
+  logger.info('[MeetingPage] Upload started', { fileId, sessionId: tempSessionId, fileName: file.name, fileSize: `${sizeMB}MB` })
 
   // Initialize session data
   store.setSessionData(tempSessionId, {
@@ -907,14 +1119,14 @@ async function uploadSingleFile(file: File) {
       activeXHRs.set(fileId, xhr)
       const xhrStartTime = Date.now()
 
-      console.log(`[MeetingPage] XHR upload started: ${file.name}`, { fileId, sessionId: tempSessionId, fileSize: `${sizeMB}MB` })
+      logger.info('[MeetingPage] XHR upload started', { fileId, sessionId: tempSessionId, fileName: file.name, fileSize: `${sizeMB}MB` })
 
       xhr.upload.addEventListener('progress', (e) => {
         if (e.lengthComputable) {
           const pct = Math.round((e.loaded / e.total) * 40)
           const elapsed = Date.now() - xhrStartTime
           const msg = `正在上传... ${pct}%`
-          console.log(`[MeetingPage] XHR progress: ${pct}%`, { stage: 'uploading', elapsed, loaded: e.loaded, total: e.total })
+          logger.info('[MeetingPage] XHR upload progress', { fileId, sessionId: tempSessionId, stage: 'uploading', progress: pct, elapsed, loaded: e.loaded, total: e.total })
           store.updateUploadedFile(fileId, { progress: pct, stage: 'uploading', message: msg })
           store.setSessionData(tempSessionId, { progress: pct, stage: 'uploading', message: msg })
           // Sync to debugStore if this is the latest active file
@@ -931,19 +1143,19 @@ async function uploadSingleFile(file: File) {
         activeXHRs.delete(fileId)
         stopFilePolling(fileId)
         const xhrTotalTime = Date.now() - xhrStartTime
-        console.log(`[MeetingPage] XHR load event: status=${xhr.status}, duration=${xhrTotalTime}ms`, { fileId, sessionId: tempSessionId })
+        logger.info('[MeetingPage] XHR load event', { fileId, sessionId: tempSessionId, status: xhr.status, durationMs: xhrTotalTime })
 
         if (xhr.status >= 200 && xhr.status < 300) {
           try {
             const response = JSON.parse(xhr.responseText)
             const finalSessionId = response.session_id || fileId
-            console.log(`[MeetingPage] XHR success (async mode), session_id=${finalSessionId}`, { fileId, response })
+            logger.info('[MeetingPage] XHR success, async processing accepted', { fileId, sessionId: finalSessionId, responseStatus: response.status })
 
             // 异步模式：后端立即返回 session_id，实际处理在后台进行
             // 不再有 immediate result，需要通过 SSE 获取进度和最终结果
             store.updateUploadedFile(fileId, {
               sessionId: finalSessionId,
-              progress: 0,
+              progress: 10,
               stage: 'transcribing',
               message: response.message || '正在处理中...',
             })
@@ -951,20 +1163,20 @@ async function uploadSingleFile(file: File) {
             // Update debugStore to reflect transcribing state
             debugStore.sessionId = finalSessionId
             debugStore.stage = 'transcribing'
-            debugStore.progress = 0
+            debugStore.progress = 10
             debugStore.message = response.message || '正在处理中...'
 
             // Start SSE polling to receive progress updates and final results
             startFilePolling(fileId, finalSessionId)
             resolve()
           } catch (e) {
-            console.error('[MeetingPage] XHR response parse error:', e)
+            logger.error('[MeetingPage] XHR response parse error', { fileId, error: e instanceof Error ? e.message : String(e) })
             store.updateUploadedFile(fileId, { status: 'error', stage: 'error' })
             store.setSessionData(tempSessionId, { stage: 'error', message: '处理响应失败' })
             reject(e)
           }
         } else {
-          console.warn(`[MeetingPage] XHR failed: status=${xhr.status}`, { fileId })
+          logger.warn('[MeetingPage] XHR failed', { fileId, status: xhr.status })
           store.updateUploadedFile(fileId, { status: 'error', stage: 'error', progress: 0 })
           store.setSessionData(tempSessionId, { stage: 'error', message: `上传失败: ${xhr.status}` })
           reject(new Error(`Upload failed: ${xhr.status}`))
@@ -974,16 +1186,18 @@ async function uploadSingleFile(file: File) {
       xhr.addEventListener('error', () => {
         activeXHRs.delete(fileId)
         stopFilePolling(fileId)
+        logger.error('[MeetingPage] XHR network error', { fileId, sessionId: tempSessionId })
         store.updateUploadedFile(fileId, { status: 'error', stage: 'error' })
         store.setSessionData(tempSessionId, { stage: 'error', message: '上传失败' })
         reject(new Error('Upload error'))
       })
 
       xhr.open('POST', API_CONFIG.uploadUrl)
+      xhr.setRequestHeader('X-API-Key', API_CONFIG.apiKey)
       xhr.send(formData)
     })
   } catch (e) {
-    console.error('[MeetingPage] Upload failed:', e)
+    logger.error('[MeetingPage] Upload failed', { fileId, error: e instanceof Error ? e.message : String(e) })
     store.updateUploadedFile(fileId, { status: 'error' })
   }
 }
@@ -1036,10 +1250,15 @@ function saveSessionFromResponse(
     speakers,
     decisions,
     actionItems,
+    knowledgeSession: data.knowledge_session || null,
+    sessionGraph: data.session_graph || null,
+    speakerSummaries: data.speaker_summaries || [],
+    knowledgeStatus: data.knowledge_session?.status || '',
   })
 }
 
 function cancelProcessing() {
+  closeKnowledgeSessions()
   activeXHRs.forEach(xhr => xhr.abort())
   activeXHRs.clear()
   stopAllPolling()
@@ -1051,6 +1270,13 @@ function cancelProcessing() {
 function removeFile(id: string) {
   const file = store.uploadedFiles.find(f => f.id === id)
   if (file) {
+    if (file.sessionId) {
+      fetch(API_CONFIG.uploadKnowledgeCloseUrl(file.sessionId), {
+        method: 'POST',
+        headers: authHeaders(),
+        keepalive: true,
+      }).catch(() => {})
+    }
     // Cancel any active upload
     const xhr = activeXHRs.get(id)
     if (xhr) { xhr.abort(); activeXHRs.delete(id) }
@@ -1062,6 +1288,7 @@ function removeFile(id: string) {
 function enterFileConsole(file: { id: string; sessionId?: string }) {
   if (file.sessionId) {
     const sessionId = file.sessionId
+    navigatingToConsole.value = true
     const sessionData = store.getSessionData(sessionId)
     if (!sessionData || !sessionData.chapters?.length) {
       // Fetch session data from backend if not available or incomplete
@@ -1902,5 +2129,104 @@ function enterConsole() {
 .btn-cancel-processing.btn-reset:hover {
   background: rgba(161, 161, 161, 0.2);
   color: #ffffff;
+}
+
+.knowledge-status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.knowledge-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(99, 102, 241, 0.18);
+  color: #c7d2fe;
+  font-size: 12px;
+}
+
+.knowledge-pill.ok {
+  background: rgba(16, 185, 129, 0.16);
+  color: #86efac;
+}
+
+.knowledge-pill.degraded,
+.knowledge-pill.disabled,
+.knowledge-pill.missing {
+  background: rgba(245, 158, 11, 0.16);
+  color: #fcd34d;
+}
+
+.knowledge-pill.disposed,
+.knowledge-pill.closed {
+  background: rgba(148, 163, 184, 0.16);
+  color: #cbd5e1;
+}
+
+.knowledge-meta {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 12px;
+}
+
+.knowledge-warning {
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  border-radius: 6px;
+  color: #fcd34d;
+  background: rgba(245, 158, 11, 0.08);
+  font-size: 12px;
+}
+
+.knowledge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.knowledge-column h4 {
+  margin: 0 0 8px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.knowledge-card {
+  margin-bottom: 8px;
+  padding: 10px;
+  border: 1px solid #2d2d3d;
+  border-radius: 6px;
+  background: #1f1f2b;
+}
+
+.knowledge-card strong {
+  display: block;
+  color: #ffffff;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.knowledge-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.knowledge-card-meta {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 11px;
+}
+
+@media (max-width: 760px) {
+  .knowledge-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

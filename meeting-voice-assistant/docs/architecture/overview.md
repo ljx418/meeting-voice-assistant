@@ -61,8 +61,24 @@
 
 - `/api/v1/knowledge/*`：面向前端控制台的 HTTP 代理
 - `/knowledge`：Knowledge Service Console，用于查看外部知识服务状态
+- `app.core.data_service_mcp_client`：会议后端到外部 Data Service MCP stdio server 的进程边界适配器
 
 会议后端不 import `data_service` 内部模块，也不直接读写其 workspace 文件结构。
+
+会议上传完成后的知识恢复链路：
+
+```text
+ASR segments
+  -> knowledge_session_create(external_id = upload session_id)
+  -> knowledge_session_ingest(content_format = turns)
+  -> knowledge_session_build_start(mode = full)
+  -> knowledge_graph_snapshot(scope = session)
+  -> knowledge_actor_summary(per speaker)
+  -> frontend session graph / speaker summaries
+```
+
+默认策略是一个会议 workspace 下多个临时 session。页面退出或删除上传会话时，会议应用通过 MCP 调用
+`knowledge_session_close`，并按配置继续调用 `knowledge_session_delete` 清理 session-scoped graph。
 
 ## 核心设计原则
 

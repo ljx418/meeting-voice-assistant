@@ -6,16 +6,27 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 const WS_URL = import.meta.env.VITE_WS_URL || ''
+const API_KEY = import.meta.env.VITE_API_KEY || 'local-dev-key'
+
+export function authHeaders(extra: Record<string, string> = {}): Record<string, string> {
+  return {
+    ...extra,
+    'X-API-Key': API_KEY,
+  }
+}
 
 export const API_CONFIG = {
   // HTTP API 基础路径
   baseUrl: API_BASE_URL,
+  apiKey: API_KEY,
 
   // 完整 HTTP API URL（用于 FileUploader 等使用原始 XHR/fetch 的场景）
   uploadUrl: `${API_BASE_URL}/api/v1/upload`,
   uploadStatusUrl: (sessionId: string) => `${API_BASE_URL}/api/v1/upload/${sessionId}/progress`,
   uploadSSEUrl: (sessionId: string) => `${API_BASE_URL}/api/v1/upload/${sessionId}/status`,
   uploadSessionUrl: (sessionId: string) => `${API_BASE_URL}/api/v1/upload/${sessionId}`,
+  uploadKnowledgeCloseUrl: (sessionId: string) => `${API_BASE_URL}/api/v1/upload/${sessionId}/knowledge/close`,
+  uploadKnowledgeSearchUrl: (sessionId: string) => `${API_BASE_URL}/api/v1/upload/${sessionId}/knowledge/search`,
   analyzeUrl: `${API_BASE_URL}/api/v1/analyze`,
 
   // WebSocket URL

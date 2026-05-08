@@ -21,6 +21,7 @@ from app.api.v1.auth import api_key_header, verify_api_key
 from app.config import config
 from data_service import DataService, GraphExecutionOwner, QueryMode
 from data_service.security import validate_source_paths, validate_workspace_path
+from data_service.session_service import SessionKnowledgeService
 
 
 async def verify_knowledge_access(api_key: Optional[str] = Depends(api_key_header)) -> str:
@@ -984,7 +985,10 @@ class SummaryRequest(BaseModel):
 
 
 class GraphRequest(BaseModel):
-    workspace: str = Field(..., description="Target workspace directory")
+    workspace: Optional[str] = Field(default=None, description="Target workspace directory")
+    workspace_id: Optional[str] = Field(default=None, description="Target workspace id under DATA_SERVICE_WORKSPACE_ROOT")
+    scope: str = Field(default="workspace", description="Graph scope: workspace or session")
+    session_id: Optional[str] = Field(default=None, description="Session id when scope=session")
     max_nodes: int = Field(default=120, ge=10, le=500)
 
 
@@ -1403,6 +1407,23 @@ async def read_summary(request: SummaryRequest) -> dict:
 
 @router.post("/graph")
 async def read_graph(request: GraphRequest) -> dict:
+    if request.scope == "session":
+        if not request.session_id:
+            raise HTTPException(status_code=400, detail="session_id is required when scope=session")
+        try:
+            workspace = _resolve_workspace_path(workspace=request.workspace, workspace_id=request.workspace_id)
+            service = SessionKnowledgeService(workspace, workspace_id=request.workspace_id or workspace.name)
+            return service.graph_snapshot(
+                scope="session",
+                session_id=request.session_id,
+                max_nodes=request.max_nodes,
+                include_communities=True,
+                include_source_refs=True,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=404, detail=str(exc)) from exc
+    if not request.workspace:
+        raise HTTPException(status_code=400, detail="workspace is required when scope=workspace")
     service = _service_for_workspace(request.workspace)
     return service.get_graph_snapshot(max_nodes=request.max_nodes)
 

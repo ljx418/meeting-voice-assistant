@@ -513,7 +513,8 @@
         <div class="section-head">
           <div>
             <p class="section-kicker">GraphRAG Communities</p>
-            <h2>图谱态势预览</h2>
+            <h2>{{ graphScopeTitle }}</h2>
+            <small v-if="sessionScope" class="muted">{{ graphScopeSubtitle }}</small>
           </div>
           <div class="head-pills">
             <span class="pill">{{ graphStats.entity_count }} 实体</span>
@@ -1045,6 +1046,7 @@ import {
   fetchKnowledgeCorrectionRules,
   fetchKnowledgeFeedback,
   fetchKnowledgeGraph,
+  fetchKnowledgeSessionGraph,
   fetchKnowledgeLowSignalAudit,
   fetchKnowledgePage,
   fetchKnowledgeSourceTrace,
@@ -1079,6 +1081,10 @@ const WORKSPACE_STORAGE_KEY = 'pageb-data-service-workspace'
 const BUILD_OPERATION_STORAGE_KEY = 'pageb-data-service-build-operation'
 
 const workspace = ref(DEFAULT_WORKSPACE)
+const urlParams = new URLSearchParams(window.location.search)
+const sessionScope = ref(urlParams.get('scope') === 'session' || Boolean(urlParams.get('session_id')))
+const sessionWorkspaceId = ref(urlParams.get('workspace_id') || 'meeting-knowledge')
+const sessionId = ref(urlParams.get('session_id') || '')
 const summaryBundle = ref<KnowledgeSummaryResponse | null>(null)
 const distillBundle = ref<KnowledgeDistillResponse | null>(null)
 const graphData = ref<KnowledgeGraphResponse>({ nodes: [], edges: [], communities: [], stats: { entity_count: 0, relationship_count: 0, community_count: 0, document_count: 0 }, db_path: '' })
@@ -1105,7 +1111,7 @@ const queryText = ref('ComfyUI')
 const topK = ref(8)
 const queryAnswer = ref('切换查询模式并输入关键字后，这里会显示聚合回答。')
 const summaryTab = ref<'markdown' | 'json'>('markdown')
-const activeWorkbench = ref<'overview' | 'sources' | 'quality' | 'explore'>('overview')
+const activeWorkbench = ref<'overview' | 'sources' | 'quality' | 'explore'>(sessionScope.value ? 'explore' : 'overview')
 const selectedPageSlug = ref('')
 const selectedPageTitle = ref('')
 const selectedPageMarkdown = ref('')
@@ -1155,7 +1161,18 @@ const queryModes = [
 ] satisfies Array<{ value: QueryMode; label: string }>
 
 const isBusy = computed(() => summaryLoading.value || graphLoading.value || distillLoading.value)
-const graphStats = computed(() => graphData.value.stats)
+const graphStats = computed(() => {
+  const stats = graphData.value.stats || {}
+  return {
+    ...stats,
+    entity_count: stats.entity_count ?? stats.node_count ?? 0,
+    relationship_count: stats.relationship_count ?? stats.edge_count ?? 0,
+    community_count: stats.community_count ?? graphData.value.communities.length ?? 0,
+    document_count: stats.document_count ?? stats.source_count ?? 0,
+  }
+})
+const graphScopeTitle = computed(() => sessionScope.value ? '单会议 GraphRAG' : '图谱态势预览')
+const graphScopeSubtitle = computed(() => sessionScope.value ? `Session ${sessionId.value || '-'}` : '图谱态势预览')
 const graphQualityDiagnostics = computed(() => graphData.value.quality_diagnostics || {})
 const graphDiagnosticGroups = computed(() => [
   { key: 'top_communities', label: 'Top Communities', items: graphQualityDiagnostics.value.top_communities || [] },
@@ -1565,7 +1582,12 @@ async function loadSummary() {
 async function loadGraph() {
   graphLoading.value = true
   try {
-    graphData.value = await fetchKnowledgeGraph(workspace.value, 140)
+    graphData.value = sessionScope.value && sessionId.value
+      ? await fetchKnowledgeSessionGraph(sessionWorkspaceId.value, sessionId.value, 180)
+      : await fetchKnowledgeGraph(workspace.value, 140)
+    if (!selectedCommunity.value && graphData.value.communities.length) {
+      selectedCommunity.value = graphData.value.communities[0]
+    }
   } finally {
     graphLoading.value = false
   }
@@ -1887,10 +1909,16 @@ async function retryRefreshOperation() {
 
 async function refreshAll() {
   try {
-    localStorage.setItem(WORKSPACE_STORAGE_KEY, workspace.value)
+    if (!sessionScope.value) {
+      localStorage.setItem(WORKSPACE_STORAGE_KEY, workspace.value)
+    }
     selectedCommunity.value = null
     selectedGraphNode.value = null
-    await Promise.all([loadSummary(), loadGraph(), loadDistill(), loadFeedback(), loadSources(), loadLowSignalAudit()])
+    if (sessionScope.value) {
+      await loadGraph()
+    } else {
+      await Promise.all([loadSummary(), loadGraph(), loadDistill(), loadFeedback(), loadSources(), loadLowSignalAudit()])
+    }
     lastUpdated.value = new Date().toLocaleTimeString('zh-CN')
     showToast('工作台数据已刷新')
   } catch (error) {
@@ -2192,7 +2220,10 @@ watch(workspace, (value) => {
 })
 
 onMounted(async () => {
-  workspace.value = localStorage.getItem(WORKSPACE_STORAGE_KEY) || DEFAULT_WORKSPACE
+  workspace.value = sessionScope.value ? workspace.value : (localStorage.getItem(WORKSPACE_STORAGE_KEY) || DEFAULT_WORKSPACE)
+  if (sessionScope.value) {
+    activeWorkbench.value = 'explore'
+  }
   const storedOperationId = localStorage.getItem(BUILD_OPERATION_STORAGE_KEY)
   if (storedOperationId) {
     buildOperation.value = {
@@ -2206,7 +2237,9 @@ onMounted(async () => {
     }
     void pollBuildStatusOnce()
   }
-  await loadWorkspaces()
+  if (!sessionScope.value) {
+    await loadWorkspaces()
+  }
   await refreshAll()
 })
 

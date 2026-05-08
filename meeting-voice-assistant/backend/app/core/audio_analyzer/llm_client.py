@@ -19,7 +19,7 @@ logger = logging.getLogger("audio_analyzer.llm_client")
 class MiniMaxChatModel(BaseChatModel):
     """MiniMax Chat Model 封装"""
 
-    model_name: str = "MiniMax-Text-01"
+    model_name: str = "MiniMax-M2.7"
     api_key: str = ""
     endpoint: str = "https://api.minimax.chat/v1"
     temperature: float = 0.7

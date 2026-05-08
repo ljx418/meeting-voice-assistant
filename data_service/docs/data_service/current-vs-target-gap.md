@@ -1,12 +1,21 @@
 # Local Knowledge Governance Service 当前与目标架构 Gap
 
-更新时间：2026-05-07
+更新时间：2026-05-08
 
 ## 总体结论
 
 当前仓库已经具备独立本地知识治理服务的主体能力：MCP、CLI、HTTP、workspace/source/build lifecycle、distill、LLMWiki、GraphRAG、Source Trace、Quality Governance 和目录扫描。
 
 主要差距不再是“能不能形成知识库”，而是要把旧的个人知识库产品叙事收敛为稳定的数据服务边界，并补齐服务治理控制台、workspace contract、typed distill units 和格式扩展。
+
+## V1.5 收口进度
+
+当前已把 2026-05-07 的差距作为 V1.0 基线冻结，V1.5 开始按 MCP-first、最小粒度和微服务化方向收口。
+
+- PhaseA1 已完成 Session MCP handler 模块化：`knowledge_session_*`、session graph、community、actor summary 从 `mcp_stdio.py` 拆到独立 handler；出门验证覆盖 session 创建、turns ingest、同步 build、graph snapshot、actor summary、session query 和 delete。
+- PhaseA2 已完成 Quality MCP handler 模块化：`knowledge_quality_summary`、`knowledge_correction_plan`、`knowledge_quality_feedback`、`knowledge_correction_rules`、`knowledge_review_correction_rule` 从 `mcp_stdio.py` 拆到独立 handler；出门验证覆盖质量反馈、规则生成、审核、纠正计划、质量汇总和 V2 envelope。
+- PhaseA3 已完成 Core MCP handler 模块化：`knowledge_ingest`、`knowledge_query` 从 `mcp_stdio.py` 拆到独立 handler；出门验证覆盖 ingest、hybrid query 和 V2 query envelope。
+- `mcp_stdio.py` 当前仍承载 workspace/source/build lifecycle 细节。下一步差距是继续拆出 workspace/source/build handlers，并评估 envelope/error/helper 模块独立。
 
 ## 当前架构
 
@@ -148,7 +157,9 @@ workspace/
 当前：
 
 - MCP lifecycle/v2 tools 已成熟。
+- Session、Quality 与 Core MCP handler 已完成 V1.5 PhaseA1/PhaseA2/PhaseA3 模块化，旧 tool name、payload 和 V2 envelope 兼容路径保持稳定。
 - CLI 和 HTTP 仍保留当前 `data_service` / `/api/v1/knowledge/*` 兼容语义。
+- workspace/source/build lifecycle 仍主要集中在 `mcp_stdio.py`，还没有完成 tool registry 与 handler 全量拆分。
 
 目标：
 

@@ -93,7 +93,8 @@
 
 <script setup lang="ts">
 import { ref, computed, onUnmounted } from 'vue'
-import { API_CONFIG } from '../api/config'
+import { API_CONFIG, authHeaders } from '../api/config'
+import { logger } from '../utils/logger'
 
 interface Segment {
   text: string
@@ -264,25 +265,26 @@ async function startPolling(sessionId: string) {
 
   try {
     const response = await fetch(API_CONFIG.uploadSSEUrl(sessionId), {
-      headers: {
+      headers: authHeaders({
         'Accept': 'text/event-stream',
-      },
+      }),
       signal: controller.signal,
     })
 
     if (!response.ok) {
-      console.warn(`[FileUploader] SSE poll failed: ${response.status}`)
+      logger.warn('[FileUploader] SSE poll failed', { sessionId, status: response.status })
       return
     }
 
     if (!response.body) {
-      console.error('[FileUploader] SSE response body is null')
+      logger.error('[FileUploader] SSE response body is null', { sessionId })
       return
     }
 
     const reader = response.body.getReader()
     const decoder = new TextDecoder()
     let buffer = ''
+    let currentEvent = 'message'
 
     try {
       while (true) {
@@ -300,14 +302,29 @@ async function startPolling(sessionId: string) {
           const trimmed = line.trim()
           if (!trimmed) continue
 
+          if (trimmed.startsWith('event:')) {
+            currentEvent = trimmed.slice(6).trim()
+            continue
+          }
+
           // Parse SSE format: "data: {...}"
           if (trimmed.startsWith('data: ')) {
             const jsonStr = trimmed.slice(6)
             try {
               const data = JSON.parse(jsonStr)
+              if (currentEvent === 'heartbeat' || !data.stage) {
+                currentEvent = 'message'
+                continue
+              }
 
               processingStage.value = data.stage
               processingMessage.value = data.message
+              logger.info('[FileUploader] SSE status received', {
+                sessionId,
+                stage: data.stage,
+                progress: data.progress,
+                message: data.message,
+              })
 
               if (data.progress !== undefined) {
                 uploadProgress.value = data.progress
@@ -323,7 +340,11 @@ async function startPolling(sessionId: string) {
                 return
               }
             } catch (e) {
-              console.warn('[FileUploader] Failed to parse SSE data:', jsonStr, e)
+              logger.warn('[FileUploader] Failed to parse SSE data', {
+                sessionId,
+                payload: jsonStr,
+                error: e instanceof Error ? e.message : String(e),
+              })
             }
           }
         }
@@ -333,7 +354,7 @@ async function startPolling(sessionId: string) {
     }
   } catch (e) {
     if ((e as Error).name !== 'AbortError') {
-      console.error('[FileUploader] SSE poll error:', e)
+      logger.error('[FileUploader] SSE poll error', { sessionId, error: e instanceof Error ? e.message : String(e) })
     }
   }
 }
@@ -426,6 +447,7 @@ async function uploadFile(file: File) {
 
   // 添加第一条日志
   addLog(`正在上传文件: ${file.name}`)
+  logger.info('[FileUploader] Upload started', { fileName: file.name, fileSize: file.size })
 
   // 初始化处理状态
   processingStage.value = 'uploading'
@@ -457,6 +479,7 @@ async function uploadFile(file: File) {
           const uploadPercent = Math.round((e.loaded / e.total) * 100)
           uploadProgress.value = uploadPercent
           replaceLastLog(`正在上传中... ${Math.round(e.loaded / 1024)}KB / ${Math.round(e.total / 1024)}KB (${uploadPercent}%)`)
+          logger.info('[FileUploader] Upload progress', { fileName: file.name, progress: uploadPercent, loaded: e.loaded, total: e.total })
         }
       })
 
@@ -476,6 +499,7 @@ async function uploadFile(file: File) {
             const response = JSON.parse(xhr.responseText)
             uploadProgress.value = 100
             uploadedSessionId = response.session_id
+            logger.info('[FileUploader] Upload accepted', { fileName: file.name, sessionId: uploadedSessionId, status: response.status })
 
             // Backend returns status="processing" for async uploads
             // Backend returns status="completed" for sync (mock) uploads
@@ -554,6 +578,7 @@ async function uploadFile(file: File) {
       })
 
       xhr.open('POST', API_CONFIG.uploadUrl)
+      xhr.setRequestHeader('X-API-Key', API_CONFIG.apiKey)
       xhr.send(formData)
     })
 
@@ -563,7 +588,7 @@ async function uploadFile(file: File) {
       startPolling(uploadedSessionId)
     }
   } catch (error) {
-    console.error('Upload error:', error)
+    logger.error('[FileUploader] Upload error', { fileName: file.name, error: error instanceof Error ? error.message : String(error) })
     processingStage.value = 'error'
     processingMessage.value = '上传出错'
   } finally {
