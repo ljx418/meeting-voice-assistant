@@ -1,10 +1,10 @@
 """
-文件监听器模块 - 基于 watchdog 的目录监控 + 自动索引
+文件监听器模块 - 基于 watchdog 的目录监控 + 外部知识服务索引
 
 功能：
 - 监听用户指定的本地文件夹变化
 - 检测文件创建、修改、删除事件
-- 自动触发 GraphRAG/LLMWiki 索引更新
+- 自动触发独立 Local Knowledge Governance Service 增量导入/构建
 
 使用方式:
     from app.core.file_watcher import FileWatcher, get_file_watcher
@@ -95,7 +95,7 @@ import os  # 确保 os 模块可用
 
 
 # ============================================================================
-# 索引触发器接口
+# 外部知识服务触发器接口
 # ============================================================================
 
 class IndexTriggerBase:
@@ -114,16 +114,12 @@ class IndexTriggerBase:
         raise NotImplementedError
 
 
-class GraphRAGIndexTrigger(IndexTriggerBase):
+class KnowledgeServiceIndexTrigger(IndexTriggerBase):
     """
-    GraphRAG 索引触发器
+    知识服务索引触发器
 
-    当文件变化时自动触发 GraphRAG 索引更新。
-
-    使用增强版 AutoIndexer，支持：
-    - 增量索引（只索引变更的文件）
-    - 索引状态跟踪
-    - 多文件批量索引
+    会议应用不再导入旧内嵌图谱模块；文件变化只通过 HTTP
+    调用独立 data_service 的 source import / build contract。
     """
 
     # 支持索引的文件类型
@@ -135,18 +131,13 @@ class GraphRAGIndexTrigger(IndexTriggerBase):
     }
 
     def __init__(self, service_url: Optional[str] = None):
-        self.service_url = service_url or config.graphrag.service_url
+        self.service_url = (
+            service_url
+            or os.getenv("DATA_SERVICE_HTTP_BASE_URL")
+            or "http://127.0.0.1:8003/api/v1/knowledge"
+        ).rstrip("/")
         self._http_client: Optional[Any] = None
         self._session_id = "watcher"
-        # 使用增强版自动索引器
-        self._auto_indexer: Optional[Any] = None
-
-    def _get_auto_indexer(self):
-        """获取增强版自动索引器（延迟导入避免循环依赖）"""
-        if self._auto_indexer is None:
-            from app.graphrag.enhancements import get_auto_indexer
-            self._auto_indexer = get_auto_indexer()
-        return self._auto_indexer
 
     async def _get_http_client(self):
         """获取 HTTP 客户端"""
@@ -160,26 +151,50 @@ class GraphRAGIndexTrigger(IndexTriggerBase):
         ext = Path(file_path).suffix.lower()
         return ext in self.SUPPORTED_EXTENSIONS
 
+    def _workspace_for_file(self, file_path: str) -> str:
+        return (
+            os.getenv("DATA_SERVICE_WATCH_WORKSPACE")
+            or os.getenv("DATA_SERVICE_WORKSPACE")
+            or str(Path(file_path).parent)
+        )
+
+    def _headers(self) -> Dict[str, str]:
+        headers = {"Content-Type": "application/json"}
+        api_key = os.getenv("DATA_SERVICE_API_KEY", "").strip()
+        if api_key:
+            headers["x-api-key"] = api_key
+        return headers
+
     async def _trigger_index(self, file_path: str) -> bool:
-        """触发索引（使用增强版 AutoIndexer）"""
+        """触发独立知识服务增量索引。"""
         if not self._is_indexable(file_path):
-            logger.debug(f"[GraphRAGTrigger] Skipping non-indexable file: {file_path}")
+            logger.debug(f"[KnowledgeServiceTrigger] Skipping non-indexable file: {file_path}")
             return False
 
         try:
-            # 使用增强版 AutoIndexer（支持增量索引）
-            auto_indexer = self._get_auto_indexer()
-            success = await auto_indexer.index_file(file_path)
-
-            if success:
-                logger.info(f"[GraphRAGTrigger] Indexed via AutoIndexer: {file_path}")
-            else:
-                logger.warning(f"[GraphRAGTrigger] AutoIndexer failed for: {file_path}")
-
-            return success
+            client = await self._get_http_client()
+            workspace = self._workspace_for_file(file_path)
+            import_response = await client.post(
+                f"{self.service_url}/sources/import",
+                json={
+                    "workspace": workspace,
+                    "paths": [file_path],
+                    "metadata": {"source": "meeting_file_watcher"},
+                },
+                headers=self._headers(),
+            )
+            import_response.raise_for_status()
+            build_response = await client.post(
+                f"{self.service_url}/build/start",
+                json={"workspace": workspace, "mode": "incremental", "paths": [file_path]},
+                headers=self._headers(),
+            )
+            build_response.raise_for_status()
+            logger.info(f"[KnowledgeServiceTrigger] Delegated indexing to data_service: {file_path}")
+            return True
 
         except Exception as e:
-            logger.error(f"[GraphRAGTrigger] Index error for {file_path}: {e}")
+            logger.error(f"[KnowledgeServiceTrigger] Index error for {file_path}: {e}")
             return False
 
     async def on_file_created(self, file_path: str) -> bool:
@@ -193,8 +208,7 @@ class GraphRAGIndexTrigger(IndexTriggerBase):
 
     async def on_file_deleted(self, file_path: str) -> bool:
         """文件删除时触发索引"""
-        # GraphRAG 不支持删除单个文件索引，这里仅记录日志
-        logger.info(f"[GraphRAGTrigger] File deleted (no auto-cleanup): {file_path}")
+        logger.info(f"[KnowledgeServiceTrigger] File deleted (external cleanup required): {file_path}")
         return True
 
 
@@ -207,7 +221,7 @@ class FileWatcher:
     文件监听器
 
     基于 watchdog 的增强版监听器，支持：
-    - 自动触发 GraphRAG/LLMWiki 索引
+    - 自动触发外部知识服务索引
     - 版本记录
     - 级联删除
 
@@ -236,7 +250,7 @@ class FileWatcher:
         self._watch_folder_path: Optional[str] = watch_folder_path
         self._enabled = enabled
         self._auto_index_on_change = auto_index_on_change
-        self._index_trigger = index_trigger or GraphRAGIndexTrigger()
+        self._index_trigger = index_trigger or KnowledgeServiceIndexTrigger()
 
         self._file_monitor: Optional[FileMonitor] = None
         self._observer: Optional[Observer] = None

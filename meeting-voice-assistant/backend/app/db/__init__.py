@@ -1,7 +1,3 @@
-"""
-Wiki 数据库模块
-"""
+"""Database package for meeting backend repositories."""
 
-from .wiki_repository import WikiRepository
-
-__all__ = ["WikiRepository"]
+__all__: list[str] = []

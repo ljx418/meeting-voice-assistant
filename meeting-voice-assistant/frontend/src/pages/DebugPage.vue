@@ -164,40 +164,6 @@
         </div>
       </div>
 
-      <!-- GraphRAG Tab -->
-      <div v-if="activeTab === 'graphrag'" class="json-viewer">
-        <div class="graphrag-search">
-          <input
-            v-model="searchQuery"
-            class="search-input"
-            placeholder="输入查询内容..."
-            @keyup.enter="triggerSearch"
-          />
-          <button class="btn-search" @click="triggerSearch">搜索</button>
-          <button class="btn-auto" @click="autoSearch">自动检索</button>
-        </div>
-        <div v-if="store.graphragResult" class="graphrag-result">
-          <div class="answer-section">
-            <h3>Answer</h3>
-            <p>{{ store.graphragResult.answer || '-' }}</p>
-          </div>
-          <div class="sources-section">
-            <h3>Sources ({{ store.graphragResult.sources?.length || 0 }})</h3>
-            <div v-for="(src, idx) in store.graphragResult.sources" :key="idx" class="source-item">
-              <div class="source-header">
-                <span class="source-id">{{ src.doc_id }}</span>
-                <span class="source-score">{{ (src.similarity * 100).toFixed(1) }}%</span>
-              </div>
-              <p class="source-chunk">{{ src.chunk }}</p>
-            </div>
-          </div>
-        </div>
-        <div v-else class="empty-state">
-          <p>暂无GraphRAG检索结果</p>
-          <p class="hint">点击"自动检索"使用会议内容查询</p>
-        </div>
-      </div>
-
       <!-- Raw SSE Tab -->
       <div v-if="activeTab === 'raw'" class="json-viewer">
         <div class="sse-log">
@@ -233,7 +199,6 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDebugStore } from '../stores/debug'
 import { useMeetingStore } from '../stores/meeting'
-import { API_CONFIG } from '../api/config'
 
 const router = useRouter()
 const route = useRoute()
@@ -241,12 +206,10 @@ const store = useDebugStore()
 const meetingStore = useMeetingStore()
 
 const activeTab = ref('transcript')
-const searchQuery = ref('')
 
 const tabs = computed(() => [
   { id: 'transcript', label: 'Transcripts', count: store.transcriptResult?.segments?.length },
   { id: 'analysis', label: 'Analysis', count: store.analysisResult?.chapters?.length },
-  { id: 'graphrag', label: 'GraphRAG' },
   { id: 'raw', label: 'Raw SSE' },
   { id: 'raw-json', label: 'Raw JSON' }
 ])
@@ -290,40 +253,6 @@ async function refreshResults() {
   } catch (e) {
     console.error('Failed to refresh:', e)
   }
-}
-
-async function triggerSearch() {
-  if (!searchQuery.value) return
-
-  try {
-    const response = await fetch(`${API_CONFIG.graphragUrl}/api/v1/query/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: searchQuery.value,
-        top_k: 10
-      })
-    })
-    const data = await response.json()
-    store.setGraphRAG(data)
-  } catch (e) {
-    console.error('GraphRAG search failed:', e)
-  }
-}
-
-async function autoSearch() {
-  if (!store.analysisResult) return
-
-  const queryParts: string[] = []
-  if (store.analysisResult.theme) queryParts.push(store.analysisResult.theme)
-  queryParts.push(...store.analysisResult.topics)
-  store.analysisResult.chapters?.forEach(ch => {
-    ch.decisions?.forEach(d => queryParts.push(d.decision))
-    ch.action_items?.forEach(a => queryParts.push(a.todo))
-  })
-
-  searchQuery.value = queryParts.slice(0, 5).join(' ')
-  await triggerSearch()
 }
 
 // Connect to SSE for live updates
@@ -730,105 +659,6 @@ async function fetchFullResult(sessionId: string) {
   margin-bottom: 8px;
 }
 
-.graphrag-search {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
-.search-input {
-  flex: 1;
-  padding: 10px 16px;
-  background: #141420;
-  border: 1px solid #3d3d4d;
-  border-radius: 4px;
-  color: #ffffff;
-  font-size: 14px;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #6366f1;
-}
-
-.btn-search, .btn-auto {
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
-}
-
-.btn-search {
-  background: #6366f1;
-  color: #ffffff;
-  border: none;
-}
-
-.btn-search:hover {
-  background: #5558e3;
-}
-
-.btn-auto {
-  background: transparent;
-  color: #a1a1a1;
-  border: 1px solid #3d3d4d;
-}
-
-.btn-auto:hover {
-  background: #262626;
-  color: #ffffff;
-}
-
-.graphrag-result {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.answer-section h3, .sources-section h3 {
-  margin: 0 0 12px 0;
-  font-size: 16px;
-  color: #a1a1a1;
-}
-
-.answer-section p {
-  margin: 0;
-  background: #141420;
-  padding: 16px;
-  border-radius: 8px;
-  line-height: 1.6;
-}
-
-.source-item {
-  background: #141420;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-.source-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.source-id {
-  color: #a1a1a1;
-  font-size: 12px;
-}
-
-.source-score {
-  color: #6366f1;
-  font-size: 12px;
-}
-
-.source-chunk {
-  margin: 0;
-  color: #ffffff;
-  font-size: 13px;
-  line-height: 1.5;
-}
 
 .sse-log {
   display: flex;

@@ -314,7 +314,8 @@ async def _process_upload_file(
     """
     后台任务：处理上传文件
 
-    实际执行 ASR → GraphRAG → LLM → AudioAnalyzer 的完整处理流程
+    实际执行 ASR → LLM → AudioAnalyzer 的完整处理流程。
+    知识固化、图谱构建和 Source Trace 由独立 data_service 负责。
     通过 status_manager.update() 推送中间状态到 SSE 端点
     """
     upload_start_time = time.time()
@@ -431,46 +432,19 @@ async def _process_upload_file(
         # 分析流程
         analysis_result = None
         audio_analysis_result = None
-        graphrag_context = None
+        knowledge_context = None
 
         if transcript_text:
-            # Step 1: GraphRAG 实体识别
-            graphrag_start_time = time.time()
-            logger.info(f"[Upload {session_id}] ========== GraphRAG Processing Starting ==========")
-            try:
-                status_manager.update(
-                    session_id,
-                    progress=52,
-                    message="正在进行实体识别和关系抽取..."
-                )
-                import httpx
-                graphrag_service_url = config.graphrag.service_url
-                graphrag_timeout = config.timeout.graphrag_timeout if hasattr(config, 'timeout') else 30.0
-                async with httpx.AsyncClient(timeout=graphrag_timeout) as client:
-                    try:
-                        logger.info(f"[Upload {session_id}] Calling GraphRAG extract API: {graphrag_service_url}/api/v1/extract/")
-                        graphrag_response = await client.post(
-                            f"{graphrag_service_url}/api/v1/extract/",
-                            json={
-                                "text": transcript_text,
-                                "session_id": session_id,
-                                "namespace": "meetings"
-                            }
-                        )
-                        if graphrag_response.status_code == 200:
-                            graphrag_data = graphrag_response.json()
-                            graphrag_context = graphrag_data
-                            entity_count = len(graphrag_data.get('entities', []))
-                            logger.info(f"[Upload {session_id}] GraphRAG extracted {entity_count} entities")
-                    except httpx.TimeoutException:
-                        logger.warning(f"[Upload {session_id}] GraphRAG entity extraction timeout")
-                        graphrag_context = None
-            except Exception as e:
-                logger.warning(f"[Upload {session_id}] GraphRAG entity extraction failed: {e}")
-                graphrag_context = None
-            finally:
-                graphrag_elapsed = time.time() - graphrag_start_time
-                logger.info(f"[Upload {session_id}] ========== GraphRAG Completed in {graphrag_elapsed:.2f}s ==========")
+            # Step 1: Knowledge extraction is owned by the external data_service.
+            # The meeting app only produces transcript text and analysis results.
+            status_manager.update(
+                session_id,
+                progress=52,
+                message="知识治理由外部 data_service 处理..."
+            )
+            logger.info(
+                f"[Upload {session_id}] Knowledge governance is delegated to external data_service"
+            )
 
             # Step 2: LLM 分析
             llm_start_time = time.time()
@@ -488,9 +462,9 @@ async def _process_upload_file(
                     model=config.llm.dashscope_model
                 )
                 try:
-                    logger.info(f"[Upload {session_id}] Calling LLMAnalyzer.analyze_text_with_graphrag_context()")
-                    analysis_result = await llm_analyzer.analyze_text_with_graphrag_context(
-                        transcript_text, graphrag_context
+                    logger.info(f"[Upload {session_id}] Calling LLMAnalyzer.analyze_text_with_knowledge_context()")
+                    analysis_result = await llm_analyzer.analyze_text_with_knowledge_context(
+                        transcript_text, knowledge_context
                     )
                     logger.info(f"[Upload {session_id}] LLM analysis completed: theme={analysis_result.theme[:50] if analysis_result and analysis_result.theme else 'N/A'}")
                 except Exception as e:

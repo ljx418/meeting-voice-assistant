@@ -161,21 +161,13 @@
         </div>
       </section>
 
-<!-- Right Sidebar (C) - 320px -->
+<!-- Right Sidebar (C) - external knowledge service boundary -->
       <aside class="sidebar-right">
-        <!-- GraphRAG Panel Component -->
-        <GraphRAGPanel
-          :search-query="searchQuery"
-          :search-results="searchResults"
-          :auto-tags="autoTags"
-          :is-searching="isSearching"
-          :search-error="searchError"
-          :entities="meetingEntities"
-          :fragments="meetingFragments"
-          @search="triggerSearch"
-          @update:search-query="searchQuery = $event"
-          @jump-to-time="jumpToTime"
-        />
+        <div class="knowledge-service-card">
+          <h3>Knowledge Service</h3>
+          <p>会议应用只负责转写和分析；知识固化、GraphRAG、Wiki 和 trace 由独立 data_service 提供。</p>
+          <button class="btn-knowledge-service" @click="router.push('/knowledge')">打开服务控制台</button>
+        </div>
       </aside>
     </div>
   </div>
@@ -188,8 +180,6 @@ import { useMeetingStore, type Chapter } from '../stores/meeting'
 import ChapterList from '../components/ChapterList.vue'
 import AudioTimeline from '../components/AudioTimeline.vue'
 import NotesPanel from '../components/NotesPanel.vue'
-import GraphRAGPanel from '../components/GraphRAGPanel.vue'
-import { API_CONFIG } from '../api/config'
 
 const router = useRouter()
 const route = useRoute()
@@ -288,11 +278,6 @@ function formatTime(seconds: number): string {
 }
 
 // Search
-const searchQuery = ref('')
-const searchResults = ref<Array<{ id: string; name: string; relevance: number }>>([])
-const isSearching = ref(false)
-const searchError = ref('')
-
 // Computed
 const meetingDate = computed(() => {
   const now = new Date()
@@ -337,104 +322,6 @@ const totalDuration = computed(() => {
   const min = Math.floor(total / 60)
   const sec = Math.floor(total % 60)
   return `${min}:${String(sec).padStart(2, '0')}`
-})
-
-const autoTags = computed(() => {
-  const tags: string[] = []
-  if (activeTopic.value) tags.push(activeTopic.value)
-  if (currentChapterData.value?.summary) {
-    const words = currentChapterData.value.summary.split(/[,，。.]/)
-    tags.push(...words.slice(0, 3))
-  }
-  activeDecisions.value.forEach(d => {
-    if (d.decision.length < 20) tags.push(d.decision)
-  })
-  return tags.slice(0, 5)
-})
-
-// Meeting entities extracted from chapters
-const meetingEntities = computed(() => {
-  // Extract unique speakers as entities from mock data
-  const speakerSet = new Set<string>()
-  chapters.value.forEach((ch: Chapter) => {
-    if (ch.speaker_summaries) {
-      ch.speaker_summaries.forEach((spk) => {
-        speakerSet.add(spk.speaker)
-      })
-    }
-  })
-  const speakers = Array.from(speakerSet)
-  const entities: Array<{ name: string; type: string; relations: number; source_meeting_id?: string; timestamp?: number; description?: string }> = []
-
-  // Add speakers as entities with source tracking
-  speakers.forEach((speaker, idx) => {
-    const chapter = chapters.value.find(c => c.speaker_summaries?.some(s => s.speaker === speaker))
-    entities.push({
-      name: speaker,
-      type: '说话人',
-      relations: 3 + Math.floor(Math.random() * 3),
-      source_meeting_id: store.meetingId || 'meeting-' + Date.now(),
-      timestamp: chapter?.start_time ? chapter.start_time * 1000 : undefined,
-      description: chapter?.speaker_summaries?.find(s => s.speaker === speaker)?.summary
-    })
-  })
-
-  // Add topic as entity
-  if (store.topic) {
-    entities.push({
-      name: store.topic,
-      type: '主题',
-      relations: 5,
-      source_meeting_id: store.meetingId || 'meeting-' + Date.now(),
-      timestamp: chapters.value[0]?.start_time ? chapters.value[0].start_time * 1000 : undefined,
-      description: store.topic
-    })
-  }
-
-  // Only add real entities from the meeting data - no mock data
-  // If chapters is empty, return empty entities
-  if (chapters.value.length === 0) {
-    return []
-  }
-
-  return entities.slice(0, 6) // Limit to 6 entities
-})
-
-// Meeting file fragments from RAG
-const meetingFragments = computed(() => {
-  const fragments: Array<{ id: string; name: string; source: string; chunk_length: number; preview: string }> = []
-
-  // Generate fragments from chapter summaries
-  chapters.value.forEach((ch: Chapter, idx) => {
-    if (ch.summary) {
-      fragments.push({
-        id: `frag-${idx}`,
-        name: `会议章节${idx + 1}`,
-        source: ch.title || `章节 ${idx + 1}`,
-        chunk_length: ch.summary.length,
-        preview: ch.summary.length > 60 ? ch.summary.substring(0, 60) + '...' : ch.summary
-      })
-    }
-  })
-
-  // Add speaker summaries as fragments
-  chapters.value.forEach((ch: Chapter, chIdx) => {
-    if (ch.speaker_summaries) {
-      ch.speaker_summaries.forEach((spk, spkIdx) => {
-        if (spk.summary) {
-          fragments.push({
-            id: `frag-spk-${chIdx}-${spkIdx}`,
-            name: spk.speaker,
-            source: '说话人发言',
-            chunk_length: spk.summary.length,
-            preview: spk.summary.length > 50 ? spk.summary.substring(0, 50) + '...' : spk.summary
-          })
-        }
-      })
-    }
-  })
-
-  return fragments.slice(0, 8) // Limit to 8 fragments
 })
 
 // Mock data for demo
@@ -758,83 +645,6 @@ function jumpToTime(time: number | undefined) {
   }
 }
 
-async function triggerSearch() {
-  // 构建查询上下文
-  const queryParts: string[] = []
-  const contextParts: string[] = []
-
-  // 添加主题
-  if (store.topic) {
-    queryParts.push(`会议主题: ${store.topic}`)
-    contextParts.push(`会议主题是"${store.topic}"`)
-  }
-
-  // 添加当前章节的决策和待办
-  const chapterData = currentChapterData.value
-  if (chapterData) {
-    if (chapterData.decisions?.length) {
-      const decisionTexts = chapterData.decisions.map(d => d.decision).join('；')
-      contextParts.push(`关键决策: ${decisionTexts}`)
-    }
-    if (chapterData.action_items?.length) {
-      const actionTexts = chapterData.action_items.map(a => a.todo).join('；')
-      contextParts.push(`待办事项: ${actionTexts}`)
-    }
-    if (chapterData.summary) {
-      contextParts.push(`段落摘要: ${chapterData.summary}`)
-    }
-  }
-
-  // 使用搜索框输入或自动生成的标签
-  const query = searchQuery.value || autoTags.value.slice(0, 3).join(' ')
-  if (!query && contextParts.length === 0) {
-    searchResults.value = []
-    return
-  }
-
-  // 如果没有搜索词但有上下文，使用上下文作为查询
-  const finalQuery = query || contextParts.join('，')
-  const context = contextParts.join('。')
-
-  isSearching.value = true
-  searchError.value = ''
-
-  try {
-    const response = await fetch(`${API_CONFIG.graphragUrl}/api/v1/query/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: finalQuery,
-        top_k: 10,
-        context: context || undefined,
-      }),
-    })
-
-    if (!response.ok) {
-      throw new Error(`查询失败: ${response.status}`)
-    }
-
-    const data = await response.json()
-
-    // 转换响应为展示格式
-    searchResults.value = data.sources?.map((source: any, index: number) => ({
-      id: source.doc_id || `result-${index}`,
-      name: source.chunk?.substring(0, 50) + (source.chunk?.length > 50 ? '...' : '') || '未知文档',
-      relevance: Math.round((source.similarity || 0.8 - index * 0.05) * 100),
-      fullChunk: source.chunk,
-      answer: data.answer,
-    })) || []
-  } catch (error) {
-    console.error('GraphRAG query failed:', error)
-    searchError.value = error instanceof Error ? error.message : '查询失败'
-    searchResults.value = []
-  } finally {
-    isSearching.value = false
-  }
-}
-
 // Initialize
 onMounted(() => {
   // Sync session data to global store if navigated via sessionId route
@@ -1088,6 +898,35 @@ onUnmounted(() => {
   width: 320px;
   flex-shrink: 0;
   padding: 16px 16px 16px 0;
+}
+
+.knowledge-service-card {
+  padding: 16px;
+  background: #141420;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+.knowledge-service-card h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.knowledge-service-card p {
+  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.btn-knowledge-service {
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  background: #6366f1;
+  cursor: pointer;
 }
 
 /* Transcript Panel */

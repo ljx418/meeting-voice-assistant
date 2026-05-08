@@ -21,7 +21,7 @@ V3.0 的测试重点不是新增业务，而是验证同一份 harnessOS Core �
 
 - 既有 Gateway、Core Store、RuntimeAdapter、Policy、Approval、Retry、Artifact 回归不失败。
 - 默认测试不依赖真实 FunASR、Meeting MCP、Knowledge MCP 或外部网络。
-- 2026-05-06 本地验证结果：`154 passed, 1 skipped, 2 deselected`（在显式排除两个真实音频验收用例后）。
+- 2026-05-06 本地验证结果：`161 passed, 1 skipped, 2 deselected`（在显式排除两个真实音频验收用例后）。
 
 ## 3. V3.0 Targeted Tests
 
@@ -59,6 +59,32 @@ PhaseA 冻结测试基线：
 - 已完成阶段的行为合同
 - 后续 Phase 的回归门
 - 文档验收口径的代码证据
+
+## 3.1 V3.0-PhaseB 目标测试入口
+
+PhaseB 当前重点不是业务 E2E，而是 Pack / Connector 合同冻结。建议优先覆盖：
+
+- `tests/test_pack_registry.py`
+  - pack manifest schema
+  - PackAssemblyResult 字段完整性
+  - conflicts / missing dependency / degraded / blocked 语义
+  - AppProfile `pack_paths` 驱动的 external pack 加载
+  - AppProfile 未启用 connector 时返回 `app_profile_connector:*` blocked dependency
+  - external pack `metadata.target_version`：缺失时 degraded，不兼容时 blocked
+- `tests/test_gateway_protocol.py`
+  - `pack.list/get`
+  - `connector.list/get/health`
+  - connector descriptor 字段稳定性
+  - `app_registry + connector_registry` 推导的 assembly 输入
+- connector security fixture
+  - 未 allowlist 的 stdio command/path/network 被 blocked
+  - 合法 connector 不被误拦截
+
+PhaseB 验收重点：
+
+- 默认 contract/registry/security 回归必须通过。
+- 不依赖真实音频或真实 MCP 外部服务作为主验收门。
+- Meeting / Knowledge 的 pack/registry 装配入口可以通过 assembly/health 测试验证，不必等到 PhaseD/PhaseE 的真实 E2E 才确认入口合同。
 
 ## 4. Meeting Real Audio Acceptance
 

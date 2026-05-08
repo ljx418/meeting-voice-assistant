@@ -4,7 +4,7 @@
 使用 watchdog 实现目录监控，支持文件变更通知和级联删除。
 功能：
 - watchdog 递归监控（防抖动+文件大小检测）
-- 级联删除（源文件→DB→GraphRAG索引）
+- 级联删除（源文件→DB→知识服务交接产物）
 - 回收站(30天)
 """
 
@@ -544,7 +544,7 @@ class CascadeDeleteManager:
     """
     级联删除管理器
 
-    实现源文件→DB→GraphRAG索引的级联删除。
+    实现源文件→DB→知识服务交接产物的级联删除。
     支持回收站功能。
     """
 
@@ -597,7 +597,7 @@ class CascadeDeleteManager:
         1. 源文件本身
         2. 关联文件（json/txt/vtt/srt等）
         3. DB 记录（通过回调）
-        4. GraphRAG 索引（通过回调）
+        4. 知识服务交接产物（通过回调）
 
         Args:
             file_path: 要删除的文件路径
@@ -660,7 +660,7 @@ class CascadeDeleteManager:
                 except Exception as e:
                     logger.error(f"[CascadeDelete] Failed to remove dir {session_dir}: {e}")
 
-        # 4. 调用删除回调（用于删除 DB 和 GraphRAG 索引）
+        # 4. 调用删除回调（用于删除 DB 和知识服务交接产物）
         for callback in self._delete_callbacks:
             try:
                 callback(file_path)
@@ -669,9 +669,9 @@ class CascadeDeleteManager:
 
         return deleted
 
-    async def delete_graphrag_index(self, file_path: str) -> bool:
+    async def delete_knowledge_artifacts(self, file_path: str) -> bool:
         """
-        删除 GraphRAG 索引
+        删除本会议应用中残留的知识服务交接产物
 
         Args:
             file_path: 原始文件路径
@@ -683,7 +683,7 @@ class CascadeDeleteManager:
             # 获取文件名（不含扩展名）
             filename = Path(file_path).stem
 
-            # GraphRAG 索引通常保存在 workspace/output/ 目录
+            # 旧版本可能在 rag_workspace/output/ 留下交接产物
             output_dir = self._workspace_root / "rag_workspace" / "output"
             if not output_dir.exists():
                 return True
@@ -696,15 +696,15 @@ class CascadeDeleteManager:
                     try:
                         index_file.unlink()
                         deleted_count += 1
-                        logger.info(f"[CascadeDelete] Deleted GraphRAG index: {index_file}")
+                        logger.info(f"[CascadeDelete] Deleted knowledge handoff artifact: {index_file}")
                     except Exception as e:
                         logger.error(f"[CascadeDelete] Failed to delete {index_file}: {e}")
 
-            logger.info(f"[CascadeDelete] Deleted {deleted_count} GraphRAG index files for {filename}")
+            logger.info(f"[CascadeDelete] Deleted {deleted_count} knowledge handoff artifacts for {filename}")
             return True
 
         except Exception as e:
-            logger.error(f"[CascadeDelete] GraphRAG index deletion failed: {e}")
+            logger.error(f"[CascadeDelete] Knowledge artifact deletion failed: {e}")
             return False
 
     def setup_monitoring(

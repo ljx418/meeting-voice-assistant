@@ -17,7 +17,7 @@ from apps.gateway.policies import PolicyEvaluator
 from apps.gateway.retries import RetryStore
 from apps.gateway.traces import TraceStore
 from apps.gateway.workflows import LeadOrchestrator, WorkflowContext, build_default_orchestrator
-from core.apps import ScopeContext
+from core.apps import AppRegistry, ScopeContext, build_default_app_registry
 from core.packs import PackRegistry, build_default_pack_registry
 from core.services import CoreAppService
 from core.stores import CoreSQLiteStore
@@ -88,6 +88,7 @@ class GatewayRuntimePool:
         retry_store: Optional[RetryStore] = None,
         orchestrator: Optional[LeadOrchestrator] = None,
         pack_registry: Optional[PackRegistry] = None,
+        app_registry: Optional[AppRegistry] = None,
         connector_registry: Optional[ConnectorRegistry] = None,
         core_store: Optional[CoreSQLiteStore] = None,
         core_service: Optional[CoreAppService] = None,
@@ -102,7 +103,8 @@ class GatewayRuntimePool:
         self._approval_store = approval_store or ApprovalStore()
         self._policy_evaluator = policy_evaluator or PolicyEvaluator()
         self._retry_store = retry_store or RetryStore()
-        self._pack_registry = pack_registry or build_default_pack_registry()
+        self._app_registry = app_registry or build_default_app_registry()
+        self._pack_registry = pack_registry or build_default_pack_registry(app_registry=self._app_registry)
         resolved_core_store = core_store
         if resolved_core_store is None and core_service is None and store is not None:
             resolved_core_store = CoreSQLiteStore(self._store.root / "core.sqlite3")
@@ -122,6 +124,9 @@ class GatewayRuntimePool:
         self._orchestrator = orchestrator or build_default_orchestrator(
             self._meeting_workflow,
             pack_registry=self._pack_registry,
+            connector_registry=self._connector_registry,
+            connector_execution_runtime=self._connector_execution_runtime,
+            app_registry=self._app_registry,
         )
         self._sessions: Dict[str, RuntimeSession] = {}
         self._active_turns: Dict[str, ActiveTurn] = {}
@@ -165,6 +170,11 @@ class GatewayRuntimePool:
     def pack_registry(self) -> PackRegistry:
         """Return the Domain Pack registry used by the gateway."""
         return self._pack_registry
+
+    @property
+    def app_registry(self) -> AppRegistry:
+        """Return the app profile registry used by the gateway."""
+        return self._app_registry
 
     @property
     def core_store(self) -> CoreSQLiteStore:

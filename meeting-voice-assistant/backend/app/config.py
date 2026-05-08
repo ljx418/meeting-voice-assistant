@@ -122,18 +122,18 @@ class CacheConfig(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="AUDIO_CACHE_", extra="ignore")
 
 
-class GraphRAGConfig(BaseSettings):
-    """GraphRAG 知识管理配置"""
+class KnowledgeServiceConfig(BaseSettings):
+    """External Local Knowledge Governance Service configuration."""
 
-    auto_index: bool = Field(default=False, description="会议结束后自动触发索引")
-    service_url: str = Field(default="http://localhost:8002")
-    service_port: int = Field(default=8002, description="GraphRAG 服务端口")
-    workspace: Path = Field(default=Path("./rag_workspace"))
-    request_timeout: float = Field(default=30.0, description="GraphRAG 服务请求超时（秒）")
-    index_timeout: float = Field(default=300.0, description="GraphRAG 索引超时（秒）")
+    auto_handoff: bool = Field(default=False, description="会议结束后是否提示外部知识服务接管")
+    service_url: str = Field(default="http://localhost:8003/api/v1/knowledge")
+    service_port: int = Field(default=8003, description="Local Knowledge Governance Service 端口")
+    workspace: Path = Field(default=Path("./knowledge_workspace"))
+    request_timeout: float = Field(default=30.0, description="知识服务请求超时（秒）")
+    index_timeout: float = Field(default=300.0, description="知识服务构建超时（秒）")
     default_top_k: int = Field(default=10, description="默认返回结果数")
 
-    model_config = SettingsConfigDict(env_prefix="GRAPHRAG_", extra="ignore")
+    model_config = SettingsConfigDict(env_prefix="KNOWLEDGE_SERVICE_", extra="ignore")
 
 
 class APIConfig(BaseSettings):
@@ -182,9 +182,9 @@ class TimeoutConfig(BaseSettings):
     # LLM 超时
     llm_timeout: float = Field(default=120.0, description="LLM API 调用超时（秒）")
 
-    # GraphRAG 超时
-    graphrag_timeout: float = Field(default=30.0, description="GraphRAG 服务请求超时（秒）")
-    graphrag_index_timeout: float = Field(default=300.0, description="GraphRAG 索引超时（秒）")
+    # 外部知识服务超时
+    knowledge_service_timeout: float = Field(default=30.0, description="知识服务请求超时（秒）")
+    knowledge_service_build_timeout: float = Field(default=300.0, description="知识服务构建超时（秒）")
 
     # 文件上传超时
     upload_timeout: float = Field(default=600.0, description="文件上传处理超时（秒）")
@@ -221,7 +221,7 @@ class AppSettings(BaseSettings):
     llm: LLMConfig = Field(default_factory=LLMConfig)
     audio: AudioConfig = Field(default_factory=AudioConfig)
     cache: CacheConfig = Field(default_factory=CacheConfig)
-    graphrag: GraphRAGConfig = Field(default_factory=GraphRAGConfig)
+    knowledge_service: KnowledgeServiceConfig = Field(default_factory=KnowledgeServiceConfig)
     api: APIConfig = Field(default_factory=APIConfig)
     timeout: TimeoutConfig = Field(default_factory=TimeoutConfig)
     watch_folder: WatchFolderConfig = Field(default_factory=WatchFolderConfig)
@@ -251,4 +251,4 @@ if config.cache.enabled:
 _logger.info(f"[Config] 统一配置加载完成")
 _logger.info(f"[Config] ASR 引擎: {config.asr.engine}")
 _logger.info(f"[Config] LLM 提供商: {config.llm.provider}")
-_logger.info(f"[Config] GraphRAG 自动索引: {config.graphrag.auto_index}")
+_logger.info(f"[Config] Knowledge Service 自动交接: {config.knowledge_service.auto_handoff}")

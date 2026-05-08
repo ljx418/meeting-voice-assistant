@@ -31,7 +31,7 @@ from app.api.v1.voice_session import (
     TranscriptionHandler,
     SessionStateManager,
     MeetingAnalyzer,
-    GraphRAGNotifier,
+    KnowledgeServiceNotifier,
 )
 
 logger = setup_logger("ws.voice")
@@ -76,7 +76,7 @@ class VoiceSession:
             llm_analyzer=self.llm_analyzer,
             transcripts_holder=self.transcription_handler.transcripts
         )
-        self.graphrag_notifier = GraphRAGNotifier(
+        self.knowledge_service_notifier = KnowledgeServiceNotifier(
             session_id=self.transcription_handler.session_id,
             started_at=datetime.now(),
             transcripts_holder=self.transcription_handler.transcripts
@@ -87,13 +87,13 @@ class VoiceSession:
             self.transcription_handler.session_id = session_id
             self.state_manager.session_id = session_id
             self.meeting_analyzer.session_id = session_id
-            self.graphrag_notifier.session_id = session_id
+            self.knowledge_service_notifier.session_id = session_id
             self._restore_state()
         else:
             self.transcription_handler.session_id = f"sess_{uuid.uuid4().hex[:8]}"
             self.state_manager.session_id = self.transcription_handler.session_id
             self.meeting_analyzer.session_id = self.transcription_handler.session_id
-            self.graphrag_notifier.session_id = self.transcription_handler.session_id
+            self.knowledge_service_notifier.session_id = self.transcription_handler.session_id
             self.state_manager.create()
 
     @property
@@ -344,10 +344,10 @@ class VoiceSession:
             # 6. 保存转写文本到文件
             await self.meeting_analyzer.save_transcript_text(analysis_result)
 
-            # 7. 触发 GraphRAG 自动索引
-            if config.graphrag.auto_index:
+            # 7. 知识治理由外部 data_service 承担；这里仅保留显式边界提示。
+            if config.knowledge_service.auto_handoff:
                 task = asyncio.create_task(
-                    self.graphrag_notifier.notify(analysis_result)
+                    self.knowledge_service_notifier.notify(analysis_result)
                 )
                 self._tasks.append(task)
 

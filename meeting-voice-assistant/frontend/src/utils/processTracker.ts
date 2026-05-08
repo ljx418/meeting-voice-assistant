@@ -30,7 +30,7 @@ export const DEFAULT_MEETING_STEPS: Omit<ProcessStep, 'status' | 'startTime' | '
   { id: 'speech_recognition', name: '语音识别' },
   { id: 'llm_analysis', name: 'LLM分析' },
   { id: 'summary_generation', name: '纪要生成' },
-  { id: 'graphrag_construction', name: 'GraphRAG构建' },
+  { id: 'knowledge_handoff', name: '知识服务交接' },
 ]
 
 /**
@@ -243,9 +243,8 @@ export class ProcessTracker {
       transcribing: { flowId: flowId, stepId: 'speech_recognition' },
       analyzing: { flowId: flowId, stepId: 'llm_analysis' },
       generating_summary: { flowId: flowId, stepId: 'summary_generation' },
-      indexing: { flowId: flowId, stepId: 'graphrag_construction' },
-      // Backend sends 'completed' after LLM analysis, not after GraphRAG indexing
-      // So map 'completed' to summary_generation and treat graphrag_construction as implicit completion
+      indexing: { flowId: flowId, stepId: 'knowledge_handoff' },
+      // Backend sends 'completed' after LLM analysis; knowledge persistence is external.
       completed: { flowId: flowId, stepId: 'summary_generation' },
       error: { flowId: flowId, stepId: 'audio_input' },
     }

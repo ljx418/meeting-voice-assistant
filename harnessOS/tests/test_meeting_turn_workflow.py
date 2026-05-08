@@ -311,6 +311,11 @@ for line in sys.stdin:
         assert not meeting_service.recording_calls
         assert meeting_service.text_calls[0]["text"] == "FunASR MCP transcript text."
         assert meeting["transcription"]["connector_id"] == "funasr_mcp"
+        assert "会议分析已完成。" in response.result["final_text"]
+        assert (
+            "标准入口：connector funasr_mcp.funasr_recognize_file -> connector meeting_voice_mcp.meeting_analyze_text"
+            in response.result["final_text"]
+        )
         listed = await service.handle_rpc(
             RpcRequest(id="3", method="artifact.list", params={"session_id": started.result["session_id"]})
         )

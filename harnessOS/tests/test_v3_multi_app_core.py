@@ -21,6 +21,7 @@ def test_default_app_registry_contains_v3_profiles() -> None:
 
     assert set(profiles) == {"meeting", "knowledge", "interview", "investment", "video_studio"}
     assert profiles["meeting"]["connector_refs"] == ["meeting_voice_mcp", "funasr_mcp"]
+    assert profiles["knowledge"]["connector_refs"] == ["local.knowledge", "data_service_mcp"]
     assert profiles["knowledge"]["default_pack"] == "knowledge"
 
 
@@ -38,7 +39,7 @@ def test_default_pack_registry_loads_external_pack_roots(tmp_path, monkeypatch) 
   "description": "External test pack",
   "status": "active",
   "workflows": [],
-  "metadata": {"external": true}
+  "metadata": {"external": true, "target_version": "3.0"}
 }
 """.strip()
         + "\n",
@@ -52,6 +53,47 @@ def test_default_pack_registry_loads_external_pack_roots(tmp_path, monkeypatch) 
     assert pack is not None
     assert pack.domain == "custom"
     assert pack.metadata["external"] is True
+
+
+def test_default_pack_registry_loads_pack_paths_from_app_registry(tmp_path) -> None:
+    external_root = tmp_path / "profile-packs"
+    pack_dir = external_root / "profile_pack"
+    pack_dir.mkdir(parents=True)
+    (pack_dir / "manifest.json").write_text(
+        """
+{
+  "name": "profile_pack",
+  "version": "0.1.0",
+  "manifest_schema_version": "1",
+  "domain": "profile_pack",
+  "description": "Profile path test pack",
+  "status": "active",
+  "workflows": [],
+  "connectors": ["profile.connector"],
+  "metadata": {"target_version": "3.0"}
+}
+""".strip()
+        + "\n",
+        encoding="utf-8",
+    )
+    registry = AppRegistry(
+        [
+            AppProfile(
+                app_id="profile_pack",
+                display_name="Profile Pack",
+                domain="profile_pack",
+                default_pack="profile_pack",
+                connector_refs=("profile.connector",),
+                pack_paths=(str(external_root),),
+            )
+        ]
+    )
+
+    pack_registry = build_default_pack_registry(app_registry=registry)
+
+    pack = pack_registry.get_pack("profile_pack")
+    assert pack is not None
+    assert pack.domain == "profile_pack"
 
 
 def test_core_store_scope_filters_isolate_records(tmp_path) -> None:

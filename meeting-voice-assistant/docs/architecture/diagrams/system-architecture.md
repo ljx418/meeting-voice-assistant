@@ -165,10 +165,9 @@ meeting-voice-assistant/
 │   │   │   ├── llm_analyzer.py  # LLM 分析
 │   │   │   └── audio_cache.py   # 音频缓存
 │   │   └── config.py
-│   └── funasr_service/          # FunASR 微服务
-│       ├── main.py
-│       ├── api.py
-│       └── model_loader.py
+│   └── app/core/asr/funasr_adapter.py # 外部 voice_service HTTP 客户端
+│
+├── ../voice_service/           # 独立 FunASR 语音服务 (HTTP/CLI/MCP)
 │
 └── docs/architecture/
     └── diagrams/               # 架构图

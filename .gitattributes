@@ -1,0 +1,2 @@
+voice_service/env-dist/wheels/*.whl filter=lfs diff=lfs merge=lfs -text
+voice_service/env-dist/wheels/*.tar.gz filter=lfs diff=lfs merge=lfs -text

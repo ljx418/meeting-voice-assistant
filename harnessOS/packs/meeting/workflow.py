@@ -79,8 +79,26 @@ class MeetingWorkflow:
                     language=None,
                     title=Path(audio_path).stem,
                 )
+                result["execution"] = {
+                    "mode": "meeting_mcp_process_recording",
+                    "steps": [
+                        {
+                            "connector_id": MEETING_VOICE_MCP_CONNECTOR_ID,
+                            "tool": "meeting_process_file",
+                        }
+                    ],
+                }
         elif domain == "meeting":
             result = await self.service.analyze_text(user_input, title="Meeting Notes")
+            result["execution"] = {
+                "mode": "meeting_mcp_text_analysis",
+                "steps": [
+                    {
+                        "connector_id": MEETING_VOICE_MCP_CONNECTOR_ID,
+                        "tool": "meeting_analyze_text",
+                    }
+                ],
+            }
         else:
             raise MeetingMcpError("Meeting workflow requires a supported audio path or explicit domain=meeting text.")
         register_meeting_artifacts(
@@ -133,6 +151,19 @@ class MeetingWorkflow:
             "artifact_id": submitted.get("artifact", {}).get("artifact_id"),
             "mode": connector.get("metadata", {}).get("execution"),
             "tool": "funasr_recognize_file",
+        }
+        result["execution"] = {
+            "mode": "funasr_mcp_then_meeting_mcp_analysis",
+            "steps": [
+                {
+                    "connector_id": FUNASR_MCP_CONNECTOR_ID,
+                    "tool": "funasr_recognize_file",
+                },
+                {
+                    "connector_id": MEETING_VOICE_MCP_CONNECTOR_ID,
+                    "tool": "meeting_analyze_text",
+                },
+            ],
         }
         result["transcript_chars"] = len(transcript)
         raw = result.get("raw")
@@ -205,6 +236,19 @@ def format_meeting_final_text(result: dict[str, Any]) -> str:
     ]
     if summary:
         lines.append(f"摘要：{summary}")
+    execution = result.get("execution") or {}
+    execution_steps = execution.get("steps") if isinstance(execution, dict) else None
+    if isinstance(execution_steps, list) and execution_steps:
+        execution_parts: list[str] = []
+        for step in execution_steps:
+            if not isinstance(step, dict):
+                continue
+            connector_id = step.get("connector_id")
+            tool = step.get("tool")
+            if isinstance(connector_id, str) and isinstance(tool, str):
+                execution_parts.append(f"connector {connector_id}.{tool}")
+        if execution_parts:
+            lines.append(f"标准入口：{' -> '.join(execution_parts)}")
     if minutes_path:
         lines.append(f"会议纪要：{minutes_path}")
     if artifacts:

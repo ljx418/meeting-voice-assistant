@@ -3,14 +3,12 @@ import HomePage from '../pages/HomePage.vue'
 import AuthPage from '../pages/AuthPage.vue'
 import MeetingPage from '../pages/MeetingPage.vue'
 import MeetingConsolePage from '../pages/MeetingConsolePage.vue'
-import GraphRAGPage from '../pages/GraphRAGPage.vue'
-import WikiPage from '../pages/WikiPage.vue'
-import WikiDetailPage from '../pages/WikiDetailPage.vue'
-import WikiEditorPage from '../pages/WikiEditorPage.vue'
-import KnowledgePage from '../pages/KnowledgePage.vue'
 import InterviewPage from '../pages/InterviewPage.vue'
 import InterviewSimulatePage from '../pages/InterviewSimulatePage.vue'
 import InterviewReviewPage from '../pages/InterviewReviewPage.vue'
+
+const KNOWLEDGE_CONSOLE_URL = import.meta.env.VITE_DATA_SERVICE_CONSOLE_URL || 'http://127.0.0.1:8003/knowledge'
+const ExternalRedirectPage = { template: '' }
 
 const router = createRouter({
   history: createWebHistory(),
@@ -43,7 +41,11 @@ const router = createRouter({
     {
       path: '/knowledge',
       name: 'knowledge',
-      component: KnowledgePage,
+      component: ExternalRedirectPage,
+      beforeEnter: () => {
+        window.location.href = KNOWLEDGE_CONSOLE_URL
+        return false
+      },
     },
     {
       path: '/interview',
@@ -59,31 +61,6 @@ const router = createRouter({
       path: '/interview/review',
       name: 'interview-review',
       component: InterviewReviewPage,
-    },
-    {
-      path: '/graphrag',
-      name: 'graphrag',
-      component: GraphRAGPage,
-    },
-    {
-      path: '/wiki',
-      name: 'wiki',
-      component: WikiPage,
-    },
-    {
-      path: '/wiki/new',
-      name: 'wiki-new',
-      component: WikiEditorPage,
-    },
-    {
-      path: '/wiki/:id',
-      name: 'wiki-detail',
-      component: WikiDetailPage,
-    },
-    {
-      path: '/wiki/:id/edit',
-      name: 'wiki-edit',
-      component: WikiEditorPage,
     },
   ],
 })

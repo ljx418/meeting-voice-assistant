@@ -289,7 +289,7 @@ flowchart TB
 
 当前相邻项目 MCP 边界：
 
-- Meeting / ASR 使用 `funasr_mcp` 连接 `/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/funasr_service`，底层通过 FunASR 服务完成语音转写。
+- Meeting / ASR 使用 `funasr_mcp` 连接 `/Users/Zhuanz/Desktop/workspace/voice_service/funasr_service`，底层通过 FunASR 服务完成语音转写。
 - Knowledge 使用 `data_service_mcp` 连接 `/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/data_service`，按照 `/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/docs/data_service/MCP-EXTERNAL-AGENT-GUIDE.md` 完成 GraphRAG + llmwiki 知识库生命周期。
 - Pack、Core 和 Gateway 不直接写相邻项目的 GraphRAG、llmwiki、quality 或 FunASR 模型产物目录；所有跨项目调用必须通过 connector registry + MCP tool contract。
 

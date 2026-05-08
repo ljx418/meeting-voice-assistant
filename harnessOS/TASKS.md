@@ -266,7 +266,7 @@
 当前剩余开发顺序：
 
 - [x] V3.0-PhaseA：scope 默认过滤、迁移/回填、namespace isolation、默认主线和显式真实音频验收已完成，并已冻结为回归基线
-- [ ] V3.0-PhaseB：补齐 PackAssemblyResult 正式合同、connector descriptor/security model
+- [ ] V3.0-PhaseB：已完成 PackAssemblyResult 正式合同、connector descriptor/security model、AppProfile pack_paths、registry-derived assembly 输入、app_profile_connector blocked 语义与 external pack target_version policy；剩余更细粒度 severity 分层和去硬编码退出门
 - [ ] V3.0-PhaseC：补齐 artifact read policy 冻结、job/artifact/runtime governance hardening
 - [ ] V3.0-PhaseD：完成 Meeting Pack 真正以外部服务可复验的真实音频 E2E 与 legacy facade equivalence
 - [ ] V3.0-PhaseE：完成 Knowledge Pack data_service_mcp E2E 与 data boundary 验收

@@ -6,7 +6,6 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 const WS_URL = import.meta.env.VITE_WS_URL || ''
-const GRAPHRAG_API_URL = import.meta.env.VITE_GRAPHRAG_API_URL || 'http://localhost:8002'
 
 export const API_CONFIG = {
   // HTTP API 基础路径
@@ -22,6 +21,6 @@ export const API_CONFIG = {
   // WebSocket URL
   wsUrl: WS_URL || 'ws://localhost:8000/api/v1/ws/voice',
 
-  // GraphRAG 服务 URL
-  graphragUrl: GRAPHRAG_API_URL,
+  // Local Knowledge Governance Service proxy URL
+  knowledgeUrl: `${API_BASE_URL}/api/v1/knowledge`,
 }

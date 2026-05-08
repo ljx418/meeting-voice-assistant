@@ -15,6 +15,7 @@ class AppProfile:
     domain: str
     default_pack: str
     connector_refs: tuple[str, ...] = ()
+    pack_paths: tuple[str, ...] = ()
     runtime_adapter: str = "auto"
     default_project_id: Optional[str] = None
     default_workspace_id: Optional[str] = None
@@ -28,6 +29,7 @@ class AppProfile:
             "domain": self.domain,
             "default_pack": self.default_pack,
             "connector_refs": list(self.connector_refs),
+            "pack_paths": list(self.pack_paths),
             "runtime_adapter": self.runtime_adapter,
             "default_project_id": self.default_project_id,
             "default_workspace_id": self.default_workspace_id,
@@ -81,7 +83,7 @@ def build_default_app_registry() -> AppRegistry:
                 display_name="个人知识库",
                 domain="knowledge",
                 default_pack="knowledge",
-                connector_refs=("data_service_mcp",),
+                connector_refs=("local.knowledge", "data_service_mcp"),
             ),
             AppProfile(
                 app_id="interview",

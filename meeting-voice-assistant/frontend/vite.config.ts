@@ -22,11 +22,6 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '/api'),
       },
-      '/graphrag-api': {
-        target: 'http://localhost:8002',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/graphrag-api/, '/api/v1'),
-      },
     },
   },
 })

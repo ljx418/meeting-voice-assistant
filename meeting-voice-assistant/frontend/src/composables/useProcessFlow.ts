@@ -154,8 +154,8 @@ export function useSimpleFlowStatus() {
     transcribing: { stepId: 'speech_recognition', stepName: '语音识别' },
     analyzing: { stepId: 'llm_analysis', stepName: 'LLM分析' },
     generating_summary: { stepId: 'summary_generation', stepName: '纪要生成' },
-    indexing: { stepId: 'graphrag_construction', stepName: 'GraphRAG构建' },
-    completed: { stepId: 'graphrag_construction', stepName: 'GraphRAG构建' },
+    indexing: { stepId: 'knowledge_handoff', stepName: '知识服务交接' },
+    completed: { stepId: 'knowledge_handoff', stepName: '知识服务交接' },
     error: { stepId: 'audio_input', stepName: '音频接收' },
   }
 

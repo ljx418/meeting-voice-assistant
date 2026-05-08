@@ -582,7 +582,7 @@ data_service MCP Contract + Connector Stub：
 
 - 定义 connector job 的 submit/poll/cancel/collect 最小接口。
 - 至少选择一个轻量 connector 完成 job lifecycle 验证。
-- FunASR MCP stdio 入口位于 `meeting-voice-assistant/backend/funasr_service`，通过 HTTP proxy 调用既有 FunASR 服务。
+- FunASR MCP stdio 入口位于 `voice_service/funasr_service`，通过 HTTP proxy 调用既有 FunASR 服务。
 - Remote ComfyUI connector 保持 `not_configured/configured` descriptor，真实执行等远程环境可用后再启用。
 
 验收标准：

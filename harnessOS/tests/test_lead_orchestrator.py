@@ -18,11 +18,12 @@ from apps.gateway.workflows import (
     MeetingDomainWorkflow,
     WorkflowContext,
     WorkflowRegistry,
+    build_pack_assembly_inputs,
 )
+from core.apps import AppProfile, AppRegistry
 from packs.meeting.workflow import MeetingWorkflow
 from packs.knowledge.workflow import KnowledgeWorkflow
 from packs.video_studio.workflow import VideoStudioWorkflow
-from tools.knowledge import kb_ingest
 
 
 class FakeAgent:
@@ -88,7 +89,6 @@ def test_gateway_meeting_module_is_compatibility_export_only():
 
 
 def test_lead_orchestrator_runs_knowledge_workflow():
-    kb_ingest("会议 MCP 支持语音转写和会议纪要。", title="Meeting MCP")
     registry = WorkflowRegistry()
     registry.register(KnowledgeWorkflow())
     orchestrator = LeadOrchestrator(registry)
@@ -102,7 +102,7 @@ def test_lead_orchestrator_runs_knowledge_workflow():
         assert result["domain"] == "knowledge"
         assert result["workflow_id"] == "knowledge.workflow"
         assert "知识检索已完成" in result["content"]
-        assert "Meeting MCP" in result["content"]
+        assert result["knowledge"]["execution_mode"] == "legacy_fallback"
 
     asyncio.run(run())
 
@@ -139,8 +139,6 @@ def test_lead_orchestrator_runs_video_studio_workflow(tmp_path):
 
 
 def test_gateway_workflow_list_and_knowledge_route(tmp_path):
-    kb_ingest("harnessOS 的 Phase 1-D 目标是 Lead Orchestrator。", title="Phase 1-D")
-
     async def run():
         service = GatewayService(
             GatewayRuntimePool(
@@ -180,5 +178,45 @@ def test_gateway_workflow_list_and_knowledge_route(tmp_path):
         assert completed["data"]["domain"] == "knowledge"
         assert completed["data"]["workflow_id"] == "knowledge.workflow"
         assert "知识检索已完成" in response.result["final_text"]
+        assert "标准入口：connector data_service_mcp.knowledge_query_v2" in response.result["final_text"]
+
+        artifacts = await service.handle_rpc(
+            RpcRequest(
+                id="a1",
+                method="artifact.list",
+                params={"session_id": started.result["session_id"], "domain": "knowledge"},
+            )
+        )
+        assert artifacts.error is None
+        connector_result = next(item for item in artifacts.result["artifacts"] if item["kind"] == "connector_result")
+        assert connector_result["metadata"]["connector_id"] == "data_service_mcp"
 
     asyncio.run(run())
+
+
+def test_build_pack_assembly_inputs_unions_connectors_for_shared_domain():
+    app_registry = AppRegistry(
+        [
+            AppProfile(
+                app_id="knowledge_a",
+                display_name="Knowledge A",
+                domain="knowledge",
+                default_pack="knowledge",
+                connector_refs=("data_service_mcp",),
+            ),
+            AppProfile(
+                app_id="knowledge_b",
+                display_name="Knowledge B",
+                domain="knowledge",
+                default_pack="knowledge",
+                connector_refs=("local.knowledge",),
+            ),
+        ]
+    )
+
+    inputs = build_pack_assembly_inputs(app_registry=app_registry)
+
+    assert inputs["app_enabled_connectors_by_domain"]["knowledge"] == {
+        "data_service_mcp",
+        "local.knowledge",
+    }

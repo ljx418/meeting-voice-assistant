@@ -8,13 +8,19 @@
 #
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-BACKEND_DIR="$SCRIPT_DIR/backend"
+VOICE_SERVICE_DIR="$HOME/Desktop/workspace/voice_service"
+VOICE_SERVICE_PYTHON="$VOICE_SERVICE_DIR/.venv/bin/python"
 
 echo "Starting FunASR Service on port 8001..."
 echo "Press Ctrl+C to stop"
 echo ""
 
-pip install -r "$BACKEND_DIR/funasr_service/requirements.txt" -q 2>/dev/null
+if [ ! -x "$VOICE_SERVICE_PYTHON" ]; then
+    echo "未找到 voice_service venv: $VOICE_SERVICE_PYTHON"
+    exit 1
+fi
 
-cd "$BACKEND_DIR"
-PYTHONPATH="$BACKEND_DIR" python3 -m uvicorn funasr_service.main:app --host 0.0.0.0 --port 8001
+"$VOICE_SERVICE_PYTHON" -m pip install -r "$VOICE_SERVICE_DIR/requirements.txt" -q 2>/dev/null
+
+cd "$VOICE_SERVICE_DIR"
+PYTHONPATH="$VOICE_SERVICE_DIR" "$VOICE_SERVICE_PYTHON" -m funasr_service.cli serve-http --host 0.0.0.0 --port 8001

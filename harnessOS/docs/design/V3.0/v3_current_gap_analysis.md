@@ -14,6 +14,7 @@
 - Pack Registry 已支持 manifest、workflow template、agents、connector refs、policy bundle、artifact schemas。
 - PackAssemblyResult 已补齐 `app_id`、`conflicts`、`degraded` 和 `blocked_reason` 合同，`pack.list/get` 现在可稳定返回这些字段。
 - PackRegistry 已经开始显式拒绝 duplicate pack name / domain / workflow_id，external pack roots 不再 silent overwrite。
+- AppProfile `pack_paths` 已进入默认 pack registry 装配路径，external pack 现在既可通过环境变量，也可通过 app profile 声明加载。
 - ConnectorExecutionRuntime 已支持 gated MCP stdio execution。
 - Meeting Pack 和 Knowledge Pack 已有 manifest 与 workflow scaffold。
 - V3.0-PhaseA 基础 scope 字段已经开始进入 records、Store schema 和 Gateway RPC。
@@ -23,6 +24,7 @@
 - ConnectorExecutionRuntime 现在已具备 `defer=True` 后台执行路径，并会把 MCP `isError=true` 正确映射为 failed job。
 - Artifact / Trace / Approval 的 legacy RPC 默认 scope 收口已经补齐，approval / trace 写入记录也会保留 scope 三元组。
 - PhaseA 的默认回归、显式真实音频验收与环境前检查已形成冻结基线，相关测试与文档只允许做兼容性维护。
+- PhaseB 已有独立实施文件 `v3_phaseb_pack_connector_registry.md`，后续 PackAssemblyResult 与 ConnectorRegistry 合同变更应以该专项文件和 ACTIVE PLAN 联动维护。
 
 ## 2. 主要差距
 
@@ -31,9 +33,15 @@
 - Gateway initialize 目前仍返回 `v1alpha`；缺少 `v1alpha3` protocol version、method schema、event schema、error code registry。
 - 缺少 Python / TypeScript SDK 与 external app contract。
 - 缺少 auth / local capability token 最小策略。
-- ConnectorRegistry 仍有较多默认 connector 描述代码，需要进一步改为 connector manifest/config 驱动。
+- ConnectorRegistry 仍有默认 connector 描述数据留在 Python 中，但注册路径已开始统一到 descriptor definition；后续需要继续改为 connector manifest/config 驱动。
 - ConnectorRegistry / ConnectorExecutionRuntime 已开始执行 security descriptor：stdio connector 的 command/path allowlist 与 remote connector 的 network policy 会在执行前阻断。
-- Pack Assembly 已有正式结果合同，但仍需要继续推进 manifest/config 驱动、severity 分级和跨 app external pack 版本兼容策略。
+- connector 可用性已开始严格以 ConnectorRegistry 为准，AppProfile refs 不再被直接视为 availability；`local.knowledge` 已补为内置 contract stub，减少 Knowledge pack 声明与运行时事实分叉。
+- Pack Assembly 已有正式结果合同，blocked/degraded reason 也已开始细分；剩余 gap 主要是 manifest/config 驱动、severity 冻结和跨 app external pack 版本兼容策略。
+- Gateway / RuntimePool 的 pack assembly 输入已开始从 `app_registry + connector_registry` 推导；Meeting / Knowledge 的 assembly 不再只依赖固定 connector 常量集合。
+- pack assembly 现在会同时校验 registry 可用性与 AppProfile enabled connectors；未显式启用的 connector 会返回 `app_profile_connector:*` blocked dependency。
+- external pack `metadata.target_version` 已进入 assembly policy：缺失 target_version 目前记为 degraded，不兼容 target_version 记为 blocked。
+- Meeting / Knowledge 的标准入口虽然已经开始回到 pack/registry，但其“彻底去硬编码路径化”的退出门仍未完全关闭。
+- workflow registration 已开始优先走 pack-declared entrypoint；静态 `meeting / knowledge / video` factory 仍保留兼容痕迹，但不应再作为新增 sample pack 的主扩展方式。
 - Meeting 仍存在 legacy RPC facade，需要 legacy API sunset plan。
 - Knowledge Pack 已声明 data_service_mcp，但还需要补端到端 Pack workflow 验证和 data boundary 验收。
 - Artifact 保护已经有基础行为，但还需冻结音频/图片/binary 策略、阈值、错误码和 JSON-RPC error shape。
@@ -53,6 +61,7 @@
 
 - Core 只提供协议、状态、治理、作业、产物、运行时适配边界。
 - 业务能力只能通过 Pack / Connector / RuntimeAdapter 接入。
+- Meeting / Knowledge 是 reference packs / validation samples，不是 Core 或 Gateway 的内置业务特权。
 - 旧接口保留兼容，但不能作为新业务扩展模板。
 - 代码主回归应以 stub / contract mode 为默认基线；真实 MCP / 真实音频验收属于显式集成验证。
 - 真实音频 E2E 仍需保持不回归，但当前执行前提是相邻 Meeting/FunASR 服务先可用，且 MCP 默认解释器优先使用 `meeting-voice-assistant/backend/venv312/bin/python`。

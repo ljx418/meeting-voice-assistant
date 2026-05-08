@@ -51,11 +51,27 @@ def test_pack_registry_evaluates_default_pack_assembly():
         assembly.pack_name: assembly
         for assembly in registry.list_assemblies(
             supported_workflows={"meeting.workflow", "knowledge.workflow", "video.workflow"},
-            available_connectors={"meeting_voice_mcp", "local.knowledge", "data_service_mcp", "remote_comfyui"},
-            available_connector_capabilities={
-                "data_service_mcp": {
-                    "tools": {
-                        "knowledge_workspace_create",
+            available_connectors={
+                "meeting_voice_mcp",
+                "funasr_mcp",
+                "local.knowledge",
+                "data_service_mcp",
+                "remote_comfyui",
+            },
+                available_connector_capabilities={
+                    "funasr_mcp": {
+                        "tools": {"funasr_recognize_file"},
+                    },
+                    "meeting_voice_mcp": {
+                        "tools": {
+                            "meeting_analyze_text",
+                            "meeting_process_file",
+                            "meeting_build_minutes",
+                        },
+                    },
+                    "data_service_mcp": {
+                        "tools": {
+                            "knowledge_workspace_create",
                         "knowledge_workspace_list",
                         "knowledge_workspace_describe",
                         "knowledge_source_import",
@@ -100,8 +116,13 @@ def test_pack_registry_evaluates_default_pack_assembly():
     assert assemblies["meeting"].workflow_dsl["meeting.workflow"]["steps"][0]["id"] == "transcribe"
     assert assemblies["meeting"].skill_refs == ("meeting.transcribe", "meeting.minutes")
     assert assemblies["meeting"].policy_bundles == ("meeting.standard",)
-    assert assemblies["meeting"].connector_refs == ("meeting_voice_mcp",)
+    assert assemblies["meeting"].connector_refs == ("meeting_voice_mcp", "funasr_mcp")
+    assert "funasr_recognize_file" in assemblies["meeting"].connector_capabilities["funasr_mcp"]["tools"]
+    assert "meeting_process_file" in assemblies["meeting"].connector_capabilities["meeting_voice_mcp"]["tools"]
     assert assemblies["meeting"].artifact_schemas["minutes"]["parents"] == ["result"]
+    meeting_manifest = registry.get_pack("meeting")
+    assert meeting_manifest is not None
+    assert "validation_audio_dir" not in meeting_manifest.metadata
     assert assemblies["knowledge"].status == "assembled"
     assert assemblies["knowledge"].workflow_dsl["knowledge.workflow"]["entrypoint"] == (
         "packs.knowledge.workflow:KnowledgeWorkflow"
@@ -144,6 +165,7 @@ def test_pack_registry_marks_active_pack_blocked_when_connector_missing():
 
     assert assembly.status == "blocked"
     assert assembly.missing_dependencies == ("connector:missing.connector",)
+    assert assembly.to_dict()["blocked_reason"] == "Pack is blocked by missing or disabled connectors."
 
 
 def test_pack_registry_marks_active_pack_blocked_when_policy_bundle_missing():
@@ -169,7 +191,7 @@ def test_pack_registry_marks_active_pack_blocked_when_policy_bundle_missing():
 
     assert assembly.status == "degraded"
     assert assembly.missing_dependencies == ("policy_bundle:demo.policy",)
-    assert assembly.to_dict()["blocked_reason"] == "Pack is assembled with degraded dependencies or non-blocking conflicts."
+    assert assembly.to_dict()["blocked_reason"] == "Pack is degraded by missing policy bundles."
 
 
 def test_pack_registry_marks_active_pack_blocked_when_schema_version_incompatible():
@@ -223,6 +245,10 @@ def test_pack_registry_marks_active_pack_blocked_when_connector_capability_missi
 
     assert assembly.status == "degraded"
     assert assembly.missing_dependencies == ("connector_capability:demo.connector:tools:required_tool",)
+    assert (
+        assembly.to_dict()["blocked_reason"]
+        == "Pack is degraded by missing non-blocking connector capabilities."
+    )
 
 
 def test_pack_registry_surfaces_conflicts_for_undeclared_artifact_schema():
@@ -250,6 +276,34 @@ def test_pack_registry_surfaces_conflicts_for_undeclared_artifact_schema():
     assert assembly.status == "blocked"
     assert assembly.conflicts == ("artifact_schema:preview:undeclared_kind",)
     assert "artifact_schema:preview:undeclared_kind" in assembly.to_dict()["conflicts"]
+    assert assembly.to_dict()["blocked_reason"] == "Pack has assembly conflicts."
+
+
+def test_pack_registry_surfaces_precise_blocked_reason_for_dependencies_and_conflicts():
+    registry = PackRegistry(
+        [
+            DomainPackManifest(
+                name="demo",
+                version="0.1.0",
+                domain="demo",
+                status="active",
+                workflows=("demo.workflow",),
+                connectors=("missing.connector",),
+                artifact_kinds=("result",),
+                artifact_schemas={"preview": {"mime": "application/json"}},
+            )
+        ]
+    )
+
+    assembly = registry.evaluate_assembly(
+        "demo",
+        supported_workflows={"demo.workflow"},
+        available_connectors=set(),
+        available_policy_bundles=set(),
+    )
+
+    assert assembly.status == "blocked"
+    assert assembly.to_dict()["blocked_reason"] == "Pack has blocked assembly dependencies and conflicts."
 
 
 def test_pack_registry_rejects_duplicate_pack_name() -> None:
@@ -291,7 +345,8 @@ def test_pack_registry_load_from_paths_rejects_conflicting_external_packs(tmp_pa
                 '  "domain": "demo",\n'
                 '  "description": "Conflict test",\n'
                 '  "status": "active",\n'
-                '  "workflows": ["demo.workflow"]\n'
+                '  "workflows": ["demo.workflow"],\n'
+                '  "metadata": {"target_version": "3.0"}\n'
                 "}\n"
             ),
             encoding="utf-8",
@@ -299,6 +354,124 @@ def test_pack_registry_load_from_paths_rejects_conflicting_external_packs(tmp_pa
 
     with pytest.raises(ValueError, match="Pack registry conflict"):
         PackRegistry.load_from_paths([root_a, root_b])
+
+
+def test_pack_registry_blocks_pack_when_app_profile_does_not_enable_required_connector() -> None:
+    registry = PackRegistry(
+        [
+            DomainPackManifest(
+                name="demo",
+                version="0.1.0",
+                domain="demo",
+                status="active",
+                workflows=("demo.workflow",),
+                connectors=("demo.connector",),
+            )
+        ]
+    )
+
+    assembly = registry.evaluate_assembly(
+        "demo",
+        supported_workflows={"demo.workflow"},
+        available_connectors={"demo.connector"},
+        app_enabled_connectors_by_domain={"demo": set()},
+        available_policy_bundles=set(),
+    )
+
+    assert assembly.status == "blocked"
+    assert assembly.missing_dependencies == ("app_profile_connector:demo.connector",)
+    assert "Add connector demo.connector to the matching AppProfile." in assembly.to_dict()["next_actions"]
+
+
+def test_pack_registry_blocks_pack_when_connector_is_only_enabled_in_app_profile() -> None:
+    registry = PackRegistry(
+        [
+            DomainPackManifest(
+                name="demo",
+                version="0.1.0",
+                domain="demo",
+                status="active",
+                workflows=("demo.workflow",),
+                connectors=("demo.connector",),
+            )
+        ]
+    )
+
+    assembly = registry.evaluate_assembly(
+        "demo",
+        supported_workflows={"demo.workflow"},
+        available_connectors=set(),
+        app_enabled_connectors_by_domain={"demo": {"demo.connector"}},
+        available_policy_bundles=set(),
+    )
+
+    assert assembly.status == "blocked"
+    assert assembly.missing_dependencies == ("connector:demo.connector",)
+
+
+def test_pack_registry_marks_external_pack_blocked_when_target_version_incompatible(tmp_path) -> None:
+    manifest_path = tmp_path / "external" / "demo" / "manifest.json"
+    manifest_path.parent.mkdir(parents=True)
+    registry = PackRegistry(
+        [
+            DomainPackManifest(
+                name="demo",
+                version="0.1.0",
+                domain="demo",
+                status="active",
+                workflows=("demo.workflow",),
+                metadata={"target_version": "2.9"},
+                manifest_path=str(manifest_path),
+            )
+        ]
+    )
+
+    assembly = registry.evaluate_assembly(
+        "demo",
+        supported_workflows={"demo.workflow"},
+        available_connectors=set(),
+        app_enabled_connectors_by_domain={"demo": set()},
+        available_policy_bundles=set(),
+    )
+
+    assert assembly.status == "blocked"
+    assert assembly.missing_dependencies == ("target_version:2.9",)
+    assert assembly.to_dict()["blocked_reason"] == "Pack is blocked by an incompatible external pack target_version."
+    assert assembly.to_dict()["next_actions"] == [
+        "Align external pack target_version to 3.0 (current 2.9)."
+    ]
+
+
+def test_pack_registry_marks_external_pack_degraded_when_target_version_missing(tmp_path) -> None:
+    manifest_path = tmp_path / "external" / "demo" / "manifest.json"
+    manifest_path.parent.mkdir(parents=True)
+    registry = PackRegistry(
+        [
+            DomainPackManifest(
+                name="demo",
+                version="0.1.0",
+                domain="demo",
+                status="active",
+                workflows=("demo.workflow",),
+                manifest_path=str(manifest_path),
+            )
+        ]
+    )
+
+    assembly = registry.evaluate_assembly(
+        "demo",
+        supported_workflows={"demo.workflow"},
+        available_connectors=set(),
+        app_enabled_connectors_by_domain={"demo": set()},
+        available_policy_bundles=set(),
+    )
+
+    assert assembly.status == "degraded"
+    assert assembly.missing_dependencies == ("target_version:missing",)
+    assert assembly.to_dict()["blocked_reason"] == "Pack is degraded because metadata.target_version is not declared."
+    assert assembly.to_dict()["next_actions"] == [
+        "Declare metadata.target_version=3.0 for the external pack."
+    ]
 
 
 def test_pack_registry_lists_agent_contracts():

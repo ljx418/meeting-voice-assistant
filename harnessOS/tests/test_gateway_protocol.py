@@ -11,14 +11,23 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from apps.gateway.artifacts import ArtifactRegistry
+from apps.gateway.connectors import (
+    ConnectorDefinition,
+    ConnectorHealth,
+    ConnectorRegistry,
+    LOCAL_KNOWLEDGE_CONNECTOR_ID,
+)
 from apps.gateway.cross_domain_mcp_workflow import MeetingToKnowledgeMcpRunner
 from apps.gateway.knowledge_mcp_workflow import KnowledgeMcpWorkflowRunner
 from apps.gateway.protocol import RpcRequest
 from apps.gateway.runtime import GatewayRuntimePool, normalize_runtime_event
 from apps.gateway.service import GatewayService
 from apps.gateway.storage import GatewaySessionStore
+from core.apps import AppProfile, AppRegistry
 from core.config import DataServiceMcpConfig, FunASRMcpConfig, MeetingMcpConfig
+from core.protocol import ConnectorRecord
 from core.packs import DomainPackManifest, PackRegistry
+from core.services import CoreAppService
 from core.stores import CoreSQLiteStore
 
 
@@ -83,6 +92,48 @@ class FakeMeetingService:
             "minutes_path": str(paths["minutes"]),
             "artifacts": {kind: str(path) for kind, path in paths.items()},
         }
+
+
+def _build_custom_connector_registry(tmp_path: Path, connector_id: str = "custom.connector") -> ConnectorRegistry:
+    core_store = CoreSQLiteStore(tmp_path / "custom-core.sqlite3")
+    core_service = CoreAppService(core_store)
+
+    def check_custom_health(_registry: ConnectorRegistry) -> ConnectorHealth:
+        return ConnectorHealth(
+            status="available",
+            message="Custom descriptor is available.",
+            details={"source": "test"},
+        )
+
+    def build_custom_record(_registry: ConnectorRegistry, health: ConnectorHealth) -> ConnectorRecord:
+        return ConnectorRecord(
+            connector_id=connector_id,
+            kind="native_tool",
+            domain="custom",
+            version="0.1.0",
+            health=health.status,
+            trust_level="trusted_local",
+            execution_mode="stub",
+            capabilities={"tools": ["custom_tool"], "health_message": health.message},
+            config_ref="HARNESS_CUSTOM_CONNECTOR_*",
+            app_scope=["custom"],
+            allowed_commands=[],
+            allowed_paths=[],
+            allowed_network_hosts=[],
+            network_policy="none",
+            metadata={"health_details": health.details},
+        )
+
+    return ConnectorRegistry(
+        core_service=core_service,
+        connector_definitions={
+            connector_id: ConnectorDefinition(
+                connector_id=connector_id,
+                record_factory=build_custom_record,
+                health_checker=check_custom_health,
+            )
+        },
+    )
 
 
 class ArtifactWorkflowOrchestrator:
@@ -291,13 +342,15 @@ def test_gateway_pack_list_and_get(tmp_path):
         assert "meeting.workflow" in meeting.result["pack"]["workflow_dsl"]
         assert meeting.result["pack"]["skill_refs"] == ["meeting.transcribe", "meeting.minutes"]
         assert meeting.result["pack"]["policy_bundles"] == ["meeting.standard"]
-        assert meeting.result["pack"]["connector_refs"] == ["meeting_voice_mcp"]
+        assert meeting.result["pack"]["connector_refs"] == ["meeting_voice_mcp", "funasr_mcp"]
         assert meeting.result["pack"]["artifact_schemas"]["minutes"]["parents"] == ["result"]
         assert meeting.result["pack"]["assembly"]["status"] == "assembled"
         assert meeting.result["pack"]["assembly"]["app_id"] == "meeting"
         assert meeting.result["pack"]["assembly"]["conflicts"] == []
         assert meeting.result["pack"]["assembly"]["registered_workflows"] == ["meeting.workflow"]
         assert meeting.result["pack"]["assembly"]["workflow_dsl"]["meeting.workflow"]["steps"][0]["id"] == "transcribe"
+        assert "funasr_recognize_file" in meeting.result["pack"]["connector_capabilities"]["funasr_mcp"]["tools"]
+        assert "meeting_analyze_text" in meeting.result["pack"]["connector_capabilities"]["meeting_voice_mcp"]["tools"]
 
         knowledge = await service.handle_rpc(
             RpcRequest(id="knowledge", method="pack.get", params={"domain": "knowledge"})
@@ -320,6 +373,230 @@ def test_gateway_pack_list_and_get(tmp_path):
         assert video.result["pack"]["assembly"]["app_id"] == "video_studio"
         assert video.result["pack"]["assembly"]["registered_workflows"] == ["video.workflow"]
         assert video.result["pack"]["workflow_templates"]["video.pipeline"]["kind"] == "multi_agent_typed_dag"
+
+    asyncio.run(run())
+
+
+def test_gateway_pack_list_and_get_support_app_profile_pack_paths(tmp_path):
+    async def run():
+        external_root = tmp_path / "external-packs"
+        pack_dir = external_root / "custom_pack"
+        pack_dir.mkdir(parents=True)
+        (pack_dir / "manifest.json").write_text(
+            """
+{
+  "name": "custom_pack",
+  "version": "0.1.0",
+  "manifest_schema_version": "1",
+  "domain": "custom",
+  "description": "Custom external pack",
+  "status": "active",
+  "workflows": [],
+  "connectors": ["custom.connector"],
+  "metadata": {"target_version": "3.0"}
+}
+""".strip()
+            + "\n",
+            encoding="utf-8",
+        )
+        app_registry = AppRegistry(
+            [
+                AppProfile(
+                    app_id="custom",
+                    display_name="Custom App",
+                    domain="custom",
+                    default_pack="custom_pack",
+                    connector_refs=("custom.connector",),
+                    pack_paths=(str(external_root),),
+                )
+            ]
+        )
+        pool = GatewayRuntimePool(
+            model="fake-model",
+            agent_factory=lambda _model: FakeAgent(),
+            runtime_backend="simple",
+            store=GatewaySessionStore(tmp_path / "store"),
+            app_registry=app_registry,
+            connector_registry=_build_custom_connector_registry(tmp_path),
+        )
+        service = GatewayService(pool, app_registry=app_registry)
+
+        listed = await service.handle_rpc(
+            RpcRequest(id="packs", method="pack.list", params={"domain": "custom"})
+        )
+        assert listed.error is None
+        assert listed.result["count"] == 1
+        assert listed.result["packs"][0]["name"] == "custom_pack"
+        assert listed.result["packs"][0]["assembly"]["status"] == "assembled"
+
+        fetched = await service.handle_rpc(
+            RpcRequest(id="pack", method="pack.get", params={"domain": "custom"})
+        )
+        assert fetched.error is None
+        assert fetched.result["pack"]["name"] == "custom_pack"
+        assert fetched.result["pack"]["connector_refs"] == ["custom.connector"]
+        assert fetched.result["pack"]["assembly"]["status"] == "assembled"
+
+    asyncio.run(run())
+
+
+def test_gateway_can_register_and_run_external_pack_workflow_from_manifest_entrypoint(tmp_path):
+    async def run():
+        external_root = tmp_path / "external-packs"
+        pack_dir = external_root / "custom_pack"
+        pack_dir.mkdir(parents=True)
+        (pack_dir / "__init__.py").write_text("", encoding="utf-8")
+        (pack_dir / "workflow.py").write_text(
+            """
+class CustomWorkflow:
+    workflow_id = "custom.workflow"
+    domain = "custom"
+    priority = 70
+
+    def should_handle(self, user_input, context):
+        return context.domain == "custom" or "custom" in user_input.lower()
+
+    async def run(self, user_input, context):
+        return {
+            "status": "success",
+            "content": f"custom workflow handled: {user_input}",
+            "custom": {"session_id": context.session_id, "turn_id": context.turn_id},
+        }
+""".strip()
+            + "\n",
+            encoding="utf-8",
+        )
+        (pack_dir / "manifest.json").write_text(
+            """
+{
+  "name": "custom_pack",
+  "version": "0.1.0",
+  "manifest_schema_version": "1",
+  "domain": "custom",
+  "description": "Custom external pack",
+  "status": "active",
+  "workflows": ["custom.workflow"],
+  "workflow_dsl": {
+    "custom.workflow": {
+      "entrypoint": "custom_pack.workflow:CustomWorkflow",
+      "steps": [
+        {"id": "handle", "kind": "skill", "outputs": ["result"]}
+      ]
+    }
+  },
+  "connectors": [],
+  "metadata": {"target_version": "3.0"}
+}
+""".strip()
+            + "\n",
+            encoding="utf-8",
+        )
+
+        app_registry = AppRegistry(
+            [
+                AppProfile(
+                    app_id="custom",
+                    display_name="Custom App",
+                    domain="custom",
+                    default_pack="custom_pack",
+                    connector_refs=(),
+                    pack_paths=(str(external_root),),
+                )
+            ]
+        )
+        pool = GatewayRuntimePool(
+            model="fake-model",
+            agent_factory=lambda _model: FakeAgent(),
+            runtime_backend="simple",
+            store=GatewaySessionStore(tmp_path / "sessions"),
+            app_registry=app_registry,
+        )
+        service = GatewayService(pool)
+
+        listed = await service.handle_rpc(RpcRequest(id="w1", method="workflow.list"))
+        assert listed.error is None
+        custom = next(item for item in listed.result["workflows"] if item["workflow_id"] == "custom.workflow")
+        assert custom["domain"] == "custom"
+        assert custom["pack_name"] == "custom_pack"
+        assert custom["assembly_status"] == "assembled"
+
+        started = await service.handle_rpc(
+            RpcRequest(id="s1", method="session.start", params={"app_id": "custom"})
+        )
+        assert started.error is None
+
+        response = await service.handle_rpc(
+            RpcRequest(
+                id="t1",
+                method="turn.start",
+                params={
+                    "session_id": started.result["session_id"],
+                    "domain": "custom",
+                    "input": "please route this custom request",
+                },
+            )
+        )
+        assert response.error is None
+        assert response.result["final_text"] == "custom workflow handled: please route this custom request"
+        completed = response.result["events"][-1]["data"]
+        assert completed["domain"] == "custom"
+        assert completed["workflow_id"] == "custom.workflow"
+
+    asyncio.run(run())
+
+
+def test_gateway_pack_get_blocks_when_app_profile_connector_not_enabled(tmp_path):
+    async def run():
+        external_root = tmp_path / "external-packs"
+        pack_dir = external_root / "custom_pack"
+        pack_dir.mkdir(parents=True)
+        (pack_dir / "manifest.json").write_text(
+            """
+{
+  "name": "custom_pack",
+  "version": "0.1.0",
+  "manifest_schema_version": "1",
+  "domain": "custom",
+  "description": "Custom external pack",
+  "status": "active",
+  "workflows": [],
+  "connectors": ["custom.connector"],
+  "metadata": {"target_version": "3.0"}
+}
+""".strip()
+            + "\n",
+            encoding="utf-8",
+        )
+        app_registry = AppRegistry(
+            [
+                AppProfile(
+                    app_id="custom",
+                    display_name="Custom App",
+                    domain="custom",
+                    default_pack="custom_pack",
+                    connector_refs=(),
+                    pack_paths=(str(external_root),),
+                )
+            ]
+        )
+        pool = GatewayRuntimePool(
+            model="fake-model",
+            agent_factory=lambda _model: FakeAgent(),
+            runtime_backend="simple",
+            store=GatewaySessionStore(tmp_path / "store"),
+            app_registry=app_registry,
+            connector_registry=_build_custom_connector_registry(tmp_path),
+        )
+        service = GatewayService(pool, app_registry=app_registry)
+
+        fetched = await service.handle_rpc(
+            RpcRequest(id="pack", method="pack.get", params={"domain": "custom"})
+        )
+        assert fetched.error is None
+        assert fetched.result["pack"]["assembly"]["status"] == "blocked"
+        assert fetched.result["pack"]["assembly"]["missing_dependencies"] == [
+            "app_profile_connector:custom.connector",
+        ]
 
     asyncio.run(run())
 
@@ -439,7 +716,7 @@ def test_gateway_connector_registry_lists_meeting_mcp(tmp_path):
             args="-m app.meeting_mcp.mcp_stdio",
         )
         service.connector_registry.funasr_config = FunASRMcpConfig(
-            cwd="/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend",
+            cwd="/Users/Zhuanz/Desktop/workspace/voice_service",
             command="python3",
             args="-m funasr_service.mcp_stdio",
         )
@@ -450,6 +727,7 @@ def test_gateway_connector_registry_lists_meeting_mcp(tmp_path):
         assert "meeting_voice_mcp" in connectors
         assert "funasr_mcp" in connectors
         assert "data_service_mcp" in connectors
+        assert LOCAL_KNOWLEDGE_CONNECTOR_ID in connectors
         assert "remote_comfyui" in connectors
         assert connectors["meeting_voice_mcp"]["domain"] == "meeting"
         assert connectors["meeting_voice_mcp"]["kind"] == "mcp_stdio"
@@ -460,6 +738,8 @@ def test_gateway_connector_registry_lists_meeting_mcp(tmp_path):
         assert connectors["data_service_mcp"]["health"] == "contract_stub"
         assert connectors["data_service_mcp"]["capabilities"]["contract_only"] is True
         assert "knowledge_workspace_archive" in connectors["data_service_mcp"]["capabilities"]["tools"]
+        assert connectors[LOCAL_KNOWLEDGE_CONNECTOR_ID]["domain"] == "knowledge"
+        assert connectors[LOCAL_KNOWLEDGE_CONNECTOR_ID]["health"] == "contract_stub"
         assert connectors["remote_comfyui"]["domain"] == "video_studio"
         assert connectors["remote_comfyui"]["kind"] == "http_service"
         assert connectors["remote_comfyui"]["health"] == "not_configured"
@@ -494,6 +774,18 @@ def test_gateway_connector_registry_lists_meeting_mcp(tmp_path):
         assert health.result["connector"]["network_policy"] == "none"
 
     asyncio.run(run())
+
+
+def test_connector_registry_supports_descriptor_driven_custom_connector(tmp_path):
+    registry = _build_custom_connector_registry(tmp_path)
+
+    listed = {item["connector_id"]: item for item in registry.list_connectors()}
+    assert listed["custom.connector"]["domain"] == "custom"
+    assert listed["custom.connector"]["capabilities"]["tools"] == ["custom_tool"]
+
+    refreshed = registry.refresh_health("custom.connector")
+    assert refreshed["health"]["status"] == "available"
+    assert refreshed["connector"]["config_ref"] == "HARNESS_CUSTOM_CONNECTOR_*"
 
 
 def test_gateway_connector_execution_submit_poll_collect_and_cancel(tmp_path):
@@ -1165,7 +1457,10 @@ def test_turn_start_explicit_blocked_pack_returns_explainable_failure(tmp_path):
         pack = await service.handle_rpc(RpcRequest(id="pack", method="pack.get", params={"domain": "knowledge"}))
         assert pack.error is None
         assert pack.result["pack"]["assembly"]["status"] == "blocked"
-        assert pack.result["pack"]["assembly"]["missing_dependencies"] == ["connector:missing.connector"]
+        assert pack.result["pack"]["assembly"]["missing_dependencies"] == [
+            "connector:missing.connector",
+            "app_profile_connector:missing.connector",
+        ]
 
         started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
         turn = await service.handle_rpc(
@@ -1184,6 +1479,7 @@ def test_turn_start_explicit_blocked_pack_returns_explainable_failure(tmp_path):
         assert turn.result["events"][-1]["type"] == "turn.failed"
         assert "Pack assembly blocked for domain knowledge" in turn.result["events"][-1]["data"]["message"]
         assert "connector:missing.connector" in turn.result["events"][-1]["data"]["message"]
+        assert "app_profile_connector:missing.connector" in turn.result["events"][-1]["data"]["message"]
 
     asyncio.run(run())
 

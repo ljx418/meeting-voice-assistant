@@ -1,6 +1,6 @@
 # 会议语音助手
 
-> 基于 Web 的实时语音识别会议助手，融合 LLM 智能分析与 GraphRAG 知识图谱技术
+> 基于 Web 的实时语音识别会议助手，负责录音/转写/会议分析；知识治理能力已迁移到独立 `~/Desktop/workspace/data_service`。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Vue 3](https://img.shields.io/badge/Vue-3-42b883.svg)](https://vuejs.org/)
@@ -26,11 +26,10 @@
 - 行动项（待办）识别
 - 主题章节自动划分
 
-### 4. 知识图谱管理（GraphRAG）
-- 会议内容向量化索引
-- 基于知识图谱的智能问答
-- 社区检测与语义聚类
-- 图谱可视化
+### 4. 外部知识服务接入
+- 会议应用只产生转写文本和会议分析结果
+- 知识固化、GraphRAG、LLMWiki、Source Trace 和质量治理由独立 Local Knowledge Governance Service 提供
+- 本项目通过 `/api/v1/knowledge/*` 兼容代理转发到 `~/Desktop/workspace/data_service`
 
 ### 5. 音频播控
 - 支持全时长拖拽定位
@@ -48,8 +47,8 @@
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                   │
 │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────┐  │
-│  │   MeetingPage     │  │ MeetingConsolePage│  │  GraphRAGPage │  │
-│  │   (上传/录音)     │  │   (会议回放)     │  │  (知识图谱)  │  │
+│  │   MeetingPage     │  │ MeetingConsolePage│  │ Knowledge UI │  │
+│  │   (上传/录音)     │  │   (会议回放)     │  │ (服务控制台) │  │
 │  └────────┬─────────┘  └────────┬─────────┘  └──────┬───────┘  │
 │           │                    │                    │           │
 │           └────────────────────┼────────────────────┘           │
@@ -72,8 +71,8 @@
 │  │  说话人分离  │               │   ASR/LLM       │              │
 │  └─────────────┘               └─────────────────┘              │
 │                                                                   │
-│                          GraphRAG (8002)                          │
-│                    Microsoft GraphRAG + SQLite                   │
+│       Local Knowledge Governance Service (8003, external)         │
+│       data_service: MCP / CLI / HTTP / GraphRAG / LLMWiki         │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -106,7 +105,7 @@
 | DashScope (qwen3-asr-flash) | 云端 ASR 识别 |
 | FunASR (Paraformer + CAM++) | 本地说话人分离 |
 | DashScope (qwen-plus) | LLM 会议分析 |
-| Microsoft GraphRAG | 知识图谱索引与检索 |
+| Local Knowledge Governance Service | 外部知识治理、GraphRAG、LLMWiki、检索与追溯 |
 
 ---
 
@@ -130,13 +129,13 @@ meeting-voice-assistant/
 │   │   │   ├── audio_analyzer/ # 深度音频分析
 │   │   │   ├── parser/          # 会议信息解析
 │   │   │   └── realtime_spk/    # 实时说话人分离
-│   │   ├── graphrag/           # GraphRAG 知识管理
+│   │   ├── api/v1/data_service.py # 外部 data_service 兼容代理
 │   │   ├── config.py           # 配置管理
 │   │   └── main.py             # FastAPI 入口
-│   ├── funasr_service/         # FunASR 微服务 (port 8001)
-│   ├── rag_workspace/           # GraphRAG 工作目录
 │   └── requirements.txt
 │
+├── ../voice_service/            # 独立 FunASR 语音服务 (HTTP/CLI/MCP, port 8001)
+├── ../data_service/             # 独立 Local Knowledge Governance Service (port 8003)
 ├── frontend/
 │   ├── src/
 │   │   ├── api/                # API 客户端封装
@@ -144,7 +143,7 @@ meeting-voice-assistant/
 │   │   │   ├── AudioTimeline.vue    # 音频时间线
 │   │   │   ├── ChapterList.vue      # 章节列表
 │   │   │   ├── FileUploader.vue     # 文件上传
-│   │   │   ├── GraphRAGPanel.vue   # 知识图谱面板
+│   │   │   ├── KnowledgePage.vue   # 外部知识服务治理控制台
 │   │   │   ├── NotesPanel.vue       # AI 纪要
 │   │   │   └── SummaryPanel.vue     # 摘要面板
 │   │   ├── composables/         # 组合式函数
@@ -153,7 +152,7 @@ meeting-voice-assistant/
 │   │   ├── pages/              # 页面组件
 │   │   │   ├── MeetingPage.vue      # 主页面（上传/录音）
 │   │   │   ├── MeetingConsolePage.vue # 会议控制台
-│   │   │   └── GraphRAGPage.vue     # 知识图谱管理
+│   │   │   └── KnowledgePage.vue    # 知识服务治理控制台
 │   │   ├── stores/              # Pinia 状态管理
 │   │   └── router/              # Vue Router 配置
 │   └── package.json
@@ -207,16 +206,18 @@ LLM_MODEL=qwen-plus
 
 ```bash
 # 终端 1: FunASR 服务 (说话人分离, port 8001)
-cd backend
-python3 -m uvicorn funasr_service.main:app --host 0.0.0.0 --port 8001
+cd ~/Desktop/workspace/voice_service
+PYTHONPATH=. python3 -m funasr_service.cli serve-http --host 0.0.0.0 --port 8001
 
 # 终端 2: 主后端 (port 8000)
 cd backend
+DATA_SERVICE_HTTP_BASE_URL=http://127.0.0.1:8003/api/v1/knowledge \
 python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 
-# 终端 3: GraphRAG 服务 (port 8002)
-cd backend
-python3 -m uvicorn app.graphrag.main:app --host 0.0.0.0 --port 8002
+# 终端 3: Local Knowledge Governance Service (port 8003)
+cd ~/Desktop/workspace/data_service/backend
+DATA_SERVICE_REQUIRE_API_KEY=false \
+PYTHONPATH=. python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8003
 
 # 终端 4: 前端 (port 5173)
 cd frontend && npm run dev
@@ -228,7 +229,7 @@ cd frontend && npm run dev
 |------|------|
 | 前端 | http://localhost:5173 |
 | 后端 API | http://localhost:8000 |
-| GraphRAG API | http://localhost:8002 |
+| Knowledge Governance Service | http://localhost:8003 |
 | FunASR 服务 | http://localhost:8001 |
 
 ---
@@ -256,12 +257,11 @@ cd frontend && npm run dev
 3. 点击说话人色条跳转至该时段
 4. 使用时间线拖拽定位
 
-### 知识图谱
+### 知识服务
 
-1. 进入 GraphRAG 页面
-2. 上传文档进行索引
-3. 使用自然语言查询知识库
-4. 查看实体关系图谱
+1. 进入 `/knowledge` 服务治理控制台
+2. 通过外部 data_service 管理 workspace、source、build、GraphRAG 和 trace
+3. 会议应用只提交转写后的文本或分析产物，不直接读写知识服务内部 workspace
 
 ---
 
@@ -278,16 +278,16 @@ cd frontend && npm run dev
 | `/api/v1/upload/formats` | GET | 支持的音频格式 |
 | `/api/v1/health` | GET | 健康检查 |
 
-### GraphRAG 服务 (8002)
+### Knowledge Governance Service 代理
 
 | 端点 | 方法 | 描述 |
 |------|------|------|
-| `/api/v1/index/` | POST | 文档索引 |
-| `/api/v1/query/` | POST | 知识查询 |
-| `/api/v1/summarize/` | POST | 全局摘要 |
-| `/api/v1/graph/` | GET | 图谱数据 |
-| `/api/v1/documents/` | GET | 文档列表 |
-| `/api/v1/documents/{id}` | DELETE | 删除文档 |
+| `/api/v1/knowledge/*` | ANY | 兼容代理到独立 data_service HTTP API |
+| `/api/v1/knowledge/workspaces/list` | POST | workspace 列表 |
+| `/api/v1/knowledge/sources/import` | POST | source 导入 |
+| `/api/v1/knowledge/build/start` | POST | 构建 LLMWiki / GraphRAG / 检索产物 |
+| `/api/v1/knowledge/query` | POST | 知识查询 |
+| `/api/v1/knowledge/graph` | POST | 图谱快照 |
 
 ---
 
@@ -370,8 +370,8 @@ A: mp3, mp4, wav, m4a, ogg, flac, webm，最大 512MB。
 **Q: 如何区分不同发言人？**
 A: 使用 `ASR_ENGINE=funasr`，FunASR 会自动标注发言人。
 
-**Q: GraphRAG 查询返回 502 错误？**
-A: 检查 Ollama embedding 服务是否正常运行，macOS 需要禁用系统代理。
+**Q: 知识查询返回 502 错误？**
+A: 检查 `~/Desktop/workspace/data_service` 是否已启动，并确认 `DATA_SERVICE_HTTP_BASE_URL` 指向可用的 `/api/v1/knowledge`。
 
 ---
 

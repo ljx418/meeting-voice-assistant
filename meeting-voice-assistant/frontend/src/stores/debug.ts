@@ -42,16 +42,6 @@ export interface AnalysisResult {
   summary: string
 }
 
-export interface GraphRAGResult {
-  query: string
-  answer: string
-  sources: Array<{
-    doc_id: string
-    chunk: string
-    similarity: number
-  }>
-}
-
 // SSE 状态消息类型
 interface SSEStatusData {
   session_id?: string
@@ -74,7 +64,7 @@ interface TranscriptData {
 interface SSEMessageItem {
   time: string
   type: string
-  data: SSEStatusData | TranscriptData | AnalysisResult | GraphRAGResult
+  data: SSEStatusData | TranscriptData | AnalysisResult
 }
 
 export const useDebugStore = defineStore('debug', () => {
@@ -90,7 +80,6 @@ export const useDebugStore = defineStore('debug', () => {
   // Results
   const transcriptResult = ref<TranscriptData | null>(null)
   const analysisResult = ref<AnalysisResult | null>(null)
-  const graphragResult = ref<GraphRAGResult | null>(null)
 
   // SSE history
   const sseMessages = ref<SSEMessageItem[]>([])
@@ -136,10 +125,6 @@ export const useDebugStore = defineStore('debug', () => {
     })
   }
 
-  function setGraphRAG(data: GraphRAGResult) {
-    graphragResult.value = data
-  }
-
   function reset() {
     sessionId.value = null
     stage.value = 'idle'
@@ -150,7 +135,6 @@ export const useDebugStore = defineStore('debug', () => {
     segmentCount.value = 0
     transcriptResult.value = null
     analysisResult.value = null
-    graphragResult.value = null
     sseMessages.value = []
   }
 
@@ -165,7 +149,6 @@ export const useDebugStore = defineStore('debug', () => {
     segmentCount,
     transcriptResult,
     analysisResult,
-    graphragResult,
     sseMessages,
     // Computed
     isProcessing,
@@ -175,7 +158,6 @@ export const useDebugStore = defineStore('debug', () => {
     updateFromSSE,
     setTranscript,
     setAnalysis,
-    setGraphRAG,
     reset
   }
 })

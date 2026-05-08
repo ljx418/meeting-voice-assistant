@@ -30,7 +30,7 @@
           <div class="card-content">
             <h3>Page B</h3>
             <p class="card-subtitle">知识管理后台</p>
-            <p class="card-desc">Wiki · GraphRAG · 实体任务 · 工作流</p>
+            <p class="card-desc">Workspace · Sources · Trace · Quality</p>
           </div>
           <span class="card-arrow">→</span>
         </div>
@@ -72,9 +72,9 @@
         <div class="workflow-step">
           <div class="step-number">3</div>
           <div class="step-content">
-            <h4>GraphRAG 索引</h4>
-            <p>实体抽取 · 关系建立</p>
-            <p class="step-note">构建知识图谱索引</p>
+            <h4>知识服务接入</h4>
+            <p>提交转写文本 · 查询治理结果</p>
+            <p class="step-note">通过外部 data_service 完成固化</p>
           </div>
         </div>
         <div class="workflow-arrow">→</div>
@@ -102,8 +102,8 @@
           <span class="stat-label">FunASR 服务</span>
         </div>
         <div class="stat-card">
-          <span class="stat-value">{{ serviceStatus.graphrag }}</span>
-          <span class="stat-label">GraphRAG</span>
+          <span class="stat-value">{{ serviceStatus.knowledge }}</span>
+          <span class="stat-label">Knowledge Service</span>
         </div>
         <div class="stat-card">
           <span class="stat-value">{{ currentTime }}</span>
@@ -123,7 +123,7 @@ const router = useRouter()
 const serviceStatus = ref({
   backend: '检测中...',
   funasr: '检测中...',
-  graphrag: '检测中...',
+  knowledge: '检测中...',
 })
 
 const currentTime = ref('')
@@ -157,14 +157,18 @@ async function checkServices() {
   }
 
   try {
-    const grRes = await fetch('http://localhost:8002/api/v1/graph/')
-    if (grRes.ok) {
-      serviceStatus.value.graphrag = '✅ 运行中'
+    const knowledgeRes = await fetch('/api/v1/knowledge/workspaces/list', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ limit: 1 }),
+    })
+    if (knowledgeRes.ok) {
+      serviceStatus.value.knowledge = '✅ 运行中'
     } else {
-      serviceStatus.value.graphrag = '⚠️ 异常'
+      serviceStatus.value.knowledge = '⚠️ 异常'
     }
   } catch {
-    serviceStatus.value.graphrag = '❌ 未连接'
+    serviceStatus.value.knowledge = '❌ 未连接'
   }
 }
 

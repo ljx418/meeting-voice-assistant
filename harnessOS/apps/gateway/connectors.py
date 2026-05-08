@@ -6,7 +6,7 @@ import os
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 from urllib.parse import urlparse
 
 from core.config import (
@@ -27,6 +27,42 @@ MEETING_VOICE_MCP_CONNECTOR_ID = "meeting_voice_mcp"
 FUNASR_MCP_CONNECTOR_ID = "funasr_mcp"
 DATA_SERVICE_MCP_CONNECTOR_ID = "data_service_mcp"
 REMOTE_COMFYUI_CONNECTOR_ID = "remote_comfyui"
+LOCAL_KNOWLEDGE_CONNECTOR_ID = "local.knowledge"
+
+DATA_SERVICE_TOOLS = [
+    "knowledge_workspace_create",
+    "knowledge_workspace_list",
+    "knowledge_workspace_describe",
+    "knowledge_source_import",
+    "knowledge_source_list",
+    "knowledge_source_remove",
+    "knowledge_build_start",
+    "knowledge_build_status",
+    "knowledge_build_cancel",
+    "knowledge_workspace_archive",
+    "knowledge_ingest_v2",
+    "knowledge_query_v2",
+    "knowledge_quality_summary_v2",
+    "knowledge_correction_plan_v2",
+    "knowledge_quality_feedback_v2",
+    "knowledge_correction_rules_v2",
+    "knowledge_review_correction_rule_v2",
+    "knowledge_query",
+    "knowledge_quality_summary",
+    "knowledge_quality_feedback",
+    "knowledge_correction_rules",
+    "knowledge_review_correction_rule",
+    "knowledge_correction_plan",
+]
+
+
+@dataclass(frozen=True)
+class ConnectorDefinition:
+    """Descriptor-driven definition for one connector contract."""
+
+    connector_id: str
+    record_factory: Callable[["ConnectorRegistry", "ConnectorHealth"], ConnectorRecord]
+    health_checker: Callable[["ConnectorRegistry"], ConnectorHealth]
 
 
 @dataclass(frozen=True)
@@ -56,20 +92,46 @@ class ConnectorRegistry:
         funasr_config: Optional[FunASRMcpConfig] = None,
         data_service_config: Optional[DataServiceMcpConfig] = None,
         comfyui_config: Optional[ComfyUIConfig] = None,
+        connector_definitions: Optional[dict[str, ConnectorDefinition]] = None,
     ) -> None:
         self.core_service = core_service
         self.meeting_config = meeting_config or get_meeting_mcp_config()
         self.funasr_config = funasr_config or get_funasr_mcp_config()
         self.data_service_config = data_service_config or get_data_service_mcp_config()
         self.comfyui_config = comfyui_config or get_comfyui_config()
+        self.connector_definitions = connector_definitions or {
+            MEETING_VOICE_MCP_CONNECTOR_ID: ConnectorDefinition(
+                connector_id=MEETING_VOICE_MCP_CONNECTOR_ID,
+                record_factory=ConnectorRegistry._meeting_mcp_record,
+                health_checker=ConnectorRegistry._check_meeting_mcp_health,
+            ),
+            FUNASR_MCP_CONNECTOR_ID: ConnectorDefinition(
+                connector_id=FUNASR_MCP_CONNECTOR_ID,
+                record_factory=ConnectorRegistry._funasr_mcp_record,
+                health_checker=ConnectorRegistry._check_funasr_mcp_health,
+            ),
+            DATA_SERVICE_MCP_CONNECTOR_ID: ConnectorDefinition(
+                connector_id=DATA_SERVICE_MCP_CONNECTOR_ID,
+                record_factory=ConnectorRegistry._data_service_mcp_record,
+                health_checker=ConnectorRegistry._check_data_service_mcp_health,
+            ),
+            LOCAL_KNOWLEDGE_CONNECTOR_ID: ConnectorDefinition(
+                connector_id=LOCAL_KNOWLEDGE_CONNECTOR_ID,
+                record_factory=ConnectorRegistry._local_knowledge_record,
+                health_checker=ConnectorRegistry._check_local_knowledge_health,
+            ),
+            REMOTE_COMFYUI_CONNECTOR_ID: ConnectorDefinition(
+                connector_id=REMOTE_COMFYUI_CONNECTOR_ID,
+                record_factory=ConnectorRegistry._remote_comfyui_record,
+                health_checker=ConnectorRegistry._check_remote_comfyui_health,
+            ),
+        }
         self.register_default_connectors()
 
     def register_default_connectors(self) -> None:
         """Register built-in connector descriptors."""
-        self.refresh_health(MEETING_VOICE_MCP_CONNECTOR_ID)
-        self.refresh_health(FUNASR_MCP_CONNECTOR_ID)
-        self.refresh_health(DATA_SERVICE_MCP_CONNECTOR_ID)
-        self.refresh_health(REMOTE_COMFYUI_CONNECTOR_ID)
+        for connector_id in self.connector_definitions:
+            self.refresh_health(connector_id)
 
     def list_connectors(
         self,
@@ -90,20 +152,11 @@ class ConnectorRegistry:
 
     def refresh_health(self, connector_id: str) -> dict[str, Any]:
         """Refresh connector health and persist the descriptor."""
-        if connector_id == MEETING_VOICE_MCP_CONNECTOR_ID:
-            health = self._check_meeting_mcp_health()
-            record = self._meeting_mcp_record(health)
-        elif connector_id == FUNASR_MCP_CONNECTOR_ID:
-            health = self._check_funasr_mcp_health()
-            record = self._funasr_mcp_record(health)
-        elif connector_id == DATA_SERVICE_MCP_CONNECTOR_ID:
-            health = self._check_data_service_mcp_health()
-            record = self._data_service_mcp_record(health)
-        elif connector_id == REMOTE_COMFYUI_CONNECTOR_ID:
-            health = self._check_remote_comfyui_health()
-            record = self._remote_comfyui_record(health)
-        else:
+        definition = self.connector_definitions.get(connector_id)
+        if definition is None:
             raise LookupError(f"Connector not found: {connector_id}")
+        health = definition.health_checker(self)
+        record = definition.record_factory(self, health)
         self.core_service.save_connector(record)
         return {
             "connector": record.model_dump(mode="json"),
@@ -295,31 +348,6 @@ class ConnectorRegistry:
         )
 
     def _data_service_mcp_record(self, health: ConnectorHealth) -> ConnectorRecord:
-        tools = [
-            "knowledge_workspace_create",
-            "knowledge_workspace_list",
-            "knowledge_workspace_describe",
-            "knowledge_source_import",
-            "knowledge_source_list",
-            "knowledge_source_remove",
-            "knowledge_build_start",
-            "knowledge_build_status",
-            "knowledge_build_cancel",
-            "knowledge_workspace_archive",
-            "knowledge_ingest_v2",
-            "knowledge_query_v2",
-            "knowledge_quality_summary_v2",
-            "knowledge_correction_plan_v2",
-            "knowledge_quality_feedback_v2",
-            "knowledge_correction_rules_v2",
-            "knowledge_review_correction_rule_v2",
-            "knowledge_query",
-            "knowledge_quality_summary",
-            "knowledge_quality_feedback",
-            "knowledge_correction_rules",
-            "knowledge_review_correction_rule",
-            "knowledge_correction_plan",
-        ]
         config = self.data_service_config
         contract_only = config.execution != "stdio"
         module_path = _module_file_from_args(config.argv, Path(config.cwd).expanduser())
@@ -344,7 +372,7 @@ class ConnectorRegistry:
             capabilities={
                 "transport": "stdio",
                 "contract_only": contract_only,
-                "tools": tools,
+                "tools": DATA_SERVICE_TOOLS,
                 "resources": [
                     "data_service://summary",
                     "data_service://layout",
@@ -354,10 +382,6 @@ class ConnectorRegistry:
                 "prompts": ["knowledge_lifecycle_runbook", "knowledge_quality_review"],
                 "health_message": health.message,
                 "execution_enabled": config.execution == "stdio",
-                "external_agent_guide": (
-                    "/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/"
-                    "docs/data_service/MCP-EXTERNAL-AGENT-GUIDE.md"
-                ),
             },
             config_ref="HARNESS_DATA_SERVICE_MCP_*",
             secret_ref=None,
@@ -462,6 +486,48 @@ class ConnectorRegistry:
                 "request_timeout": config.request_timeout,
                 "health_details": health.details,
             },
+        )
+
+    def _local_knowledge_record(self, health: ConnectorHealth) -> ConnectorRecord:
+        return ConnectorRecord(
+            connector_id=LOCAL_KNOWLEDGE_CONNECTOR_ID,
+            kind="native_tool",
+            domain="knowledge",
+            version="0.1.0",
+            health=health.status,
+            trust_level="trusted_local",
+            execution_mode="stub",
+            capabilities={
+                "transport": "inprocess",
+                "contract_only": True,
+                "tools": ["kb_ingest", "kb_search"],
+                "health_message": health.message,
+                "execution_enabled": False,
+            },
+            config_ref="HARNESS_LOCAL_KNOWLEDGE_*",
+            secret_ref=None,
+            app_scope=["knowledge"],
+            allowed_commands=[],
+            allowed_paths=[],
+            allowed_network_hosts=[],
+            network_policy="none",
+            tool_risk_defaults={
+                "read_only": True,
+                "destructive": False,
+                "external_side_effect": False,
+            },
+            requires_approval_for=[],
+            metadata={
+                "execution": "legacy_fallback",
+                "health_details": health.details,
+            },
+        )
+
+    def _check_local_knowledge_health(self) -> ConnectorHealth:
+        return ConnectorHealth(
+            status="contract_stub",
+            message="Local knowledge compatibility connector is registered for legacy fallback only.",
+            details={"contract_only": True, "execution_enabled": False},
         )
 
     def _check_remote_comfyui_health(self) -> ConnectorHealth:

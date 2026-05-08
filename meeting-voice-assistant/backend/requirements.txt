@@ -3,6 +3,7 @@ uvicorn[standard]>=0.27.0
 websockets>=12.0
 pydantic>=2.5.0
 pydantic-settings>=2.0.0
+email-validator>=2.1.0
 python-multipart>=0.0.6
 aiohttp>=3.9.0
 watchdog>=3.0.0
@@ -23,12 +24,8 @@ langchain-openai>=0.0.5
 # MCP (Model Context Protocol)
 mcp>=1.0.0
 
-# GraphRAG dependencies
+# Meeting backend storage / HTTP helpers
 sqlalchemy>=2.0.0
 aiosqlite>=0.19.0
 httpx>=0.25.0
 aiofiles>=23.0.0
-pandas>=2.0.0
-pyarrow>=14.0.0
-networkx>=3.0.0
-graphrag>=0.4.0

@@ -10,7 +10,7 @@
 
 说明：本文件为未来演进讨论，不代表当前活动架构基线。当前处于活动状态的 V3.0 计划保存在 `docs/design/V3.0/v3_development_plan_multi_app_core.md`。
 
-当前落地策略：下一阶段不直接实现完整低代码画布、Core Memory、Feedback Optimization Loop 或 Workflow Library，而是先推进 **Multi-App Core Readiness / Pack Assembly + Connector Registry / Meeting and Knowledge Pack E2E Migration**。Meeting 和 Knowledge 是当前标准迁移样板，Video Studio 延后到 V3.3。
+当前落地策略：下一阶段不直接实现完整低代码画布、Core Memory、Feedback Optimization Loop 或 Workflow Library，而是先推进 **Multi-App Core Readiness / Pack Assembly + Connector Registry / Meeting and Knowledge reference pack validation**。Meeting 和 Knowledge 是当前标准迁移样板，Video Studio 延后到 V3.3。
 
 ## 1. V3.x+ 远期总体定位
 

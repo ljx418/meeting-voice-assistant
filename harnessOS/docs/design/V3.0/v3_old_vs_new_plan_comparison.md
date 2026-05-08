@@ -21,15 +21,16 @@
 - Multi-App Core Readiness
 - Pack Assembly + Connector Registry
 - Job / Artifact / Governance Hardening
-- Meeting Pack 端到端迁移
-- Knowledge Pack 端到端迁移
+- Meeting reference pack validation
+- Knowledge reference pack validation
 
-Interview、Investment、Video Studio 在 Meeting / Knowledge 迁移验证完成后再扩展。
+Interview、Investment、Video Studio 在 Meeting / Knowledge 两个 reference packs 完成平台化验证后再扩展。
 
 ## 核心区别
 
 - 旧计划偏平台能力蓝图；新计划偏当前工程落地顺序。
 - 旧计划把低代码和 workflow library 放在前景；新计划把多 app scope、Pack、Connector、Job、Artifact、Governance 放在最高优先级。
 - 旧计划把视频作为典型案例之一；新计划明确 video_studio 延后到 V3.3。
-- 新计划明确 meeting / knowledge 是标准迁移样板，interview / investment / video_studio 在迁移验证后再扩展。
+- 新计划明确 meeting / knowledge 是标准迁移样板与 reference packs，interview / investment / video_studio 在平台边界验证后再扩展。
+- 新计划不把样板业务等同于平台内置业务；若新增 app 仍需修改 Core/Gateway 业务逻辑，则说明平台目标尚未达成。
 - 当前不得把低代码工作流、Memory System、Feedback Loop 放进 V3.0-PhaseA 到 V3.0-PhaseE 验收范围。

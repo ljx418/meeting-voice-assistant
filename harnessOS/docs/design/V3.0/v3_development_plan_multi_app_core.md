@@ -2,14 +2,15 @@
 
 文档状态：ACTIVE PLAN。本文是当前 V3.0-PhaseA 到 V3.0-PhaseE 的活动实施计划。
 
-本文替代“直接做通用低代码 Agent 工作流平台”的旧 V3.0 执行口径。当前优先级固定为：先稳 harnessOS Core，再迁移 Meeting / Knowledge，最后扩展 Interview / Investment / Video Studio。
+本文替代“直接做通用低代码 Agent 工作流平台”的旧 V3.0 执行口径。当前优先级固定为：先稳 harnessOS Core，再用 Meeting / Knowledge 两个 reference packs 验证平台边界，最后扩展 Interview / Investment / Video Studio。
 
 ## 1. 总体目标
 
 - 一份 harnessOS Core 代码支持多个 app：`meeting`、`knowledge`、`interview`、`investment`、`video_studio`。
 - 不同 app 可以拥有不同 UI、workflow、connector，但共用协议、Store、Job、Artifact、Trace、Policy、Approval、Retry。
 - 新业务不得写入 Core 或 Gateway，必须通过 AppProfile、Pack、Connector、RuntimeAdapter 接入。
-- Meeting 和 Knowledge 先作为标准 Pack + Connector 完成端到端迁移与验证。
+- Meeting 和 Knowledge 在当前阶段是标准 Pack + Connector 的 reference packs / validation samples，用于验证平台抽象，而不是平台内置业务终局。
+- V3.0 的阶段出口以“平台中立性”衡量：新增 app 理论上应只增加 AppProfile、Pack、Connector descriptor 和 workflow descriptor，而不是再改 Core / Gateway 业务逻辑。
 
 ## 1.1 统一编号规则
 
@@ -81,12 +82,23 @@ PR slices / implementation order：
 
 ### V3.0-PhaseB：Pack Assembly + Connector Registry
 
+阶段状态：ACTIVE NEXT PHASE
+
+详细实施文件：`docs/design/V3.0/v3_phaseb_pack_connector_registry.md`
+
 - 正式化 Pack manifest schema。
 - Pack 驱动 workflow、skill、connector、policy bundle、artifact kind 装配。
 - 支持 external pack paths。
 - 正式化 ConnectorRegistry。
 - Connector 支持 capabilities、health、config_ref、secret_ref、app_scope。
 - Meeting MCP 和 Knowledge MCP 必须通过 ConnectorRegistry 接入，不允许硬编码路径。
+
+当前代码状态：
+
+- PackAssemblyResult 已补齐 `app_id`、`conflicts`、`degraded`、`blocked_reason` / `disabled_reason` 等正式合同字段，并已通过 `pack.list/get` 暴露。
+- PackRegistry 已开始显式拒绝 duplicate pack name / domain / workflow_id；external pack roots 不再 silent overwrite。
+- Connector descriptor 已开始稳定输出 security fields，并在执行前阻断未 allowlist 的 stdio command/path 与不满足 network policy 的 remote connector。
+- external pack version policy、severity 分层和 Meeting / Knowledge 的标准装配入口去硬编码化仍需在本阶段继续收口。
 
 Definition of Done：
 
@@ -103,6 +115,16 @@ PR slices / implementation order：
 3. `V3.0-PhaseB-B3` external pack paths。
 4. `V3.0-PhaseB-B4` ConnectorRegistry descriptor schema + health/capabilities。
 5. `V3.0-PhaseB-B5` meeting/knowledge connector registry assembly tests。
+6. `V3.0-PhaseB-B6` reference pack standard-entry hardening。
+7. `V3.0-PhaseB-B7` descriptor-driven workflow registration。
+
+退出门：
+
+- `PackAssemblyResult` 可稳定表达 `assembled/blocked/degraded/stub` 及其原因。
+- `connector.list/get/health` 能通过 registry 暴露 descriptor 与 health。
+- 未 allowlist 的 stdio command/path/network 被 blocked。
+- Meeting / Knowledge 的标准装配入口回到 pack/registry，不再以硬编码路径作为主入口。
+- 新增 sample/reference pack 的发现与装配不再要求修改 Core/Gateway 业务逻辑。
 
 ### V3.0-PhaseC：Job / Artifact / Governance Hardening
 
@@ -127,10 +149,11 @@ PR slices / implementation order：
 3. `V3.0-PhaseC-C3` artifact read metadata-only + large file policy。
 4. `V3.0-PhaseC-C4` Policy hooks for tool/job/artifact persistence。
 5. `V3.0-PhaseC-C5` RuntimeAdapter governance context injection tests。
+6. `V3.0-PhaseC-C6` platform-neutral governance audit。
 
-### V3.0-PhaseD：Meeting Pack End-to-End Migration
+### V3.0-PhaseD：Meeting Reference Pack Validation
 
-- `packs/meeting` 成为会议能力标准入口。
+- `packs/meeting` 作为 reference pack 验证真实外部执行链路和 artifact lineage，不作为平台内置业务特权入口。
 - Meeting pack manifest 装配 workflow、connector、skills、artifact kinds、policy。
 - 通过 Meeting MCP / FunASR MCP connector 完成真实音频分析。
 - 输出 transcript、analysis、result、minutes artifacts。
@@ -139,11 +162,12 @@ PR slices / implementation order：
 
 Definition of Done：
 
-- Meeting Pack 通过真实音频 E2E。
+- Meeting reference pack 通过真实音频 E2E。
 - 通过 Meeting MCP / FunASR MCP connector 生成 transcript、analysis、result、minutes artifacts。
 - legacy meeting facade 与 pack workflow 产出等价。
 - job、trace、turn、artifact 关联完整。
 - 旧硬编码 meeting 旁路被移除或降级为兼容入口。
+- Meeting 验证结果能够证明平台不需要为该 pack 继续保留 Core/Gateway 特判。
 - 当前代码状态：fake/unit 覆盖已基本稳定，但真实音频验收仍依赖相邻 `meeting-voice-assistant` 项目的 Meeting MCP 与 FunASR 服务；未满足该外部前置时，不能把 PhaseD 视为已完成。
 
 PR slices / implementation order：
@@ -154,9 +178,9 @@ PR slices / implementation order：
 4. `V3.0-PhaseD-D4` legacy facade -> pack workflow adapter。
 5. `V3.0-PhaseD-D5` artifact/job/trace equivalence tests。
 
-### V3.0-PhaseE：Knowledge Pack End-to-End Migration
+### V3.0-PhaseE：Knowledge Reference Pack Validation
 
-- `packs/knowledge` 成为个人知识库标准入口。
+- `packs/knowledge` 作为 reference pack 验证状态型 connector、workflow lifecycle、data boundary 与 connector replaceability。
 - 通过 Knowledge MCP connector 接入本地知识库服务。
 - 支持 ingest、search、summarize、citation。
 - 输出 note、brief、citation_bundle artifacts。
@@ -165,11 +189,12 @@ PR slices / implementation order：
 
 Definition of Done：
 
-- Knowledge Pack 通过 `data_service_mcp` 完成 ingest/search/citation E2E。
+- Knowledge reference pack 通过 `data_service_mcp` 完成 ingest/search/citation E2E。
 - 输出 note、brief、citation_bundle artifacts。
 - Knowledge workflow 不直接读写 data_service 内部目录。
 - trace、artifact、job、turn 关联完整。
 - 替换 knowledge connector 不需要修改 Core。
+- Knowledge 验证结果能够证明平台不需要为该 pack 继续保留 Core/Gateway 特判。
 
 PR slices / implementation order：
 
@@ -310,7 +335,7 @@ Rollback 策略：
 
 V3.0-PhaseB 的 Pack Assembly 交付物是装配结果对象，不只是 manifest loader。
 
-当前代码状态：已有基础 `PackAssemblyResult`，能表达 `assembled`、`blocked`、`stub`、`missing_dependencies`、`blocked_reason` alias 和 `next_actions`；同时 `PackRegistry` 已开始在注册和 `load_from_paths()` 阶段显式拒绝 duplicate pack name / domain / workflow_id。V3.0-PhaseB 仍需补齐 `app_id`、`degraded`、`conflicts`、更明确的 blocked/degraded reason，以及同名 artifact kind 冲突 fixture。
+当前代码状态：`PackAssemblyResult` 已能稳定表达 `assembled`、`blocked`、`degraded`、`stub`，并暴露 `app_id`、`missing_dependencies`、`conflicts`、`blocked_reason` alias 和 `next_actions`；`PackRegistry` 也已在注册和 `load_from_paths()` 阶段显式拒绝 duplicate pack name / domain / workflow_id。当前剩余工作不再是“补字段”，而是冻结 severity 语义、external pack version policy、cross-app conflict 边界和 sample-pack neutrality 验收。
 
 ```python
 PackAssemblyResult:
@@ -370,7 +395,7 @@ Connector descriptor 增加：
 - stdio connector 的 command/path/network 必须经过 allowlist。
 - secret_ref 只能传引用，不能把密钥写入 manifest 或 trace。
 
-当前代码状态：ConnectorRegistry 已能登记 Meeting/FunASR/Data Service/ComfyUI 等 connector，并能执行 `connector.health`；但默认 connector descriptor 仍主要来自内置 Python 描述代码。V3.0-PhaseB 需要把 security descriptor、allowlist 和 manifest/config 驱动落成正式实现。
+当前代码状态：ConnectorRegistry 已能登记 Meeting/FunASR/Data Service/ComfyUI 等 connector，并能执行 `connector.health`；内置 connector 现已开始通过 descriptor definition 驱动注册，而不是散落在平台层的条件分支。V3.0-PhaseB 剩余工作是继续压缩内置业务描述、把更多 descriptor 字段收敛到 config/manifest 输入，并证明新增 sample connector 不需要新增平台业务判断。
 
 参考：
 

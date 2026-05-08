@@ -6,7 +6,10 @@ import json
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from core.apps import AppRegistry
 
 ALLOWED_WORKFLOW_TEMPLATE_KINDS = {"typed_dag", "multi_agent_typed_dag"}
 ALLOWED_WORKFLOW_NODE_TYPES = {
@@ -18,6 +21,7 @@ ALLOWED_WORKFLOW_NODE_TYPES = {
     "approval",
     "evaluation",
 }
+CURRENT_PACK_TARGET_VERSION = "3.0"
 
 
 @dataclass(frozen=True)
@@ -224,6 +228,7 @@ class PackRegistry:
         status: Optional[str] = None,
         supported_workflows: Optional[set[str]] = None,
         available_connectors: Optional[set[str]] = None,
+        app_enabled_connectors_by_domain: Optional[dict[str, set[str]]] = None,
         available_policy_bundles: Optional[set[str]] = None,
         compatible_manifest_schema_versions: Optional[set[str]] = None,
         available_connector_capabilities: Optional[dict[str, dict[str, set[str]]]] = None,
@@ -237,6 +242,7 @@ class PackRegistry:
                     pack["name"],
                     supported_workflows=supported_workflows,
                     available_connectors=available_connectors,
+                    app_enabled_connectors_by_domain=app_enabled_connectors_by_domain,
                     available_policy_bundles=available_policy_bundles,
                     compatible_manifest_schema_versions=compatible_manifest_schema_versions,
                     available_connector_capabilities=available_connector_capabilities,
@@ -286,6 +292,7 @@ class PackRegistry:
         *,
         supported_workflows: Optional[set[str]] = None,
         available_connectors: Optional[set[str]] = None,
+        app_enabled_connectors_by_domain: Optional[dict[str, set[str]]] = None,
         available_policy_bundles: Optional[set[str]] = None,
         compatible_manifest_schema_versions: Optional[set[str]] = None,
         available_connector_capabilities: Optional[dict[str, dict[str, set[str]]]] = None,
@@ -320,12 +327,20 @@ class PackRegistry:
 
         supported_workflows = supported_workflows or set()
         available_connectors = available_connectors or set()
+        app_enabled_connectors_by_domain = app_enabled_connectors_by_domain or {}
         available_policy_bundles = available_policy_bundles or set()
         compatible_manifest_schema_versions = compatible_manifest_schema_versions or {"1"}
         available_connector_capabilities = available_connector_capabilities or {}
         schema_supported = manifest.manifest_schema_version in compatible_manifest_schema_versions
+        external_pack_version_status = _external_pack_target_version_status(manifest)
+        app_enabled_connectors = app_enabled_connectors_by_domain.get(manifest.domain)
         missing_connectors = [
             connector for connector in manifest.connectors if connector not in available_connectors
+        ]
+        app_profile_connector_gaps = [
+            f"app_profile_connector:{connector}"
+            for connector in manifest.connectors
+            if app_enabled_connectors is not None and connector not in app_enabled_connectors
         ]
         missing_capabilities = _missing_connector_capabilities(
             required=manifest.connector_capabilities,
@@ -340,16 +355,23 @@ class PackRegistry:
         invalid_workflow_templates = _invalid_workflow_templates(manifest.workflow_templates)
         conflicts = tuple(_pack_conflicts(manifest))
         missing_dependencies = tuple(
-            ([] if schema_supported else [f"manifest_schema:{manifest.manifest_schema_version}"])
+            (
+                []
+                if schema_supported
+                else [f"manifest_schema:{manifest.manifest_schema_version}"]
+            )
+            + external_pack_version_status["blocked"]
             + [f"connector:{connector}" for connector in missing_connectors]
+            + app_profile_connector_gaps
             + [f"workflow:{workflow_id}" for workflow_id in unsupported_workflows]
         )
         degraded_dependencies = tuple(
-            missing_capabilities
+            external_pack_version_status["degraded"]
+            + missing_capabilities
             + [f"policy_bundle:{policy_bundle}" for policy_bundle in missing_policy_bundles]
         )
         if missing_dependencies or conflicts:
-            next_actions = tuple(
+            next_actions = _dedupe_preserve_order(
                 list(_next_action_for_dependency(dependency) for dependency in missing_dependencies)
                 + list(_next_action_for_conflict(conflict) for conflict in conflicts)
             )
@@ -360,12 +382,15 @@ class PackRegistry:
                 status="blocked",
                 missing_dependencies=missing_dependencies,
                 conflicts=conflicts,
-                disabled_reason="Pack has blocked assembly dependencies or conflicts.",
+                disabled_reason=_blocked_reason(
+                    missing_dependencies=missing_dependencies,
+                    conflicts=conflicts,
+                ),
                 next_actions=next_actions,
                 **assembly_view,
             )
         if degraded_dependencies or invalid_workflow_templates:
-            next_actions = tuple(
+            next_actions = _dedupe_preserve_order(
                 list(_next_action_for_dependency(dependency) for dependency in degraded_dependencies)
                 + list(_next_action_for_conflict(conflict) for conflict in invalid_workflow_templates)
             )
@@ -376,7 +401,10 @@ class PackRegistry:
                 status="degraded",
                 missing_dependencies=degraded_dependencies,
                 conflicts=tuple(invalid_workflow_templates),
-                disabled_reason="Pack is assembled with degraded dependencies or non-blocking conflicts.",
+                disabled_reason=_degraded_reason(
+                    missing_dependencies=degraded_dependencies,
+                    conflicts=tuple(invalid_workflow_templates),
+                ),
                 next_actions=next_actions,
                 **assembly_view,
             )
@@ -394,6 +422,7 @@ class PackRegistry:
         *,
         supported_workflows: Optional[set[str]] = None,
         available_connectors: Optional[set[str]] = None,
+        app_enabled_connectors_by_domain: Optional[dict[str, set[str]]] = None,
         available_policy_bundles: Optional[set[str]] = None,
         compatible_manifest_schema_versions: Optional[set[str]] = None,
         available_connector_capabilities: Optional[dict[str, dict[str, set[str]]]] = None,
@@ -404,6 +433,7 @@ class PackRegistry:
                 manifest.name,
                 supported_workflows=supported_workflows,
                 available_connectors=available_connectors,
+                app_enabled_connectors_by_domain=app_enabled_connectors_by_domain,
                 available_policy_bundles=available_policy_bundles,
                 compatible_manifest_schema_versions=compatible_manifest_schema_versions,
                 available_connector_capabilities=available_connector_capabilities,
@@ -412,11 +442,12 @@ class PackRegistry:
         ]
 
 
-def build_default_pack_registry() -> PackRegistry:
+def build_default_pack_registry(*, app_registry: Optional["AppRegistry"] = None) -> PackRegistry:
     """Load repository-local and configured external Domain Pack manifests."""
     repo_root = Path(__file__).resolve().parents[2]
     roots = [repo_root / "packs"]
     roots.extend(_external_pack_roots())
+    roots.extend(_app_profile_pack_roots(app_registry))
     return PackRegistry.load_from_paths(roots)
 
 
@@ -426,6 +457,28 @@ def _external_pack_roots() -> list[Path]:
     for item in raw.split(os.pathsep):
         if item.strip():
             roots.append(Path(item).expanduser().resolve())
+    return roots
+
+
+def _app_profile_pack_roots(app_registry: Optional["AppRegistry"]) -> list[Path]:
+    if app_registry is None:
+        return []
+    repo_root = Path(__file__).resolve().parents[2]
+    roots: list[Path] = []
+    seen: set[Path] = set()
+    for profile in app_registry.list_profiles():
+        for raw_path in profile.get("pack_paths", []):
+            if not isinstance(raw_path, str) or not raw_path.strip():
+                continue
+            candidate = Path(raw_path).expanduser()
+            if not candidate.is_absolute():
+                candidate = (repo_root / candidate).resolve()
+            else:
+                candidate = candidate.resolve()
+            if candidate in seen:
+                continue
+            seen.add(candidate)
+            roots.append(candidate)
     return roots
 
 
@@ -512,6 +565,17 @@ def _missing_connector_capabilities(
     return missing
 
 
+def _dedupe_preserve_order(values: list[str]) -> tuple[str, ...]:
+    seen: set[str] = set()
+    result: list[str] = []
+    for value in values:
+        if value in seen:
+            continue
+        seen.add(value)
+        result.append(value)
+    return tuple(result)
+
+
 def _invalid_workflow_templates(workflow_templates: dict[str, Any]) -> list[str]:
     missing: list[str] = []
     for template_id, template in workflow_templates.items():
@@ -546,12 +610,21 @@ def _next_action_for_dependency(dependency: str) -> str:
         return f"Register connector capability {connector_id}.{group_name}.{value}."
     if dependency.startswith("connector:"):
         return f"Register connector {dependency.removeprefix('connector:')}."
+    if dependency.startswith("app_profile_connector:"):
+        return f"Add connector {dependency.removeprefix('app_profile_connector:')} to the matching AppProfile."
     if dependency.startswith("policy_bundle:"):
         return f"Register policy bundle {dependency.removeprefix('policy_bundle:')}."
     if dependency.startswith("workflow:"):
         return f"Register workflow {dependency.removeprefix('workflow:')}."
     if dependency.startswith("manifest_schema:"):
         return f"Add compatibility for manifest schema {dependency.removeprefix('manifest_schema:')}."
+    if dependency == "target_version:missing":
+        return f"Declare metadata.target_version={CURRENT_PACK_TARGET_VERSION} for the external pack."
+    if dependency.startswith("target_version:"):
+        return (
+            f"Align external pack target_version to {CURRENT_PACK_TARGET_VERSION} "
+            f"(current {dependency.removeprefix('target_version:')})."
+        )
     return f"Resolve dependency {dependency}."
 
 
@@ -591,3 +664,66 @@ def _next_action_for_conflict(conflict: str) -> str:
     if conflict.startswith("workflow_template:"):
         return f"Fix workflow template conflict {conflict}."
     return f"Resolve conflict {conflict}."
+
+
+def _blocked_reason(
+    *,
+    missing_dependencies: tuple[str, ...],
+    conflicts: tuple[str, ...],
+) -> str:
+    if missing_dependencies and conflicts:
+        return "Pack has blocked assembly dependencies and conflicts."
+    if missing_dependencies:
+        if any(dependency.startswith("manifest_schema:") for dependency in missing_dependencies):
+            return "Pack is blocked by an incompatible manifest schema."
+        if any(
+            dependency.startswith("connector:") or dependency.startswith("app_profile_connector:")
+            for dependency in missing_dependencies
+        ):
+            return "Pack is blocked by missing or disabled connectors."
+        if any(dependency.startswith("target_version:") for dependency in missing_dependencies):
+            return "Pack is blocked by an incompatible external pack target_version."
+        if any(dependency.startswith("workflow:") for dependency in missing_dependencies):
+            return "Pack is blocked by unsupported workflow registration."
+        return "Pack has blocked assembly dependencies."
+    return "Pack has assembly conflicts."
+
+
+def _degraded_reason(
+    *,
+    missing_dependencies: tuple[str, ...],
+    conflicts: tuple[str, ...],
+) -> str:
+    if missing_dependencies and conflicts:
+        return "Pack is assembled with degraded dependencies and non-blocking conflicts."
+    if missing_dependencies:
+        if missing_dependencies == ("target_version:missing",):
+            return "Pack is degraded because metadata.target_version is not declared."
+        if all(dependency.startswith("policy_bundle:") for dependency in missing_dependencies):
+            return "Pack is degraded by missing policy bundles."
+        if all(dependency.startswith("connector_capability:") for dependency in missing_dependencies):
+            return "Pack is degraded by missing non-blocking connector capabilities."
+        return "Pack is assembled with degraded dependencies."
+    return "Pack is assembled with non-blocking conflicts."
+
+
+def _external_pack_target_version_status(manifest: DomainPackManifest) -> dict[str, list[str]]:
+    blocked: list[str] = []
+    degraded: list[str] = []
+    manifest_path = manifest.manifest_path
+    if not manifest_path:
+        return {"blocked": blocked, "degraded": degraded}
+    path = Path(manifest_path).expanduser().resolve()
+    repo_packs_root = Path(__file__).resolve().parents[2] / "packs"
+    try:
+        path.relative_to(repo_packs_root.resolve())
+        return {"blocked": blocked, "degraded": degraded}
+    except ValueError:
+        pass
+    target_version = manifest.metadata.get("target_version")
+    if not isinstance(target_version, str) or not target_version.strip():
+        degraded.append("target_version:missing")
+        return {"blocked": blocked, "degraded": degraded}
+    if target_version != CURRENT_PACK_TARGET_VERSION:
+        blocked.append(f"target_version:{target_version}")
+    return {"blocked": blocked, "degraded": degraded}

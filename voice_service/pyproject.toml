@@ -1,0 +1,22 @@
+[project]
+name = "voice-service"
+version = "1.0.0"
+description = "Standalone FunASR voice service with HTTP, CLI, and MCP transports."
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.100.0",
+  "funasr>=1.0.0",
+  "mcp>=1.0.0",
+  "python-multipart>=0.0.6",
+  "torch>=2.0.0",
+  "torchaudio>=2.0.0",
+  "uvicorn>=0.23.0",
+  "websockets>=11.0",
+]
+
+[project.scripts]
+voice-service = "funasr_service.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

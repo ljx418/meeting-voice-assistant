@@ -389,9 +389,6 @@ const estimatedRemainingTime = computed(() => {
   return Math.max(0, Math.round(elapsed / progress - elapsed))
 })
 
-// GraphRAG API URL
-const GRAPHRAG_API_URL = import.meta.env.VITE_GRAPHRAG_API_URL || 'http://localhost:8002'
-
 // File input ref
 const fileInputRef = ref<HTMLInputElement | null>(null)
 
@@ -551,7 +548,7 @@ async function startFilePolling(fileId: string, sessionId: string) {
                 console.log(`[MeetingPage] SSE stream ended: ${data.stage}`, { sessionId, fileId })
                 // 异步模式下，completed 时获取完整结果
                 if (data.stage === 'completed') {
-                  fetchFullResultAndIndex(sessionId, fileId)
+                  fetchFullResultAndPrepareKnowledgeHandoff(sessionId, fileId)
                 }
                 return
               }
@@ -625,8 +622,8 @@ async function fetchFullResult(sessionId: string) {
   }
 }
 
-// SSE completed 时调用：获取完整结果并索引到 GraphRAG
-async function fetchFullResultAndIndex(sessionId: string, fileId: string) {
+// SSE completed 时调用：获取完整结果并准备知识服务交接
+async function fetchFullResultAndPrepareKnowledgeHandoff(sessionId: string, fileId: string) {
   try {
     const response = await fetch(API_CONFIG.uploadSessionUrl(sessionId))
     if (response.ok) {
@@ -643,8 +640,7 @@ async function fetchFullResultAndIndex(sessionId: string, fileId: string) {
       }
       populateStoresFromResponse(transformed)
       saveSessionFromResponse(sessionId, fileId, '', transformed)
-      // Index to GraphRAG
-      indexToGraphRAG(transformed)
+      prepareKnowledgeHandoff(transformed)
       // Mark as completed
       store.updateUploadedFile(fileId, { status: 'completed', progress: 100, stage: 'completed' })
     } else {
@@ -727,7 +723,7 @@ function populateStoresFromResponse(data: UploadResponse) {
   }
 }
 
-// Convert meeting data to markdown for GraphRAG indexing
+// Convert meeting data to markdown for external knowledge-service ingestion
 function convertMeetingToMarkdown(data: UploadResponse): string {
   const lines: string[] = []
 
@@ -813,29 +809,20 @@ function convertMeetingToMarkdown(data: UploadResponse): string {
   return lines.join('\n')
 }
 
-// Index meeting data to GraphRAG
-async function indexToGraphRAG(data: UploadResponse) {
+// Meeting apps no longer write directly to an embedded knowledge service.
+// Transcripts should be handed to the standalone Knowledge Governance Service
+// through its MCP/HTTP/CLI contract by an explicit source ingestion adapter.
+async function prepareKnowledgeHandoff(data: UploadResponse) {
   try {
     const markdown = convertMeetingToMarkdown(data)
     const title = data.theme || store.topic || `会议_${Date.now()}`
     const filename = `${title.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '_')}.md`
-
-    const formData = new FormData()
-    const blob = new Blob([markdown], { type: 'text/markdown' })
-    formData.append('doc', blob, filename)
-
-    const response = await fetch(`${GRAPHRAG_API_URL}/api/v1/index/stream`, {
-      method: 'POST',
-      body: formData,
+    console.info('[MeetingPage] Knowledge ingestion delegated to external data_service adapter:', {
+      filename,
+      bytes: markdown.length,
     })
-
-    if (response.ok) {
-      console.log('[MeetingPage] GraphRAG indexing started:', filename)
-    } else {
-      console.error('[MeetingPage] GraphRAG indexing failed:', response.status)
-    }
   } catch (e) {
-    console.error('[MeetingPage] GraphRAG indexing error:', e)
+    console.error('[MeetingPage] Knowledge ingestion delegation error:', e)
   }
 }
 

@@ -6,16 +6,13 @@ VoiceSession 组件模块
 - TranscriptionHandler: ASR 结果处理
 - MeetingAnalyzer: LLM 分析协调
 - SessionStateManager: 状态持久化
-- GraphRAGNotifier: GraphRAG 事件通知
+- KnowledgeServiceNotifier: 外部知识服务边界提示
 """
 
 import asyncio
-import tempfile
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Callable, Awaitable
-
-import httpx
 
 from app.core.asr import ASRResult
 from app.core.audio_cache import AudioCache
@@ -401,8 +398,8 @@ class MeetingAnalyzer:
             )
 
 
-class GraphRAGNotifier:
-    """GraphRAG 事件通知器"""
+class KnowledgeServiceNotifier:
+    """外部知识服务边界提示器"""
 
     def __init__(
         self,
@@ -437,7 +434,7 @@ class GraphRAGNotifier:
         return f"{hours:02d}:{minutes:02d}:{secs:02d}"
 
     def _build_index_document(self, analysis_result: AnalysisResult) -> str:
-        """构建 GraphRAG 索引文档内容"""
+        """构建可交给外部 data_service 的会议文本内容"""
         if not self._transcripts:
             return ""
 
@@ -477,65 +474,12 @@ class GraphRAGNotifier:
         return "\n".join(lines)
 
     async def notify(self, analysis_result: AnalysisResult) -> None:
-        """触发 GraphRAG 索引"""
-        try:
-            doc_content = self._build_index_document(analysis_result)
-            if not doc_content:
-                logger.warning(
-                    f"[Session {self.session_id}] No content to index for GraphRAG"
-                )
-                return
-
-            with tempfile.NamedTemporaryFile(
-                mode='w',
-                suffix='.txt',
-                prefix=f'meeting_{self.session_id}_',
-                delete=False,
-                encoding='utf-8'
-            ) as f:
-                f.write(doc_content)
-                temp_path = f.name
-
-            logger.info(
-                f"[Session {self.session_id}] Triggering GraphRAG index for: {temp_path}"
-            )
-
-            graphrag_index_timeout = config.timeout.graphrag_index_timeout if hasattr(config, 'timeout') else 300.0
-            async with httpx.AsyncClient(timeout=graphrag_index_timeout) as client:
-                with open(temp_path, 'rb') as f:
-                    files = {
-                        'doc': (f'{self.session_id}_meeting.txt', f, 'text/plain')
-                    }
-                    try:
-                        response = await client.post(
-                            f"{config.graphrag.service_url}/api/v1/index/",
-                            files=files
-                        )
-                        if response.status_code == 200:
-                            result = response.json()
-                            logger.info(
-                                f"[Session {self.session_id}] GraphRAG index completed: "
-                                f"entities={result.get('entities_count', 0)}, "
-                                f"relationships={result.get('relationships_count', 0)}"
-                            )
-                        else:
-                            logger.warning(
-                                f"[Session {self.session_id}] GraphRAG index failed: "
-                                f"status={response.status_code}, body={response.text}"
-                            )
-                    except httpx.TimeoutException:
-                        logger.warning(
-                            f"[Session {self.session_id}] GraphRAG index timeout"
-                        )
-                    except httpx.HTTPError as e:
-                        logger.error(
-                            f"[Session {self.session_id}] GraphRAG index HTTP error: {e}"
-                        )
-
-            try:
-                Path(temp_path).unlink()
-            except Exception:
-                pass
-
-        except Exception as e:
-            logger.error(f"[Session {self.session_id}] GraphRAG index error: {e}")
+        """不在会议应用内触发知识索引。"""
+        doc_content = self._build_index_document(analysis_result)
+        if not doc_content:
+            logger.info(f"[Session {self.session_id}] No transcript content for knowledge handoff")
+            return
+        logger.info(
+            f"[Session {self.session_id}] Knowledge handoff skipped in meeting backend; "
+            "use external data_service MCP/CLI/HTTP to import the transcript."
+        )

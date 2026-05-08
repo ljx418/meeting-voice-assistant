@@ -8,6 +8,8 @@
 
 # 获取脚本所在目录
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+VOICE_SERVICE_DIR="$HOME/Desktop/workspace/voice_service"
+VOICE_SERVICE_PYTHON="$VOICE_SERVICE_DIR/.venv/bin/python"
 cd "$SCRIPT_DIR/backend"
 
 # 颜色定义
@@ -157,8 +159,15 @@ start_funasr_service() {
     fi
 
     # 在后台启动
-    nohup python3 -m uvicorn funasr_service.main:app --host 0.0.0.0 --port 8001 > ../logs/funasr_service.log 2>&1 &
-    echo $! > ../logs/funasr_service.pid
+    cd "$VOICE_SERVICE_DIR"
+    if [ ! -x "$VOICE_SERVICE_PYTHON" ]; then
+        log_error "未找到 voice_service venv: $VOICE_SERVICE_PYTHON"
+        return 1
+    fi
+    "$VOICE_SERVICE_PYTHON" -m pip install -r requirements.txt -q 2>/dev/null || true
+    PYTHONPATH="$VOICE_SERVICE_DIR" nohup "$VOICE_SERVICE_PYTHON" -m funasr_service.cli serve-http --host 0.0.0.0 --port 8001 > "$SCRIPT_DIR/backend/logs/funasr_service.log" 2>&1 &
+    echo $! > "$SCRIPT_DIR/backend/logs/funasr_service.pid"
+    cd "$SCRIPT_DIR/backend"
 
     # 等待启动
     sleep 3
@@ -168,7 +177,7 @@ start_funasr_service() {
         log_success "funasr_service 已启动 (http://localhost:8001)"
     else
         log_error "funasr_service 启动失败，请查看日志"
-        cat ../logs/funasr_service.log
+        cat "$SCRIPT_DIR/backend/logs/funasr_service.log"
         return 1
     fi
 
@@ -268,7 +277,7 @@ main() {
     echo ""
     echo "  停止服务:"
     echo "    - docker stop funasr-realtime"
-    echo "    - pkill -f 'uvicorn funasr_service'"
+    echo "    - pkill -f 'funasr_service.cli serve-http'"
     echo "    - pkill -f 'vite'"
     echo ""
 

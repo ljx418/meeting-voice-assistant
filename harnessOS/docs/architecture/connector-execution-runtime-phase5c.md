@@ -33,7 +33,7 @@ Implemented:
 
 The Phase 5-C MCP execution path must treat the adjacent `meeting-voice-assistant` project as the source of truth for two domain connectors:
 
-- Meeting / ASR: `funasr_mcp` starts `python3 -m funasr_service.mcp_stdio` under `/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend` and calls the existing FunASR HTTP service through MCP tools.
+- Meeting / ASR: `funasr_mcp` starts `python3 -m funasr_service.mcp_stdio` under `/Users/Zhuanz/Desktop/workspace/voice_service` and calls the existing FunASR HTTP service through MCP tools.
 - Knowledge: `data_service_mcp` starts `python3 -m data_service.mcp_stdio` under `/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend` and follows `/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/docs/data_service/MCP-EXTERNAL-AGENT-GUIDE.md`.
 
 Knowledge workflows must use the documented lifecycle tools and v2 envelope tools instead of writing GraphRAG, llmwiki, source, or quality directories directly.

@@ -67,7 +67,7 @@ harnessOS 的远期目标是从“多业务助手集合”演进为 **可交互�
 - Job、Artifact、Trace、Policy、Approval、Retry、Store 是跨 app 复用的治理和状态底座。
 - V3.x+ 再扩展 Low-Code Workflow Runtime、Core Memory、Feedback Optimization、Workflow / Pack Library。
 
-当前 V3.0 不直接做完整低代码平台或 Memory 系统，而是先把 reusable Core 做稳，并用 Meeting / Knowledge 作为标准迁移样板。
+当前 V3.0 不直接做完整低代码平台或 Memory 系统，而是先把 reusable Core 做稳，并用 Meeting / Knowledge 作为标准迁移样板与 reference packs 验证平台抽象。
 
 ## 3. 已完成历史路标
 
@@ -145,8 +145,8 @@ Plane-1 Client / Gateway
 | Core records 已开始包含 scope 字段 | 写入路径和查询路径未全覆盖；底层 Store 不传 scope 仍可全量查询 | Gateway/Core service 调用链强制携带 ScopeContext，普通 list/query 默认过滤 | V3.0-PhaseA | Plane-2/Plane-3/Plane-6 | namespace isolation、legacy backfill、scope bypass fixture | P0 |
 | SQLite Store 已是主持久化基础 | 已有命名 migration 语义和 legacy backfill fixture，但底层 `list_*` 不传 scope 仍是受控 bypass | `v3_001_add_scope_columns` forward-only migration 可回归 | V3.0-PhaseA | Plane-3/Plane-6 | migration test、legacy import fixture、compat flag test | P0 |
 | Gateway RPC 可用 | 运行时仍返回 `v1alpha`；protocol version/method/event/error registry 未冻结 | `v1alpha3` protocol contract 和 errors registry 可供 SDK 使用 | V3.0-PhaseA 和 V3.0-PhaseB | Plane-2/Plane-3 | protocol registry tests | P0 |
-| Pack scaffold 可见，PackAssemblyResult 已有基础 | conflict/degraded/app_id/conflicts 字段与完整 reason 未冻结 | PackAssemblyResult 表达 assembled/blocked/degraded/stub，包含 conflicts、blocked_reason、next_actions | V3.0-PhaseB | Plane-3/Plane-5 | pack.get response、missing dependency fixture、conflict fixture | P0 |
-| Connector execution 有基础 | ConnectorRegistry 仍有内置描述代码，security descriptor、app_scope、secret_ref 未冻结 | ConnectorRegistry 管理 capabilities/health/config/secret/security，并支持 descriptor/config 驱动 | V3.0-PhaseB | Plane-5/Plane-6 | connector.health、blocked untrusted connector | P0 |
+| Pack scaffold 可见，PackAssemblyResult 已有正式合同 | external pack version policy、cross-app severity 与 sample-pack neutrality 仍未完全收口 | PackAssemblyResult 表达 assembled/blocked/degraded/stub，包含 conflicts、blocked_reason、next_actions，并对 external pack / connector gap 给出稳定解释 | V3.0-PhaseB | Plane-3/Plane-5 | pack.get response、missing dependency fixture、conflict fixture | P0 |
+| Connector execution 有基础 | ConnectorRegistry descriptor 数据仍主要在 Python 中声明，manifest/config 驱动尚未完全落地 | ConnectorRegistry 管理 capabilities/health/config/secret/security，并支持 descriptor/config 驱动 | V3.0-PhaseB | Plane-5/Plane-6 | connector.health、blocked untrusted connector | P0 |
 | Job worker MVP 已存在 | 状态机、progress、failure_context、artifact_ids 不完整 | queued/running/succeeded/failed/cancelled 和 artifact binding 可查询 | V3.0-PhaseC | Plane-3/Plane-6 | job state tests | P0 |
 | Artifact metadata-only read 有基础 | 当前已阻断视频/大文件/external-only；音频/图片/binary、错误码和 JSON-RPC error shape 需统一 | `artifact.read` 对大文件/媒体/binary 拒绝全文读取并返回 metadata 建议和统一错误码 | V3.0-PhaseC | Plane-3/Plane-6 | artifact read policy tests | P0 |
 | RuntimeAdapter 已存在 | 治理注入还不统一 | RuntimeAdapter 默认注入 scope/policy/approval/trace/secret hygiene | V3.0-PhaseC | Plane-3/Plane-4/Plane-6 | runtime governance tests | P0 |
@@ -343,36 +343,57 @@ V3.0-PhaseA 的详细实施文件与辅助验收基线已独立落盘到：
 
 ### V3.0-PhaseB Pack Assembly + Connector Registry
 
+详细实施文件：`docs/design/V3.0/v3_phaseb_pack_connector_registry.md`
+
 目标定位：
 
 - 把现有 pack scaffold 和 connector MVP 升级为正式合同。
 - 让 PackAssemblyResult、connector descriptor、assembly blocked reason 成为对上层稳定可消费的接口。
-- 为 Meeting/Knowledge 标准迁移准备“无硬编码路径”的装配入口。
+- 为 Meeting/Knowledge 两个 reference packs 准备“无硬编码路径、无平台长期特判”的装配入口。
 
 当前代码事实：
 
 - Pack manifest、workflow templates、agents、artifact schemas 已有基础支持。
-- PackAssemblyResult 已可表达 `assembled/blocked/stub/missing_dependencies/next_actions`，但 `degraded/app_id/conflicts` 等关键字段未冻结。
-- ConnectorRegistry 已能列出和健康检查若干内置 connector，但 descriptor 仍偏 Python 内嵌定义。
+- PackAssemblyResult 已补齐 `app_id`、`conflicts`、`degraded`、`blocked_reason` / `disabled_reason` 等正式合同字段，并已通过 `pack.list/get` 暴露；blocked/degraded reason 现已开始按依赖类别细分。
+- PackRegistry 已显式拒绝 duplicate pack name / domain / workflow_id，external pack roots 不再 silent overwrite。
+- AppProfile `pack_paths` 已进入默认 pack registry 装配路径，external pack 现在既可通过环境变量，也可通过 app profile 声明加载。
+- Connector descriptor 已开始稳定输出 security fields，并在执行前阻断未 allowlist 的 stdio command/path 与不满足 network policy 的 remote connector。
+- ConnectorRegistry 已开始通过 descriptor definition 统一注册 built-in connector，并支持注入新的 sample connector definition；connector availability 也已开始严格由 registry 决定，而不是把 AppProfile refs 直接当成“可用”。
+- Gateway / RuntimePool 的 pack assembly 输入已开始从 `app_registry + connector_registry` 推导；Meeting / Knowledge 的 assembly 不再只依赖固定 connector 常量集合。
+- pack assembly 现在会同时校验 registry 可用性与 AppProfile enabled connectors；未显式启用的 connector 会返回 `app_profile_connector:*` blocked dependency。
+- external pack `metadata.target_version` 已进入 assembly policy：缺失 target_version 目前记为 degraded，不兼容 target_version 记为 blocked。
+- external pack version policy、severity 分层、descriptor 数据外置化和 Meeting/Knowledge 标准装配入口去硬编码化仍需本阶段继续收口。
 
 | 切片 | 目标 | 主要改动 | 影响平面 | 完成标准 |
 | --- | --- | --- | --- | --- |
 | V3.0-PhaseB-B1 | Pack manifest schema | workflow、skill、connector、policy、artifact kind schema | Plane-5 | schema test 通过 |
-| V3.0-PhaseB-B2 | PackAssemblyResult | 在现有 assembled/blocked/stub 基础上补 degraded、app_id、conflicts、blocked_reason 合同 | Plane-3/Plane-5 | pack.get 返回完整装配结果 |
+| V3.0-PhaseB-B2 | PackAssemblyResult | 冻结 assembled/blocked/degraded/stub、reason 和 next_actions 合同 | Plane-3/Plane-5 | pack.get 返回完整装配结果 |
 | V3.0-PhaseB-B3 | conflict / missing dependency | 同名 workflow/artifact kind 冲突处理 | Plane-5 | missing connector blocked |
 | V3.0-PhaseB-B4 | external pack paths | AppProfile pack_paths 支持外部路径 | Plane-3/Plane-5 | external pack fixture |
-| V3.0-PhaseB-B5 | connector descriptor/security | capabilities、health、config_ref、secret_ref、app_scope、trust_level | Plane-5/Plane-6 | untrusted connector 被拦截 |
+| V3.0-PhaseB-B5 | connector descriptor/security | capabilities、health、config_ref、secret_ref、app_scope、trust_level；descriptor-driven registration | Plane-5/Plane-6 | untrusted connector 被拦截 |
 | V3.0-PhaseB-B6 | meeting/knowledge assembly | Meeting/Knowledge connector 不硬编码路径 | Plane-2/Plane-5/Plane-6 | connector.health 走 registry |
+| V3.0-PhaseB-B7 | descriptor-driven workflow registration | sample pack 注册不再依赖静态业务 factory | Plane-2/Plane-3/Plane-5 | external/sample pack fixture |
 
 阶段展开：
 
-- B1/B2 先冻结 PackAssemblyResult 合同，再补 conflicts/degraded 语义。
-- B3/B5 负责把 external pack 和 connector descriptor 的安全边界固定下来。
-- B6 是业务回归闸门，确保 Meeting/Knowledge 的标准入口回到 pack/registry，而不是继续靠硬编码路径。
+- B1：Pack manifest schema
+  - 开发目的：正式化 workflow、skill、connector、policy、artifact kind 声明能力。
+- B2：PackAssemblyResult 合同
+  - 开发目的：让 pack 装配结果可表达 assembled / blocked / degraded / stub 与原因。
+- B3：冲突与缺失依赖处理
+  - 开发目的：把 connector 缺失、schema 冲突、重复注册转为结构化 blocked/conflicts。
+- B4：external pack paths
+  - 开发目的：支持通过 AppProfile/外部路径加载 pack，并对不兼容版本做阻断。
+- B5：connector descriptor / security
+  - 开发目的：固定 capabilities、health、config/secret/app_scope 与 command/path/network allowlist 安全边界。
+- B6：meeting / knowledge assembly
+  - 开发目的：让 Meeting/Knowledge 回到 pack + registry 标准装配入口，减少硬编码路径依赖。
+- B7：descriptor-driven workflow registration
+  - 开发目的：让 reference pack 的发现和注册不再依赖平台层静态业务枚举。
 
-风险：connector 声明被误当成 policy authority、external pack 版本不兼容、Meeting/Knowledge 仍保留硬编码路径。
+风险：connector 声明被误当成 policy authority、external pack 版本不兼容、Meeting/Knowledge 仍保留硬编码路径、sample pack 仍需要修改平台层静态 factory。
 
-退出门：PackAssemblyResult 可解释 blocked；connector.health 可用；meeting/knowledge connector assembly 不硬编码路径。
+退出门：PackAssemblyResult 可解释 blocked；connector.health 可用；meeting/knowledge connector assembly 不硬编码路径；新增 sample pack 不需要新增平台业务分支。
 
 ### V3.0-PhaseC Job / Artifact / Governance Hardening
 
@@ -405,7 +426,7 @@ V3.0-PhaseA 的详细实施文件与辅助验收基线已独立落盘到：
 
 退出门：job 状态机通过；artifact large file policy 返回统一错误码；RuntimeAdapter 默认注入治理上下文。
 
-### V3.0-PhaseD Meeting Pack End-to-End Migration
+### V3.0-PhaseD Meeting Reference Pack Validation
 
 目标定位：
 
@@ -436,7 +457,7 @@ V3.0-PhaseA 的详细实施文件与辅助验收基线已独立落盘到：
 
 退出门：real audio E2E 产出 transcript、analysis、result、minutes；legacy facade 与 pack workflow artifacts 等价。
 
-### V3.0-PhaseE Knowledge Pack End-to-End Migration
+### V3.0-PhaseE Knowledge Reference Pack Validation
 
 目标定位：
 
@@ -475,11 +496,11 @@ V3.0-PhaseA 的详细实施文件与辅助验收基线已独立落盘到：
 | V3.0-PhaseA-AC03 | V3.0-PhaseA | Legacy 记录回填 | migration/import fixture | legacy records backfill 到 default 或可识别 app | migration 测试 | P0 |
 | V3.0-PhaseA-AC04 | V3.0-PhaseA | RPC scope 参数 | `/v1/rpc` session/turn/artifact/job methods | 请求可传 app/project/workspace scope | RPC 响应 | P0 |
 | V3.0-PhaseA-AC05 | V3.0-PhaseA | Meeting 回归 | meeting real audio e2e | transcript/minutes 不回归 | 真实音频证据 | P0 |
-| V3.0-PhaseB-AC01 | V3.0-PhaseB | PackAssemblyResult | `pack.get` / pack tests | 返回 status、missing_dependencies、conflicts、next_actions | JSON 响应 | P0 |
-| V3.0-PhaseB-AC02 | V3.0-PhaseB | 缺失 connector 阻断 | pack fixture | 缺 connector 返回 blocked，不执行 workflow | blocked 结果 | P0 |
-| V3.0-PhaseB-AC03 | V3.0-PhaseB | Connector 健康检查 | `connector.health` | 通过 registry 运行 health | connector 响应 | P0 |
-| V3.0-PhaseB-AC04 | V3.0-PhaseB | Connector 安全模型 | untrusted stdio fixture | 未 allowlist command/path/network 被 blocked | policy 结果 | P0 |
-| V3.0-PhaseB-AC05 | V3.0-PhaseB | Meeting/Knowledge 装配 | pack assembly tests | connector refs 不硬编码路径 | 测试断言 | P0 |
+| V3.0-PhaseB-AC01 | V3.0-PhaseB | Pack manifest schema | pack registry tests | workflow、skill、connector、policy bundle、artifact kind 可声明并通过 registry 校验 | 测试输出 | P0 |
+| V3.0-PhaseB-AC02 | V3.0-PhaseB | PackAssemblyResult | `pack.get` / pack tests | 返回 assembled/blocked/degraded/stub、missing_dependencies、conflicts、blocked_reason、next_actions | JSON 响应 | P0 |
+| V3.0-PhaseB-AC03 | V3.0-PhaseB | External pack paths | external pack fixture | 外部 pack 可加载；版本不兼容时返回 blocked | fixture 结果 | P0 |
+| V3.0-PhaseB-AC04 | V3.0-PhaseB | Connector Registry | `connector.health` / `connector.get` | 通过 registry 暴露 capabilities、health、config_ref、secret_ref、app_scope | connector 响应 | P0 |
+| V3.0-PhaseB-AC05 | V3.0-PhaseB | Connector 安全模型 | untrusted stdio fixture | 未 allowlist command/path/network 被 blocked；合法 connector 不被误拦截 | policy 结果 | P0 |
 | V3.0-PhaseC-AC01 | V3.0-PhaseC | Job 状态机 | job service tests | queued/running/succeeded/failed/cancelled 可查询 | 测试输出 | P0 |
 | V3.0-PhaseC-AC02 | V3.0-PhaseC | Artifact 大文件策略 | artifact read tests | media/binary/large/external-only 拒绝全文读取 | error code 断言 | P0 |
 | V3.0-PhaseC-AC03 | V3.0-PhaseC | Artifact lineage | artifact.lineage fixture | parent_ids 可查询 | lineage 输出 | P0 |
@@ -501,7 +522,7 @@ V3.0-PhaseA 的详细实施文件与辅助验收基线已独立落盘到：
 
 | 阶段 | 目标 | 主要影响平面 | 前置条件 | 非当前 V3.0 原因 |
 | --- | --- | --- | --- | --- |
-| V3.1 Interview Pack | 面试流程、技能学习、模拟面试、评分报告 | Plane-5/Plane-6，受 Plane-2/Plane-3/Plane-4 支撑 | Meeting/Knowledge 迁移完成；Pack/Connector 稳定 | 需要先验证 Pack 样板 |
+| V3.1 Interview Pack | 面试流程、技能学习、模拟面试、评分报告 | Plane-5/Plane-6，受 Plane-2/Plane-3/Plane-4 支撑 | Meeting/Knowledge reference packs 验证完成；Pack/Connector 稳定 | 需要先验证 Pack 样板 |
 | V3.2 Investment Pack | 投资研究、风险摘要、策略复盘、只读治理默认 | Plane-3/Plane-5/Plane-6 | Governance/Policy model 稳定 | 金融域治理要求更高 |
 | V3.3 Video Studio Integration | 外部视频项目、渲染任务、媒体 artifact lineage | Plane-3/Plane-4/Plane-5/Plane-6 | Job/Artifact 大文件策略稳定 | 大文件和长任务必须先硬化 |
 | V3.x Low-Code Workflow Runtime | 配置式 workflow、节点、边、审批点、局部重跑 | Plane-2/Plane-3/Plane-5 | PackAssemblyResult 和 protocol registry 稳定 | 当前优先级是 Core 稳定 |

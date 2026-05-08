@@ -8,7 +8,7 @@ V3.0 的正式目标架构是：
 
 > Multi-App Harness Core + Pack Assembly + Connector Registry + Governed Runtime Adapter
 
-harnessOS 不再按单一业务应用演进。Meeting、Knowledge、Interview、Investment、Video Studio 都必须通过 AppProfile + Pack + Connector + RuntimeAdapter 复用同一份 Core。
+harnessOS 不再按单一业务应用演进。Meeting、Knowledge、Interview、Investment、Video Studio 都必须通过 AppProfile + Pack + Connector + RuntimeAdapter 复用同一份 Core。Meeting / Knowledge 在 V3.0 中只是 reference packs / validation samples，不代表平台长期内置业务边界。
 
 补充图解说明：
 
@@ -16,7 +16,7 @@ harnessOS 不再按单一业务应用演进。Meeting、Knowledge、Interview、
 
 ## 2. 目标分层
 
-V3.0 仍保留全项目六大平面视野，但当前 active overlay 收敛在 multi-app Core、Pack Assembly、Connector Registry、Job/Artifact/Governance、Meeting/Knowledge 迁移。已经相对完备或只需小修的平面标为 stable，当前重点硬化标为 active，远期能力标为 deferred。
+V3.0 仍保留全项目六大平面视野，但当前 active overlay 收敛在 multi-app Core、Pack Assembly、Connector Registry、Job/Artifact/Governance、Meeting/Knowledge reference pack validation。已经相对完备或只需小修的平面标为 stable，当前重点硬化标为 active，远期能力标为 deferred。
 
 ```text
 Plane-1 Client / Gateway Plane [stable]
@@ -40,7 +40,7 @@ Plane-4 Runtime Adapter Plane [active]
 
 Plane-5 Domain Pack Plane [active]
   Pack Manifest / PackAssemblyResult
-  Meeting Pack / Knowledge Pack current migration samples
+  Meeting Pack / Knowledge Pack current reference samples
   Interview / Investment / Video Studio deferred
 
 Plane-6 Connector / Tool / Store Plane [active]
@@ -62,6 +62,7 @@ Plane-6 Connector / Tool / Store Plane [active]
 - Connector 只提供外部能力边界，不拥有 policy authority。
 - RuntimeAdapter 是唯一执行入口，默认注入 scope、policy、approval、trace、secret hygiene。
 - Job 和 Artifact 是跨 app 复用的 Core 对象，但必须受 ScopeContext 隔离。
+- reference pack 的存在不得要求 Core / Gateway 为其保留长期业务特判。
 
 ## 4. V3.0 当前交付边界
 
@@ -72,8 +73,8 @@ Plane-6 Connector / Tool / Store Plane [active]
 - ConnectorRegistry 与 Connector Security Model。
 - Job Worker MVP。
 - Artifact external asset / metadata-only / large file protection。
-- Meeting Pack E2E migration。
-- Knowledge Pack E2E migration。
+- Meeting reference pack validation。
+- Knowledge reference pack validation。
 
 不包含：
 

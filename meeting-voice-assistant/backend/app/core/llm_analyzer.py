@@ -128,7 +128,7 @@ L4_ENTITY_EXTRACTION_PROMPT = """# 角色与任务
 2. **组织 (ORGANIZATION)**: 公司、团队、部门等，如"腾讯"、"前端组"
 3. **项目 (PROJECT)**: 项目名称或代号，如"Apollo"、"Q3冲刺"
 4. **产品 (PRODUCT)**: 产品名称，如"微信"、"腾讯会议"
-5. **技术 (TECHNOLOGY)**: 技术名词、框架、工具，如"Vue3"、"GraphRAG"
+5. **技术 (TECHNOLOGY)**: 技术名词、框架、工具，如"Vue3"、"向量检索"
 6. **概念 (CONCEPT)**: 抽象概念或术语，如"敏捷开发"、"OKR"
 
 # 置信度定义
@@ -182,7 +182,7 @@ L3_RELATION_EXTRACTION_PROMPT = """# 角色与任务
 请识别以下类型的关系：
 1. **属于 (BELONGS_TO)**: 实体归属于某个组织或类别，如"张三 属于 腾讯"、"产品 属于 前端组"
 2. **参与 (PARTICIPATES_IN)**: 某人参与某个项目或活动，如"李四 参与 Apollo项目"、"王五 参与 Q3冲刺"
-3. **使用 (USES)**: 使用某个技术、产品或工具，如"团队 使用 GraphRAG"、"产品 使用 微服务架构"
+3. **使用 (USES)**: 使用某个技术、产品或工具，如"团队 使用 向量检索"、"产品 使用 微服务架构"
 4. **合作 (COLLABORATES_WITH)**: 两个实体之间合作/对立关系，如"前端组 合作 后端组"、"产品经理 对立 技术负责人"
 5. **依赖 (DEPENDS_ON)**: 依赖关系，如"服务A 依赖 服务B"、"新功能 依赖 旧系统"
 
@@ -333,7 +333,7 @@ L1_TOPIC_CLASSIFICATION_PROMPT = """# 角色与任务
 {transcript_text}
 """
 
-LLM_ANALYSIS_WITH_GRAPHRAG_PROMPT = """# 角色与任务
+LLM_ANALYSIS_WITH_KNOWLEDGE_PROMPT = """# 角色与任务
 你是一个专业的会议/音频内容分析助手。你的任务是根据用户提供的语音转写文本和预先提取的实体关系信息，进行深度分析，并严格按照指定格式输出结果。
 
 # 输入说明
@@ -343,8 +343,8 @@ LLM_ANALYSIS_WITH_GRAPHRAG_PROMPT = """# 角色与任务
    - 时间戳（`[开始时间 - 结束时间]`）
    - 对话内容
 
-2. 预先通过知识图谱提取的实体信息：
-{graphrag_context}
+2. 预先通过知识服务提取的上下文信息：
+{knowledge_context}
 
 你需要基于对话的实际内容进行客观分析，不要添加转写文本中不存在的信息。
 你可以参考实体信息来更好地理解会议内容，但不要编造实体间的关系。
@@ -541,17 +541,17 @@ class LLMAnalyzer:
                 raw_response=""
             )
 
-    async def analyze_text_with_graphrag_context(
+    async def analyze_text_with_knowledge_context(
         self,
         transcript_text: str,
-        graphrag_context: Optional[dict] = None
+        knowledge_context: Optional[dict] = None
     ) -> AnalysisResult:
         """
-        分析转写内容（带 GraphRAG 实体识别上下文）
+        分析转写内容（带外部知识服务上下文）
 
         Args:
             transcript_text: 转写文本
-            graphrag_context: GraphRAG 实体识别结果，包含 entities 和 summary
+            knowledge_context: 知识服务返回的上下文，包含 entities 和 summary
 
         Returns:
             AnalysisResult: 分析结果
@@ -563,14 +563,14 @@ class LLMAnalyzer:
         if not transcript_text:
             transcript_text = "（暂无转写文本）"
 
-        # 如果没有 GraphRAG 上下文，回退到普通分析
-        if not graphrag_context:
-            logger.info("[LLMAnalyzer] No GraphRAG context provided, falling back to standard analysis")
+        # 如果没有知识服务上下文，回退到普通分析
+        if not knowledge_context:
+            logger.info("[LLMAnalyzer] No knowledge context provided, falling back to standard analysis")
             return await self.analyze_text(transcript_text)
 
-        # 构建 GraphRAG 上下文描述
-        entities = graphrag_context.get("entities", [])
-        graphrag_summary = graphrag_context.get("summary", "")
+        # 构建知识服务上下文描述
+        entities = knowledge_context.get("entities", [])
+        knowledge_summary = knowledge_context.get("summary", "")
 
         # 格式化实体信息
         entities_description = ""
@@ -588,10 +588,10 @@ class LLMAnalyzer:
         else:
             entities_description = "（未检测到明显实体）"
 
-        # 如果有 GraphRAG 摘要，添加到上下文中
-        if graphrag_summary:
+        # 如果有知识服务摘要，添加到上下文中
+        if knowledge_summary:
             context_header = f"""会议摘要（来自知识图谱分析）：
-{graphrag_summary}
+{knowledge_summary}
 
 检测到的关键实体：
 {entities_description}"""
@@ -600,8 +600,8 @@ class LLMAnalyzer:
 {entities_description}"""
 
         # 构建 prompt
-        prompt = LLM_ANALYSIS_WITH_GRAPHRAG_PROMPT.format(
-            graphrag_context=context_header,
+        prompt = LLM_ANALYSIS_WITH_KNOWLEDGE_PROMPT.format(
+            knowledge_context=context_header,
             transcript_text=transcript_text
         )
 
@@ -613,12 +613,12 @@ class LLMAnalyzer:
             # 解析结果
             result = self._parse_response(response_text)
 
-            logger.info(f"[LLMAnalyzer] Analysis with GraphRAG context completed in {elapsed:.2f}s: theme={result.theme[:50] if result.theme else 'N/A'}...")
+            logger.info(f"[LLMAnalyzer] Analysis with knowledge context completed in {elapsed:.2f}s: theme={result.theme[:50] if result.theme else 'N/A'}...")
             return result
 
         except Exception as e:
             elapsed = time.time() - start_time
-            logger.error(f"[LLMAnalyzer] Analysis with GraphRAG context failed after {elapsed:.2f}s: {_safe_error_msg(e)}")
+            logger.error(f"[LLMAnalyzer] Analysis with knowledge context failed after {elapsed:.2f}s: {_safe_error_msg(e)}")
             # 返回默认结果
             return AnalysisResult(
                 theme="",

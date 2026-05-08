@@ -9,8 +9,8 @@ FunASR 说话人分离 ASR 适配器
 
 使用方式:
     1. 启动 FunASR 微服务:
-       cd backend/funasr_service
-       python -m uvicorn main:app --host 0.0.0.0 --port 8001
+       cd ~/Desktop/workspace/voice_service
+       PYTHONPATH=. python -m funasr_service.cli serve-http --host 0.0.0.0 --port 8001
 
     2. 设置环境变量:
        export ASR_ENGINE=funasr

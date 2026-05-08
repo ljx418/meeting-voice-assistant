@@ -2,16 +2,22 @@
 
 from __future__ import annotations
 
+import importlib
+import inspect
+import sys
 from dataclasses import dataclass, field
-from typing import Any, Callable, Optional, Protocol
+from pathlib import Path
+from typing import Any, Optional, Protocol
 
 from apps.gateway.artifacts import ArtifactRegistry
+from apps.gateway.connector_execution import ConnectorExecutionRuntime
+from apps.gateway.connectors import ConnectorRegistry
 from core.apps import ScopeContext
+from core.apps.profiles import AppRegistry
 from core.packs import PackAssemblyResult, PackRegistry
 from packs.meeting.workflow import MeetingWorkflow
 
 
-AVAILABLE_WORKFLOW_CONNECTORS = {"meeting_voice_mcp", "local.knowledge", "data_service_mcp", "remote_comfyui"}
 AVAILABLE_CONNECTOR_CAPABILITIES = {
     "data_service_mcp": {
         "tools": {
@@ -52,7 +58,6 @@ AVAILABLE_CONNECTOR_CAPABILITIES = {
 }
 AVAILABLE_POLICY_BUNDLES = {"core.readonly", "meeting.standard", "knowledge.standard", "video.planning"}
 COMPATIBLE_PACK_SCHEMA_VERSIONS = {"1"}
-SUPPORTED_WORKFLOW_IDS = {"meeting.workflow", "knowledge.workflow", "video.workflow"}
 
 
 @dataclass(frozen=True)
@@ -164,6 +169,50 @@ class LeadOrchestrator:
         return result
 
 
+class PackDomainWorkflow:
+    """Adapter that exposes one pack-declared workflow through DomainWorkflow."""
+
+    def __init__(
+        self,
+        *,
+        workflow_id: str,
+        domain: str,
+        workflow: Any,
+        priority: Optional[int] = None,
+    ) -> None:
+        self.workflow_id = workflow_id
+        self.domain = domain
+        self.workflow = workflow
+        self.priority = (
+            int(priority)
+            if isinstance(priority, int)
+            else int(getattr(workflow, "priority", 50))
+        )
+
+    def should_handle(self, user_input: str, context: WorkflowContext) -> bool:
+        method = getattr(self.workflow, "should_handle")
+        parameters = inspect.signature(method).parameters
+        if "context" in parameters:
+            return bool(method(user_input, context))
+        if "domain" in parameters:
+            return bool(method(user_input, domain=context.domain))
+        return bool(method(user_input))
+
+    async def run(self, user_input: str, context: WorkflowContext) -> dict[str, Any]:
+        method = getattr(self.workflow, "run")
+        parameters = inspect.signature(method).parameters
+        if "context" in parameters:
+            return await method(user_input, context)
+        if "domain" in parameters or "session_id" in parameters or "turn_id" in parameters:
+            return await method(
+                user_input,
+                domain=context.domain,
+                session_id=context.session_id,
+                turn_id=context.turn_id,
+            )
+        return await method(user_input)
+
+
 class MeetingDomainWorkflow:
     """Adapter that exposes the Meeting pack workflow through DomainWorkflow."""
 
@@ -190,39 +239,189 @@ def build_default_orchestrator(
     meeting_workflow: MeetingWorkflow,
     *,
     pack_registry: Optional[PackRegistry] = None,
+    connector_registry: Optional[ConnectorRegistry] = None,
+    connector_execution_runtime: Optional[ConnectorExecutionRuntime] = None,
+    app_registry: Optional[AppRegistry] = None,
 ) -> LeadOrchestrator:
     """Build the default gateway workflow orchestrator."""
-    workflow_factories = _default_workflow_factories(meeting_workflow)
     assemblies: list[PackAssemblyResult] = []
     if pack_registry is not None:
+        assembly_inputs = build_pack_assembly_inputs(
+            connector_registry=connector_registry,
+            app_registry=app_registry,
+        )
         assemblies = pack_registry.list_assemblies(
-            supported_workflows=SUPPORTED_WORKFLOW_IDS,
-            available_connectors=AVAILABLE_WORKFLOW_CONNECTORS,
-            available_connector_capabilities=AVAILABLE_CONNECTOR_CAPABILITIES,
+            supported_workflows=_supported_workflow_ids(pack_registry),
+            available_connectors=assembly_inputs["available_connectors"],
+            app_enabled_connectors_by_domain=assembly_inputs["app_enabled_connectors_by_domain"],
+            available_connector_capabilities=assembly_inputs["available_connector_capabilities"],
             available_policy_bundles=AVAILABLE_POLICY_BUNDLES,
             compatible_manifest_schema_versions=COMPATIBLE_PACK_SCHEMA_VERSIONS,
         )
     registry = WorkflowRegistry(pack_registry=pack_registry, assemblies=assemblies)
     if pack_registry is None:
-        for workflow_factory in workflow_factories.values():
-            registry.register(workflow_factory())
+        for workflow in _fallback_workflows(
+            meeting_workflow,
+            connector_execution_runtime=connector_execution_runtime,
+        ):
+            registry.register(workflow)
     else:
-        for assembly in assemblies:
-            if assembly.status != "assembled":
-                continue
-            for workflow_id in assembly.registered_workflows:
-                workflow_factory = workflow_factories.get(workflow_id)
-                if workflow_factory is not None:
-                    registry.register(workflow_factory())
+        for workflow in _load_pack_declared_workflows(
+            pack_registry=pack_registry,
+            assemblies=assemblies,
+            meeting_workflow=meeting_workflow,
+            connector_execution_runtime=connector_execution_runtime,
+        ):
+            registry.register(workflow)
     return LeadOrchestrator(registry)
 
 
-def _default_workflow_factories(meeting_workflow: MeetingWorkflow) -> dict[str, Callable[[], DomainWorkflow]]:
+def build_pack_assembly_inputs(
+    *,
+    connector_registry: Optional[ConnectorRegistry] = None,
+    app_registry: Optional[AppRegistry] = None,
+) -> dict[str, Any]:
+    """Build runtime assembly inputs from app and connector registries."""
+    available_connectors: set[str] = set()
+    available_connector_capabilities = dict(AVAILABLE_CONNECTOR_CAPABILITIES)
+    app_enabled_connectors_by_domain: dict[str, set[str]] = {}
+
+    if app_registry is not None:
+        for profile in app_registry.list_profiles():
+            profile_connectors: set[str] = set()
+            for connector_ref in profile.get("connector_refs", []):
+                if isinstance(connector_ref, str) and connector_ref.strip():
+                    profile_connectors.add(connector_ref)
+            domain = profile.get("domain")
+            if isinstance(domain, str) and domain.strip():
+                app_enabled_connectors_by_domain.setdefault(domain, set()).update(profile_connectors)
+
+    if connector_registry is not None:
+        for connector in connector_registry.list_connectors():
+            connector_id = connector.get("connector_id")
+            if isinstance(connector_id, str) and connector_id.strip():
+                available_connectors.add(connector_id)
+                capabilities = connector.get("capabilities")
+                if isinstance(capabilities, dict):
+                    available_connector_capabilities[connector_id] = {
+                        key: set(value) if isinstance(value, list) else value
+                        for key, value in capabilities.items()
+                    }
+
+    return {
+        "available_connectors": available_connectors,
+        "app_enabled_connectors_by_domain": app_enabled_connectors_by_domain,
+        "available_connector_capabilities": available_connector_capabilities,
+    }
+
+
+def _fallback_workflows(
+    meeting_workflow: MeetingWorkflow,
+    *,
+    connector_execution_runtime: Optional[ConnectorExecutionRuntime] = None,
+) -> list[DomainWorkflow]:
     from packs.knowledge.workflow import KnowledgeWorkflow
     from packs.video_studio.workflow import VideoStudioWorkflow
 
-    return {
-        "meeting.workflow": lambda: MeetingDomainWorkflow(meeting_workflow),
-        "knowledge.workflow": KnowledgeWorkflow,
-        "video.workflow": VideoStudioWorkflow,
-    }
+    return [
+        MeetingDomainWorkflow(meeting_workflow),
+        KnowledgeWorkflow(
+            connector_execution_runtime=connector_execution_runtime,
+        ),
+        VideoStudioWorkflow(),
+    ]
+
+
+def _load_pack_declared_workflows(
+    *,
+    pack_registry: PackRegistry,
+    assemblies: list[PackAssemblyResult],
+    meeting_workflow: MeetingWorkflow,
+    connector_execution_runtime: Optional[ConnectorExecutionRuntime] = None,
+) -> list[DomainWorkflow]:
+    workflows: list[DomainWorkflow] = []
+    for assembly in assemblies:
+        if assembly.status != "assembled":
+            continue
+        manifest = pack_registry.get_pack(assembly.pack_name)
+        if manifest is None:
+            continue
+        for workflow_id in assembly.registered_workflows:
+            entrypoint = _workflow_entrypoint(manifest, workflow_id)
+            if entrypoint is None:
+                continue
+            workflow = _instantiate_pack_workflow(
+                entrypoint=entrypoint,
+                manifest_path=manifest.manifest_path,
+                meeting_workflow=meeting_workflow,
+                connector_execution_runtime=connector_execution_runtime,
+            )
+            priority = 100 if workflow is meeting_workflow else None
+            workflows.append(
+                PackDomainWorkflow(
+                    workflow_id=workflow_id,
+                    domain=manifest.domain,
+                    workflow=workflow,
+                    priority=priority,
+                )
+            )
+    return workflows
+
+
+def _workflow_entrypoint(manifest: Any, workflow_id: str) -> Optional[str]:
+    workflow_dsl = getattr(manifest, "workflow_dsl", {})
+    if not isinstance(workflow_dsl, dict):
+        return None
+    config = workflow_dsl.get(workflow_id)
+    if not isinstance(config, dict):
+        return None
+    entrypoint = config.get("entrypoint")
+    if not isinstance(entrypoint, str) or not entrypoint.strip():
+        return None
+    return entrypoint
+
+
+def _instantiate_pack_workflow(
+    *,
+    entrypoint: str,
+    manifest_path: Optional[str],
+    meeting_workflow: MeetingWorkflow,
+    connector_execution_runtime: Optional[ConnectorExecutionRuntime] = None,
+) -> Any:
+    module_name, _, symbol_name = entrypoint.partition(":")
+    if not module_name or not symbol_name:
+        raise ValueError(f"Invalid workflow entrypoint: {entrypoint}")
+    _ensure_manifest_import_root(manifest_path)
+    module = importlib.import_module(module_name)
+    symbol = getattr(module, symbol_name)
+
+    if inspect.isclass(symbol) and isinstance(meeting_workflow, symbol):
+        return meeting_workflow
+
+    if not inspect.isclass(symbol):
+        raise TypeError(f"Workflow entrypoint must resolve to a class: {entrypoint}")
+
+    parameters = inspect.signature(symbol).parameters
+    kwargs: dict[str, Any] = {}
+    if "connector_execution_runtime" in parameters:
+        kwargs["connector_execution_runtime"] = connector_execution_runtime
+    return symbol(**kwargs)
+
+
+def _ensure_manifest_import_root(manifest_path: Optional[str]) -> None:
+    if not isinstance(manifest_path, str) or not manifest_path.strip():
+        return
+    path = Path(manifest_path).expanduser().resolve()
+    import_root = path.parent.parent
+    import_root_str = str(import_root)
+    if import_root_str not in sys.path:
+        sys.path.insert(0, import_root_str)
+
+
+def _supported_workflow_ids(pack_registry: PackRegistry) -> set[str]:
+    supported: set[str] = set()
+    for pack in pack_registry.list_packs():
+        for workflow_id in pack.get("workflows", []):
+            if isinstance(workflow_id, str) and workflow_id.strip():
+                supported.add(workflow_id)
+    return supported

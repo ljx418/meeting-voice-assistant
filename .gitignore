@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+.venv/
+venv/
+venv312/
+env/
+
+*.log
+*.pid
+
+voice_service/env-dist/voice-service-venv-*.tar.gz

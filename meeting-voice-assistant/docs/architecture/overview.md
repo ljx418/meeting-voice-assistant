@@ -53,20 +53,16 @@
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## 知识双引擎架构
+## 外部知识服务边界
 
-项目当前除了实时会议语音链路，还增加了一条知识侧双引擎架构：
+会议应用不再内置知识双引擎。知识固化、GraphRAG、LLMWiki、Source Trace、质量治理和跨应用检索由独立 Local Knowledge Governance Service 提供，当前位于 `~/Desktop/workspace/data_service`。
 
-- `backend/data_service`
-- `backend/app/llmwiki`
-- `backend/app/graphrag`
-- `/api/v1/knowledge/*`
-- `/knowledge`
+本仓库只保留：
 
-对应文档入口：
+- `/api/v1/knowledge/*`：面向前端控制台的 HTTP 代理
+- `/knowledge`：Knowledge Service Console，用于查看外部知识服务状态
 
-- [Data Service 当前架构状态](../data_service/CURRENT-STATUS.md)
-- [Data Service 当前与目标差距分析](../data_service/current-vs-target-gap.md)
+会议后端不 import `data_service` 内部模块，也不直接读写其 workspace 文件结构。
 
 ## 核心设计原则
 

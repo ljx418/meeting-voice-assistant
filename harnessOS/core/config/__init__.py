@@ -105,7 +105,7 @@ class FunASRMcpConfig(BaseSettings):
     """FunASR MCP integration configuration."""
 
     cwd: str = Field(
-        default="/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend",
+        default="/Users/Zhuanz/Desktop/workspace/voice_service",
         description="Working directory for the FunASR MCP server",
     )
     command: str = Field(

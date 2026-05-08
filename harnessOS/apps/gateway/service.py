@@ -18,11 +18,10 @@ from apps.gateway.rpc_router import RpcRouter
 from apps.gateway.runtime import GatewayRuntimePool
 from apps.gateway.traces import TraceStore
 from apps.gateway.workflows import (
-    AVAILABLE_CONNECTOR_CAPABILITIES,
     AVAILABLE_POLICY_BUNDLES,
-    AVAILABLE_WORKFLOW_CONNECTORS,
     COMPATIBLE_PACK_SCHEMA_VERSIONS,
-    SUPPORTED_WORKFLOW_IDS,
+    build_pack_assembly_inputs,
+    _supported_workflow_ids,
 )
 from core.apps import AppRegistry, build_default_app_registry, resolve_scope_context
 from core.packs import build_pack_execution_plan, execute_pack_stub
@@ -43,6 +42,7 @@ class GatewayService:
         retry_store: Optional[RetryStore] = None,
         app_registry: Optional[AppRegistry] = None,
     ) -> None:
+        resolved_app_registry = app_registry or getattr(runtime_pool, "app_registry", None) or build_default_app_registry()
         self.trace_store = trace_store or getattr(runtime_pool, "trace_store", None) or TraceStore()
         self.approval_store = approval_store or getattr(runtime_pool, "approval_store", None) or ApprovalStore()
         self.policy_evaluator = policy_evaluator or getattr(runtime_pool, "policy_evaluator", None) or PolicyEvaluator()
@@ -53,6 +53,7 @@ class GatewayService:
             approval_store=self.approval_store,
             policy_evaluator=self.policy_evaluator,
             retry_store=self.retry_store,
+            app_registry=resolved_app_registry,
         )
         self.artifact_registry = artifact_registry or self.runtime_pool.artifact_registry
         self.trace_store = trace_store or self.runtime_pool.trace_store
@@ -61,7 +62,7 @@ class GatewayService:
         self.retry_store = retry_store or self.runtime_pool.retry_store
         self.core_store = self.runtime_pool.core_store
         self.core_service = self.runtime_pool.core_service
-        self.app_registry = app_registry or build_default_app_registry()
+        self.app_registry = resolved_app_registry
         self.meeting_service = meeting_service or MeetingGatewayService()
         self.connector_registry = (
             ConnectorRegistry(core_service=self.core_service, meeting_config=self.meeting_service.config)
@@ -934,12 +935,17 @@ class GatewayService:
     async def pack_list(self, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """List registered Domain Packs."""
         params = params or {}
+        assembly_inputs = build_pack_assembly_inputs(
+            connector_registry=self.connector_registry,
+            app_registry=self.app_registry,
+        )
         packs = self.runtime_pool.pack_registry.list_packs_with_assembly(
             domain=_optional_str(params, "domain"),
             status=_optional_str(params, "status"),
-            supported_workflows=SUPPORTED_WORKFLOW_IDS,
-            available_connectors=AVAILABLE_WORKFLOW_CONNECTORS,
-            available_connector_capabilities=AVAILABLE_CONNECTOR_CAPABILITIES,
+            supported_workflows=_supported_workflow_ids(self.runtime_pool.pack_registry),
+            available_connectors=assembly_inputs["available_connectors"],
+            app_enabled_connectors_by_domain=assembly_inputs["app_enabled_connectors_by_domain"],
+            available_connector_capabilities=assembly_inputs["available_connector_capabilities"],
             available_policy_bundles=AVAILABLE_POLICY_BUNDLES,
             compatible_manifest_schema_versions=COMPATIBLE_PACK_SCHEMA_VERSIONS,
         )
@@ -954,11 +960,16 @@ class GatewayService:
         pack = self.runtime_pool.pack_registry.get_pack(name or domain or "")
         if pack is None:
             raise LookupError(f"Pack not found: {name or domain}")
+        assembly_inputs = build_pack_assembly_inputs(
+            connector_registry=self.connector_registry,
+            app_registry=self.app_registry,
+        )
         assembly = self.runtime_pool.pack_registry.evaluate_assembly(
             pack.name,
-            supported_workflows=SUPPORTED_WORKFLOW_IDS,
-            available_connectors=AVAILABLE_WORKFLOW_CONNECTORS,
-            available_connector_capabilities=AVAILABLE_CONNECTOR_CAPABILITIES,
+            supported_workflows=_supported_workflow_ids(self.runtime_pool.pack_registry),
+            available_connectors=assembly_inputs["available_connectors"],
+            app_enabled_connectors_by_domain=assembly_inputs["app_enabled_connectors_by_domain"],
+            available_connector_capabilities=assembly_inputs["available_connector_capabilities"],
             available_policy_bundles=AVAILABLE_POLICY_BUNDLES,
             compatible_manifest_schema_versions=COMPATIBLE_PACK_SCHEMA_VERSIONS,
         )

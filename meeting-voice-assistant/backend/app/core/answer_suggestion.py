@@ -1,7 +1,7 @@
 """
 面试答案提示服务
 
-基于问题库和知识库（GraphRAG/LLMWiki）生成候选答案，
+基于问题库和外部知识服务上下文生成候选答案，
 并使用 LLM 优化答案建议。
 """
 
@@ -10,8 +10,6 @@ import json
 import logging
 import time
 from typing import Optional, List, Dict, Any
-
-import aiohttp
 
 from app.core.question_bank import question_bank, InterviewQuestion
 from app.core.llm_analyzer import LLMAnalyzer
@@ -88,8 +86,6 @@ class AnswerSuggestionService:
             llm_analyzer: 可选的 LLM 分析器，如果未提供则使用默认配置创建
         """
         self._llm = llm_analyzer or self._create_default_llm()
-        self._graphrag_url = config.graphrag.service_url
-        self._graphrag_timeout = config.timeout.graphrag_timeout
 
     def _create_default_llm(self) -> LLMAnalyzer:
         """创建默认的 LLM 分析器"""
@@ -114,7 +110,7 @@ class AnswerSuggestionService:
             question: 面试问题文本
             category: 问题分类（可选）
             tags: 相关技能标签（可选）
-            use_knowledge_base: 是否使用知识库（GraphRAG）获取上下文
+            use_knowledge_base: 是否使用外部知识服务获取上下文
 
         Returns:
             包含答案建议的字典
@@ -226,7 +222,7 @@ class AnswerSuggestionService:
         tags: Optional[List[str]] = None
     ) -> str:
         """
-        从 GraphRAG 知识库获取相关上下文
+        从外部知识服务获取相关上下文
 
         Args:
             question: 问题文本
@@ -235,42 +231,10 @@ class AnswerSuggestionService:
         Returns:
             上下文信息字符串，如果没有获取到则返回空字符串
         """
-        try:
-            async with aiohttp.ClientSession() as session:
-                # 构建查询文本
-                query_text = question
-                if tags:
-                    query_text += " " + " ".join(tags)
-
-                payload = {
-                    "query": query_text,
-                    "session_id": "interview_assistant",
-                    "top_k": 5
-                }
-
-                async with session.post(
-                    f"{self._graphrag_url}/api/v1/query/",
-                    json=payload,
-                    timeout=aiohttp.ClientTimeout(total=self._graphrag_timeout)
-                ) as response:
-                    if response.status == 200:
-                        result = await response.json()
-                        # 提取答案和实体信息
-                        context_parts = []
-
-                        if result.get("answer"):
-                            context_parts.append(f"知识库回答: {result['answer']}")
-
-                        entities = result.get("entities", [])
-                        if entities:
-                            entity_names = [e.get("name", "") for e in entities[:10]]
-                            context_parts.append(f"相关概念: {', '.join(entity_names)}")
-
-                        return "\n\n".join(context_parts) if context_parts else ""
-
-        except Exception as e:
-            logger.warning(f"[AnswerSuggestion] Failed to fetch knowledge context: {e}")
-
+        logger.debug(
+            "[AnswerSuggestion] External knowledge context is not fetched by meeting backend; "
+            "call data_service through MCP/CLI/HTTP from the owning application."
+        )
         return ""
 
     def _build_prompt(

@@ -69,7 +69,7 @@ async def get_answer_suggestion(request: AnswerSuggestionRequest) -> AnswerSugge
     - **question**: 面试问题文本
     - **category**: 问题分类（可选）
     - **tags**: 相关技能标签列表（可选）
-    - **use_knowledge_base**: 是否使用 GraphRAG 知识库获取上下文
+    - **use_knowledge_base**: 是否使用外部知识服务获取上下文
 
     返回结构化的答案建议，包含要点、参考答案、加分点和避坑指南。
     """
