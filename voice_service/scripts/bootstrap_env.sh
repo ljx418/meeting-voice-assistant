@@ -16,7 +16,9 @@ if [ ! -x "${VENV_DIR}/bin/python" ]; then
   "${PYTHON_BIN}" -m venv "${VENV_DIR}"
 fi
 
-"${VENV_DIR}/bin/python" -m pip install --upgrade pip
+if [ "${BOOTSTRAP_UPGRADE_PIP:-false}" = "true" ]; then
+  "${VENV_DIR}/bin/python" -m pip install --upgrade pip
+fi
 
 # Install the service/runtime stack first.
 "${VENV_DIR}/bin/python" -m pip install \

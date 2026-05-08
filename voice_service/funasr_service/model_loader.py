@@ -40,6 +40,7 @@ def load_model():
             punc_model=PUNC_MODEL,
             spk_model=SPEAKER_MODEL,
             device=MODEL_DEVICE,
+            disable_update=True,
         )
         logger.info("[FunASR Model] Model loaded successfully")
         return model

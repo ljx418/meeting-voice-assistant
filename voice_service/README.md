@@ -11,7 +11,7 @@ Current policy:
 - Primary baseline: `.venv`
 - Bootstrap command: `./scripts/bootstrap_env.sh`
 - Distribution artifacts: `env-dist/`
-- Historical fallback: `/usr/bin/python3` on this machine
+- Offline models: `models/`
 
 The fallback interpreter is only for temporary local recovery. Team members should
 restore the packaged `.venv` baseline once it is finalized.
@@ -31,14 +31,27 @@ PYTHONPATH=. .venv/bin/python -m funasr_service.cli serve-mcp
 
 ## Recovery
 
-Once the baseline package is produced, restore from `env-dist/` instead of
-rebuilding the environment from scratch.
+Restore Python dependencies from `env-dist/` and FunASR model weights from
+`models/`. Both directories are tracked by Git LFS.
 
 Current packaged artifacts:
 
 - `env-dist/requirements-lock.txt`
-- `env-dist/voice-service-venv-py312-20260507.tar.gz`
 - `env-dist/wheels/`
+- `models/paraformer-zh`
+- `models/fsmn-vad`
+- `models/cam++`
+- `models/ct-punc`
+
+After cloning, run:
+
+```bash
+git lfs pull
+./scripts/bootstrap_env.sh
+```
+
+The default model configuration points at `models/`, so first recognition does
+not need to download model weights from ModelScope.
 
 Expected verification:
 

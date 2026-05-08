@@ -10,5 +10,8 @@ env/
 
 *.log
 *.pid
+node_modules/
+runtime/
+.npm-cache/
 
 voice_service/env-dist/voice-service-venv-*.tar.gz
