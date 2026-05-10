@@ -1,0 +1,6 @@
+{
+  "policy_id": "meeting.default",
+  "domain": "meeting",
+  "requires_approval_for": ["external_call"],
+  "artifact_kinds": ["transcript", "analysis", "result", "minutes"]
+}

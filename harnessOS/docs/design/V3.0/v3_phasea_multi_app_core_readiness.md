@@ -38,7 +38,8 @@ V3.0-PhaseA 的目标不是新增业务能力，而是把 multi-app 隔离从“
 ```
 
 - 2026-05-06 本地验证结果：`145 passed, 1 skipped, 2 deselected`。
-- 当前显式真实音频验收仍依赖相邻 `meeting-voice-assistant` 项目的 Meeting MCP / FunASR 服务，不属于默认 stub/contract 回归；在满足 `.venv + backend/venv312 + 本地服务启动` 的环境基线后，2026-05-06 本地显式验收结果为 `2 passed`。
+- 2026-05-06 显式真实音频验收历史基线依赖相邻 `meeting-voice-assistant` 项目的 Meeting MCP / FunASR 服务，不属于默认 stub/contract 回归；当时在满足 `.venv + backend/venv312 + 本地服务启动` 的环境基线后，本地显式验收结果为 `2 passed`。
+- 2026-05-08 之后，当前真实音频平台验收以前置 `voice_service` FunASR HTTP + MCP stdio 为准；Meeting MCP 分析服务不可用时，HarnessOS 使用本地 fallback 保持 lineage 验收不被外部开发中项目阻塞。
 
 ## 3. 影响范围
 
@@ -278,7 +279,7 @@ V3.0-PhaseA 的目标不是新增业务能力，而是把 multi-app 隔离从“
 实现重点：
 
 - 当前仓库事实已表明：默认回归与真实音频验收是两条不同基线，必须显式拆开。
-- `meeting.process_recording` 与 `turn.start` 会议路径在真实依赖失败时的错误语义仍未完全统一；这是 PhaseD 继续收口的问题，不能在 PhaseA 文档中假装已经解决。
+- 2026-05-08 PhaseD 已将 `meeting.process_recording` 降级为 runtime-backed compatibility facade；该路径现在复用 `meeting.workflow` 的 job/trace/turn/artifact 绑定。PhaseA 冻结合同本身不因该后续修复而改变。
 
 建议检查点：
 
@@ -316,8 +317,8 @@ PhaseA 实施落盘后，以下文档必须与本文保持引用关系一致：
 - `docs/design/V3.0/00_README.md`
 - `docs/design/V3.0/v3_development_plan_multi_app_core.md`
 - `docs/design/V3.0/v3_phasea_multi_app_core_readiness_acceptance.md`
-- `docs/architecture/current-vs-target-gap_v3.md`
-- `docs/test-acceptance-plan_v3.md`
+- `docs/design/V3.0/current-vs-target-gap_v3.md`
+- `docs/design/V3.0/test-acceptance-plan_v3.md`
 
 ## 9. 当前默认验证基线
 

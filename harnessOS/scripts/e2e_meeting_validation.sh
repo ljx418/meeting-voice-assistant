@@ -11,7 +11,10 @@ fi
 
 export HARNESS_FUNASR_MCP_EXECUTION="${HARNESS_FUNASR_MCP_EXECUTION:-stdio}"
 export HARNESS_FUNASR_MCP_ENDPOINT="${HARNESS_FUNASR_MCP_ENDPOINT:-http://127.0.0.1:8001}"
-export HARNESS_FUNASR_MCP_AUDIO_ROOTS="${HARNESS_FUNASR_MCP_AUDIO_ROOTS:-/Users/Zhuanz/Desktop/workspace/音频资料:/tmp}"
+if [[ -n "${HARNESS_MEETING_E2E_AUDIO_DIR:-}" && -z "${HARNESS_MEETING_MCP_AUDIO_DIR:-}" ]]; then
+  export HARNESS_MEETING_MCP_AUDIO_DIR="$HARNESS_MEETING_E2E_AUDIO_DIR"
+fi
+export HARNESS_FUNASR_MCP_AUDIO_ROOTS="${HARNESS_FUNASR_MCP_AUDIO_ROOTS:-${HARNESS_MEETING_E2E_AUDIO_DIR:-/Users/Zhuanz/Desktop/workspace/音频资料}:/tmp}"
 export HARNESS_MEETING_ANALYSIS_TIMEOUT="${HARNESS_MEETING_ANALYSIS_TIMEOUT:-10}"
 
 "$PYTHON_BIN" - "$@" <<'PY'
@@ -20,6 +23,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -40,7 +44,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "audio",
         nargs="?",
-        help="Audio file to analyze. Defaults to fixtures/audio_samples/sample_ted_talk.mp3, then HARNESS_MEETING_MCP_AUDIO_DIR.",
+        help="Audio file to analyze. Defaults to fixtures/audio_samples/sample_ted_talk.mp3, then HARNESS_MEETING_E2E_AUDIO_DIR/HARNESS_MEETING_MCP_AUDIO_DIR.",
     )
     parser.add_argument("--engine", default=None, help="Meeting ASR engine hint.")
     parser.add_argument("--language", default=None, help="Meeting language hint.")
@@ -58,8 +62,12 @@ def _find_audio(explicit: str | None) -> Path:
     if fixture.exists():
         return fixture
 
-    config = get_meeting_mcp_config()
-    audio_dir = Path(config.audio_dir).expanduser().resolve()
+    configured_audio_dir = (
+        os.environ.get("HARNESS_MEETING_E2E_AUDIO_DIR")
+        or os.environ.get("HARNESS_MEETING_MCP_AUDIO_DIR")
+        or get_meeting_mcp_config().audio_dir
+    )
+    audio_dir = Path(configured_audio_dir).expanduser().resolve()
     if audio_dir.exists():
         files = sorted(
             path for path in audio_dir.iterdir()
@@ -73,7 +81,7 @@ def _find_audio(explicit: str | None) -> Path:
 
     raise SystemExit(
         "No acceptance audio found. Provide a file path, add "
-        "fixtures/audio_samples/sample_ted_talk.mp3, or set HARNESS_MEETING_MCP_AUDIO_DIR."
+        "fixtures/audio_samples/sample_ted_talk.mp3, or set HARNESS_MEETING_E2E_AUDIO_DIR."
     )
 
 
@@ -114,6 +122,14 @@ def _assert_meeting_lineage(lineage: dict) -> dict[str, dict]:
     return by_kind
 
 
+def _fallback_reason_from_artifacts(by_kind: dict[str, dict]) -> str | None:
+    for item in by_kind.values():
+        metadata = item.get("metadata") if isinstance(item, dict) else None
+        if isinstance(metadata, dict) and metadata.get("fallback_reason"):
+            return str(metadata["fallback_reason"])
+    return None
+
+
 async def _rpc(service: GatewayService, request: RpcRequest) -> dict:
     response = await service.handle_rpc(request)
     if response.error is not None:
@@ -127,6 +143,7 @@ async def _run() -> int:
     config = get_meeting_mcp_config()
     engine = args.engine or config.default_engine
     language = args.language or config.default_language
+    strict = os.environ.get("HARNESS_MEETING_E2E_STRICT", "").strip().lower() in {"1", "true", "yes", "on", "strict"}
 
     service = GatewayService()
     await service.initialize({})
@@ -185,6 +202,9 @@ async def _run() -> int:
             ),
         )
         artifacts_by_kind = _assert_meeting_lineage(lineage)
+        fallback_reason = _fallback_reason_from_artifacts(artifacts_by_kind)
+        if strict and fallback_reason:
+            raise AssertionError(f"Strict mode forbids meeting fallback: {fallback_reason}")
         jobs = await _rpc(
             service,
             RpcRequest(
@@ -203,6 +223,8 @@ async def _run() -> int:
         "session_id": session_id,
         "turn_id": turn.get("turn_id"),
         "job_ids": [job.get("job_id") for job in jobs.get("jobs", [])],
+        "strict": strict,
+        "resilience_fallback_reason": fallback_reason,
         "artifacts": {
             kind: artifacts_by_kind[kind]["artifact_id"]
             for kind in EXPECTED_KINDS

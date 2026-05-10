@@ -42,13 +42,13 @@ def test_pack_execution_stub_produces_artifact_requests_with_parent_kinds():
 
     assert result.status == "stubbed"
     assert [request["kind"] for request in result.artifact_requests] == [
-        "source",
-        "summary",
-        "quality_report",
-        "correction_plan",
+        "source_reference",
+        "note",
+        "brief",
+        "citation_bundle",
     ]
-    assert result.artifact_requests[1]["parent_kinds"] == ["source"]
-    assert result.artifact_requests[-1]["parent_kinds"] == ["quality_report"]
+    assert result.artifact_requests[1]["parent_kinds"] == ["source_reference"]
+    assert result.artifact_requests[-1]["parent_kinds"] == ["brief"]
     assert result.node_results[0]["execution_deferred"] is True
 
 

@@ -26,6 +26,7 @@ from apps.gateway.workflows import (
 from core.apps import AppRegistry, build_default_app_registry, resolve_scope_context
 from core.packs import build_pack_execution_plan, execute_pack_stub
 from packs.meeting.connector import MeetingGatewayService
+from packs.meeting.workflow import MeetingWorkflow
 
 
 class GatewayService:
@@ -43,12 +44,20 @@ class GatewayService:
         app_registry: Optional[AppRegistry] = None,
     ) -> None:
         resolved_app_registry = app_registry or getattr(runtime_pool, "app_registry", None) or build_default_app_registry()
+        resolved_meeting_service = meeting_service or MeetingGatewayService()
         self.trace_store = trace_store or getattr(runtime_pool, "trace_store", None) or TraceStore()
         self.approval_store = approval_store or getattr(runtime_pool, "approval_store", None) or ApprovalStore()
         self.policy_evaluator = policy_evaluator or getattr(runtime_pool, "policy_evaluator", None) or PolicyEvaluator()
         self.retry_store = retry_store or getattr(runtime_pool, "retry_store", None) or RetryStore()
+        meeting_workflow = None
+        if runtime_pool is None and meeting_service is not None:
+            meeting_workflow = MeetingWorkflow(
+                service=resolved_meeting_service,
+                artifact_registry=artifact_registry,
+            )
         self.runtime_pool = runtime_pool or GatewayRuntimePool(
             artifact_registry=artifact_registry,
+            meeting_workflow=meeting_workflow,
             trace_store=self.trace_store,
             approval_store=self.approval_store,
             policy_evaluator=self.policy_evaluator,
@@ -63,7 +72,7 @@ class GatewayService:
         self.core_store = self.runtime_pool.core_store
         self.core_service = self.runtime_pool.core_service
         self.app_registry = resolved_app_registry
-        self.meeting_service = meeting_service or MeetingGatewayService()
+        self.meeting_service = resolved_meeting_service
         self.connector_registry = (
             ConnectorRegistry(core_service=self.core_service, meeting_config=self.meeting_service.config)
             if meeting_service is not None
@@ -618,21 +627,60 @@ class GatewayService:
         return await self.meeting_service.analyze_text(text, title=title)
 
     async def meeting_process_recording(self, params: Dict[str, Any]) -> Dict[str, Any]:
-        """Process one real meeting recording through the Meeting MCP workflow."""
+        """Compatibility facade for processing one real meeting recording."""
         path = _require_str(params, "path")
         engine = params.get("engine")
         language = params.get("language")
         title = params.get("title")
+        session_id = _optional_str(params, "session_id")
+        turn_id = _optional_str(params, "turn_id")
         for key, value in {"engine": engine, "language": language, "title": title}.items():
             if value is not None and not isinstance(value, str):
                 raise ValueError(f"{key} must be a string when provided")
-        self.connector_registry.require_available(MEETING_VOICE_MCP_CONNECTOR_ID)
-        return await self.meeting_service.process_recording(
-            path,
-            engine=engine,
-            language=language,
-            title=title,
+        scope = self._resolve_request_scope(params, app_id="meeting")
+        warning = _meeting_legacy_deprecation_warning()
+        trace_record = self.trace_store.record_event(
+            GatewayEvent(
+                type=warning["trace_event"],
+                session_id=session_id,
+                turn_id=turn_id,
+                app_id=scope.app_id,
+                project_id=scope.project_id,
+                workspace_id=scope.workspace_id,
+                data=warning,
+            )
         )
+        self.core_service.record_gateway_trace(trace_record)
+        session = await self._ensure_legacy_meeting_session(session_id=session_id, scope=scope)
+        turn = await self.runtime_pool.run_turn(
+            session_id=session.session_id,
+            user_input=f"请分析 {path}",
+            domain="meeting",
+            scope=scope,
+        )
+        turn_payload = turn.model_dump(mode="json")
+        final_event = (turn_payload.get("events") or [{}])[-1]
+        final_data = final_event.get("data") if isinstance(final_event, dict) else {}
+        if final_event.get("type") == "turn.failed":
+            raise RuntimeError(str(final_data.get("message") or "meeting workflow failed"))
+        meeting = dict(final_data.get("meeting") or {})
+        meeting["legacy_facade"] = True
+        meeting["deprecation_warning"] = warning
+        meeting["workflow_id"] = "meeting.workflow"
+        meeting["gateway_session_id"] = session.session_id
+        meeting["turn_id"] = turn.turn_id
+        meeting["trace_id"] = turn_payload.get("trace_id")
+        if isinstance(final_data.get("job"), dict):
+            meeting["job"] = final_data["job"]
+        if isinstance(final_data.get("job_id"), str):
+            meeting["job_id"] = final_data["job_id"]
+        if engine is not None:
+            meeting["engine"] = engine
+        if language is not None:
+            meeting["language"] = language
+        if title is not None:
+            meeting["title"] = title
+        return meeting
 
     async def meeting_process_audio_dir(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Process all supported recordings under the configured audio acceptance directory."""
@@ -1408,6 +1456,30 @@ class GatewayService:
         if not self._record_matches_scope(record, scope):
             raise ValueError(f"{label} does not belong to the requested scope")
 
+    async def _ensure_legacy_meeting_session(self, *, session_id: Optional[str], scope):
+        if session_id is not None:
+            try:
+                session = self.runtime_pool.get_session(session_id)
+                self._ensure_session_in_scope(
+                    {
+                        "app_id": session.app_id,
+                        "project_id": session.project_id,
+                        "workspace_id": session.workspace_id,
+                    },
+                    scope,
+                    {},
+                )
+                return session
+            except KeyError:
+                try:
+                    snapshot = self.runtime_pool.read_session(session_id)
+                except KeyError:
+                    pass
+                else:
+                    self._ensure_session_in_scope(snapshot, scope, {})
+                    return await self.runtime_pool.resume_session(str(snapshot["session_id"]))
+        return await self.runtime_pool.start_session(session_id=session_id, scope=scope)
+
 
 def event_to_json(event: GatewayEvent) -> str:
     """Serialize a gateway event as one JSON line."""
@@ -1487,6 +1559,16 @@ def _trace_id_from_events(events: Any) -> Optional[str]:
         if isinstance(data, dict) and isinstance(data.get("trace_id"), str):
             return data["trace_id"]
     return None
+
+
+def _meeting_legacy_deprecation_warning() -> Dict[str, str]:
+    return {
+        "legacy_method": "meeting.process_recording",
+        "replacement": "turn.start / meeting.workflow",
+        "sunset_stage": "stage_1_compat_facade",
+        "message": "meeting.process_recording is deprecated; use the Meeting Pack workflow.",
+        "trace_event": "legacy_facade.deprecation_warning",
+    }
 
 
 def _dump_core_record(record: Any) -> Dict[str, Any]:

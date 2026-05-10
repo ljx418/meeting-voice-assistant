@@ -12,19 +12,21 @@
       "steps": [
         {"id": "transcribe", "kind": "connector", "uses": "funasr_mcp", "outputs": ["transcript"]},
         {"id": "analyze", "kind": "connector", "uses": "meeting_voice_mcp", "inputs": ["transcript"], "outputs": ["analysis", "result"]},
-        {"id": "minutes", "kind": "skill", "uses": "meeting.minutes", "inputs": ["analysis", "result"], "outputs": ["minutes"]}
+        {"id": "minutes", "kind": "skill", "uses": "meeting-minutes", "inputs": ["analysis", "result"], "outputs": ["minutes"]}
       ]
     }
   },
   "subagents": [],
-  "skills": ["meeting.transcribe", "meeting.minutes"],
-  "policy_bundles": ["meeting.standard"],
+  "skills": ["meeting-minutes", "action-items"],
+  "policy_bundles": ["meeting.default"],
   "connectors": ["meeting_voice_mcp", "funasr_mcp"],
   "connector_capabilities": {
     "funasr_mcp": {
+      "capabilities": ["audio.transcribe"],
       "tools": ["funasr_recognize_file"]
     },
     "meeting_voice_mcp": {
+      "capabilities": ["meeting.analyze", "minutes.generate"],
       "tools": ["meeting_analyze_text", "meeting_process_file", "meeting_build_minutes"]
     }
   },

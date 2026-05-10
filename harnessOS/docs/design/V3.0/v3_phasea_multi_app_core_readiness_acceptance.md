@@ -56,13 +56,15 @@
   tests/test_meeting_turn_workflow.py::test_phase1b_real_audio_turn_start_acceptance
 ```
 
+说明：以上命令是 PhaseA 2026-05-06 历史冻结基线。2026-05-08 之后，当前真实音频平台验收以 `voice_service` FunASR HTTP + MCP stdio 和 `scripts/e2e_meeting_validation.sh` 为准，详见 `docs/design/V3.0/test-acceptance-plan_v3.md`。
+
 前置条件：
 
-- 相邻 `meeting-voice-assistant` 项目可访问。
-- Meeting MCP / FunASR 服务已显式启动，或相关环境变量已启用真实执行路径。
+- 2026-05-06 历史基线要求相邻 `meeting-voice-assistant` 项目可访问，Meeting MCP / FunASR 服务已显式启动，或相关环境变量已启用真实执行路径。
+- 当前基线要求相邻 `voice_service` FunASR HTTP 服务可访问，并通过 `voice_service/.venv/bin/python` 提供 FunASR MCP stdio connector。
 - 当前样本目录按本地实现事实仍是 `/Users/Zhuanz/Desktop/workspace/音频资料`。
 - harnessOS 侧命令使用 `.venv/bin/python`。
-- 相邻 backend 侧真实 MCP 优先使用 `/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/venv312/bin/python`。
+- 相邻 backend 侧历史真实 MCP 优先使用 `/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend/venv312/bin/python`；当前 FunASR MCP 优先使用 `/Users/Zhuanz/Desktop/workspace/voice_service/.venv/bin/python`。
 - 若 `venv312` 缺依赖或未建成，失败应优先记为 `environment_missing_dependency`，而不是直接记为业务代码通过。
 - 建议先运行 `.venv/bin/python scripts/check_real_mcp_env.py`；仅当返回 `status=ok` 时再执行真实音频验收。
 
@@ -158,6 +160,6 @@ Notes:
 ## 6. 当前已知风险说明
 
 - 默认回归与真实音频验收是两条不同基线，验收记录必须显式区分。
-- 当前真实依赖失败时，`meeting.process_recording` 与 `turn.start` 会议路径的错误语义仍未完全统一，这属于后续 PhaseD 继续收口的问题。
+- 2026-05-08 PhaseD 已将 `meeting.process_recording` 降级为 runtime-backed compatibility facade；该路径现在复用 `meeting.workflow` 的 job/trace/turn/artifact 绑定。
 - 若真实 Meeting/FunASR/MCP 链路仍落回系统 `python3`，验收结果可能受解释器权限或依赖差异影响；验收记录必须说明实际使用的解释器路径。
 - 若未来把真实音频样本目录从本地路径迁回可移植 fixture，本附录也需要同步更新。

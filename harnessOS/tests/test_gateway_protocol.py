@@ -355,8 +355,8 @@ def test_gateway_pack_list_and_get(tmp_path):
         assert meeting.result["pack"]["manifest_schema_version"] == "1"
         assert "meeting.workflow" in meeting.result["pack"]["workflows"]
         assert "meeting.workflow" in meeting.result["pack"]["workflow_dsl"]
-        assert meeting.result["pack"]["skill_refs"] == ["meeting.transcribe", "meeting.minutes"]
-        assert meeting.result["pack"]["policy_bundles"] == ["meeting.standard"]
+        assert meeting.result["pack"]["skill_refs"] == ["meeting-minutes", "action-items"]
+        assert meeting.result["pack"]["policy_bundles"] == ["meeting.default"]
         assert meeting.result["pack"]["connector_refs"] == ["meeting_voice_mcp", "funasr_mcp"]
         assert meeting.result["pack"]["artifact_schemas"]["minutes"]["parents"] == ["result"]
         assert meeting.result["pack"]["assembly"]["status"] == "assembled"
@@ -364,7 +364,9 @@ def test_gateway_pack_list_and_get(tmp_path):
         assert meeting.result["pack"]["assembly"]["conflicts"] == []
         assert meeting.result["pack"]["assembly"]["registered_workflows"] == ["meeting.workflow"]
         assert meeting.result["pack"]["assembly"]["workflow_dsl"]["meeting.workflow"]["steps"][0]["id"] == "transcribe"
+        assert "audio.transcribe" in meeting.result["pack"]["connector_capabilities"]["funasr_mcp"]["capabilities"]
         assert "funasr_recognize_file" in meeting.result["pack"]["connector_capabilities"]["funasr_mcp"]["tools"]
+        assert "meeting.analyze" in meeting.result["pack"]["connector_capabilities"]["meeting_voice_mcp"]["capabilities"]
         assert "meeting_analyze_text" in meeting.result["pack"]["connector_capabilities"]["meeting_voice_mcp"]["tools"]
 
         knowledge = await service.handle_rpc(
@@ -373,9 +375,13 @@ def test_gateway_pack_list_and_get(tmp_path):
         assert knowledge.error is None
         assert knowledge.result["pack"]["assembly"]["status"] == "assembled"
         assert knowledge.result["pack"]["connector_refs"] == ["local.knowledge", "data_service_mcp"]
+        assert knowledge.result["pack"]["policy_bundles"] == ["knowledge.default"]
+        assert knowledge.result["pack"]["artifact_schemas"]["source_reference"]["lineage"] == "root"
+        assert knowledge.result["pack"]["artifact_schemas"]["citation_bundle"]["parents"] == ["brief"]
         assert knowledge.result["pack"]["workflow_templates"]["knowledge.lifecycle"]["kind"] == "typed_dag"
         assert knowledge.result["pack"]["workflow_templates"]["knowledge.lifecycle"]["nodes"][0]["type"] == "connector"
         assert knowledge.result["pack"]["agents"][0]["agent_id"] == "knowledge.curator"
+        assert "knowledge.lifecycle" in knowledge.result["pack"]["connector_capabilities"]["data_service_mcp"]["capabilities"]
         assert "knowledge_workspace_archive" in knowledge.result["pack"]["connector_capabilities"]["data_service_mcp"]["tools"]
         assert "knowledge_query" in knowledge.result["pack"]["connector_capabilities"]["data_service_mcp"]["tools"]
 
@@ -693,19 +699,19 @@ def test_gateway_pack_plan_and_stub_execution_registers_lineage(tmp_path):
         assert executed.error is None
         assert executed.result["status"] == "stubbed"
         assert [artifact["kind"] for artifact in executed.result["artifact_records"]] == [
-            "source",
-            "summary",
-            "quality_report",
-            "correction_plan",
+            "source_reference",
+            "note",
+            "brief",
+            "citation_bundle",
         ]
         lineage = executed.result["artifact_lineage"]
         assert lineage["count"] == 4
         assert len(lineage["edges"]) == 3
         assert {artifact.kind for artifact in core_store.list_artifacts(domain="knowledge")} == {
-            "source",
-            "summary",
-            "quality_report",
-            "correction_plan",
+            "source_reference",
+            "note",
+            "brief",
+            "citation_bundle",
         }
 
     asyncio.run(run())
@@ -749,6 +755,7 @@ def test_gateway_connector_registry_lists_meeting_mcp(tmp_path):
         assert connectors["funasr_mcp"]["domain"] == "meeting"
         assert connectors["funasr_mcp"]["kind"] == "mcp_stdio"
         assert "funasr_recognize_file" in connectors["funasr_mcp"]["capabilities"]["tools"]
+        assert "audio.transcribe" in connectors["funasr_mcp"]["capabilities"]["capabilities"]
         assert connectors["data_service_mcp"]["domain"] == "knowledge"
         assert connectors["data_service_mcp"]["health"] == "contract_stub"
         assert connectors["data_service_mcp"]["capabilities"]["contract_only"] is True

@@ -55,6 +55,15 @@ DATA_SERVICE_TOOLS = [
     "knowledge_correction_plan",
 ]
 
+DATA_SERVICE_CAPABILITIES = [
+    "knowledge.lifecycle",
+    "knowledge.source",
+    "knowledge.build",
+    "knowledge.query",
+    "knowledge.summarize",
+    "knowledge.citation",
+]
+
 
 @dataclass(frozen=True)
 class ConnectorDefinition:
@@ -185,6 +194,7 @@ class ConnectorRegistry:
             execution_mode="stdio",
             capabilities={
                 "transport": "stdio",
+                "capabilities": ["meeting.analyze", "minutes.generate"],
                 "tools": [
                     "meeting_process_file",
                     "meeting_analyze_text",
@@ -271,6 +281,7 @@ class ConnectorRegistry:
             capabilities={
                 "transport": "stdio",
                 "contract_only": contract_only,
+                "capabilities": ["audio.transcribe"],
                 "tools": [
                     "funasr_health",
                     "funasr_recognize_file",
@@ -372,6 +383,7 @@ class ConnectorRegistry:
             capabilities={
                 "transport": "stdio",
                 "contract_only": contract_only,
+                "capabilities": DATA_SERVICE_CAPABILITIES,
                 "tools": DATA_SERVICE_TOOLS,
                 "resources": [
                     "data_service://summary",

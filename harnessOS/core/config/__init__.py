@@ -25,6 +25,12 @@ def _preferred_voice_service_python() -> str:
     return str(candidate) if candidate.exists() else "python3"
 
 
+def _preferred_data_service_python() -> str:
+    """Prefer the data-service Python env when it exists."""
+    candidate = Path("/Users/Zhuanz/Desktop/workspace/data_service/backend/.venv/bin/python")
+    return str(candidate) if candidate.exists() else "python3"
+
+
 class LLMConfig(BaseSettings):
     """LLM provider configuration."""
     provider: str = Field(default="deepseek", description="LLM provider (deepseek, openai, anthropic)")
@@ -143,11 +149,11 @@ class DataServiceMcpConfig(BaseSettings):
     """Data Service MCP integration configuration."""
 
     cwd: str = Field(
-        default="/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/backend",
+        default="/Users/Zhuanz/Desktop/workspace/data_service/backend",
         description="Working directory for the Data Service MCP server",
     )
     command: str = Field(
-        default_factory=_preferred_meeting_backend_python,
+        default_factory=_preferred_data_service_python,
         description="Command used to start the Data Service MCP server",
     )
     args: str = Field(

@@ -20,6 +20,14 @@ from packs.meeting.workflow import MeetingWorkflow
 
 AVAILABLE_CONNECTOR_CAPABILITIES = {
     "data_service_mcp": {
+        "capabilities": {
+            "knowledge.lifecycle",
+            "knowledge.source",
+            "knowledge.build",
+            "knowledge.query",
+            "knowledge.summarize",
+            "knowledge.citation",
+        },
         "tools": {
             "knowledge_workspace_create",
             "knowledge_workspace_list",
@@ -56,7 +64,14 @@ AVAILABLE_CONNECTOR_CAPABILITIES = {
         "modes": {"txt2img", "txt2video", "image_to_video"},
     },
 }
-AVAILABLE_POLICY_BUNDLES = {"core.readonly", "meeting.standard", "knowledge.standard", "video.planning"}
+AVAILABLE_POLICY_BUNDLES = {
+    "core.readonly",
+    "meeting.default",
+    "meeting.standard",
+    "knowledge.default",
+    "knowledge.standard",
+    "video.planning",
+}
 COMPATIBLE_PACK_SCHEMA_VERSIONS = {"1"}
 
 

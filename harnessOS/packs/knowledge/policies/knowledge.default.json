@@ -1,0 +1,10 @@
+{
+  "policy_id": "knowledge.default",
+  "domain": "knowledge",
+  "connector_policy": {
+    "data_service_mcp": {
+      "requires_approval_for": ["external_call"],
+      "allow_direct_data_service_internal_reads": false
+    }
+  }
+}

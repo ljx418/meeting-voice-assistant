@@ -1,0 +1,47 @@
+<mxfile host="Electron" version="29.6.6">
+  <diagram id="multi-app-core-integration-v3" name="Multi-App Core Integration V3">
+    <mxGraphModel dx="1200" dy="860" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1250" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="harnessOS V3.0 多 App Core 复用关系" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="760" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="本图是六大平面目标架构中的 V3.0 active overlay，不替代总架构图。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="320" y="70" width="610" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="meeting" value="meeting app&lt;br&gt;&lt;br&gt;Meeting UI / workflow&lt;br&gt;Meeting MCP / FunASR MCP&lt;br&gt;transcript / analysis / minutes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="70" y="140" width="210" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="knowledge" value="knowledge app&lt;br&gt;&lt;br&gt;Knowledge UI / workflow&lt;br&gt;Data Service MCP&lt;br&gt;source_reference / note / brief / citation_bundle" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="310" y="140" width="210" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="future_apps" value="future apps&lt;br&gt;&lt;br&gt;interview / investment / video_studio&lt;br&gt;V3.1 / V3.2 / V3.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#94A3B8;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="550" y="140" width="230" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="app_profile" value="Plane-3 App Scope&lt;br&gt;&lt;br&gt;AppProfile + ScopeContext&lt;br&gt;app_id / project_id / workspace_id&lt;br&gt;enabled_packs / enabled_connectors" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=left;spacingLeft=14" vertex="1" parent="1">
+          <mxGeometry x="830" y="140" width="330" height="135" as="geometry" />
+        </mxCell>
+        <mxCell id="core" value="Plane-3 Shared HarnessOS Core&lt;br&gt;&lt;br&gt;Protocol / Store / Job / Artifact / Trace / Policy / Approval / Retry&lt;br&gt;scope filtering by default&lt;br&gt;no business logic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="250" y="355" width="750" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="assembly" value="Plane-5 Pack Assembly&lt;br&gt;&lt;br&gt;manifest schema&lt;br&gt;PackAssemblyResult&lt;br&gt;workflow / skill / connector / policy / artifact kind assembly" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="90" y="575" width="260" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="connector" value="Plane-6 Connector Registry&lt;br&gt;&lt;br&gt;capabilities / health&lt;br&gt;config_ref / secret_ref&lt;br&gt;app_scope / security descriptor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="390" y="575" width="260" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="runtime" value="Plane-4 RuntimeAdapter&lt;br&gt;&lt;br&gt;OpenHarness / SimpleRuntime / future adapter&lt;br&gt;injects scope + policy + approval + trace + secret hygiene" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="690" y="575" width="300" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="stable" value="Plane-1/Plane-2 Stable Interfaces&lt;br&gt;&lt;br&gt;CLI / API / SSE / JSON-RPC / stdio JSONL&lt;br&gt;protocol registry hardening belongs to V3.0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1030" y="575" width="180" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" source="meeting" target="core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" edge="1" source="knowledge" target="core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" edge="1" source="future_apps" target="core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#94A3B8;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" edge="1" source="app_profile" target="core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#D97706;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

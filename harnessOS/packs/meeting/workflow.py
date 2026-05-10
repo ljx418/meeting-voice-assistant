@@ -67,7 +67,7 @@ class MeetingWorkflow:
         """Run a meeting task and return text plus structured metadata."""
         audio_path = extract_audio_path(user_input)
         if audio_path:
-            if self.connector_registry is not None:
+            if self.connector_registry is not None and _meeting_strict_mode():
                 self.connector_registry.require_available(MEETING_VOICE_MCP_CONNECTOR_ID)
             funasr_connector = self._funasr_mcp_connector()
             if funasr_connector is not None:
@@ -115,6 +115,7 @@ class MeetingWorkflow:
             artifact_registry=self.artifact_registry,
             session_id=session_id,
             turn_id=turn_id,
+            scope=scope,
         )
         text = format_meeting_final_text(result)
         return {"status": "success", "content": text, "meeting": result}
@@ -226,6 +227,7 @@ class MeetingWorkflow:
             artifacts = {}
             result["artifacts"] = artifacts
         artifacts.setdefault("transcript", self._write_funasr_transcript_artifact(path, transcript, result))
+        artifacts.setdefault("result", self._write_meeting_result_artifact(path, transcript, result))
         return result
 
     async def _analyze_transcript_with_fallback(
@@ -243,6 +245,8 @@ class MeetingWorkflow:
                 timeout=timeout,
             )
         except Exception as exc:
+            if _meeting_strict_mode():
+                raise MeetingMcpError(f"Meeting MCP analysis failed in strict mode: {exc}") from exc
             return self._build_local_analysis_result(
                 audio_path=audio_path,
                 transcript=transcript,
@@ -346,6 +350,26 @@ class MeetingWorkflow:
         output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         return str(output_path)
 
+    def _write_meeting_result_artifact(
+        self,
+        audio_path: Path,
+        transcript: str,
+        result: dict[str, Any],
+    ) -> str:
+        output_dir = self.artifact_registry.root / "meeting" / "workflow_results"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        output_path = output_dir / f"{audio_path.stem}_result.json"
+        payload = {
+            "source_path": str(audio_path),
+            "session_id": result.get("session_id"),
+            "transcript_chars": len(transcript),
+            "analysis": result.get("analysis") or {},
+            "transcription": result.get("transcription"),
+            "execution": result.get("execution"),
+        }
+        output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        return str(output_path)
+
 
 def extract_audio_path(text: str) -> Optional[str]:
     """Extract the first supported local audio path from user text."""
@@ -422,6 +446,7 @@ def register_meeting_artifacts(
     artifact_registry: ArtifactRegistry,
     session_id: Optional[str] = None,
     turn_id: Optional[str] = None,
+    scope: Optional[ScopeContext] = None,
 ) -> dict[str, Any]:
     """Register meeting output paths as harnessOS artifact records."""
     artifacts = result.get("artifacts") or {}
@@ -440,6 +465,9 @@ def register_meeting_artifacts(
                 path,
                 session_id=session_id,
                 turn_id=turn_id,
+                app_id=scope.app_id if scope else "default",
+                project_id=scope.project_id if scope else None,
+                workspace_id=scope.workspace_id if scope else None,
                 domain="meeting",
                 kind=str(kind),
                 metadata={
@@ -447,6 +475,7 @@ def register_meeting_artifacts(
                     "source_path": result.get("source_path"),
                     "source_artifact_id": registered[parent_kind]["artifact_id"] if parent_kind else None,
                     "lineage_step": str(kind),
+                    **_meeting_fallback_metadata(result),
                     **source_metadata,
                 },
             )
@@ -489,6 +518,20 @@ def _meeting_transcription_metadata(result: dict[str, Any]) -> dict[str, Any]:
         "transcription_artifact_id": transcription.get("artifact_id"),
         "transcription_mode": transcription.get("mode"),
         "transcription_tool": transcription.get("tool"),
+    }
+
+
+def _meeting_fallback_metadata(result: dict[str, Any]) -> dict[str, Any]:
+    execution = result.get("execution")
+    if not isinstance(execution, dict):
+        return {}
+    fallback_reason = execution.get("fallback_reason")
+    if not fallback_reason:
+        return {}
+    return {
+        "fallback": "local_analysis",
+        "fallback_reason": fallback_reason,
+        "fallback_mode": execution.get("mode"),
     }
 
 
@@ -538,3 +581,8 @@ def _meeting_analysis_timeout() -> float:
         return max(1.0, float(os.getenv("HARNESS_MEETING_ANALYSIS_TIMEOUT", "30")))
     except ValueError:
         return 30.0
+
+
+def _meeting_strict_mode() -> bool:
+    value = os.getenv("HARNESS_MEETING_E2E_STRICT", "")
+    return value.strip().lower() in {"1", "true", "yes", "on", "strict"}

@@ -247,8 +247,8 @@
 
 - `docs/design/V3.0/v3_development_plan_multi_app_core.md`
 - `docs/design/V3.0/v3_current_gap_analysis.md`
-- `docs/architecture/CURRENT-STATUS_v3.md`
-- `docs/test-acceptance-plan_v3.md`
+- `docs/design/V3.0/CURRENT-STATUS_v3.md`
+- `docs/design/V3.0/test-acceptance-plan_v3.md`
 
 已完成并进入基线的内容：
 

@@ -137,7 +137,7 @@ Assembly result 至少包含：
 - 默认仍保持 contract stub，不阻塞本地开发和 CI。
 - 显式设置 `HARNESS_DATA_SERVICE_MCP_EXECUTION=stdio` 后，harnessOS 可启动相邻项目 `data_service.mcp_stdio` 并通过 MCP `tools/call` 执行 lifecycle / v2 tools。
 - Knowledge lifecycle runner 在真实 stdio 模式下复用持久 MCP session，保证 data_service build queue 状态可跨 `knowledge_build_start` 与 `knowledge_build_status` 保留。
-- 外部 Agent 调用说明以 `/Users/Zhuanz/Desktop/workspace/meeting-voice-assistant/docs/data_service/MCP-EXTERNAL-AGENT-GUIDE.md` 为准，入口已加入相邻项目 `docs/data_service/README.md`。
+- 外部 Agent 调用说明以 `/Users/Zhuanz/Desktop/workspace/data_service/docs/MCP-EXTERNAL-AGENT-GUIDE.md` 为准，入口已随 data_service 迁移到独立 `/Users/Zhuanz/Desktop/workspace/data_service` 项目。
 - Knowledge Pack 后续搭建知识库工作流时，只通过 `data_service_mcp` lifecycle tools 和 v2 envelope tools 操作 GraphRAG + llmwiki 知识库，不直接读写 data_service 内部产物目录。
 - Meeting Pack 的底层语音转写能力使用 `funasr_mcp` / `funasr_service`，Knowledge Pack 的知识库能力使用 `data_service_mcp` / `data_service`。
 

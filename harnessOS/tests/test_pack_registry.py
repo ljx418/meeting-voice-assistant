@@ -60,9 +60,11 @@ def test_pack_registry_evaluates_default_pack_assembly():
             },
                 available_connector_capabilities={
                     "funasr_mcp": {
+                        "capabilities": {"audio.transcribe"},
                         "tools": {"funasr_recognize_file"},
                     },
                     "meeting_voice_mcp": {
+                        "capabilities": {"meeting.analyze", "minutes.generate"},
                         "tools": {
                             "meeting_analyze_text",
                             "meeting_process_file",
@@ -70,6 +72,14 @@ def test_pack_registry_evaluates_default_pack_assembly():
                         },
                     },
                     "data_service_mcp": {
+                        "capabilities": {
+                            "knowledge.lifecycle",
+                            "knowledge.source",
+                            "knowledge.build",
+                            "knowledge.query",
+                            "knowledge.summarize",
+                            "knowledge.citation",
+                        },
                         "tools": {
                             "knowledge_workspace_create",
                         "knowledge_workspace_list",
@@ -104,7 +114,13 @@ def test_pack_registry_evaluates_default_pack_assembly():
                 },
                 "remote_comfyui": {"modes": {"txt2img", "txt2video", "image_to_video"}},
             },
-            available_policy_bundles={"meeting.standard", "knowledge.standard", "video.planning"},
+            available_policy_bundles={
+                "meeting.default",
+                "meeting.standard",
+                "knowledge.default",
+                "knowledge.standard",
+                "video.planning",
+            },
         )
     }
 
@@ -114,10 +130,12 @@ def test_pack_registry_evaluates_default_pack_assembly():
     assert assemblies["meeting"].registered_workflows == ("meeting.workflow",)
     assert assemblies["meeting"].manifest_schema_version == "1"
     assert assemblies["meeting"].workflow_dsl["meeting.workflow"]["steps"][0]["id"] == "transcribe"
-    assert assemblies["meeting"].skill_refs == ("meeting.transcribe", "meeting.minutes")
-    assert assemblies["meeting"].policy_bundles == ("meeting.standard",)
+    assert assemblies["meeting"].skill_refs == ("meeting-minutes", "action-items")
+    assert assemblies["meeting"].policy_bundles == ("meeting.default",)
     assert assemblies["meeting"].connector_refs == ("meeting_voice_mcp", "funasr_mcp")
+    assert "audio.transcribe" in assemblies["meeting"].connector_capabilities["funasr_mcp"]["capabilities"]
     assert "funasr_recognize_file" in assemblies["meeting"].connector_capabilities["funasr_mcp"]["tools"]
+    assert "meeting.analyze" in assemblies["meeting"].connector_capabilities["meeting_voice_mcp"]["capabilities"]
     assert "meeting_process_file" in assemblies["meeting"].connector_capabilities["meeting_voice_mcp"]["tools"]
     assert assemblies["meeting"].artifact_schemas["minutes"]["parents"] == ["result"]
     meeting_manifest = registry.get_pack("meeting")
@@ -127,13 +145,16 @@ def test_pack_registry_evaluates_default_pack_assembly():
     assert assemblies["knowledge"].workflow_dsl["knowledge.workflow"]["entrypoint"] == (
         "packs.knowledge.workflow:KnowledgeWorkflow"
     )
-    assert assemblies["knowledge"].policy_bundles == ("knowledge.standard",)
+    assert assemblies["knowledge"].policy_bundles == ("knowledge.default",)
     assert assemblies["knowledge"].connector_refs == ("local.knowledge", "data_service_mcp")
     assert assemblies["knowledge"].workflow_templates["knowledge.lifecycle"]["kind"] == "typed_dag"
     assert assemblies["knowledge"].agents[0]["agent_id"] == "knowledge.curator"
     assert assemblies["knowledge"].workflow_templates["knowledge.lifecycle"]["nodes"][0]["type"] == "connector"
+    assert "knowledge.lifecycle" in assemblies["knowledge"].connector_capabilities["data_service_mcp"]["capabilities"]
     assert "knowledge_workspace_archive" in assemblies["knowledge"].connector_capabilities["data_service_mcp"]["tools"]
     assert "knowledge_query_v2" in assemblies["knowledge"].connector_capabilities["data_service_mcp"]["tools"]
+    assert assemblies["knowledge"].artifact_schemas["source_reference"]["lineage"] == "root"
+    assert assemblies["knowledge"].artifact_schemas["citation_bundle"]["parents"] == ["brief"]
     assert assemblies["investment"].status == "stub"
     assert assemblies["video_studio"].status == "assembled"
     assert assemblies["video_studio"].registered_workflows == ("video.workflow",)

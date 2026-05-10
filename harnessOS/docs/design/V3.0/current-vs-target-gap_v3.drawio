@@ -1,0 +1,136 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram id="current-vs-target-gap-v3" name="当前与目标差距 V3">
+    <mxGraphModel dx="1755" dy="958" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="2550" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" value="harnessOS V3.0 当前实现、目标架构与工程路线图" vertex="1">
+          <mxGeometry height="44" width="1280" x="360" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" value="颜色：绿色 = 已完成 / 稳定；黄色 = V3.x+ 后续关注；灰色 = V3.x+ 远期预留；蓝色 = 当前事实" vertex="1">
+          <mxGeometry height="44" width="1080" x="460" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="history_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=18;fontStyle=1" value="已完成历史路标" vertex="1">
+          <mxGeometry height="50" width="1880" x="60" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="h0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;fontSize=12;align=center" value="V0.0-Phase0-A&lt;br&gt;底座与骨架" vertex="1">
+          <mxGeometry height="70" width="130" x="70" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="h05" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;fontSize=12;align=center" value="V0.5-Phase0-A&lt;br&gt;协议控制面" vertex="1">
+          <mxGeometry height="70" width="140" x="220" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="h07" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;fontSize=12;align=center" value="V0.7-Phase0-A&lt;br&gt;控制面收口" vertex="1">
+          <mxGeometry height="70" width="130" x="380" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="h1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;fontSize=12;align=center" value="V1.0-Phase1-A&lt;br&gt;Meeting MCP MVP" vertex="1">
+          <mxGeometry height="70" width="140" x="530" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="h1c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;fontSize=12;align=center" value="V1.0-Phase1-C/D&lt;br&gt;Artifact + Workflow" vertex="1">
+          <mxGeometry height="70" width="155" x="690" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="h2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;fontSize=12;align=center" value="V2.0-Phase2-A~F&lt;br&gt;Trace / Approval / Policy / Retry / Secret" vertex="1">
+          <mxGeometry height="70" width="190" x="865" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="hb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;fontSize=12;align=center" value="V2.0-Baseline1.5&lt;br&gt;Core Store + RuntimeAdapter" vertex="1">
+          <mxGeometry height="70" width="175" x="1075" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="hv2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;fontSize=12;align=center" value="V2.0&lt;br&gt;六大平面目标架构" vertex="1">
+          <mxGeometry height="70" width="155" x="1270" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="h35" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;fontSize=12;align=center" value="V2.0-Roadmap3-B~F / Phase4-5&lt;br&gt;Core-native Store / Job / Pack / Connector / Meeting-&gt;Knowledge" vertex="1">
+          <mxGeometry height="70" width="275" x="1445" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="relation_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=18;fontStyle=1" value="六大平面上下游关系" vertex="1">
+          <mxGeometry height="50" width="1880" x="60" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center;spacing=6" value="Plane-1 入口层&lt;br&gt;Client / Gateway&lt;br&gt;PhaseA-E：回归保护&lt;br&gt;PhaseD：legacy meeting facade 兼容&lt;br&gt;PhaseE：Knowledge 入口回归" vertex="1">
+          <mxGeometry height="118" width="210" x="65" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center;spacing=6" value="Plane-2 协议层&lt;br&gt;Protocol App Server&lt;br&gt;PhaseA：scope params / RPC scope&lt;br&gt;PhaseB：pack / connector RPC&lt;br&gt;PhaseC：job / artifact / policy RPC&lt;br&gt;PhaseD-E：reference pack facade / validation" vertex="1">
+          <mxGeometry height="118" width="240" x="335" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center;spacing=6" value="Plane-3 Core 层&lt;br&gt;Session / Job / Artifact / Governance&lt;br&gt;PhaseA：ScopeContext / Store&lt;br&gt;PhaseB：assembly state&lt;br&gt;PhaseC：Job / Artifact / Governance&lt;br&gt;PhaseD-E：验证多 app 复用" vertex="1">
+          <mxGeometry height="118" width="270" x="645" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="uVde7tbi5psq2o9azTaH-1" edge="1" parent="1" source="p4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="p6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center;spacing=6" value="Plane-4 Runtime Adapter&lt;br&gt;执行内核隔离&lt;br&gt;PhaseA：scope 透传受影响&lt;br&gt;PhaseB：connector runtime 受影响&lt;br&gt;PhaseC：governance injection 主改动&lt;br&gt;PhaseD-E：执行链路验证" vertex="1">
+          <mxGeometry height="108" width="250" x="1040" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center;spacing=6" value="Plane-5 Domain Pack&lt;br&gt;业务装配&lt;br&gt;PhaseA：app profile packs 受影响&lt;br&gt;PhaseB：PackAssemblyResult 主改动&lt;br&gt;PhaseC：artifact / job contracts&lt;br&gt;PhaseD：Meeting reference pack&lt;br&gt;PhaseE：Knowledge reference pack" vertex="1">
+          <mxGeometry height="108" width="250" x="1040" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="p6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center;spacing=6" value="Plane-6 Connector / Tool / Store&lt;br&gt;外部能力与持久化&lt;br&gt;PhaseA：scope migration / filtering&lt;br&gt;PhaseB：connector security / descriptor&lt;br&gt;PhaseC：artifact / job / store policy&lt;br&gt;PhaseD：Meeting / FunASR&lt;br&gt;PhaseE：data_service_mcp" vertex="1">
+          <mxGeometry height="118" width="280" x="1355" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="gov" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center;spacing=6" value="治理链路贯穿 Plane-2/Plane-3/Plane-4/Plane-6：scope -&gt; policy -&gt; approval -&gt; trace -&gt; retry -&gt; artifact&lt;br&gt;PhaseA：scope；PhaseC：policy / approval / trace / artifact；PhaseD-E：connector / workflow side effects" vertex="1">
+          <mxGeometry height="118" width="325" x="1655" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="map_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=18;fontStyle=1" value="当前状态 -&gt; 差距 -&gt; 目标状态 -&gt; 阶段影响" vertex="1">
+          <mxGeometry height="50" width="1880" x="60" y="685" as="geometry" />
+        </mxCell>
+        <mxCell id="cur" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=12;fontSize=14" value="当前状态&lt;br&gt;&lt;br&gt;• Core records / SQLite 已有基础&lt;br&gt;• Gateway 协议入口已稳定&lt;br&gt;• Pack / Connector / Job / Artifact / Governance 均有 MVP&lt;br&gt;• Meeting / Knowledge 已有 reference-pack 真实链路基础" vertex="1">
+          <mxGeometry height="170" width="390" x="70" y="765" as="geometry" />
+        </mxCell>
+        <mxCell id="gap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=12;fontSize=14" value="V3.x+ 后续差距&lt;br&gt;&lt;br&gt;• scope 默认安全链路已闭合，但底层 Store bypass 仍需受控使用&lt;br&gt;• Connector descriptor 数据仍主要在 Python 中声明&lt;br&gt;• protocol v1alpha3 / SDK / Auth 转入 V3.x+&lt;br&gt;• 新增正式执行入口仍需防治理 bypass&lt;br&gt;• 外部 pack 继续以 sample-pack neutrality 防回归" vertex="1">
+          <mxGeometry height="170" width="430" x="520" y="765" as="geometry" />
+        </mxCell>
+        <mxCell id="target" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=12;fontSize=14" value="目标状态&lt;br&gt;&lt;br&gt;• 一份 Core 支持多个 app&lt;br&gt;• Store 查询默认按 ScopeContext 过滤&lt;br&gt;• Pack / Connector 成为业务接入标准入口&lt;br&gt;• RuntimeAdapter 默认注入治理&lt;br&gt;• Meeting / Knowledge 作为 reference packs 验证平台抽象&lt;br&gt;• 新增 sample pack 不再要求修改 Core / Gateway 业务逻辑" vertex="1">
+          <mxGeometry height="170" width="430" x="1010" y="765" as="geometry" />
+        </mxCell>
+        <mxCell id="stage" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;align=left;spacingLeft=12;fontSize=14" value="影响阶段&lt;br&gt;&lt;br&gt;V3.0-PhaseA：已完成并冻结&lt;br&gt;V3.0-PhaseB：已完成并收官&lt;br&gt;V3.0-PhaseC：已完成并收官&lt;br&gt;V3.0-PhaseD：已完成 Meeting Pack 迁移；strict / resilience E2E 与 legacy 等价已通过&lt;br&gt;V3.0-PhaseE：Knowledge Pack 合同已落地；data_service MCP 真实 E2E 已通过" vertex="1">
+          <mxGeometry height="170" width="330" x="1540" y="765" as="geometry" />
+        </mxCell>
+        <mxCell id="matrix_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=18;fontStyle=1" value="阶段影响矩阵" vertex="1">
+          <mxGeometry height="50" width="1880" x="60" y="1030" as="geometry" />
+        </mxCell>
+        <mxCell id="matrix" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=14;fontSize=13" value="Plane-1：历史已完成；V3.0-PhaseA~E 回归保护；V3.x+ Web/Video UI 前置&lt;br&gt;Plane-2：PhaseA scope params、PhaseB/C RPC 合同已收官；PhaseD/E 受 facade / validation 影响；V3.x+ SDK/低代码协议&lt;br&gt;Plane-3：PhaseA ScopeContext、PhaseC Job/Artifact/Governance 已收官；PhaseD/E 验证 reference pack 复用能力；V3.x+ Memory/Feedback&lt;br&gt;Plane-4：PhaseC RuntimeAdapter governance 已收官；PhaseD/E 执行链路验证；V3.x+ 多 runtime 扩展&lt;br&gt;Plane-5：PhaseB PackAssemblyResult 已收官；PhaseD Meeting reference pack；PhaseE Knowledge reference pack；V3.x+ Interview/Investment/Video/Low-Code&lt;br&gt;Plane-6：PhaseA scope migration、PhaseB connector security、PhaseC artifact/job policy 已收官；PhaseD/E MCP connectors；V3.x+ 外部 store/GPU/视频工具" vertex="1">
+          <mxGeometry height="210" width="1820" x="90" y="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="plan_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=18;fontStyle=1" value="V3.0 详细开发计划" vertex="1">
+          <mxGeometry height="50" width="900" x="60" y="1380" as="geometry" />
+        </mxCell>
+        <mxCell id="plan_text" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;align=left;spacingLeft=12;fontSize=13;arcSize=5;" value="PhaseA 专项文件：&lt;br&gt;docs/design/V3.0/v3_phasea_multi_app_core_readiness.md&lt;br&gt;docs/design/V3.0/v3_phasea_multi_app_core_readiness_acceptance.md&lt;br&gt;PhaseB 专项文件：&lt;br&gt;docs/design/V3.0/v3_phaseb_pack_connector_registry.md&lt;br&gt;本图与 current-vs-target-gap_v3.md、CURRENT-STATUS_v3.md 同步维护。&lt;br&gt;&lt;br&gt;V3.0-PhaseA：Multi-App Core Readiness&lt;br&gt;状态：COMPLETED / FROZEN BASELINE（2026-05-06）&lt;br&gt;目标：冻结 AppProfile -&gt; ScopeContext -&gt; Gateway/Core service -&gt; Store 主链路&lt;br&gt;&lt;br&gt;V3.0-PhaseB：Pack 装配与 Connector 注册表&lt;br&gt;状态：COMPLETED / PHASE CLOSEOUT BASELINE（2026-05-08）&lt;br&gt;当前事实：PackAssemblyResult、connector descriptor/security、AppProfile pack_paths、registry-derived assembly、external pack target_version policy 已收官&lt;br&gt;&lt;br&gt;V3.0-PhaseC：Job / Artifact / Governance Hardening&lt;br&gt;状态：COMPLETED / PHASE CLOSEOUT BASELINE（2026-05-08）&lt;br&gt;当前事实：job 状态机、failure_context、connector approval retry、job/connector scope 隔离、ARTIFACT_READ_BLOCKED、artifact lineage、RuntimeAdapter governance injection 已收官；默认全量回归 182 passed / 3 skipped&lt;br&gt;&lt;br&gt;V3.0-PhaseD：Meeting reference pack validation&lt;br&gt;状态：VALIDATION PASSED&lt;br&gt;D0 文档同步；D1 Pack Assembly；D2 Connector Contracts；D3 Standard Workflow；D4 Legacy Facade；D5 Equivalence / Lineage；D6 Strict + Resilience E2E；D7 Architecture / Acceptance Docs&lt;br&gt;当前事实：Meeting Pack assembly、legacy facade equivalence、strict/resilience real-audio E2E 已通过；业务分析质量继续由外部 Meeting MCP 迭代&lt;br&gt;&lt;br&gt;V3.0-PhaseE：Knowledge reference pack validation&lt;br&gt;状态：REAL DATA SERVICE MCP E2E PASSED&lt;br&gt;当前事实：source_reference / note / brief / citation_bundle 四件套、data_service_mcp semantic capabilities、data boundary、lineage/job/trace binding、connector replacement fixture 已落地；focused regression 32 passed；迁移后的 /workspace/data_service 真实 MCP E2E status=passed" vertex="1">
+          <mxGeometry height="740" width="900" x="60" y="1450" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;fontSize=18;fontStyle=1" value="V3.0 验收里程碑" vertex="1">
+          <mxGeometry height="50" width="900" x="1040" y="1380" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_text" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=12;fontSize=13;arcSize=3;" value="V3.0-PhaseA：AC01 profiles；AC02 scope 隔离；AC03 legacy 回填；AC04 RPC scope；AC05 meeting 回归&lt;br&gt;V3.0-PhaseB：AC01 Pack manifest；AC02 PackAssemblyResult；AC03 external pack paths；AC04 Connector Registry；AC05 connector security；AC06 sample-pack neutrality；AC07 descriptor-driven assembly&lt;br&gt;V3.0-PhaseC：AC01 job 状态 queued/running/completed/failed/cancelled；AC02 artifact read policy；AC03 lineage；AC04 治理覆盖；AC05 RuntimeAdapter injection；AC06 platform-neutral governance&lt;br&gt;V3.0-PhaseD：AC00 preconditions；AC01 pack assembly；AC02 connector contracts；AC03 standard workflow；AC04 legacy facade warning；AC05 equivalence / lineage；AC06 strict + resilience E2E；AC07 无新增平台业务旁路&lt;br&gt;V3.0-PhaseE：AC01 Knowledge MCP E2E；AC02 data boundary；AC03 connector replacement；AC04 source_reference / note / brief / citation_bundle artifacts；AC05 lineage/job/trace 完整性&lt;br&gt;&lt;br&gt;PhaseC 收官证据（2026-05-08）：默认全量回归 182 passed / 3 skipped / 6 warnings；PhaseC + Meeting 切片 14 passed / 1 skipped&lt;br&gt;PhaseD 收官证据（2026-05-08）：full regression 193 passed / 3 skipped / 6 warnings；focused regression 23 passed / 1 skipped；preflight status=ok；resilience E2E status=passed strict=false；strict E2E status=passed strict=true；产出 transcript / analysis / result / minutes + connector_result 证据节点&lt;br&gt;PhaseE 证据（2026-05-09）：focused regression 32 passed；真实 MCP E2E status=passed；artifact kinds=source_reference/note/brief/citation_bundle；lineage_count=4；trace_count=27&lt;br&gt;默认入口：tests/；scripts/e2e_meeting_validation.sh；scripts/e2e_knowledge_validation.sh；根目录历史 test_*.py 不作为默认入口" vertex="1">
+          <mxGeometry height="740" width="900" x="1040" y="1450" as="geometry" />
+        </mxCell>
+        <mxCell id="roadmap_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#94A3B8;fontSize=18;fontStyle=1" value="V3.x+ 远期路线" vertex="1">
+          <mxGeometry height="50" width="1480" x="260" y="2285" as="geometry" />
+        </mxCell>
+        <mxCell id="roadmap_text" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;align=center;fontSize=14" value="V3.1 Interview Pack | V3.2 Investment Pack | V3.3 Video Studio Integration | V3.x Low-Code Workflow Runtime | V3.x Core Memory | V3.x Feedback Optimization | V3.x Workflow / Pack Library" vertex="1">
+          <mxGeometry height="84" width="1480" x="260" y="2355" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="cur" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;endArrow=block;endFill=1" target="gap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="gap" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#D97706;endArrow=block;endFill=1" target="target">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="target" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#059669;endArrow=block;endFill=1" target="stage">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

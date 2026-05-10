@@ -413,6 +413,11 @@ def _summarize_meeting_result(
     transcript = payload.get("transcript") or ""
     segments = payload.get("segments") or []
     minutes = minutes or {}
+    artifacts = {}
+    for source in (payload, analysis_payload, minutes):
+        source_artifacts = source.get("artifacts") if isinstance(source, dict) else None
+        if isinstance(source_artifacts, dict):
+            artifacts.update(source_artifacts)
     return {
         "source_path": source_path or payload.get("source_path"),
         "session_id": payload.get("session_id") or analysis_payload.get("session_id") or minutes.get("session_id"),
@@ -420,6 +425,6 @@ def _summarize_meeting_result(
         "segment_count": len(segments),
         "analysis": analysis_payload,
         "minutes_path": minutes.get("path"),
-        "artifacts": minutes.get("artifacts") or payload.get("artifacts") or {},
+        "artifacts": artifacts,
         "raw": payload or analysis_payload,
     }

@@ -1,6 +1,6 @@
 # harnessOS V3.0 Multi-App Core Development Plan
 
-文档状态：ACTIVE PLAN。本文是当前 V3.0-PhaseA 到 V3.0-PhaseE 的活动实施计划。
+文档状态：V3.0 FINAL CLOSEOUT PLAN。本文记录 V3.0-PhaseA 到 V3.0-PhaseE 的完成状态、冻结合同和 V3.x+ 后续边界。
 
 本文替代“直接做通用低代码 Agent 工作流平台”的旧 V3.0 执行口径。当前优先级固定为：先稳 harnessOS Core，再用 Meeting / Knowledge 两个 reference packs 验证平台边界，最后扩展 Interview / Investment / Video Studio。
 
@@ -30,9 +30,9 @@
 | --- | --- | --- |
 | V3.0-PhaseA | COMPLETED / FROZEN BASELINE（2026-05-06） | 仅允许缺陷修复、验收证据追加、与实际实现一致的文档校正；不得被后续规格漂移直接覆写。 |
 | V3.0-PhaseB | COMPLETED / PHASE CLOSEOUT BASELINE（2026-05-08） | Pack / Connector 装配边界已完成收官验收；后续仅允许缺陷修复、证据追加和文档校正。 |
-| V3.0-PhaseC | ACTIVE NEXT PHASE | 以 PhaseB 收官证据为基线进入 Job / Artifact / Governance Hardening。 |
-| V3.0-PhaseD | PLANNED | 以 PhaseB/PhaseC 交付稳定后再进入。 |
-| V3.0-PhaseE | PLANNED | 以 PhaseB/PhaseC/PhaseD 交付稳定后再进入。 |
+| V3.0-PhaseC | COMPLETED / PHASE CLOSEOUT BASELINE（2026-05-08） | Job / Artifact / Governance 平台合同已完成收官验收；后续仅允许缺陷修复、证据追加和文档校正。 |
+| V3.0-PhaseD | VALIDATION PASSED | Meeting Pack assembly、legacy facade equivalence、strict/resilience real-audio E2E 已通过；业务分析质量继续由外部 Meeting MCP 迭代。 |
+| V3.0-PhaseE | VALIDATION PASSED | Knowledge Pack + migrated `/workspace/data_service` MCP E2E 已通过；HarnessOS 仍只通过 connector 边界调用 data_service。 |
 
 已完成阶段若需调整合同、DoD 或验收边界，必须在后续 Phase 或新增切片中显式承接，不能直接回写原阶段定义。
 
@@ -139,6 +139,8 @@ PR slices / implementation order：
 
 ### V3.0-PhaseC：Job / Artifact / Governance Hardening
 
+阶段状态：COMPLETED / PHASE CLOSEOUT BASELINE（2026-05-08）
+
 - JobRecord 增加 `app_id/project_id/workspace_id`、`external_job_ref`、`parent_job_id`、`progress`、`failure_context`、`artifact_ids`。
 - ArtifactRecord 增加 `app_id/project_id/workspace_id`、`external_asset_uri`、`preview_uri`、`thumbnail_uri`、`parent_ids`、`metadata`。
 - 新增 `artifact.register_external`、`artifact.read_metadata`、`artifact.lineage`。
@@ -152,7 +154,9 @@ Definition of Done：
 - Artifact large file policy 和 `ARTIFACT_READ_BLOCKED` JSON-RPC error shape 冻结。
 - Policy 覆盖 tool invocation、job execution、artifact persistence。
 - RuntimeAdapter 默认注入 scope、policy、approval、trace、secret hygiene。
-- 当前代码状态：`failure_context` 已同时写入 `JobRecord.failure_context` 顶层字段与 metadata；`artifact.read` 已阻断视频、音频、图片、binary、external-only 和大文件 inline read，并返回 `ARTIFACT_READ_BLOCKED`、blocked reason、metadata-only artifact 与 `artifact.read_metadata` 建议；job、connector execution、artifact read/lineage 已进入 Core trace；RuntimeAdapter governance metadata 已包含 scope 三元组。
+- 当前代码状态：`failure_context` 已同时写入 `JobRecord.failure_context` 顶层字段与 metadata；`connector.submit(defer=True)` 与 approval-required 路径已作为正式 job 路径，approval retry 会复用同一 connector job，不再产生 orphan queued job；`connector.submit` 可从 `session_id` 继承 scope，connector/job 查询和取消路径已做 scope 隔离。
+- 当前代码状态：`artifact.read` 已阻断视频、音频、图片、binary、external-only 和大文件 inline read，并返回 `ARTIFACT_READ_BLOCKED`、blocked reason、metadata-only artifact 与 `artifact.read_metadata` 建议；`artifact.register_external`、`artifact.read_metadata`、`artifact.lineage` 已作为统一 registry 视图使用。
+- 当前代码状态：job、connector execution、artifact read/lineage 已进入 Core trace；RuntimeAdapter governance metadata 已包含 scope 三元组；治理链路覆盖正式 tool / connector / job / artifact 主路径，底层 Store 的无 scope 调用仅保留为兼容/管理 bypass。
 
 PR slices / implementation order：
 
@@ -163,46 +167,106 @@ PR slices / implementation order：
 5. `V3.0-PhaseC-C5` RuntimeAdapter governance context injection tests。
 6. `V3.0-PhaseC-C6` platform-neutral governance audit。
 
+当前验收状态：
+
+- 2026-05-08 默认全量回归：`.venv/bin/python -m pytest -q` -> `182 passed, 3 skipped, 6 warnings`
+- 2026-05-08 PhaseC / Meeting 相关切片：`.venv/bin/python -m pytest tests/test_meeting_turn_workflow.py tests/test_gateway_protocol.py::test_knowledge_workflow_connector_approval_can_retry_to_completion tests/test_gateway_protocol.py::test_job_and_connector_rpcs_enforce_scope_and_inherit_session_scope tests/test_acceptance_scripts.py -q` -> `14 passed, 1 skipped`
+- 以当前文档口径，V3.0-PhaseC 已达到完成定义；Meeting facade / real-audio 验证已在 PhaseD 收官，Knowledge data-boundary 验证继续留在 PhaseE。
+
 ### V3.0-PhaseD：Meeting Reference Pack Validation
 
+阶段状态：VALIDATION PASSED（Meeting Pack assembly、legacy facade equivalence、strict/resilience real-audio E2E passed）
+
+目标定位：
+
 - `packs/meeting` 作为 reference pack 验证真实外部执行链路和 artifact lineage，不作为平台内置业务特权入口。
-- Meeting pack manifest 装配 workflow、connector、skills、artifact kinds、policy。
-- 通过 Meeting MCP / FunASR MCP connector 完成真实音频分析。
-- 输出 transcript、analysis、result、minutes artifacts。
-- 确保 job、trace、turn、artifact 关联完整。
-- 旧 meeting RPC 只保留兼容 facade，内部走标准 Pack / Connector 路径。
+- PhaseD 是 Meeting Pack 文档同步 + 后续实施阶段，不重开 PhaseA-C 平台合同。
+- 标准链路必须通过 Pack / Connector / RuntimeAdapter / Job / Artifact / Trace 完成，旧 meeting RPC 只保留兼容 facade。
+
+PhaseD Preconditions：
+
+- `app_id=meeting` profile 可用。
+- `ScopeContext` 可用于 session/thread/turn/job/artifact/trace。
+- `PackAssemblyResult` 可查询。
+- `ConnectorRegistry` 支持 `connector.get` / `connector.health` / capabilities。
+- `artifact.lineage`、`job.get/events`、`trace.list/get` 可用。
+- RuntimeAdapter governance injection 生效。
+- meeting 与 knowledge scope isolation 测试通过。
 
 Definition of Done：
 
 - Meeting reference pack 通过真实音频 E2E。
-- 通过 Meeting MCP / FunASR MCP connector 生成 transcript、analysis、result、minutes artifacts。
+- 通过 `funasr_mcp` 与 `meeting_voice_mcp` 生成 transcript、analysis、result、minutes artifacts。
 - legacy meeting facade 与 pack workflow 产出等价。
-- job、trace、turn、artifact 关联完整。
+- job、trace、turn、thread、artifact 关联完整。
 - 旧硬编码 meeting 旁路被移除或降级为兼容入口。
+- strict mode 不允许 silent fallback 掩盖 connector 缺失；resilience mode 的 fallback 必须写入 trace 与 artifact metadata。
 - Meeting 验证结果能够证明平台不需要为该 pack 继续保留 Core/Gateway 特判。
-- 当前代码状态：fake/unit 覆盖已基本稳定，但真实音频验收仍依赖相邻 `meeting-voice-assistant` 项目的 Meeting MCP 与 FunASR 服务；未满足该外部前置时，不能把 PhaseD 视为已完成。
+- 当前代码状态：Meeting workflow 真实音频路径已优先通过相邻 `voice_service` 的 `funasr_mcp.funasr_recognize_file` 执行转写；该路径支持 approval-required -> `approval.approve` -> `turn.retry`，并复用同一个 connector job。
+- 当前代码状态：FunASR 转写成功后，若相邻 `meeting-voice-assistant` 的 Meeting MCP 分析阶段不可用或超时，HarnessOS 会使用本地 fallback 生成 `transcript / analysis / result / minutes` artifacts。这个 fallback 是为了让 HarnessOS 的 platform lineage 验收不被仍在开发中的外部项目阻塞，不表示 Meeting 业务分析质量已完成。
+- 当前收官项：legacy meeting facade 与 pack workflow artifact/job/trace/lineage equivalence 已补齐；Meeting MCP 业务分析质量继续由外部依赖迭代，不再作为 HarnessOS PhaseD 平台验收阻塞项。
 
 PR slices / implementation order：
 
-1. `V3.0-PhaseD-D1` Meeting pack manifest assembly 完整化。
-2. `V3.0-PhaseD-D2` Meeting MCP / FunASR connector registry 接入。
-3. `V3.0-PhaseD-D3` Pack workflow 真实音频 E2E。
-4. `V3.0-PhaseD-D4` legacy facade -> pack workflow adapter。
-5. `V3.0-PhaseD-D5` artifact/job/trace equivalence tests。
+1. `V3.0-PhaseD-D0` Documentation Sync：同步 active plan、status、gap、drawio、acceptance、test plan。
+2. `V3.0-PhaseD-D1` Meeting Pack Assembly：标准化 `packs/meeting` 结构；`pack.get(app_id=meeting)` 必须返回 `meeting.workflow`、`funasr_mcp`、`meeting_voice_mcp`、`meeting-minutes`、`action-items`、`meeting.default`、`transcript/analysis/result/minutes`、assembly status、`missing_dependencies`、`blocked_reason`、`next_actions`。
+3. `V3.0-PhaseD-D2` Meeting Connector Contracts：`funasr_mcp` 负责 `audio.transcribe`；`meeting_voice_mcp` 负责 `meeting.analyze` / `minutes.generate`；二者都必须通过 ConnectorRegistry 管理；connector 缺失、stdio 路径不可用、tool 不存在时返回 explainable blocked/degraded。
+4. `V3.0-PhaseD-D3` Meeting Workflow Standard Path：`audio input -> transcribe -> analyze -> generate minutes -> register transcript/analysis/result/minutes -> bind job/trace/turn/thread`；strict mode 禁止 silent fallback；resilience mode fallback 必须记录 fallback reason。
+5. `V3.0-PhaseD-D4` Legacy Facade Compatibility：legacy `meeting.process_recording` 内部调用 `meeting.workflow`，返回兼容 response，并写入 deprecation warning。
+6. `V3.0-PhaseD-D5` Equivalence / Lineage Verification：比较 artifact kinds、parent_ids、metadata、scope、job binding、trace binding、lineage roots/leaves/edges、response compatibility；`connector_result` 可作为额外 root/leaf，但不能替代四件套。
+7. `V3.0-PhaseD-D6` Real Audio Strict + Resilience E2E：固化 `HARNESS_FUNASR_MCP_EXECUTION=stdio`、`HARNESS_MEETING_E2E_AUDIO_DIR`、`HARNESS_MEETING_E2E_STRICT`、`./scripts/e2e_meeting_preflight.sh`、`./scripts/e2e_meeting_validation.sh "<audio path>"`。
+8. `V3.0-PhaseD-D7` Architecture / Acceptance Docs Update：实施完成后再次同步 architecture status、gap md、gap drawio、acceptance cases、test plan。
+
+Legacy deprecation warning shape：
+
+```json
+{
+  "legacy_method": "meeting.process_recording",
+  "replacement": "turn.start / meeting.workflow",
+  "sunset_stage": "stage_1_compat_facade",
+  "message": "meeting.process_recording is deprecated; use the Meeting Pack workflow.",
+  "trace_event": "legacy_facade.deprecation_warning"
+}
+```
+
+Real-audio failure classification：
+
+- FunASR fail：transcription 未完成，strict/resilience 都失败。
+- `meeting_voice_mcp` fail：strict mode 失败；resilience mode 可 fallback。
+- fallback fail：resilience mode 失败。
+- artifact 缺失：失败。
+- lineage 缺失：失败。
+- scope 串数据：失败。
+- `connector_result` 存在但 transcript/analysis/result/minutes 四件套缺失：失败。
+
+当前验收状态：
+
+- 2026-05-08 MCP 环境前检查：`HARNESS_MEETING_MCP_AUDIO_DIR=/Users/Zhuanz/Desktop/workspace/音频资料 HARNESS_FUNASR_MCP_EXECUTION=stdio HARNESS_FUNASR_MCP_ENDPOINT=http://127.0.0.1:8001 .venv/bin/python scripts/check_real_mcp_env.py` -> `status=ok`
+- 2026-05-08 real-audio Meeting lineage：`./scripts/e2e_meeting_validation.sh "/Users/Zhuanz/Desktop/workspace/音频资料/TED演讲对话_My bank called in the middle of my TED Talk  Mike .mp3"` -> `status=passed`，生成 `transcript / analysis / result / minutes` artifacts，并保留 `connector_result` 作为 FunASR MCP 证据节点。
+- 2026-05-08 PhaseD focused regression：`.venv/bin/python -m pytest tests/test_meeting_legacy_facade_equivalence.py tests/test_meeting_strict_vs_resilience_mode.py tests/test_meeting_gateway.py tests/test_meeting_turn_workflow.py -q` -> `23 passed, 1 skipped`
+- 2026-05-08 PhaseD full regression：`.venv/bin/python -m pytest tests -q` -> `193 passed, 3 skipped, 6 warnings`
+- 2026-05-08 PhaseD preflight：`HARNESS_MEETING_E2E_AUDIO_DIR=/Users/Zhuanz/Desktop/workspace/音频资料 HARNESS_FUNASR_MCP_EXECUTION=stdio ./scripts/e2e_meeting_preflight.sh` -> `status=ok`
+- 2026-05-08 PhaseD resilience E2E：`HARNESS_MEETING_E2E_AUDIO_DIR=/Users/Zhuanz/Desktop/workspace/音频资料 HARNESS_FUNASR_MCP_EXECUTION=stdio ./scripts/e2e_meeting_validation.sh "/Users/Zhuanz/Desktop/workspace/音频资料/TED演讲对话_My bank called in the middle of my TED Talk  Mike .mp3"` -> `status=passed`, `strict=false`, `resilience_fallback_reason=null`
+- 2026-05-08 PhaseD strict E2E：`HARNESS_MEETING_E2E_AUDIO_DIR=/Users/Zhuanz/Desktop/workspace/音频资料 HARNESS_FUNASR_MCP_EXECUTION=stdio HARNESS_MEETING_E2E_STRICT=1 HARNESS_MEETING_ANALYSIS_TIMEOUT=90 ./scripts/e2e_meeting_validation.sh "/Users/Zhuanz/Desktop/workspace/音频资料/TED演讲对话_My bank called in the middle of my TED Talk  Mike .mp3"` -> `status=passed`, `strict=true`, `resilience_fallback_reason=null`
+- 2026-05-09 PhaseE focused regression：`.venv/bin/python -m pytest tests/test_pack_registry.py tests/test_gateway_protocol.py::test_gateway_pack_list_and_get tests/test_knowledge_pack_assembly.py tests/test_knowledge_connector_contract.py tests/test_knowledge_workflow_standard_path.py tests/test_knowledge_data_boundary.py tests/test_knowledge_lineage_equivalence.py tests/test_knowledge_connector_replacement.py tests/test_knowledge_scope_isolation.py -q` -> `32 passed`
+- 2026-05-09 新增 PhaseE 显式入口：`HARNESS_DATA_SERVICE_MCP_EXECUTION=stdio ./scripts/e2e_knowledge_validation.sh [document]`，用于验证 standard Gateway path 下的 `source_reference / note / brief / citation_bundle` artifacts、lineage、job binding 和 trace binding。默认未设置真实 MCP 环境变量时返回 blocked，不能作为通过结果。
+- 2026-05-09 Data Service MCP 默认路径已随迁移更新为 `/Users/Zhuanz/Desktop/workspace/data_service/backend`，默认解释器优先使用 `/Users/Zhuanz/Desktop/workspace/data_service/backend/.venv/bin/python`。
+- 2026-05-09 PhaseE real MCP E2E：`HARNESS_DATA_SERVICE_MCP_EXECUTION=stdio DATA_SERVICE_WORKSPACE_ROOT=/Users/Zhuanz/Desktop/workspace/data_service/harnessos-phasee-knowledge DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS=/Users/Zhuanz/Desktop/workspace/data_service DATA_SERVICE_ALLOWED_SOURCE_ROOTS=/Users/Zhuanz/Desktop/workspace/data_service ./.venv/bin/python scripts/e2e_knowledge_validation.py --query "HarnessOS PhaseE Knowledge Pack validation"` -> `status=passed`，输出 `source_reference / note / brief / citation_bundle`，`lineage_count=4`，`workflow_job_id=job_659f10470de5`，`trace_count=27`。
 
 ### V3.0-PhaseE：Knowledge Reference Pack Validation
 
 - `packs/knowledge` 作为 reference pack 验证状态型 connector、workflow lifecycle、data boundary 与 connector replaceability。
 - 通过 Knowledge MCP connector 接入本地知识库服务。
 - 支持 ingest、search、summarize、citation。
-- 输出 note、brief、citation_bundle artifacts。
+- 输出 source_reference、note、brief、citation_bundle artifacts。
 - 确保 trace、artifact、job、turn 关联完整。
 - 不改 Core 即可替换 knowledge connector。
+- PhaseE 内容不得作为 PhaseD 完成条件；PhaseD 只同步 Knowledge 边界，不实现 Knowledge E2E。
 
 Definition of Done：
 
 - Knowledge reference pack 通过 `data_service_mcp` 完成 ingest/search/citation E2E。
-- 输出 note、brief、citation_bundle artifacts。
+- 输出 source_reference、note、brief、citation_bundle artifacts，connector_result 只能作为额外证据节点，不能替代四件套。
 - Knowledge workflow 不直接读写 data_service 内部目录。
 - trace、artifact、job、turn 关联完整。
 - 替换 knowledge connector 不需要修改 Core。
@@ -213,6 +277,8 @@ PR slices / implementation order：
 1. `V3.0-PhaseE-E1` Knowledge pack manifest assembly 完整化。
 2. `V3.0-PhaseE-E2` data_service_mcp connector registry 接入。
 3. `V3.0-PhaseE-E3` ingest/search/summarize/citation workflow E2E。
+4. `V3.0-PhaseE-E4` data boundary：allowlist、symlink escape、source size limit。
+5. `V3.0-PhaseE-E5` connector replacement fixture：替换 data_service_mcp 实现不改 Core/Gateway 主结构。
 4. `V3.0-PhaseE-E4` Knowledge data boundary tests。
 5. `V3.0-PhaseE-E5` connector replacement fixture + lineage regression。
 
@@ -422,7 +488,7 @@ V3.0-PhaseC 只实现本地最小 worker，不实现分布式调度。
 
 - local in-process async worker
 - SQLite-backed job state
-- queued/running/succeeded/failed/cancelled
+- queued/running/completed/failed/cancelled
 - progress update
 - failure_context
 - artifact_ids binding
@@ -447,15 +513,15 @@ V3.0-PhaseC 只实现本地最小 worker，不实现分布式调度。
 - external-only artifact：拒绝 content read，返回 external_asset_uri metadata。
 - 大于 `MAX_INLINE_ARTIFACT_BYTES`：拒绝 content read。
 
-当前代码状态：已阻断 video、audio、image、binary、large 和 external-only artifact inline read；统一错误码和 JSON-RPC error shape 仍需在 V3.0-PhaseC 冻结。
+当前代码状态：已阻断 video、audio、image、binary、large 和 external-only artifact inline read；统一错误码已收敛为 `ARTIFACT_READ_BLOCKED`，JSON-RPC error shape 遵守 `result` 与 `error` 不同时存在。
 
 默认阈值：`MAX_INLINE_ARTIFACT_BYTES = 1048576`。
 
-错误码：
+冻结错误码：
 
-- `ARTIFACT_TOO_LARGE`
-- `ARTIFACT_BINARY_READ_BLOCKED`
-- `ARTIFACT_EXTERNAL_ONLY`
+- `ARTIFACT_READ_BLOCKED`
+
+兼容说明：旧错误码语义仍可在 metadata / blocked reason 中表达，但调用方不应再依赖 `ARTIFACT_TOO_LARGE`、`ARTIFACT_BINARY_READ_BLOCKED` 或 `ARTIFACT_EXTERNAL_ONLY` 作为主合同。
 
 JSON-RPC 响应必须遵守 JSON-RPC 2.0：`result` 与 `error` 不得同时存在。参考：https://www.jsonrpc.org/specification
 
@@ -548,7 +614,7 @@ Knowledge Pack 必须：
 
 ## 14. 当前落地切片
 
-当前代码已完成 V3.0-PhaseA 冻结基线、V3.0-PhaseB 收官闭环，以及 V3.0-PhaseC 的 artifact/job 起步硬化：
+当前代码已完成 V3.0-PhaseA 到 V3.0-PhaseE 的收官验收：
 
 - `core.apps` 新增 AppProfile/AppRegistry/ScopeContext。
 - Core records 与 SQLite Store 支持 `app_id/project_id/workspace_id`。
@@ -557,5 +623,9 @@ Knowledge Pack 必须：
 - `artifact.read` 拒绝视频、音频、图片、binary、大文件和 external-only 全量读取。
 - PackAssemblyResult 已完成 assembled/blocked/degraded/stub 正式合同。
 - ConnectorExecutionRuntime 已能创建 connector job 并登记结果 artifact。
+- connector approval retry 会复用同一个 connector job，job / connector RPC 已纳入 scope 隔离。
+- Meeting workflow 已通过 `voice_service` FunASR MCP stdio connector 完成真实音频转写和 lineage 验收。
+- Meeting PhaseD 已完成 pack assembly、legacy facade equivalence、strict/resilience real-audio E2E。
+- Knowledge PhaseE 已完成 pack assembly、data boundary、connector replacement、source_reference/note/brief/citation_bundle artifacts、lineage/job/trace binding 和迁移后的 `/Users/Zhuanz/Desktop/workspace/data_service/backend` stdio MCP 真实 E2E。
 
-下一步进入 V3.0-PhaseC 的 Job / Artifact / Governance Hardening；Meeting / Knowledge 的真实业务质量、legacy facade 等价和 data boundary 验收分别转入 PhaseD / PhaseE。
+下一步是 V3.0 closeout 维护与 V3.x+ 扩展规划；不再新增 V3.0 平台开发，不把 Interview / Investment / Video Studio 或 Low-Code / Memory / Feedback 需求回写为 V3.0 未完成项。
