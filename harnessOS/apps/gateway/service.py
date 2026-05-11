@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any, Awaitable, Callable, Dict, Optional
 
-from apps.gateway.approvals import APPROVAL_APPROVED, ApprovalStore
+from apps.gateway.approvals import APPROVAL_APPROVED, APPROVAL_REJECTED, ApprovalConflictError, ApprovalStore
 from apps.gateway.artifacts import ArtifactReadBlockedError, ArtifactRegistry
 from apps.gateway.persistence import atomic_write_text
 from apps.gateway.connector_execution import ConnectorExecutionRuntime
@@ -25,6 +25,10 @@ from apps.gateway.workflows import (
 )
 from core.apps import AppRegistry, build_default_app_registry, resolve_scope_context
 from core.packs import build_pack_execution_plan, execute_pack_stub
+from core.protocol.auth import issue_subscription_token
+from core.protocol.contracts.method_inventory import METHOD_INVENTORY
+from core.protocol.event_bridge import ensure_channel_capabilities, make_event_cursor, normalize_event_channels
+from core.protocol.schemas import ProtocolError, get_method_schema, list_method_schemas
 from packs.meeting.connector import MeetingGatewayService
 from packs.meeting.workflow import MeetingWorkflow
 
@@ -95,11 +99,12 @@ class GatewayService:
         self.initialized = True
         capabilities = self.rpc_router.capabilities()
         capabilities.update({"headless": True, "stdio_jsonl": True})
+        method_payload = await self.method_list({})
         return {
             "protocol_version": "v1alpha",
             "server": "harnessOS gateway",
             "capabilities": capabilities,
-            "methods": self.rpc_router.list_methods(),
+            "methods": method_payload["methods"],
         }
 
     async def health_ping(self) -> Dict[str, Any]:
@@ -1078,6 +1083,80 @@ class GatewayService:
         self.core_service.record_gateway_trace(trace_record)
         return {"approval": approval, "trace_id": trace_record["trace_id"]}
 
+    async def approval_respond(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Approve or reject one approval request through the V3.5 unified method."""
+        approval_id_value = params.get("approval_id")
+        if not isinstance(approval_id_value, str) or not approval_id_value.strip():
+            raise ProtocolError("INVALID_PARAMS", "approval_id is required", {"field": "approval_id"})
+        approval_id = approval_id_value.strip()
+        decision = params.get("decision")
+        if decision == "approve":
+            status = APPROVAL_APPROVED
+        elif decision == "reject":
+            status = APPROVAL_REJECTED
+        else:
+            raise ProtocolError(
+                "APPROVAL_INVALID_DECISION",
+                "decision must be approve or reject",
+                {"approval_id": approval_id, "decision": decision},
+            )
+        reason = _optional_str(params, "reason")
+        try:
+            current = self.approval_store.get_approval(approval_id)
+        except KeyError as exc:
+            raise ProtocolError("APPROVAL_NOT_FOUND", f"Approval not found: {approval_id}", {"approval_id": approval_id}) from exc
+        scope = self._resolve_request_scope(params)
+        if not self._record_matches_scope(current, scope):
+            trace_record = self.trace_store.record_approval_operation(
+                operation="respond",
+                approval=current,
+                status="blocked",
+                metadata={"error_code": "SCOPE_MISMATCH", "decision": decision},
+            )
+            self.core_service.record_gateway_trace(trace_record)
+            raise ProtocolError(
+                "SCOPE_MISMATCH",
+                "approval does not belong to the requested scope",
+                {"approval_id": approval_id, "trace_id": trace_record["trace_id"]},
+            )
+        try:
+            approval, idempotent = self.approval_store.respond(approval_id, status=status, reason=reason)
+        except KeyError as exc:
+            raise ProtocolError("APPROVAL_NOT_FOUND", f"Approval not found: {approval_id}", {"approval_id": approval_id}) from exc
+        except ApprovalConflictError as exc:
+            current_status = exc.current_status
+            if current_status is None:
+                try:
+                    current_status = str(self.approval_store.get_approval(approval_id).get("status") or "")
+                except KeyError:
+                    current_status = None
+            raise ProtocolError(
+                "APPROVAL_CONFLICT",
+                str(exc),
+                {"approval_id": approval_id, "decision": decision, "current_status": current_status},
+            ) from exc
+        if idempotent:
+            return {
+                "approval": approval,
+                "status": approval.get("status"),
+                "trace_id": approval.get("trace_id"),
+                "idempotent": True,
+            }
+        self.core_service.record_gateway_approval(approval)
+        trace_record = self.trace_store.record_approval_operation(
+            operation="respond",
+            approval=approval,
+            status=str(approval.get("status") or status),
+            metadata={"decision": decision, "reason": reason},
+        )
+        self.core_service.record_gateway_trace(trace_record)
+        return {
+            "approval": approval,
+            "status": approval.get("status"),
+            "trace_id": trace_record["trace_id"],
+            "idempotent": False,
+        }
+
     async def policy_evaluate(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Evaluate a user input or tool operation without executing it."""
         user_input = _optional_str(params, "input")
@@ -1291,11 +1370,90 @@ class GatewayService:
 
     async def method_list(self, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Return registered RPC methods and their public metadata."""
-        methods = self.rpc_router.list_methods()
+        params = params or {}
+        include_planned = _optional_bool(params, "include_planned")
+        include_forbidden = _optional_bool(params, "include_forbidden")
+        methods = []
+        for method in self.rpc_router.list_methods():
+            contract = _method_contract(str(method.get("method")))
+            surface = str(contract.get("surface") or "optional")
+            if surface == "forbidden_by_default" and not include_forbidden:
+                continue
+            method.update(_method_discovery_metadata(str(method.get("method")), contract, runtime_handler=True))
+            methods.append(method)
+        for method in methods:
+            try:
+                schema = get_method_schema(str(method.get("method")))
+            except KeyError:
+                continue
+            method.update(
+                {
+                    "schema_ref": schema["schema_ref"],
+                    "sdk_exposure": schema["sdk_exposure"],
+                    "stability": schema["stability"],
+                    "runtime_handler": schema["runtime_handler"],
+                }
+            )
+        if include_planned:
+            existing = {method["method"] for method in methods}
+            for schema in list_method_schemas(include_planned=True):
+                if schema["runtime_handler"] or schema["method"] in existing:
+                    continue
+                contract = _method_contract(str(schema["method"]))
+                methods.append(
+                    {
+                        "method": schema["method"],
+                        "capability": schema["capability"],
+                        **_method_discovery_metadata(str(schema["method"]), contract, runtime_handler=False),
+                        "schema_ref": schema["schema_ref"],
+                        "sdk_exposure": schema["sdk_exposure"],
+                        "stability": schema["stability"],
+                        "runtime_handler": False,
+                    }
+                )
+            methods = sorted(methods, key=lambda item: item["method"])
+        capabilities = {
+            str(method["capability"]): True
+            for method in methods
+            if isinstance(method.get("capability"), str) and method.get("capability")
+        }
         return {
             "methods": methods,
             "count": len(methods),
-            "capabilities": self.rpc_router.capabilities(),
+            "capabilities": dict(sorted(capabilities.items())),
+        }
+
+    async def events_subscribe(self, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Create a short-lived browser event subscription descriptor."""
+        params = params or {}
+        capabilities = params.get("_auth_capabilities")
+        if not isinstance(capabilities, list) or not all(isinstance(item, str) for item in capabilities):
+            raise ProtocolError(
+                "AUTH_REQUIRED",
+                "events.subscribe requires an external capability token.",
+                {"reason": "missing_auth_context"},
+            )
+        channels = normalize_event_channels(params.get("channels"))
+        ensure_channel_capabilities(channels, capabilities)
+        scope = self._resolve_request_scope(params)
+        ttl_seconds = _optional_int(params, "ttl_seconds", default=300)
+        token, claims = issue_subscription_token(
+            scope=scope,
+            channels=channels,
+            capabilities=capabilities,
+            ttl_seconds=ttl_seconds,
+        )
+        replay_cursor = make_event_cursor(scope, -1)
+        query_channels = ",".join(channels)
+        eventsource_url = f"/v1/events/subscribe?subscription_token={token}&channels={query_channels}"
+        return {
+            "subscription_id": claims.subscription_id,
+            "transport": "eventsource",
+            "eventsource_url": eventsource_url,
+            "subscription_token": token,
+            "replay_cursor": replay_cursor,
+            "expires_at": claims.expires_at,
+            "allowed_channels": list(channels),
         }
 
     async def handle_rpc(self, request: RpcRequest) -> RpcResponse:
@@ -1321,6 +1479,7 @@ class GatewayService:
         router.register("initialize", self.initialize, capability="rpc", description="Initialize protocol state")
         router.register("health.ping", _without_params(self.health_ping), capability="health", description="Gateway health")
         router.register("method.list", self.method_list, capability="rpc", description="List registered RPC methods")
+        router.register("events.subscribe", self.events_subscribe, capability="events", description="Create browser event subscription")
         router.register("app.list", self.app_list, capability="apps", description="List app profiles")
         router.register("app.get", self.app_get, capability="apps", description="Get app profile")
 
@@ -1390,6 +1549,7 @@ class GatewayService:
         router.register("approval.request", self.approval_request, capability="approvals")
         router.register("approval.list", self.approval_list, capability="approvals")
         router.register("approval.get", self.approval_get, capability="approvals")
+        router.register("approval.respond", self.approval_respond, capability="approvals")
         router.register("approval.approve", self.approval_approve, capability="approvals")
         router.register("approval.reject", self.approval_reject, capability="approvals")
         router.register("policy.evaluate", self.policy_evaluate, capability="policies")
@@ -1520,6 +1680,15 @@ def _optional_bool(params: Dict[str, Any], key: str) -> bool:
     return value
 
 
+def _optional_int(params: Dict[str, Any], key: str, *, default: int) -> int:
+    value = params.get(key)
+    if value is None:
+        return default
+    if not isinstance(value, int):
+        raise ValueError(f"{key} must be an integer when provided")
+    return value
+
+
 def _optional_str_list(params: Dict[str, Any], key: str) -> list[str]:
     value = params.get(key)
     if value is None:
@@ -1571,6 +1740,39 @@ def _meeting_legacy_deprecation_warning() -> Dict[str, str]:
     }
 
 
+def _method_contract(method: str) -> Dict[str, Any]:
+    exact: Dict[str, Any] | None = None
+    wildcard: Dict[str, Any] | None = None
+    for entry in METHOD_INVENTORY:
+        pattern = str(entry.get("method") or "")
+        if pattern == method:
+            exact = entry
+            break
+        if pattern.endswith(".*") and method.startswith(pattern[:-1]):
+            wildcard = entry
+    return exact or wildcard or {
+        "surface": "optional",
+        "status": "implemented",
+        "stability": "legacy",
+        "forbidden_reason": None,
+    }
+
+
+def _method_discovery_metadata(method: str, contract: Dict[str, Any], *, runtime_handler: bool) -> Dict[str, Any]:
+    surface = str(contract.get("surface") or "optional")
+    metadata: Dict[str, Any] = {
+        "surface": surface,
+        "status": str(contract.get("status") or "implemented"),
+        "stability": str(contract.get("stability") or "legacy"),
+        "runtime_handler": runtime_handler,
+        "sdk_exposure": "forbidden" if surface == "forbidden_by_default" else surface,
+    }
+    forbidden_reason = contract.get("forbidden_reason")
+    if isinstance(forbidden_reason, str) and forbidden_reason:
+        metadata["forbidden_reason"] = forbidden_reason
+    return metadata
+
+
 def _dump_core_record(record: Any) -> Dict[str, Any]:
     if hasattr(record, "model_dump"):
         return record.model_dump(mode="json")
@@ -1611,6 +1813,8 @@ def _without_params(handler: Callable[[], Awaitable[Dict[str, Any]]]) -> Callabl
 
 
 def _error_code(exc: Exception) -> str:
+    if isinstance(exc, ProtocolError):
+        return exc.code
     if isinstance(exc, ArtifactReadBlockedError):
         return "ARTIFACT_READ_BLOCKED"
     if isinstance(exc, KeyError):
@@ -1623,6 +1827,8 @@ def _error_code(exc: Exception) -> str:
 
 
 def _error_data(exc: Exception) -> Dict[str, Any]:
+    if isinstance(exc, ProtocolError):
+        return dict(exc.data)
     if hasattr(exc, "to_error_data") and callable(getattr(exc, "to_error_data")):
         data = exc.to_error_data()
         return data if isinstance(data, dict) else {}

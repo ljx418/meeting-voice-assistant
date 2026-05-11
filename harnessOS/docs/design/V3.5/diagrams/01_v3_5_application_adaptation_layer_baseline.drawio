@@ -7,10 +7,10 @@
         <mxCell id="title" value="harnessOS V3.5 Application Adaptation Layer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=24;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="250" y="20" width="760" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="note" value="本图描述 V3.5 在 Product UI/BFF 与 Protocol App Server/Core 之间的适配层位置。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=13;align=center" vertex="1" parent="1">
+        <mxCell id="note" value="本图描述 V3.5 在 Product UI/BFF 与 Protocol App Server/Core 之间的适配层位置。生产推荐 Business UI -&gt; BFF -&gt; harnessOS；Dev/direct 才允许受限 TS SDK 直连。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=13;align=center" vertex="1" parent="1">
           <mxGeometry x="320" y="70" width="610" height="35" as="geometry" />
         </mxCell>
-        <mxCell id="meeting" value="Product UI / External App&lt;br&gt;&lt;br&gt;业务前端 / 嵌入面板&lt;br&gt;通过 SDK / hooks / BFF 接入" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=13;align=center" vertex="1" parent="1">
+        <mxCell id="meeting" value="Product UI / External App&lt;br&gt;&lt;br&gt;生产默认通过 BFF 接入&lt;br&gt;Dev/direct 可用受限 TS SDK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=13;align=center" vertex="1" parent="1">
           <mxGeometry x="70" y="140" width="210" height="125" as="geometry" />
         </mxCell>
         <mxCell id="knowledge" value="Reference App Example&lt;br&gt;&lt;br&gt;平台中立样例&lt;br&gt;session / turn / events / artifacts / jobs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">

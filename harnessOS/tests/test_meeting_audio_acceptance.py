@@ -41,6 +41,15 @@ def _require_real_audio_dir() -> Path:
     return audio_dir
 
 
+def _artifact_path(value) -> Path:
+    if isinstance(value, dict):
+        path = value.get("path") or (value.get("record") or {}).get("path")
+    else:
+        path = value
+    assert isinstance(path, str) and path, f"artifact path missing from: {value!r}"
+    return Path(path)
+
+
 def test_phase1_meeting_acceptance_uses_workspace_audio_dir():
     """PhaseA frozen acceptance must process env-configured real audio."""
     config = get_meeting_mcp_config()
@@ -71,7 +80,7 @@ def test_phase1_meeting_acceptance_uses_workspace_audio_dir():
         assert Path(result["minutes_path"]).exists()
         artifacts = result["artifacts"]
         assert {"transcript", "analysis", "result", "minutes"}.issubset(set(artifacts))
-        for path in artifacts.values():
-            assert Path(path).exists()
+        for artifact in artifacts.values():
+            assert _artifact_path(artifact).exists()
 
     asyncio.run(run())

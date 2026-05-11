@@ -19,6 +19,9 @@ class AppProfile:
     runtime_adapter: str = "auto"
     default_project_id: Optional[str] = None
     default_workspace_id: Optional[str] = None
+    allowed_origins: tuple[str, ...] = ()
+    default_capabilities: tuple[str, ...] = ()
+    embed_policy: dict[str, Any] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -33,6 +36,9 @@ class AppProfile:
             "runtime_adapter": self.runtime_adapter,
             "default_project_id": self.default_project_id,
             "default_workspace_id": self.default_workspace_id,
+            "allowed_origins": list(self.allowed_origins),
+            "default_capabilities": list(self.default_capabilities),
+            "embed_policy": dict(self.embed_policy),
             "metadata": dict(self.metadata),
         }
 
@@ -69,6 +75,29 @@ class AppRegistry:
 
 def build_default_app_registry() -> AppRegistry:
     """Build the built-in app profile registry."""
+    local_origins = (
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:3000",
+    )
+    default_capabilities = (
+        "sessions",
+        "turns",
+        "events",
+        "artifacts",
+        "artifact_lineage",
+        "jobs",
+        "approvals",
+        "connectors.read",
+        "packs.read",
+        "rpc",
+    )
+    embed_policy = {
+        "allow_iframe": False,
+        "allowed_parent_origins": list(local_origins),
+        "event_channels": ["chat", "job", "artifact", "approval"],
+    }
     return AppRegistry(
         [
             AppProfile(
@@ -77,6 +106,9 @@ def build_default_app_registry() -> AppRegistry:
                 domain="meeting",
                 default_pack="meeting",
                 connector_refs=("meeting_voice_mcp", "funasr_mcp"),
+                allowed_origins=local_origins,
+                default_capabilities=default_capabilities,
+                embed_policy=embed_policy,
             ),
             AppProfile(
                 app_id="knowledge",
@@ -84,6 +116,9 @@ def build_default_app_registry() -> AppRegistry:
                 domain="knowledge",
                 default_pack="knowledge",
                 connector_refs=("local.knowledge", "data_service_mcp"),
+                allowed_origins=local_origins,
+                default_capabilities=default_capabilities,
+                embed_policy=embed_policy,
             ),
             AppProfile(
                 app_id="interview",
@@ -91,6 +126,9 @@ def build_default_app_registry() -> AppRegistry:
                 domain="interview",
                 default_pack="interview",
                 connector_refs=(),
+                allowed_origins=local_origins,
+                default_capabilities=default_capabilities,
+                embed_policy=embed_policy,
                 metadata={"status": "planned_v3_1"},
             ),
             AppProfile(
@@ -99,6 +137,9 @@ def build_default_app_registry() -> AppRegistry:
                 domain="investment",
                 default_pack="investment",
                 connector_refs=(),
+                allowed_origins=local_origins,
+                default_capabilities=default_capabilities,
+                embed_policy=embed_policy,
                 metadata={"status": "planned_v3_2"},
             ),
             AppProfile(
@@ -107,6 +148,9 @@ def build_default_app_registry() -> AppRegistry:
                 domain="video_studio",
                 default_pack="video_studio",
                 connector_refs=("remote_comfyui",),
+                allowed_origins=local_origins,
+                default_capabilities=default_capabilities,
+                embed_policy=embed_policy,
                 metadata={"status": "planned_v3_3"},
             ),
         ]

@@ -1,10 +1,17 @@
 # V3.5 Protocol Schema Registry + Error Registry Plan
 
-文档状态：V3.5-A planning artifact。
+文档状态：V3.5-A implemented contract baseline。
 
 ## 1. Goal
 
 建立 method/event/error schema registry，让 SDK、BFF、Event Bridge、Embed Contract 有稳定的协议源，而不是从 Python handler 或文档里猜字段。
+
+V3.5-A 已落地：
+
+- `core/protocol/contracts/` 是 exposure inventory 和阶段状态事实源。
+- `core/protocol/schemas/` 是 params/result/event/error schema 事实源。
+- `approval.respond` 是 V3.5-A 唯一新增正式 runtime method。
+- V3.5-A 中 `events.subscribe` 只有 schema，`runtime_handler=false`；V3.5-C 后已升级为 runtime method，`runtime_handler=true`。
 
 ## 2. Schema Registry As Single Source Of Truth
 
@@ -40,6 +47,7 @@ SDK 生成或手工实现规则：
 - `scope_required`
 - `auth_required`
 - `deprecated_by`
+- `runtime_handler`
 
 首批 default methods：
 
@@ -85,7 +93,7 @@ SDK 生成或手工实现规则：
 
 ## 5. Error Registry
 
-将现有 `_error_code()` 升级为集中 registry 或 wrapper registry。
+将现有 `_error_code()` 升级为集中 registry 或 wrapper registry。新增 protocol methods 必须通过 `ProtocolError(code, message, data)` 返回稳定错误码，不依赖裸 `ValueError` / `LookupError`。
 
 每个 error entry 至少包含：
 
@@ -108,13 +116,14 @@ SDK 生成或手工实现规则：
 - `CAPABILITY_DENIED`
 - `SCOPE_MISMATCH`
 - `EVENT_CURSOR_INVALID`
+- `SUBSCRIPTION_TOKEN_INVALID`
 - `SUBSCRIPTION_TOKEN_EXPIRED`
 - `SUBSCRIPTION_TOKEN_SCOPE_MISMATCH`
 - `SUBSCRIPTION_TOKEN_CHANNEL_DENIED`
 - `APPROVAL_NOT_FOUND`
-- `APPROVAL_ALREADY_RESOLVED`
 - `APPROVAL_CONFLICT`
 - `APPROVAL_RETRY_CONSUMED`
+- `APPROVAL_INVALID_DECISION`
 - `RUNTIME_ERROR`
 
 ## 6. New Protocol Methods
@@ -137,7 +146,7 @@ Result：
 - `trace_id`
 - `idempotent`
 
-内部可路由到现有 `approval.approve` / `approval.reject`，但 method registry 必须把 `approval.respond` 作为正式方法暴露。SDK 和 BFF 只能统一调用 `approval.respond`，不得暴露 `approval.approve` / `approval.reject` 双入口作为默认面。
+`approval.respond` 是 V3.5-A 唯一新增正式 runtime method。SDK 和 BFF 只能统一调用 `approval.respond`，不得暴露 `approval.approve` / `approval.reject` 双入口作为默认面。legacy `approval.approve` / `approval.reject` 保留兼容。
 
 Idempotency / error behavior：
 
@@ -147,8 +156,9 @@ Idempotency / error behavior：
 | conflicting decision | 返回 `APPROVAL_CONFLICT`，不得覆盖已完成决策。 |
 | scope mismatch | 返回 `SCOPE_MISMATCH`，trace 记录被阻断。 |
 | approval not found | 返回 `APPROVAL_NOT_FOUND`。 |
-| retry consumed | 返回 `APPROVAL_RETRY_CONSUMED`，不得再次执行审批后续动作。 |
-| already resolved but same decision | 返回 `APPROVAL_ALREADY_RESOLVED` 或 idempotent success，具体策略必须在 schema 中冻结。 |
+| retry consumed | `APPROVAL_RETRY_CONSUMED` 保留在 error registry，优先供 `turn.retry` 或后续 retry API 使用；`approval.respond` 不执行 retry。 |
+| invalid decision | 返回 `APPROVAL_INVALID_DECISION`，不得执行审批后续动作。 |
+| already resolved but same decision | 返回 idempotent success，`idempotent=true`。 |
 
 ### `events.subscribe`
 
@@ -179,6 +189,15 @@ Result：
 
 `subscription_token` 只服务 native EventSource/signed URL 场景，必须短期有效、scope-limited、channel-limited，并且不能扩大调用方原有 capability。
 
+V3.5-C 状态：
+
+- `surface=default`
+- `status=implemented`
+- `runtime_handler=true`
+- 出现在默认 callable `method.list`。
+- 仍可通过 schema registry 查询 schema metadata。
+- runtime 只签发订阅描述；实际 SSE transport 是 `/v1/events/subscribe`。
+
 ## 7. REST Scope Support
 
 SDK 默认走 JSON-RPC method surface，不默认使用 REST run path。
@@ -195,6 +214,10 @@ SDK 默认走 JSON-RPC method surface，不默认使用 REST run path。
 必须覆盖：
 
 - `method.list` 可发现 schema metadata 或 schema refs。
+- `method.list` 默认只列 callable runtime methods。
+- V3.5-A 中 `method.list(include_planned=true)` 可返回 planned schema，如 `events.subscribe`；V3.5-C 后 `events.subscribe` 默认出现在 callable method list。
+- `method.list` 和 `initialize.methods` 默认过滤 `forbidden_by_default` methods。
+- `method.list(include_forbidden=true)` 可用于兼容调试查询，但必须返回 `surface/status/stability/forbidden_reason`。
 - default SDK methods 均有 params/result schema。
 - forbidden legacy/debug methods 不进入 SDK default surface。
 - JSON-RPC `result` 和 `error` 不同时出现。
@@ -202,6 +225,23 @@ SDK 默认走 JSON-RPC method surface，不默认使用 REST run path。
 - handler/schema/SDK 对 default method 的参数、返回、错误保持一致。
 - method registration 缺 schema 时不能进入 default SDK surface。
 - `approval.respond` approve/reject 两条路径和幂等行为。
-- repeated same decision、conflicting decision、scope mismatch、approval not found、retry consumed 均命中稳定错误或 idempotent success。
+- repeated same decision、conflicting decision、scope mismatch、approval not found、invalid decision 均命中稳定错误或 idempotent success。
 - `events.subscribe` schema 与 native EventSource / fetch stream contract。
-- `events.subscribe` 返回 `eventsource_url/subscription_token/replay_cursor`。
+- `events.subscribe` 返回 `eventsource_url/subscription_token/replay_cursor/expires_at/allowed_channels`。
+
+## 9. V3.5-A Exit Statement
+
+V3.5-A 完成后只能声明：
+
+```text
+protocol schema and approval response contract ready
+```
+
+不能声明：
+
+```text
+V3.5-MVP complete
+SDK usable
+external app ready
+V3.5-MVP complete / SDK usable / external app ready
+```

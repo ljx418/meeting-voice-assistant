@@ -1,127 +1,137 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
   <diagram id="v3-5-current-gap-analysis" name="V3.5 Current Gap Analysis">
-    <mxGraphModel dx="1755" dy="958" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="2800" math="0" shadow="0">
+    <mxGraphModel dx="1478" dy="806" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="2800" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="harnessOS V3.5 Current Gap Analysis: Application Adaptation Layer" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" vertex="1" parent="1">
-          <mxGeometry x="280" y="20" width="1640" height="50" as="geometry" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" value="harnessOS V3.5 Current Gap Analysis: Application Adaptation Layer" vertex="1">
+          <mxGeometry height="50" width="1640" x="280" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" value="核心维护文件对：v3_5_current_gap_analysis.md + v3_5_current_gap_analysis.drawio。V3.5 目标是新增 Application Adaptation Layer，不重构 Core。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" vertex="1" parent="1">
-          <mxGeometry x="290" y="85" width="1620" height="52" as="geometry" />
+        <mxCell id="subtitle" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" value="核心维护文件对：v3_5_current_gap_analysis.md + v3_5_current_gap_analysis.drawio。V3.5 目标是新增 Application Adaptation Layer，不重构 Core。按 MVP -&gt; Full 推进。" vertex="1">
+          <mxGeometry height="52" width="1620" x="290" y="85" as="geometry" />
         </mxCell>
-
-        <mxCell id="section_arch" value="七层目标架构" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
-          <mxGeometry x="70" y="170" width="2060" height="52" as="geometry" />
+        <mxCell id="section_arch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=20;fontStyle=1;align=center" value="七层目标架构" vertex="1">
+          <mxGeometry height="52" width="2060" x="70" y="170" as="geometry" />
         </mxCell>
-        <mxCell id="p0" value="Plane-0&lt;br&gt;Product UI / External Business App&lt;br&gt;&lt;br&gt;业务前端 / 外部 App / 嵌入面板&lt;br&gt;V3.5 的直接使用方" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="70" y="255" width="250" height="135" as="geometry" />
+        <mxCell id="p0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" value="Plane-0&lt;br&gt;Product UI / External Business App&lt;br&gt;&lt;br&gt;业务前端 / 外部 App / 嵌入面板&lt;br&gt;V3.5 的直接使用方" vertex="1">
+          <mxGeometry height="135" width="250" x="70" y="255" as="geometry" />
         </mxCell>
-        <mxCell id="p1" value="Plane-1&lt;br&gt;Application Adaptation Layer&lt;br&gt;&lt;br&gt;SDK / BFF / hooks / Event bridge&lt;br&gt;Token / templates / embed contract&lt;br&gt;V3.5 主工作面" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;fontStyle=1;align=center" vertex="1" parent="1">
-          <mxGeometry x="370" y="245" width="300" height="155" as="geometry" />
+        <mxCell id="p1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;fontStyle=1;align=center" value="Plane-1&lt;br&gt;Application Adaptation Layer&lt;br&gt;&lt;br&gt;SDK / BFF / hooks / Event bridge&lt;br&gt;Token / templates / embed contract&lt;br&gt;V3.5 主工作面" vertex="1">
+          <mxGeometry height="155" width="300" x="370" y="245" as="geometry" />
         </mxCell>
-        <mxCell id="p2" value="Plane-2&lt;br&gt;Protocol App Server&lt;br&gt;&lt;br&gt;JSON-RPC / HTTP / stdio&lt;br&gt;method / event / error schema&lt;br&gt;approval.respond / events.subscribe" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FDE68A;strokeColor=#D97706;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="720" y="255" width="270" height="135" as="geometry" />
+        <mxCell id="p2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FDE68A;strokeColor=#D97706;fontSize=13;align=center" value="Plane-2&lt;br&gt;Protocol App Server&lt;br&gt;&lt;br&gt;JSON-RPC / HTTP / stdio&lt;br&gt;method / event / error schema&lt;br&gt;approval.respond / events.subscribe" vertex="1">
+          <mxGeometry height="135" width="270" x="720" y="255" as="geometry" />
         </mxCell>
-        <mxCell id="p3" value="Plane-3&lt;br&gt;Harness Core&lt;br&gt;&lt;br&gt;Scope / Session / Turn / Job&lt;br&gt;Artifact / Trace / Approval / Policy&lt;br&gt;V3.5 消费，不重构" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="1040" y="255" width="270" height="135" as="geometry" />
+        <mxCell id="p3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" value="Plane-3&lt;br&gt;Harness Core&lt;br&gt;&lt;br&gt;Scope / Session / Turn / Job&lt;br&gt;Artifact / Trace / Approval / Policy&lt;br&gt;V3.5 消费，不重构" vertex="1">
+          <mxGeometry height="135" width="270" x="1040" y="255" as="geometry" />
         </mxCell>
-        <mxCell id="p4" value="Plane-4&lt;br&gt;Runtime Adapter&lt;br&gt;&lt;br&gt;执行边界 / runtime 适配&lt;br&gt;治理注入&lt;br&gt;V3.5 不新增 runtime 入口" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="1360" y="255" width="240" height="135" as="geometry" />
+        <mxCell id="p4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" value="Plane-4&lt;br&gt;Runtime Adapter&lt;br&gt;&lt;br&gt;执行边界 / runtime 适配&lt;br&gt;治理注入&lt;br&gt;V3.5 不新增 runtime 入口" vertex="1">
+          <mxGeometry height="135" width="240" x="1360" y="255" as="geometry" />
         </mxCell>
-        <mxCell id="p5" value="Plane-5&lt;br&gt;Domain Pack&lt;br&gt;&lt;br&gt;workflow / skill / policy&lt;br&gt;artifact kinds / pack assembly&lt;br&gt;V3.5 提供模板" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="1645" y="235" width="230" height="125" as="geometry" />
+        <mxCell id="p5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;fontSize=13;align=center" value="Plane-5&lt;br&gt;Domain Pack&lt;br&gt;&lt;br&gt;workflow / skill / policy&lt;br&gt;artifact kinds / pack assembly&lt;br&gt;V3.5 提供模板" vertex="1">
+          <mxGeometry height="125" width="230" x="1645" y="235" as="geometry" />
         </mxCell>
-        <mxCell id="p6" value="Plane-6&lt;br&gt;Connector / Tool / Store&lt;br&gt;&lt;br&gt;MCP / stdio / HTTP connectors&lt;br&gt;外部服务 / store / tools&lt;br&gt;V3.5 提供 connector template" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="1645" y="390" width="230" height="135" as="geometry" />
+        <mxCell id="p6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#22C55E;fontSize=13;align=center" value="Plane-6&lt;br&gt;Connector / Tool / Store&lt;br&gt;&lt;br&gt;MCP / stdio / HTTP connectors&lt;br&gt;外部服务 / store / tools&lt;br&gt;V3.5 提供 connector template" vertex="1">
+          <mxGeometry height="135" width="230" x="1645" y="390" as="geometry" />
         </mxCell>
-        <mxCell id="governance" value="治理链路贯穿：token -&gt; scope -&gt; capability -&gt; JSON-RPC / native EventSource / fetch stream -&gt; Core approval / job / artifact / trace&lt;br&gt;SDK / BFF / Event Bridge 不得绕过 Core governance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="360" y="465" width="960" height="82" as="geometry" />
+        <mxCell id="governance" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" value="治理链路贯穿：token -&gt; scope -&gt; capability -&gt; JSON-RPC / native EventSource / fetch stream -&gt; Core approval / job / artifact / trace&lt;br&gt;SDK / BFF / Event Bridge 不得绕过 Core governance" vertex="1">
+          <mxGeometry height="82" width="960" x="360" y="465" as="geometry" />
         </mxCell>
-        <mxCell id="e01" edge="1" source="p0" target="p1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
-        <mxCell id="e12" edge="1" source="p1" target="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
-        <mxCell id="e23" edge="1" source="p2" target="p3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
-        <mxCell id="e34" edge="1" source="p3" target="p4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
-        <mxCell id="e45" edge="1" source="p4" target="p5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
-        <mxCell id="e46" edge="1" source="p4" target="p6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
-
-        <mxCell id="section_gap" value="当前状态 -&gt; 差距 -&gt; 目标状态" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
-          <mxGeometry x="70" y="610" width="2060" height="52" as="geometry" />
+        <mxCell id="e01" edge="1" parent="1" source="p0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p1">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="current" value="当前状态&lt;br&gt;&lt;br&gt;• 已有 JSON-RPC / HTTP / stdio 基础入口&lt;br&gt;• Core 对象可被消费&lt;br&gt;• Pack / Connector / Job / Artifact / Governance 合同可作为基线&lt;br&gt;• 缺少外部 App 接入层" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
-          <mxGeometry x="100" y="700" width="560" height="190" as="geometry" />
+        <mxCell id="e12" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p2">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="gap" value="核心差距&lt;br&gt;&lt;br&gt;• 无 formal SDK 默认面&lt;br&gt;• 无 method / event / error schema registry&lt;br&gt;• 无 local capability token&lt;br&gt;• 无 native EventSource auth&lt;br&gt;• 无 BFF / template / embed contract&lt;br&gt;• 无平台中立 reference app" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
-          <mxGeometry x="820" y="700" width="560" height="190" as="geometry" />
+        <mxCell id="e23" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p3">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="target" value="目标状态&lt;br&gt;&lt;br&gt;• 外部 App 通过 SDK / BFF 接入&lt;br&gt;• Token 绑定 scope / origin / capabilities&lt;br&gt;• Event bridge 支持 replay cursor&lt;br&gt;• approval.respond 统一审批且幂等&lt;br&gt;• templates 可生成 pack / connector&lt;br&gt;• reference app 不改 Core 接入" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
-          <mxGeometry x="1540" y="700" width="560" height="190" as="geometry" />
+        <mxCell id="e34" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p4">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="eg1" edge="1" source="current" target="gap" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
-        <mxCell id="eg2" edge="1" source="gap" target="target" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#D97706;endArrow=block;endFill=1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
-
-        <mxCell id="section_summary" value="开发计划摘要" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
-          <mxGeometry x="70" y="970" width="2060" height="52" as="geometry" />
+        <mxCell id="e45" edge="1" parent="1" source="p4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p5">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="summary_now" value="当前开发到哪了&lt;br&gt;&lt;br&gt;• V3.5 规划完成，尚未进入代码实施&lt;br&gt;• 七层目标架构已确定&lt;br&gt;• P0 条件已明确&lt;br&gt;• 尚无 SDK / BFF / Event Bridge / token / schema registry / reference app" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
-          <mxGeometry x="100" y="1045" width="620" height="150" as="geometry" />
+        <mxCell id="e46" edge="1" parent="1" source="p4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p6">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="summary_next" value="下一阶段开发什么&lt;br&gt;&lt;br&gt;1. V3.5-0 Contract Inventory&lt;br&gt;2. V3.5-A Schema + Error Registry&lt;br&gt;3. V3.5-B Capability Token&lt;br&gt;4. V3.5-C Browser Event Bridge&lt;br&gt;然后进入 Python SDK / TS SDK / hooks / BFF / Template / Embed / Reference App" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
-          <mxGeometry x="790" y="1045" width="620" height="150" as="geometry" />
+        <mxCell id="section_gap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=20;fontStyle=1;align=center" value="当前状态 -&gt; 差距 -&gt; 目标状态" vertex="1">
+          <mxGeometry height="52" width="2060" x="70" y="610" as="geometry" />
         </mxCell>
-        <mxCell id="summary_final" value="最终开发成什么样&lt;br&gt;&lt;br&gt;External App -&gt; SDK / hooks -&gt; BFF -&gt; token + scope -&gt; JSON-RPC / native EventSource / fetch stream -&gt; Core contracts&lt;br&gt;&lt;br&gt;平台中立 reference app 不改 Core 完成接入" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" vertex="1" parent="1">
-          <mxGeometry x="1480" y="1045" width="620" height="150" as="geometry" />
+        <mxCell id="current" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=14;fontSize=14" value="当前状态&lt;br&gt;&lt;br&gt;• 已有 JSON-RPC / HTTP / stdio 基础入口&lt;br&gt;• Core 对象可被消费&lt;br&gt;• Pack / Connector / Job / Artifact / Governance 合同可作为基线&lt;br&gt;• 缺少外部 App 接入层" vertex="1">
+          <mxGeometry height="190" width="560" x="100" y="700" as="geometry" />
         </mxCell>
-
-        <mxCell id="section_matrix" value="Gap Matrix 与阶段影响范围" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
-          <mxGeometry x="70" y="1280" width="2060" height="52" as="geometry" />
+        <mxCell id="gap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=14;fontSize=14" value="核心差距&lt;br&gt;&lt;br&gt;• 无 formal SDK 默认面&lt;br&gt;• 无 method / event / error schema registry&lt;br&gt;• 无 local capability token&lt;br&gt;• 无 native EventSource auth&lt;br&gt;• 无 BFF / template / embed contract&lt;br&gt;• 无平台中立 reference app" vertex="1">
+          <mxGeometry height="190" width="560" x="820" y="700" as="geometry" />
         </mxCell>
-        <mxCell id="m0" value="V3.5-0&lt;br&gt;Scaffolding / Contract Inventory&lt;br&gt;Plane-1 / Plane-2&lt;br&gt;目录规划、SDK 默认面、legacy/debug blacklist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="90" y="1370" width="360" height="120" as="geometry" />
+        <mxCell id="target" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=14;fontSize=14" value="目标状态&lt;br&gt;&lt;br&gt;• 生产默认 Business UI -&gt; BFF -&gt; harnessOS&lt;br&gt;• Dev/direct 可用受限 TS SDK 直连&lt;br&gt;• Event bridge 支持 replay cursor&lt;br&gt;• approval.respond 统一审批且幂等&lt;br&gt;• templates 可生成 pack / connector&lt;br&gt;• reference app 不改 Core 接入" vertex="1">
+          <mxGeometry height="190" width="560" x="1540" y="700" as="geometry" />
         </mxCell>
-        <mxCell id="ma" value="V3.5-A&lt;br&gt;Protocol Schema + Error Registry&lt;br&gt;Plane-1 / Plane-2&lt;br&gt;single source schema、approval.respond 幂等、events.subscribe" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="500" y="1370" width="360" height="120" as="geometry" />
+        <mxCell id="eg1" edge="1" parent="1" source="current" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;endArrow=block;endFill=1" target="gap">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="mb" value="V3.5-B&lt;br&gt;Auth / Capability Token&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;local token、scope、origin、capabilities、AppProfile auth fields" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="910" y="1370" width="360" height="120" as="geometry" />
+        <mxCell id="eg2" edge="1" parent="1" source="gap" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#D97706;endArrow=block;endFill=1" target="target">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="mc" value="V3.5-C&lt;br&gt;Browser Event Bridge&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;native EventSource、fetch stream、cursor replay、scope/token enforcement" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="1320" y="1370" width="360" height="120" as="geometry" />
+        <mxCell id="section_summary" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" value="开发计划摘要" vertex="1">
+          <mxGeometry height="52" width="2060" x="70" y="970" as="geometry" />
         </mxCell>
-        <mxCell id="md" value="V3.5-D / E1 / E2&lt;br&gt;SDK + React Hooks&lt;br&gt;Plane-0 / 1 / 2&lt;br&gt;Python SDK、TS SDK core、React hooks 依赖 EventBridge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="1730" y="1370" width="360" height="120" as="geometry" />
+        <mxCell id="summary_now" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" value="当前开发阶段&lt;br&gt;&lt;br&gt;• V3.5-A/B/C/D/D2 已落地&lt;br&gt;• contracts / schemas / auth guard / SDK snapshot / Minimal BFF 是当前事实源&lt;br&gt;• Python SDK + constrained BFF + EventSource proxy smoke 可用&lt;br&gt;• 下一步进入 V3.5-E1 TypeScript SDK Core Client" vertex="1">
+          <mxGeometry height="150" width="620" x="100" y="1045" as="geometry" />
         </mxCell>
-        <mxCell id="mf" value="V3.5-F&lt;br&gt;BFF Template&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;identity 到 scope/token 绑定、RPC / EventSource proxy、denylist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="290" y="1530" width="390" height="120" as="geometry" />
+        <mxCell id="summary_next" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" value="MVP 路线&lt;br&gt;&lt;br&gt;V3.5-0：工程入口 + inventory + 禁止面 + baseline&lt;br&gt;V3.5-A/B/C：Schema、Token、Event Bridge&lt;br&gt;V3.5-D/D2：Python SDK + Minimal BFF Smoke&lt;br&gt;&lt;br&gt;MVP 只能声明 dev/local adaptation layer ready" vertex="1">
+          <mxGeometry height="150" width="620" x="790" y="1045" as="geometry" />
         </mxCell>
-        <mxCell id="mg" value="V3.5-G&lt;br&gt;Pack / Connector Template&lt;br&gt;Plane-1 / 5 / 6&lt;br&gt;dummy pack / connector、version compatibility、warnings" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="750" y="1530" width="390" height="120" as="geometry" />
+        <mxCell id="summary_final" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" value="Full 路线 / 目标状态&lt;br&gt;&lt;br&gt;TS SDK + hooks + Full BFF Template + Pack/Connector Template + Embed Contract + reference app&lt;br&gt;&lt;br&gt;Full 完成后才声明 V3.5 complete" vertex="1">
+          <mxGeometry height="150" width="620" x="1480" y="1045" as="geometry" />
         </mxCell>
-        <mxCell id="mh" value="V3.5-H&lt;br&gt;Embed Contract&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;EmbedDefinition、chat/job/artifact/approval/trace/business event union" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="1210" y="1530" width="390" height="120" as="geometry" />
+        <mxCell id="section_matrix" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=20;fontStyle=1;align=center" value="Gap Matrix 与阶段影响范围" vertex="1">
+          <mxGeometry height="52" width="2060" x="70" y="1280" as="geometry" />
         </mxCell>
-        <mxCell id="mi" value="V3.5-I&lt;br&gt;Reference App Example&lt;br&gt;Plane-0 through Plane-6&lt;br&gt;SDK + BFF + hooks + dummy pack/connector；不依赖 Meeting/Knowledge" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" vertex="1" parent="1">
-          <mxGeometry x="1670" y="1530" width="390" height="120" as="geometry" />
+        <mxCell id="m0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-0&lt;br&gt;Scaffolding / Contract Inventory&lt;br&gt;Plane-1 / Plane-2&lt;br&gt;已落地：contracts inventory、scaffold、Phase0 tests、baseline doc" vertex="1">
+          <mxGeometry height="120" width="360" x="90" y="1370" as="geometry" />
         </mxCell>
-
-        <mxCell id="section_accept" value="P0 出门条件与非目标" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
-          <mxGeometry x="70" y="1740" width="2060" height="52" as="geometry" />
+        <mxCell id="ma" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-A&lt;br&gt;Protocol Schema + Error Registry&lt;br&gt;Plane-1 / Plane-2&lt;br&gt;已落地：schema registry、ProtocolError、approval.respond；events.subscribe 在 C 阶段转 runtime" vertex="1">
+          <mxGeometry height="120" width="360" x="500" y="1370" as="geometry" />
         </mxCell>
-        <mxCell id="p0_list" value="P0 Before Formal External App Support&lt;br&gt;&lt;br&gt;1. method / event / error schema registry&lt;br&gt;2. approval.respond protocol method + idempotency&lt;br&gt;3. events.subscribe protocol contract&lt;br&gt;4. local capability token&lt;br&gt;5. native EventSource + fetch stream auth&lt;br&gt;6. REST/BFF scope support&lt;br&gt;7. SDK/BFF legacy/debug denylist" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" vertex="1" parent="1">
-          <mxGeometry x="140" y="1840" width="620" height="280" as="geometry" />
+        <mxCell id="mb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-B&lt;br&gt;Auth / Capability Token&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;local token、scope、origin、capabilities、AppProfile auth fields" vertex="1">
+          <mxGeometry height="120" width="360" x="910" y="1370" as="geometry" />
         </mxCell>
-        <mxCell id="non_goals" value="Non-Goals&lt;br&gt;&lt;br&gt;• Core 重构&lt;br&gt;• 业务 reference path 重迁移&lt;br&gt;• sibling service 内部实现&lt;br&gt;• 完整 Workflow Studio&lt;br&gt;• 完整 AgentTalkWindow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=16;fontSize=14" vertex="1" parent="1">
-          <mxGeometry x="820" y="1840" width="560" height="280" as="geometry" />
+        <mxCell id="mc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-C&lt;br&gt;Browser Event Bridge&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;已落地：signed URL、fetch bearer、opaque cursor、heartbeat、本地 replay" vertex="1">
+          <mxGeometry height="120" width="360" x="1320" y="1370" as="geometry" />
         </mxCell>
-        <mxCell id="challenge" value="Challenge To Previous Gap Shape&lt;br&gt;&lt;br&gt;• 不再把历史路标放在主叙事&lt;br&gt;• 不再沿用六平面作为 V3.5 目标架构&lt;br&gt;• Product UI / External App 与 Gateway 分离&lt;br&gt;• Plane-1 Application Adaptation Layer 是 V3.5 主工作面&lt;br&gt;• 阶段影响范围不再误导为继续 Core 重构" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;align=left;spacingLeft=16;fontSize=14" vertex="1" parent="1">
-          <mxGeometry x="1440" y="1840" width="620" height="280" as="geometry" />
+        <mxCell id="md" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-D / D2 / E1 / E2&lt;br&gt;SDK + Minimal BFF + Hooks&lt;br&gt;Plane-0 / 1 / 2&lt;br&gt;已落地：Python SDK MVP + Minimal BFF Smoke；下一步：TS SDK core、React hooks" vertex="1">
+          <mxGeometry height="120" width="360" x="1730" y="1370" as="geometry" />
         </mxCell>
-
-        <mxCell id="section_core_files" value="核心维护文件" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=18;fontStyle=1;align=center" vertex="1" parent="1">
-          <mxGeometry x="250" y="2210" width="1700" height="48" as="geometry" />
+        <mxCell id="mf" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-F&lt;br&gt;Full BFF Template&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;identity 到 scope/token 绑定、RPC / EventSource proxy、denylist" vertex="1">
+          <mxGeometry height="120" width="390" x="290" y="1530" as="geometry" />
         </mxCell>
-        <mxCell id="core_files" value="后续与用户交互时优先维护这对文件：&lt;br&gt;docs/design/V3.5/v3_5_current_gap_analysis.md&lt;br&gt;docs/design/V3.5/v3_5_current_gap_analysis.drawio&lt;br&gt;&lt;br&gt;修改原则：文字合同与图形视图必须同步；七层目标架构、开发计划摘要、Gap Matrix、阶段影响范围、P0 出门条件必须保持一致。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" vertex="1" parent="1">
-          <mxGeometry x="250" y="2280" width="1700" height="130" as="geometry" />
+        <mxCell id="mg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-G&lt;br&gt;Pack / Connector Template&lt;br&gt;Plane-1 / 5 / 6&lt;br&gt;dummy pack / connector、version compatibility、warnings" vertex="1">
+          <mxGeometry height="120" width="390" x="750" y="1530" as="geometry" />
+        </mxCell>
+        <mxCell id="mh" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-H&lt;br&gt;Embed Contract&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;EmbedDefinition、chat/job/artifact/approval/trace/business event union" vertex="1">
+          <mxGeometry height="120" width="390" x="1210" y="1530" as="geometry" />
+        </mxCell>
+        <mxCell id="mi" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-I&lt;br&gt;Reference App Example&lt;br&gt;Plane-0 through Plane-6&lt;br&gt;SDK + BFF + hooks + dummy pack/connector；不依赖 Meeting/Knowledge" vertex="1">
+          <mxGeometry height="120" width="390" x="1670" y="1530" as="geometry" />
+        </mxCell>
+        <mxCell id="section_accept" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;fontSize=20;fontStyle=1;align=center" value="P0 出门条件与非目标" vertex="1">
+          <mxGeometry height="52" width="2060" x="70" y="1740" as="geometry" />
+        </mxCell>
+        <mxCell id="p0_list" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="MVP Exit&lt;br&gt;&lt;br&gt;1. method / event / error schema registry&lt;br&gt;2. approval.respond + events.subscribe&lt;br&gt;3. local capability token&lt;br&gt;4. native EventSource + fetch stream auth&lt;br&gt;5. Python SDK MVP&lt;br&gt;6. Minimal BFF Smoke&lt;br&gt;7. 只能声明 dev/local adaptation layer ready" vertex="1">
+          <mxGeometry height="280" width="620" x="140" y="1840" as="geometry" />
+        </mxCell>
+        <mxCell id="non_goals" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=16;fontSize=14" value="Non-Goals&lt;br&gt;&lt;br&gt;• Core 重构&lt;br&gt;• 业务 reference path 重迁移&lt;br&gt;• sibling service 内部实现&lt;br&gt;• 完整 Workflow Studio&lt;br&gt;• 完整 AgentTalkWindow" vertex="1">
+          <mxGeometry height="280" width="560" x="820" y="1840" as="geometry" />
+        </mxCell>
+        <mxCell id="challenge" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;align=left;spacingLeft=16;fontSize=14" value="Challenge To Previous Gap Shape&lt;br&gt;&lt;br&gt;• 不再把历史路标放在主叙事&lt;br&gt;• 不再沿用六平面作为 V3.5 目标架构&lt;br&gt;• Product UI / External App 与 Gateway 分离&lt;br&gt;• Plane-1 Application Adaptation Layer 是 V3.5 主工作面&lt;br&gt;• 阶段影响范围不再误导为继续 Core 重构" vertex="1">
+          <mxGeometry height="280" width="620" x="1440" y="1840" as="geometry" />
+        </mxCell>
+        <mxCell id="section_core_files" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=18;fontStyle=1;align=center" value="核心维护文件" vertex="1">
+          <mxGeometry height="48" width="1700" x="250" y="2210" as="geometry" />
+        </mxCell>
+        <mxCell id="core_files" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" value="后续与用户交互时优先维护这对文件：&lt;br&gt;docs/design/V3.5/v3_5_current_gap_analysis.md&lt;br&gt;docs/design/V3.5/v3_5_current_gap_analysis.drawio&lt;br&gt;&lt;br&gt;修改原则：文字合同与图形视图必须同步；七层目标架构、开发计划摘要、Gap Matrix、阶段影响范围、P0 出门条件必须保持一致。" vertex="1">
+          <mxGeometry height="130" width="1700" x="250" y="2280" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

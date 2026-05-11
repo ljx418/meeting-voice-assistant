@@ -10,7 +10,7 @@ MASK = "[REDACTED]"
 
 _SECRET_PATTERNS = [
     re.compile(r"\bsk-[A-Za-z0-9_\-]{8,}\b"),
-    re.compile(r"\b(sk|api[_-]?key|token|secret|password)\s*[:=]\s*['\"]?[^'\"\s,;]+", re.IGNORECASE),
+    re.compile(r"\b([A-Za-z0-9_-]*token|sk|api[_-]?key|secret|password)\s*[:=]\s*['\"]?[^'\"\s,;]+", re.IGNORECASE),
     re.compile(r"\bAuthorization\s*:\s*Bearer\s+[A-Za-z0-9._\-]+", re.IGNORECASE),
     re.compile(r"\bBearer\s+[A-Za-z0-9._\-]{8,}\b", re.IGNORECASE),
 ]

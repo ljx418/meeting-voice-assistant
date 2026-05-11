@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Any, Dict, Optional
 from uuid import uuid4
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 def new_id(prefix: str) -> str:
@@ -36,6 +36,15 @@ class RpcResponse(BaseModel):
     id: Optional[str] = None
     result: Optional[Dict[str, Any]] = None
     error: Optional[RpcError] = None
+
+    @model_validator(mode="after")
+    def validate_json_rpc_result_or_error(self) -> "RpcResponse":
+        """JSON-RPC responses must contain exactly one terminal payload."""
+        has_result = self.result is not None
+        has_error = self.error is not None
+        if has_result == has_error:
+            raise ValueError("RpcResponse must include exactly one of result or error")
+        return self
 
 
 class GatewayEvent(BaseModel):

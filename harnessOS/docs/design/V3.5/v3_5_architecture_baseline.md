@@ -23,7 +23,21 @@ Product UI / External Business App
 
 V3.5 不改变 Core 主合同，而是把业务 App 接入所需的客户端、BFF、安全、事件和模板层补齐。
 
-## 2. Adaptation Layer Responsibilities
+## 2. Frontend Access Modes
+
+V3.5 支持两种前端接入模式：
+
+```text
+Production recommended:
+  Business UI -> BFF -> harnessOS
+
+Dev/direct:
+  Business UI -> TypeScript SDK -> harnessOS
+```
+
+生产默认路径应通过 BFF 绑定业务身份、scope 和 capability token。浏览器不应长期持有广权限 capability token。Dev/direct 只用于本地开发、受限 capability token 或显式 dev mode。
+
+## 3. Adaptation Layer Responsibilities
 
 | 组件 | 职责 | 不负责 |
 | --- | --- | --- |
@@ -37,18 +51,21 @@ V3.5 不改变 Core 主合同，而是把业务 App 接入所需的客户端、B
 | Pack / Connector Template | 生成 app pack 和 connector descriptor skeleton。 | 不改变 PackRegistry/ConnectorRegistry 主合同。 |
 | Embed Contract | 定义未来嵌入式 Agent 面板所需 bootstrap 和 event union。 | 不实现完整 AgentTalkWindow。 |
 
-## 3. Boundary Rules
+## 4. Boundary Rules
 
 - 所有外部 App 请求必须显式绑定 scope。
 - SDK/BFF 必须通过 JSON-RPC、HTTP 或 stdio 入口调用 harnessOS。
+- 生产推荐路径是 Business UI -> BFF -> harnessOS。
+- 浏览器直连 harnessOS 仅限 dev/direct 或严格受限 token 场景。
 - Event bridge 必须保留原始 event id / cursor，不能生成无法追踪的新孤儿事件。
 - Native EventSource 不能依赖 Authorization header，必须使用 same-origin BFF cookie 或 short-lived signed subscription URL。
 - Fetch stream 可以使用 `Authorization: Bearer`，但必须校验 scope 和 capability。
 - Capability token 必须绑定 scope、origin 和 capabilities。
 - SDK/BFF 默认面必须排除 legacy/debug API。
+- SDK default export 必须保持 thin client，不得包含业务 workflow wrapper。
 - Pack / Connector template 必须证明不改 Core 即可被 registry 发现。
 
-## 4. Exit Architecture
+## 5. Exit Architecture
 
 V3.5 完成后，一个外部业务 App 的标准接入路径应是：
 

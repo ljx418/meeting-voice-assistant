@@ -245,10 +245,14 @@ def test_gateway_rpc_method_registry_and_capabilities(tmp_path):
         assert "turn.start" in init_methods
         assert "artifact.lineage" in init_methods
         assert "agent.list" in init_methods
-        assert "workflow.execute_stub" in init_methods
+        assert "workflow.execute_stub" not in init_methods
+        assert "pack.execute_stub" not in init_methods
+        assert "meeting.process_recording" not in init_methods
         assert "connector.submit" in init_methods
         assert "memory.summary" in init_methods
         assert init_methods["artifact.lineage"]["alias_of"] == "core.artifact.lineage"
+        assert init_methods["artifact.lineage"]["surface"] == "default"
+        assert init_methods["artifact.lineage"]["schema_ref"] == "protocol.methods.artifact.lineage"
         assert init.result["capabilities"]["turns"] is True
         assert init.result["capabilities"]["artifact_lineage"] is True
         assert init.result["capabilities"]["agents"] is True
@@ -268,6 +272,17 @@ def test_gateway_rpc_method_registry_and_capabilities(tmp_path):
         assert listed.result["capabilities"]["pack_execution"] is True
         assert listed.result["capabilities"]["connector_execution"] is True
         assert listed.result["capabilities"]["memory"] is True
+        assert all("surface" in method and "status" in method and "stability" in method for method in listed_methods.values())
+
+        forbidden = await service.handle_rpc(RpcRequest(id="3", method="method.list", params={"include_forbidden": True}))
+        assert forbidden.error is None
+        forbidden_methods = {method["method"]: method for method in forbidden.result["methods"]}
+        assert "workflow.execute_stub" in forbidden_methods
+        assert "pack.execute_stub" in forbidden_methods
+        assert "meeting.process_recording" in forbidden_methods
+        assert forbidden_methods["workflow.execute_stub"]["surface"] == "forbidden_by_default"
+        assert forbidden_methods["workflow.execute_stub"]["sdk_exposure"] == "forbidden"
+        assert forbidden_methods["workflow.execute_stub"]["forbidden_reason"]
 
     asyncio.run(run())
 

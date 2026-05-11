@@ -1,7 +1,7 @@
 # V3.5 Application Adaptation Layer Development Plan
 
-文档状态：V3.5 development plan。  
-执行范围：本计划用于后续代码实施；当前文档阶段不创建 SDK/API 代码目录、不修改 Core、不重复验证历史 reference paths。
+文档状态：V3.5-MVP implementation baseline with end-to-end SDK+BFF+EventBridge smoke；V3.5-Full planning。
+执行范围：本计划用于后续代码实施；Phase0 只创建 scaffold、机器可读 contract inventory 和验证基线，不修改 Core runtime behavior，不重复验证历史 reference paths。
 
 ## 1. Goal
 
@@ -15,6 +15,8 @@ V3.5 早期以 dev/local-first 启动。正式外部 App 接入前必须补齐�
 - `approval.respond`
 - REST scope support
 
+V3.5 按 MVP -> Full 两段推进。MVP 当前可声明 `dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke`；只有 Full 完成后才能声明 `V3.5 complete`。
+
 ## 2. Scope
 
 包含：
@@ -24,6 +26,7 @@ V3.5 早期以 dev/local-first 启动。正式外部 App 接入前必须补齐�
 - Auth / capability token MVP。
 - Browser Event Bridge。
 - Python SDK MVP。
+- Minimal BFF Smoke。
 - TypeScript SDK core client。
 - React hooks。
 - App Gateway / BFF template。
@@ -41,7 +44,7 @@ V3.5 早期以 dev/local-first 启动。正式外部 App 接入前必须补齐�
 
 ## 3. Impacted Files And Future Directories
 
-文档阶段新增或更新：
+文档与 Phase0 新增或更新：
 
 - `docs/design/V3.5/v3_5_contract_inventory.md`
 - `docs/design/V3.5/v3_5_protocol_schema_registry_plan.md`
@@ -53,6 +56,12 @@ V3.5 早期以 dev/local-first 启动。正式外部 App 接入前必须补齐�
 - `docs/design/V3.5/v3_5_embed_contract_plan.md`
 - `docs/design/V3.5/v3_5_reference_app_plan.md`
 - `docs/design/V3.5/v3_5_acceptance_plan.md`
+- `core/protocol/contracts/method_inventory.py`
+- `core/protocol/contracts/event_inventory.py`
+- `core/protocol/contracts/error_inventory.py`
+- `tests/test_v3_5_contract_inventory.py`
+- `tests/test_v3_5_scaffolding.py`
+- `docs/integration/v3_5_phase0_baseline.md`
 
 后续代码实施会涉及：
 
@@ -77,73 +86,88 @@ V3.5 早期以 dev/local-first 启动。正式外部 App 接入前必须补齐�
 
 PR slices：
 
-- `V3.5-0-PR1`：新增顶层目录规划文档，声明 `sdk/`、`templates/`、`examples/`、`docs/integration/` 的目标结构。
-- `V3.5-0-PR2`：梳理 method inventory，区分 SDK default、SDK optional、legacy/debug forbidden。
-- `V3.5-0-PR3`：梳理 event inventory 和 error inventory。
-- `V3.5-0-PR4`：记录当前默认回归作为 V3.5 启动回归基线。
+- `V3.5-0-PR1`：新增 `sdk/`、`templates/`、`examples/reference_app/`、`docs/integration/` scaffold；Phase0 只允许 README/.gitkeep 和基线文档，不创建可用 SDK API。
+- `V3.5-0-PR2`：新增 `core/protocol/contracts/method_inventory.py`，区分 SDK default、SDK optional、legacy/debug/business forbidden。
+- `V3.5-0-PR3`：新增 `event_inventory.py` 和 `error_inventory.py`，冻结 canonical events、aliases 和 planned errors。
+- `V3.5-0-PR4`：新增 Phase0 contract/scaffold tests，记录当前验证基线。
 
 验收：
 
-- 文档明确 SDK 默认面不包含 `meeting.*` legacy RPC 和 debug-only API。
-- 文档明确当前缺失 `events.subscribe`、`approval.respond`、native EventSource auth、fetch stream auth、local capability token、REST scope support。
+- `core/protocol/contracts/` 文件头声明 non-runtime contract metadata only；不注册 handler，不改变行为。
+- method entries 固定 `method/surface/status/capability/stability/planned_phase/handler_ref/forbidden_reason` 字段。
+- Phase0 时 `events.subscribe` 与 `approval.respond` 为 default surface；V3.5-A 后 `approval.respond` 变为 implemented；V3.5-C 后 `events.subscribe` 变为 implemented。
+- forbidden methods 必须有 `forbidden_reason`，legacy/debug/business wrapper 不进入 SDK default surface。
+- event entries 固定 `type/channel/status/replayable/aliases`；`artifact.registered` 为 canonical，`artifact.created` 只作为 alias。
+- error entries 固定 `code/status/category/retryable/planned_phase`；planned errors 必须有 planned_phase。
+- `docs/design/V3.5/v3_5_contract_inventory.md` 作为人类可读摘要，机器可读 inventory 是 source of truth。
+- `docs/integration/v3_5_phase0_baseline.md` 记录 baseline commit/date/python/env/test/drawio/external E2E exclusion。
+- Phase0 完成后只能声明 `V3.5 implementation ready`，不能声明 SDK usable、external app ready 或 V3.5 complete。
 
 ### V3.5-A Protocol Schema Registry + Error Registry
 
 PR slices：
 
-- `V3.5-A-PR1`：设计 method schema registry，覆盖 method name、capability、params schema、result schema、stability、sdk_exposure。
-- `V3.5-A-PR2`：设计 event schema registry，覆盖 chat/job/artifact/approval/trace/business events。
-- `V3.5-A-PR3`：设计 error registry，替代或包装 `_error_code()`。
-- `V3.5-A-PR4`：定义 `approval.respond` 和 `events.subscribe` schema。
-- `V3.5-A-PR5`：定义 JSON-RPC result/error 互斥 contract tests。
-- `V3.5-A-PR6`：定义 handler/schema/SDK 一致性 contract tests。
+- `V3.5-A-PR1`：新增 `core/protocol/schemas/methods.py`，覆盖 method name、capability、params schema、result schema、stability、sdk_exposure、runtime_handler。
+- `V3.5-A-PR2`：新增 `events.py`，覆盖 chat/job/artifact/approval/trace/business event envelope。
+- `V3.5-A-PR3`：新增 `errors.py` 和 `ProtocolError`，包装 `_error_code()`。
+- `V3.5-A-PR4`：实现唯一新增 runtime method `approval.respond`；`events.subscribe` 仅保留 schema。
+- `V3.5-A-PR5`：增加 JSON-RPC result/error 互斥 contract tests。
+- `V3.5-A-PR6`：增加 contracts/schema 一致性和 method.list 行为 tests。
 
 验收：
 
-- `method.list` 后续可返回 schema metadata 或可关联 schema registry。
+- `method.list` 默认只列 callable runtime methods，并为有 schema 的 method 返回 schema metadata。
+- `method.list(include_planned=true)` 可返回 planned schema，例如 `events.subscribe`。
 - 短期 schema 可手写，但必须通过 handler/schema/SDK 一致性测试。
 - 中期 method registration 必须绑定 schema，缺 schema 的 handler 不进入 SDK default surface。
-- `approval.respond` 是 protocol-level method，不只是 SDK 侧 helper。
-- `approval.respond` 冻结 repeated same decision、conflicting decision、scope mismatch、approval not found、retry consumed 行为。
-- `events.subscribe` 是 protocol-level subscription method，即使具体 transport 走 native EventSource 或 fetch stream。
+- `approval.respond` 是 protocol-level runtime method，不只是 SDK 侧 helper。
+- `approval.respond` 冻结 repeated same decision、conflicting decision、scope mismatch、approval not found、invalid decision 行为。
+- `events.subscribe` 是 protocol-level subscription schema，V3.5-A 不实现 runtime handler。
 - SDK 只能从 schema registry default surface 生成或手工对齐。
+- V3.5-A 完成后只能声明 `protocol schema and approval response contract ready`，不能声明 MVP ready、SDK usable、external app ready 或 `events.subscribe` runtime ready。
 
 ### V3.5-B Auth / Capability Token MVP
 
 PR slices：
 
-- `V3.5-B-PR1`：定义 local capability token envelope。
-- `V3.5-B-PR2`：定义 token 与 `app_id/project_id/workspace_id/capabilities/origin` 的绑定规则。
-- `V3.5-B-PR3`：扩展 AppProfile 文档字段：`allowed_origins`、`default_capabilities`、`embed_policy`。
-- `V3.5-B-PR4`：定义 dev mode 显式开启规则。
-- `V3.5-B-PR5`：定义 CORS 与 token scope 联动规则。
+- `V3.5-B-PR1`：实现 local HMAC capability token；签发仅限 CLI/local admin/internal test helper，不开放 public HTTP issuance。
+- `V3.5-B-PR2`：实现 AppProfile 权限上界，token origins/capabilities 必须是 profile 子集。
+- `V3.5-B-PR3`：实现 method capability resolver，映射来自 inventory/schema/registry；`connector.health` 使用 `connectors.read`，`pack.list/get` 使用 `packs.read`。
+- `V3.5-B-PR4`：实现 external transport guard，保护 `/v1/rpc`、`/v1/runs`、`/v1/runs/stream`、`/v1/sessions*`。
+- `V3.5-B-PR5`：保护 legacy/debug HTTP routes，例如 `/api/agents`、`/api/routing`。
+- `V3.5-B-PR6`：实现 scope normalization、dev mode、stream pre-auth rejection 和 token redaction tests。
 
 验收：
 
 - 无 token 的外部接入只能在显式 dev mode 下工作。
-- token scope 与 request scope 不一致时必须 blocked。
+- token scope 与 request scope 不一致时必须 blocked；top-level scope 与 nested scope 冲突返回 `SCOPE_MISMATCH`。
 - capability 不足时必须返回稳定 authorization error。
+- `method.list(include_forbidden=true)` 只能由 admin/debug/internal capability 使用。
+- Authorization header 和 token 字符串不得进入 trace、error、job、approval、artifact metadata。
+- V3.5-B 完成后只能声明 `local capability token and external auth contract ready`。
 
 ### V3.5-C Browser Event Bridge
 
 PR slices：
 
-- `V3.5-C-PR1`：定义 `GET /v1/events/subscribe`。
-- `V3.5-C-PR2`：定义 turn/job/artifact/approval/trace event channel。
-- `V3.5-C-PR3`：定义 scope 校验和 token 校验。
-- `V3.5-C-PR4`：定义 `Last-Event-ID` 或 replay cursor。
-- `V3.5-C-PR5`：定义 `events.subscribe` RPC alias 与 EventSource transport 的关系。
-- `V3.5-C-PR6`：定义 native EventSource mode：same-origin BFF cookie 或 short-lived signed subscription URL。
-- `V3.5-C-PR7`：定义 fetch stream mode：允许 `Authorization: Bearer`。
+- `V3.5-C-PR1`：实现 `GET /v1/events/subscribe`，返回 `text/event-stream`。
+- `V3.5-C-PR2`：实现 chat/job/artifact/approval/trace channel 的 persisted replay，本阶段不实现完整 event bus。
+- `V3.5-C-PR3`：实现 scope、capability、subscription token 和 channel 校验。
+- `V3.5-C-PR4`：实现 opaque replay cursor，并确保 `Last-Event-ID` 优先于 query cursor。
+- `V3.5-C-PR5`：将 `events.subscribe` 从 schema-only 改为 runtime method，返回 signed `eventsource_url`。
+- `V3.5-C-PR6`：实现 native EventSource mode：short-lived signed subscription URL，不依赖 Authorization header。
+- `V3.5-C-PR7`：实现 fetch stream mode：允许 `Authorization: Bearer`。
+- `V3.5-C-PR8`：实现 heartbeat、dedupe 和 `/v1/runs/stream` pre-auth compatibility 回归。
 
 验收：
 
 - 浏览器可用原生 `EventSource` GET 订阅事件，且不依赖 Authorization header。
-- `events.subscribe` 返回 `eventsource_url/subscription_token/replay_cursor`。
+- `events.subscribe` 返回 `eventsource_url/subscription_token/replay_cursor/expires_at/allowed_channels`。
 - `subscription_token` 短期有效、scope-limited、channel-limited，不能扩大 capability。
 - 事件可按 scope 过滤。
 - reconnect 可通过 cursor replay。
 - approval-required、job progress、artifact registered、trace event 可被 UI 处理。
+- V3.5-C 完成后只能声明 `browser event bridge contract and local runtime ready`，不能声明 MVP complete、SDK usable 或 external app ready。
 
 ### V3.5-D Python SDK MVP
 
@@ -163,6 +187,28 @@ PR slices：
 - SDK 默认不暴露 `meeting.*` 业务 legacy 方法。
 - SDK 默认走 JSON-RPC；REST run/stream 只作为 simple compatibility path。
 - SDK 只暴露 `approval.respond`，不暴露 approve/reject 双入口。
+- SDK default export 不得包含 `generateMinutes()`、`ingestDocument()`、`runMeetingWorkflow()`、`generateVideo()`、`analyzePortfolio()` 等业务 wrapper。
+
+### V3.5-D2 Minimal BFF Smoke
+
+这是 MVP 内的最小 BFF smoke，不等同于 V3.5-F Full BFF Template。
+
+PR slices：
+
+- `V3.5-D2-PR1`：定义 `templates/bff/fastapi_minimal` structure。
+- `V3.5-D2-PR2`：定义 Python SDK proxy smoke：session/turn。
+- `V3.5-D2-PR3`：定义 EventSource proxy smoke。
+- `V3.5-D2-PR4`：定义 approval.respond proxy smoke。
+- `V3.5-D2-PR5`：定义 legacy/debug/admin/business wrapper denylist smoke。
+- `V3.5-D2-PR6`：新增 MVP E2E smoke，使用真实 Minimal BFF、真实 Python SDK 和 harnessOS ASGI/TestClient transport。
+
+验收：
+
+- Minimal BFF 可启动并通过 Python SDK 调用 harnessOS。
+- Minimal BFF 可代理 JSON-RPC 和 EventSource。
+- Minimal BFF 不实现完整用户系统，只示范业务 identity 到 harnessOS scope/capability token 的绑定。
+- Minimal BFF 不代理 legacy/debug/admin/business wrapper。
+- MVP E2E 覆盖 BFF session/turn、SDK `events.subscribe`、BFF EventSource proxy、`approval.respond`、artifact/job/pack/connector 基础查询、denylist、scope isolation 和 redaction。
 
 ### V3.5-E1 TypeScript SDK Core Client
 
@@ -199,6 +245,8 @@ PR slices：
 - event hook 基于 V3.5-E1 TS SDK core client，不重新定义协议。
 
 ### V3.5-F App Gateway / BFF Template
+
+这是 Full 阶段的完整 BFF Template，不是 MVP smoke。
 
 PR slices：
 
@@ -279,11 +327,15 @@ PR slices：
 最终推荐顺序：
 
 ```text
+V3.5-MVP
 V3.5-0
   -> V3.5-A
   -> V3.5-B
   -> V3.5-C
   -> V3.5-D
+  -> V3.5-D2
+
+V3.5-Full
   -> V3.5-E1
   -> V3.5-E2
   -> V3.5-F
@@ -292,6 +344,19 @@ V3.5-0
 ```
 
 ## 6. Exit Standard
+
+V3.5-MVP 出门标准：
+
+- method/event/error registry 可用。
+- `approval.respond` runtime 可用，`events.subscribe` runtime 可用。
+- local capability token 可用。
+- browser EventBridge 可被 native EventSource 和 fetch stream 消费。
+- Python SDK 可完成 session/turn/event/artifact/job/approval 基础流程。
+- Minimal BFF Smoke 可代理 JSON-RPC 和 EventSource。
+- SDK/BFF 不暴露 legacy/debug/admin/business wrapper。
+- 当前平台回归保持绿灯。
+
+MVP 只能声明 `dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke`，不能声明 `V3.5 complete` 或 production-ready external app support。
 
 V3.5 出门标准：
 

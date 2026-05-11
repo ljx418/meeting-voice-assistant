@@ -1,0 +1,12 @@
+{
+  "harnessos_base_url": "http://127.0.0.1:8000",
+  "harnessos_capability_token_env": "HARNESSOS_BFF_CAPABILITY_TOKEN",
+  "identity_scope": {
+    "app_id": "reference_app",
+    "project_id": "demo",
+    "workspace_id": "local"
+  },
+  "allowed_origins": [
+    "http://localhost:5173"
+  ]
+}

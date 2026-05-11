@@ -63,7 +63,7 @@ descriptor 必须声明：
 
 - `connector_id`
 - `domain`
-- `manifest_schema_version`
+- `descriptor_schema_version`
 - `min_harnessos_version`
 - `target_harnessos_version`
 - `kind`

@@ -23,6 +23,14 @@ class ApprovalError(RuntimeError):
     """Raised when approval persistence or state transitions fail."""
 
 
+class ApprovalConflictError(ApprovalError):
+    """Raised when a decision conflicts with an existing approval decision."""
+
+    def __init__(self, message: str, *, current_status: Optional[str] = None) -> None:
+        super().__init__(message)
+        self.current_status = current_status
+
+
 class ApprovalStore:
     """Filesystem-backed approval request store."""
 
@@ -111,6 +119,33 @@ class ApprovalStore:
     def reject(self, approval_id: str, *, reason: Optional[str] = None) -> dict[str, Any]:
         """Reject a pending approval."""
         return self._decide(approval_id, status=APPROVAL_REJECTED, reason=reason)
+
+    def respond(self, approval_id: str, *, status: str, reason: Optional[str] = None) -> tuple[dict[str, Any], bool]:
+        """Apply an idempotent approval decision."""
+        if status not in {APPROVAL_APPROVED, APPROVAL_REJECTED}:
+            raise ApprovalError(f"Unsupported approval decision status: {status}")
+
+        def decide(records: list[dict[str, Any]]) -> tuple[dict[str, Any], bool]:
+            for index, record in enumerate(records):
+                if record.get("approval_id") != approval_id:
+                    continue
+                current_status = record.get("status")
+                if current_status == status:
+                    return dict(record), True
+                if current_status != APPROVAL_PENDING:
+                    raise ApprovalConflictError(
+                        f"Approval {approval_id} is already decided: current status is {current_status}",
+                        current_status=current_status if isinstance(current_status, str) else None,
+                    )
+                decided = dict(record)
+                decided["status"] = status
+                decided["decision_reason"] = mask_text(reason) if reason is not None else None
+                decided["decided_at"] = datetime.now().isoformat()
+                records[index] = decided
+                return decided, False
+            raise KeyError(f"Approval not found: {approval_id}")
+
+        return update_json_list_locked(self.index_path, decide, ApprovalError)
 
     def _decide(self, approval_id: str, *, status: str, reason: Optional[str]) -> dict[str, Any]:
         def decide(records: list[dict[str, Any]]) -> dict[str, Any]:

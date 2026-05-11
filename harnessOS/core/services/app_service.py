@@ -901,9 +901,9 @@ class CoreAppService:
         if artifact_ids is not None:
             job.artifact_ids = list(artifact_ids)
         if failure_context is not None:
-            job.failure_context = dict(failure_context)
+            job.failure_context = mask_value(dict(failure_context))
         if metadata:
-            job.metadata.update(metadata)
+            job.metadata.update(mask_value(metadata))
         job.updated_at = datetime.now()
         saved = self.store.save_job(job)
         self.record_job_event(

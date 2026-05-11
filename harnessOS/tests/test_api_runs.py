@@ -19,6 +19,7 @@ def test_create_run_endpoint_returns_gateway_result(monkeypatch):
     monkeypatch.setenv("OPENAI_API_KEY", "")
     monkeypatch.setenv("OPENHARNESS_API_KEY", "")
     monkeypatch.setenv("ANTHROPIC_API_KEY", "")
+    monkeypatch.setenv("HARNESS_V3_5_DEV_MODE", "1")
 
     client = TestClient(app)
     response = client.post(
@@ -40,6 +41,7 @@ def test_session_query_and_rpc_endpoints(monkeypatch):
     monkeypatch.setenv("OPENAI_API_KEY", "")
     monkeypatch.setenv("OPENHARNESS_API_KEY", "")
     monkeypatch.setenv("ANTHROPIC_API_KEY", "")
+    monkeypatch.setenv("HARNESS_V3_5_DEV_MODE", "1")
 
     client = TestClient(app)
     run_response = client.post(
@@ -78,6 +80,7 @@ def test_create_app_accepts_injected_gateway_service(monkeypatch):
     monkeypatch.setenv("OPENAI_API_KEY", "")
     monkeypatch.setenv("OPENHARNESS_API_KEY", "")
     monkeypatch.setenv("ANTHROPIC_API_KEY", "")
+    monkeypatch.setenv("HARNESS_V3_5_DEV_MODE", "1")
 
     gateway = GatewayService()
     injected_app = create_app(gateway_service=gateway)
