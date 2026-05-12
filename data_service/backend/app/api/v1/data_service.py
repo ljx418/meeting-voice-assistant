@@ -14,14 +14,28 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
 
 from app.api.v1.auth import api_key_header, verify_api_key
 from app.config import config
 from data_service import DataService, GraphExecutionOwner, QueryMode
+from data_service.distill_contract import run_distill_contract
+from data_service.mcp_common import blocked as _contract_blocked
+from data_service.mcp_common import envelope as _contract_envelope
+from data_service.query_contract import run_query_contract
+from data_service.quality_contract import (
+    low_signal_audit_payload,
+    quality_correction_plan_payload,
+    quality_correction_rule_review_payload,
+    quality_correction_rules_build_payload,
+    quality_correction_rules_payload,
+    quality_feedback_list_payload,
+    record_quality_feedback_payload,
+)
 from data_service.security import validate_source_paths, validate_workspace_path
 from data_service.session_service import SessionKnowledgeService
+from data_service.source_trace_contract import source_trace_payload
 
 
 async def verify_knowledge_access(api_key: Optional[str] = Depends(api_key_header)) -> str:
@@ -38,6 +52,7 @@ async def verify_knowledge_access(api_key: Optional[str] = Depends(api_key_heade
 
 
 router = APIRouter(prefix="/knowledge", tags=["Knowledge"], dependencies=[Depends(verify_knowledge_access)])
+target_router = APIRouter(prefix="/workspaces", tags=["Knowledge Target"], dependencies=[Depends(verify_knowledge_access)])
 _MAX_SOURCE_FILES = 100
 _MAX_SOURCE_FILE_BYTES = 10 * 1024 * 1024
 _BUILD_MODES = {"full", "incremental", "graph_only", "llmwiki_only"}
@@ -133,25 +148,24 @@ def _resolve_workspace_path(*, workspace: str | None = None, workspace_id: str |
 
 
 def _envelope(*, workspace_id: str, operation_id: str | None = None, status: str = "ok", warnings: list[str] | None = None, artifact_refs: list[Any] | None = None, next_actions: list[str] | None = None, data: dict | None = None) -> dict:
-    return {
-        "workspace_id": workspace_id,
-        "operation_id": operation_id,
-        "status": status,
-        "warnings": list(warnings or []),
-        "artifact_refs": list(artifact_refs or []),
-        "next_actions": list(next_actions or []),
-        "data": data or {},
-    }
+    return _contract_envelope(
+        workspace_id=workspace_id,
+        operation_id=operation_id,
+        status=status,
+        warnings=warnings,
+        artifact_refs=artifact_refs,
+        next_actions=next_actions,
+        data=data,
+    )
 
 
 def _blocked(*, workspace_id: str, message: str, operation_id: str | None = None, next_actions: list[str] | None = None, data: dict | None = None) -> dict:
-    return _envelope(
+    return _contract_blocked(
         workspace_id=workspace_id,
         operation_id=operation_id,
-        status="blocked",
-        warnings=[message],
+        message=message,
         next_actions=next_actions,
-        data=data or {"error": {"message": message, "retryable": False}},
+        data=data,
     )
 
 
@@ -586,322 +600,16 @@ def _read_source_items(workspace: Path, *, limit: int, status: str | None = None
     return items
 
 
-def _markdown_title(path: Path) -> str:
-    try:
-        for line in path.read_text(encoding="utf-8").splitlines():
-            stripped = line.strip()
-            if stripped.startswith("#"):
-                return stripped.lstrip("#").strip()
-    except OSError:
-        pass
-    return path.stem
-
-
-def _source_trace_terms(source: dict, units: list[dict]) -> set[str]:
-    terms: set[str] = set()
-    for value in (source.get("source_id"), source.get("title"), source.get("path"), source.get("original_path")):
-        text = str(value or "").strip()
-        if text:
-            terms.add(text)
-            terms.add(Path(text).stem)
-    for unit in units:
-        text = str(unit.get("text") or "").strip()
-        if text and len(text) <= 80:
-            terms.add(text)
-        for value in (unit.get("label"), unit.get("entity"), unit.get("theme"), unit.get("unit_id")):
-            text = str(value or "").strip()
-            if text:
-                terms.add(text)
-    return {term for term in terms if len(term) >= 2}
-
-
-def _text_matches_terms(text: str, terms: set[str]) -> bool:
-    lowered = text.lower()
-    return any(term.lower() in lowered for term in terms if term)
-
-
-def _build_source_trace(service: DataService, source_id: str, *, limit: int) -> dict:
-    distill = service.read_distill_bundle(source_id=source_id, limit=limit)
-    source = distill.get("source")
-    if not source:
-        raise KeyError(source_id)
-    units = list(distill.get("units", []) or [])
-    terms = _source_trace_terms(source, units)
-
-    llmwiki_pages: list[dict] = []
-    pages_dir = service.layout.llmwiki_pages_dir
-    if pages_dir.exists():
-        for page_path in sorted(pages_dir.glob("*.md")):
-            try:
-                body = page_path.read_text(encoding="utf-8")
-            except OSError:
-                body = ""
-            title = _markdown_title(page_path)
-            haystack = f"{page_path.stem}\n{title}\n{body}"
-            if _text_matches_terms(haystack, terms):
-                llmwiki_pages.append(
-                    {
-                        "slug": page_path.stem,
-                        "title": title,
-                        "path": str(page_path),
-                        "matched": True,
-                        "snippet": body[:320],
-                    }
-                )
-            if len(llmwiki_pages) >= limit:
-                break
-
-    graph = service.get_graph_snapshot(max_nodes=300)
-    graph_nodes = []
-    for node in graph.get("nodes", []) or []:
-        node_text = " ".join(str(node.get(key) or "") for key in ("id", "name", "label", "type", "node_type"))
-        if _text_matches_terms(node_text, terms) or any(_text_matches_terms(str(unit.get("text", "")), {str(node.get("name") or node.get("label") or "")}) for unit in units):
-            graph_nodes.append(node)
-        if len(graph_nodes) >= limit:
-            break
-    node_ids = {str(node.get("id")) for node in graph_nodes}
-    graph_edges = [
-        edge
-        for edge in graph.get("edges", []) or []
-        if str(edge.get("source")) in node_ids or str(edge.get("target")) in node_ids
-    ][:limit]
-    graph_communities = [
-        community
-        for community in graph.get("communities", []) or []
-        if node_ids.intersection({str(item) for item in community.get("entity_ids", []) or community.get("node_ids", []) or []})
-        or _text_matches_terms(str(community.get("title") or community.get("summary") or ""), terms)
-    ][:limit]
-
-    return {
-        "workspace": str(service.workspace),
-        "source_id": source_id,
-        "source": source,
-        "distill": {
-            "units": units,
-            "unit_count": len(units),
-            "provenance_summary": source.get("provenance_summary", {}),
-            "profile_debug": source.get("profile_debug", {}),
-        },
-        "llmwiki": {
-            "pages": llmwiki_pages,
-            "page_count": len(llmwiki_pages),
-        },
-        "graphrag": {
-            "nodes": graph_nodes,
-            "edges": graph_edges,
-            "communities": graph_communities,
-            "node_count": len(graph_nodes),
-            "edge_count": len(graph_edges),
-            "community_count": len(graph_communities),
-            "graph_model_version": graph.get("graph_model_version"),
-        },
-        "trace_summary": {
-            "source_title": source.get("title") or source_id,
-            "unit_count": len(units),
-            "llmwiki_page_count": len(llmwiki_pages),
-            "graph_node_count": len(graph_nodes),
-            "graph_community_count": len(graph_communities),
-        },
-    }
-
-
-_SAFE_TITLE_DERIVED_KINDS = {"question", "note", "fact_candidate", "risk"}
-
-
-def _source_low_signal(source: dict) -> dict:
-    return dict(source.get("profile", {}).get("low_signal") or source.get("low_signal") or {})
-
-
-def _title_like_terms(title: str) -> set[str]:
-    text = str(title or "").strip()
-    if not text:
-        return set()
-    terms = {text}
-    stem = Path(text).stem
-    if stem:
-        terms.add(stem)
-    without_uuid = re.sub(r"^[0-9a-fA-F-]{12,}[-_\\s]+", "", stem).strip()
-    if without_uuid and len(without_uuid) >= 8:
-        terms.add(without_uuid)
-    return {term for term in terms if len(term) >= 8}
-
-
-def _build_low_signal_audit(service: DataService, *, limit: int = 30) -> dict:
-    service.ensure_layout()
-    summary_bundle = service.read_summary_bundle()
-    distill_bundle = service.read_distill_bundle(limit=200)
-    distill_quality = dict(summary_bundle.get("quality", {}).get("distill", {}) or {})
-    sources = list(distill_bundle.get("sources", []) or [])
-    low_signal_sources = [source for source in sources if _source_low_signal(source)]
-    low_signal_terms: dict[str, set[str]] = {
-        str(source.get("source_id") or ""): _title_like_terms(str(source.get("title") or ""))
-        for source in low_signal_sources
-    }
-
-    title_derived_conclusion_count = 0
-    disallowed_title_derived_count = 0
-    title_derived_kind_counts: dict[str, int] = {}
-    title_derived_samples: list[dict] = []
-    disallowed_samples: list[dict] = []
-    scanned_source_count = 0
-
-    if service.layout.distill_sources_dir.exists():
-        for source_path in sorted(service.layout.distill_sources_dir.glob("*.json")):
-            source_record = _read_json(source_path, {})
-            if not source_record:
-                continue
-            scanned_source_count += 1
-            for unit in source_record.get("units", []) or []:
-                if not bool(unit.get("is_title_derived", False)):
-                    continue
-                kind = str(unit.get("kind") or "unknown")
-                title_derived_kind_counts[kind] = title_derived_kind_counts.get(kind, 0) + 1
-                sample = {
-                    "source_id": source_record.get("source_id") or source_path.stem,
-                    "source_title": source_record.get("title") or source_path.stem,
-                    "unit_id": unit.get("unit_id"),
-                    "kind": kind,
-                    "text": str(unit.get("text") or unit.get("normalized_text") or "")[:220],
-                }
-                if len(title_derived_samples) < limit:
-                    title_derived_samples.append(sample)
-                if kind == "conclusion":
-                    title_derived_conclusion_count += 1
-                if kind not in _SAFE_TITLE_DERIVED_KINDS:
-                    disallowed_title_derived_count += 1
-                    if len(disallowed_samples) < limit:
-                        disallowed_samples.append(sample)
-
-    llmwiki_title_leaks: list[dict] = []
-    if service.layout.llmwiki_pages_dir.exists() and low_signal_terms:
-        for page_path in sorted(service.layout.llmwiki_pages_dir.glob("*.md")):
-            page_title = _markdown_title(page_path)
-            haystack = f"{page_path.stem}\n{page_title}"
-            for source_id, terms in low_signal_terms.items():
-                matched = next((term for term in terms if len(term) >= 18 and term in haystack), "")
-                if matched:
-                    source = next((item for item in low_signal_sources if str(item.get("source_id") or "") == source_id), {})
-                    llmwiki_title_leaks.append(
-                        {
-                            "source_id": source_id,
-                            "source_title": source.get("title"),
-                            "page_slug": page_path.stem,
-                            "page_title": page_title,
-                            "matched_term": matched,
-                        }
-                    )
-                    break
-            if len(llmwiki_title_leaks) >= limit:
-                break
-
-    graph_snapshot = service.get_graph_snapshot(max_nodes=160)
-    graph_quality = dict(graph_snapshot.get("quality_diagnostics", {}) or {})
-    top_communities = list(graph_quality.get("top_communities", []) or graph_snapshot.get("communities", []) or [])
-    graph_title_leaks: list[dict] = []
-    for community in top_communities[:50]:
-        label = str(community.get("title") or community.get("label") or community.get("name") or community.get("id") or "")
-        if len(label) >= 36:
-            graph_title_leaks.append({"community_id": community.get("id") or community.get("target_id"), "title": label, "reason": "long_community_title"})
-            continue
-        for source_id, terms in low_signal_terms.items():
-            matched = next((term for term in terms if len(term) >= 18 and term in label), "")
-            if matched:
-                graph_title_leaks.append(
-                    {
-                        "community_id": community.get("id") or community.get("target_id"),
-                        "title": label,
-                        "source_id": source_id,
-                        "matched_term": matched,
-                        "reason": "low_signal_title_leak",
-                    }
-                )
-                break
-        if len(graph_title_leaks) >= limit:
-            break
-
-    checks = [
-        {
-            "check_id": "zero_unit_count",
-            "label": "zero unit source",
-            "status": "passed" if int(distill_quality.get("zero_unit_count", 0) or 0) == 0 else "failed",
-            "actual": int(distill_quality.get("zero_unit_count", 0) or 0),
-            "expected": 0,
-        },
-        {
-            "check_id": "title_derived_conclusion_count",
-            "label": "标题派生 conclusion",
-            "status": "passed" if title_derived_conclusion_count == 0 else "failed",
-            "actual": title_derived_conclusion_count,
-            "expected": 0,
-        },
-        {
-            "check_id": "disallowed_title_derived_kind_count",
-            "label": "标题派生强语义 unit",
-            "status": "passed" if disallowed_title_derived_count == 0 else "failed",
-            "actual": disallowed_title_derived_count,
-            "expected": 0,
-            "allowed_kinds": sorted(_SAFE_TITLE_DERIVED_KINDS),
-        },
-        {
-            "check_id": "llmwiki_low_signal_title_leak_count",
-            "label": "LLMWiki 长标题泄漏",
-            "status": "passed" if not llmwiki_title_leaks else "warning",
-            "actual": len(llmwiki_title_leaks),
-            "expected": 0,
-        },
-        {
-            "check_id": "graphrag_low_signal_title_leak_count",
-            "label": "GraphRAG 头部社区长标题泄漏",
-            "status": "passed" if not graph_title_leaks else "warning",
-            "actual": len(graph_title_leaks),
-            "expected": 0,
-        },
-    ]
-    failed_count = sum(1 for check in checks if check["status"] == "failed")
-    warning_count = sum(1 for check in checks if check["status"] == "warning")
-    overall_status = "failed" if failed_count else ("warning" if warning_count else "passed")
-    recommendations = []
-    if title_derived_conclusion_count or disallowed_title_derived_count:
-        recommendations.append("收紧 title fallback：标题派生内容只允许 question / note / fact_candidate / risk。")
-    if llmwiki_title_leaks:
-        recommendations.append("抽查 LLMWiki 页面标题，将低信号 source 的原始长标题保留到 source trace，不作为 topic 标题。")
-    if graph_title_leaks:
-        recommendations.append("抽查 GraphRAG top communities，把长标题或功能尾缀主题降权、合并或标记为噪音。")
-    if not recommendations:
-        recommendations.append("当前低信号 source 审计未发现阻塞项，继续用真实知识库定期回归。")
-
-    return {
-        "workspace": str(service.workspace),
-        "audited_at": _now(),
-        "overall_status": overall_status,
-        "checks": checks,
-        "metrics": {
-            "source_count": len(sources),
-            "scanned_source_count": scanned_source_count,
-            "low_signal_source_count": len(low_signal_sources),
-            "zero_unit_count": int(distill_quality.get("zero_unit_count", 0) or 0),
-            "title_fallback_source_count": int(distill_quality.get("title_fallback_source_count", 0) or 0),
-            "title_fallback_source_counts": dict(distill_quality.get("title_fallback_source_counts", {}) or {}),
-            "title_derived_unit_count": sum(title_derived_kind_counts.values()),
-            "title_derived_kind_counts": dict(sorted(title_derived_kind_counts.items())),
-            "title_derived_conclusion_count": title_derived_conclusion_count,
-            "disallowed_title_derived_count": disallowed_title_derived_count,
-            "llmwiki_title_leak_count": len(llmwiki_title_leaks),
-            "graphrag_title_leak_count": len(graph_title_leaks),
-        },
-        "samples": {
-            "title_derived": title_derived_samples,
-            "disallowed_title_derived": disallowed_samples,
-            "llmwiki_title_leaks": llmwiki_title_leaks,
-            "graphrag_title_leaks": graph_title_leaks,
-        },
-        "recommendations": recommendations,
-    }
-
-
 def _service_for_workspace(workspace: str) -> DataService:
     try:
         return DataService(validate_workspace_path(workspace))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+def _service_for_workspace_id(workspace_id: str) -> DataService:
+    try:
+        return DataService(_resolve_workspace_path(workspace_id=workspace_id))
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
@@ -980,6 +688,12 @@ class QueryRequest(BaseModel):
     top_k: int = Field(default=8, ge=1, le=50)
 
 
+class WorkspaceScopedQueryRequest(BaseModel):
+    query: str = Field(..., description="Query text")
+    mode: QueryMode = Field(default=QueryMode.HYBRID, description="Query mode: llmwiki, graphrag, hybrid")
+    top_k: int = Field(default=8, ge=1, le=50)
+
+
 class SummaryRequest(BaseModel):
     workspace: str = Field(..., description="Target workspace directory")
 
@@ -997,6 +711,19 @@ class DistillRequest(BaseModel):
     source_id: Optional[str] = Field(default=None, description="Optional source_id to inspect")
     limit: int = Field(default=20, ge=1, le=200)
     kind: Optional[str] = Field(default=None, description="Optional unit kind filter")
+    typed_unit_type: Optional[str] = Field(default=None, description="Optional typed unit type filter")
+    min_importance: float = Field(default=0.0, ge=0.0, description="Minimum unit importance")
+    llm_enriched_only: bool = Field(default=False, description="Only return llm-enriched units")
+    authority: Optional[str] = Field(default=None, description="Optional authority filter")
+    min_source_weight: float = Field(default=0.0, ge=0.0, description="Minimum source_weight")
+    min_source_density: float = Field(default=0.0, ge=0.0, description="Minimum source_density_score")
+
+
+class WorkspaceScopedDistillRequest(BaseModel):
+    source_id: Optional[str] = Field(default=None, description="Optional source_id to inspect")
+    limit: int = Field(default=20, ge=1, le=200)
+    kind: Optional[str] = Field(default=None, description="Optional unit kind filter")
+    typed_unit_type: Optional[str] = Field(default=None, description="Optional typed unit type filter")
     min_importance: float = Field(default=0.0, ge=0.0, description="Minimum unit importance")
     llm_enriched_only: bool = Field(default=False, description="Only return llm-enriched units")
     authority: Optional[str] = Field(default=None, description="Optional authority filter")
@@ -1380,23 +1107,7 @@ async def ingest_knowledge(request: IngestRequest) -> dict:
 @router.post("/query")
 async def query_knowledge(request: QueryRequest) -> dict:
     service = _service_for_workspace(request.workspace)
-    response = service.query(request.query, mode=request.mode, top_k=request.top_k)
-    return {
-        "mode": response.mode.value,
-        "query": response.query,
-        "answer": response.answer,
-        "hits": [
-            {
-                "title": hit.title,
-                "snippet": hit.snippet,
-                "source": hit.source,
-                "score": hit.score,
-                "meta": hit.meta,
-            }
-            for hit in response.hits
-        ],
-        "engine_payloads": response.engine_payloads,
-    }
+    return run_query_contract(service, request.query, mode=request.mode, top_k=request.top_k)
 
 
 @router.post("/summary")
@@ -1431,10 +1142,12 @@ async def read_graph(request: GraphRequest) -> dict:
 @router.post("/distill")
 async def read_distill(request: DistillRequest) -> dict:
     service = _service_for_workspace(request.workspace)
-    payload = service.read_distill_bundle(
+    payload = run_distill_contract(
+        service,
         source_id=request.source_id,
         limit=request.limit,
         kind=request.kind,
+        typed_unit_type=request.typed_unit_type,
         min_importance=request.min_importance,
         llm_enriched_only=request.llm_enriched_only,
         authority=request.authority,
@@ -1450,15 +1163,54 @@ async def read_distill(request: DistillRequest) -> dict:
 async def read_source_trace(request: SourceTraceRequest) -> dict:
     service = _service_for_workspace(request.workspace)
     try:
-        return _build_source_trace(service, request.source_id, limit=request.limit)
+        return source_trace_payload(service, request.source_id, limit=request.limit)
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=f"Unknown source_id: {request.source_id}") from exc
+
+
+@target_router.post("/{workspace_id}/query")
+async def query_workspace(workspace_id: str, request: WorkspaceScopedQueryRequest) -> dict:
+    service = _service_for_workspace_id(workspace_id)
+    return run_query_contract(service, request.query, mode=request.mode, top_k=request.top_k)
+
+
+@target_router.post("/{workspace_id}/distill")
+async def read_workspace_distill(workspace_id: str, request: WorkspaceScopedDistillRequest) -> dict:
+    service = _service_for_workspace_id(workspace_id)
+    payload = run_distill_contract(
+        service,
+        source_id=request.source_id,
+        limit=request.limit,
+        kind=request.kind,
+        typed_unit_type=request.typed_unit_type,
+        min_importance=request.min_importance,
+        llm_enriched_only=request.llm_enriched_only,
+        authority=request.authority,
+        min_source_weight=request.min_source_weight,
+        min_source_density=request.min_source_density,
+    )
+    if request.source_id and payload["source"] is None:
+        raise HTTPException(status_code=404, detail=f"Unknown source_id: {request.source_id}")
+    return payload
+
+
+@target_router.get("/{workspace_id}/sources/{source_id}/trace")
+async def read_workspace_source_trace(
+    workspace_id: str,
+    source_id: str,
+    limit: int = Query(default=12, ge=1, le=50),
+) -> dict:
+    service = _service_for_workspace_id(workspace_id)
+    try:
+        return source_trace_payload(service, source_id, limit=limit)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=f"Unknown source_id: {source_id}") from exc
 
 
 @router.post("/quality/low-signal-audit")
 async def read_low_signal_audit(request: LowSignalAuditRequest) -> dict:
     service = _service_for_workspace(request.workspace)
-    return _build_low_signal_audit(service, limit=request.limit)
+    return low_signal_audit_payload(service, limit=request.limit)
 
 
 @router.post("/directories/scan")
@@ -1503,7 +1255,8 @@ async def execute_graphrag(request: GraphRAGExecuteRequest) -> dict:
 async def record_quality_feedback(request: QualityFeedbackRequest) -> dict:
     service = _service_for_workspace(request.workspace)
     try:
-        record = service.record_quality_feedback(
+        return record_quality_feedback_payload(
+            service,
             target_type=request.target_type,
             target_id=request.target_id,
             action=request.action,
@@ -1514,17 +1267,13 @@ async def record_quality_feedback(request: QualityFeedbackRequest) -> dict:
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-    return {
-        "workspace": str(service.workspace),
-        "feedback": record,
-        "summary": service.read_quality_feedback(limit=20)["summary"],
-    }
 
 
 @router.post("/quality/feedback/list")
 async def list_quality_feedback(request: QualityFeedbackListRequest) -> dict:
     service = _service_for_workspace(request.workspace)
-    return service.read_quality_feedback(
+    return quality_feedback_list_payload(
+        service,
         limit=request.limit,
         target_type=request.target_type,
         target_id=request.target_id,
@@ -1534,20 +1283,21 @@ async def list_quality_feedback(request: QualityFeedbackListRequest) -> dict:
 @router.post("/quality/corrections")
 async def list_quality_corrections(request: QualityCorrectionRulesRequest) -> dict:
     service = _service_for_workspace(request.workspace)
-    return service.read_quality_correction_rules(limit=request.limit, status=request.status)
+    return quality_correction_rules_payload(service, limit=request.limit, status=request.status)
 
 
 @router.post("/quality/corrections/build")
 async def build_quality_corrections(request: QualityCorrectionRulesBuildRequest) -> dict:
     service = _service_for_workspace(request.workspace)
-    return service.build_quality_correction_rules()
+    return quality_correction_rules_build_payload(service)
 
 
 @router.post("/quality/corrections/review")
 async def review_quality_correction(request: QualityCorrectionRuleReviewRequest) -> dict:
     service = _service_for_workspace(request.workspace)
     try:
-        return service.review_quality_correction_rule(
+        return quality_correction_rule_review_payload(
+            service,
             rule_id=request.rule_id,
             status=request.status,
             reviewer=request.reviewer,
@@ -1560,7 +1310,7 @@ async def review_quality_correction(request: QualityCorrectionRuleReviewRequest)
 @router.post("/quality/corrections/plan")
 async def build_quality_correction_plan(request: QualityCorrectionPlanRequest) -> dict:
     service = _service_for_workspace(request.workspace)
-    return service.build_quality_correction_plan()
+    return quality_correction_plan_payload(service)
 
 
 @router.post("/page")

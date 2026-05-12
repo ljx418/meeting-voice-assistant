@@ -892,6 +892,9 @@ class WikiEngine:
             ".pdf": SourceType.PDF,
             ".pptx": SourceType.PPTX,
             ".ppt": SourceType.PPT,
+            ".docx": SourceType.DOCX,
+            ".yaml": SourceType.YAML,
+            ".yml": SourceType.YAML,
         }
         return type_map.get(suffix, SourceType.TEXT)
 

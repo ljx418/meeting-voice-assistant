@@ -1,0 +1,70 @@
+<mxfile host="app.diagrams.net" modified="2026-05-12T00:00:00.000Z" agent="codex" version="24.7.17">
+  <diagram id="data-service-v1-6-gap" name="Data Service V1.6 Gap">
+    <mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Data Service V1.6：Current vs Target Gap" style="text;html=1;strokeColor=none;fillColor=none;fontSize=30;fontStyle=1;fontColor=#0F172A;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="180" y="30" width="1240" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="V1.5 accepted baseline 已冻结；V1.6 只按最小能力组规划和开放 target HTTP、Graph advanced、Session GraphRAG 与 Quality governance。" style="text;html=1;strokeColor=none;fillColor=none;fontSize=16;fontColor=#475569;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="240" y="80" width="1120" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="baseline" value="&lt;b&gt;V1.5 Baseline&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Closure accepted&lt;br&gt;• MCP tools: 40&lt;br&gt;• CLI top-level unchanged&lt;br&gt;• target HTTP: 3 routes&lt;br&gt;• /api/v1/knowledge/* retained&lt;br&gt;• /knowledge = governance console" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F0FDF4;strokeColor=#22C55E;fontColor=#1E293B;fontSize=15;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="70" y="170" width="310" height="240" as="geometry"/>
+        </mxCell>
+        <mxCell id="target" value="&lt;b&gt;V1.6 Target Architecture&lt;/b&gt;&lt;br&gt;&lt;br&gt;• MCP-first primary contract&lt;br&gt;• knowledge ... human operator CLI&lt;br&gt;• workspace-scoped target HTTP&lt;br&gt;• app.llmwiki owns readable artifacts&lt;br&gt;• app.graphrag.service owns graph/session graph&lt;br&gt;• stable ID based external contracts" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#EFF6FF;strokeColor=#3B82F6;fontColor=#1E293B;fontSize=15;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="460" y="170" width="330" height="240" as="geometry"/>
+        </mxCell>
+        <mxCell id="gap" value="&lt;b&gt;Open V1.6 Gaps&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Repeatable public surface guard&lt;br&gt;• workspace/source/build target write routes&lt;br&gt;• graph neighbors/community/query/session&lt;br&gt;• session GraphRAG public contract&lt;br&gt;• quality write target HTTP&lt;br&gt;• artifact_ref and operation lifecycle hardening" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#1E293B;fontSize=15;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="870" y="170" width="330" height="240" as="geometry"/>
+        </mxCell>
+        <mxCell id="nong" value="&lt;b&gt;Non Goals&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Do not turn /knowledge into end-user app&lt;br&gt;• Do not depend on meeting / ASR / IDE plugins&lt;br&gt;• Do not expose internal paths as contract&lt;br&gt;• Do not open every candidate in one slice" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FEF2F2;strokeColor=#EF4444;fontColor=#1E293B;fontSize=15;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="170" width="270" height="240" as="geometry"/>
+        </mxCell>
+        <mxCell id="phase_a" value="&lt;b&gt;V1.6-A&lt;/b&gt;&lt;br&gt;Public surface guard&lt;br&gt;&lt;br&gt;MCP / CLI / HTTP / target HTTP scans" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#64748B;fontColor=#0F172A;fontSize=14;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="510" width="210" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="phase_b" value="&lt;b&gt;V1.6-B&lt;/b&gt;&lt;br&gt;Lifecycle target HTTP&lt;br&gt;&lt;br&gt;workspace / source / build write routes" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#64748B;fontColor=#0F172A;fontSize=14;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="340" y="510" width="210" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="phase_c" value="&lt;b&gt;V1.6-C&lt;/b&gt;&lt;br&gt;Graph advanced&lt;br&gt;&lt;br&gt;neighbors / community / query / session" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#64748B;fontColor=#0F172A;fontSize=14;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="590" y="510" width="210" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="phase_d" value="&lt;b&gt;V1.6-D&lt;/b&gt;&lt;br&gt;Session GraphRAG contract&lt;br&gt;&lt;br&gt;session_id / operation_id / artifact_ref" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#64748B;fontColor=#0F172A;fontSize=14;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="840" y="510" width="210" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="phase_e" value="&lt;b&gt;V1.6-E&lt;/b&gt;&lt;br&gt;Quality target HTTP&lt;br&gt;&lt;br&gt;non-destructive governance writes" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#64748B;fontColor=#0F172A;fontSize=14;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="510" width="210" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="phase_f" value="&lt;b&gt;V1.6-F&lt;/b&gt;&lt;br&gt;Console governance polish&lt;br&gt;&lt;br&gt;surface / contract / trace evidence" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#64748B;fontColor=#0F172A;fontSize=14;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="1340" y="510" width="210" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="accept" value="&lt;b&gt;Acceptance Gate For Every Slice&lt;/b&gt;&lt;br&gt;&lt;br&gt;• focused tests + combined regression&lt;br&gt;• public surface before/after audit&lt;br&gt;• compatibility HTTP retained&lt;br&gt;• stable ID contract verified&lt;br&gt;• docs and drawio synchronized&lt;br&gt;• frontend build/screenshots when console changes" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F1F5F9;strokeColor=#94A3B8;fontColor=#334155;fontSize=15;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="270" y="760" width="1060" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;endArrow=block;endFill=1;" edge="1" parent="1" source="baseline" target="target">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;endArrow=block;endFill=1;" edge="1" parent="1" source="target" target="gap">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;endArrow=block;endFill=1;" edge="1" parent="1" source="phase_a" target="phase_b">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;endArrow=block;endFill=1;" edge="1" parent="1" source="phase_b" target="phase_c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;endArrow=block;endFill=1;" edge="1" parent="1" source="phase_c" target="phase_d">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;endArrow=block;endFill=1;" edge="1" parent="1" source="phase_d" target="phase_e">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;endArrow=block;endFill=1;" edge="1" parent="1" source="phase_e" target="phase_f">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

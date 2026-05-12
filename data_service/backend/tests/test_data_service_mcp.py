@@ -1,7 +1,50 @@
 import json
 import asyncio
+import re
+from pathlib import Path
 
 import pytest
+
+V15_DOCS_ROOT = Path("docs/V1.5")
+
+
+def _assert_no_public_path_keys(payload, *, path=()):
+    if isinstance(payload, dict):
+        for key, value in payload.items():
+            if key in {"debug_path", "debug_paths"}:
+                continue
+            assert key not in {
+                "path",
+                "paths",
+                "workspace",
+                "workspace_path",
+                "original_path",
+                "distill_path",
+                "rules_path",
+                "feedback_path",
+                "units_path",
+                "db_path",
+                "request_path",
+                "root",
+                "artifacts",
+            }, f"public path key leaked at {'.'.join((*path, key))}"
+            _assert_no_public_path_keys(value, path=(*path, key))
+    elif isinstance(payload, list):
+        for index, item in enumerate(payload):
+            _assert_no_public_path_keys(item, path=(*path, str(index)))
+
+
+def _cli_command_choices():
+    from data_service.__main__ import _build_parser
+
+    parser = _build_parser()
+    return next(action for action in parser._actions if getattr(action, "choices", None)).choices
+
+
+def _cli_quality_subcommands():
+    quality_parser = _cli_command_choices()["quality"]
+    quality_action = next(action for action in quality_parser._actions if getattr(action, "choices", None))
+    return set(quality_action.choices)
 
 
 @pytest.mark.asyncio
@@ -14,6 +57,8 @@ async def test_data_service_mcp_lists_quality_tools():
     assert {tool.name for tool in tools} >= {
         "knowledge_ingest",
         "knowledge_query",
+        "knowledge_distill_preview",
+        "knowledge_source_trace",
         "knowledge_quality_summary",
         "knowledge_correction_plan",
         "knowledge_quality_feedback",
@@ -51,6 +96,504 @@ async def test_data_service_mcp_lists_quality_tools():
         "knowledge_session_query",
         "knowledge_actor_summary",
     }
+
+
+@pytest.mark.asyncio
+async def test_data_service_mcp_tool_registry_contract():
+    pytest.importorskip("mcp")
+    from data_service.mcp_tool_registry import V2_TOOL_MAP, all_tool_specs
+
+    specs = all_tool_specs()
+    names = [spec["name"] for spec in specs]
+
+    assert len(names) == 40
+    assert len(names) == len(set(names))
+    assert set(V2_TOOL_MAP) <= set(names)
+    assert set(V2_TOOL_MAP.values()) <= set(names)
+    assert {
+        "knowledge_workspace_create",
+        "knowledge_source_import",
+        "knowledge_build_start",
+        "knowledge_distill_preview",
+        "knowledge_source_trace",
+        "knowledge_session_build_start",
+        "knowledge_query_v2",
+    } <= set(names)
+
+
+def test_console_mcp_contract_snapshot_matches_registry():
+    from data_service.mcp_resources import RESOURCE_SPECS, canonical_resource_uri
+    from data_service.mcp_tool_registry import all_tool_specs
+
+    contract_source = Path("frontend/src/data/mcpContract.ts").read_text(encoding="utf-8")
+    console_tool_names = re.findall(r"name: '(knowledge_[^']+)'", contract_source)
+    console_resource_uris = re.findall(r"uri: '([^']+)'", contract_source)
+
+    registry_tool_names = [spec["name"] for spec in all_tool_specs()]
+    canonical_resource_uris = {spec["uri"] for spec in RESOURCE_SPECS}
+
+    assert console_tool_names == registry_tool_names
+    assert canonical_resource_uris <= {canonical_resource_uri(uri) for uri in console_resource_uris}
+
+
+def test_phaseg1_interface_matrix_documents_current_entrypoints():
+    from app.api.v1.data_service import router
+    from data_service.__main__ import _build_parser
+
+    contract_source = Path("frontend/src/data/mcpContract.ts").read_text(encoding="utf-8")
+    report_source = Path("docs/V1.5/PHASE-G1-INTERFACE-CONVERGENCE-BASELINE-REPORT-2026-05-11.md").read_text(encoding="utf-8")
+    matrix_source = (V15_DOCS_ROOT / "interface-convergence-matrix.md").read_text(encoding="utf-8")
+
+    for capability in ["workspace", "source", "build", "query", "distill", "graph", "trace", "quality", "session"]:
+        assert f"capability: '{capability}'" in contract_source
+        assert capability in matrix_source
+
+    route_paths = {
+        getattr(route, "path", "").removeprefix("/knowledge")
+        for route in router.routes
+    }
+    assert {
+        "/workspaces/create",
+        "/sources/import",
+        "/build/start",
+        "/query",
+        "/graph",
+        "/distill",
+        "/source/trace",
+        "/quality/feedback",
+    } <= route_paths
+
+    parser = _build_parser()
+    subparser_action = next(action for action in parser._actions if getattr(action, "choices", None))
+    assert {"ingest", "summary", "distill", "boundary", "graphrag-execute", "query"} <= set(subparser_action.choices)
+
+    assert "MCP 是默认主入口" in report_source
+    assert "不新增 MCP tool、HTTP route 或 CLI command" in report_source
+    assert "/api/v1/knowledge/*" in matrix_source
+
+
+@pytest.mark.asyncio
+async def test_phaseg2_query_contract_shared_by_mcp_http_and_cli(tmp_path, monkeypatch, capsys):
+    pytest.importorskip("mcp")
+    import sys
+
+    from app.main import app
+    from data_service import mcp_stdio
+    from data_service.__main__ import main as cli_main
+    from data_service.models import QueryMode
+    from data_service.service import DataService
+    from fastapi.testclient import TestClient
+
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
+    workspace = tmp_path / "workspace"
+    doc = tmp_path / "phaseg2-query.md"
+    doc.write_text("# PhaseG2 Query\n\nPhaseG2 aligns MCP, HTTP, and CLI query contracts.\n", encoding="utf-8")
+
+    service = DataService(workspace)
+    plan = service.build_ingest_plan([str(doc)])
+    service.run_default_pipeline(plan)
+
+    http_payload = TestClient(app).post(
+        "/api/v1/knowledge/query",
+        json={
+            "workspace": str(workspace),
+            "query": "PhaseG2",
+            "mode": QueryMode.HYBRID.value,
+            "top_k": 5,
+        },
+    ).json()
+    mcp_payload = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_query",
+                {
+                    "workspace": str(workspace),
+                    "query": "PhaseG2",
+                    "mode": QueryMode.HYBRID.value,
+                    "top_k": 5,
+                },
+            )
+        )[0].text
+    )
+
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "data_service",
+            "query",
+            "PhaseG2",
+            "--workspace",
+            str(workspace),
+            "--mode",
+            QueryMode.HYBRID.value,
+            "--top-k",
+            "5",
+        ],
+    )
+    assert cli_main() == 0
+    cli_payload = json.loads(capsys.readouterr().out)
+
+    expected_keys = {"mode", "query", "answer", "hits", "engine_payloads"}
+    assert set(http_payload) == expected_keys
+    assert set(mcp_payload) == expected_keys
+    assert set(cli_payload) == expected_keys
+    for payload in [mcp_payload, cli_payload]:
+        assert payload["mode"] == http_payload["mode"] == QueryMode.HYBRID.value
+        assert payload["query"] == http_payload["query"] == "PhaseG2"
+        assert payload["answer"] == http_payload["answer"]
+        assert [hit["title"] for hit in payload["hits"]] == [hit["title"] for hit in http_payload["hits"]]
+        assert set(payload["engine_payloads"]) == {"llmwiki", "graphrag"}
+
+
+@pytest.mark.asyncio
+async def test_phaseg28_distill_preview_mcp_reuses_shared_contract(tmp_path, monkeypatch):
+    pytest.importorskip("mcp")
+    from app.main import app
+    from data_service import mcp_stdio
+    from data_service.distill_contract import run_distill_contract
+    from data_service.mcp_tool_registry import all_tool_specs
+    from data_service.service import DataService
+    from fastapi.testclient import TestClient
+
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
+    workspace = tmp_path / "workspace"
+    doc = tmp_path / "phaseg28-distill.md"
+    doc.write_text("# PhaseG28 Distill\n\nPhaseG28 opens MCP distill preview via shared contract.\n", encoding="utf-8")
+
+    service = DataService(workspace)
+    plan = service.build_ingest_plan([str(doc)])
+    service.build_distilled_units(plan)
+
+    mcp_payload = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_distill_preview",
+                {"workspace": str(workspace), "limit": 5, "typed_unit_type": "concept"},
+            )
+        )[0].text
+    )
+    helper_payload = run_distill_contract(service, limit=5, typed_unit_type="concept")
+    http_payload = TestClient(app).post(
+        "/api/v1/knowledge/distill",
+        json={"workspace": str(workspace), "limit": 5, "typed_unit_type": "concept"},
+    ).json()
+
+    assert mcp_payload == helper_payload
+    assert mcp_payload == http_payload
+    assert set(mcp_payload) == {
+        "workspace",
+        "schema_version",
+        "manifest",
+        "schema",
+        "sources",
+        "source_profiles",
+        "source",
+        "units",
+        "available_source_count",
+        "provenance_overview",
+        "filters",
+    }
+
+    specs = {spec["name"]: spec for spec in all_tool_specs()}
+    schema = specs["knowledge_distill_preview"]["inputSchema"]
+    assert set(schema["properties"]) == {
+        "workspace",
+        "workspace_id",
+        "source_id",
+        "limit",
+        "kind",
+        "typed_unit_type",
+        "min_importance",
+        "llm_enriched_only",
+        "authority",
+        "min_source_weight",
+        "min_source_density",
+    }
+    assert schema.get("required") is None
+
+
+@pytest.mark.asyncio
+async def test_phaseg29_source_trace_mcp_reuses_shared_contract(tmp_path, monkeypatch, capsys):
+    pytest.importorskip("mcp")
+    from app.main import app
+    from data_service import mcp_stdio
+    from data_service.__main__ import knowledge_main
+    from data_service.mcp_tool_registry import all_tool_specs
+    from data_service.service import DataService
+    from data_service.source_trace_contract import source_trace_payload
+    from fastapi.testclient import TestClient
+
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
+    workspace = tmp_path / "workspace"
+    doc = tmp_path / "phaseg29-trace.md"
+    doc.write_text("# PhaseG29 Trace\n\nPhaseG29 opens MCP source trace via shared contract.\n", encoding="utf-8")
+
+    service = DataService(workspace)
+    plan = service.build_ingest_plan([str(doc)])
+    service.run_default_pipeline(plan)
+    source_id = service.read_distill_bundle(limit=5)["sources"][0]["source_id"]
+
+    mcp_payload = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_source_trace",
+                {"workspace": str(workspace), "source_id": source_id, "limit": 5},
+            )
+        )[0].text
+    )
+    helper_payload = source_trace_payload(service, source_id, limit=5)
+    http_payload = TestClient(app).post(
+        "/api/v1/knowledge/source/trace",
+        json={"workspace": str(workspace), "source_id": source_id, "limit": 5},
+    ).json()
+
+    assert knowledge_main(["trace", "source", "--workspace", str(workspace), "--source-id", source_id, "--limit", "5"]) == 0
+    cli_payload = json.loads(capsys.readouterr().out)
+
+    assert mcp_payload == helper_payload
+    assert mcp_payload == http_payload
+    assert mcp_payload == cli_payload
+    assert set(mcp_payload) == {"workspace", "source_id", "source", "distill", "llmwiki", "graphrag", "trace_summary"}
+
+    specs = {spec["name"]: spec for spec in all_tool_specs()}
+    schema = specs["knowledge_source_trace"]["inputSchema"]
+    assert set(schema["properties"]) == {"workspace", "workspace_id", "source_id", "limit"}
+    assert schema.get("required") == ["source_id"]
+
+def test_session_graph_service_boundary_contract():
+    from app.graphrag.service import SESSION_GRAPH_MODEL_VERSION, SessionGraphService
+
+    service = SessionGraphService(workspace_id="kb_boundary")
+    graph = service.build_graph(
+        session_id="ksess_boundary",
+        units=[
+            {
+                "unit_id": "unit_1",
+                "unit_type": "decision",
+                "text": "确认最终验收通过。",
+                "confidence": 0.9,
+                "source_refs": [{"source_id": "src_1", "record_id": "turn-0001"}],
+                "topics": ["最终验收"],
+                "entities": ["最终验收"],
+            }
+        ],
+        relations=[
+            {
+                "source": "actor:speaker_0",
+                "target": "unit:unit_1",
+                "type": "actor_proposed_decision",
+                "weight": 0.91,
+                "source_refs": [{"source_id": "src_1", "record_id": "turn-0001"}],
+            },
+            {
+                "source": "unit:unit_1",
+                "target": "source:src_1",
+                "type": "unit_related_to_source",
+                "weight": 1.0,
+                "source_refs": [{"source_id": "src_1", "record_id": "turn-0001"}],
+            },
+            {
+                "source": "unit:unit_1",
+                "target": "topic:topic",
+                "type": "unit_about_topic",
+                "weight": 0.8,
+                "source_refs": [{"source_id": "src_1", "record_id": "turn-0001"}],
+                "label": "最终验收",
+            },
+        ],
+        actors={"speaker_0": {"actor_id": "speaker_0", "label": "张三", "role": "speaker"}},
+        source_nodes={"src_1": {"source_id": "src_1", "title": "会议转写", "source_type": "transcript", "content_format": "turns"}},
+    )
+
+    assert graph["graph_model_version"] == SESSION_GRAPH_MODEL_VERSION
+    assert graph["stats"]["actor_count"] == 1
+    assert graph["stats"]["unit_count"] == 1
+    assert any(edge["type"] == "actor_proposed_decision" for edge in graph["edges"])
+    summary = service.actor_summary(graph, actor_id="speaker_0")
+    assert summary["decisions"][0]["source_refs"][0]["record_id"] == "turn-0001"
+
+
+def test_session_relation_extractor_boundary_contract():
+    from app.graphrag.service import SessionRelationExtractor
+
+    extractor = SessionRelationExtractor()
+    units, relations, actors, source_nodes = extractor.extract(
+        session_id="ksess_extract",
+        sources=[
+            {
+                "source": {
+                    "source_id": "src_a",
+                    "title": "会议转写 A",
+                    "source_type": "transcript",
+                    "content_format": "turns",
+                    "related_source_ids": ["src_b"],
+                },
+                "records": [
+                    {
+                        "record_id": "turn-0001",
+                        "actor_id": "speaker_0",
+                        "actor_label": "张三",
+                        "role": "speaker",
+                        "start_time": 1.0,
+                        "end_time": 3.0,
+                        "text": "确认最终验收通过。",
+                    },
+                    {
+                        "record_id": "turn-0002",
+                        "actor_id": "speaker_1",
+                        "actor_label": "李四",
+                        "role": "speaker",
+                        "text": "我负责提交发布计划。",
+                    },
+                ],
+            },
+            {
+                "source": {
+                    "source_id": "src_b",
+                    "title": "会议转写 B",
+                    "source_type": "transcript",
+                    "content_format": "turns",
+                },
+                "records": [
+                    {
+                        "record_id": "turn-0003",
+                        "actor_id": "speaker_2",
+                        "actor_label": "王五",
+                        "role": "speaker",
+                        "text": "风险是上线环境延期。",
+                    }
+                ],
+            },
+        ],
+    )
+
+    assert {unit["unit_type"] for unit in units} >= {"decision", "task", "risk"}
+    assert set(actors) == {"speaker_0", "speaker_1", "speaker_2"}
+    assert set(source_nodes) == {"src_a", "src_b"}
+    assert any(relation["type"] == "actor_proposed_decision" for relation in relations)
+    assert any(relation["type"] == "actor_accepted_task" for relation in relations)
+    assert any(relation["type"] == "actor_raised_risk" for relation in relations)
+    assert any(relation["type"] == "source_related_to_source" for relation in relations)
+    assert all(unit["source_refs"][0]["record_id"].startswith("turn-") for unit in units)
+
+
+@pytest.mark.asyncio
+async def test_data_service_mcp_resources_contract(tmp_path):
+    pytest.importorskip("mcp")
+    from data_service import mcp_stdio
+    from data_service.mcp_resources import read_resource_payload
+    from data_service.mcp_workspace_runtime import WorkspaceRuntime
+    from data_service.service import DataService
+
+    resources = await mcp_stdio.list_resources()
+    assert [str(resource.uri) for resource in resources] == [
+        "data-service://summary",
+        "data-service://layout",
+    ]
+
+    legacy_layout = await mcp_stdio.read_resource("data_service://layout")
+    assert str(legacy_layout.uri) == "data-service://layout"
+    assert legacy_layout.mimeType == "application/json"
+    assert json.loads(legacy_layout.text)["workspace"]
+
+    service = DataService(tmp_path / "resource-workspace")
+    runtime = WorkspaceRuntime(service.workspace)
+    summary_mime, summary_text = read_resource_payload(
+        "data_service://summary",
+        service=service,
+        layout_payload=runtime.layout_payload,
+    )
+    assert summary_mime == "text/markdown"
+    assert "Data Service Summary" in summary_text
+
+
+@pytest.mark.asyncio
+async def test_data_service_mcp_dispatcher_v2_archive_blocked(monkeypatch, tmp_path):
+    pytest.importorskip("mcp")
+    from data_service.mcp_build_runtime import BuildRuntime
+    from data_service.mcp_dispatcher import MCPToolDispatcher
+    from data_service.mcp_workspace_runtime import WorkspaceRuntime
+
+    root = tmp_path / "managed"
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
+    default_workspace = tmp_path / "default"
+    workspace_runtime = WorkspaceRuntime(default_workspace)
+    dispatcher = MCPToolDispatcher(
+        default_workspace=default_workspace,
+        workspace_runtime=workspace_runtime,
+        build_runtime=BuildRuntime(workspace_runtime),
+    )
+
+    created = await dispatcher.call_tool("knowledge_workspace_create", {"name": "Dispatch Contract"})
+    workspace_id = created["workspace_id"]
+    archived = await dispatcher.call_tool(
+        "knowledge_workspace_archive",
+        {"workspace_id": workspace_id, "reason": "contract test"},
+    )
+    assert archived["data"]["workspace"]["status"] == "archived"
+
+    blocked = await dispatcher.call_tool(
+        "knowledge_quality_feedback_v2",
+        {
+            "workspace_id": workspace_id,
+            "target_type": "source",
+            "target_id": "src_missing",
+            "action": "note",
+        },
+    )
+    assert blocked["status"] == "blocked"
+    assert "archived" in blocked["warnings"][0]
+
+    with pytest.raises(ValueError, match="Unknown tool"):
+        await dispatcher.call_tool("knowledge_missing_tool", {})
+
+
+@pytest.mark.asyncio
+async def test_data_service_mcp_external_payload_hides_internal_paths(monkeypatch, tmp_path):
+    pytest.importorskip("mcp")
+    from data_service import mcp_stdio
+
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(tmp_path / "managed"))
+    source_root = tmp_path / "sources"
+    source_root.mkdir()
+    source_file = source_root / "contract.md"
+    source_file.write_text("# Contract\n\nPhaseC path contract.", encoding="utf-8")
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_SOURCE_ROOTS", str(source_root))
+
+    created = json.loads((await mcp_stdio.call_tool("knowledge_workspace_create", {"name": "Contract KB"}))[0].text)
+    workspace_id = created["workspace_id"]
+    imported = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_source_import",
+                {"workspace_id": workspace_id, "paths": [str(source_file)]},
+            )
+        )[0].text
+    )
+    started = json.loads((await mcp_stdio.call_tool("knowledge_build_start", {"workspace_id": workspace_id}))[0].text)
+    operation_id = started["operation_id"]
+    for _ in range(80):
+        status = json.loads(
+            (
+                await mcp_stdio.call_tool(
+                    "knowledge_build_status",
+                    {"workspace_id": workspace_id, "operation_id": operation_id},
+                )
+            )[0].text
+        )
+        if status["status"] in {"completed", "failed", "blocked", "cancelled"}:
+            break
+        await asyncio.sleep(0.05)
+    described = json.loads((await mcp_stdio.call_tool("knowledge_workspace_describe", {"workspace_id": workspace_id}))[0].text)
+
+    for payload in [created, imported, started, status, described]:
+        _assert_no_public_path_keys(payload)
+    assert created["artifact_refs"][0]["artifact_ref"].startswith("artifact://")
+    assert "debug_path" in created["artifact_refs"][0]
+    assert imported["data"]["sources"][0]["debug_paths"]["path"]
+    assert "artifact_refs" in status["data"]
+    assert "artifacts" in status["data"]["debug_paths"]
 
 
 @pytest.mark.asyncio
@@ -372,7 +915,8 @@ async def test_data_service_mcp_marks_interrupted_running_operation_retryable(mo
     )
     assert interrupted["status"] == "failed"
     assert interrupted["data"]["retryable"] is True
-    assert interrupted["data"]["error"]["type"] == "server_interrupted"
+    assert interrupted["data"]["error"]["code"] == "server_interrupted"
+    assert interrupted["data"]["error"]["retryable"] is True
 
 
 @pytest.mark.asyncio
@@ -497,7 +1041,7 @@ async def test_data_service_mcp_existing_tools_accept_workspace_id(monkeypatch, 
         )[0].text
     )
     assert feedback_v2["status"] == "ok"
-    assert feedback_v2["data"]["workspace"].endswith(workspace_id)
+    assert feedback_v2["data"]["debug_paths"]["workspace"].endswith(workspace_id)
 
     summary_v2 = json.loads((await mcp_stdio.call_tool("knowledge_quality_summary_v2", {"workspace_id": workspace_id}))[0].text)
     assert summary_v2["status"] == "ok"
@@ -522,6 +1066,8 @@ async def test_data_service_mcp_lifecycle_unknown_ids_return_blocked(monkeypatch
     )
     assert unknown_source["status"] == "blocked"
     assert "Unknown source_id" in unknown_source["warnings"][0]
+    assert unknown_source["data"]["error"]["code"] == "unknown_source_id"
+    assert unknown_source["data"]["error"]["retryable"] is False
 
     unknown_operation = json.loads(
         (
@@ -533,6 +1079,8 @@ async def test_data_service_mcp_lifecycle_unknown_ids_return_blocked(monkeypatch
     )
     assert unknown_operation["status"] == "blocked"
     assert "Unknown operation_id" in unknown_operation["warnings"][0]
+    assert unknown_operation["data"]["error"]["code"] == "unknown_operation_id"
+    assert unknown_operation["data"]["error"]["retryable"] is False
 
 
 @pytest.mark.asyncio
@@ -597,6 +1145,431 @@ async def test_data_service_mcp_quality_feedback_review_and_plan(tmp_path):
     assert summary["quality"]["manual_feedback"]["feedback_count"] == 1
     assert summary["quality"]["correction_rules"]["status_counts"]["approved"] == 1
     assert summary["quality_correction_plan"]["summary"]["action_count"] == 1
+
+
+def test_phaseg8_quality_summary_and_correction_plan_contract_documented():
+    from app.api.v1.data_service import router
+    from data_service.mcp_tool_registry import V2_TOOL_MAP, all_tool_specs
+
+    contract_source = (V15_DOCS_ROOT / "quality-contract.md").read_text(encoding="utf-8")
+    matrix_source = (V15_DOCS_ROOT / "interface-convergence-matrix.md").read_text(encoding="utf-8")
+    specs = {spec["name"]: spec for spec in all_tool_specs()}
+
+    assert {"knowledge_quality_summary", "knowledge_correction_plan"} <= set(specs)
+    assert V2_TOOL_MAP["knowledge_quality_summary_v2"] == "knowledge_quality_summary"
+    assert V2_TOOL_MAP["knowledge_correction_plan_v2"] == "knowledge_correction_plan"
+
+    summary_schema = specs["knowledge_quality_summary"]["inputSchema"]
+    plan_schema = specs["knowledge_correction_plan"]["inputSchema"]
+    assert set(summary_schema["properties"]) == {"workspace", "workspace_id"}
+    assert set(plan_schema["properties"]) == {"workspace", "workspace_id", "rebuild"}
+    assert summary_schema.get("required") is None
+    assert plan_schema.get("required") is None
+
+    route_paths = {getattr(route, "path", "") for route in router.routes}
+    assert "/knowledge/quality/summary" not in route_paths
+    assert "/knowledge/quality/corrections/plan" in route_paths
+
+    assert _cli_quality_subcommands() == {
+        "summary",
+        "correction-plan",
+        "feedback-list",
+        "feedback",
+        "rules",
+        "rules-build",
+        "review",
+    }
+
+    for required_text in [
+        "knowledge_quality_summary",
+        "knowledge_correction_plan",
+        "workspace_id",
+        "rebuild",
+        "quality_feedback",
+        "quality_correction_rules",
+        "quality_correction_plan",
+        "source_rule_count",
+        "actions",
+        "/api/v1/knowledge/quality/corrections/plan",
+        "不新增 HTTP route",
+        "PhaseG14 开放写入型 CLI command",
+    ]:
+        assert required_text in contract_source
+    assert "PhaseG8 已固化 Quality Summary / Correction Plan" in matrix_source
+
+
+@pytest.mark.asyncio
+async def test_phaseg8_quality_summary_and_correction_plan_shapes_stay_stable(tmp_path):
+    pytest.importorskip("mcp")
+    from data_service import mcp_stdio
+
+    workspace = tmp_path / "workspace"
+    await mcp_stdio.call_tool(
+        "knowledge_quality_feedback",
+        {
+            "workspace": str(workspace),
+            "target_type": "entity",
+            "target_id": "phaseg8-topic",
+            "action": "rename_suggest",
+            "label": "PhaseG8 Topic",
+            "suggested_value": "Quality Contract Topic",
+            "reason": "PhaseG8 contract drift test",
+            "metadata": {"phase": "G8"},
+        },
+    )
+    rules = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_correction_rules",
+                {"workspace": str(workspace), "limit": 10},
+            )
+        )[0].text
+    )
+    rule_id = rules["items"][0]["rule_id"]
+    await mcp_stdio.call_tool(
+        "knowledge_review_correction_rule",
+        {
+            "workspace": str(workspace),
+            "rule_id": rule_id,
+            "status": "approved",
+            "reviewer": "phaseg8",
+            "note": "contract shape approval",
+        },
+    )
+
+    plan = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_correction_plan",
+                {"workspace": str(workspace)},
+            )
+        )[0].text
+    )
+    summary = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_quality_summary",
+                {"workspace": str(workspace)},
+            )
+        )[0].text
+    )
+
+    assert set(summary) == {
+        "workspace",
+        "quality",
+        "quality_feedback",
+        "quality_correction_rules",
+        "quality_correction_plan",
+    }
+    assert {"manual_feedback", "correction_rules", "correction_plan"} <= set(summary["quality"])
+    assert isinstance(summary["quality_feedback"], list)
+    assert isinstance(summary["quality_correction_rules"], list)
+    assert summary["quality"]["manual_feedback"]["feedback_count"] == 1
+    assert summary["quality"]["correction_rules"]["status_counts"]["approved"] == 1
+
+    assert set(plan) == {
+        "schema_version",
+        "workspace",
+        "generated_at",
+        "source_rule_count",
+        "actions",
+        "summary",
+        "notes",
+    }
+    assert plan["schema_version"] == "1.0"
+    assert plan["source_rule_count"] == 1
+    assert plan["summary"]["action_count"] == 1
+    assert {
+        "action_count",
+        "action_counts",
+        "target_engine_counts",
+        "target_type_counts",
+        "impacted_action_count",
+        "impact_counts",
+    } <= set(plan["summary"])
+    assert {
+        "action_id",
+        "source_rule_id",
+        "source_feedback_id",
+        "target_type",
+        "target_id",
+        "action",
+        "current_label",
+        "proposed_value",
+        "target_engines",
+        "impact",
+    } <= set(plan["actions"][0])
+    assert "summary" in plan["actions"][0]["impact"]
+
+
+def test_phaseg9_quality_feedback_rules_review_contract_documented():
+    from app.api.v1.data_service import router
+    from data_service.mcp_quality_tools import RULE_STATUSES
+    from data_service.mcp_tool_registry import V2_TOOL_MAP, all_tool_specs
+
+    contract_source = (V15_DOCS_ROOT / "quality-contract.md").read_text(encoding="utf-8")
+    matrix_source = (V15_DOCS_ROOT / "interface-convergence-matrix.md").read_text(encoding="utf-8")
+    specs = {spec["name"]: spec for spec in all_tool_specs()}
+
+    assert {
+        "knowledge_quality_feedback",
+        "knowledge_correction_rules",
+        "knowledge_review_correction_rule",
+    } <= set(specs)
+    assert V2_TOOL_MAP["knowledge_quality_feedback_v2"] == "knowledge_quality_feedback"
+    assert V2_TOOL_MAP["knowledge_correction_rules_v2"] == "knowledge_correction_rules"
+    assert V2_TOOL_MAP["knowledge_review_correction_rule_v2"] == "knowledge_review_correction_rule"
+
+    feedback_schema = specs["knowledge_quality_feedback"]["inputSchema"]
+    rules_schema = specs["knowledge_correction_rules"]["inputSchema"]
+    review_schema = specs["knowledge_review_correction_rule"]["inputSchema"]
+    assert set(feedback_schema["properties"]) == {
+        "workspace",
+        "workspace_id",
+        "target_type",
+        "target_id",
+        "action",
+        "label",
+        "suggested_value",
+        "reason",
+        "metadata",
+    }
+    assert feedback_schema["required"] == ["target_type", "target_id", "action"]
+    assert set(rules_schema["properties"]) == {"workspace", "workspace_id", "limit", "status"}
+    assert rules_schema["properties"]["status"]["enum"] == RULE_STATUSES
+    assert rules_schema.get("required") is None
+    assert set(review_schema["properties"]) == {
+        "workspace",
+        "workspace_id",
+        "rule_id",
+        "status",
+        "reviewer",
+        "note",
+    }
+    assert review_schema["properties"]["status"]["enum"] == RULE_STATUSES
+    assert review_schema["required"] == ["rule_id", "status"]
+
+    route_paths = {getattr(route, "path", "") for route in router.routes}
+    assert {
+        "/knowledge/quality/feedback",
+        "/knowledge/quality/feedback/list",
+        "/knowledge/quality/corrections",
+        "/knowledge/quality/corrections/build",
+        "/knowledge/quality/corrections/review",
+    } <= route_paths
+
+    assert _cli_quality_subcommands() == {
+        "summary",
+        "correction-plan",
+        "feedback-list",
+        "feedback",
+        "rules",
+        "rules-build",
+        "review",
+    }
+
+    for required_text in [
+        "PhaseG9",
+        "knowledge_quality_feedback",
+        "knowledge_correction_rules",
+        "knowledge_review_correction_rule",
+        "target_type",
+        "target_id",
+        "action",
+        "rule_id",
+        "status",
+        "rules_path",
+        "source_feedback_id",
+        "correction_plan.source_rule_count",
+        "写入型 CLI command 已开放",
+        "Review 必须保持 non-destructive governance",
+    ]:
+        assert required_text in contract_source
+    assert "PhaseG9 已固化 Quality Feedback / Rules / Review" in matrix_source
+
+
+def test_phaseg14_quality_cli_stage3_commands_documented():
+    contract_source = (V15_DOCS_ROOT / "quality-contract.md").read_text(encoding="utf-8")
+    matrix_source = (V15_DOCS_ROOT / "interface-convergence-matrix.md").read_text(encoding="utf-8")
+    import data_service.__main__ as cli_module
+
+    command_choices = _cli_command_choices()
+    assert set(command_choices) == {
+        "ingest",
+        "summary",
+        "distill",
+        "boundary",
+        "graphrag-execute",
+        "query",
+        "quality",
+    }
+    assert _cli_quality_subcommands() == {
+        "summary",
+        "correction-plan",
+        "feedback-list",
+        "feedback",
+        "rules",
+        "rules-build",
+        "review",
+    }
+    knowledge_parser = cli_module._build_knowledge_parser()
+    knowledge_action = next(action for action in knowledge_parser._actions if getattr(action, "choices", None))
+    assert knowledge_parser.prog == "knowledge"
+    assert set(knowledge_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace"}
+    workspace_parser = knowledge_action.choices["workspace"]
+    workspace_action = next(action for action in workspace_parser._actions if getattr(action, "choices", None))
+    assert set(workspace_action.choices) == {"create", "list", "describe", "archive"}
+    source_parser = knowledge_action.choices["source"]
+    source_action = next(action for action in source_parser._actions if getattr(action, "choices", None))
+    assert set(source_action.choices) == {"import", "list", "remove"}
+    build_parser = knowledge_action.choices["build"]
+    build_action = next(action for action in build_parser._actions if getattr(action, "choices", None))
+    assert set(build_action.choices) == {"start", "status", "cancel"}
+    graph_parser = knowledge_action.choices["graph"]
+    graph_action = next(action for action in graph_parser._actions if getattr(action, "choices", None))
+    assert set(graph_action.choices) == {"snapshot"}
+    trace_parser = knowledge_action.choices["trace"]
+    trace_action = next(action for action in trace_parser._actions if getattr(action, "choices", None))
+    assert set(trace_action.choices) == {"source"}
+    assert callable(cli_module.knowledge_main)
+
+    for required_text in [
+        "PhaseG12 Quality CLI planned 迁移窗口",
+        "PhaseG13 Quality CLI 只读 preview",
+        "PhaseG14 Quality CLI 写入型命令",
+        "PhaseG15 knowledge quality alias",
+        "data_service quality summary --workspace-id research-vault",
+        "knowledge quality summary --workspace-id research-vault",
+        "data_service quality correction-plan --workspace-id research-vault --rebuild",
+        "data_service quality feedback --workspace-id research-vault",
+        "data_service quality feedback-list --workspace-id research-vault",
+        "data_service quality rules --workspace-id research-vault",
+        "data_service quality rules-build --workspace-id research-vault",
+        "data_service quality review --workspace-id research-vault",
+        "Stage 1",
+        "Stage 2",
+        "Stage 3",
+        "Stage 4",
+        "PhaseG13 开放只读 CLI preview",
+        "PhaseG14 开放写入型 CLI command",
+        "PhaseG15 提供 `knowledge_main` entrypoint-ready alias",
+        "PhaseG17 冻结 `knowledge` 顶层命令只包含 `quality`",
+        "PhaseG18 开放 `knowledge query`",
+        "knowledge query PhaseG18 --workspace-id research-vault",
+        "PhaseG18-G23 已按能力组逐步开放 query",
+        "不得一次性开放 `knowledge distill/graph 扩展`",
+        "写入型 CLI command 已开放",
+        "必须复用 `data_service.quality_contract` helper 或现有 MCP handler",
+    ]:
+        assert required_text in contract_source
+    assert "PhaseG29 已开放 MCP knowledge_source_trace" in matrix_source
+    graph_contract = (V15_DOCS_ROOT / "graph-cli-contract.md").read_text(encoding="utf-8")
+    assert "PhaseG24 固化 `knowledge graph` advanced 子命令迁移窗口" in graph_contract
+    assert "knowledge graph neighbors" in graph_contract
+    assert "knowledge graph session" in graph_contract
+
+
+@pytest.mark.asyncio
+async def test_phaseg9_quality_feedback_rules_review_shapes_stay_stable(tmp_path):
+    pytest.importorskip("mcp")
+    from data_service import mcp_stdio
+
+    workspace = tmp_path / "workspace"
+    feedback = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_quality_feedback",
+                {
+                    "workspace": str(workspace),
+                    "target_type": "entity",
+                    "target_id": "phaseg9-topic",
+                    "action": "merge_suggest",
+                    "label": "PhaseG9 Topic",
+                    "suggested_value": "Quality Governance Topic",
+                    "reason": "PhaseG9 contract drift test",
+                    "metadata": {"phase": "G9"},
+                },
+            )
+        )[0].text
+    )
+
+    assert set(feedback) == {
+        "feedback_id",
+        "created_at",
+        "workspace",
+        "target_type",
+        "target_id",
+        "action",
+        "label",
+        "suggested_value",
+        "reason",
+        "metadata",
+    }
+    assert feedback["target_type"] == "entity"
+    assert feedback["metadata"] == {"phase": "G9"}
+
+    rules = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_correction_rules",
+                {"workspace": str(workspace), "limit": 10, "status": "draft"},
+            )
+        )[0].text
+    )
+    assert set(rules) == {
+        "workspace",
+        "rules_path",
+        "items",
+        "total_count",
+        "filtered_count",
+        "summary",
+        "generated_at",
+        "schema_version",
+    }
+    assert rules["schema_version"] == "1.0"
+    assert rules["total_count"] == 1
+    assert rules["filtered_count"] == 1
+    assert {"rule_count", "status_counts", "rule_type_counts", "target_type_counts"} <= set(rules["summary"])
+    assert rules["summary"]["status_counts"]["draft"] == 1
+    rule = rules["items"][0]
+    assert {
+        "rule_id",
+        "rule_type",
+        "status",
+        "target_type",
+        "target_id",
+        "current_label",
+        "proposed_value",
+        "reason",
+        "source_feedback_id",
+        "created_at",
+        "metadata",
+    } <= set(rule)
+    assert rule["source_feedback_id"] == feedback["feedback_id"]
+
+    reviewed = json.loads(
+        (
+            await mcp_stdio.call_tool(
+                "knowledge_review_correction_rule",
+                {
+                    "workspace": str(workspace),
+                    "rule_id": rule["rule_id"],
+                    "status": "approved",
+                    "reviewer": "phaseg9",
+                    "note": "contract review approval",
+                },
+            )
+        )[0].text
+    )
+    assert set(reviewed) == {"workspace", "rules_path", "rule", "summary", "correction_plan"}
+    assert reviewed["rule"]["rule_id"] == rule["rule_id"]
+    assert reviewed["rule"]["status"] == "approved"
+    assert reviewed["rule"]["reviewer"] == "phaseg9"
+    assert reviewed["rule"]["review_note"] == "contract review approval"
+    assert reviewed["summary"]["status_counts"]["approved"] == 1
+    assert set(reviewed["correction_plan"]) == {"summary", "source_rule_count"}
+    assert reviewed["correction_plan"]["source_rule_count"] == 1
+    assert reviewed["correction_plan"]["summary"]["action_count"] == 1
 
 
 @pytest.mark.asyncio
@@ -795,6 +1768,8 @@ async def test_data_service_mcp_session_lifecycle_ingest_build_and_delete(monkey
         )[0].text
     )
     assert disposed_snapshot["status"] == "disposed"
+    assert disposed_snapshot["data"]["error"]["code"] == "session_disposed"
+    assert disposed_snapshot["data"]["error"]["retryable"] is False
 
 
 @pytest.mark.asyncio

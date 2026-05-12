@@ -46,8 +46,9 @@
 
         <div class="header-actions">
           <button class="btn-secondary small" :disabled="isBusy" @click="refreshAll">{{ isBusy ? '刷新中...' : '刷新' }}</button>
+          <button class="btn-secondary small" @click="activeWorkbench = 'mcp'">MCP Contract</button>
           <button class="btn-secondary small" @click="activeWorkbench = 'explore'">Wiki Artifacts</button>
-          <button class="btn-secondary small" @click="scrollToSection('graph-panel')">GraphRAG</button>
+          <button class="btn-secondary small" @click="openGraphPanel">GraphRAG</button>
         </div>
       </div>
 
@@ -157,12 +158,15 @@
               {{ sourceLifecycleLoading ? '导入中...' : '导入 Source' }}
             </button>
           </div>
-          <div class="head-pills">
-            <span class="pill">sources {{ sourceItems.length }}</span>
-            <span class="pill">indexed {{ indexedSourceCount }}</span>
-            <span class="pill">failed {{ failedSourceCount }}</span>
-            <span class="pill">low signal {{ lowSignalSourceCount }}</span>
-          </div>
+        <div class="head-pills">
+          <span class="pill">sources {{ sourceItems.length }}</span>
+          <span class="pill">indexed {{ indexedSourceCount }}</span>
+          <span class="pill">failed {{ failedSourceCount }}</span>
+          <span class="pill">low signal {{ lowSignalSourceCount }}</span>
+          <span v-for="item in formatCounts.slice(0, 4)" :key="`ledger-format-${item.key}`" class="pill">
+            {{ item.key }} {{ item.value }}
+          </span>
+        </div>
           <div class="stack-list source-ledger">
             <div v-for="item in sourceItems.slice(0, 10)" :key="item.source_id" class="list-item static-item">
               <div class="list-item-head">
@@ -174,6 +178,8 @@
               <div class="head-pills compact">
                 <span class="pill">units {{ item.unit_count || 0 }}</span>
                 <span class="pill">density {{ formatDensity(item.source_density_score) }}</span>
+                <span v-if="item.source_format" class="pill">{{ item.source_format }}</span>
+                <span v-if="item.extractor_name" class="pill">{{ item.extractor_name }}</span>
                 <span v-if="item.low_signal && Object.keys(item.low_signal).length" class="pill warning">low signal</span>
               </div>
               <div class="rule-actions">
@@ -225,6 +231,88 @@
         <div v-else class="empty-box compact-empty-panel">
           <strong>暂无待刷新变更</strong>
           <span>扫描只记录目录快照，不会自动重建知识库。</span>
+        </div>
+      </section>
+      </template>
+
+      <template v-if="activeWorkbench === 'overview'">
+      <section id="ops-drilldown" class="card card--ops-drilldown">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Ops Drilldown</p>
+            <h2>异常队列</h2>
+          </div>
+          <span class="pill" :class="{ warning: opsIssueCount }">issues {{ opsIssueCount }}</span>
+        </div>
+
+        <div class="head-pills">
+          <span class="pill" :class="{ warning: failedSources.length }">failed {{ failedSources.length }}</span>
+          <span class="pill" :class="{ warning: unreadableChanges.length }">unreadable {{ unreadableChanges.length }}</span>
+          <span class="pill" :class="{ warning: lowSignalDrilldownItems.length }">low signal {{ lowSignalDrilldownItems.length }}</span>
+          <span class="pill" :class="{ warning: formatIssueSources.length }">format {{ formatIssueSources.length }}</span>
+        </div>
+
+        <div class="ops-drilldown-grid">
+          <div class="subsection">
+            <h3>Failed Sources</h3>
+            <div class="stack-list compact-list">
+              <div v-for="source in failedSources" :key="String(source.source_id)" class="list-item static-item">
+                <div class="item-title">{{ source.title || source.source_id }}</div>
+                <div class="item-body">{{ source.original_path || source.path || source.source_id }}</div>
+                <div class="rule-actions">
+                  <button class="btn-secondary small" @click="focusSourceWorkflow(String(source.source_id), 'trace')">追溯</button>
+                  <button class="btn-secondary small" @click="focusSourceWorkflow(String(source.source_id), 'quality')">质量</button>
+                </div>
+              </div>
+              <div v-if="!failedSources.length" class="empty-box compact-empty">暂无 failed source。</div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <h3>Unreadable Files</h3>
+            <div class="stack-list compact-list">
+              <div v-for="change in unreadableChanges" :key="String(change.path)" class="list-item static-item">
+                <div class="item-title">{{ change.name || change.path }}</div>
+                <div class="item-body">{{ change.error || change.path }}</div>
+              </div>
+              <div v-if="!unreadableChanges.length" class="empty-box compact-empty">暂无 unreadable 文件。</div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <h3>Low Signal</h3>
+            <div class="stack-list compact-list">
+              <div v-for="sample in lowSignalDrilldownItems" :key="`${sample.issue_type}-${sample.source_id || sample.page_slug || sample.community_id}`" class="list-item static-item">
+                <div class="list-item-head">
+                  <span class="pill warning">{{ sample.issue_type }}</span>
+                  <span class="muted">{{ sample.kind || sample.reason || '' }}</span>
+                </div>
+                <div class="item-title">{{ sample.source_title || sample.page_title || sample.title || sample.source_id }}</div>
+                <div class="item-body">{{ sample.text || sample.matched_term || sample.page_slug || sample.community_id }}</div>
+                <div class="rule-actions">
+                  <button class="btn-secondary small" :disabled="!sample.source_id" @click="locateAuditSample(sample)">定位</button>
+                  <button class="btn-secondary small" @click="createAuditFeedback(sample)">反馈</button>
+                </div>
+              </div>
+              <div v-if="!lowSignalDrilldownItems.length" class="empty-box compact-empty">暂无 low-signal 样本。</div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <h3>Format Issues</h3>
+            <div class="stack-list compact-list">
+              <button
+                v-for="source in formatIssueSources"
+                :key="String(source.source_id)"
+                class="list-item"
+                @click="selectDistillSource(String(source.source_id))"
+              >
+                <div class="item-title">{{ source.title || source.source_id }}</div>
+                <div class="item-body">{{ source.source_format || 'unknown' }} · {{ source.issue || 'format issue' }}</div>
+              </button>
+              <div v-if="!formatIssueSources.length" class="empty-box compact-empty">暂无格式问题。</div>
+            </div>
+          </div>
         </div>
       </section>
       </template>
@@ -328,6 +416,351 @@
             <button class="btn-danger" :disabled="resetLoading" @click="runReset">
               {{ resetLoading ? '重置中...' : '重置' }}
             </button>
+          </div>
+        </div>
+      </section>
+      </template>
+
+      <template v-if="activeWorkbench === 'mcp'">
+      <section id="mcp-contract-panel" class="card card--mcp-contract">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">MCP Debugger</p>
+            <h2>Tool Contract</h2>
+          </div>
+          <div class="head-pills">
+            <span class="pill">tools {{ mcpToolContracts.length }}</span>
+            <span class="pill">resources {{ mcpCanonicalResources.length }}</span>
+            <span class="pill">aliases {{ mcpV2AliasContracts.length }}</span>
+          </div>
+        </div>
+
+        <div class="mcp-contract-layout">
+          <div class="mcp-group-list">
+            <button
+              v-for="group in mcpToolGroups"
+              :key="group.name"
+              class="list-item"
+              :class="{ active: selectedMcpGroup === group.name }"
+              @click="selectMcpGroup(group.name)"
+            >
+              <div class="list-item-head">
+                <span class="pill">{{ group.name }}</span>
+                <span class="muted">{{ group.tools.length }}</span>
+              </div>
+              <div class="item-body">{{ group.requiredCount }} required fields · {{ group.compatCount }} compat tools</div>
+            </button>
+          </div>
+
+          <div class="mcp-tool-list">
+            <button
+              v-for="tool in selectedMcpTools"
+              :key="tool.name"
+              class="list-item mcp-tool-card"
+              :class="{ active: selectedMcpToolName === tool.name }"
+              @click="selectMcpTool(tool.name)"
+            >
+              <div class="list-item-head">
+                <span class="item-title">{{ tool.name }}</span>
+                <span class="pill" :class="{ warning: tool.status === 'compat' }">{{ tool.status }}</span>
+              </div>
+              <div class="mcp-field-grid">
+                <div>
+                  <span class="muted">required</span>
+                  <strong>{{ tool.required.join(', ') || 'none' }}</strong>
+                </div>
+                <div>
+                  <span class="muted">optional</span>
+                  <strong>{{ tool.optional.join(', ') || 'none' }}</strong>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card card--mcp-debugger">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Local Debugger</p>
+            <h2>Payload 预检</h2>
+          </div>
+          <span class="pill" :class="{ warning: mcpPayloadValidation.missing.length || mcpPayloadValidation.invalidJson }">
+            {{ mcpPayloadValidation.status }}
+          </span>
+        </div>
+
+        <div class="mcp-debugger-grid">
+          <div>
+            <div class="list-item static-item">
+              <div class="list-item-head">
+                <span class="item-title">{{ selectedMcpTool?.name || '未选择 tool' }}</span>
+                <span class="muted">{{ selectedMcpTool?.group || '-' }}</span>
+              </div>
+              <div class="head-pills compact">
+                <span class="pill">required {{ selectedMcpTool?.required.length || 0 }}</span>
+                <span class="pill">optional {{ selectedMcpTool?.optional.length || 0 }}</span>
+                <span class="pill" :class="{ warning: selectedMcpTool?.status === 'compat' }">{{ selectedMcpTool?.status || '-' }}</span>
+              </div>
+            </div>
+            <div class="button-row mcp-debugger-actions">
+              <button class="btn-secondary small" @click="resetMcpPayloadToSample">生成样例</button>
+              <button class="btn-secondary small" @click="trimMcpPayloadToRequired">只保留必填</button>
+            </div>
+            <textarea v-model="mcpPayloadText" class="text-area mcp-payload-editor" spellcheck="false" />
+          </div>
+
+          <div class="mcp-preview-stack">
+            <div class="list-item static-item">
+              <div class="list-item-head">
+                <span class="item-title">Schema Check</span>
+                <span class="pill" :class="{ warning: mcpPayloadValidation.missing.length || mcpPayloadValidation.invalidJson }">
+                  {{ mcpPayloadValidation.status }}
+                </span>
+              </div>
+              <div class="item-body">
+                {{ mcpPayloadValidation.message }}
+              </div>
+            </div>
+            <div class="content-box">
+              <pre class="code-block">{{ mcpEnvelopePreview }}</pre>
+            </div>
+            <div class="mcp-response-grid">
+              <div class="content-box">
+                <div class="preview-head">
+                  <span>Success Response</span>
+                  <b>{{ selectedMcpTool.status }}</b>
+                </div>
+                <pre class="code-block">{{ mcpSuccessPreviewText }}</pre>
+              </div>
+              <div class="content-box">
+                <div class="preview-head">
+                  <span>Error Envelope</span>
+                  <select v-model="selectedMcpErrorScenario" class="inline-select">
+                    <option v-for="preview in selectedMcpErrorPreviews" :key="preview.key" :value="preview.key">
+                      {{ preview.label }}
+                    </option>
+                  </select>
+                </div>
+                <pre class="code-block">{{ mcpErrorPreviewText }}</pre>
+              </div>
+            </div>
+            <div class="list-item static-item">
+              <div class="list-item-head">
+                <span class="item-title">Compat / Stable Diff</span>
+                <span class="pill" :class="{ warning: selectedMcpTool.status === 'compat' }">{{ selectedMcpTool.status }}</span>
+              </div>
+              <div class="item-body">{{ mcpCompatDiffText }}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card card--mcp-side">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Resources</p>
+            <h2>Resource Contract</h2>
+          </div>
+          <span class="pill">canonical {{ mcpCanonicalResources.length }}</span>
+        </div>
+        <div class="stack-list compact-list">
+          <div v-for="resource in mcpResourceContracts" :key="resource.uri" class="list-item static-item">
+            <div class="list-item-head">
+              <span class="pill" :class="{ warning: resource.status === 'compat' }">{{ resource.status }}</span>
+              <span class="muted">{{ resource.mimeType }}</span>
+            </div>
+            <div class="item-title">{{ resource.uri }}</div>
+            <div class="item-body">{{ resource.name }}</div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3>V2 Aliases</h3>
+          <div class="stack-list compact-list">
+            <div v-for="alias in mcpV2AliasContracts" :key="alias[0]" class="list-item static-item">
+              <div class="item-title">{{ alias[0] }}</div>
+              <div class="item-body">{{ alias[1] }}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card card--mcp-entry">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Contract Guard</p>
+            <h2>对外入口</h2>
+          </div>
+          <span class="pill">MCP-first</span>
+        </div>
+        <div class="mcp-entry-grid">
+          <div class="stat-item">
+            <span>MCP tools</span>
+            <strong>{{ mcpToolContracts.length }}</strong>
+          </div>
+          <div class="stat-item">
+            <span>canonical resources</span>
+            <strong>{{ mcpCanonicalResources.length }}</strong>
+          </div>
+          <div class="stat-item">
+            <span>compat aliases</span>
+            <strong>{{ mcpCompatSurfaceCount }}</strong>
+          </div>
+        </div>
+        <div class="subsection">
+          <h3>Interface Matrix</h3>
+          <div class="interface-matrix">
+            <div v-for="entry in interfaceEntryContracts" :key="entry.capability" class="list-item static-item interface-row">
+              <div>
+                <div class="list-item-head">
+                  <span class="item-title">{{ entry.capability }}</span>
+                  <span class="pill" :class="{ warning: entry.status !== 'primary' }">{{ entry.status }}</span>
+                </div>
+                <div class="item-body">{{ entry.target }}</div>
+              </div>
+              <div class="interface-cells">
+                <span><b>MCP</b>{{ entry.mcpTool }}</span>
+                <span><b>HTTP</b>{{ entry.httpRoute }}</span>
+                <span><b>CLI</b>{{ entry.cliCommand }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-box">
+          <pre class="code-block">{{ mcpContractSnapshot }}</pre>
+        </div>
+      </section>
+      </template>
+
+      <template v-if="activeWorkbench === 'explore'">
+      <section id="graph-panel" class="card card--full card--graph">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">GraphRAG Communities</p>
+            <h2>{{ graphScopeTitle }}</h2>
+            <small class="muted">{{ graphVisualStatus }}</small>
+          </div>
+          <div class="head-pills">
+            <span class="pill">{{ graphStats.entity_count }} 实体</span>
+            <span class="pill">{{ graphStats.relationship_count }} 关系</span>
+            <span class="pill">{{ graphStats.community_count }} 社区</span>
+            <button class="btn-secondary small" :disabled="graphLoading" @click="loadGraph">
+              {{ graphLoading ? '刷新中...' : '刷新图谱' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="graph-grid">
+          <GraphCommunityView
+            :nodes="graphData.nodes"
+            :edges="graphData.edges"
+            :communities="graphData.communities"
+            :selected-node-id="selectedGraphNode?.id || null"
+            :selected-community-id="selectedCommunity?.id || null"
+            @select-node="selectGraphNode"
+            @select-community="selectCommunity"
+          />
+
+          <div class="graph-side">
+            <div class="detail-card graph-detail-card">
+              <template v-if="selectedCommunity">
+                <div class="detail-card-head">
+                  <span class="section-kicker">Selected Community</span>
+                  <h3>{{ selectedCommunity.title }}</h3>
+                </div>
+                <p class="item-body">{{ selectedCommunity.summary }}</p>
+                <div class="head-pills">
+                  <span class="pill">ID: {{ selectedCommunity.id }}</span>
+                  <span class="pill">{{ selectedCommunity.entity_count }} 实体</span>
+                  <span class="pill">{{ selectedCommunity.relationship_count }} 关系</span>
+                </div>
+                <div class="chip-wrap">
+                  <span
+                    v-for="entityId in selectedCommunity.entity_ids.slice(0, 12)"
+                    :key="entityId"
+                    class="chip"
+                  >
+                    {{ entityName(entityId) }}
+                  </span>
+                </div>
+              </template>
+              <template v-else-if="selectedGraphNode">
+                <div class="detail-card-head">
+                  <span class="section-kicker">Selected Node</span>
+                  <h3>{{ selectedGraphNode.name }}</h3>
+                </div>
+                <p class="item-body">出现 {{ selectedGraphNode.count || 0 }} 次，关联 {{ selectedGraphNode.document_count || 0 }} 个文档。</p>
+                <div class="head-pills">
+                  <span class="pill">节点 ID: {{ selectedGraphNode.id }}</span>
+                  <span class="pill">社区: {{ selectedGraphNode.community_id || '未分组' }}</span>
+                </div>
+              </template>
+              <div v-else class="empty-box compact-empty-panel">
+                <strong>选择一个社区或节点</strong>
+                <span>点击社区队列或图中的节点后，这里会显示治理上下文。</span>
+              </div>
+            </div>
+
+            <div>
+              <h3>社区队列</h3>
+              <div class="stack-list">
+                <button
+                  v-for="community in graphData.communities.slice(0, 8)"
+                  :key="community.id"
+                  class="list-item"
+                  :class="{ active: selectedCommunity?.id === community.id }"
+                  @click="selectCommunity(community)"
+                >
+                  <div class="item-title">{{ community.title }}</div>
+                  <div class="item-body">{{ community.entity_count }} 实体 · {{ community.relationship_count }} 关系</div>
+                </button>
+                <div v-if="!graphData.communities.length" class="empty-box compact-empty-panel">
+                  <strong>当前图谱还没有社区数据</strong>
+                  <span>刷新图谱或执行知识库刷新后，这里会显示 GraphRAG 社区。</span>
+                </div>
+              </div>
+            </div>
+
+            <details class="graph-quality-panel">
+              <summary class="graph-quality-summary">
+                <span>
+                  <strong>图谱质量</strong>
+                  <small>diagnostics</small>
+                </span>
+                <b>{{ graphDiagnosticCount }}</b>
+              </summary>
+              <div v-for="group in graphDiagnosticGroups" :key="group.key" class="diagnostic-group">
+                <div class="diagnostic-group-head">
+                  <span>{{ group.label }}</span>
+                  <strong>{{ group.items.length }}</strong>
+                </div>
+                <div class="stack-list compact-list">
+                  <div
+                    v-for="item in group.items.slice(0, 4)"
+                    :key="`${group.key}-${item.id}`"
+                    class="diagnostic-item"
+                    :class="item.severity"
+                    role="button"
+                    tabindex="0"
+                    @click="selectGraphDiagnostic(item)"
+                    @keyup.enter="selectGraphDiagnostic(item)"
+                  >
+                    <div>
+                      <strong>{{ item.title || item.name || item.id }}</strong>
+                      <span>{{ diagnosticReasonLabel(item.reason) }}</span>
+                    </div>
+                    <div class="diagnostic-actions">
+                      <button class="btn-secondary small" @click.stop="applyGraphDiagnosticFeedback(item, 'needs_review')">复核</button>
+                      <button class="btn-secondary small" @click.stop="applyGraphDiagnosticFeedback(item, 'mark_noise')">噪音</button>
+                      <button class="btn-secondary small" @click.stop="applyGraphDiagnosticFeedback(item, 'merge_suggest')">合并</button>
+                      <button class="btn-secondary small" @click.stop="applyGraphDiagnosticFeedback(item, 'rename_suggest')">重命名</button>
+                    </div>
+                  </div>
+                  <div v-if="!group.items.length" class="empty-box compact-empty">暂无</div>
+                </div>
+              </div>
+            </details>
           </div>
         </div>
       </section>
@@ -509,119 +942,6 @@
       </template>
 
       <template v-if="activeWorkbench === 'explore'">
-      <section id="graph-panel" class="card card--full card--graph">
-        <div class="section-head">
-          <div>
-            <p class="section-kicker">GraphRAG Communities</p>
-            <h2>{{ graphScopeTitle }}</h2>
-            <small v-if="sessionScope" class="muted">{{ graphScopeSubtitle }}</small>
-          </div>
-          <div class="head-pills">
-            <span class="pill">{{ graphStats.entity_count }} 实体</span>
-            <span class="pill">{{ graphStats.relationship_count }} 关系</span>
-            <span class="pill">{{ graphStats.community_count }} 社区</span>
-          </div>
-        </div>
-
-        <div class="graph-grid">
-          <GraphCommunityView
-            :nodes="graphData.nodes"
-            :edges="graphData.edges"
-            :selected-node-id="selectedGraphNode?.id || null"
-            :selected-community-id="selectedCommunity?.id || null"
-            @select-node="selectGraphNode"
-          />
-
-          <div class="graph-side">
-            <div>
-              <h3>社区队列</h3>
-              <div class="stack-list">
-                <button
-                  v-for="community in graphData.communities.slice(0, 8)"
-                  :key="community.id"
-                  class="list-item"
-                  :class="{ active: selectedCommunity?.id === community.id }"
-                  @click="selectCommunity(community)"
-                >
-                  <div class="item-title">{{ community.title }}</div>
-                  <div class="item-body">{{ community.entity_count }} 实体 · {{ community.relationship_count }} 关系</div>
-                </button>
-                <div v-if="!graphData.communities.length" class="empty-box">当前图谱还没有社区数据。</div>
-              </div>
-            </div>
-
-            <div class="graph-quality-panel">
-              <div class="list-item-head">
-                <h3>图谱质量</h3>
-                <span class="muted">diagnostics</span>
-              </div>
-              <div v-for="group in graphDiagnosticGroups" :key="group.key" class="diagnostic-group">
-                <div class="diagnostic-group-head">
-                  <span>{{ group.label }}</span>
-                  <strong>{{ group.items.length }}</strong>
-                </div>
-                <div class="stack-list compact-list">
-                  <div
-                    v-for="item in group.items.slice(0, 4)"
-                    :key="`${group.key}-${item.id}`"
-                    class="diagnostic-item"
-                    :class="item.severity"
-                    role="button"
-                    tabindex="0"
-                    @click="selectGraphDiagnostic(item)"
-                    @keyup.enter="selectGraphDiagnostic(item)"
-                  >
-                    <div>
-                      <strong>{{ item.title || item.name || item.id }}</strong>
-                      <span>{{ diagnosticReasonLabel(item.reason) }}</span>
-                    </div>
-                    <div class="diagnostic-actions">
-                      <button class="btn-secondary small" @click.stop="applyGraphDiagnosticFeedback(item, 'needs_review')">复核</button>
-                      <button class="btn-secondary small" @click.stop="applyGraphDiagnosticFeedback(item, 'mark_noise')">噪音</button>
-                      <button class="btn-secondary small" @click.stop="applyGraphDiagnosticFeedback(item, 'merge_suggest')">合并</button>
-                      <button class="btn-secondary small" @click.stop="applyGraphDiagnosticFeedback(item, 'rename_suggest')">重命名</button>
-                    </div>
-                  </div>
-                  <div v-if="!group.items.length" class="empty-box compact-empty">暂无</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="detail-card">
-              <template v-if="selectedCommunity">
-                <h3>{{ selectedCommunity.title }}</h3>
-                <p class="item-body">{{ selectedCommunity.summary }}</p>
-                <div class="head-pills">
-                  <span class="pill">ID: {{ selectedCommunity.id }}</span>
-                  <span class="pill">{{ selectedCommunity.entity_count }} 实体</span>
-                  <span class="pill">{{ selectedCommunity.relationship_count }} 关系</span>
-                </div>
-                <div class="chip-wrap">
-                  <span
-                    v-for="entityId in selectedCommunity.entity_ids.slice(0, 12)"
-                    :key="entityId"
-                    class="chip"
-                  >
-                    {{ entityName(entityId) }}
-                  </span>
-                </div>
-              </template>
-              <template v-else-if="selectedGraphNode">
-                <h3>{{ selectedGraphNode.name }}</h3>
-                <p class="item-body">出现 {{ selectedGraphNode.count || 0 }} 次，关联 {{ selectedGraphNode.document_count || 0 }} 个文档。</p>
-                <div class="head-pills">
-                  <span class="pill">节点 ID: {{ selectedGraphNode.id }}</span>
-                  <span class="pill">社区: {{ selectedGraphNode.community_id || '未分组' }}</span>
-                </div>
-              </template>
-              <div v-else class="empty-box">点击图中的节点或社区项查看详情。</div>
-            </div>
-          </div>
-        </div>
-      </section>
-      </template>
-
-      <template v-if="activeWorkbench === 'explore'">
       <section class="card card--llmwiki-summary">
         <div class="section-head">
           <div>
@@ -739,6 +1059,14 @@
               <span>Graph Nodes</span>
               <strong>{{ sourceTraceNodes.length }}</strong>
             </div>
+            <div class="stat-item">
+              <span>Format</span>
+              <strong>{{ selectedSourceFormatLabel }}</strong>
+            </div>
+            <div class="stat-item" :class="{ 'stat-item--warning': selectedDistillSource.extractor_available === false }">
+              <span>Extractor</span>
+              <strong>{{ selectedSourceExtractorLabel }}</strong>
+            </div>
           </div>
           <div class="button-row">
             <button class="btn-secondary" :disabled="!selectedDistillSourceId" @click="scrollToSection('distill-quality')">查看质量面板</button>
@@ -776,6 +1104,37 @@
           <div class="stat-item" :class="{ 'stat-item--warning': distillQuality.zero_unit_count }">
             <span>Zero Unit</span>
             <strong>{{ distillQuality.zero_unit_count || 0 }}</strong>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <h3>Format Diagnostics</h3>
+          <div class="chip-wrap">
+            <span v-for="item in formatCounts" :key="`format-${item.key}`" class="chip">
+              {{ item.key }} · {{ item.value }}
+            </span>
+            <span v-if="!formatCounts.length" class="chip muted-chip">暂无格式统计</span>
+          </div>
+          <div class="chip-wrap compact">
+            <span v-for="item in extractorCounts" :key="`extractor-${item.key}`" class="chip">
+              {{ item.key }} · {{ item.value }}
+            </span>
+            <span v-if="!extractorCounts.length" class="chip muted-chip">暂无 extractor 统计</span>
+          </div>
+        </div>
+
+        <div v-if="formatIssueSources.length" class="subsection">
+          <h3>Format Issues</h3>
+          <div class="stack-list compact-list">
+            <button
+              v-for="source in formatIssueSources"
+              :key="String(source.source_id)"
+              class="list-item"
+              @click="selectDistillSource(String(source.source_id))"
+            >
+              <div class="item-title">{{ source.title || source.source_id }}</div>
+              <div class="item-body">{{ source.source_format || 'unknown' }} · {{ source.issue || 'format issue' }}</div>
+            </button>
           </div>
         </div>
 
@@ -893,6 +1252,8 @@
             <span class="pill">density {{ formatDensity(selectedDistillSource.source_density_score) }}</span>
             <span class="pill">weight {{ formatDensity(selectedDistillSource.source_weight) }}</span>
             <span class="pill">{{ selectedDistillSource.unit_count || 0 }} units</span>
+            <span class="pill">{{ selectedSourceFormatLabel }}</span>
+            <span class="pill" :class="{ warning: selectedDistillSource.extractor_available === false }">{{ selectedSourceExtractorLabel }}</span>
             <span v-if="selectedDistillLowSignal.zero_unit" class="pill warning-pill">zero unit</span>
           </div>
 
@@ -974,7 +1335,9 @@
             <div class="trace-step">
               <span>GraphRAG</span>
               <strong>{{ sourceTraceSummary.graph_node_count || 0 }} nodes</strong>
-              <small>{{ sourceTraceSummary.graph_community_count || 0 }} communities</small>
+              <small>
+                {{ sourceTraceSummary.graph_community_count || 0 }} direct / {{ sourceTraceVisibleCommunities.length }} visible communities
+              </small>
             </div>
           </div>
 
@@ -1002,11 +1365,18 @@
             <div>
               <h3>GraphRAG 社区</h3>
               <div class="stack-list compact-list">
-                <button v-for="community in sourceTraceCommunities" :key="String(community.id)" class="list-item" @click="selectCommunity(community)">
+                <button v-for="community in sourceTraceVisibleCommunities" :key="String(community.id)" class="list-item" @click="selectCommunity(community)">
                   <div class="item-title">{{ community.title || community.id }}</div>
                   <div class="item-body">{{ community.entity_count || 0 }} 实体 · {{ community.relationship_count || 0 }} 关系</div>
                 </button>
-                <div v-if="!sourceTraceCommunities.length" class="empty-box compact-empty">暂无匹配社区。</div>
+                <div v-if="sourceTraceCommunityFallbackActive" class="empty-box compact-empty-panel">
+                  <strong>未找到直接匹配社区</strong>
+                  <span>{{ sourceTraceCommunityFallbackMessage }}</span>
+                </div>
+                <div v-if="!sourceTraceVisibleCommunities.length" class="empty-box compact-empty-panel">
+                  <strong>暂无可展示社区</strong>
+                  <span>当前 workspace 还没有 GraphRAG 社区数据，请先刷新图谱或重建知识库。</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1035,6 +1405,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { marked } from 'marked'
 
 import GraphCommunityView from '@/components/GraphCommunityView.vue'
+import { interfaceEntryContracts, mcpResourceContracts, mcpToolContracts, mcpV2AliasContracts, type McpErrorPreview } from '@/data/mcpContract'
 import {
   buildKnowledgeCorrectionPlan,
   buildKnowledgeCorrectionRules,
@@ -1085,6 +1456,14 @@ const urlParams = new URLSearchParams(window.location.search)
 const sessionScope = ref(urlParams.get('scope') === 'session' || Boolean(urlParams.get('session_id')))
 const sessionWorkspaceId = ref(urlParams.get('workspace_id') || 'meeting-knowledge')
 const sessionId = ref(urlParams.get('session_id') || '')
+const initialView = urlParams.get('view')
+const initialWorkbench = initialView === 'mcp'
+  ? 'mcp'
+  : initialView === 'graph' || window.location.hash === '#graph-panel'
+  ? 'explore'
+  : sessionScope.value
+    ? 'explore'
+    : 'overview'
 const summaryBundle = ref<KnowledgeSummaryResponse | null>(null)
 const distillBundle = ref<KnowledgeDistillResponse | null>(null)
 const graphData = ref<KnowledgeGraphResponse>({ nodes: [], edges: [], communities: [], stats: { entity_count: 0, relationship_count: 0, community_count: 0, document_count: 0 }, db_path: '' })
@@ -1111,7 +1490,7 @@ const queryText = ref('ComfyUI')
 const topK = ref(8)
 const queryAnswer = ref('切换查询模式并输入关键字后，这里会显示聚合回答。')
 const summaryTab = ref<'markdown' | 'json'>('markdown')
-const activeWorkbench = ref<'overview' | 'sources' | 'quality' | 'explore'>(sessionScope.value ? 'explore' : 'overview')
+const activeWorkbench = ref<'overview' | 'sources' | 'quality' | 'explore' | 'mcp'>(initialWorkbench)
 const selectedPageSlug = ref('')
 const selectedPageTitle = ref('')
 const selectedPageMarkdown = ref('')
@@ -1132,6 +1511,10 @@ const workspaceCreateName = ref('个人知识库')
 const workspaceCreateRoot = ref('')
 const workspaceBoundPathsText = ref('/Users/Zhuanz/Desktop/workspace/知识库/row/deepseek_split')
 const sourceImportPathsText = ref('')
+const selectedMcpGroup = ref('Core')
+const selectedMcpToolName = ref('knowledge_query')
+const mcpPayloadText = ref('')
+const selectedMcpErrorScenario = ref('missing_required')
 
 const summaryLoading = ref(false)
 const graphLoading = ref(false)
@@ -1154,11 +1537,218 @@ function goServiceHome() {
   window.location.href = '/'
 }
 
+function sampleValueForMcpField(field: string) {
+  if (field === 'paths') return ['/path/to/source.md']
+  if (field === 'turns') return [{ record_id: 'turn-0001', actor_label: 'speaker', text: '示例发言' }]
+  if (field === 'metadata') return {}
+  if (field === 'tags' || field === 'bound_paths') return []
+  if (field === 'mode') return 'hybrid'
+  if (field === 'top_k' || field === 'limit' || field === 'max_nodes') return 8
+  if (field === 'depth') return 1
+  if (field === 'rebuild') return false
+  if (field === 'status') return 'approved'
+  if (field === 'action') return 'needs_review'
+  if (field === 'workspace' || field === 'root') return workspace.value
+  if (field === 'workspace_id') return 'knowledge-workspace'
+  if (field === 'session_id') return 'ksess_example'
+  if (field === 'operation_id') return 'op_example'
+  if (field === 'source_id') return 'source_example'
+  if (field === 'node_id') return 'node_example'
+  if (field === 'community_id') return 'community_example'
+  if (field === 'actor_id') return 'speaker_0'
+  if (field === 'rule_id') return 'rule_example'
+  if (field === 'target_type') return 'page'
+  if (field === 'target_id') return 'target_example'
+  if (field === 'query') return '示例查询'
+  if (field === 'name') return '示例知识库'
+  return `${field}_example`
+}
+
+function buildMcpSamplePayload(requiredOnly = false) {
+  const tool = selectedMcpTool.value
+  if (!requiredOnly && tool.samplePayload) return tool.samplePayload
+  const fields = requiredOnly ? tool.required : [...tool.required, ...tool.optional.slice(0, 3)]
+  return Object.fromEntries(fields.map((field) => [field, sampleValueForMcpField(field)]))
+}
+
+function resetMcpPayloadToSample() {
+  mcpPayloadText.value = JSON.stringify(buildMcpSamplePayload(false), null, 2)
+}
+
+function trimMcpPayloadToRequired() {
+  mcpPayloadText.value = JSON.stringify(buildMcpSamplePayload(true), null, 2)
+}
+
+function selectMcpTool(name: string) {
+  selectedMcpToolName.value = name
+  resetMcpPayloadToSample()
+}
+
+function selectMcpGroup(name: string) {
+  selectedMcpGroup.value = name
+  const firstTool = mcpToolContracts.find((tool) => tool.group === name)
+  if (firstTool) selectMcpTool(firstTool.name)
+}
+
 const queryModes = [
   { value: 'llmwiki', label: '纯 LLMWiki' },
   { value: 'graphrag', label: '纯 GraphRAG' },
   { value: 'hybrid', label: '混合查询' },
 ] satisfies Array<{ value: QueryMode; label: string }>
+
+const mcpToolGroups = computed(() => {
+  const groups = new Map<string, typeof mcpToolContracts>()
+  for (const tool of mcpToolContracts) {
+    groups.set(tool.group, [...(groups.get(tool.group) || []), tool])
+  }
+  return Array.from(groups.entries()).map(([name, tools]) => ({
+    name,
+    tools,
+    requiredCount: tools.reduce((total, tool) => total + tool.required.length, 0),
+    compatCount: tools.filter((tool) => tool.status === 'compat').length,
+  }))
+})
+const selectedMcpTools = computed(() => mcpToolContracts.filter((tool) => tool.group === selectedMcpGroup.value))
+const selectedMcpTool = computed(() => mcpToolContracts.find((tool) => tool.name === selectedMcpToolName.value) || mcpToolContracts[0])
+const selectedMcpAliasTarget = computed(() => selectedMcpTool.value.aliasTarget || mcpV2AliasContracts.find(([alias]) => alias === selectedMcpTool.value.name)?.[1] || '')
+const mcpCanonicalResources = computed(() => mcpResourceContracts.filter((resource) => resource.status === 'stable'))
+const mcpCompatSurfaceCount = computed(() =>
+  mcpToolContracts.filter((tool) => tool.status === 'compat').length
+  + mcpResourceContracts.filter((resource) => resource.status === 'compat').length
+)
+const parsedMcpPayload = computed(() => {
+  try {
+    const payload = JSON.parse(mcpPayloadText.value || '{}')
+    return payload && typeof payload === 'object' && !Array.isArray(payload) ? payload as Record<string, any> : null
+  } catch {
+    return null
+  }
+})
+const mcpPayloadValidation = computed(() => {
+  const tool = selectedMcpTool.value
+  if (!parsedMcpPayload.value) {
+    return { status: 'invalid json', message: 'payload 必须是 JSON object。', missing: tool.required, invalidJson: true }
+  }
+  const missing = tool.required.filter((field) => parsedMcpPayload.value?.[field] === undefined || parsedMcpPayload.value?.[field] === '')
+  if (missing.length) {
+    return { status: 'missing fields', message: `缺少必填字段：${missing.join(', ')}`, missing, invalidJson: false }
+  }
+  return { status: 'ready', message: 'payload 通过本地 schema 预检，可用于 MCP client 调试。', missing: [], invalidJson: false }
+})
+function buildMcpEnvelopePreview(status: string, data: Record<string, any> = {}, warnings: string[] = []) {
+  return {
+    workspace_id: parsedMcpPayload.value?.workspace_id || 'knowledge-workspace',
+    operation_id: parsedMcpPayload.value?.operation_id || null,
+    status,
+    warnings,
+    artifact_refs: status === 'ok' ? [{ type: 'preview', artifact_ref: 'artifact://preview' }] : [],
+    next_actions: status === 'ok' ? [] : ['检查 payload 字段', '确认 workspace/session/source/operation id 是否存在'],
+    data,
+  }
+}
+function buildMcpSuccessPreview() {
+  const tool = selectedMcpTool.value
+  if (tool.successPreview) return tool.successPreview
+  if (tool.status === 'stable' && tool.group === 'Core') {
+    return {
+      payload: 'legacy core response',
+      note: 'Core stable tools 仍保持 legacy response shape；v2 alias 使用统一 envelope。',
+    }
+  }
+  const payload = parsedMcpPayload.value || buildMcpSamplePayload(false)
+  return buildMcpEnvelopePreview('ok', {
+    tool: tool.name,
+    accepted_arguments: payload,
+    result: `${tool.name} preview result`,
+  })
+}
+function buildGenericMcpErrorPreviews(): McpErrorPreview[] {
+  const tool = selectedMcpTool.value
+  const missing = tool.required[0] || 'required_field'
+  const previews: McpErrorPreview[] = [
+    {
+      key: 'missing_required',
+      label: 'missing required',
+      envelope: buildMcpEnvelopePreview('blocked', {
+        error: {
+          code: 'missing_required_field',
+          message: `Missing required field: ${missing}`,
+          retryable: false,
+        },
+      }, [`Missing required field: ${missing}`]),
+    },
+  ]
+  const idField = ['operation_id', 'source_id', 'session_id', 'rule_id', 'node_id', 'community_id'].find((field) =>
+    [...tool.required, ...tool.optional].includes(field)
+  )
+  if (idField) {
+    previews.push({
+      key: `unknown_${idField}`,
+      label: `unknown ${idField}`,
+      envelope: buildMcpEnvelopePreview('blocked', {
+        error: {
+          code: `unknown_${idField}`,
+          message: `Unknown ${idField}: ${sampleValueForMcpField(idField)}`,
+          retryable: false,
+        },
+      }, [`Unknown ${idField}`]),
+    })
+  }
+  if ([...tool.required, ...tool.optional].some((field) => field === 'workspace' || field === 'workspace_id')) {
+    previews.push({
+      key: 'workspace_archived',
+      label: 'workspace archived',
+      envelope: buildMcpEnvelopePreview('blocked', {
+        error: {
+          code: 'workspace_archived',
+          message: 'Workspace is archived and cannot accept write operations',
+          retryable: false,
+        },
+      }, ['Workspace is archived']),
+    })
+  }
+  return previews
+}
+const selectedMcpErrorPreviews = computed(() => {
+  const custom = selectedMcpTool.value.errorPreviews || []
+  const merged = [...custom, ...buildGenericMcpErrorPreviews()]
+  return merged.filter((preview, index) => merged.findIndex((item) => item.key === preview.key) === index)
+})
+const selectedMcpErrorPreview = computed(() =>
+  selectedMcpErrorPreviews.value.find((preview) => preview.key === selectedMcpErrorScenario.value)
+  || selectedMcpErrorPreviews.value[0]
+)
+const mcpEnvelopePreview = computed(() => JSON.stringify({
+  tool: selectedMcpTool.value.name,
+  alias_target: selectedMcpAliasTarget.value || null,
+  arguments: parsedMcpPayload.value || {},
+  expected_response: selectedMcpTool.value.status === 'compat' || selectedMcpTool.value.group !== 'Core'
+    ? { workspace_id: '...', status: 'ok|blocked|failed|disposed', data: {}, warnings: [], artifact_refs: [] }
+    : { payload: 'legacy core response', warnings: [] },
+  local_validation: {
+    status: mcpPayloadValidation.value.status,
+    missing_required: mcpPayloadValidation.value.missing,
+  },
+}, null, 2))
+const mcpSuccessPreviewText = computed(() => JSON.stringify(buildMcpSuccessPreview(), null, 2))
+const mcpErrorPreviewText = computed(() => JSON.stringify(selectedMcpErrorPreview.value?.envelope || {}, null, 2))
+const mcpCompatDiffText = computed(() => selectedMcpAliasTarget.value
+  ? `${selectedMcpTool.value.name} 是兼容 alias，实际委托 ${selectedMcpAliasTarget.value}，出站响应使用统一 envelope 预览。`
+  : `${selectedMcpTool.value.name} 是 stable contract；本面板只展示本地预览，不执行真实 MCP call。`
+)
+resetMcpPayloadToSample()
+watch(selectedMcpToolName, () => {
+  selectedMcpErrorScenario.value = selectedMcpErrorPreviews.value[0]?.key || 'missing_required'
+})
+const mcpContractSnapshot = computed(() => JSON.stringify({
+  tools: mcpToolContracts.length,
+  resources: mcpCanonicalResources.value.length,
+  compat_aliases: mcpCompatSurfaceCount.value,
+  selected_group: selectedMcpGroup.value,
+  selected_tool: selectedMcpTool.value.name,
+  selected_alias_target: selectedMcpAliasTarget.value || null,
+  selected_tools: selectedMcpTools.value.map((tool) => tool.name),
+}, null, 2))
 
 const isBusy = computed(() => summaryLoading.value || graphLoading.value || distillLoading.value)
 const graphStats = computed(() => {
@@ -1173,6 +1763,12 @@ const graphStats = computed(() => {
 })
 const graphScopeTitle = computed(() => sessionScope.value ? '单会议 GraphRAG' : '图谱态势预览')
 const graphScopeSubtitle = computed(() => sessionScope.value ? `Session ${sessionId.value || '-'}` : '图谱态势预览')
+const graphVisualStatus = computed(() => {
+  if (graphLoading.value) return '正在加载社区图'
+  if (sessionScope.value) return graphScopeSubtitle.value
+  if (!graphData.value.nodes.length) return '暂无节点数据，刷新图谱或重建知识库后显示'
+  return `${graphData.value.nodes.length} nodes / ${graphData.value.edges.length} edges`
+})
 const graphQualityDiagnostics = computed(() => graphData.value.quality_diagnostics || {})
 const graphDiagnosticGroups = computed(() => [
   { key: 'top_communities', label: 'Top Communities', items: graphQualityDiagnostics.value.top_communities || [] },
@@ -1180,12 +1776,14 @@ const graphDiagnosticGroups = computed(() => [
   { key: 'isolated_nodes', label: 'Isolated Nodes', items: graphQualityDiagnostics.value.isolated_nodes || [] },
   { key: 'low_value_nodes', label: 'Low Value Nodes', items: graphQualityDiagnostics.value.low_value_nodes || [] },
 ])
+const graphDiagnosticCount = computed(() => graphDiagnosticGroups.value.reduce((total, group) => total + group.items.length, 0))
 const summaryTargets = computed(() => summaryBundle.value?.summary_json?.targets?.join?.(', ') || '无')
 const summaryStages = computed(() => summaryBundle.value?.summary_json?.stages?.length || 0)
 const summarySources = computed(() => summaryBundle.value?.summary_json?.sources?.length || 0)
 const summaryStatus = computed(() => summaryBundle.value ? '已加载' : '未加载')
 const indexedSourceCount = computed(() => sourceItems.value.filter((item) => ['indexed', 'built'].includes(String(item.ingest_status))).length)
 const failedSourceCount = computed(() => sourceItems.value.filter((item) => String(item.ingest_status) === 'failed').length)
+const failedSources = computed(() => sourceItems.value.filter((item) => String(item.ingest_status || item.status || '') === 'failed').slice(0, 8))
 const lowSignalSourceCount = computed(() => sourceItems.value.filter((item) => item.low_signal && Object.keys(item.low_signal).length).length)
 const sourceStatusSummary = computed(() => `${sourceItems.value.length} sources · ${indexedSourceCount.value} indexed · ${failedSourceCount.value} failed`)
 const activeOperationId = computed(() => buildOperation.value?.operation_id || localStorage.getItem(BUILD_OPERATION_STORAGE_KEY) || '')
@@ -1238,6 +1836,9 @@ const selectedPageHtml = computed(() => renderMarkdown(selectedPageMarkdown.valu
 const llmwikiPageCount = computed(() => summaryBundle.value?.llmwiki_pages.length || 0)
 const distillQuality = computed(() => summaryBundle.value?.quality?.distill || {})
 const distillUnitKinds = computed(() => objectEntries(distillQuality.value.unit_kind_counts || {}))
+const formatCounts = computed(() => objectEntries(distillQuality.value.format_counts || {}))
+const extractorCounts = computed(() => objectEntries(distillQuality.value.extractor_counts || {}))
+const formatIssueSources = computed(() => distillQuality.value.format_issue_sources || [])
 const distillTitleFlags = computed(() => objectEntries(distillQuality.value.title_flag_counts || {}))
 const distillLowSignalReasons = computed(() => objectEntries(distillQuality.value.low_signal_reason_counts || {}))
 const distillTitleFallbackKinds = computed(() => objectEntries(distillQuality.value.title_fallback_source_counts || {}))
@@ -1252,6 +1853,21 @@ const lowSignalAuditSamples = computed(() => {
     ...(samples.graphrag_title_leaks || []).map((item) => ({ ...item, issue_type: 'GraphRAG 长标题泄漏' })),
   ].slice(0, 8) as Array<Record<string, any> & { issue_type: string }>
 })
+const lowSignalDrilldownItems = computed(() => [
+  ...lowSignalAuditSamples.value,
+  ...distillZeroUnitSources.value.map((source: Record<string, any>) => ({
+    ...source,
+    issue_type: 'zero unit',
+    reason: (source.reasons || []).join(' / ') || 'no diagnostic',
+  })),
+].slice(0, 8))
+const unreadableChanges = computed(() => (directoryScan.value?.changes?.unreadable || []).slice(0, 8))
+const opsIssueCount = computed(() =>
+  failedSources.value.length
+  + unreadableChanges.value.length
+  + lowSignalDrilldownItems.value.length
+  + formatIssueSources.value.length
+)
 const lowSignalAuditStatusText = computed(() => {
   const status = lowSignalAudit.value?.overall_status || 'not_run'
   const labels: Record<string, string> = {
@@ -1301,18 +1917,21 @@ const activeWorkbenchTitle = computed(() => {
   if (activeWorkbench.value === 'sources') return '当前工作区'
   if (activeWorkbench.value === 'quality') return '当前质量焦点'
   if (activeWorkbench.value === 'explore') return '当前探索范围'
+  if (activeWorkbench.value === 'mcp') return '当前 MCP 契约'
   return '当前总览'
 })
 const activeWorkbenchHeadline = computed(() => {
   if (activeWorkbench.value === 'sources') return selectedDistillSource.value?.title || '管理来源对象与追溯链路'
   if (activeWorkbench.value === 'quality') return lowSignalAuditFailedCount.value ? '优先处理低信号审计失败项' : '审核反馈规则与修复动作'
   if (activeWorkbench.value === 'explore') return queryText.value.trim() || '输入问题后开始查询'
+  if (activeWorkbench.value === 'mcp') return `${mcpToolContracts.length} tools / ${mcpCanonicalResources.value.length} resources`
   return knowledgeHealthTitle.value
 })
 const activeWorkbenchDetail = computed(() => {
   if (activeWorkbench.value === 'sources') return selectedSourceTrace.value ? `${sourceTraceSummary.value.unit_count || 0} 个 units，${sourceTracePages.value.length} 个页面，${sourceTraceNodes.value.length} 个图谱节点` : sourceStatusSummary.value
   if (activeWorkbench.value === 'quality') return `${feedbackSummary.value.feedback_count || 0} 条反馈，${correctionSummary.value.rule_count || 0} 条规则，${lowSignalAuditFailedCount.value} 项未通过审计`
   if (activeWorkbench.value === 'explore') return queryResults.value.length ? queryBreakdown.value : '查询结果会关联页面、实体、关系和 distill unit'
+  if (activeWorkbench.value === 'mcp') return `${mcpToolGroups.value.length} 个 tool group，${mcpCompatSurfaceCount.value} 个兼容入口`
   return knowledgeHealthDetail.value
 })
 const workbenchTabs = computed(() => [
@@ -1332,6 +1951,11 @@ const workbenchTabs = computed(() => [
     detail: lowSignalAuditFailedCount.value ? `${lowSignalAuditFailedCount.value} 项待处理` : `${correctionSummary.value.rule_count || 0} 条规则`,
   },
   {
+    key: 'mcp' as const,
+    label: 'MCP',
+    detail: `${mcpToolContracts.length} tools / ${mcpCanonicalResources.value.length} resources`,
+  },
+  {
     key: 'explore' as const,
     label: '查询探索',
     detail: queryResults.value.length ? queryBreakdown.value : `${graphStats.value.entity_count || 0} 个实体可探索`,
@@ -1345,6 +1969,12 @@ const operationMetrics = computed(() => [
     value: distillQuality.value.source_count || distillBundle.value?.available_source_count || 0,
     caption: '蒸馏输入',
     tone: 'tone-info',
+  },
+  {
+    label: 'Formats',
+    value: formatCounts.value.length || 0,
+    caption: formatCounts.value.slice(0, 2).map((item) => item.key).join(' / ') || '未统计',
+    tone: formatIssueSources.value.length ? 'tone-warning' : 'tone-info',
   },
   {
     label: 'Units',
@@ -1422,10 +2052,37 @@ const selectedDistillKindCounts = computed(() => objectEntries(selectedDistillSo
 const selectedDistillLowSignal = computed(() => selectedDistillSource.value?.record?.profile?.low_signal || selectedDistillSource.value?.low_signal || {})
 const selectedDistillLowSignalReasons = computed(() => selectedDistillLowSignal.value.reasons || [])
 const selectedDistillFallbackKinds = computed(() => objectEntries(selectedDistillLowSignal.value.title_fallbacks || {}).filter((item) => Boolean(item.value)))
+const selectedSourceFormatLabel = computed(() => String(selectedDistillSource.value?.source_format || selectedDistillSource.value?.record?.source_format || 'unknown'))
+const selectedSourceExtractorLabel = computed(() => {
+  const source = selectedDistillSource.value
+  if (!source) return '-'
+  return String(source.extractor_name || source.record?.extractor_name || (source.extractor_available === false ? 'missing' : 'unknown'))
+})
 const sourceTraceSummary = computed(() => selectedSourceTrace.value?.trace_summary || {})
 const sourceTracePages = computed(() => selectedSourceTrace.value?.llmwiki.pages || [])
 const sourceTraceNodes = computed(() => selectedSourceTrace.value?.graphrag.nodes || [])
 const sourceTraceCommunities = computed(() => selectedSourceTrace.value?.graphrag.communities || [])
+const sourceTraceNodeIds = computed(() => new Set(sourceTraceNodes.value.map((node) => String(node.id))))
+const sourceTraceRelatedGlobalCommunities = computed(() =>
+  graphData.value.communities.filter((community) => {
+    const entityIds = [...(community.entity_ids || []), ...(community.node_ids || [])].map((item) => String(item))
+    return entityIds.some((entityId) => sourceTraceNodeIds.value.has(entityId))
+  }),
+)
+const sourceTraceVisibleCommunities = computed(() => {
+  if (sourceTraceCommunities.value.length) return sourceTraceCommunities.value
+  if (sourceTraceRelatedGlobalCommunities.value.length) return sourceTraceRelatedGlobalCommunities.value.slice(0, 8)
+  return graphData.value.communities.slice(0, 8)
+})
+const sourceTraceCommunityFallbackActive = computed(() =>
+  Boolean(selectedSourceTrace.value && !sourceTraceCommunities.value.length && sourceTraceVisibleCommunities.value.length),
+)
+const sourceTraceCommunityFallbackMessage = computed(() => {
+  if (sourceTraceRelatedGlobalCommunities.value.length) {
+    return '后端没有返回 source 级直接匹配社区，已展示与匹配节点相关的全局社区。'
+  }
+  return '后端没有返回 source 级直接匹配社区，已展示当前 GraphRAG 全局社区候选。'
+})
 const sourceTraceEdges = computed(() => selectedSourceTrace.value?.graphrag.edges || [])
 const directoryScanSummary = computed(() => directoryScan.value?.summary || { current_file_count: 0, new_count: 0, modified_count: 0, deleted_count: 0, unreadable_count: 0, pending_count: 0 })
 const directoryPendingChanges = computed(() => {
@@ -1468,7 +2125,7 @@ function showToast(message: string, type: 'success' | 'error' = 'success') {
   toast.value = { message, type }
   window.setTimeout(() => {
     toast.value = null
-  }, 3200)
+  }, type === 'success' ? 1600 : 4200)
 }
 
 const sectionWorkbenchMap: Record<string, 'overview' | 'sources' | 'quality' | 'explore'> = {
@@ -1490,6 +2147,14 @@ function scrollToSection(sectionId: string) {
   window.setTimeout(() => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, 16)
+}
+
+function openGraphPanel() {
+  activeWorkbench.value = 'explore'
+  if (!graphData.value.nodes.length && !graphLoading.value) {
+    void loadGraph()
+  }
+  scrollToSection('graph-panel')
 }
 
 async function focusSourceWorkflow(sourceId: string, target: 'detail' | 'trace' | 'quality' = 'detail') {
@@ -1588,6 +2253,9 @@ async function loadGraph() {
     if (!selectedCommunity.value && graphData.value.communities.length) {
       selectedCommunity.value = graphData.value.communities[0]
     }
+  } catch (error) {
+    console.error(error)
+    showToast(`社区图加载失败: ${String(error)}`, 'error')
   } finally {
     graphLoading.value = false
   }
@@ -1599,7 +2267,7 @@ async function loadDistill() {
     const data = await fetchKnowledgeDistill(workspace.value, null, 18)
     distillBundle.value = data
     if (!selectedDistillSourceId.value && data.sources.length) {
-      await selectDistillSource(String(data.sources[0].source_id))
+      selectedDistillSourceId.value = String(data.sources[0].source_id)
     }
   } finally {
     distillLoading.value = false
@@ -1917,7 +2585,14 @@ async function refreshAll() {
     if (sessionScope.value) {
       await loadGraph()
     } else {
-      await Promise.all([loadSummary(), loadGraph(), loadDistill(), loadFeedback(), loadSources(), loadLowSignalAudit()])
+      const results = await Promise.allSettled([loadSummary(), loadGraph(), loadDistill(), loadFeedback(), loadSources(), loadLowSignalAudit()])
+      const failed = results.filter((result) => result.status === 'rejected')
+      if (failed.length) {
+        console.warn('[KnowledgePage] partial refresh failed', failed)
+      }
+    }
+    if (activeWorkbench.value === 'explore' && !graphData.value.nodes.length && !graphLoading.value) {
+      await loadGraph()
     }
     lastUpdated.value = new Date().toLocaleTimeString('zh-CN')
     showToast('工作台数据已刷新')
@@ -2029,9 +2704,11 @@ async function selectDistillSource(sourceId: string) {
   selectedDistillSourceId.value = sourceId
   selectedSourceTrace.value = null
   try {
+    const graphLoader = graphData.value.nodes.length || graphLoading.value ? Promise.resolve(null) : loadGraph()
     const [distill, trace] = await Promise.all([
       fetchKnowledgeDistill(workspace.value, sourceId, 18),
       loadSourceTrace(sourceId),
+      graphLoader,
     ])
     selectedDistillSourceBundle.value = distill
     const title = selectedDistillSourceBundle.value?.source?.title || sourceId
@@ -2219,6 +2896,12 @@ watch(workspace, (value) => {
   localStorage.setItem(WORKSPACE_STORAGE_KEY, value)
 })
 
+watch(activeWorkbench, (value) => {
+  if (value === 'explore' && !graphData.value.nodes.length && !graphLoading.value) {
+    void loadGraph()
+  }
+})
+
 onMounted(async () => {
   workspace.value = sessionScope.value ? workspace.value : (localStorage.getItem(WORKSPACE_STORAGE_KEY) || DEFAULT_WORKSPACE)
   if (sessionScope.value) {
@@ -2241,6 +2924,19 @@ onMounted(async () => {
     await loadWorkspaces()
   }
   await refreshAll()
+  if (initialView === 'mcp') {
+    activeWorkbench.value = 'mcp'
+  }
+  if (activeWorkbench.value === 'explore' && !graphData.value.nodes.length && !graphLoading.value) {
+    window.setTimeout(() => {
+      void loadGraph()
+    }, 300)
+  }
+  if (window.location.hash === '#graph-panel') {
+    window.setTimeout(() => {
+      document.getElementById('graph-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 80)
+  }
 })
 
 onUnmounted(() => {
@@ -2345,7 +3041,8 @@ onUnmounted(() => {
 
 .page-stack--sources .card,
 .page-stack--quality .card,
-.page-stack--explore .card {
+.page-stack--explore .card,
+.page-stack--mcp .card {
   min-height: 0;
   max-height: none;
 }
@@ -3253,7 +3950,7 @@ button.list-item {
 
 .workbench-nav {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -3306,8 +4003,9 @@ button.list-item {
 
 .page-stack--sources,
 .page-stack--quality,
-.page-stack--explore {
-  max-width: 1240px;
+.page-stack--explore,
+.page-stack--mcp {
+  max-width: 1440px;
   display: flex;
   flex-direction: column;
 }
@@ -3387,7 +4085,7 @@ button.list-item {
 
 .card--query {
   grid-column: 2;
-  min-height: 560px;
+  min-height: 0;
 }
 
 .card--quality-feedback {
@@ -3397,6 +4095,9 @@ button.list-item {
 
 .card--graph {
   grid-column: 1 / -1;
+  padding: 18px;
+  border-color: rgba(56, 189, 248, 0.26);
+  background: #121821;
 }
 
 .card--llmwiki-summary,
@@ -3417,6 +4118,13 @@ button.list-item {
 
 .card--source-trace {
   grid-column: 1 / -1;
+}
+
+.card--mcp-contract,
+.card--mcp-side,
+.card--mcp-debugger,
+.card--mcp-entry {
+  width: 100%;
 }
 
 @media (min-width: 1181px) {
@@ -3515,6 +4223,165 @@ button.list-item {
   margin-bottom: 12px;
 }
 
+.ops-drilldown-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mcp-contract-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.75fr) minmax(0, 1.65fr);
+  gap: 14px;
+}
+
+.mcp-group-list,
+.mcp-tool-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.mcp-tool-list {
+  max-height: 560px;
+  overflow: auto;
+  padding-right: 2px;
+}
+
+.mcp-tool-card {
+  min-width: 0;
+}
+
+.mcp-field-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 10px;
+}
+
+.mcp-field-grid div {
+  min-width: 0;
+  padding: 10px;
+  background: #101722;
+  border: 1px solid #263244;
+  border-radius: 8px;
+}
+
+.mcp-field-grid span,
+.mcp-field-grid strong {
+  display: block;
+}
+
+.mcp-field-grid strong {
+  margin-top: 4px;
+  color: #e2e8f0;
+  overflow-wrap: anywhere;
+}
+
+.mcp-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.interface-matrix {
+  display: grid;
+  gap: 10px;
+}
+
+.interface-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.8fr) minmax(0, 1.4fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.interface-cells {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.interface-cells span {
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid #263244;
+  border-radius: 8px;
+  background: #101722;
+  color: #cbd5e1;
+  overflow-wrap: anywhere;
+}
+
+.interface-cells b {
+  display: block;
+  margin-bottom: 3px;
+  color: #f8fafc;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.mcp-debugger-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.mcp-debugger-actions {
+  margin-top: 12px;
+}
+
+.mcp-payload-editor {
+  min-height: 260px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.mcp-preview-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.mcp-response-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.preview-head b {
+  color: #f8fafc;
+  text-transform: none;
+}
+
+.inline-select {
+  min-width: 150px;
+  max-width: 100%;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #101722;
+  color: #e2e8f0;
+  padding: 7px 9px;
+  font: inherit;
+  text-transform: none;
+}
+
+.card--ops-drilldown {
+  flex: 1 1 100%;
+}
+
 .card--quality-feedback .subsection {
   padding-top: 12px;
   border-top: 1px solid #263244;
@@ -3522,7 +4389,7 @@ button.list-item {
 
 .graph-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.85fr);
+  grid-template-columns: minmax(0, 1.7fr) minmax(340px, 0.82fr);
   gap: 14px;
   align-items: stretch;
   min-width: 0;
@@ -3530,7 +4397,7 @@ button.list-item {
 
 .graph-side {
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
   gap: 14px;
   min-height: 0;
   min-width: 0;
@@ -3550,6 +4417,60 @@ button.list-item {
   background: #101722;
   border: 1px solid #263244;
   border-radius: 8px;
+}
+
+.graph-quality-panel[open] {
+  border-color: rgba(56, 189, 248, 0.34);
+}
+
+.graph-quality-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.graph-quality-summary::-webkit-details-marker {
+  display: none;
+}
+
+.graph-quality-summary span,
+.graph-quality-summary strong,
+.graph-quality-summary small {
+  display: block;
+}
+
+.graph-quality-summary strong {
+  color: #f8fafc;
+}
+
+.graph-quality-summary small {
+  margin-top: 2px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.graph-quality-summary b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: #1e293b;
+  color: #dbeafe;
+  font-size: 12px;
+}
+
+.detail-card-head {
+  margin-bottom: 8px;
+}
+
+.graph-detail-card {
+  border-color: rgba(20, 184, 166, 0.28);
 }
 
 .diagnostic-group {
@@ -3628,12 +4549,12 @@ button.list-item {
 }
 
 .card--graph :deep(.graph-community-view) {
-  min-height: 420px;
-  max-height: 480px;
+  min-height: 540px;
+  max-height: 620px;
 }
 
 .card--graph .detail-card {
-  max-height: 240px;
+  max-height: 280px;
 }
 
 .list-item {
@@ -3666,6 +4587,128 @@ button.list-item {
 .query-answer {
   margin-top: 0;
   background: #0f172a;
+}
+
+/* Regenerated workbench layout */
+.page-header,
+.page-stack {
+  max-width: 1480px;
+}
+
+.page-header {
+  gap: 12px;
+  border-color: #202a38;
+  background: #0f141c;
+}
+
+.command-bar {
+  grid-template-columns: minmax(220px, 0.72fr) minmax(420px, 1.45fr) minmax(260px, auto);
+}
+
+.status-row {
+  padding-top: 0;
+}
+
+.next-action-bar {
+  min-height: 72px;
+}
+
+.workbench-nav {
+  gap: 8px;
+}
+
+.workbench-tab {
+  min-height: 52px;
+  padding: 10px 12px;
+}
+
+.page-stack--explore {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 16px;
+}
+
+.page-stack--explore > .card {
+  width: 100%;
+  min-height: 360px;
+  border-color: #202a38;
+  background: #111821;
+}
+
+.page-stack--explore .card--graph {
+  grid-column: 1 / -1;
+  min-height: 720px;
+  padding: 18px;
+}
+
+.page-stack--explore .card--query {
+  grid-column: 1 / span 5;
+  min-height: 430px;
+}
+
+.page-stack--explore .card--llmwiki-summary {
+  grid-column: 6 / -1;
+  min-height: 430px;
+}
+
+.page-stack--explore .card--llmwiki-pages {
+  grid-column: 1 / -1;
+  min-height: 520px;
+}
+
+.page-stack--explore .card--query,
+.page-stack--explore .card--llmwiki-summary,
+.page-stack--explore .card--llmwiki-pages {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-stack--explore .card--query > .stack-list,
+.page-stack--explore .card--llmwiki-pages > .stack-list,
+.page-stack--explore .card--llmwiki-summary .content-box {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+.graph-grid {
+  grid-template-columns: minmax(0, 2fr) minmax(360px, 0.86fr);
+  min-height: 620px;
+}
+
+.graph-side {
+  align-self: stretch;
+  grid-template-rows: minmax(190px, auto) minmax(230px, 1fr) auto;
+}
+
+.graph-detail-card,
+.graph-quality-panel,
+.graph-side > div:not(.detail-card) {
+  background: #0f1724;
+  border: 1px solid #202a38;
+  border-radius: 8px;
+}
+
+.graph-side > div:not(.detail-card) {
+  padding: 12px;
+}
+
+.graph-side .stack-list {
+  max-height: 330px;
+}
+
+.card--graph :deep(.graph-community-view) {
+  min-height: 620px;
+  max-height: none;
+}
+
+.card--graph :deep(.graph-canvas-wrap) {
+  min-height: 560px;
+}
+
+.card--graph .detail-card {
+  max-height: none;
 }
 
 @media (max-width: 1180px) {
@@ -3721,6 +4764,21 @@ button.list-item {
   .graph-grid,
   .trace-columns {
     grid-template-columns: 1fr;
+  }
+
+  .page-stack--explore {
+    grid-template-columns: 1fr;
+  }
+
+  .page-stack--explore .card--graph,
+  .page-stack--explore .card--query,
+  .page-stack--explore .card--llmwiki-summary,
+  .page-stack--explore .card--llmwiki-pages {
+    grid-column: 1;
+  }
+
+  .page-stack--explore .card--graph {
+    min-height: 0;
   }
 }
 
@@ -3796,6 +4854,29 @@ button.list-item {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .ops-drilldown-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mcp-contract-layout,
+  .mcp-field-grid,
+  .mcp-entry-grid,
+  .interface-row,
+  .interface-cells,
+  .mcp-debugger-grid,
+  .mcp-response-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .inline-select {
+    width: 100%;
+  }
+
   .diagnostic-item {
     grid-template-columns: 1fr;
   }
@@ -3803,6 +4884,14 @@ button.list-item {
   .diagnostic-actions {
     justify-content: flex-start;
     max-width: 100%;
+  }
+
+  .toast {
+    top: 12px;
+    right: 12px;
+    bottom: auto;
+    left: 12px;
+    text-align: center;
   }
 }
 

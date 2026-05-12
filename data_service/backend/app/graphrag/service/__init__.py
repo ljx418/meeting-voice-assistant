@@ -10,6 +10,13 @@ from .data_service_query_model import (
     graph_stats_dict,
     query_graph_db,
 )
+from .session_graph_service import (
+    SESSION_GRAPH_MODEL_VERSION,
+    SESSION_RELATION_TYPES,
+    SESSION_UNIT_TYPES,
+    SessionGraphService,
+)
+from .session_relation_extractor import SessionRelationExtractor
 
 try:
     from .data_service_runner import run_data_service_execution_request
@@ -28,4 +35,9 @@ __all__ = [
     "query_workspace_graph",
     "read_workspace_graph_snapshot",
     "run_data_service_execution_request",
+    "SESSION_GRAPH_MODEL_VERSION",
+    "SESSION_RELATION_TYPES",
+    "SESSION_UNIT_TYPES",
+    "SessionGraphService",
+    "SessionRelationExtractor",
 ]

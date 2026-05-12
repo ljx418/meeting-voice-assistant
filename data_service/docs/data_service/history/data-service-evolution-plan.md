@@ -259,6 +259,6 @@ raw sources
 ## 8. 对应图示
 
 - [Data Service 当前架构状态](../CURRENT-STATUS.md)
-- [Data Service 当前与目标差距分析](../current-vs-target-gap.md)
+- [Data Service V1.5 当前与目标差距分析](../../V1.5/current-vs-target-gap.md)
 - [当前架构图](../diagrams/01_current_architecture.drawio)
 - [目标架构图](../diagrams/02_target_architecture.drawio)

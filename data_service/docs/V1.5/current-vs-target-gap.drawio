@@ -1,0 +1,136 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram id="current-vs-target-flow" name="Current vs Target Flow">
+    <mxGraphModel dx="3120" dy="1702" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="2150" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=30;fontStyle=1;fontColor=#0F172A;align=center;verticalAlign=middle;" value="Data Service V1.5：Current vs Target Flow" vertex="1">
+          <mxGeometry height="42" width="1400" x="250" y="24" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=16;fontColor=#475569;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="V1.0 状态已固化；当前主线是 MCP-first、最小粒度 handler、微服务边界清晰化。PhaseG31 已完成 V1.5 closure acceptance。" vertex="1">
+          <mxGeometry height="56" width="1400" x="250" y="72" as="geometry" />
+        </mxCell>
+        <mxCell id="metric_phasea" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#DCFCE7;strokeColor=#22C55E;fontColor=#14532D;fontSize=15;spacing=12;shadow=0;" value="&lt;b&gt;PhaseA&lt;/b&gt;&lt;br&gt;已完成&lt;br&gt;&lt;font color=&quot;#64748B&quot;&gt;adapter / runtime / registry&lt;/font&gt;" vertex="1">
+          <mxGeometry height="78" width="400" x="80" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="metric_stdio" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E0F2FE;strokeColor=#38BDF8;fontColor=#075985;fontSize=15;spacing=12;shadow=0;" value="&lt;b&gt;MCP stdio adapter&lt;/b&gt;&lt;br&gt;约 84 行&lt;br&gt;&lt;font color=&quot;#64748B&quot;&gt;仅保留 wiring / transport&lt;/font&gt;" vertex="1">
+          <mxGeometry height="78" width="400" x="520" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="metric_mcp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#EEF2FF;strokeColor=#818CF8;fontColor=#3730A3;fontSize=15;spacing=12;shadow=0;" value="&lt;b&gt;MCP 回归&lt;/b&gt;&lt;br&gt;23 passed&lt;br&gt;&lt;font color=&quot;#64748B&quot;&gt;tools / resources / path contract&lt;/font&gt;" vertex="1">
+          <mxGeometry height="78" width="400" x="960" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="metric_combo" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FEF3C7;strokeColor=#F59E0B;fontColor=#78350F;fontSize=15;spacing=12;shadow=0;" value="&lt;b&gt;组合回归&lt;/b&gt;&lt;br&gt;104 passed&lt;br&gt;&lt;font color=&quot;#64748B&quot;&gt;backend + API + MCP&lt;/font&gt;" vertex="1">
+          <mxGeometry height="78" width="400" x="1400" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="current_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#DBEAFE;strokeColor=#2563EB;fontColor=#1E3A8A;fontSize=18;fontStyle=1;spacing=10;" value="当前形态｜V1.0 固化 + PhaseA-F9 增量" vertex="1">
+          <mxGeometry height="52" width="520" x="60" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FEF3C7;strokeColor=#F59E0B;fontColor=#78350F;fontSize=18;fontStyle=1;spacing=10;" value="主要偏差｜下一轮收敛点" vertex="1">
+          <mxGeometry height="52" width="520" x="690" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="target_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#DCFCE7;strokeColor=#16A34A;fontColor=#14532D;fontSize=18;fontStyle=1;spacing=10;" value="目标形态｜MCP + 微服务化" vertex="1">
+          <mxGeometry height="52" width="520" x="1320" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_clients" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#EFF6FF;strokeColor=#60A5FA;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;入口层&lt;/b&gt;&lt;br&gt;MCP 为主入口；CLI / HTTP 兼容。Console 作为治理入口，agent 使用 v2 tools。" vertex="1">
+          <mxGeometry height="110" width="520" x="60" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_gateway" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#EFF6FF;strokeColor=#60A5FA;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;MCP 边界&lt;/b&gt;&lt;br&gt;stdio adapter 已瘦身；handler / runtime / registry 已拆开。legacy 与 v2 行为保持稳定。" vertex="1">
+          <mxGeometry height="125" width="520" x="60" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_orch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#EFF6FF;strokeColor=#60A5FA;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;处理链路&lt;/b&gt;&lt;br&gt;distill v1.1 稳定；LLMWiki / GraphRAG contracts 可复用；Trace 与 Quality 已可观测。" vertex="1">
+          <mxGeometry height="125" width="520" x="60" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_runtime" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#EFF6FF;strokeColor=#60A5FA;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;引擎层&lt;/b&gt;&lt;br&gt;LLMWiki pages 与 GraphRAG 查询可用；Session GraphRAG service / relation extractor 已下沉到 app.graphrag.service。" vertex="1">
+          <mxGeometry height="125" width="520" x="60" y="795" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_exec" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#EFF6FF;strokeColor=#60A5FA;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;产物契约&lt;/b&gt;&lt;br&gt;lifecycle 已持久化；MCP 外部响应已采用 artifact_ref 与 debug_paths 分层。" vertex="1">
+          <mxGeometry height="125" width="520" x="60" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_protocol" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFFBEB;strokeColor=#FBBF24;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;1. 契约一致性&lt;/b&gt;&lt;br&gt;MCP / CLI / HTTP 需要保持同语义；resource URI、错误模型与 E2E 结果继续固化。" vertex="1">
+          <mxGeometry height="120" width="520" x="690" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_runtime" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFFBEB;strokeColor=#FBBF24;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;2. Workspace / Tenant&lt;/b&gt;&lt;br&gt;PhaseC1/C2/C3 已收敛 MCP 与 HTTP lifecycle path / error contract；后续继续 workspace_id-first。" vertex="1">
+          <mxGeometry height="120" width="520" x="700" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_domain" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFFBEB;strokeColor=#FBBF24;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;3. Session GraphRAG&lt;/b&gt;&lt;br&gt;PhaseB1/B2 已完成 graph service 与 relation extractor 边界抽取；PhaseC contract hardening 已完成，后续推进接口语义统一。" vertex="1">
+          <mxGeometry height="120" width="520" x="690" y="635" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_infra" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFFBEB;strokeColor=#FBBF24;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;4. Typed Units&lt;/b&gt;&lt;br&gt;PhaseD1/D2/D3 已完成 typed mapping、filter、diagnostics 与会议/代码 fixture 覆盖。" vertex="1">
+          <mxGeometry height="120" width="520" x="690" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_quality" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFFBEB;strokeColor=#FBBF24;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;5. Console / Frontend&lt;/b&gt;&lt;br&gt;docx / yaml、格式治理诊断、异常队列、MCP contract、Debugger 预检、Source Trace fallback、社区图可见性、GraphRAG polish 与 Explore 规则网格已完成。" vertex="1">
+          <mxGeometry height="120" width="520" x="690" y="925" as="geometry" />
+        </mxCell>
+        <mxCell id="target_clients" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F0FDF4;strokeColor=#4ADE80;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;MCP-first Contract&lt;/b&gt;&lt;br&gt;tools / resources / prompts 清晰分层；CLI / HTTP 只作为兼容入口。" vertex="1">
+          <mxGeometry height="110" width="520" x="1320" y="345" as="geometry" />
+        </mxCell>
+        <mxCell id="target_gateway" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F0FDF4;strokeColor=#4ADE80;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;Modular MCP Service&lt;/b&gt;&lt;br&gt;adapter 只处理 transport；domain handlers 独立注册，按最小粒度演进。" vertex="1">
+          <mxGeometry height="125" width="520" x="1320" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="target_adapter" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F0FDF4;strokeColor=#4ADE80;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;GraphRAG Boundary&lt;/b&gt;&lt;br&gt;app.graphrag.service 承载图构建、查询、社区与邻居扩展；MCP 只编排。" vertex="1">
+          <mxGeometry height="125" width="520" x="1320" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="target_runtime" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F0FDF4;strokeColor=#4ADE80;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;Typed Pipeline&lt;/b&gt;&lt;br&gt;source_refs、speaker、timestamp、evidence 与 typed unit schema 成为跨服务契约。" vertex="1">
+          <mxGeometry height="125" width="520" x="1320" y="795" as="geometry" />
+        </mxCell>
+        <mxCell id="target_domain" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F0FDF4;strokeColor=#4ADE80;fontColor=#1E293B;fontSize=14;spacing=14;" value="&lt;b&gt;Governance Console&lt;/b&gt;&lt;br&gt;合同、质量、验收、阶段状态与可追溯产物统一展示；不泄露内部路径。" vertex="1">
+          <mxGeometry height="125" width="520" x="1320" y="950" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_flow1" edge="1" parent="1" source="cur_clients" style="endArrow=block;html=1;rounded=0;strokeColor=#2563EB;strokeWidth=2;" target="cur_gateway" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_flow2" edge="1" parent="1" source="cur_gateway" style="endArrow=block;html=1;rounded=0;strokeColor=#2563EB;strokeWidth=2;" target="cur_orch" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_flow3" edge="1" parent="1" source="cur_orch" style="endArrow=block;html=1;rounded=0;strokeColor=#2563EB;strokeWidth=2;" target="cur_runtime" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cur_flow4" edge="1" parent="1" source="cur_runtime" style="endArrow=block;html=1;rounded=0;strokeColor=#2563EB;strokeWidth=2;" target="cur_exec" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="target_flow1" edge="1" parent="1" source="target_clients" style="endArrow=block;html=1;rounded=0;strokeColor=#16A34A;strokeWidth=2;" target="target_gateway" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="target_flow2" edge="1" parent="1" source="target_gateway" style="endArrow=block;html=1;rounded=0;strokeColor=#16A34A;strokeWidth=2;" target="target_adapter" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="target_flow3" edge="1" parent="1" source="target_adapter" style="endArrow=block;html=1;rounded=0;strokeColor=#16A34A;strokeWidth=2;" target="target_runtime" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="target_flow4" edge="1" parent="1" source="target_runtime" style="endArrow=block;html=1;rounded=0;strokeColor=#16A34A;strokeWidth=2;" target="target_domain" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="roadmap_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#0F172A;fontSize=20;fontStyle=1;spacing=10;align=center;" value="开发阶段路线图" vertex="1">
+          <mxGeometry height="52" width="1780" x="60" y="1130" as="geometry" />
+        </mxCell>
+        <mxCell id="roadmap_done" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F0FDF4;strokeColor=#22C55E;fontColor=#1E293B;fontSize=15;spacing=16;" value="&lt;b&gt;已完成：PhaseA-D + PhaseE + PhaseF1-F10 + PhaseG1-G31&lt;/b&gt;&lt;br&gt;&lt;br&gt;• MCP handlers、runtime、tool registry 分层&lt;br&gt;• SessionGraphService / RelationExtractor 边界抽取&lt;br&gt;• MCP + HTTP lifecycle path / error contract hardening&lt;br&gt;• typed units 会议/代码覆盖&lt;br&gt;• docx / yaml 进入 distill、LLMWiki、GraphRAG&lt;br&gt;• 控制台治理化、MCP Debugger response/error 预览、Source Trace fallback、社区图可见性、GraphRAG polish、Explore 规则网格与前端验收&lt;br&gt;• PhaseG1 接口矩阵、迁移护栏与 contract drift 测试&lt;br&gt;• PhaseG2 query MCP / HTTP / CLI shared contract shim&lt;br&gt;• PhaseG3 distill HTTP / CLI shared contract shim&lt;br&gt;• PhaseG4 Source Trace target contract 与 drift tests&lt;br&gt;• PhaseG5 Source Trace shared contract helper&lt;br&gt;• PhaseG6 Source Trace schema 示例与迁移窗口&lt;br&gt;• PhaseG7 Low Signal Audit shared contract helper&lt;br&gt;• PhaseG8 Quality Summary / Correction Plan contract drift tests&lt;br&gt;• PhaseG9 Quality Feedback / Rules / Review contract drift tests&lt;br&gt;• PhaseG10 Quality HTTP shared helper 迁移&lt;br&gt;• PhaseG11 Correction Plan HTTP helper 迁移&lt;br&gt;• PhaseG12 Quality CLI planned 迁移窗口&lt;br&gt;• PhaseG13 Quality CLI 只读 preview&lt;br&gt;• PhaseG14 Quality CLI 写入型治理命令&lt;br&gt;• PhaseG15 knowledge quality entrypoint-ready alias&lt;br&gt;• PhaseG16 packaging console scripts&lt;br&gt;• PhaseG17 knowledge alias surface guard&lt;br&gt;• PhaseG18 knowledge query alias&lt;br&gt;• PhaseG19 knowledge workspace read-only alias&lt;br&gt;• PhaseG20 knowledge source read-only alias&lt;br&gt;• PhaseG21 knowledge build status alias&lt;br&gt;• PhaseG22 knowledge graph snapshot alias&lt;br&gt;• PhaseG23 knowledge trace source alias&lt;br&gt;• PhaseG24 graph advanced CLI migration window&lt;br&gt;• PhaseG25 workspace create/archive CLI aliases&lt;br&gt;• PhaseG26 source import/remove CLI aliases&lt;br&gt;• PhaseG27 build start/cancel CLI aliases&lt;br&gt;• PhaseG28 MCP distill preview&lt;br&gt;• PhaseG29 MCP source trace&lt;br&gt;• PhaseG30 target HTTP query/distill/source trace&lt;br&gt;• PhaseG31 V1.5 closure acceptance accepted" vertex="1">
+          <mxGeometry height="565" width="560" x="60" y="1205" as="geometry" />
+        </mxCell>
+        <mxCell id="roadmap_next" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#1E293B;fontSize=15;spacing=16;" value="&lt;b&gt;当前优先：V1.6 planning&lt;/b&gt;&lt;br&gt;&lt;br&gt;• V1.5 surface 已冻结&lt;br&gt;• V1.6 候选能力仅进入规划&lt;br&gt;• 不在 V1.5 中补开 graph/session/target write route&lt;br&gt;• 继续保持 MCP-first 与微服务边界" vertex="1">
+          <mxGeometry height="245" width="560" x="670" y="1205" as="geometry" />
+        </mxCell>
+        <mxCell id="roadmap_later" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#1E293B;fontSize=15;spacing=16;" value="&lt;b&gt;后续：V1.6 候选&lt;/b&gt;&lt;br&gt;&lt;br&gt;• graph advanced / session 公开入口评估&lt;br&gt;• target HTTP 写入型 route 分阶段开放&lt;br&gt;• 控制台迁移到 target HTTP 的独立阶段" vertex="1">
+          <mxGeometry height="245" width="560" x="1280" y="1205" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_header" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#0F172A;fontSize=20;fontStyle=1;spacing=10;align=center;" value="验收里程碑与出门验证" vertex="1">
+          <mxGeometry height="52" width="1780" x="60" y="1790" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_done" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#ECFDF5;strokeColor=#10B981;fontColor=#064E3B;fontSize=14;spacing=14;" value="&lt;b&gt;已通过&lt;/b&gt;&lt;br&gt;&lt;br&gt;• MCP 专项 23 passed&lt;br&gt;• backend/API/MCP 104 passed&lt;br&gt;• resource / error / path contract&lt;br&gt;• 未新增隐藏公共入口" vertex="1">
+          <mxGeometry height="205" width="420" x="60" y="1865" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_mvp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFF7ED;strokeColor=#FB923C;fontColor=#7C2D12;fontSize=14;spacing=14;" value="&lt;b&gt;PhaseB 已验证&lt;/b&gt;&lt;br&gt;&lt;br&gt;• E2E 构建 session graph&lt;br&gt;• A/B workspace 隔离&lt;br&gt;• relation extractor 边界&lt;br&gt;• source_refs 不丢失" vertex="1">
+          <mxGeometry height="205" width="420" x="510" y="1865" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_progress" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F1F5F9;strokeColor=#94A3B8;fontColor=#334155;fontSize=14;spacing=14;" value="&lt;b&gt;PhaseG31 收口验收&lt;/b&gt;&lt;br&gt;&lt;br&gt;• API 34 passed / MCP 32 passed&lt;br&gt;• 组合回归 137 passed&lt;br&gt;• frontend build 与截图验收通过&lt;br&gt;• target HTTP 仍仅 3 routes&lt;br&gt;• MCP 40 tools / CLI 顶层未变化；V1.5 accepted" vertex="1">
+          <mxGeometry height="205" width="420" x="960" y="1865" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_rule" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#64748B;fontColor=#0F172A;fontSize=14;spacing=14;" value="&lt;b&gt;冻结规则&lt;/b&gt;&lt;br&gt;&lt;br&gt;V1.5 已 accepted：&lt;br&gt;• roadmap / gap md / gap drawio 保持一致&lt;br&gt;• 只允许勘误修正&lt;br&gt;• 不在 V1.5 文档新增 V1.6 能力描述&lt;br&gt;• V1.6 规划进入 docs/V1.6" vertex="1">
+          <mxGeometry height="205" width="430" x="1410" y="1865" as="geometry" />
+        </mxCell>
+        <mxCell id="security_regression_20260430" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#1E293B;fontSize=15;spacing=18;" value="&lt;b&gt;2026-04-30 安全回归基线&lt;/b&gt;&lt;br&gt;&lt;br&gt;1. GraphRAG API 已移动到 app.graphrag，并加兼容 wrapper，避免 backend.app.* 与 app.* 双模块导入。&lt;br&gt;2. MCP 资源 URI 固定为 data-service://...；非法 file:// 读取返回 FileNotFoundError 语义。&lt;br&gt;3. High-risk output 需满足 EVIDENCE_SOURCE_IDS；新入口变更必须同步新增资源 URI 与端到端回归。" vertex="1">
+          <mxGeometry height="225" width="1780" x="60" y="2120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -55,6 +55,15 @@ npm run build
 
 Current compatibility names still use `data_service`. They are the current implementation carrier for the Local Knowledge Governance Service.
 
+The backend package also declares console script entrypoints in `backend/pyproject.toml`:
+
+```text
+data-service -> data_service.__main__:main
+knowledge -> data_service.__main__:knowledge_main
+```
+
+`knowledge quality ...` is the target CLI alias for the quality governance capability group. `data_service quality ...` remains the compatibility CLI.
+
 After `npm run build`, the backend serves the console at:
 
 ```text

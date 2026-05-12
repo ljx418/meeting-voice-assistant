@@ -277,6 +277,9 @@ export interface KnowledgeSourceRecord {
   unit_count?: number
   source_weight?: number
   source_density_score?: number
+  source_format?: string
+  extractor_name?: string
+  extractor_available?: boolean
 }
 
 async function postJson<T>(endpoint: string, body: Record<string, any>): Promise<T> {

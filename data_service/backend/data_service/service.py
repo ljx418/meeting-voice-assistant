@@ -61,7 +61,7 @@ class DataService:
         ".md", ".markdown", ".txt", ".text",
         ".csv", ".json",
         ".pdf", ".pptx", ".ppt",
-        ".html", ".htm",
+        ".html", ".htm", ".docx", ".yaml", ".yml",
     }
     TITLE_MARKER_PATTERNS = [
         (re.compile(r"[-_\s]*(废弃于\d{4,}|废弃于|已废弃|归档|临时版?|tmp)\b", re.IGNORECASE), "status_marker"),
@@ -127,7 +127,8 @@ class DataService:
         "解析",
     ]
     HIGH_DENSITY_THRESHOLD = 2.2
-    DISTILL_SCHEMA_VERSION = "1.1"
+    DISTILL_SCHEMA_VERSION = "1.2"
+    TYPED_DISTILL_UNIT_SCHEMA_VERSION = "typed-distill-unit-1.2"
     ENGINE_INPUT_CONTRACT_VERSION = "1.0"
     GRAPH_QUERY_MODEL_VERSION = "1.0"
     DEFAULT_GRAPH_EXECUTION_OWNER = GraphExecutionOwner.APP_GRAPHRAG
@@ -151,6 +152,24 @@ class DataService:
         DistilledUnitKind.FACT_CANDIDATE,
         DistilledUnitKind.RISK,
         DistilledUnitKind.EXAMPLE,
+    }
+    LEGACY_KIND_TO_TYPED_UNIT_TYPE = {
+        DistilledUnitKind.TOPIC_CANDIDATE.value: "concept",
+        DistilledUnitKind.QUESTION.value: "question",
+        DistilledUnitKind.CONCLUSION.value: "claim",
+        DistilledUnitKind.STEP.value: "workflow",
+        DistilledUnitKind.EXAMPLE.value: "example",
+        DistilledUnitKind.NOTE.value: "meeting_summary",
+        DistilledUnitKind.RISK.value: "risk",
+        DistilledUnitKind.FACT_CANDIDATE.value: "fact",
+        DistilledUnitKind.ENTITY_CANDIDATE.value: "entity_evidence",
+        DistilledUnitKind.RELATION_CANDIDATE.value: "relation_evidence",
+    }
+    EXTRA_TYPED_UNIT_TYPES = {
+        "architecture_note",
+        "code_symbol",
+        "code_dependency",
+        "code_call_edge",
     }
 
     def __init__(self, workspace: Path):
@@ -749,6 +768,7 @@ class DataService:
         source_id: Optional[str] = None,
         limit: int = 20,
         kind: Optional[str] = None,
+        typed_unit_type: Optional[str] = None,
         min_importance: float = 0.0,
         llm_enriched_only: bool = False,
         authority: Optional[str] = None,
@@ -759,6 +779,7 @@ class DataService:
         self.ensure_layout()
         limit = max(1, min(int(limit), 200))
         kind = str(kind).strip() if kind else None
+        typed_unit_type = str(typed_unit_type).strip() if typed_unit_type else None
         authority = str(authority).strip() if authority else None
         min_importance = max(0.0, float(min_importance))
         min_source_weight = max(0.0, float(min_source_weight))
@@ -777,6 +798,9 @@ class DataService:
                     {
                         "source_id": source_record.get("source_id", source_path.stem),
                         "path": source_record.get("path", ""),
+                        "source_format": source_record.get("source_format", ""),
+                        "extractor_name": source_record.get("extractor_name", ""),
+                        "extractor_available": bool(source_record.get("extractor_available", False)),
                         "authority": source_record.get("authority", ""),
                         "unit_count": len(source_record.get("units", []) or []),
                         "source_weight": source_record.get("source_weight", 1.0),
@@ -787,6 +811,7 @@ class DataService:
                         "distill_path": str(source_path),
                         "profile": source_record.get("profile", {}),
                         "unit_kind_counts": source_record.get("unit_kind_counts", {}),
+                        "typed_unit_type_counts": source_record.get("typed_unit_type_counts", {}),
                     }
                 )
             sources = recovered_sources
@@ -819,6 +844,7 @@ class DataService:
                 units = self._filter_distill_units(
                     list(source_record.get("units", [])),
                     kind=kind,
+                    typed_unit_type=typed_unit_type,
                     min_importance=min_importance,
                     llm_enriched_only=llm_enriched_only,
                     authority=authority,
@@ -830,6 +856,7 @@ class DataService:
             units = self._filter_distill_units(
                 self._read_jsonl_preview(self.layout.distill_units_dir / "distilled_units.jsonl", limit=max(limit * 8, limit)),
                 kind=kind,
+                typed_unit_type=typed_unit_type,
                 min_importance=min_importance,
                 llm_enriched_only=llm_enriched_only,
                 authority=authority,
@@ -851,6 +878,7 @@ class DataService:
             "provenance_overview": self._build_provenance_overview(sources, units),
             "filters": {
                 "kind": kind,
+                "typed_unit_type": typed_unit_type,
                 "min_importance": min_importance,
                 "llm_enriched_only": llm_enriched_only,
                 "authority": authority,
@@ -868,12 +896,16 @@ class DataService:
                 {
                     "source_id": source_id,
                     "title": source.get("title", source_id),
+                    "source_format": source.get("source_format", ""),
+                    "extractor_name": source.get("extractor_name", ""),
+                    "extractor_available": bool(source.get("extractor_available", False)),
                     "authority": source.get("authority"),
                     "source_weight": source.get("source_weight", 1.0),
                     "source_density_score": source.get("source_density_score", 1.0),
                     "title_flags": list(source.get("title_flags", []) or []),
                     "unit_count": int(source.get("unit_count", 0)),
                     "unit_kind_counts": dict(source.get("unit_kind_counts", {}) or {}),
+                    "typed_unit_type_counts": dict(source.get("typed_unit_type_counts", {}) or {}),
                     "profile": dict(source.get("profile", {}) or {}),
                     "low_signal": dict(source.get("low_signal", {}) or source_record.get("profile", {}).get("low_signal", {}) or {}),
                     "profile_debug": dict(source_record.get("profile_debug", {}) or {}),
@@ -932,7 +964,23 @@ class DataService:
         reason_counts: Dict[str, int] = defaultdict(int)
         title_fallback_source_counts: Dict[str, int] = defaultdict(int)
         title_only_covered_count = 0
+        format_counts: Dict[str, int] = defaultdict(int)
+        extractor_counts: Dict[str, int] = defaultdict(int)
+        format_issue_sources: List[Dict[str, Any]] = []
         for source in sources:
+            source_format = str(source.get("source_format") or "").strip() or "unknown"
+            extractor_name = str(source.get("extractor_name") or "").strip() or "unknown"
+            format_counts[source_format] += 1
+            extractor_counts[extractor_name] += 1
+            if not bool(source.get("extractor_available", False)):
+                format_issue_sources.append(
+                    {
+                        "source_id": source.get("source_id"),
+                        "title": source.get("title"),
+                        "source_format": source_format,
+                        "issue": "extractor_unavailable",
+                    }
+                )
             low_signal = dict(source.get("low_signal", {}) or {})
             if low_signal.get("zero_unit"):
                 zero_unit_sources.append(
@@ -950,12 +998,20 @@ class DataService:
             for key, enabled in fallbacks.items():
                 if enabled:
                     title_fallback_source_counts[str(key)] += 1
+        typed_unit_type_counts: Dict[str, int] = defaultdict(int)
+        for source in sources:
+            for unit_type, count in (source.get("typed_unit_type_counts", {}) or {}).items():
+                typed_unit_type_counts[str(unit_type)] += int(count)
         return {
             "zero_unit_count": len(zero_unit_sources),
             "zero_unit_sources": zero_unit_sources[:20],
             "low_signal_reason_counts": dict(sorted(reason_counts.items())),
             "title_fallback_source_count": title_only_covered_count,
             "title_fallback_source_counts": dict(sorted(title_fallback_source_counts.items())),
+            "typed_unit_type_counts": dict(sorted(typed_unit_type_counts.items())),
+            "format_counts": dict(sorted(format_counts.items())),
+            "extractor_counts": dict(sorted(extractor_counts.items())),
+            "format_issue_sources": format_issue_sources[:20],
         }
 
     @classmethod
@@ -964,6 +1020,7 @@ class DataService:
         title_flag_counts: Dict[str, int] = defaultdict(int)
         authority_counts: Dict[str, int] = defaultdict(int)
         kind_counts: Dict[str, int] = defaultdict(int)
+        typed_unit_type_counts: Dict[str, int] = defaultdict(int)
         llm_enriched_count = 0
         title_derived_count = 0
         sample_provenance: List[Dict[str, Any]] = []
@@ -981,6 +1038,10 @@ class DataService:
                 authority_counts[authority] += 1
             if kind:
                 kind_counts[kind] += 1
+            typed_unit = dict(unit.get("typed_unit", {}) or {})
+            typed_unit_type = str(typed_unit.get("type", "")).strip()
+            if typed_unit_type:
+                typed_unit_type_counts[typed_unit_type] += 1
             if bool(unit.get("is_llm_enriched", False)):
                 llm_enriched_count += 1
             if bool(unit.get("is_title_derived", False)):
@@ -1001,6 +1062,7 @@ class DataService:
             "title_flag_counts": dict(sorted(title_flag_counts.items())),
             "authority_counts": dict(sorted(authority_counts.items())),
             "unit_kind_counts": dict(sorted(kind_counts.items())),
+            "typed_unit_type_counts": dict(sorted(typed_unit_type_counts.items())),
             "llm_enriched_unit_count": llm_enriched_count,
             "title_derived_unit_count": title_derived_count,
             "sample_provenance": sample_provenance,
@@ -1018,6 +1080,7 @@ class DataService:
                     "unit_id": unit.get("unit_id"),
                     "text": unit.get("text"),
                     "importance": unit.get("importance", 0.0),
+                    "typed_unit": dict(unit.get("typed_unit", {}) or {}),
                     "entities": list(unit.get("entities", []) or []),
                 }
             )
@@ -1037,6 +1100,7 @@ class DataService:
             {
                 "unit_id": unit.get("unit_id"),
                 "kind": unit.get("kind"),
+                "typed_unit": dict(unit.get("typed_unit", {}) or {}),
                 "text": unit.get("text"),
                 "importance": unit.get("importance", 0.0),
                 "source_weight": unit.get("source_weight", 1.0),
@@ -1051,6 +1115,7 @@ class DataService:
     def _build_provenance_overview(cls, sources: List[Dict[str, Any]], units: List[Dict[str, Any]]) -> Dict[str, Any]:
         title_flag_counts: Dict[str, int] = defaultdict(int)
         authority_counts: Dict[str, int] = defaultdict(int)
+        typed_unit_type_counts: Dict[str, int] = defaultdict(int)
         llm_enriched_source_count = 0
         for source in sources:
             if bool(source.get("llm_enriched", False)):
@@ -1060,11 +1125,16 @@ class DataService:
                 authority_counts[authority] += 1
             for flag in source.get("title_flags", []) or []:
                 title_flag_counts[str(flag)] += 1
+        for unit in units:
+            typed_unit_type = str(dict(unit.get("typed_unit", {}) or {}).get("type", "")).strip()
+            if typed_unit_type:
+                typed_unit_type_counts[typed_unit_type] += 1
         return {
             "available_source_count": len(sources),
             "preview_unit_count": len(units),
             "authority_counts": dict(sorted(authority_counts.items())),
             "title_flag_counts": dict(sorted(title_flag_counts.items())),
+            "typed_unit_type_counts": dict(sorted(typed_unit_type_counts.items())),
             "llm_enriched_source_count": llm_enriched_source_count,
         }
 
@@ -1104,6 +1174,16 @@ class DataService:
             if execution_runtime.get("execution_owner") == GraphExecutionOwner.APP_GRAPHRAG.value
             else "materializer_moved_to_app_graphrag"
         )
+        schema = self._read_json_file(self.layout.distill_schema) or {}
+        manifest = self._read_json_file(self.layout.distill_manifest) or {}
+        manifest_quality = dict(manifest.get("quality", {}) or {})
+        typed_unit_contract = {
+            "schema_version": schema.get("typed_unit_schema_version", self.TYPED_DISTILL_UNIT_SCHEMA_VERSION),
+            "typed_unit_types": list(schema.get("typed_unit_types", sorted(set(self.LEGACY_KIND_TO_TYPED_UNIT_TYPE.values()))) or []),
+            "legacy_kind_to_typed_unit_type": dict(schema.get("legacy_kind_to_typed_unit_type", self.LEGACY_KIND_TO_TYPED_UNIT_TYPE) or {}),
+            "typed_unit_type_counts": dict(manifest_quality.get("typed_unit_type_counts", {}) or {}),
+            "compatible_consumers": ["llmwiki", "graphrag", "retrieval", "quality"],
+        }
 
         overlap_areas = [
             {
@@ -1193,6 +1273,7 @@ class DataService:
                     "path": str(execution_request_path),
                     "exists": execution_request_path.exists(),
                 },
+                "typed_unit_contract": typed_unit_contract,
             },
             "data_service": {
                 "cli_commands": ["ingest", "summary", "distill", "boundary", "graphrag-execute", "query"],
@@ -1266,6 +1347,8 @@ class DataService:
             "engine": "llmwiki",
             "workspace": str(plan.workspace),
             "allowed_unit_kinds": sorted(allowed_kinds),
+            "typed_unit_schema_version": self.TYPED_DISTILL_UNIT_SCHEMA_VERSION,
+            "typed_unit_type_counts": self._count_typed_unit_types(filtered_units),
             "source_fields": [
                 "source_id",
                 "path",
@@ -1278,6 +1361,7 @@ class DataService:
                 "unit_id",
                 "source_id",
                 "kind",
+                "typed_unit",
                 "authority",
                 "text",
                 "importance",
@@ -1317,6 +1401,8 @@ class DataService:
             "engine": "graphrag",
             "workspace": str(plan.workspace),
             "allowed_unit_kinds": sorted(allowed_kinds),
+            "typed_unit_schema_version": self.TYPED_DISTILL_UNIT_SCHEMA_VERSION,
+            "typed_unit_type_counts": self._count_typed_unit_types(filtered_units),
             "source_fields": [
                 "source_id",
                 "path",
@@ -1329,6 +1415,7 @@ class DataService:
                 "unit_id",
                 "source_id",
                 "kind",
+                "typed_unit",
                 "authority",
                 "text",
                 "normalized_text",
@@ -1364,10 +1451,12 @@ class DataService:
         quality: Dict[str, Any] = {
             "distill": {
                 "schema_version": self.DISTILL_SCHEMA_VERSION,
+                "typed_unit_schema_version": self.TYPED_DISTILL_UNIT_SCHEMA_VERSION,
                 "source_count": 0,
                 "distilled_unit_count": 0,
                 "llm_enriched_source_count": 0,
                 "title_flag_counts": {},
+                "typed_unit_type_counts": {},
             },
             "llmwiki": {
                 "page_count": 0,
@@ -1400,21 +1489,37 @@ class DataService:
             title_flag_counts: Dict[str, int] = defaultdict(int)
             llm_enriched_source_count = 0
             unit_kind_counts: Dict[str, int] = defaultdict(int)
+            typed_unit_type_counts: Dict[str, int] = defaultdict(int)
+            format_counts: Dict[str, int] = defaultdict(int)
+            extractor_counts: Dict[str, int] = defaultdict(int)
             manifest_quality = dict(manifest.get("quality", {}) or {})
             for source in sources:
                 if source.get("llm_enriched"):
                     llm_enriched_source_count += 1
+                source_format = str(source.get("source_format") or "").strip()
+                extractor_name = str(source.get("extractor_name") or "").strip()
+                if source_format:
+                    format_counts[source_format] += 1
+                if extractor_name:
+                    extractor_counts[extractor_name] += 1
                 for flag in source.get("title_flags", []) or []:
                     title_flag_counts[str(flag)] += 1
                 for kind, count in (source.get("unit_kind_counts", {}) or {}).items():
                     unit_kind_counts[str(kind)] += int(count)
+                for unit_type, count in (source.get("typed_unit_type_counts", {}) or {}).items():
+                    typed_unit_type_counts[str(unit_type)] += int(count)
             quality["distill"] = {
                 "schema_version": manifest.get("schema_version", self.DISTILL_SCHEMA_VERSION),
+                "typed_unit_schema_version": manifest.get("typed_unit_schema_version", self.TYPED_DISTILL_UNIT_SCHEMA_VERSION),
                 "source_count": int(manifest.get("source_count", 0)),
                 "distilled_unit_count": int(manifest.get("distilled_unit_count", 0)),
                 "llm_enriched_source_count": llm_enriched_source_count,
                 "title_flag_counts": dict(sorted(title_flag_counts.items())),
                 "unit_kind_counts": dict(sorted(unit_kind_counts.items())),
+                "typed_unit_type_counts": dict(sorted(typed_unit_type_counts.items())),
+                "format_counts": dict(sorted(format_counts.items())),
+                "extractor_counts": dict(sorted(extractor_counts.items())),
+                "format_issue_sources": list(manifest_quality.get("format_issue_sources", []) or []),
                 "zero_unit_count": int(manifest_quality.get("zero_unit_count", 0) or 0),
                 "zero_unit_sources": list(manifest_quality.get("zero_unit_sources", []) or []),
                 "low_signal_reason_counts": dict(manifest_quality.get("low_signal_reason_counts", {}) or {}),
@@ -1723,6 +1828,7 @@ class DataService:
             "unit_id": unit.unit_id,
             "source_id": unit.source_id,
             "kind": unit.kind.value if hasattr(unit.kind, "value") else str(unit.kind),
+            "typed_unit": self._typed_unit_contract(unit),
             "authority": unit.authority.value if hasattr(unit.authority, "value") else str(unit.authority),
             "text": unit.text,
             "importance": unit.importance,
@@ -1740,6 +1846,35 @@ class DataService:
             payload["relations"] = list(unit.relations or [])
         return payload
 
+    @classmethod
+    def _typed_unit_contract(cls, unit: DistilledUnit) -> Dict[str, Any]:
+        legacy_kind = unit.kind.value if hasattr(unit.kind, "value") else str(unit.kind)
+        provenance = dict(unit.provenance or {})
+        typed_unit_type = str(provenance.get("typed_unit_type") or "").strip() or cls.LEGACY_KIND_TO_TYPED_UNIT_TYPE.get(legacy_kind, "note")
+        if typed_unit_type in {"code_symbol", "code_dependency", "code_call_edge", "architecture_note"}:
+            evidence_role = "structure"
+        elif legacy_kind in {DistilledUnitKind.TOPIC_CANDIDATE.value, DistilledUnitKind.ENTITY_CANDIDATE.value}:
+            evidence_role = "index"
+        elif legacy_kind in {DistilledUnitKind.FACT_CANDIDATE.value, DistilledUnitKind.RELATION_CANDIDATE.value}:
+            evidence_role = "evidence"
+        else:
+            evidence_role = "semantic"
+        return {
+            "schema_version": cls.TYPED_DISTILL_UNIT_SCHEMA_VERSION,
+            "type": typed_unit_type,
+            "legacy_kind": legacy_kind,
+            "evidence_role": evidence_role,
+            "confidence": unit.confidence,
+            "compatible_consumers": ["llmwiki", "graphrag", "retrieval", "quality"],
+        }
+
+    @classmethod
+    def _count_typed_unit_types(cls, units: List[DistilledUnit]) -> Dict[str, int]:
+        counts: Dict[str, int] = defaultdict(int)
+        for unit in units:
+            counts[cls._typed_unit_contract(unit)["type"]] += 1
+        return dict(sorted(counts.items()))
+
     def _count_units_by_source(self, units: List[DistilledUnit], source_index: Dict[str, Any]) -> List[Dict[str, Any]]:
         counts: Dict[str, int] = defaultdict(int)
         for unit in units:
@@ -1752,6 +1887,174 @@ class DataService:
             }
             for source_id, unit_count in sorted(counts.items())
         ]
+
+    def _build_code_analysis_units(
+        self,
+        *,
+        path: Path,
+        source_id: str,
+        authority: AuthorityLevel,
+        source_weight: float,
+        source_density_score: float,
+        tags: List[str],
+        title_flags: List[str],
+    ) -> List[DistilledUnit]:
+        if path.suffix.lower() != ".json":
+            return []
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError, UnicodeDecodeError):
+            return []
+        if not isinstance(payload, dict) or not self._looks_like_code_analysis_payload(payload):
+            return []
+
+        units: List[DistilledUnit] = []
+        base_provenance = {
+            "path": str(path),
+            "title_flags": title_flags,
+            "structured_payload": "code_analysis",
+        }
+
+        for index, text in enumerate(self._extract_code_architecture_notes(payload)[:3]):
+            units.append(
+                DistilledUnit(
+                    unit_id=f"{source_id}:architecture_note:{index + 1}",
+                    source_id=source_id,
+                    kind=DistilledUnitKind.NOTE,
+                    authority=authority,
+                    text=text,
+                    normalized_text=text,
+                    importance=0.78 + min(0.12, source_weight * 0.04),
+                    confidence=0.7,
+                    source_weight=source_weight,
+                    source_density_score=source_density_score,
+                    tags=tags,
+                    provenance={**base_provenance, "typed_unit_type": "architecture_note"},
+                )
+            )
+
+        for index, symbol in enumerate(self._extract_code_symbols(payload)[:12]):
+            units.append(
+                DistilledUnit(
+                    unit_id=f"{source_id}:code_symbol:{index + 1}",
+                    source_id=source_id,
+                    kind=DistilledUnitKind.ENTITY_CANDIDATE,
+                    authority=authority,
+                    text=symbol,
+                    normalized_text=symbol,
+                    importance=0.76 + min(0.12, source_weight * 0.04),
+                    confidence=0.72,
+                    source_weight=source_weight,
+                    source_density_score=source_density_score,
+                    tags=tags,
+                    entities=[symbol],
+                    provenance={**base_provenance, "typed_unit_type": "code_symbol"},
+                )
+            )
+
+        for index, relation in enumerate(self._extract_code_relations(payload, keys=("dependencies", "imports"))[:12]):
+            text = f"{relation[0]} depends on {relation[1]}"
+            units.append(
+                DistilledUnit(
+                    unit_id=f"{source_id}:code_dependency:{index + 1}",
+                    source_id=source_id,
+                    kind=DistilledUnitKind.RELATION_CANDIDATE,
+                    authority=authority,
+                    text=text,
+                    normalized_text=text,
+                    importance=0.74 + min(0.1, source_weight * 0.03),
+                    confidence=0.7,
+                    source_weight=source_weight,
+                    source_density_score=source_density_score,
+                    tags=tags,
+                    entities=[relation[0], relation[1]],
+                    relations=[{"source": relation[0], "target": relation[1], "relation": "depends_on"}],
+                    provenance={**base_provenance, "typed_unit_type": "code_dependency"},
+                )
+            )
+
+        for index, relation in enumerate(self._extract_code_relations(payload, keys=("calls", "call_edges", "call_graph"))[:12]):
+            text = f"{relation[0]} calls {relation[1]}"
+            units.append(
+                DistilledUnit(
+                    unit_id=f"{source_id}:code_call_edge:{index + 1}",
+                    source_id=source_id,
+                    kind=DistilledUnitKind.RELATION_CANDIDATE,
+                    authority=authority,
+                    text=text,
+                    normalized_text=text,
+                    importance=0.72 + min(0.1, source_weight * 0.03),
+                    confidence=0.68,
+                    source_weight=source_weight,
+                    source_density_score=source_density_score,
+                    tags=tags,
+                    entities=[relation[0], relation[1]],
+                    relations=[{"source": relation[0], "target": relation[1], "relation": "calls"}],
+                    provenance={**base_provenance, "typed_unit_type": "code_call_edge"},
+                )
+            )
+        return units
+
+    @classmethod
+    def _looks_like_code_analysis_payload(cls, payload: Dict[str, Any]) -> bool:
+        keys = {str(key).lower() for key in payload.keys()}
+        return bool(keys.intersection({"symbols", "dependencies", "imports", "calls", "call_edges", "call_graph", "architecture_notes", "modules"}))
+
+    @classmethod
+    def _extract_code_architecture_notes(cls, payload: Dict[str, Any]) -> List[str]:
+        values: List[str] = []
+        for key in ("architecture_notes", "architecture", "summary", "notes"):
+            item = payload.get(key)
+            if isinstance(item, str):
+                values.append(item)
+            elif isinstance(item, list):
+                values.extend(str(value) for value in item if str(value).strip())
+        return cls._dedupe_preserve(values, validator=lambda value: len(str(value).strip()) >= 8)
+
+    @classmethod
+    def _extract_code_symbols(cls, payload: Dict[str, Any]) -> List[str]:
+        symbols: List[str] = []
+        for item in payload.get("symbols", []) or []:
+            if isinstance(item, str):
+                symbols.append(item)
+            elif isinstance(item, dict):
+                name = str(item.get("name") or item.get("symbol") or item.get("id") or "").strip()
+                kind = str(item.get("kind") or item.get("type") or "").strip()
+                if name and kind:
+                    symbols.append(f"{kind}:{name}")
+                elif name:
+                    symbols.append(name)
+        for module in payload.get("modules", []) or []:
+            if isinstance(module, str):
+                symbols.append(module)
+            elif isinstance(module, dict):
+                name = str(module.get("name") or module.get("path") or "").strip()
+                if name:
+                    symbols.append(f"module:{name}")
+        return cls._dedupe_preserve(symbols, validator=lambda value: len(str(value).strip()) >= 2)
+
+    @classmethod
+    def _extract_code_relations(cls, payload: Dict[str, Any], *, keys: tuple[str, ...]) -> List[tuple[str, str]]:
+        relations: List[tuple[str, str]] = []
+        for key in keys:
+            for item in payload.get(key, []) or []:
+                if isinstance(item, dict):
+                    source = str(item.get("source") or item.get("from") or item.get("caller") or item.get("module") or "").strip()
+                    target = str(item.get("target") or item.get("to") or item.get("callee") or item.get("depends_on") or item.get("import") or "").strip()
+                    if source and target:
+                        relations.append((source, target))
+                elif isinstance(item, (list, tuple)) and len(item) >= 2:
+                    source = str(item[0]).strip()
+                    target = str(item[1]).strip()
+                    if source and target:
+                        relations.append((source, target))
+        deduped: List[tuple[str, str]] = []
+        seen: set[tuple[str, str]] = set()
+        for relation in relations:
+            if relation not in seen:
+                seen.add(relation)
+                deduped.append(relation)
+        return deduped
 
     def _read_json_file(self, path: Path) -> Dict[str, Any]:
         if not path.exists():
@@ -1789,6 +2092,7 @@ class DataService:
         units: List[Dict[str, Any]],
         *,
         kind: Optional[str],
+        typed_unit_type: Optional[str],
         min_importance: float,
         llm_enriched_only: bool,
         authority: Optional[str],
@@ -1799,6 +2103,8 @@ class DataService:
         filtered: List[Dict[str, Any]] = []
         for unit in units:
             if kind and str(unit.get("kind", "")).strip() != kind:
+                continue
+            if typed_unit_type and str(dict(unit.get("typed_unit", {}) or {}).get("type", "")).strip() != typed_unit_type:
                 continue
             if float(unit.get("importance", 0.0) or 0.0) < min_importance:
                 continue
@@ -1830,6 +2136,7 @@ class DataService:
             authority = self._infer_authority(path)
             title, title_flags = self._resolve_source_title(path)
             full_text = self._read_source_excerpt(path, limit=16000)
+            format_profile = self._source_format_profile(path)
             source_profile = self._build_source_profile(path, title, full_text)
             source_weight = source_profile["source_weight"]
             source_density_score = source_profile["density_score"]
@@ -2052,6 +2359,18 @@ class DataService:
                     )
                 )
 
+            units.extend(
+                self._build_code_analysis_units(
+                    path=path,
+                    source_id=source_id,
+                    authority=authority,
+                    source_weight=source_weight,
+                    source_density_score=source_density_score,
+                    tags=tags,
+                    title_flags=title_flags,
+                )
+            )
+
             source_units = [unit for unit in units[source_units_start:] if unit.source_id == source_id]
             non_index_kinds = {
                 DistilledUnitKind.NOTE,
@@ -2169,6 +2488,9 @@ class DataService:
                 "schema_version": self.DISTILL_SCHEMA_VERSION,
                 "source_id": source_id,
                 "path": str(path),
+                "source_format": format_profile["source_format"],
+                "extractor_name": format_profile["extractor_name"],
+                "extractor_available": format_profile["extractor_available"],
                 "authority": authority.value,
                 "title": title,
                 "title_flags": title_flags,
@@ -2188,6 +2510,7 @@ class DataService:
                 },
                 "profile_debug": {
                     "excerpt_preview": source_profile["excerpt"][:600],
+                    "format_profile": format_profile,
                     "title_only_excerpt": title_only_excerpt,
                     "entity_candidates": entity_candidates[:10],
                     "theme_labels": theme_labels[:6],
@@ -2212,10 +2535,12 @@ class DataService:
                     "low_signal": low_signal_diagnostics,
                 },
                 "unit_kind_counts": self._count_unit_kinds(source_units_final),
+                "typed_unit_type_counts": self._count_typed_unit_types(source_units_final),
                 "units": [
                     {
                         "unit_id": unit.unit_id,
                         "kind": unit.kind.value,
+                        "typed_unit": self._typed_unit_contract(unit),
                         "text": unit.text,
                         "importance": unit.importance,
                         "confidence": unit.confidence,
@@ -2239,6 +2564,9 @@ class DataService:
                 {
                     "source_id": source_id,
                     "path": str(path),
+                    "source_format": format_profile["source_format"],
+                    "extractor_name": format_profile["extractor_name"],
+                    "extractor_available": format_profile["extractor_available"],
                     "authority": authority.value,
                     "unit_count": len(source_distill_payload["units"]),
                     "source_weight": source_weight,
@@ -2248,6 +2576,7 @@ class DataService:
                     "llm_enriched": bool(llm_enrichment),
                     "profile": source_distill_payload["profile"],
                     "unit_kind_counts": source_distill_payload["unit_kind_counts"],
+                    "typed_unit_type_counts": source_distill_payload["typed_unit_type_counts"],
                     "low_signal": low_signal_diagnostics,
                     "distill_path": str(source_distill_path),
                 }
@@ -2261,6 +2590,7 @@ class DataService:
                     "unit_id": unit.unit_id,
                     "source_id": unit.source_id,
                     "kind": unit.kind.value,
+                    "typed_unit": self._typed_unit_contract(unit),
                     "authority": unit.authority.value,
                     "text": unit.text,
                     "normalized_text": unit.normalized_text,
@@ -2285,6 +2615,7 @@ class DataService:
         )
         manifest_payload = {
             "schema_version": self.DISTILL_SCHEMA_VERSION,
+            "typed_unit_schema_version": self.TYPED_DISTILL_UNIT_SCHEMA_VERSION,
             "workspace": str(plan.workspace),
             "source_count": len(plan.sources),
             "distilled_unit_count": len(units),
@@ -2298,12 +2629,18 @@ class DataService:
         )
         schema_payload = {
             "schema_version": self.DISTILL_SCHEMA_VERSION,
+            "typed_unit_schema_version": self.TYPED_DISTILL_UNIT_SCHEMA_VERSION,
+            "typed_unit_types": sorted(set(self.LEGACY_KIND_TO_TYPED_UNIT_TYPE.values()) | self.EXTRA_TYPED_UNIT_TYPES),
+            "legacy_kind_to_typed_unit_type": dict(sorted(self.LEGACY_KIND_TO_TYPED_UNIT_TYPE.items())),
             "source_record_fields": [
                 "source_id",
                 "path",
                 "authority",
                 "title",
                 "title_flags",
+                "source_format",
+                "extractor_name",
+                "extractor_available",
                 "source_weight",
                 "source_density_score",
                 "llm_enriched",
@@ -2311,6 +2648,7 @@ class DataService:
                 "profile",
                 "profile_debug",
                 "unit_kind_counts",
+                "typed_unit_type_counts",
                 "low_signal",
                 "units",
             ],
@@ -2318,6 +2656,7 @@ class DataService:
                 "unit_id",
                 "source_id",
                 "kind",
+                "typed_unit",
                 "authority",
                 "text",
                 "normalized_text",
@@ -2571,6 +2910,29 @@ class DataService:
         if any(part.startswith(".") for part in path.parts):
             return False
         return path.suffix.lower() in cls.SUPPORTED_SOURCE_SUFFIXES
+
+    @classmethod
+    def _source_format_profile(cls, path: Path) -> Dict[str, Any]:
+        suffix = path.suffix.lower()
+        source_format = suffix.lstrip(".") or "unknown"
+        extractor_name = ""
+        extractor_available = False
+        try:
+            from app.llmwiki.extractors import get_extractor
+
+            extractor = get_extractor(str(path))
+        except Exception:
+            extractor = None
+        if extractor:
+            extractor_name = extractor.__class__.__name__
+            extractor_available = True
+        return {
+            "source_format": source_format,
+            "suffix": suffix,
+            "supported_by_data_service": suffix in cls.SUPPORTED_SOURCE_SUFFIXES,
+            "extractor_name": extractor_name,
+            "extractor_available": extractor_available,
+        }
 
     @staticmethod
     def _extract_markdown_title(path: Path) -> str:
@@ -3868,6 +4230,11 @@ class DataService:
 
     @staticmethod
     def _read_source_excerpt(path: Path, limit: int = 1200) -> str:
+        if path.suffix.lower() in {".docx", ".yaml", ".yml"}:
+            text = DataService._extract_source_text_via_llmwiki(path)
+            if text:
+                return re.sub(r"\s+", " ", text).strip()[:limit]
+
         try:
             raw = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
@@ -3886,6 +4253,29 @@ class DataService:
 
         text = re.sub(r"\s+", " ", text).strip()
         return text[:limit]
+
+    @staticmethod
+    def _extract_source_text_via_llmwiki(path: Path) -> str:
+        try:
+            from app.llmwiki.extractors import get_extractor
+        except Exception:
+            return ""
+
+        extractor = get_extractor(str(path))
+        if not extractor:
+            return ""
+        result = extractor.extract(str(path))
+        if result.status != "success":
+            return ""
+        fragments = []
+        for section in result.sections:
+            title = str(section.title or "").strip()
+            text = str(section.text or "").strip()
+            if title:
+                fragments.append(title)
+            if text:
+                fragments.append(text)
+        return "\n".join(fragments)
 
     @classmethod
     def _extract_json_text(cls, payload: object) -> str:

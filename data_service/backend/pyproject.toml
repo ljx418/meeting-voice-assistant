@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "local-knowledge-governance-service"
+version = "1.5.0"
+description = "MCP-first local knowledge governance service"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.109.0",
+  "uvicorn[standard]>=0.27.0",
+  "pydantic>=2.5.0",
+  "python-dotenv>=1.0.0",
+  "python-jose[cryptography]==3.3.0",
+  "passlib[bcrypt]==1.7.4",
+  "mcp>=1.0.0",
+  "pypdf>=4.0.0",
+  "python-multipart>=0.0.9",
+  "PyYAML>=6.0.0",
+]
+
+[project.scripts]
+data-service = "data_service.__main__:main"
+knowledge = "data_service.__main__:knowledge_main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*", "data_service*"]

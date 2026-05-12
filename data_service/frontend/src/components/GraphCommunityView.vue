@@ -1,38 +1,58 @@
 <template>
   <div ref="containerRef" class="graph-community-view">
-    <div class="graph-toolbar">
-      <button class="toolbar-btn" type="button" title="放大" @click="zoomIn">+</button>
-      <button class="toolbar-btn" type="button" title="缩小" @click="zoomOut">−</button>
-      <button class="toolbar-btn" type="button" title="定位到当前选中对象" @click="focusSelection">定位</button>
-      <button class="toolbar-btn" type="button" title="适应画布" @click="fitToView">适应</button>
-      <button class="toolbar-btn" type="button" title="重置视图" @click="resetView">重置</button>
+    <div v-if="communities.length" class="community-strip">
+      <span class="community-overview-title">社区</span>
+      <button
+        v-for="community in communities.slice(0, 8)"
+        :key="String(community.id)"
+        class="community-chip"
+        type="button"
+        :class="{ active: selectedCommunityId === community.id }"
+        :style="{ borderColor: colorForCommunity(String(community.id)) }"
+        @click="emit('select-community', community)"
+      >
+        <strong>{{ community.title || community.name || community.id }}</strong>
+        <span>{{ community.entity_count || 0 }} / {{ community.relationship_count || 0 }}</span>
+      </button>
     </div>
-    <svg ref="svgRef" class="graph-svg"></svg>
-    <div v-if="nodes.length" class="graph-hint">
-      滚轮缩放，拖拽平移，双击适应画布
-    </div>
-    <div v-if="renderError" class="graph-error">
-      {{ renderError }}
-    </div>
-    <div v-if="!nodes.length" class="graph-empty">
-      <span>暂无社区图数据</span>
+
+    <div class="graph-canvas-wrap">
+      <div class="graph-toolbar">
+        <button class="toolbar-btn" type="button" title="放大" @click="zoomIn">+</button>
+        <button class="toolbar-btn" type="button" title="缩小" @click="zoomOut">−</button>
+        <button class="toolbar-btn" type="button" title="定位到当前选中对象" @click="focusSelection">定位</button>
+        <button class="toolbar-btn" type="button" title="适应画布" @click="fitToView">适应</button>
+        <button class="toolbar-btn" type="button" title="重置视图" @click="resetView">重置</button>
+      </div>
+      <svg ref="svgRef" class="graph-svg"></svg>
+      <div v-if="nodes.length" class="graph-hint">
+        滚轮缩放，拖拽平移，双击适应画布
+      </div>
+      <div v-if="renderError" class="graph-error">
+        {{ renderError }}
+      </div>
+      <div v-if="!nodes.length" class="graph-empty">
+        <span>暂无社区图数据</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import * as d3 from 'd3'
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const props = defineProps<{
   nodes: any[]
   edges: any[]
+  communities?: any[]
   selectedNodeId?: string | null
   selectedCommunityId?: string | null
 }>()
 
 const emit = defineEmits<{
   (e: 'select-node', node: any): void
+  (e: 'select-community', community: any): void
 }>()
 
 const containerRef = ref<HTMLElement | null>(null)
@@ -53,6 +73,7 @@ let resizeObserver: ResizeObserver | null = null
 let resizeTimer: number | null = null
 const renderError = ref('')
 let linkSelection: d3.Selection<SVGLineElement, any, SVGGElement, unknown> | null = null
+const communities = computed(() => props.communities || [])
 
 const palette = ['#ff8a65', '#4fc3f7', '#81c784', '#ba68c8', '#ffd54f', '#90a4ae', '#f06292', '#64b5f6']
 
@@ -151,7 +172,9 @@ async function renderGraph() {
   renderError.value = ''
 
   const width = containerRef.value.clientWidth || 640
-  const height = Math.max(480, Math.min(560, Math.round(width * 0.72)))
+  const minHeight = width < 560 ? 360 : 480
+  const maxHeight = width < 560 ? 430 : 560
+  const height = Math.max(minHeight, Math.min(maxHeight, Math.round(width * 0.72)))
   const svg = d3.select(svgRef.value)
   svg.selectAll('*').remove()
   svg.attr('width', width).attr('height', height)
@@ -538,15 +561,26 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .graph-community-view {
-  position: relative;
   width: 100%;
   min-width: 0;
-  min-height: 480px;
-  height: var(--graph-height, 520px);
+  display: grid;
+  gap: 10px;
+}
+
+.graph-canvas-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 540px;
+  height: var(--graph-height, 560px);
   border-radius: 8px;
   overflow: hidden;
-  background: #0f172a;
-  border: 1px solid #2a3039;
+  background:
+    linear-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at 20% 15%, rgba(56, 189, 248, 0.12), transparent 24rem),
+    #0d1320;
+  background-size: 28px 28px, 28px 28px, auto, auto;
+  border: 1px solid rgba(56, 189, 248, 0.22);
 }
 
 .graph-toolbar {
@@ -559,6 +593,61 @@ onBeforeUnmount(() => {
   justify-content: flex-end;
   gap: 8px;
   max-width: min(360px, calc(100% - 28px));
+}
+
+.community-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(51, 65, 85, 0.68);
+  border-radius: 8px;
+  background: #0f1724;
+}
+
+.community-overview-title {
+  flex: 0 0 auto;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.community-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  max-width: 190px;
+  padding: 5px 8px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.82);
+  color: #dbeafe;
+  cursor: pointer;
+}
+
+.community-chip strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #f8fafc;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.community-chip span {
+  color: #9fb0c5;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.community-chip.active {
+  background: rgba(30, 58, 95, 0.92);
+  box-shadow: inset 0 0 0 1px rgba(248, 250, 252, 0.14);
 }
 
 .toolbar-btn {
@@ -585,7 +674,7 @@ onBeforeUnmount(() => {
 .graph-svg {
   display: block;
   width: 100%;
-  height: var(--graph-height, 520px);
+  height: var(--graph-height, 560px);
   cursor: grab;
 }
 
@@ -632,7 +721,7 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 720px) {
-  .graph-community-view {
+  .graph-canvas-wrap {
     min-height: 360px;
   }
 
@@ -643,6 +732,12 @@ onBeforeUnmount(() => {
     max-width: calc(100% - 20px);
   }
 
+  .community-strip {
+    max-height: 108px;
+    overflow: auto;
+    align-content: flex-start;
+  }
+
   .toolbar-btn {
     min-width: 34px;
     height: 32px;
@@ -651,10 +746,7 @@ onBeforeUnmount(() => {
   }
 
   .graph-hint {
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    width: auto;
+    display: none;
   }
 
   .graph-error {

@@ -136,7 +136,7 @@ knowledge_workspace_create
 
 - [Data Service 文档入口](./README.md)
 - [当前架构状态](./CURRENT-STATUS.md)
-- [当前与目标架构 Gap](./current-vs-target-gap.md)
+- [V1.5 当前与目标架构 Gap](../V1.5/current-vs-target-gap.md)
 - [开发计划](./2026-04-26-data-service-execution-roadmap.md)
 - [验收计划](./ACCEPTANCE-PLAN.md)
 - [剩余开发计划](./REMAINING-DEVELOPMENT-PLAN-2026-04-30.md)

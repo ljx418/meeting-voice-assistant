@@ -21,6 +21,8 @@ class SourceType(str, Enum):
     PDF = "pdf"
     PPTX = "pptx"
     PPT = "ppt"
+    DOCX = "docx"
+    YAML = "yaml"
     CHAT_JSON = "chat_json"
 
 

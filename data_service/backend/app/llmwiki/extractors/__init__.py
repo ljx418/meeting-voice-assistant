@@ -22,7 +22,7 @@ def get_extractor(file_path: str):
 def _register_all_extractors():
     """自动注册所有抽取器"""
     # 导入所有抽取器模块以触发 @register_extractor 装饰器
-    from . import markdown, text, html, csvfile, jsonfile, pdf_pypdf, pptx_zip, ppt_legacy
+    from . import markdown, text, html, csvfile, jsonfile, yamlfile, docx_zip, pdf_pypdf, pptx_zip, ppt_legacy
 
 
 # 立即注册所有抽取器

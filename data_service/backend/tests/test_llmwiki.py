@@ -1,8 +1,12 @@
 import os
+import zipfile
 from pathlib import Path
 
 from app.llmwiki.config import LLMWikiConfig
+from app.llmwiki.extractors import get_extractor
+from app.llmwiki.extractors.docx_zip import DocxExtractor
 from app.llmwiki.extractors.jsonfile import ChatJsonExtractor
+from app.llmwiki.extractors.yamlfile import YamlExtractor
 from app.llmwiki.dotenv_support import load_llmwiki_dotenv
 from app.llmwiki.engine import WikiEngine
 from app.llmwiki.compiler.llm_compiler import WikiCompiler
@@ -11,6 +15,42 @@ from app.llmwiki.models import Passage, SourceRecord
 
 def _write_markdown(path: Path, title: str, body: str) -> None:
     path.write_text(f"# {title}\n\n{body}\n", encoding="utf-8")
+
+
+def _write_minimal_docx(path: Path, paragraphs: list[str]) -> None:
+    document_body = "".join(
+        f"<w:p><w:r><w:t>{text}</w:t></w:r></w:p>"
+        for text in paragraphs
+    )
+    with zipfile.ZipFile(path, "w") as archive:
+        archive.writestr("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"/>")
+        archive.writestr("_rels/.rels", "")
+        archive.writestr(
+            "word/document.xml",
+            (
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                "<w:document xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">"
+                f"<w:body>{document_body}</w:body></w:document>"
+            ),
+        )
+
+
+def test_docx_yaml_extractors_are_registered_and_parse_content(tmp_path):
+    docx_path = tmp_path / "contract.docx"
+    yaml_path = tmp_path / "contract.yaml"
+    _write_minimal_docx(docx_path, ["OpenClaw 治理方案", "MCP 出门验证覆盖 GraphRAG。"])
+    yaml_path.write_text("title: PhaseE\ncapabilities:\n  - yaml structured parsing\n", encoding="utf-8")
+
+    assert isinstance(get_extractor(str(docx_path)), DocxExtractor)
+    assert isinstance(get_extractor(str(yaml_path)), YamlExtractor)
+    docx_result = DocxExtractor().extract(str(docx_path))
+    yaml_result = YamlExtractor().extract(str(yaml_path))
+
+    assert docx_result.status == "success"
+    assert "OpenClaw" in "\n".join(section.text for section in docx_result.sections)
+    assert yaml_result.status == "success"
+    assert any(section.locator["kind"] == "yaml_path" for section in yaml_result.sections)
+    assert "yaml structured parsing" in "\n".join(section.text for section in yaml_result.sections)
 
 
 def test_ingest_writes_markdown_and_source_page(tmp_path, monkeypatch):

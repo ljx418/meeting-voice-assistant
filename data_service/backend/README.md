@@ -8,10 +8,12 @@ The backend ingests local files and external payloads, normalizes them, emits tr
 
 - HTTP API: `uvicorn app.main:app --reload`
 - CLI: `python -m data_service --help`
+- Console scripts after packaging: `data-service` and `knowledge`
 - MCP stdio: `python -m data_service.mcp_stdio`
 - Knowledge Console: build `../frontend`, then open `/knowledge` on the HTTP server
 
 `data_service` is the current compatibility package name and implementation carrier for the Local Knowledge Governance Service.
+`knowledge quality ...` is the target quality governance CLI alias and maps to the same `data_service.quality_contract` helpers as `data_service quality ...`.
 
 ## Current Format Support
 

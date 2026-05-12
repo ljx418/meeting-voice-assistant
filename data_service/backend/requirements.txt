@@ -7,3 +7,4 @@ passlib[bcrypt]==1.7.4
 mcp>=1.0.0
 pypdf>=4.0.0
 python-multipart>=0.0.9
+PyYAML>=6.0.0

@@ -1,5 +1,6 @@
 import json
 import sys
+import zipfile
 from pathlib import Path
 
 import pytest
@@ -17,6 +18,24 @@ from data_service import (
 )
 from data_service.adapters import AdapterResult
 from data_service.models import AuthorityLevel
+
+
+def _write_minimal_docx(path: Path, paragraphs: list[str]) -> None:
+    document_body = "".join(
+        f"<w:p><w:r><w:t>{text}</w:t></w:r></w:p>"
+        for text in paragraphs
+    )
+    with zipfile.ZipFile(path, "w") as archive:
+        archive.writestr("[Content_Types].xml", "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"/>")
+        archive.writestr("_rels/.rels", "")
+        archive.writestr(
+            "word/document.xml",
+            (
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                "<w:document xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">"
+                f"<w:body>{document_body}</w:body></w:document>"
+            ),
+        )
 
 
 def test_artifact_layout_from_workspace(tmp_path):
@@ -674,12 +693,97 @@ def test_data_service_builds_distilled_units(tmp_path):
     assert service.layout.distill_schema.exists()
     source_payload = json.loads((service.layout.distill_sources_dir / f"{doc.stem}.json").read_text(encoding="utf-8"))
     assert source_payload["schema_version"] == DataService.DISTILL_SCHEMA_VERSION
+    assert source_payload["typed_unit_type_counts"]["concept"] >= 1
+    assert source_payload["typed_unit_type_counts"]["claim"] >= 1
+    assert all(unit["typed_unit"]["schema_version"] == DataService.TYPED_DISTILL_UNIT_SCHEMA_VERSION for unit in source_payload["units"])
+    assert {unit["typed_unit"]["type"] for unit in source_payload["units"]}.issuperset({"concept", "claim"})
     manifest_payload = json.loads(service.layout.distill_manifest.read_text(encoding="utf-8"))
     schema_payload = json.loads(service.layout.distill_schema.read_text(encoding="utf-8"))
     assert manifest_payload["distilled_unit_count"] == len(units)
+    assert manifest_payload["typed_unit_schema_version"] == DataService.TYPED_DISTILL_UNIT_SCHEMA_VERSION
+    assert manifest_payload["quality"]["typed_unit_type_counts"]["concept"] >= 1
     assert "profile" in manifest_payload["sources"][0]
     assert "unit_kind_counts" in manifest_payload["sources"][0]
+    assert "typed_unit_type_counts" in manifest_payload["sources"][0]
+    assert schema_payload["legacy_kind_to_typed_unit_type"]["conclusion"] == "claim"
+    assert "typed_unit" in schema_payload["unit_fields"]
     assert "profile_debug" in schema_payload["source_record_fields"]
+
+
+def test_data_service_typed_units_cover_meeting_turns_fixture(tmp_path):
+    workspace = tmp_path / "workspace"
+    doc = tmp_path / "meeting.json"
+    doc.write_text(
+        json.dumps(
+            {
+                "title": "OpenClaw 项目复盘会议",
+                "turns": [
+                    {"speaker": "Alice", "content": "本次会议确认 OpenClaw 插件需要先完成 MCP 契约验收。"},
+                    {"speaker": "Bob", "content": "风险是 GraphRAG 索引失败会影响知识检索。"},
+                    {"speaker": "Alice", "content": "下一步先补充端到端测试，然后再更新文档。"},
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    service = DataService(workspace)
+    plan = service.build_ingest_plan([str(doc)])
+    units = service.build_distilled_units(plan)
+
+    source_payload = json.loads((service.layout.distill_sources_dir / f"{doc.stem}.json").read_text(encoding="utf-8"))
+    typed_counts = source_payload["typed_unit_type_counts"]
+    assert typed_counts["meeting_summary"] >= 1
+    assert typed_counts["risk"] >= 1
+    assert typed_counts["claim"] >= 1
+    assert typed_counts["entity_evidence"] >= 1
+    assert any(unit.kind == DistilledUnitKind.NOTE for unit in units)
+    assert any(unit.kind == DistilledUnitKind.RISK for unit in units)
+
+
+def test_data_service_typed_units_cover_code_analysis_fixture(tmp_path):
+    workspace = tmp_path / "workspace"
+    doc = tmp_path / "checkout_code_analysis.json"
+    doc.write_text(
+        json.dumps(
+            {
+                "title": "CheckoutService architecture analysis",
+                "architecture_notes": [
+                    "CheckoutService coordinates payment and inventory through explicit adapters."
+                ],
+                "symbols": [
+                    {"kind": "class", "name": "CheckoutService"},
+                    {"kind": "interface", "name": "PaymentGateway"},
+                ],
+                "dependencies": [
+                    {"source": "CheckoutService", "target": "PaymentGateway"},
+                ],
+                "calls": [
+                    {"caller": "CheckoutService.create_order", "callee": "Inventory.reserve"},
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    service = DataService(workspace)
+    plan = service.build_ingest_plan([str(doc)])
+    service.build_distilled_units(plan)
+
+    source_payload = json.loads((service.layout.distill_sources_dir / f"{doc.stem}.json").read_text(encoding="utf-8"))
+    typed_counts = source_payload["typed_unit_type_counts"]
+    assert typed_counts["architecture_note"] >= 1
+    assert typed_counts["code_symbol"] >= 2
+    assert typed_counts["code_dependency"] >= 1
+    assert typed_counts["code_call_edge"] >= 1
+    assert source_payload["unit_kind_counts"]["entity_candidate"] >= 2
+    assert source_payload["unit_kind_counts"]["relation_candidate"] >= 2
+
+    bundle = service.read_distill_bundle(limit=10, typed_unit_type="code_call_edge")
+    assert bundle["units"]
+    assert all(unit["typed_unit"]["type"] == "code_call_edge" for unit in bundle["units"])
+    schema_payload = json.loads(service.layout.distill_schema.read_text(encoding="utf-8"))
+    assert "code_call_edge" in schema_payload["typed_unit_types"]
 
 
 def test_data_service_builds_more_units_for_dense_source_and_cleans_title_markers(tmp_path):
@@ -1704,6 +1808,67 @@ def test_data_service_run_default_pipeline(tmp_path):
     assert (workspace / "summary" / "summary.md").exists()
 
 
+def test_data_service_phasee_docx_yaml_run_default_pipeline(tmp_path, monkeypatch):
+    workspace = tmp_path / "workspace"
+    docs_dir = tmp_path / "docs"
+    docs_dir.mkdir()
+    docx_path = docs_dir / "openclaw_governance.docx"
+    yaml_path = docs_dir / "service_contract.yaml"
+    _write_minimal_docx(
+        docx_path,
+        [
+            "OpenClaw 治理方案",
+            "MCP 出门验证必须覆盖 workspace source build distill graph 查询链路。",
+            "风险是外部接口出现隐藏性变更。",
+        ],
+    )
+    yaml_path.write_text(
+        "\n".join(
+            [
+                "title: Data Service PhaseE Contract",
+                "capabilities:",
+                "  - docx ingestion",
+                "  - yaml structured parsing",
+                "acceptance:",
+                "  llmwiki: true",
+                "  graphrag: true",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    service = DataService(workspace)
+    plan = service.build_ingest_plan([str(docs_dir)], graphrag_execution_owner=GraphExecutionOwner.APP_GRAPHRAG)
+
+    monkeypatch.setattr("app.graphrag.service.data_service_runner.shutil.which", lambda _: None)
+    results = service.run_default_pipeline(plan)
+
+    assert {Path(source.path).suffix.lower() for source in plan.sources} == {".docx", ".yaml"}
+    assert [result.engine for result in results] == ["llmwiki", "graphrag"]
+    assert results[0].status == "success"
+    assert results[1].status == "indexed"
+    assert results[0].meta["success"] == 2
+    assert len(list(service.layout.llmwiki_pages_dir.glob("*.md"))) >= 2
+    assert service.layout.graphrag_execution_request.exists()
+    bundle = service.read_distill_bundle(limit=50)
+    bundle_text = "\n".join(unit["text"] for unit in bundle["units"])
+    assert "OpenClaw" in bundle_text
+    assert "docx ingestion" in bundle_text
+    manifest = json.loads(service.layout.distill_manifest.read_text(encoding="utf-8"))
+    assert manifest["source_count"] == 2
+    assert manifest["quality"]["format_counts"] == {"docx": 1, "yaml": 1}
+    assert manifest["quality"]["extractor_counts"]["DocxExtractor"] == 1
+    assert manifest["quality"]["extractor_counts"]["YamlExtractor"] == 1
+    assert manifest["quality"]["format_issue_sources"] == []
+    assert {source["source_format"] for source in manifest["sources"]} == {"docx", "yaml"}
+    assert all(source["extractor_available"] is True for source in manifest["sources"])
+    assert {profile["source_format"] for profile in bundle["source_profiles"]} == {"docx", "yaml"}
+    assert {profile["extractor_name"] for profile in bundle["source_profiles"]} == {"DocxExtractor", "YamlExtractor"}
+
+    summary_bundle = service.read_summary_bundle()
+    assert summary_bundle["quality"]["distill"]["format_counts"] == {"docx": 1, "yaml": 1}
+    assert summary_bundle["quality"]["distill"]["format_issue_sources"] == []
+
+
 def test_data_service_run_default_pipeline_with_app_graphrag_owner(tmp_path, monkeypatch):
     workspace = tmp_path / "workspace"
     doc = tmp_path / "notes.md"
@@ -1870,6 +2035,8 @@ def test_data_service_summary_bundle_and_graph_snapshot(tmp_path):
     assert "communities" in graph_snapshot
     assert summary_bundle["quality"]["distill"]["schema_version"] == DataService.DISTILL_SCHEMA_VERSION
     assert "unit_kind_counts" in summary_bundle["quality"]["distill"]
+    assert summary_bundle["quality"]["distill"]["typed_unit_schema_version"] == DataService.TYPED_DISTILL_UNIT_SCHEMA_VERSION
+    assert "typed_unit_type_counts" in summary_bundle["quality"]["distill"]
     assert summary_bundle["quality"]["llmwiki"]["page_count"] >= 1
     assert "top_communities" in summary_bundle["quality"]["graphrag"]
     if graph_snapshot["nodes"]:
@@ -1909,6 +2076,8 @@ def test_data_service_distill_bundle_preview(tmp_path):
     assert bundle["schema_version"] == DataService.DISTILL_SCHEMA_VERSION
     assert bundle["manifest"]["source_count"] == 1
     assert bundle["units"]
+    assert all("typed_unit" in unit for unit in bundle["units"])
+    assert bundle["provenance_overview"]["typed_unit_type_counts"]
     assert bundle["source"] is None
     assert bundle["source_profiles"]
     assert bundle["provenance_overview"]["available_source_count"] == 1
@@ -1919,6 +2088,8 @@ def test_data_service_distill_bundle_preview(tmp_path):
     assert "provenance_summary" in source_bundle["source"]
     assert "units_by_kind" in source_bundle["source"]
     assert "top_units" in source_bundle["source"]
+    assert source_bundle["source"]["provenance_summary"]["typed_unit_type_counts"]
+    assert source_bundle["source_profiles"][0]["typed_unit_type_counts"]
     assert source_bundle["source"]["profile_debug"]["summary_sentences"]
     assert source_bundle["source"]["provenance_summary"]["path_count"] >= 1
     assert source_bundle["units"]
@@ -1977,6 +2148,11 @@ def test_data_service_distill_bundle_supports_filters(tmp_path):
     assert kind_bundle["units"]
     assert all(unit["kind"] == "conclusion" for unit in kind_bundle["units"])
 
+    typed_bundle = service.read_distill_bundle(limit=10, typed_unit_type="claim")
+    assert typed_bundle["units"]
+    assert typed_bundle["filters"]["typed_unit_type"] == "claim"
+    assert all(unit["typed_unit"]["type"] == "claim" for unit in typed_bundle["units"])
+
     importance_bundle = service.read_distill_bundle(limit=10, min_importance=0.7)
     assert importance_bundle["units"]
     assert all(float(unit["importance"]) >= 0.7 for unit in importance_bundle["units"])
@@ -2011,7 +2187,7 @@ def test_data_service_cli_distill_command(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr(
         sys,
         "argv",
-        ["data_service", "distill", "--workspace", str(workspace), "--limit", "3"],
+        ["data_service", "distill", "--workspace", str(workspace), "--limit", "3", "--typed-type", "concept"],
     )
 
     exit_code = main()
@@ -2020,6 +2196,8 @@ def test_data_service_cli_distill_command(tmp_path, monkeypatch, capsys):
     assert exit_code == 0
     assert payload["workspace"] == str(workspace.resolve())
     assert payload["units"]
+    assert payload["filters"]["typed_unit_type"] == "concept"
+    assert all(unit["typed_unit"]["type"] == "concept" for unit in payload["units"])
     assert payload["filters"]["kind"] is None
     assert payload["source_profiles"]
     assert payload["provenance_overview"]["available_source_count"] == 1
@@ -2055,8 +2233,10 @@ def test_data_service_builds_explicit_engine_handoffs(tmp_path):
     assert all("normalized_text" not in unit for unit in llmwiki_handoff["units"])
     assert all("relations" not in unit for unit in llmwiki_handoff["units"])
     assert any("normalized_text" in unit for unit in graphrag_handoff["units"])
+    assert all(unit["typed_unit"]["schema_version"] == DataService.TYPED_DISTILL_UNIT_SCHEMA_VERSION for unit in llmwiki_handoff["units"])
+    assert all(unit["typed_unit"]["schema_version"] == DataService.TYPED_DISTILL_UNIT_SCHEMA_VERSION for unit in graphrag_handoff["units"])
     assert all(set(unit.keys()) <= {
-        "unit_id", "source_id", "kind", "authority", "text", "importance", "confidence",
+        "unit_id", "source_id", "kind", "typed_unit", "authority", "text", "importance", "confidence",
         "source_weight", "source_density_score", "is_title_derived", "is_llm_enriched",
         "tags", "entities", "provenance",
     } for unit in llmwiki_handoff["units"])
@@ -2098,6 +2278,9 @@ def test_data_service_boundary_audit_reports_current_split(tmp_path):
     assert audit["contracts"]["llmwiki_input_contract"]["exists"] is True
     assert audit["contracts"]["graphrag_input_contract"]["exists"] is True
     assert audit["contracts"]["graphrag_execution_owner"]["exists"] is True
+    assert audit["contracts"]["typed_unit_contract"]["schema_version"] == DataService.TYPED_DISTILL_UNIT_SCHEMA_VERSION
+    assert audit["contracts"]["typed_unit_contract"]["legacy_kind_to_typed_unit_type"]["conclusion"] == "claim"
+    assert audit["contracts"]["typed_unit_contract"]["typed_unit_type_counts"]
     assert "index" in audit["graphrag_codebase"]["api_modules"]
     assert "query" in audit["graphrag_codebase"]["api_modules"]
     assert any(item["area"] == "indexing" for item in audit["overlap_areas"])
