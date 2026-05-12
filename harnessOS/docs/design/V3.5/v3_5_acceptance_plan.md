@@ -1,6 +1,8 @@
 # V3.5 Acceptance Plan
 
-文档状态：V3.5-MVP acceptance baseline with end-to-end SDK+BFF+EventBridge smoke；V3.5-Full pending。
+文档状态：V3.5-MVP acceptance baseline with end-to-end SDK+BFF+EventBridge smoke；V3.5-E1 TypeScript SDK Core Client complete；V3.5-E2 React Hooks complete；V3.5-F Full BFF Template complete；V3.5-G Pack / Connector Template complete；V3.5-H Embed Contract complete；V3.5-I Reference App complete。V3.5 complete at dev/local Application Adaptation Layer level。
+
+Completion evidence bundle: `docs/design/V3.5/v3_5_completion_evidence_bundle.md`。
 
 ## 1. Baseline
 
@@ -21,12 +23,12 @@ V3.5 启动基线：
 | V3.5-D | Python SDK MVP 方法全覆盖；runtime 不 import server internals；scope 透传；typed error / transport error 映射；token redaction；legacy/business wrappers excluded。 |
 | V3.5-D2 | Platform-neutral Minimal BFF Smoke；Python SDK constrained proxy；EventSource proxy；scope binding；denylist；secret hygiene。 |
 | V3.5-MVP E2E | 真实 Minimal BFF + 真实 Python SDK + harnessOS TestClient/ASGI transport；session/turn/events/approval/artifact/job/pack/connector/denylist/scope/redaction smoke。 |
-| V3.5-E1 | TS SDK core client；schema default surface；native EventSource / fetch stream client；legacy/debug excluded。 |
-| V3.5-E2 | React hooks；browser demo；EventSource reconnect；不得先于 V3.5-C 和 V3.5-E1。 |
-| V3.5-F | BFF template；RPC/EventSource proxy；CORS/token/scope；denylist。 |
-| V3.5-G | dummy pack / connector template；no-Core-change discovery。 |
-| V3.5-H | EmbedDefinition；event union；approval/job/artifact states。 |
-| V3.5-I | reference app E2E；approval.respond；scope isolation。 |
+| V3.5-E1 | TS SDK core client；schema default surface；runtime boundary；native EventSource / fetch stream descriptor handling；legacy/debug/business wrappers excluded。 |
+| V3.5-E2 | React hooks；core TS SDK import 不强制依赖 React；no-auto-start session/turn/events；EventSource reconnect/cursor/dedupe；不得先于 V3.5-C 和 V3.5-E1。 |
+| V3.5-F | Full BFF Template；BFF-side CapabilityPolicy；RPC safe subset；EventSource proxy；CORS/config/scope/secret hygiene；denylist。 |
+| V3.5-G | Pack / Connector templates；templates not auto-discovered；dummy pack external path discovery；dummy connector external descriptor discovery；no-Core-change verification；version compatibility blocked/degraded envelope。 |
+| V3.5-H | Static EmbedDefinition；runtime EmbedBootstrap；BFF-local EventSource bootstrap；allowed actions；event union；UI states；platform-neutral demo fixture。 |
+| V3.5-I | Platform-neutral reference app；frontend BFF-only；BFF EventSource proxy；embed bootstrap safety；approval.respond flow；trace summary；external pack/connector discovery；scope isolation；token/subscription redaction。 |
 
 ## 3. MVP Exit Standard
 
@@ -116,6 +118,76 @@ V3.5-MVP 不能声明：
 - `production-ready external app support`
 - `full browser app integration ready`
 
+V3.5-G 完成后只能声明：
+
+- `Pack / Connector templates ready for dev/local external app integration scaffolding`
+
+V3.5-G 不能声明：
+
+- `V3.5 complete`
+- Reference App complete
+- Embed Contract complete
+- production-ready external app support
+
+V3.5-H 完成后只能声明：
+
+- `Embed contract ready for dev/local AgentTalkWindow preparation`
+
+V3.5-H 不能声明：
+
+- AgentTalkWindow ready
+- Workflow Studio ready
+- external app ready
+- `V3.5 complete`
+
+V3.5-I 完成后可以声明：
+
+- `V3.5 complete at dev/local Application Adaptation Layer level`
+
+V3.5-I 不能声明：
+
+- production-ready external app support
+- complete AgentTalkWindow
+- complete Workflow Studio
+- enterprise auth/OAuth/SSO ready
+- multi-tenant production control plane ready
+
+V3.5-E1 完成后只能声明：
+
+- `TypeScript SDK core client ready for dev/local protocol integration smoke`
+
+V3.5-E1 不能声明：
+
+- React hooks ready
+- external app ready
+- production-ready browser integration
+- `V3.5 complete`
+
+V3.5-E2 完成后只能声明：
+
+- `React hooks ready for dev/local UI integration smoke`
+
+V3.5-E2 不能声明：
+
+- external app ready
+- production-ready browser integration
+- AgentTalkWindow ready
+- Workflow Studio ready
+- `V3.5 complete`
+
+V3.5-F 完成后只能声明：
+
+- `Full BFF Template ready for dev/local external app integration smoke`
+
+V3.5-F 不能声明：
+
+- production-ready external app support
+- AgentTalkWindow ready
+- Workflow Studio ready
+- Pack/Connector template complete
+- Reference app complete
+- `V3.5 complete`
+
 MVP 必须满足：
 
 - method/event/error registry 可用。
@@ -161,6 +233,9 @@ V3.5 完成必须满足：
 - V3.5-D Python SDK tests：no server internals import；strict `__all__`；snapshot 与 server schema default/runtime subset 对齐；low-level `rpc()` 默认拒绝 forbidden；transport errors；token/subscription redaction；scope override conflict；approval repeated approve/reject idempotency；nested scope payload。
 - V3.5-D2 Minimal BFF tests：platform-neutral config；no server internals import；identity/route/body scope conflict；`/bff/rpc` allowlist/denylist；EventSource proxy preserves `id/event/data`；does not call `/v1/runs/stream`; token/subscription redaction。
 - V3.5-MVP E2E tests：真实 Minimal BFF + 真实 Python SDK + harnessOS ASGI/TestClient transport；覆盖 BFF session/turn、SDK `events.subscribe`、BFF EventSource proxy、`approval.respond`、artifact/job/pack/connector 基础查询、denylist、scope isolation、token/subscription redaction；不依赖 Meeting/Knowledge/外部 MCP。
+- V3.5-E1 TypeScript SDK tests：no server internals import；public API surface；protocol snapshot vs server schema；low-level `rpc()` forbidden checks；`method.list(include_forbidden=true)` rejected；JSON-RPC response validation；token redaction；scope injection/conflict；EventSubscription relative/absolute URL；native EventSource no Authorization header；fetch stream bearer mode；session/turn/events/artifact/job/approval/connector/pack integration smoke。
+- V3.5-E2 React hooks tests：no server internals import；core TS SDK import 不强制依赖 React；React public export surface；no business hooks；`useHarnessSession`/`useTurn` no-auto-start；`useEvents` no-auto-connect by default、native EventSource no Authorization header、close on unmount、StrictMode no duplicate live source、reconnect with cursor、dedupe；`useApprovals` only `approval.respond`；`useArtifacts` no inline `artifact.read`；`useJobs` no default polling；token/subscription redaction。
+- V3.5-F Full BFF Template tests：config safety；demo identity explicit mode；BFF-side CapabilityPolicy；`/bff/rpc` rejects `events.subscribe`；structured routes；artifact external write capability；EventSource Last-Event-ID/cursor propagation；no `/v1/runs/stream` default path；secret redaction；no import from `fastapi_minimal` or server internals；platform-neutral E2E without Meeting/Knowledge/external MCP。
 
 ## 6. No False Green Rule
 
@@ -174,4 +249,7 @@ V3.5 完成必须满足：
 - 只完成 V3.5-D 时，不得声明 SDK production-ready、external app ready、TypeScript SDK usable、React hooks ready 或 V3.5-MVP complete。
 - 只完成 V3.5-D2 且 V3.5 MVP E2E tests 未全绿时，不得声明 V3.5-MVP dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke。
 - 只完成 V3.5-MVP 时，不得声明 V3.5 complete。
+- 只完成 V3.5-E1 时，不得声明 React hooks ready、external app ready、production-ready browser integration 或 V3.5 complete。
+- 只完成 V3.5-E2 时，不得声明 external app ready、production-ready browser integration、AgentTalkWindow ready、Workflow Studio ready 或 V3.5 complete。
+- 只完成 V3.5-F 时，不得声明 production-ready external app support、AgentTalkWindow ready、Workflow Studio ready、Pack/Connector template complete、Reference app complete 或 V3.5 complete。
 - 未通过平台中立 reference app 时，不得声明 V3.5 出门。

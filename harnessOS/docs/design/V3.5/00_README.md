@@ -1,6 +1,6 @@
 # harnessOS V3.5 Design Docs
 
-文档状态：V3.5-MVP dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke；V3.5-Full pending。本文档集用于指导 Application Adaptation Layer 后续 Full 阶段实施。
+文档状态：V3.5-MVP complete；V3.5-E1 TypeScript SDK Core Client complete；V3.5-E2 React Hooks complete；V3.5-F Full BFF Template complete；V3.5-G Pack / Connector Template complete；V3.5-H Embed Contract complete；V3.5-I Reference App complete。V3.5 complete at dev/local Application Adaptation Layer level。
 
 ## Positioning
 
@@ -16,6 +16,7 @@ Product UI / External App
       Event bridge
       Pack / Connector template
       Embed contract
+      Platform-neutral reference app
   -> harnessOS Protocol App Server
   -> Multi-App Core / RuntimeAdapter / Pack / Connector
 ```
@@ -40,6 +41,7 @@ Product UI / External App
 | `v3_5_embed_contract_plan.md` | EmbedDefinition 和 AgentTalkWindow 前置 contract 计划。 |
 | `v3_5_reference_app_plan.md` | reference app example 计划。 |
 | `v3_5_acceptance_plan.md` | V3.5 分阶段验收计划和出门标准。 |
+| `v3_5_completion_evidence_bundle.md` | V3.5 dev/local completion 的测试、实现、文档同步证据包。 |
 | `diagrams/01_v3_5_application_adaptation_layer_baseline.drawio` | V3.5 应用适配层基线图。 |
 
 ## Baseline Rules
@@ -52,7 +54,14 @@ Product UI / External App
 - Phase0 scaffold 只允许 README/.gitkeep 和基线文档，不提供可 import 的正式 SDK API。
 - V3.5 不能引入新的 Core 重构目标。
 - V3.5 若发现必须修改 Core/Gateway 才能接入新 app，应记录为平台缺口，而不是把业务旁路固化为适配层能力。
-- V3.5 早期是 dev/local-first；当前已具备 protocol schema registry、`approval.respond` 幂等、local capability token、browser event bridge local runtime、Python SDK MVP、Minimal BFF Smoke，以及 SDK+BFF+EventBridge 端到端 smoke。正式外部 App 接入前仍必须补齐 TypeScript SDK/hooks、Full BFF Template、templates、embed contract 和 reference app。
+- V3.5-MVP 已完成：当前已具备 protocol schema registry、`approval.respond` 幂等、local capability token、browser event bridge local runtime、Python SDK MVP、Minimal BFF Smoke，以及 SDK+BFF+EventBridge 端到端 smoke。
+- V3.5-E1 TypeScript SDK Core Client 已完成：当前已具备 browser/Node typed core client、native EventSource helper、fetch stream helper、scope、typed errors 和 default wrapper tests。
+- V3.5-E2 React Hooks 已完成：当前已具备 session、turn、events、artifacts、jobs、approvals hooks，且 core TS SDK import 不强制依赖 React。
+- V3.5-F Full BFF Template 已完成：当前已具备独立可复制 FastAPI BFF template、BFF-side CapabilityPolicy、constrained RPC、structured routes、EventSource proxy、config safety 和 secret hygiene tests。
+- V3.5-G Pack / Connector Template 已完成：templates 目录只提供可复制模板，不是 runtime instances；被 registry 发现的只能是显式 external path / descriptor path 注入的实例化 pack/connector。
+- V3.5-H Embed Contract 已完成：拆分静态 `EmbedDefinition` 与运行时 `EmbedBootstrap`，定义 allowed actions、event union、UI states、BFF bootstrap 示例和平台中立 fixture。
+- V3.5-I Reference App 已完成：reference frontend 默认只调用 `/bff/*`，使用 BFF-local EventSource proxy，不依赖业务 reference pack 或 legacy RPC，并覆盖 approval、artifact、job、trace summary、pack/connector、scope isolation 和 redaction smoke。
+- 当前只能声明 `V3.5 complete at dev/local Application Adaptation Layer level`。这不代表 production-ready external app support、完整 AgentTalkWindow、完整 Workflow Studio、enterprise auth/OAuth/SSO ready 或 multi-tenant production control plane ready。
 
 ## Implementation Order
 
@@ -72,10 +81,11 @@ V3.5-Full：
 7. `V3.5-E1` TypeScript SDK core client.
 8. `V3.5-E2` React hooks.
 9. `V3.5-F` Full App Gateway / BFF template.
-10. `V3.5-G/H` Pack / Connector template and Embed contract.
-11. `V3.5-I` Reference app example.
+10. `V3.5-G` Pack / Connector template.
+11. `V3.5-H` Embed contract.
+12. `V3.5-I` Reference app example.
 
-MVP 当前可声明 `V3.5-MVP dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke`。只有 Full 完成 reference app、TS SDK/hooks、Full BFF template、templates 和 embed contract 后，才能声明 `V3.5 complete`。
+MVP 当前可声明 `V3.5-MVP dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke`。Full 已完成 reference app、TS SDK/hooks、Full BFF template、templates 和 embed contract，因此当前可声明 `V3.5 complete at dev/local Application Adaptation Layer level`。
 
 Phase0 完成后只能声明 `V3.5 implementation ready`。Phase0 不改变 supported public API，不让 SDK 可用，也不让 external app ready。
 
@@ -88,3 +98,15 @@ V3.5-C 完成后只能声明 `browser event bridge contract and local runtime re
 V3.5-D 完成后只能声明 `Python SDK MVP usable for local/backend integration smoke`。V3.5-D 的 SDK runtime 不 import server internals，不代表 SDK production-ready、external app ready 或 V3.5-MVP complete。
 
 V3.5-D2 完成后可以声明 `Minimal BFF Smoke proves JSON-RPC and EventSource proxy feasibility`。当前新增 MVP E2E 覆盖真实 Minimal BFF + 真实 Python SDK + harnessOS ASGI/TestClient transport 后，可以声明 `V3.5-MVP dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke`。这仍不代表 production-ready external app support、Full BFF Template complete、external app ready 或 V3.5 complete。
+
+V3.5-E1 完成后只能声明 `TypeScript SDK core client ready for dev/local protocol integration smoke`。E1 不代表 React hooks ready、external app ready、production-ready browser integration 或 V3.5 complete。
+
+V3.5-E2 完成后只能声明 `React hooks ready for dev/local UI integration smoke`。E2 不代表 external app ready、production-ready browser integration、AgentTalkWindow ready、Workflow Studio ready 或 V3.5 complete。
+
+V3.5-F 完成时只能声明 `Full BFF Template ready for dev/local external app integration smoke`。F 当时不代表 production-ready external app support、AgentTalkWindow ready、Workflow Studio ready、Pack/Connector template complete、Reference app complete 或 V3.5 complete。
+
+V3.5-G 完成时只能声明 `Pack / Connector templates ready for dev/local external app integration scaffolding`。G 当时不代表 Reference App complete、Embed Contract complete、production-ready external app support 或 V3.5 complete。
+
+V3.5-H 完成后只能声明 `Embed contract ready for dev/local AgentTalkWindow preparation`。H 不代表 AgentTalkWindow ready、Workflow Studio ready、external app ready 或 V3.5 complete。
+
+V3.5-I 完成后，如果 V3.5-0 到 H 的回归保持绿灯，可以声明 `V3.5 complete at dev/local Application Adaptation Layer level`。I 仍不能声明 production-ready external app support、complete AgentTalkWindow、complete Workflow Studio、enterprise auth/OAuth/SSO ready 或 multi-tenant production control plane ready。

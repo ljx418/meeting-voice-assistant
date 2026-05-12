@@ -1,0 +1,25 @@
+{
+  "demo_identity_mode": true,
+  "harnessos_capability_token": "replace-with-server-side-token",
+  "identity_scope": {
+    "app_id": "reference_app",
+    "project_id": "demo",
+    "workspace_id": "local"
+  },
+  "demo_capabilities": [
+    "sessions",
+    "turns",
+    "events",
+    "artifacts.read",
+    "artifacts.write",
+    "jobs",
+    "approvals",
+    "packs.read",
+    "connectors.read"
+  ],
+  "allowed_origins": [
+    "http://localhost:5173"
+  ],
+  "allow_credentials": true
+}
+

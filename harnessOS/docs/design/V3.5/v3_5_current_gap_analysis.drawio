@@ -76,13 +76,13 @@
         <mxCell id="section_summary" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" value="开发计划摘要" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="970" as="geometry" />
         </mxCell>
-        <mxCell id="summary_now" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" value="当前开发阶段&lt;br&gt;&lt;br&gt;• V3.5-A/B/C/D/D2 已落地&lt;br&gt;• contracts / schemas / auth guard / SDK snapshot / Minimal BFF 是当前事实源&lt;br&gt;• Python SDK + constrained BFF + EventSource proxy smoke 可用&lt;br&gt;• 下一步进入 V3.5-E1 TypeScript SDK Core Client" vertex="1">
+        <mxCell id="summary_now" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" value="当前开发阶段&lt;br&gt;&lt;br&gt;• V3.5-MVP 已完成&lt;br&gt;• V3.5-E1/E2/F/G/H/I 已落地&lt;br&gt;• Reference App 完成 BFF-only smoke&lt;br&gt;• 当前可声明 dev/local Application Adaptation Layer complete" vertex="1">
           <mxGeometry height="150" width="620" x="100" y="1045" as="geometry" />
         </mxCell>
-        <mxCell id="summary_next" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" value="MVP 路线&lt;br&gt;&lt;br&gt;V3.5-0：工程入口 + inventory + 禁止面 + baseline&lt;br&gt;V3.5-A/B/C：Schema、Token、Event Bridge&lt;br&gt;V3.5-D/D2：Python SDK + Minimal BFF Smoke&lt;br&gt;&lt;br&gt;MVP 只能声明 dev/local adaptation layer ready" vertex="1">
+        <mxCell id="summary_next" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" value="MVP 路线&lt;br&gt;&lt;br&gt;V3.5-0：工程入口 + inventory + 禁止面 + baseline&lt;br&gt;V3.5-A/B/C：Schema、Token、Event Bridge&lt;br&gt;V3.5-D/D2：Python SDK + Minimal BFF Smoke&lt;br&gt;&lt;br&gt;MVP 已完成：dev/local adaptation layer ready with E2E smoke" vertex="1">
           <mxGeometry height="150" width="620" x="790" y="1045" as="geometry" />
         </mxCell>
-        <mxCell id="summary_final" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" value="Full 路线 / 目标状态&lt;br&gt;&lt;br&gt;TS SDK + hooks + Full BFF Template + Pack/Connector Template + Embed Contract + reference app&lt;br&gt;&lt;br&gt;Full 完成后才声明 V3.5 complete" vertex="1">
+        <mxCell id="summary_final" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=14;fontSize=14" value="Full 路线 / 目标状态&lt;br&gt;&lt;br&gt;E1 TS SDK、E2 React Hooks、F BFF、G Templates、H Embed、I Reference App 已完成&lt;br&gt;V3.5 complete at dev/local Application Adaptation Layer level&lt;br&gt;&lt;br&gt;仍不是 production-ready external app support" vertex="1">
           <mxGeometry height="150" width="620" x="1480" y="1045" as="geometry" />
         </mxCell>
         <mxCell id="section_matrix" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=20;fontStyle=1;align=center" value="Gap Matrix 与阶段影响范围" vertex="1">
@@ -100,10 +100,10 @@
         <mxCell id="mc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-C&lt;br&gt;Browser Event Bridge&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;已落地：signed URL、fetch bearer、opaque cursor、heartbeat、本地 replay" vertex="1">
           <mxGeometry height="120" width="360" x="1320" y="1370" as="geometry" />
         </mxCell>
-        <mxCell id="md" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-D / D2 / E1 / E2&lt;br&gt;SDK + Minimal BFF + Hooks&lt;br&gt;Plane-0 / 1 / 2&lt;br&gt;已落地：Python SDK MVP + Minimal BFF Smoke；下一步：TS SDK core、React hooks" vertex="1">
+        <mxCell id="md" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-D / D2 / E1 / E2&lt;br&gt;SDK + Minimal BFF + Hooks&lt;br&gt;Plane-0 / 1 / 2&lt;br&gt;已落地：Python SDK MVP + Minimal BFF Smoke + TS SDK core + React hooks" vertex="1">
           <mxGeometry height="120" width="360" x="1730" y="1370" as="geometry" />
         </mxCell>
-        <mxCell id="mf" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-F&lt;br&gt;Full BFF Template&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;identity 到 scope/token 绑定、RPC / EventSource proxy、denylist" vertex="1">
+        <mxCell id="mf" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-F&lt;br&gt;Full BFF Template&lt;br&gt;Plane-0 / 1 / 2 / 3&lt;br&gt;已完成：CapabilityPolicy、structured routes、EventSource proxy、denylist" vertex="1">
           <mxGeometry height="120" width="390" x="290" y="1530" as="geometry" />
         </mxCell>
         <mxCell id="mg" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=center" value="V3.5-G&lt;br&gt;Pack / Connector Template&lt;br&gt;Plane-1 / 5 / 6&lt;br&gt;dummy pack / connector、version compatibility、warnings" vertex="1">
@@ -118,7 +118,7 @@
         <mxCell id="section_accept" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;fontSize=20;fontStyle=1;align=center" value="P0 出门条件与非目标" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="1740" as="geometry" />
         </mxCell>
-        <mxCell id="p0_list" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="MVP Exit&lt;br&gt;&lt;br&gt;1. method / event / error schema registry&lt;br&gt;2. approval.respond + events.subscribe&lt;br&gt;3. local capability token&lt;br&gt;4. native EventSource + fetch stream auth&lt;br&gt;5. Python SDK MVP&lt;br&gt;6. Minimal BFF Smoke&lt;br&gt;7. 只能声明 dev/local adaptation layer ready" vertex="1">
+        <mxCell id="p0_list" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="MVP Exit&lt;br&gt;&lt;br&gt;1. method / event / error schema registry&lt;br&gt;2. approval.respond + events.subscribe&lt;br&gt;3. local capability token&lt;br&gt;4. native EventSource + fetch stream auth&lt;br&gt;5. Python SDK MVP&lt;br&gt;6. Minimal BFF Smoke + MVP E2E&lt;br&gt;7. 当前已完成：dev/local adaptation layer ready" vertex="1">
           <mxGeometry height="280" width="620" x="140" y="1840" as="geometry" />
         </mxCell>
         <mxCell id="non_goals" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=16;fontSize=14" value="Non-Goals&lt;br&gt;&lt;br&gt;• Core 重构&lt;br&gt;• 业务 reference path 重迁移&lt;br&gt;• sibling service 内部实现&lt;br&gt;• 完整 Workflow Studio&lt;br&gt;• 完整 AgentTalkWindow" vertex="1">

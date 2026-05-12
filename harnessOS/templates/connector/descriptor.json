@@ -1,0 +1,43 @@
+{
+  "descriptor_schema_version": "1",
+  "connector_id": "replace_me_connector",
+  "domain": "replace_me",
+  "kind": "template_stub",
+  "version": "0.1.0",
+  "min_harnessos_version": "3.5.0",
+  "target_harnessos_version": "3.5.0",
+  "app_scope": [
+    "replace_me"
+  ],
+  "capabilities": {
+    "capabilities": [
+      "replace_me.run"
+    ],
+    "tools": [
+      "replace_me_tool"
+    ]
+  },
+  "execution_mode": "stub",
+  "trust_level": "trusted_local",
+  "config_ref": "connectors.replace_me",
+  "health": {
+    "mode": "static",
+    "status": "available",
+    "message": "Template connector descriptor is available after instantiation."
+  },
+  "security": {
+    "allowed_commands": [],
+    "allowed_paths": [],
+    "allowed_network_hosts": [],
+    "network_policy": "none",
+    "tool_risk_defaults": {
+      "read_only": true,
+      "destructive": false,
+      "external_side_effect": false
+    },
+    "requires_approval_for": []
+  },
+  "metadata": {
+    "template": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@harnessos/client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.28",
+    "@types/react-test-renderer": "^18.3.1",
+    "react-test-renderer": "^18.3.1",
+    "typescript": "^5.3.0"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  }
+}

@@ -1,6 +1,6 @@
 # V3.5 Current Gap Analysis
 
-文档状态：V3.5-MVP dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke；V3.5-Full pending。  
+文档状态：V3.5-MVP complete；V3.5-E1 TypeScript SDK Core Client complete；V3.5-E2 React Hooks complete；V3.5-F Full BFF Template complete；V3.5-G Pack / Connector Template complete；V3.5-H Embed Contract complete；V3.5-I Reference App complete。V3.5 complete at dev/local Application Adaptation Layer level。  
 配套图：`v3_5_current_gap_analysis.drawio`。
 
 本文与 `v3_5_current_gap_analysis.drawio` 是 V3.5 后续规划、验收和与用户交互时的核心维护文件。两者必须同步更新：本文承载文字合同，drawio 承载同一套七层目标架构、差距矩阵和阶段路线图。
@@ -23,24 +23,24 @@ Plane-6 Connector / Tool / Store
 
 V3.5 的新增工作面主要落在 `Plane-1 Application Adaptation Layer`，并向上服务 `Plane-0`，向下消费 `Plane-2` 到 `Plane-6`。因此，V3.5 gap 不应再被描述成 Core 重构、Pack 迁移或业务 workflow 迁移。
 
-V3.5 按 MVP -> Full 两段推进。MVP 当前已证明 dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke；Full 才能声明 V3.5 complete。
+V3.5 按 MVP -> Full 两段推进。MVP 已证明 dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke；Full 当前已完成 reference app，因此可以声明 V3.5 complete at dev/local Application Adaptation Layer level。
 
 ## 2. 当前状态
 
-当前 harnessOS 已具备 V3.5-MVP dev/local adaptation layer，并通过 SDK+BFF+EventBridge 端到端 smoke 验证；完整外部业务 App 接入体系仍在 V3.5-Full。
+当前 harnessOS 已具备 V3.5 dev/local Application Adaptation Layer，并通过 SDK+BFF+EventBridge 与平台中立 Reference App smoke 验证；V3.5-E1 TypeScript SDK Core Client、V3.5-E2 React Hooks、V3.5-F Full BFF Template、V3.5-G Pack / Connector Template、V3.5-H Embed Contract 与 V3.5-I Reference App 已完成。当前可以声明 V3.5 complete at dev/local Application Adaptation Layer level，但不能声明 production-ready external app support。
 
 当前事实：
 
 - Protocol App Server 已有 JSON-RPC / HTTP / stdio 等基础入口。
 - Core 已有 scope、job、artifact、trace、approval、pack、connector 等可消费对象。
 - Pack / Connector / Job / Artifact / Governance 合同可作为适配层消费对象。
-- 已有 protocol schema registry、`approval.respond`、local capability token、browser event bridge、Python SDK MVP 和 Minimal BFF Smoke。
+- 已有 protocol schema registry、`approval.respond`、local capability token、browser event bridge、Python SDK MVP、TypeScript SDK Core Client 和 Minimal BFF Smoke。
 - 已有平台中立 MVP E2E smoke，覆盖真实 Minimal BFF、真实 Python SDK 与 harnessOS ASGI/TestClient transport。
-- 尚未完成 TypeScript SDK、React hooks、Full BFF Template、Pack/Connector template、Embed contract 和平台中立 reference app。
+- TypeScript SDK E1、React Hooks E2、Full BFF Template F、Pack/Connector Template G、Embed Contract H 与 Reference App I 已通过 contract/E2E 测试。
 
-当前 V3.5-Full 的核心缺口不是“平台能不能跑”，而是：
+当前 V3.5 的剩余缺口不再是“dev/local 适配层能不能跑”，而是：
 
-> 如何把 MVP 证明过的 dev/local 适配层扩展成可复用、可前端集成、可模板化的完整外部 App 接入体系。
+> 如何把 dev/local reference app 证明过的适配层升级为 production-ready external app support，包括企业级 auth、长期运维、多租户控制面和完整产品化 UI。
 
 ## 3. 七层目标架构
 
@@ -94,7 +94,7 @@ Dev/direct:
 
 ### 5.1 当前开发阶段
 
-当前项目处于 **V3.5-MVP 已通过 end-to-end SDK+BFF+EventBridge smoke，准备进入 V3.5-Full 前半段 V3.5-E1 TypeScript SDK Core Client** 的阶段。V3.5 的目标架构、MVP/Full 分段、SDK thin client 边界、EventSource 认证模式、`approval.respond` 幂等语义和出门口径已经明确；Phase0 已把约定落成仓库内的机器可读 inventory、脚手架目录和验收测试，V3.5-A/B/C/D/D2 已分别把协议 schema、auth boundary、EventBridge、Python SDK 和 Minimal BFF Smoke 落成可测试实现，并新增 MVP E2E 将真实 Minimal BFF、真实 Python SDK 和 harnessOS ASGI transport 串联验证。
+当前项目处于 **V3.5-I Reference App 已完成，V3.5 complete at dev/local Application Adaptation Layer level** 的阶段。V3.5 的目标架构、MVP/Full 分段、SDK thin client 边界、EventSource 认证模式、`approval.respond` 幂等语义和出门口径已经明确；Phase0 已把约定落成仓库内的机器可读 inventory、脚手架目录和验收测试，V3.5-A/B/C/D/D2 已分别把协议 schema、auth boundary、EventBridge、Python SDK 和 Minimal BFF Smoke 落成可测试实现，并新增 MVP E2E 将真实 Minimal BFF、真实 Python SDK 和 harnessOS ASGI transport 串联验证。E1 已把 TypeScript SDK 从 scaffold-only 升级为可 import、可构建、可测试的 core client，E2 已把 React hooks 落成可 import、可测试的 UI integration smoke 层，F 已把 Full FastAPI BFF Template 落成可复制模板，G 已把 Pack / Connector 模板与显式 fixture discovery 落地，H 已把静态 `EmbedDefinition`、运行时 `EmbedBootstrap`、allowed actions、event union、UI states 和平台中立 demo fixture 落地，I 已把平台中立 reference app、BFF-only frontend、approval.respond flow、trace summary、external pack/connector discovery 和 scope isolation smoke 落地。
 
 当前已经完成或正在落地的是“实施入口和合同事实源”：
 
@@ -118,14 +118,23 @@ Dev/direct:
 - V3.5-D SDK 已覆盖 scope 透传、typed error mapping、token/subscription redaction、`approval.respond` 幂等和 `events.subscribe` descriptor。
 - V3.5-D2 新增 platform-neutral `templates/bff/fastapi_minimal`，证明 Python SDK constrained proxy、EventSource proxy、scope binding 和 denylist 可行。
 - V3.5-D2 BFF 使用 `reference_app/demo/local` 默认配置，不硬编码 Meeting/Knowledge。
+- V3.5-G 已要求 `templates/pack` / `templates/connector` 只作为可复制模板，不作为 runtime instances。
+- V3.5-G 已要求 dummy pack / connector 放在 fixture 或 reference app 目录，并通过 external pack path / connector descriptor path 显式注入。
+- V3.5-G 已要求 compatibility warnings 由 loader / assembly / health result 生成，manifest / descriptor 不自声明为事实。
+- V3.5-H 已要求 `EmbedDefinition` 不包含 token/session/eventsourceUrl，一次运行态信息进入 `EmbedBootstrap`。
+- V3.5-H 已要求 `GET /bff/embed/bootstrap` 只作为 BFF template / reference app 示例 route，不进入 Core。
+- V3.5-I 已新增平台中立 reference app，frontend 默认只调用 `/bff/*`，不直接调用 `/v1/rpc` 或 `/v1/events/subscribe`。
+- V3.5-I 已验证 `/bff/rpc` 拒绝 `events.subscribe`，Browser 事件订阅必须走 `/bff/events/subscribe`。
+- V3.5-I 已验证 approval 只通过 `/bff/approvals/{approval_id}/respond` 调 `approval.respond`，不暴露 `approval.approve/reject`。
+- V3.5-I 已验证 reference pack / connector 通过 external path / descriptor path 注入，不在 Core/Gateway 默认 registry 中硬编码。
 - V3.5-D2 与新增 MVP E2E 完成后，V3.5-MVP 可声明 `dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke`。
+- V3.5-E1 新增 `sdk/typescript` core client，覆盖 JSON-RPC、scope、typed errors、capability token、EventSubscription descriptor、native EventSource helper、fetch stream bearer helper 和 default wrappers。
+- V3.5-E1 测试覆盖 no server internals import、public API surface、snapshot vs server schema、forbidden methods、response validation、redaction、scope conflict、EventSubscription URL、native EventSource/fetch stream 和 integration smoke。
+- V3.5-E2 新增 React hooks，覆盖 session、turn、events、artifacts、jobs、approvals，且 hooks 默认不 auto-start，不暴露业务 hooks，不强制 core TS SDK 依赖 React。
+- V3.5-F 新增独立 `templates/bff/fastapi` Full BFF Template，覆盖 config safety、BFF-side CapabilityPolicy、constrained RPC、structured routes、EventSource proxy、secret hygiene 和 platform-neutral BFF E2E。
 
 当前还没有完成的是“完整外部 App 接入体系”：
 
-- TypeScript SDK core client。
-- React hooks。
-- Full BFF Template。
-- Pack / Connector template。
 - Embed contract。
 - 没有平台中立 reference app。
 
@@ -137,7 +146,7 @@ V3.5-0 的任务不是把接入层跑起来，而是把后续实现的边界变�
 
 | 类别 | 交付物 | 当前状态 | 用途 |
 | --- | --- | --- | --- |
-| 工程入口 | `sdk/`、`templates/`、`examples/reference_app/`、`docs/integration/` 骨架和 README | 已落地；Python SDK 在 V3.5-D 已升级为可 import MVP，TypeScript 仍 scaffold-only。 | 给后续 SDK、BFF、template、reference app 放置稳定入口。 |
+| 工程入口 | `sdk/`、`templates/`、`examples/reference_app/`、`docs/integration/` 骨架和 README | 已落地；Python SDK 在 V3.5-D 已升级为可 import MVP，TypeScript SDK 在 V3.5-E1 已升级为 core client。 | 给后续 SDK、BFF、template、reference app 放置稳定入口。 |
 | 协议清单 | `core/protocol/contracts/method_inventory.py`、`event_inventory.py`、`error_inventory.py` | 已落地，文件声明 non-runtime metadata only。 | 给 V3.5-A schema registry、V3.5-C EventBridge、V3.5-D SDK 提供输入。 |
 | 禁止面 | SDK default / optional / forbidden surface 和 thin client boundary | 已落地，`approval.respond` 与 `events.subscribe` 均为 implemented default；legacy/debug/business facade 为 forbidden_by_default。 | 防止 `meeting.*`、debug API、业务 wrapper 进入 core SDK 默认面。 |
 | 验收基线 | `tests/test_v3_5_contract_inventory.py`、`tests/test_v3_5_scaffolding.py`、`docs/integration/v3_5_phase0_baseline.md` | 已新增，验证结果以 baseline 文档为准。 | 证明 V3.5 后续实施没有从口头约定开始。 |
@@ -151,7 +160,7 @@ Phase0 的具体开发点与完成口径：
 | Event inventory | 固定 type/channel/status/replayable/aliases 字段；`artifact.registered` 为 canonical，`artifact.created` 仅为 alias。 | 已完成。 |
 | Error inventory | 固定 code/status/category/retryable/planned_phase 字段；补齐 subscription、method、scope、app profile、pack、connector、approval errors。 | 已完成。 |
 | Source of truth | 机器可读 inventory 为 source of truth，本文档与 contract inventory 文档为人类可读摘要。 | 已完成。 |
-| SDK scaffold | Phase0 只创建 README/.gitkeep；V3.5-D 开始允许 Python SDK 可 import，TypeScript 仍 scaffold-only。 | 已完成并已更新测试。 |
+| SDK scaffold | Phase0 只创建 README/.gitkeep；V3.5-D 开始允许 Python SDK 可 import，V3.5-E1 开始允许 TypeScript SDK core client 可 import/build/test。 | 已完成并已更新测试。 |
 | Baseline 文档 | 记录 baseline_commit/date/python_env/pytest/drawio/external E2E exclusion。 | 已完成，已记录 Phase0 targeted、默认 tests 和 drawio 校验结果。 |
 | Tests | 覆盖 planned phase、forbidden reason、surface overlap、business wrapper、event alias、duplicate error、scaffold-only。 | 已完成，Phase0 targeted tests 通过。 |
 
@@ -261,7 +270,7 @@ V3.5-D 的任务是实现 Python SDK MVP，但保持 SDK 是 thin protocol clien
 
 | 开发点 | 当前状态 | 出门口径 |
 | --- | --- | --- |
-| Python package | `sdk/python/harnessos_client` 已可 import。 | TypeScript SDK 仍 scaffold-only。 |
+| Python package | `sdk/python/harnessos_client` 已可 import。 | Python SDK MVP 可用于 local/backend integration smoke。 |
 | Runtime boundary | SDK runtime 使用本地 protocol snapshot。 | 不 import `apps.*`、`core.*`、GatewayService、RuntimeAdapter、Core Store 或 server `METHOD_SCHEMAS`。 |
 | Public API | `__all__` 严格限定 client、models 和 typed errors。 | 不导出 Meeting/Knowledge client 或业务 wrapper。 |
 | Default wrappers | 已覆盖 schema default/runtime method 子集。 | 不包装 planned/schema-only、legacy/debug/admin/business facade。 |
@@ -385,7 +394,97 @@ production-ready external app support
 full browser app integration ready
 ```
 
-### 5.10 Full 开发路线
+### 5.10 已完成 Full Phase：V3.5-E1
+
+V3.5-E1 的任务是实现 TypeScript SDK Core Client。它复用 V3.5-MVP 已冻结的 JSON-RPC、scope、capability token、EventBridge、error registry 合同，不改变 Core，也不实现 React hooks。当前 E1 已完成并通过 TypeScript SDK 测试、V3.5 回归和全量 pytest。
+
+| 开发点 | 当前状态 | 出门口径 |
+| --- | --- | --- |
+| Package | `sdk/typescript` 已从 scaffold-only 升级为可构建 package。 | `npm test` 已通过。 |
+| Runtime boundary | SDK runtime 使用 `protocolSnapshot.ts`。 | 已测试不 import `apps/*`、`core/*`、GatewayService、RuntimeAdapter 或 server `METHOD_SCHEMAS`。 |
+| Public API | `index.ts` 只导出 core client、scope、errors、token/subscription、transport。 | 已测试不导出 Meeting/Knowledge client 或业务 wrapper。 |
+| JSON-RPC client | 默认走 `/v1/rpc`，支持 injectable transport。 | 已测试 `rpc()` 默认拒绝 unknown、forbidden、legacy/debug/admin/business method。 |
+| Scope / token | 自动注入 scope，只接收 capability token。 | 已测试不提供 token issuance/signing；冲突 scope 本地拒绝。 |
+| EventSubscription | 只获取 descriptor，不做 reconnect/buffering/React state。 | 已测试 native EventSource 不依赖 Authorization header；fetch stream 可带 bearer。 |
+| Browser / Node | Browser 提供 native EventSource URL helper。 | Node 默认只保证 JSON-RPC fetch；复杂 event streaming 留给 E2/F 或用户实现。 |
+
+E1 完成后当前可声明：
+
+```text
+TypeScript SDK core client ready for dev/local protocol integration smoke
+```
+
+不能声明：
+
+```text
+React hooks ready
+external app ready
+production-ready browser integration
+V3.5 complete
+```
+
+### 5.11 已完成 Full Phase：V3.5-E2
+
+V3.5-E2 的任务是基于 E1 TypeScript SDK Core Client 实现 React Hooks。E2 只做前端状态模型，不重新定义协议，不绕过 SDK，不引入 Meeting/Knowledge 业务 wrapper。
+
+| 开发点 | 当前状态 | 出门口径 |
+| --- | --- | --- |
+| Hook package | 已完成。 | 基于 `sdk/typescript`，通过 `@harnessos/client/react` / `sdk/typescript/src/react` 暴露，不直接调用 server internals，core TS SDK import 不强制依赖 React。 |
+| Session / Turn hooks | 已完成。 | `useHarnessSession`、`useTurn` 使用 E1 client，默认不 auto-start。 |
+| Events hook | 已完成。 | `useEvents` 使用 EventSubscription descriptor，默认不自动打开 EventSource；支持 native EventSource 基础 lifecycle、cursor、dedupe、close on unmount。 |
+| Data hooks | 已完成。 | `useArtifacts`、`useJobs` 只消费 SDK default wrappers，不默认 inline read 或 polling。 |
+| Approval hook | 已完成。 | `useApprovals` 只调用 `approval.respond`，不暴露 approve/reject 双入口，不默认 approval.list。 |
+| State model | 已完成。 | session/turn/artifacts/jobs/approvals 使用 idle/loading/success/error；events 使用 idle/loading/streaming/reconnecting/error。 |
+| Boundary | 已完成。 | 不提供业务 hooks，例如 `useMeetingMinutes` 或 `useKnowledgeSearch`。 |
+
+E2 完成后只能声明：
+
+```text
+React hooks ready for dev/local UI integration smoke
+```
+
+不能声明：
+
+```text
+production-ready browser integration
+external app ready
+AgentTalkWindow ready
+Workflow Studio ready
+V3.5 complete
+```
+
+### 5.12 已完成 Full Phase：V3.5-F
+
+V3.5-F 的任务是把 D2 Minimal BFF Smoke 升级为独立可复制的 Full FastAPI BFF Template。它不是 production-ready BFF，不实现完整用户系统/OAuth/SSO/多租户权限后台，不签发 harnessOS capability token，不向浏览器暴露长期 harnessOS capability token。
+
+| 开发点 | 当前状态 | 出门口径 |
+| --- | --- | --- |
+| Full FastAPI template | 已完成。 | `templates/bff/fastapi` 独立存在，不依赖 `templates/bff/fastapi_minimal`。 |
+| Config safety | 已完成。 | `config.example.json` 无真实 token；`.env.example` 只含 placeholder；wildcard origin + credentials 报错；demo identity 显式开启。 |
+| Identity / Scope / CapabilityPolicy | 已完成。 | identity scope 是上界；BFF-side capability 是 structured routes 与 `/bff/rpc` 的上界。 |
+| `/bff/rpc` | 已完成。 | 只允许 SDK default safe subset，并默认拒绝 `events.subscribe`。 |
+| Structured routes | 已完成。 | 覆盖 sessions、turns、artifacts、jobs、approvals、packs、connectors。 |
+| EventSource proxy | 已完成。 | 前端走 `/bff/events/subscribe`，BFF 隐藏 upstream subscription token 并透传 Last-Event-ID/cursor。 |
+| Secret hygiene | 已完成。 | capability token、Authorization、subscription token、signed URL query 不进入 response/log/repr。 |
+
+F 完成后只能声明：
+
+```text
+Full BFF Template ready for dev/local external app integration smoke
+```
+
+不能声明：
+
+```text
+production-ready external app support
+AgentTalkWindow ready
+Workflow Studio ready
+Pack/Connector template complete
+Reference app complete
+V3.5 complete
+```
+
+### 5.13 Full 开发路线
 
 Full 的目标是把 MVP 证明过的能力扩展成完整、可复用的外部 App 接入体系：
 
@@ -428,14 +527,14 @@ V3.5 complete
 | REST Scope | V3.5-B 已为 run/stream/RPC/session HTTP 入口加 token/scope guard。 | V3.5-C 继续接入 EventBridge token/cursor。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | V3.5-B / C |
 | Browser Event Bridge | V3.5-C 已新增 `GET /v1/events/subscribe`、signed URL、fetch bearer、cursor replay 和 heartbeat。 | V3.5-D/E/F 由 SDK、hooks、BFF 复用；本阶段不扩展为完整 event bus。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | V3.5-C / D / E / F |
 | Python SDK | V3.5-D 已实现 thin Python SDK MVP。 | V3.5-D2 由 Minimal BFF Smoke 复用；后续再补生产化 SDK 能力。 | Plane-1 / Plane-2 | V3.5-D / D2 |
-| Minimal BFF Smoke | V3.5-D2 已实现 platform-neutral FastAPI minimal smoke。 | 后续 V3.5-F 扩展为 Full BFF Template。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | V3.5-D2 / F |
-| TypeScript SDK | 无 TS SDK。 | browser/Node typed core client 和 EventSource/fetch stream helper。 | Plane-0 / Plane-1 / Plane-2 | V3.5-E1 |
-| React Hooks | 无通用 hooks。 | session、turn、events、artifacts、jobs、approvals hooks，依赖 EventBridge 和 TS SDK core。 | Plane-0 / Plane-1 | V3.5-E2 |
-| BFF Template | 无可复用 BFF template。 | Full FastAPI template，optional Node template，提供业务 identity 到 scope/capability token 的绑定样例。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | V3.5-F |
-| Pack Template | 有 pack 样例，但无平台中立模板。 | dummy pack template，不改 Core 可发现，含版本兼容字段和 warnings。 | Plane-1 / Plane-5 | V3.5-G |
-| Connector Template | connector descriptor 主要由内置代码声明。 | dummy connector template，包含 health/capabilities/security/version compatibility。 | Plane-1 / Plane-6 | V3.5-G |
-| Embed Contract | 无嵌入式 Agent 面板前置 contract。 | `EmbedDefinition` 和 event union。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | V3.5-H |
-| Reference App | 无平台中立外部 App 示例。 | SDK + BFF + hooks + dummy pack/connector 或 generic workflow 的 reference app，不依赖 Meeting/Knowledge。 | Plane-0 through Plane-6 | V3.5-I |
+| Minimal BFF Smoke | V3.5-D2 已实现 platform-neutral FastAPI minimal smoke。 | 保持为 smoke artifact；V3.5-F Full BFF Template 已独立实现。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | V3.5-D2 / F |
+| TypeScript SDK | V3.5-E1 已实现 browser/Node typed core client 和 EventSource/fetch stream helper。 | 后续 F/I reference app 复用 TS SDK。 | Plane-0 / Plane-1 / Plane-2 | V3.5-E1 |
+| React Hooks | V3.5-E2 已实现 session、turn、events、artifacts、jobs、approvals hooks。 | 后续 Full BFF Template、Embed Contract 和 Reference App 复用 hooks。 | Plane-0 / Plane-1 | V3.5-E2 |
+| BFF Template | V3.5-F 已实现独立可复制 FastAPI template。 | 后续 Reference App 复用模板；optional Node template 可后置。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | V3.5-F |
+| Pack Template | V3.5-G 已落地平台中立模板与 dummy fixture。 | templates 目录只作为可复制模板；实例化 dummy pack 通过 external pack path 显式注入后可发现，含版本兼容字段和 loader-generated warnings。 | Plane-1 / Plane-5 | V3.5-G |
+| Connector Template | V3.5-G 已落地 descriptor 模板与 dummy fixture。 | templates 目录只作为可复制模板；实例化 dummy connector 通过 external descriptor path 显式注入后可被 `connector.health` 消费，且 discovery 只读 descriptor.json。 | Plane-1 / Plane-6 | V3.5-G |
+| Embed Contract | V3.5-H 已完成嵌入式 Agent 面板前置 contract。 | 静态 `EmbedDefinition`、运行时 `EmbedBootstrap`、allowed actions、event union、UI states 和 BFF bootstrap 示例。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | V3.5-H |
+| Reference App | V3.5-I 已完成平台中立外部 App 示例。 | SDK + BFF + hooks + dummy pack/connector reference app；frontend 默认只走 `/bff/*`，不依赖业务 reference paths。 | Plane-0 through Plane-6 | V3.5-I |
 
 ## 7. 阶段影响范围
 
@@ -447,27 +546,28 @@ V3.5 complete
 | V3.5-C | native EventSource、fetch stream、cursor replay、event channel、scope/token enforcement。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | RuntimeAdapter internals |
 | V3.5-D | Python SDK MVP。 | Plane-1 / Plane-2 | Core Store |
 | V3.5-D2 | Minimal BFF Smoke。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | Full BFF Template |
-| V3.5-E1 | TypeScript SDK core client。 | Plane-0 / Plane-1 / Plane-2 | Business pack implementation |
-| V3.5-E2 | React hooks。 | Plane-0 / Plane-1 | Protocol/EventBridge redesign |
-| V3.5-F | BFF template。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | Core schema |
-| V3.5-G | Pack / Connector template。 | Plane-1 / Plane-5 / Plane-6 | Core/Gateway business paths |
-| V3.5-H | Embed contract。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | Full AgentTalkWindow |
-| V3.5-I | Reference app example。 | Plane-0 through Plane-6 as validation path | Core modification |
+| V3.5-E1 | TypeScript SDK core client（已完成）。 | Plane-0 / Plane-1 / Plane-2 | Business pack implementation |
+| V3.5-E2 | React hooks（已完成）。 | Plane-0 / Plane-1 | Protocol/EventBridge redesign |
+| V3.5-F | BFF template（已完成）。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | Core schema |
+| V3.5-G | Pack / Connector template（已完成）。 | Plane-1 / Plane-5 / Plane-6 | Core/Gateway business paths |
+| V3.5-H | Embed contract（已完成）。 | Plane-0 / Plane-1 / Plane-2 / Plane-3 | Full AgentTalkWindow |
+| V3.5-I | Reference app example（已完成）。 | Plane-0 through Plane-6 as validation path | Core modification |
 
 ## 8. P0 Before Formal External App Support
 
 - method/event/error schema registry（V3.5-A 已完成）。
 - `approval.respond` protocol method（V3.5-A 已完成）。
-- `events.subscribe` protocol contract。
+- `events.subscribe` protocol contract（V3.5-C 已完成）。
 - local capability token（V3.5-B 已完成）。
-- browser-friendly native EventSource and fetch stream。
-- REST/BFF scope support。
-- SDK/BFF legacy/debug/business wrapper denylist。
+- browser-friendly native EventSource and fetch stream（V3.5-C 已完成）。
+- REST/BFF scope support（V3.5-B/D2 已完成 MVP 路径）。
+- SDK/BFF legacy/debug/business wrapper denylist（V3.5-D/D2/E1/F 已覆盖）。
+- Pack/Connector templates、embed contract 和 reference app 已完成；当前剩余 P0 是进入正式外部 App 支持前的生产化缺口，而不是 dev/local V3.5 完成缺口。
 
 ## 9. P1 Parallel Improvements
 
 - protocol version label 明确化。
-- generated SDK strategy。
+- generated SDK strategy（E1 使用 snapshot，后续可演进为生成式 SDK）。
 - Pack / Connector JSON Schema。
 - `docs/integration/` 外部 App 接入手册。
 - reference app deployment smoke。

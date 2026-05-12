@@ -1,12 +1,16 @@
 # V3.5 Browser Event Bridge Plan
 
-文档状态：V3.5-C implementation baseline；MVP E2E smoke verified。
+文档状态：V3.5-C implementation baseline；MVP/E2/F smoke verified。
+
+当前阶段基线：V3.5-MVP complete；V3.5-E1 complete；V3.5-E2 complete；V3.5-F complete。
 
 ## 1. Goal
 
 新增 browser-friendly event bridge，让 Product UI / React hooks / Embed contract 能通过 native EventSource 或 fetch stream 订阅 turn、job、artifact、approval、trace 和 reserved business events。
 
 V3.5-C 已实现 `events.subscribe` runtime handler、`GET /v1/events/subscribe`、short-lived subscription token、opaque replay cursor 和本地 SSE transport，并通过 MVP E2E 验证 BFF EventSource proxy 可消费该 endpoint。
+
+V3.5-F Full BFF Template 必须通过 `GET /bff/events/subscribe` 代理 EventSource。`/bff/rpc` 默认拒绝 `events.subscribe`，避免把 upstream `eventsource_url` / `subscription_token` 暴露给浏览器。
 
 边界：
 

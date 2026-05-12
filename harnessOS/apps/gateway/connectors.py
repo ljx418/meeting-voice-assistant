@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import json
 import os
 import shutil
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Optional
 from urllib.parse import urlparse
@@ -20,6 +21,10 @@ from core.config import (
     get_meeting_mcp_config,
 )
 from core.protocol import ConnectorRecord
+from core.protocol.version import (
+    HARNESSOS_VERSION,
+    SUPPORTED_CONNECTOR_DESCRIPTOR_SCHEMA_VERSIONS,
+)
 from core.services import CoreAppService
 
 
@@ -90,6 +95,28 @@ class ConnectorHealth:
         }
 
 
+@dataclass(frozen=True)
+class ExternalConnectorDescriptor:
+    """Static connector descriptor loaded from an explicit descriptor.json path."""
+
+    connector_id: str
+    domain: Optional[str]
+    kind: str
+    version: str
+    descriptor_schema_version: str
+    capabilities: dict[str, Any]
+    execution_mode: str
+    trust_level: str
+    config_ref: Optional[str]
+    app_scope: list[str]
+    security: dict[str, Any]
+    health: dict[str, Any]
+    metadata: dict[str, Any] = field(default_factory=dict)
+    min_harnessos_version: str = ""
+    target_harnessos_version: str = ""
+    descriptor_path: Optional[str] = None
+
+
 class ConnectorRegistry:
     """Core-backed registry for local MCP, tool, and service connectors."""
 
@@ -102,13 +129,14 @@ class ConnectorRegistry:
         data_service_config: Optional[DataServiceMcpConfig] = None,
         comfyui_config: Optional[ComfyUIConfig] = None,
         connector_definitions: Optional[dict[str, ConnectorDefinition]] = None,
+        connector_descriptor_paths: Optional[list[Path]] = None,
     ) -> None:
         self.core_service = core_service
         self.meeting_config = meeting_config or get_meeting_mcp_config()
         self.funasr_config = funasr_config or get_funasr_mcp_config()
         self.data_service_config = data_service_config or get_data_service_mcp_config()
         self.comfyui_config = comfyui_config or get_comfyui_config()
-        self.connector_definitions = connector_definitions or {
+        self.connector_definitions = dict(connector_definitions or {
             MEETING_VOICE_MCP_CONNECTOR_ID: ConnectorDefinition(
                 connector_id=MEETING_VOICE_MCP_CONNECTOR_ID,
                 record_factory=ConnectorRegistry._meeting_mcp_record,
@@ -134,7 +162,8 @@ class ConnectorRegistry:
                 record_factory=ConnectorRegistry._remote_comfyui_record,
                 health_checker=ConnectorRegistry._check_remote_comfyui_health,
             ),
-        }
+        })
+        self._register_external_descriptor_definitions(connector_descriptor_paths or [])
         self.register_default_connectors()
 
     def register_default_connectors(self) -> None:
@@ -171,6 +200,15 @@ class ConnectorRegistry:
             "connector": record.model_dump(mode="json"),
             "health": health.to_dict(),
         }
+
+    def _register_external_descriptor_definitions(self, paths: list[Path]) -> None:
+        for descriptor_path in _iter_connector_descriptor_paths(paths):
+            descriptor = _load_connector_descriptor(descriptor_path)
+            self.connector_definitions[descriptor.connector_id] = ConnectorDefinition(
+                connector_id=descriptor.connector_id,
+                record_factory=_external_connector_record_factory(descriptor),
+                health_checker=_external_connector_health_checker(descriptor),
+            )
 
     def require_available(self, connector_id: str) -> None:
         """Raise an explainable error if a connector is not available."""
@@ -619,6 +657,257 @@ def _allowed_paths(*paths: Optional[str | Path]) -> list[str]:
                 seen.add(value)
                 allowed.append(value)
     return allowed
+
+
+def _iter_connector_descriptor_paths(paths: list[Path]) -> list[Path]:
+    descriptor_paths: list[Path] = []
+    for raw_path in paths:
+        path = Path(raw_path).expanduser().resolve()
+        if path.is_dir():
+            candidate = path / "descriptor.json"
+            if candidate.exists() and not _connector_descriptor_is_template(candidate):
+                descriptor_paths.append(candidate)
+            for nested in sorted(path.glob("*/descriptor.json")):
+                if _connector_descriptor_is_template(nested):
+                    continue
+                descriptor_paths.append(nested)
+            continue
+        if path.name == "descriptor.json" and path.exists() and not _connector_descriptor_is_template(path):
+            descriptor_paths.append(path)
+    seen: set[Path] = set()
+    result: list[Path] = []
+    for path in descriptor_paths:
+        if path in seen:
+            continue
+        seen.add(path)
+        result.append(path)
+    return result
+
+
+def _connector_descriptor_is_template(path: Path) -> bool:
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return False
+    metadata = data.get("metadata") if isinstance(data, dict) else {}
+    return isinstance(metadata, dict) and metadata.get("template") is True
+
+
+def _load_connector_descriptor(path: Path) -> ExternalConnectorDescriptor:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError(f"Connector descriptor must be an object: {path}")
+    security = data.get("security") or {}
+    if not isinstance(security, dict):
+        raise ValueError("Connector descriptor field security must be an object")
+    health = data.get("health") or {}
+    if not isinstance(health, dict):
+        raise ValueError("Connector descriptor field health must be an object")
+    return ExternalConnectorDescriptor(
+        connector_id=_required_descriptor_str(data, "connector_id"),
+        domain=_optional_descriptor_str(data, "domain"),
+        kind=_required_descriptor_str(data, "kind"),
+        version=_optional_descriptor_str(data, "version") or "0.1.0",
+        descriptor_schema_version=_optional_descriptor_str(data, "descriptor_schema_version") or "1",
+        capabilities=_descriptor_capabilities(data.get("capabilities")),
+        execution_mode=_optional_descriptor_str(data, "execution_mode") or "stub",
+        trust_level=_optional_descriptor_str(data, "trust_level") or "untrusted_local",
+        config_ref=_optional_descriptor_str(data, "config_ref"),
+        app_scope=_descriptor_string_list(data.get("app_scope"), field_name="app_scope"),
+        security=dict(security),
+        health=dict(health),
+        metadata=dict(data.get("metadata") or {}),
+        min_harnessos_version=_optional_descriptor_str(data, "min_harnessos_version") or "",
+        target_harnessos_version=_optional_descriptor_str(data, "target_harnessos_version") or "",
+        descriptor_path=str(path),
+    )
+
+
+def _external_connector_health_checker(descriptor: ExternalConnectorDescriptor) -> Callable[[ConnectorRegistry], ConnectorHealth]:
+    def check(_registry: ConnectorRegistry) -> ConnectorHealth:
+        blocked, degraded, warnings = _connector_version_compatibility(descriptor)
+        required_dependencies = _descriptor_string_list(
+            descriptor.health.get("required_dependencies"),
+            field_name="health.required_dependencies",
+        )
+        optional_dependencies = _descriptor_string_list(
+            descriptor.health.get("optional_dependencies"),
+            field_name="health.optional_dependencies",
+        )
+        missing_required = [
+            dependency for dependency in required_dependencies if not _static_dependency_available(dependency)
+        ]
+        missing_optional = [
+            dependency for dependency in optional_dependencies if not _static_dependency_available(dependency)
+        ]
+        if missing_required:
+            blocked.extend(f"required_dependency:{dependency}" for dependency in missing_required)
+        if missing_optional:
+            degraded.extend(f"optional_dependency:{dependency}" for dependency in missing_optional)
+            warnings.extend(f"Optional dependency is missing: {dependency}" for dependency in missing_optional)
+        details = {
+            "descriptor_path": descriptor.descriptor_path,
+            "descriptor_schema_version": descriptor.descriptor_schema_version,
+            "execution_mode": descriptor.execution_mode,
+            "health_mode": descriptor.health.get("mode", "static"),
+            "blocked_dependencies": blocked,
+            "degraded_dependencies": degraded,
+            "compatibility_warnings": warnings,
+        }
+        if blocked:
+            return ConnectorHealth(
+                status="blocked",
+                message="Connector descriptor is blocked by incompatible versions or missing required dependencies.",
+                details=details,
+            )
+        if degraded:
+            return ConnectorHealth(
+                status="degraded",
+                message="Connector descriptor is available with compatibility warnings.",
+                details=details,
+            )
+        return ConnectorHealth(
+            status=str(descriptor.health.get("status") or "available"),
+            message=str(descriptor.health.get("message") or "Static connector descriptor is available."),
+            details=details,
+        )
+
+    return check
+
+
+def _external_connector_record_factory(
+    descriptor: ExternalConnectorDescriptor,
+) -> Callable[[ConnectorRegistry, ConnectorHealth], ConnectorRecord]:
+    def build(_registry: ConnectorRegistry, health: ConnectorHealth) -> ConnectorRecord:
+        return ConnectorRecord(
+            connector_id=descriptor.connector_id,
+            kind=descriptor.kind,
+            domain=descriptor.domain,
+            version=descriptor.version,
+            health=health.status,
+            trust_level=descriptor.trust_level,
+            execution_mode=descriptor.execution_mode,
+            capabilities={
+                **descriptor.capabilities,
+                "descriptor_schema_version": descriptor.descriptor_schema_version,
+                "health_message": health.message,
+            },
+            config_ref=descriptor.config_ref,
+            secret_ref=None,
+            app_scope=list(descriptor.app_scope),
+            allowed_commands=_descriptor_string_list(
+                descriptor.security.get("allowed_commands"),
+                field_name="security.allowed_commands",
+            ),
+            allowed_paths=_descriptor_string_list(
+                descriptor.security.get("allowed_paths"),
+                field_name="security.allowed_paths",
+            ),
+            allowed_network_hosts=_descriptor_string_list(
+                descriptor.security.get("allowed_network_hosts"),
+                field_name="security.allowed_network_hosts",
+            ),
+            network_policy=str(descriptor.security.get("network_policy") or "none"),
+            tool_risk_defaults=dict(descriptor.security.get("tool_risk_defaults") or {}),
+            requires_approval_for=_descriptor_string_list(
+                descriptor.security.get("requires_approval_for"),
+                field_name="security.requires_approval_for",
+            ),
+            metadata={
+                **dict(descriptor.metadata),
+                "descriptor_path": descriptor.descriptor_path,
+                "min_harnessos_version": descriptor.min_harnessos_version,
+                "target_harnessos_version": descriptor.target_harnessos_version,
+                "health_details": health.details,
+            },
+        )
+
+    return build
+
+
+def _connector_version_compatibility(descriptor: ExternalConnectorDescriptor) -> tuple[list[str], list[str], list[str]]:
+    blocked: list[str] = []
+    degraded: list[str] = []
+    warnings: list[str] = []
+    if descriptor.descriptor_schema_version not in SUPPORTED_CONNECTOR_DESCRIPTOR_SCHEMA_VERSIONS:
+        blocked.append(f"descriptor_schema:{descriptor.descriptor_schema_version}")
+    if descriptor.min_harnessos_version and _compare_versions(descriptor.min_harnessos_version, HARNESSOS_VERSION) > 0:
+        blocked.append(f"min_harnessos_version:{descriptor.min_harnessos_version}")
+    if descriptor.target_harnessos_version and descriptor.target_harnessos_version != HARNESSOS_VERSION:
+        degraded.append(f"target_harnessos_version:{descriptor.target_harnessos_version}")
+        warnings.append(
+            f"Connector target_harnessos_version {descriptor.target_harnessos_version} differs from harnessOS {HARNESSOS_VERSION}."
+        )
+    return blocked, degraded, warnings
+
+
+def _static_dependency_available(dependency: str) -> bool:
+    if dependency == "present":
+        return True
+    if dependency.startswith("command:"):
+        return shutil.which(dependency.removeprefix("command:")) is not None
+    if dependency.startswith("path:"):
+        return Path(dependency.removeprefix("path:")).expanduser().exists()
+    return False
+
+
+def _required_descriptor_str(data: dict[str, Any], field_name: str) -> str:
+    value = data.get(field_name)
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"Connector descriptor field {field_name} is required")
+    return value
+
+
+def _optional_descriptor_str(data: dict[str, Any], field_name: str) -> Optional[str]:
+    value = data.get(field_name)
+    if value is None:
+        return None
+    if not isinstance(value, str):
+        raise ValueError(f"Connector descriptor field {field_name} must be a string")
+    return value
+
+
+def _descriptor_string_list(value: Any, *, field_name: str) -> list[str]:
+    if value is None:
+        return []
+    if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+        raise ValueError(f"Connector descriptor field {field_name} must be a list of strings")
+    return list(value)
+
+
+def _descriptor_capabilities(value: Any) -> dict[str, Any]:
+    if value is None:
+        return {"capabilities": []}
+    if isinstance(value, list) and all(isinstance(item, str) for item in value):
+        return {"capabilities": list(value)}
+    if isinstance(value, dict):
+        return dict(value)
+    raise ValueError("Connector descriptor field capabilities must be a list or object")
+
+
+def _compare_versions(left: str, right: str) -> int:
+    left_parts = _version_parts(left)
+    right_parts = _version_parts(right)
+    if left_parts > right_parts:
+        return 1
+    if left_parts < right_parts:
+        return -1
+    return 0
+
+
+def _version_parts(value: str) -> tuple[int, int, int]:
+    parts = value.split(".")
+    parsed: list[int] = []
+    for item in parts[:3]:
+        digits = ""
+        for char in item:
+            if not char.isdigit():
+                break
+            digits += char
+        parsed.append(int(digits or "0"))
+    while len(parsed) < 3:
+        parsed.append(0)
+    return tuple(parsed[:3])
 
 
 def _host_from_url(url: Optional[str]) -> Optional[str]:

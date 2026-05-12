@@ -1,6 +1,6 @@
 # V3.5 Application Adaptation Layer Development Plan
 
-文档状态：V3.5-MVP implementation baseline with end-to-end SDK+BFF+EventBridge smoke；V3.5-Full planning。
+文档状态：V3.5-MVP complete；V3.5-E1 complete；V3.5-E2 complete；V3.5-F Full BFF Template complete；V3.5-G complete；V3.5-H Embed Contract complete；V3.5-I Reference App complete。V3.5 complete at dev/local Application Adaptation Layer level。
 执行范围：本计划用于后续代码实施；Phase0 只创建 scaffold、机器可读 contract inventory 和验证基线，不修改 Core runtime behavior，不重复验证历史 reference paths。
 
 ## 1. Goal
@@ -15,7 +15,7 @@ V3.5 早期以 dev/local-first 启动。正式外部 App 接入前必须补齐�
 - `approval.respond`
 - REST scope support
 
-V3.5 按 MVP -> Full 两段推进。MVP 当前可声明 `dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke`；只有 Full 完成后才能声明 `V3.5 complete`。
+V3.5 按 MVP -> Full 两段推进。MVP 当前可声明 `dev/local adaptation layer ready with end-to-end SDK+BFF+EventBridge smoke`；Full 当前已完成 reference app，因此可以声明 `V3.5 complete at dev/local Application Adaptation Layer level`。
 
 ## 2. Scope
 
@@ -212,6 +212,8 @@ PR slices：
 
 ### V3.5-E1 TypeScript SDK Core Client
 
+当前状态：已完成。
+
 PR slices：
 
 - `V3.5-E1-PR1`：定义 `sdk/typescript` package layout。
@@ -231,71 +233,96 @@ PR slices：
 
 React hooks 不得先于 EventBridge 和 TS SDK core client 实现。
 
+当前状态：已完成。
+
 PR slices：
 
-- `V3.5-E2-PR1`：定义 hooks package layout。
+- `V3.5-E2-PR1`：定义 React package boundary，通过 `@harnessos/client/react` / `sdk/typescript/src/react` 暴露；core TS SDK import 不强制依赖 React，React 作为 peer dependency。
 - `V3.5-E2-PR2`：定义 hooks：`useHarnessSession`、`useTurn`、`useEvents`、`useArtifacts`、`useJobs`、`useApprovals`。
-- `V3.5-E2-PR3`：定义最小 browser demo。
-- `V3.5-E2-PR4`：定义 hook lifecycle tests。
+- `V3.5-E2-PR3`：定义 hook side-effect policy：session/turn/events 默认不在 mount 时自动启动，`useEvents` 仅在 `enabled=true` 或显式 `connect()` 时打开 stream。
+- `V3.5-E2-PR4`：定义 EventSource lifecycle：native mode 不设置 Authorization header，支持 reconnect、cursor、dedupe、close on unmount，React StrictMode 下不创建重复 live EventSource。
+- `V3.5-E2-PR5`：定义 hook lifecycle、boundary 和 redaction tests。
 
 验收：
 
 - hooks 不依赖业务 legacy 方法。
-- hooks 支持 loading/error/data/reconnect。
+- hooks 只依赖 E1 TS SDK public API，不 import server internals。
+- hooks 支持适配各自场景的状态模型：session/turn/artifacts/jobs/approvals 使用 idle/loading/success/error；events 使用 idle/loading/streaming/reconnecting/error。
 - event hook 基于 V3.5-E1 TS SDK core client，不重新定义协议。
+- `useApprovals` 只调用 `approval.respond`，不暴露 approve/reject 双入口。
+- `useArtifacts` 不默认调用 inline `artifact.read`，`useJobs` 不默认轮询。
+- hook state 和 debug output 不泄露 capability token、subscription token 或 signed URL query。
 
 ### V3.5-F App Gateway / BFF Template
 
 这是 Full 阶段的完整 BFF Template，不是 MVP smoke。
 
+当前状态：已完成。
+
 PR slices：
 
 - `V3.5-F-PR1`：定义 `templates/bff/fastapi` structure。
 - `V3.5-F-PR2`：定义 optional Node template。
-- `V3.5-F-PR3`：定义 RPC proxy、EventSource proxy、approval respond。
-- `V3.5-F-PR4`：定义 CORS、token validation、scope binding。
-- `V3.5-F-PR5`：定义 legacy/debug proxy denylist。
-- `V3.5-F-PR6`：定义业务 identity 到 harnessOS scope/capability token 的绑定样例。
+- `V3.5-F-PR3`：定义 IdentityProvider、ScopeResolver、CapabilityPolicy、ErrorSanitizer 扩展点。
+- `V3.5-F-PR4`：定义 constrained RPC proxy；`/bff/rpc` 默认拒绝 `events.subscribe`。
+- `V3.5-F-PR5`：定义 structured routes、artifact external registration 写权限和 approval respond。
+- `V3.5-F-PR6`：定义 EventSource proxy，透传 Last-Event-ID/cursor，不暴露 upstream subscription token。
+- `V3.5-F-PR7`：定义 CORS/config safety、secret hygiene、legacy/debug proxy denylist。
 
 验收：
 
 - BFF template 不实现完整用户系统。
 - BFF 不代理 forbidden legacy/debug APIs。
+- BFF-side CapabilityPolicy 生效。
+- `/bff/rpc` 默认拒绝 `events.subscribe`。
+- structured routes 覆盖 session、turn、artifact、job、approval、pack、connector。
+- EventSource proxy 透传 Last-Event-ID/cursor 且不泄露 upstream subscription token。
+- Full BFF Template contract 和 E2E tests 全绿。
 - BFF 所有请求绑定 scope。
 - EventSource proxy 保留 event id 和 cursor。
 - native EventSource 可通过 same-origin BFF cookie 或 signed URL 认证。
 
 ### V3.5-G Pack / Connector Template
 
+当前状态：已完成。
+
 PR slices：
 
 - `V3.5-G-PR1`：定义 `templates/pack` structure。
 - `V3.5-G-PR2`：定义 `templates/connector` structure。
-- `V3.5-G-PR3`：定义 dummy pack manifest 和 dummy connector descriptor。
-- `V3.5-G-PR4`：定义 template acceptance tests。
-- `V3.5-G-PR5`：定义 no-Core-change verification。
-- `V3.5-G-PR6`：定义 `manifest_schema_version/min_harnessos_version/target_harnessos_version/compatibility_warnings`。
+- `V3.5-G-PR3`：定义 `tests/fixtures/v3_5/dummy_pack` 和 `tests/fixtures/v3_5/dummy_connector`，作为模板实例化后的 runtime fixture。
+- `V3.5-G-PR4`：定义 template acceptance tests，证明 templates 目录本身不会被 `pack.list` / `connector.health` 自动发现。
+- `V3.5-G-PR5`：定义 no-Core-change verification，dummy discovery 只能来自 external pack path / connector descriptor path，不硬编码 dummy id。
+- `V3.5-G-PR6`：定义 `manifest_schema_version/min_harnessos_version/target_harnessos_version` 兼容规则；`compatibility_warnings` 由 loader / assembly / health result 生成。
 
 验收：
 
-- dummy pack 不改 Core 可被 `pack.list/pack.get` 发现。
-- dummy connector 不改业务 Gateway 可被 `connector.health` 消费。
+- dummy pack 通过 external pack path 显式注入后可被 `pack.list/pack.get` 发现。
+- dummy connector 通过 external descriptor path 显式注入后可被 `connector.health` 消费。
+- templates 目录本身不会被自动发现。
 - connector template 包含 trust level、execution mode、allowed paths/commands/network policy。
 - PackAssemblyResult 暴露 compatibility warnings。
+- Connector discovery 只读取 `descriptor.json`，不执行 `health.py` / `tools.py`。
 
 ### V3.5-H Embed Contract / AgentTalkWindow 前置
 
 PR slices：
 
-- `V3.5-H-PR1`：定义 `EmbedDefinition`。
-- `V3.5-H-PR2`：定义 chat/job/artifact/approval/trace/business event union。
-- `V3.5-H-PR3`：定义 embed bootstrap、scope、token、session handoff。
-- `V3.5-H-PR4`：定义最小 demo contract。
+- `V3.5-H-PR1`：拆分静态 `EmbedDefinition` 与运行时 `EmbedBootstrap`。
+- `V3.5-H-PR2`：定义 `capabilityMode`、`transportMode`、`allowedEventChannels` 和 `allowedActions`。
+- `V3.5-H-PR3`：在 BFF template 中提供 `GET /bff/embed/bootstrap` 示例 route，默认不创建 session，不泄露 upstream subscription token。
+- `V3.5-H-PR4`：定义 chat/job/artifact/approval/trace/business event union，并与 `EVENT_SCHEMAS` 对齐。
+- `V3.5-H-PR5`：新增 `sdk/typescript/src/embed.ts`，只导出类型和轻量 validation helper。
+- `V3.5-H-PR6`：新增平台中立 `examples/embed_contract_demo` fixture。
 
 验收：
 
 - 未来 AgentTalkWindow 只依赖 contract，不依赖 Gateway 内部对象。
-- blocked、approval-required、failed、fallback、completed 状态可被 UI 区分。
+- `EmbedDefinition` 不包含 token/session/eventsourceUrl。
+- `EmbedBootstrap` 不泄露 upstream `subscription_token`，默认返回 BFF-local EventSource URL。
+- allowed actions 不包含 approve/reject、Meeting/Knowledge、scope_mode=all 或 debug/admin methods。
+- trace channel 默认关闭。
+- blocked、approval-required、auth-required、subscription-expired、failed、completed 状态可被 UI 区分。
 
 ### V3.5-I Reference App Example
 

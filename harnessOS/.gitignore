@@ -3,6 +3,8 @@ tui_error.log
 tui_debug.log
 __pycache__/
 *.pyc
+node_modules/
+dist/
 .harnessos/
 .DS_Store
 **/.DS_Store
@@ -10,4 +12,5 @@ __pycache__/
 examples/*
 !examples/reference_app/
 !examples/reference_app/**
+examples/reference_app/**/node_modules/
 harnessOS/openharness

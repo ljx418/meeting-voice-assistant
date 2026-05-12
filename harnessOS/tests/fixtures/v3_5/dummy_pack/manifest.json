@@ -1,0 +1,63 @@
+{
+  "name": "dummy_pack",
+  "domain": "dummy",
+  "version": "0.1.0",
+  "manifest_schema_version": "1",
+  "min_harnessos_version": "3.5.0",
+  "target_harnessos_version": "3.5.0",
+  "description": "Platform-neutral dummy pack fixture for V3.5-G.",
+  "status": "active",
+  "workflows": [
+    "dummy.workflow"
+  ],
+  "workflow_dsl": {
+    "dummy.workflow": {
+      "entrypoint": "tests.fixtures.v3_5.dummy_pack.workflows:DummyWorkflow",
+      "steps": [
+        {
+          "id": "run",
+          "type": "connector",
+          "connector": "dummy_connector"
+        },
+        {
+          "id": "result",
+          "type": "artifact",
+          "kind": "result"
+        }
+      ]
+    }
+  },
+  "skills": [
+    "dummy-skill"
+  ],
+  "policy_bundles": [
+    "dummy.default"
+  ],
+  "connectors": [
+    "dummy_connector"
+  ],
+  "connector_capabilities": {
+    "dummy_connector": {
+      "capabilities": [
+        "dummy.run"
+      ],
+      "tools": [
+        "dummy_tool"
+      ]
+    }
+  },
+  "artifact_kinds": [
+    "result"
+  ],
+  "artifact_schemas": {
+    "result": {
+      "mime": "application/json",
+      "parents": []
+    }
+  },
+  "metadata": {
+    "fixture": true,
+    "pack_id_alias": "dummy_pack",
+    "target_version": "3.0"
+  }
+}

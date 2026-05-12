@@ -8,6 +8,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional, TYPE_CHECKING
 
+from core.protocol.version import HARNESSOS_VERSION
+
 if TYPE_CHECKING:
     from core.apps import AppRegistry
 
@@ -50,6 +52,8 @@ class DomainPackManifest:
     connector_capabilities: dict[str, Any] = field(default_factory=dict)
     memory_scopes: dict[str, Any] = field(default_factory=dict)
     evaluation_rules: dict[str, Any] = field(default_factory=dict)
+    min_harnessos_version: str = ""
+    target_harnessos_version: str = ""
 
     @classmethod
     def from_mapping(cls, data: dict[str, Any], *, manifest_path: Optional[Path] = None) -> "DomainPackManifest":
@@ -77,6 +81,8 @@ class DomainPackManifest:
             ),
             memory_scopes=_mapping(data.get("memory_scopes"), field_name="memory_scopes"),
             evaluation_rules=_mapping(data.get("evaluation_rules"), field_name="evaluation_rules"),
+            min_harnessos_version=_optional_str(data, "min_harnessos_version") or "",
+            target_harnessos_version=_optional_str(data, "target_harnessos_version") or "",
             risk_profile=_optional_str(data, "risk_profile") or "standard",
             manifest_path=str(manifest_path) if manifest_path else None,
             metadata=dict(data.get("metadata") or {}),
@@ -106,6 +112,8 @@ class DomainPackManifest:
             "connector_capabilities": dict(self.connector_capabilities),
             "memory_scopes": dict(self.memory_scopes),
             "evaluation_rules": dict(self.evaluation_rules),
+            "min_harnessos_version": self.min_harnessos_version,
+            "target_harnessos_version": self.target_harnessos_version,
             "risk_profile": self.risk_profile,
             "manifest_path": self.manifest_path,
             "metadata": dict(self.metadata),
@@ -137,6 +145,7 @@ class PackAssemblyResult:
     memory_scopes: dict[str, Any] = field(default_factory=dict)
     evaluation_rules: dict[str, Any] = field(default_factory=dict)
     next_actions: tuple[str, ...] = ()
+    compatibility_warnings: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable assembly view."""
@@ -163,6 +172,7 @@ class PackAssemblyResult:
             "memory_scopes": dict(self.memory_scopes),
             "evaluation_rules": dict(self.evaluation_rules),
             "next_actions": list(self.next_actions),
+            "compatibility_warnings": list(self.compatibility_warnings),
         }
 
 
@@ -209,6 +219,8 @@ class PackRegistry:
                 continue
             for manifest_path in sorted(root.glob("*/manifest.json")):
                 data = json.loads(manifest_path.read_text(encoding="utf-8"))
+                if _manifest_is_template(data):
+                    continue
                 manifests.append(DomainPackManifest.from_mapping(data, manifest_path=manifest_path))
         return cls(manifests)
 
@@ -315,6 +327,7 @@ class PackRegistry:
             "memory_scopes": manifest.memory_scopes,
             "evaluation_rules": manifest.evaluation_rules,
         }
+        compatibility = _manifest_version_compatibility(manifest)
         if manifest.status != "active":
             return PackAssemblyResult(
                 pack_name=manifest.name,
@@ -360,16 +373,19 @@ class PackRegistry:
                 if schema_supported
                 else [f"manifest_schema:{manifest.manifest_schema_version}"]
             )
+            + compatibility["blocked"]
             + external_pack_version_status["blocked"]
             + [f"connector:{connector}" for connector in missing_connectors]
             + app_profile_connector_gaps
             + [f"workflow:{workflow_id}" for workflow_id in unsupported_workflows]
         )
         degraded_dependencies = tuple(
-            external_pack_version_status["degraded"]
+            compatibility["degraded"]
+            + external_pack_version_status["degraded"]
             + missing_capabilities
             + [f"policy_bundle:{policy_bundle}" for policy_bundle in missing_policy_bundles]
         )
+        compatibility_warnings = tuple(compatibility["warnings"])
         if missing_dependencies or conflicts:
             next_actions = _dedupe_preserve_order(
                 list(_next_action_for_dependency(dependency) for dependency in missing_dependencies)
@@ -387,6 +403,7 @@ class PackRegistry:
                     conflicts=conflicts,
                 ),
                 next_actions=next_actions,
+                compatibility_warnings=compatibility_warnings,
                 **assembly_view,
             )
         if degraded_dependencies or invalid_workflow_templates:
@@ -406,6 +423,7 @@ class PackRegistry:
                     conflicts=tuple(invalid_workflow_templates),
                 ),
                 next_actions=next_actions,
+                compatibility_warnings=compatibility_warnings,
                 **assembly_view,
             )
         return PackAssemblyResult(
@@ -414,6 +432,7 @@ class PackRegistry:
             domain=manifest.domain,
             status="assembled",
             registered_workflows=manifest.workflows,
+            compatibility_warnings=compatibility_warnings,
             **assembly_view,
         )
 
@@ -545,6 +564,11 @@ def _mapping_list(value: Any, *, field_name: str, required_key: str) -> list[dic
     return items
 
 
+def _manifest_is_template(data: dict[str, Any]) -> bool:
+    metadata = data.get("metadata") or {}
+    return isinstance(metadata, dict) and metadata.get("template") is True
+
+
 def _missing_connector_capabilities(
     *,
     required: dict[str, Any],
@@ -603,6 +627,16 @@ def _invalid_workflow_templates(workflow_templates: dict[str, Any]) -> list[str]
 
 
 def _next_action_for_dependency(dependency: str) -> str:
+    if dependency.startswith("min_harnessos_version:"):
+        return (
+            f"Use a pack with min_harnessos_version <= {HARNESSOS_VERSION} "
+            f"(current {dependency.removeprefix('min_harnessos_version:')})."
+        )
+    if dependency.startswith("target_harnessos_version:"):
+        return (
+            f"Review pack target_harnessos_version against {HARNESSOS_VERSION} "
+            f"(current {dependency.removeprefix('target_harnessos_version:')})."
+        )
     if dependency.startswith("workflow_template:"):
         return f"Fix Pack workflow template dependency {dependency}."
     if dependency.startswith("connector_capability:"):
@@ -683,6 +717,8 @@ def _blocked_reason(
             return "Pack is blocked by missing or disabled connectors."
         if any(dependency.startswith("target_version:") for dependency in missing_dependencies):
             return "Pack is blocked by an incompatible external pack target_version."
+        if any(dependency.startswith("min_harnessos_version:") for dependency in missing_dependencies):
+            return "Pack is blocked by an incompatible min_harnessos_version."
         if any(dependency.startswith("workflow:") for dependency in missing_dependencies):
             return "Pack is blocked by unsupported workflow registration."
         return "Pack has blocked assembly dependencies."
@@ -699,6 +735,8 @@ def _degraded_reason(
     if missing_dependencies:
         if missing_dependencies == ("target_version:missing",):
             return "Pack is degraded because metadata.target_version is not declared."
+        if any(dependency.startswith("target_harnessos_version:") for dependency in missing_dependencies):
+            return "Pack is degraded by target_harnessos_version compatibility warnings."
         if all(dependency.startswith("policy_bundle:") for dependency in missing_dependencies):
             return "Pack is degraded by missing policy bundles."
         if all(dependency.startswith("connector_capability:") for dependency in missing_dependencies):
@@ -727,3 +765,42 @@ def _external_pack_target_version_status(manifest: DomainPackManifest) -> dict[s
     if target_version != CURRENT_PACK_TARGET_VERSION:
         blocked.append(f"target_version:{target_version}")
     return {"blocked": blocked, "degraded": degraded}
+
+
+def _manifest_version_compatibility(manifest: DomainPackManifest) -> dict[str, list[str]]:
+    blocked: list[str] = []
+    degraded: list[str] = []
+    warnings: list[str] = []
+    if manifest.min_harnessos_version and _compare_versions(manifest.min_harnessos_version, HARNESSOS_VERSION) > 0:
+        blocked.append(f"min_harnessos_version:{manifest.min_harnessos_version}")
+    if manifest.target_harnessos_version and manifest.target_harnessos_version != HARNESSOS_VERSION:
+        degraded.append(f"target_harnessos_version:{manifest.target_harnessos_version}")
+        warnings.append(
+            f"Pack target_harnessos_version {manifest.target_harnessos_version} differs from harnessOS {HARNESSOS_VERSION}."
+        )
+    return {"blocked": blocked, "degraded": degraded, "warnings": warnings}
+
+
+def _compare_versions(left: str, right: str) -> int:
+    left_parts = _version_parts(left)
+    right_parts = _version_parts(right)
+    if left_parts > right_parts:
+        return 1
+    if left_parts < right_parts:
+        return -1
+    return 0
+
+
+def _version_parts(value: str) -> tuple[int, int, int]:
+    parts = value.split(".")
+    parsed: list[int] = []
+    for item in parts[:3]:
+        digits = ""
+        for char in item:
+            if not char.isdigit():
+                break
+            digits += char
+        parsed.append(int(digits or "0"))
+    while len(parsed) < 3:
+        parsed.append(0)
+    return tuple(parsed[:3])

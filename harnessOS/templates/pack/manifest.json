@@ -1,0 +1,51 @@
+{
+  "name": "replace_me_pack",
+  "domain": "replace_me",
+  "version": "0.1.0",
+  "manifest_schema_version": "1",
+  "min_harnessos_version": "3.5.0",
+  "target_harnessos_version": "3.5.0",
+  "description": "Template pack scaffold. Copy before use; templates are not runtime instances.",
+  "status": "active",
+  "workflows": [
+    "replace_me.workflow"
+  ],
+  "workflow_dsl": {
+    "replace_me.workflow": {
+      "entrypoint": "packs.replace_me.workflows:ReplaceMeWorkflow",
+      "steps": []
+    }
+  },
+  "skills": [
+    "replace-me-skill"
+  ],
+  "policy_bundles": [
+    "replace_me.default"
+  ],
+  "connectors": [
+    "replace_me_connector"
+  ],
+  "connector_capabilities": {
+    "replace_me_connector": {
+      "capabilities": [
+        "replace_me.run"
+      ],
+      "tools": [
+        "replace_me_tool"
+      ]
+    }
+  },
+  "artifact_kinds": [
+    "result"
+  ],
+  "artifact_schemas": {
+    "result": {
+      "mime": "application/json",
+      "parents": []
+    }
+  },
+  "metadata": {
+    "template": true,
+    "pack_id_alias": "replace_me_pack"
+  }
+}

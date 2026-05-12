@@ -51,6 +51,14 @@ def test_scaffold_dirs_are_readme_or_scaffold_only() -> None:
                     "protocol_snapshot.py",
                 }
             )
+        if relative == "sdk/typescript":
+            directory_allowed.update(
+                {
+                    "package.json",
+                    "package-lock.json",
+                    "tsconfig.json",
+                }
+            )
         if relative == "templates/bff/fastapi_minimal":
             directory_allowed.update(
                 {
@@ -62,11 +70,32 @@ def test_scaffold_dirs_are_readme_or_scaffold_only() -> None:
                     "scope_binding.py",
                 }
             )
+        if relative == "templates/bff/fastapi":
+            directory_allowed.update(
+                {
+                    ".env.example",
+                    "app.py",
+                    "capability_policy.py",
+                    "config.example.json",
+                    "errors.py",
+                    "event_proxy.py",
+                    "harnessos.py",
+                    "identity.py",
+                    "rpc_proxy.py",
+                    "scope_binding.py",
+                    "security.py",
+                    "settings.py",
+                }
+            )
+        if relative == "templates/pack":
+            directory_allowed.add("manifest.json")
+        if relative == "templates/connector":
+            directory_allowed.update({"descriptor.json", "health.py", "tools.py"})
         files = {path.name for path in (ROOT / relative).iterdir() if path.is_file()}
         assert files <= directory_allowed, f"{relative}: {files - directory_allowed}"
 
 
-def test_python_sdk_is_importable_after_v3_5_d_but_typescript_remains_scaffold_only() -> None:
+def test_python_and_typescript_sdks_are_importable_at_their_current_phases() -> None:
     import sys
 
     package_dir = ROOT / "sdk/python/harnessos_client"
@@ -80,7 +109,9 @@ def test_python_sdk_is_importable_after_v3_5_d_but_typescript_remains_scaffold_o
     assert "HarnessOSClient" in harnessos_client.__all__
     assert "MeetingClient" not in harnessos_client.__all__
     assert "KnowledgeClient" not in harnessos_client.__all__
-    assert not (ROOT / "sdk/typescript/src").exists()
+    assert (ROOT / "sdk/typescript/src/index.ts").exists()
+    assert (ROOT / "sdk/typescript/src/react/index.ts").exists()
+    assert not (ROOT / "sdk/typescript/src/hooks.ts").exists()
 
 
 def test_phase0_baseline_doc_has_required_fields() -> None:

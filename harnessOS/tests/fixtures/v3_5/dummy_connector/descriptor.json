@@ -1,0 +1,43 @@
+{
+  "descriptor_schema_version": "1",
+  "connector_id": "dummy_connector",
+  "domain": "dummy",
+  "kind": "template_stub",
+  "version": "0.1.0",
+  "min_harnessos_version": "3.5.0",
+  "target_harnessos_version": "3.5.0",
+  "app_scope": [
+    "dummy"
+  ],
+  "capabilities": {
+    "capabilities": [
+      "dummy.run"
+    ],
+    "tools": [
+      "dummy_tool"
+    ]
+  },
+  "execution_mode": "stub",
+  "trust_level": "trusted_local",
+  "config_ref": "connectors.dummy_connector",
+  "health": {
+    "mode": "static",
+    "status": "available",
+    "message": "Dummy connector descriptor is available."
+  },
+  "security": {
+    "allowed_commands": [],
+    "allowed_paths": [],
+    "allowed_network_hosts": [],
+    "network_policy": "none",
+    "tool_risk_defaults": {
+      "read_only": true,
+      "destructive": false,
+      "external_side_effect": false
+    },
+    "requires_approval_for": []
+  },
+  "metadata": {
+    "fixture": true
+  }
+}

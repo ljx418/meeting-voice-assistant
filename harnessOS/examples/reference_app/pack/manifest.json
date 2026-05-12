@@ -1,0 +1,64 @@
+{
+  "name": "reference_app_pack",
+  "domain": "reference_app",
+  "version": "0.1.0",
+  "manifest_schema_version": "1",
+  "min_harnessos_version": "3.5.0",
+  "target_harnessos_version": "3.5.0",
+  "description": "Platform-neutral reference app pack fixture.",
+  "status": "active",
+  "workflows": [
+    "reference_app.workflow"
+  ],
+  "workflow_dsl": {
+    "reference_app.workflow": {
+      "entrypoint": "examples.reference_app.workflow:ReferenceWorkflow",
+      "steps": [
+        {
+          "id": "submit",
+          "type": "connector",
+          "connector": "reference_app_connector"
+        },
+        {
+          "id": "result",
+          "type": "artifact",
+          "kind": "result"
+        }
+      ]
+    }
+  },
+  "skills": [
+    "reference-app-skill"
+  ],
+  "policy_bundles": [
+    "reference_app.default"
+  ],
+  "connectors": [
+    "reference_app_connector"
+  ],
+  "connector_capabilities": {
+    "reference_app_connector": {
+      "capabilities": [
+        "reference.run"
+      ],
+      "tools": [
+        "reference_tool"
+      ]
+    }
+  },
+  "artifact_kinds": [
+    "result"
+  ],
+  "artifact_schemas": {
+    "result": {
+      "mime": "application/json",
+      "parents": []
+    }
+  },
+  "metadata": {
+    "fixture": true,
+    "pack_id_alias": "reference_app_pack",
+    "target_version": "3.0"
+  }
+}
+
