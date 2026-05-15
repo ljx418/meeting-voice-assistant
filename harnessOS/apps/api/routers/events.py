@@ -39,6 +39,13 @@ async def subscribe_events(
         subscription_token = params.get("subscription_token")
         if subscription_token:
             claims = verify_subscription_token(subscription_token)
+            origin = request.headers.get("origin")
+            if origin and claims.allowed_origins and origin not in set(claims.allowed_origins):
+                raise ProtocolError(
+                    "AUTH_FORBIDDEN",
+                    "Origin is not allowed for this event subscription.",
+                    {"reason": "subscription_origin_mismatch"},
+                )
             requested_scope = _scope_from_params(params)
             if requested_scope is not None and requested_scope != claims.scope:
                 raise ProtocolError(
@@ -68,7 +75,7 @@ async def subscribe_events(
 
     filters = {
         key: params.get(key)
-        for key in ("session_id", "turn_id", "job_id", "artifact_id", "approval_id", "trace_id")
+        for key in ("session_id", "turn_id", "job_id", "artifact_id", "approval_id", "trace_id", "workflow_instance_id", "workflow_patch_id")
         if params.get(key)
     }
     follow = _truthy(params.get("follow"))
@@ -76,15 +83,35 @@ async def subscribe_events(
     max_heartbeats = _int_param(params.get("max_heartbeats"))
 
     async def event_source():
-        for event in collect_event_envelopes(gateway, scope=scope, channels=channels, filters=filters):
-            sequence = read_event_cursor(event["cursor"], scope)
-            if sequence > start_sequence:
-                yield sse_frame(event)
+        last_sequence = start_sequence
+        sent_keys: set[tuple[str, str]] = set()
+        events, last_sequence = _collect_unsent_events(
+            gateway,
+            scope=scope,
+            channels=channels,
+            filters=filters,
+            last_sequence=last_sequence,
+            sent_keys=sent_keys,
+        )
+        for event in events:
+            yield sse_frame(event)
         if not follow:
             return
         sent_heartbeats = 0
         while True:
             await asyncio.sleep(max(heartbeat_interval, 0.01))
+            events, last_sequence = _collect_unsent_events(
+                gateway,
+                scope=scope,
+                channels=channels,
+                filters=filters,
+                last_sequence=last_sequence,
+                sent_keys=sent_keys,
+            )
+            if events:
+                for event in events:
+                    yield sse_frame(event)
+                continue
             yield heartbeat_frame()
             sent_heartbeats += 1
             if max_heartbeats is not None and sent_heartbeats >= max_heartbeats:
@@ -95,6 +122,28 @@ async def subscribe_events(
     if auth is not None:
         add_dev_warning(response, auth)
     return response
+
+
+def _collect_unsent_events(
+    gateway: GatewayService,
+    *,
+    scope: ScopeContext,
+    channels: list[str],
+    filters: dict[str, Any],
+    last_sequence: int,
+    sent_keys: set[tuple[str, str]],
+) -> tuple[list[dict[str, Any]], int]:
+    """Return replay/follow events newer than the last emitted cursor."""
+    events: list[dict[str, Any]] = []
+    current_sequence = last_sequence
+    for event in collect_event_envelopes(gateway, scope=scope, channels=channels, filters=filters):
+        sequence = read_event_cursor(event["cursor"], scope)
+        key = (str(event.get("channel") or ""), str(event.get("event_id") or ""))
+        if sequence > current_sequence and key not in sent_keys:
+            events.append(event)
+            current_sequence = max(current_sequence, sequence)
+            sent_keys.add(key)
+    return events, current_sequence
 
 
 def _scope_from_params(params: dict[str, Any]) -> ScopeContext | None:

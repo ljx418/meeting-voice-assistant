@@ -2,6 +2,8 @@
 
 文档状态：V3.5-MVP complete；V3.5-E1 TypeScript SDK Core Client complete；V3.5-E2 React Hooks complete；V3.5-F Full BFF Template complete；V3.5-G Pack / Connector Template complete；V3.5-H Embed Contract complete；V3.5-I Reference App complete。V3.5 complete at dev/local Application Adaptation Layer level。
 
+下一阶段：V3.6 规划位于 `../V3.6/`。V3.6 以 V3.5 为冻结基线，目标是 Workflow Runtime Contract & Pipeline Operating Model，不回写 V3.5 完成口径。
+
 ## Positioning
 
 V3.5 的目标是在 Product UI / external business app 与 harnessOS Protocol App Server / Core 之间建立 Application Adaptation Layer。当前文档只描述 V3.5 规划和验收，不展开历史阶段实现细节。

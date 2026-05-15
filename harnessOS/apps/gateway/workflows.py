@@ -15,7 +15,6 @@ from apps.gateway.connectors import ConnectorRegistry
 from core.apps import ScopeContext
 from core.apps.profiles import AppRegistry
 from core.packs import PackAssemblyResult, PackRegistry
-from packs.meeting.workflow import MeetingWorkflow
 
 
 AVAILABLE_CONNECTOR_CAPABILITIES = {
@@ -242,7 +241,7 @@ class MeetingDomainWorkflow:
     domain = "meeting"
     priority = 100
 
-    def __init__(self, workflow: MeetingWorkflow) -> None:
+    def __init__(self, workflow: Any) -> None:
         self.workflow = workflow
 
     def should_handle(self, user_input: str, context: WorkflowContext) -> bool:
@@ -260,7 +259,7 @@ class MeetingDomainWorkflow:
 
 
 def build_default_orchestrator(
-    meeting_workflow: MeetingWorkflow,
+    meeting_workflow: Any | None = None,
     *,
     pack_registry: Optional[PackRegistry] = None,
     connector_registry: Optional[ConnectorRegistry] = None,
@@ -289,7 +288,7 @@ def build_default_orchestrator(
             connector_execution_runtime=connector_execution_runtime,
         ):
             registry.register(workflow)
-    else:
+    elif meeting_workflow is not None:
         for workflow in _load_pack_declared_workflows(
             pack_registry=pack_registry,
             assemblies=assemblies,
@@ -340,10 +339,12 @@ def build_pack_assembly_inputs(
 
 
 def _fallback_workflows(
-    meeting_workflow: MeetingWorkflow,
+    meeting_workflow: Any | None,
     *,
     connector_execution_runtime: Optional[ConnectorExecutionRuntime] = None,
 ) -> list[DomainWorkflow]:
+    if meeting_workflow is None:
+        return []
     from packs.knowledge.workflow import KnowledgeWorkflow
     from packs.video_studio.workflow import VideoStudioWorkflow
 
@@ -360,7 +361,7 @@ def _load_pack_declared_workflows(
     *,
     pack_registry: PackRegistry,
     assemblies: list[PackAssemblyResult],
-    meeting_workflow: MeetingWorkflow,
+    meeting_workflow: Any | None,
     connector_execution_runtime: Optional[ConnectorExecutionRuntime] = None,
 ) -> list[DomainWorkflow]:
     workflows: list[DomainWorkflow] = []
@@ -409,7 +410,7 @@ def _instantiate_pack_workflow(
     *,
     entrypoint: str,
     manifest_path: Optional[str],
-    meeting_workflow: MeetingWorkflow,
+    meeting_workflow: Any | None,
     connector_execution_runtime: Optional[ConnectorExecutionRuntime] = None,
 ) -> Any:
     module_name, _, symbol_name = entrypoint.partition(":")
@@ -419,7 +420,7 @@ def _instantiate_pack_workflow(
     module = importlib.import_module(module_name)
     symbol = getattr(module, symbol_name)
 
-    if inspect.isclass(symbol) and isinstance(meeting_workflow, symbol):
+    if meeting_workflow is not None and inspect.isclass(symbol) and isinstance(meeting_workflow, symbol):
         return meeting_workflow
 
     if not inspect.isclass(symbol):

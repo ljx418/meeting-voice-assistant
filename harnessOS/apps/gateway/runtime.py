@@ -21,7 +21,6 @@ from core.apps import AppRegistry, ScopeContext, build_default_app_registry
 from core.packs import PackRegistry, build_default_pack_registry
 from core.services import CoreAppService
 from core.stores import CoreSQLiteStore
-from packs.meeting.workflow import MeetingWorkflow
 from core.runtime_adapter import (
     OpenHarnessRuntimeAdapter,
     RuntimeAdapter,
@@ -80,7 +79,7 @@ class GatewayRuntimePool:
         runtime_factory: Optional[RuntimeBundleFactory] = None,
         runtime_backend: str = "auto",
         store: Optional[GatewaySessionStore] = None,
-        meeting_workflow: Optional[MeetingWorkflow] = None,
+        meeting_workflow: Optional[Any] = None,
         artifact_registry: Optional[ArtifactRegistry] = None,
         trace_store: Optional[TraceStore] = None,
         approval_store: Optional[ApprovalStore] = None,
@@ -118,7 +117,7 @@ class GatewayRuntimePool:
             trace_store=self._trace_store,
             approval_store=self._approval_store,
         )
-        self._meeting_workflow = meeting_workflow or MeetingWorkflow(
+        self._meeting_workflow = meeting_workflow or _build_default_meeting_workflow(
             artifact_registry=self._artifact_registry,
             connector_registry=self._connector_registry,
             connector_execution_runtime=self._connector_execution_runtime,
@@ -1270,6 +1269,23 @@ def _default_model() -> str:
         or os.getenv("DEEP_AGENTS_MODEL")
         or os.getenv("OPENHARNESS_MODEL")
         or "deepseek-chat"
+    )
+
+
+def _build_default_meeting_workflow(
+    *,
+    artifact_registry: ArtifactRegistry,
+    connector_registry: ConnectorRegistry,
+    connector_execution_runtime: ConnectorExecutionRuntime,
+) -> Any | None:
+    try:
+        from packs.meeting.workflow import MeetingWorkflow
+    except Exception:
+        return None
+    return MeetingWorkflow(
+        artifact_registry=artifact_registry,
+        connector_registry=connector_registry,
+        connector_execution_runtime=connector_execution_runtime,
     )
 
 

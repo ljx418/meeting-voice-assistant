@@ -147,6 +147,103 @@ class ApprovalStore:
 
         return update_json_list_locked(self.index_path, decide, ApprovalError)
 
+    def begin_workflow_side_effect(self, approval_id: str) -> tuple[dict[str, Any], str]:
+        """Atomically reserve workflow approval side-effect execution.
+
+        Returns a marker state:
+        - reserved: caller owns side-effect execution
+        - applied: side effect already completed
+        - applying: another caller is applying it
+        - inactive: workflow binding is inactive
+        """
+
+        def reserve(records: list[dict[str, Any]]) -> tuple[dict[str, Any], str]:
+            for index, record in enumerate(records):
+                if record.get("approval_id") != approval_id:
+                    continue
+                metadata = dict(record.get("metadata") or {})
+                binding = dict(metadata.get("workflow_binding") or {})
+                if not binding:
+                    return dict(record), "none"
+                if binding.get("active") is False:
+                    return dict(record), "inactive"
+                current = str(binding.get("workflow_side_effect_status") or "pending")
+                if current == "applied":
+                    return dict(record), "applied"
+                if current == "applying":
+                    return dict(record), "applying"
+                if current not in {"pending", "failed"}:
+                    current = "pending"
+                binding["workflow_side_effect_status"] = "applying"
+                binding["workflow_side_effect_error"] = None
+                metadata["workflow_binding"] = mask_value(binding)
+                updated = dict(record)
+                updated["metadata"] = mask_value(metadata)
+                records[index] = updated
+                return updated, "reserved"
+            raise KeyError(f"Approval not found: {approval_id}")
+
+        return update_json_list_locked(self.index_path, reserve, ApprovalError)
+
+    def mark_workflow_side_effect(
+        self,
+        approval_id: str,
+        *,
+        status: str,
+        error: Optional[str] = None,
+    ) -> dict[str, Any]:
+        """Update a workflow approval side-effect marker."""
+        if status not in {"pending", "applying", "applied", "failed"}:
+            raise ApprovalError(f"Unsupported workflow side-effect status: {status}")
+
+        def mark(records: list[dict[str, Any]]) -> dict[str, Any]:
+            for index, record in enumerate(records):
+                if record.get("approval_id") != approval_id:
+                    continue
+                metadata = dict(record.get("metadata") or {})
+                binding = dict(metadata.get("workflow_binding") or {})
+                if not binding:
+                    return dict(record)
+                binding["workflow_side_effect_status"] = status
+                binding["workflow_side_effect_error"] = mask_text(error) if error else None
+                metadata["workflow_binding"] = mask_value(binding)
+                updated = dict(record)
+                updated["metadata"] = mask_value(metadata)
+                records[index] = updated
+                return updated
+            raise KeyError(f"Approval not found: {approval_id}")
+
+        return update_json_list_locked(self.index_path, mark, ApprovalError)
+
+    def update_workflow_binding(self, approval_id: str, updates: dict[str, Any]) -> dict[str, Any]:
+        """Merge workflow binding metadata updates for one approval."""
+
+        def update(records: list[dict[str, Any]]) -> dict[str, Any]:
+            for index, record in enumerate(records):
+                if record.get("approval_id") != approval_id:
+                    continue
+                metadata = dict(record.get("metadata") or {})
+                binding = dict(metadata.get("workflow_binding") or {})
+                binding.update(updates)
+                metadata["workflow_binding"] = mask_value(binding)
+                updated = dict(record)
+                updated["metadata"] = mask_value(metadata)
+                records[index] = updated
+                return updated
+            raise KeyError(f"Approval not found: {approval_id}")
+
+        return update_json_list_locked(self.index_path, update, ApprovalError)
+
+    def deactivate_workflow_binding(self, approval_id: str, *, reason: str) -> dict[str, Any]:
+        """Mark a workflow-bound approval inactive without deciding it."""
+        return self.update_workflow_binding(
+            approval_id,
+            {
+                "active": False,
+                "inactive_reason": mask_text(reason),
+            },
+        )
+
     def _decide(self, approval_id: str, *, status: str, reason: Optional[str]) -> dict[str, Any]:
         def decide(records: list[dict[str, Any]]) -> dict[str, Any]:
             for index, record in enumerate(records):

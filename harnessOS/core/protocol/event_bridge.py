@@ -20,14 +20,16 @@ from core.protocol.schemas.errors import ProtocolError
 
 
 DEFAULT_CHANNELS = ("chat", "job", "artifact", "approval")
-SUPPORTED_CHANNELS = ("chat", "job", "artifact", "approval", "trace", "business")
+SUPPORTED_CHANNELS = ("chat", "job", "artifact", "approval", "trace", "business", "workflow_context", "workflow_patch")
 CHANNEL_CAPABILITIES = {
     "chat": {"events", "turns"},
     "job": {"events", "jobs"},
     "artifact": {"events", "artifacts"},
     "approval": {"events", "approvals"},
     "trace": {"events", "traces.read"},
-    "business": {"events"},
+    "business": {"events", "business_events.read"},
+    "workflow_context": {"events", "workflow_context.read"},
+    "workflow_patch": {"events", "workflow_patches.read"},
 }
 
 
@@ -118,6 +120,12 @@ def collect_event_envelopes(
         records.extend(_approval_events(gateway, scope=scope, filters=filters))
     if "trace" in channel_set:
         records.extend(_trace_events(gateway, scope=scope, filters=filters))
+    if "business" in channel_set:
+        records.extend(_business_events(gateway, scope=scope, filters=filters))
+    if "workflow_context" in channel_set:
+        records.extend(_workflow_context_events(gateway, scope=scope, filters=filters))
+    if "workflow_patch" in channel_set:
+        records.extend(_workflow_patch_events(gateway, scope=scope, filters=filters))
     records = _dedupe(records)
     records.sort(key=lambda event: (str(event.get("timestamp") or ""), str(event.get("event_id") or "")))
     for index, event in enumerate(records):
@@ -268,6 +276,11 @@ def _approval_events(gateway: Any, *, scope: ScopeContext, filters: dict[str, An
             "approved": "approval.approved",
             "rejected": "approval.rejected",
         }.get(str(raw.get("status") or ""), "approval.required")
+        data = dict(raw)
+        metadata = data.get("metadata") if isinstance(data.get("metadata"), dict) else {}
+        workflow_binding = metadata.get("workflow_binding") if isinstance(metadata, dict) else None
+        if isinstance(workflow_binding, dict):
+            data["workflow_binding"] = dict(workflow_binding)
         events.append(
             _envelope(
                 event_id=f"approval:{raw.get('approval_id')}:{event_type}",
@@ -279,7 +292,7 @@ def _approval_events(gateway: Any, *, scope: ScopeContext, filters: dict[str, An
                 turn_id=raw.get("turn_id"),
                 approval_id=raw.get("approval_id"),
                 trace_id=raw.get("trace_id"),
-                data=raw,
+                data=data,
             )
         )
     return events
@@ -313,6 +326,83 @@ def _trace_events(gateway: Any, *, scope: ScopeContext, filters: dict[str, Any])
     return events
 
 
+def _business_events(gateway: Any, *, scope: ScopeContext, filters: dict[str, Any]) -> list[dict[str, Any]]:
+    return _workflow_trace_backed_events(
+        gateway,
+        scope=scope,
+        filters=filters,
+        event_type="business.event.received",
+        channel="business",
+    )
+
+
+def _workflow_context_events(gateway: Any, *, scope: ScopeContext, filters: dict[str, Any]) -> list[dict[str, Any]]:
+    return _workflow_trace_backed_events(
+        gateway,
+        scope=scope,
+        filters=filters,
+        event_type="workflow.context.updated",
+        channel="workflow_context",
+    )
+
+
+def _workflow_patch_events(gateway: Any, *, scope: ScopeContext, filters: dict[str, Any]) -> list[dict[str, Any]]:
+    events: list[dict[str, Any]] = []
+    for event_type in ("workflow.patch.proposed", "workflow.patch.applied", "workflow.patch.rejected"):
+        events.extend(
+            _workflow_trace_backed_events(
+                gateway,
+                scope=scope,
+                filters=filters,
+                event_type=event_type,
+                channel="workflow_patch",
+            )
+        )
+    return events
+
+
+def _workflow_trace_backed_events(
+    gateway: Any,
+    *,
+    scope: ScopeContext,
+    filters: dict[str, Any],
+    event_type: str,
+    channel: str,
+) -> list[dict[str, Any]]:
+    raw_events = gateway.trace_store.list_records(
+        trace_id=filters.get("trace_id"),
+        event_type=event_type,
+        app_id=scope.app_id,
+        project_id=scope.project_id,
+        workspace_id=scope.workspace_id,
+    )
+    events = []
+    for record in raw_events:
+        raw = _dump(record)
+        event = ((raw.get("metadata") or {}).get("event") or {}) if isinstance(raw.get("metadata"), dict) else {}
+        data = event.get("data") if isinstance(event, dict) and isinstance(event.get("data"), dict) else raw
+        workflow_instance_id = data.get("workflow_instance_id")
+        if filters.get("workflow_instance_id") and workflow_instance_id != filters.get("workflow_instance_id"):
+            continue
+        workflow_patch_id = data.get("workflow_patch_id")
+        if filters.get("workflow_patch_id") and workflow_patch_id != filters.get("workflow_patch_id"):
+            continue
+        events.append(
+            _envelope(
+                event_id=str(raw.get("record_id") or f"{event_type}:{workflow_instance_id}:{raw.get('created_at')}"),
+                event_type=event_type,
+                channel=channel,
+                scope=scope,
+                timestamp=str(raw.get("created_at") or _now()),
+                trace_id=raw.get("trace_id"),
+                workflow_instance_id=workflow_instance_id,
+                workflow_patch_id=workflow_patch_id,
+                data=data,
+            )
+        )
+    return events
+
+
 def _envelope(
     *,
     event_id: str,
@@ -327,6 +417,8 @@ def _envelope(
     artifact_id: Any = None,
     approval_id: Any = None,
     trace_id: Any = None,
+    workflow_instance_id: Any = None,
+    workflow_patch_id: Any = None,
 ) -> dict[str, Any]:
     return {
         "event_id": event_id,
@@ -341,6 +433,8 @@ def _envelope(
         "artifact_id": artifact_id if isinstance(artifact_id, str) else None,
         "approval_id": approval_id if isinstance(approval_id, str) else None,
         "trace_id": trace_id if isinstance(trace_id, str) else None,
+        "workflow_instance_id": workflow_instance_id if isinstance(workflow_instance_id, str) else None,
+        "workflow_patch_id": workflow_patch_id if isinstance(workflow_patch_id, str) else None,
         "data": data,
     }
 

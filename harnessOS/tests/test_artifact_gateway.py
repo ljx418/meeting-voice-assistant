@@ -111,13 +111,13 @@ def test_artifact_gateway_scope_blocks_cross_app_get_and_read(tmp_path):
             RpcRequest(id="a2", method="artifact.get", params={"artifact_id": artifact_id, "app_id": "meeting"})
         )
         assert denied_get.error is not None
-        assert denied_get.error.code == "INVALID_PARAMS"
+        assert denied_get.error.code == "SCOPE_MISMATCH"
 
         denied_read = await service.handle_rpc(
             RpcRequest(id="a3", method="artifact.read", params={"artifact_id": artifact_id, "app_id": "meeting"})
         )
         assert denied_read.error is not None
-        assert denied_read.error.code == "INVALID_PARAMS"
+        assert denied_read.error.code == "SCOPE_MISMATCH"
 
         allowed = await service.handle_rpc(
             RpcRequest(
@@ -347,7 +347,7 @@ def test_artifact_lineage_rpc_enforces_scope_for_filters_and_anchor(tmp_path):
             )
         )
         assert denied.error is not None
-        assert denied.error.code == "INVALID_PARAMS"
+        assert denied.error.code == "SCOPE_MISMATCH"
 
         all_scope = await service.handle_rpc(
             RpcRequest(

@@ -1,6 +1,6 @@
 # harnessOS V4.0 Target Architecture: Workflow Console Platform
 
-文档状态：DRAFT TARGET ARCHITECTURE。
+文档状态：V4.0 target architecture planning baseline；V3.6-J Dummy Pipeline E2E / V4.0 Gate 已通过。本文定义下一阶段 Workflow Console / Studio / AgentTalkWindow 前置的目标架构，不代表 V4.0 已完成。
 
 ## 1. 目标定义
 
@@ -14,6 +14,8 @@ V4.0 的目标不是单一新增一个视频产品，而是把 harnessOS 演进�
 - 个人应聘助手 V2.0
 - 后续 Interview / Investment / Video / Knowledge 等 app
 - 外部项目嵌入 harnessOS 工作流
+
+V4.0 正式 UI 主开发不能直接从 mock schema 起步。它必须消费已经通过 V3.6-J gate 的 Workflow Runtime Contract、Pipeline Board API、WorkflowPatch、QualityEvaluation、Business Event 和 Dummy Pipeline E2E 结果。
 
 ## 2. 目标能力
 
@@ -76,10 +78,12 @@ V4.0 的目标不是单一新增一个视频产品，而是把 harnessOS 演进�
 Plane-1 Studio UI / Embedded UI
   Workflow Canvas / Quality Board / Project Console / Nested Embedding Shell
 
-Plane-2 Workflow Protocol Plane
-  RPC / stream / descriptor APIs / SDK / embedding APIs
+Plane-2 Application Adaptation & Workflow Protocol Plane
+  V3.5 SDK / BFF / hooks / EventBridge / embedding APIs
+  V3.6 workflow runtime RPC / board / patch / quality / context APIs
 
-Plane-3 Workflow State & Governance Core
+Plane-3 Workflow Runtime & State Core
+  WorkflowTemplate / WorkflowInstance / Station / StationRun / Board / Patch / Quality / Context
   app scope / workflow state / job / artifact / trace / approval / retry / memory / evaluation
 
 Plane-4 Execution Runtime Plane
@@ -108,6 +112,8 @@ Plane-6 Connector & Asset Plane
 - `quality_rules`
 - `execution_policy`
 - `embedded_surface`
+
+V3.6 将其中可执行的后端合同优先落成 WorkflowTemplate / WorkflowVersion / WorkflowInstance / Station / StationRun / ArtifactContract / QualityEvaluation / WorkflowPatch。V4.0 Studio UI 在正式开发时应消费这些合同，而不是引入 UI-only descriptor。
 
 ### 4.2 Agent Descriptor
 
@@ -151,8 +157,9 @@ User Prompt
 
 ```text
 Studio UI / Embedded UI
-  -> V4 Protocol APIs
-  -> Core workflow state
+  -> V3.5 SDK / BFF / Hooks
+  -> V3.6 Workflow Runtime APIs
+  -> WorkflowInstance / StationRun / Board API
   -> Runtime adapters
   -> Connectors / models / asset services
   -> jobs / artifacts / traces / quality board
@@ -162,8 +169,8 @@ Studio UI / Embedded UI
 
 ```text
 External Project UI / BFF
-  -> harnessOS SDK / embedding API
-  -> workflow.invoke / workflow.observe / workflow.review
+  -> V3.5 SDK / embedding API
+  -> V3.6 workflow instance / board / patch APIs
   -> harnessOS execution + governance + quality board
   -> embedded result surface
 ```
@@ -198,7 +205,7 @@ V4 的核心能力之一就是：
 - 平台生成 workflow / agents / skills / connectors / outputs / quality board
 - 用户只需要微调
 
-这要求 descriptor 平台先于 Studio Console 稳定。
+这要求 Studio Console 继续以 V3.6 Workflow Runtime Contract 作为后端事实源。
 
 ## 7. V4 相对 V3 的关键新增
 
@@ -218,11 +225,49 @@ V4 必须新增：
 - Nested HarnessOS Embedding APIs
 - 更稳定的 SDK / schema registry
 
+V4.0 正式实现建立在已经通过的 V3.6-J gate 之上。V3.6-J gate 包括 WorkflowTemplate / WorkflowInstance / Station / StationRun / Board API / Patch / Business Event / Quality Evaluation / Approval Point / Dummy Pipeline E2E。
+
 ## 8. 建议实施顺序
 
-1. 基于 V3 真实业务样板冻结 Pack / Connector / Artifact / Governance 合同。
-2. 提炼 workflow / agent / quality descriptor schema。
-3. 做 V4 Workflow Generator draft。
-4. 做 Studio Console MVP。
-5. 做 Embedded HarnessOS APIs。
-6. 先用 Video Flow V2.0 和 Interview V2.0 验证平台能力。
+1. 以 V3.5 complete baseline 作为接入层基线。
+2. 以 V3.6 complete baseline 作为 workflow runtime / pipeline operating model 后端基线。
+3. V4.0-0 Baseline & UI Contract Sync：建立 UI contract map、No False Green 边界和 mock-to-real 对齐检查。
+4. V4.0-A Workflow Console Read-only MVP：消费 Board / status / station output / EventBridge，先做只读流水线控制台。
+5. V4.0-B Workflow Editing MVP：消费 WorkflowPatch / draft / publish 合同，支持受控编辑和 diff。
+6. V4.0-C AgentTalkWindow Preparation：基于 Embed Contract、EventBridge、approval/context/patch 做前置 shell。
+7. V4.0-D Quality / Approval / Context Panels：产品化质量、审批和上下文面板。
+8. V4.0-E Reference Workflow Console E2E：用平台中立 workflow 验证 UI + BFF + SDK + V3.6 runtime。
+9. 再用 Video Flow V2.0 和 Interview V2.0 验证平台能力。
+
+## 9. V3.6 Baseline For Formal V4.0
+
+V3.6-J 已通过，V4.0 可以进入正式开发计划。V4.0 UI Spike 仍允许存在，但只能用于探索交互，不得替代正式 V3.6 API：
+
+- Workflow Studio wireframe。
+- AgentTalkWindow shell。
+- Station Board mock。
+- Artifact Board mock。
+- Quality Panel mock。
+- Business Event mock。
+
+Spike 禁止：
+
+- 固化 mock schema 为正式协议。
+- 新增 UI 专用后端旁路。
+- 绕过 V3.6 API。
+- 声明 Workflow Studio ready 或 AgentTalkWindow ready。
+
+V4.0 当前可以声明：
+
+```text
+V4.0 planning can start on top of V3.5/V3.6 baselines.
+```
+
+V4.0 当前仍不能声明：
+
+```text
+Workflow Studio ready
+AgentTalkWindow ready
+production workflow automation ready
+distributed workflow engine ready
+```

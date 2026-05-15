@@ -60,7 +60,7 @@ async def authorize_rpc_request(
         _require_capability(context, capability)
     _inject_token_scope(params, context.scope)
     _inject_auth_metadata(params, context)
-    _ensure_resource_scope(gateway, params, context.scope)
+    _ensure_resource_scope(gateway, params, context.scope, context=context)
     return context
 
 
@@ -83,7 +83,7 @@ async def authorize_http_request(
         _require_capability(context, capability)
     _inject_token_scope(params, context.scope)
     _inject_auth_metadata(params, context)
-    _ensure_resource_scope(gateway, params, context.scope)
+    _ensure_resource_scope(gateway, params, context.scope, context=context)
     return context
 
 
@@ -161,6 +161,12 @@ def _require_admin(context: ExternalAuthContext) -> None:
         raise ProtocolError("METHOD_FORBIDDEN", "Method requires admin/debug/internal capability.", {"reason": "admin_capability_required"})
 
 
+def _context_has_admin(context: ExternalAuthContext) -> bool:
+    if context.dev_mode:
+        return True
+    return context.claims is not None and bool(set(context.claims.capabilities) & ADMIN_CAPABILITIES)
+
+
 def _bearer_token(request: Request) -> Optional[str]:
     value = request.headers.get("authorization")
     if not value:
@@ -212,6 +218,7 @@ def _inject_token_scope(params: dict[str, Any], scope: ScopeContext) -> None:
 def _inject_auth_metadata(params: dict[str, Any], context: ExternalAuthContext) -> None:
     if context.claims is not None:
         params["_auth_capabilities"] = list(context.claims.capabilities)
+        params["_auth_allowed_origins"] = list(context.claims.allowed_origins)
     elif context.dev_mode:
         params["_auth_capabilities"] = [
             "events",
@@ -219,13 +226,30 @@ def _inject_auth_metadata(params: dict[str, Any], context: ExternalAuthContext) 
             "jobs",
             "artifacts",
             "approvals",
+            "memory",
             "connectors.read",
             "packs.read",
+            "workflows.read",
+            "workflows.write",
+            "workflows.execute",
+            "stations.read",
+            "stations.execute",
+            "quality.read",
+            "quality.write",
+            "board.read",
+            "business_events.read",
+            "business_events.write",
+            "workflow_context.read",
+            "workflow_context.write",
+            "workflow_patches.read",
+            "workflow_patches.write",
+            "workflow_versions.publish",
         ]
+        params["_auth_allowed_origins"] = sorted(LOCAL_ORIGINS)
     params["_auth_external"] = True
 
 
-def _ensure_resource_scope(gateway: GatewayService, params: dict[str, Any], scope: ScopeContext) -> None:
+def _ensure_resource_scope(gateway: GatewayService, params: dict[str, Any], scope: ScopeContext, *, context: ExternalAuthContext) -> None:
     session_id = _text(params.get("session_id"))
     if session_id:
         try:
@@ -268,6 +292,17 @@ def _ensure_resource_scope(gateway: GatewayService, params: dict[str, Any], scop
             raw = record.model_dump(mode="json") if hasattr(record, "model_dump") else dict(record)
             if not _record_matches(raw, scope):
                 raise ProtocolError("SCOPE_MISMATCH", "Trace does not match token scope.", {"resource": "trace_id"})
+    memory_id = _text(params.get("memory_id"))
+    if memory_id:
+        try:
+            memory = gateway.core_service.get_memory(memory_id).model_dump(mode="json")
+        except Exception:
+            memory = None
+        if isinstance(memory, dict):
+            if _text(memory.get("app_id")) is None and not _context_has_admin(context):
+                raise ProtocolError("SCOPE_REQUIRED", "Memory record does not include scope.", {"resource": "memory_id", "reason": "legacy_memory_scope_required"})
+            if not _record_matches(memory, scope):
+                raise ProtocolError("SCOPE_MISMATCH", "Memory does not match token scope.", {"resource": "memory_id"})
 
 
 def _record_matches(record: dict[str, Any], scope: ScopeContext) -> bool:

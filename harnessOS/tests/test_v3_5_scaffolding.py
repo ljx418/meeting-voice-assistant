@@ -39,6 +39,7 @@ def test_scaffold_dirs_are_readme_or_scaffold_only() -> None:
             directory_allowed.add("v3_5_phase0_baseline.md")
             directory_allowed.add("sdk_contract.md")
             directory_allowed.add("bff_minimal_smoke.md")
+            directory_allowed.add("workflow_runtime_contract.md")
         if relative == "sdk/python/harnessos_client":
             directory_allowed.update(
                 {

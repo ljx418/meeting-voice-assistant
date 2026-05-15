@@ -9,6 +9,7 @@ from urllib.parse import urlsplit
 from fastapi.testclient import TestClient
 
 from apps.api import create_app
+from apps.api.routers.events import _collect_unsent_events
 from apps.gateway.artifacts import ArtifactRegistry
 from apps.gateway.protocol import RpcRequest
 from apps.gateway.runtime import GatewayRuntimePool
@@ -306,6 +307,66 @@ def test_heartbeat_is_streamed_but_not_persisted(monkeypatch, tmp_path) -> None:
 
     scope = gateway._resolve_request_scope({"scope": {"app_id": "meeting"}})
     assert collect_event_envelopes(gateway, scope=scope, channels=["chat"]) == []
+
+
+def test_follow_stream_collects_events_created_after_subscription(monkeypatch, tmp_path) -> None:
+    gateway = _gateway(tmp_path)
+    client = _client(monkeypatch, gateway)
+    token = _token(gateway, capabilities=("events", "artifacts"))
+    scope = gateway._resolve_request_scope({"scope": {"app_id": "meeting"}})
+    start_sequence = read_event_cursor(None, scope)
+    sent_keys: set[tuple[str, str]] = set()
+
+    events, last_sequence = _collect_unsent_events(
+        gateway,
+        scope=scope,
+        channels=["artifact"],
+        filters={},
+        last_sequence=start_sequence,
+        sent_keys=sent_keys,
+    )
+    assert events == []
+    assert last_sequence == start_sequence
+
+    _rpc(
+        client,
+        token,
+        "artifact.register_external",
+        {"kind": "note", "external_asset_uri": "file:///tmp/follow.txt", "scope": {"app_id": "meeting"}},
+    )
+    events, last_sequence = _collect_unsent_events(
+        gateway,
+        scope=scope,
+        channels=["artifact"],
+        filters={},
+        last_sequence=last_sequence,
+        sent_keys=sent_keys,
+    )
+    assert [event["type"] for event in events] == ["artifact.registered"]
+    assert last_sequence == 0
+    repeated, repeated_sequence = _collect_unsent_events(
+        gateway,
+        scope=scope,
+        channels=["artifact"],
+        filters={},
+        last_sequence=last_sequence,
+        sent_keys=sent_keys,
+    )
+    assert repeated == []
+    assert repeated_sequence == last_sequence
+
+
+def test_subscription_token_origin_is_bound(monkeypatch, tmp_path) -> None:
+    gateway = _gateway(tmp_path)
+    client = _client(monkeypatch, gateway)
+    token = _token(gateway, capabilities=("events", "turns"))
+    subscribed = _rpc(client, token, "events.subscribe", {"channels": ["chat"]})["result"]
+
+    allowed = client.get(subscribed["eventsource_url"] + "&follow=0", headers={"Origin": LOCAL_ORIGIN})
+    assert allowed.status_code == 200
+    denied = client.get(subscribed["eventsource_url"] + "&follow=0", headers={"Origin": "https://evil.example"})
+    assert denied.status_code == 403
+    assert denied.json()["error"]["code"] == "AUTH_FORBIDDEN"
 
 
 def test_runs_stream_remains_compatibility_path_and_preauth(monkeypatch, tmp_path) -> None:

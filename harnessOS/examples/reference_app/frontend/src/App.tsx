@@ -1,6 +1,7 @@
 import React from "react";
-import { HarnessOSClient, Scope } from "@harnessos/client";
+import { Scope } from "@harnessos/client";
 import { useApprovals, useArtifacts, useEvents, useHarnessSession, useJobs, useTurn } from "@harnessos/client/react";
+import { createBffStructuredClient } from "./harness";
 import { ApprovalPanel } from "./views/ApprovalPanel";
 import { ArtifactPanel } from "./views/ArtifactPanel";
 import { EmbedPanel } from "./views/EmbedPanel";
@@ -12,7 +13,7 @@ import { TracePanel } from "./views/TracePanel";
 
 export function App(): JSX.Element {
   const scope = React.useMemo(() => new Scope({ app_id: "reference_app", project_id: "demo", workspace_id: "local" }), []);
-  const client = React.useMemo(() => new HarnessOSClient({ baseUrl: "/bff", scope }), [scope]);
+  const client = React.useMemo(() => createBffStructuredClient(scope), [scope]);
   const session = useHarnessSession({ client, scope });
   const turn = useTurn({ client, scope });
   const events = useEvents({ client, scope, enabled: false });

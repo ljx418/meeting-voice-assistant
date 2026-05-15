@@ -1,0 +1,82 @@
+{
+  "workflow_template_id": "workflow_dummy_pipeline",
+  "name": "Dummy Pipeline Workflow",
+  "stations": [
+    {
+      "station_id": "station_a",
+      "name": "Collect Input",
+      "output_contracts": [
+        {
+          "contract_id": "a_out",
+          "artifact_kind": "dummy.alpha",
+          "direction": "output",
+          "required": true
+        }
+      ]
+    },
+    {
+      "station_id": "station_b",
+      "name": "Transform Input",
+      "input_contracts": [
+        {
+          "contract_id": "b_in",
+          "artifact_kind": "dummy.alpha",
+          "direction": "input",
+          "required": true
+        }
+      ],
+      "output_contracts": [
+        {
+          "contract_id": "b_out",
+          "artifact_kind": "dummy.beta",
+          "direction": "output",
+          "required": true
+        }
+      ]
+    },
+    {
+      "station_id": "station_c",
+      "name": "Human Gate",
+      "approval_required": true,
+      "input_contracts": [
+        {
+          "contract_id": "c_in",
+          "artifact_kind": "dummy.beta",
+          "direction": "input",
+          "required": true
+        }
+      ],
+      "output_contracts": [
+        {
+          "contract_id": "c_out",
+          "artifact_kind": "dummy.final",
+          "direction": "output",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "edge_a_b",
+      "from_station_id": "station_a",
+      "to_station_id": "station_b",
+      "order": 1
+    },
+    {
+      "edge_id": "edge_b_c",
+      "from_station_id": "station_b",
+      "to_station_id": "station_c",
+      "order": 2
+    }
+  ],
+  "quality_contracts": [
+    {
+      "contract_id": "quality_final",
+      "rubric_id": "dummy_quality",
+      "threshold": 0.8,
+      "required": true,
+      "evaluator_type": "rule"
+    }
+  ]
+}

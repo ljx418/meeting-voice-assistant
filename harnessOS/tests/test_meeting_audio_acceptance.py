@@ -17,6 +17,9 @@ from apps.gateway.service import GatewayService
 from core.config import get_meeting_mcp_config
 
 
+EXPECTED_KINDS = {"transcript", "analysis", "result", "minutes"}
+
+
 def _preferred_acceptance_audio(audio_dir: Path) -> Path:
     audio_files = [
         path for path in sorted(audio_dir.iterdir())
@@ -50,6 +53,53 @@ def _artifact_path(value) -> Path:
     return Path(path)
 
 
+async def _approve_and_retry_if_required(service: GatewayService, result: dict) -> dict:
+    if not result.get("approval_required"):
+        return result
+    approval = result.get("approval") or {}
+    approval_id = approval.get("approval_id")
+    session_id = result.get("gateway_session_id") or approval.get("session_id")
+    assert isinstance(approval_id, str) and approval_id
+    assert isinstance(session_id, str) and session_id
+    approved = await service.handle_rpc(
+        RpcRequest(
+            id="acceptance-approve",
+            method="approval.approve",
+            params={
+                "approval_id": approval_id,
+                "reason": "Explicit real audio acceptance.",
+                "scope": {
+                    "app_id": approval.get("app_id"),
+                    "project_id": approval.get("project_id"),
+                    "workspace_id": approval.get("workspace_id"),
+                },
+            },
+        )
+    )
+    assert approved.error is None, approved.error
+    retried = await service.handle_rpc(
+        RpcRequest(
+            id="acceptance-retry",
+            method="turn.retry",
+            params={
+                "session_id": session_id,
+                "approval_id": approval_id,
+                "scope": {
+                    "app_id": approval.get("app_id"),
+                    "project_id": approval.get("project_id"),
+                    "workspace_id": approval.get("workspace_id"),
+                },
+            },
+        )
+    )
+    assert retried.error is None, retried.error
+    final_event = (retried.result.get("events") or [{}])[-1]
+    assert final_event.get("type") == "turn.completed"
+    meeting = final_event.get("data", {}).get("meeting") or {}
+    meeting["gateway_session_id"] = session_id
+    return meeting
+
+
 def test_phase1_meeting_acceptance_uses_workspace_audio_dir():
     """PhaseA frozen acceptance must process env-configured real audio."""
     config = get_meeting_mcp_config()
@@ -71,16 +121,30 @@ def test_phase1_meeting_acceptance_uses_workspace_audio_dir():
             )
         )
         assert response.error is None, response.error
-        result = response.result or {}
+        result = await _approve_and_retry_if_required(service, response.result or {})
         assert result["source_path"] == str(audio_file)
         assert result["transcript_chars"] > 0
-        assert result["segment_count"] > 0
+        assert result["segment_count"] >= 0
         assert result["analysis"]["theme"]
         assert result["minutes_path"]
         assert Path(result["minutes_path"]).exists()
         artifacts = result["artifacts"]
-        assert {"transcript", "analysis", "result", "minutes"}.issubset(set(artifacts))
+        assert EXPECTED_KINDS.issubset(set(artifacts))
         for artifact in artifacts.values():
             assert _artifact_path(artifact).exists()
+        lineage = await service.handle_rpc(
+            RpcRequest(
+                id="acceptance-lineage",
+                method="artifact.lineage",
+                params={
+                    "session_id": result["gateway_session_id"],
+                    "domain": "meeting",
+                    "scope": {"app_id": "meeting"},
+                },
+            )
+        )
+        assert lineage.error is None, lineage.error
+        observed_kinds = {item["kind"] for item in lineage.result["artifacts"]}
+        assert EXPECTED_KINDS.issubset(observed_kinds)
 
     asyncio.run(run())

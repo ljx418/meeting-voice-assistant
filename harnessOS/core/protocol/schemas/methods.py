@@ -5,6 +5,8 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional
 
 from core.protocol.contracts.method_inventory import METHOD_INVENTORY
+from core.protocol.contracts.workflow_method_inventory import WORKFLOW_METHOD_INVENTORY
+from core.protocol.schemas.workflow_methods import WORKFLOW_METHOD_SCHEMAS
 
 
 def _object(properties: Optional[Dict[str, Any]] = None, required: Optional[list[str]] = None) -> Dict[str, Any]:
@@ -61,7 +63,7 @@ _SCOPE = {
 }
 
 
-METHOD_SCHEMAS: List[Dict[str, Any]] = [
+BASE_METHOD_SCHEMAS: List[Dict[str, Any]] = [
     _schema(
         "session.start",
         capability="sessions",
@@ -217,6 +219,7 @@ METHOD_SCHEMAS: List[Dict[str, Any]] = [
                 "status": {"type": "string"},
                 "trace_id": {"type": ["string", "null"]},
                 "idempotent": {"type": "boolean"},
+                "workflow_side_effect": {"type": ["object", "null"]},
             },
             ["approval", "status", "idempotent"],
         ),
@@ -225,6 +228,8 @@ METHOD_SCHEMAS: List[Dict[str, Any]] = [
             "APPROVAL_CONFLICT",
             "APPROVAL_NOT_FOUND",
             "APPROVAL_INVALID_DECISION",
+            "WORKFLOW_APPROVAL_INACTIVE",
+            "WORKFLOW_APPROVAL_SIDE_EFFECT_FAILED",
             "SCOPE_MISMATCH",
         ],
     ),
@@ -266,6 +271,8 @@ METHOD_SCHEMAS: List[Dict[str, Any]] = [
     ),
 ]
 
+METHOD_SCHEMAS: List[Dict[str, Any]] = BASE_METHOD_SCHEMAS + WORKFLOW_METHOD_SCHEMAS
+
 
 def get_method_schema(method: str) -> Dict[str, Any]:
     for schema in METHOD_SCHEMAS:
@@ -283,7 +290,9 @@ def list_method_schemas(*, sdk_exposure: Optional[str] = None, include_planned: 
     return list(schemas)
 
 
-_CONTRACT_METHODS = {entry["method"] for entry in METHOD_INVENTORY}
+_CONTRACT_METHODS = {entry["method"] for entry in METHOD_INVENTORY} | {
+    entry["method"] for entry in WORKFLOW_METHOD_INVENTORY
+}
 _SCHEMA_METHODS = {entry["method"] for entry in METHOD_SCHEMAS}
 if missing := (_SCHEMA_METHODS - _CONTRACT_METHODS):
     raise RuntimeError(f"Method schemas not present in contracts inventory: {sorted(missing)}")

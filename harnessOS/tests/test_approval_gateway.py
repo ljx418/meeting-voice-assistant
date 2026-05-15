@@ -161,7 +161,7 @@ def test_approval_gateway_scope_filters_and_blocks_cross_app_decisions(tmp_path)
             RpcRequest(id="s3", method="approval.get", params={"approval_id": approval_id, "app_id": "meeting"})
         )
         assert denied.error is not None
-        assert denied.error.code == "INVALID_PARAMS"
+        assert denied.error.code == "SCOPE_MISMATCH"
 
         denied_approve = await service.handle_rpc(
             RpcRequest(
@@ -171,7 +171,7 @@ def test_approval_gateway_scope_filters_and_blocks_cross_app_decisions(tmp_path)
             )
         )
         assert denied_approve.error is not None
-        assert denied_approve.error.code == "INVALID_PARAMS"
+        assert denied_approve.error.code == "SCOPE_MISMATCH"
 
         approved = await service.handle_rpc(
             RpcRequest(

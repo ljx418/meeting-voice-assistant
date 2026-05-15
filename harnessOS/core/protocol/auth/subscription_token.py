@@ -32,6 +32,7 @@ class SubscriptionTokenClaims:
     workspace_id: Optional[str]
     channels: tuple[str, ...]
     capabilities: tuple[str, ...]
+    allowed_origins: tuple[str, ...] = ()
     audience: str = TOKEN_AUDIENCE
     issuer: str = TOKEN_ISSUER
 
@@ -50,6 +51,7 @@ class SubscriptionTokenClaims:
             workspace_id=_optional_str(payload.get("workspace_id")),
             channels=tuple(_str_list(payload.get("channels"), "channels")),
             capabilities=tuple(_str_list(payload.get("capabilities"), "capabilities")),
+            allowed_origins=tuple(_str_list(payload.get("allowed_origins") or [], "allowed_origins")),
             audience=_require_str(payload, "audience"),
             issuer=_require_str(payload, "issuer"),
         )
@@ -64,6 +66,7 @@ class SubscriptionTokenClaims:
             "workspace_id": self.workspace_id,
             "channels": list(self.channels),
             "capabilities": list(self.capabilities),
+            "allowed_origins": list(self.allowed_origins),
             "audience": self.audience,
             "issuer": self.issuer,
         }
@@ -74,6 +77,7 @@ def issue_subscription_token(
     scope: ScopeContext,
     channels: Iterable[str],
     capabilities: Iterable[str],
+    allowed_origins: Iterable[str] = (),
     ttl_seconds: int = 300,
     secret: Optional[str] = None,
 ) -> tuple[str, SubscriptionTokenClaims]:
@@ -89,6 +93,7 @@ def issue_subscription_token(
         workspace_id=scope.workspace_id,
         channels=tuple(sorted(set(channels))),
         capabilities=tuple(sorted(set(capabilities))),
+        allowed_origins=tuple(sorted(set(allowed_origins))),
     )
     payload = _json(claims.to_payload())
     signature = _sign(payload, resolved_secret)

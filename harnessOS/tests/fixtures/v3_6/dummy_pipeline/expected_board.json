@@ -1,0 +1,17 @@
+{
+  "required_top_level_keys": [
+    "workflow_instance",
+    "stations",
+    "current_station_ids",
+    "jobs",
+    "artifacts",
+    "approvals",
+    "quality_evaluations",
+    "trace_summary"
+  ],
+  "expected_station_ids": [
+    "station_a",
+    "station_b",
+    "station_c"
+  ]
+}

@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Optional
 
 from core.protocol.contracts.error_inventory import ERROR_INVENTORY
+from core.protocol.schemas.workflow_errors import WORKFLOW_ERROR_SCHEMAS
 
 
 class ProtocolError(RuntimeError):
@@ -69,7 +70,7 @@ ERROR_SCHEMAS: List[Dict[str, Any]] = [
     _schema("PACK_NOT_FOUND", http_status=404, message_template="Pack not found."),
     _schema("CONNECTOR_NOT_FOUND", http_status=404, message_template="Connector not found."),
     _schema("RUNTIME_ERROR", http_status=500, message_template="Runtime error.", retryable=True),
-]
+] + WORKFLOW_ERROR_SCHEMAS
 
 
 def get_error_schema(code: str) -> Dict[str, Any]:

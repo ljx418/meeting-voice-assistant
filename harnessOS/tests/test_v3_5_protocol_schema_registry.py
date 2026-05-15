@@ -10,7 +10,9 @@ from pydantic import ValidationError
 from apps.gateway.protocol import RpcError, RpcRequest, RpcResponse
 from apps.gateway.service import GatewayService
 from core.protocol.contracts.method_inventory import METHOD_INVENTORY
+from core.protocol.contracts.workflow_method_inventory import WORKFLOW_METHOD_INVENTORY
 from core.protocol.schemas.errors import ERROR_SCHEMAS
+from core.protocol.schemas.workflow_errors import WORKFLOW_ERROR_SCHEMAS
 from core.protocol.schemas.events import EVENT_SCHEMAS
 from core.protocol.schemas.methods import METHOD_SCHEMAS
 
@@ -22,7 +24,9 @@ def test_contracts_default_methods_have_schema() -> None:
 
 
 def test_schema_methods_exist_in_contracts_inventory() -> None:
-    contract_methods = {entry["method"] for entry in METHOD_INVENTORY}
+    contract_methods = {entry["method"] for entry in METHOD_INVENTORY} | {
+        entry["method"] for entry in WORKFLOW_METHOD_INVENTORY
+    }
     schema_methods = {entry["method"] for entry in METHOD_SCHEMAS}
     assert schema_methods <= contract_methods
 
@@ -43,7 +47,7 @@ def test_events_subscribe_schema_has_runtime_handler_after_phase_c() -> None:
 
 
 def test_method_schema_errors_exist_in_error_registry() -> None:
-    errors = {entry["code"] for entry in ERROR_SCHEMAS}
+    errors = {entry["code"] for entry in ERROR_SCHEMAS} | {entry["code"] for entry in WORKFLOW_ERROR_SCHEMAS}
     for method in METHOD_SCHEMAS:
         assert set(method["errors"]) <= errors, method["method"]
 

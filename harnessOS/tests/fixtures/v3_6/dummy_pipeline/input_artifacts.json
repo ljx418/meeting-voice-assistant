@@ -1,0 +1,11 @@
+[
+  {
+    "kind": "dummy.seed",
+    "external_asset_uri": "harnessos://dummy-pipeline/seed",
+    "metadata": {
+      "user": {
+        "note": "static fixture seed only"
+      }
+    }
+  }
+]

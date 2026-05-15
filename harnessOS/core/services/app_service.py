@@ -1340,6 +1340,11 @@ def _artifact_parent_ids(metadata: Dict[str, Any]) -> List[str]:
     explicit_parent_ids = metadata.get("parent_artifact_ids")
     if isinstance(explicit_parent_ids, list):
         parent_ids.extend(item for item in explicit_parent_ids if isinstance(item, str) and item)
+    lineage = metadata.get("lineage")
+    if isinstance(lineage, dict):
+        namespaced_parent_ids = lineage.get("parent_artifact_ids")
+        if isinstance(namespaced_parent_ids, list):
+            parent_ids.extend(item for item in namespaced_parent_ids if isinstance(item, str) and item)
     return list(dict.fromkeys(parent_ids))
 
 

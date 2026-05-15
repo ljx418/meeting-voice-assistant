@@ -80,7 +80,7 @@ def test_legacy_meeting_facade_rejects_non_meeting_session_scope(tmp_path):
         )
 
         assert response.error is not None
-        assert response.error.code == "INVALID_PARAMS"
+        assert response.error.code == "SCOPE_MISMATCH"
         assert "session does not belong to the requested scope" in response.error.message
 
     asyncio.run(run())

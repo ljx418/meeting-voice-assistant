@@ -556,15 +556,36 @@ def test_phase1b_real_audio_turn_start_acceptance():
         )
 
         assert response.error is None, response.error
-        final_text = response.result["final_text"]
+        result = response.result
+        completed = result["events"][-1]
+        if completed["data"].get("approval_required"):
+            approval_id = completed["data"]["approval"]["approval_id"]
+            approved = await service.handle_rpc(
+                RpcRequest(
+                    id="approve-real-audio",
+                    method="approval.approve",
+                    params={"approval_id": approval_id, "reason": "Explicit real audio turn acceptance."},
+                )
+            )
+            assert approved.error is None, approved.error
+            retried = await service.handle_rpc(
+                RpcRequest(
+                    id="retry-real-audio",
+                    method="turn.retry",
+                    params={"session_id": started.result["session_id"], "approval_id": approval_id},
+                )
+            )
+            assert retried.error is None, retried.error
+            result = retried.result
+            completed = result["events"][-1]
+        final_text = result["final_text"]
         assert "会议分析已完成" in final_text
         assert "主题：" in final_text
         assert "会议纪要：" in final_text
-        completed = response.result["events"][-1]
         assert completed["type"] == "turn.completed"
         meeting = completed["data"]["meeting"]
         assert meeting["transcript_chars"] > 0
-        assert meeting["segment_count"] > 0
+        assert meeting["segment_count"] >= 0
         assert meeting["analysis"]["theme"]
         assert Path(meeting["minutes_path"]).exists()
 

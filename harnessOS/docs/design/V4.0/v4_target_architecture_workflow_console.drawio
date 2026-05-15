@@ -7,7 +7,7 @@
         <mxCell id="title" value="harnessOS V4.0：Workflow Console Platform Target Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="330" y="20" width="1240" height="44" as="geometry" />
         </mxCell>
-        <mxCell id="legend" value="蓝色：交互与协议；黄色：Core / Runtime / Descriptor / Connector；绿色：业务应用面；粉色：V4 新平台能力" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" vertex="1" parent="1">
+        <mxCell id="legend" value="蓝色：交互与协议；黄色：Core / Runtime / Descriptor / Connector；绿色：业务应用面；粉色：V4 新平台能力；当前基线：V3.5/V3.6 已冻结，V4.0 进入计划阶段" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" vertex="1" parent="1">
           <mxGeometry x="290" y="80" width="1320" height="40" as="geometry" />
         </mxCell>
 
@@ -37,7 +37,7 @@
         <mxCell id="plane1" value="Plane-1 Studio UI / Embedded UI&#xa;&#xa;Workflow Canvas&#xa;Quality Board&#xa;Project Console&#xa;Embedded Surface" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=14;align=center" vertex="1" parent="1">
           <mxGeometry x="90" y="500" width="250" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="plane2" value="Plane-2 Workflow Protocol Plane&#xa;&#xa;RPC / stream / descriptor APIs&#xa;workflow.invoke / observe / review&#xa;SDK / embedding APIs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=14;align=center" vertex="1" parent="1">
+        <mxCell id="plane2" value="Plane-2 Workflow Protocol Plane&#xa;&#xa;RPC / stream / descriptor APIs&#xa;workflow.board.get / workflow.instance.status&#xa;station.output.list / workflow.patch.*&#xa;approval.respond / business.event.* / workflow.context.*&#xa;artifact.lineage / quality.evaluation.*" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=14;align=center" vertex="1" parent="1">
           <mxGeometry x="380" y="500" width="260" height="150" as="geometry" />
         </mxCell>
         <mxCell id="plane3" value="Plane-3 Workflow State &amp; Governance Core&#xa;&#xa;app/workflow scope&#xa;job / artifact / trace / approval / retry&#xa;memory / evaluation / quality evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=center" vertex="1" parent="1">
@@ -65,7 +65,7 @@
         <mxCell id="quality" value="Quality Board&#xa;&#xa;artifact completeness&#xa;review score&#xa;connector failures&#xa;policy violations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontSize=14;align=center" vertex="1" parent="1">
           <mxGeometry x="820" y="820" width="260" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="embed" value="Nested HarnessOS APIs&#xa;&#xa;workflow.invoke / observe / review&#xa;外部项目嵌入式调用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontSize=14;align=center" vertex="1" parent="1">
+        <mxCell id="embed" value="Nested HarnessOS APIs&#xa;&#xa;workflow.board.get / workflow.instance.status&#xa;workflow.patch.* / workflow.template.publish&#xa;approval.respond / artifact.lineage&#xa;外部项目嵌入式调用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontSize=14;align=center" vertex="1" parent="1">
           <mxGeometry x="1170" y="820" width="260" height="120" as="geometry" />
         </mxCell>
         <mxCell id="compiler" value="Descriptor Compiler / Registry&#xa;&#xa;版本化 descriptor&#xa;schema registry&#xa;deployment / publish boundary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontSize=14;align=center" vertex="1" parent="1">

@@ -828,6 +828,7 @@ def test_gateway_reference_pack_standard_entry_consistency(tmp_path):
         )
         pool._meeting_workflow.service = FakeMeetingService(tmp_path / "meeting-output")
         service = GatewayService(pool)
+        service.connector_registry.funasr_config = FunASRMcpConfig(execution="contract_stub")
 
         workflows = await service.handle_rpc(RpcRequest(id="w1", method="workflow.list"))
         assert workflows.error is None
@@ -917,6 +918,7 @@ def test_gateway_connector_execution_submit_poll_collect_and_cancel(tmp_path):
             core_store=core_store,
         )
         service = GatewayService(pool)
+        service.connector_registry.funasr_config = FunASRMcpConfig(execution="contract_stub")
         started = await service.handle_rpc(RpcRequest(id="1", method="session.start"))
         session_id = started.result["session_id"]
 
@@ -1185,7 +1187,7 @@ def test_job_and_connector_rpcs_enforce_scope_and_inherit_session_scope(tmp_path
                 )
             )
             assert denied.error is not None, method
-            assert denied.error.code == "INVALID_PARAMS"
+            assert denied.error.code == "SCOPE_MISMATCH"
 
         allowed = await service.handle_rpc(
             RpcRequest(
@@ -1698,6 +1700,7 @@ for line in sys.stdin:
         )
         pool._meeting_workflow.service = FakeMeetingService(tmp_path / "meeting-output")
         service = GatewayService(pool)
+        service.connector_registry.funasr_config = FunASRMcpConfig(execution="contract_stub")
         service.connector_registry.data_service_config = DataServiceMcpConfig(
             cwd=str(tmp_path),
             command=sys.executable,
@@ -2337,7 +2340,7 @@ def test_gateway_session_scope_resolution_and_isolation(tmp_path):
             )
         )
         assert denied.error is not None
-        assert denied.error.code == "INVALID_PARAMS"
+        assert denied.error.code == "SCOPE_MISMATCH"
         assert "requested scope" in denied.error.message
 
         allowed = await service.handle_rpc(
@@ -2358,7 +2361,7 @@ def test_gateway_session_scope_resolution_and_isolation(tmp_path):
             )
         )
         assert transcript_denied.error is not None
-        assert transcript_denied.error.code == "INVALID_PARAMS"
+        assert transcript_denied.error.code == "SCOPE_MISMATCH"
 
     asyncio.run(run())
 
@@ -2439,7 +2442,7 @@ def test_turn_mutation_rpcs_enforce_session_scope(tmp_path):
                 RpcRequest(id=rpc_id, method=method, params={"session_id": session_id, "app_id": "meeting"})
             )
             assert denied.error is not None
-            assert denied.error.code == "INVALID_PARAMS"
+            assert denied.error.code == "SCOPE_MISMATCH"
 
     asyncio.run(run())
 
@@ -2561,7 +2564,7 @@ def test_turn_retry_enforces_session_scope(tmp_path):
             )
         )
         assert denied.error is not None
-        assert denied.error.code == "INVALID_PARAMS"
+        assert denied.error.code == "SCOPE_MISMATCH"
 
     asyncio.run(run())
 
