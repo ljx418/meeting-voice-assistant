@@ -15,14 +15,20 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.api.v1.auth import api_key_header, verify_api_key
 from app.config import config
 from data_service import DataService, GraphExecutionOwner, QueryMode
 from data_service.distill_contract import run_distill_contract
+from data_service.graph_community_contract import graph_community_payload
+from data_service.graph_neighbors_contract import graph_neighbors_payload
+from data_service.graph_query_contract import graph_query_payload
+from data_service.graph_session_contract import graph_session_payload
 from data_service.mcp_common import blocked as _contract_blocked
+from data_service.mcp_common import bounded_int
 from data_service.mcp_common import envelope as _contract_envelope
+from data_service.mcp_source_tools import handle_source_tool
 from data_service.query_contract import run_query_contract
 from data_service.quality_contract import (
     low_signal_audit_payload,
@@ -32,10 +38,31 @@ from data_service.quality_contract import (
     quality_correction_rules_payload,
     quality_feedback_list_payload,
     record_quality_feedback_payload,
+    target_quality_correction_plan_generate_payload,
+    target_quality_correction_plan_read_payload,
+    target_quality_correction_rule_review_payload,
+    target_quality_correction_rule_write_payload,
+    target_quality_correction_rules_build_payload,
+    target_quality_correction_rules_list_payload,
+    target_quality_feedback_payload,
 )
 from data_service.security import validate_source_paths, validate_workspace_path
 from data_service.session_service import SessionKnowledgeService
+from data_service.session_lifecycle_contract import (
+    close_session_payload,
+    create_session_payload,
+    delete_session_payload,
+    get_session_payload,
+    list_sessions_payload,
+)
+from data_service.session_ingest_contract import ingest_session_payload
 from data_service.source_trace_contract import source_trace_payload
+from data_service.session_build_contract import (
+    cancel_session_build_payload,
+    read_session_build_payload,
+    start_session_build_payload,
+)
+from data_service.session_query_contract import query_session_payload
 
 
 async def verify_knowledge_access(api_key: Optional[str] = Depends(api_key_header)) -> str:
@@ -133,6 +160,32 @@ def _ensure_workspace_meta(workspace: Path, *, name: str | None = None, owner: s
     return meta
 
 
+def _workspace_exists(workspace: Path) -> bool:
+    return _workspace_meta_path(workspace).exists()
+
+
+def _stable_workspace_meta(meta: dict) -> dict:
+    return {
+        "workspace_id": meta.get("workspace_id"),
+        "name": meta.get("name"),
+        "owner": meta.get("owner"),
+        "tags": list(meta.get("tags") or []),
+        "status": meta.get("status", "active"),
+        "created_at": meta.get("created_at"),
+        "updated_at": meta.get("updated_at"),
+        "archived_at": meta.get("archived_at"),
+        "archive_reason": meta.get("archive_reason", ""),
+    }
+
+
+def _target_workspace_artifact_ref(workspace_id: str) -> dict:
+    return {"type": "workspace", "artifact_ref": f"workspace://{workspace_id}"}
+
+
+def _target_source_artifact_ref(source_id: str) -> dict:
+    return {"type": "source", "source_id": source_id, "artifact_ref": f"source://{source_id}"}
+
+
 def _resolve_workspace_path(*, workspace: str | None = None, workspace_id: str | None = None) -> Path:
     if workspace:
         return validate_workspace_path(workspace)
@@ -159,13 +212,26 @@ def _envelope(*, workspace_id: str, operation_id: str | None = None, status: str
     )
 
 
-def _blocked(*, workspace_id: str, message: str, operation_id: str | None = None, next_actions: list[str] | None = None, data: dict | None = None) -> dict:
+def _strip_debug_paths(value: Any) -> Any:
+    if isinstance(value, list):
+        return [_strip_debug_paths(item) for item in value]
+    if isinstance(value, dict):
+        return {key: _strip_debug_paths(item) for key, item in value.items() if key != "debug_paths"}
+    return value
+
+
+def _target_envelope(**kwargs: Any) -> dict:
+    return _strip_debug_paths(_envelope(**kwargs))
+
+
+def _blocked(*, workspace_id: str, message: str, operation_id: str | None = None, next_actions: list[str] | None = None, data: dict | None = None, code: str = "blocked") -> dict:
     return _contract_blocked(
         workspace_id=workspace_id,
         operation_id=operation_id,
         message=message,
         next_actions=next_actions,
         data=data,
+        code=code,
     )
 
 
@@ -367,6 +433,82 @@ def _operation_envelope(workspace_id: str, operation_id: str, operation: dict, *
         artifact_refs=operation.get("artifacts", []),
         next_actions=next_actions,
         data=_operation_payload(operation),
+    )
+
+
+def _target_artifact_ref(value: Any) -> dict:
+    digest = hashlib.sha256(str(value or "").encode("utf-8")).hexdigest()[:16]
+    return {"type": "artifact", "artifact_ref": f"artifact://{digest}"}
+
+
+def _target_operation_artifact_refs(operation: dict) -> list[dict]:
+    refs: list[dict] = [{"type": "operation", "operation_id": operation.get("operation_id"), "artifact_ref": f"operation://{operation.get('operation_id')}"}]
+    for item in operation.get("artifacts", []) or []:
+        if isinstance(item, dict) and item.get("artifact_ref"):
+            refs.append({"type": item.get("type", "artifact"), "artifact_ref": item.get("artifact_ref")})
+        else:
+            refs.append(_target_artifact_ref(item))
+    return refs
+
+
+def _target_operation_error(error: Any) -> Any:
+    if not isinstance(error, dict):
+        return error
+    return {
+        key: error.get(key)
+        for key in ("message", "type", "stage", "retryable")
+        if error.get(key) is not None
+    }
+
+
+def _target_operation_results(operation: dict) -> list[dict]:
+    results = []
+    for item in operation.get("results", []) or []:
+        if not isinstance(item, dict):
+            continue
+        results.append(
+            {
+                "engine": item.get("engine"),
+                "status": item.get("status"),
+            }
+        )
+    return results
+
+
+def _target_operation_payload(operation: dict) -> dict:
+    return {
+        "operation_id": operation.get("operation_id"),
+        "mode": operation.get("mode"),
+        "stage": operation.get("stage"),
+        "progress": operation.get("progress", 0.0),
+        "status": operation.get("status", "queued"),
+        "started_at": operation.get("started_at"),
+        "completed_at": operation.get("completed_at"),
+        "created_at": operation.get("created_at"),
+        "updated_at": operation.get("updated_at"),
+        "error": _target_operation_error(operation.get("error")),
+        "retryable": operation.get("retryable", True),
+        "artifact_refs": _target_operation_artifact_refs(operation),
+        "results": _target_operation_results(operation),
+    }
+
+
+def _target_operation_envelope(workspace_id: str, operation_id: str, operation: dict, *, warnings: list[str] | None = None, next_actions: list[str] | None = None) -> dict:
+    status = operation.get("status", "queued")
+    if next_actions is None:
+        next_actions = ["knowledge_build_status"]
+        if status not in _TERMINAL_OPERATION_STATUSES:
+            next_actions.append("knowledge_build_cancel")
+        if status in {"failed", "blocked"} and operation.get("retryable", True):
+            next_actions.append("knowledge_build_start")
+    return _target_envelope(
+        workspace_id=workspace_id,
+        operation_id=operation_id,
+        status=status,
+        warnings=warnings,
+        artifact_refs=_target_operation_artifact_refs(operation),
+        next_actions=next_actions,
+        data=_target_operation_payload(operation),
     )
 
 
@@ -600,6 +742,83 @@ def _read_source_items(workspace: Path, *, limit: int, status: str | None = None
     return items
 
 
+def _target_workspace_or_404(workspace_id: str) -> tuple[Path, dict]:
+    try:
+        workspace = _resolve_workspace_path(workspace_id=workspace_id)
+        if not _workspace_exists(workspace):
+            raise ValueError(f"Unknown workspace_id: {workspace_id}")
+        return workspace, _ensure_workspace_meta(workspace)
+    except ValueError as exc:
+        raise HTTPException(status_code=404 if str(exc).startswith("Unknown workspace_id") else 400, detail=str(exc)) from exc
+
+
+def _stable_source_item(item: dict[str, Any], *, workspace_id: str) -> dict:
+    source_id = str(item.get("source_id") or "")
+    return {
+        "workspace_id": workspace_id,
+        "source_id": source_id,
+        "title": item.get("title") or source_id,
+        "status": item.get("status", "active"),
+        "ingest_status": item.get("ingest_status") or "pending",
+        "metadata": dict(item.get("metadata") or {}),
+        "created_at": item.get("created_at") or item.get("imported_at"),
+        "updated_at": item.get("updated_at") or item.get("removed_at") or item.get("ingest_updated_at") or item.get("imported_at"),
+        "removed_at": item.get("removed_at"),
+        "remove_reason": item.get("remove_reason", ""),
+        "artifact_ref": f"source://{source_id}" if source_id else None,
+    }
+
+
+def _target_source_items(workspace: Path, *, workspace_id: str, limit: int = 100, status: str | None = None) -> list[dict]:
+    manifest = _read_json(_sources_manifest_path(workspace), {"items": []})
+    items = []
+    for item in manifest.get("items", []):
+        item_status = str(item.get("status", "active"))
+        if status and item_status != status:
+            continue
+        items.append(_stable_source_item(item, workspace_id=workspace_id))
+        if len(items) >= limit:
+            break
+    return items
+
+
+def _target_source_item(workspace: Path, *, workspace_id: str, source_id: str) -> dict:
+    manifest = _read_json(_sources_manifest_path(workspace), {"items": []})
+    for item in manifest.get("items", []):
+        if item.get("source_id") == source_id:
+            return _stable_source_item(item, workspace_id=workspace_id)
+    raise HTTPException(status_code=404, detail=f"Unknown source_id: {source_id}")
+
+
+def _source_tool_result_source_ids(result: dict) -> list[str]:
+    ids = []
+    for item in ((result.get("data") or {}).get("sources") or []):
+        source_id = str(item.get("source_id") or "").strip()
+        if source_id:
+            ids.append(source_id)
+    source = (result.get("data") or {}).get("source") or {}
+    source_id = str(source.get("source_id") or "").strip()
+    if source_id:
+        ids.append(source_id)
+    return ids
+
+
+def _run_source_tool(name: str, arguments: dict[str, Any]) -> dict:
+    return handle_source_tool(
+        name,
+        arguments,
+        blocked=_blocked,
+        bounded_int=bounded_int,
+        envelope=_target_envelope,
+        ensure_workspace_meta=_ensure_workspace_meta,
+        now=_now,
+        read_json=_read_json,
+        resolve_workspace=lambda workspace_id, workspace: _resolve_workspace_path(workspace_id=workspace_id, workspace=workspace),
+        sources_manifest_path=_sources_manifest_path,
+        write_json=_write_json,
+    )
+
+
 def _service_for_workspace(workspace: str) -> DataService:
     try:
         return DataService(validate_workspace_path(workspace))
@@ -632,6 +851,100 @@ class WorkspaceListRequest(BaseModel):
 class WorkspaceDescribeRequest(BaseModel):
     workspace: Optional[str] = Field(default=None)
     workspace_id: Optional[str] = Field(default=None)
+
+
+class TargetWorkspaceCreateRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    name: str = Field(..., min_length=1, max_length=128)
+    owner: str = Field(default="", max_length=128)
+    tags: List[str] = Field(default_factory=list)
+
+
+class TargetWorkspaceArchiveRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    reason: str = Field(default="", max_length=2048)
+
+
+class TargetTextSourceRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    title: str = Field(default="text-source", max_length=256)
+    content: str = Field(..., max_length=2 * 1024 * 1024)
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class TargetSourceImportRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    paths: List[str] = Field(default_factory=list)
+    texts: List[TargetTextSourceRequest] = Field(default_factory=list)
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class TargetSourceRemoveRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    reason: str = Field(default="", max_length=512)
+
+
+class TargetBuildStartRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    mode: str = Field(default="full", description="Build mode: full, incremental, graph_only, llmwiki_only")
+    paths: List[str] = Field(default_factory=list)
+
+
+class TargetBuildCancelRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    reason: str = Field(default="", max_length=512)
+
+
+class TargetSessionCreateRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    external_id: Optional[str] = Field(default=None, max_length=256)
+    session_type: str = Field(default="generic", max_length=128)
+    title: str = Field(default="", max_length=512)
+    ephemeral: bool = Field(default=False)
+    ttl_seconds: Optional[int] = Field(default=None, ge=1, le=365 * 24 * 60 * 60)
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class TargetSessionIngestRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    source_type: str = Field(default="structured", min_length=1, max_length=128)
+    content_format: str = Field(default="text", min_length=1, max_length=64)
+    title: str = Field(default="", max_length=512)
+    records: Optional[List[Any]] = None
+    content: Any = None
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+    related_source_ids: List[str] = Field(default_factory=list)
+    source_refs: List[str] = Field(default_factory=list)
+    auto_link: bool = Field(default=False)
+    allow_closed_write: bool = Field(default=False)
+
+
+class TargetSessionQueryRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    query: Any = None
+    top_k: Any = 8
+
+
+class TargetSessionBuildStartRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    mode: str = Field(default="full", description="Session build mode: distill, graph, communities, full")
+
+
+class TargetSessionBuildCancelRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    reason: str = Field(default="", max_length=512)
 
 
 class SourceImportRequest(BaseModel):
@@ -772,6 +1085,47 @@ class QualityFeedbackRequest(BaseModel):
     suggested_value: str = Field(default="", max_length=1024, description="Optional correction or replacement value")
     reason: str = Field(default="", max_length=4096, description="Operator note")
     metadata: Dict[str, Any] = Field(default_factory=dict, description="Optional context copied from the UI")
+
+
+class TargetQualityFeedbackRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    target_type: str = Field(..., min_length=1, max_length=64, description="Target class, for example page/source/entity/query")
+    target_id: str = Field(..., min_length=1, max_length=512, description="Stable non-path target id or slug")
+    action: str = Field(..., min_length=1, max_length=64, description="Feedback action, for example needs_review/rename_suggest/mark_noise")
+    label: str = Field(default="", max_length=256, description="Human-readable target label")
+    suggested_value: str = Field(default="", max_length=1024, description="Optional correction or replacement value")
+    reason: str = Field(default="", max_length=4096, description="Operator note")
+    metadata: Dict[str, Any] = Field(default_factory=dict, description="Optional sanitized context copied from the UI")
+
+
+class TargetQualityCorrectionRuleRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    rule_id: str = Field(default="", max_length=128, description="Existing draft rule id for update")
+    target_type: str = Field(..., min_length=1, max_length=64, description="Target class, for example page/source/entity/query")
+    target_id: str = Field(..., min_length=1, max_length=512, description="Stable non-path target id or slug")
+    action: str = Field(..., min_length=1, max_length=64, description="Rule action, e.g. rename_suggest/merge_suggest/mark_noise")
+    label: str = Field(default="", max_length=256, description="Human-readable target label")
+    suggested_value: str = Field(default="", max_length=1024, description="Optional correction or replacement value")
+    reason: str = Field(default="", max_length=4096, description="Operator note")
+    metadata: Dict[str, Any] = Field(default_factory=dict, description="Optional sanitized context copied from the UI")
+
+
+class TargetQualityCorrectionRuleReviewRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    status: str = Field(..., min_length=1, max_length=64, description="Review status")
+    reviewer: str = Field(default="", max_length=256, description="Non-authoritative reviewer metadata")
+    note: str = Field(default="", max_length=4096, description="Optional review note")
+
+
+class TargetQualityCorrectionPlanRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class TargetQualityCorrectionRulesBuildRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
 
 
 class QualityFeedbackListRequest(BaseModel):
@@ -1166,6 +1520,695 @@ async def read_source_trace(request: SourceTraceRequest) -> dict:
         return source_trace_payload(service, request.source_id, limit=request.limit)
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=f"Unknown source_id: {request.source_id}") from exc
+
+
+@target_router.post("")
+async def create_target_workspace(request: TargetWorkspaceCreateRequest) -> dict:
+    try:
+        root = _workspace_root()
+        workspace = validate_workspace_path(root / _slug(request.name))
+        meta = _ensure_workspace_meta(
+            workspace,
+            name=request.name,
+            owner=request.owner or None,
+            tags=[str(tag) for tag in request.tags[:20]],
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    workspace_payload = _stable_workspace_meta(meta)
+    return _target_envelope(
+        workspace_id=str(workspace_payload["workspace_id"]),
+        artifact_refs=[_target_workspace_artifact_ref(str(workspace_payload["workspace_id"]))],
+        next_actions=["knowledge_workspace_describe", "knowledge_source_import"],
+        data={"workspace": workspace_payload},
+    )
+
+
+@target_router.get("")
+async def list_target_workspaces(
+    owner: str = Query(default="", max_length=128),
+    tag: str = Query(default="", max_length=128),
+    limit: int = Query(default=50, ge=1, le=200),
+) -> dict:
+    try:
+        root = _workspace_root()
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    items = []
+    for meta_path in sorted(root.glob("*/.data_service_workspace.json"), key=lambda item: item.stat().st_mtime, reverse=True):
+        meta = _read_json(meta_path, {})
+        if owner and meta.get("owner") != owner:
+            continue
+        if tag and tag not in meta.get("tags", []):
+            continue
+        items.append(_stable_workspace_meta(meta))
+        if len(items) >= limit:
+            break
+    return _target_envelope(workspace_id="root", data={"items": items}, next_actions=["knowledge_workspace_describe", "knowledge_workspace_create"])
+
+
+@target_router.get("/{workspace_id}")
+async def describe_target_workspace(workspace_id: str) -> dict:
+    try:
+        workspace = _resolve_workspace_path(workspace_id=workspace_id)
+        if not _workspace_exists(workspace):
+            raise ValueError(f"Unknown workspace_id: {workspace_id}")
+        meta = _ensure_workspace_meta(workspace)
+    except ValueError as exc:
+        raise HTTPException(status_code=404 if str(exc).startswith("Unknown workspace_id") else 400, detail=str(exc)) from exc
+    service = DataService(workspace)
+    service.ensure_layout()
+    bundle = service.read_summary_bundle()
+    sources = _read_source_items(workspace, limit=500)
+    workspace_payload = _stable_workspace_meta(meta)
+    return _target_envelope(
+        workspace_id=str(workspace_payload["workspace_id"]),
+        artifact_refs=[_target_workspace_artifact_ref(str(workspace_payload["workspace_id"]))],
+        next_actions=["knowledge_source_list", "knowledge_build_start", "knowledge_query"],
+        data={
+            "workspace": workspace_payload,
+            "source_summary": {
+                "source_count": len(sources),
+                "indexed_count": sum(1 for item in sources if item.get("ingest_status") in {"indexed", "built"}),
+                "failed_count": sum(1 for item in sources if item.get("ingest_status") == "failed"),
+                "low_signal_count": sum(1 for item in sources if bool(item.get("low_signal"))),
+            },
+            "summary": bundle.get("summary_json", {}),
+            "engines": {
+                "llmwiki": {"page_count": len(bundle.get("llmwiki_pages", []))},
+                "graphrag": bundle.get("graph_stats", {}),
+            },
+            "quality": bundle.get("quality", {}),
+        },
+    )
+
+
+@target_router.post("/{workspace_id}/archive")
+async def archive_target_workspace(workspace_id: str, request: TargetWorkspaceArchiveRequest) -> dict:
+    try:
+        workspace = _resolve_workspace_path(workspace_id=workspace_id)
+        if not _workspace_exists(workspace):
+            raise ValueError(f"Unknown workspace_id: {workspace_id}")
+        meta = _ensure_workspace_meta(workspace)
+        meta["status"] = "archived"
+        meta["archived_at"] = _now()
+        meta["archive_reason"] = request.reason
+        meta["updated_at"] = meta["archived_at"]
+        _write_json(_workspace_meta_path(workspace), meta)
+    except ValueError as exc:
+        raise HTTPException(status_code=404 if str(exc).startswith("Unknown workspace_id") else 400, detail=str(exc)) from exc
+    workspace_payload = _stable_workspace_meta(meta)
+    return _target_envelope(
+        workspace_id=str(workspace_payload["workspace_id"]),
+        artifact_refs=[_target_workspace_artifact_ref(str(workspace_payload["workspace_id"]))],
+        next_actions=["knowledge_workspace_list"],
+        data={"workspace": workspace_payload},
+    )
+
+
+@target_router.post("/{workspace_id}/sources")
+async def import_target_sources(workspace_id: str, request: TargetSourceImportRequest) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    result = _run_source_tool(
+        "knowledge_source_import",
+        {
+            "workspace_id": workspace_id,
+            "paths": list(request.paths),
+            "texts": [text.model_dump() for text in request.texts],
+            "metadata": dict(request.metadata or {}),
+        },
+    )
+    if result.get("status") == "blocked":
+        return result
+    source_ids = _source_tool_result_source_ids(result)
+    sources = [_target_source_item(workspace, workspace_id=meta["workspace_id"], source_id=source_id) for source_id in source_ids]
+    return _target_envelope(
+        workspace_id=meta["workspace_id"],
+        artifact_refs=[_target_source_artifact_ref(item["source_id"]) for item in sources],
+        next_actions=["knowledge_source_list", "knowledge_build_start"],
+        data={"sources": sources},
+    )
+
+
+@target_router.get("/{workspace_id}/sources")
+async def list_target_sources(
+    workspace_id: str,
+    status: str | None = Query(default=None),
+    limit: int = Query(default=100, ge=1, le=500),
+) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    _run_source_tool("knowledge_source_list", {"workspace_id": workspace_id, "status": status, "limit": limit})
+    items = _target_source_items(workspace, workspace_id=meta["workspace_id"], limit=limit, status=status)
+    return _target_envelope(workspace_id=meta["workspace_id"], data={"items": items})
+
+
+@target_router.get("/{workspace_id}/sources/{source_id}")
+async def describe_target_source(workspace_id: str, source_id: str) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    source = _target_source_item(workspace, workspace_id=meta["workspace_id"], source_id=source_id)
+    return _target_envelope(
+        workspace_id=meta["workspace_id"],
+        artifact_refs=[_target_source_artifact_ref(source_id)],
+        next_actions=["knowledge_source_list", "knowledge_source_trace"],
+        data={"source": source},
+    )
+
+
+@target_router.post("/{workspace_id}/sources/{source_id}/remove")
+async def remove_target_source(workspace_id: str, source_id: str, request: TargetSourceRemoveRequest) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    if meta.get("status") != "archived":
+        _target_source_item(workspace, workspace_id=meta["workspace_id"], source_id=source_id)
+    result = _run_source_tool(
+        "knowledge_source_remove",
+        {"workspace_id": workspace_id, "source_id": source_id, "reason": request.reason},
+    )
+    if result.get("status") == "blocked":
+        return result
+    source = _target_source_item(workspace, workspace_id=meta["workspace_id"], source_id=source_id)
+    return _target_envelope(
+        workspace_id=meta["workspace_id"],
+        artifact_refs=[_target_source_artifact_ref(source_id)],
+        next_actions=["knowledge_source_list"],
+        data={"source": source},
+    )
+
+
+@target_router.post("/{workspace_id}/build/start")
+async def start_target_build(workspace_id: str, request: TargetBuildStartRequest) -> dict:
+    try:
+        workspace, meta = _target_workspace_or_404(workspace_id)
+        if meta.get("status") == "archived":
+            return _target_envelope(
+                workspace_id=meta["workspace_id"],
+                status="blocked",
+                warnings=["Workspace is archived and cannot start builds"],
+                next_actions=["knowledge_workspace_describe"],
+            )
+        mode = request.mode or "full"
+        if mode not in _BUILD_MODES:
+            raise ValueError(f"mode must be one of: {', '.join(sorted(_BUILD_MODES))}")
+        source_paths = validate_source_paths(request.paths, workspace=workspace) if request.paths else []
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    operation_id = f"op_{uuid.uuid4().hex[:12]}"
+    operation = {
+        "operation_id": operation_id,
+        "workspace_id": meta["workspace_id"],
+        "mode": mode,
+        "paths": source_paths,
+        "status": "queued",
+        "stage": "queued",
+        "progress": 0.0,
+        "error": None,
+        "retryable": True,
+        "artifacts": [],
+        "created_at": _now(),
+        "updated_at": _now(),
+    }
+    _write_json(_operation_path(workspace, operation_id), operation)
+    _ensure_build_worker(workspace)
+    return _target_operation_envelope(
+        meta["workspace_id"],
+        operation_id,
+        operation,
+        next_actions=["knowledge_build_status", "knowledge_build_cancel"],
+    )
+
+
+@target_router.get("/{workspace_id}/build/operations/{operation_id}")
+async def read_target_build_operation(workspace_id: str, operation_id: str) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    operation = _read_json(_operation_path(workspace, operation_id), None)
+    if not operation:
+        return _blocked(
+            workspace_id=meta["workspace_id"],
+            operation_id=operation_id,
+            message=f"Unknown operation_id: {operation_id}",
+            next_actions=["knowledge_build_start"],
+        )
+    if operation.get("status") == "queued":
+        _ensure_build_worker(workspace)
+    return _target_operation_envelope(meta["workspace_id"], operation_id, operation)
+
+
+@target_router.post("/{workspace_id}/build/operations/{operation_id}/cancel")
+async def cancel_target_build_operation(workspace_id: str, operation_id: str, request: TargetBuildCancelRequest) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    operation_path = _operation_path(workspace, operation_id)
+    operation = _read_json(operation_path, None)
+    if not operation:
+        return _blocked(
+            workspace_id=meta["workspace_id"],
+            operation_id=operation_id,
+            message=f"Unknown operation_id: {operation_id}",
+            next_actions=["knowledge_build_start"],
+        )
+    warnings = []
+    if operation.get("status") in _TERMINAL_OPERATION_STATUSES:
+        warnings.append(f"Operation is already {operation.get('status')} and cannot be cancelled")
+    else:
+        if operation.get("status") == "queued":
+            operation["status"] = "cancelled"
+            operation["stage"] = "cancelled"
+            operation["completed_at"] = _now()
+            operation["retryable"] = False
+        else:
+            operation["cancel_requested"] = True
+        operation["cancel_reason"] = request.reason
+        operation["updated_at"] = _now()
+        _write_json(operation_path, operation)
+    return _target_operation_envelope(meta["workspace_id"], operation_id, operation, warnings=warnings)
+
+
+@target_router.get("/{workspace_id}/graph/neighbors")
+async def read_target_graph_neighbors(
+    workspace_id: str,
+    node_id: str | None = Query(default=None),
+    entity_id: str | None = Query(default=None),
+    depth: int = Query(default=1),
+    max_nodes: int = Query(default=80),
+) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    try:
+        return graph_neighbors_payload(
+            DataService(workspace),
+            workspace_id=meta["workspace_id"],
+            node_id=node_id,
+            entity_id=entity_id,
+            depth=depth,
+            max_nodes=max_nodes,
+            envelope=_target_envelope,
+            blocked=_blocked,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@target_router.get("/{workspace_id}/graph/community")
+async def read_target_graph_community(
+    workspace_id: str,
+    community_id: str | None = Query(default=None),
+    limit: int = Query(default=20),
+    include_members: bool = Query(default=False),
+) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    try:
+        return graph_community_payload(
+            DataService(workspace),
+            workspace_id=meta["workspace_id"],
+            community_id=community_id,
+            limit=limit,
+            include_members=include_members,
+            envelope=_target_envelope,
+            blocked=_blocked,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@target_router.get("/{workspace_id}/graph/query")
+async def read_target_graph_query(
+    workspace_id: str,
+    q: str = Query(...),
+    top_k: int = Query(default=10),
+    include_nodes: bool = Query(default=True),
+    include_edges: bool = Query(default=True),
+    include_communities: bool = Query(default=False),
+) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    try:
+        return graph_query_payload(
+            DataService(workspace),
+            workspace_id=meta["workspace_id"],
+            query=q,
+            top_k=top_k,
+            include_nodes=include_nodes,
+            include_edges=include_edges,
+            include_communities=include_communities,
+            envelope=_target_envelope,
+            blocked=_blocked,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@target_router.get("/{workspace_id}/graph/session")
+async def read_target_graph_session(
+    workspace_id: str,
+    session_id: str | None = Query(default=None),
+    limit: int = Query(default=20),
+    include_nodes: bool = Query(default=False),
+    include_edges: bool = Query(default=False),
+    node_limit: int = Query(default=50),
+    edge_limit: int = Query(default=100),
+) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    try:
+        return graph_session_payload(
+            SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+            workspace_id=meta["workspace_id"],
+            session_id=session_id,
+            limit=limit,
+            include_nodes=include_nodes,
+            include_edges=include_edges,
+            node_limit=node_limit,
+            edge_limit=edge_limit,
+            envelope=_target_envelope,
+            blocked=_blocked,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@target_router.post("/{workspace_id}/sessions")
+async def create_target_session(workspace_id: str, request: TargetSessionCreateRequest) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    if meta.get("status") == "archived":
+        return _blocked(
+            workspace_id=meta["workspace_id"],
+            message="Workspace is archived and cannot create sessions",
+            code="workspace_archived",
+            next_actions=["knowledge_workspace_describe"],
+        )
+    return create_session_payload(
+        SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+        workspace_id=meta["workspace_id"],
+        external_id=request.external_id,
+        session_type=request.session_type,
+        title=request.title,
+        ephemeral=request.ephemeral,
+        ttl_seconds=request.ttl_seconds,
+        metadata=dict(request.metadata or {}),
+        envelope=_target_envelope,
+    )
+
+
+@target_router.get("/{workspace_id}/sessions")
+async def list_target_sessions(
+    workspace_id: str,
+    status: str | None = Query(default=None),
+    session_type: str | None = Query(default=None),
+    include_deleted: bool = Query(default=False),
+    limit: int = Query(default=20),
+) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    try:
+        return list_sessions_payload(
+            SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+            workspace_id=meta["workspace_id"],
+            status=status,
+            session_type=session_type,
+            include_deleted=include_deleted,
+            limit=limit,
+            envelope=_target_envelope,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@target_router.get("/{workspace_id}/sessions/{session_id}")
+async def get_target_session(workspace_id: str, session_id: str) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    return get_session_payload(
+        SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+        workspace_id=meta["workspace_id"],
+        session_id=session_id,
+        envelope=_target_envelope,
+        blocked=_blocked,
+    )
+
+
+@target_router.post("/{workspace_id}/sessions/{session_id}/close")
+async def close_target_session(workspace_id: str, session_id: str) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    return close_session_payload(
+        SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+        workspace_id=meta["workspace_id"],
+        session_id=session_id,
+        envelope=_target_envelope,
+        blocked=_blocked,
+    )
+
+
+@target_router.post("/{workspace_id}/sessions/{session_id}/delete")
+async def delete_target_session(workspace_id: str, session_id: str) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    return delete_session_payload(
+        SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+        workspace_id=meta["workspace_id"],
+        session_id=session_id,
+        envelope=_target_envelope,
+        blocked=_blocked,
+    )
+
+
+@target_router.post("/{workspace_id}/sessions/{session_id}/ingest")
+async def ingest_target_session(workspace_id: str, session_id: str, request: TargetSessionIngestRequest) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    if meta.get("status") == "archived":
+        return _blocked(
+            workspace_id=meta["workspace_id"],
+            message="Workspace is archived and cannot ingest session content",
+            code="workspace_archived",
+            next_actions=["knowledge_workspace_describe"],
+        )
+    return ingest_session_payload(
+        SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+        workspace_id=meta["workspace_id"],
+        session_id=session_id,
+        source_type=request.source_type,
+        content_format=request.content_format,
+        title=request.title,
+        records=request.records,
+        content=request.content,
+        metadata=dict(request.metadata or {}),
+        related_source_ids=list(request.related_source_ids or []),
+        source_refs=list(request.source_refs or []),
+        auto_link=request.auto_link,
+        allow_closed_write=request.allow_closed_write,
+        envelope=_target_envelope,
+        blocked=_blocked,
+    )
+
+
+@target_router.post("/{workspace_id}/sessions/{session_id}/query")
+async def query_target_session(workspace_id: str, session_id: str, request: TargetSessionQueryRequest) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    return query_session_payload(
+        SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+        workspace_id=meta["workspace_id"],
+        session_id=session_id,
+        query=request.query,
+        top_k=request.top_k,
+        envelope=_target_envelope,
+        blocked=_blocked,
+    )
+
+
+@target_router.post("/{workspace_id}/sessions/{session_id}/build/start")
+async def start_target_session_build(workspace_id: str, session_id: str, request: TargetSessionBuildStartRequest) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    if meta.get("status") == "archived":
+        return _blocked(
+            workspace_id=meta["workspace_id"],
+            message="Workspace is archived and cannot start session builds",
+            code="workspace_archived",
+            next_actions=["knowledge_workspace_describe"],
+        )
+    return start_session_build_payload(
+        SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+        workspace_id=meta["workspace_id"],
+        session_id=session_id,
+        mode=request.mode,
+        envelope=_target_envelope,
+        blocked=_blocked,
+    )
+
+
+@target_router.get("/{workspace_id}/sessions/{session_id}/build/operations/{operation_id}")
+async def read_target_session_build_operation(workspace_id: str, session_id: str, operation_id: str) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    return read_session_build_payload(
+        SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+        workspace_id=meta["workspace_id"],
+        session_id=session_id,
+        operation_id=operation_id,
+        envelope=_target_envelope,
+        blocked=_blocked,
+    )
+
+
+@target_router.post("/{workspace_id}/sessions/{session_id}/build/operations/{operation_id}/cancel")
+async def cancel_target_session_build_operation(
+    workspace_id: str,
+    session_id: str,
+    operation_id: str,
+    request: TargetSessionBuildCancelRequest,
+) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    return cancel_session_build_payload(
+        SessionKnowledgeService(workspace, workspace_id=meta["workspace_id"]),
+        workspace_id=meta["workspace_id"],
+        session_id=session_id,
+        operation_id=operation_id,
+        reason=request.reason,
+        envelope=_target_envelope,
+        blocked=_blocked,
+    )
+
+
+@target_router.post("/{workspace_id}/quality/feedback")
+async def record_target_quality_feedback(workspace_id: str, request: TargetQualityFeedbackRequest) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    if str(meta.get("status", "active")) == "archived":
+        return _blocked(
+            workspace_id=meta["workspace_id"],
+            message="Archived workspace cannot accept quality feedback",
+            code="workspace_archived",
+            next_actions=["knowledge_workspace_describe"],
+        )
+    try:
+        return target_quality_feedback_payload(
+            DataService(workspace),
+            workspace_id=meta["workspace_id"],
+            target_type=request.target_type,
+            target_id=request.target_id,
+            action=request.action,
+            label=request.label,
+            suggested_value=request.suggested_value,
+            reason=request.reason,
+            metadata=request.metadata,
+            envelope=_target_envelope,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@target_router.get("/{workspace_id}/quality/correction-rules")
+async def list_target_quality_correction_rules(
+    workspace_id: str,
+    limit: int = Query(default=50, ge=1, le=100),
+    status: Optional[str] = Query(default=None),
+) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    try:
+        return target_quality_correction_rules_list_payload(
+            DataService(workspace),
+            workspace_id=meta["workspace_id"],
+            limit=limit,
+            status=status,
+            envelope=_target_envelope,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@target_router.post("/{workspace_id}/quality/correction-rules")
+async def write_target_quality_correction_rule(workspace_id: str, request: TargetQualityCorrectionRuleRequest) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    if str(meta.get("status", "active")) == "archived":
+        return _blocked(
+            workspace_id=meta["workspace_id"],
+            message="Archived workspace cannot accept quality correction rules",
+            code="workspace_archived",
+            next_actions=["knowledge_workspace_describe"],
+        )
+    try:
+        return target_quality_correction_rule_write_payload(
+            DataService(workspace),
+            workspace_id=meta["workspace_id"],
+            rule_id=request.rule_id,
+            target_type=request.target_type,
+            target_id=request.target_id,
+            action=request.action,
+            label=request.label,
+            suggested_value=request.suggested_value,
+            reason=request.reason,
+            metadata=request.metadata,
+            envelope=_target_envelope,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@target_router.post("/{workspace_id}/quality/correction-rules/build")
+async def build_target_quality_correction_rules(
+    workspace_id: str,
+    request: TargetQualityCorrectionRulesBuildRequest,
+) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    if str(meta.get("status", "active")) == "archived":
+        return _blocked(
+            workspace_id=meta["workspace_id"],
+            message="Archived workspace cannot build quality correction rules",
+            code="workspace_archived",
+            next_actions=["knowledge_workspace_describe"],
+        )
+    return target_quality_correction_rules_build_payload(
+        DataService(workspace),
+        workspace_id=meta["workspace_id"],
+        envelope=_target_envelope,
+    )
+
+
+@target_router.post("/{workspace_id}/quality/correction-rules/{rule_id}/review")
+async def review_target_quality_correction_rule(
+    workspace_id: str,
+    rule_id: str,
+    request: TargetQualityCorrectionRuleReviewRequest,
+) -> dict:
+    if str(rule_id).strip() == "build":
+        raise HTTPException(status_code=404, detail="Reserved correction-rules route segment")
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    if str(meta.get("status", "active")) == "archived":
+        return _blocked(
+            workspace_id=meta["workspace_id"],
+            message="Archived workspace cannot review quality correction rules",
+            code="workspace_archived",
+            next_actions=["knowledge_workspace_describe"],
+        )
+    try:
+        return target_quality_correction_rule_review_payload(
+            DataService(workspace),
+            workspace_id=meta["workspace_id"],
+            rule_id=rule_id,
+            status=request.status,
+            reviewer=request.reviewer,
+            note=request.note,
+            envelope=_target_envelope,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@target_router.get("/{workspace_id}/quality/correction-plan")
+async def read_target_quality_correction_plan(workspace_id: str) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    return target_quality_correction_plan_read_payload(
+        DataService(workspace),
+        workspace_id=meta["workspace_id"],
+        envelope=_target_envelope,
+        blocked=_blocked,
+    )
+
+
+@target_router.post("/{workspace_id}/quality/correction-plan")
+async def generate_target_quality_correction_plan(workspace_id: str, request: TargetQualityCorrectionPlanRequest) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    if str(meta.get("status", "active")) == "archived":
+        return _blocked(
+            workspace_id=meta["workspace_id"],
+            message="Archived workspace cannot generate quality correction plans",
+            code="workspace_archived",
+            next_actions=["knowledge_workspace_describe"],
+        )
+    return target_quality_correction_plan_generate_payload(
+        DataService(workspace),
+        workspace_id=meta["workspace_id"],
+        envelope=_target_envelope,
+    )
 
 
 @target_router.post("/{workspace_id}/query")

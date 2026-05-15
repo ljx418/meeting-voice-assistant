@@ -7,7 +7,7 @@
 ## 当前版本文档
 
 - [V1.5 冻结基线](../V1.5/README.md)：V1.5 accepted 状态、阶段报告、contract 文档、gap 文档和验收截图。
-- [V1.6 规划文档](../V1.6/README.md)：V1.6 目标架构、gap、开发计划、验收计划和公开面基线。
+- [V1.6 规划文档](../V1.6/README.md)：V1.6 目标架构、gap、开发计划、验收计划和公开面基线；当前已 accepted 到 E5，target HTTP route count = 35，F console polish 仍为 planned。
 - [MCP 外部 Agent 调用说明](./MCP-EXTERNAL-AGENT-GUIDE.md)：跨版本调用说明。
 
 ## 早期基线与历史文档

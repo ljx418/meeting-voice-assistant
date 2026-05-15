@@ -1,0 +1,12 @@
+{
+  "phase": "v1.6-c3",
+  "allowed_target_http_additions": [
+    ["GET", "/api/workspaces/{workspace_id}/graph/query"]
+  ],
+  "allowed_mcp_tool_additions": [],
+  "allowed_cli_command_additions": [],
+  "allowed_cli_nested_additions": {
+    "graph": ["query"]
+  },
+  "allowed_compatibility_http_additions": []
+}

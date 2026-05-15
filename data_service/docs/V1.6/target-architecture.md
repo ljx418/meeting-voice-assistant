@@ -1,18 +1,21 @@
 # Data Service V1.6 Target Architecture
 
-更新时间：2026-05-12
+更新时间：2026-05-15
 
 ## Target Shape
 
 V1.6 的目标形态是在 V1.5 accepted baseline 上继续推进 MCP-first、最小粒度和微服务边界清晰化。
 
+V1.6-A Public Surface Guard 已 accepted。V1.6-B1 Workspace Target HTTP、V1.6-B2 Source Target HTTP、V1.6-B3 Build Target HTTP 已 accepted，并以 phase overlay 方式新增 workspace/source/build target HTTP minimal lifecycle routes。V1.6-C1 Graph Neighbors、V1.6-C2 Graph Community、V1.6-C3 Graph Query 与 V1.6-C4 Graph Session Target HTTP / CLI Minimal Surface 已 accepted，只开放 graph neighbors/community/query/session inspection 最小 read-only 公开面。V1.6-D1 Session GraphRAG contract planning / hardening 已 accepted，未新增公开面。V1.6-D2 Session Lifecycle Target HTTP Minimal Surface 已 accepted，只开放 create/list/get/close/delete 5 个 session lifecycle target HTTP routes。V1.6-D3 Session Ingest / Query / Build Contract Planning 已 accepted，未新增公开面。V1.6-D4 Session Ingest Target HTTP Minimal Surface 已 accepted，只开放 1 个 session-scoped ingest target HTTP route。V1.6-D5 Session Query Target HTTP Minimal Surface 已 accepted，只开放 1 个 session-scoped read-only query target HTTP route。V1.6-D6 Session Build Target HTTP Minimal Surface 已 accepted，只开放 session build start/status/cancel 3 个 session-scoped operation routes。V1.6-E1 Quality Feedback Target HTTP Minimal Surface 已 accepted，只开放 1 个 quality feedback route。V1.6-E2 Quality Correction Rules Target HTTP Minimal Surface 已 accepted，只开放 correction rules list/write 2 个 target HTTP routes。V1.6-E3 Quality Correction Review Target HTTP Minimal Surface 已 accepted，只开放 correction rule review 1 个 target HTTP route。V1.6-E4 Quality Correction Plan Target HTTP Minimal Surface 已 accepted，只开放 correction plan read/generate 2 个 target HTTP routes。V1.6-E5 Quality Correction Rules Build Target HTTP Minimal Surface 已 accepted，只开放 correction-rules artifact build 1 个 target HTTP route。V1.6-F1 Console Governance Evidence Baseline Sync 已 accepted，未新增公开面、未修改 frontend 或 `/knowledge` 行为。Current accepted target HTTP route count = 35。V1.5 baseline 仍不可变；V1.6-F2 仍是 planned / candidate，不表示已经实现。
+
 ```text
 External Apps / Agents / CLI / Console
   -> MCP primary contract
   -> CLI human operator entrypoint: knowledge ...
-  -> target HTTP: /api/workspaces/{workspace_id}/...
+  -> target HTTP: /api/workspaces + /api/workspaces/{workspace_id}/...
   -> Knowledge Governance Service
-     -> Workspace / Source / Build lifecycle
+     -> Public Surface Guard
+     -> Workspace / Source / Build target HTTP minimal lifecycle
      -> Query / Distill / Trace shared contracts
      -> Quality Governance contracts
      -> Session GraphRAG public contract
@@ -30,17 +33,18 @@ External Apps / Agents / CLI / Console
 - `app.llmwiki` owns readable wiki artifacts.
 - `app.graphrag.service` owns GraphRAG, session graph and relation extraction.
 - Stable external contracts use IDs and envelopes, not internal paths.
+- Public surface changes must pass baseline/current/diff guard before a phase is accepted.
 
 ## V1.6 Target Capability Groups
 
 | group | target shape | V1.5 baseline |
 | --- | --- | --- |
-| public surface guard | automated scans protect MCP / CLI / HTTP public surface | PhaseG31 manual closure audit accepted |
-| lifecycle target HTTP | workspace/source/build write routes use stable IDs and operation envelopes | compatibility HTTP exists; target HTTP write routes not open |
-| graph advanced | graph advanced target HTTP / CLI minimal surfaces opened in smallest useful slices where not yet open | MCP graph tools exist; CLI exposes `knowledge graph snapshot`; target HTTP graph advanced planned |
-| session public contract | Session GraphRAG converges across selected surfaces through stable session IDs and envelopes | MCP session tools exist; target HTTP/session CLI planned |
-| quality target HTTP | quality write routes converge on shared helpers and stable governance semantics | compatibility HTTP and CLI exist; target HTTP quality write not open |
-| console governance | console shows service state, contracts and traces through target surfaces where available | `/knowledge` governance console exists |
+| public surface guard | completed；automated scans protect MCP / CLI / HTTP public surface using machine-readable V1.5 baseline | PhaseG31 manual closure audit accepted |
+| lifecycle target HTTP | B1 workspace、B2 source、B3 build target HTTP minimal lifecycle completed | compatibility HTTP exists; V1.5 target HTTP write routes were not open |
+| graph advanced | C1 graph neighbors、C2 graph community、C3 graph query and C4 graph session inspection target HTTP / CLI completed | MCP graph tools exist; CLI exposes `knowledge graph snapshot`、`knowledge graph neighbors`、`knowledge graph community`、`knowledge graph query` and `knowledge graph session`; target HTTP graph neighbors/community/query/session inspection is open |
+| session public contract | D1 contract inventory/hardening completed; D2 session lifecycle target HTTP create/list/get/close/delete completed; D3 ingest/query/build contract planning completed with no new public surface; D4 session ingest target HTTP completed; D5 session query target HTTP completed; D6 session build start/status/cancel target HTTP completed | MCP session tools exist; C4 is graph-scoped inspection only; D6 does not open quality target HTTP |
+| quality target HTTP | E1 quality feedback completed；E2 correction rules completed；E3 correction review completed；E4 correction plan completed；E5 correction-rules artifact build completed | compatibility HTTP and CLI exist; quality feedback/rules/review/plan/rules-build target HTTP are open |
+| console governance | F1 evidence baseline completed；F2 console polish planned | `/knowledge` governance console exists and behavior is unchanged by F1 |
 
 ## Non Goals
 
@@ -48,3 +52,13 @@ External Apps / Agents / CLI / Console
 - Do not add production dependencies on meeting, ASR, interview, learning, IDE plugin or upper-layer agent workflow modules.
 - Do not expose internal workspace path/layout as stable external contract.
 - Do not open all V1.6 candidates in one phase.
+
+## Phase Gate
+
+Before entering the next phase after `V1.6-F1 Console Governance Evidence Baseline Sync`, run the public surface guard:
+
+- MCP registry count and tool set must match V1.5 baseline.
+- CLI top-level and nested command inventory must match V1.5 baseline unless the phase explicitly opens a CLI surface.
+- `/api/v1/knowledge/*` compatibility routes must remain retained.
+- target HTTP allowlist must match the accepted phase scope.
+- No upper-layer production dependency may be introduced.

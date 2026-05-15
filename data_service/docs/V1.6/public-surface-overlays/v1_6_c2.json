@@ -1,0 +1,12 @@
+{
+  "phase": "v1.6-c2",
+  "allowed_target_http_additions": [
+    ["GET", "/api/workspaces/{workspace_id}/graph/community"]
+  ],
+  "allowed_mcp_tool_additions": [],
+  "allowed_cli_command_additions": [],
+  "allowed_cli_nested_additions": {
+    "graph": ["community"]
+  },
+  "allowed_compatibility_http_additions": []
+}

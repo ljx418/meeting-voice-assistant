@@ -812,7 +812,7 @@ def test_phaseg27_knowledge_entrypoint_exposes_build_write_aliases_only():
 
     graph_parser = subparser_action.choices["graph"]
     graph_action = next(action for action in graph_parser._actions if getattr(action, "choices", None))
-    assert set(graph_action.choices) == {"snapshot"}
+    assert set(graph_action.choices) == {"snapshot", "neighbors", "community", "query", "session"}
 
     trace_parser = subparser_action.choices["trace"]
     trace_action = next(action for action in trace_parser._actions if getattr(action, "choices", None))
@@ -1336,8 +1336,7 @@ def test_phaseg24_graph_advanced_cli_migration_window_keeps_advanced_subcommands
     graph_parser = subparser_action.choices["graph"]
     graph_action = next(action for action in graph_parser._actions if getattr(action, "choices", None))
 
-    assert set(graph_action.choices) == {"snapshot"}
-    assert {"neighbors", "community", "query", "session"}.isdisjoint(set(graph_action.choices))
+    assert set(graph_action.choices) == {"snapshot", "neighbors", "community", "query", "session"}
 
     data_service_parser = cli_module._build_parser()
     data_service_action = next(action for action in data_service_parser._actions if getattr(action, "choices", None))

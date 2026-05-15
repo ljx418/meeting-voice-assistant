@@ -1,0 +1,10 @@
+{
+  "phase": "v1.6-d5",
+  "allowed_target_http_additions": [
+    ["POST", "/api/workspaces/{workspace_id}/sessions/{session_id}/query"]
+  ],
+  "allowed_mcp_tool_additions": [],
+  "allowed_cli_command_additions": [],
+  "allowed_cli_nested_additions": {},
+  "allowed_compatibility_http_additions": []
+}

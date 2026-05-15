@@ -1427,7 +1427,7 @@ def test_phaseg14_quality_cli_stage3_commands_documented():
     assert set(build_action.choices) == {"start", "status", "cancel"}
     graph_parser = knowledge_action.choices["graph"]
     graph_action = next(action for action in graph_parser._actions if getattr(action, "choices", None))
-    assert set(graph_action.choices) == {"snapshot"}
+    assert set(graph_action.choices) == {"snapshot", "neighbors", "community", "query", "session"}
     trace_parser = knowledge_action.choices["trace"]
     trace_action = next(action for action in trace_parser._actions if getattr(action, "choices", None))
     assert set(trace_action.choices) == {"source"}

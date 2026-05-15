@@ -1,0 +1,11 @@
+{
+  "phase": "v1.6-e2",
+  "allowed_target_http_additions": [
+    ["GET", "/api/workspaces/{workspace_id}/quality/correction-rules"],
+    ["POST", "/api/workspaces/{workspace_id}/quality/correction-rules"]
+  ],
+  "allowed_mcp_tool_additions": [],
+  "allowed_cli_command_additions": [],
+  "allowed_cli_nested_additions": {},
+  "allowed_compatibility_http_additions": []
+}

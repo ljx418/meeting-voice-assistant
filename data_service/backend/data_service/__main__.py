@@ -9,10 +9,15 @@ from pathlib import Path
 
 from .models import GraphExecutionOwner, QueryMode
 from .distill_contract import run_distill_contract
+from .graph_community_contract import graph_community_payload
+from .graph_neighbors_contract import graph_neighbors_payload
+from .graph_query_contract import graph_query_payload
+from .graph_session_contract import graph_session_payload
 from .mcp_build_runtime import BuildRuntime
 from .mcp_build_tools import handle_build_tool
 from .mcp_common import blocked, bounded_int, envelope, now, read_json, slug, write_json
 from .mcp_session_tools import handle_session_tool
+from .session_service import SessionKnowledgeService
 from .mcp_source_tools import handle_source_tool
 from .mcp_workspace_runtime import WorkspaceRuntime
 from .mcp_workspace_tools import handle_workspace_tool
@@ -167,6 +172,50 @@ def _add_graph_lifecycle_parser(subparsers: argparse._SubParsersAction) -> None:
     graph_snapshot.add_argument("--workspace-id", help="Managed workspace identifier")
     graph_snapshot.add_argument("--workspace", help="Compat workspace directory")
     graph_snapshot.add_argument("--max-nodes", type=int, default=200, help="Max graph nodes to return")
+
+    graph_neighbors = graph_subparsers.add_parser("neighbors", help="Read managed workspace graph neighbors")
+    graph_neighbors.add_argument("--workspace-root", help="Managed workspace root; overrides DATA_SERVICE_WORKSPACE_ROOT for this command")
+    graph_neighbors.add_argument("--workspace-id", help="Managed workspace identifier")
+    graph_neighbors.add_argument("--workspace", help="Compat workspace directory")
+    graph_neighbors.add_argument("--node-id", help="Graph node identifier")
+    graph_neighbors.add_argument("--entity-id", help="Graph entity identifier")
+    graph_neighbors.add_argument("--depth", type=int, default=1, help="Neighbor traversal depth, 1-3")
+    graph_neighbors.add_argument("--max-nodes", type=int, default=80, help="Max nodes to return")
+    graph_neighbors.add_argument("--json", action="store_true", help="Emit JSON output")
+
+    graph_community = graph_subparsers.add_parser("community", help="Read managed workspace graph communities")
+    graph_community.add_argument("--workspace-root", help="Managed workspace root; overrides DATA_SERVICE_WORKSPACE_ROOT for this command")
+    graph_community.add_argument("--workspace-id", help="Managed workspace identifier")
+    graph_community.add_argument("--workspace", help="Compat workspace directory")
+    graph_community.add_argument("--community-id", help="Graph community identifier")
+    graph_community.add_argument("--limit", type=int, default=20, help="Max communities to return, 1-100")
+    graph_community.add_argument("--include-members", action="store_true", help="Include stable community member summaries")
+    graph_community.add_argument("--json", action="store_true", help="Emit JSON output")
+
+    graph_query = graph_subparsers.add_parser("query", help="Query managed workspace graph state")
+    graph_query.add_argument("--workspace-root", help="Managed workspace root; overrides DATA_SERVICE_WORKSPACE_ROOT for this command")
+    graph_query.add_argument("--workspace-id", help="Managed workspace identifier")
+    graph_query.add_argument("--workspace", help="Compat workspace directory")
+    graph_query.add_argument("--query", "--q", dest="query", help="Graph query text")
+    graph_query.add_argument("--top-k", type=int, default=10, help="Max graph query items, 1-50")
+    graph_query.add_argument("--include-nodes", dest="include_nodes", action="store_true", default=True, help="Include stable graph nodes")
+    graph_query.add_argument("--no-include-nodes", dest="include_nodes", action="store_false", help="Omit graph nodes")
+    graph_query.add_argument("--include-edges", dest="include_edges", action="store_true", default=True, help="Include stable graph edges")
+    graph_query.add_argument("--no-include-edges", dest="include_edges", action="store_false", help="Omit graph edges")
+    graph_query.add_argument("--include-communities", action="store_true", help="Include stable graph communities")
+    graph_query.add_argument("--json", action="store_true", help="Emit JSON output")
+
+    graph_session = graph_subparsers.add_parser("session", help="Inspect existing session graph artifacts")
+    graph_session.add_argument("--workspace-root", help="Managed workspace root; overrides DATA_SERVICE_WORKSPACE_ROOT for this command")
+    graph_session.add_argument("--workspace-id", help="Managed workspace identifier")
+    graph_session.add_argument("--workspace", help="Compat workspace directory")
+    graph_session.add_argument("--session-id", help="Optional session graph identifier")
+    graph_session.add_argument("--limit", type=int, default=20, help="Max session graph summaries to return, 1-100")
+    graph_session.add_argument("--include-nodes", action="store_true", help="Include stable node summaries for detail")
+    graph_session.add_argument("--include-edges", action="store_true", help="Include stable edge summaries for detail")
+    graph_session.add_argument("--node-limit", type=int, default=50, help="Max nodes to return when included, 1-200")
+    graph_session.add_argument("--edge-limit", type=int, default=100, help="Max edges to return when included, 1-500")
+    graph_session.add_argument("--json", action="store_true", help="Emit JSON output")
 
 
 def _add_trace_lifecycle_parser(subparsers: argparse._SubParsersAction) -> None:
@@ -415,6 +464,84 @@ def _run_graph_command(args: argparse.Namespace) -> int:
             "scope": "workspace",
             "max_nodes": getattr(args, "max_nodes", 200),
         }
+    elif args.graph_command == "neighbors":
+        workspace = runtime.resolve_workspace(getattr(args, "workspace_id", None), getattr(args, "workspace", None))
+        service = DataService(workspace)
+        try:
+            payload = graph_neighbors_payload(
+                service,
+                workspace_id=runtime.workspace_id_for_service(service),
+                node_id=getattr(args, "node_id", None),
+                entity_id=getattr(args, "entity_id", None),
+                depth=getattr(args, "depth", 1),
+                max_nodes=getattr(args, "max_nodes", 80),
+                envelope=envelope,
+                blocked=blocked,
+            )
+        except ValueError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 0
+    elif args.graph_command == "community":
+        workspace = runtime.resolve_workspace(getattr(args, "workspace_id", None), getattr(args, "workspace", None))
+        service = DataService(workspace)
+        try:
+            payload = graph_community_payload(
+                service,
+                workspace_id=runtime.workspace_id_for_service(service),
+                community_id=getattr(args, "community_id", None),
+                limit=getattr(args, "limit", 20),
+                include_members=bool(getattr(args, "include_members", False)),
+                envelope=envelope,
+                blocked=blocked,
+            )
+        except ValueError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 0
+    elif args.graph_command == "query":
+        workspace = runtime.resolve_workspace(getattr(args, "workspace_id", None), getattr(args, "workspace", None))
+        service = DataService(workspace)
+        try:
+            payload = graph_query_payload(
+                service,
+                workspace_id=runtime.workspace_id_for_service(service),
+                query=getattr(args, "query", None),
+                top_k=getattr(args, "top_k", 10),
+                include_nodes=bool(getattr(args, "include_nodes", True)),
+                include_edges=bool(getattr(args, "include_edges", True)),
+                include_communities=bool(getattr(args, "include_communities", False)),
+                envelope=envelope,
+                blocked=blocked,
+            )
+        except ValueError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 0
+    elif args.graph_command == "session":
+        try:
+            workspace = runtime.resolve_workspace(getattr(args, "workspace_id", None), getattr(args, "workspace", None))
+            service = DataService(workspace)
+            payload = graph_session_payload(
+                SessionKnowledgeService(workspace, workspace_id=runtime.workspace_id_for_service(service)),
+                workspace_id=runtime.workspace_id_for_service(service),
+                session_id=getattr(args, "session_id", None),
+                limit=getattr(args, "limit", 20),
+                include_nodes=bool(getattr(args, "include_nodes", False)),
+                include_edges=bool(getattr(args, "include_edges", False)),
+                node_limit=getattr(args, "node_limit", 50),
+                edge_limit=getattr(args, "edge_limit", 100),
+                envelope=envelope,
+                blocked=blocked,
+            )
+        except ValueError as exc:
+            print(str(exc), file=sys.stderr)
+            return 2
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return 0
     else:
         return 1
 
