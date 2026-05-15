@@ -1,0 +1,82 @@
+<mxfile host="app.diagrams.net" modified="2026-05-15T00:00:00.000Z" agent="agent-desktop-pet-docs" version="24.7.17">
+  <diagram id="v2_0_gap" name="V2.0 Current Gap Analysis">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="agent-desktop-pet V2.0 Current Gap Analysis" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="120" y="30" width="1360" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="V1.0 macOS-first MVP -&gt; V2.0 Developer Workflow Integration Release" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="170" y="90" width="1260" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="current_header" value="当前状态：V1.0 macOS-first MVP 已完成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="80" y="170" width="460" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="current_body" value="• Tauri 透明桌宠窗口&lt;br&gt;• 低打扰 CatStateMachine&lt;br&gt;• localhost HTTP API&lt;br&gt;• PetEvent JSON Schema / whitelist / token&lt;br&gt;• diagnostics / ingress queue&lt;br&gt;• petctl notify&lt;br&gt;• safe sound feedback&lt;br&gt;&lt;br&gt;可声明：macOS-first MVP ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=16;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="80" y="250" width="460" height="250" as="geometry" />
+        </mxCell>
+
+        <mxCell id="target_header" value="目标状态：真实开发工作流稳定接入" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="1060" y="170" width="460" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="target_body" value="• Codex instruction template&lt;br&gt;• Claude Code instruction template&lt;br&gt;• petctl recipes&lt;br&gt;• shell / Node examples&lt;br&gt;• settings diagnostics polish&lt;br&gt;• README / doctor / troubleshoot&lt;br&gt;• macOS distribution readiness&lt;br&gt;• CSS cat experience polish&lt;br&gt;&lt;br&gt;可声明：V2.0 workflow integration ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=16;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="1060" y="250" width="460" height="250" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gap_header" value="差距" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="570" y="170" width="460" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gap_body" value="• 缺 Codex / Claude Code 模板&lt;br&gt;• 缺场景化 petctl recipes&lt;br&gt;• 缺 shell / Node 可复制示例&lt;br&gt;• settings diagnostics 偏底层&lt;br&gt;• README 快速部署与排障需加强&lt;br&gt;• CSS 猫咪仍是占位体验&lt;br&gt;&lt;br&gt;仍不做：MCP / USB / Windows ready / signed release / Live2D / 3D" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=16;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="570" y="250" width="460" height="250" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arch_header" value="目标项目架构：V2.0 不改 V1.0 事件安全边界" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="80" y="540" width="1440" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="arch1" value="Local workflow&lt;br&gt;shell / Node / Codex / Claude" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="640" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="arch2" value="petctl or&lt;br&gt;localhost HTTP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#7C3AED;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="350" y="640" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="arch3" value="Rust Local Event Bridge&lt;br&gt;schema / token / whitelist / rate limit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="600" y="640" width="250" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="arch4" value="Diagnostics + Ingress Queue&lt;br&gt;accepted / rejected summaries" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="910" y="640" width="230" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="arch5" value="CatStateMachine&lt;br&gt;low-interruption feedback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=14;align=center" vertex="1" parent="1">
+          <mxGeometry x="1200" y="640" width="230" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="arch1" target="arch2" style="endArrow=block;html=1;strokeColor=#475569">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="arch2" target="arch3" style="endArrow=block;html=1;strokeColor=#475569">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="arch3" target="arch4" style="endArrow=block;html=1;strokeColor=#475569">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="arch4" target="arch5" style="endArrow=block;html=1;strokeColor=#475569">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="plan_header" value="开发计划摘要" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="80" y="780" width="700" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="plan_body" value="Phase 2.0：V1.0 baseline freeze&lt;br&gt;Phase 2.1：Integration templates&lt;br&gt;Phase 2.2：Settings &amp; diagnostics polish&lt;br&gt;Phase 2.3：Cat experience polish&lt;br&gt;Phase 2.4：Distribution readiness" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=18;fontSize=15" vertex="1" parent="1">
+          <mxGeometry x="80" y="860" width="700" height="180" as="geometry" />
+        </mxCell>
+
+        <mxCell id="accept_header" value="验收计划摘要" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;fontSize=20;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="820" y="780" width="700" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="accept_body" value="• V1.0 自动检查和 macOS smoke 不回归&lt;br&gt;• Codex / Claude Code 模板可用于本地任务&lt;br&gt;• shell / Node 示例可触发状态&lt;br&gt;• settings 能解释健康、拒绝原因、声音决策&lt;br&gt;• README 支持 macOS 快速部署与排障&lt;br&gt;• No false-green：不声明 MCP / USB / Windows / cross-platform / signed release ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=18;fontSize=15" vertex="1" parent="1">
+          <mxGeometry x="820" y="860" width="700" height="180" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

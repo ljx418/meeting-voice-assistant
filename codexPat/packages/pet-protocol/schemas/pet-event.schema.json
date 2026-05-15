@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-desktop-pet.local/schemas/pet-event.schema.json",
+  "title": "PetEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source", "level"],
+  "properties": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z0-9._-]+$"
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["codex", "claude_code", "custom", "system"]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      }
+    },
+    "level": {
+      "type": "string",
+      "enum": ["idle", "thinking", "running", "success", "warning", "error", "need_input", "sleeping"]
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "message": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "action": {
+      "type": "string",
+      "enum": ["idle", "thinking", "running", "success", "warning", "error", "need_input", "sleeping"]
+    },
+    "sound": {
+      "type": "string",
+      "enum": ["none", "success_chime", "warning_chime", "error_chime", "need_input_chime"]
+    },
+    "durationMs": {
+      "type": "integer",
+      "minimum": 1000,
+      "maximum": 30000
+    },
+    "hardware": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "light": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "effect": {
+              "type": "string",
+              "enum": ["none", "thinking_blue", "running_cyan", "success_green", "warning_amber", "error_red", "need_input_purple", "sleeping_warm_dim"]
+            },
+            "color": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "brightness": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "maxProperties": 20,
+      "additionalProperties": {
+        "anyOf": [
+          { "type": "string", "maxLength": 500 },
+          { "type": "number" },
+          { "type": "boolean" },
+          { "type": "null" },
+          {
+            "type": "object",
+            "maxProperties": 10,
+            "additionalProperties": {
+              "anyOf": [
+                { "type": "string", "maxLength": 500 },
+                { "type": "number" },
+                { "type": "boolean" },
+                { "type": "null" }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

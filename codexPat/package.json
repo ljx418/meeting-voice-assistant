@@ -1,0 +1,18 @@
+{
+  "name": "agent-desktop-pet",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Desktop agent status pet",
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "doctor": "bash scripts/doctor.sh",
+    "desktop:dev": "pnpm --filter desktop tauri dev",
+    "desktop:build": "pnpm --filter desktop tauri build -b app",
+    "desktop:check": "pnpm --filter desktop check",
+    "protocol:check": "pnpm --filter @agent-desktop-pet/pet-protocol check",
+    "protocol:test": "pnpm --filter @agent-desktop-pet/pet-protocol test",
+    "petctl:check": "pnpm --filter @agent-desktop-pet/petctl check",
+    "petctl:test": "pnpm --filter @agent-desktop-pet/petctl test"
+  },
+  "devDependencies": {}
+}

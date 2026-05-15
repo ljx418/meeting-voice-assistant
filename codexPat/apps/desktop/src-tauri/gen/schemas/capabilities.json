@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Default permissions for Phase 1 desktop shell windows","local":true,"windows":["main","settings"],"permissions":["core:default","core:window:default","core:window:allow-start-dragging"]}}

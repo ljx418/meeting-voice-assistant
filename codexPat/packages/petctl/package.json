@@ -1,0 +1,28 @@
+{
+  "name": "@agent-desktop-pet/petctl",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "petctl": "./dist/cli.js"
+  },
+  "scripts": {
+    "prebuild": "pnpm --filter @agent-desktop-pet/pet-protocol build",
+    "build": "tsc -p tsconfig.json",
+    "precheck": "pnpm --filter @agent-desktop-pet/pet-protocol build",
+    "check": "tsc --noEmit",
+    "dev": "tsx src/cli.ts",
+    "notify": "tsx src/cli.ts notify",
+    "petctl": "tsx src/cli.ts",
+    "pretest": "pnpm --filter @agent-desktop-pet/pet-protocol build",
+    "test": "node --test --import tsx src/petctl.test.ts"
+  },
+  "dependencies": {
+    "@agent-desktop-pet/pet-protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "tsx": "^4.20.6",
+    "typescript": "^5.6.0"
+  }
+}
