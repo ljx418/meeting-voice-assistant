@@ -1,0 +1,109 @@
+{
+  "mode": "hybrid",
+  "query": "What does the RC1 source validate?",
+  "answer": "LLMWiki pages: 3 hits\nGraphRAG entities/units: 0 hits\nTop wiki result: src 3af5e0d897079912",
+  "hits": [
+    {
+      "title": "src 3af5e0d897079912",
+      "snippet": "src 3af5e0d897079912",
+      "source": "source-src-3af5e0d897079912-d658086d",
+      "score": 0.0000036479816487259953,
+      "meta": {
+        "kind": "page",
+        "slug": "source-src-3af5e0d897079912-d658086d"
+      }
+    },
+    {
+      "title": "src",
+      "snippet": "src",
+      "source": "src",
+      "score": 0.0000035679643747070287,
+      "meta": {
+        "kind": "page",
+        "slug": "src"
+      }
+    },
+    {
+      "title": "Passage 4cebafa7",
+      "snippet": "ResearchNotebook RC1 validates source grounded ask, session workbench, graph context, and lightweight feedback.",
+      "source": "",
+      "score": 0.000002,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "4cebafa7-dab3-4672-99be-6fbe1456b6a6"
+      }
+    }
+  ],
+  "engine_payloads": {
+    "llmwiki": {
+      "pages": [
+        {
+          "result_id": "source-src-3af5e0d897079912-d658086d",
+          "result_type": "page",
+          "title": "src 3af5e0d897079912",
+          "snippet": "src 3af5e0d897079912",
+          "score": 0.0000036479816487259953,
+          "meta": {
+            "slug": "source-src-3af5e0d897079912-d658086d"
+          }
+        },
+        {
+          "result_id": "src",
+          "result_type": "page",
+          "title": "src",
+          "snippet": "src",
+          "score": 0.0000035679643747070287,
+          "meta": {
+            "slug": "src"
+          }
+        }
+      ],
+      "passages": [
+        {
+          "result_id": "4cebafa7-dab3-4672-99be-6fbe1456b6a6",
+          "result_type": "passage",
+          "title": "Passage 4cebafa7",
+          "snippet": "ResearchNotebook RC1 validates source grounded ask, session workbench, graph context, and lightweight feedback.",
+          "score": 0.000002,
+          "meta": {
+            "passage_id": "4cebafa7-dab3-4672-99be-6fbe1456b6a6",
+            "source_id": "d658086df853169a",
+            "locator": "{\"kind\": \"lines\", \"start\": 0, \"end\": 0, \"heading_path\": [], \"passage_order\": 0}"
+          }
+        }
+      ],
+      "citations": [
+        {
+          "source_id": "d658086df853169a",
+          "title": "src 3af5e0d897079912",
+          "authority": "PRIMARY_DOC",
+          "source_type": "markdown",
+          "locator": "{\"kind\": \"lines\", \"start\": 0, \"end\": 0, \"heading_path\": [], \"passage_order\": 0}",
+          "excerpt": "ResearchNotebook RC1 validates source grounded ask, session workbench, graph context, and lightweight feedback."
+        }
+      ],
+      "related_pages": [
+        "source-src-3af5e0d897079912-d658086d",
+        "src"
+      ]
+    },
+    "graphrag": {
+      "graph_model_version": "1.0",
+      "entities": [],
+      "relationships": [],
+      "units": [],
+      "nodes": [],
+      "edges": [],
+      "communities": [],
+      "hits": [],
+      "stats": {
+        "entity_count": 0,
+        "theme_count": 0,
+        "relationship_count": 0,
+        "community_count": 0,
+        "document_count": 0
+      },
+      "source": "app.graphrag.bridge"
+    }
+  }
+}

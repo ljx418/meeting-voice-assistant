@@ -1,0 +1,44 @@
+{
+  "workspace_id": "rn-rc1-1779098183003-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "graph",
+      "artifact_ref": "graph://rn-rc1-1779098183003-workspace/communities"
+    }
+  ],
+  "next_actions": [
+    "knowledge_graph_snapshot"
+  ],
+  "data": {
+    "limit": 20,
+    "items": [
+      {
+        "community_id": "community-1",
+        "title": "RC1",
+        "summary": "ResearchNotebook、RC1",
+        "entity_count": 3,
+        "relationship_count": 2,
+        "score": 1.7874,
+        "rank": null,
+        "metadata": {
+          "source_theme": null
+        }
+      },
+      {
+        "community_id": "community-2",
+        "title": "ResearchNotebook",
+        "summary": "ResearchNotebook、RC1",
+        "entity_count": 3,
+        "relationship_count": 2,
+        "score": 1.7874,
+        "rank": null,
+        "metadata": {
+          "source_theme": null
+        }
+      }
+    ]
+  }
+}

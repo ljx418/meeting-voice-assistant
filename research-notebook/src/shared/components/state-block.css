@@ -1,0 +1,38 @@
+.state-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--rn-space-md);
+  padding: var(--rn-space-md);
+  border: 1px solid var(--rn-color-outline-variant);
+  border-radius: var(--rn-radius-md);
+  background: var(--rn-color-surface-low);
+}
+
+.state-block h3 {
+  margin: 0;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.state-copy {
+  margin-top: 4px;
+  color: var(--rn-color-on-surface-variant);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.state-warning {
+  border-color: #f4bf4f;
+  background: #fff8e1;
+}
+
+.state-error {
+  border-color: var(--rn-color-error);
+  background: var(--rn-color-error-container);
+}
+
+.state-success {
+  border-color: #1b8f4d;
+  background: #e7f6ed;
+}

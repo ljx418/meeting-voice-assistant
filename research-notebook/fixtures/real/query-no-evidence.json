@@ -1,0 +1,7 @@
+{
+  "mode": "hybrid",
+  "query": "What is not in the corpus?",
+  "answer": "No grounded source was returned for this question.",
+  "hits": [],
+  "engine_payloads": {}
+}

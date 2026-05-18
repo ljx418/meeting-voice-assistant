@@ -1,0 +1,17 @@
+{
+  "workspace_id": "rn-rc1-fixture",
+  "operation_id": null,
+  "status": "blocked",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "knowledge_build_start"
+  ],
+  "data": {
+    "error": {
+      "code": "graph_community_unavailable",
+      "message": "Graph communities are not available for this workspace",
+      "retryable": false
+    }
+  }
+}
