@@ -18,7 +18,7 @@ use crate::sound::{SoundDiagnostics, SoundHandle};
 
 pub const LISTEN_ADDRESS: &str = "127.0.0.1:17321";
 
-#[derive(Debug, Clone, Copy, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
 pub enum RejectReasonCode {
     AuthMissing,
@@ -32,6 +32,7 @@ pub enum RejectReasonCode {
     QueueReplaced,
     BridgeUnavailable,
     PortBindFailed,
+    #[allow(dead_code)]
     EmitFailed,
 }
 
@@ -47,6 +48,7 @@ pub struct EventSummary {
     pub status: u16,
     pub accepted: bool,
     pub reason_code: Option<RejectReasonCode>,
+    pub reason_field: Option<String>,
     pub reason: Option<String>,
 }
 

@@ -19,14 +19,15 @@ type WindowPosition = {
 
 type ApiEventSummary = {
   id: string;
-  sourceId?: string;
-  level?: string;
-  titlePreview?: string;
-  messagePreview?: string;
+  sourceId?: string | null;
+  level?: string | null;
+  titlePreview?: string | null;
+  messagePreview?: string | null;
   status: number;
   accepted: boolean;
-  reasonCode?: string;
-  reason?: string;
+  reasonCode?: string | null;
+  reasonField?: string | null;
+  reason?: string | null;
   receivedAt: string;
 };
 
@@ -53,6 +54,15 @@ type BridgeDiagnostics = {
   };
   hardwareLight: boolean;
   startupError?: string | null;
+};
+
+type TokenStatus = "configured" | "missing" | "unreadable";
+
+type DiagnosticsViewState = {
+  diagnostics: BridgeDiagnostics;
+  tokenStatus: TokenStatus;
+  refreshedAt: Date;
+  error?: string;
 };
 
 type AcceptedPetEvent = {
@@ -184,25 +194,7 @@ async function renderSettings(settings: AppSettings) {
   document.body.classList.remove("pet-body");
   const position = await getPetPosition().catch(() => ({ x: 0, y: 0 }));
   const stateSnapshot = readStoredCatStateSnapshot();
-  const apiDebugState = await getApiDebugState().catch(() => ({
-    enabled: false,
-    listenAddress: "127.0.0.1:17321",
-    queueLength: 0,
-    queueCapacity: 32,
-    acceptedEvents: [],
-    rejectedEvents: [],
-    lastAccepted: null,
-    lastRejected: null,
-    sound: {
-      playbackAvailable: false,
-      muted: settings.muted,
-      cooldownMs: 1200,
-      acceptedIds: ["none", "success_chime", "warning_chime", "error_chime", "need_input_chime"],
-      lastDecision: null
-    },
-    hardwareLight: false,
-    startupError: "Unable to read API debug state"
-  }));
+  const diagnosticsState = await readDiagnosticsViewState(settings);
 
   appRoot.innerHTML = `
     <main class="settings-panel">
@@ -240,14 +232,14 @@ async function renderSettings(settings: AppSettings) {
 
       <section class="settings-section api-debug-section">
         <div>
-          <h2>Local HTTP API</h2>
-          <p id="settings-api-summary">${apiDebugSummary(apiDebugState)}</p>
+          <h2>Diagnostics</h2>
+          <p id="settings-api-summary">${apiDebugSummary(diagnosticsState)}</p>
         </div>
         <button class="secondary-action" id="api-refresh" type="button">Refresh</button>
       </section>
 
       <section class="diagnostics-panel" id="diagnostics-panel">
-        ${diagnosticsPanel(apiDebugState)}
+        ${diagnosticsPanel(diagnosticsState)}
       </section>
 
       <section class="settings-section muted-section" aria-disabled="true">
@@ -280,14 +272,23 @@ async function renderSettings(settings: AppSettings) {
   appRoot.querySelector<HTMLButtonElement>("#api-refresh")?.addEventListener("click", async () => {
     const summary = appRoot.querySelector<HTMLElement>("#settings-api-summary");
     const panel = appRoot.querySelector<HTMLElement>("#diagnostics-panel");
-    const diagnostics = await getApiDebugState();
+    const refreshButton = appRoot.querySelector<HTMLButtonElement>("#api-refresh");
+    refreshButton?.setAttribute("disabled", "true");
+    const diagnostics = await readDiagnosticsViewState(settings);
     if (summary) {
       summary.textContent = apiDebugSummary(diagnostics);
     }
     if (panel) {
       panel.innerHTML = diagnosticsPanel(diagnostics);
+      attachCopyButtons(panel);
     }
+    refreshButton?.removeAttribute("disabled");
   });
+
+  const diagnosticsPanelElement = appRoot.querySelector<HTMLElement>("#diagnostics-panel");
+  if (diagnosticsPanelElement) {
+    attachCopyButtons(diagnosticsPanelElement);
+  }
 }
 
 async function boot() {
@@ -345,72 +346,266 @@ function isCatState(value: string): value is CatState {
   return value in CAT_STATE_CONFIG;
 }
 
-function apiDebugSummary(state: BridgeDiagnostics) {
-  const startup = state.startupError ? ` startup error=${state.startupError};` : "";
-  return `API enabled=${state.enabled}; listen=${state.listenAddress}; queue=${state.queueLength}/${state.queueCapacity};${startup} sound playback=${state.sound.playbackAvailable}; muted=${state.sound.muted}; hardware light=${state.hardwareLight}.`;
+async function readDiagnosticsViewState(settings: AppSettings): Promise<DiagnosticsViewState> {
+  try {
+    const diagnostics = await getApiDebugState();
+    return {
+      diagnostics,
+      tokenStatus: deriveTokenStatus(diagnostics),
+      refreshedAt: new Date()
+    };
+  } catch (error) {
+    return {
+      diagnostics: fallbackDiagnostics(settings, userFacingError(error)),
+      tokenStatus: "unreadable",
+      refreshedAt: new Date(),
+      error: userFacingError(error)
+    };
+  }
 }
 
-function diagnosticsPanel(state: BridgeDiagnostics) {
+function deriveTokenStatus(diagnostics: BridgeDiagnostics): TokenStatus {
+  const startupError = diagnostics.startupError?.toLowerCase() ?? "";
+  if (
+    startupError.includes("missing") ||
+    startupError.includes("not found") ||
+    startupError.includes("no such file")
+  ) {
+    return "missing";
+  }
+  if (startupError.includes("token") || startupError.includes("permission")) {
+    return "unreadable";
+  }
+  return "configured";
+}
+
+function fallbackDiagnostics(settings: AppSettings, error: string): BridgeDiagnostics {
+  return {
+    enabled: false,
+    listenAddress: "127.0.0.1:17321",
+    queueLength: 0,
+    queueCapacity: 32,
+    acceptedEvents: [],
+    rejectedEvents: [],
+    lastAccepted: null,
+    lastRejected: null,
+    sound: {
+      playbackAvailable: false,
+      muted: settings.muted,
+      cooldownMs: 1200,
+      acceptedIds: ["none", "success_chime", "warning_chime", "error_chime", "need_input_chime"],
+      lastDecision: null
+    },
+    hardwareLight: false,
+    startupError: error
+  };
+}
+
+function userFacingError(error: unknown) {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  if (typeof error === "string" && error) {
+    return error;
+  }
+  return "Unable to load diagnostics.";
+}
+
+function apiDebugSummary(state: DiagnosticsViewState) {
+  if (state.error) {
+    return `Diagnostics refresh failed: ${state.error}`;
+  }
+  const diagnostics = state.diagnostics;
+  return `API ${diagnostics.enabled ? "enabled" : "disabled"}; ${diagnostics.listenAddress}; queue ${diagnostics.queueLength}/${diagnostics.queueCapacity}; token ${tokenStatusLabel(state.tokenStatus)}.`;
+}
+
+function diagnosticsPanel(viewState: DiagnosticsViewState) {
+  const state = viewState.diagnostics;
   return `
-    <div class="diagnostics-header">
-      <div>
-        <h2>Event Diagnostics</h2>
-        <p>Accepted and rejected summaries are in-memory only.</p>
+    ${viewState.error ? `<p class="diagnostics-error">${escapeHtml(viewState.error)}</p>` : ""}
+    <section class="diagnostics-block">
+      <div class="diagnostics-block-heading">
+        <h3>Runtime health</h3>
+        <p>Last refresh: ${escapeHtml(formatDate(viewState.refreshedAt))}</p>
       </div>
-      <dl class="diagnostics-metrics">
+      <dl class="diagnostics-grid">
+        <div><dt>API enabled</dt><dd>${state.enabled ? "yes" : "no"}</dd></div>
+        <div><dt>Listen address</dt><dd>${escapeHtml(state.listenAddress)}</dd></div>
         <div><dt>Queue</dt><dd>${state.queueLength}/${state.queueCapacity}</dd></div>
-        <div><dt>Accepted</dt><dd>${state.acceptedEvents.length}</dd></div>
-        <div><dt>Rejected</dt><dd>${state.rejectedEvents.length}</dd></div>
-        <div><dt>Sound</dt><dd>${state.sound.playbackAvailable ? "available" : "off"}${state.sound.muted ? " / muted" : ""}</dd></div>
+        <div><dt>Hardware light</dt><dd>${state.hardwareLight ? "enabled" : "disabled"}</dd></div>
+        <div><dt>Token status</dt><dd>${tokenStatusLabel(viewState.tokenStatus)}</dd></div>
+        <div><dt>Startup</dt><dd>${state.startupError ? escapeHtml(state.startupError) : "ok"}</dd></div>
       </dl>
-    </div>
-    <div class="sound-diagnostics">
-      <h3>Sound</h3>
-      <p>Accepted IDs: ${state.sound.acceptedIds.map(escapeHtml).join(", ")}</p>
-      <p>Cooldown: ${state.sound.cooldownMs}ms</p>
-      <p>Last decision: ${soundDecisionLabel(state.sound.lastDecision)}</p>
-    </div>
-    <div class="event-lists">
-      <div>
-        <h3>Latest Accepted</h3>
-        ${eventList(state.acceptedEvents, "No accepted events yet.")}
+    </section>
+
+    <section class="diagnostics-block">
+      <div class="diagnostics-block-heading">
+        <h3>Sound</h3>
+        <p>No file paths or bundle paths are exposed.</p>
       </div>
-      <div>
-        <h3>Latest Rejected</h3>
-        ${eventList(state.rejectedEvents, "No rejected events yet.")}
+      <dl class="diagnostics-grid">
+        <div><dt>Playback available</dt><dd>${state.sound.playbackAvailable ? "yes" : "no"}</dd></div>
+        <div><dt>Muted</dt><dd>${state.sound.muted ? "yes" : "no"}</dd></div>
+        <div><dt>Cooldown</dt><dd>${state.sound.cooldownMs}ms</dd></div>
+        <div class="diagnostics-wide"><dt>Accepted IDs</dt><dd>${state.sound.acceptedIds.map(escapeHtml).join(", ")}</dd></div>
+      </dl>
+      ${soundDecisionBlock(state.sound.lastDecision)}
+    </section>
+
+    <section class="diagnostics-block">
+      <div class="diagnostics-block-heading">
+        <h3>Recent accepted events</h3>
+        <p>Shows summaries only. Raw payload and metadata are not stored here.</p>
       </div>
-    </div>
+      ${eventTable(state.acceptedEvents, "accepted")}
+    </section>
+
+    <section class="diagnostics-block">
+      <div class="diagnostics-block-heading">
+        <h3>Recent rejected events</h3>
+        <p>Invalid payload bodies are not displayed.</p>
+      </div>
+      ${eventTable(state.rejectedEvents, "rejected")}
+    </section>
+
+    <section class="diagnostics-block">
+      <div class="diagnostics-block-heading">
+        <h3>Quick commands</h3>
+        <p>Copy-only examples. The settings window never executes commands.</p>
+      </div>
+      <div class="quick-command-list">
+        ${quickCommand("Health", "curl http://127.0.0.1:17321/api/health")}
+        ${quickCommand("Capabilities", "curl http://127.0.0.1:17321/api/capabilities")}
+        ${quickCommand("petctl success", "petctl notify --level success --title \"测试通过\" --sound success_chime")}
+        ${quickCommand("Shell wrapper", "examples/shell/task-with-pet.sh -- pnpm test")}
+        ${quickCommand("Node example", "node examples/node/notify-pet.mjs success")}
+      </div>
+    </section>
   `;
 }
 
-function soundDecisionLabel(decision: BridgeDiagnostics["sound"]["lastDecision"]) {
+function soundDecisionBlock(decision: BridgeDiagnostics["sound"]["lastDecision"]) {
   if (!decision) {
-    return "No sound decision yet.";
-  }
-  return `${decision.sound}; played=${decision.played}; reason=${decision.reason}`;
-}
-
-function eventList(events: ApiEventSummary[], emptyLabel: string) {
-  if (events.length === 0) {
-    return `<p class="diagnostics-empty">${emptyLabel}</p>`;
+    return `<p class="diagnostics-empty">暂无声音决策</p>`;
   }
   return `
-    <ul class="event-summary-list">
-      ${events.slice(0, 8).map((event) => `
-        <li>
-          <span class="event-summary-line">
-            <strong>${escapeHtml(event.level ?? event.reasonCode ?? "event")}</strong>
-            <span>${escapeHtml(event.sourceId ?? "unknown")}</span>
-            <span>${event.status}</span>
-          </span>
-          <span class="event-summary-detail">
-            ${escapeHtml(event.titlePreview ?? event.reason ?? "")}
-            ${event.messagePreview ? ` · ${escapeHtml(event.messagePreview)}` : ""}
-          </span>
-        </li>
-      `).join("")}
-    </ul>
+    <dl class="diagnostics-grid sound-decision-grid">
+      <div><dt>Last sound</dt><dd>${escapeHtml(decision.sound)}</dd></div>
+      <div><dt>Played</dt><dd>${decision.played ? "yes" : "no"}</dd></div>
+      <div><dt>Reason</dt><dd>${escapeHtml(decision.reason)}</dd></div>
+      <div><dt>Decided at</dt><dd>${escapeHtml(formatTimestamp(decision.decidedAt))}</dd></div>
+    </dl>
   `;
+}
+
+function eventTable(events: ApiEventSummary[], kind: "accepted" | "rejected") {
+  if (events.length === 0) {
+    return `<p class="diagnostics-empty">No ${kind} events yet.</p>`;
+  }
+  const rows = events.slice(0, 10).map((event) => {
+    if (kind === "accepted") {
+      return `
+        <tr>
+          <td>${escapeHtml(formatTimestamp(event.receivedAt))}</td>
+          <td>${escapeHtml(event.sourceId ?? "unknown")}</td>
+          <td>${escapeHtml(event.level ?? "")}</td>
+          <td>${escapeHtml(event.titlePreview ?? "")}</td>
+          <td>${escapeHtml(event.messagePreview ?? "")}</td>
+          <td>${event.status}</td>
+        </tr>
+      `;
+    }
+    return `
+      <tr>
+        <td>${escapeHtml(formatTimestamp(event.receivedAt))}</td>
+        <td>${escapeHtml(event.sourceId ?? "unknown")}</td>
+        <td>${escapeHtml(event.level ?? "")}</td>
+        <td>${event.status}</td>
+        <td>${escapeHtml(event.reasonCode ?? "")}</td>
+        <td>${escapeHtml(event.reasonField ?? "")}</td>
+        <td>${escapeHtml(event.reason ?? "")}</td>
+      </tr>
+    `;
+  }).join("");
+
+  return `
+    <div class="diagnostics-table-wrap">
+      <table class="diagnostics-table">
+        <thead>
+          ${kind === "accepted" ? `
+            <tr><th>receivedAt</th><th>sourceId</th><th>level</th><th>titlePreview</th><th>messagePreview</th><th>status</th></tr>
+          ` : `
+            <tr><th>receivedAt</th><th>sourceId</th><th>level</th><th>status</th><th>reasonCode</th><th>reasonField</th><th>reason</th></tr>
+          `}
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function quickCommand(label: string, command: string) {
+  return `
+    <div class="quick-command">
+      <span>${escapeHtml(label)}</span>
+      <code>${escapeHtml(command)}</code>
+      <button class="copy-command" type="button" data-copy="${escapeHtml(command)}">Copy</button>
+    </div>
+  `;
+}
+
+function attachCopyButtons(root: ParentNode) {
+  root.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const value = button.dataset.copy ?? "";
+      try {
+        await navigator.clipboard.writeText(value);
+        button.textContent = "Copied";
+        window.setTimeout(() => {
+          button.textContent = "Copy";
+        }, 1000);
+      } catch {
+        button.textContent = "Copy failed";
+        window.setTimeout(() => {
+          button.textContent = "Copy";
+        }, 1400);
+      }
+    });
+  });
+}
+
+function tokenStatusLabel(status: TokenStatus) {
+  const labels: Record<TokenStatus, string> = {
+    configured: "configured",
+    missing: "missing",
+    unreadable: "unreadable"
+  };
+  return labels[status];
+}
+
+function formatDate(date: Date) {
+  return date.toLocaleString(undefined, {
+    hour12: false,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+}
+
+function formatTimestamp(value: string) {
+  const millis = Number(value);
+  if (!Number.isFinite(millis) || millis <= 0) {
+    return value;
+  }
+  return new Date(millis).toLocaleTimeString(undefined, {
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
 }
 
 function escapeHtml(value: string) {

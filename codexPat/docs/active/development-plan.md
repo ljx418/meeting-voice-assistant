@@ -1,7 +1,7 @@
 # Development Plan
 
-文档状态：MVP planning baseline；Phase 1 complete；Phase 2 complete；Phase 3 complete；Phase 4 complete；Phase 5 complete；Phase 6 complete。  
-执行范围：后续代码实施入口；当前仓库已有 `apps/desktop` 桌面壳、占位猫、低打扰状态机、本地调试入口、状态动画、`pet-protocol`、Rust localhost HTTP event bridge、observable diagnostics runtime、`petctl notify` CLI 和 safe sound feedback 实现。
+文档状态：MVP planning baseline；Phase 1 complete；Phase 2 complete；Phase 3 complete；Phase 4 complete；Phase 5 complete；Phase 6 complete；V2.0 final acceptance passed；V2.1 planning baseline ready；V2.1-A complete。  
+执行范围：后续代码实施入口；当前仓库已有 `apps/desktop` 桌面壳、占位猫、低打扰状态机、本地调试入口、状态动画、`pet-protocol`、Rust localhost HTTP event bridge、observable diagnostics runtime、`petctl notify` CLI、safe sound feedback、V2.0 本地工作流接入模板和示例、设置页 diagnostics polish、CSS 占位猫体验 polish、macOS 本地分发和用户 onboarding 文档、V2.0 final acceptance report，以及 V2.1 真实 Agent 接入验证文档和 third-party contract draft。V2.1-A third-party local HTTP contract smoke 已通过；Codex / Claude Code 真实集成仍待后续验证。
 
 ## 1. Goal
 
@@ -338,4 +338,220 @@ Codex prompt：
 
 ```text
 请在 Windows 环境对 agent-desktop-pet 做跨平台验证与硬化：验证 Tauri 启动、透明无边框置顶窗口、托盘、设置页、HTTP API、diagnostics 和 petctl notify；修复 Windows 专属问题。不要改变 macOS 已通过的 MVP 行为。
+```
+
+## 4. V2.0 Phase Plan
+
+### Phase 2.1：Workflow Integration Templates
+
+状态：已完成；自动检查已执行；人工 smoke 需在桌面 App 运行时完成。
+
+目标：
+
+- 让真实本地开发工作流可以通过现有 `petctl notify`、HTTP API、diagnostics 和安全声音能力稳定接入桌宠。
+
+主要任务：
+
+- 已新增 `skills/codex-agent-pet/SKILL.md`。
+- 已新增 `skills/claude-agent-pet/SKILL.md`。
+- 已新增 `docs/reference/agent-integration-guide.md`。
+- 已新增 `docs/reference/petctl-recipes.md`。
+- 已新增 `examples/shell/task-with-pet.sh`。
+- 已新增 `examples/node/notify-pet.mjs`。
+- 已同步 README、active 文档、V2.0 文档和 gap drawio。
+
+验收标准：
+
+- Codex / Claude Code 模板只通过 `petctl` 或 localhost HTTP 写入 PetEvent。
+- shell 示例使用 `--` 分隔用户命令，不使用 `eval`，使用 `"$@"` 执行命令，并保留原 exit code。
+- Node 示例使用 `child_process.spawnSync` 参数数组调用 `petctl notify`，不使用 `shell: true` 拼接命令。
+- recipes 覆盖测试开始/通过/失败、构建开始/通过/失败、长任务、need_input、warning、JSON stdin 和常见错误排查。
+- 示例不打印完整 token，不发送路径或 URL 作为 sound。
+- 不声明 Codex integration verified、Claude Code integration verified、MCP server ready、USB ready、Windows ready、cross-platform ready 或 production signed release ready。
+
+风险：
+
+- 模板被误用为高频事件日志；文档已明确只在状态阶段变化时发送事件。
+
+### Phase 2.2：Settings & Diagnostics Polish
+
+状态：已完成；自动检查已执行；人工 smoke 以当前验收记录为准。
+
+目标：
+
+- 把 diagnostics 从工程调试数据打磨成用户能理解的运行状态面板。
+
+主要任务：
+
+- 已将设置页 diagnostics 分为 Runtime health、Sound、Recent accepted events、Recent rejected events 和 Quick commands。
+- Runtime health 显示 API enabled、listen address、queue length/capacity、hardware light disabled、token status 和 last refresh time。
+- Sound 显示 playbackAvailable、muted、cooldownMs、acceptedIds 和 lastDecision。
+- accepted/rejected events 最多显示 10 条后端摘要。
+- Quick commands 仅提供复制按钮，不执行 shell、petctl、node 或 curl。
+
+验收标准：
+
+- 设置页打开时自动加载 diagnostics。
+- 刷新按钮可重新拉取 diagnostics。
+- 拉取失败显示简短错误，不影响主宠物窗口。
+- 页面不显示完整 token、token 文件绝对路径、原始 payload、metadata 全量、message 全文或声音文件路径。
+- 不提供 token 重置、日志清空、导出、搜索、分页。
+- 不改 PetEvent schema，不重写 CatStateMachine 或 Rust Ingress Queue。
+
+风险：
+
+- 设置页膨胀成通知中心；本阶段只保留紧凑只读面板。
+
+### Phase 2.3：Cat Experience Polish
+
+状态：已完成；自动检查和人工 smoke 以当前验收记录为准。
+
+目标：
+
+- 在不引入 Rive、Live2D、Spine、Three.js、GLTF/GLB 或照片自定义的前提下，打磨现有 CSS 占位猫体验。
+
+主要任务：
+
+- 已增强 idle、thinking、running、success、warning、error、need_input、sleeping 的视觉区分度。
+- thinking/running 保持低打扰；success 保持短反馈。
+- warning、error、need_input 的可感知程度递进，但仍由现有 lock/cooldown 控制打扰强度。
+- 动画只作用于猫内部元素，不动画窗口、stage、根容器或布局尺寸。
+- 拖拽期间暂停或降级猫咪内部动画，拖拽优先。
+- 已增加 `prefers-reduced-motion` 兜底。
+
+验收标准：
+
+- 8 个状态肉眼可区分。
+- 透明窗口不出现黑框、白底、阴影错位或明显脏边。
+- 连续状态切换不改变 `.pet-stage` 尺寸或主窗口 outer size。
+- 拖拽仍可用，拖拽期间动画不抢控制。
+- Phase 1-6、V2.0 Phase 2.1、V2.0 Phase 2.2 不回归。
+- 不声明 Rive、Live2D、3D、照片自定义、Windows ready 或 cross-platform ready。
+
+风险：
+
+- CSS 动效可能污染透明窗口边缘；因此继续禁用 `.cat-shadow`，不使用窗口级阴影或 `drop-shadow`。
+
+### Phase 2.4：Distribution Readiness
+
+状态：已完成；自动检查和 macOS smoke 以当前验收记录为准。
+
+目标：
+
+- 把 macOS-first MVP + V2.0 workflow polish 从“开发者本机能跑”整理成“新用户可以按文档快速部署、启动、验证、排障和迁移”的状态。
+
+主要任务：
+
+- 已重构 README 为快速入口，只保留启动、构建、验证和文档导航。
+- 已新增 `docs/ops/macos-local-distribution.md`，明确当前是 local unsigned app，不是 production release。
+- 已新增 `docs/ops/troubleshooting.md`，覆盖 doctor、端口、petctl、tsx IPC、unsigned app 和 token/config 问题。
+- 已更新 `docs/ops/developer-setup.md`、`docs/ops/network-mirrors.md`、`docs/ops/release-and-distribution.md`。
+- 已固化 token/config 说明：Tauri `app_config_dir()` 下 `api-token.json` 和 `settings.json`。
+- 已同步 active、V2.0 和 drawio 状态。
+
+验收标准：
+
+- README 能指导新用户完成依赖安装、dev 启动、`.app` 构建、`.app` 打开、health 验证和 `petctl notify`。
+- ops 文档解释环境安装、网络慢、doctor warning、token 配置、unsigned app 和常见 `petctl` 错误。
+- 文档明确不声明正式签名、notarization、自动更新、Windows ready 或 cross-platform ready。
+- Phase 2.4 complete 不自动等于 V2.0 ready；当前 final acceptance report 已通过，允许声明 `V2.0 ready: local agent workflow integration and developer usability polish complete.`
+
+### V2.0 Final Acceptance & Release Closure
+
+状态：已完成；`docs/V2.0/v2_0-final-acceptance-report.md` status 为 `passed`。
+
+目标：
+
+- 固化 V2.0 Phase 2.1-2.4 的交付、自动检查、macOS smoke、人工验收和声明边界。
+
+验收结果：
+
+- 自动 check/test/build 无 hard failure。
+- `.app` bundle 可生成。
+- macOS smoke 覆盖 health、petctl、unauthorized write、invalid sound、shell/Node 示例、diagnostics 和端口退出。
+- 用户已确认视觉验收通过。
+- README、active、V2.0、gap markdown 和 drawio 已同步。
+
+允许声明：
+
+```text
+V2.0 ready: local agent workflow integration and developer usability polish complete.
+Codex and Claude Code local workflow templates ready.
+```
+
+仍禁止声明：
+
+```text
+Codex integration verified
+Claude Code integration verified
+Windows ready
+cross-platform ready
+production signed release ready
+auto update ready
+MCP ready
+USB ready
+Rive/Live2D/3D ready
+photo customization ready
+```
+
+风险：
+
+- 用户误以为 unsigned local app 是正式发布版；README 和 release 文档已明确不是 production signed release。
+
+## 5. V2.1 Real Agent Integration Verification
+
+状态：planning baseline ready；V2.1-A complete；真实 Codex / Claude Code smoke 尚未执行。
+
+目标：
+
+- 将 Codex、Claude Code 和自定义 Agent 的接入从“模板可复制”升级为“真实可安装、可触发、可验收、可声明”。
+
+主要任务：
+
+- V2.1-A：Integration Baseline Audit，确认 `petctl`、HTTP API、diagnostics、templates、shell/Node examples 的当前基线。
+- V2.1-B：Codex Real Integration，在真实 Codex CLI 任务中验证 `sourceId=codex.local` 的 `thinking/running/success/error/need_input`。
+- V2.1-C：Claude Code Real Integration，验证 Claude Code skill 和 `settings-hooks.example.json` hook 示例，source 固定为 `claude-code.local`。
+- V2.1-D：Third-party Agent Contract，补齐 `third-party-agent-contract.md`、curl/Node/Python HTTP smoke 示例和错误处理合同。
+- V2.2：MCP Adapter 只做预研，不创建 `packages/pet-mcp`。
+
+当前已落地：
+
+- `docs/V2.1/README.md`
+- `docs/V2.1/v2_1-baseline-audit.md`
+- `docs/V2.1/v2_1-acceptance-plan.md`
+- `docs/V2.1/v2_1-current-gap-analysis.md`
+- `docs/V2.1/codex-real-integration-verification.md`
+- `docs/V2.1/claude-code-real-integration-verification.md`
+- `docs/V2.1/evidence/*`
+- `docs/reference/third-party-agent-contract.md`
+- `examples/http/*`
+- `skills/claude-agent-pet/settings-hooks.example.json`
+- `docs/V2.2/mcp-adapter-research.md`
+
+允许声明：
+
+```text
+V2.1 planning baseline ready: real agent integration verification docs and third-party contract draft ready.
+V2.1-A complete: integration baseline audit and local third-party HTTP contract smoke ready.
+Third-party local HTTP contract smoke passed.
+```
+
+V2.1-A 验收结果：
+
+- curl / Node / Python success smoke 已通过。
+- missing token、invalid level、invalid sound path / URL、invalid source id、rate limit 均符合预期。
+- diagnostics rejected summary 和 HTTP error response 不回显非法路径、URL 或非法 source 原文。
+- 这只证明 third-party local HTTP contract smoke 通过，不等于真实第三方 agent 产品集成已验证。
+
+仍禁止声明：
+
+```text
+Codex integration verified
+Claude Code integration verified
+Third-party agent integration verified
+MCP ready
+Windows ready
+cross-platform ready
+USB ready
+production signed release ready
 ```

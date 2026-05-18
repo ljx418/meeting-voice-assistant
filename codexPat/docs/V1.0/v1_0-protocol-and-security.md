@@ -146,6 +146,7 @@ http://127.0.0.1:17321
 - 动作、声音、硬件效果必须使用白名单 ID。
 - 非法事件写入 rejected summary，但不进入状态机。
 - diagnostics 不保存原始 payload，不保存 metadata 全量，不保存 message 全文，不暴露声音文件路径。
+- rejected summary 和 HTTP error response 不得直接回显 JSON Schema 库原始错误；非法路径、URL、非法 sound 原文和非法 `source.id` 必须被泛化为 `reasonCode`、`reasonField` 和安全 `reason`。
 
 ## Safe Sound
 

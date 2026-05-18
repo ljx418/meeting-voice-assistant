@@ -12,6 +12,7 @@ V2.0 定位为 Developer Workflow Integration Release：从“本地可用的 Ag
 - [V2.0 工作流接入](v2_0-workflow-integration.md)
 - [V2.0 当前差距分析](v2_0-current-gap-analysis.md)
 - [V2.0 当前差距图](v2_0_current_gap_analysis.drawio)
+- [V2.0 最终验收报告](v2_0-final-acceptance-report.md)
 
 ## 基线说明
 
@@ -19,9 +20,11 @@ V2.0 以 V1.0 macOS-first MVP 为基线。V1.0 已完成本地桌面壳、低打
 
 V2.0 不重做 V1.0 架构，不扩大为通知中心，也不提前引入 MCP、USB、Windows ready、Live2D/Rive/3D、照片自定义、自动更新或正式签名。
 
+当前已完成 Phase 2.1、2.2、2.3、2.4，并已通过 final acceptance report。
+
 ## 允许声明
 
-V2.0 全部验收通过后可以声明：
+当前可以声明：
 
 ```text
 V2.0 ready: local agent workflow integration and developer usability polish complete.

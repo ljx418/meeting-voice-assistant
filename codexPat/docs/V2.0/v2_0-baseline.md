@@ -33,7 +33,7 @@ V1.0 已实现一只可常驻桌面的开发者猫，用于把本地 AI Agent �
 - agent 不能传入任意本地文件路径或 URL 作为声音或资源。
 - `source.kind`、`level`、`action`、`sound`、`hardware.light.effect` 使用白名单或枚举。
 - `PetEvent.sound` 只是请求意图，桌面端根据 level、mute、cooldown 和低打扰策略决定是否播放。
-- diagnostics 不暴露 token、原始 payload、metadata 全量、message 全文或声音文件路径。
+- diagnostics 不暴露 token、原始 payload、metadata 全量、message 全文、声音文件路径、非法 sound 原文、URL、本地路径或非法 `source.id`。
 
 ## 3. 当前可声明
 
@@ -72,4 +72,3 @@ V2.0 不改变 V1.0 核心架构，重点补齐真实开发工作流接入和用
 - 设置页 diagnostics 可读性优化。
 - README、doctor、troubleshoot、macOS 分发准备。
 - CSS 猫咪体验 polish。
-

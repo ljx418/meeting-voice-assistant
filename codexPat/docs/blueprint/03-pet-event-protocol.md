@@ -217,15 +217,44 @@ Content-Type: application/json
 }
 ```
 
-错误响应包含 `reasonCode`：
+错误响应包含 `reasonCode`、`reasonField` 和泛化 `reason`。`reason` 不允许直接使用 JSON Schema 库的原始错误字符串，因为原始错误可能回显用户提交的路径、URL 或非法字段值。
 
 ```json
 {
   "ok": false,
   "accepted": false,
   "reasonCode": "schema_invalid",
-  "reason": "schema validation failed"
+  "reasonField": "source.id",
+  "reason": "source id is invalid"
 }
 ```
 
-Phase 4 diagnostics 只保留事件摘要，不保存原始 payload、metadata 全量或 message 全文。
+常见 `reasonField`：
+
+```text
+payload
+source.id
+level
+action
+sound
+hardware.light.effect
+auth
+rate_limit
+queue
+bridge
+```
+
+用户可见错误文案必须安全化：
+
+- 非法 sound：`sound is not an accepted ID`
+- 非法 level：`level is not an accepted value`
+- 非法 action：`action is not an accepted ID`
+- 非法硬件灯效：`hardware light effect is not an accepted ID`
+- 非法 source id：`source id is invalid`
+- 通用 schema 错误：`payload failed schema validation`
+- 缺少 token：`authorization bearer token is required`
+- token 错误：`authorization bearer token is invalid`
+- 限流：`source rate limit exceeded`
+- 队列满：`event queue is full`
+
+Phase 4 diagnostics 只保留事件摘要，不保存原始 payload、metadata 全量或 message 全文。V2.1-A 起，diagnostics rejected summary 和 HTTP error response 均不得回显非法 sound 原文、URL、本地路径或非法 `source.id`；schema/白名单错误必须通过 `reasonCode` + `reasonField` + 泛化 `reason` 表达。

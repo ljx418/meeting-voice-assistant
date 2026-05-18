@@ -26,7 +26,7 @@ curl -I https://registry.npmmirror.com/typescript
 pnpm install
 ```
 
-## Rustup 镜像
+## Rustup
 
 官方：
 
@@ -42,7 +42,7 @@ export RUSTUP_UPDATE_ROOT=https://rsproxy.cn/rustup
 curl --proto '=https' --tlsv1.2 -sSf https://rsproxy.cn/rustup-init.sh | sh
 ```
 
-## Cargo 镜像
+## Cargo
 
 用户级配置示例，写入 `~/.cargo/config.toml`：
 
@@ -60,10 +60,21 @@ registry = "sparse+https://rsproxy.cn/index/"
 cargo check --manifest-path apps/desktop/src-tauri/Cargo.toml
 ```
 
-## 项目原则
+## Tauri Dependencies
+
+Tauri 首次构建会下载 Rust crates 和平台相关依赖。网络慢时先确保：
+
+- `pnpm install` 已完成。
+- Cargo registry 可访问。
+- `apps/desktop/src-tauri/Cargo.lock` 存在。
+- `pnpm run doctor` 没有 hard failure。
+
+如果 `doctor` 只有网络 WARN，而 `node_modules`、`pnpm-lock.yaml`、`Cargo.lock` 和 Cargo cache 已存在，本地构建可能仍然可通过。
+
+## Project Rules
 
 - 不提交个人 `.cargo/config.toml`。
 - 不提交 `node_modules`、`dist`、`target`。
 - 提交 `pnpm-lock.yaml`。
-- 应用型 Rust crate 在首次成功解析后提交 `apps/desktop/src-tauri/Cargo.lock`。
-- 普通用户不走源码安装，直接下载发布产物。
+- 应用型 Rust crate 提交 `apps/desktop/src-tauri/Cargo.lock`。
+- 普通用户不走源码安装；当前 macOS 本地分发见 [macOS Local Distribution](macos-local-distribution.md)。

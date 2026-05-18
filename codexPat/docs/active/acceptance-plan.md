@@ -15,6 +15,15 @@
 | Phase 6 | 已完成：内置声音白名单和声音冷却生效；禁止本地路径、URL 和未知 sound ID；静音联动生效；2026-05-15 macOS sound smoke 通过。 |
 | Phase 7 | 已并入 Phase 6：macOS-first MVP 收口、macOS 本地运行与打包、README 使用说明和安全边界；Windows 不作为第一阶段验收阻塞。 |
 | Phase 8 | Windows 跨平台验证与硬化：启动、托盘、HTTP API、petctl smoke test 通过后，才允许声明 cross-platform ready。 |
+| V2.0 Phase 2.1 | 已完成：Codex / Claude Code instruction template、agent 接入指南、petctl recipes、shell 示例和 Node 示例已落地；只声明模板和 recipes ready，不声明 Codex/Claude 集成已验证。 |
+| V2.0 Phase 2.2 | 已完成：设置页 diagnostics polish，分区展示 runtime health、sound、accepted/rejected events 和 quick commands；只读，不执行命令，不显示敏感信息。 |
+| V2.0 Phase 2.3 | 已完成：CSS 占位猫体验 polish，8 个状态更可区分；拖拽优先、窗口尺寸稳定、透明窗口无黑框。 |
+| V2.0 Phase 2.4 | 已完成：README 快速入口、macOS local unsigned app 分发说明、doctor/troubleshooting、token/config 和迁移文档已落地。 |
+| V2.0 Final Acceptance | 已完成：`docs/V2.0/v2_0-final-acceptance-report.md` status 为 `passed`，允许声明 V2.0 ready，但不扩大到 Codex/Claude 真实集成验证、Windows、签名发布、MCP 或 USB。 |
+| V2.1-A Baseline Audit | 已完成：自动检查通过，third-party HTTP success/auth/level/sound redaction/source redaction/rate-limit smoke 通过。 |
+| V2.1-B Codex Real Integration | pending：真实 Codex CLI smoke 通过前，不得声明 Codex integration verified。 |
+| V2.1-C Claude Code Real Integration | pending：真实 Claude Code skill/hook smoke 通过前，不得声明 Claude Code integration verified。 |
+| V2.1-D Third-party Agent Contract | baseline smoke passed：curl/Node/Python 示例成功事件通过；401/400/429 和 rejected reason sanitization 通过。真实第三方 agent 产品集成仍待后续单独验证。 |
 
 ## 2. MVP Exit Standard
 
@@ -108,7 +117,8 @@ Diagnostics：
 - `GET /api/diagnostics` 有 token 返回 enabled、listenAddress、queue length/capacity、acceptedEvents、rejectedEvents、sound、hardwareLight=false。
 - `sound` 返回 playbackAvailable、muted、cooldownMs、acceptedIds 和 lastDecision。
 - diagnostics 不包含 token、原始 payload、metadata 全量或 message 全文。
-- diagnostics 不包含声音文件路径或 bundle 路径。
+- diagnostics 不包含声音文件路径、bundle 路径、非法 sound 原文、URL、本地路径或非法 `source.id`。
+- rejectedEvents 包含 `reasonCode`、`reasonField` 和泛化 `reason`，不得直接显示 JSON Schema 库原始错误。
 - 合法事件出现在 acceptedEvents。
 - 非法事件、限流和队列拒绝出现在 rejectedEvents。
 
@@ -122,6 +132,51 @@ petctl：
 - token 读取支持 `--token`、`AGENT_DESKTOP_PET_TOKEN` 和 desktop app config token 文件。
 - URL 读取支持 `--url`、`AGENT_DESKTOP_PET_URL` 和默认 localhost。
 - CLI 输出不得包含完整 token。
+
+V2.0 Phase 2.1 workflow templates：
+
+- `skills/codex-agent-pet/SKILL.md` 存在，source 固定为 `codex.local` / `codex` / `Codex`。
+- `skills/claude-agent-pet/SKILL.md` 存在，source 固定为 `claude-code.local` / `claude_code` / `Claude Code`。
+- `docs/reference/agent-integration-guide.md` 明确 agent 只能写结构化 PetEvent，不能直接控制 UI、执行桌宠脚本或传本地路径/URL。
+- `docs/reference/petctl-recipes.md` 覆盖测试、构建、长任务、need_input、warning、JSON stdin 和常见错误排查。
+- `examples/shell/task-with-pet.sh -- <command>` 会先发送 running，成功发送 success，失败发送 error，并保留原 exit code。
+- shell 示例不使用 `eval`。
+- `examples/node/notify-pet.mjs` 使用 `child_process.spawnSync` 调用 `petctl notify`，不使用 `shell: true`。
+- 示例不打印完整 token。
+- 示例不发送路径或 URL 作为 sound。
+
+V2.0 Phase 2.2 settings diagnostics：
+
+- 设置页打开时自动加载 diagnostics。
+- Runtime health 显示 API enabled、listen address、queue length/capacity、hardware light disabled、token status 和 last refresh time。
+- Sound 显示 playbackAvailable、muted、cooldownMs、acceptedIds 和 lastDecision；无 lastDecision 时显示暂无声音决策。
+- Recent accepted events 最多显示 10 条，只显示 receivedAt、sourceId、level、titlePreview、messagePreview、status。
+- Recent rejected events 最多显示 10 条，只显示 receivedAt、sourceId、level、status、reasonCode、reasonField、reason。
+- Quick commands 只显示文本和复制按钮，不执行 shell、petctl、node 或 curl。
+- 页面不显示完整 token、token 文件绝对路径、原始 payload、metadata 全量、message 全文或声音文件路径。
+- 不提供 token 重置、日志清空、导出、搜索、分页。
+
+V2.0 Phase 2.3 cat experience polish：
+
+- idle、thinking、running、success、warning、error、need_input、sleeping 肉眼可区分。
+- thinking/running 保持低打扰，不弹通知气泡，不额外播放声音。
+- success 是短反馈。
+- warning、error、need_input 的明显程度递进。
+- sleeping 明显低活跃。
+- 动画只作用于猫内部元素，不改变窗口、stage 或根容器尺寸。
+- 透明窗口不出现黑框、白底、阴影错位或明显脏边。
+- 拖拽仍然可用，拖拽期间动画不抢控制。
+- `prefers-reduced-motion` 可降级非必要动画。
+
+V2.0 Phase 2.4 distribution readiness：
+
+- README 可以指导新用户安装依赖、启动 dev app、构建 `.app`、打开 `.app`、验证 `/api/health` 和用 `petctl notify` 触发状态。
+- `docs/ops/macos-local-distribution.md` 明确当前是 unsigned local app，不是 production release。
+- `docs/ops/troubleshooting.md` 覆盖 doctor warning、端口占用、token、常见 petctl 错误、tsx IPC EPERM 和 unsigned app 打开失败。
+- `docs/ops/developer-setup.md` 和 `docs/ops/network-mirrors.md` 覆盖 Node/pnpm/Rust/Tauri/Xcode 与下载慢问题。
+- 文档明确 token/config 文件来自当前实现，不发明不存在路径。
+- drawio 与 markdown gap 一致。
+- Phase 2.4 complete 不自动等于 V2.0 ready；当前 V2.0 ready 的依据是 final acceptance report status=`passed`。
 
 低打扰体验：
 
@@ -168,4 +223,11 @@ pnpm --filter desktop tauri build -b app
 - Phase 3/4 不播放声音、不控制硬件、不实现完整事件日志 UI。
 - 未完成 schema 校验和白名单，不得开放 agent 写入入口。Phase 3 已满足 HTTP 写入入口的最低安全条件。
 - Phase 6 已完成声音播放和 macOS MVP 收口验收，可声明 macOS-first MVP ready。
+- V2.0 Phase 2.1 完成后最多声明 local workflow integration templates and petctl recipes ready，不得声明 Codex integration verified 或 Claude Code integration verified。
+- V2.0 Phase 2.2 完成后最多声明 settings diagnostics polish ready。
+- V2.0 Phase 2.3 完成后最多声明 CSS placeholder cat experience polish ready。
+- V2.0 Phase 2.4 完成后最多声明 macOS distribution readiness and user onboarding docs ready。
+- V2.0 final acceptance report 已通过，当前可以声明 `V2.0 ready: local agent workflow integration and developer usability polish complete.`
+- V2.1 只完成 planning baseline 时，不得声明 Codex integration verified、Claude Code integration verified 或 third-party agent integration verified。
+- V2.1-A 已通过，可声明 V2.1-A complete 和 Third-party local HTTP contract smoke passed；但不得声明 Third-party agent integration verified。
 - Windows 不进入第一阶段 MVP 验收；未完成 Windows 启动、托盘、HTTP API、petctl smoke test，不得声明 cross-platform ready。

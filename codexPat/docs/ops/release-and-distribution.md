@@ -1,103 +1,89 @@
 # Release and Distribution
 
-目标：最终用户不需要安装 Node、pnpm、Rust、Cargo 或 Tauri CLI。
+本文定义分发声明边界。当前项目只有 macOS local unsigned app 构建路径，不是 production release。
 
-## 用户安装路径
+## Current Distribution State
 
-用户路径应保持简单：
+当前可以说明：
 
-```text
-下载安装包 -> 打开应用 -> 托盘常驻 -> 使用桌面猫
+- macOS local `.app` 可通过 Tauri 构建。
+- 本地 HTTP API、`petctl`、diagnostics 和 safe sound 已在 macOS-first MVP 中完成。
+- V2.0 Phase 2.4 提供 macOS 本地部署、排障和迁移文档。
+
+当前不能说明：
+
+- production signed release ready。
+- notarized release ready。
+- auto update ready。
+- Windows ready。
+- cross-platform ready。
+
+## macOS Local App
+
+本地构建：
+
+```bash
+pnpm --filter desktop tauri build -b app
 ```
 
-推荐产物：
+输出路径：
 
-- macOS：`.dmg` 或 `.app.zip`。
-- Windows：`.msi`、`.exe` installer 或 portable `.zip`。
+```text
+apps/desktop/src-tauri/target/release/bundle/macos/Agent Desktop Pet.app
+```
 
-## 构建职责
+详细打开、Gatekeeper 和迁移说明见 [macOS Local Distribution](macos-local-distribution.md)。
 
-源码构建只属于维护者和贡献者。发布产物由 CI 或维护者构建机生成：
+## Future Production Release
+
+正式发布需要单独完成：
+
+- macOS signing。
+- macOS notarization。
+- Windows installer 或 portable package。
+- Windows smoke test。
+- Release artifact upload。
+- 版本说明和已知限制。
+- 可选自动更新。
+
+推荐未来 CI：
 
 ```text
 tag release
--> macOS build
--> Windows build
--> smoke test
--> upload GitHub Releases
--> optional sync to domestic mirror
+-> install dependencies
+-> TypeScript check
+-> pet-protocol tests
+-> petctl tests
+-> Cargo check
+-> Tauri macOS build
+-> Tauri Windows build
+-> platform smoke tests
+-> upload artifacts
 ```
 
-## 下载镜像
+如果 GitHub Actions 下载不稳定，可以考虑自建 runner 或国内构建机。
 
-建议同时提供：
+## No False-Green
 
-- GitHub Releases。
-- 国内对象存储镜像，例如 OSS、COS、七牛云或 R2 自定义域名。
-
-发布说明必须标注：
-
-- 平台。
-- 架构。
-- 是否签名。
-- 是否完成 smoke test。
-- 已知限制。
-
-## Phase 1 发布限制
-
-Phase 1 只允许声明：
+V2.0 final acceptance report 通过后允许声明：
 
 ```text
-Phase 1 complete: desktop shell and placeholder pet window ready.
+V2.0 ready: local agent workflow integration and developer usability polish complete.
+Codex and Claude Code local workflow templates ready.
+V2.0 Phase 2.4 complete: macOS distribution readiness and user onboarding docs ready.
 ```
 
-不得声明：
-
-- MVP ready。
-- Agent integration ready。
-- HTTP API ready。
-- PetEvent ready。
-- petctl ready。
-- MCP/Skill ready。
-- USB ready。
-- cross-platform ready，除非 Windows 已完成真实 smoke test。
-
-## Phase 6 / macOS-first MVP 发布限制
-
-Phase 6 自动检查、端到端 smoke 和文档同步完成后，可以声明：
+仍不得声明：
 
 ```text
-Phase 6 complete: safe sound feedback implemented.
-macOS-first MVP ready: local desktop agent status pet with HTTP + petctl integration and safe sound feedback.
+Windows ready
+cross-platform ready
+production signed release ready
+auto update ready
+MCP ready
+USB ready
+Rive/Live2D/3D ready
+photo customization ready
 ```
 
-可以说明：
-
-- macOS 本地构建路径已验证。
-- 本地 HTTP API 只监听 `127.0.0.1:17321`。
-- `pet-protocol` JSON Schema、token、白名单和 rate limit 已落地。
-- `petctl notify` 参数模式和 JSON stdin 已落地。
-- 内置 sound ID、静音联动和 cooldown 已落地。
-- Windows 不进入第一阶段 MVP 验收。
-
-不得声明：
-
-- MCP/Skill ready。
-- USB ready。
-- Windows ready。
-- cross-platform ready。
-- production signed release ready。
-
-## 后续 CI 建议
-
-优先建立以下任务：
-
-- Install dependencies。
-- TypeScript check。
-- Vite build。
-- Cargo check。
-- Tauri build on macOS。
-- Tauri build on Windows。
-- 上传构建产物。
-
-如果 GitHub Actions 下载不稳定，可以增加自建 runner 或国内构建机。
+`V2.0 ready` 的依据是 `docs/V2.0/v2_0-final-acceptance-report.md`，其 status 为 `passed`。

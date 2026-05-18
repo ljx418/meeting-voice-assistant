@@ -79,6 +79,7 @@ TypeScript frontend：
 - 实现 `CatStateMachine`。
 - 实现 Behavior Queue、占位动画和低打扰展示策略。
 - 设置页展示 API、queue、accepted/rejected summaries 和 sound diagnostics。
+- rejected summaries 只展示后端安全摘要；schema/白名单错误必须使用 `reasonCode`、`reasonField` 和泛化 `reason`，不得回显非法路径、URL、非法 sound 原文或非法 `source.id`。
 - 猫咪大小调整是后续目标。
 
 Rust Sound service：
