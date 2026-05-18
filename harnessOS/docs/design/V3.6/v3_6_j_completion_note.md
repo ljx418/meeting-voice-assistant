@@ -76,7 +76,7 @@ V3.6-J 后执行了 V4.0-0 前置硬化，修复代码检视发现的 scope、go
 cd sdk/typescript && npm test
 23 passed
 
-xmllint --noout docs/design/V3.6/v3_6_current_gap_analysis.drawio docs/design/V4.0/v4_target_architecture_workflow_console.drawio
+xmllint --noout docs/design/V3.6/v3_6_current_gap_analysis.drawio docs/design/V4.0/v4_0_current_gap_analysis.drawio
 passed
 ```
 

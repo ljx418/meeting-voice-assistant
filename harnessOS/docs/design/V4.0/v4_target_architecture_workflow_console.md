@@ -2,6 +2,8 @@
 
 文档状态：V4.0 target architecture planning baseline；V3.6-J Dummy Pipeline E2E / V4.0 Gate 已通过。本文定义下一阶段 Workflow Console / Studio / AgentTalkWindow 前置的目标架构，不代表 V4.0 已完成。
 
+当前进展、核心差距、阶段路线图和验收状态以 `v4_0_current_gap_analysis.md` 与 `v4_0_current_gap_analysis.drawio` 为最高优先级维护入口。本文只保留目标架构解释，不替代 gap 文件对。
+
 ## 1. 目标定义
 
 V4.0 的目标不是单一新增一个视频产品，而是把 harnessOS 演进为：
@@ -72,29 +74,49 @@ V4.0 正式 UI 主开发不能直接从 mock schema 起步。它必须消费已�
 - 在自身产品界面嵌入工作流面板
 - 把 harnessOS 当作 workflow engine / governance plane
 
-## 3. V4 分层
+## 3. V4 正式七平面基线
+
+V4.0 的正式目标架构必须继承 V3.6 完成后的七平面基线。此前“六大平面”写法只是产品能力聚合视图，会把 V3.5 Application Adaptation Layer、V3.6 Workflow Runtime Layer、Harness Core、RuntimeAdapter / Governance 等边界压扁，不适合作为 gap 文档或正式架构主口径。
+
+正式基线如下：
 
 ```text
-Plane-1 Studio UI / Embedded UI
-  Workflow Canvas / Quality Board / Project Console / Nested Embedding Shell
+Plane-0 Product UI / Workflow Studio / AgentTalkWindow
+  Workflow Canvas / Quality Board / Project Console / Embedded Surface
 
-Plane-2 Application Adaptation & Workflow Protocol Plane
-  V3.5 SDK / BFF / hooks / EventBridge / embedding APIs
+Plane-1 Application Adaptation Layer
+  V3.5 SDK / BFF / hooks / EventBridge / Embed Contract
+
+Plane-2 Workflow Runtime Layer
   V3.6 workflow runtime RPC / board / patch / quality / context APIs
-
-Plane-3 Workflow Runtime & State Core
   WorkflowTemplate / WorkflowInstance / Station / StationRun / Board / Patch / Quality / Context
-  app scope / workflow state / job / artifact / trace / approval / retry / memory / evaluation
 
-Plane-4 Execution Runtime Plane
-  runtime adapters / agent runners / planner-executor / multi-agent orchestration
+Plane-3 Harness Core
+  Session / Turn / Job / Artifact / Approval / Trace / Policy / Scope / Memory / Retry
 
-Plane-5 Descriptor Plane
+Plane-4 Runtime Adapter & Governance
+  runtime adapters / agent runners / planner-executor / governed execution / secret hygiene
+
+Plane-5 Domain Pack / Descriptor Plane
   app descriptors / workflow descriptors / agent descriptors / skill descriptors / quality descriptors
+  domain packs / policy bundles / artifact kinds / versioning + compiler
 
-Plane-6 Connector & Asset Plane
-  MCP / model APIs / media engines / search / storage / external asset services
+Plane-6 Connector / Tool / Store / Asset Plane
+  MCP / stdio / HTTP connectors / model APIs / media engines / search / storage / external asset services
 ```
+
+六块能力域仍可用于产品讲解，但必须标注为 aggregated product view：
+
+```text
+Studio UI
+Application Adaptation
+Workflow Runtime
+Execution / Governance
+Descriptor / Pack
+Connector / Asset
+```
+
+该聚合视图不能替代七平面作为正式目标架构，也不能用于新增绕过 V3.6 API 的 UI 专用后端通道。
 
 ## 4. 新增关键对象
 
