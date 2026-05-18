@@ -1,6 +1,6 @@
 # ResearchNotebook Git Remote Sync Status
 
-文档状态：Git sync approved for existing workspace remote；ResearchNotebook 当前作为上层仓库子目录同步。
+文档状态：Git sync complete；ResearchNotebook 当前作为上层仓库子目录同步。
 日期：2026-05-18。
 
 ## 1. Repository Discovery
@@ -63,6 +63,18 @@ origin https://github.com/ljx418/meeting-voice-assistant.git
 
 ```text
 research-notebook/
+```
+
+已同步提交：
+
+```text
+8a0f2cdb Add ResearchNotebook V1 RC1 frontend
+```
+
+推送结果：
+
+```text
+origin/main d580066a..8a0f2cdb
 ```
 
 不纳入本次提交：
