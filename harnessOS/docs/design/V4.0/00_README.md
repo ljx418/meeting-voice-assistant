@@ -1,6 +1,6 @@
 # harnessOS V4.0 Design Docs
 
-文档状态：V4.0-C complete + Workflow Studio low-code shell refresh；V3.6-J Dummy Pipeline E2E / V4.0 Gate 已通过，且 V3.6/V4.0 preflight hardening 已完成。当前下一阶段仍是 V4.0-D Quality / Approval / Context Panels。本文仍是设计入口，不代表完整 Workflow Studio、AgentTalkWindow 或 production external app support 已完成。
+文档状态：V4.0-E complete at integration baseline；V3.6-J Dummy Pipeline E2E / V4.0 Gate 已通过，且 V3.6/V4.0 preflight hardening 已完成。当前可以声明 `V4.0 dev/local Workflow Console integration baseline ready`。本文仍是设计入口，不代表完整 Workflow Studio、AgentTalkWindow 或 production external app support 已完成。
 
 ## Positioning
 
@@ -43,6 +43,9 @@ Plane-6 Connector / Tool / Store / Asset Plane
 | `v4_0_stitch_prototype_mapping.md` | V4.0-0 PROTOTYPE MAP | Stitch 原型区域到 V3.6 API 或 UI-only transient state 的映射。 |
 | `v4_target_architecture_workflow_console.md` | DRAFT TARGET ARCHITECTURE | V4.0 目标架构、控制台、嵌套调用和 descriptor 平台说明。 |
 | `v4_0_workflow_studio_low_code_baseline.md` | DRAFT DEVELOPMENT BASELINE | 基于 Stitch 原型图的 V4.0 Workflow Studio / low-code UI 开发基线。 |
+| `v4_0_workflow_studio_agent_copilot_prd.md` | CURRENT UX ACCEPTANCE BASELINE | Workflow Studio + Agent 工作流助手 v0.2 PRD；后续前端体验以“节点画布 + Agent 自然语言调整 + Patch/Diff 用户确认”为验收基线。 |
+| `v4_0_e_reference_console_completion_note.md` | V4.0-E COMPLETION EVIDENCE | Reference Workflow Console E2E 的实现范围、测试证据、浏览器 smoke 降级说明和 No False Green 边界。 |
+| `v4_0_completion_audit_report.md` | CURRENT AUDIT REPORT | 当前 V3.5 / V3.6 / V4.0 完成情况审计报告，包含文档清单、测试证据、架构边界判断和下一步建议。 |
 
 V4.0 正式开发必须继续参考以下基线：
 
@@ -85,8 +88,11 @@ V4.0 主要关注：
 - V4.0-A Workflow Console Read-only MVP 已完成，新增 `apps/workflow-console/` React/Vite read-only console。
 - V4.0-B Workflow Editing MVP 已重新收窄为 preparation shell：新增受控 patch diff / risk display，不暴露 apply / reject / publish 执行动作。
 - V4.0-C AgentTalkWindow Preparation 已完成，新增 fixture-first AgentTalk preparation shell、事件时间线、patch 建议卡片、审批提醒、只读 context summary 和 embed boundary tests。
-- Workflow Studio 页面已按 Stitch 方向完成低代码 shell refresh：顶部栏、左侧「节点库」、中央无限拖拽画布、右侧「节点配置 / Agent 助手」、底部运行观察面板；画布支持背景平移、节点拖动、缩放和折叠面板扩展。
-- 当前下一阶段是 V4.0-D Quality / Approval / Context Panels。
+- Workflow Studio 页面已按 Stitch + PRD v0.2 方向完成低代码 shell refresh：顶部栏、左侧「节点库」、中央 VideoStudio 多节点画布、右侧默认展开的「Agent 工作流助手」、Patch Proposal / Diff 确认语义、底部运行观察面板；画布支持背景平移、节点拖动、缩放和折叠面板扩展。
+- V4.0-A2 Real Data Bridge 已完成：`apps/api/routers/bff.py` 提供 structured BFF read/event routes，`apps/workflow-console` 默认通过 real BFF DTO hook 消费 board/status/output/artifact metadata/lineage；只有显式 `VITE_HARNESSOS_DEMO_MODE=true` 才使用 Demo / Fixture。
+- V4.0-D Quality / Approval / Context Panels 已完成：Quality panel 保持 read-only，Approval panel 通过显式用户点击调用 workflow-bound `approval.respond`，Context panel 只允许受控写入 `context.business` 并支持 `business.event.emit`；BFF structured routes 返回 redacted DTO 并校验 instance-scoped resource ownership。
+- V4.0-E Reference Workflow Console E2E 已完成 component-level + BFF integration E2E：平台中立 runtime fixture、BusinessEventBinding、后端 seeded patch diff、approval side-effect、context update、EventBridge refresh truth、DTO redaction 和 scope / ownership guard 均有测试覆盖。
+- 当前未引入 Playwright/Cypress 浏览器级 smoke，因此阶段声明降级为 `V4.0 dev/local Workflow Console integration baseline ready`。
 
 建议 V4.0 阶段拆分为：
 
@@ -94,10 +100,11 @@ V4.0 主要关注：
 | --- | --- | --- |
 | V4.0-0 Baseline & UI Contract Sync | 以 V3.5/V3.6 completion evidence 作为产品层基线，锁定 UI 只能消费 V3.6 API。 | 已完成：V4.0 implementation baseline and UI contract map ready。 |
 | V4.0-A Workflow Console Read-only MVP | 使用 `workflow.board.get`、`workflow.instance.status`、`station.output.list` 和 EventBridge 构建只读流水线控制台。 | 已完成：read-only console scaffold、BFF-only client、station/artifact/approval/quality/trace/event panels、redaction tests；已升级为画布优先 Workflow Studio Shell。 |
+| V4.0-A2 Real Data Bridge | 补齐 V4.0-A 的真实 BFF read/event data bridge，不再让默认 shell 依赖 demoData。 | 已完成：BFF structured routes、V3.6 dummy fixture integration、EventBridge proxy、frontend real data hook、redaction/source scan tests。 |
 | V4.0-B Workflow Editing MVP | 使用 `workflow.patch.propose/diff` 支撑受控建议与 Diff 展示；apply/reject/publish 后移到真实 editing E2E。 | 当前完成：patch diff panel、BFF structured propose/diff routes、高风险 patch 风险展示；不暴露 apply/reject/publish。 |
 | V4.0-C AgentTalkWindow Preparation | 基于 V3.5 Embed Contract、events、approval/context/patch 能力做 AgentTalkWindow 前置 shell。 | 已完成：fixture-first shell、event source 标识、patch propose/diff 展示、approval notice、只读 context summary；不声明完整 AgentTalkWindow。 |
-| V4.0-D Quality / Approval / Context Panels | 产品化 QualityEvaluation、approval.respond、business event 和 workflow context 的查看与操作。 | 不修改 V3.6 board contract，不把 UI state 写回 runtime 内部对象。 |
-| V4.0-E Reference Workflow Console E2E | 用平台中立 workflow 验证 UI + BFF + SDK + V3.6 runtime 的端到端链路。 | 不依赖 Meeting / Knowledge / Video / external MCP，不声明 production-ready。 |
+| V4.0-D Quality / Approval / Context Panels | 产品化 QualityEvaluation、approval.respond、business event 和 workflow context 的查看与操作。 | 已完成：Quality read-only、workflow approval response、business context operation panels ready for dev/local Workflow Studio；不修改 V3.6 board contract，不把 UI state 写回 runtime 内部对象。 |
+| V4.0-E Reference Workflow Console E2E | 用平台中立 workflow 验证 UI + BFF + SDK + V3.6 runtime 的端到端链路。 | 已完成 component-level + BFF integration E2E；未完成 browser-level smoke，因此声明为 integration baseline。 |
 
 ## V3.6 Gate
 
@@ -122,4 +129,4 @@ V4.0 仍可以做 UI Spike，但 Spike 不能替代正式 V3.6 API，不能固�
 - 全自动高质量剧情视频生成
 - 完整多租户商业化权限系统
 - 完整分布式调度 / GPU 资源编排
-- 在 V4.0-E reference workflow console E2E 之前声明 Workflow Studio ready 或 AgentTalkWindow ready
+- 在完整编辑器与 AgentTalkWindow 状态机完成前声明 Workflow Studio ready 或 AgentTalkWindow ready

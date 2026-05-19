@@ -1,6 +1,6 @@
 # V4.0 Mock-to-Real Contract Checklist
 
-文档状态：V4.0-0 checklist baseline。每个 V4.0 UI mock 字段都必须落入本表结构，不允许把 mock schema 直接提升为 runtime contract。
+文档状态：V4.0-E integration checklist。每个 V4.0 UI mock 字段都必须落入本表结构，不允许把 mock schema 直接提升为 runtime contract。
 
 ## Required Table Shape
 
@@ -15,6 +15,11 @@
 | Quality Panel | score | V3.6 API | `quality.evaluation.get/list` | server-owned | no | no | no | V4.0-D |
 | Approval Panel | decision | V3.6 API | `approval.respond` | server-owned | yes, action API | possible reason text | yes | V4.0-D |
 | Context Panel | business context value | V3.6 API | `workflow.context.get/update` | yes | yes, only `context.business` | possible | yes | V4.0-D |
+| Reference Console | board DTO | V3.6 API via BFF DTO | `workflow.board.get` | server-owned | no | possible trace summary | yes | V4.0-E |
+| Reference Console | seeded patch diff | V3.6 API via BFF DTO | `workflow.patch.diff` | server-owned | no apply in E | possible | yes | V4.0-E |
+| Reference Console | business event binding result | V3.6 API via BFF DTO | `business.event.emit` + `workflow.context.get` | yes | yes, only `context.business` | possible payload | yes | V4.0-E |
+| Reference Console | approval side-effect result | V3.6 API via BFF DTO | `approval.respond` + `workflow.instance.status` | server-owned | explicit user action only | possible reason text | yes | V4.0-E |
+| Reference Console | event refresh | V3.6 EventBridge via BFF | `events.subscribe` / `/bff/events/subscribe` | no | no | possible event data | yes | V4.0-E |
 | Side Panel | panel collapsed | UI-only transient | none | local UI only | no | no | no | never persisted |
 | Side Panel | side panel width | UI-only transient | none | local UI only | no | no | no | never persisted |
 | Tabs | active tab | UI-only transient | none | local UI only | no | no | no | never persisted |

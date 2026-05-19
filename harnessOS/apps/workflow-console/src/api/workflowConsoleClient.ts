@@ -1,8 +1,12 @@
 import type {
   ArtifactSummary,
+  ApprovalSummary,
+  OperationResult,
+  QualitySummary,
   WorkflowPatchDiff,
   WorkflowPatchProposal,
   WorkflowBoard,
+  WorkflowContextSummary,
   WorkflowEvent,
   WorkflowInstanceSummary,
   WorkflowStatus,
@@ -37,8 +41,63 @@ export class WorkflowConsoleClient {
     return this.get<WorkflowBoard>(`/instances/${encodeURIComponent(instanceId)}/board`);
   }
 
+  listQuality(instanceId: string): Promise<QualitySummary[]> {
+    return this.get<QualitySummary[]>(`/instances/${encodeURIComponent(instanceId)}/quality`);
+  }
+
+  listApprovals(instanceId: string): Promise<ApprovalSummary[]> {
+    return this.get<ApprovalSummary[]>(`/instances/${encodeURIComponent(instanceId)}/approvals`);
+  }
+
+  respondApproval(
+    instanceId: string,
+    approvalId: string,
+    payload: { decision: "approve" | "reject"; reason?: string; user_confirmed: true; source: "approval_panel" },
+  ): Promise<OperationResult<ApprovalSummary>> {
+    return this.post<OperationResult<ApprovalSummary>>(
+      `/instances/${encodeURIComponent(instanceId)}/approvals/${encodeURIComponent(approvalId)}/respond`,
+      payload,
+    );
+  }
+
+  getContext(instanceId: string): Promise<WorkflowContextSummary> {
+    return this.get<WorkflowContextSummary>(`/instances/${encodeURIComponent(instanceId)}/context`);
+  }
+
+  updateContext(
+    instanceId: string,
+    payload: { op: "set"; path: `business.${string}`; value: unknown; expected_revision?: number },
+  ): Promise<OperationResult<WorkflowContextSummary>> {
+    return this.post<OperationResult<WorkflowContextSummary>>(
+      `/instances/${encodeURIComponent(instanceId)}/context/update`,
+      payload as Record<string, unknown>,
+    );
+  }
+
+  emitBusinessEvent(
+    instanceId: string,
+    payload: {
+      event_type: `business.${string}`;
+      payload?: Record<string, unknown>;
+      event_id?: string;
+      idempotency_key?: string;
+      binding?: { target_path: `context.business.${string}`; payload_path: `event.payload.${string}`; mode?: "set" };
+    },
+  ): Promise<OperationResult<{ context: WorkflowContextSummary }>> {
+    return this.post<OperationResult<{ context: WorkflowContextSummary }>>(
+      `/instances/${encodeURIComponent(instanceId)}/business-events`,
+      payload as Record<string, unknown>,
+    );
+  }
+
   listStationOutputs(stationRunId: string): Promise<ArtifactSummary[]> {
     return this.get<ArtifactSummary[]>(`/stations/${encodeURIComponent(stationRunId)}/outputs`);
+  }
+
+  listInstanceStationOutputs(instanceId: string, stationRunId: string): Promise<ArtifactSummary[]> {
+    return this.get<ArtifactSummary[]>(
+      `/instances/${encodeURIComponent(instanceId)}/stations/${encodeURIComponent(stationRunId)}/outputs`,
+    );
   }
 
   getArtifactMetadata(artifactId: string): Promise<ArtifactSummary> {
@@ -59,12 +118,19 @@ export class WorkflowConsoleClient {
     );
   }
 
+  getInstancePatchDiff(instanceId: string, patchId: string): Promise<WorkflowPatchDiff> {
+    return this.get<WorkflowPatchDiff>(
+      `/instances/${encodeURIComponent(instanceId)}/patches/${encodeURIComponent(patchId)}/diff`,
+    );
+  }
+
   proposeAgentPatch(templateId: string, payload: Record<string, unknown>): Promise<WorkflowPatchProposal> {
     return this.post<WorkflowPatchProposal>(`/workflows/${encodeURIComponent(templateId)}/patches/propose`, payload);
   }
 
   connectEvents(channels: string[], onEvent: (event: WorkflowEvent) => void): EventSource {
-    const url = `${this.basePath}/events/subscribe?channels=${encodeURIComponent(channels.join(","))}`;
+    const params = new URLSearchParams({ channels: channels.join(","), follow: "true" });
+    const url = `${this.basePath}/events/subscribe?${params.toString()}`;
     const source = new EventSource(url);
     source.onmessage = (message) => {
       try {

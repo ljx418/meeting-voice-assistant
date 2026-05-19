@@ -69,9 +69,10 @@ Built on Deep Agents/LangGraph with modular agent system.
     )
 
     # Include routers
-    from apps.api.routers import health, agents, events, routing, runs
+    from apps.api.routers import bff, health, agents, events, routing, runs
 
     app.include_router(health.router, tags=["health"])
+    app.include_router(bff.router, prefix="/bff", tags=["bff"])
     app.include_router(runs.router, prefix="/v1", tags=["runs"])
     app.include_router(events.router, prefix="/v1", tags=["events"])
     app.include_router(agents.router, prefix="/api/agents", tags=["agents"])

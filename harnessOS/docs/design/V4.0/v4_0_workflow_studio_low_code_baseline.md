@@ -1,19 +1,20 @@
 # harnessOS V4.0 Workflow Studio / Low-code UI Development Baseline
 
-文档状态：V4.0 前端低代码平台开发审查基线；当前已完成 Workflow Studio low-code shell refresh。  
+文档状态：V4.0 前端低代码平台开发审查基线；当前已完成 Workflow Studio low-code shell refresh 和 V4.0-E Reference Workflow Console integration baseline。  
 适用范围：基于 Stitch 原型图 `https://stitch.withgoogle.com/projects/10240451325799222489` 进入 V4.0 Workflow Console / Workflow Studio / low-code UI 的开发规划与审查。  
-当前结论：项目已经支撑并实现了一版 V4.0 Workflow Console / low-code UI shell，但不能声明 Workflow Studio ready 或 low-code platform complete。
+当前结论：项目已经支撑并实现了一版 V4.0 Workflow Console / low-code UI shell，并通过 component-level + BFF integration E2E 连接 V3.6 runtime fixture；但不能声明 Workflow Studio ready 或 low-code platform complete。
 
 当前进展、阶段状态、核心差距和图形化路线图以 `v4_0_current_gap_analysis.md` 与 `v4_0_current_gap_analysis.drawio` 为最高优先级维护入口。本文只作为 Stitch 原型到 V4.0 UI 开发的补充基线。
 
 ## 1. Current Conclusion
 
-当前 harnessOS **已经可以展示基于 Stitch 原型方向的 V4.0 前端低代码 Workflow Studio Shell**。
+当前 harnessOS **已经可以展示基于 Stitch 原型和 PRD v0.2 方向的 V4.0 前端低代码 Workflow Studio Shell**，并已完成 Reference Workflow Console 的 integration baseline：BFF structured routes、V3.6 runtime fixture、BusinessEventBinding、seeded patch diff、approval side-effect、context update、EventBridge refresh truth 与 DTO redaction 均有测试覆盖。
 
 当前可以声明：
 
 ```text
 V4.0 Workflow Studio page prototype / Shell complete.
+V4.0 dev/local Workflow Console integration baseline ready.
 ```
 
 当前不能声明：
@@ -178,18 +179,29 @@ apps/workflow-console/
 - 低代码 Workflow Studio Shell：
   - 顶部栏。
   - 左侧「节点库」。
-  - 中央无限拖拽画布。
-  - 右侧「节点配置 / Agent 助手」。
+  - ComfyUI-like 底层工作台画布。
+  - 右侧默认展开的「Agent 工作流助手」。
+  - 节点配置 / Patch Diff tabs。
   - 底部运行观察面板。
+- Stitch 最新浅色高保真视觉：
+  - 浅色 SaaS 工作台背景。
+  - 中央白色点阵无限画布。
+  - 蓝紫色主按钮与状态点缀。
+  - 白色卡片式节点与清晰连线。
 - 画布已支持：
-  - 浅色网格背景。
+  - 铺满主工作区并位于浮层面板之后。
+  - 浅色无限点阵网格背景。
+  - VideoStudio 示例多节点工作流。
+  - 分镜生成 warning 节点。
   - 背景拖拽平移。
   - 节点拖动。
   - 节点连线。
   - 缩放。
   - 适配画布。
   - 左右折叠后画布扩展。
+  - 窄屏下顶部栏保持紧凑，左右面板默认折叠为浮动入口，画布仍是主工作台。
 - 已通过 `npm test`、`npm run build` 和 V4.0 Python contract tests。
+- `v4_0_workflow_studio_agent_copilot_prd.md` 已作为后续前端体验验收基线，重点验收 Agent 自然语言工作流助手、Patch/Diff 和用户确认机制。
 
 当前限制：
 
@@ -410,6 +422,8 @@ events.subscribe
 - 工作流节点可拖动。
 - 画布缩放与适配视图可用。
 - 左右面板折叠后画布面积扩大。
+- 画布是工作台的一等公民，不是嵌在三栏布局中的中间卡片。
+- 窄屏 viewport 下不能把顶部栏退化成纵向表单，也不能让侧栏覆盖整个画布。
 - 不直接读 store
 - 不新增后端旁路
 - 不修改 workflow runtime

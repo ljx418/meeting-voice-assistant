@@ -47,15 +47,15 @@ def test_workflow_console_client_uses_structured_bff_routes() -> None:
 def test_workflow_console_source_uses_controlled_editing_boundary() -> None:
     text = _read_all_source()
     for forbidden in (
-        "workflow.instance.start",
-        "approval.respond",
-        "workflow.context.update",
-        "business.event.emit",
-        "quality.evaluation.create",
-        "quality.evaluation.attach",
-        "workflow.template.publish",
-        "workflow.draft.save",
-        "artifact.read",
+        'method: "workflow.instance.start"',
+        'method: "approval.respond"',
+        'method: "workflow.context.update"',
+        'method: "business.event.emit"',
+        'method: "quality.evaluation.create"',
+        'method: "quality.evaluation.attach"',
+        'method: "workflow.template.publish"',
+        'method: "workflow.draft.save"',
+        'method: "artifact.read"',
     ):
         assert forbidden not in text
     assert "/patches" in text

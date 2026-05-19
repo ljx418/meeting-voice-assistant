@@ -33,5 +33,5 @@ export function safeText(value: unknown): string {
 }
 
 function looksSensitive(value: string): boolean {
-  return /bearer\s+[a-z0-9._-]+/i.test(value) || /capability_token|subscription_token|authorization|secret/i.test(value);
+  return /bearer\s+[a-z0-9._-]+/i.test(value) || /capability_token|subscription_token|authorization|secret|raw_trace_payload|raw_artifact_content|raw_connector_payload/i.test(value);
 }

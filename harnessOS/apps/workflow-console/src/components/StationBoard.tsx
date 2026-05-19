@@ -13,22 +13,30 @@ interface Point {
 }
 
 const DEFAULT_POSITIONS: Point[] = [
-  { x: 40, y: 180 },
-  { x: 320, y: 180 },
-  { x: 600, y: 180 },
-  { x: 880, y: 180 },
-  { x: 1160, y: 180 },
-  { x: 1440, y: 180 },
-  { x: 1720, y: 180 },
-  { x: 2000, y: 180 },
+  { x: 60, y: 260 },
+  { x: 290, y: 260 },
+  { x: 520, y: 260 },
+  { x: 750, y: 260 },
+  { x: 980, y: 260 },
+  { x: 1210, y: 260 },
+  { x: 1440, y: 260 },
+  { x: 1670, y: 260 },
 ];
+
+function getInitialViewport(): Point {
+  if (typeof window !== "undefined" && window.matchMedia("(max-width: 720px)").matches) {
+    return { x: 52, y: 118 };
+  }
+  return { x: 320, y: 82 };
+}
 
 export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
   const surfaceRef = useRef<HTMLDivElement | null>(null);
-  const [zoom, setZoom] = useState(0.82);
-  const [viewport, setViewport] = useState<Point>({ x: 120, y: 30 });
+  const displayStations = useMemo(() => stations, [stations]);
+  const [zoom, setZoom] = useState(0.78);
+  const [viewport, setViewport] = useState<Point>(() => getInitialViewport());
   const [positions, setPositions] = useState<Record<string, Point>>(() => Object.fromEntries(
-    stations.map((station, index) => [station.station.station_id, DEFAULT_POSITIONS[index] || { x: 80 + index * 280, y: 180 }]),
+    displayStations.map((station, index) => [station.station.station_id, DEFAULT_POSITIONS[index] || { x: 80 + index * 280, y: 180 }]),
   ));
   const [drag, setDrag] = useState<
     | { kind: "pan"; start: Point; origin: Point }
@@ -36,17 +44,17 @@ export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
     | null
   >(null);
 
-  const edges = useMemo(() => stations.slice(0, -1).map((station, index) => {
+  const edges = useMemo(() => displayStations.slice(0, -1).map((station, index) => {
     const from = positions[station.station.station_id];
-    const to = positions[stations[index + 1].station.station_id];
+    const to = positions[displayStations[index + 1].station.station_id];
     return {
-      id: `${station.station.station_id}_${stations[index + 1].station.station_id}`,
-      x1: from.x + 224,
+      id: `${station.station.station_id}_${displayStations[index + 1].station.station_id}`,
+      x1: from.x + 188,
       y1: from.y + 92,
       x2: to.x,
       y2: to.y + 92,
     };
-  }), [positions, stations]);
+  }), [displayStations, positions]);
 
   function pointFromEvent(event: PointerEvent): Point {
     return { x: event.clientX, y: event.clientY };
@@ -69,8 +77,8 @@ export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
   }
 
   function fitView() {
-    setZoom(0.82);
-    setViewport({ x: 120, y: 30 });
+    setZoom(0.78);
+    setViewport(getInitialViewport());
   }
 
   return (
@@ -81,13 +89,38 @@ export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
           <h2>工作流画布</h2>
         </div>
         <div className="canvas-toolbar" aria-label="画布工具栏">
-          <button type="button" disabled>撤销</button>
-          <button type="button" disabled>重做</button>
+          <button type="button" aria-label="缩小" onClick={() => setZoom((value) => Math.max(0.45, value - 0.08))}>−</button>
+          <span>{Math.round(zoom * 100)}%</span>
+          <button type="button" aria-label="放大" onClick={() => setZoom((value) => Math.min(1.4, value + 0.08))}>＋</button>
+          <button type="button" onClick={fitView}>适配画布</button>
+          <button type="button" disabled>小地图</button>
+        </div>
+      </div>
+      <div className="canvas-navigation" aria-hidden="true">
+        <span>⌕</span>
+        <span>−</span>
+        <span>{Math.round(zoom * 100)}%</span>
+        <span>＋</span>
+        <span>⛶</span>
+      </div>
+      <div className="canvas-runtime-meter" aria-hidden="true">
+        <span>SYSTEM HEALTHY</span>
+        <span>FPS 60</span>
+        <span>MEM 120MB</span>
+      </div>
+      <div className="canvas-action-bar" aria-hidden="true">
+        <button type="button" disabled>✓ 保存当前工作流</button>
+      </div>
+      <div className="canvas-ghost-link left" aria-hidden="true" />
+      <div className="canvas-ghost-link right" aria-hidden="true" />
+      <div className="canvas-ghost-port left" aria-hidden="true" />
+      <div className="canvas-ghost-port right" aria-hidden="true" />
+      <div className="canvas-hidden-toolbar" aria-hidden="true">
+        <div className="canvas-toolbar">
           <button type="button" onClick={() => setZoom((value) => Math.max(0.45, value - 0.08))}>-</button>
           <span>{Math.round(zoom * 100)}%</span>
           <button type="button" onClick={() => setZoom((value) => Math.min(1.4, value + 0.08))}>+</button>
           <button type="button" onClick={fitView}>适配画布</button>
-          <button type="button" disabled>小地图</button>
         </div>
       </div>
       <div
@@ -112,7 +145,7 @@ export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
               />
             ))}
           </svg>
-          {stations.map((station) => {
+          {displayStations.map((station) => {
             const position = positions[station.station.station_id] || { x: 0, y: 0 };
             return (
               <div

@@ -1,6 +1,6 @@
 # V4.0 Stitch Prototype Mapping
 
-文档状态：V4.0-C complete + Workflow Studio low-code shell refresh。本文把 Stitch 原型中的主要 UI 区域映射到 V3.6 API 或 UI-only transient state，并记录当前 `apps/workflow-console` 对 “harnessOS Workflow Studio - 左右双折叠交互设计” 的实现状态。
+文档状态：V4.0-C complete + Workflow Studio low-code shell refresh。本文把 Stitch 原型和 PRD v0.2 中的主要 UI 区域映射到 V3.6 API 或 UI-only transient state，并记录当前 `apps/workflow-console` 对 “harnessOS Workflow Studio + Agent 工作流助手” 的实现状态。
 
 原型来源：
 
@@ -21,7 +21,7 @@ https://stitch.withgoogle.com/projects/10240451325799222489
 | 质量看板 | 质量评估 | QualityEvaluation summary | `quality.evaluation.get/list`, board summary | V4.0-D |
 | 审批面板 | 审批决策 | Approval request + `approval.respond` | `approval.respond`, `approval.required` | V4.0-D |
 | 上下文面板 | 业务上下文 | WorkflowContext business partition | `workflow.context.get/update` | V4.0-D |
-| Agent 助手 | Agent proposal shell | Patch propose/diff + event feed | `workflow.patch.propose/diff`, EventBridge | V4.0-C |
+| Agent 工作流助手 | Agent natural-language workflow copilot | Natural-language workflow draft / node optimization / Patch proposal shell | `workflow.patch.propose/diff`, EventBridge, UI-only fixture copy | V4.0-C |
 
 ## Current Implementation Snapshot
 
@@ -35,10 +35,10 @@ Left:
   节点库 / search / filters / categorized draggable node cards
 
 Center:
-  工作流画布 / light grid / node edges / node cards / background pan / node drag / zoom / fit view
+  工作流画布 / Stitch latest light workbench / ComfyUI-like bottom layer / light dotted grid / node edges / white node cards / background pan / node drag / zoom / fit view
 
 Right:
-  节点配置 Inspector / Agent 助手 tab
+  Agent 工作流助手 / 节点配置 / Patch Diff tabs, default Agent 助手
 
 Bottom:
   事件 / Trace / 产物 / 质量 / 审批 / Patch run panel
@@ -52,8 +52,22 @@ canvas node movement is UI-only transient state
 edges are visual read model, not persisted WorkflowEdge edits
 Inspector fields are read-only / disabled
 Patch panel only displays proposal/diff/risk, not apply/reject/publish
-Agent 助手 only displays suggestions, notices and summaries
+Agent 工作流助手 displays natural-language workflow generation, node optimization suggestions and Patch/Diff confirmation semantics
 ```
+
+## Visual Token Mapping
+
+当前 `apps/workflow-console` 已按 Stitch 最新可见原型和 PRD v0.2 切换到浅色高保真视觉：
+
+```text
+background: light SaaS workspace / #f9f9f9 family
+primary accent: blue-purple / #4648d4 and #7c3aed family
+panels: white and light-gray surfaces
+canvas: white infinite dotted grid with clear node edges
+nodes: white cards with status and warning emphasis
+```
+
+这些 token 只属于 Product UI visual layer，不能反向定义 V3.6 runtime schema。
 
 ## UI-only Transient State
 
@@ -73,6 +87,18 @@ temporary connection preview
 ```
 
 当前画布的 `canvas viewport x/y`、`canvas zoom`、`node x/y`、折叠状态和 active tab 均属于 UI-only transient state。
+
+画布层级要求：
+
+```text
+canvas is the workspace bottom layer
+left node library floats above canvas
+right Inspector / Agent floats above canvas
+canvas toolbar floats above canvas
+bottom run panel floats above canvas
+```
+
+因此后续不能退回到 “left / middle canvas card / right” 的普通三栏 Dashboard 布局。
 
 ## Production Path
 

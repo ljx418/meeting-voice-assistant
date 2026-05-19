@@ -92,7 +92,16 @@ def test_events_subscribe_returns_signed_url_and_native_eventsource_needs_no_aut
         client,
         token,
         "artifact.register_external",
-        {"kind": "note", "external_asset_uri": "file:///tmp/a.txt", "scope": {"app_id": "meeting"}},
+        {
+            "kind": "note",
+            "external_asset_uri": "file:///tmp/a.txt",
+            "metadata": {
+                "capability_token": "cap-secret-token",
+                "Authorization": "Bearer cap-secret-token",
+                "raw_artifact_content": "raw content",
+            },
+            "scope": {"app_id": "meeting"},
+        },
     )
     assert artifact.get("error") is None
 
@@ -111,6 +120,9 @@ def test_events_subscribe_returns_signed_url_and_native_eventsource_needs_no_aut
     assert events[0]["channel"] == "artifact"
     assert events[0]["scope"]["app_id"] == "meeting"
     assert result["subscription_token"] not in native.text
+    assert "cap-secret-token" not in native.text
+    assert "Authorization" not in native.text
+    assert "raw_artifact_content" not in native.text
 
 
 def test_fetch_stream_mode_accepts_bearer_token(monkeypatch, tmp_path) -> None:

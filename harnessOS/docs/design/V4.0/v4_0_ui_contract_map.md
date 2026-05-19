@@ -1,6 +1,6 @@
 # V4.0 UI Contract Map
 
-文档状态：V4.0-C complete + Workflow Studio low-code shell refresh。本文定义 Workflow Console / Studio / AgentTalkWindow 前置 UI 可以消费的 RPC、事件和 BFF route，并记录当前 `apps/workflow-console` 已实现的页面边界。
+文档状态：V4.0-E complete at integration baseline。本文定义 Workflow Console / Studio / AgentTalkWindow 前置 UI 可以消费的 RPC、事件和 BFF route，并记录当前 `apps/workflow-console` 已实现的页面边界。
 
 ## Terminology
 
@@ -77,7 +77,7 @@ Purpose: map Stitch / Workflow Studio prototype regions to real V3.6 APIs or UI-
 
 ## V4.0-A Read-only Console
 
-Implementation status: complete and refreshed into a canvas-first Workflow Studio shell. The UI contains top bar, left `节点库`, central draggable grid canvas, right Inspector / Agent panel and bottom run panel. It still consumes demo/read models and does not prove UI+BFF+runtime E2E.
+Implementation status: complete and refreshed into a canvas-first Workflow Studio shell. V4.0-A2 has connected the shell to real BFF read/event data. The UI contains top bar, left `节点库`, Stitch latest light visual tokens, ComfyUI-like full workbench canvas, right Agent 工作流助手 / Inspector / Patch Diff tabs and bottom run panel. The canvas is the bottom workbench layer; node library, Agent panel, Inspector, canvas toolbar and run panel float above it. Default mode now consumes BFF frontend DTOs; demo/read models are explicit `VITE_HARNESSOS_DEMO_MODE=true` fixtures only.
 
 Allowed RPC:
 
@@ -128,6 +128,24 @@ GET /bff/stations/{station_id}/outputs
 GET /bff/events/subscribe
 ```
 
+V4.0-A2 implemented BFF routes:
+
+```text
+GET /bff/workflows
+GET /bff/workflows/{workflow_template_id}
+GET /bff/workflows/{workflow_template_id}/versions
+GET /bff/instances
+GET /bff/instances/{workflow_instance_id}/status
+GET /bff/instances/{workflow_instance_id}/board
+GET /bff/stations/{station_run_id}/outputs
+GET /bff/instances/{workflow_instance_id}/stations/{station_run_id}/outputs
+GET /bff/artifacts/{artifact_id}/metadata
+GET /bff/artifacts/{artifact_id}/lineage
+GET /bff/instances/{workflow_instance_id}/artifacts/{artifact_id}/metadata
+GET /bff/instances/{workflow_instance_id}/artifacts/{artifact_id}/lineage
+GET /bff/events/subscribe
+```
+
 Dev/demo-only BFF route:
 
 ```text
@@ -138,9 +156,16 @@ Rules:
 
 - Read-only console must not call patch apply, approval respond, or context update.
 - UI refreshes board state through BFF / hooks / EventBridge proxy.
+- Real mode API errors render an error state and must not silently fallback to demoData.
+- BFF routes return redacted frontend DTOs instead of raw Gateway RPC payloads.
+- EventBridge events only trigger refresh/display; UI reloads `workflow.board.get` / `workflow.instance.status` and does not construct runtime state from event payloads.
 - Station details come from `workflow.board.get` and `station.output.list`; V4.0-A does not add a UI-only station detail API.
 - V4.0-A console token should only need `workflows.read`, `board.read`, `stations.read`, `artifacts.read`, `jobs.read`, `quality.read`, `approvals.read`, and `events`.
 - The current canvas drag model is UI-only: background pan, node drag, zoom and fit-view do not mutate V3.6 runtime objects.
+- The current visual model is UI-only: light surfaces, blue-purple accents, dotted grid density, card styling and panel spacing must not be written into V3.6 runtime contracts.
+- Agent Copilot copy and suggestion cards are UI preparation content: natural-language draft generation, node optimization suggestions and disabled apply-to-draft wording do not mutate runtime state until a later BFF/runtime E2E phase.
+- Canvas z-order is part of the UI contract: the canvas must remain a first-class workbench layer behind panels, not a nested middle-column card.
+- Narrow viewport behavior is part of the UI contract: on compact screens, the header must stay compact, side panels must default to floating drawer triggers, and the canvas must remain visible as the primary workbench surface.
 
 ## V4.0-B Editing
 
@@ -249,6 +274,8 @@ Rules:
 
 ## V4.0-D Operation Panels
 
+Implementation status: complete for dev/local operation panels. `apps/workflow-console` now includes `QualityPanel`, `ApprovalPanel`, and `ContextPanel`, backed by structured BFF DTO routes. Quality remains read-only; approval response requires explicit user confirmation from the approval panel; context updates are limited to path-based writes under `context.business`; business events are concrete `business.*` events only.
+
 Allowed RPC:
 
 ```text
@@ -273,25 +300,35 @@ workflow.context.updated
 Allowed BFF routes:
 
 ```text
-GET /bff/quality-evaluations
-POST /bff/approvals/{approval_id}/respond
-GET /bff/workflow-instances/{workflow_instance_id}/context
-PATCH /bff/workflow-instances/{workflow_instance_id}/context
-POST /bff/workflow-instances/{workflow_instance_id}/business-events
-POST /bff/workflow-instances/{workflow_instance_id}/business-event-bindings
+GET /bff/instances/{workflow_instance_id}/quality
+GET /bff/instances/{workflow_instance_id}/quality/{evaluation_id}
+GET /bff/instances/{workflow_instance_id}/approvals
+POST /bff/instances/{workflow_instance_id}/approvals/{approval_id}/respond
+GET /bff/instances/{workflow_instance_id}/context
+POST /bff/instances/{workflow_instance_id}/context/update
+POST /bff/instances/{workflow_instance_id}/business-events
 ```
 
 Rules:
 
 - Context panel may only write `context.business`.
 - Quality panel reads quality records; it does not run evaluators by itself.
+- `business.event.bind` remains part of the V3.6 workflow context contract. The V4.0-D BFF surface does not expose a standalone bind route; it accepts a constrained optional binding descriptor only through the instance-scoped business event route.
+- Approval panel is the only UI component that can call workflow-bound approval response in this phase; Agent shell must not auto-approve.
+- BFF routes must validate both scope and instance ownership: same-scope wrong-instance resources are rejected.
+- BFF returns redacted `ApprovalDTO`, `QualityEvaluationDTO`, `ContextDTO`, `BusinessEventDTO`, and `OperationResultDTO`; it does not pass through raw Gateway payloads.
+- EventBridge remains a refresh/display signal. The UI reloads board/status/panels after operation events and does not build runtime truth from event payloads.
+- V4.0-D must not expose `workflow.patch.apply/reject`, `workflow.template.publish`, `workflow.instance.start`, or `quality.evaluation.create/attach`.
 
 ## V4.0-E Reference Console E2E
+
+Implementation status: complete at component-level + BFF integration E2E. V4.0-E 使用平台中立 runtime fixture，通过 Gateway / V3.6 runtime 生成真实 board/status/output/artifact metadata/lineage/approval/quality/context/patch DTO，并通过 frontend component tests 渲染 BFF-style real DTO。当前未引入 browser-level Playwright/Cypress smoke，因此只声明 integration baseline。
 
 Allowed RPC:
 
 ```text
 All V4.0-A through V4.0-D allowed RPCs
+workflow.patch.diff
 ```
 
 Allowed events:
@@ -304,6 +341,7 @@ Allowed BFF routes:
 
 ```text
 All V4.0-A through V4.0-D BFF routes
+GET /bff/instances/{workflow_instance_id}/patches/{workflow_patch_id}/diff
 ```
 
 Rules:
@@ -311,3 +349,9 @@ Rules:
 - Reference console must use a platform-neutral workflow.
 - It must not depend on Meeting / Knowledge / Video / external MCP.
 - It must prove scope isolation and redaction.
+- BusinessEventBinding is part of the fixture: `business.video.scene.selected` maps `event.payload.scene_id` to `context.business.selected_scene`.
+- Seeded patch diff must come from the V3.6 patch repository or backend fixture, not frontend demoData.
+- UI may render PatchDiffDTO and risk flags, but must not call patch apply/reject/publish.
+- Approval respond must be explicit user action from the approval panel and must prove workflow-bound side-effect in board/status refresh.
+- EventBridge is refresh/display only; the UI must reload BFF DTOs and must not trust event payload as runtime state.
+- E2E mode must not import demoData and must fail if BFF/runtime fixture is unavailable.

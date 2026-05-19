@@ -25,17 +25,23 @@ export function WorkflowHeader({
   onVersionChange,
   onInstanceChange,
 }: WorkflowHeaderProps) {
+  const selectedWorkflow = workflows.find((workflow) => workflow.workflow_template_id === selectedWorkflowId);
+  const selectedVersion = versions.find((version) => version.workflow_version_id === selectedVersionId);
   return (
     <header className="console-header">
       <div className="brand-block">
-        <span className="brand-mark">hOS</span>
+        <span className="brand-mark">↗</span>
         <div>
           <strong>harnessOS Workflow Studio</strong>
-          <div className="muted">左右双折叠交互设计 · {status.workflow_instance_id}</div>
+          <div className="muted">项目：VideoStudio · 草稿</div>
         </div>
       </div>
-      <label className="toolbar-field">
-        工作流{" "}
+      <div className="workflow-title-block">
+        <strong>{selectedWorkflow?.name || "AI 短视频生成工作流"}</strong>
+          <span>{selectedVersion?.version || "Draft v0.3"}</span>
+      </div>
+      <label className="toolbar-field sr-field">
+        工作流
         <select value={selectedWorkflowId} onChange={(event) => onWorkflowChange(event.target.value)}>
           {workflows.map((workflow) => (
             <option key={workflow.workflow_template_id} value={workflow.workflow_template_id}>
@@ -44,8 +50,8 @@ export function WorkflowHeader({
           ))}
         </select>
       </label>
-      <label className="toolbar-field">
-        版本{" "}
+      <label className="toolbar-field sr-field">
+        版本
         <select value={selectedVersionId} onChange={(event) => onVersionChange(event.target.value)}>
           {versions.map((version) => (
             <option key={version.workflow_version_id} value={version.workflow_version_id}>
@@ -54,8 +60,8 @@ export function WorkflowHeader({
           ))}
         </select>
       </label>
-      <label className="toolbar-field">
-        实例{" "}
+      <label className="toolbar-field sr-field">
+        实例
         <select value={selectedInstanceId} onChange={(event) => onInstanceChange(event.target.value)}>
           {instances.map((instance) => (
             <option key={instance.workflow_instance_id} value={instance.workflow_instance_id}>
@@ -64,11 +70,11 @@ export function WorkflowHeader({
           ))}
         </select>
       </label>
-      <span className="status">{status.status}</span>
+      <span className="status status-compact">草稿 · {status.status}</span>
       <div className="header-actions" aria-label="工作流操作">
-        <button type="button" disabled>保存草稿</button>
-        <button type="button" disabled>运行测试</button>
-        <button type="button" disabled>发布版本</button>
+        <button type="button" disabled>保存草稿（后续）</button>
+        <button type="button" disabled>运行测试（Demo）</button>
+        <button type="button" disabled>发布版本（后续）</button>
         <label className="header-search">
           <span className="sr-only">搜索</span>
           <input placeholder="搜索" />

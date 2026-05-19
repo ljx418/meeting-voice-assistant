@@ -1,6 +1,6 @@
 # V4.0 Current Gap Analysis
 
-文档状态：V4.0-C complete + Workflow Studio low-code shell refresh；V3.6 complete baseline 与 V3.6/V4.0 preflight hardening 已完成，Workflow Console read-only MVP、AgentTalkWindow preparation shell、以及画布优先的低代码 Workflow Studio Shell 已完成。  
+文档状态：V4.0-E complete at integration baseline；V3.6 complete baseline 与 V3.6/V4.0 preflight hardening 已完成，Workflow Console read-only MVP、AgentTalkWindow preparation shell、低代码 Workflow Studio Shell、真实 BFF read/event data bridge、Quality / Approval / Context operation panels，以及 Reference Workflow Console component-level + BFF integration E2E 已完成。  
 配套图：`v4_0_current_gap_analysis.drawio`。
 
 本文与 `v4_0_current_gap_analysis.drawio` 是 V4.0 后续规划、验收和与用户交互时的核心维护文件。两者必须同步更新：本文承载文字合同，drawio 承载同一套架构演进、差距矩阵、阶段路线图和 V4.0 gate。
@@ -46,23 +46,30 @@ V4.0 要回答的问题是：
 - V3.6 preflight 已补齐 session/memory scope guard、workflow-bound legacy approval guard、high-risk workflow patch governance、Board/status job scope double-check、business EventBridge channel permissions、EventBridge follow mode、subscription origin binding、business event atomic idempotency、duplicate binding guard、platform startup neutrality 和 V4.0 protocol naming。
 - 当前回归证据来自 V3.6 gap 文档：V3.6 focused tests `86 passed`；V3.5 focused tests `146 passed`；full pytest `443 passed, 3 skipped`；TypeScript SDK `23 passed`；drawio XML validation passed。
 - V4.0-0 已新增 UI contract map、mock-to-real checklist、event contract map、frontend stack decision 和 Stitch prototype mapping。
+- V4.0-A2 已补齐 Real Data Bridge：内置 `/bff/*` structured routes、BFF frontend DTO redaction、instance-scoped station/artifact ownership guard、BFF EventBridge proxy、真实 V3.6 dummy pipeline fixture 到 board/status/output/artifact metadata/lineage 的集成测试。
 
 当前 V4.0 产品层实现事实：
 
 - V4.0-A 已新增 `apps/workflow-console/` React + Vite + TypeScript 控制台。
 - Workflow Console 通过 BFF structured client 封装 `/bff/*` 路径，不直接调用 `/v1/rpc` 或 `/v1/events/subscribe`。
-- Console 可展示 demo board/status/station/artifact/approval/quality/trace/event feed，并通过 render tests 验证敏感字段 redaction。
+- Console 默认进入 real mode，通过 `useWorkflowConsoleData` 消费 BFF read/event DTO；只有显式 `VITE_HARNESSOS_DEMO_MODE=true` 时才使用 demo fixture，并显示 `Demo / Fixture` 标签。
+- Console 可展示真实 BFF board/status/station/artifact/approval/quality/trace/event feed，并通过 BFF integration tests 与 render tests 验证敏感字段 redaction。
 - 页面已从普通 Dashboard 改造为画布优先的低代码 Workflow Studio Shell：顶部栏、左侧「节点库」、中央无限拖拽画布、右侧「节点配置 / Agent 助手」、底部运行观察面板。
-- 中央画布已具备浅色网格背景、节点连线、背景拖拽平移、节点拖拽、缩放、适配画布和左右折叠后画布扩展。
+- Stitch 原型视觉已同步为最新浅色高保真工作台：浅色 SaaS 背景、蓝紫色点缀、白色节点卡片、清晰连线和浅色点阵无限画布。
+- 画布层级已调整为 ComfyUI-like workbench：画布铺满主工作区并作为底层一等公民，节点库、Agent 工作流助手 / Inspector、画布工具条和底部运行面板都是浮在画布上的可折叠操作面板。
+- 中央画布已具备浅色无限点阵网格背景、VideoStudio 多节点工作流、分镜生成 warning 节点、节点连线、背景拖拽平移、节点拖拽、缩放、适配画布和左右折叠后画布扩展。
+- 右侧区域已从 Inspector 优先改为 Agent 工作流助手优先：展示自然语言生成工作流、优化分镜节点、三张建议卡片、Patch Proposal / Diff 和“等待用户确认 / 应用到草稿（后续阶段）”语义。
+- 窄屏响应式已修正：顶部栏保持紧凑，左右面板默认折叠为浮动入口，画布继续作为主要工作台可见。
 - 已有 Workflow Editing / Patch preparation shell：patch proposal/diff 展示、高风险 patch 风险展示和禁止静默 apply；当前 UI 不暴露 apply/reject/publish 执行动作。
 - 已有 AgentTalkWindow preparation shell：fixture-first event timeline、patch proposal/diff 摘要、approval.required notice、只读 context.business summary 和 embed boundary tests。
+- 已有 V4.0-D operation panels：QualityPanel 只读展示 `quality.evaluation.get/list` DTO；ApprovalPanel 通过用户显式点击调用 workflow-bound `approval.respond`；ContextPanel 通过 path-based set 受控写入 `context.business` 并可发送具体 `business.*` event。
 
 当前仍未完成：
 
 - 没有完整 Workflow Studio 可视化编辑器：尚未实现真实节点拖入、连线落库、Inspector 写回、Patch apply/publish 端到端。
 - 没有完整 AgentTalkWindow 状态机。
-- 没有 UI 消费 V3.6 Board / Patch / Context / Quality 的端到端前端验收。
-- 没有 V4.0 Reference Workflow Console E2E。
+- UI 已通过 BFF 消费 V3.6 Board / status / output / artifact metadata / lineage 的真实读链路；Approval respond、context update 和 business event 已进入 V4.0-D operation panels；Patch apply/publish 与 Quality create/attach 仍不暴露。
+- 已完成 V4.0 Reference Workflow Console component-level + BFF integration E2E；尚未引入 Playwright/Cypress 浏览器级 smoke。
 - 没有 production-ready external app support、OAuth/SSO、多租户控制台或分布式调度。
 
 ## 3. 架构演进口径
@@ -129,19 +136,19 @@ V4.0 完成后，harnessOS 应具备以下目标状态：
 | 差距 | 当前状态 | V4.0 目标 | 阶段 |
 | --- | --- | --- | --- |
 | V4.0 baseline | V3.5/V3.6 baseline 已冻结；V4.0 gap 文件对、contract map、No False Green 边界和 mock-to-real 检查已补齐。 | 进入 V4.0-A 前保持 gap md/drawio、UI contract map、event map 与测试同步。 | V4.0-0 已完成 |
-| Workflow Console / Studio shell | V4.0-A/C 之上已实现 React/Vite 低代码 Workflow Studio Shell：节点库、无限拖拽画布、节点拖拽、Inspector、Agent 助手、底部运行面板、redaction tests。 | 后续接真实 BFF 数据源并实现节点拖入、连线编辑、Inspector patch 写回。 | V4.0-A/C 已完成 shell refresh |
-| Live event UI | EventBridge 已支持 approval/business/context/patch 事件；quality live event 仍非出门条件。 | UI 能订阅 workflow runtime 事件并刷新 board，不直接使用 `/v1/events/subscribe` 绕过 BFF。 | V4.0-A/C |
+| Workflow Console / Studio shell | V4.0-A/C 之上已实现 React/Vite 低代码 Workflow Studio Shell：节点库、Stitch 最新浅色高保真视觉、ComfyUI-like 底层工作台画布、VideoStudio 多节点画布、分镜 warning、Agent 工作流助手、Patch/Diff 用户确认、Inspector、底部运行面板、redaction tests；V4.0-A2 已接真实 BFF read data。 | 后续实现节点拖入、连线编辑、Inspector patch 写回。 | V4.0-A2 complete |
+| Live event UI | BFF EventBridge proxy 已支持 SSE id/event/data、Last-Event-ID/cursor、auth failure precheck、upstream token hiding；UI 事件只触发 refresh / 展示，不从 payload 自建 runtime state；quality live event 仍非出门条件。 | 后续把更多操作面板与事件刷新联动，但仍以 `workflow.board.get` / `workflow.instance.status` 为事实源。 | V4.0-A2 complete |
 | Workflow editing UI | 当前页面只展示 patch proposal/diff 和风险提示，不暴露 apply/reject/publish 动作；保持 C 阶段 preparation 边界。 | 后续在 V4.0-D/E 或独立 editing phase 中接真实 BFF E2E，并扩展为完整 Studio 画布编辑。 | Shell 已完成；真实编辑待后续 |
 | Agent editing boundary | V4.0-C 已实现 AgentTalk preparation shell，只展示 patch propose/diff，不 apply/reject/publish。 | 后续如需完整 AgentTalkWindow，需要新的状态机与真实 BFF/runtime E2E。 | V4.0-C 已完成 |
 | Quality / Approval / Context panels | V3.6 后端能力已完成；尚无产品化面板。 | 面板消费 QualityEvaluation、approval.respond、workflow.context.*、business.event.*。 | V4.0-D |
-| Reference console E2E | V3.6 dummy pipeline E2E 已通过；尚无真实 V4 UI E2E。 | 平台中立 reference workflow console 验证 UI + BFF + SDK/hooks + EventBridge + V3.6 runtime。 | V4.0-E |
+| Reference console E2E | 已完成平台中立 runtime fixture、BusinessEventBinding、seeded patch diff、approval side-effect、context update、EventBridge refresh truth、DTO redaction、scope/ownership guard 和 frontend real DTO render tests。 | 下一步如需升级声明，需要补 browser-level smoke 或完整浏览器自动化。 | V4.0-E complete at integration baseline |
 | Production readiness | V3.5/V3.6 均为 dev/local baseline。 | V4.0-E 后仍只能声明 dev/local Workflow Console baseline，不能声明 production-ready。 | 全阶段 |
 
 ## 6. 开发计划摘要
 
 ### 6.1 当前开发阶段
 
-当前项目处于 **V4.0-C complete + Workflow Studio low-code shell refresh / V4.0-D 前置阶段**。V3.6 后端 gate 已完成，V4.0 已有画布优先 Workflow Studio Shell、read-only Workflow Console 能力、Patch preparation shell 与 AgentTalkWindow preparation shell；Quality / Approval / Context Panels 尚未开始。
+当前项目处于 **V4.0-E complete at integration baseline**。V3.6 后端 gate 已完成，V4.0 已有画布优先 Workflow Studio Shell、真实 BFF read/event data bridge、Patch preparation shell、AgentTalkWindow preparation shell、Quality / Approval / Context 操作面板，以及平台中立 Reference Workflow Console component-level + BFF integration E2E。由于尚未补 Playwright/Cypress 浏览器级 smoke，当前只声明 integration baseline，不声明完整 Workflow Studio ready。
 
 当前已经完成的是：
 
@@ -154,14 +161,20 @@ V4.0 完成后，harnessOS 应具备以下目标状态：
 - V4.0 UI contract map、mock-to-real checklist、event contract map、frontend stack decision、Stitch prototype mapping 已建立。
 - V4.0-0 文档对齐测试与前端防绕过扫描测试已建立并通过。
 - `apps/workflow-console/` 已建立，包含 React/Vite app、BFF-only client、画布优先的低代码 Workflow Studio 页面、read-only station board、artifact/approval/quality/trace/event panels 和 redaction render tests。
-- `apps/workflow-console/` 已新增无限拖拽画布：画布底层可平移，工作流节点可拖动，连线随节点位置更新，左右面板折叠后画布扩展。
+- `apps/api/routers/bff.py` 已新增 V4.0-A2 BFF structured routes：`/bff/workflows`、`/bff/instances`、`/bff/instances/{id}/status`、`/bff/instances/{id}/board`、station output、artifact metadata/lineage 和 `/bff/events/subscribe`。
+- `apps/workflow-console/src/hooks/useWorkflowConsoleData.ts` 已新增 real data hook：默认 real mode，显式 demo/dev mode 才使用 fixture；real mode API error 显示 error state，不自动 fallback demoData。
+- `apps/workflow-console/` 已新增 Stitch 最新浅色高保真 + ComfyUI-like 工作台画布：画布铺满主区域作为底层，面板浮在其上；画布底层可平移，VideoStudio 工作流节点可拖动，连线随节点位置更新，左右面板折叠后画布扩展。
+- `apps/workflow-console/` 已按 `v4_0_workflow_studio_agent_copilot_prd.md` 增强 Agent 工作流助手：自然语言生成工作流示例、自然语言优化节点示例、三张建议卡片、Patch Proposal / Diff 和用户确认边界。
 - `apps/workflow-console/` 已新增 Patch preparation panel，展示 patch diff、risk_flags、requires_approval；当前不暴露 apply/reject/publish 执行动作，高风险 patch 只能展示风险，不能静默 apply。
 - `apps/workflow-console/` 已新增 AgentTalk preparation shell，展示 demo/trace_only source 标识事件、patch 建议、approval notice、只读 context.business summary 和非突变 allowed_actions。
-- V4.0-C / Workflow Studio shell refresh 定向验证已通过：`tests/test_v4_0_*.py` 24 passed；`apps/workflow-console npm test` 6 passed；`apps/workflow-console npm run build` passed。
+- `apps/api/routers/bff.py` 已新增 V4.0-D operation panel structured routes：instance-scoped quality list/get、approval list/respond、context get/update、business event emit；所有 response 转为 redacted frontend DTO，不透传 raw Gateway response。
+- `apps/workflow-console/` 已新增 QualityPanel、ApprovalPanel、ContextPanel，并接入 `useWorkflowConsoleData` real hook；Quality 保持 read-only，approval.respond 只能由用户显式点击触发，context update 只能写 `business.*`。
+- `tests/v4_0_reference_support.py` 已新增平台中立 V4.0-E fixture：生成 WorkflowTemplate / WorkflowVersion / WorkflowInstance / StationRun / Job / Artifact / Approval / QualityEvaluation / WorkflowContext / BusinessEventBinding / seeded WorkflowPatch。
+- V4.0-E 已验证：`business.event.emit -> BusinessEventBinding -> context.business` 更新；seeded patch diff 来自 V3.6 patch repository；workflow-bound `approval.respond` 会推动 waiting_approval station 继续；EventBridge 事件只触发 refresh，不采信 payload 中伪造状态。
+- V4.0-E 定向验证已通过：`tests/test_v4_0_*.py` 47 passed；`apps/workflow-console npm test` 17 passed；`apps/workflow-console npm run build` passed；full pytest 488 passed, 3 skipped。
 
 当前需要继续推进的是：
 
-- V4.0-D：Quality / Approval / Context Panels。
 - V4.0-E：Reference Workflow Console E2E。
 
 ### 6.2 阶段路线图
@@ -170,10 +183,11 @@ V4.0 完成后，harnessOS 应具备以下目标状态：
 | --- | --- | --- | --- |
 | V4.0-0 | Baseline & UI Contract Sync | V4.0 gap 文件对、contract map、mock-to-real 检查、No False Green 边界、Stitch 原型到 V3.6 API 映射。 | 已完成：V4.0 implementation baseline and UI contract map ready。 |
 | V4.0-A | Workflow Console Read-only MVP | Station Board、Artifact Board、Approval/Quality/Trace summary，只读消费 board/status/output/EventBridge。 | 已完成：Workflow Console read-only MVP ready。 |
+| V4.0-A2 | Real Data Bridge | BFF structured routes、frontend DTO redaction、真实 V3.6 dummy pipeline fixture 到 UI data hook、BFF EventBridge proxy。 | 已完成：Workflow Studio shell connected to real BFF read/event data。 |
 | V4.0-B | Workflow Editing MVP | Patch proposal、diff view、draft apply、publish flow；高风险 patch 不绕过 governance。 | 重新收窄为 preparation shell：当前 UI 只展示 propose/diff/risk，不暴露 apply/reject/publish。 |
 | V4.0-C | AgentTalkWindow Preparation | 基于 Embed Contract / EventBridge / approval / context / patch 的前置 shell。 | 已完成：AgentTalkWindow preparation shell ready。 |
-| V4.0-D | Quality / Approval / Context Panels | QualityEvaluation panel、approval.respond panel、workflow context panel、business event display。 | Workflow operations panels ready。 |
-| V4.0-E | Reference Workflow Console E2E | 平台中立 workflow console E2E；UI + BFF + SDK/hooks + V3.6 runtime 全链路。 | V4.0 dev/local Workflow Console baseline ready。 |
+| V4.0-D | Quality / Approval / Context Panels | QualityEvaluation panel、approval.respond panel、workflow context panel、business event display。 | 已完成：Quality read-only, workflow approval response, and business context operation panels ready for dev/local Workflow Studio。 |
+| V4.0-E | Reference Workflow Console E2E | 平台中立 workflow console E2E；UI + BFF + SDK/hooks + V3.6 runtime 全链路。 | 已完成 component-level + BFF integration E2E；未完成 browser smoke，因此声明为 integration baseline。 |
 
 ### 6.3 V4.0-0 具体计划
 
@@ -292,16 +306,16 @@ V4.0-D 要完成的是 workflow operations panels。
 
 | 开发点 | 要求 | 当前状态 |
 | --- | --- | --- |
-| Quality panel | 消费 `quality.evaluation.get/list` 和 board quality summary。 | 待实现。 |
-| Approval panel | 展示 pending approval，并通过 `approval.respond` 决策。 | 待实现。 |
-| Context panel | 消费 `workflow.context.get/update`，只写 `context.business`。 | 待实现。 |
-| Business event panel | 使用 `business.event.emit` / EventBridge 展示上下文变更。 | 待实现。 |
-| Trace summary | 只展示 redacted trace summary，不显示 raw trace payload。 | 待实现。 |
+| Quality panel | 消费 `quality.evaluation.get/list` 和 board quality summary。 | 已完成：read-only panel，不调用 `quality.evaluation.create/attach`。 |
+| Approval panel | 展示 pending approval，并通过 `approval.respond` 决策。 | 已完成：只允许显式用户点击；inactive approval disabled；不暴露 legacy `approval.approve/reject`。 |
+| Context panel | 消费 `workflow.context.get/update`，只写 `context.business`。 | 已完成：path-based set，拒绝 system/runtime/status/approval 写入，支持 expected_revision。 |
+| Business event panel | 使用 `business.event.emit` / EventBridge 展示上下文变更。 | 已完成：只接受具体 `business.*`，支持 idempotency，事件只触发刷新，不构造 runtime truth。 |
+| Trace summary | 只展示 redacted trace summary，不显示 raw trace payload。 | 已完成：BFF DTO 和 render tests 锁定 token/raw payload redaction。 |
 
 V4.0-D 完成后只能声明：
 
 ```text
-V4.0-D complete: Workflow operations panels ready.
+V4.0-D complete: Quality read-only, workflow approval response, and business context operation panels ready for dev/local Workflow Studio.
 ```
 
 不能声明：
@@ -313,22 +327,24 @@ production-ready workflow automation
 
 ### 6.8 V4.0-E 具体计划
 
-V4.0-E 是 V4.0 dev/local 出门 E2E，不是 production readiness。
+V4.0-E 是 V4.0 dev/local 出门 E2E，不是 production readiness。当前已完成 component-level + BFF integration E2E；因为未引入 Playwright/Cypress browser smoke，本阶段出门声明降级为 integration baseline。
 
 | 开发点 | 要求 | 当前状态 |
 | --- | --- | --- |
-| Reference workflow console | 使用平台中立 workflow，不依赖 Meeting / Knowledge / Video / external MCP。 | 待实现。 |
-| UI + BFF + SDK/hooks | 前端默认走 BFF structured routes / hooks，不直接调用 Core Store。 | 待实现。 |
-| Runtime read-only | Console 能展示 V3.6 board/status/output。 | 待实现。 |
-| Editing flow | Console 能 propose/diff/apply/publish 低风险 patch。 | 待实现。 |
-| Approval/quality/context | Console 能展示并操作 approval、quality 和 context。 | 待实现。 |
-| Scope isolation | 两个 project/workspace 的 UI 数据互不可见。 | 待实现。 |
-| Redaction | UI、BFF response、event data 和 snapshots 不泄露 token/raw payload。 | 待实现。 |
+| Reference workflow console | 使用平台中立 workflow，不依赖 Meeting / Knowledge / Video / external MCP。 | 已完成：V4.0-E fixture 基于 V3.6 dummy pipeline 和 runtime repository，不依赖业务 pack 或 external MCP。 |
+| UI + BFF + SDK/hooks | 前端默认走 BFF structured routes / hooks，不直接调用 Core Store。 | 已完成：BFF integration tests 覆盖 structured routes；frontend source scan 锁定 no direct `/v1/rpc` / `/v1/events/subscribe`。 |
+| Runtime read-only | Console 能展示 V3.6 board/status/output。 | 已完成：BFF -> Gateway/V3.6 runtime -> frontend DTO 覆盖 board/status/output/artifact metadata/lineage。 |
+| Seeded patch diff | E 阶段只允许展示 patch proposal/diff/risk，不允许 apply/publish。 | 已完成：seeded patch diff 来自 V3.6 patch repository，UI 通过 BFF PatchDiffDTO 渲染；禁止 `workflow.patch.apply/reject/publish`。 |
+| Approval/quality/context | Console 能展示并操作 approval、quality 和 context。 | 已完成：workflow-bound approval side-effect、quality read-only、context.business update 和 business event binding 均有 E2E 测试。 |
+| Scope isolation | 两个 project/workspace 的 UI 数据互不可见。 | 已完成：cross-scope 与 same-scope wrong-instance 对 approval/artifact/quality/context/event/patch 均有 denial tests。 |
+| EventBridge refresh truth | EventBridge 只触发 refresh，不自建 runtime truth。 | 已完成：fake payload status 不被 UI 采信，刷新重新拉 board/status/context/approval。 |
+| Redaction | UI、BFF response、event data 和 snapshots 不泄露 token/raw payload。 | 已完成：BoardDTO、InstanceStatusDTO、ApprovalDTO、QualityEvaluationDTO、ContextDTO、PatchDiffDTO、EventEnvelopeDTO redaction snapshot tests。 |
+| Browser smoke | open console / select instance / approve / context update / event refresh。 | 未完成：当前为 component-level + BFF integration E2E，不是 full browser E2E。 |
 
 V4.0-E 完成后可以声明：
 
 ```text
-V4.0 dev/local Workflow Console baseline ready.
+V4.0 dev/local Workflow Console integration baseline ready.
 ```
 
 仍不能声明：
@@ -428,6 +444,10 @@ tests/test_v4_0_workflow_editing_mvp.py
 tests/test_v4_0_agent_talk_window_preparation.py
 tests/test_v4_0_quality_approval_context_panels.py
 tests/test_v4_0_reference_workflow_console_e2e.py
+tests/test_v4_0_reference_console_scope_isolation.py
+tests/test_v4_0_reference_console_eventbridge_e2e.py
+tests/test_v4_0_reference_console_operation_panels_e2e.py
+tests/test_v4_0_reference_console_redaction.py
 ```
 
 回归命令建议：
@@ -488,7 +508,7 @@ V4.0-E Reference Workflow Console E2E
 V4.0-E 完成后可以声明：
 
 ```text
-V4.0 dev/local Workflow Console baseline ready.
+V4.0 dev/local Workflow Console integration baseline ready.
 ```
 
 仍不能声明：

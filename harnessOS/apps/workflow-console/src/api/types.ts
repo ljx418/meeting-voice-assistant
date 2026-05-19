@@ -45,6 +45,11 @@ export interface ApprovalSummary {
   approval_id: string;
   status: string;
   reason?: string;
+  request_summary?: string;
+  active?: boolean;
+  inactive_reason?: string;
+  station_run_id?: string;
+  station_id?: string;
 }
 
 export interface QualitySummary {
@@ -53,6 +58,9 @@ export interface QualitySummary {
   score?: number;
   issues?: unknown[];
   suggestions?: unknown[];
+  rubric_id?: string;
+  station_run_id?: string;
+  artifact_id?: string;
 }
 
 export interface TraceSummary {
@@ -126,6 +134,7 @@ export interface WorkflowPatchDiff {
   workflow_draft_id: string;
   base_revision: number;
   operation: string;
+  target?: Record<string, unknown>;
   before_summary: string;
   after_summary: string;
   risk_flags: string[];
@@ -139,4 +148,20 @@ export interface PatchActionResult {
   resulting_draft_revision?: number;
   publish_version?: string;
   blocked_reason?: string;
+}
+
+export interface WorkflowContextSummary {
+  workflow_instance_id: string;
+  revision: number;
+  business: Record<string, unknown>;
+  updated_at?: string;
+  trace_id?: string;
+}
+
+export interface OperationResult<T = unknown> {
+  operation: string;
+  status: string;
+  resource: T;
+  idempotent?: boolean;
+  trace_id?: string;
 }

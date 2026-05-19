@@ -58,19 +58,23 @@ test("ConsoleShell renders read-only board summaries", () => {
     />,
   );
   assert.match(html, /harnessOS Workflow Studio/);
-  assert.match(html, /左右双折叠交互设计/);
+  assert.match(html, /项目：VideoStudio/);
   assert.match(html, /节点库/);
   assert.match(html, /拖拽节点到画布/);
   assert.match(html, /工作流画布/);
+  assert.match(html, /分镜生成/);
+  assert.match(html, /WARNING/);
   assert.match(html, /节点配置/);
-  assert.match(html, /Agent 助手/);
+  assert.match(html, /Agent 工作流助手/);
+  assert.match(html, /Patch Proposal/);
+  assert.match(html, /应用到草稿（后续阶段）/);
   assert.match(html, /事件/);
   assert.match(html, /Trace/);
   assert.match(html, /产物/);
   assert.match(html, /质量/);
   assert.match(html, /审批/);
   assert.match(html, /Patch/);
-  for (const forbidden of ["自动应用", "自动发布", "已帮你修改并发布", "一键修改工作流", "应用到草稿", "发布新版本"]) {
+  for (const forbidden of ["自动应用", "自动发布", "已帮你修改并发布", "一键修改工作流", "发布新版本"]) {
     assert(!html.includes(forbidden), `${forbidden} appeared in Workflow Studio shell`);
   }
 });
@@ -113,10 +117,11 @@ test("AgentTalk shell is fixture-only and redacts timeline, patch, approval and 
     },
   };
   const html = renderToStaticMarkup(<AgentTalkShell fixture={fixture} />);
-  assert.match(html, /demo fixture/);
-  assert.match(html, /not runtime E2E/);
-  assert.match(html, /trace_only/);
-  assert.match(html, /show_patch_diff/);
+  assert.match(html, /Agent 工作流助手/);
+  assert.match(html, /分镜生成 Agent/);
+  assert.match(html, /质量分为 0.64/);
+  assert.match(html, /生成工作流草案/);
+  assert.match(html, /应用到草稿（后续阶段）/);
   assert.match(html, /查看 Diff/);
   for (const value of SENSITIVE_VALUES) {
     assert(!html.includes(value), `${value} leaked in AgentTalk shell`);

@@ -25,6 +25,15 @@ from core.protocol.schemas.errors import ProtocolError
 
 router = APIRouter()
 
+SENSITIVE_KEY_PARTS = (
+    "token",
+    "authorization",
+    "secret",
+    "raw_trace_payload",
+    "raw_artifact_content",
+    "raw_connector_payload",
+)
+
 
 @router.get("/events/subscribe")
 async def subscribe_events(
@@ -94,7 +103,7 @@ async def subscribe_events(
             sent_keys=sent_keys,
         )
         for event in events:
-            yield sse_frame(event)
+            yield sse_frame(_redact(event))
         if not follow:
             return
         sent_heartbeats = 0
@@ -110,7 +119,7 @@ async def subscribe_events(
             )
             if events:
                 for event in events:
-                    yield sse_frame(event)
+                    yield sse_frame(_redact(event))
                 continue
             yield heartbeat_frame()
             sent_heartbeats += 1
@@ -163,6 +172,22 @@ def _optional_text(value: Any) -> str | None:
     if value is None:
         return None
     return str(value).strip() or None
+
+
+def _redact(value: Any) -> Any:
+    if isinstance(value, dict):
+        redacted: dict[str, Any] = {}
+        for key, item in value.items():
+            lower = str(key).lower()
+            if any(part in lower for part in SENSITIVE_KEY_PARTS):
+                continue
+            redacted[key] = _redact(item)
+        return redacted
+    if isinstance(value, list):
+        return [_redact(item) for item in value]
+    if isinstance(value, str) and ("Bearer " in value or "subscription_token" in value or "capability_token" in value):
+        return "[redacted]"
+    return value
 
 
 def _truthy(value: Any) -> bool:
