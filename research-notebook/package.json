@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "vitest run",
-    "smoke:rc1": "node scripts/rc1-integration-smoke.mjs",
+    "smoke:release": "node scripts/release-smoke.mjs",
+    "smoke:rc1": "node scripts/release-smoke.mjs",
     "check:boundaries": "node scripts/check-boundaries.mjs",
     "check": "npm run check:boundaries && npm run lint && npm run test && npm run build"
   },

@@ -328,13 +328,22 @@ describe('dataServiceClient workspace wrappers', () => {
     );
     const client = createDataServiceClient({ fetchImpl });
 
-    await expect(client.graph.neighbors('ws_1')).resolves.toEqual(
+    await expect(client.graph.neighbors('ws_1', { nodeId: 'n_1' })).resolves.toEqual(
       expect.objectContaining({
         workspace_id: 'ws_1',
         status: 'ready',
         neighbors: [expect.objectContaining({ node_id: 'n_2', label: 'Backpressure' })]
       })
     );
+    expect(String(fetchImpl.mock.calls[0]?.[0])).toContain('node_id=n_1');
+  });
+
+  it('rejects graph neighbors without node or entity scope', async () => {
+    const fetchImpl = vi.fn();
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.graph.neighbors('ws_1', {} as never)).rejects.toMatchObject({ code: 'validation_error' });
+    expect(fetchImpl).not.toHaveBeenCalled();
   });
 
   it('loads graph communities successfully', async () => {
@@ -376,7 +385,7 @@ describe('dataServiceClient workspace wrappers', () => {
     const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ message: 'graph artifact no_artifact' }, { status: 404 }));
     const client = createDataServiceClient({ fetchImpl });
 
-    await expect(client.graph.neighbors('ws_1')).rejects.toMatchObject({ code: 'missing_graph_artifact' });
+    await expect(client.graph.neighbors('ws_1', { nodeId: 'n_1' })).rejects.toMatchObject({ code: 'missing_graph_artifact' });
   });
 
   it('submits quality feedback successfully', async () => {
@@ -404,7 +413,10 @@ describe('dataServiceClient workspace wrappers', () => {
     const client = createDataServiceClient({ fetchImpl });
 
     await expect(client.workspaces.list()).resolves.toEqual(expect.arrayContaining([
-      expect.objectContaining({ workspace_id: expect.stringMatching(/^rn-rc1-/), name: expect.stringMatching(/^rn-rc1-/) })
+      expect.objectContaining({
+        workspace_id: expect.stringMatching(/^rn-(rc\d+|release)-/),
+        name: expect.stringMatching(/^rn-(rc\d+|release)-/)
+      })
     ]));
   });
 
@@ -415,7 +427,30 @@ describe('dataServiceClient workspace wrappers', () => {
     await expect(client.query.workspace('rn-rc1-fixture', { question: 'What is this?' })).resolves.toEqual(
       expect.objectContaining({
         noEvidence: false,
-        evidence: expect.arrayContaining([expect.objectContaining({ sourceId: expect.any(String), traceAvailable: true })])
+        evidence: expect.arrayContaining([
+          expect.objectContaining({
+            sourceId: undefined,
+            sourceRef: expect.any(String),
+            traceAvailable: false,
+            traceUnavailableReason: 'source_ref_not_traceable'
+          })
+        ])
+      })
+    );
+  });
+
+  it('resolves query evidence when source ref matches registry source_id', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        answer: 'Registry hit.',
+        hits: [{ source: 'src_1', title: 'Registry source', snippet: 'matched' }]
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.query.workspace('ws_1', { question: 'What?', registrySourceIds: ['src_1'] })).resolves.toEqual(
+      expect.objectContaining({
+        evidence: [expect.objectContaining({ sourceId: 'src_1', sourceRef: undefined, traceAvailable: true })]
       })
     );
   });

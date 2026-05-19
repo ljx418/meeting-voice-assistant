@@ -1,5 +1,6 @@
-import { useSourceTraceQuery } from '../api/workspaceM2Queries';
-import { LoadingState } from './StateBlock';
+import { isNormalizedApiError } from '../api/dataServiceClient';
+import { useSourceQuery, useSourceTraceQuery } from '../api/workspaceM2Queries';
+import { LoadingState, StateBlock } from './StateBlock';
 import { ApiErrorState } from './ApiErrorState';
 
 export function SourceTraceDrawer({
@@ -12,7 +13,9 @@ export function SourceTraceDrawer({
   onClose: () => void;
 }) {
   const traceQuery = useSourceTraceQuery(workspaceId, sourceId);
+  const sourceQuery = useSourceQuery(workspaceId, sourceId);
   if (!sourceId) return null;
+  const traceNotFound = isNormalizedApiError(traceQuery.error) && traceQuery.error.code === 'not_found';
 
   return (
     <aside className="trace-drawer" aria-label="Source trace drawer">
@@ -26,8 +29,36 @@ export function SourceTraceDrawer({
         </button>
       </div>
       {traceQuery.isLoading ? <LoadingState label="Loading trace" /> : null}
-      {traceQuery.error ? (
+      {traceQuery.error && !traceNotFound ? (
         <ApiErrorState title="Trace unavailable" error={traceQuery.error} onRetry={() => void traceQuery.refetch()} />
+      ) : null}
+      {traceNotFound && sourceQuery.isLoading ? <LoadingState label="Loading source metadata" /> : null}
+      {traceNotFound && sourceQuery.data ? (
+        <div className="trace-content">
+          <StateBlock title="Trace unavailable" tone="warning">
+            The backend recognizes this source, but its source trace route returned no provenance for the current artifact.
+          </StateBlock>
+          <p className="workspace-meta">source_id: {sourceQuery.data.source_id}</p>
+          <h3>{sourceQuery.data.title || sourceId}</h3>
+          <div className="trace-section">
+            <h4>Artifact refs</h4>
+            {sourceQuery.data.artifact_refs?.length ? (
+              <ul>
+                {sourceQuery.data.artifact_refs.map((ref) => (
+                  <li key={ref}>{ref}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="workspace-meta">No artifact refs returned.</p>
+            )}
+          </div>
+          <button className="secondary-button" type="button" onClick={() => void traceQuery.refetch()}>
+            Retry trace
+          </button>
+        </div>
+      ) : null}
+      {traceNotFound && sourceQuery.error ? (
+        <ApiErrorState title="Source not found" error={sourceQuery.error} onRetry={() => void sourceQuery.refetch()} />
       ) : null}
       {traceQuery.data ? (
         <div className="trace-content">

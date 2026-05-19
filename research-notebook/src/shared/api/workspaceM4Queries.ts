@@ -1,13 +1,19 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryKeys } from '../../app/routes/queryKeys';
 import { dataServiceClient } from './dataServiceClient';
-import type { QualityFeedbackRequest } from '../types/api';
+import type { GraphNeighborsRequest, QualityFeedbackRequest } from '../types/api';
 
-export function useGraphNeighborsQuery(workspaceId: string) {
+function graphNeighborsQueryKey(workspaceId: string, request: GraphNeighborsRequest | null) {
+  if (request?.nodeId) return queryKeys.graphNeighborsByNode(workspaceId, request.nodeId);
+  if (request?.entityId) return queryKeys.graphNeighborsByEntity(workspaceId, request.entityId);
+  return ['graph-neighbors', workspaceId, 'none'] as const;
+}
+
+export function useGraphNeighborsQuery(workspaceId: string, request: GraphNeighborsRequest | null) {
   return useQuery({
-    queryKey: queryKeys.graphNeighbors(workspaceId),
-    queryFn: () => dataServiceClient.graph.neighbors(workspaceId),
-    enabled: Boolean(workspaceId)
+    queryKey: graphNeighborsQueryKey(workspaceId, request),
+    queryFn: () => dataServiceClient.graph.neighbors(workspaceId, request as GraphNeighborsRequest),
+    enabled: Boolean(workspaceId && request)
   });
 }
 

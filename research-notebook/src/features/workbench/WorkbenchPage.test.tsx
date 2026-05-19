@@ -12,6 +12,7 @@ const closePath = [sessionRoot, 'close'].join('/');
 const sessionBuildStartPath = [sessionRoot, 'build', 'start'].join('/');
 const sessionOperationPath = [sessionRoot, 'build', 'operations', 'op_session'].join('/');
 const sessionQueryPath = [sessionRoot, 'query'].join('/');
+const sourceDetailPath = [workspaceRoot, 'sources', 'src_1'].join('/');
 const sourceTracePath = [workspaceRoot, 'sources', 'src_1', 'trace'].join('/');
 const sessionGraphPath = [workspaceRoot, 'graph', `session?session_id=ses_1`].join('/');
 const feedbackPath = [workspaceRoot, 'quality', 'feedback'].join('/');
@@ -212,6 +213,13 @@ describe('Session Workbench M3 smoke', () => {
           jsonResponse({
             answer: 'Evidence exists.',
             evidence: [{ source_id: 'src_1', source_title: 'Heap notes' }]
+          }),
+        [sourceDetailPath]: () =>
+          jsonResponse({
+            source_id: 'src_1',
+            workspace_id: 'ws_1',
+            title: 'Heap notes',
+            artifact_refs: ['artifact:source:src_1']
           }),
         [sourceTracePath]: () => jsonResponse({ message: 'trace unavailable' }, { status: 404 })
       })

@@ -1,0 +1,13 @@
+{
+  "data": {
+    "answer": "Session evidence answer.",
+    "items": [
+      {
+        "title": "Session source",
+        "snippet": "Session evidence snippet.",
+        "source_id": "src_registry_1",
+        "score": 0.87
+      }
+    ]
+  }
+}

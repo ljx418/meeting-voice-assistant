@@ -1,0 +1,285 @@
+{
+  "workspace_id": "rn-release-1779172346009-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "session_graph",
+      "session_id": "ksess_3429745e39419cbd",
+      "artifact_ref": "graph-session://rn-release-1779172346009-workspace/ksess_3429745e39419cbd"
+    }
+  ],
+  "next_actions": [
+    "knowledge_session_build_status",
+    "knowledge_graph_session"
+  ],
+  "data": {
+    "workspace_id": "rn-release-1779172346009-workspace",
+    "session_id": "ksess_3429745e39419cbd",
+    "query": "What does session release smoke validate?",
+    "top_k": 5,
+    "answer": "Session graph returned 0 hits.",
+    "results": [],
+    "items": [],
+    "nodes": [
+      {
+        "node_id": "source:src_8ce0dbd58ad16721",
+        "entity_id": null,
+        "label": "Release smoke snippet",
+        "name": "Release smoke snippet",
+        "type": "source",
+        "kind": "source",
+        "summary": null,
+        "score": null,
+        "metadata": {
+          "source_type": "text",
+          "content_format": "text"
+        }
+      },
+      {
+        "node_id": "unit:unit_7668424d29eaab46",
+        "entity_id": null,
+        "label": "Session release smoke context validates session ask with evidence fallback.",
+        "name": "Session release smoke context validates session ask with evidence fallback.",
+        "type": "unit",
+        "kind": "unit",
+        "summary": null,
+        "score": null,
+        "metadata": {
+          "unit_type": "statement",
+          "text": "Session release smoke context validates session ask with evidence fallback.",
+          "confidence": 0.68
+        }
+      },
+      {
+        "node_id": "entity:session",
+        "entity_id": "entity:session",
+        "label": "Session",
+        "name": "Session",
+        "type": "entity",
+        "kind": "entity",
+        "summary": null,
+        "score": null,
+        "metadata": {}
+      },
+      {
+        "node_id": "entity:release",
+        "entity_id": "entity:release",
+        "label": "release",
+        "name": "release",
+        "type": "entity",
+        "kind": "entity",
+        "summary": null,
+        "score": null,
+        "metadata": {}
+      },
+      {
+        "node_id": "entity:smoke",
+        "entity_id": "entity:smoke",
+        "label": "smoke",
+        "name": "smoke",
+        "type": "entity",
+        "kind": "entity",
+        "summary": null,
+        "score": null,
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "edge_id": "edge_1",
+        "source_node_id": "unit:unit_7668424d29eaab46",
+        "target_node_id": "source:src_8ce0dbd58ad16721",
+        "relation": "unit_related_to_source",
+        "type": "unit_related_to_source",
+        "weight": 1,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_2",
+        "source_node_id": "unit:unit_7668424d29eaab46",
+        "target_node_id": "entity:session",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_3",
+        "source_node_id": "unit:unit_7668424d29eaab46",
+        "target_node_id": "entity:release",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_4",
+        "source_node_id": "unit:unit_7668424d29eaab46",
+        "target_node_id": "entity:smoke",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_5",
+        "source_node_id": "unit:unit_7668424d29eaab46",
+        "target_node_id": "entity:context",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_6",
+        "source_node_id": "unit:unit_7668424d29eaab46",
+        "target_node_id": "entity:validates",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_7",
+        "source_node_id": "unit:unit_7668424d29eaab46",
+        "target_node_id": "entity:ask",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_8",
+        "source_node_id": "unit:unit_7668424d29eaab46",
+        "target_node_id": "entity:with",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_9",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:release",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_10",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:smoke",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_11",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:context",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_12",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:validates",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_13",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:session",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_14",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:ask",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_15",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:with",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      }
+    ],
+    "communities": [
+      {
+        "community_id": "comm_ksess_3429745e39419cbd_overview",
+        "title": "会议全局脉络",
+        "summary": "围绕“会议全局脉络”，该社区汇聚 0 位说话人、9 个会议知识单元和 34 条关系。高频关联对象包括 Session, release, smoke, context, validates。代表性内容：Session release smoke context validates session ask with evidence fallback.",
+        "entity_count": 9,
+        "relationship_count": 34,
+        "score": 9,
+        "rank": null,
+        "metadata": {}
+      }
+    ],
+    "artifact_ref": "graph-session://rn-release-1779172346009-workspace/ksess_3429745e39419cbd"
+  }
+}

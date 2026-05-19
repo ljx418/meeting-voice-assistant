@@ -11,6 +11,7 @@ import type {
   GraphCommunity,
   GraphEdge,
   GraphNeighbor,
+  GraphNeighborsRequest,
   GraphNeighborsResponse,
   GraphNode,
   NormalizedErrorCode,
@@ -553,31 +554,51 @@ function extractBuildOperation(operationId: string, payload: unknown): BuildOper
   };
 }
 
-function normalizeEvidence(rawEvidence: unknown, index: number): AnswerEvidence {
+function normalizeEvidence(rawEvidence: unknown, index: number, registrySourceIds = new Set<string>()): AnswerEvidence {
   if (!rawEvidence || typeof rawEvidence !== 'object') {
     return {
       evidenceKey: `evidence-${index}`,
       traceAvailable: false,
+      traceUnavailableReason: 'missing_source_id',
       snippet: typeof rawEvidence === 'string' ? rawEvidence : undefined
     };
   }
 
   const evidence = rawEvidence as Record<string, unknown>;
-  const sourceId = readString(evidence.source_id) ?? readString(evidence.sourceId) ?? readString(evidence.source);
-  const artifactRefs = readArtifactRefs(evidence.artifact_refs) ?? readArtifactRefs(evidence.artifactRefs) ?? readArtifactRefs(evidence.source_refs);
-  const traceAvailable = readBoolean(evidence.trace_available) ?? readBoolean(evidence.traceAvailable) ?? Boolean(sourceId);
+  const meta = asRecord(evidence.meta) ?? asRecord(evidence.metadata);
+  const explicitSourceId = readString(evidence.source_id) ?? readString(evidence.sourceId);
+  const rawSourceRef = readString(evidence.source) ?? readString(meta?.slug) ?? readString(evidence.slug);
+  const artifactRefs =
+    readArtifactRefs(evidence.artifact_refs) ?? readArtifactRefs(evidence.artifactRefs) ?? readArtifactRefs(evidence.source_refs);
+  const registryKnown = registrySourceIds.size > 0;
+  const resolvedSourceId =
+    explicitSourceId && (!registryKnown || registrySourceIds.has(explicitSourceId))
+      ? explicitSourceId
+      : rawSourceRef && registrySourceIds.has(rawSourceRef)
+        ? rawSourceRef
+        : undefined;
+  const sourceRef = resolvedSourceId ? undefined : explicitSourceId ?? rawSourceRef;
+  const explicitlyTraceable = readBoolean(evidence.trace_available) ?? readBoolean(evidence.traceAvailable);
+  const traceAvailable = Boolean(resolvedSourceId && (explicitlyTraceable ?? true));
+  const traceUnavailableReason = traceAvailable
+    ? undefined
+    : sourceRef
+      ? 'source_ref_not_traceable'
+      : 'missing_source_id';
   return {
-    evidenceKey: readString(evidence.evidence_key) ?? readString(evidence.evidenceKey) ?? `${sourceId ?? 'artifact'}-${index}`,
-    sourceId,
+    evidenceKey: readString(evidence.evidence_key) ?? readString(evidence.evidenceKey) ?? `${resolvedSourceId ?? sourceRef ?? 'artifact'}-${index}`,
+    sourceId: resolvedSourceId,
+    sourceRef,
     sourceTitle: readString(evidence.source_title) ?? readString(evidence.sourceTitle) ?? readString(evidence.title),
     traceAvailable,
     artifactRefs,
     snippet: readString(evidence.snippet) ?? readString(evidence.text),
-    confidence: readNumber(evidence.confidence) ?? readNumber(evidence.score)
+    confidence: readNumber(evidence.confidence) ?? readNumber(evidence.score),
+    traceUnavailableReason
   };
 }
 
-function extractQueryResponse(payload: unknown): QueryResponse {
+function extractQueryResponse(payload: unknown, registrySourceIds?: string[]): QueryResponse {
   if (!payload || typeof payload !== 'object') {
     throw new DataServiceError({
       code: 'version_or_schema_mismatch',
@@ -608,8 +629,9 @@ function extractQueryResponse(payload: unknown): QueryResponse {
     (Array.isArray(raw.items) && raw.items) ||
     (Array.isArray(raw.results) && raw.results) ||
     [];
-  const evidence = rawEvidence.map(normalizeEvidence);
-  const usefulEvidence = evidence.filter((item) => item.sourceId || (item.artifactRefs && item.artifactRefs.length > 0));
+  const sourceIdSet = new Set(registrySourceIds?.filter(Boolean) ?? []);
+  const evidence = rawEvidence.map((item, index) => normalizeEvidence(item, index, sourceIdSet));
+  const usefulEvidence = evidence.filter((item) => item.sourceId || item.sourceRef || (item.artifactRefs && item.artifactRefs.length > 0));
   return {
     answer,
     evidence: usefulEvidence,
@@ -754,6 +776,7 @@ function assertGraphNode(value: unknown, index: number): GraphNode {
   const label = readString(node.label) ?? readString(node.title) ?? readString(node.name) ?? nodeId;
   return {
     node_id: nodeId,
+    entity_id: readString(node.entity_id) ?? readString(node.entityId),
     label,
     node_type: readString(node.node_type) ?? readString(node.type),
     weight: readNumber(node.weight) ?? readNumber(node.score),
@@ -818,7 +841,8 @@ function assertGraphCommunity(value: unknown, index: number): GraphCommunity {
     node_count: readNumber(community.node_count) ?? readNumber(community.entity_count),
     relationship_count: readNumber(community.relationship_count) ?? readNumber(community.edge_count),
     score: readNumber(community.score),
-    artifact_refs: readStringArray(community.artifact_refs)
+    artifact_refs: readStringArray(community.artifact_refs),
+    members: Array.isArray(community.members) ? community.members.map(assertGraphNode) : undefined
   };
 }
 
@@ -1102,7 +1126,7 @@ export function createDataServiceClient(options: ClientOptions = {}) {
           method: 'POST',
           body: { query: input.question }
         });
-        return extractQueryResponse(payload);
+        return extractQueryResponse(payload, input.registrySourceIds);
       }
     },
     sessions: {
@@ -1178,16 +1202,27 @@ export function createDataServiceClient(options: ClientOptions = {}) {
             body: { query: input.question }
           }
         );
-        return extractQueryResponse(payload);
+        return extractQueryResponse(payload, input.registrySourceIds);
       }
     },
     graph: {
-      async neighbors(workspaceId: string) {
-        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/graph/neighbors`);
+      async neighbors(workspaceId: string, input: GraphNeighborsRequest) {
+        const candidate = asRecord(input);
+        const nodeId = readString(candidate?.nodeId);
+        const entityId = readString(candidate?.entityId);
+        if (!nodeId && !entityId) {
+          throw new DataServiceError({
+            code: 'validation_error',
+            message: 'Graph neighbors requires nodeId or entityId.',
+            retryable: false
+          });
+        }
+        const query = nodeId ? `node_id=${encodeURIComponent(nodeId)}` : `entity_id=${encodeURIComponent(entityId ?? '')}`;
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/graph/neighbors?${query}`);
         return extractGraphNeighbors(workspaceId, payload);
       },
       async communities(workspaceId: string) {
-        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/graph/community`);
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/graph/community?include_members=true`);
         return extractGraphCommunities(workspaceId, payload);
       },
       async session(workspaceId: string, sessionId: string) {

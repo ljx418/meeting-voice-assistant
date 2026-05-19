@@ -1,7 +1,7 @@
 # ResearchNotebook V1.0 Design Docs
 
-文档状态：V1.0-M4 API-adapter-ready implementation complete；后续真实后端联调仍需以 `v1_0_current_gap_analysis.md` 和同名 drawio 作为最优先维护入口。
-当前目标：将 M0-M4 前端实现与 `data_service` V1.6 backend baseline 联调，验证 Workspace / Source / Ask / Session / Graph / Feedback integration readiness。
+文档状态：V1.0-RC7 release handoff complete；后续真实后端变更仍需以 `v1_0_current_gap_analysis.md` 和同名 drawio 作为最优先维护入口。
+当前目标：保持 M0-M4 release candidate repository handoff 状态；RC6 已确认 source trace contract 仍未修复，后续需等待 data_service trace 修复后再重新执行 `npm run smoke:release`。
 
 ## Positioning
 
@@ -37,26 +37,39 @@ Obsidian 只作为 workspace、graph、backlink、local-first 心智模型参考
 | `v1_0_development_plan_personal_knowledge.md` | V1.0-M0 到 M7 的阶段计划、实施切片和验收口径。 |
 | `v1_0_acceptance_plan.md` | V1.0 验收、No False Green 规则和不能提前声明的能力。 |
 
-配套文档：
+当前活跃文档：
 
 | 文件 | 用途 |
 | --- | --- |
-| `development-plan-draft.md` | 已有 V1.0 开发计划草案。 |
-| `data-service-baseline-integration-notes.md` | `data_service` baseline 集成理解与边界。 |
-| `data_service_real_route_alignment.md` | RC1 真实 data_service target route 对齐记录。 |
+| `data_service_real_route_alignment.md` | RC3/RC6 真实 data_service target route 对齐记录。 |
 | `feature-route-matrix.md` | 功能到 target route / app-local / unsupported / future backend phase 的矩阵。 |
-| `git_remote_sync_status.md` | ResearchNotebook 独立 Git 远端同步状态和阻塞项。 |
-| `source-intermediate-model.md` | Source / DocumentUnit / EvidenceSpan / artifact_ref 中间模型。 |
 | `api-adapter-contract.md` | V1.0 DTO、typed wrappers、fallback validation 和 contract test 规则。 |
 | `answer-evidence-contract.md` | Ask with Evidence 的 ViewModel、citation、trace drawer 和 no-evidence 行为。 |
 | `operation-polling-contract.md` | workspace/session build 的 operation polling hook 语义。 |
 | `error-state-model.md` | normalized backend errors 到页面/组件状态的映射。 |
-| `mock-data-policy.md` | M0 mock/static screen 的边界，防止 future shell 伪装成真实能力。 |
-| `source-library-information-architecture.md` | Source Library 字段、状态和操作模型。 |
 | `graph-context-contract.md` | M4 read-only graph context DTO、wrapper、状态和禁止范围。 |
 | `lightweight-feedback-contract.md` | M4 lightweight feedback DTO、wrapper、状态和禁止范围。 |
-| `v1_0_e2e_smoke_plan.md` | V1.0 最小 Playwright smoke 路径。 |
-| `v1_0_integration_readiness_report.md` | RC1 integration smoke 结果、降级项和最终声明边界。 |
+| `v1_0_e2e_smoke_plan.md` | V1.0 最小 smoke 路径与 RC3/RC6 real data_service smoke matrix。 |
+| `v1_0_integration_readiness_report.md` | RC3/RC6 integration smoke 结果、降级项和最终声明边界。 |
+| `v1_0_rc4_final_readiness_report.md` | RC4 最终文档收口、No False Green 和 release candidate 声明。 |
+| `v1_0_release_checklist.md` | V1.0 release checklist，使用 `PASS` / `DEGRADED_ACCEPTED` / `NOT_READY` 三态。 |
+| `v1_0_rc5_repository_hygiene_summary.md` | RC5 release packaging、命令命名、fixture 分层和仓库卫生记录。 |
+| `v1_0_rc6_source_trace_resmoke_report.md` | RC6 source trace contract re-smoke 结果和 source trace integration 决策。 |
+| `v1_0_rc7_release_handoff.md` | RC7 最终仓库交付状态、验证命令、降级项、禁止声明和后续路线。 |
+
+历史/计划文档：
+
+| 文件 | 用途 |
+| --- | --- |
+| `development-plan-draft.md` | 早期 V1.0 开发计划草案，保留为背景材料。 |
+| `v1_0_development_plan_personal_knowledge.md` | V1.0-M0 到 M7 的阶段计划、实施切片和验收口径。 |
+| `v1_0_rc2_alignment_plan.md` | RC2 source trace / graph alignment 实施记录。 |
+| `v1_0_rc3_release_readiness_plan.md` | RC3 real data_service re-smoke 计划。 |
+| `data-service-baseline-integration-notes.md` | `data_service` baseline 集成理解与边界。 |
+| `git_remote_sync_status.md` | ResearchNotebook 独立 Git 远端同步状态和阻塞项。 |
+| `mock-data-policy.md` | M0 mock/static screen 的边界，防止 future shell 伪装成真实能力。 |
+| `source-library-information-architecture.md` | Source Library 字段、状态和操作模型。 |
+| `source-intermediate-model.md` | Source / DocumentUnit / EvidenceSpan / artifact_ref 中间模型。 |
 | `docs/roadmap/multi-format-ingestion-contract.md` | `data_service` 多格式摄入合同路线。 |
 | `docs/roadmap/assessment-service-contract.md` | `data_service` Assessment 合同路线。 |
 
@@ -99,11 +112,22 @@ M0-M4 mock/adapter tests 通过后可以声明：
 ResearchNotebook V1.0 release gate M0-M4 is API-adapter-ready.
 ```
 
-只有真实 `data_service` 调用通过后，才能声明 ResearchNotebook V1.0 source-grounded personal knowledge MVP integration ready。
+RC3/RC6 真实 `data_service` smoke 通过后，当前可声明：
+
+```text
+ResearchNotebook V1.0 release candidate package is repository-ready.
+ResearchNotebook V1.0 M0-M4 is integration-smoke-ready.
+ResearchNotebook V1.0 source-grounded personal knowledge MVP is release candidate ready with trace-unavailable fallback.
+```
+
+RC6 已确认 registry `source_id` trace 仍返回 404。如果后端后续修复该 contract，需要重新执行 `npm run smoke:release` 并更新 `v1_0_release_checklist.md`、`v1_0_integration_readiness_report.md` 和 gap markdown/drawio，才能声明 source trace integration ready。
 
 V1.0 完成后仍不能声明：
 
 ```text
+source trace integration ready
+source preview ready
+precise citation backjump ready
 JSON/PPT/video/audio ingestion ready
 interview assessment ready
 mastery profile ready

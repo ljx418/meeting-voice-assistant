@@ -268,6 +268,7 @@ function WorkspaceQueryPanel({
   const questionId = useId();
   const [question, setQuestion] = useState('');
   const queryWorkspace = useWorkspaceQueryMutation(workspaceId);
+  const sourcesQuery = useSourcesQuery(workspaceId);
 
   useEffect(() => {
     if (focusSignal > 0) {
@@ -279,7 +280,10 @@ function WorkspaceQueryPanel({
     event.preventDefault();
     const trimmed = question.trim();
     if (!trimmed) return;
-    queryWorkspace.mutate({ question: trimmed });
+    queryWorkspace.mutate({
+      question: trimmed,
+      registrySourceIds: sourcesQuery.data?.map((source) => source.source_id)
+    });
   };
 
   return (

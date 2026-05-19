@@ -11,37 +11,15 @@
   "data": {
     "items": [
       {
-        "workspace_id": "rn-rc1-1779098183003-workspace",
-        "name": "rn-rc1-1779098183003-workspace",
+        "workspace_id": "rn-release-1779172346009-workspace",
+        "name": "rn-release-1779172346009-workspace",
         "owner": null,
         "tags": [],
         "status": "active",
-        "created_at": "2026-05-18T09:56:23.068284Z",
-        "updated_at": "2026-05-18T09:56:23.068284Z",
+        "created_at": "2026-05-19T06:32:26.221885Z",
+        "updated_at": "2026-05-19T06:32:26.221885Z",
         "archived_at": null,
         "archive_reason": ""
-      },
-      {
-        "workspace_id": "rn-rc1-1779097882708-workspace",
-        "name": "rn-rc1-1779097882708-workspace",
-        "owner": null,
-        "tags": [],
-        "status": "archived",
-        "created_at": "2026-05-18T09:51:22.775610Z",
-        "updated_at": "2026-05-18T09:52:11.360571Z",
-        "archived_at": "2026-05-18T09:52:11.360571Z",
-        "archive_reason": "RC1 smoke cleanup"
-      },
-      {
-        "workspace_id": "rn-rc1-1779097663655-workspace",
-        "name": "rn-rc1-1779097663655-workspace",
-        "owner": null,
-        "tags": [],
-        "status": "archived",
-        "created_at": "2026-05-18T09:47:43.788289Z",
-        "updated_at": "2026-05-18T09:48:33.414895Z",
-        "archived_at": "2026-05-18T09:48:33.414895Z",
-        "archive_reason": "RC1 smoke cleanup"
       }
     ]
   }

@@ -10,7 +10,7 @@ import { LightweightFeedback } from '../../shared/components/LightweightFeedback
 export function GraphPage() {
   const { workspaceId = '' } = useParams();
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
-  const neighborsQuery = useGraphNeighborsQuery(workspaceId);
+  const neighborsQuery = useGraphNeighborsQuery(workspaceId, selectedNodeId ? { nodeId: selectedNodeId } : null);
   const communitiesQuery = useGraphCommunitiesQuery(workspaceId);
 
   if (!workspaceId) {
@@ -22,9 +22,8 @@ export function GraphPage() {
   }
 
   const graphMissing =
-    neighborsQuery.data?.status === 'missing_artifact' ||
     communitiesQuery.data?.status === 'missing_artifact' ||
-    (isNormalizedApiError(neighborsQuery.error) && neighborsQuery.error.code === 'missing_graph_artifact') ||
+    (selectedNodeId && isNormalizedApiError(neighborsQuery.error) && neighborsQuery.error.code === 'missing_graph_artifact') ||
     (isNormalizedApiError(communitiesQuery.error) && communitiesQuery.error.code === 'missing_graph_artifact');
 
   return (
@@ -44,18 +43,29 @@ export function GraphPage() {
           <h2 id="graph-status-title">Graph Status</h2>
         </div>
         <div className="panel-body page-grid">
-          {neighborsQuery.isLoading || communitiesQuery.isLoading ? <LoadingState label="Loading graph context" /> : null}
+          {communitiesQuery.isLoading || (selectedNodeId && neighborsQuery.isLoading) ? <LoadingState label="Loading graph context" /> : null}
           {graphMissing ? <MissingGraphArtifactState /> : null}
-          {neighborsQuery.error && !graphMissing ? (
+          {selectedNodeId && neighborsQuery.error && !graphMissing ? (
             <ApiErrorState title="Graph neighbors unavailable" error={neighborsQuery.error} onRetry={() => void neighborsQuery.refetch()} />
           ) : null}
           {communitiesQuery.error && !graphMissing ? (
             <ApiErrorState title="Graph communities unavailable" error={communitiesQuery.error} onRetry={() => void communitiesQuery.refetch()} />
           ) : null}
-          {!graphMissing && (neighborsQuery.data || communitiesQuery.data) ? (
+          {!graphMissing && communitiesQuery.data ? (
             <StateBlock title="Graph context loaded" tone="neutral">
-              Graph context is read-only. Node selection is local UI state and does not call backend routes.
+              Graph overview uses community data by default. Neighbor inspection only starts after selecting a graph node.
             </StateBlock>
+          ) : null}
+        </div>
+      </section>
+
+      <section className="panel" aria-labelledby="graph-communities-title">
+        <div className="panel-header">
+          <h2 id="graph-communities-title">Communities</h2>
+        </div>
+        <div className="panel-body page-grid">
+          {communitiesQuery.data ? (
+            <GraphCommunitiesList communities={communitiesQuery.data} selectedNodeId={selectedNodeId} onSelectNode={setSelectedNodeId} />
           ) : null}
         </div>
       </section>
@@ -65,19 +75,16 @@ export function GraphPage() {
           <h2 id="graph-neighbors-title">Neighbors</h2>
         </div>
         <div className="panel-body page-grid">
-          {neighborsQuery.data ? (
+          {!selectedNodeId ? (
+            <StateBlock title="Select a graph node" tone="neutral">
+              Select a graph node to inspect neighbors.
+            </StateBlock>
+          ) : null}
+          {selectedNodeId && neighborsQuery.isLoading ? <LoadingState label="Loading graph neighbors" /> : null}
+          {selectedNodeId && neighborsQuery.data ? (
             <GraphNeighborsList graph={neighborsQuery.data} selectedNodeId={selectedNodeId} onSelectNode={setSelectedNodeId} />
           ) : null}
           {selectedNodeId ? <p className="workspace-meta">Selected node: {selectedNodeId}</p> : null}
-        </div>
-      </section>
-
-      <section className="panel" aria-labelledby="graph-communities-title">
-        <div className="panel-header">
-          <h2 id="graph-communities-title">Communities</h2>
-        </div>
-        <div className="panel-body page-grid">
-          {communitiesQuery.data ? <GraphCommunitiesList communities={communitiesQuery.data} /> : null}
         </div>
       </section>
 

@@ -1,0 +1,13 @@
+{
+  "workspace_id": "rn-adapter-fixture",
+  "status": "ready",
+  "communities": [
+    {
+      "community_id": "community_1",
+      "title": "Architecture",
+      "summary": "Community summary without backend member ids.",
+      "node_count": 3,
+      "relationship_count": 2
+    }
+  ]
+}

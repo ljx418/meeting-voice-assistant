@@ -10,6 +10,7 @@ const buildStartPath = [workspaceRoot, 'build', 'start'].join('/');
 const operationPath = [workspaceRoot, 'build', 'operations', 'op_1'].join('/');
 const queryPath = [workspaceRoot, 'query'].join('/');
 const feedbackPath = [workspaceRoot, 'quality', 'feedback'].join('/');
+const sourceDetailPath = [sourcesRoot, 'src_1'].join('/');
 const sourceTracePath = [sourcesRoot, 'src_1', 'trace'].join('/');
 
 function jsonResponse(payload: unknown, init?: ResponseInit) {
@@ -167,6 +168,13 @@ describe('Workspace M2 smoke', () => {
           jsonResponse({
             answer: 'Evidence source exists.',
             evidence: [{ source_id: 'src_1', source_title: 'Architecture notes' }]
+          }),
+        [sourceDetailPath]: () =>
+          jsonResponse({
+            source_id: 'src_1',
+            workspace_id: 'ws_1',
+            title: 'Architecture notes',
+            artifact_refs: ['artifact:source:src_1']
           }),
         [sourceTracePath]: () => jsonResponse({ message: 'trace unavailable' }, { status: 404 })
       })

@@ -1,7 +1,7 @@
 # ResearchNotebook V1.0 API Adapter Contract
 
-文档状态：P0 implementation contract；V1.0-RC1 real-route hardened。
-适用阶段：M1-RC1；RC1 已按真实 data_service envelope response 做 adapter hardening。
+文档状态：P0 implementation contract；V1.0-RC3 real-route hardened。
+适用阶段：M1-RC3；RC3 已按真实 data_service envelope response、sourceRef evidence、node-scoped graph neighbors 做 adapter hardening。
 
 ## 1. Purpose
 
@@ -80,20 +80,28 @@ Session delete is deferred and is not part of M3 acceptance.
 
 ```ts
 type AnswerEvidence = {
-  sourceId?: string;
+  evidenceKey: string;
+  sourceId?: string;      // registry source_id only; traceable
+  sourceRef?: string;     // hit.source / slug / backend raw source ref; display-only by default
   sourceTitle?: string;
   traceAvailable: boolean;
   artifactRefs?: string[];
   snippet?: string;
   confidence?: number;
+  traceUnavailableReason?: "missing_source_id" | "source_ref_not_traceable" | "trace_route_failed";
 };
 ```
 
 Rules:
 
-- if `sourceId` exists, citation can open source trace drawer;
+- if registry `sourceId` exists and `traceAvailable` is true, citation can open source trace drawer;
+- if only `sourceRef` exists, show display-only source metadata and do not call trace;
 - if only `artifactRefs` exist, show evidence metadata but do not attempt filesystem resolution;
 - if neither `sourceId` nor evidence metadata exists, render explicit no-evidence state.
+- `hit.source` / `hit.meta.slug` can become `sourceId` only after exact registry source id matching.
+- workspace query and session query raw backend evidence must be normalized by adapter mappers;
+- pages must never consume raw backend evidence shape directly;
+- route shape remains isolated to `src/shared/api/dataServiceClient.ts`.
 
 ## 6. Contract Tests
 
@@ -117,9 +125,16 @@ M4 contract tests must cover:
 - feedback submit success;
 - feedback validation error normalization.
 
-RC1 contract tests must additionally cover:
+Real-route contract tests must additionally cover:
 
 - real envelope `data.items` list fixtures;
 - real query `hits` mapped to `AnswerEvidence`;
 - real blocked graph envelope mapped to `missing_graph_artifact`;
 - target request body mapping for source import, query, session ingest, and feedback.
+
+RC2/RC3/RC4/RC5 contract tests must additionally cover:
+
+- query hit source slug maps to non-traceable `sourceRef`;
+- query hit exact registry source id maps to traceable `sourceId`;
+- graph neighbors requires `{ nodeId }` or `{ entityId }`;
+- graph overview calls communities, not neighbors, until node selection.

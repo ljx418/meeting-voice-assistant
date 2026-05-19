@@ -1,6 +1,6 @@
 # ResearchNotebook V1.0 Current Gap Analysis
 
-文档状态：V1.0-RC1 integration smoke complete；source trace remains accepted degraded / unresolved backend alignment item。
+文档状态：V1.0-RC7 release handoff complete；source trace fallback accepted degraded。
 配套图：`v1_0_current_gap_analysis.drawio`。
 
 本文与 `v1_0_current_gap_analysis.drawio` 是 V1.0 后续规划、验收和与用户交互时的核心维护文件。两者必须同步更新：本文承载文字合同，drawio 承载同一套架构演进、差距矩阵、阶段路线图和 V1.1/V1.2/V2.0 gate。
@@ -77,7 +77,7 @@ V1.0 要回答的问题是：
 - read-only Graph Context；
 - Lightweight Feedback。
 
-RC1 真实 `data_service` smoke 已完成：
+RC3 真实 `data_service` smoke 已完成：
 
 - workspace create/list/get：pass；
 - source create/list/get：pass；
@@ -85,7 +85,110 @@ RC1 真实 `data_service` smoke 已完成：
 - session create/ingest/build/query：pass，其中 session query no-evidence 为接受降级；
 - graph community：pass；
 - feedback submit：pass；
-- source trace：degraded，当前 minimal text source 返回 404，需要后续确认后端 source_id / trace contract。
+- source trace：RC3 真实后端对 minimal text registry `source_id` trace 仍返回 404；fallback 已验收为 drawer-local degraded state。
+- graph neighbors：RC3 真实后端 community 返回 members，node-scoped neighbors 成功。
+
+RC5 release packaging / repository hygiene 已完成：
+
+- 推荐 smoke 命令统一为 `npm run smoke:release`；
+- `npm run smoke:rc1` 保留为 legacy alias；
+- release smoke 脚本使用 `rn-release-<timestamp>` workspace prefix；
+- README 已收口 V1.0 定位、本地启动、默认 `data_service` base URL、accepted degraded states 和禁止声明能力；
+- release checklist 已三态化为 `PASS` / `DEGRADED_ACCEPTED` / `NOT_READY`；
+- fixture 已拆分为 `fixtures/real/` 和 `fixtures/adapter/`，adapter-only fixture 不作为真实后端通过项；
+- `.gitignore` 已覆盖本地 workspace、临时 smoke 产物和常规构建/测试输出。
+
+RC6 source trace contract re-smoke 已完成：
+
+- `npm run check` 通过；
+- 本地 `data_service` 在 `http://127.0.0.1:8003` healthy；
+- `npm run smoke:release` 完整通过 workspace/source/build/query/session/graph/feedback/cleanup 链路；
+- registry source id `src_2003ad3198c69861` 的 `sources.trace` 仍返回 `404 Unknown source_id`；
+- source trace integration 仍为 `NOT_READY`；
+- trace-unavailable fallback 继续作为 V1.0 accepted degraded state；
+- 已新增 `v1_0_rc6_source_trace_resmoke_report.md` 记录结果。
+
+RC7 final repository sync / release handoff 已完成：
+
+- 未新增功能，未进入 M5+；
+- 未复跑 `smoke:release`，沿用 RC6 真实 smoke 证据；
+- 已新增 `v1_0_rc7_release_handoff.md`；
+- 已完成 path hygiene：无本地绝对路径、`cache_path`、`artifact_path`、`physical_path`；
+- `npm run check` 通过；
+- 当前交付口径为 repository handoff complete，等待用户确认后执行 scoped commit / push。
+
+### 2.1 `v1_0_current_gap_analysis.drawio` 当前表达的状态
+
+当前 drawio 不是“待开发功能列表”，而是 V1.0 的发布状态图。它表达的是：
+
+```text
+V1.0-M0 到 M4 主链路已完成
+  -> RC3 已做真实 data_service smoke
+  -> RC5 已完成 release packaging / repository hygiene
+  -> RC6 已重跑 source trace contract smoke
+  -> RC7 已完成 final repository handoff
+  -> 当前包可作为 release candidate repository handoff
+  -> source trace integration 仍不能声明 ready，只能声明 trace-unavailable fallback
+```
+
+图中 `当前开发阶段` 的含义是：
+
+- 已完成 `smoke:release` 命名和脚本收口；
+- 已完成 README / 文档索引 / release checklist 收口；
+- 已完成 fixture 分层：`fixtures/real/` 和 `fixtures/adapter/`；
+- 已完成 `PASS` / `DEGRADED_ACCEPTED` / `NOT_READY` 三态验收口径；
+- RC7 未复跑 smoke，沿用 RC6 真实 smoke 证据；
+- 已接受 source trace 404 的 V1.0 降级行为。
+
+图中 `剩余差距` 的含义是：
+
+- 不是 V1.0 release gate 的阻塞开发；
+- 是后端 contract、V1.1+、V1.2+、V2.0 的后续工作入口；
+- 唯一影响当前 V1.0 声明边界的是：**source trace integration 仍未 ready**。
+
+### 2.2 RC5 的具体含义
+
+`RC5` 是 `Release Candidate 5`，不是一个新功能 milestone。它代表 V1.0 已经从功能开发阶段进入发布候选包整理阶段。
+
+RC5 做的事情只包括：
+
+- 发布前仓库卫生；
+- smoke 命令命名收口；
+- README / onboarding 收口；
+- fixture 语义分层；
+- release checklist 三态化；
+- gap markdown / drawio 同步；
+- 确认哪些能力可以声明，哪些能力不能声明。
+
+RC5 不代表：
+
+- source trace integration 已完成；
+- source preview 已完成；
+- precise citation backjump 已完成；
+- multi-format ingestion 已完成；
+- assessment 已完成；
+- quality governance console 已完成。
+
+当前准确声明是：
+
+```text
+ResearchNotebook V1.0 release candidate package is repository-ready.
+ResearchNotebook V1.0 M0-M4 is integration-smoke-ready.
+ResearchNotebook V1.0 source-grounded personal knowledge MVP is release candidate ready with trace-unavailable fallback.
+```
+
+仍不能声明：
+
+```text
+source trace integration ready
+source preview ready
+precise citation backjump ready
+multi-format ingestion ready
+assessment ready
+quality governance console ready
+graph editing/governance ready
+cloud sync/collaboration ready
+```
 
 当前缺口已经从：
 
@@ -166,13 +269,13 @@ V1.0 完成后，ResearchNotebook 应具备以下目标状态：
 | App scaffold | 已实现 Vite React TS、AppShell、路由骨架。 | 继续保持可运行前端壳。 | M0 done |
 | Design system | 已落地 Stitch tokens、sidebar、main canvas、状态组件、M2/M3/M4 产品样式。 | 后续按 M5+ 增量扩展。 | M0-M4 done |
 | API adapter | 已实现 `dataServiceClient.ts` 唯一路由层、typed wrappers、normalized errors、adapter tests。 | 后续 route 扩展仍只进入 adapter。 | M1-M4 done |
-| Workspace Home | 已实现 list/create/detail/archive、empty/backend/schema mismatch 状态。 | 真实后端联调后才能声明 integration ready。 | M1 done |
+| Workspace Home | 已实现 list/create/detail/archive、empty/backend/schema mismatch 状态；RC3 real smoke pass。 | 保持 release candidate readiness。 | M1 done / RC3 pass |
 | Source Library | 已实现 source list/minimal import/remove/trace action 和 source 状态信息。 | 文件上传和格式能力仍由未来 capability manifest 驱动。 | M2 done |
 | Build lifecycle | 已实现 workspace build 与 session build start/status/cancel，共用 polling hook。 | 不实现 source-level build route。 | M2/M3 done |
 | Ask with Evidence | 已实现 workspace query mutation、answer rendering、source-level citation、no-evidence state。 | precise locator/backjump 仍为 M5 future backend phase。 | M2 done |
-| Source Trace Drawer | 已实现 source trace/provenance drawer、loading/not found/unavailable/service unavailable 状态；RC1 minimal text source trace 返回 404。 | full source preview 不在 M2；trace unavailable 作为 V1.0 降级状态保留。 | M2 done / RC1 degraded |
-| Session Workbench | 已实现 workspace-scoped session list/create/get/close、snippet ingest、session build、session query、evidence 和 trace drawer 复用。 | 真实后端联调后才能声明 integration ready；delete deferred。 | M3 done |
-| Graph Context | 已实现 workspace neighbors/community 与 session graph context 只读面板；RC1 graph community pass，neighbors overview 因缺少 node_id/entity_id 降级。 | 不做任意 graph DSL、编辑、治理。 | M4 done / RC1 partial |
+| Source Trace Drawer | 已实现 source trace/provenance drawer、loading/not found/unavailable/service unavailable 状态；RC3 minimal text trace 404 走 source detail metadata fallback。 | full source preview 不在 M2；trace unavailable 作为 V1.0 降级状态保留。 | M2 done / RC3 degraded accepted |
+| Session Workbench | 已实现 workspace-scoped session list/create/get/close、snippet ingest、session build、session query、evidence 和 trace drawer 复用；RC3 real smoke pass，session query no-evidence accepted degraded。 | delete deferred；session query evidence 仍不能以 adapter fixture 伪装成 real backend pass。 | M3 done / RC3 pass with accepted degraded |
+| Graph Context | 已实现 communities-first overview；RC3 confirmed community members can trigger node-scoped neighbors。 | 不做任意 graph DSL、编辑、治理；community 无 members 时显示选择提示。 | M4 done / RC3 pass |
 | Quality / Governance | 已实现 lightweight feedback；未暴露治理台和 correction rules CRUD。 | Quality 仍保持 secondary feedback entry。 | M4 done |
 | Source Preview | V1.0 只能 source-level evidence。 | 完整 preview 依赖 `DocumentUnit` / capability manifest。 | M5 / future |
 | Precise Citation Backjump | V1.0 不具备 page/slide/timestamp/json path contract。 | 基于 `EvidenceSpan` locators 精确回跳。 | M5 / future |
@@ -183,7 +286,7 @@ V1.0 完成后，ResearchNotebook 应具备以下目标状态：
 
 ### 6.1 当前开发阶段
 
-当前项目处于 **V1.0-RC1 integration smoke complete** 阶段。当前已经具备：
+当前项目处于 **V1.0-RC7 final repository sync / release handoff complete** 阶段。当前已经具备：
 
 - ResearchNotebook 与 `data_service` 的职责边界；
 - Stitch 原型和 design system 事实源；
@@ -196,9 +299,31 @@ V1.0 完成后，ResearchNotebook 应具备以下目标状态：
 
 当前需要继续推进的是：
 
-- 解决或正式接受 RC1 source trace degraded 行为；
-- 评估 Graph neighbors 是否需要 node selection 触发，而不是 overview 自动调用；
+- 用户确认后执行 RC7 scoped commit / push：只提交 `research-notebook/` 范围，不混入 workspace sibling 项目；
+- 后端若修复 source trace contract，则重新跑 `npm run smoke:release` 并更新 release checklist / readiness report / gap markdown + drawio；
+- 当前 RC6 已确认 source trace contract 尚未修复，source trace integration 仍不能声明 ready；
 - M5-M7：Post-MVP / Future Shell，不阻塞 V1.0 release。
+
+### 6.1.1 V1.0 后续还剩多少开发内容
+
+按当前状态，V1.0 **release gate 的产品开发已经完成 M0-M4**。后续剩余工作应分为三类：
+
+| 类型 | 是否阻塞 V1.0 RC | 内容 | 估算工作量 |
+| --- | --- | --- | --- |
+| Release packaging closure | 不阻塞功能，但建议完成 | scoped commit / push、确认远端分库策略、必要时重跑 `npm run check`。 | 小 |
+| Source trace contract alignment | 不阻塞当前 RC，但阻塞 `source trace integration ready` 声明 | 后端让 registry `source_id` 的 `sources.trace` 稳定返回 trace/provenance；前端重跑 `smoke:release` 并更新 fixtures / checklist。 | 中，依赖 `data_service` |
+| V1.1+ product expansion | 不属于 V1.0 release gate | M5 Source Preview / Evidence Navigation、M6 Multi-format Foundation、M7 Assessment Future Shell。 | 大，依赖新 backend contracts |
+
+因此，V1.0 当前剩余开发结论是：
+
+```text
+M0-M4：已完成，进入 release candidate。
+RC5：已完成发布包/仓库卫生口径。
+RC6：已重跑 source trace contract smoke；trace 仍 404，保留 accepted degraded。
+RC7：已完成 final repository handoff，待用户确认后 scoped commit / push。
+V1.0 内可选修正：等待 data_service 修复 source trace contract，完成后才能升级声明。
+V1.1+ / V1.2+ / V2.0：仍有较多产品能力开发，不应混入 V1.0 发布声明。
+```
 
 ### 6.2 阶段路线图
 

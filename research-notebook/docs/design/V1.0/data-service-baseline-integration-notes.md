@@ -4,7 +4,7 @@ Date: 2026-05-17
 
 Source baseline:
 
-- `/Users/Zhuanz/Desktop/workspace/data_service/docs/ResearchNotebook-backend-service-baseline.md`
+- `../data_service/docs/ResearchNotebook-backend-service-baseline.md`
 
 ## 1. Core Understanding
 

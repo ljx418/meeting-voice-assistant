@@ -1,0 +1,91 @@
+{
+  "workspace_id": "rn-release-1779172346009-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "graph",
+      "artifact_ref": "graph://rn-release-1779172346009-workspace/neighbors/theme:researchnotebook"
+    }
+  ],
+  "next_actions": [
+    "knowledge_graph_snapshot"
+  ],
+  "data": {
+    "node_id": "theme:researchnotebook",
+    "entity_id": null,
+    "depth": 1,
+    "max_nodes": 80,
+    "truncated": false,
+    "nodes": [
+      {
+        "node_id": "theme:researchnotebook",
+        "entity_id": null,
+        "label": "ResearchNotebook",
+        "name": "ResearchNotebook",
+        "type": "theme",
+        "kind": "theme",
+        "summary": null,
+        "score": null,
+        "metadata": {
+          "community_id": "community-1"
+        }
+      },
+      {
+        "node_id": "entity:researchnotebook",
+        "entity_id": "entity:researchnotebook",
+        "label": "ResearchNotebook",
+        "name": "ResearchNotebook",
+        "type": "entity",
+        "kind": "entity",
+        "summary": null,
+        "score": null,
+        "metadata": {
+          "community_id": "community-2"
+        }
+      },
+      {
+        "node_id": "entity:v1.0",
+        "entity_id": "entity:v1.0",
+        "label": "V1.0",
+        "name": "V1.0",
+        "type": "entity",
+        "kind": "entity",
+        "summary": null,
+        "score": null,
+        "metadata": {
+          "community_id": "community-2"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "edge_id": "rel:1",
+        "source_node_id": "entity:researchnotebook",
+        "target_node_id": "theme:researchnotebook",
+        "relation": "about",
+        "type": "about",
+        "weight": 1.7996,
+        "evidence_count": null,
+        "metadata": {
+          "source_kind": "entity",
+          "target_kind": "theme"
+        }
+      },
+      {
+        "edge_id": "rel:2",
+        "source_node_id": "entity:v1.0",
+        "target_node_id": "theme:researchnotebook",
+        "relation": "about",
+        "type": "about",
+        "weight": 1.7996,
+        "evidence_count": null,
+        "metadata": {
+          "source_kind": "entity",
+          "target_kind": "theme"
+        }
+      }
+    ]
+  }
+}

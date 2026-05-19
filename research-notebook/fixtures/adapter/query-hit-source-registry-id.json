@@ -1,0 +1,11 @@
+{
+  "answer": "Registry source hit.",
+  "hits": [
+    {
+      "title": "Architecture notes",
+      "snippet": "Matched registry source content.",
+      "source": "src_registry_1",
+      "score": 0.91
+    }
+  ]
+}

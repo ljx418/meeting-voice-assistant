@@ -19,6 +19,14 @@ export function useSourceTraceQuery(workspaceId: string, sourceId: string | null
   });
 }
 
+export function useSourceQuery(workspaceId: string, sourceId: string | null) {
+  return useQuery({
+    queryKey: queryKeys.source(workspaceId, sourceId ?? 'none'),
+    queryFn: () => dataServiceClient.sources.get(workspaceId, sourceId ?? ''),
+    enabled: Boolean(workspaceId && sourceId)
+  });
+}
+
 export function useCreateSourceMutation(workspaceId: string) {
   const queryClient = useQueryClient();
   return useMutation({

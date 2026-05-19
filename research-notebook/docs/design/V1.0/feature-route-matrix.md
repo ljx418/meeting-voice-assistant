@@ -1,6 +1,6 @@
 # ResearchNotebook V1.0 Feature Route Matrix
 
-Date: 2026-05-18
+Date: 2026-05-19
 
 ## 1. Classification
 
@@ -32,9 +32,9 @@ Rules:
 | Source import | backed by data_service target route | `POST /api/workspaces/{workspace_id}/sources` | V1.0 basic import only. |
 | Source detail | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}` | Detail page or drawer. |
 | Source remove | backed by data_service target route | `POST /api/workspaces/{workspace_id}/sources/{source_id}/remove` | Soft/remove semantics owned by service. |
-| Source trace | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | RC1 route exists; minimal text import returned 404, handled as degraded trace unavailable. |
-| Source trace/provenance drawer | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | Required V1.0 evidence flow; failure must remain drawer-local. |
-| Source-level citation affordance | backed by data_service target route | query response + source trace route | Required V1.0 degraded NotebookLM-like flow. |
+| Source trace | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | RC3 real smoke: minimal text registry `source_id` trace returned 404; V1.0 accepts trace-unavailable fallback and must not claim source trace integration ready. |
+| Source trace/provenance drawer | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | Required V1.0 evidence flow; failure must remain drawer-local and must not clear answer. |
+| Source-level citation affordance | backed by data_service target route | query response + source trace route | Query hit slugs/page refs render as non-clickable `sourceRef`; registry IDs render as traceable citations. |
 | Source preview | future backend phase | normalized `DocumentUnit`/capability manifest | M5, not guaranteed in V1.0. |
 | Precise citation backjump | future backend phase | normalized `EvidenceSpan` locators | M5, source-level fallback is V1.0. |
 
@@ -58,8 +58,8 @@ Rules:
 | Session ask with evidence | backed by data_service target route | session query route + source trace route | V1.0 workbench product flow. |
 | Session build lifecycle | backed by data_service target route | session build start/status/cancel routes | Uses shared polling hook. |
 | Active session selection | app-local state | local UI state | Store stable `session_id` only. |
-| Graph neighbors | backed by data_service target route | `GET /api/workspaces/{workspace_id}/graph/neighbors` | RC1 backend requires `node_id/entity_id`; overview call is degraded until node-scoped UX is added. |
-| Graph community | backed by data_service target route | `GET /api/workspaces/{workspace_id}/graph/community` | Read-only topic/community view. |
+| Graph neighbors | backed by data_service target route | `GET /api/workspaces/{workspace_id}/graph/neighbors?node_id=...` or `?entity_id=...` | RC3 confirmed node-scoped neighbors pass when community members provide node ids; overview never calls neighbors without selection. |
+| Graph community | backed by data_service target route | `GET /api/workspaces/{workspace_id}/graph/community?include_members=true` | Read-only topic/community view; members enable node-scoped neighbor inspection when present. |
 | Graph query builder / DSL | unsupported in V1.0 | no product route in M4 | M4 is read-only context only. |
 | Graph session context | backed by data_service target route | `GET /api/workspaces/{workspace_id}/graph/session` | Read-only session graph context; does not block session ask. |
 

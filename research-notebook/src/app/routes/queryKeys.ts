@@ -11,7 +11,8 @@ export const queryKeys = {
   sessionBuildOperation: (workspaceId: string, sessionId: string, operationId: string) =>
     ['session-build-operation', workspaceId, sessionId, operationId] as const,
   sessionQuery: (workspaceId: string, sessionId: string) => ['session-query', workspaceId, sessionId] as const,
-  graphNeighbors: (workspaceId: string) => ['graph-neighbors', workspaceId] as const,
+  graphNeighborsByNode: (workspaceId: string, nodeId: string) => ['graph-neighbors', workspaceId, 'node', nodeId] as const,
+  graphNeighborsByEntity: (workspaceId: string, entityId: string) => ['graph-neighbors', workspaceId, 'entity', entityId] as const,
   graphCommunities: (workspaceId: string) => ['graph-communities', workspaceId] as const,
   sessionGraph: (workspaceId: string, sessionId: string) => ['session-graph', workspaceId, sessionId] as const
 };

@@ -11,6 +11,7 @@ import {
   useSessionsQuery,
   useStartSessionBuildMutation
 } from '../../shared/api/workspaceM3Queries';
+import { useSourcesQuery } from '../../shared/api/workspaceM2Queries';
 import { useSessionGraphQuery } from '../../shared/api/workspaceM4Queries';
 import { queryKeys } from '../../app/routes/queryKeys';
 import { useOperationPolling } from '../../shared/hooks/useOperationPolling';
@@ -299,12 +300,16 @@ function SessionAskPanel({
   const [question, setQuestion] = useState('');
   const isClosed = session.state === 'closed';
   const querySession = useSessionQueryMutation(workspaceId, session.session_id);
+  const sourcesQuery = useSourcesQuery(workspaceId);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const trimmed = question.trim();
     if (!trimmed || isClosed) return;
-    querySession.mutate({ question: trimmed });
+    querySession.mutate({
+      question: trimmed,
+      registrySourceIds: sourcesQuery.data?.map((source) => source.source_id)
+    });
   };
 
   return (

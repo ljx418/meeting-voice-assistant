@@ -8,3 +8,6 @@ dist/
 coverage/
 playwright-report/
 test-results/
+.data_service_workspace.json
+tmp/
+tmp-*/

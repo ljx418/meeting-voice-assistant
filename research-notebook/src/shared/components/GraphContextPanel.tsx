@@ -46,7 +46,15 @@ export function GraphNeighborsList({
   );
 }
 
-export function GraphCommunitiesList({ communities }: { communities: GraphCommunitiesResponse }) {
+export function GraphCommunitiesList({
+  communities,
+  selectedNodeId,
+  onSelectNode
+}: {
+  communities: GraphCommunitiesResponse;
+  selectedNodeId?: string | null;
+  onSelectNode?: (nodeId: string) => void;
+}) {
   if (communities.status === 'missing_artifact') return <MissingGraphArtifactState />;
   if (communities.communities.length === 0) {
     return <StateBlock title="No graph communities" tone="neutral">The graph route returned no communities.</StateBlock>;
@@ -76,6 +84,21 @@ export function GraphCommunitiesList({ communities }: { communities: GraphCommun
               <dd>{community.score ?? 'unknown'}</dd>
             </div>
           </dl>
+          {community.members?.length ? (
+            <div className="graph-node-list" aria-label={`${community.title} members`}>
+              {community.members.map((member) => (
+                <button
+                  className={`graph-node${selectedNodeId === member.node_id ? ' selected' : ''}`}
+                  key={member.node_id}
+                  type="button"
+                  onClick={() => onSelectNode?.(member.node_id)}
+                >
+                  <span>{member.label}</span>
+                  <small>{member.entity_id || member.node_type || 'node'}</small>
+                </button>
+              ))}
+            </div>
+          ) : null}
         </article>
       ))}
     </div>

@@ -1,7 +1,7 @@
 # ResearchNotebook V1.0 Answer Evidence Contract
 
-文档状态：P0 implementation contract；V1.0-M3 frozen。
-适用阶段：M2-M3。
+文档状态：P0 implementation contract；V1.0-RC5 release package current。
+适用阶段：M2-M4 / RC2-RC7。
 
 ## 1. Purpose
 
@@ -20,12 +20,14 @@ V1.0 frontend renders evidence through:
 ```ts
 type AnswerEvidence = {
   evidenceKey: string;
-  sourceId?: string;
+  sourceId?: string;      // registry source_id only; safe for sources.trace
+  sourceRef?: string;     // hit.source / slug / backend ref; display-only by default
   sourceTitle?: string;
   traceAvailable: boolean;
   artifactRefs?: string[];
   snippet?: string;
   confidence?: number;
+  traceUnavailableReason?: "missing_source_id" | "source_ref_not_traceable" | "trace_route_failed";
 };
 ```
 
@@ -39,7 +41,15 @@ When evidence exists:
 - show source title when available;
 - show snippet when available;
 - show trace availability state;
-- clicking a citation with `sourceId` opens source trace/provenance drawer.
+- clicking a citation with registry `sourceId` opens source trace/provenance drawer.
+
+Evidence source resolution:
+
+- `evidence.source_id` may become `sourceId` only when it is a registry source id or matches the source registry list;
+- `hit.source` may become `sourceId` only when it exactly matches a registry source id;
+- `hit.source`, `hit.meta.slug`, page slug, or llmwiki page id that does not match registry source ids must be rendered as `sourceRef`;
+- `sourceRef` evidence is display-only and must not call source trace;
+- no string-prefix heuristic may mark a source ref as traceable.
 
 When precise locator is missing:
 
@@ -57,6 +67,8 @@ When trace route fails:
 
 - keep the answer and citation visible;
 - mark citation or drawer as `trace unavailable`;
+- if `sources.get` succeeds but `sources.trace` returns 404, the drawer may show source title/source_id/artifact refs as metadata fallback;
+- if evidence has only `sourceRef`, do not call trace route;
 - show retry affordance where practical;
 - do not crash or clear the answer.
 

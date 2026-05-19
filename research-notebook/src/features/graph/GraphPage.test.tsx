@@ -29,10 +29,10 @@ function createGraphFetch(overrides: Partial<Record<string, () => Promise<Respon
     const url = String(input);
     const handler = overrides[url];
     if (handler) return handler();
-    if (url === graphNeighborsPath) {
+    if (url.startsWith(`${graphNeighborsPath}?`)) {
       return jsonResponse({ workspace_id: 'ws_1', nodes: [], edges: [], neighbors: [] });
     }
-    if (url === graphCommunitiesPath) {
+    if (url.startsWith(graphCommunitiesPath)) {
       return jsonResponse({ workspace_id: 'ws_1', communities: [] });
     }
     return jsonResponse({ message: `Unhandled ${url}` }, { status: 404 });
@@ -52,8 +52,7 @@ describe('Graph M4 smoke', () => {
     vi.stubGlobal(
       'fetch',
       createGraphFetch({
-        [graphNeighborsPath]: () => jsonResponse({ message: 'graph artifact no_artifact' }, { status: 404 }),
-        [graphCommunitiesPath]: () => jsonResponse({ message: 'graph artifact no_artifact' }, { status: 404 })
+        [`${graphCommunitiesPath}?include_members=true`]: () => jsonResponse({ message: 'graph artifact no_artifact' }, { status: 404 })
       })
     );
 
@@ -62,29 +61,38 @@ describe('Graph M4 smoke', () => {
     expect(await screen.findByText('Missing graph artifact')).toBeInTheDocument();
   });
 
-  it('renders read-only communities and neighbors', async () => {
+  it('renders read-only communities and node-scoped neighbors', async () => {
     vi.stubGlobal(
       'fetch',
       createGraphFetch({
-        [graphNeighborsPath]: () =>
+        [`${graphNeighborsPath}?node_id=n_1`]: () =>
           jsonResponse({
             workspace_id: 'ws_1',
             nodes: [{ node_id: 'n_1', label: 'Queues', node_type: 'concept' }],
             neighbors: [{ node_id: 'n_2', label: 'Backpressure', relationship: 'mitigates' }],
             edges: [{ edge_id: 'e_1', source_node_id: 'n_1', target_node_id: 'n_2' }]
           }),
-        [graphCommunitiesPath]: () =>
+        [`${graphCommunitiesPath}?include_members=true`]: () =>
           jsonResponse({
             workspace_id: 'ws_1',
-            communities: [{ community_id: 'c_1', title: 'Architecture', node_count: 3, relationship_count: 2 }]
+            communities: [
+              {
+                community_id: 'c_1',
+                title: 'Architecture',
+                node_count: 3,
+                relationship_count: 2,
+                members: [{ node_id: 'n_1', label: 'Queues', node_type: 'concept' }]
+              }
+            ]
           })
       })
     );
 
     render(<App />);
 
-    expect(await screen.findByText('Backpressure')).toBeInTheDocument();
     expect(await screen.findByText('Architecture')).toBeInTheDocument();
+    await userEvent.click(await screen.findByRole('button', { name: /Queues/i }));
+    expect(await screen.findByText('Backpressure')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /edit/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /delete/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /merge/i })).not.toBeInTheDocument();
@@ -94,10 +102,16 @@ describe('Graph M4 smoke', () => {
     vi.stubGlobal(
       'fetch',
       createGraphFetch({
-        [graphNeighborsPath]: () =>
+        [`${graphCommunitiesPath}?include_members=true`]: () =>
           jsonResponse({
             workspace_id: 'ws_1',
-            neighbors: [{ node_id: 'n_2', label: 'Backpressure', relationship: 'mitigates' }]
+            communities: [
+              {
+                community_id: 'c_1',
+                title: 'Architecture',
+                members: [{ node_id: 'n_2', label: 'Backpressure', node_type: 'concept' }]
+              }
+            ]
           })
       })
     );

@@ -114,16 +114,23 @@ export type BuildOperation = {
 
 export type QueryRequest = {
   question: string;
+  registrySourceIds?: string[];
 };
+
+export type TraceUnavailableReason = 'missing_source_id' | 'source_ref_not_traceable' | 'trace_route_failed';
 
 export type AnswerEvidence = {
   evidenceKey: string;
+  // Only registry source_id values that can be sent to sources.trace.
   sourceId?: string;
+  // Backend hit/page/slug/source ref that is display-only unless resolved to sourceId.
+  sourceRef?: string;
   sourceTitle?: string;
   traceAvailable: boolean;
   artifactRefs?: string[];
   snippet?: string;
   confidence?: number;
+  traceUnavailableReason?: TraceUnavailableReason;
 };
 
 export type QueryResponse = {
@@ -196,6 +203,7 @@ export type SessionQueryResponse = QueryResponse;
 
 export type GraphNode = {
   node_id: string;
+  entity_id?: string;
   label: string;
   node_type?: string;
   weight?: number;
@@ -225,6 +233,16 @@ export type GraphNeighborsResponse = {
   summary?: string;
 };
 
+export type GraphNeighborsRequest =
+  | {
+      nodeId: string;
+      entityId?: never;
+    }
+  | {
+      entityId: string;
+      nodeId?: never;
+    };
+
 export type GraphCommunity = {
   community_id: string;
   title: string;
@@ -233,6 +251,7 @@ export type GraphCommunity = {
   relationship_count?: number;
   score?: number;
   artifact_refs?: string[];
+  members?: GraphNode[];
 };
 
 export type GraphCommunitiesResponse = {

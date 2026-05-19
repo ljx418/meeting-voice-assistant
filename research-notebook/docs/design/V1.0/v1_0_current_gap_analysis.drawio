@@ -1,16 +1,15 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) draw.io/29.6.6" version="29.6.6">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
   <diagram id="v1-0-current-gap-analysis" name="V1.0 Current Gap Analysis">
-    <mxGraphModel dx="1478" dy="806" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="3000" math="0" shadow="0">
+    <mxGraphModel dx="2006" dy="1094" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="3000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" value="ResearchNotebook V1.0 Current Gap Analysis: Source-grounded Personal Knowledge Workspace" vertex="1">
           <mxGeometry height="60" width="1780" x="210" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" value="核心维护文件对：v1_0_current_gap_analysis.md + v1_0_current_gap_analysis.drawio。V1.0-RC1 integration smoke complete；source trace 仍为 accepted degraded / unresolved backend alignment item。" vertex="1">
+        <mxCell id="subtitle" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" value="核心维护文件对：v1_0_current_gap_analysis.md + v1_0_current_gap_analysis.drawio。V1.0-RC7 release handoff complete；source trace fallback accepted degraded。" vertex="1">
           <mxGeometry height="58" width="1620" x="290" y="95" as="geometry" />
         </mxCell>
-
         <mxCell id="section_arch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=20;fontStyle=1;align=center" value="七层目标架构：ResearchNotebook 是 data_service 之上的独立应用层" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="185" as="geometry" />
         </mxCell>
@@ -56,7 +55,6 @@
         <mxCell id="e46" edge="1" parent="1" source="p4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="p6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
         <mxCell id="section_migration" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=20;fontStyle=1;align=center" value="架构迁移差异：data_service baseline -&gt; V1.0 产品层 -&gt; 后续 Evidence / Ingestion / Assessment" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="635" as="geometry" />
         </mxCell>
@@ -75,17 +73,16 @@
         <mxCell id="em2" edge="1" parent="1" source="mig_v10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#7C3AED;endArrow=block;endFill=1" target="mig_future">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
         <mxCell id="section_gap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" value="当前状态 -&gt; 核心差距 -&gt; V1.0 目标状态" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="1025" as="geometry" />
         </mxCell>
-        <mxCell id="current" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="当前状态&lt;br&gt;&lt;br&gt;• docs/design/V1.0 contracts 已同步到 M4&lt;br&gt;• docs/roadmap contract roadmap 已建立&lt;br&gt;• Stitch 原型已读取：Home / Workbench / Workspace Flow&lt;br&gt;• data_service baseline 已确认可支撑 MVP&lt;br&gt;• 代码 scaffold / AppShell / API adapter 已完成&lt;br&gt;• M0-M4 API-adapter-ready release gate 已完成" vertex="1">
+        <mxCell id="current" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="当前状态&lt;br&gt;&lt;br&gt;• docs/design/V1.0 contracts 已同步到 RC7&lt;br&gt;• docs/roadmap contract roadmap 已建立&lt;br&gt;• Stitch 原型已读取：Home / Workbench / Workspace Flow&lt;br&gt;• data_service baseline 已确认可支撑 MVP&lt;br&gt;• M0-M4 release gate 已完成&lt;br&gt;• RC7 repository handoff 已完成，待 scoped commit / push" vertex="1">
           <mxGeometry height="230" width="590" x="100" y="1115" as="geometry" />
         </mxCell>
-        <mxCell id="gap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=16;fontSize=14" value="剩余差距&lt;br&gt;&lt;br&gt;• Source trace：RC1 minimal text source 返回 404&lt;br&gt;• Graph neighbors：后端需要 node_id/entity_id，overview 调用降级&lt;br&gt;• Backend version/schema contract 仍待正式化&lt;br&gt;• Source Preview / precise backjump 仍待 M5 contract&lt;br&gt;• Multi-format ingestion 仍待 capability manifest&lt;br&gt;• Assessment 只能保留 future shell" vertex="1">
+        <mxCell id="gap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=16;fontSize=14" value="剩余差距 / 非当前 RC 阻塞&lt;br&gt;&lt;br&gt;• Source trace：RC6 registry source_id trace 仍 404，只能声明 fallback&lt;br&gt;• Query evidence：llmwiki sourceRef 为主，非 traceable&lt;br&gt;• Backend version/schema contract 仍待正式化&lt;br&gt;• Source Preview / precise backjump 属于 M5 / V1.1&lt;br&gt;• Multi-format ingestion 属于 M6 / V1.2&lt;br&gt;• Assessment 属于 M7 / V2.0 future shell" vertex="1">
           <mxGeometry height="230" width="590" x="805" y="1115" as="geometry" />
         </mxCell>
-        <mxCell id="target" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="V1.0 目标状态&lt;br&gt;&lt;br&gt;• Workspace Home 可用&lt;br&gt;• Source import / build / query 可用&lt;br&gt;• Answer 显示 source-level citation&lt;br&gt;• Citation 打开 source trace/provenance drawer&lt;br&gt;• Session Workbench 可用&lt;br&gt;• Graph read-only context 可用&lt;br&gt;• Feedback lightweight entry 可用&lt;br&gt;• 不声明 future capability ready" vertex="1">
+        <mxCell id="target" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="V1.0 RC7 可声明状态&lt;br&gt;&lt;br&gt;• Repository handoff complete&lt;br&gt;• Workspace / Source / Build / Ask 可用&lt;br&gt;• Answer 显示 source-level citation / metadata&lt;br&gt;• Trace drawer 支持 unavailable fallback，不声明 trace integration ready&lt;br&gt;• Session / Graph / Feedback 可用&lt;br&gt;• M0-M4 integration-smoke-ready&lt;br&gt;• 不声明 future capability ready" vertex="1">
           <mxGeometry height="230" width="590" x="1510" y="1115" as="geometry" />
         </mxCell>
         <mxCell id="eg1" edge="1" parent="1" source="current" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;endArrow=block;endFill=1" target="gap">
@@ -94,20 +91,18 @@
         <mxCell id="eg2" edge="1" parent="1" source="gap" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#D97706;endArrow=block;endFill=1" target="target">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
         <mxCell id="section_summary" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" value="开发计划摘要" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="1425" as="geometry" />
         </mxCell>
-        <mxCell id="summary_now" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=16;fontSize=14" value="当前开发阶段&lt;br&gt;&lt;br&gt;V1.0-RC1 integration smoke complete&lt;br&gt;已完成：M0-M4 前端链路、adapter envelope hardening、RC1 smoke docs&lt;br&gt;source trace 仍为降级项" vertex="1">
+        <mxCell id="summary_now" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=16;fontSize=14" value="当前开发阶段&lt;br&gt;&lt;br&gt;V1.0-RC7 = Final Repository Sync / Release Handoff&lt;br&gt;含义：不做功能开发，只做最终交付收口&lt;br&gt;RC7 未复跑 smoke，沿用 RC6 真实 smoke 证据；source trace integration NOT_READY；fallback accepted" vertex="1">
           <mxGeometry height="175" width="620" x="100" y="1505" as="geometry" />
         </mxCell>
-        <mxCell id="summary_next" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=16;fontSize=14" value="下一段开发&lt;br&gt;&lt;br&gt;RC2 / backend alignment：确认 source trace 404 是否为 contract gap&lt;br&gt;Graph neighbors 改为 node-scoped 触发或维持 community-first&lt;br&gt;M5-M7：Post-MVP / future shell&lt;br&gt;不声明 future capability ready" vertex="1">
+        <mxCell id="summary_next" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=16;fontSize=14" value="后续开发量&lt;br&gt;&lt;br&gt;V1.0 release gate：M0-M4 已完成&lt;br&gt;剩余 V1.0 小项：用户确认后 scoped commit / push；等待 data_service trace contract 修复后再重跑 smoke:release&lt;br&gt;真正下一阶段：V1.1 Source Preview / Evidence Navigation" vertex="1">
           <mxGeometry height="175" width="620" x="790" y="1505" as="geometry" />
         </mxCell>
-        <mxCell id="summary_final" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=16;fontSize=14" value="最终开发目标&lt;br&gt;&lt;br&gt;V1.0 complete：source-grounded personal knowledge MVP ready&lt;br&gt;仍不是：multi-format ingestion ready / interview assessment ready / mastery profile ready / cloud sync ready" vertex="1">
+        <mxCell id="summary_final" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=16;fontSize=14" value="最终交付口径&lt;br&gt;&lt;br&gt;V1.0 RC7：source-grounded personal knowledge MVP release candidate handoff complete&lt;br&gt;仍不是：source trace integration ready / source preview ready / multi-format ingestion ready / assessment ready / cloud sync ready" vertex="1">
           <mxGeometry height="175" width="620" x="1480" y="1505" as="geometry" />
         </mxCell>
-
         <mxCell id="section_matrix" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=20;fontStyle=1;align=center" value="V1.0 Capability Matrix 与阶段影响范围" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="1760" as="geometry" />
         </mxCell>
@@ -135,7 +130,6 @@
         <mxCell id="m7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;fontSize=13;align=center" value="M7&lt;br&gt;Assessment Future Shell&lt;br&gt;Question / Assessment / Attempt / MasteryProfile drafts&lt;br&gt;no mock product capability&lt;br&gt;V2.0 direction" vertex="1">
           <mxGeometry height="125" width="360" x="1540" y="2025" as="geometry" />
         </mxCell>
-
         <mxCell id="section_gate" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=20;fontStyle=1;align=center" value="V1.1 / V1.2 / V2.0 Gate 与 No False Green" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="2230" as="geometry" />
         </mxCell>
