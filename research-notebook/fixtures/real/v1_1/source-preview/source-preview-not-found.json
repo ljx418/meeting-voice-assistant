@@ -1,0 +1,6 @@
+{
+  "status_code": 404,
+  "body": {
+    "detail": "SOURCE_NOT_FOUND: Unknown source_id: src_0000000000000000"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "workspace_id": "rn-v11d-1779334896772-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_255a571fc7ee11e7",
+      "artifact_ref": "source://src_255a571fc7ee11e7"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "units": {
+      "source_id": "src_255a571fc7ee11e7",
+      "items": [
+        {
+          "unit_id": "unit_325a5a7bd3379019",
+          "source_id": "src_255a571fc7ee11e7",
+          "unit_type": "section",
+          "title": "rn-v11d-1779334896772 EvidenceSpan source",
+          "text_preview": "Queues absorb burst traffic during release validation. EvidenceSpan navigation should highlight this sentence after query evidence resolves to a source id, unit id, and evidence id.",
+          "content_type": "text/plain",
+          "order_index": 0,
+          "artifact_ref": "unit://src_255a571fc7ee11e7/unit_325a5a7bd3379019",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 181,
+          "max_preview_size_bytes": 50000
+        }
+      ],
+      "next_cursor": null,
+      "limit": 50,
+      "has_more": false
+    }
+  }
+}

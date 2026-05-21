@@ -5,6 +5,8 @@ import { isNormalizedApiError, dataServiceClient } from '../../shared/api/dataSe
 import { useArchiveWorkspaceMutation, useWorkspaceQuery } from '../../shared/api/workspaceQueries';
 import {
   useCreateSourceMutation,
+  useCapabilitiesQuery,
+  isSourceLevelPreviewSupported,
   useRemoveSourceMutation,
   useSourcesQuery,
   useStartBuildMutation,
@@ -12,7 +14,7 @@ import {
 } from '../../shared/api/workspaceM2Queries';
 import { queryKeys } from '../../app/routes/queryKeys';
 import { useOperationPolling } from '../../shared/hooks/useOperationPolling';
-import type { BuildOperation, SourceSummary } from '../../shared/types/api';
+import type { AnswerEvidence, BuildOperation, SourceSummary } from '../../shared/types/api';
 import {
   BackendUnavailableState,
   EmptyState,
@@ -23,6 +25,7 @@ import {
 import { ApiErrorState } from '../../shared/components/ApiErrorState';
 import { EvidenceList } from '../../shared/components/EvidenceList';
 import { SourceTraceDrawer } from '../../shared/components/SourceTraceDrawer';
+import { SourcePreviewDrawer } from '../../shared/components/SourcePreviewDrawer';
 import { LightweightFeedback } from '../../shared/components/LightweightFeedback';
 
 function SourceStateBadge({ source }: { source: SourceSummary }) {
@@ -96,15 +99,18 @@ function SourceImportForm({ workspaceId }: { workspaceId: string }) {
 function SourceLibrary({
   workspaceId,
   onTrace,
+  onPreview,
   onAsk,
   onRebuild
 }: {
   workspaceId: string;
   onTrace: (source: SourceSummary) => void;
+  onPreview: (source: SourceSummary) => void;
   onAsk: () => void;
   onRebuild: () => void;
 }) {
   const sourcesQuery = useSourcesQuery(workspaceId);
+  const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
   const removeSource = useRemoveSourceMutation(workspaceId);
 
   return (
@@ -157,6 +163,21 @@ function SourceLibrary({
                 <div className="source-actions">
                   <button className="secondary-button" type="button" onClick={() => onTrace(source)} disabled={!source.trace_available}>
                     Trace
+                  </button>
+                  <button
+                    className="secondary-button"
+                    type="button"
+                    onClick={() => onPreview(source)}
+                    disabled={Boolean(
+                      capabilitiesQuery.data && !isSourceLevelPreviewSupported(capabilitiesQuery.data, source.source_type)
+                    )}
+                    title={
+                      capabilitiesQuery.data && !isSourceLevelPreviewSupported(capabilitiesQuery.data, source.source_type)
+                        ? 'Source preview is not advertised for this source type.'
+                        : undefined
+                    }
+                  >
+                    Preview
                   </button>
                   <button className="secondary-button" type="button" onClick={onAsk}>
                     Ask workspace
@@ -259,16 +280,26 @@ function BuildPanel({ workspaceId, rebuildSignal }: { workspaceId: string; rebui
 function WorkspaceQueryPanel({
   workspaceId,
   onTraceSourceId,
+  onNavigateEvidence,
   focusSignal
 }: {
   workspaceId: string;
   onTraceSourceId: (sourceId: string) => void;
+  onNavigateEvidence: (evidence: AnswerEvidence) => void;
   focusSignal: number;
 }) {
   const questionId = useId();
   const [question, setQuestion] = useState('');
   const queryWorkspace = useWorkspaceQueryMutation(workspaceId);
   const sourcesQuery = useSourcesQuery(workspaceId);
+  const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
+  const preciseNavigationEnabled = Boolean(
+    capabilitiesQuery.data?.capabilities.evidence_spans &&
+      capabilitiesQuery.data.capabilities.precise_span_highlight &&
+      capabilitiesQuery.data.capabilities.citation_backjump &&
+      capabilitiesQuery.data.capabilities.document_units &&
+      capabilitiesQuery.data.capabilities.unit_level_navigation
+  );
 
   useEffect(() => {
     if (focusSignal > 0) {
@@ -312,7 +343,12 @@ function WorkspaceQueryPanel({
           <article className="answer-card">
             <h3>Answer</h3>
             <p>{queryWorkspace.data.answer}</p>
-            <EvidenceList evidence={queryWorkspace.data.evidence} onTrace={onTraceSourceId} />
+            <EvidenceList
+              evidence={queryWorkspace.data.evidence}
+              onTrace={onTraceSourceId}
+              onNavigateEvidence={onNavigateEvidence}
+              preciseNavigationEnabled={preciseNavigationEnabled}
+            />
             <LightweightFeedback workspaceId={workspaceId} target={{ target_type: 'workspace_answer' }} />
           </article>
         ) : null}
@@ -326,6 +362,14 @@ export function WorkspacePage() {
   const workspaceQuery = useWorkspaceQuery(workspaceId);
   const archiveWorkspace = useArchiveWorkspaceMutation(workspaceId);
   const [traceSourceId, setTraceSourceId] = useState<string | null>(null);
+  const [previewSource, setPreviewSource] = useState<{
+    source_id: string;
+    title?: string;
+    source_type?: string;
+    unitId?: string;
+    evidenceId?: string;
+    evidenceKey?: string;
+  } | null>(null);
   const [rebuildSignal, setRebuildSignal] = useState(0);
   const [askFocusSignal, setAskFocusSignal] = useState(0);
 
@@ -394,12 +438,41 @@ export function WorkspacePage() {
         <SourceLibrary
           workspaceId={workspaceId}
           onTrace={(source) => setTraceSourceId(source.source_id)}
+          onPreview={(source) =>
+            setPreviewSource({ source_id: source.source_id, title: source.title, source_type: source.source_type })
+          }
           onAsk={() => setAskFocusSignal((value) => value + 1)}
           onRebuild={() => setRebuildSignal((value) => value + 1)}
         />
-        <WorkspaceQueryPanel workspaceId={workspaceId} onTraceSourceId={setTraceSourceId} focusSignal={askFocusSignal} />
+        <WorkspaceQueryPanel
+          workspaceId={workspaceId}
+          onTraceSourceId={setTraceSourceId}
+          onNavigateEvidence={(evidence) => {
+            if (!evidence.sourceId) return;
+            setPreviewSource({
+              source_id: evidence.sourceId,
+              title: evidence.sourceTitle,
+              unitId: evidence.unitId,
+              evidenceId: evidence.evidenceId,
+              evidenceKey: evidence.evidenceKey
+            });
+          }}
+          focusSignal={askFocusSignal}
+        />
       </div>
       <SourceTraceDrawer workspaceId={workspaceId} sourceId={traceSourceId} onClose={() => setTraceSourceId(null)} />
+      <SourcePreviewDrawer
+        workspaceId={workspaceId}
+        sourceId={previewSource?.source_id ?? null}
+        sourceTitle={previewSource?.title}
+        sourceType={previewSource?.source_type}
+        initialEvidence={
+          previewSource?.unitId || previewSource?.evidenceId
+            ? { unitId: previewSource.unitId, evidenceId: previewSource.evidenceId, evidenceKey: previewSource.evidenceKey }
+            : null
+        }
+        onClose={() => setPreviewSource(null)}
+      />
     </div>
   );
 }

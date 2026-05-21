@@ -4,6 +4,12 @@ export const queryKeys = {
   sources: (workspaceId: string) => ['sources', workspaceId] as const,
   source: (workspaceId: string, sourceId: string) => ['source', workspaceId, sourceId] as const,
   sourceTrace: (workspaceId: string, sourceId: string) => ['source-trace', workspaceId, sourceId] as const,
+  capabilities: (workspaceId: string) => ['capabilities', workspaceId] as const,
+  sourcePreview: (workspaceId: string, sourceId: string) => ['source-preview', workspaceId, sourceId] as const,
+  sourceUnits: (workspaceId: string, sourceId: string) => ['source-units', workspaceId, sourceId] as const,
+  sourceUnit: (workspaceId: string, sourceId: string, unitId: string) => ['source-unit', workspaceId, sourceId, unitId] as const,
+  sourceEvidenceSpan: (workspaceId: string, sourceId: string, unitId: string, evidenceId: string) =>
+    ['source-evidence-span', workspaceId, sourceId, unitId, evidenceId] as const,
   buildOperation: (workspaceId: string, operationId: string) => ['build-operation', workspaceId, operationId] as const,
   workspaceQuery: (workspaceId: string) => ['workspace-query', workspaceId] as const,
   sessions: (workspaceId: string) => ['sessions', workspaceId] as const,

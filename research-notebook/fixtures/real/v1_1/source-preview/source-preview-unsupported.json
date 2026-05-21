@@ -1,0 +1,20 @@
+{
+  "workspace_id": "rn-v11be-preview",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "source_type_not_supported"
+  ],
+  "data": {
+    "preview": {
+      "source_id": "src_f8a69ede5e62175f",
+      "title": "clip",
+      "source_type": "mp4",
+      "preview_available": false,
+      "content_type": "text/plain",
+      "unsupported_reason": "source_type_not_supported"
+    }
+  }
+}

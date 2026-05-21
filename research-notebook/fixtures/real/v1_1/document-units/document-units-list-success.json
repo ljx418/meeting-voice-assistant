@@ -1,0 +1,38 @@
+{
+  "workspace_id": "rn-v11c-rc-1779249381671-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_1ac6bb73df65b33f",
+      "artifact_ref": "source://src_1ac6bb73df65b33f"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "units": {
+      "source_id": "src_1ac6bb73df65b33f",
+      "items": [
+        {
+          "unit_id": "unit_1fa7b49a24a14819",
+          "source_id": "src_1ac6bb73df65b33f",
+          "unit_type": "section",
+          "title": "V1.1-C Unit Navigation Smoke Text",
+          "text_preview": "Overview\nQueues absorb burst traffic and make service boundaries easier to operate.",
+          "content_type": "text/plain",
+          "order_index": 0,
+          "artifact_ref": "unit://src_1ac6bb73df65b33f/unit_1fa7b49a24a14819",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 83,
+          "max_preview_size_bytes": 50000
+        }
+      ],
+      "next_cursor": "du_MQ",
+      "limit": 1,
+      "has_more": true
+    }
+  }
+}

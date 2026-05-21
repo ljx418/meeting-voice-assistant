@@ -1,6 +1,6 @@
 # ResearchNotebook V1.0 Current Gap Analysis
 
-文档状态：V1.0-RC7 release handoff complete；source trace fallback accepted degraded。
+文档状态：V1.0-RC8 remote sync complete；V1.1-RC2 live experience smoke passed；V1.0 release status unchanged。
 配套图：`v1_0_current_gap_analysis.drawio`。
 
 本文与 `v1_0_current_gap_analysis.drawio` 是 V1.0 后续规划、验收和与用户交互时的核心维护文件。两者必须同步更新：本文承载文字合同，drawio 承载同一套架构演进、差距矩阵、阶段路线图和 V1.1/V1.2/V2.0 gate。
@@ -115,7 +115,58 @@ RC7 final repository sync / release handoff 已完成：
 - 已新增 `v1_0_rc7_release_handoff.md`；
 - 已完成 path hygiene：无本地绝对路径、`cache_path`、`artifact_path`、`physical_path`；
 - `npm run check` 通过；
-- 当前交付口径为 repository handoff complete，等待用户确认后执行 scoped commit / push。
+- 当前交付口径为 repository handoff complete。
+
+RC8 scoped commit / remote sync 已完成：
+
+- `research-notebook/` scoped 范围已提交并推送到现有上层远端；
+- `npm run check` 通过；
+- RC8 完成时 `research-notebook/` 无待提交变更；此后 V1.1-A / V1.1-BE 相关文档与前端 shell 变更进入当前 working tree；
+- source trace integration 仍为 `NOT_READY`；
+- trace-unavailable fallback 仍为 `DEGRADED_ACCEPTED`。
+
+V1.1-A Contract Discovery / Disabled Shell 已完成：
+
+- V1.1 文档迁移到 `docs/design/V1.1/`；
+- 已新增 capability manifest、source preview、evidence navigation 合同草案；
+- adapter 暴露 V1.1 DTO / wrapper shell；
+- V1.1-A 完成时 Source Preview drawer 只显示 capability missing / unsupported；该状态已被后续 V1.1-B frontend integration superseded；
+- Precise Citation Backjump 仍为 `NOT_READY`。
+
+V1.1-BE backend contract enablement 已在本地 `data_service` 工作区完成：
+
+- `GET /api/workspaces/{workspace_id}/capabilities` 后端合同已加入；
+- `GET /api/workspaces/{workspace_id}/sources/{source_id}/preview` source-level preview 后端合同已加入；
+- preview route 使用 registry `source_id`，不接受 `artifact_ref`、llmwiki slug 或 page ref 作为 source id；
+- 后端聚焦测试已通过，sanitized fixtures 已保存；
+- 该 backend contract 已被 V1.1-B frontend integration 消费。
+
+V1.1-B Source-Level Preview frontend integration 已完成：
+
+- `capabilities.get(workspaceId)` 已接入真实 target route；
+- `sources.preview(workspaceId, sourceId)` 已接入真实 target route；
+- Source Preview Drawer 已支持 source-level preview、安全文本渲染、unsupported / unavailable / schema mismatch 状态；
+- real data_service smoke 已通过 text source-level preview；
+- Source Preview 可声明为 data_service-supported text source 的 source-level integration ready；
+- 这不改变 V1.0 release 声明，也不代表 source trace integration ready。
+
+V1.1-C Unit-Level Source Navigation 已推进完成：
+
+- V1.1-C-A disabled shell 已完成；
+- V1.1-C-BE DocumentUnit backend contract 已完成；
+- V1.1-C frontend unit outline、unit detail 和分页已接入；
+- real data_service HTTP smoke 已通过 text source；
+- Unit-Level Source Navigation 可声明为 data_service-supported text source integration-ready。
+
+V1.1-D EvidenceSpan frontend and browser-smoked path 已完成：
+
+- V1.1-D-BE EvidenceSpan backend contract 已完成；
+- workspace citation -> Source Preview Drawer -> unit detail -> EvidenceSpan detail -> safe text highlight 路径已实现；
+- mocked/API-adapter UI smoke 已通过；
+- real data_service HTTP smoke 已通过；
+- real browser visual smoke 已通过；
+- RC2 live experience smoke 已通过；
+- precise evidence navigation 只能声明为 data_service-supported text-source workspace query citations carrying `source_id + unit_id + evidence_id` 的受限路径 ready。
 
 ### 2.1 `v1_0_current_gap_analysis.drawio` 当前表达的状态
 
@@ -127,7 +178,13 @@ V1.0-M0 到 M4 主链路已完成
   -> RC5 已完成 release packaging / repository hygiene
   -> RC6 已重跑 source trace contract smoke
   -> RC7 已完成 final repository handoff
-  -> 当前包可作为 release candidate repository handoff
+  -> RC8 已完成 scoped remote sync
+  -> V1.1-BE 已完成 source-level preview 后端合同启用
+  -> V1.1-B 已完成 source-level preview 前端集成
+  -> V1.1-C 已完成 unit navigation text source integration
+  -> V1.1-D 已完成 EvidenceSpan HTTP + browser visual smoke
+  -> V1.1-RC2 live experience smoke passed
+  -> 当前包可作为 V1.0 release candidate repository handoff
   -> source trace integration 仍不能声明 ready，只能声明 trace-unavailable fallback
 ```
 
@@ -286,7 +343,7 @@ V1.0 完成后，ResearchNotebook 应具备以下目标状态：
 
 ### 6.1 当前开发阶段
 
-当前项目处于 **V1.0-RC7 final repository sync / release handoff complete** 阶段。当前已经具备：
+当前项目处于 **V1.0-RC8 remote sync complete + V1.1-RC2 live experience smoke passed** 阶段。当前已经具备：
 
 - ResearchNotebook 与 `data_service` 的职责边界；
 - Stitch 原型和 design system 事实源；
@@ -299,9 +356,12 @@ V1.0 完成后，ResearchNotebook 应具备以下目标状态：
 
 当前需要继续推进的是：
 
-- 用户确认后执行 RC7 scoped commit / push：只提交 `research-notebook/` 范围，不混入 workspace sibling 项目；
+- V1.1-B Source Preview：data_service-supported text source integration-ready；
+- V1.1-C Unit-Level Source Navigation：data_service-supported text source integration-ready；
+- V1.1-D EvidenceSpan Highlight：browser-smoke-ready for data_service-supported text-source workspace query citations；
+- V1.1-RC2：live experience smoke passed；
 - 后端若修复 source trace contract，则重新跑 `npm run smoke:release` 并更新 release checklist / readiness report / gap markdown + drawio；
-- 当前 RC6 已确认 source trace contract 尚未修复，source trace integration 仍不能声明 ready；
+- 当前 RC6 已确认 source trace contract 尚未修复，source trace integration 仍不能声明 ready；V1.1-BE preview route 成功也不能等同于 source trace integration ready；
 - M5-M7：Post-MVP / Future Shell，不阻塞 V1.0 release。
 
 ### 6.1.1 V1.0 后续还剩多少开发内容
@@ -310,9 +370,11 @@ V1.0 完成后，ResearchNotebook 应具备以下目标状态：
 
 | 类型 | 是否阻塞 V1.0 RC | 内容 | 估算工作量 |
 | --- | --- | --- | --- |
-| Release packaging closure | 不阻塞功能，但建议完成 | scoped commit / push、确认远端分库策略、必要时重跑 `npm run check`。 | 小 |
+| Release packaging closure | 已完成 | RC7 handoff 与 RC8 scoped remote sync 已完成。 | Done |
 | Source trace contract alignment | 不阻塞当前 RC，但阻塞 `source trace integration ready` 声明 | 后端让 registry `source_id` 的 `sources.trace` 稳定返回 trace/provenance；前端重跑 `smoke:release` 并更新 fixtures / checklist。 | 中，依赖 `data_service` |
-| V1.1+ product expansion | 不属于 V1.0 release gate | M5 Source Preview / Evidence Navigation、M6 Multi-format Foundation、M7 Assessment Future Shell。 | 大，依赖新 backend contracts |
+| V1.1 Source Preview frontend integration | 不属于 V1.0 release gate | V1.1-B 已完成 source-level text preview integration smoke。 | Done for text source-level preview |
+| V1.1-D EvidenceSpan frontend/browser path | 不属于 V1.0 release gate | Workspace citation -> preview drawer -> unit detail -> EvidenceSpan highlight path 已实现并通过 HTTP smoke、browser visual smoke 和 RC2 live smoke。 | Done for supported text-source workspace query path |
+| V1.1+ product expansion | 不属于 V1.0 release gate | Source trace contract re-smoke、session precise navigation、V1.2 Multi-format、V2.0 Assessment。 | 大，依赖新 backend contracts |
 
 因此，V1.0 当前剩余开发结论是：
 
@@ -320,8 +382,12 @@ V1.0 完成后，ResearchNotebook 应具备以下目标状态：
 M0-M4：已完成，进入 release candidate。
 RC5：已完成发布包/仓库卫生口径。
 RC6：已重跑 source trace contract smoke；trace 仍 404，保留 accepted degraded。
-RC7：已完成 final repository handoff，待用户确认后 scoped commit / push。
+RC7：已完成 final repository handoff。
+RC8：已完成 scoped commit / remote sync。
 V1.0 内可选修正：等待 data_service 修复 source trace contract，完成后才能升级声明。
+V1.1-BE：已完成 source-level preview backend contract enablement。
+V1.1-B：已完成 source-level preview frontend integration and real data_service smoke for text source。
+V1.1-D：EvidenceSpan frontend path 已完成 HTTP smoke、browser visual smoke 和 RC2 live smoke；precise evidence navigation 仅限 supported text-source workspace query path。
 V1.1+ / V1.2+ / V2.0：仍有较多产品能力开发，不应混入 V1.0 发布声明。
 ```
 

@@ -1,7 +1,7 @@
 # ResearchNotebook V1.0 Design Docs
 
-文档状态：V1.0-RC7 release handoff complete；后续真实后端变更仍需以 `v1_0_current_gap_analysis.md` 和同名 drawio 作为最优先维护入口。
-当前目标：保持 M0-M4 release candidate repository handoff 状态；RC6 已确认 source trace contract 仍未修复，后续需等待 data_service trace 修复后再重新执行 `npm run smoke:release`。
+文档状态：V1.0-RC8 remote sync complete；V1.1-RC2 live experience smoke passed；后续真实后端/前端变更仍需以 `v1_0_current_gap_analysis.md` 和同名 drawio 作为最优先维护入口。
+当前目标：保持 M0-M4 release candidate repository handoff 状态；RC6 已确认 source trace contract 仍未修复。V1.1-B/C/D 可声明受限文本源 workspace query evidence navigation 路径已通过 smoke，但不改变 V1.0 release status，也不代表 source trace integration ready。
 
 ## Positioning
 
@@ -56,6 +56,17 @@ Obsidian 只作为 workspace、graph、backlink、local-first 心智模型参考
 | `v1_0_rc5_repository_hygiene_summary.md` | RC5 release packaging、命令命名、fixture 分层和仓库卫生记录。 |
 | `v1_0_rc6_source_trace_resmoke_report.md` | RC6 source trace contract re-smoke 结果和 source trace integration 决策。 |
 | `v1_0_rc7_release_handoff.md` | RC7 最终仓库交付状态、验证命令、降级项、禁止声明和后续路线。 |
+
+V1.1 活跃文档入口：
+
+| 文件 | 用途 |
+| --- | --- |
+| `../V1.1/00_README.md` | V1.1 Source Preview / Evidence Navigation 文档索引。 |
+| `../V1.1/v1_1_current_gap_analysis.md` | V1.1-A / V1.1-BE / V1.1-B 到 V1.1-RC 的当前差距与阶段切片。 |
+| `../V1.1/v1_1_current_gap_analysis.drawio` | V1.1 可视化 gap / roadmap 图。 |
+| `../V1.1/capability-manifest-contract.md` | capability/version manifest 合同。 |
+| `../V1.1/source-preview-contract.md` | source preview / DocumentUnit 合同。 |
+| `../V1.1/evidence-navigation-contract.md` | EvidenceSpan / locator / precise navigation 合同。 |
 
 历史/计划文档：
 

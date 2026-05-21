@@ -35,8 +35,10 @@ Rules:
 | Source trace | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | RC3 real smoke: minimal text registry `source_id` trace returned 404; V1.0 accepts trace-unavailable fallback and must not claim source trace integration ready. |
 | Source trace/provenance drawer | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | Required V1.0 evidence flow; failure must remain drawer-local and must not clear answer. |
 | Source-level citation affordance | backed by data_service target route | query response + source trace route | Query hit slugs/page refs render as non-clickable `sourceRef`; registry IDs render as traceable citations. |
-| Source preview | future backend phase | normalized `DocumentUnit`/capability manifest | M5, not guaranteed in V1.0. |
-| Precise citation backjump | future backend phase | normalized `EvidenceSpan` locators | M5, source-level fallback is V1.0. |
+| Source preview | future backend phase | capability manifest + source preview route | V1.1 docs own this surface. V1.1-B frontend integration has passed source-level text preview smoke; V1.0 release status remains unchanged and must not claim preview ready. |
+| DocumentUnit outline | future backend phase | normalized `DocumentUnit` model/route | V1.1-C-A disabled shell is ready; full unit navigation remains not V1.0 ready. |
+| EvidenceSpan highlight | future backend phase | normalized `EvidenceSpan` + offset semantics | V1.1-D has passed the supported text-source workspace query path smoke; V1.0 status remains unchanged. |
+| Precise citation backjump | future backend phase | normalized `EvidenceSpan` locators | V1.1-D has passed a limited text-source workspace query path; session/all-source coverage remains NOT_READY. |
 
 ## 3. Build, Query, Session, Graph
 
@@ -82,7 +84,7 @@ Rules:
 | --- | --- | --- | --- |
 | Backend health check UI | future backend phase | service health/version route or equivalent | UI state should exist once contract is exposed. |
 | Backend version mismatch UI | future backend phase | service version/schema metadata | Required before broad integration. |
-| Capability manifest | future backend phase | service capability contract | Drives format, preview, and assessment availability. |
+| Capability manifest | future backend phase | service capability contract | V1.1-B frontend integration now consumes the manifest; V1.0 release status remains unchanged. |
 | OpenAPI/schema client generation | future backend phase | OpenAPI or equivalent schema | Required for durable typed integration. |
 | Runtime response validation | app-local state | schema-derived validators | May be added before generated client. |
 | NotebookLM-style source-grounded layout | app-local state | UI implementation | Interaction reference, not backend route. |

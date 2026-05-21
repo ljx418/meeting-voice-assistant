@@ -3,10 +3,16 @@ import type {
   BuildOperation,
   BuildStartRequest,
   BuildStartResponse,
+  CapabilityManifest,
   CreateWorkspaceRequest,
   CreateWorkspaceResponse,
   CreateSourceRequest,
   CreateSourceResponse,
+  DocumentUnit,
+  DocumentUnitListRequest,
+  DocumentUnitListResponse,
+  EvidenceNavigationResponse,
+  EvidenceSpan,
   GraphCommunitiesResponse,
   GraphCommunity,
   GraphEdge,
@@ -33,6 +39,8 @@ import type {
   SessionGraphContextResponse,
   SessionState,
   SessionSummary,
+  SourcePreviewRequest,
+  SourcePreviewResponse,
   SourceBuildState,
   SourceDetail,
   SourceImportState,
@@ -73,6 +81,7 @@ type RequestOptions = {
   method?: 'GET' | 'POST';
   body?: unknown;
   signal?: AbortSignal;
+  normalizeError?: (status: number, payload: unknown) => NormalizedErrorEnvelope;
 };
 
 const DEFAULT_TIMEOUT_MS = 12_000;
@@ -85,6 +94,14 @@ function normalizeStatusCode(status: number): NormalizedErrorCode {
   if (status === 409) return 'conflict';
   if (status === 412 || status === 426) return 'version_or_schema_mismatch';
   return 'unknown_service_error';
+}
+
+function capabilityMissingError(message: string): DataServiceError {
+  return new DataServiceError({
+    code: 'capability_missing',
+    message,
+    retryable: false
+  });
 }
 
 function normalizeUnknownError(error: unknown): NormalizedErrorEnvelope {
@@ -240,6 +257,19 @@ function normalizeHttpError(status: number, payload: unknown): NormalizedErrorEn
     retryable: code === 'backend_unavailable' || code === 'unknown_service_error',
     details: payload
   };
+}
+
+function normalizeCapabilityHttpError(status: number, payload: unknown): NormalizedErrorEnvelope {
+  if (status === 404) {
+    return {
+      code: 'capability_missing',
+      message: readMessage(payload, 'The data service capability manifest is not available.'),
+      status,
+      retryable: false,
+      details: payload
+    };
+  }
+  return normalizeHttpError(status, payload);
 }
 
 async function parseJson(response: Response) {
@@ -495,6 +525,323 @@ function extractSourceTrace(sourceId: string, payload: unknown): SourceTrace {
   };
 }
 
+function extractCapabilityManifest(workspaceId: string, payload: unknown): CapabilityManifest {
+  const body = unwrapData(payload);
+  const raw = asRecord(body);
+  const manifest = asRecord(raw?.manifest) ?? raw;
+  const capabilities = asRecord(manifest?.capabilities);
+  const supportedSourceTypesRaw = Array.isArray(manifest?.supported_source_types) ? manifest.supported_source_types : undefined;
+
+  if (!manifest || !capabilities || !supportedSourceTypesRaw) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'Capability manifest response is missing manifest, capabilities, or supported_source_types.',
+      retryable: false,
+      details: payload
+    });
+  }
+
+  const requiredCapabilityKeys = [
+    'source_preview',
+    'document_units',
+    'evidence_spans',
+    'source_level_preview',
+    'unit_level_navigation',
+    'precise_span_highlight',
+    'citation_backjump'
+  ] as const;
+
+  for (const key of requiredCapabilityKeys) {
+    if (typeof capabilities[key] !== 'boolean') {
+      throw new DataServiceError({
+        code: 'version_or_schema_mismatch',
+        message: `Capability manifest is missing ${key}.`,
+        retryable: false,
+        details: payload
+      });
+    }
+  }
+
+  return {
+    workspace_id: readString(manifest.workspace_id) ?? workspaceId,
+    service_version: readString(manifest.service_version),
+    schema_version: readString(manifest.schema_version),
+    generated_at: readString(manifest.generated_at),
+    capabilities: {
+      source_preview: readBoolean(capabilities.source_preview) ?? false,
+      document_units: readBoolean(capabilities.document_units) ?? false,
+      evidence_spans: readBoolean(capabilities.evidence_spans) ?? false,
+      source_level_preview: readBoolean(capabilities.source_level_preview) ?? false,
+      unit_level_navigation: readBoolean(capabilities.unit_level_navigation) ?? false,
+      precise_span_highlight: readBoolean(capabilities.precise_span_highlight) ?? false,
+      citation_backjump: readBoolean(capabilities.citation_backjump) ?? false
+    },
+    supported_source_types: supportedSourceTypesRaw.map((item) => {
+      const sourceType = asRecord(item);
+      const preview = readString(sourceType?.preview);
+      if (!sourceType || typeof sourceType.source_type !== 'string' || !['none', 'source', 'unit', 'span'].includes(preview ?? '')) {
+        throw new DataServiceError({
+          code: 'version_or_schema_mismatch',
+          message: 'Capability manifest contains an invalid supported_source_types entry.',
+          retryable: false,
+          details: payload
+        });
+      }
+      const locatorsRaw = Array.isArray(sourceType.locators) ? sourceType.locators : [];
+      const locators = locatorsRaw.filter(
+        (locator): locator is 'page_no' | 'slide_no' | 'timestamp' | 'json_path' | 'offset' =>
+          locator === 'page_no' ||
+          locator === 'slide_no' ||
+          locator === 'timestamp' ||
+          locator === 'json_path' ||
+          locator === 'offset'
+      );
+      return {
+        source_type: sourceType.source_type,
+        preview: preview as 'none' | 'source' | 'unit' | 'span',
+        locators
+      };
+    })
+  };
+}
+
+function normalizeDocumentUnitType(value: unknown): DocumentUnit['unit_type'] {
+  if (
+    value === 'text' ||
+    value === 'page' ||
+    value === 'slide' ||
+    value === 'section' ||
+    value === 'transcript_segment' ||
+    value === 'json_node'
+  ) {
+    return value;
+  }
+  return 'section';
+}
+
+function assertDocumentUnit(value: unknown, sourceId: string): DocumentUnit {
+  const unit = asRecord(value);
+  const unitId = readString(unit?.unit_id);
+  const unitSourceId = readString(unit?.source_id) ?? sourceId;
+  if (!unit || !unitId || !unitSourceId) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'DocumentUnit is missing unit_id or source_id.',
+      retryable: false,
+      details: value
+    });
+  }
+
+  return {
+    unit_id: unitId,
+    source_id: unitSourceId,
+    unit_type: normalizeDocumentUnitType(unit.unit_type),
+    title: readString(unit.title),
+    text_preview: readString(unit.text_preview),
+    content_type:
+      readString(unit.content_type) === 'text/plain' ||
+      readString(unit.content_type) === 'text/markdown' ||
+      readString(unit.content_type) === 'text/html'
+        ? (readString(unit.content_type) as 'text/plain' | 'text/markdown' | 'text/html')
+        : undefined,
+    order_index: readNumber(unit.order_index),
+    page_no: readNumber(unit.page_no),
+    slide_no: readNumber(unit.slide_no),
+    timestamp_start_ms: readNumber(unit.timestamp_start_ms),
+    timestamp_end_ms: readNumber(unit.timestamp_end_ms),
+    json_path: readString(unit.json_path),
+    artifact_ref: readString(unit.artifact_ref),
+    preview_available: readBoolean(unit.preview_available),
+    preview_truncated: readBoolean(unit.preview_truncated),
+    preview_size_bytes: readNumber(unit.preview_size_bytes),
+    max_preview_size_bytes: readNumber(unit.max_preview_size_bytes)
+  };
+}
+
+function extractDocumentUnitList(sourceId: string, payload: unknown): DocumentUnitListResponse {
+  const body = unwrapData(payload);
+  const raw = asRecord(body);
+  const units = asRecord(raw?.units) ?? raw;
+  const resolvedSourceId = readString(units?.source_id) ?? sourceId;
+  const itemsRaw = Array.isArray(units?.items) ? units.items : undefined;
+  const limit = readNumber(units?.limit);
+  const hasMore = readBoolean(units?.has_more);
+
+  if (!units || !resolvedSourceId || !itemsRaw || limit === undefined || hasMore === undefined) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'DocumentUnit list response is missing source_id, items, limit, or has_more.',
+      retryable: false,
+      details: payload
+    });
+  }
+
+  if (hasMore && !readString(units.next_cursor)) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'DocumentUnit list response has has_more=true without next_cursor.',
+      retryable: false,
+      details: payload
+    });
+  }
+
+  return {
+    source_id: resolvedSourceId,
+    items: itemsRaw.map((item) => assertDocumentUnit(item, resolvedSourceId)),
+    next_cursor: readString(units.next_cursor) ?? null,
+    limit,
+    has_more: hasMore,
+    unsupported_reason: readString(units.unsupported_reason)
+  };
+}
+
+function extractSourcePreview(sourceId: string, payload: unknown): SourcePreviewResponse {
+  const body = unwrapData(payload);
+  const raw = asRecord(body);
+  const preview = asRecord(raw?.preview) ?? raw;
+  const sourcePreviewId = readString(preview?.source_id);
+  const previewAvailable = readBoolean(preview?.preview_available);
+
+  if (!preview || !sourcePreviewId || previewAvailable === undefined) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'Source preview response is missing source_id or preview_available.',
+      retryable: false,
+      details: payload
+    });
+  }
+
+  const contentType = readString(preview.content_type);
+  const safeContentType =
+    contentType === 'text/plain' || contentType === 'text/markdown' || contentType === 'text/html' ? contentType : undefined;
+
+  return {
+    preview: {
+      source_id: sourcePreviewId || sourceId,
+      title: readString(preview.title),
+      source_type: readString(preview.source_type),
+      preview_available: previewAvailable,
+      content_type: safeContentType,
+      text_preview: readString(preview.text_preview),
+      units: Array.isArray(preview.units) ? preview.units.map((unit) => assertDocumentUnit(unit, sourcePreviewId)) : undefined,
+      next_cursor: readString(preview.next_cursor),
+      artifact_refs: readArtifactRefs(preview.artifact_refs),
+      unsupported_reason: readString(preview.unsupported_reason),
+      preview_truncated: readBoolean(preview.preview_truncated),
+      preview_size_bytes: readNumber(preview.preview_size_bytes),
+      max_preview_size_bytes: readNumber(preview.max_preview_size_bytes)
+    }
+  };
+}
+
+function assertPreviewSourceId(sourceId: string) {
+  if (!sourceId || sourceId.includes('://') || sourceId.includes('/') || sourceId.startsWith('source-')) {
+    throw new DataServiceError({
+      code: 'validation_error',
+      message: 'Source preview requires a registry source_id.',
+      retryable: false
+    });
+  }
+}
+
+function assertDocumentUnitRouteIds(sourceId: string, unitId?: string) {
+  assertPreviewSourceId(sourceId);
+  if (unitId !== undefined && (!unitId || unitId.includes('://') || unitId.includes('/') || unitId.startsWith('source-') || /^\d+$/.test(unitId))) {
+    throw new DataServiceError({
+      code: 'validation_error',
+      message: 'DocumentUnit detail requires a backend DocumentUnit unit_id.',
+      retryable: false
+    });
+  }
+}
+
+function assertEvidenceSpanRouteIds(sourceId: string, unitId: string, evidenceId: string) {
+  assertDocumentUnitRouteIds(sourceId, unitId);
+  if (
+    !evidenceId ||
+    evidenceId.includes('://') ||
+    evidenceId.includes('/') ||
+    evidenceId.startsWith('source-') ||
+    /^\d+$/.test(evidenceId)
+  ) {
+    throw new DataServiceError({
+      code: 'validation_error',
+      message: 'EvidenceSpan detail requires a backend EvidenceSpan evidence_id.',
+      retryable: false
+    });
+  }
+}
+
+function normalizeOffsetBasis(value: unknown): EvidenceSpan['offset_basis'] | undefined {
+  if (value === 'utf8_bytes' || value === 'unicode_codepoints' || value === 'utf16_code_units' || value === 'normalized_text') {
+    return value;
+  }
+  return undefined;
+}
+
+function normalizeOffsetRange(value: unknown): EvidenceSpan['offset_range'] | undefined {
+  if (value === 'half_open' || value === 'closed') return value;
+  return undefined;
+}
+
+function normalizeTextBasis(value: unknown): EvidenceSpan['text_basis'] | undefined {
+  if (value === 'document_unit_text' || value === 'normalized_source_text') return value;
+  return undefined;
+}
+
+function assertEvidenceSpan(value: unknown, sourceId: string, unitId: string, evidenceId: string): EvidenceSpan {
+  const span = asRecord(value);
+  const spanId = readString(span?.evidence_id);
+  const spanSourceId = readString(span?.source_id);
+  const spanUnitId = readString(span?.unit_id);
+  if (!span || !spanId || !spanSourceId) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'EvidenceSpan response is missing evidence_id or source_id.',
+      retryable: false,
+      details: value
+    });
+  }
+  if (spanId !== evidenceId || spanSourceId !== sourceId || (spanUnitId && spanUnitId !== unitId)) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'EvidenceSpan response ids do not match the requested source/unit/evidence ids.',
+      retryable: false,
+      details: value
+    });
+  }
+  const locator = asRecord(span.locator);
+  return {
+    evidence_id: spanId,
+    source_id: spanSourceId,
+    unit_id: spanUnitId,
+    start_offset: readNumber(span.start_offset),
+    end_offset: readNumber(span.end_offset),
+    offset_basis: normalizeOffsetBasis(span.offset_basis),
+    offset_range: normalizeOffsetRange(span.offset_range),
+    text_basis: normalizeTextBasis(span.text_basis),
+    snippet: readString(span.snippet),
+    locator: locator
+      ? {
+          page_no: readNumber(locator.page_no),
+          slide_no: readNumber(locator.slide_no),
+          timestamp_start_ms: readNumber(locator.timestamp_start_ms),
+          timestamp_end_ms: readNumber(locator.timestamp_end_ms),
+          json_path: readString(locator.json_path)
+        }
+      : undefined,
+    preview_available: readBoolean(span.preview_available)
+  };
+}
+
+function documentUnitListQuery(input?: DocumentUnitListRequest) {
+  const params = new window.URLSearchParams();
+  if (input?.limit !== undefined) params.set('limit', String(input.limit));
+  if (input?.cursor) params.set('cursor', input.cursor);
+  const query = params.toString();
+  return query ? `?${query}` : '';
+}
+
 function extractBuildStart(payload: unknown): BuildStartResponse {
   if (!payload || typeof payload !== 'object') {
     throw new DataServiceError({
@@ -570,6 +917,16 @@ function normalizeEvidence(rawEvidence: unknown, index: number, registrySourceId
   const rawSourceRef = readString(evidence.source) ?? readString(meta?.slug) ?? readString(evidence.slug);
   const artifactRefs =
     readArtifactRefs(evidence.artifact_refs) ?? readArtifactRefs(evidence.artifactRefs) ?? readArtifactRefs(evidence.source_refs);
+  const locatorRaw = asRecord(evidence.locator);
+  const locator = locatorRaw
+    ? {
+        pageNo: readNumber(locatorRaw.page_no),
+        slideNo: readNumber(locatorRaw.slide_no),
+        timestampStartMs: readNumber(locatorRaw.timestamp_start_ms),
+        timestampEndMs: readNumber(locatorRaw.timestamp_end_ms),
+        jsonPath: readString(locatorRaw.json_path)
+      }
+    : undefined;
   const registryKnown = registrySourceIds.size > 0;
   const resolvedSourceId =
     explicitSourceId && (!registryKnown || registrySourceIds.has(explicitSourceId))
@@ -594,7 +951,19 @@ function normalizeEvidence(rawEvidence: unknown, index: number, registrySourceId
     artifactRefs,
     snippet: readString(evidence.snippet) ?? readString(evidence.text),
     confidence: readNumber(evidence.confidence) ?? readNumber(evidence.score),
-    traceUnavailableReason
+    traceUnavailableReason,
+    unitId: readString(evidence.unit_id) ?? readString(evidence.unitId),
+    evidenceId: readString(evidence.evidence_id) ?? readString(evidence.evidenceId),
+    locator:
+      locator &&
+      (locator.pageNo !== undefined ||
+        locator.slideNo !== undefined ||
+        locator.timestampStartMs !== undefined ||
+        locator.timestampEndMs !== undefined ||
+        locator.jsonPath)
+        ? locator
+        : undefined,
+    previewAvailable: readBoolean(evidence.preview_available) ?? readBoolean(evidence.previewAvailable)
   };
 }
 
@@ -1025,7 +1394,7 @@ export function createDataServiceClient(options: ClientOptions = {}) {
 
       const payload = await parseJson(response);
       if (!response.ok) {
-        throw new DataServiceError(normalizeHttpError(response.status, payload));
+        throw new DataServiceError((requestOptions.normalizeError ?? normalizeHttpError)(response.status, payload));
       }
       return payload as T;
     } catch (error) {
@@ -1036,6 +1405,14 @@ export function createDataServiceClient(options: ClientOptions = {}) {
   }
 
   return {
+    capabilities: {
+      async get(workspaceId: string) {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/capabilities`, {
+          normalizeError: normalizeCapabilityHttpError
+        });
+        return extractCapabilityManifest(workspaceId, payload);
+      }
+    },
     workspaces: {
       async list() {
         const payload = await request<unknown>('/api/workspaces');
@@ -1093,6 +1470,51 @@ export function createDataServiceClient(options: ClientOptions = {}) {
           `/api/workspaces/${encodeURIComponent(workspaceId)}/sources/${encodeURIComponent(sourceId)}/trace`
         );
         return extractSourceTrace(sourceId, payload);
+      },
+      async preview(workspaceId: string, sourceId: string, input?: SourcePreviewRequest): Promise<SourcePreviewResponse> {
+        assertPreviewSourceId(sourceId);
+        const query = input?.limit ? `?limit=${encodeURIComponent(String(input.limit))}` : '';
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/sources/${encodeURIComponent(sourceId)}/preview${query}`
+        );
+        return extractSourcePreview(sourceId, payload);
+      },
+      async listUnits(workspaceId: string, sourceId: string, input?: DocumentUnitListRequest): Promise<DocumentUnitListResponse> {
+        assertDocumentUnitRouteIds(sourceId);
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/sources/${encodeURIComponent(sourceId)}/units${documentUnitListQuery(input)}`
+        );
+        return extractDocumentUnitList(sourceId, payload);
+      },
+      async getUnit(workspaceId: string, sourceId: string, unitId: string): Promise<DocumentUnit> {
+        assertDocumentUnitRouteIds(sourceId, unitId);
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/sources/${encodeURIComponent(sourceId)}/units/${encodeURIComponent(unitId)}`
+        );
+        const body = unwrapData(payload);
+        const raw = asRecord(body);
+        return assertDocumentUnit(asRecord(raw?.unit) ?? raw, sourceId);
+      },
+      async getEvidenceSpan(workspaceId: string, sourceId: string, unitId: string, evidenceId: string): Promise<EvidenceSpan> {
+        assertEvidenceSpanRouteIds(sourceId, unitId, evidenceId);
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/sources/${encodeURIComponent(sourceId)}/units/${encodeURIComponent(
+            unitId
+          )}/evidence/${encodeURIComponent(evidenceId)}`
+        );
+        const body = unwrapData(payload);
+        const raw = asRecord(body);
+        return assertEvidenceSpan(asRecord(raw?.evidence_span) ?? raw, sourceId, unitId, evidenceId);
+      },
+      async navigateEvidence(
+        _workspaceId: string,
+        _sourceId: string,
+        input: { unit_id?: string; evidence_id?: string }
+      ): Promise<EvidenceNavigationResponse> {
+        if (input.evidence_id || input.unit_id) {
+          throw capabilityMissingError('Evidence navigation route is not declared by the data_service capability manifest.');
+        }
+        return { fallback: 'source' };
       }
     },
     build: {

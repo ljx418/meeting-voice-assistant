@@ -547,6 +547,13 @@ button {
   line-height: 18px;
 }
 
+.evidence-highlight {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: #fff3bf;
+  color: #3b2f00;
+}
+
 .trace-drawer {
   position: sticky;
   top: var(--rn-space-lg);

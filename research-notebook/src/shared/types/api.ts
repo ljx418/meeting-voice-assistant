@@ -119,6 +119,14 @@ export type QueryRequest = {
 
 export type TraceUnavailableReason = 'missing_source_id' | 'source_ref_not_traceable' | 'trace_route_failed';
 
+export type SourcePreviewLocator = {
+  pageNo?: number;
+  slideNo?: number;
+  timestampStartMs?: number;
+  timestampEndMs?: number;
+  jsonPath?: string;
+};
+
 export type AnswerEvidence = {
   evidenceKey: string;
   // Only registry source_id values that can be sent to sources.trace.
@@ -131,6 +139,10 @@ export type AnswerEvidence = {
   snippet?: string;
   confidence?: number;
   traceUnavailableReason?: TraceUnavailableReason;
+  unitId?: string;
+  evidenceId?: string;
+  locator?: SourcePreviewLocator;
+  previewAvailable?: boolean;
 };
 
 export type QueryResponse = {
@@ -288,9 +300,125 @@ export type QualityFeedbackResponse = {
   message?: string;
 };
 
+export type PreviewDepth = 'none' | 'source' | 'unit' | 'span';
+
+export type CapabilityManifest = {
+  workspace_id?: string;
+  service_version?: string;
+  schema_version?: string;
+  generated_at?: string;
+  capabilities: {
+    source_preview: boolean;
+    document_units: boolean;
+    evidence_spans: boolean;
+    source_level_preview: boolean;
+    unit_level_navigation: boolean;
+    precise_span_highlight: boolean;
+    citation_backjump: boolean;
+  };
+  supported_source_types: Array<{
+    source_type: string;
+    preview: PreviewDepth;
+    locators: Array<'page_no' | 'slide_no' | 'timestamp' | 'json_path' | 'offset'>;
+  }>;
+};
+
+export type DocumentUnit = {
+  unit_id: string;
+  source_id: string;
+  unit_type: 'text' | 'page' | 'slide' | 'section' | 'transcript_segment' | 'json_node';
+  title?: string;
+  text_preview?: string;
+  content_type?: 'text/plain' | 'text/markdown' | 'text/html';
+  order_index?: number;
+  page_no?: number;
+  slide_no?: number;
+  timestamp_start_ms?: number;
+  timestamp_end_ms?: number;
+  json_path?: string;
+  artifact_ref?: string;
+  preview_available?: boolean;
+  preview_truncated?: boolean;
+  preview_size_bytes?: number;
+  max_preview_size_bytes?: number;
+};
+
+export type DocumentUnitListRequest = {
+  limit?: number;
+  cursor?: string;
+};
+
+export type DocumentUnitListResponse = {
+  source_id: string;
+  items: DocumentUnit[];
+  next_cursor?: string | null;
+  limit: number;
+  has_more: boolean;
+  unsupported_reason?: string;
+};
+
+export type EvidenceSpan = {
+  evidence_id: string;
+  source_id: string;
+  unit_id?: string;
+  start_offset?: number;
+  end_offset?: number;
+  offset_basis?: 'utf8_bytes' | 'unicode_codepoints' | 'utf16_code_units' | 'normalized_text';
+  offset_range?: 'half_open' | 'closed';
+  text_basis?: 'document_unit_text' | 'normalized_source_text';
+  snippet?: string;
+  locator?: {
+    page_no?: number;
+    slide_no?: number;
+    timestamp_start_ms?: number;
+    timestamp_end_ms?: number;
+    json_path?: string;
+  };
+  preview_available?: boolean;
+};
+
+export type SourcePreviewRequest = {
+  unit_id?: string;
+  evidence_id?: string;
+  limit?: number;
+  cursor?: string;
+};
+
+export type SourcePreview = {
+  source_id: string;
+  title?: string;
+  source_type?: string;
+  preview_available: boolean;
+  content_type?: 'text/plain' | 'text/markdown' | 'text/html';
+  text_preview?: string;
+  units?: DocumentUnit[];
+  next_cursor?: string;
+  artifact_refs?: string[];
+  unsupported_reason?: string;
+  preview_truncated?: boolean;
+  preview_size_bytes?: number;
+  max_preview_size_bytes?: number;
+};
+
+export type SourcePreviewResponse = {
+  preview: SourcePreview;
+};
+
+export type EvidenceNavigationRequest = {
+  unit_id?: string;
+  evidence_id?: string;
+};
+
+export type EvidenceNavigationResponse = {
+  unit?: DocumentUnit;
+  evidence_span?: EvidenceSpan;
+  fallback: 'span' | 'unit' | 'source' | 'unavailable';
+};
+
 export type NormalizedErrorCode =
   | 'backend_unavailable'
   | 'request_timeout'
+  | 'capability_missing'
   | 'missing_graph_artifact'
   | 'not_found'
   | 'validation_error'

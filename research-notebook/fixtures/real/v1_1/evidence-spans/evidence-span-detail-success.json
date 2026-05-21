@@ -1,0 +1,29 @@
+{
+  "workspace_id": "rn-v11d-1779334896772-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_255a571fc7ee11e7",
+      "artifact_ref": "source://src_255a571fc7ee11e7"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_de80f5196a74dcdd",
+      "source_id": "src_255a571fc7ee11e7",
+      "unit_id": "unit_325a5a7bd3379019",
+      "snippet": "Queues absorb burst traffic during release validation. EvidenceSpan navigation should highlight this sentence after query evidence resolves to a source id, unit id, and evidence id.",
+      "start_offset": 0,
+      "end_offset": 181,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {},
+      "preview_available": true
+    }
+  }
+}

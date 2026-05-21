@@ -1,0 +1,135 @@
+{
+  "mode": "hybrid",
+  "query": "What should EvidenceSpan navigation highlight during release validation?",
+  "answer": "LLMWiki pages: 3 hits\nGraphRAG entities/units: 0 hits\nTop wiki result: src",
+  "hits": [
+    {
+      "title": "src",
+      "snippet": "src",
+      "source": "src",
+      "score": 0.00001048330277762037,
+      "meta": {
+        "kind": "page",
+        "slug": "src"
+      }
+    },
+    {
+      "title": "src 255a571fc7ee11e7",
+      "snippet": "src 255a571fc7ee11e7",
+      "source": "source-src-255a571fc7ee11e7-2e3b7427",
+      "score": 0.00000823548872498787,
+      "meta": {
+        "kind": "page",
+        "slug": "source-src-255a571fc7ee11e7-2e3b7427"
+      }
+    },
+    {
+      "title": "Passage caf1207a",
+      "snippet": "Queues absorb burst traffic during release validation. EvidenceSpan navigation should highlight this sentence after query evidence resolves to a source id, unit id, and evidence id.",
+      "source": "",
+      "score": 0.000006999999999999999,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "caf1207a-46fe-4651-96c4-f61b431561c3"
+      }
+    }
+  ],
+  "engine_payloads": {
+    "llmwiki": {
+      "pages": [
+        {
+          "result_id": "src",
+          "result_type": "page",
+          "title": "src",
+          "snippet": "src",
+          "score": 0.00001048330277762037,
+          "meta": {
+            "slug": "src"
+          }
+        },
+        {
+          "result_id": "source-src-255a571fc7ee11e7-2e3b7427",
+          "result_type": "page",
+          "title": "src 255a571fc7ee11e7",
+          "snippet": "src 255a571fc7ee11e7",
+          "score": 0.00000823548872498787,
+          "meta": {
+            "slug": "source-src-255a571fc7ee11e7-2e3b7427"
+          }
+        }
+      ],
+      "passages": [
+        {
+          "result_id": "caf1207a-46fe-4651-96c4-f61b431561c3",
+          "result_type": "passage",
+          "title": "Passage caf1207a",
+          "snippet": "Queues absorb burst traffic during release validation. EvidenceSpan navigation should highlight this sentence after query evidence resolves to a source id, unit id, and evidence id.",
+          "score": 0.000006999999999999999,
+          "meta": {
+            "passage_id": "caf1207a-46fe-4651-96c4-f61b431561c3",
+            "source_id": "2e3b74270a2d49b2",
+            "locator": "{\"kind\": \"lines\", \"start\": 0, \"end\": 0, \"heading_path\": [], \"passage_order\": 0}"
+          }
+        }
+      ],
+      "citations": [
+        {
+          "source_id": "2e3b74270a2d49b2",
+          "title": "src 255a571fc7ee11e7",
+          "authority": "PRIMARY_DOC",
+          "source_type": "markdown",
+          "locator": "{\"kind\": \"lines\", \"start\": 0, \"end\": 0, \"heading_path\": [], \"passage_order\": 0}",
+          "excerpt": "Queues absorb burst traffic during release validation. EvidenceSpan navigation should highlight this sentence after query evidence resolves to a source id, unit id, and evidence id."
+        }
+      ],
+      "related_pages": [
+        "src",
+        "source-src-255a571fc7ee11e7-2e3b7427"
+      ]
+    },
+    "graphrag": {
+      "graph_model_version": "1.0",
+      "entities": [],
+      "relationships": [],
+      "units": [],
+      "nodes": [],
+      "edges": [],
+      "communities": [],
+      "hits": [],
+      "stats": {
+        "entity_count": 0,
+        "theme_count": 0,
+        "relationship_count": 0,
+        "community_count": 0,
+        "document_count": 0
+      },
+      "source": "app.graphrag.bridge"
+    }
+  },
+  "evidence": [
+    {
+      "evidence_key": "src_255a571fc7ee11e7:unit_325a5a7bd3379019:ev_de80f5196a74dcdd",
+      "source_id": "src_255a571fc7ee11e7",
+      "source_title": "rn-v11d-1779334896772 EvidenceSpan source",
+      "unit_id": "unit_325a5a7bd3379019",
+      "evidence_id": "ev_de80f5196a74dcdd",
+      "snippet": "Queues absorb burst traffic during release validation. EvidenceSpan navigation should highlight this sentence after query evidence resolves to a source id, unit id, and evidence id.",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_255a571fc7ee11e7:unit_325a5a7bd3379019:ev_de80f5196a74dcdd",
+      "source_id": "src_255a571fc7ee11e7",
+      "source_title": "rn-v11d-1779334896772 EvidenceSpan source",
+      "unit_id": "unit_325a5a7bd3379019",
+      "evidence_id": "ev_de80f5196a74dcdd",
+      "snippet": "Queues absorb burst traffic during release validation. EvidenceSpan navigation should highlight this sentence after query evidence resolves to a source id, unit id, and evidence id.",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ]
+}

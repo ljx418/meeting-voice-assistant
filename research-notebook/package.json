@@ -10,6 +10,8 @@
     "test": "vitest run",
     "smoke:release": "node scripts/release-smoke.mjs",
     "smoke:rc1": "node scripts/release-smoke.mjs",
+    "smoke:v1.1-d-http": "node scripts/v1_1_d_evidence_smoke.mjs",
+    "smoke:v1.1-d-browser": "node scripts/v1_1_d_browser_smoke.mjs",
     "check:boundaries": "node scripts/check-boundaries.mjs",
     "check": "npm run check:boundaries && npm run lint && npm run test && npm run build"
   },

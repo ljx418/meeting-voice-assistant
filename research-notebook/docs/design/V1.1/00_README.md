@@ -1,0 +1,104 @@
+# ResearchNotebook V1.1 Design Docs
+
+文档状态：V1.1-D-RC browser visual smoke passed；precise evidence navigation browser-smoke-ready for supported text-source workspace query citations。
+日期：2026-05-21。
+
+## Positioning
+
+ResearchNotebook V1.1 的目标是把 V1.0 的 source-level evidence metadata 升级为 NotebookLM-like 的来源预览和证据导航体验：
+
+```text
+answer -> citation -> source preview -> evidence locator -> source context
+```
+
+V1.1 不进入 multi-format ingestion、Assessment、Quality/Governance console、graph editing 或 cloud collaboration。
+
+## Current Slice
+
+当前状态：
+
+- `V1.1-A Contract Discovery / Disabled Shell` 已完成：DTO fallback、adapter wrapper shell、Source Preview drawer disabled state、capability missing / unsupported UI 和 V1.1 contract docs 已落地；
+- `V1.1-BE Backend Contract Enablement` 已在本地 `data_service/` 工作区完成：capability manifest route 与 source-level preview route 已加入后端合同并通过聚焦测试；
+- `V1.1-B Source-Level Preview frontend integration` 已完成：capability manifest、source-level preview route、drawer rendering、安全文本渲染和 real data_service smoke 已通过；
+- `V1.1-C-A DocumentUnit Navigation Contract Discovery / Disabled Shell` 已完成：DocumentUnit DTO、adapter shell、disabled Document Units section 和 metadata-only unit display 已落地；
+- `V1.1-C-BE DocumentUnit Backend Contract Enablement` 已在本地 `data_service/` 工作区完成：DocumentUnit manifest、unit list/detail route、pagination、fixtures 和后端聚焦测试已通过；
+- `V1.1-C Frontend Unit-Level Navigation Integration` 已完成 API-adapter/UI 接入：Source Preview Drawer 可加载 unit outline、选择 unit、加载 unit detail，并渲染 unit-level preview；
+- `V1.1-D-BE EvidenceSpan Backend Contract Enablement` 已在本地 `data_service/` 工作区完成：EvidenceSpan route、workspace query evidence ids、offset/text basis、fixtures、backend tests 和 backend-only smoke 已通过；
+- `V1.1-D Frontend EvidenceSpan Highlight / Precise Navigation Integration` 已完成 API-adapter/UI 接入：workspace answer citation 可打开 Source Preview Drawer、加载 unit detail、加载 EvidenceSpan detail，并对支持的 text offset 做安全高亮；
+- `V1.1-D real data_service HTTP smoke` 已通过：workspace query 返回 `source_id + unit_id + evidence_id`，EvidenceSpan route 返回 `normalized_text / half_open / document_unit_text` offset contract；
+- `V1.1-D-RC browser visual smoke` 已通过：真实浏览器打开 app、创建 workspace/source、打开 Source Preview、加载 DocumentUnit、提交 workspace query、点击 jumpable citation，并看到 EvidenceSpan 高亮；
+- 可以声明 Source Preview ready for data_service-supported source-level text sources；
+- 可以声明 DocumentUnit navigation disabled shell ready；
+- 可以声明 data_service DocumentUnit backend contract ready for frontend integration after backend change review；
+- 可以声明 ResearchNotebook Unit-Level Source Navigation integration-ready for data_service-supported text sources；
+- 可以声明 data_service EvidenceSpan backend contract ready for ResearchNotebook V1.1-D frontend integration after backend change review；
+- 可以声明 ResearchNotebook V1.1-D EvidenceSpan Highlight browser-smoke-ready for data_service-supported text-source workspace query citations；
+- 可以声明 ResearchNotebook V1.1 precise evidence navigation browser-smoke-ready for the same supported workspace query path。
+
+## Documents
+
+| 文件 | 用途 |
+| --- | --- |
+| `v1_1_current_gap_analysis.md` | V1.1 当前 gap、阶段切片和声明边界。 |
+| `v1_1_current_gap_analysis.drawio` | V1.1-A 到 V1.1-RC 的可视化进度图。 |
+| `capability-manifest-contract.md` | data_service capability/version manifest 合同。 |
+| `source-preview-contract.md` | SourcePreview / DocumentUnit / preview route 合同。 |
+| `document-unit-navigation-contract.md` | DocumentUnit navigation backend gate、DTO、disabled shell 和 No False Green 规则。 |
+| `evidence-navigation-contract.md` | EvidenceSpan / locator / citation navigation 合同。 |
+| `feature-route-matrix.md` | V1.1 feature route / adapter shell / unsupported / future backend matrix。 |
+| `v1_1_b_source_level_preview_plan.md` | V1.1-B conditional plan and original blocked entry-gate result before V1.1-BE。 |
+| `v1_1_backend_contract_readiness.md` | V1.1-BE data_service backend contract readiness, fixtures, test results and frontend entry decision。 |
+| `v1_1_source_preview_smoke_report.md` | V1.1-B real data_service smoke report for source-level preview integration。 |
+| `v1_1_c_document_unit_navigation_plan.md` | V1.1-C-A disabled shell implementation plan and declaration boundary。 |
+| `v1_1_document_unit_backend_readiness.md` | V1.1-C-BE DocumentUnit backend contract readiness, fixtures, tests and frontend entry decision。 |
+| `v1_1_c_frontend_unit_navigation_plan.md` | V1.1-C frontend unit navigation implementation scope and verification。 |
+| `v1_1_unit_navigation_smoke_report.md` | V1.1-C frontend smoke result and real data_service smoke status。 |
+| `v1_1_d_evidence_span_backend_readiness.md` | V1.1-D-BE EvidenceSpan backend contract readiness, offset semantics, fixtures and frontend entry decision。 |
+| `v1_1_d_frontend_evidence_navigation_plan.md` | V1.1-D frontend EvidenceSpan highlight implementation scope and verification。 |
+| `v1_1_d_frontend_evidence_navigation_smoke_report.md` | V1.1-D frontend mocked/API-adapter smoke result, real HTTP smoke result, accepted degraded states and browser-visual-smoke gap。 |
+| `v1_1_d_rc_browser_visual_smoke_report.md` | V1.1-D-RC real browser visual smoke result, screenshot/log artifact locations and declaration decision。 |
+| `v1_1_release_readiness_checklist.md` | V1.1 release readiness status table and No False Green statements。 |
+| `v1_1_rc1_release_handoff.md` | V1.1-RC1 final handoff summary, scoped sync rules, accepted degraded states and next phase pointer。 |
+| `v1_1_rc2_live_experience_smoke_report.md` | V1.1-RC2 live experience smoke report using already-running local frontend/backend services。 |
+
+## Entry Gate
+
+V1.1 正式实现 Source Preview / Evidence Navigation 前，`data_service` 必须冻结：
+
+- capability/version manifest；
+- source preview route；
+- `DocumentUnit` model；
+- `EvidenceSpan` model；
+- citation locator model；
+- source trace / source preview relationship；
+- supported source formats manifest。
+
+Source-level preview 后端合同已在本地 `data_service/` 工作区完成，ResearchNotebook 前端 V1.1-B 已完成真实 route 适配、mapper、UI smoke 和 readiness 文档。
+
+V1.1-C-BE 已完成 DocumentUnit backend contract enablement，提供 `document_units=true`、`unit_level_navigation=true`、unit list/detail route、pagination、fixtures 和后端聚焦测试。
+
+ResearchNotebook V1.1-C frontend integration 已完成 API-adapter/UI 接入并通过 `npm run check`。V1.1-C-RC real data_service HTTP smoke 已执行并通过，覆盖 capability manifest、source preview 回归、unit list、unit detail、pagination、unknown unit 404、artifact-like unit id 422 和 workspace cleanup。
+
+EvidenceSpan backend contract 已在 V1.1-D-BE 完成，包含 unit-scoped EvidenceSpan route、workspace query evidence ids、`offset_basis=normalized_text`、`offset_range=half_open`、`text_basis=document_unit_text`。
+
+ResearchNotebook V1.1-D frontend API-adapter/UI 接入已完成并通过 `npm run check`。真实 data_service HTTP smoke 已执行并通过 route/evidence contract：capability flags、unit list/detail、workspace query jumpable evidence、EvidenceSpan detail 和 offset contract 均通过。浏览器视觉级 smoke 已通过，覆盖 citation click、drawer/unit loading 和 visible highlight。
+
+## Current V1.1-B Decision
+
+V1.1-BE has now added the required source-level preview backend contract in the local `data_service/` working tree. Therefore:
+
+```text
+V1.1-A Source Preview shell: READY
+V1.1-BE backend contract: READY_FOR_FRONTEND_INTEGRATION_AFTER_BACKEND_CHANGE_REVIEW
+V1.1-B frontend integration: INTEGRATION_SMOKE_READY_FOR_TEXT_SOURCE
+V1.1-C-A DocumentUnit shell: READY_DISABLED_SHELL
+V1.1-C-BE DocumentUnit backend contract: READY_FOR_FRONTEND_INTEGRATION_AFTER_BACKEND_CHANGE_REVIEW
+V1.1-C frontend unit navigation: INTEGRATION_READY_FOR_SUPPORTED_TEXT_SOURCES
+V1.1-C real data_service smoke: PASS
+V1.1-D-BE EvidenceSpan backend contract: READY_FOR_FRONTEND_INTEGRATION_AFTER_BACKEND_CHANGE_REVIEW
+V1.1-D frontend EvidenceSpan highlight: BROWSER_SMOKE_READY_FOR_SUPPORTED_TEXT_WORKSPACE_QUERY
+V1.1-D real data_service HTTP smoke: PASS_WITH_ACCEPTED_DEGRADED_STATES
+V1.1-D browser visual smoke: PASS
+```
+
+Do not generalize this to all sessions or all source types. Source trace integration also remains NOT_READY.

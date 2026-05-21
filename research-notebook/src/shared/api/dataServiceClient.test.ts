@@ -6,6 +6,12 @@ import { createDataServiceClient, DataServiceError } from './dataServiceClient';
 const workspacesPath = ['', 'api', 'workspaces'].join('/');
 const workspacePath = (workspaceId: string) => [workspacesPath, workspaceId].join('/');
 const sourcesPath = (workspaceId: string) => [workspacePath(workspaceId), 'sources'].join('/');
+const capabilitiesPath = (workspaceId: string) => [workspacePath(workspaceId), 'capabilities'].join('/');
+const sourcePreviewPath = (workspaceId: string, sourceId: string) => [sourcesPath(workspaceId), sourceId, 'preview'].join('/');
+const sourceUnitsPath = (workspaceId: string, sourceId: string) => [sourcesPath(workspaceId), sourceId, 'units'].join('/');
+const sourceUnitPath = (workspaceId: string, sourceId: string, unitId: string) => [sourceUnitsPath(workspaceId, sourceId), unitId].join('/');
+const sourceEvidenceSpanPath = (workspaceId: string, sourceId: string, unitId: string, evidenceId: string) =>
+  [sourceUnitPath(workspaceId, sourceId, unitId), 'evidence', evidenceId].join('/');
 const sessionsPath = (workspaceId: string) => [workspacePath(workspaceId), 'sessions'].join('/');
 const sessionPath = (workspaceId: string, sessionId: string) => [sessionsPath(workspaceId), sessionId].join('/');
 
@@ -137,6 +143,429 @@ describe('dataServiceClient workspace wrappers', () => {
     );
   });
 
+  it('loads V1.1 capability manifest successfully', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        status: 'ok',
+        data: {
+          manifest: {
+            workspace_id: 'ws_1',
+            service_version: 'data-service-test',
+            schema_version: 'v1.1-source-preview',
+            capabilities: {
+              source_preview: true,
+              document_units: false,
+              evidence_spans: false,
+              source_level_preview: true,
+              unit_level_navigation: false,
+              precise_span_highlight: false,
+              citation_backjump: false
+            },
+            supported_source_types: [{ source_type: 'text', preview: 'source', locators: [] }]
+          }
+        },
+        warnings: [],
+        next_actions: []
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.capabilities.get('ws_1')).resolves.toEqual({
+      workspace_id: 'ws_1',
+      service_version: 'data-service-test',
+      schema_version: 'v1.1-source-preview',
+      capabilities: {
+        source_preview: true,
+        document_units: false,
+        evidence_spans: false,
+        source_level_preview: true,
+        unit_level_navigation: false,
+        precise_span_highlight: false,
+        citation_backjump: false
+      },
+      supported_source_types: [{ source_type: 'text', preview: 'source', locators: [] }]
+    });
+    expect(fetchImpl).toHaveBeenCalledWith(capabilitiesPath('ws_1'), expect.objectContaining({ method: 'GET' }));
+  });
+
+  it('normalizes missing capability manifest as capability_missing', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ message: 'capabilities not found' }, { status: 404 }));
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.capabilities.get('ws_1')).rejects.toMatchObject({
+      code: 'capability_missing',
+      retryable: false
+    });
+  });
+
+  it('normalizes capability manifest schema mismatch', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ data: { manifest: { capabilities: { source_preview: true } } } }));
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.capabilities.get('ws_1')).rejects.toMatchObject({
+      code: 'version_or_schema_mismatch'
+    });
+  });
+
+  it('loads source preview successfully', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        status: 'ok',
+        data: {
+          preview: {
+            source_id: 'src_1',
+            title: 'Architecture notes',
+            source_type: 'text',
+            preview_available: true,
+            content_type: 'text/plain',
+            text_preview: 'Queues absorb burst traffic.',
+            artifact_refs: [{ type: 'source', source_id: 'src_1', artifact_ref: 'source://src_1' }],
+            preview_truncated: false,
+            preview_size_bytes: 28,
+            max_preview_size_bytes: 50000,
+            raw_path: 'redacted-local-path'
+          }
+        },
+        warnings: [],
+        next_actions: []
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.preview('ws_1', 'src_1')).resolves.toEqual({
+      preview: expect.objectContaining({
+        source_id: 'src_1',
+        title: 'Architecture notes',
+        source_type: 'text',
+        preview_available: true,
+        content_type: 'text/plain',
+        text_preview: 'Queues absorb burst traffic.',
+        artifact_refs: ['source://src_1'],
+        unsupported_reason: undefined,
+        preview_truncated: false,
+        preview_size_bytes: 28,
+        max_preview_size_bytes: 50000
+      })
+    });
+    expect(fetchImpl).toHaveBeenCalledWith(sourcePreviewPath('ws_1', 'src_1'), expect.objectContaining({ method: 'GET' }));
+  });
+
+  it('maps DocumentUnit metadata from preview response without enabling navigation', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          preview: {
+            source_id: 'src_1',
+            preview_available: true,
+            content_type: 'text/plain',
+            text_preview: 'Source preview.',
+            units: [
+              {
+                unit_id: 'unit_1',
+                source_id: 'src_1',
+                unit_type: 'page',
+                title: 'Page 1',
+                text_preview: 'Unit preview.',
+                content_type: 'text/plain',
+                order_index: 0,
+                page_no: 1,
+                artifact_ref: 'artifact://unit/unit_1',
+                preview_available: true,
+                preview_truncated: false,
+                preview_size_bytes: 13,
+                max_preview_size_bytes: 50000
+              }
+            ],
+            next_cursor: 'cursor_2'
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.preview('ws_1', 'src_1')).resolves.toEqual({
+      preview: expect.objectContaining({
+        next_cursor: 'cursor_2',
+        units: [
+          {
+            unit_id: 'unit_1',
+            source_id: 'src_1',
+            unit_type: 'page',
+            title: 'Page 1',
+            text_preview: 'Unit preview.',
+            content_type: 'text/plain',
+            order_index: 0,
+            page_no: 1,
+            slide_no: undefined,
+            timestamp_start_ms: undefined,
+            timestamp_end_ms: undefined,
+            json_path: undefined,
+            artifact_ref: 'artifact://unit/unit_1',
+            preview_available: true,
+            preview_truncated: false,
+            preview_size_bytes: 13,
+            max_preview_size_bytes: 50000
+          }
+        ]
+      })
+    });
+  });
+
+  it('normalizes invalid DocumentUnit shape as schema mismatch', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          preview: {
+            source_id: 'src_1',
+            preview_available: true,
+            units: [{ title: 'Missing unit id' }]
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.preview('ws_1', 'src_1')).rejects.toMatchObject({
+      code: 'version_or_schema_mismatch'
+    });
+  });
+
+  it('loads DocumentUnit list and detail successfully', async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(
+        jsonResponse({
+          data: {
+            units: {
+              source_id: 'src_1',
+              items: [
+                {
+                  unit_id: 'unit_62567063869df3b5',
+                  source_id: 'src_1',
+                  unit_type: 'section',
+                  title: 'Overview',
+                  text_preview: 'Queues absorb burst traffic.',
+                  content_type: 'text/plain',
+                  order_index: 0,
+                  artifact_ref: 'unit://src_1/unit_62567063869df3b5',
+                  preview_available: true,
+                  preview_truncated: false,
+                  preview_size_bytes: 28,
+                  max_preview_size_bytes: 50000
+                }
+              ],
+              next_cursor: 'du_MQ',
+              limit: 20,
+              has_more: true
+            }
+          }
+        })
+      )
+      .mockResolvedValueOnce(
+        jsonResponse({
+          data: {
+            unit: {
+              unit_id: 'unit_62567063869df3b5',
+              source_id: 'src_1',
+              unit_type: 'section',
+              title: 'Overview',
+              text_preview: 'Queues absorb burst traffic.',
+              content_type: 'text/plain',
+              order_index: 0,
+              artifact_ref: 'unit://src_1/unit_62567063869df3b5',
+              preview_available: true
+            }
+          }
+        })
+      );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.listUnits('ws_1', 'src_1', { limit: 20 })).resolves.toEqual({
+      source_id: 'src_1',
+      items: [expect.objectContaining({ unit_id: 'unit_62567063869df3b5', content_type: 'text/plain' })],
+      next_cursor: 'du_MQ',
+      limit: 20,
+      has_more: true,
+      unsupported_reason: undefined
+    });
+    await expect(client.sources.getUnit('ws_1', 'src_1', 'unit_62567063869df3b5')).resolves.toEqual(
+      expect.objectContaining({ unit_id: 'unit_62567063869df3b5', text_preview: 'Queues absorb burst traffic.' })
+    );
+    expect(fetchImpl).toHaveBeenCalledWith(`${sourceUnitsPath('ws_1', 'src_1')}?limit=20`, expect.objectContaining({ method: 'GET' }));
+    expect(fetchImpl).toHaveBeenCalledWith(
+      sourceUnitPath('ws_1', 'src_1', 'unit_62567063869df3b5'),
+      expect.objectContaining({ method: 'GET' })
+    );
+  });
+
+  it('normalizes DocumentUnit unsupported, route errors, invalid ids, and schema mismatch', async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(
+        jsonResponse({
+          data: {
+            units: {
+              source_id: 'src_video',
+              items: [],
+              next_cursor: null,
+              limit: 20,
+              has_more: false,
+              unsupported_reason: 'source_type_not_supported'
+            }
+          }
+        })
+      )
+      .mockResolvedValueOnce(jsonResponse({ message: 'invalid cursor' }, { status: 422 }))
+      .mockResolvedValueOnce(jsonResponse({ message: 'UNIT_NOT_FOUND' }, { status: 404 }))
+      .mockResolvedValueOnce(jsonResponse({ data: { units: { source_id: 'src_1', items: [], limit: 20, has_more: true } } }));
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.listUnits('ws_1', 'src_video')).resolves.toEqual(
+      expect.objectContaining({ items: [], unsupported_reason: 'source_type_not_supported' })
+    );
+    await expect(client.sources.listUnits('ws_1', 'src_1', { cursor: 'bad' })).rejects.toMatchObject({ code: 'validation_error' });
+    await expect(client.sources.getUnit('ws_1', 'src_1', 'unit_0000000000000000')).rejects.toMatchObject({ code: 'not_found' });
+    await expect(client.sources.getUnit('ws_1', 'src_1', 'unit://src_1/unit_1')).rejects.toMatchObject({ code: 'validation_error' });
+    await expect(client.sources.getUnit('ws_1', 'src_1', 'source-src-slug')).rejects.toMatchObject({ code: 'validation_error' });
+    await expect(client.sources.getUnit('ws_1', 'src_1', '0')).rejects.toMatchObject({ code: 'validation_error' });
+    await expect(client.sources.listUnits('ws_1', 'src_1')).rejects.toMatchObject({ code: 'version_or_schema_mismatch' });
+  });
+
+  it('loads EvidenceSpan detail successfully', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          evidence_span: {
+            evidence_id: 'ev_2e14b7785f3fbb06',
+            source_id: 'src_1',
+            unit_id: 'unit_62567063869df3b5',
+            snippet: 'Queues absorb burst traffic.',
+            start_offset: 0,
+            end_offset: 28,
+            offset_basis: 'normalized_text',
+            offset_range: 'half_open',
+            text_basis: 'document_unit_text',
+            preview_available: true
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(
+      client.sources.getEvidenceSpan('ws_1', 'src_1', 'unit_62567063869df3b5', 'ev_2e14b7785f3fbb06')
+    ).resolves.toEqual(
+      expect.objectContaining({
+        evidence_id: 'ev_2e14b7785f3fbb06',
+        source_id: 'src_1',
+        unit_id: 'unit_62567063869df3b5',
+        offset_basis: 'normalized_text',
+        offset_range: 'half_open',
+        text_basis: 'document_unit_text'
+      })
+    );
+    expect(fetchImpl).toHaveBeenCalledWith(
+      sourceEvidenceSpanPath('ws_1', 'src_1', 'unit_62567063869df3b5', 'ev_2e14b7785f3fbb06'),
+      expect.objectContaining({ method: 'GET' })
+    );
+  });
+
+  it('normalizes EvidenceSpan not found, invalid ids, and schema mismatch', async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(jsonResponse({ message: 'EVIDENCE_NOT_FOUND' }, { status: 404 }))
+      .mockResolvedValueOnce(
+        jsonResponse({
+          data: {
+            evidence_span: {
+              evidence_id: 'ev_2e14b7785f3fbb06',
+              source_id: 'src_other',
+              unit_id: 'unit_62567063869df3b5'
+            }
+          }
+        })
+      );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.getEvidenceSpan('ws_1', 'src_1', 'unit_62567063869df3b5', 'ev_0000000000000000')).rejects.toMatchObject({
+      code: 'not_found'
+    });
+    await expect(client.sources.getEvidenceSpan('ws_1', 'src_1', 'unit_62567063869df3b5', 'artifact://ev')).rejects.toMatchObject({
+      code: 'validation_error'
+    });
+    await expect(client.sources.getEvidenceSpan('ws_1', 'src_1', 'unit_62567063869df3b5', 'source-src-slug')).rejects.toMatchObject({
+      code: 'validation_error'
+    });
+    await expect(client.sources.getEvidenceSpan('ws_1', 'src_1', 'unit_62567063869df3b5', 'ev_2e14b7785f3fbb06')).rejects.toMatchObject({
+      code: 'version_or_schema_mismatch'
+    });
+  });
+
+  it('loads source preview unsupported state', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          preview: {
+            source_id: 'src_video',
+            source_type: 'video',
+            preview_available: false,
+            content_type: 'text/plain',
+            unsupported_reason: 'source_type_not_supported'
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.preview('ws_1', 'src_video')).resolves.toEqual({
+      preview: expect.objectContaining({
+        source_id: 'src_video',
+        source_type: 'video',
+        preview_available: false,
+        unsupported_reason: 'source_type_not_supported'
+      })
+    });
+  });
+
+  it('normalizes source preview not found', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ message: 'source missing' }, { status: 404 }));
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.preview('ws_1', 'src_missing')).rejects.toMatchObject({ code: 'not_found' });
+  });
+
+  it('falls back on unknown source preview content_type', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          preview: {
+            source_id: 'src_1',
+            preview_available: true,
+            content_type: 'application/octet-stream',
+            text_preview: '<b>escaped</b>'
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.preview('ws_1', 'src_1')).resolves.toEqual({
+      preview: expect.objectContaining({
+        content_type: undefined,
+        text_preview: '<b>escaped</b>'
+      })
+    });
+  });
+
+  it('rejects artifact refs and source slugs as preview source ids before fetch', async () => {
+    const fetchImpl = vi.fn();
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.preview('ws_1', 'source://src_1')).rejects.toMatchObject({ code: 'validation_error' });
+    await expect(client.sources.preview('ws_1', 'source-src-architecture-notes')).rejects.toMatchObject({ code: 'validation_error' });
+    expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
   it('starts workspace build successfully', async () => {
     const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ operation_id: 'op_1' }));
     const client = createDataServiceClient({ fetchImpl });
@@ -177,6 +606,39 @@ describe('dataServiceClient workspace wrappers', () => {
         expect.objectContaining({
           sourceId: 'src_1',
           sourceTitle: 'Architecture notes',
+          traceAvailable: true
+        })
+      ],
+      noEvidence: false
+    });
+  });
+
+  it('maps V1.1 unit and evidence identifiers without claiming preview readiness', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        answer: 'Use the heap parent and child relationship.',
+        evidence: [
+          {
+            source_id: 'src_1',
+            source_title: 'Heap notes',
+            unit_id: 'unit_1',
+            evidence_id: 'ev_1',
+            locator: { page_no: 3 },
+            snippet: 'parent child relation'
+          }
+        ]
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.query.workspace('ws_1', { question: 'Explain heap', registrySourceIds: ['src_1'] })).resolves.toEqual({
+      answer: 'Use the heap parent and child relationship.',
+      evidence: [
+        expect.objectContaining({
+          sourceId: 'src_1',
+          unitId: 'unit_1',
+          evidenceId: 'ev_1',
+          locator: { pageNo: 3, slideNo: undefined, timestampStartMs: undefined, timestampEndMs: undefined, jsonPath: undefined },
           traceAvailable: true
         })
       ],
