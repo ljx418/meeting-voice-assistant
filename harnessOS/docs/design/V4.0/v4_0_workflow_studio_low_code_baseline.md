@@ -1,20 +1,20 @@
 # harnessOS V4.0 Workflow Studio / Low-code UI Development Baseline
 
-文档状态：V4.0 前端低代码平台开发审查基线；当前已完成 Workflow Studio low-code shell refresh 和 V4.0-E Reference Workflow Console integration baseline。  
+文档状态：V4.0 前端低代码平台开发审查基线；当前已完成 Workflow Studio low-code shell refresh、V4.0-F Browser Smoke Baseline、V4.0-G governed editing hardening、V4.0-H canvas-to-runtime patch bridge、V4.0-I stateful Agent assistant baseline、V4.0-J AgentTalk governance baseline、V4.0-K Agent action handoff baseline、V4.0-L Agent handoff lifecycle baseline、V4.0-M operation evidence baseline 和 V4.0-N canvas editing readiness baseline；V4.0-O governed canvas proposal workflow 已规划。  
 适用范围：基于 Stitch 原型图 `https://stitch.withgoogle.com/projects/10240451325799222489` 进入 V4.0 Workflow Console / Workflow Studio / low-code UI 的开发规划与审查。  
-当前结论：项目已经支撑并实现了一版 V4.0 Workflow Console / low-code UI shell，并通过 component-level + BFF integration E2E 连接 V3.6 runtime fixture；但不能声明 Workflow Studio ready 或 low-code platform complete。
+当前结论：项目已经支撑并实现了一版 V4.0 Workflow Console / low-code UI shell，并通过 component-level + BFF integration E2E、browser smoke、governed patch apply/reject/publish editing hardening、canvas / Inspector intent 到 patch proposal 的桥接、Agent action proposal governance、operation evidence 和 canvas editing readiness 连接 V3.6 runtime fixture；但不能声明 Workflow Studio ready、AgentTalkWindow ready 或 low-code platform complete。下一阶段 V4.0-O 先处理 patch queue、projection freshness、catalog versioning、Inspector/edge validation、fixture isolation 和声明审计风险。
 
 当前进展、阶段状态、核心差距和图形化路线图以 `v4_0_current_gap_analysis.md` 与 `v4_0_current_gap_analysis.drawio` 为最高优先级维护入口。本文只作为 Stitch 原型到 V4.0 UI 开发的补充基线。
 
 ## 1. Current Conclusion
 
-当前 harnessOS **已经可以展示基于 Stitch 原型和 PRD v0.2 方向的 V4.0 前端低代码 Workflow Studio Shell**，并已完成 Reference Workflow Console 的 integration baseline：BFF structured routes、V3.6 runtime fixture、BusinessEventBinding、seeded patch diff、approval side-effect、context update、EventBridge refresh truth 与 DTO redaction 均有测试覆盖。
+当前 harnessOS **已经可以展示基于 Stitch 原型和 PRD v0.2 方向的 V4.0 前端低代码 Workflow Studio Shell**，并已完成 Reference Workflow Console 的 integration baseline、browser smoke baseline、governed editing hardening、canvas-to-runtime bridge、stateful Agent assistant baseline、AgentTalk governance baseline 和 Agent action handoff baseline：BFF structured routes、V3.6 runtime fixture、BusinessEventBinding、seeded patch diff、approval side-effect、context update、EventBridge refresh truth、DTO redaction、用户显式确认的 patch apply/reject/publish、canvas/Inspector proposal、Agent action proposal queue，以及 AgentActionHandoff 到 Editing / Approval / Context operation panels 的安全交接均有测试覆盖。
 
 当前可以声明：
 
 ```text
 V4.0 Workflow Studio page prototype / Shell complete.
-V4.0 dev/local Workflow Console integration baseline ready.
+V4.0-N complete: canvas editing readiness baseline ready for dev/local Workflow Console.
 ```
 
 当前不能声明：
@@ -23,11 +23,12 @@ V4.0 dev/local Workflow Console integration baseline ready.
 Workflow Studio ready
 Low-code platform complete
 AgentTalkWindow ready
+Controlled executor ready
 Production-ready external app support
 Distributed workflow engine ready
 ```
 
-原因是：V3.6 已提供 Workflow Runtime Contract、Pipeline Board API、Patch、Approval、Quality、Business Context、Artifact Lineage 等后端事实源；前端产品层已实现画布优先 shell、节点库、运行观察面板和 Agent preparation shell，但尚未实现真实节点拖入、连线写回、Inspector patch 写回、完整 AgentTalkWindow 或生产级外部接入。
+原因是：V3.6 已提供 Workflow Runtime Contract、Pipeline Board API、Patch、Approval、Quality、Business Context、Artifact Lineage 等后端事实源；前端产品层已实现画布优先 shell、节点库、运行观察面板、Agent preparation/stateful shell、governed patch apply/reject/publish、canvas/Inspector patch proposal bridge 和 Agent action proposal governance，但尚未实现完整 AgentTalkWindow、真实 Agent executor、controlled executor、生产级外部接入或完整低代码平台。
 
 ## 2. Current Project Baseline
 
@@ -433,7 +434,7 @@ events.subscribe
 
 ### V4.0-B: Workflow Editing MVP
 
-目标：基于 V3.6 WorkflowPatch 实现受控编辑。当前 shell 阶段只展示 propose/diff/risk，不暴露 apply/reject/publish 执行动作。
+目标：基于 V3.6 WorkflowPatch 实现受控编辑。当前已完成 V4.0-G governed editing hardening：展示 propose/diff/risk，并支持用户显式确认的 apply/reject/publish；V4.0-H 已把 canvas / Inspector intent 桥接为 patch proposal。
 
 功能：
 
@@ -441,9 +442,6 @@ events.subscribe
 - view diff
 - show risk flags
 - prevent high-risk direct apply where governance forbids
-
-Future editing functions:
-
 - apply patch
 - reject patch
 - publish new version
@@ -454,11 +452,6 @@ API：
 workflow.patch.propose
 workflow.patch.diff
 workflow.version.get/list
-```
-
-Future editing API:
-
-```text
 workflow.patch.apply
 workflow.patch.reject
 workflow.template.publish
@@ -466,8 +459,7 @@ workflow.template.publish
 
 验收标准：
 
-- current shell only shows diff/risk and does not apply patch
-- future patch apply 只修改 draft
+- patch apply 只修改 draft
 - published version 不被静默修改
 - agent 只能 propose/diff
 - apply 后 draft revision 递增
@@ -547,7 +539,7 @@ trace.list/get
 
 ### V4.0-E: Reference Workflow Console E2E
 
-目标：用平台中立 workflow 完成 UI + BFF + SDK + V3.6 runtime 端到端验收。
+目标：用平台中立 workflow 完成 UI + BFF + SDK + V3.6 runtime 的 component-level + BFF integration E2E。V4.0-E 不声明 full browser E2E，也不把 demoData 作为 runtime 证据。
 
 E2E 流程：
 
@@ -561,12 +553,8 @@ E2E 流程：
 7. handle approval.required
 8. create/list quality evaluation
 9. update business context
-10. propose patch
-11. view diff
-12. apply patch
-13. publish V2
-14. start V2 instance
-15. verify V1 immutable
+10. view seeded patch diff/risk from backend fixture
+11. verify no patch apply/reject/publish in E stage
 ```
 
 验收标准：
@@ -578,6 +566,130 @@ E2E 流程：
 - 不跨 scope 泄露数据
 - V3.5 / V3.6 focused tests 继续绿灯
 - frontend build/test 通过
+
+### V4.0-F: Browser Smoke Baseline
+
+目标：用 Playwright + build 后 Vite preview 验证真实浏览器可打开、可操作、可刷新。
+
+验收标准：
+
+- open console / select instance / render board。
+- approve via ApprovalPanel。
+- update `context.business`。
+- receive EventBridge refresh。
+- browser 不直接请求 `/v1/rpc` 或 `/v1/events/subscribe`。
+- DOM / HTML 不泄露 token、raw trace、raw artifact、raw connector payload。
+
+### V4.0-G: Editing Hardening
+
+目标：把 patch apply/reject/publish 收口到 user-confirmed、BFF-governed、redacted editing path。
+
+验收标准：
+
+- Apply / Reject / Publish 都要求 `user_confirmed=true`。
+- `source=agent` 不能 apply/reject/publish。
+- high-risk patch 默认拒绝直接 apply。
+- duplicate version / stale draft revision / wrong template or instance 稳定拒绝。
+- browser editing smoke 通过。
+
+### V4.0-H: Canvas-to-runtime Bridge
+
+目标：Node drag、Edge drag、Inspector dirty state 只生成 patch proposal，不直接写 draft/runtime。
+
+验收标准：
+
+- NodeAddIntent -> `add_station` proposal。
+- EdgeAddIntent -> `update_edge` proposal。
+- InspectorUpdateIntent -> 对应受控 patch operation。
+- x/y/zoom/selection/panel collapsed 仍是 UI-only transient state。
+- Apply / Publish 继续复用 V4.0-G path。
+
+### V4.0-I: AgentTalkWindow Stateful Assistant Baseline
+
+目标：实现 BFF/UI 层 AgentTalkSession / AgentMessage / AgentSuggestion baseline，不实现真实 Agent executor。
+
+验收标准：
+
+- deterministic / fixture-backed / rule-based suggestions。
+- `source=agent` 可 propose patch，但不能 apply/reject/publish/approval.respond/context.update/business.event.emit。
+- Agent panel 不显示 Apply / Publish / Approve / Reject。
+- browser AgentTalk smoke 通过。
+
+### V4.0-J: AgentTalk Governance
+
+目标：实现 Agent action proposal queue、display/navigation/proposal/forbidden policy guard 和 redacted audit baseline。
+
+验收标准：
+
+- AgentActionProposal 只属于 BFF/UI 层。
+- proposal queue 只允许查看详情、查看 Diff、跳转面板、忽略建议。
+- forbidden intents 拒绝 apply/publish/approval/context/business/start/rerun/connector/LLM。
+- 不新增 `/execute`、`/run`、`/apply`、`/publish` Agent action route。
+- browser Agent governance smoke 通过。
+
+### V4.0-K: Agent Action Handoff
+
+目标：把 AgentActionProposal 安全交接到已有 Editing / Approval / Context operation panels，由用户显式确认后复用 V4.0-G / V4.0-D 执行路径。
+
+验收标准：
+
+- AgentActionHandoff 只属于 BFF/UI 层，不进入 V3.6 runtime contract。
+- handoff route 只创建 / 读取 redacted DTO，不执行 mutation。
+- Editing / Approval / Context panels 显示“来自 Agent 建议”，最终执行仍要求 `user_confirmed=true` 和 panel source。
+- Agent panel 不显示 Apply / Publish / Approve / Reject / Execute / Run。
+- browser Agent handoff smoke 通过。
+
+### V4.0-L: Agent Handoff Lifecycle
+
+目标：在 V4.0-K handoff baseline 之上补齐 handoff lifecycle、audit、URL recovery、stale/expired/blocked guard。
+
+验收标准：
+
+- AgentActionHandoff 通过 repository/store interface 管理，不直接操作裸 dict。
+- 状态固定为 active / opened / used / dismissed / expired / stale / blocked，terminal 状态不可重新打开或执行。
+- `?handoff_id=...` recovery 只打开目标面板，不自动执行 mutation。
+- Audit append-only 且只返回 redacted summary。
+- stale / expired / blocked handoff 禁用 operation panel 确认按钮。
+- browser Agent handoff recovery smoke 通过。
+
+### V4.0-M: Operation Evidence / Governance Review
+
+目标：把用户显式确认后的 patch apply/reject、publish、approval.respond、context.update 和 business.event.emit 沉淀为 append-only operation evidence，并提供只读治理审计面板。
+
+验收标准：
+
+- Evidence 只在用户确认 operation route 尝试后创建。
+- Governance Review Panel 只读展示 evidence、handoff、runtime result ref、risk 和 policy。
+- Evidence DTO、audit、DOM 和 error response 不泄露 token、Authorization、raw trace、raw artifact、raw connector payload 或 raw prompt。
+- EventBridge 只触发 evidence/governance DTO refresh，不构造 evidence truth。
+- 不新增 Agent executor。
+
+### V4.0-N: Canvas Editing Readiness
+
+目标：在 V4.0-H proposal bridge 之上补 controlled node catalog、CanvasDraftProjection、node/edge/Inspector proposal flow、edge validation、Inspector allowlist 和 layout boundary。
+
+验收标准：
+
+- Node drag / click 只创建 ghost node 和 patch proposal，不直接创建 Station。
+- Edge drag 使用 `operation=update_edge`，不新增直接 add_edge RPC。
+- Inspector typing 只修改 local dirty state，点击 `生成 Patch` 后才发送 proposal。
+- CanvasDraftProjection 从 WorkflowDraft/WorkflowTemplate、BoardDTO/InstanceStatusDTO 和 PatchDiffDTO 派生，不持久化 layout。
+- x/y/zoom/viewport/selectedNode/panelCollapsed/activeTab 不进入 patch payload。
+- Apply / Reject / Publish 继续复用 V4.0-G governed path。
+
+### V4.0-O: Governed Canvas Proposal Workflow
+
+目标：在 V4.0-N readiness baseline 之上补 proposal workflow 的状态一致性和治理审计，不推进完整低代码编辑器或 Agent executor。
+
+验收标准：
+
+- PatchQueueDTO 明确 pending/applied/rejected/stale 状态和 selected_patch_id。
+- CanvasDraftProjection 携带 source_refs、generated_at、draft_revision 和 board/status freshness marker。
+- Controlled node catalog 由 BFF 输出 catalog_version，前端只渲染 catalog，不定义 runtime semantics。
+- Inspector mapping V2 对每个 operation 固定字段 allowlist，拒绝 secret/raw/layout fields。
+- Edge validation V2 拒绝 self-loop、duplicate edge、missing station、cycle 和 artifact schema_ref 不兼容。
+- Browser E2E 每个 spec 使用独立 workflow_template_id、draft_revision 和 patch_id，避免 fixture 污染。
+- 文档和 source scan 禁止把 V4.0-O 写成 complete Workflow Studio、complete AgentTalkWindow、controlled executor 或 production-ready。
 
 ## 7. Recommended Frontend Technical Route
 
@@ -762,6 +874,19 @@ Stitch API 需要本机代理，当前通过 127.0.0.1:10808 才可访问。
 - V3.6 focused regression
 - full pytest
 
+### V4.0-F/G/H/I/J/K/L/M/N/O
+
+- Playwright browser smoke：open/select/render/approve/context/event refresh。
+- Editing hardening：patch apply/reject/publish user-confirmed path。
+- Canvas bridge：node/edge/Inspector intent only creates patch proposal。
+- Agent stateful baseline：suggestion-only, no executor。
+- Agent governance：action proposal queue + policy guard。
+- Agent handoff/evidence：handoff lifecycle、operation evidence、governance review read-only。
+- Canvas readiness：controlled catalog、CanvasDraftProjection、Inspector allowlist、layout boundary。
+- Canvas proposal workflow：patch queue、projection freshness、catalog versioning、edge validation V2、fixture isolation。
+- No direct `/v1/rpc` 或 `/v1/events/subscribe` browser request。
+- DOM / DTO / audit redaction。
+
 ## 10. Exit Criteria
 
 V4.0 完成前，至少必须满足：
@@ -776,15 +901,17 @@ V4.0 完成前，至少必须满足：
 7. Context update 只能写 context.business。
 8. Artifact lineage 可在 UI 中查看。
 9. 所有敏感字段 redacted。
-10. 不依赖 Meeting / Knowledge / Video / external MCP。
-11. V3.5/V3.6 回归继续绿灯。
-12. 前端 build/test 通过。
+10. Canvas / Inspector 只通过 patch proposal bridge 写入 draft。
+11. Agent action proposal 只进入 governance queue，不执行 apply/publish/approval/context/business/start/rerun。
+12. 不依赖 Meeting / Knowledge / Video / external MCP。
+13. V3.5/V3.6 回归继续绿灯。
+14. 前端 build/test/e2e 通过。
 ```
 
-通过后可声明：
+当前 V4.0-N 后可声明：
 
 ```text
-V4.0 Workflow Console / Studio MVP ready at dev/local level.
+V4.0-N complete: canvas editing readiness baseline ready for dev/local Workflow Console.
 ```
 
 仍不能声明：
@@ -793,28 +920,29 @@ V4.0 Workflow Console / Studio MVP ready at dev/local level.
 Production-ready low-code platform
 Enterprise Workflow Studio
 Complete AgentTalkWindow
+Controlled executor ready
 Distributed workflow engine
 Production external app support
 ```
 
 ## 11. Recommended Next Step
 
-建议下一步先执行：
+建议下一步继续保持 No False Green，进入后续阶段前先由 ChatGPT / Gemini 审计：
 
 ```text
-V4.0-0 Baseline & UI Contract Sync
+v4_0_current_gap_analysis.md
+v4_0_current_gap_analysis.drawio
+v4_0_completion_audit_report.md
+v4_0_n_canvas_editing_readiness_plan.md
+v4_0_n_canvas_editing_readiness_completion_note.md
+v4_0_o_governed_canvas_proposal_workflow_plan.md
 ```
 
-第一批任务：
+可选后续方向必须另行立项：
 
-1. 用 Stitch MCP 拉取项目 `10240451325799222489` 的 screens。
-2. 生成 `v4_0_stitch_prototype_mapping.md`。
-3. 为每个 screen 建立：
-   - 页面用途
-   - 组件清单
-   - 状态清单
-   - 事件清单
-   - API 映射
-   - 不可实现 / future 标记
-4. 决定 React / Vue 技术路线。
-5. 输出 V4.0-A 只读 Workflow Console MVP 的实现切片。
+1. V4.0-O Governed Canvas Proposal Workflow。
+2. AgentTalkWindow Interaction E2E，但不能引入 executor。
+3. Controlled executor 设计，但不能复用 J/K/L/M/N/O 阶段声明。
+4. 完整 AgentTalkWindow 状态机。
+5. 更完整 Workflow Studio low-code editing。
+6. production-ready external app support / enterprise auth。

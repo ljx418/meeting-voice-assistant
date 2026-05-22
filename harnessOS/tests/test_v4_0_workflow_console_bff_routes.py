@@ -127,14 +127,13 @@ def test_bff_patch_propose_and_diff_routes_return_redacted_dtos(monkeypatch, tmp
     client = TestClient(create_app(gateway_service=service))
 
     proposed = client.post(
-        f"/bff/workflows/{template_id}/patches/propose{SCOPE_QUERY}",
+        f"/bff/workflows/{template_id}/patches{SCOPE_QUERY}",
         json={
+            "source": "inspector",
+            "intent_type": "inspector_update",
             "operation": "update_station_prompt",
+            "workflow_instance_id": seeded["instance"]["workflow_instance_id"],
             "payload": {"station_id": "station_a", "prompt_ref": "v4.a2.prompt"},
-            "actor_type": "agent",
-            "actor_id": "agent_a2",
-            "proposed_by": "agent_a2",
-            "metadata": {"secret": "do not leak", "raw_trace_payload": "do not leak"},
         },
     ).json()
     assert proposed["workflow_template_id"] == template_id

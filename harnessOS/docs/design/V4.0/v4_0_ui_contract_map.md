@@ -1,6 +1,6 @@
 # V4.0 UI Contract Map
 
-文档状态：V4.0-E complete at integration baseline。本文定义 Workflow Console / Studio / AgentTalkWindow 前置 UI 可以消费的 RPC、事件和 BFF route，并记录当前 `apps/workflow-console` 已实现的页面边界。
+文档状态：V4.0-N complete；V4.0-O planned。本文定义 Workflow Console / Studio / AgentTalkWindow 前置 UI 可以消费的 RPC、事件和 BFF route，并记录当前 `apps/workflow-console` 已实现的页面边界。
 
 ## Terminology
 
@@ -12,7 +12,7 @@
 | 工作流节点 | Station in WorkflowTemplate / WorkflowDraft | 已进入某个 workflow 的节点。 |
 | 连线 / 工作流边 | WorkflowEdge | 工作流节点之间的数据或控制关系。 |
 | 节点配置 / Inspector | Station + ArtifactContract + QualityContract + approval policy | 通过 patch 修改 draft。 |
-| Agent 助手 | AgentTalkWindow preparation shell | 只能 propose/diff，不直接 apply。 |
+| Agent 助手 | Governed stateful Agent assistant baseline + handoff lifecycle | BFF/UI 层 session/message/suggestion/action proposal/handoff；handoff 支持 lifecycle、audit、recovery 和 stale/blocked guard；只能 explain/summarize/propose/show diff/交接到用户确认面板，不直接 apply/reject/publish/respond。 |
 
 禁用混用术语：
 
@@ -43,7 +43,10 @@ bottom tab: events / trace / artifacts / quality / approvals / patch
 canvas viewport x/y
 canvas zoom
 node x/y
+ghost node
 drag state
+active handoff
+handoff recovery target
 ```
 
 这些状态只存在于前端，不写入 WorkflowTemplate、WorkflowDraft、WorkflowVersion、WorkflowInstance 或 StationRun。
@@ -322,7 +325,7 @@ Rules:
 
 ## V4.0-E Reference Console E2E
 
-Implementation status: complete at component-level + BFF integration E2E. V4.0-E 使用平台中立 runtime fixture，通过 Gateway / V3.6 runtime 生成真实 board/status/output/artifact metadata/lineage/approval/quality/context/patch DTO，并通过 frontend component tests 渲染 BFF-style real DTO。当前未引入 browser-level Playwright/Cypress smoke，因此只声明 integration baseline。
+Implementation status: complete at component-level + BFF integration E2E. V4.0-E 使用平台中立 runtime fixture，通过 Gateway / V3.6 runtime 生成真实 board/status/output/artifact metadata/lineage/approval/quality/context/patch DTO，并通过 frontend component tests 渲染 BFF-style real DTO。V4.0-F 已补齐 browser-level Playwright smoke，因此当前可声明 browser smoke baseline。
 
 Allowed RPC:
 
@@ -355,3 +358,260 @@ Rules:
 - Approval respond must be explicit user action from the approval panel and must prove workflow-bound side-effect in board/status refresh.
 - EventBridge is refresh/display only; the UI must reload BFF DTOs and must not trust event payload as runtime state.
 - E2E mode must not import demoData and must fail if BFF/runtime fixture is unavailable.
+
+## V4.0-F Browser Smoke Baseline
+
+Implementation status: complete. V4.0-F does not add new mutation capabilities; it validates the existing V4.0-E integration baseline in a real browser with fixed Playwright, `npm run build`, and Vite preview.
+
+Allowed RPC:
+
+```text
+Same as V4.0-E through BFF structured routes only.
+```
+
+Allowed browser-visible routes:
+
+```text
+/bff/*
+```
+
+Forbidden browser-visible routes:
+
+```text
+/v1/rpc
+/v1/events/subscribe
+```
+
+Browser smoke must cover:
+
+```text
+open workflow console
+select workflow instance
+render board
+render station / artifact / approval / quality / trace summary
+approve via ApprovalPanel
+update context.business
+receive EventBridge refresh
+```
+
+Rules:
+
+- Browser smoke must run in real mode, not silent demo fallback.
+- CI smoke uses build output through Vite preview; dev server is only for local debugging.
+- The browser must connect to the same test BFF / V3.6 runtime fixture server.
+- `VITE_HARNESSOS_DEMO_MODE=false` is required, and the DOM must not show `Demo / Fixture`.
+- EventBridge refresh must be triggered through a controlled test event path; fake event status payload must not be trusted as runtime truth.
+- Browser network interception must fail the test if the UI directly calls `/v1/rpc` or `/v1/events/subscribe`.
+- DOM must not contain token, Authorization, subscription token, raw trace payload, raw artifact content, raw connector payload, or secret fixture values.
+- Playwright should use stable `data-testid` selectors for console, instance selector, board, panels, approve button, context update, and event feed.
+- Patch apply/reject/publish UI actions are now enabled only through user-confirmed BFF structured routes.
+- This phase upgrades the claim to `V4.0-G complete: governed patch apply/reject/publish editing hardening ready for dev/local Workflow Console`.
+
+## V4.0-H Canvas-to-runtime Bridge
+
+Implementation status: complete. V4.0-H maps canvas and Inspector actions to WorkflowPatch proposals. It does not create Station / WorkflowEdge directly and does not persist UI layout.
+
+Completion evidence:
+
+- `NodeAddIntent` creates `add_station` proposal payload from the allowed node catalog.
+- `EdgeAddIntent` uses `operation=update_edge` with `edge_patch.action=add/remove/update`; no arbitrary `add_edge` RPC surface was added.
+- `InspectorUpdateIntent` maps local dirty state to controlled patch proposals only after the user clicks `生成 Patch`.
+- UI layout state (`x/y/zoom/selection/panelCollapsed/activeTab/viewport`) remains UI-only transient state and is rejected by the BFF proposal validator.
+- Apply / Reject / Publish continue to use V4.0-G governed routes and require explicit user confirmation.
+
+Allowed BFF routes:
+
+```text
+POST /bff/workflows/{workflow_template_id}/patches
+GET /bff/workflows/{workflow_template_id}/patches/{workflow_patch_id}/diff
+POST /bff/workflows/{workflow_template_id}/patches/{workflow_patch_id}/apply
+POST /bff/workflows/{workflow_template_id}/patches/{workflow_patch_id}/reject
+POST /bff/workflows/{workflow_template_id}/publish
+```
+
+Proposal request shape:
+
+```text
+source = canvas | inspector | workflow_console
+intent_type = node_add | edge_add | inspector_update
+operation = add_station | update_edge | update_station_prompt | update_connector | update_artifact_contract | update_quality_rule | update_approval_point
+payload = controlled patch payload
+```
+
+Rules:
+
+- Node drag creates a ghost node and `NodeAddIntent`; it does not write Station.
+- Edge interaction creates `EdgeAddIntent` using `operation=update_edge` with `edge_patch.action=add/remove/update`; it does not write WorkflowEdge.
+- Inspector typing is local dirty state; only `生成 Patch` sends `InspectorUpdateIntent`.
+- `x/y/zoom/selection/panelCollapsed/activeTab/viewport` remain UI-only transient state.
+- Apply / Reject / Publish still use V4.0-G user-confirmed routes.
+- High-risk patch governance remains active.
+
+## V4.0-N/O Canvas Editing Readiness And Proposal Workflow
+
+Implementation status: V4.0-N complete, V4.0-O planned. V4.0-N added controlled catalog, CanvasDraftProjection, node/edge/Inspector proposal flow and layout boundary. V4.0-O will harden the proposal workflow with patch queue selection, projection freshness, catalog versioning, Inspector mapping V2, edge validation V2, fixture isolation and claim guard tests.
+
+Allowed BFF routes:
+
+```text
+GET /bff/instances/{workflow_instance_id}/canvas-projection
+GET /bff/workflows/{workflow_template_id}/node-catalog
+GET /bff/workflows/{workflow_template_id}/patches
+POST /bff/workflows/{workflow_template_id}/patches
+GET /bff/workflows/{workflow_template_id}/patches/{workflow_patch_id}/diff
+POST /bff/workflows/{workflow_template_id}/patches/{workflow_patch_id}/apply
+POST /bff/workflows/{workflow_template_id}/patches/{workflow_patch_id}/reject
+POST /bff/workflows/{workflow_template_id}/publish
+```
+
+Required UI read models:
+
+```text
+CanvasDraftProjection
+PatchQueueDTO
+NodeCatalogItem
+NodeTemplateDescriptor
+StationDescriptorMapping
+PatchDiffDTO
+```
+
+Rules:
+
+- CanvasDraftProjection is UI-only read model derived from BFF truth; it must include source_refs, generated_at, draft_revision and board/status freshness markers.
+- PatchQueueDTO is a BFF/UI read model for proposal selection. It must not become WorkflowDraft truth.
+- selected_patch_id, selectedNode, viewport, zoom, x/y, panelCollapsed and activeTab remain UI-only transient state.
+- Node catalog semantics come from BFF controlled catalog. The frontend may render catalog data, but must not define runtime semantics independently.
+- Inspector typing is local dirty state. Only `生成 Patch` sends one proposal request.
+- Edge create/update/remove continues to use `operation=update_edge`; there is no new direct add_edge RPC.
+- EventBridge payload only triggers refresh. The UI must reload canvas projection, patch queue, board/status and diff DTOs from BFF routes.
+- V4.0-O must not introduce direct `/v1/rpc`, direct `/v1/events/subscribe`, direct WorkflowStore access, or layout fields in proposal payloads.
+
+## V4.0-I AgentTalkWindow Stateful Assistant
+
+Implementation status: complete for dev/local governed Agent assistant baseline. V4.0-I adds BFF/UI layer `AgentTalkSession`, `AgentMessage`, `AgentSuggestion`, and `AgentActionIntent` objects. These objects do not enter the V3.6 Workflow Runtime Contract and do not write WorkflowTemplate, WorkflowDraft, WorkflowVersion, StationRun, or Core Store records.
+
+Allowed Agent action intents:
+
+```text
+explain_workflow
+summarize_events
+suggest_patch
+show_patch_diff
+show_approval_notice
+show_context_summary
+navigate_to_editing_panel
+```
+
+Forbidden Agent action intents:
+
+```text
+apply_patch
+reject_patch
+publish_version
+respond_approval
+update_context
+emit_business_event
+start_workflow
+rerun_station
+```
+
+Allowed BFF routes:
+
+```text
+GET /bff/instances/{workflow_instance_id}/agent/session
+POST /bff/instances/{workflow_instance_id}/agent/messages
+GET /bff/instances/{workflow_instance_id}/agent/suggestions
+POST /bff/instances/{workflow_instance_id}/agent/suggestions/{suggestion_id}/dismiss
+POST /bff/workflows/{workflow_template_id}/patches
+GET /bff/workflows/{workflow_template_id}/patches/{workflow_patch_id}/diff
+```
+
+Capability profile:
+
+```text
+agent_talk.read
+agent_talk.write
+agent_suggestions.read
+agent_suggestions.write
+workflows.read
+board.read
+stations.read
+artifacts.read
+quality.read
+approvals.read
+workflow_context.read
+workflow_patches.read
+events
+```
+
+Rules:
+
+- Agent routes must not require or hold `workflow_patches.write`, `workflow_versions.publish`, `approvals`, `workflow_context.write`, `business_events.write`, or `workflows.execute`.
+- `source=agent` may create a patch proposal, but cannot apply, reject, publish, approve, update context, emit business event, start workflow, or rerun station.
+- Deterministic Agent suggestions are fixture/rule-backed and do not call external LLM, external MCP, connector, or model executor.
+- Agent panel must not show Apply Patch, Reject Patch, Publish Version, Approve, Reject, 自动应用, 自动发布, or 已帮你修改并发布.
+- Agent timeline and event display use EventBridge only as refresh/display signal. Agent summary is refreshed from board/status/context/patch DTOs and does not trust event payload as runtime truth.
+
+## V4.0-J AgentTalk Governance
+
+Implementation status: complete. V4.0-J adds BFF/UI layer Agent action proposals. These proposals are not executable operations and do not enter V3.6 Workflow Runtime Contract objects.
+
+Allowed BFF routes:
+
+```text
+GET /bff/instances/{workflow_instance_id}/agent/action-proposals
+POST /bff/instances/{workflow_instance_id}/agent/action-proposals
+GET /bff/instances/{workflow_instance_id}/agent/action-proposals/{proposal_id}
+POST /bff/instances/{workflow_instance_id}/agent/action-proposals/{proposal_id}/dismiss
+```
+
+Forbidden Agent BFF routes:
+
+```text
+/execute
+/run
+/apply
+/publish
+```
+
+Rules:
+
+- Agent action proposal lifecycle must not include `executed`.
+- Proposal cards can show details, show diff, navigate to a panel, or dismiss.
+- Proposal cards must not apply patch, reject patch, publish version, approve/reject approval, update context, emit business event, start workflow, rerun station, call connector, or call external LLM.
+- `agent_actions.read/write` governs this surface.
+
+## V4.0-K/L/M Agent Handoff And Evidence
+
+Implementation status: complete through V4.0-M. Agent action handoff and operation evidence are BFF/UI-layer objects. They do not enter V3.6 Workflow Runtime Contract and do not create an executor path.
+
+Allowed BFF routes:
+
+```text
+POST /bff/instances/{workflow_instance_id}/agent/action-proposals/{proposal_id}/handoff
+GET /bff/instances/{workflow_instance_id}/agent/action-handoffs
+GET /bff/instances/{workflow_instance_id}/agent/action-handoffs/{handoff_id}
+POST /bff/instances/{workflow_instance_id}/agent/action-handoffs/{handoff_id}/dismiss
+GET /bff/instances/{workflow_instance_id}/agent/action-handoffs/{handoff_id}/audit
+GET /bff/instances/{workflow_instance_id}/agent/operation-evidence
+GET /bff/instances/{workflow_instance_id}/agent/operation-evidence/{evidence_id}
+GET /bff/instances/{workflow_instance_id}/agent/governance-review
+```
+
+Capability profile:
+
+```text
+agent_handoffs.read
+agent_handoffs.write
+agent_audit.read
+operation_evidence.read
+governance_review.read
+```
+
+Rules:
+
+- Handoff routes only create/read/dismiss handoff DTOs; they do not execute mutation.
+- Operation evidence is created only after user-confirmed operation route attempts.
+- Governance Review Panel is read-only and may only navigate back to existing operation panels.
+- UI must not construct evidence truth from EventBridge payload; it must reload evidence/governance DTOs.
+- Agent panel still must not show Apply, Publish, Approve, Reject, Execute, Run, 自动应用, 自动发布, or 已帮你修改并发布.

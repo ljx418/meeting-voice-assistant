@@ -7,7 +7,7 @@ export interface EventFeedProps {
 
 export function EventFeed({ events }: EventFeedProps) {
   return (
-    <section className="panel">
+    <section className="panel" data-testid="event-feed">
       <h3>事件流</h3>
       <div className="event-feed">
         {events.map((event, index) => (

@@ -545,6 +545,30 @@ p {
   cursor: grabbing;
 }
 
+.ghost-node {
+  pointer-events: none;
+  opacity: 0.76;
+}
+
+.ghost-node .station-card {
+  border-style: dashed;
+  background: rgba(240, 249, 255, 0.9);
+}
+
+.edge-proposal-button {
+  position: absolute;
+  right: -8px;
+  bottom: -34px;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: 999px;
+  color: #1d4ed8;
+  background: #eff6ff;
+  font-size: 11px;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.12);
+}
+
 .station-card {
   position: relative;
   display: grid;
@@ -642,10 +666,21 @@ p {
   font-size: 12px;
 }
 
-.inspector-form input {
+.inspector-form input,
+.inspector-form textarea {
   width: 100%;
   padding: 0 10px;
   color: var(--text);
+}
+
+.inspector-form textarea {
+  min-height: 86px;
+  padding: 10px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
 }
 
 .bottom-run-panel {
@@ -712,6 +747,30 @@ p {
 .allowed-actions {
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.publish-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: end;
+}
+
+.publish-row label {
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.publish-row input {
+  width: 100%;
+}
+
+.operation-message {
+  margin: 0;
+  color: #047857;
+  font-size: 12px;
 }
 
 .agent-section {
@@ -2213,6 +2272,67 @@ select,
 
 .editing-panel {
   color: #1f2937;
+}
+
+.governance-review {
+  display: grid;
+  gap: 12px;
+  color: #1f2937;
+}
+
+.governance-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.governance-summary span,
+.evidence-card .status {
+  border: 1px solid #dfe3f2;
+  border-radius: 999px;
+  padding: 4px 9px;
+  color: #4b5563;
+  background: #f8fafc;
+  font-size: 12px;
+}
+
+.evidence-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.evidence-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  background: #ffffff;
+}
+
+.evidence-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.evidence-card dl {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 6px 10px;
+  margin: 0;
+  font-size: 12px;
+}
+
+.evidence-card dt {
+  color: #687086;
+}
+
+.evidence-card dd {
+  margin: 0;
+  color: #2f3645;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 1100px) {

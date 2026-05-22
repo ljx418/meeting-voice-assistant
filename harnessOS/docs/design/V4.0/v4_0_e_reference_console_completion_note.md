@@ -8,7 +8,7 @@
 V4.0 dev/local Workflow Console integration baseline ready.
 ```
 
-由于本阶段未引入 Playwright / Cypress / browser-level smoke，不能升级为完整 browser E2E baseline。
+由于本阶段未引入 Playwright browser-level smoke，不能升级为完整 browser E2E baseline。
 
 ## Completed Scope
 
@@ -81,10 +81,10 @@ tests/test_v4_0_agent_talk_window_preparation.py
 12 passed
 
 ./.venv/bin/python -m pytest tests/test_v4_0_*.py -q
-47 passed
+50 passed
 
 cd apps/workflow-console && npm test
-17 passed
+18 passed
 
 cd apps/workflow-console && npm run build
 passed
@@ -99,7 +99,7 @@ cd sdk/typescript && npm test
 23 passed
 
 ./.venv/bin/python -m pytest -q
-488 passed, 3 skipped
+491 passed, 3 skipped
 
 xmllint --noout docs/design/V4.0/v4_0_current_gap_analysis.drawio
 passed
@@ -117,4 +117,18 @@ distributed workflow engine ready
 enterprise auth/OAuth/SSO ready
 ```
 
-Browser-level smoke remains pending. If a future phase adds Playwright / Cypress and covers open console, select instance, render board, approve via ApprovalPanel, update context.business, and receive event refresh in a real browser, the claim can be reconsidered.
+Browser-level smoke remains pending. The next planned phase is `V4.0-F Browser Smoke Baseline`, documented in:
+
+```text
+docs/design/V4.0/v4_0_f_browser_smoke_plan.md
+```
+
+V4.0-F should add fixed Playwright coverage using `npm run build` + Vite preview, a seeded test BFF / V3.6 runtime fixture, explicit `VITE_HARNESSOS_DEMO_MODE=false`, open console, select instance, render board, approve via ApprovalPanel, update context.business, controlled EventBridge refresh, no direct browser `/v1/rpc` or `/v1/events/subscribe`, no Demo / Fixture badge, and DOM / HTML redaction.
+
+If V4.0-F passes, the only upgraded claim is:
+
+```text
+V4.0 dev/local Workflow Console browser smoke baseline ready.
+```
+
+It still cannot claim complete Workflow Studio ready, complete AgentTalkWindow ready, production-ready external app support, or full browser E2E ready.

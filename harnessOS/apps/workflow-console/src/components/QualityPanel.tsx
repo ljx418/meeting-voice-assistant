@@ -7,7 +7,7 @@ export interface QualityPanelProps {
 
 export function QualityPanel({ evaluations }: QualityPanelProps) {
   return (
-    <section className="operation-panel" aria-label="质量面板">
+    <section className="operation-panel" aria-label="质量面板" data-testid="quality-panel">
       <div className="panel-heading">
         <span className="eyebrow">Quality</span>
         <h3>质量面板</h3>

@@ -23,20 +23,20 @@ def test_editing_panel_exists_and_uses_bff_patch_routes() -> None:
     panel = (APP_ROOT / "src" / "components" / "WorkflowEditingPanel.tsx").read_text(encoding="utf-8")
 
     for route in (
-        "/patches/propose",
+        "/patches`",
         "/diff",
     ):
         assert route in client
-    for forbidden_route in ("/apply", "/reject", "/publish"):
-        assert forbidden_route not in client
+    for governed_route in ("/apply", "/reject", "/publish"):
+        assert governed_route in client
     assert "/v1/rpc" not in client
     assert "/v1/events/subscribe" not in client
     assert "工作流编辑" in panel
     assert "查看 Diff" in panel
     assert "等待用户确认" in panel
-    assert "前往编辑面板" in panel
-    assert "应用到草稿" not in panel
-    assert "发布新版本" not in panel
+    assert "应用到草稿" in panel
+    assert "拒绝变更" in panel
+    assert "发布新版本" in panel
 
 
 def test_high_risk_patch_is_displayed_but_not_silently_applied() -> None:

@@ -220,6 +220,9 @@ class WorkflowStore(Protocol):
     def get_patch(self, workflow_patch_id: str, *, scope: Any) -> WorkflowPatch:
         ...
 
+    def list_patches(self, *, scope: Any, workflow_template_id: str | None = None, workflow_draft_id: str | None = None) -> list[WorkflowPatch]:
+        ...
+
     def apply_patch(self, workflow_patch_id: str, *, scope: Any, actor_type: str) -> tuple[WorkflowPatch, WorkflowDraft, bool]:
         ...
 
@@ -399,6 +402,9 @@ class WorkflowRepository:
 
     def get_patch(self, workflow_patch_id: str, *, scope: Any) -> WorkflowPatch:
         return self.store.get_patch(workflow_patch_id, scope=scope)
+
+    def list_patches(self, *, scope: Any, workflow_template_id: str | None = None, workflow_draft_id: str | None = None) -> list[WorkflowPatch]:
+        return self.store.list_patches(scope=scope, workflow_template_id=workflow_template_id, workflow_draft_id=workflow_draft_id)
 
     def apply_patch(self, workflow_patch_id: str, *, scope: Any, actor_type: str) -> tuple[WorkflowPatch, WorkflowDraft, bool]:
         return self.store.apply_patch(workflow_patch_id, scope=scope, actor_type=actor_type)
@@ -896,6 +902,20 @@ class InMemoryWorkflowStore:
                 raise ProtocolError("SCOPE_MISMATCH", "Workflow patch does not match requested scope.", {"resource": "workflow_patch_id"})
             return patch.model_copy(deep=True)
 
+    def list_patches(self, *, scope: Any, workflow_template_id: str | None = None, workflow_draft_id: str | None = None) -> list[WorkflowPatch]:
+        with self._lock:
+            scope_key = _scope_key(scope)
+            patches: list[WorkflowPatch] = []
+            for patch_id, patch in self._patches.items():
+                if self._patch_scope_keys.get(patch_id) != scope_key:
+                    continue
+                if workflow_template_id is not None and patch.workflow_template_id != workflow_template_id:
+                    continue
+                if workflow_draft_id is not None and patch.workflow_draft_id != workflow_draft_id:
+                    continue
+                patches.append(patch.model_copy(deep=True))
+            return sorted(patches, key=lambda item: (item.created_at, item.workflow_patch_id), reverse=True)
+
     def apply_patch(self, workflow_patch_id: str, *, scope: Any, actor_type: str) -> tuple[WorkflowPatch, WorkflowDraft, bool]:
         with self._lock:
             patch = self.get_patch(workflow_patch_id, scope=scope)
@@ -1150,14 +1170,44 @@ def _apply_patch_to_template_payload(draft_payload: dict[str, Any], operation: W
         quality_contract.update(copy.deepcopy(patch))
         return next_payload
     if operation_value == WorkflowPatchOperation.UPDATE_EDGE.value:
-        edge = _find_edge(edges, str(payload["edge_id"]))
         edge_patch = payload["edge_patch"]
         if not isinstance(edge_patch, dict):
             raise ProtocolError("WORKFLOW_PATCH_INVALID", "edge_patch must be an object.", {"field": "edge_patch"})
-        edge.update(copy.deepcopy(edge_patch))
         station_ids = {station.get("station_id") for station in stations if isinstance(station, dict)}
+        edge_id = str(payload["edge_id"])
+        action = edge_patch.get("action", "update")
+        if action not in {"add", "remove", "update"}:
+            raise ProtocolError("WORKFLOW_PATCH_INVALID", "edge_patch.action must be add, remove, or update.", {"action": action})
+        if action == "add":
+            new_edge = copy.deepcopy(edge_patch)
+            new_edge.pop("action", None)
+            new_edge.setdefault("edge_id", edge_id)
+            if new_edge.get("edge_id") != edge_id:
+                raise ProtocolError("WORKFLOW_PATCH_INVALID", "edge_id must match edge_patch.edge_id.", {"edge_id": edge_id})
+            if new_edge.get("from_station_id") not in station_ids or new_edge.get("to_station_id") not in station_ids:
+                raise ProtocolError("WORKFLOW_PATCH_INVALID", "Workflow edge references missing station.", {"edge_id": edge_id})
+            if new_edge.get("from_station_id") == new_edge.get("to_station_id"):
+                raise ProtocolError("WORKFLOW_PATCH_INVALID", "Workflow edge cannot be a self-loop.", {"edge_id": edge_id})
+            if any(
+                edge.get("edge_id") == edge_id
+                or (edge.get("from_station_id") == new_edge.get("from_station_id") and edge.get("to_station_id") == new_edge.get("to_station_id"))
+                for edge in edges
+                if isinstance(edge, dict)
+            ):
+                raise ProtocolError("WORKFLOW_PATCH_INVALID", "Workflow edge already exists.", {"edge_id": edge_id})
+            edges.append(new_edge)
+            return next_payload
+        edge = _find_edge(edges, edge_id)
+        if action == "remove":
+            next_payload["edges"] = [item for item in edges if not (isinstance(item, dict) and item.get("edge_id") == edge_id)]
+            return next_payload
+        patch = copy.deepcopy(edge_patch)
+        patch.pop("action", None)
+        edge.update(patch)
         if edge.get("from_station_id") not in station_ids or edge.get("to_station_id") not in station_ids:
             raise ProtocolError("WORKFLOW_PATCH_INVALID", "Updated edge references missing station.", {"edge_id": edge.get("edge_id")})
+        if edge.get("from_station_id") == edge.get("to_station_id"):
+            raise ProtocolError("WORKFLOW_PATCH_INVALID", "Workflow edge cannot be a self-loop.", {"edge_id": edge.get("edge_id")})
         return next_payload
     raise ProtocolError("WORKFLOW_PATCH_INVALID", "Unsupported workflow patch operation.", {"operation": operation_value})
 

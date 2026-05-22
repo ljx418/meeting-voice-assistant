@@ -52,7 +52,7 @@ export function WorkflowHeader({
       </label>
       <label className="toolbar-field sr-field">
         版本
-        <select value={selectedVersionId} onChange={(event) => onVersionChange(event.target.value)}>
+        <select data-testid="workflow-version-selector" value={selectedVersionId} onChange={(event) => onVersionChange(event.target.value)}>
           {versions.map((version) => (
             <option key={version.workflow_version_id} value={version.workflow_version_id}>
               {version.version}
@@ -62,7 +62,7 @@ export function WorkflowHeader({
       </label>
       <label className="toolbar-field sr-field">
         实例
-        <select value={selectedInstanceId} onChange={(event) => onInstanceChange(event.target.value)}>
+        <select data-testid="workflow-instance-selector" value={selectedInstanceId} onChange={(event) => onInstanceChange(event.target.value)}>
           {instances.map((instance) => (
             <option key={instance.workflow_instance_id} value={instance.workflow_instance_id}>
               {instance.workflow_instance_id}
@@ -70,7 +70,7 @@ export function WorkflowHeader({
           ))}
         </select>
       </label>
-      <span className="status status-compact">草稿 · {status.status}</span>
+      <span className="status status-compact" data-testid="workflow-status">草稿 · {status.status}</span>
       <div className="header-actions" aria-label="工作流操作">
         <button type="button" disabled>保存草稿（后续）</button>
         <button type="button" disabled>运行测试（Demo）</button>

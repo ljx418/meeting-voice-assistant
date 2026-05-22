@@ -1,7 +1,21 @@
 import type {
   ArtifactSummary,
+  AgentActionHandoff,
+  AgentHandoffAuditRecord,
+  AgentActionProposal,
+  AgentTalkInteractionState,
   ApprovalSummary,
+  AgentTalkSession,
+  AgentTalkSuggestion,
+  CanvasPatchIntent,
+  CanvasDraftProjection,
+  GovernanceReviewSummary,
+  NodeCatalogItem,
   OperationResult,
+  OperationEvidenceRecord,
+  PatchQueueDTO,
+  PatchActionResult,
+  PublishVersionResult,
   QualitySummary,
   WorkflowPatchDiff,
   WorkflowPatchProposal,
@@ -41,6 +55,14 @@ export class WorkflowConsoleClient {
     return this.get<WorkflowBoard>(`/instances/${encodeURIComponent(instanceId)}/board`);
   }
 
+  getCanvasProjection(instanceId: string): Promise<CanvasDraftProjection> {
+    return this.get<CanvasDraftProjection>(`/instances/${encodeURIComponent(instanceId)}/canvas-projection`);
+  }
+
+  listNodeCatalog(templateId: string): Promise<NodeCatalogItem[]> {
+    return this.get<NodeCatalogItem[]>(`/workflows/${encodeURIComponent(templateId)}/node-catalog`);
+  }
+
   listQuality(instanceId: string): Promise<QualitySummary[]> {
     return this.get<QualitySummary[]>(`/instances/${encodeURIComponent(instanceId)}/quality`);
   }
@@ -52,7 +74,14 @@ export class WorkflowConsoleClient {
   respondApproval(
     instanceId: string,
     approvalId: string,
-    payload: { decision: "approve" | "reject"; reason?: string; user_confirmed: true; source: "approval_panel" },
+    payload: {
+      decision: "approve" | "reject";
+      reason?: string;
+      user_confirmed: true;
+      source: "approval_panel";
+      proposal_id?: string;
+      handoff_id?: string;
+    },
   ): Promise<OperationResult<ApprovalSummary>> {
     return this.post<OperationResult<ApprovalSummary>>(
       `/instances/${encodeURIComponent(instanceId)}/approvals/${encodeURIComponent(approvalId)}/respond`,
@@ -66,7 +95,16 @@ export class WorkflowConsoleClient {
 
   updateContext(
     instanceId: string,
-    payload: { op: "set"; path: `business.${string}`; value: unknown; expected_revision?: number },
+    payload: {
+      op: "set";
+      path: `business.${string}`;
+      value: unknown;
+      expected_revision?: number;
+      user_confirmed?: true;
+      source?: "context_panel";
+      proposal_id?: string;
+      handoff_id?: string;
+    },
   ): Promise<OperationResult<WorkflowContextSummary>> {
     return this.post<OperationResult<WorkflowContextSummary>>(
       `/instances/${encodeURIComponent(instanceId)}/context/update`,
@@ -82,6 +120,10 @@ export class WorkflowConsoleClient {
       event_id?: string;
       idempotency_key?: string;
       binding?: { target_path: `context.business.${string}`; payload_path: `event.payload.${string}`; mode?: "set" };
+      user_confirmed?: true;
+      source?: "context_panel";
+      proposal_id?: string;
+      handoff_id?: string;
     },
   ): Promise<OperationResult<{ context: WorkflowContextSummary }>> {
     return this.post<OperationResult<{ context: WorkflowContextSummary }>>(
@@ -108,8 +150,17 @@ export class WorkflowConsoleClient {
     return this.get<Record<string, unknown>>(`/artifacts/${encodeURIComponent(artifactId)}/lineage`);
   }
 
-  proposePatch(templateId: string, payload: Record<string, unknown>): Promise<WorkflowPatchProposal> {
-    return this.post<WorkflowPatchProposal>(`/workflows/${encodeURIComponent(templateId)}/patches/propose`, payload);
+  proposePatch(templateId: string, payload: CanvasPatchIntent): Promise<WorkflowPatchProposal> {
+    return this.post<WorkflowPatchProposal>(`/workflows/${encodeURIComponent(templateId)}/patches`, payload as unknown as Record<string, unknown>);
+  }
+
+  listWorkflowPatchQueue(templateId: string, instanceId?: string): Promise<PatchQueueDTO[]> {
+    const query = instanceId ? `?workflow_instance_id=${encodeURIComponent(instanceId)}` : "";
+    return this.get<PatchQueueDTO[]>(`/workflows/${encodeURIComponent(templateId)}/patches${query}`);
+  }
+
+  listInstancePatches(instanceId: string): Promise<PatchQueueDTO[]> {
+    return this.get<PatchQueueDTO[]>(`/instances/${encodeURIComponent(instanceId)}/patches`);
   }
 
   getPatchDiff(templateId: string, patchId: string): Promise<WorkflowPatchDiff> {
@@ -125,20 +176,184 @@ export class WorkflowConsoleClient {
   }
 
   proposeAgentPatch(templateId: string, payload: Record<string, unknown>): Promise<WorkflowPatchProposal> {
-    return this.post<WorkflowPatchProposal>(`/workflows/${encodeURIComponent(templateId)}/patches/propose`, payload);
+    return this.post<WorkflowPatchProposal>(`/workflows/${encodeURIComponent(templateId)}/patches`, payload);
+  }
+
+  getAgentSession(instanceId: string): Promise<AgentTalkSession> {
+    return this.get<AgentTalkSession>(`/instances/${encodeURIComponent(instanceId)}/agent/session`);
+  }
+
+  getAgentInteractionState(instanceId: string): Promise<AgentTalkInteractionState> {
+    return this.get<AgentTalkInteractionState>(`/instances/${encodeURIComponent(instanceId)}/agent/interaction-state`);
+  }
+
+  sendAgentMessage(instanceId: string, payload: { content: string; created_by?: string }): Promise<AgentTalkSession> {
+    return this.post<AgentTalkSession>(`/instances/${encodeURIComponent(instanceId)}/agent/messages`, payload);
+  }
+
+  listAgentSuggestions(instanceId: string): Promise<AgentTalkSuggestion[]> {
+    return this.get<AgentTalkSuggestion[]>(`/instances/${encodeURIComponent(instanceId)}/agent/suggestions`);
+  }
+
+  dismissAgentSuggestion(instanceId: string, suggestionId: string): Promise<AgentTalkSuggestion> {
+    return this.post<AgentTalkSuggestion>(
+      `/instances/${encodeURIComponent(instanceId)}/agent/suggestions/${encodeURIComponent(suggestionId)}/dismiss`,
+      {},
+    );
+  }
+
+  listAgentActionProposals(instanceId: string): Promise<AgentActionProposal[]> {
+    return this.get<AgentActionProposal[]>(`/instances/${encodeURIComponent(instanceId)}/agent/action-proposals`);
+  }
+
+  createAgentActionProposal(
+    instanceId: string,
+    payload: {
+      intent_type: string;
+      title?: string;
+      summary?: string;
+      target_panel?: string;
+      payload?: Record<string, unknown>;
+      risk_flags?: string[];
+      requires_approval?: boolean;
+    },
+  ): Promise<AgentActionProposal> {
+    return this.post<AgentActionProposal>(`/instances/${encodeURIComponent(instanceId)}/agent/action-proposals`, payload);
+  }
+
+  dismissAgentActionProposal(instanceId: string, proposalId: string): Promise<AgentActionProposal> {
+    return this.post<AgentActionProposal>(
+      `/instances/${encodeURIComponent(instanceId)}/agent/action-proposals/${encodeURIComponent(proposalId)}/dismiss`,
+      {},
+    );
+  }
+
+  createAgentActionHandoff(
+    instanceId: string,
+    proposalId: string,
+    payload: {
+      target_panel: string;
+      workflow_patch_id?: string;
+      approval_id?: string;
+      target_path?: `business.${string}`;
+      suggested_form_prefill?: Record<string, unknown>;
+    },
+  ): Promise<AgentActionHandoff> {
+    return this.post<AgentActionHandoff>(
+      `/instances/${encodeURIComponent(instanceId)}/agent/action-proposals/${encodeURIComponent(proposalId)}/handoff`,
+      payload,
+    );
+  }
+
+  getAgentActionHandoff(instanceId: string, handoffId: string): Promise<AgentActionHandoff> {
+    return this.get<AgentActionHandoff>(
+      `/instances/${encodeURIComponent(instanceId)}/agent/action-handoffs/${encodeURIComponent(handoffId)}`,
+    );
+  }
+
+  listAgentActionHandoffs(instanceId: string): Promise<AgentActionHandoff[]> {
+    return this.get<AgentActionHandoff[]>(`/instances/${encodeURIComponent(instanceId)}/agent/action-handoffs`);
+  }
+
+  dismissAgentActionHandoff(instanceId: string, handoffId: string): Promise<AgentActionHandoff> {
+    return this.post<AgentActionHandoff>(
+      `/instances/${encodeURIComponent(instanceId)}/agent/action-handoffs/${encodeURIComponent(handoffId)}/dismiss`,
+      {},
+    );
+  }
+
+  listAgentActionHandoffAudit(instanceId: string, handoffId: string): Promise<AgentHandoffAuditRecord[]> {
+    return this.get<AgentHandoffAuditRecord[]>(
+      `/instances/${encodeURIComponent(instanceId)}/agent/action-handoffs/${encodeURIComponent(handoffId)}/audit`,
+    );
+  }
+
+  listOperationEvidence(instanceId: string): Promise<OperationEvidenceRecord[]> {
+    return this.get<OperationEvidenceRecord[]>(`/instances/${encodeURIComponent(instanceId)}/agent/operation-evidence`);
+  }
+
+  getOperationEvidence(instanceId: string, evidenceId: string): Promise<OperationEvidenceRecord> {
+    return this.get<OperationEvidenceRecord>(
+      `/instances/${encodeURIComponent(instanceId)}/agent/operation-evidence/${encodeURIComponent(evidenceId)}`,
+    );
+  }
+
+  getGovernanceReview(instanceId: string): Promise<GovernanceReviewSummary> {
+    return this.get<GovernanceReviewSummary>(`/instances/${encodeURIComponent(instanceId)}/agent/governance-review`);
+  }
+
+  applyPatch(
+    templateId: string,
+    patchId: string,
+    payload: {
+      workflow_instance_id?: string;
+      user_confirmed: true;
+      source: "editing_panel" | "workflow_console";
+      proposal_id?: string;
+      handoff_id?: string;
+    },
+  ): Promise<OperationResult<PatchActionResult>> {
+    return this.post<OperationResult<PatchActionResult>>(
+      `/workflows/${encodeURIComponent(templateId)}/patches/${encodeURIComponent(patchId)}/apply`,
+      payload,
+    );
+  }
+
+  rejectPatch(
+    templateId: string,
+    patchId: string,
+    payload: {
+      workflow_instance_id?: string;
+      reason?: string;
+      user_confirmed: true;
+      source: "editing_panel" | "workflow_console";
+      proposal_id?: string;
+      handoff_id?: string;
+    },
+  ): Promise<OperationResult<PatchActionResult>> {
+    return this.post<OperationResult<PatchActionResult>>(
+      `/workflows/${encodeURIComponent(templateId)}/patches/${encodeURIComponent(patchId)}/reject`,
+      payload,
+    );
+  }
+
+  publishWorkflow(
+    templateId: string,
+    payload: {
+      workflow_instance_id?: string;
+      version: string;
+      expected_draft_revision: number;
+      user_confirmed: true;
+      source: "editing_panel" | "workflow_console";
+      proposal_id?: string;
+      handoff_id?: string;
+    },
+  ): Promise<OperationResult<PublishVersionResult>> {
+    return this.post<OperationResult<PublishVersionResult>>(`/workflows/${encodeURIComponent(templateId)}/publish`, payload);
   }
 
   connectEvents(channels: string[], onEvent: (event: WorkflowEvent) => void): EventSource {
     const params = new URLSearchParams({ channels: channels.join(","), follow: "true" });
+    const heartbeatInterval = (import.meta as unknown as { env?: Record<string, string | undefined> }).env?.VITE_EVENT_HEARTBEAT_INTERVAL;
+    if (heartbeatInterval) {
+      params.set("heartbeat_interval", heartbeatInterval);
+    }
     const url = `${this.basePath}/events/subscribe?${params.toString()}`;
     const source = new EventSource(url);
-    source.onmessage = (message) => {
+    const handleMessage = (message: MessageEvent<string>) => {
       try {
-        onEvent(JSON.parse(message.data) as WorkflowEvent);
+        const parsed = JSON.parse(message.data) as WorkflowEvent;
+        onEvent({ ...parsed, id: parsed.id || message.lastEventId, type: parsed.type || message.type });
       } catch {
         onEvent({ type: "event.parse_failed", data: { id: message.lastEventId } });
       }
     };
+    source.onmessage = handleMessage;
+    if (typeof source.addEventListener === "function") {
+      for (const eventType of EVENT_SOURCE_TYPES) {
+        source.addEventListener(eventType, handleMessage as EventListener);
+      }
+    }
     return source;
   }
 
@@ -169,3 +384,32 @@ export class WorkflowConsoleClient {
 }
 
 export const workflowConsoleClient = new WorkflowConsoleClient();
+
+const EVENT_SOURCE_TYPES = [
+  "workflow.instance.started",
+  "workflow.instance.completed",
+  "workflow.instance.failed",
+  "station.run.started",
+  "station.run.completed",
+  "station.run.failed",
+  "station.run.waiting_approval",
+  "approval.required",
+  "approval.approved",
+  "approval.rejected",
+  "artifact.registered",
+  "business.event.received",
+  "workflow.context.updated",
+  "workflow.patch.proposed",
+  "workflow.patch." + "applied",
+  "workflow.patch." + "rejected",
+  "agent.session.updated",
+  "agent.message.created",
+  "agent.suggestion.created",
+  "agent.suggestion.dismissed",
+  "agent.action_proposal.created",
+  "agent.action_proposal.dismissed",
+  "agent.handoff_created",
+  "agent.handoff_opened",
+  "operation.evidence.created",
+  "governance.review.updated",
+];

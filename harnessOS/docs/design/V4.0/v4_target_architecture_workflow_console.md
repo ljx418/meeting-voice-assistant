@@ -1,6 +1,6 @@
 # harnessOS V4.0 Target Architecture: Workflow Console Platform
 
-文档状态：V4.0 target architecture planning baseline；V3.6-J Dummy Pipeline E2E / V4.0 Gate 已通过。本文定义下一阶段 Workflow Console / Studio / AgentTalkWindow 前置的目标架构，不代表 V4.0 已完成。
+文档状态：V4.0 target architecture planning baseline；V3.6-J Dummy Pipeline E2E / V4.0 Gate 已通过，V4.0-L Agent handoff lifecycle baseline 已完成。本文定义 Workflow Console / Studio / AgentTalkWindow 目标架构，不代表 complete Workflow Studio、complete AgentTalkWindow、controlled executor ready 或 Agent executor ready。
 
 当前进展、核心差距、阶段路线图和验收状态以 `v4_0_current_gap_analysis.md` 与 `v4_0_current_gap_analysis.drawio` 为最高优先级维护入口。本文只保留目标架构解释，不替代 gap 文件对。
 
@@ -18,6 +18,8 @@ V4.0 的目标不是单一新增一个视频产品，而是把 harnessOS 演进�
 - 外部项目嵌入 harnessOS 工作流
 
 V4.0 正式 UI 主开发不能直接从 mock schema 起步。它必须消费已经通过 V3.6-J gate 的 Workflow Runtime Contract、Pipeline Board API、WorkflowPatch、QualityEvaluation、Business Event 和 Dummy Pipeline E2E 结果。
+
+截至 V4.0-L，Workflow Console 已具备 read/event bridge、operation panels、browser smoke、governed editing hardening、canvas/Inspector patch proposal bridge、stateful Agent assistant baseline、Agent action proposal governance、AgentActionHandoff 到用户确认 operation panels 的安全交接，以及 handoff lifecycle / audit / URL recovery / stale guard。Agent 仍只是 proposal / handoff generator，不是 executor。
 
 ## 2. 目标能力
 
@@ -259,7 +261,9 @@ V4.0 正式实现建立在已经通过的 V3.6-J gate 之上。V3.6-J gate 包�
 6. V4.0-C AgentTalkWindow Preparation：基于 Embed Contract、EventBridge、approval/context/patch 做前置 shell。
 7. V4.0-D Quality / Approval / Context Panels：产品化质量、审批和上下文面板。
 8. V4.0-E Reference Workflow Console E2E：用平台中立 workflow 验证 UI + BFF + SDK + V3.6 runtime。
-9. 再用 Video Flow V2.0 和 Interview V2.0 验证平台能力。
+9. V4.0-F Browser Smoke Baseline：用 Playwright + build 后 Vite preview 验证真实浏览器 open/select/render/approve/context/event refresh，且不直接调用 `/v1/rpc` 或 `/v1/events/subscribe`。
+10. V4.0-G/H/I/J/K：完成 editing hardening、canvas-to-runtime bridge、AgentTalkWindow stateful assistant baseline、AgentTalk governance baseline 和 Agent action handoff baseline。
+11. 后续如进入 controlled executor、完整 AgentTalkWindow 或 Video Flow V2.0 / Interview V2.0，必须单独立项并继续保持 No False Green。
 
 ## 9. V3.6 Baseline For Formal V4.0
 
@@ -282,7 +286,7 @@ Spike 禁止：
 V4.0 当前可以声明：
 
 ```text
-V4.0 planning can start on top of V3.5/V3.6 baselines.
+V4.0-L complete: Agent handoff lifecycle, audit, and recovery baseline ready for dev/local Workflow Console.
 ```
 
 V4.0 当前仍不能声明：
@@ -290,6 +294,8 @@ V4.0 当前仍不能声明：
 ```text
 Workflow Studio ready
 AgentTalkWindow ready
+controlled executor ready
+autonomous workflow editing ready
 production workflow automation ready
 distributed workflow engine ready
 ```

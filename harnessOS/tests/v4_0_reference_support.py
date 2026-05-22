@@ -59,6 +59,17 @@ DEFAULT_CAPABILITIES = (
     "business_events.write",
     "workflow_patches.read",
     "workflow_patches.write",
+    "agent_talk.read",
+    "agent_talk.write",
+    "agent_suggestions.read",
+    "agent_suggestions.write",
+    "agent_actions.read",
+    "agent_actions.write",
+    "agent_handoffs.read",
+    "agent_handoffs.write",
+    "agent_audit.read",
+    "operation_evidence.read",
+    "governance_review.read",
 )
 
 

@@ -1,6 +1,6 @@
 # V4.0 Event Contract Map
 
-文档状态：V4.0-E event bridge integration baseline。本文定义 V4.0 UI 可以消费的事件边界；当前 Workflow Console 已通过 BFF EventBridge proxy 接入真实 SSE replay/follow 路径，demo event feed 仅在显式 fixture mode 下使用。
+文档状态：V4.0-N complete；V4.0-O planned。本文定义 V4.0 UI 可以消费的事件边界；当前 Workflow Console 已通过 BFF EventBridge proxy 接入真实 SSE replay/follow 路径，demo event feed 仅在显式 fixture mode 下使用。
 
 ## Consumption Path
 
@@ -25,6 +25,26 @@ V4.0-A2 status：`/bff/events/subscribe` 已覆盖 SSE `id/event/data` 保留、
 V4.0-D status：Approval / Context operation panels consume live `approval.required`, `business.event.received`, and `workflow.context.updated` only as refresh/display signals. `approval.respond`, `workflow.context.update`, and `business.event.emit` success paths refresh board/status/panel data through BFF DTO routes; the UI does not derive runtime state directly from event payloads.
 
 V4.0-E status：Reference Workflow Console E2E 覆盖 BFF SSE `id/event/data` 保留、Last-Event-ID/cursor、upstream subscription token hiding、auth failure 不打开 stream，以及 fake event payload status 不被 UI 采信。`approval.respond` 与 `business.event.emit` 后的 UI 更新必须通过重新拉取 board/status/context/approval DTO 完成。
+
+V4.0-F complete：Browser smoke 固定使用 Playwright，在 build 后 Vite preview 中验证 EventBridge 只触发 refresh/display。Playwright 已拦截浏览器网络请求，断言 UI 不直接调用 `/v1/events/subscribe`，并通过可控 test event 触发后重新拉取 board/status/context/approval BFF DTO，而不是从 event payload 构造 runtime truth。
+
+V4.0-G complete：Patch apply/reject/publish 后的 workflow patch / publish-related events 仍只触发 refresh/display。UI 重新拉取 template/version/diff/status/board，不从 event payload 构造 draft/version truth。
+
+V4.0-H complete：Canvas / Inspector proposal 创建后的事件仍只触发 refresh/display。UI 不从 event payload 自建 Station / WorkflowEdge truth，继续重新拉取 BFF patch/diff/board/status。
+
+V4.0-I complete：Agent assistant timeline 可以展示 live event，但 event 仍只触发 refresh/display。Agent summary、suggestion 和 patch card 不直接采信 event payload；收到事件后重新拉取 board/status/context/patch DTO。Agent state 是 BFF/UI 层对象，不进入 V3.6 Workflow Runtime Contract。
+
+V4.0-J complete：Agent action proposal queue 仍不把 EventBridge payload 当作执行事实。Event 只触发 Agent session/suggestion/action proposal、board/status/context/patch DTO refresh。J 阶段不新增 executor event，也不声明 controlled executor ready。
+
+V4.0-K complete：AgentActionHandoff 不新增 executor event。handoff created/opened/used 只进入 BFF audit 记录；EventBridge 仍只触发 refresh/display，最终 mutation 继续通过用户显式确认的 Editing / Approval / Context operation panel 路径完成。
+
+V4.0-L complete：handoff lifecycle / recovery / stale / blocked 状态仍不新增 runtime EventBridge event。handoff opened、dismissed、expired、stale、blocked、used 只进入 BFF append-only audit；URL recovery 读取 handoff DTO 并打开目标 panel，不触发 mutation，也不从 EventBridge payload 构造执行事实。
+
+V4.0-M complete：operation evidence / governance review 不新增 runtime EventBridge event。EventBridge 仍只触发 refresh，UI 必须重新拉 `/bff/instances/{id}/agent/operation-evidence` 和 `/bff/instances/{id}/agent/governance-review`，不得从 event payload 构造 evidence truth。
+
+V4.0-N complete：CanvasDraftProjection 不新增 runtime EventBridge event。EventBridge 仍只触发 refresh，UI 必须重新拉 `/bff/instances/{id}/canvas-projection`、board/status 和 patch DTO，不得从 event payload 构造 canvas truth。
+
+V4.0-O planned：PatchQueueDTO、projection freshness、catalog versioning、Inspector mapping V2 和 edge validation V2 不新增 runtime EventBridge event。EventBridge 仍只触发 refresh，UI 必须重新拉 canvas projection、patch queue、catalog、board/status 和 diff DTO，不得从 event payload 构造 patch queue truth、catalog truth、edge truth 或 evidence truth。Browser smoke 必须继续使用 fake event payload 验证 UI 不采信事件中的伪造 draft_revision、station、edge、patch_status 或 evidence 字段。
 
 | Event | Channel | Source | V4.0 Usage | First UI Phase |
 | --- | --- | --- | --- | --- |
@@ -67,3 +87,9 @@ V4.0-A2 仍不把 `quality.evaluated` 作为 live 出门条件；Quality 只从 
 V4.0-D 仍不把 `quality.evaluated` 作为 live 出门条件；Quality Panel 是 read-only + refresh，不调用 `quality.evaluation.create/attach`，也不要求 live quality SSE。
 
 V4.0-E 仍不把 `quality.evaluated` 作为 live 出门条件；reference console 通过 quality read DTO 与 board summary 展示质量结果。
+
+V4.0-F 仍不把 `quality.evaluated` 作为 live 出门条件；browser smoke 只验证 quality read DTO 在页面可见，不要求 live quality SSE。
+
+V4.0-I 仍不把 `quality.evaluated` 作为 live 出门条件；Agent assistant 只通过 board/quality/context/patch DTO 展示摘要，不以 quality event payload 构造状态。
+
+V4.0-O 仍不新增 canvas collaboration、catalog update 或 patch queue runtime event。若未来需要 live catalog/collaboration event，必须先补 EVENT_SCHEMAS、SSE tests、BFF DTO redaction 和本文件更新。

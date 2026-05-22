@@ -23,6 +23,7 @@ IGNORED_DIRS = {
     ".vite",
     "coverage",
     "__tests__",
+    "e2e",
     "dist-test",
 }
 

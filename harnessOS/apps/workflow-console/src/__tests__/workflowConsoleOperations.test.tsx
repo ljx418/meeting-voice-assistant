@@ -15,18 +15,29 @@ test("operation client uses structured BFF routes only", async () => {
     await client.updateContext("wfi_1", { op: "set", path: "business.note", value: "ok", expected_revision: 1 });
     await client.emitBusinessEvent("wfi_1", { event_type: "business.workflow.note_submitted", payload: { note: "ok" } });
     await client.listInstanceStationOutputs("wfi_1", "sr_1");
-    await client.proposePatch("wf_1", { operation: "update_station_prompt" });
+    await client.proposePatch("wf_1", {
+      source: "inspector",
+      intent_type: "inspector_update",
+      operation: "update_station_prompt",
+      workflow_instance_id: "wfi_1",
+      payload: { station_id: "station_b", prompt_patch: "优化分镜" },
+    });
+    await client.applyPatch("wf_1", "wfp_1", { workflow_instance_id: "wfi_1", user_confirmed: true, source: "editing_panel" });
+    await client.rejectPatch("wf_1", "wfp_1", { workflow_instance_id: "wfi_1", user_confirmed: true, source: "editing_panel" });
+    await client.publishWorkflow("wf_1", { version: "2.0.0", expected_draft_revision: 3, user_confirmed: true, source: "editing_panel" });
   } finally {
     globalThis.fetch = originalFetch;
   }
-  assert.equal(calls.length, 5);
+  assert.equal(calls.length, 8);
   assert(calls.slice(0, 4).every((call) => call.url.startsWith("/bff/instances/wfi_1/")));
-  assert.equal(calls[4].url, "/bff/workflows/wf_1/patches/propose");
+  assert.equal(calls[4].url, "/bff/workflows/wf_1/patches");
+  assert.equal(calls[5].url, "/bff/workflows/wf_1/patches/wfp_1/apply");
+  assert.equal(calls[6].url, "/bff/workflows/wf_1/patches/wfp_1/reject");
+  assert.equal(calls[7].url, "/bff/workflows/wf_1/publish");
   assert(calls.some((call) => call.body?.includes('"user_confirmed":true')));
   for (const call of calls) {
     assert(!call.url.includes("/v1/rpc"));
     assert(!call.url.includes("/v1/events/subscribe"));
-    assert(!call.body?.includes("workflow.patch.apply"));
   }
 });
 

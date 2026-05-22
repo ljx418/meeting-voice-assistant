@@ -67,7 +67,7 @@ test("ConsoleShell renders read-only board summaries", () => {
   assert.match(html, /节点配置/);
   assert.match(html, /Agent 工作流助手/);
   assert.match(html, /Patch Proposal/);
-  assert.match(html, /应用到草稿（后续阶段）/);
+  assert.match(html, /前往编辑面板/);
   assert.match(html, /事件/);
   assert.match(html, /Trace/);
   assert.match(html, /产物/);
@@ -119,9 +119,9 @@ test("AgentTalk shell is fixture-only and redacts timeline, patch, approval and 
   const html = renderToStaticMarkup(<AgentTalkShell fixture={fixture} />);
   assert.match(html, /Agent 工作流助手/);
   assert.match(html, /分镜生成 Agent/);
-  assert.match(html, /质量分为 0.64/);
-  assert.match(html, /生成工作流草案/);
-  assert.match(html, /应用到草稿（后续阶段）/);
+  assert.match(html, /等待用户确认/);
+  assert.match(html, /生成建议/);
+  assert.match(html, /前往编辑面板/);
   assert.match(html, /查看 Diff/);
   for (const value of SENSITIVE_VALUES) {
     assert(!html.includes(value), `${value} leaked in AgentTalk shell`);
@@ -205,8 +205,9 @@ test("Workflow editing panel does not expose raw high-risk apply", () => {
   assert.match(html, /需要治理审批/);
   assert.match(html, /disabled="">等待治理确认/);
   assert.match(html, /查看 Diff/);
-  assert.match(html, /等待用户确认/);
-  assert.match(html, /前往编辑面板/);
-  assert(!html.includes("应用到草稿"));
-  assert(!html.includes("发布新版本"));
+  assert.match(html, /应用到草稿/);
+  assert.match(html, /发布新版本/);
+  assert.match(html, /disabled=""/);
+  assert(!html.includes("自动应用"));
+  assert(!html.includes("自动发布"));
 });

@@ -116,17 +116,290 @@ export interface WorkflowEvent {
   data?: Record<string, unknown>;
 }
 
-export type PatchStatus = "proposed" | "applied" | "rejected";
+export type PatchStatus = "proposed" | "selected" | "applied" | "rejected" | "stale" | "blocked" | "conflicted";
 
 export interface WorkflowPatchProposal {
   workflow_patch_id: string;
+  patch_id?: string;
   workflow_template_id: string;
   workflow_draft_id: string;
+  base_revision?: number;
+  current_draft_revision?: number;
   operation: string;
   status: PatchStatus;
   proposed_by?: string;
+  source?: "canvas" | "inspector" | "agent" | "workflow_console";
+  intent_type?: "node_add" | "edge_add" | "inspector_update";
   requires_approval?: boolean;
   risk_flags?: string[];
+  selected?: boolean;
+  stale_reason?: string | null;
+  conflict_reason?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export type PatchQueueDTO = WorkflowPatchProposal;
+
+export interface NodeTemplateDescriptor {
+  node_template_id: string;
+  station_kind: string;
+  schema_version: string;
+  allowed_skill_refs: string[];
+  allowed_connector_refs: string[];
+  allowed_artifact_kinds: string[];
+  allowed_quality_rules: string[];
+  allowed_approval_policies: string[];
+}
+
+export interface StationDescriptorMapping extends NodeTemplateDescriptor {
+  catalog_id: string;
+  catalog_version: string;
+}
+
+export interface NodeCatalogItem extends StationDescriptorMapping {
+  id: string;
+  label: string;
+}
+
+export interface CanvasDraftProjection {
+  projection_id: string;
+  workflow_instance_id: string;
+  workflow_template_id: string;
+  workflow_draft_id: string;
+  draft_revision: number;
+  generated_at: string;
+  board_status_timestamp?: string;
+  status_updated_at?: string;
+  patch_queue_revision?: string;
+  freshness_state?: "fresh" | "stale_draft" | "stale_board" | "stale_patch" | "unknown";
+  stale_reasons?: string[];
+  source_refs: Record<string, unknown>;
+  nodes: Array<{
+    station_id: string;
+    name?: string;
+    role?: string;
+    station_kind?: string;
+    skill_refs: string[];
+    connector_refs: string[];
+    status?: string;
+    run_count: number;
+  }>;
+  edges: Array<{
+    edge_id: string;
+    from_station_id: string;
+    to_station_id: string;
+    order?: number;
+  }>;
+  runtime_summary: Record<string, unknown>;
+  patch_queue?: PatchQueueDTO[];
+  pending_patch?: PatchQueueDTO | null;
+  redaction_status: "redacted";
+}
+
+export interface NodeAddIntent {
+  source: "canvas";
+  intent_type: "node_add";
+  operation: "add_station";
+  workflow_instance_id?: string;
+  payload: {
+    station: {
+      station_id: string;
+      name: string;
+      role?: string;
+      skill_refs?: string[];
+      connector_refs?: string[];
+      metadata: {
+        node_catalog_id: string;
+        node_label: string;
+        catalog_id: string;
+        catalog_version: string;
+        node_template_id: string;
+        station_kind: string;
+        schema_version: string;
+        allowed_skill_refs: string[];
+        allowed_connector_refs: string[];
+        allowed_artifact_kinds: string[];
+        allowed_quality_rules: string[];
+        allowed_approval_policies: string[];
+      };
+    };
+  };
+}
+
+export interface EdgeAddIntent {
+  source: "canvas";
+  intent_type: "edge_add";
+  operation: "update_edge";
+  workflow_instance_id?: string;
+  payload: {
+    edge_id: string;
+    edge_patch: {
+      action: "add";
+      from_station_id: string;
+      to_station_id: string;
+      condition?: Record<string, unknown>;
+      order?: number;
+      metadata?: Record<string, unknown>;
+    };
+  };
+}
+
+export interface InspectorUpdateIntent {
+  source: "inspector" | "agent";
+  intent_type: "inspector_update";
+  operation:
+    | "update_station_prompt"
+    | "update_connector"
+    | "update_artifact_contract"
+    | "update_quality_rule"
+    | "update_approval_point";
+  workflow_instance_id?: string;
+  payload: Record<string, unknown>;
+}
+
+export type CanvasPatchIntent = NodeAddIntent | EdgeAddIntent | InspectorUpdateIntent;
+
+export type AgentActionName =
+  | "explain_workflow"
+  | "summarize_events"
+  | "summarize_quality"
+  | "summarize_context"
+  | "suggest_patch"
+  | "show_patch_diff"
+  | "show_approval_notice"
+  | "show_context_summary"
+  | "navigate_to_editing_panel"
+  | "open_editing_panel"
+  | "open_approval_panel"
+  | "open_context_panel"
+  | "open_quality_panel"
+  | "open_artifact_panel"
+  | "propose_patch"
+  | "propose_context_update"
+  | "propose_approval_decision"
+  | "propose_station_rerun";
+
+export interface AgentActionIntent {
+  action: AgentActionName;
+  executable: false;
+}
+
+export interface AgentTalkMessage {
+  message_id: string;
+  agent_session_id: string;
+  workflow_instance_id: string;
+  workflow_template_id: string;
+  role: "user" | "assistant" | "system" | "event";
+  source: "user" | "assistant" | "system" | "event";
+  content: string;
+  resource_refs?: Record<string, unknown>;
+  created_at?: string;
+  redaction_status: "redacted";
+}
+
+export interface AgentTalkSuggestion {
+  suggestion_id: string;
+  workflow_instance_id: string;
+  workflow_template_id: string;
+  workflow_patch_id?: string;
+  type: "explain" | "summarize" | "propose_patch" | "show_diff" | "approval_notice" | "show_context_summary";
+  title: string;
+  summary: string;
+  status: "active" | "dismissed";
+  action_intent: AgentActionIntent;
+  patch_intent?: CanvasPatchIntent | null;
+  risk_flags?: string[];
+  requires_approval?: boolean;
+  created_at?: string;
+  redaction_status: "redacted";
+}
+
+export interface AgentTalkSession {
+  agent_session_id: string;
+  workflow_instance_id: string;
+  workflow_template_id: string;
+  scope?: Record<string, unknown>;
+  created_by?: string;
+  created_at?: string;
+  updated_at?: string;
+  redaction_status: "redacted";
+  messages: AgentTalkMessage[];
+  suggestions: AgentTalkSuggestion[];
+}
+
+export interface AgentTalkInteractionState {
+  workflow_instance_id: string;
+  workflow_template_id: string;
+  agent_session_id: string;
+  selected_suggestion_id?: string | null;
+  selected_proposal_id?: string | null;
+  selected_handoff_id?: string | null;
+  selected_patch_id?: string | null;
+  selected_evidence_id?: string | null;
+  stale_reasons: string[];
+  refresh_generation: string;
+  source_refs?: Record<string, unknown>;
+  generated_at?: string;
+  redaction_status: "redacted";
+}
+
+export type AgentActionPolicyClass = "display_only" | "navigation" | "proposal_only" | "forbidden";
+export type AgentActionLifecycle = "proposed" | "reviewed" | "dismissed" | "converted_to_patch" | "converted_to_navigation" | "expired" | "blocked";
+
+export interface AgentActionProposal {
+  proposal_id: string;
+  agent_session_id: string;
+  workflow_instance_id: string;
+  workflow_template_id: string;
+  intent_type: AgentActionName;
+  policy_class: AgentActionPolicyClass;
+  lifecycle: AgentActionLifecycle;
+  status: AgentActionLifecycle;
+  title: string;
+  summary: string;
+  target_panel?: "editing" | "approval" | "context" | "quality" | "artifact" | "events" | null;
+  workflow_patch_id?: string | null;
+  risk_level: "low" | "medium" | "high";
+  risk_flags: string[];
+  requires_approval: boolean;
+  policy_decision: string;
+  payload_summary?: Record<string, unknown>;
+  resource_refs?: Record<string, unknown>;
+  created_by?: string;
+  created_at?: string;
+  updated_at?: string;
+  redaction_status: "redacted";
+}
+
+export type AgentHandoffTargetPanel = "editing_panel" | "approval_panel" | "context_panel" | "quality_panel" | "artifact_panel";
+export type AgentHandoffStatus = "active" | "opened" | "used_for_user_confirmed_action" | "dismissed" | "expired" | "stale" | "blocked";
+
+export interface AgentActionHandoff {
+  handoff_id: string;
+  proposal_id: string;
+  workflow_instance_id: string;
+  workflow_template_id: string;
+  target_panel: AgentHandoffTargetPanel;
+  target_resource: Record<string, unknown>;
+  suggested_form_prefill: Record<string, unknown>;
+  expires_at: string;
+  status: AgentHandoffStatus;
+  inactive_reason?: string;
+  updated_at?: string;
+  created_at: string;
+  created_by?: string;
+  redaction_status: "redacted";
+}
+
+export interface AgentHandoffAuditRecord {
+  audit_id: string;
+  handoff_id: string;
+  event_type: string;
+  summary: string;
+  data?: Record<string, unknown>;
+  created_at: string;
+  redaction_status: "redacted";
 }
 
 export interface WorkflowPatchDiff {
@@ -144,10 +417,25 @@ export interface WorkflowPatchDiff {
 
 export interface PatchActionResult {
   workflow_patch_id: string;
+  workflow_template_id?: string;
+  workflow_draft_id?: string;
   status: PatchStatus;
+  operation?: string;
+  base_revision?: number;
+  applied_revision?: number;
   resulting_draft_revision?: number;
-  publish_version?: string;
+  requires_approval?: boolean;
+  risk_flags?: string[];
   blocked_reason?: string;
+}
+
+export interface PublishVersionResult {
+  workflow_template_id: string;
+  workflow_draft_id?: string;
+  draft_status?: string;
+  draft_revision?: number;
+  workflow_version_id: string;
+  version: string;
 }
 
 export interface WorkflowContextSummary {
@@ -164,4 +452,62 @@ export interface OperationResult<T = unknown> {
   resource: T;
   idempotent?: boolean;
   trace_id?: string;
+  evidence?: OperationEvidenceRecord;
+}
+
+export type OperationEvidenceStatus =
+  | "succeeded"
+  | "failed"
+  | "idempotent_replayed"
+  | "blocked"
+  | "stale_rejected"
+  | "expired_rejected";
+
+export interface OperationRuntimeResultRef {
+  type: string;
+  resource_id?: string;
+  workflow_instance_id?: string;
+  workflow_template_id?: string;
+  operation: string;
+  status: string;
+  trace_id?: string;
+}
+
+export interface OperationEvidenceRecord {
+  evidence_id: string;
+  workflow_instance_id: string;
+  workflow_template_id?: string;
+  operation: string;
+  status: OperationEvidenceStatus;
+  correlation_id: string;
+  operation_id: string;
+  idempotency_key: string;
+  handoff_id?: string | null;
+  proposal_id?: string | null;
+  handoff_status_at_execution?: string | null;
+  proposal_status_at_execution?: string | null;
+  user_confirmed: boolean;
+  source?: string;
+  risk_flags: string[];
+  policy_decision?: string;
+  runtime_result_ref: OperationRuntimeResultRef;
+  audit_refs?: Array<Record<string, unknown>>;
+  created_at?: string;
+  created_by?: string;
+  redaction_status: "redacted";
+}
+
+export interface GovernanceReviewSummary {
+  workflow_instance_id: string;
+  workflow_template_id?: string;
+  summary: {
+    evidence_count: number;
+    handoff_count: number;
+    status_counts: Record<string, number>;
+    operation_counts: Record<string, number>;
+  };
+  operation_evidence: OperationEvidenceRecord[];
+  handoff_summary: Array<Record<string, unknown>>;
+  audit_timeline: Array<Record<string, unknown>>;
+  redaction_status: "redacted";
 }

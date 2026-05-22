@@ -59,7 +59,7 @@ def test_workflow_console_source_uses_controlled_editing_boundary() -> None:
     ):
         assert forbidden not in text
     assert "/patches" in text
-    assert "/publish" not in text
+    assert "/publish" in text
 
 
 def test_workflow_console_redaction_components_exist() -> None:

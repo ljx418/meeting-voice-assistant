@@ -1,10 +1,13 @@
-import { useMemo, useRef, useState, type PointerEvent } from "react";
+import { useMemo, useRef, useState, type DragEvent, type PointerEvent } from "react";
 import type { StationBoardSummary } from "../api/types.js";
 import { StationCard } from "./StationCard.js";
 
 export interface StationBoardProps {
   stations: StationBoardSummary[];
   onSelectRun: (stationRunId: string) => void;
+  ghostNodes?: Array<{ id: string; label: string }>;
+  onNodeDrop?: (nodeCatalogId: string) => void;
+  onEdgeProposal?: (fromStationId: string, toStationId: string) => void;
 }
 
 interface Point {
@@ -30,7 +33,7 @@ function getInitialViewport(): Point {
   return { x: 320, y: 82 };
 }
 
-export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
+export function StationBoard({ stations, onSelectRun, ghostNodes = [], onNodeDrop, onEdgeProposal }: StationBoardProps) {
   const surfaceRef = useRef<HTMLDivElement | null>(null);
   const displayStations = useMemo(() => stations, [stations]);
   const [zoom, setZoom] = useState(0.78);
@@ -45,8 +48,8 @@ export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
   >(null);
 
   const edges = useMemo(() => displayStations.slice(0, -1).map((station, index) => {
-    const from = positions[station.station.station_id];
-    const to = positions[displayStations[index + 1].station.station_id];
+    const from = positionForStation(positions, station.station.station_id, index);
+    const to = positionForStation(positions, displayStations[index + 1].station.station_id, index + 1);
     return {
       id: `${station.station.station_id}_${displayStations[index + 1].station.station_id}`,
       x1: from.x + 188,
@@ -81,8 +84,16 @@ export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
     setViewport(getInitialViewport());
   }
 
+  function handleDrop(event: DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    const nodeCatalogId = event.dataTransfer.getData("application/x-harnessos-node");
+    if (nodeCatalogId) {
+      onNodeDrop?.(nodeCatalogId);
+    }
+  }
+
   return (
-    <section className="studio-canvas" aria-label="工作流画布">
+    <section className="studio-canvas" aria-label="工作流画布" data-testid="station-board">
       <div className="canvas-header">
         <div>
           <span className="eyebrow">Workflow Canvas</span>
@@ -135,6 +146,8 @@ export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
         onPointerMove={handleMove}
         onPointerUp={() => setDrag(null)}
         onPointerCancel={() => setDrag(null)}
+        onDragOver={(event) => event.preventDefault()}
+        onDrop={handleDrop}
       >
         <div className="infinite-layer" style={{ transform: `translate(${viewport.x}px, ${viewport.y}px) scale(${zoom})` }}>
           <svg className="edge-layer" width="2400" height="720" aria-hidden="true">
@@ -145,12 +158,13 @@ export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
               />
             ))}
           </svg>
-          {displayStations.map((station) => {
-            const position = positions[station.station.station_id] || { x: 0, y: 0 };
+          {displayStations.map((station, index) => {
+            const position = positionForStation(positions, station.station.station_id, index);
             return (
               <div
                 className="canvas-node"
                 key={station.station.station_id}
+                data-testid="station-card"
                 style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
                 onPointerDown={(event) => {
                   const target = event.target as HTMLElement;
@@ -166,11 +180,42 @@ export function StationBoard({ stations, onSelectRun }: StationBoardProps) {
                 }}
               >
                 <StationCard station={station} onSelectRun={onSelectRun} />
+                {displayStations[index + 1] ? (
+                  <button
+                    className="edge-proposal-button"
+                    data-testid="edge-proposal-button"
+                    type="button"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onEdgeProposal?.(station.station.station_id, displayStations[index + 1].station.station_id);
+                    }}
+                  >
+                    生成连线 Patch
+                  </button>
+                ) : null}
               </div>
             );
           })}
+          {ghostNodes.map((ghost, index) => (
+            <div
+              className="canvas-node ghost-node"
+              data-testid="ghost-node"
+              key={ghost.id}
+              style={{ transform: `translate(${80 + (displayStations.length + index) * 230}px, 88px)` }}
+            >
+              <div className="station-card">
+                <span className="status">Pending Proposal</span>
+                <h3>{ghost.label}</h3>
+                <p>等待生成 Patch，尚未写入工作流草稿</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
+}
+
+function positionForStation(positions: Record<string, Point>, stationId: string, index: number): Point {
+  return positions[stationId] || DEFAULT_POSITIONS[index] || { x: 80 + index * 280, y: 180 };
 }

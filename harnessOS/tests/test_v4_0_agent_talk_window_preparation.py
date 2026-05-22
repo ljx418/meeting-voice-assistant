@@ -8,7 +8,7 @@ from pathlib import Path
 APP_ROOT = Path("apps/workflow-console")
 
 SOURCE_SUFFIXES = {".ts", ".tsx", ".js", ".jsx"}
-IGNORED_DIRS = {"node_modules", "dist", "dist-test", "__tests__"}
+IGNORED_DIRS = {"node_modules", "dist", "dist-test", "__tests__", "e2e"}
 
 
 def _source_text() -> str:
@@ -39,7 +39,7 @@ def test_agent_talk_source_uses_bff_propose_diff_and_no_direct_core_paths() -> N
     client = (APP_ROOT / "src" / "api" / "workflowConsoleClient.ts").read_text(encoding="utf-8")
     text = _source_text()
     assert "/workflows/" in client
-    assert "/patches/propose" in client
+    assert "/patches`" in client
     assert "/diff" in client
     for forbidden in (
         "/v1/rpc",
