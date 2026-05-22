@@ -60,6 +60,7 @@ pub enum SoundDecisionReason {
     Played,
     Muted,
     Cooldown,
+    HiddenTarget,
     LevelSilent,
     SoundNone,
     PlaybackUnavailable,
@@ -111,15 +112,15 @@ impl SoundHandle {
             .unwrap_or_default()
     }
 
-    pub fn handle_event(&self, event: &AcceptedPetEvent) {
+    pub fn handle_event(&self, event: &AcceptedPetEvent, target_visible: bool) {
         if let Ok(mut state) = self.inner.lock() {
-            state.handle_event(event);
+            state.handle_event(event, target_visible);
         }
     }
 }
 
 impl SoundState {
-    fn handle_event(&mut self, event: &AcceptedPetEvent) {
+    fn handle_event(&mut self, event: &AcceptedPetEvent, target_visible: bool) {
         let Some(sound_id) = requested_sound_id(event) else {
             self.record("none", false, SoundDecisionReason::LevelSilent);
             return;
@@ -132,6 +133,11 @@ impl SoundState {
 
         if self.muted {
             self.record(sound_id, false, SoundDecisionReason::Muted);
+            return;
+        }
+
+        if !target_visible {
+            self.record(sound_id, false, SoundDecisionReason::HiddenTarget);
             return;
         }
 

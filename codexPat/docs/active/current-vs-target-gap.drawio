@@ -1,85 +1,81 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) draw.io/29.6.6" version="29.6.6">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
   <diagram id="agent-desktop-pet-gap" name="Current vs Target Gap">
-    <mxGraphModel dx="1478" dy="806" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="2500" math="0" shadow="0">
+    <mxGraphModel dx="2340" dy="1277" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="2500" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" value="agent-desktop-pet Current Gap Analysis: MVP Desktop Agent State Pet" vertex="1">
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" value="agent-desktop-pet Current Gap Analysis: V3.1 Stabilization" vertex="1">
           <mxGeometry height="50" width="1640" x="280" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" value="核心维护文件对：current-vs-target-gap.md + current-vs-target-gap.drawio。当前状态：Phase 1-6 complete；V2.0 final acceptance passed；V2.1-A complete。Windows 后续硬化。" vertex="1">
+        <mxCell id="subtitle" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" value="核心维护文件对：current-vs-target-gap.md + current-vs-target-gap.drawio。当前状态：V3.0 final acceptance passed；V3.1 final acceptance passed。" vertex="1">
           <mxGeometry height="58" width="1620" x="290" y="85" as="geometry" />
         </mxCell>
-
-        <mxCell id="section_target_arch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=20;fontStyle=1;align=center" value="当前 macOS-first MVP 架构：Agent 状态事件 -&gt; 低打扰桌宠反馈层" vertex="1">
+        <mxCell id="section_target_arch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=20;fontStyle=1;align=center" value="V3.0 目标架构：Codex session / terminal tab / workspace instance -&gt; 独立桌面猫" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="175" as="geometry" />
         </mxCell>
-        <mxCell id="agent" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" value="Agent Sources&lt;br&gt;&lt;br&gt;Codex / Claude Code&lt;br&gt;Custom Agent&lt;br&gt;Developer Scripts&lt;br&gt;&lt;br&gt;只能发送结构化事件" vertex="1">
+        <mxCell id="agent" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" value="Codex Sessions&lt;br&gt;&lt;br&gt;Terminal tab A&lt;br&gt;Terminal tab B&lt;br&gt;Workspace instance&lt;br&gt;&lt;br&gt;不读取 OS 窗口句柄" vertex="1">
           <mxGeometry height="150" width="260" x="90" y="260" as="geometry" />
         </mxCell>
-        <mxCell id="entry" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center" value="Entry Clients&lt;br&gt;&lt;br&gt;HTTP caller&lt;br&gt;petctl CLI client&lt;br&gt;&lt;br&gt;future pet-mcp / skills" vertex="1">
+        <mxCell id="entry" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center" value="Attach / Notify&lt;br&gt;&lt;br&gt;petctl attach codex&lt;br&gt;notify --instance&lt;br&gt;env INSTANCE_ID&lt;br&gt;&lt;br&gt;legacy notify to default pet" vertex="1">
           <mxGeometry height="150" width="260" x="410" y="260" as="geometry" />
         </mxCell>
-        <mxCell id="bridge" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#7C3AED;fontSize=13;fontStyle=1;align=center" value="Tauri Rust Side&lt;br&gt;Rust Local Event Bridge&lt;br&gt;&lt;br&gt;127.0.0.1 only&lt;br&gt;token auth&lt;br&gt;JSON Schema validation&lt;br&gt;whitelist / rate limit&lt;br&gt;Ingress Queue / diagnostics&lt;br&gt;Safe Sound service" vertex="1">
+        <mxCell id="bridge" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#7C3AED;fontSize=13;fontStyle=1;align=center" value="Tauri Rust Side&lt;br&gt;PetInstance Registry&lt;br&gt;&lt;br&gt;settings persistence&lt;br&gt;create/list/rename/detach&lt;br&gt;multi-window restore&lt;br&gt;legacy HTTP bridge routes default pet&lt;br&gt;instance router complete in Phase 3.3" vertex="1">
           <mxGeometry height="180" width="310" x="730" y="245" as="geometry" />
         </mxCell>
-        <mxCell id="frontend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" value="TypeScript Frontend&lt;br&gt;&lt;br&gt;CatStateMachine&lt;br&gt;Behavior Queue&lt;br&gt;placeholder renderer&lt;br&gt;low interruption rules&lt;br&gt;settings / diagnostics&lt;br&gt;sound decision display" vertex="1">
+        <mxCell id="frontend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" value="TypeScript Frontend&lt;br&gt;&lt;br&gt;per-window PetInstance&lt;br&gt;per-instance CatStateMachine&lt;br&gt;placeholder renderer&lt;br&gt;pet name label&lt;br&gt;settings instance list" vertex="1">
           <mxGeometry height="165" width="290" x="1110" y="255" as="geometry" />
         </mxCell>
-        <mxCell id="desktop" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" value="Tauri Desktop Pet&lt;br&gt;&lt;br&gt;transparent&lt;br&gt;frameless&lt;br&gt;always-on-top&lt;br&gt;draggable&lt;br&gt;tray&lt;br&gt;safe chimes" vertex="1">
+        <mxCell id="desktop" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" value="Multiple Pet Windows&lt;br&gt;&lt;br&gt;transparent&lt;br&gt;frameless&lt;br&gt;always-on-top&lt;br&gt;draggable&lt;br&gt;independent position&lt;br&gt;default + extra cats" vertex="1">
           <mxGeometry height="165" width="260" x="1470" y="255" as="geometry" />
         </mxCell>
-        <mxCell id="future" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" value="Future Modules&lt;br&gt;&lt;br&gt;pet-mcp adapter / skills&lt;br&gt;serial hardware&lt;br&gt;Rive / Live2D / 3D&lt;br&gt;photo customization&lt;br&gt;&lt;br&gt;不进入 MVP" vertex="1">
+        <mxCell id="future" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" value="Future Modules&lt;br&gt;&lt;br&gt;Codex quick attach&lt;br&gt;petctl --instance&lt;br&gt;Asset Pack v1&lt;br&gt;performance hardening&lt;br&gt;&lt;br&gt;MCP/USB/Windows deferred" vertex="1">
           <mxGeometry height="165" width="260" x="1810" y="255" as="geometry" />
         </mxCell>
-        <mxCell id="e_agent_entry" edge="1" parent="1" source="agent" target="entry" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1">
+        <mxCell id="e_agent_entry" edge="1" parent="1" source="agent" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="entry">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e_entry_bridge" edge="1" parent="1" source="entry" target="bridge" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1">
+        <mxCell id="e_entry_bridge" edge="1" parent="1" source="entry" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="bridge">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e_bridge_frontend" edge="1" parent="1" source="bridge" target="frontend" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1">
+        <mxCell id="e_bridge_frontend" edge="1" parent="1" source="bridge" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="frontend">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e_frontend_desktop" edge="1" parent="1" source="frontend" target="desktop" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1">
+        <mxCell id="e_frontend_desktop" edge="1" parent="1" source="frontend" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#475569;endArrow=block;endFill=1" target="desktop">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e_desktop_future" edge="1" parent="1" source="desktop" target="future" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#94A3B8;dashed=1;endArrow=block;endFill=1">
+        <mxCell id="e_desktop_future" edge="1" parent="1" source="desktop" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#94A3B8;dashed=1;endArrow=block;endFill=1" target="future">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
         <mxCell id="section_current_arch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" value="当前实现架构：V1.0 链路 + V2.0 workflow / diagnostics / CSS cat / distribution docs 已实现" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="510" as="geometry" />
         </mxCell>
-        <mxCell id="cur_docs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="当前状态&lt;br&gt;&lt;br&gt;• README + docs 已存在&lt;br&gt;• Tauri 壳 / 透明占位猫已实现&lt;br&gt;• CatStateMachine / diagnostics 已实现&lt;br&gt;• HTTP bridge / pet-protocol 已实现&lt;br&gt;• petctl notify 已完成 smoke&lt;br&gt;• V2.0 final acceptance passed&lt;br&gt;• V2.1 real agent verification docs ready" vertex="1">
+        <mxCell id="cur_docs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="已实现基线&lt;br&gt;&lt;br&gt;✅ V1.0 macOS-first MVP&lt;br&gt;✅ Tauri 透明桌宠 / 托盘 / 设置页&lt;br&gt;✅ CatStateMachine / 8 状态 CSS 动画&lt;br&gt;✅ HTTP / PetEvent / diagnostics&lt;br&gt;✅ petctl notify / safe sound&lt;br&gt;✅ V2.0 workflow templates / diagnostics polish / distribution docs&lt;br&gt;✅ V2.1-A third-party HTTP contract smoke&lt;br&gt;✅ V2.1-B Codex local workflow verified for tested smoke" vertex="1">
           <mxGeometry height="200" width="590" x="100" y="605" as="geometry" />
         </mxCell>
-        <mxCell id="cur_missing" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=16;fontSize=14" value="后续未完成 / 阻塞&lt;br&gt;&lt;br&gt;• Codex real smoke&lt;br&gt;• Claude Code skill / hook smoke&lt;br&gt;• 真实 third-party agent 产品集成验证&lt;br&gt;• Windows / MCP / USB / signed release" vertex="1">
+        <mxCell id="cur_missing" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="V3.1 阶段目标&lt;br&gt;&lt;br&gt;✅ Phase 1 Release freeze + docs cleanup&lt;br&gt;✅ Phase 2 Multi-Codex user workflow guide&lt;br&gt;✅ Phase 3 Manager UI polish&lt;br&gt;✅ Phase 4 Runtime regression harness&lt;br&gt;✅ Phase 5 Migration + backup docs&lt;br&gt;✅ Phase 6 final acceptance passed" vertex="1">
           <mxGeometry height="200" width="590" x="805" y="605" as="geometry" />
         </mxCell>
-        <mxCell id="cur_claim" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="当前可声明&lt;br&gt;&lt;br&gt;• Phase 1-6 complete&lt;br&gt;• macOS-first MVP ready&lt;br&gt;• V2.0 ready&lt;br&gt;• Codex / Claude Code local workflow templates ready&lt;br&gt;• V2.1 planning baseline ready&lt;br&gt;• V2.1-A complete / third-party HTTP smoke passed&lt;br&gt;&lt;br&gt;当前不可声明&lt;br&gt;• Codex / Claude / third-party integration verified&lt;br&gt;• Windows / cross-platform ready&lt;br&gt;• MCP / USB ready" vertex="1">
+        <mxCell id="cur_claim" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="当前可声明&lt;br&gt;&lt;br&gt;• macOS-first MVP ready&lt;br&gt;• V2.0 ready&lt;br&gt;• Third-party HTTP contract smoke passed&lt;br&gt;• Codex local workflow verified for tested smoke&lt;br&gt;• V3.0 ready for tested local Codex session scenarios&lt;br&gt;• V3.1 ready: stabilization + onboarding complete&lt;br&gt;&lt;br&gt;当前不可声明&lt;br&gt;• all Codex workflows verified&lt;br&gt;• per-instance queue ready&lt;br&gt;• OS-level Codex window binding&lt;br&gt;• Windows / MCP / USB ready" vertex="1">
           <mxGeometry height="200" width="590" x="1510" y="605" as="geometry" />
         </mxCell>
-
         <mxCell id="section_gap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" value="当前状态 -&gt; 后续差距 -&gt; macOS-first MVP 已达成" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="890" as="geometry" />
         </mxCell>
-        <mxCell id="gap_current" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="当前状态&lt;br&gt;&lt;br&gt;• Phase 1-6 已完成&lt;br&gt;• safe sound feedback 已完成&lt;br&gt;• macOS-first MVP ready&lt;br&gt;• V2.0 final acceptance passed&lt;br&gt;• Codex / Claude templates ready&lt;br&gt;• HTTP curl / Node / Python success smoke passed&lt;br&gt;• auth / level / sound redaction / source redaction / rate-limit smoke passed&lt;br&gt;• V2.1-A complete" vertex="1">
+        <mxCell id="gap_current" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="已达成能力&lt;br&gt;&lt;br&gt;✅ V1.0 macOS-first MVP ready&lt;br&gt;✅ V1.0 Local event bridge / petctl / safe sound&lt;br&gt;✅ V2.0 Developer workflow polish complete&lt;br&gt;✅ V2.1-A third-party local HTTP contract smoke passed&lt;br&gt;✅ V2.1-B Codex local workflow verified for tested local CLI smoke&lt;br&gt;✅ V3.0 Phase 3.1 baseline freeze passed&lt;br&gt;✅ V3.0 Phase 3.2 multi-instance foundation ready&lt;br&gt;✅ V3.0 Phase 3.3 instance-aware routing ready&lt;br&gt;✅ V3.0 Phase 3.4 Codex quick attach ready&lt;br&gt;✅ V3.0 Phase 3.5 manager UI ready&lt;br&gt;✅ V3.0 Phase 3.6 Asset Pack v1 ready&lt;br&gt;✅ V3.0 Phase 3.7 engineering hardening&lt;br&gt;✅ V3.0 final acceptance passed" vertex="1">
           <mxGeometry height="190" width="590" x="100" y="985" as="geometry" />
         </mxCell>
-        <mxCell id="gap_gap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;align=left;spacingLeft=16;fontSize=14" value="后续差距&lt;br&gt;&lt;br&gt;• Codex real CLI smoke&lt;br&gt;• Claude Code skill / hook smoke&lt;br&gt;• 真实 third-party agent 产品集成验证&lt;br&gt;• Windows / MCP / USB 后续" vertex="1">
+        <mxCell id="gap_gap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="V3.1 差距&lt;br&gt;&lt;br&gt;✅ README / docs map cleanup&lt;br&gt;✅ Multi-Codex onboarding guide&lt;br&gt;✅ Manager usability polish accepted&lt;br&gt;✅ Repeatable runtime smoke&lt;br&gt;✅ Local migration / backup docs&lt;br&gt;✅ V3.1 final acceptance passed" vertex="1">
           <mxGeometry height="190" width="590" x="805" y="985" as="geometry" />
         </mxCell>
-        <mxCell id="gap_target" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="macOS-first MVP 已达成&lt;br&gt;&lt;br&gt;• macOS 可运行 Tauri 桌宠&lt;br&gt;• HTTP + petctl 可接入&lt;br&gt;• JSON Schema / whitelist / rate limit 生效&lt;br&gt;• 状态机低打扰反馈&lt;br&gt;• event / sound diagnostics 可观察&lt;br&gt;• Safe Sound feedback 已完成" vertex="1">
+        <mxCell id="gap_target" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="V3.1 目标状态&lt;br&gt;&lt;br&gt;• README 快速入口&lt;br&gt;• docs map 按角色导读&lt;br&gt;• 新用户可完成一只 Codex 窗口一只猫&lt;br&gt;• Manager UI 更易理解&lt;br&gt;• runtime smoke 可重复执行&lt;br&gt;• 本地迁移说明可信" vertex="1">
           <mxGeometry height="190" width="590" x="1510" y="985" as="geometry" />
         </mxCell>
-        <mxCell id="eg1" edge="1" parent="1" source="gap_current" target="gap_gap" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;endArrow=block;endFill=1">
+        <mxCell id="eg1" edge="1" parent="1" source="gap_current" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#0284C7;endArrow=block;endFill=1" target="gap_gap">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="eg2" edge="1" parent="1" source="gap_gap" target="gap_target" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#D97706;endArrow=block;endFill=1">
+        <mxCell id="eg2" edge="1" parent="1" source="gap_gap" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#D97706;endArrow=block;endFill=1" target="gap_target">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-
         <mxCell id="section_plan" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" value="开发计划摘要" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="1260" as="geometry" />
         </mxCell>
@@ -101,7 +97,6 @@
         <mxCell id="p6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F3FF;strokeColor=#7C3AED;fontSize=13;align=center" value="Phase 6 / 7&lt;br&gt;sound + macOS MVP exit&lt;br&gt;&lt;br&gt;safe sound complete&lt;br&gt;low interruption&lt;br&gt;macOS build validation" vertex="1">
           <mxGeometry height="125" width="270" x="1590" y="1350" as="geometry" />
         </mxCell>
-
         <mxCell id="section_acceptance" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=20;fontStyle=1;align=center" value="验收计划摘要" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="1580" as="geometry" />
         </mxCell>
@@ -120,17 +115,16 @@
         <mxCell id="acc_exit" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=13;align=center" value="MVP Exit&lt;br&gt;&lt;br&gt;macOS run/build&lt;br&gt;Windows deferred&lt;br&gt;safe sound feedback&lt;br&gt;README usage&lt;br&gt;No false green" vertex="1">
           <mxGeometry height="145" width="300" x="1540" y="1670" as="geometry" />
         </mxCell>
-
         <mxCell id="section_boundary" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=20;fontStyle=1;align=center" value="MVP 边界：必须收敛，后续能力不得进入第一阶段" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="1905" as="geometry" />
         </mxCell>
         <mxCell id="boundary_in" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="MVP includes&lt;br&gt;&lt;br&gt;• Tauri shell / placeholder cat&lt;br&gt;• tray / settings / draggable window&lt;br&gt;• PetEvent JSON Schema&lt;br&gt;• HTTP 127.0.0.1&lt;br&gt;• event queue / diagnostics&lt;br&gt;• petctl CLI&lt;br&gt;• safe sound feedback" vertex="1">
           <mxGeometry height="190" width="590" x="100" y="2000" as="geometry" />
         </mxCell>
-        <mxCell id="boundary_out" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;align=left;spacingLeft=16;fontSize=14" value="Deferred&lt;br&gt;&lt;br&gt;• MCP server&lt;br&gt;• Verified Codex / Claude integration&lt;br&gt;• USB hardware / USB mock&lt;br&gt;• Rive / Live2D / 3D&lt;br&gt;• photo customization / generation&lt;br&gt;• team collaboration hub&lt;br&gt;• auto update / signing" vertex="1">
+        <mxCell id="boundary_out" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;align=left;spacingLeft=16;fontSize=14" value="Deferred&lt;br&gt;&lt;br&gt;• Claude Code verified&lt;br&gt;• Real third-party product verified&lt;br&gt;• MCP server&lt;br&gt;• Windows / cross-platform ready&lt;br&gt;• USB hardware&lt;br&gt;• Rive / Live2D / 3D&lt;br&gt;• photo customization&lt;br&gt;• auto update / signing" vertex="1">
           <mxGeometry height="190" width="590" x="805" y="2000" as="geometry" />
         </mxCell>
-        <mxCell id="boundary_rule" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#CA8A04;align=left;spacingLeft=16;fontSize=14;fontStyle=1" value="No false-green rule&lt;br&gt;&lt;br&gt;• Phase 6 已完成，可声明 macOS-first MVP ready&lt;br&gt;• V2.0 final acceptance passed，可声明 V2.0 ready&lt;br&gt;• V2.1-A passed：可声明 third-party HTTP smoke passed&lt;br&gt;• 未跑真实 Codex smoke，不声明 Codex verified&lt;br&gt;• 未跑真实 Claude Code smoke，不声明 Claude verified&lt;br&gt;• 未验证真实第三方 agent 产品，不声明 third-party integration verified&lt;br&gt;• 未实现 MCP，不声明 MCP ready&lt;br&gt;• 未做 Windows smoke，不声明 cross-platform ready" vertex="1">
+        <mxCell id="boundary_rule" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#CA8A04;align=left;spacingLeft=16;fontSize=14;fontStyle=1" value="No false-green rule&lt;br&gt;&lt;br&gt;• V3.0 ready 仅限 tested local Codex session scenarios&lt;br&gt;• V3.1 ready 仅限 tested local macOS multi-instance Codex workflow stabilization&lt;br&gt;• 不声明 all Codex workflows verified&lt;br&gt;• 不声明 OS-level Codex window binding&lt;br&gt;• 未做 Windows/MCP/USB/签名前，不声明对应 ready" vertex="1">
           <mxGeometry height="190" width="590" x="1510" y="2000" as="geometry" />
         </mxCell>
       </root>

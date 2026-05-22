@@ -57,6 +57,8 @@ open "apps/desktop/src-tauri/target/release/bundle/macos/Agent Desktop Pet.app"
 
 ## Migration
 
+完整迁移、备份和恢复指南见 [V3.1 Local App Migration and Backup](../V3.1/v3_1-local-app-migration-backup.md)。本节只保留 macOS local unsigned app 的分发摘要。
+
 源码迁移到新机器时建议携带：
 
 - 项目目录。
@@ -95,6 +97,15 @@ macOS 当前路径：
 ```
 
 `api-token.json` 供本地 HTTP API 和 `petctl` 鉴权使用。不要把它提交到公开仓库，不要在公共脚本中明文写入 token。
+
+只读配置审计：
+
+```bash
+node scripts/v3_1_config_audit.mjs
+node scripts/v3_1_config_audit.mjs --json
+```
+
+该脚本只输出脱敏摘要，不打印 token 或完整 settings。
 
 ## Smoke Test
 

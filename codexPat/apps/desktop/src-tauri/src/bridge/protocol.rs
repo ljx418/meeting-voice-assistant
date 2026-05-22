@@ -56,6 +56,10 @@ pub struct AcceptedPetEvent {
     pub hardware: Option<Value>,
     pub metadata: Option<Value>,
     pub received_at: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub target_instance_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub target_window_label: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -137,6 +141,8 @@ pub fn accepted_event_from_value(
         hardware: value.get("hardware").cloned(),
         metadata: value.get("metadata").cloned(),
         received_at,
+        target_instance_id: None,
+        target_window_label: None,
     })
 }
 

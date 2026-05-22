@@ -2,7 +2,7 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Default permissions for Phase 1 desktop shell windows",
-  "windows": ["main", "settings"],
+  "windows": ["main", "settings", "pet-*"],
   "permissions": [
     "core:default",
     "core:window:default",

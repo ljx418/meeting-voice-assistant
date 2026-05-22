@@ -30,6 +30,11 @@ export class CatStateMachine {
   private timer: number | undefined;
   private subscribers = new Set<Subscriber>();
   private pendingAfterDrag: CatState | undefined;
+  private storageKey: string;
+
+  constructor(storageKey = STORAGE_KEY) {
+    this.storageKey = storageKey;
+  }
 
   subscribe(subscriber: Subscriber) {
     this.subscribers.add(subscriber);
@@ -196,7 +201,7 @@ export class CatStateMachine {
 
   private notify() {
     const snapshot = this.snapshot();
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
+    window.localStorage.setItem(this.storageKey, JSON.stringify(snapshot));
     window.dispatchEvent(new CustomEvent<CatStateSnapshot>("cat-state-change", { detail: snapshot }));
     for (const subscriber of this.subscribers) {
       subscriber(snapshot);
@@ -204,7 +209,7 @@ export class CatStateMachine {
   }
 }
 
-export function readStoredCatStateSnapshot(): CatStateSnapshot {
+export function readStoredCatStateSnapshot(storageKey = STORAGE_KEY): CatStateSnapshot {
   const fallback: CatStateSnapshot = {
     current: "idle",
     queueLength: 0,
@@ -212,7 +217,7 @@ export function readStoredCatStateSnapshot(): CatStateSnapshot {
     dragging: false
   };
 
-  const raw = window.localStorage.getItem(STORAGE_KEY);
+  const raw = window.localStorage.getItem(storageKey);
   if (!raw) {
     return fallback;
   }
@@ -222,4 +227,8 @@ export function readStoredCatStateSnapshot(): CatStateSnapshot {
   } catch {
     return fallback;
   }
+}
+
+export function catStateStorageKey(instanceId: string) {
+  return `${STORAGE_KEY}:${instanceId}`;
 }

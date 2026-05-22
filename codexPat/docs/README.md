@@ -8,13 +8,43 @@
 docs/
   active/      当前阶段执行文档：计划、验收、当前差距和配套 drawio
   blueprint/   长期蓝图文档：产品、架构、协议、状态机、窗口、风险
-  reference/   后续参考设计：Cat Pack、Integrations、USB、Post-MVP roadmap
+  reference/   用户和集成参考：Multi-Codex workflow、Agent guide、petctl recipes、未来扩展参考
   ops/         工程运维文档：开发环境、网络镜像、排障、本地分发
   V1.0/        V1.0 macOS-first MVP 版本归档
   V2.0/        V2.0 Developer Workflow Integration Release 基线文档
   V2.1/        Real Agent Integration Verification 当前版本文档
   V2.2/        MCP adapter 预研文档，不代表已实现
+  V3.0/        Multi-instance Codex Working Partner System 已验收基线
+  V3.1/        V3.1 稳定化、用户上手、runtime smoke、迁移备份阶段文档
 ```
+
+## 推荐阅读路径
+
+普通用户：
+
+1. 根目录 `README.md`：快速启动、验证和文档入口。
+2. `reference/multi-codex-workflow.md`：一只 Codex 窗口一只猫的实际使用流程。
+3. `ops/troubleshooting.md`：启动、端口、token、petctl 常见问题。
+4. `ops/macos-local-distribution.md`：macOS unsigned local app 构建和打开。
+5. `V3.1/v3_1-local-app-migration-backup.md`：本地迁移、备份和恢复说明。
+
+开发者：
+
+1. `active/development-plan.md`：当前 V3.1 稳定化计划。
+2. `active/acceptance-plan.md`：当前验收计划。
+3. `blueprint/03-pet-event-protocol.md`：PetEvent 协议边界。
+4. `reference/agent-integration-guide.md` 和 `reference/petctl-recipes.md`：agent 接入与命令 cookbook。
+
+维护者 / 审计者：
+
+1. `V3.0/v3_0-final-acceptance-report.md`：V3.0 ready 的最终依据。
+2. `V3.0/v3_0-claim-matrix.md`：允许声明和禁止扩展。
+3. `V3.0/v3_0-evidence-index.md`：证据索引。
+4. `active/current-vs-target-gap.md` 与 `active/current-vs-target-gap.drawio`：当前 gap 和图。
+5. `V3.1/v3_1-final-manual-acceptance-checklist.md`：V3.1 最终人工验收逐项检查表。
+6. `V3.1/evidence/`：V3.1 各阶段 evidence。
+
+历史阶段文档（`V1.0/`、`V2.0/`、`V2.1/`、`V2.2/`）主要用于审计和追溯。普通用户不需要阅读这些目录才能使用桌宠。
 
 ## active
 
@@ -51,10 +81,11 @@ docs/
 
 ## reference
 
-`reference/` 是 Post-MVP 或未来扩展参考。
+`reference/` 是用户接入、命令 cookbook 和未来扩展参考。
 
 - `06-cat-pack.md`：猫咪资产包设计。
 - `07-integrations.md`：petctl、MCP、Skill 接入参考。
+- `multi-codex-workflow.md`：V3.1 用户流程文档，说明一只 Codex 窗口一只猫。
 - `agent-integration-guide.md`：V2.0 本地 Agent 工作流接入指南。
 - `petctl-recipes.md`：V2.0 `petctl notify` 命令 cookbook。
 - `third-party-agent-contract.md`：V2.1 third-party local agent HTTP contract。
@@ -90,6 +121,10 @@ docs/
 - `V2.0/v2_0-final-acceptance-report.md`：V2.0 ready 的判断依据，记录最终自动检查、macOS smoke、人工验收和声明边界。
 - `V2.1/`：真实 Codex / Claude Code / third-party agent 接入验证计划、证据模板和 gap。
 - `V2.2/`：MCP adapter 预研，不创建 `packages/pet-mcp`，不声明 MCP ready。
+- `V3.0/`：多实例 Codex 工作伙伴系统已验收基线；`v3_0-final-acceptance-report.md` 是 V3.0 ready 的最终依据；Claude Code、MCP、Windows、USB、3D、照片自定义和 production signing 当前是 deferred backlog，不是 V3.0 已实现能力。
+- `V3.1/`：V3.0 之后的稳定化和用户上手阶段；包含 Manager polish、runtime regression harness、local app migration and backup 文档及 evidence。
+- `V3.1/v3_1-final-manual-acceptance-checklist.md`：V3.1 final acceptance 的人工验收步骤，用于补齐 Manager UI operator acceptance。
+- `V3.1/v3_1-final-acceptance-report.md`：V3.1 final acceptance 的收口报告；当前为 passed，是 V3.1 ready 声明依据。
 
 维护规则：
 

@@ -1,222 +1,97 @@
 # Current vs Target Gap
 
-文档状态：docs baseline ready；Phase 1 complete；Phase 2 complete；Phase 3 complete；Phase 4 complete；Phase 5 complete；Phase 6 complete；V2.0 final acceptance passed；V2.1 planning baseline ready；V2.1-A complete。  
+文档状态：active gap；V3.1 stabilization and onboarding release。  
 配套图：`current-vs-target-gap.drawio`。
-V1.0 归档：`docs/V1.0/`。
-V2.0 基线：`docs/V2.0/`。
 
-本文与 drawio 图是后续开发、验收和范围控制的核心维护文件。本文承载文字合同，drawio 承载同一套当前状态、目标架构、差距矩阵、开发计划摘要和验收计划。
+## Current State
 
-## 1. 文档定位
+当前已完成并验收：
 
-本文只描述 agent-desktop-pet 从当前 Phase 6 实现状态到后续跨平台硬化状态之间的差距。
+- macOS-first MVP：Tauri 桌面猫、透明窗口、拖拽、托盘、设置页。
+- PetEvent / HTTP API / diagnostics / `petctl notify` / safe sound。
+- V2.0 workflow templates、recipes、shell/Node 示例、settings diagnostics polish、CSS cat polish、macOS local distribution docs。
+- V2.1-A third-party local HTTP contract smoke passed。
+- V2.1-B Codex local workflow integration verified for tested local Codex CLI smoke scenarios。
+- V3.0 multi-instance Codex workflow final acceptance passed for tested local Codex session scenarios。
 
-MVP 不是：
+当前 V3.1 主线是稳定化与交付整理：文档收口、用户上手、多 Codex workflow guide、Manager polish、runtime smoke 和本地迁移说明。
 
-- 完整 MCP server。
-- Codex / Claude Code Skill 完整包。
-- USB 氛围灯真实实现。
-- USB mock 硬件。
-- Rive / Live2D / 3D 猫。
-- 照片自定义或一键生成完整动态猫。
-- 团队协作状态中枢。
-- 正式签名发布。
+## Implemented Baseline Checklist
 
-第一阶段 MVP 要回答的问题是：
+| Version / phase | Implemented capability | Evidence / notes |
+| --- | --- | --- |
+| ✅ V1.0 / macOS-first MVP | Tauri 桌面壳、透明无边框置顶窗口、拖拽、位置持久化、系统托盘、设置页。 | macOS-first MVP 已验收；Windows 不在 V1.0 验收范围内。 |
+| ✅ V1.0 / Local Event Bridge | PetEvent JSON Schema、本地 HTTP API、token、白名单、rate limit、diagnostics、rejected reason sanitization。 | HTTP / diagnostics smoke 已通过。 |
+| ✅ V1.0 / CLI & Sound | `petctl notify`、JSON stdin、内置安全声音白名单、静音、cooldown。 | CLI smoke 与 safe sound smoke 已通过。 |
+| ✅ V2.0 Final Acceptance | Developer workflow polish。 | `docs/V2.0/v2_0-final-acceptance-report.md` passed。 |
+| ✅ V2.1-A | Third-party local HTTP contract smoke passed。 | 不代表真实第三方产品集成 verified。 |
+| ✅ V2.1-B | Codex local workflow integration verified for tested local Codex CLI smoke scenarios。 | 不代表所有 Codex workflow、MCP 或 cross-platform。 |
+| ✅ V3.0 Final Acceptance | Multi-instance Codex desktop pet workflow ready for tested local Codex session scenarios。 | `docs/V3.0/v3_0-final-acceptance-report.md` and evidence passed。 |
+| ✅ V3.1 Phase 1 | V3.0 Release Freeze & Documentation Cleanup。 | complete。 |
+| ✅ V3.1 Phase 2 | Multi-Codex User Workflow Guide。 | complete。 |
+| ✅ V3.1 Final Acceptance | Stabilization, onboarding, Manager polish, runtime smoke and migration guidance。 | `docs/V3.1/v3_1-final-acceptance-report.md` passed。 |
 
-> 开发者能否通过一个低打扰桌面猫，感知本地 AI Agent 的后台状态、异常和待处理事项。
+## Target State
 
-第一阶段 MVP 采用 macOS-first 验收口径。Windows 仍是产品方向，但不作为第一阶段验收阻塞项；Windows 启动、托盘、HTTP API 和 petctl smoke test 移到后续跨平台硬化阶段。
+V3.1 目标：
 
-## 2. 当前状态
+- README 是快速入口，不复制完整历史阶段内容。
+- docs map 明确普通用户、开发者、维护者分别该读哪些文档。
+- multi-codex workflow guide 能让新用户完成“一只 Codex 窗口一只猫”。
+- Manager UI 更易理解。
+- runtime smoke 可重复执行且不泄露 token、不破坏用户配置。
+- migration 文档基于真实 config 路径，不虚构。
 
-当前仓库事实：
+## Gap Matrix
 
-- 已有 README 和 docs 设计文档。
-- 已有产品体验北极星、总体架构、技术选型、协议、状态机、窗口、资产、集成、硬件、风险等文档草案。
-- 已有 `apps/desktop` Tauri 2 + Vite + TypeScript Phase 1 桌面壳实现。
-- 已有透明、无边框、置顶、小尺寸占位猫窗口配置。
-- 已有 CSS 占位猫 idle 动画、窗口拖拽、位置/静音/显示状态持久化。
-- 已有 Tauri 2 tray/menu 托盘、显示设置、静音、显示/隐藏、重置位置、退出。
-- 已有占位设置页，包含静音状态、窗口位置、猫咪大小占位和事件日志空状态。
-- 已有 Phase 2 前端 `CatStateMachine` 和本地 Behavior Queue。
-- 已有本地 debug 状态触发入口。
-- 已有 idle、thinking、running、success、warning、error、need_input、sleeping 的 CSS 占位动画。
-- 设置页可显示当前状态和队列长度快照。
-- Phase 1/2 自动检查已通过：`pnpm check/build`、`cargo check`、`tauri build -b app`。
-- `tauri dev` 已可启动；2026-05-15 Phase 2 视觉验收已通过。
-- Phase 3 已有 Rust Local Event Bridge，监听 `127.0.0.1:17321`。
-- Phase 4 已有轻量 Rust Ingress Queue、事件摘要 ring buffer 和 diagnostics API。
-- `packages/pet-protocol` 已实现，包含 JSON Schema、TypeScript 类型、capabilities 和 fixtures。
-- Phase 5 已完成 `packages/petctl` 和 `petctl notify`，支持参数模式、JSON stdin、本地校验、token/url 读取和 localhost HTTP 写入。
-- Phase 6 已实现内置声音播放、静音联动、cooldown 和 diagnostics sound 字段。
-- V2.0 Phase 2.1 已新增 Codex / Claude Code instruction template、agent 接入指南、petctl recipes、shell 示例和 Node 示例。
-- V2.0 Phase 2.2 已将设置页 diagnostics 打磨为只读运行状态面板，包含 runtime health、sound、accepted/rejected events 和 quick commands。
-- V2.0 Phase 2.3 已打磨 CSS 占位猫体验，8 个状态更可区分，保持透明窗口稳定、拖拽优先和低打扰。
-- V2.0 Phase 2.4 已完成 README 快速入口、macOS local unsigned app 分发说明、doctor/troubleshooting、token/config 和迁移文档。
+| Gap | Current | Target | Status |
+| --- | --- | --- | --- |
+| V3.0 release evidence | V3.0 final checklist and evidence passed。 | Final acceptance report 作为统一入口。 | ✅ V3.1 Phase 1 |
+| README / docs map | README 快速入口和 docs map 已收口。 | README 快速入口；docs map 按角色导读。 | ✅ V3.1 Phase 1 |
+| Multi-Codex onboarding | V3.0 能力已实现，workflow guide 已存在。 | 新用户按文档完成 A/B Codex session 各一只猫。 | ✅ V3.1 Phase 2 |
+| Manager UI usability | 文案、反馈、复制安全和布局 polish 已实现并通过人工验收。 | 自动检查和人工验收通过后冻结。 | ✅ V3.1 Phase 3 |
+| Runtime smoke | 脚本与最小清理能力已实现并通过。 | 一条脚本可重复验证核心 runtime 链路。 | ✅ V3.1 Phase 4 |
+| Migration / backup | 只读 config audit 和迁移备份文档已实现并通过。 | 明确真实 config 路径和迁移策略。 | ✅ V3.1 Phase 5 |
+| V3.1 final acceptance | 自动检查、runtime smoke、config audit 和 Manager UI 人工验收均已通过。 | final acceptance report passed 后允许 V3.1 ready。 | ✅ V3.1 ready |
 
-当前可以声明：
+## Allowed Current Claims
 
 ```text
-agent-desktop-pet docs baseline ready.
-Phase 1 complete: desktop shell and placeholder pet window ready.
-Phase 2 complete: local low-interruption state machine and placeholder state animations ready.
-Phase 3 complete: local PetEvent protocol and localhost HTTP event bridge ready.
-Phase 4 complete: observable event runtime and settings diagnostics ready.
-Phase 5 complete: petctl CLI can notify the local desktop pet through localhost HTTP API.
-Phase 6 complete: safe sound feedback implemented.
-V2.0 Phase 2.1 complete: local workflow integration templates and petctl recipes ready.
-V2.0 Phase 2.2 complete: settings diagnostics polish ready.
-V2.0 Phase 2.3 complete: CSS placeholder cat experience polish ready.
-V2.0 Phase 2.4 complete: macOS distribution readiness and user onboarding docs ready.
-V2.0 ready: local agent workflow integration and developer usability polish complete.
-Codex and Claude Code local workflow templates ready.
-V2.1 planning baseline ready: real agent integration verification docs and third-party contract draft ready.
-V2.1-A complete: integration baseline audit and local third-party HTTP contract smoke ready.
-Third-party local HTTP contract smoke passed.
 macOS-first MVP ready: local desktop agent status pet with HTTP + petctl integration and safe sound feedback.
+V2.0 ready: local agent workflow integration and developer usability polish complete.
+Third-party local HTTP contract smoke passed.
+Codex local workflow integration verified for tested local Codex CLI smoke scenarios.
+V3.0 ready: multi-instance Codex desktop pet workflow ready for tested local Codex session scenarios.
+V3.1 planning ready: stabilization, onboarding, runtime smoke, and migration cleanup can start from the V3.0 accepted baseline.
+V3.1 Phase 4 complete: repeatable runtime regression smoke ready.
+V3.1 Phase 5 complete: local app migration and backup guidance ready.
+V3.1 ready: multi-instance Codex pet workflow stabilized with user onboarding, manager polish, repeatable runtime smoke, and migration guidance.
 ```
 
-当前不能声明：
+当前 final acceptance：
 
 ```text
-MCP/Skill ready
-Codex integration verified
+V3.1 final acceptance passed.
+```
+
+## Forbidden Current Claims
+
+```text
+all Codex workflows verified
+unqualified multi-instance Codex verified beyond tested local scenarios
+per-instance queue ready
+OS-level Codex window binding ready
 Claude Code integration verified
 Third-party agent integration verified
-cross-platform build ready
-cross-platform MVP ready
+MCP ready
+Windows ready
+cross-platform ready
+USB ready
+Rive/Live2D/3D ready
+photo customization ready
+user asset upload ready
+remote asset download ready
+custom asset pack import ready
 production signed release ready
+auto update ready
 ```
-
-## 3. 目标状态
-
-第一阶段 MVP 完成后应具备：
-
-- macOS 可运行并可打包的 Tauri 桌面应用。
-- 透明、无边框、置顶、可拖拽占位猫窗口。
-- 系统托盘：设置、静音、显示/隐藏、退出。
-- 占位动画与低打扰状态机。
-- 本地 HTTP API，只监听 `127.0.0.1`。
-- PetEvent schema 校验、白名单过滤、速率限制、事件队列、事件日志。
-- TypeScript 和 Rust 基于同一 JSON Schema 或等价跨语言 schema 校验 PetEvent。
-- `petctl notify` CLI。
-- 基础声音白名单。
-- 基础设置页。
-
-当前 macOS-first MVP 可声明：
-
-```text
-macOS-first MVP ready: local desktop agent status pet with HTTP + petctl integration and safe sound feedback.
-```
-
-## 4. 当前实现架构
-
-```text
-+------------------------+
-| README + docs          |
-| apps/desktop           |
-| - Tauri shell          |
-| - transparent pet win  |
-| - placeholder cat CSS  |
-| - local state machine  |
-| - tray/settings        |
-+-----------+------------+
-            |
-            v
-+------------------------+
-| Phase 5 local runtime  |
-| - Rust HTTP bridge     |
-| - pet-protocol schema  |
-| - diagnostics logs     |
-| - petctl CLI client    |
-| - sound ID whitelist   |
-+------------------------+
-```
-
-## 5. 目标项目架构
-
-```text
-Custom Agent / Scripts
-  -> HTTP caller or petctl CLI client
-  -> Rust Local Event Bridge
-  -> JSON Schema PetEvent validation / whitelist / queue / logs
-  -> TypeScript CatStateMachine
-  -> placeholder cat renderer + sound whitelist
-  -> transparent Tauri desktop pet window
-```
-
-后续扩展：
-
-```text
-future pet-mcp / future skills / serial hardware / Rive-Live2D-3D
-  -> reuse same PetEvent and event bridge
-```
-
-## 6. Gap Matrix
-
-| Gap | 当前状态 | MVP 目标 | 阶段 |
-| --- | --- | --- | --- |
-| Desktop shell | Phase 1 已完成；透明、无边框、置顶、拖拽、托盘、设置页可用。 | 保持回归不破坏。 | Phase 1 |
-| State machine | Phase 2 已完成；本地 TS runtime、Behavior Queue、debug 入口、状态 CSS 动画和人工视觉验收通过。 | 后续接入真实 PetEvent 后继续复用。 | Phase 2 |
-| PetEvent protocol | Phase 3 已实现 JSON Schema、TypeScript 类型、白名单和 fixtures。 | 后续由 petctl/MCP/Skill 复用同一协议。 | Phase 3 |
-| Cross-language schema | Phase 3 已以 JSON Schema 作为单一事实源，Rust 直接加载同一 schema。 | 后续补充更多一致性测试。 | Phase 3 |
-| Local HTTP API | Phase 3 已实现 `127.0.0.1:17321` health/capabilities/events；Phase 5 已由 petctl 复用。 | 后续给 MCP/Skill adapter 复用。 | Phase 3/5 |
-| Security boundary | Phase 4 已实现 token、schema、白名单、限流、queue_full 和 rejected summary；Phase 5 petctl 复用同一边界。 | 后续接入仍保持同一边界。 | Phase 3/4/5 |
-| Event queue/logs | 已有前端 Behavior Queue；Phase 4 已实现轻量 Rust Ingress Queue 和内存事件摘要。 | 后续可继续增强但不引入通知中心。 | Phase 4 |
-| Settings page | 已显示静音、位置、当前状态、队列长度、API diagnostics、sound diagnostics 和最近事件摘要。 | 后续做 macOS MVP 使用说明收口。 | Phase 4/6 |
-| petctl CLI | Phase 5 已实现参数模式和 JSON stdin。 | 后续可给 MCP/Skill 复用。 | Phase 5 |
-| Sound whitelist | Phase 6 已实现内置 sound ID、冷却、静音联动播放；仍禁止路径/URL。 | 后续保持回归不破坏。 | Phase 6 |
-| Workflow templates | V2.0 Phase 2.1 已提供 Codex / Claude Code instruction template、petctl recipes、shell 示例和 Node 示例。 | 后续可做设置页复制命令、diagnostics polish，但不声明 Codex/Claude 集成已验证。 | V2.0 Phase 2.1 |
-| Settings diagnostics polish | V2.0 Phase 2.2 已完成运行状态、声音、accepted/rejected 摘要和 quick commands 分区展示。 | 后续可继续做视觉打磨，但不引入通知中心、日志数据库或命令执行。 | V2.0 Phase 2.2 |
-| Cat experience polish | V2.0 Phase 2.3 已完成 CSS 占位猫体验打磨；8 个状态更可区分，拖拽优先，窗口尺寸稳定。 | 后续如需高阶资产渲染，应单独进入 Rive/Live2D/3D 阶段。 | V2.0 Phase 2.3 |
-| Distribution readiness | V2.0 Phase 2.4 已完成 README quick start、ops 文档、macOS local unsigned app 分发说明和 token/config 说明。 | 后续如需 production release，需签名、公证和发布流水线。 | V2.0 Phase 2.4 |
-| V2.0 final acceptance | `docs/V2.0/v2_0-final-acceptance-report.md` status 为 `passed`。 | 当前允许声明 V2.0 ready，但不扩大到 Codex/Claude 真实集成验证、Windows、签名发布、MCP 或 USB。 | Final acceptance passed |
-| Codex real smoke | 只有 template ready。 | 真实 Codex CLI smoke 通过后，才允许声明 Codex local workflow integration verified。 | V2.1-B pending |
-| Claude Code real smoke | 只有 template ready 和 hook example。 | 真实 Claude Code skill/hook smoke 通过后，才允许声明 Claude Code local workflow integration verified。 | V2.1-C pending |
-| Third-party contract | 已新增合同和 HTTP 示例；success/auth/level/sound redaction/source redaction/rate-limit smoke 通过。 | 真实第三方 agent 产品集成验证仍需后续单独执行。 | V2.1-A smoke passed |
-| MCP adapter | 仅有 V2.2 预研文档。 | 后续实现 `packages/pet-mcp` 并通过 Codex/Claude MCP smoke 后，才允许声明 MCP ready。 | V2.2 research-only |
-| macOS MVP exit | Phase 6 已完成 macOS build、HTTP + petctl + sound 的低打扰闭环验证和使用说明更新。 | 后续保持回归不破坏。 | Phase 6 |
-| Windows hardening | 尚未做 Windows smoke。 | 后续完成 Windows 启动、托盘、HTTP API、petctl smoke test 后，才允许声明 cross-platform ready。 | Phase 8 |
-
-## 7. 开发计划摘要
-
-| Phase | 目标 | 完成后可声明 |
-| --- | --- | --- |
-| Phase 1 | 桌面壳与占位猫。 | Phase 1 complete。 |
-| Phase 2 | 占位动画与低打扰状态机。 | Phase 2 complete。 |
-| Phase 3 | pet-protocol 与本地 HTTP API。 | Phase 3 complete。 |
-| Phase 4 | 事件队列、日志和设置页。 | Phase 4 complete。 |
-| Phase 5 | petctl CLI。 | Phase 5 complete。 |
-| Phase 6 | 声音白名单与低打扰打磨。 | Phase 6 complete。 |
-| Phase 7 | macOS MVP 打包验证与收口。 | 已并入 Phase 6。 |
-| Phase 8 | Windows 跨平台验证与硬化。 | cross-platform ready。 |
-| V2.0 Phase 2.1 | Workflow Integration Templates。 | local workflow integration templates and petctl recipes ready。 |
-| V2.0 Phase 2.2 | Settings & Diagnostics Polish。 | settings diagnostics polish ready。 |
-| V2.0 Phase 2.3 | Cat Experience Polish。 | CSS placeholder cat experience polish ready。 |
-| V2.0 Phase 2.4 | Distribution Readiness。 | macOS distribution readiness and user onboarding docs ready。 |
-| V2.0 Final Acceptance | V2.0 验收收口与声明边界固化。 | V2.0 ready: local agent workflow integration and developer usability polish complete。 |
-| V2.1-A | Integration Baseline Audit。 | V2.1-A complete: integration baseline audit and local third-party HTTP contract smoke ready。 |
-| V2.1-B | Codex Real Integration。 | Codex local workflow integration verified。 |
-| V2.1-C | Claude Code Real Integration。 | Claude Code local workflow integration verified。 |
-| V2.1-D | Third-party Agent Product Verification。 | Third-party agent integration verified only after a real third-party agent smoke, not just local HTTP contract smoke。 |
-| V2.2 Research | MCP Adapter 预研，不实现。 | 不声明 MCP ready。 |
-
-## 8. 验收计划摘要
-
-MVP 出门验收：
-
-- 窗口：透明、无边框、置顶、可拖拽、位置持久化。
-- 托盘：设置、静音、显示/隐藏、退出。
-- API：只监听 `127.0.0.1`，health/events/capabilities 可用。
-- 安全：token、schema、白名单、限流、非法事件日志。
-- 协议：TypeScript 与 Rust 基于同一 JSON Schema 或同一批 fixtures 校验。
-- 状态机：优先级、冷却、打断、队列、低打扰规则。
-- CLI：petctl 可写入事件，错误反馈清晰；Phase 5 已完成 macOS 本地 smoke。
-- 声音：只允许 sound ID，静音全局生效。
-- 日志：合法事件和非法事件摘要可查看。
-- 体验：thinking/running 低打扰，error/need_input 明显但克制。
-- V2.0 Phase 2.1：Codex / Claude Code 模板、shell / Node 示例和 petctl recipes 可复制；示例不打印完整 token，不发送路径或 URL 作为 sound。
-- V2.0 Phase 2.2：设置页 diagnostics 可读；Quick commands 只复制不执行；不显示 token、原始 payload、metadata 全量、message 全文或声音路径。
-- V2.0 Phase 2.3：8 个 CSS 猫咪状态肉眼可区分；thinking/running 低打扰；warning/error/need_input 程度递进；透明窗口无黑框；拖拽优先；窗口尺寸不抖动。
-- V2.0 Phase 2.4：README 能引导 macOS 本地安装、启动、构建、打开、health 验证和 `petctl notify`；ops 文档覆盖网络、doctor、token、unsigned app、迁移和常见错误。

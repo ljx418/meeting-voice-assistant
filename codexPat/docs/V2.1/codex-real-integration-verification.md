@@ -1,6 +1,6 @@
 # Codex Real Integration Verification
 
-文档状态：V2.1 smoke plan。
+文档状态：V2.1-B passed；Codex local workflow integration verified for tested local Codex CLI smoke scenarios。
 
 ## Goal
 
@@ -43,3 +43,23 @@
 
 如果只是复制模板命令或在普通终端手动运行 `petctl`，只能声明 `Codex local workflow template ready`。
 
+## 2026-05-19 Smoke Result
+
+真实 `codex exec` 已完成三组 smoke：
+
+- Smoke A：读取 README / V2.1 文档，运行 `pnpm --filter @agent-desktop-pet/petctl test`，发送 `thinking`、`running`、`success`。
+- Smoke B：执行安全失败命令 `false`，发送 `running`、`error`。
+- Smoke C：在提交/推送前请求确认，发送 `need_input`。
+
+diagnostics 已出现 `sourceId=codex.local` 的 accepted summaries，覆盖 `thinking`、`running`、`success`、`error`、`need_input`。
+
+operator 已确认人工视觉验收通过。V2.1-B 当前可声明：
+
+```text
+V2.1-B complete: Codex local workflow integration smoke passed.
+Codex local workflow integration verified for tested local Codex CLI smoke scenarios.
+```
+
+证据文件：
+
+- `docs/V2.1/evidence/codex-smoke-2026-05-19.md`

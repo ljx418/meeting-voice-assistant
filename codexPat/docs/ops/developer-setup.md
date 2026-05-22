@@ -50,6 +50,8 @@ cargo check --manifest-path apps/desktop/src-tauri/Cargo.toml
 pnpm --filter desktop tauri dev
 ```
 
+迁移或重建本地 app 前，可先参考 [V3.1 Local App Migration and Backup](../V3.1/v3_1-local-app-migration-backup.md) 确认哪些配置需要保留，哪些构建产物可以重建。
+
 构建 macOS local `.app`：
 
 ```bash

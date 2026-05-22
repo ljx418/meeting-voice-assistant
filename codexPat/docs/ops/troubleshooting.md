@@ -105,6 +105,8 @@ node packages/petctl/dist/cli.js notify --level success --title "distribution sm
 
 ## Token And Config
 
+迁移、备份和恢复说明见 [V3.1 Local App Migration and Backup](../V3.1/v3_1-local-app-migration-backup.md)。
+
 HTTP API 需要：
 
 ```text

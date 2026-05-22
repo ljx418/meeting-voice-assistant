@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { parseArgs, buildEventFromOptions } from "./args.js";
+import { attachCodex, detachInstance, listInstances } from "./instances.js";
 import { notify } from "./notify.js";
 import { formatResult, EXIT_CODES } from "./output.js";
 
@@ -8,12 +9,45 @@ export async function main(argv = process.argv.slice(2)) {
   try {
     const args = parseArgs(argv);
     pretty = args.pretty;
-    const event = args.json ? await readStdinJson() : buildEventFromOptions(args.payloadOptions);
-    const result = await notify({
-      event,
-      token: args.token,
-      url: args.url
-    });
+    let result;
+    if (args.command === "attach") {
+      result = await attachCodex({
+        token: args.token,
+        url: args.url,
+        name: args.name,
+        workspaceLabel: args.workspaceLabel,
+        workspaceHash: args.workspaceHash
+      });
+      if (args.printEnv && result.ok && result.exportCommand) {
+        console.log(result.exportCommand);
+        return result.exitCode;
+      }
+      pretty = pretty || args.json;
+    } else if (args.command === "list") {
+      result = await listInstances({
+        token: args.token,
+        url: args.url
+      });
+      pretty = pretty || args.json;
+    } else if (args.command === "detach") {
+      if (!args.instance) {
+        throw new Error("petctl detach requires --instance");
+      }
+      result = await detachInstance({
+        token: args.token,
+        url: args.url,
+        instance: args.instance
+      });
+      pretty = pretty || args.json;
+    } else {
+      const event = args.json ? await readStdinJson() : buildEventFromOptions(args.payloadOptions);
+      result = await notify({
+        event,
+        token: args.token,
+        url: args.url,
+        instance: args.instance
+      });
+    }
     writeResult(result, pretty);
     return result.exitCode;
   } catch (error) {

@@ -6,8 +6,41 @@ export type NotifyArgs = {
   pretty: boolean;
   token?: string;
   url?: string;
+  instance?: string;
   payloadOptions: PayloadOptions;
 };
+
+export type AttachArgs = {
+  command: "attach";
+  target: "codex";
+  json: boolean;
+  pretty: boolean;
+  printEnv: boolean;
+  token?: string;
+  url?: string;
+  name?: string;
+  workspaceLabel?: string;
+  workspaceHash?: string;
+};
+
+export type ListArgs = {
+  command: "list";
+  json: boolean;
+  pretty: boolean;
+  token?: string;
+  url?: string;
+};
+
+export type DetachArgs = {
+  command: "detach";
+  json: boolean;
+  pretty: boolean;
+  token?: string;
+  url?: string;
+  instance?: string;
+};
+
+export type PetctlArgs = NotifyArgs | AttachArgs | ListArgs | DetachArgs;
 
 export type PayloadOptions = {
   sourceId?: string;
@@ -41,10 +74,19 @@ const PAYLOAD_FLAGS = new Set([
   "--metadata"
 ]);
 
-export function parseArgs(argv: string[]): NotifyArgs {
+export function parseArgs(argv: string[]): PetctlArgs {
   const [command, ...rest] = argv;
+  if (command === "attach") {
+    return parseAttachArgs(rest);
+  }
+  if (command === "list") {
+    return parseListArgs(rest);
+  }
+  if (command === "detach") {
+    return parseDetachArgs(rest);
+  }
   if (command !== "notify") {
-    throw new Error("usage: petctl notify [options]");
+    throw new Error("usage: petctl <notify|attach|list|detach> [options]");
   }
 
   const args: NotifyArgs = {
@@ -70,6 +112,9 @@ export function parseArgs(argv: string[]): NotifyArgs {
         break;
       case "--url":
         args.url = readValue(rest, ++index, flag);
+        break;
+      case "--instance":
+        args.instance = readValue(rest, ++index, flag);
         break;
       case "--source-id":
         args.payloadOptions.sourceId = readValue(rest, ++index, flag);
@@ -124,6 +169,121 @@ export function parseArgs(argv: string[]): NotifyArgs {
 
   if (Object.keys(args.payloadOptions.metadata).length > 20) {
     throw new Error("--metadata supports at most 20 keys");
+  }
+
+  return args;
+}
+
+function parseAttachArgs(rest: string[]): AttachArgs {
+  const [target, ...options] = rest;
+  if (target !== "codex") {
+    throw new Error("usage: petctl attach codex [options]");
+  }
+  const args: AttachArgs = {
+    command: "attach",
+    target: "codex",
+    json: false,
+    pretty: false,
+    printEnv: false
+  };
+
+  for (let index = 0; index < options.length; index += 1) {
+    const flag = options[index];
+    switch (flag) {
+      case "--json":
+        args.json = true;
+        break;
+      case "--pretty":
+        args.pretty = true;
+        break;
+      case "--print-env":
+        args.printEnv = true;
+        break;
+      case "--token":
+        args.token = readValue(options, ++index, flag);
+        break;
+      case "--url":
+        args.url = readValue(options, ++index, flag);
+        break;
+      case "--name":
+        args.name = readValue(options, ++index, flag);
+        break;
+      case "--workspace-label":
+        args.workspaceLabel = readValue(options, ++index, flag);
+        break;
+      case "--workspace-hash":
+        args.workspaceHash = readValue(options, ++index, flag);
+        break;
+      default:
+        throw new Error(`unknown option: ${flag}`);
+    }
+  }
+
+  return args;
+}
+
+function parseListArgs(rest: string[]): ListArgs {
+  const args: ListArgs = {
+    command: "list",
+    json: false,
+    pretty: false
+  };
+
+  for (let index = 0; index < rest.length; index += 1) {
+    const flag = rest[index];
+    switch (flag) {
+      case "--json":
+        args.json = true;
+        break;
+      case "--pretty":
+        args.pretty = true;
+        break;
+      case "--token":
+        args.token = readValue(rest, ++index, flag);
+        break;
+      case "--url":
+        args.url = readValue(rest, ++index, flag);
+        break;
+      default:
+        throw new Error(`unknown option: ${flag}`);
+    }
+  }
+
+  return args;
+}
+
+function parseDetachArgs(rest: string[]): DetachArgs {
+  const args: DetachArgs = {
+    command: "detach",
+    json: false,
+    pretty: false
+  };
+
+  for (let index = 0; index < rest.length; index += 1) {
+    const flag = rest[index];
+    switch (flag) {
+      case "--json":
+        args.json = true;
+        break;
+      case "--pretty":
+        args.pretty = true;
+        break;
+      case "--token":
+        args.token = readValue(rest, ++index, flag);
+        break;
+      case "--url":
+        args.url = readValue(rest, ++index, flag);
+        break;
+      case "--instance":
+        args.instance = readValue(rest, ++index, flag);
+        break;
+      default:
+        throw new Error(`unknown option: ${flag}`);
+    }
+  }
+
+  if (!args.instance) {
+    throw new Error("petctl detach requires --instance");
   }
 
   return args;

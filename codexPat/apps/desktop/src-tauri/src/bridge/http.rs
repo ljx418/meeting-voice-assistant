@@ -6,19 +6,19 @@ use super::{
 use crate::sound::SoundHandle;
 use axum::{
     body::Bytes,
-    extract::State,
+    extract::{Path, State},
     http::{header::AUTHORIZATION, HeaderMap, StatusCode},
     response::IntoResponse,
-    routing::{get, post},
+    routing::{delete, get, post},
     Json, Router,
 };
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::{
     net::SocketAddr,
     sync::{Arc, Mutex},
 };
-use tauri::{AppHandle, Emitter};
+use tauri::{AppHandle, Emitter, Manager};
 use tokio::{net::TcpListener, sync::oneshot};
 
 #[derive(Clone)]
@@ -37,6 +37,23 @@ struct HealthResponse {
     app: &'static str,
     phase: &'static str,
     listen_address: &'static str,
+}
+
+#[derive(Clone)]
+struct EventTarget {
+    instance_id: String,
+    window_label: String,
+    visible: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct CreateInstanceRequest {
+    source_kind: Option<String>,
+    source_id: Option<String>,
+    display_name: Option<String>,
+    workspace_label: Option<String>,
+    workspace_hash: Option<String>,
 }
 
 pub fn spawn_server(
@@ -66,6 +83,8 @@ pub fn spawn_server(
                     level: None,
                     title_preview: None,
                     message_preview: None,
+                    target_instance_id: None,
+                    target_window_label: None,
                     status: StatusCode::SERVICE_UNAVAILABLE.as_u16(),
                     accepted: false,
                     reason_code: Some(RejectReasonCode::BridgeUnavailable),
@@ -87,6 +106,8 @@ pub fn spawn_server(
                     level: None,
                     title_preview: None,
                     message_preview: None,
+                    target_instance_id: None,
+                    target_window_label: None,
                     status: StatusCode::SERVICE_UNAVAILABLE.as_u16(),
                     accepted: false,
                     reason_code: Some(RejectReasonCode::PortBindFailed),
@@ -102,7 +123,21 @@ pub fn spawn_server(
             .route("/api/health", get(health))
             .route("/api/capabilities", get(get_capabilities))
             .route("/api/diagnostics", get(get_diagnostics))
+            .route("/api/instances", get(get_instances).post(post_instance))
+            .route("/api/instances/:instance_id", delete(delete_instance))
             .route("/api/events", post(post_event))
+            .route(
+                "/api/instances/:instance_id/events",
+                post(post_instance_event),
+            )
+            .route(
+                "/api/instances/:invalid_a/:invalid_b/events",
+                post(post_invalid_instance_path),
+            )
+            .route(
+                "/api/instances/:invalid_a/:invalid_b/:invalid_c/events",
+                post(post_invalid_instance_path),
+            )
             .with_state(state);
 
         let server = axum::serve(listener, app).with_graceful_shutdown(async {
@@ -137,6 +172,7 @@ async fn get_diagnostics(State(state): State<HttpState>, headers: HeaderMap) -> 
             None,
             None,
             None,
+            None,
             status,
             reason,
         ));
@@ -156,8 +192,350 @@ async fn get_diagnostics(State(state): State<HttpState>, headers: HeaderMap) -> 
     Json(state.debug.snapshot(state.sound.diagnostics())).into_response()
 }
 
+async fn get_instances(State(state): State<HttpState>, headers: HeaderMap) -> impl IntoResponse {
+    if let Err((status, code)) = authorize(&headers, &state.token) {
+        let reason = sanitized_reason(code, "auth");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            status,
+            reason,
+        ));
+        return error_response(status, reason).into_response();
+    }
+
+    match state.app.try_state::<crate::AppState>() {
+        Some(app_state) => match app_state.settings.lock() {
+            Ok(settings) => Json(json!({
+                "ok": true,
+                "instances": crate::pet_instance_views(&settings),
+                "limits": crate::pet_instance_limits(&settings)
+            }))
+            .into_response(),
+            Err(_error) => {
+                let reason = sanitized_reason(RejectReasonCode::BridgeUnavailable, "bridge");
+                error_response(StatusCode::SERVICE_UNAVAILABLE, reason).into_response()
+            }
+        },
+        None => {
+            let reason = sanitized_reason(RejectReasonCode::BridgeUnavailable, "bridge");
+            error_response(StatusCode::SERVICE_UNAVAILABLE, reason).into_response()
+        }
+    }
+}
+
+async fn post_instance(
+    State(state): State<HttpState>,
+    headers: HeaderMap,
+    body: Bytes,
+) -> impl IntoResponse {
+    if let Err((status, code)) = authorize(&headers, &state.token) {
+        let reason = sanitized_reason(code, "auth");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            status,
+            reason,
+        ));
+        return error_response(status, reason).into_response();
+    }
+
+    if body.len() > 4096 {
+        let reason = sanitized_reason(RejectReasonCode::PayloadTooLarge, "payload");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            StatusCode::BAD_REQUEST,
+            reason,
+        ));
+        return error_response(StatusCode::BAD_REQUEST, reason).into_response();
+    }
+
+    let request = match serde_json::from_slice::<CreateInstanceRequest>(&body) {
+        Ok(request) => request,
+        Err(_error) => {
+            let reason = sanitized_reason(RejectReasonCode::SchemaInvalid, "payload");
+            state.debug.record_rejected(rejected_summary(
+                state.debug.event_id(),
+                None,
+                None,
+                None,
+                None,
+                None,
+                StatusCode::BAD_REQUEST,
+                reason,
+            ));
+            return error_response(StatusCode::BAD_REQUEST, reason).into_response();
+        }
+    };
+
+    let source_kind = request.source_kind.unwrap_or_else(|| "codex".to_string());
+    if !matches!(source_kind.as_str(), "codex" | "custom") {
+        let reason = sanitized_reason(RejectReasonCode::SourceKindInvalid, "source.kind");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            StatusCode::BAD_REQUEST,
+            reason,
+        ));
+        return error_response(StatusCode::BAD_REQUEST, reason).into_response();
+    }
+
+    let source_id = request.source_id.unwrap_or_else(|| {
+        if source_kind == "codex" {
+            "codex.local".to_string()
+        } else {
+            "custom.local".to_string()
+        }
+    });
+    if !is_valid_source_id(&source_id) {
+        let reason = sanitized_reason(RejectReasonCode::WhitelistInvalid, "source.id");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            StatusCode::BAD_REQUEST,
+            reason,
+        ));
+        return error_response(StatusCode::BAD_REQUEST, reason).into_response();
+    }
+
+    let display_name = request
+        .display_name
+        .map(|value| value.trim().to_string())
+        .unwrap_or_else(|| "Codex Cat".to_string());
+    if !is_valid_display_name(&display_name) {
+        let reason = sanitized_reason(RejectReasonCode::DisplayNameInvalid, "display_name");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            StatusCode::BAD_REQUEST,
+            reason,
+        ));
+        return error_response(StatusCode::BAD_REQUEST, reason).into_response();
+    }
+
+    if !is_valid_optional_label(request.workspace_label.as_deref()) {
+        let reason = sanitized_reason(RejectReasonCode::WorkspaceLabelInvalid, "workspace_label");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            StatusCode::BAD_REQUEST,
+            reason,
+        ));
+        return error_response(StatusCode::BAD_REQUEST, reason).into_response();
+    }
+
+    if !is_valid_optional_workspace_hash(request.workspace_hash.as_deref()) {
+        let reason = sanitized_reason(RejectReasonCode::WorkspaceHashInvalid, "workspace_hash");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            StatusCode::BAD_REQUEST,
+            reason,
+        ));
+        return error_response(StatusCode::BAD_REQUEST, reason).into_response();
+    }
+
+    let app_state = match state.app.try_state::<crate::AppState>() {
+        Some(app_state) => app_state,
+        None => {
+            let reason = sanitized_reason(RejectReasonCode::BridgeUnavailable, "bridge");
+            return error_response(StatusCode::SERVICE_UNAVAILABLE, reason).into_response();
+        }
+    };
+    if let Ok(settings) = app_state.settings.lock() {
+        if crate::pet_instance_limits(&settings).at_hard_limit {
+            let reason = sanitized_reason(RejectReasonCode::InstanceLimitReached, "instance_limit");
+            state.debug.record_rejected(rejected_summary(
+                state.debug.event_id(),
+                None,
+                None,
+                None,
+                None,
+                None,
+                StatusCode::CONFLICT,
+                reason,
+            ));
+            return error_response(StatusCode::CONFLICT, reason).into_response();
+        }
+    }
+    let instance = match crate::create_pet_instance_for_source(
+        &state.app,
+        &app_state,
+        display_name,
+        source_kind,
+        source_id,
+        request.workspace_label,
+        request.workspace_hash,
+    ) {
+        Ok(instance) => instance,
+        Err(error) => {
+            if error == "instance_limit_reached" {
+                let reason =
+                    sanitized_reason(RejectReasonCode::InstanceLimitReached, "instance_limit");
+                return error_response(StatusCode::CONFLICT, reason).into_response();
+            }
+            let reason = sanitized_reason(RejectReasonCode::BridgeUnavailable, "bridge");
+            return error_response(StatusCode::SERVICE_UNAVAILABLE, reason).into_response();
+        }
+    };
+
+    Json(json!({
+        "ok": true,
+        "created": true,
+        "instanceId": instance.instance_id,
+        "displayName": instance.display_name,
+        "windowLabel": instance.window_label,
+        "export": format!("export AGENT_DESKTOP_PET_INSTANCE_ID={}", instance.instance_id),
+        "instance": instance
+    }))
+    .into_response()
+}
+
+async fn delete_instance(
+    State(state): State<HttpState>,
+    Path(instance_id): Path<String>,
+    headers: HeaderMap,
+) -> impl IntoResponse {
+    if let Err((status, code)) = authorize(&headers, &state.token) {
+        let reason = sanitized_reason(code, "auth");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            status,
+            reason,
+        ));
+        return error_response(status, reason).into_response();
+    }
+
+    if !is_valid_instance_id(&instance_id) {
+        let reason = sanitized_reason(RejectReasonCode::InstanceIdInvalid, "instance");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            StatusCode::BAD_REQUEST,
+            reason,
+        ));
+        return error_response(StatusCode::BAD_REQUEST, reason).into_response();
+    }
+
+    if instance_id == "default" {
+        let reason = sanitized_reason(RejectReasonCode::DefaultInstanceCannotDetach, "instance");
+        state.debug.record_rejected(rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            StatusCode::BAD_REQUEST,
+            reason,
+        ));
+        return error_response(StatusCode::BAD_REQUEST, reason).into_response();
+    }
+
+    let app_state = match state.app.try_state::<crate::AppState>() {
+        Some(app_state) => app_state,
+        None => {
+            let reason = sanitized_reason(RejectReasonCode::BridgeUnavailable, "bridge");
+            return error_response(StatusCode::SERVICE_UNAVAILABLE, reason).into_response();
+        }
+    };
+
+    match crate::detach_pet_instance_by_id(&state.app, &app_state, &instance_id) {
+        Ok(instance) => Json(json!({
+            "ok": true,
+            "detached": true,
+            "instanceId": instance.instance_id,
+            "windowLabel": instance.window_label
+        }))
+        .into_response(),
+        Err(error) if error == "instance_not_found" => {
+            let reason = sanitized_reason(RejectReasonCode::InstanceNotFound, "instance");
+            state.debug.record_rejected(rejected_summary(
+                state.debug.event_id(),
+                None,
+                None,
+                None,
+                None,
+                None,
+                StatusCode::NOT_FOUND,
+                reason,
+            ));
+            error_response(StatusCode::NOT_FOUND, reason).into_response()
+        }
+        Err(error) if error == "default_instance_cannot_detach" => {
+            let reason = sanitized_reason(RejectReasonCode::DefaultInstanceCannotDetach, "instance");
+            state.debug.record_rejected(rejected_summary(
+                state.debug.event_id(),
+                None,
+                None,
+                None,
+                None,
+                None,
+                StatusCode::BAD_REQUEST,
+                reason,
+            ));
+            error_response(StatusCode::BAD_REQUEST, reason).into_response()
+        }
+        Err(_error) => {
+            let reason = sanitized_reason(RejectReasonCode::BridgeUnavailable, "bridge");
+            error_response(StatusCode::SERVICE_UNAVAILABLE, reason).into_response()
+        }
+    }
+}
+
 async fn post_event(
     State(state): State<HttpState>,
+    headers: HeaderMap,
+    body: Bytes,
+) -> impl IntoResponse {
+    post_event_for_target(state, headers, body, None).await
+}
+
+async fn post_instance_event(
+    State(state): State<HttpState>,
+    Path(instance_id): Path<String>,
     headers: HeaderMap,
     body: Bytes,
 ) -> impl IntoResponse {
@@ -169,6 +547,95 @@ async fn post_event(
             None,
             None,
             None,
+            None,
+            status,
+            reason,
+        );
+        state.debug.record_rejected(summary);
+        return error_response(status, reason).into_response();
+    }
+
+    let Some(target) = resolve_instance_target(&state, &instance_id) else {
+        let reason = if is_valid_instance_id(&instance_id) {
+            sanitized_reason(RejectReasonCode::InstanceNotFound, "instance")
+        } else {
+            sanitized_reason(RejectReasonCode::InstanceIdInvalid, "instance")
+        };
+        let status = if reason.code == RejectReasonCode::InstanceNotFound {
+            StatusCode::NOT_FOUND
+        } else {
+            StatusCode::BAD_REQUEST
+        };
+        let summary = rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            status,
+            reason,
+        );
+        state.debug.record_rejected(summary);
+        return error_response(status, reason).into_response();
+    };
+
+    post_event_for_target_with_authorized_request(state, body, Some(target))
+        .await
+        .into_response()
+}
+
+async fn post_invalid_instance_path(
+    State(state): State<HttpState>,
+    headers: HeaderMap,
+    _body: Bytes,
+) -> impl IntoResponse {
+    if let Err((status, code)) = authorize(&headers, &state.token) {
+        let reason = sanitized_reason(code, "auth");
+        let summary = rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            None,
+            status,
+            reason,
+        );
+        state.debug.record_rejected(summary);
+        return error_response(status, reason).into_response();
+    }
+
+    let reason = sanitized_reason(RejectReasonCode::InstanceIdInvalid, "instance");
+    let summary = rejected_summary(
+        state.debug.event_id(),
+        None,
+        None,
+        None,
+        None,
+        None,
+        StatusCode::BAD_REQUEST,
+        reason,
+    );
+    state.debug.record_rejected(summary);
+    error_response(StatusCode::BAD_REQUEST, reason).into_response()
+}
+
+async fn post_event_for_target(
+    state: HttpState,
+    headers: HeaderMap,
+    body: Bytes,
+    target: Option<EventTarget>,
+) -> (StatusCode, Json<Value>) {
+    if let Err((status, code)) = authorize(&headers, &state.token) {
+        let reason = sanitized_reason(code, "auth");
+        let summary = rejected_summary(
+            state.debug.event_id(),
+            None,
+            None,
+            None,
+            None,
+            target.as_ref(),
             status,
             reason,
         );
@@ -176,6 +643,14 @@ async fn post_event(
         return error_response(status, reason);
     }
 
+    post_event_for_target_with_authorized_request(state, body, target).await
+}
+
+async fn post_event_for_target_with_authorized_request(
+    state: HttpState,
+    body: Bytes,
+    target: Option<EventTarget>,
+) -> (StatusCode, Json<Value>) {
     if body.len() > 8192 {
         let reason = sanitized_reason(RejectReasonCode::PayloadTooLarge, "payload");
         let summary = rejected_summary(
@@ -184,6 +659,7 @@ async fn post_event(
             None,
             None,
             None,
+            target.as_ref(),
             StatusCode::BAD_REQUEST,
             reason,
         );
@@ -201,6 +677,7 @@ async fn post_event(
                 None,
                 None,
                 None,
+                target.as_ref(),
                 StatusCode::BAD_REQUEST,
                 reason,
             );
@@ -219,6 +696,7 @@ async fn post_event(
             safe_level(&value),
             None,
             None,
+            target.as_ref(),
             StatusCode::BAD_REQUEST,
             reason,
         );
@@ -226,7 +704,7 @@ async fn post_event(
         return error_response(StatusCode::BAD_REQUEST, reason);
     }
 
-    let source_id_for_limit = source_id(&value).unwrap_or_else(|| "unknown".to_string());
+    let source_id_for_limit = rate_limit_key(&value, target.as_ref());
     if state
         .rate_limiter
         .lock()
@@ -241,6 +719,7 @@ async fn post_event(
             level(&value),
             string_field(&value, "title"),
             string_field(&value, "message"),
+            target.as_ref(),
             StatusCode::TOO_MANY_REQUESTS,
             reason,
         );
@@ -249,7 +728,7 @@ async fn post_event(
     }
 
     let received_at = received_at();
-    let accepted = match accepted_event_from_value(value, received_at.clone()) {
+    let mut accepted = match accepted_event_from_value(value, received_at.clone()) {
         Ok(event) => event,
         Err(_error) => {
             let reason = sanitized_reason(RejectReasonCode::SchemaInvalid, "payload");
@@ -259,6 +738,7 @@ async fn post_event(
                 None,
                 None,
                 None,
+                target.as_ref(),
                 StatusCode::BAD_REQUEST,
                 reason,
             );
@@ -266,6 +746,10 @@ async fn post_event(
             return error_response(StatusCode::BAD_REQUEST, reason);
         }
     };
+    if let Some(target) = target.as_ref() {
+        accepted.target_instance_id = Some(target.instance_id.clone());
+        accepted.target_window_label = Some(target.window_label.clone());
+    }
 
     let event_id = state.debug.event_id();
     if state
@@ -280,6 +764,7 @@ async fn post_event(
             Some(accepted.level),
             accepted.title,
             accepted.message,
+            target.as_ref(),
             StatusCode::TOO_MANY_REQUESTS,
             reason,
         );
@@ -289,11 +774,13 @@ async fn post_event(
 
     let summary = EventSummary {
         id: event_id.clone(),
-        received_at,
+        received_at: received_at.clone(),
         source_id: Some(accepted.source.id.clone()),
         level: Some(accepted.level.clone()),
         title_preview: preview(accepted.title.as_deref(), 80),
         message_preview: preview(accepted.message.as_deref(), 120),
+        target_instance_id: target.as_ref().map(|target| target.instance_id.clone()),
+        target_window_label: target.as_ref().map(|target| target.window_label.clone()),
         status: StatusCode::ACCEPTED.as_u16(),
         accepted: true,
         reason_code: None,
@@ -301,8 +788,34 @@ async fn post_event(
         reason: None,
     };
     state.debug.record_accepted(summary);
+    if let Some(target) = target.as_ref() {
+        if let Some(app_state) = state.app.try_state::<crate::AppState>() {
+            let _ = crate::update_pet_instance_runtime(
+                &app_state,
+                &target.instance_id,
+                &accepted.level,
+                &received_at,
+            );
+        }
+    }
 
-    if state.app.emit("pet-event:accepted", &accepted).is_err() {
+    let emit_result = if let Some(target) = target.as_ref() {
+        if target.visible {
+            state
+                .app
+                .get_webview_window(&target.window_label)
+                .ok_or(())
+                .and_then(|window| window.emit("pet-event:accepted", &accepted).map_err(|_| ()))
+        } else {
+            Ok(())
+        }
+    } else {
+        state
+            .app
+            .emit("pet-event:accepted", &accepted)
+            .map_err(|_| ())
+    };
+    if emit_result.is_err() {
         let reason = sanitized_reason(RejectReasonCode::BridgeUnavailable, "bridge");
         let summary = rejected_summary(
             event_id.clone(),
@@ -310,6 +823,7 @@ async fn post_event(
             Some(accepted.level),
             accepted.title,
             accepted.message,
+            target.as_ref(),
             StatusCode::INTERNAL_SERVER_ERROR,
             reason,
         );
@@ -318,7 +832,8 @@ async fn post_event(
     }
 
     state.debug.mark_emitted(&event_id);
-    state.sound.handle_event(&accepted);
+    let target_visible = target.as_ref().map(|target| target.visible).unwrap_or(true);
+    state.sound.handle_event(&accepted, target_visible);
 
     (
         StatusCode::ACCEPTED,
@@ -329,6 +844,59 @@ async fn post_event(
             "queued": true
         })),
     )
+}
+
+fn resolve_instance_target(state: &HttpState, instance_id: &str) -> Option<EventTarget> {
+    if !is_valid_instance_id(instance_id) {
+        return None;
+    }
+    let app_state = state.app.try_state::<crate::AppState>()?;
+    let settings = app_state.settings.lock().ok()?;
+    crate::pet_instance_target(&settings, instance_id).map(
+        |(instance_id, window_label, visible)| EventTarget {
+            instance_id,
+            window_label,
+            visible,
+        },
+    )
+}
+
+fn is_valid_instance_id(value: &str) -> bool {
+    let length = value.chars().count();
+    (1..=64).contains(&length)
+        && !value.contains("..")
+        && value.chars().all(|character| {
+            character.is_ascii_alphanumeric() || matches!(character, '.' | '_' | '-')
+        })
+}
+
+fn is_valid_display_name(value: &str) -> bool {
+    let length = value.chars().count();
+    (1..=40).contains(&length)
+        && !value
+            .chars()
+            .any(|character| character.is_control() || matches!(character, '/' | '\\' | ':'))
+}
+
+fn is_valid_optional_label(value: Option<&str>) -> bool {
+    let Some(value) = value else {
+        return true;
+    };
+    value.chars().count() <= 80
+        && !value
+            .chars()
+            .any(|character| character.is_control() || matches!(character, '/' | '\\' | ':'))
+}
+
+fn is_valid_optional_workspace_hash(value: Option<&str>) -> bool {
+    let Some(value) = value else {
+        return true;
+    };
+    let length = value.chars().count();
+    (1..=128).contains(&length)
+        && value
+            .chars()
+            .all(|character| character.is_ascii_alphanumeric() || matches!(character, '_' | '-'))
 }
 
 fn authorize(headers: &HeaderMap, token: &str) -> Result<(), (StatusCode, RejectReasonCode)> {
@@ -351,6 +919,7 @@ fn rejected_summary(
     level: Option<String>,
     title: Option<String>,
     message: Option<String>,
+    target: Option<&EventTarget>,
     status: StatusCode,
     reason: SanitizedRejectReason,
 ) -> EventSummary {
@@ -361,6 +930,8 @@ fn rejected_summary(
         level,
         title_preview: preview(title.as_deref(), 80),
         message_preview: preview(message.as_deref(), 120),
+        target_instance_id: target.map(|target| target.instance_id.clone()),
+        target_window_label: target.map(|target| target.window_label.clone()),
         status: status.as_u16(),
         accepted: false,
         reason_code: Some(reason.code),
@@ -375,6 +946,14 @@ fn source_id(value: &Value) -> Option<String> {
         .and_then(|source| source.get("id"))
         .and_then(|id| id.as_str())
         .map(ToString::to_string)
+}
+
+fn rate_limit_key(value: &Value, target: Option<&EventTarget>) -> String {
+    let source = source_id(value).unwrap_or_else(|| "unknown".to_string());
+    match target {
+        Some(target) => format!("{source}:{}", target.instance_id),
+        None => format!("{source}:default"),
+    }
 }
 
 fn safe_source_id(value: &Value) -> Option<String> {
@@ -464,6 +1043,14 @@ fn normalized_reason_field(code: RejectReasonCode, field: &'static str) -> &'sta
         },
         RejectReasonCode::PayloadTooLarge => "payload",
         RejectReasonCode::RateLimited => "rate_limit",
+        RejectReasonCode::InstanceIdInvalid => "instance",
+        RejectReasonCode::InstanceNotFound => "instance",
+        RejectReasonCode::DefaultInstanceCannotDetach => "instance",
+        RejectReasonCode::InstanceLimitReached => "instance_limit",
+        RejectReasonCode::DisplayNameInvalid => "display_name",
+        RejectReasonCode::SourceKindInvalid => "source.kind",
+        RejectReasonCode::WorkspaceLabelInvalid => "workspace_label",
+        RejectReasonCode::WorkspaceHashInvalid => "workspace_hash",
         RejectReasonCode::QueueFull | RejectReasonCode::QueueReplaced => "queue",
         RejectReasonCode::BridgeUnavailable
         | RejectReasonCode::PortBindFailed
@@ -585,6 +1172,14 @@ fn reason_for_field(code: RejectReasonCode, field: &'static str) -> &'static str
         },
         RejectReasonCode::PayloadTooLarge => "payload is too large",
         RejectReasonCode::RateLimited => "source rate limit exceeded",
+        RejectReasonCode::InstanceIdInvalid => "instance id is invalid",
+        RejectReasonCode::InstanceNotFound => "instance was not found",
+        RejectReasonCode::DefaultInstanceCannotDetach => "default instance cannot be detached",
+        RejectReasonCode::InstanceLimitReached => "pet instance limit reached",
+        RejectReasonCode::DisplayNameInvalid => "display name is invalid",
+        RejectReasonCode::SourceKindInvalid => "source kind is not accepted",
+        RejectReasonCode::WorkspaceLabelInvalid => "workspace label is invalid",
+        RejectReasonCode::WorkspaceHashInvalid => "workspace hash is invalid",
         RejectReasonCode::QueueFull => "event queue is full",
         RejectReasonCode::QueueReplaced => "queued event was replaced",
         RejectReasonCode::BridgeUnavailable => "bridge unavailable",
@@ -601,6 +1196,14 @@ fn reason_code_str(code: RejectReasonCode) -> &'static str {
         RejectReasonCode::WhitelistInvalid => "whitelist_invalid",
         RejectReasonCode::PayloadTooLarge => "payload_too_large",
         RejectReasonCode::RateLimited => "rate_limited",
+        RejectReasonCode::InstanceIdInvalid => "instance_id_invalid",
+        RejectReasonCode::InstanceNotFound => "instance_not_found",
+        RejectReasonCode::DefaultInstanceCannotDetach => "default_instance_cannot_detach",
+        RejectReasonCode::InstanceLimitReached => "instance_limit_reached",
+        RejectReasonCode::DisplayNameInvalid => "display_name_invalid",
+        RejectReasonCode::SourceKindInvalid => "source_kind_invalid",
+        RejectReasonCode::WorkspaceLabelInvalid => "workspace_label_invalid",
+        RejectReasonCode::WorkspaceHashInvalid => "workspace_hash_invalid",
         RejectReasonCode::QueueFull => "queue_full",
         RejectReasonCode::QueueReplaced => "queue_replaced",
         RejectReasonCode::BridgeUnavailable => "bridge_unavailable",
@@ -622,6 +1225,7 @@ mod tests {
             "evt_test".to_string(),
             safe_source_id(&value),
             safe_level(&value),
+            None,
             None,
             None,
             StatusCode::BAD_REQUEST,

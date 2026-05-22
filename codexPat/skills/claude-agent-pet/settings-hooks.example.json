@@ -1,38 +1,16 @@
 {
   "hooks": {
-    "UserPromptSubmit": [
+    "Notification": [
       {
         "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "petctl notify --source-id claude-code.local --source-kind claude_code --source-name 'Claude Code' --level thinking --title 'Claude Code 正在分析请求' >/dev/null 2>&1 || true"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "Bash|Edit|MultiEdit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "petctl notify --source-id claude-code.local --source-kind claude_code --source-name 'Claude Code' --level running --title 'Claude Code 正在执行工具' >/dev/null 2>&1 || true"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "petctl notify --source-id claude-code.local --source-kind claude_code --source-name 'Claude Code' --level success --title 'Claude Code 任务结束' --sound success_chime >/dev/null 2>&1 || true"
+            "command": "zsh skills/claude-agent-pet/hooks/notify-pet.sh notification",
+            "timeout": 10
           }
         ]
       }
     ]
   }
 }
-
