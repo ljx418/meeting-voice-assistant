@@ -1,0 +1,56 @@
+{
+  "mode": "hybrid",
+  "query": "What should the answer preserve if source trace is unavailable?",
+  "answer": "LLMWiki pages: 0 hits\nGraphRAG entities/units: 0 hits",
+  "hits": [],
+  "engine_payloads": {
+    "llmwiki": {
+      "pages": [],
+      "passages": [],
+      "citations": [],
+      "related_pages": []
+    },
+    "graphrag": {
+      "status": "missing_db",
+      "graph_model_version": "1.0",
+      "nodes": [],
+      "edges": [],
+      "communities": [],
+      "hits": [],
+      "stats": {
+        "entity_count": 0,
+        "theme_count": 0,
+        "relationship_count": 0,
+        "community_count": 0,
+        "document_count": 0
+      },
+      "source": "app.graphrag.bridge"
+    }
+  },
+  "evidence": [
+    {
+      "evidence_key": "src_cce80f0ca6dad217:unit_9698214a718f3236:ev_fd100ce946996492",
+      "source_id": "src_cce80f0ca6dad217",
+      "source_title": "rn-v11-rc4-trace-1779422315630 Source Trace Source",
+      "unit_id": "unit_9698214a718f3236",
+      "evidence_id": "ev_fd100ce946996492",
+      "snippet": "Source trace contract re-smoke should prove that a registry source id can open source-level provenance. The answer should preserve evidence if source trace is unavailable.",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_cce80f0ca6dad217:unit_9698214a718f3236:ev_fd100ce946996492",
+      "source_id": "src_cce80f0ca6dad217",
+      "source_title": "rn-v11-rc4-trace-1779422315630 Source Trace Source",
+      "unit_id": "unit_9698214a718f3236",
+      "evidence_id": "ev_fd100ce946996492",
+      "snippet": "Source trace contract re-smoke should prove that a registry source id can open source-level provenance. The answer should preserve evidence if source trace is unavailable.",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ]
+}

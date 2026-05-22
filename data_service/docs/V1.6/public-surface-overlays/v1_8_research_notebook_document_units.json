@@ -1,0 +1,16 @@
+{
+  "phase": "v1.8-research-notebook-document-units",
+  "allowed_target_http_additions": [
+    [
+      "GET",
+      "/api/workspaces/{workspace_id}/sources/{source_id}/units"
+    ],
+    [
+      "GET",
+      "/api/workspaces/{workspace_id}/sources/{source_id}/units/{unit_id}"
+    ]
+  ],
+  "allowed_mcp_tool_additions": [],
+  "allowed_cli_command_additions": [],
+  "allowed_compatibility_http_additions": []
+}

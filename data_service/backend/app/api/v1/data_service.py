@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import base64
+import binascii
 import hashlib
 import json
 import os
@@ -29,7 +31,7 @@ from data_service.mcp_common import blocked as _contract_blocked
 from data_service.mcp_common import bounded_int
 from data_service.mcp_common import envelope as _contract_envelope
 from data_service.mcp_source_tools import handle_source_tool
-from data_service.query_contract import run_query_contract
+from data_service.query_contract import normalize_query_top_k, run_query_contract
 from data_service.quality_contract import (
     low_signal_audit_payload,
     quality_correction_plan_payload,
@@ -84,6 +86,14 @@ _MAX_SOURCE_FILES = 100
 _MAX_SOURCE_FILE_BYTES = 10 * 1024 * 1024
 _BUILD_MODES = {"full", "incremental", "graph_only", "llmwiki_only"}
 _TERMINAL_OPERATION_STATUSES = {"completed", "failed", "blocked", "cancelled"}
+_SOURCE_PREVIEW_SCHEMA_VERSION = "v1.1-document-units"
+_SOURCE_PREVIEW_MAX_BYTES = 50_000
+_DOCUMENT_UNIT_DEFAULT_LIMIT = 50
+_DOCUMENT_UNIT_MAX_LIMIT = 100
+_TEXT_PREVIEW_SUFFIXES = {".txt", ".text", ".md", ".markdown"}
+_SOURCE_ID_PATTERN = re.compile(r"^src_[A-Fa-f0-9]{16}$")
+_DOCUMENT_UNIT_ID_PATTERN = re.compile(r"^unit_[A-Fa-f0-9]{16}$")
+_EVIDENCE_ID_PATTERN = re.compile(r"^ev_[A-Fa-f0-9]{16}$")
 _BUILD_WORKERS: set[str] = set()
 _BUILD_WORKERS_LOCK = threading.Lock()
 
@@ -788,6 +798,326 @@ def _target_source_item(workspace: Path, *, workspace_id: str, source_id: str) -
         if item.get("source_id") == source_id:
             return _stable_source_item(item, workspace_id=workspace_id)
     raise HTTPException(status_code=404, detail=f"Unknown source_id: {source_id}")
+
+
+def _target_source_record(workspace: Path, *, source_id: str) -> dict:
+    manifest = _read_json(_sources_manifest_path(workspace), {"items": []})
+    for item in manifest.get("items", []):
+        if item.get("source_id") == source_id:
+            return dict(item)
+    raise HTTPException(status_code=404, detail=f"SOURCE_NOT_FOUND: Unknown source_id: {source_id}")
+
+
+def _validate_registry_source_id(source_id: str) -> None:
+    if not _SOURCE_ID_PATTERN.fullmatch(source_id or ""):
+        raise HTTPException(status_code=422, detail="VALIDATION_ERROR: source_id must be a registry source_id")
+
+
+def _infer_source_type(record: dict[str, Any]) -> str:
+    metadata = dict(record.get("metadata") or {})
+    explicit = str(metadata.get("source_type") or metadata.get("kind") or "").strip().lower()
+    if explicit:
+        return explicit
+    suffix = Path(str(record.get("path") or "")).suffix.lower()
+    if suffix in _TEXT_PREVIEW_SUFFIXES:
+        return "text"
+    return suffix.lstrip(".") or "unknown"
+
+
+def _source_preview_manifest(*, workspace_id: str) -> dict:
+    return {
+        "workspace_id": workspace_id,
+        "service_version": "0.1.0",
+        "schema_version": _SOURCE_PREVIEW_SCHEMA_VERSION,
+        "generated_at": _now(),
+        "capabilities": {
+            "source_preview": True,
+            "document_units": True,
+            "evidence_spans": True,
+            "source_level_preview": True,
+            "unit_level_navigation": True,
+            "precise_span_highlight": True,
+            "citation_backjump": True,
+        },
+        "supported_source_types": [
+            {
+                "source_type": "text",
+                "preview": "unit",
+                "locators": [],
+            }
+        ],
+    }
+
+
+def _source_preview_payload(workspace: Path, *, workspace_id: str, source_id: str) -> dict:
+    _validate_registry_source_id(source_id)
+    record = _target_source_record(workspace, source_id=source_id)
+    title = str(record.get("title") or source_id)
+    source_type = _infer_source_type(record)
+    base_preview = {
+        "source_id": source_id,
+        "title": title,
+        "source_type": source_type,
+        "preview_available": False,
+        "content_type": "text/plain",
+    }
+    if record.get("status", "active") != "active":
+        return {**base_preview, "unsupported_reason": "preview_not_available"}
+    if source_type != "text":
+        return {**base_preview, "unsupported_reason": "source_type_not_supported"}
+    path_value = str(record.get("path") or "").strip()
+    if not path_value:
+        return {**base_preview, "unsupported_reason": "preview_not_available"}
+    source_path = Path(path_value)
+    try:
+        source_path = validate_workspace_path(source_path)
+        source_path.relative_to(workspace)
+    except (ValueError, OSError):
+        return {**base_preview, "unsupported_reason": "preview_not_available"}
+    if not source_path.is_file():
+        return {**base_preview, "unsupported_reason": "preview_not_available"}
+    size_bytes = source_path.stat().st_size
+    raw = source_path.read_bytes()[: _SOURCE_PREVIEW_MAX_BYTES + 1]
+    truncated = len(raw) > _SOURCE_PREVIEW_MAX_BYTES or size_bytes > _SOURCE_PREVIEW_MAX_BYTES
+    if len(raw) > _SOURCE_PREVIEW_MAX_BYTES:
+        raw = raw[:_SOURCE_PREVIEW_MAX_BYTES]
+    text_preview = raw.decode("utf-8", errors="replace")
+    return {
+        **base_preview,
+        "preview_available": True,
+        "text_preview": text_preview,
+        "artifact_refs": [{"type": "source", "source_id": source_id, "artifact_ref": f"source://{source_id}"}],
+        "preview_truncated": truncated,
+        "preview_size_bytes": size_bytes,
+        "max_preview_size_bytes": _SOURCE_PREVIEW_MAX_BYTES,
+    }
+
+
+def _validate_document_unit_id(unit_id: str) -> None:
+    if not _DOCUMENT_UNIT_ID_PATTERN.fullmatch(unit_id or ""):
+        raise HTTPException(status_code=422, detail="VALIDATION_ERROR: unit_id must be a stable DocumentUnit id")
+
+
+def _stable_document_unit_id(*, source_id: str, order_index: int, text: str) -> str:
+    text_digest = hashlib.sha256(text.encode("utf-8", errors="replace")).hexdigest()[:16]
+    digest = hashlib.sha256(f"{source_id}:{order_index}:{text_digest}".encode("utf-8")).hexdigest()[:16]
+    return f"unit_{digest}"
+
+
+def _encode_document_unit_cursor(offset: int) -> str:
+    token = base64.urlsafe_b64encode(str(offset).encode("ascii")).decode("ascii").rstrip("=")
+    return f"du_{token}"
+
+
+def _decode_document_unit_cursor(cursor: str | None) -> int:
+    if not cursor:
+        return 0
+    if not cursor.startswith("du_"):
+        raise HTTPException(status_code=422, detail="VALIDATION_ERROR: invalid document unit cursor")
+    token = cursor[3:]
+    padding = "=" * (-len(token) % 4)
+    try:
+        offset = int(base64.urlsafe_b64decode((token + padding).encode("ascii")).decode("ascii"))
+    except (ValueError, UnicodeDecodeError, binascii.Error) as exc:
+        raise HTTPException(status_code=422, detail="VALIDATION_ERROR: invalid document unit cursor") from exc
+    if offset < 0:
+        raise HTTPException(status_code=422, detail="VALIDATION_ERROR: invalid document unit cursor")
+    return offset
+
+
+def _document_unit_segments(text: str) -> list[str]:
+    segments = [segment.strip() for segment in re.split(r"\n\s*\n+", text.strip()) if segment.strip()]
+    return segments or ([text] if text else [])
+
+
+def _document_unit_items(workspace: Path, *, workspace_id: str, source_id: str) -> tuple[list[dict], str | None]:
+    preview = _source_preview_payload(workspace, workspace_id=workspace_id, source_id=source_id)
+    if not preview.get("preview_available"):
+        return [], str(preview.get("unsupported_reason") or "preview_not_available")
+
+    units: list[dict] = []
+    source_title = str(preview.get("title") or source_id)
+    for order_index, segment in enumerate(_document_unit_segments(str(preview.get("text_preview") or ""))):
+        raw = segment.encode("utf-8", errors="replace")
+        truncated = len(raw) > _SOURCE_PREVIEW_MAX_BYTES
+        if truncated:
+            raw = raw[:_SOURCE_PREVIEW_MAX_BYTES]
+        text_preview = raw.decode("utf-8", errors="replace")
+        unit_id = _stable_document_unit_id(source_id=source_id, order_index=order_index, text=segment)
+        units.append(
+            {
+                "unit_id": unit_id,
+                "source_id": source_id,
+                "unit_type": "section",
+                "title": source_title if len(units) == 0 else f"{source_title} / Section {order_index + 1}",
+                "text_preview": text_preview,
+                "content_type": "text/plain",
+                "order_index": order_index,
+                "artifact_ref": f"unit://{source_id}/{unit_id}",
+                "preview_available": True,
+                "preview_truncated": truncated,
+                "preview_size_bytes": len(segment.encode("utf-8", errors="replace")),
+                "max_preview_size_bytes": _SOURCE_PREVIEW_MAX_BYTES,
+            }
+        )
+    units.sort(key=lambda item: (int(item.get("order_index") or 0), str(item.get("unit_id") or "")))
+    return units, None
+
+
+def _document_unit_list_payload(workspace: Path, *, workspace_id: str, source_id: str, limit: int, cursor: str | None) -> dict:
+    _validate_registry_source_id(source_id)
+    _target_source_record(workspace, source_id=source_id)
+    start = _decode_document_unit_cursor(cursor)
+    units, unsupported_reason = _document_unit_items(workspace, workspace_id=workspace_id, source_id=source_id)
+    if unsupported_reason:
+        return {
+            "source_id": source_id,
+            "items": [],
+            "next_cursor": None,
+            "limit": limit,
+            "has_more": False,
+            "unsupported_reason": unsupported_reason,
+        }
+    if start > len(units):
+        raise HTTPException(status_code=422, detail="VALIDATION_ERROR: invalid document unit cursor")
+    end = min(start + limit, len(units))
+    return {
+        "source_id": source_id,
+        "items": units[start:end],
+        "next_cursor": _encode_document_unit_cursor(end) if end < len(units) else None,
+        "limit": limit,
+        "has_more": end < len(units),
+    }
+
+
+def _document_unit_detail_payload(workspace: Path, *, workspace_id: str, source_id: str, unit_id: str) -> dict:
+    _validate_registry_source_id(source_id)
+    _validate_document_unit_id(unit_id)
+    _target_source_record(workspace, source_id=source_id)
+    units, unsupported_reason = _document_unit_items(workspace, workspace_id=workspace_id, source_id=source_id)
+    if unsupported_reason:
+        raise HTTPException(status_code=404, detail=f"UNIT_NOT_FOUND: Unknown unit_id: {unit_id}")
+    for unit in units:
+        if unit.get("unit_id") == unit_id:
+            return unit
+    raise HTTPException(status_code=404, detail=f"UNIT_NOT_FOUND: Unknown unit_id: {unit_id}")
+
+
+def _validate_evidence_id(evidence_id: str) -> None:
+    if not _EVIDENCE_ID_PATTERN.fullmatch(evidence_id or ""):
+        raise HTTPException(status_code=422, detail="VALIDATION_ERROR: evidence_id must be a stable EvidenceSpan id")
+
+
+def _stable_evidence_id(*, source_id: str, unit_id: str, start_offset: int, end_offset: int, snippet: str) -> str:
+    digest = hashlib.sha256(
+        f"{source_id}:{unit_id}:{start_offset}:{end_offset}:{snippet}".encode("utf-8", errors="replace")
+    ).hexdigest()[:16]
+    return f"ev_{digest}"
+
+
+def _evidence_span_for_unit(unit: dict[str, Any]) -> dict:
+    text = str(unit.get("text_preview") or "")
+    if not text or unit.get("preview_truncated"):
+        raise HTTPException(status_code=404, detail=f"EVIDENCE_NOT_FOUND: Unit is not highlightable: {unit.get('unit_id')}")
+    snippet = text[: min(280, len(text))]
+    start_offset = 0
+    end_offset = len(snippet)
+    if end_offset <= start_offset:
+        raise HTTPException(status_code=404, detail=f"EVIDENCE_NOT_FOUND: Unit is not highlightable: {unit.get('unit_id')}")
+    evidence_id = _stable_evidence_id(
+        source_id=str(unit["source_id"]),
+        unit_id=str(unit["unit_id"]),
+        start_offset=start_offset,
+        end_offset=end_offset,
+        snippet=snippet,
+    )
+    return {
+        "evidence_id": evidence_id,
+        "source_id": unit["source_id"],
+        "unit_id": unit["unit_id"],
+        "snippet": snippet,
+        "start_offset": start_offset,
+        "end_offset": end_offset,
+        "offset_basis": "normalized_text",
+        "offset_range": "half_open",
+        "text_basis": "document_unit_text",
+        "locator": {},
+        "preview_available": True,
+    }
+
+
+def _evidence_span_detail_payload(
+    workspace: Path,
+    *,
+    workspace_id: str,
+    source_id: str,
+    unit_id: str,
+    evidence_id: str,
+) -> dict:
+    _validate_registry_source_id(source_id)
+    _validate_document_unit_id(unit_id)
+    _validate_evidence_id(evidence_id)
+    unit = _document_unit_detail_payload(workspace, workspace_id=workspace_id, source_id=source_id, unit_id=unit_id)
+    span = _evidence_span_for_unit(unit)
+    if span["evidence_id"] != evidence_id:
+        raise HTTPException(status_code=404, detail=f"EVIDENCE_NOT_FOUND: Unknown evidence_id: {evidence_id}")
+    return span
+
+
+def _query_terms(query: object) -> list[str]:
+    return [term.lower() for term in re.findall(r"[A-Za-z0-9\u4e00-\u9fff]+", str(query or "")) if len(term) > 1]
+
+
+def _query_evidence_items(workspace: Path, *, workspace_id: str, query: object, top_k: int) -> list[dict]:
+    terms = _query_terms(query)
+    items: list[tuple[int, int, dict, dict]] = []
+    for source in _target_source_items(workspace, workspace_id=workspace_id, limit=200, status="active"):
+        source_id = str(source.get("source_id") or "")
+        try:
+            units, unsupported_reason = _document_unit_items(workspace, workspace_id=workspace_id, source_id=source_id)
+        except HTTPException:
+            continue
+        if unsupported_reason:
+            continue
+        for unit in units:
+            text = str(unit.get("text_preview") or "")
+            lowered = text.lower()
+            score = sum(1 for term in terms if term in lowered)
+            if terms and score == 0:
+                continue
+            try:
+                span = _evidence_span_for_unit(unit)
+            except HTTPException:
+                continue
+            items.append((score, -int(unit.get("order_index") or 0), source, span))
+    if not items and not terms:
+        return []
+    items.sort(key=lambda item: (item[0], item[1], str(item[3].get("evidence_id") or "")), reverse=True)
+    evidence: list[dict] = []
+    for index, (score, _, source, span) in enumerate(items[:top_k]):
+        evidence.append(
+            {
+                "evidence_key": f"{span['source_id']}:{span['unit_id']}:{span['evidence_id']}",
+                "source_id": span["source_id"],
+                "source_title": source.get("title"),
+                "unit_id": span["unit_id"],
+                "evidence_id": span["evidence_id"],
+                "snippet": span["snippet"],
+                "confidence": 1.0 if score > 0 else 0.5,
+                "locator": span["locator"],
+                "preview_available": True,
+            }
+        )
+    return evidence
+
+
+def _enhance_workspace_query_response(workspace: Path, *, workspace_id: str, query: object, top_k: int, payload: dict[str, Any]) -> dict[str, Any]:
+    evidence = _query_evidence_items(workspace, workspace_id=workspace_id, query=query, top_k=top_k)
+    enhanced = dict(payload)
+    if evidence:
+        enhanced["evidence"] = evidence
+        enhanced["evidence_refs"] = evidence
+    return enhanced
 
 
 def _source_tool_result_source_ids(result: dict) -> list[str]:
@@ -1603,6 +1933,16 @@ async def describe_target_workspace(workspace_id: str) -> dict:
     )
 
 
+@target_router.get("/{workspace_id}/capabilities")
+async def read_target_workspace_capabilities(workspace_id: str) -> dict:
+    _workspace, meta = _target_workspace_or_404(workspace_id)
+    return _target_envelope(
+        workspace_id=meta["workspace_id"],
+        next_actions=[],
+        data={"manifest": _source_preview_manifest(workspace_id=meta["workspace_id"])},
+    )
+
+
 @target_router.post("/{workspace_id}/archive")
 async def archive_target_workspace(workspace_id: str, request: TargetWorkspaceArchiveRequest) -> dict:
     try:
@@ -1671,6 +2011,69 @@ async def describe_target_source(workspace_id: str, source_id: str) -> dict:
         artifact_refs=[_target_source_artifact_ref(source_id)],
         next_actions=["knowledge_source_list", "knowledge_source_trace"],
         data={"source": source},
+    )
+
+
+@target_router.get("/{workspace_id}/sources/{source_id}/preview")
+async def preview_target_source(workspace_id: str, source_id: str) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    preview = _source_preview_payload(workspace, workspace_id=meta["workspace_id"], source_id=source_id)
+    next_actions = [] if preview.get("preview_available") else [str(preview.get("unsupported_reason") or "preview_not_available")]
+    return _target_envelope(
+        workspace_id=meta["workspace_id"],
+        artifact_refs=[_target_source_artifact_ref(source_id)] if preview.get("preview_available") else [],
+        next_actions=next_actions,
+        data={"preview": preview},
+    )
+
+
+@target_router.get("/{workspace_id}/sources/{source_id}/units")
+async def list_target_source_units(
+    workspace_id: str,
+    source_id: str,
+    limit: int = Query(default=_DOCUMENT_UNIT_DEFAULT_LIMIT, ge=1, le=_DOCUMENT_UNIT_MAX_LIMIT),
+    cursor: str | None = Query(default=None),
+) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    units = _document_unit_list_payload(workspace, workspace_id=meta["workspace_id"], source_id=source_id, limit=limit, cursor=cursor)
+    next_actions = []
+    if units.get("unsupported_reason"):
+        next_actions.append(str(units["unsupported_reason"]))
+    return _target_envelope(
+        workspace_id=meta["workspace_id"],
+        artifact_refs=[_target_source_artifact_ref(source_id)] if not units.get("unsupported_reason") else [],
+        next_actions=next_actions,
+        data={"units": units},
+    )
+
+
+@target_router.get("/{workspace_id}/sources/{source_id}/units/{unit_id}")
+async def describe_target_source_unit(workspace_id: str, source_id: str, unit_id: str) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    unit = _document_unit_detail_payload(workspace, workspace_id=meta["workspace_id"], source_id=source_id, unit_id=unit_id)
+    return _target_envelope(
+        workspace_id=meta["workspace_id"],
+        artifact_refs=[_target_source_artifact_ref(source_id)],
+        next_actions=[],
+        data={"unit": unit},
+    )
+
+
+@target_router.get("/{workspace_id}/sources/{source_id}/units/{unit_id}/evidence/{evidence_id}")
+async def describe_target_evidence_span(workspace_id: str, source_id: str, unit_id: str, evidence_id: str) -> dict:
+    workspace, meta = _target_workspace_or_404(workspace_id)
+    span = _evidence_span_detail_payload(
+        workspace,
+        workspace_id=meta["workspace_id"],
+        source_id=source_id,
+        unit_id=unit_id,
+        evidence_id=evidence_id,
+    )
+    return _target_envelope(
+        workspace_id=meta["workspace_id"],
+        artifact_refs=[_target_source_artifact_ref(source_id)],
+        next_actions=[],
+        data={"evidence_span": span},
     )
 
 
@@ -2214,7 +2617,14 @@ async def generate_target_quality_correction_plan(workspace_id: str, request: Ta
 @target_router.post("/{workspace_id}/query")
 async def query_workspace(workspace_id: str, request: WorkspaceScopedQueryRequest) -> dict:
     service = _service_for_workspace_id(workspace_id)
-    return run_query_contract(service, request.query, mode=request.mode, top_k=request.top_k)
+    payload = run_query_contract(service, request.query, mode=request.mode, top_k=request.top_k)
+    return _enhance_workspace_query_response(
+        service.workspace,
+        workspace_id=workspace_id,
+        query=request.query,
+        top_k=normalize_query_top_k(request.top_k),
+        payload=payload,
+    )
 
 
 @target_router.post("/{workspace_id}/distill")
@@ -2245,9 +2655,23 @@ async def read_workspace_source_trace(
 ) -> dict:
     service = _service_for_workspace_id(workspace_id)
     try:
-        return source_trace_payload(service, source_id, limit=limit)
+        trace = source_trace_payload(service, source_id, limit=limit, strict_registry=True)
+        return _target_envelope(
+            workspace_id=workspace_id,
+            artifact_refs=[_target_source_artifact_ref(str(trace.get("source_id") or source_id))],
+            next_actions=[] if trace.get("trace_available") else [str(trace.get("unavailable_reason") or "trace_not_available")],
+            data={"trace": trace},
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=f"VALIDATION_ERROR: {exc}") from exc
     except KeyError as exc:
-        raise HTTPException(status_code=404, detail=f"Unknown source_id: {source_id}") from exc
+        raise HTTPException(status_code=404, detail=f"SOURCE_NOT_FOUND: Unknown source_id: {source_id}") from exc
+
+
+@target_router.get("/{workspace_id}/sources/{source_id:path}/trace")
+async def reject_invalid_workspace_source_trace_path(workspace_id: str, source_id: str) -> dict:
+    _target_workspace_or_404(workspace_id)
+    raise HTTPException(status_code=422, detail="VALIDATION_ERROR: source_id must be a registry source_id")
 
 
 @router.post("/quality/low-signal-audit")

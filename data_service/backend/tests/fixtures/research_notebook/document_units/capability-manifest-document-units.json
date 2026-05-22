@@ -1,0 +1,32 @@
+{
+  "workspace_id": "rn-documentunit-fixture",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [],
+  "data": {
+    "manifest": {
+      "workspace_id": "rn-documentunit-fixture",
+      "service_version": "0.1.0",
+      "schema_version": "v1.1-document-units",
+      "generated_at": "2026-05-20T02:51:15.764257Z",
+      "capabilities": {
+        "source_preview": true,
+        "document_units": true,
+        "evidence_spans": false,
+        "source_level_preview": true,
+        "unit_level_navigation": true,
+        "precise_span_highlight": false,
+        "citation_backjump": false
+      },
+      "supported_source_types": [
+        {
+          "source_type": "text",
+          "preview": "unit",
+          "locators": []
+        }
+      ]
+    }
+  }
+}

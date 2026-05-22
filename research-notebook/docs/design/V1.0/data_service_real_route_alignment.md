@@ -1,6 +1,6 @@
 # ResearchNotebook V1.0-RC6 data_service Real Route Alignment
 
-文档状态：RC6 source trace re-smoke alignment；2026-05-19。
+文档状态：RC6 / V1.1-RC4 source trace re-smoke alignment；2026-05-22。
 
 ## 1. Runtime Baseline
 
@@ -25,7 +25,7 @@
 | `sources.list` | `GET /api/workspaces/{workspace_id}/sources` | pass | unwrap `data.items` |
 | `sources.create` | `POST /api/workspaces/{workspace_id}/sources` | pass | map minimal text input to `texts[]` |
 | `sources.get` | `GET /api/workspaces/{workspace_id}/sources/{source_id}` | pass | unwrap `data.source` |
-| `sources.trace` | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | degraded | route exists; RC6 minimal text registry source `src_2003ad3198c69861` returned 404 `Unknown source_id`; UI fallback required |
+| `sources.trace` | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | limited pass | route exists; RC6 minimal text registry source `src_2003ad3198c69861` returned 404; after data_service source trace backend fix, V1.1-RC4 repeated the check with registry source `src_cce80f0ca6dad217` and received HTTP 200 with trace/provenance |
 | `build.start` | `POST /api/workspaces/{workspace_id}/build/start` | pass | send `{}`; read envelope `operation_id` |
 | `build.getOperation` | `GET /api/workspaces/{workspace_id}/build/operations/{operation_id}` | pass | unwrap `data`; status completed |
 | `query.workspace` | `POST /api/workspaces/{workspace_id}/query` | pass | send `{ query }`; map `hits` to `AnswerEvidence`; RC3 hits returned llmwiki/sourceRef evidence |
@@ -52,7 +52,7 @@
 
 ## 4. Accepted Degraded States
 
-- Source trace route exists but returned `404 Unknown source_id` for the RC3 and RC6 minimal text registry sources. The UI treats trace failure as drawer-local and does not clear answer content.
+- Source trace route returned `404 Unknown source_id` for the RC3 and RC6 minimal text registry sources. After the data_service backend fix, V1.1-RC4 returned HTTP 200 for the registry source id `src_cce80f0ca6dad217`. The UI still treats unsupported/failing trace cases as drawer-local and does not clear answer content.
 - Session query returned no evidence. This is accepted because explicit no-evidence state is part of V1.0.
 - Graph neighbors cannot be called without a selected node/entity. RC3 smoke confirmed node-scoped neighbors work when community members provide `node_id`.
 

@@ -1,0 +1,52 @@
+{
+  "workspace_id": "rn-documentunit-fixture",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_f0f02c903a346e13",
+      "artifact_ref": "source://src_f0f02c903a346e13"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "units": {
+      "source_id": "src_f0f02c903a346e13",
+      "items": [
+        {
+          "unit_id": "unit_62567063869df3b5",
+          "source_id": "src_f0f02c903a346e13",
+          "unit_type": "section",
+          "title": "Architecture notes",
+          "text_preview": "Overview paragraph.",
+          "content_type": "text/plain",
+          "order_index": 0,
+          "artifact_ref": "unit://src_f0f02c903a346e13/unit_62567063869df3b5",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 19,
+          "max_preview_size_bytes": 50000
+        },
+        {
+          "unit_id": "unit_707b948728e863df",
+          "source_id": "src_f0f02c903a346e13",
+          "unit_type": "section",
+          "title": "Architecture notes / Section 2",
+          "text_preview": "Second section explains queue backpressure.",
+          "content_type": "text/plain",
+          "order_index": 1,
+          "artifact_ref": "unit://src_f0f02c903a346e13/unit_707b948728e863df",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 43,
+          "max_preview_size_bytes": 50000
+        }
+      ],
+      "next_cursor": null,
+      "limit": 50,
+      "has_more": false
+    }
+  }
+}

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -11,6 +13,7 @@ from .service import DataService
 SOURCE_TRACE_LIMIT_MIN = 1
 SOURCE_TRACE_LIMIT_MAX = 50
 SOURCE_TRACE_LIMIT_DEFAULT = 12
+_REGISTRY_SOURCE_ID = re.compile(r"^(?:src_[A-Za-z0-9]{8,64}|[a-fA-F0-9]{16,64})$")
 
 
 def normalize_source_trace_limit(value: object, *, default: int = SOURCE_TRACE_LIMIT_DEFAULT) -> int:
@@ -23,11 +26,93 @@ def normalize_source_trace_limit(value: object, *, default: int = SOURCE_TRACE_L
     return parsed
 
 
-def normalize_source_id(value: object) -> str:
+def normalize_source_id(value: object, *, strict_registry: bool = False) -> str:
     source_id = str(value or "").strip()
     if not source_id:
         raise ValueError("source_id is required")
+    if strict_registry:
+        if "://" in source_id or "/" in source_id or "\\" in source_id or source_id.startswith("source-"):
+            raise ValueError("source_id must be a registry source_id")
+        if not _REGISTRY_SOURCE_ID.fullmatch(source_id):
+            raise ValueError("source_id must be a registry source_id")
     return source_id
+
+
+def _read_json(path: Path, fallback: Any) -> Any:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return fallback
+
+
+def _registry_source_record(service: DataService, source_id: str) -> dict[str, Any] | None:
+    manifest = _read_json(service.workspace / "lifecycle" / "sources.json", {"items": []})
+    for item in manifest.get("items", []) or []:
+        if str(item.get("source_id") or "") == source_id:
+            return dict(item)
+    return None
+
+
+def _infer_source_type(record: dict[str, Any]) -> str:
+    metadata = dict(record.get("metadata") or {})
+    explicit = str(metadata.get("source_type") or metadata.get("kind") or "").strip().lower()
+    if explicit:
+        return explicit
+    suffix = Path(str(record.get("path") or "")).suffix.lower()
+    if suffix in {".txt", ".md", ".markdown", ".rst", ".csv", ".json", ".jsonl"}:
+        return "text" if suffix in {".txt", ".md", ".markdown", ".rst"} else suffix.lstrip(".")
+    return suffix.lstrip(".") or "unknown"
+
+
+def _public_source(record: dict[str, Any], source_id: str) -> dict[str, Any]:
+    return {
+        "source_id": source_id,
+        "title": str(record.get("title") or source_id),
+        "source_type": _infer_source_type(record),
+        "status": str(record.get("status") or "active"),
+        "ingest_status": str(record.get("ingest_status") or "pending"),
+        "metadata": dict(record.get("metadata") or {}),
+        "artifact_ref": f"source://{source_id}",
+    }
+
+
+def _base_provenance(record: dict[str, Any], source_id: str) -> list[dict[str, str]]:
+    source_type = _infer_source_type(record)
+    provenance = [
+        {"label": "Registry source", "value": source_id},
+        {"label": "Source type", "value": source_type},
+        {"label": "Source status", "value": str(record.get("status") or "active")},
+        {"label": "Ingest status", "value": str(record.get("ingest_status") or "pending")},
+    ]
+    imported_at = str(record.get("imported_at") or "").strip()
+    if imported_at:
+        provenance.append({"label": "Imported at", "value": imported_at})
+    return provenance
+
+
+def _sanitize_value(value: Any) -> Any:
+    if isinstance(value, list):
+        return [_sanitize_value(item) for item in value]
+    if isinstance(value, dict):
+        out: dict[str, Any] = {}
+        for key, item in value.items():
+            lowered = str(key).lower()
+            if (
+                lowered == "path"
+                or lowered == "paths"
+                or lowered.endswith("_path")
+                or lowered.endswith("_paths")
+                or "physical" in lowered
+                or "cache" in lowered
+                or "stack" in lowered
+            ):
+                continue
+            out[str(key)] = _sanitize_value(item)
+        return out
+    if isinstance(value, str):
+        if any(fragment in value for fragment in ("/Users", "file://", "cache_path", "artifact_path", "physical_path", "/private/tmp", "/tmp/")):
+            return "[redacted]"
+    return value
 
 
 def _markdown_title(path: Path) -> str:
@@ -64,11 +149,18 @@ def _text_matches_terms(text: str, terms: set[str]) -> bool:
     return any(term.lower() in lowered for term in terms if term)
 
 
-def source_trace_payload(service: DataService, source_id: object, *, limit: object = SOURCE_TRACE_LIMIT_DEFAULT) -> dict[str, Any]:
-    normalized_source_id = normalize_source_id(source_id)
+def source_trace_payload(
+    service: DataService,
+    source_id: object,
+    *,
+    limit: object = SOURCE_TRACE_LIMIT_DEFAULT,
+    strict_registry: bool = False,
+) -> dict[str, Any]:
+    normalized_source_id = normalize_source_id(source_id, strict_registry=strict_registry)
     normalized_limit = normalize_source_trace_limit(limit)
+    registry_source = _registry_source_record(service, normalized_source_id)
     distill = service.read_distill_bundle(source_id=normalized_source_id, limit=normalized_limit)
-    source = distill.get("source")
+    source = distill.get("source") or (_public_source(registry_source, normalized_source_id) if registry_source else None)
     if not source:
         raise KeyError(normalized_source_id)
     units = list(distill.get("units", []) or [])
@@ -89,7 +181,6 @@ def source_trace_payload(service: DataService, source_id: object, *, limit: obje
                     {
                         "slug": page_path.stem,
                         "title": title,
-                        "path": str(page_path),
                         "matched": True,
                         "snippet": body[:320],
                     }
@@ -121,10 +212,27 @@ def source_trace_payload(service: DataService, source_id: object, *, limit: obje
         or _text_matches_terms(str(community.get("title") or community.get("summary") or ""), terms)
     ][:normalized_limit]
 
-    return {
+    provenance = _base_provenance(registry_source or {}, normalized_source_id)
+    distill_summary = source.get("provenance_summary", {}) if isinstance(source, dict) else {}
+    if isinstance(distill_summary, dict):
+        unit_count = distill_summary.get("unit_count") or len(units)
+        if unit_count:
+            provenance.append({"label": "Distill units", "value": str(unit_count)})
+    if llmwiki_pages:
+        provenance.append({"label": "LLMWiki pages", "value": str(len(llmwiki_pages))})
+    if graph_nodes:
+        provenance.append({"label": "Graph nodes", "value": str(len(graph_nodes))})
+
+    trace_available = bool(registry_source or provenance or units or llmwiki_pages or graph_nodes)
+    payload = {
         "workspace": str(service.workspace),
         "source_id": normalized_source_id,
         "source": source,
+        "title": source.get("title") or normalized_source_id,
+        "trace_available": trace_available,
+        "summary": "Source trace is available from the registry source record.",
+        "artifact_refs": [{"type": "source", "source_id": normalized_source_id, "artifact_ref": f"source://{normalized_source_id}"}],
+        "provenance": provenance,
         "distill": {
             "units": units,
             "unit_count": len(units),
@@ -152,3 +260,4 @@ def source_trace_payload(service: DataService, source_id: object, *, limit: obje
             "graph_community_count": len(graph_communities),
         },
     }
+    return _sanitize_value(payload)

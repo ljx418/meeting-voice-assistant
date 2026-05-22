@@ -8,7 +8,7 @@
 - RC3 startup command:
 
 ```bash
-DATA_SERVICE_WORKSPACE_ROOT=/tmp/research-notebook-rc3-workspaces DATA_SERVICE_REQUIRE_API_KEY=false python3 -m uvicorn app.main:app --host 127.0.0.1 --port 8003
+DATA_SERVICE_WORKSPACE_ROOT=[tmp]/research-notebook-rc3-workspaces DATA_SERVICE_REQUIRE_API_KEY=false python3 -m uvicorn app.main:app --host 127.0.0.1 --port 8003
 ```
 
 - RC6 startup command:
@@ -154,7 +154,7 @@ ResearchNotebook V1.0 release gate M0-M4 is integration-smoke-ready.
 ResearchNotebook V1.0 source-grounded personal knowledge MVP is release candidate ready with source-level evidence metadata and trace-unavailable fallback.
 ```
 
-It should not be declared source trace integration ready yet because RC6 registry `source_id` trace still returned 404 for the minimal text source. It should not be declared full source preview or precise citation backjump ready.
+After V1.1-RC4, source trace integration may be declared only for registry source_id-backed sources covered by the RC4 smoke. It should not be declared all-source-type source trace ready, full source preview ready, or precise citation backjump ready for V1.0.
 
 No False Green remains in effect:
 

@@ -85,7 +85,7 @@ RC3 真实 `data_service` smoke 已完成：
 - session create/ingest/build/query：pass，其中 session query no-evidence 为接受降级；
 - graph community：pass；
 - feedback submit：pass；
-- source trace：RC3 真实后端对 minimal text registry `source_id` trace 仍返回 404；fallback 已验收为 drawer-local degraded state。
+- source trace：RC3/RC6 曾对 minimal text registry `source_id` trace 返回 404；V1.1-RC4 backend fix 后 registry source trace 已返回 HTTP 200，fallback 仍用于 unsupported/failing trace case。
 - graph neighbors：RC3 真实后端 community 返回 members，node-scoped neighbors 成功。
 
 RC5 release packaging / repository hygiene 已完成：
@@ -108,6 +108,15 @@ RC6 source trace contract re-smoke 已完成：
 - trace-unavailable fallback 继续作为 V1.0 accepted degraded state；
 - 已新增 `v1_0_rc6_source_trace_resmoke_report.md` 记录结果。
 
+V1.1-RC4 source trace re-smoke 已完成：
+
+- `npm run smoke:v1.1-rc4-trace` 已执行；
+- source create/list/get 返回 registry source id `src_cce80f0ca6dad217`；
+- workspace query evidence mapping 观察到 registry source id；
+- direct `sources.trace` 对同一 registry source id 返回 HTTP 200；
+- source trace integration 对 RC4 smoke 覆盖的 registry source_id-backed sources 进入受限 PASS；
+- trace-unavailable fallback 继续作为 unsupported/failing trace case 的 accepted degraded state。
+
 RC7 final repository sync / release handoff 已完成：
 
 - 未新增功能，未进入 M5+；
@@ -122,8 +131,8 @@ RC8 scoped commit / remote sync 已完成：
 - `research-notebook/` scoped 范围已提交并推送到现有上层远端；
 - `npm run check` 通过；
 - RC8 完成时 `research-notebook/` 无待提交变更；此后 V1.1-A / V1.1-BE 相关文档与前端 shell 变更进入当前 working tree；
-- source trace integration 仍为 `NOT_READY`；
-- trace-unavailable fallback 仍为 `DEGRADED_ACCEPTED`。
+- source trace integration 已对 RC4 smoke 覆盖的 registry source_id-backed sources 进入受限 PASS；
+- trace-unavailable fallback 对 unsupported/failing trace case 仍为 `DEGRADED_ACCEPTED`。
 
 V1.1-A Contract Discovery / Disabled Shell 已完成：
 
@@ -185,7 +194,7 @@ V1.0-M0 到 M4 主链路已完成
   -> V1.1-D 已完成 EvidenceSpan HTTP + browser visual smoke
   -> V1.1-RC2 live experience smoke passed
   -> 当前包可作为 V1.0 release candidate repository handoff
-  -> source trace integration 仍不能声明 ready，只能声明 trace-unavailable fallback
+  -> source trace integration 已对 RC4 registry source_id-backed text path 进入受限 PASS
 ```
 
 图中 `当前开发阶段` 的含义是：
@@ -195,13 +204,13 @@ V1.0-M0 到 M4 主链路已完成
 - 已完成 fixture 分层：`fixtures/real/` 和 `fixtures/adapter/`；
 - 已完成 `PASS` / `DEGRADED_ACCEPTED` / `NOT_READY` 三态验收口径；
 - RC7 未复跑 smoke，沿用 RC6 真实 smoke 证据；
-- 已接受 source trace 404 的 V1.0 降级行为。
+- 已接受 unsupported/failing trace case 的 V1.0 降级行为；RC4 scoped registry source trace 已通过。
 
 图中 `剩余差距` 的含义是：
 
 - 不是 V1.0 release gate 的阻塞开发；
 - 是后端 contract、V1.1+、V1.2+、V2.0 的后续工作入口；
-- 唯一影响当前 V1.0 声明边界的是：**source trace integration 仍未 ready**。
+- 当前 V1.0 声明边界是：**source trace integration 仅在 RC4 registry source_id-backed text path 内 ready，不能扩大成 all-source-type ready**。
 
 ### 2.2 RC5 的具体含义
 
@@ -360,8 +369,8 @@ V1.0 完成后，ResearchNotebook 应具备以下目标状态：
 - V1.1-C Unit-Level Source Navigation：data_service-supported text source integration-ready；
 - V1.1-D EvidenceSpan Highlight：browser-smoke-ready for data_service-supported text-source workspace query citations；
 - V1.1-RC2：live experience smoke passed；
-- 后端若修复 source trace contract，则重新跑 `npm run smoke:release` 并更新 release checklist / readiness report / gap markdown + drawio；
-- 当前 RC6 已确认 source trace contract 尚未修复，source trace integration 仍不能声明 ready；V1.1-BE preview route 成功也不能等同于 source trace integration ready；
+- source trace contract 已由 data_service backend fix 修复，并通过 `npm run smoke:v1.1-rc4-trace`；当前只能声明 RC4 scoped registry source trace ready；
+- V1.1-BE preview route 成功仍不能等同于 all-source-type source trace integration ready；
 - M5-M7：Post-MVP / Future Shell，不阻塞 V1.0 release。
 
 ### 6.1.1 V1.0 后续还剩多少开发内容
@@ -371,7 +380,7 @@ V1.0 完成后，ResearchNotebook 应具备以下目标状态：
 | 类型 | 是否阻塞 V1.0 RC | 内容 | 估算工作量 |
 | --- | --- | --- | --- |
 | Release packaging closure | 已完成 | RC7 handoff 与 RC8 scoped remote sync 已完成。 | Done |
-| Source trace contract alignment | 不阻塞当前 RC，但阻塞 `source trace integration ready` 声明 | 后端让 registry `source_id` 的 `sources.trace` 稳定返回 trace/provenance；前端重跑 `smoke:release` 并更新 fixtures / checklist。 | 中，依赖 `data_service` |
+| Source trace contract alignment | 已完成 scoped fix；不代表全量 trace ready | 后端已让 RC4 registry `source_id` 的 `sources.trace` 稳定返回 trace/provenance；ResearchNotebook 已重跑 RC4 source trace smoke 并更新 fixtures/checklist。 | Done for RC4-covered registry text source |
 | V1.1 Source Preview frontend integration | 不属于 V1.0 release gate | V1.1-B 已完成 source-level text preview integration smoke。 | Done for text source-level preview |
 | V1.1-D EvidenceSpan frontend/browser path | 不属于 V1.0 release gate | Workspace citation -> preview drawer -> unit detail -> EvidenceSpan highlight path 已实现并通过 HTTP smoke、browser visual smoke 和 RC2 live smoke。 | Done for supported text-source workspace query path |
 | V1.1+ product expansion | 不属于 V1.0 release gate | Source trace contract re-smoke、session precise navigation、V1.2 Multi-format、V2.0 Assessment。 | 大，依赖新 backend contracts |
@@ -381,10 +390,11 @@ V1.0 完成后，ResearchNotebook 应具备以下目标状态：
 ```text
 M0-M4：已完成，进入 release candidate。
 RC5：已完成发布包/仓库卫生口径。
-RC6：已重跑 source trace contract smoke；trace 仍 404，保留 accepted degraded。
+RC6：已重跑 source trace contract smoke；当时 trace 仍 404，保留 accepted degraded。
 RC7：已完成 final repository handoff。
 RC8：已完成 scoped commit / remote sync。
-V1.0 内可选修正：等待 data_service 修复 source trace contract，完成后才能升级声明。
+V1.1-RC4：data_service backend fix 后已重跑 source trace contract smoke；registry source_id direct trace 返回 HTTP 200，source trace integration 进入受限 PASS。
+V1.0 内可选修正：后续只需要扩展 all-source-type / session trace smoke，不应把 RC4 结果扩大成全量 ready。
 V1.1-BE：已完成 source-level preview backend contract enablement。
 V1.1-B：已完成 source-level preview frontend integration and real data_service smoke for text source。
 V1.1-D：EvidenceSpan frontend path 已完成 HTTP smoke、browser visual smoke 和 RC2 live smoke；precise evidence navigation 仅限 supported text-source workspace query path。

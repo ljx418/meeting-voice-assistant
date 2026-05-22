@@ -1,7 +1,7 @@
 # ResearchNotebook V1.1 Feature Route Matrix
 
-文档状态：V1.1-D-RC browser visual smoke passed for supported text-source workspace query EvidenceSpan navigation。
-日期：2026-05-21。
+文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed with scoped source trace integration。
+日期：2026-05-22。
 
 ## Classification
 
@@ -19,6 +19,7 @@ Every V1.1 feature must be classified as:
 | Capability manifest | backed by data_service target route | `GET /api/workspaces/{workspace_id}/capabilities` | Integrated through `dataServiceClient.capabilities.get(workspaceId)`. Missing manifest maps to `capability_missing`. |
 | Source Preview drawer shell | backed by data_service target route | app UI + `sources.preview()` | Opens from Source Library / Source Detail Preview entry and renders source-level preview or drawer-local unavailable state. |
 | Source-level preview integration | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/preview` | Integrated for registry `source_id` and data_service-supported source types. Real smoke passed for text source. |
+| Source trace direct route | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | V1.1-RC4 backend fix 后 re-smoke observed source create/list/get registry `source_id` and direct trace returned HTTP 200. Source trace integration is LIMITED PASS for RC4-covered registry source_id-backed text sources. |
 | DocumentUnit backend list | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/units` | Integrated through `sources.listUnits`; enabled only when manifest allows unit navigation. |
 | DocumentUnit backend detail | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/units/{unit_id}` | Integrated through `sources.getUnit`; unit id must come from backend DocumentUnit response. |
 | DocumentUnit metadata display | adapter shell only | preview response `units` + capability manifest | V1.1-C-A only; metadata-only, non-clickable, shown only when manifest advertises `document_units=true`. |
@@ -105,6 +106,18 @@ Current declaration:
 Frontend EvidenceSpan highlight = BROWSER_SMOKE_READY_FOR_SUPPORTED_TEXT_WORKSPACE_QUERY
 Frontend precise evidence navigation = BROWSER_SMOKE_READY_FOR_SUPPORTED_TEXT_WORKSPACE_QUERY
 ```
+
+## V1.1-RC4 Source Trace Re-Smoke Status
+
+```text
+Registry source_id observed from source create/list/get = TRUE
+Workspace query evidence with registry source id = TRUE
+Direct source trace route = HTTP 200
+Source trace integration = LIMITED_PASS_FOR_RC4_REGISTRY_SOURCE_ID_TEXT_PATH
+Trace-unavailable fallback = DEGRADED_ACCEPTED for unsupported or failing trace cases
+```
+
+RC4 confirms that Source Preview, DocumentUnit, EvidenceSpan, and Source Trace are separate contracts. Source Trace is now smoke-proven only for the RC4 registry source_id path.
 
 ## Boundary Rules
 

@@ -1,7 +1,7 @@
 # ResearchNotebook V1.1 Design Docs
 
-文档状态：V1.1-D-RC browser visual smoke passed；precise evidence navigation browser-smoke-ready for supported text-source workspace query citations。
-日期：2026-05-21。
+文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed；source trace integration is scoped LIMITED PASS。
+日期：2026-05-22。
 
 ## Positioning
 
@@ -27,13 +27,15 @@ V1.1 不进入 multi-format ingestion、Assessment、Quality/Governance console�
 - `V1.1-D Frontend EvidenceSpan Highlight / Precise Navigation Integration` 已完成 API-adapter/UI 接入：workspace answer citation 可打开 Source Preview Drawer、加载 unit detail、加载 EvidenceSpan detail，并对支持的 text offset 做安全高亮；
 - `V1.1-D real data_service HTTP smoke` 已通过：workspace query 返回 `source_id + unit_id + evidence_id`，EvidenceSpan route 返回 `normalized_text / half_open / document_unit_text` offset contract；
 - `V1.1-D-RC browser visual smoke` 已通过：真实浏览器打开 app、创建 workspace/source、打开 Source Preview、加载 DocumentUnit、提交 workspace query、点击 jumpable citation，并看到 EvidenceSpan 高亮；
+- `V1.1-RC4 Source Trace Re-Smoke` 已执行：source create/list/get 返回 registry `source_id`，workspace query evidence 也观察到 registry source id，direct `sources.trace` 返回 HTTP 200；
 - 可以声明 Source Preview ready for data_service-supported source-level text sources；
 - 可以声明 DocumentUnit navigation disabled shell ready；
 - 可以声明 data_service DocumentUnit backend contract ready for frontend integration after backend change review；
 - 可以声明 ResearchNotebook Unit-Level Source Navigation integration-ready for data_service-supported text sources；
 - 可以声明 data_service EvidenceSpan backend contract ready for ResearchNotebook V1.1-D frontend integration after backend change review；
 - 可以声明 ResearchNotebook V1.1-D EvidenceSpan Highlight browser-smoke-ready for data_service-supported text-source workspace query citations；
-- 可以声明 ResearchNotebook V1.1 precise evidence navigation browser-smoke-ready for the same supported workspace query path。
+- 可以声明 ResearchNotebook V1.1 precise evidence navigation browser-smoke-ready for the same supported workspace query path；
+- 可以声明 source trace integration ready for registry source_id-backed sources covered by RC4 smoke。
 
 ## Documents
 
@@ -60,6 +62,8 @@ V1.1 不进入 multi-format ingestion、Assessment、Quality/Governance console�
 | `v1_1_release_readiness_checklist.md` | V1.1 release readiness status table and No False Green statements。 |
 | `v1_1_rc1_release_handoff.md` | V1.1-RC1 final handoff summary, scoped sync rules, accepted degraded states and next phase pointer。 |
 | `v1_1_rc2_live_experience_smoke_report.md` | V1.1-RC2 live experience smoke report using already-running local frontend/backend services。 |
+| `v1_1_rc4_source_trace_resmoke_report.md` | V1.1-RC4 source trace direct route re-smoke result；records scoped source trace integration PASS。 |
+| `v1_1_rc5_final_release_sync.md` | V1.1-RC5 final release sync scope, verification evidence, still-not-ready boundaries, and scoped commit/push rules。 |
 
 ## Entry Gate
 
@@ -99,6 +103,7 @@ V1.1-D-BE EvidenceSpan backend contract: READY_FOR_FRONTEND_INTEGRATION_AFTER_BA
 V1.1-D frontend EvidenceSpan highlight: BROWSER_SMOKE_READY_FOR_SUPPORTED_TEXT_WORKSPACE_QUERY
 V1.1-D real data_service HTTP smoke: PASS_WITH_ACCEPTED_DEGRADED_STATES
 V1.1-D browser visual smoke: PASS
+V1.1-RC4 source trace re-smoke: PASS_SCOPED_REGISTRY_SOURCE_TRACE
 ```
 
-Do not generalize this to all sessions or all source types. Source trace integration also remains NOT_READY.
+Do not generalize this to all sessions or all source types. Source trace integration is scoped to registry source_id-backed sources covered by RC4 smoke.

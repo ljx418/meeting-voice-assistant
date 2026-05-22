@@ -161,6 +161,28 @@ ResearchNotebook V1.1 precise evidence navigation is browser-smoke-ready for the
 
 Cannot declare:
 
-- source trace integration ready;
+- all-source-type source trace integration ready;
 - all-session precise navigation ready;
 - all-source-type precise backjump ready.
+
+## RC4 Source Trace Re-Smoke Boundary
+
+V1.1-RC4 reran the direct source trace route with a registry `source_id` returned by source create/list/get:
+
+```text
+GET /api/workspaces/rn-v11-rc4-trace-1779418233906-workspace/sources/src_cce80f0ca6dad217/trace
+```
+
+Result:
+
+```text
+HTTP 200 trace/provenance payload
+```
+
+Therefore:
+
+- Source Preview success does not prove Source Trace success;
+- DocumentUnit navigation success does not prove Source Trace success;
+- EvidenceSpan highlight success does not prove Source Trace success;
+- source trace integration is `LIMITED PASS` for registry source_id-backed sources covered by RC4 smoke;
+- trace-unavailable fallback remains `DEGRADED_ACCEPTED` for unsupported or failing trace cases.

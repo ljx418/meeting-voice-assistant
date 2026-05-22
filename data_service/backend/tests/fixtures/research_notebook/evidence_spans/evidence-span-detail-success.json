@@ -1,0 +1,29 @@
+{
+  "workspace_id": "rn-v11dbe-smoke-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_04979571353567c0",
+      "artifact_ref": "source://src_04979571353567c0"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_2e14b7785f3fbb06",
+      "source_id": "src_04979571353567c0",
+      "unit_id": "unit_06899678a1a8340c",
+      "snippet": "Queue backpressure protects workers.",
+      "start_offset": 0,
+      "end_offset": 36,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {},
+      "preview_available": true
+    }
+  }
+}

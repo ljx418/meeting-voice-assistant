@@ -1,0 +1,20 @@
+{
+  "workspace_id": "rn-documentunit-fixture",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "source_type_not_supported"
+  ],
+  "data": {
+    "units": {
+      "source_id": "src_72bd93d97bc35cb8",
+      "items": [],
+      "next_cursor": null,
+      "limit": 50,
+      "has_more": false,
+      "unsupported_reason": "source_type_not_supported"
+    }
+  }
+}

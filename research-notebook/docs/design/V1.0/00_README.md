@@ -1,7 +1,7 @@
 # ResearchNotebook V1.0 Design Docs
 
 文档状态：V1.0-RC8 remote sync complete；V1.1-RC2 live experience smoke passed；后续真实后端/前端变更仍需以 `v1_0_current_gap_analysis.md` 和同名 drawio 作为最优先维护入口。
-当前目标：保持 M0-M4 release candidate repository handoff 状态；RC6 已确认 source trace contract 仍未修复。V1.1-B/C/D 可声明受限文本源 workspace query evidence navigation 路径已通过 smoke，但不改变 V1.0 release status，也不代表 source trace integration ready。
+当前目标：保持 M0-M4 release candidate repository handoff 状态；V1.1-RC4 已完成 source trace backend fix / re-smoke，source trace integration 仅在 RC4 registry source_id-backed text path 内进入受限 PASS。V1.1-B/C/D 可声明受限文本源 workspace query evidence navigation 路径已通过 smoke，但不改变 V1.0 的 all-source-type / session 边界。
 
 ## Positioning
 
@@ -131,12 +131,12 @@ ResearchNotebook V1.0 M0-M4 is integration-smoke-ready.
 ResearchNotebook V1.0 source-grounded personal knowledge MVP is release candidate ready with trace-unavailable fallback.
 ```
 
-RC6 已确认 registry `source_id` trace 仍返回 404。如果后端后续修复该 contract，需要重新执行 `npm run smoke:release` 并更新 `v1_0_release_checklist.md`、`v1_0_integration_readiness_report.md` 和 gap markdown/drawio，才能声明 source trace integration ready。
+RC6 曾确认 registry `source_id` trace 返回 404。V1.1-RC4 backend fix 后，`npm run smoke:v1.1-rc4-trace` 已证明 registry source id direct trace 返回 HTTP 200。该声明仅限 RC4 smoke 覆盖的 registry source_id-backed text path。
 
 V1.0 完成后仍不能声明：
 
 ```text
-source trace integration ready
+all-source-type source trace integration ready
 source preview ready
 precise citation backjump ready
 JSON/PPT/video/audio ingestion ready

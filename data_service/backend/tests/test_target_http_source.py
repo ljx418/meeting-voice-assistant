@@ -203,19 +203,20 @@ def test_v16b2_source_trace_target_route_unchanged(tmp_path, monkeypatch):
     monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
     monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
 
-    workspace_id = "trace-kb"
-    workspace = root / workspace_id
-    source_file = tmp_path / "trace.md"
-    source_file.write_text("# Trace\n\nSource trace remains baseline.", encoding="utf-8")
-    service = DataService(workspace)
-    plan = service.build_ingest_plan([str(source_file)])
-    service.run_default_pipeline(plan)
-    source_id = service.read_distill_bundle(limit=5)["sources"][0]["source_id"]
-
     client = TestClient(app)
+    workspace_id = _create_workspace(client, "Trace KB")
+    imported = client.post(
+        f"/api/workspaces/{workspace_id}/sources",
+        json={"texts": [{"title": "Trace", "content": "Source trace remains baseline.", "metadata": {"kind": "text"}}]},
+    )
+    assert imported.status_code == 200
+    source_id = imported.json()["data"]["sources"][0]["source_id"]
+
     trace = client.get(f"/api/workspaces/{workspace_id}/sources/{source_id}/trace", params={"limit": 5})
     assert trace.status_code == 200
-    assert trace.json()["source_id"] == source_id
+    payload = trace.json()
+    assert payload["status"] == "ok"
+    assert payload["data"]["trace"]["source_id"] == source_id
 
 
 def test_v16b2_source_target_http_auth_matches_existing_api_boundary(tmp_path, monkeypatch):

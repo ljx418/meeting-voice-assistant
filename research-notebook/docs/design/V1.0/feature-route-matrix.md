@@ -32,7 +32,7 @@ Rules:
 | Source import | backed by data_service target route | `POST /api/workspaces/{workspace_id}/sources` | V1.0 basic import only. |
 | Source detail | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}` | Detail page or drawer. |
 | Source remove | backed by data_service target route | `POST /api/workspaces/{workspace_id}/sources/{source_id}/remove` | Soft/remove semantics owned by service. |
-| Source trace | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | RC3 real smoke: minimal text registry `source_id` trace returned 404; V1.0 accepts trace-unavailable fallback and must not claim source trace integration ready. |
+| Source trace | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | RC3/RC6 real smoke returned 404; after data_service backend fix, V1.1-RC4 registry `source_id` trace returned HTTP 200. V1.0 may claim scoped registry source trace for the RC4-covered path only. |
 | Source trace/provenance drawer | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/trace` | Required V1.0 evidence flow; failure must remain drawer-local and must not clear answer. |
 | Source-level citation affordance | backed by data_service target route | query response + source trace route | Query hit slugs/page refs render as non-clickable `sourceRef`; registry IDs render as traceable citations. |
 | Source preview | future backend phase | capability manifest + source preview route | V1.1 docs own this surface. V1.1-B frontend integration has passed source-level text preview smoke; V1.0 release status remains unchanged and must not claim preview ready. |

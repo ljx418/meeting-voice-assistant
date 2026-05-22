@@ -1,0 +1,16 @@
+{
+  "phase": "v1.7-research-notebook-source-preview",
+  "allowed_target_http_additions": [
+    [
+      "GET",
+      "/api/workspaces/{workspace_id}/capabilities"
+    ],
+    [
+      "GET",
+      "/api/workspaces/{workspace_id}/sources/{source_id}/preview"
+    ]
+  ],
+  "allowed_mcp_tool_additions": [],
+  "allowed_cli_command_additions": [],
+  "allowed_compatibility_http_additions": []
+}

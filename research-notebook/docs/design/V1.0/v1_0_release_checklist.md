@@ -25,6 +25,13 @@ RC6 verification result:
 - `PASS` 2026-05-19 `npm run smoke:release` completed against local `data_service`.
 - `DEGRADED_ACCEPTED` RC6 registry `source_id` trace still returned 404: `Unknown source_id: src_2003ad3198c69861`.
 
+V1.1-RC4 source trace re-smoke result:
+
+- `PASS` 2026-05-22 `npm run smoke:v1.1-rc4-trace` created/listed/read a minimal text source and observed registry source id `src_cce80f0ca6dad217`.
+- `PASS` workspace query evidence mapping observed a registry source id for the RC4 source.
+- `PASS` direct source trace returned HTTP 200 after the data_service source trace backend contract fix.
+- `LIMITED PASS` source trace integration is ready only for registry source_id-backed sources covered by RC4 smoke.
+
 Status values:
 
 - `PASS`: verified by automated check, UI/API test, or real smoke.
@@ -71,13 +78,13 @@ Documentation gates:
 
 ## 2. DEGRADED_ACCEPTED
 
-- `DEGRADED_ACCEPTED` Source trace fallback: RC3 and RC6 minimal text registry `source_id` returned 404 from `sources.trace`; V1.0 accepts drawer-local trace unavailable state.
+- `DEGRADED_ACCEPTED` Source trace fallback: RC3 and RC6 minimal text registry `source_id` returned 404 from `sources.trace`; V1.0 accepts drawer-local trace unavailable state for unsupported/failing trace cases even though V1.1-RC4 fixed the scoped registry source trace path.
 - `DEGRADED_ACCEPTED` Workspace query evidence: RC3 real query returned llmwiki/sourceRef evidence; V1.0 shows it as display-only metadata unless it exactly matches a registry source id.
 - `DEGRADED_ACCEPTED` Session query no-evidence: RC3 real session query returned no evidence items; V1.0 shows explicit no-evidence state.
 
 ## 3. NOT_READY
 
-- `NOT_READY` Source trace integration: RC6 confirmed registry `source_id` trace still returns 404. Backend must return trace for registry source ids before declaring source trace integration ready.
+- `NOT_READY` All-source-type source trace integration. V1.1-RC4 proves only the scoped registry source_id-backed text path.
 - `NOT_READY` Real session query with evidence. `fixtures/adapter/session-query-with-evidence.json` is an adapter fixture, not an RC3/RC6 backend pass.
 - `NOT_READY` Real workspace query hit with registry source id. `fixtures/adapter/query-hit-source-registry-id.json` is an adapter fixture, not an RC3/RC6 backend pass.
 - `NOT_READY` Source preview.
@@ -112,7 +119,7 @@ Fixtures must not contain local absolute paths, cache paths, artifact physical p
 
 Do not declare:
 
-- source trace integration ready;
+- all-source-type source trace integration ready;
 - source preview ready;
 - precise citation backjump ready;
 - multi-format ingestion ready;

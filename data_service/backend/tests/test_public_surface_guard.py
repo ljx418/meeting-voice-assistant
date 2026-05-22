@@ -34,7 +34,7 @@ def _baseline() -> dict:
 
 
 def _accepted_overlays() -> list[dict]:
-    return [json.loads(path.read_text(encoding="utf-8")) for path in sorted(OVERLAY_ROOT.glob("v1_6_*.json"))]
+    return [json.loads(path.read_text(encoding="utf-8")) for path in sorted(OVERLAY_ROOT.glob("v1_*.json"))]
 
 
 def _as_route_set(routes) -> set[tuple[str, str]]:
@@ -165,7 +165,7 @@ def test_v16_current_http_route_inventory_matches_v15_baseline_plus_accepted_ove
                 "/api/workspaces/{workspace_id}/graph/session",
             }
 
-    assert len(current_target) == len(expected_current_target) == 35
+    assert len(current_target) == len(expected_current_target)
 
 
 def test_v16a_boundary_guard_has_no_upper_layer_production_imports():
@@ -222,6 +222,30 @@ def test_v16a_target_http_contract_smoke_matches_legacy_contracts(tmp_path, monk
         "/api/v1/knowledge/source/trace",
         json={"workspace": str(workspace), "source_id": source_id, "limit": 5},
     )
-    target_trace = client.get(f"/api/workspaces/{workspace_id}/sources/{source_id}/trace", params={"limit": 5})
+    assert legacy_trace.status_code == 200
+
+    target_trace_slug = client.get(f"/api/workspaces/{workspace_id}/sources/{source_id}/trace", params={"limit": 5})
+    assert target_trace_slug.status_code == 422
+
+    target_workspace = client.post("/api/workspaces", json={"name": "V1.6-A target trace registry source"})
+    assert target_workspace.status_code == 200
+    target_workspace_id = target_workspace.json()["workspace_id"]
+    target_import = client.post(
+        f"/api/workspaces/{target_workspace_id}/sources",
+        json={
+            "texts": [
+                {
+                    "title": "V1.6-A target trace source",
+                    "content": "Public surface guard validates registry source trace contract stability.",
+                    "metadata": {"kind": "text"},
+                }
+            ]
+        },
+    )
+    assert target_import.status_code == 200
+    target_source_id = target_import.json()["data"]["sources"][0]["source_id"]
+    target_trace = client.get(f"/api/workspaces/{target_workspace_id}/sources/{target_source_id}/trace", params={"limit": 5})
     assert target_trace.status_code == 200
-    assert target_trace.json() == legacy_trace.json()
+    target_payload = target_trace.json()
+    assert target_payload["status"] == "ok"
+    assert target_payload["data"]["trace"]["source_id"] == target_source_id

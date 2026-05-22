@@ -1,0 +1,56 @@
+{
+  "mode": "hybrid",
+  "query": "queue backpressure",
+  "answer": "LLMWiki pages: 0 hits\nGraphRAG entities/units: 0 hits",
+  "hits": [],
+  "engine_payloads": {
+    "llmwiki": {
+      "pages": [],
+      "passages": [],
+      "citations": [],
+      "related_pages": []
+    },
+    "graphrag": {
+      "status": "missing_db",
+      "graph_model_version": "1.0",
+      "nodes": [],
+      "edges": [],
+      "communities": [],
+      "hits": [],
+      "stats": {
+        "entity_count": 0,
+        "theme_count": 0,
+        "relationship_count": 0,
+        "community_count": 0,
+        "document_count": 0
+      },
+      "source": "app.graphrag.bridge"
+    }
+  },
+  "evidence": [
+    {
+      "evidence_key": "src_04979571353567c0:unit_06899678a1a8340c:ev_2e14b7785f3fbb06",
+      "source_id": "src_04979571353567c0",
+      "source_title": "V1.1-D EvidenceSpan Smoke Text",
+      "unit_id": "unit_06899678a1a8340c",
+      "evidence_id": "ev_2e14b7785f3fbb06",
+      "snippet": "Queue backpressure protects workers.",
+      "confidence": 1.0,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_04979571353567c0:unit_06899678a1a8340c:ev_2e14b7785f3fbb06",
+      "source_id": "src_04979571353567c0",
+      "source_title": "V1.1-D EvidenceSpan Smoke Text",
+      "unit_id": "unit_06899678a1a8340c",
+      "evidence_id": "ev_2e14b7785f3fbb06",
+      "snippet": "Queue backpressure protects workers.",
+      "confidence": 1.0,
+      "locator": {},
+      "preview_available": true
+    }
+  ]
+}
