@@ -15,6 +15,7 @@
     "smoke:v1.1-rc4-trace": "node scripts/v1_1_rc4_source_trace_smoke.mjs",
     "smoke:v1.1-s1-session": "node scripts/v1_1_s1_session_precise_navigation_smoke.mjs",
     "smoke:v1.1-s1-fe-browser": "node scripts/v1_1_s1_fe_session_browser_smoke.mjs",
+    "smoke:v1.1-s2-discovery": "node scripts/v1_1_s2_all_source_type_discovery.mjs",
     "check:boundaries": "node scripts/check-boundaries.mjs",
     "check": "npm run check:boundaries && npm run lint && npm run test && npm run build"
   },

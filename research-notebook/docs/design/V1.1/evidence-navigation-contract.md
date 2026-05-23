@@ -1,6 +1,6 @@
 # V1.1 Evidence Navigation Contract
 
-文档状态：V1.1-D workspace query browser smoke passed；V1.1-S1-FE session query browser smoke passed；两者都仅限 data_service-supported text-source citations carrying `source_id + unit_id + evidence_id`。
+文档状态：V1.1-D workspace query browser smoke passed；V1.1-S1-FE session query browser smoke passed；S2 found non-text EvidenceSpan contracts not ready。
 
 ## Purpose
 
@@ -91,6 +91,8 @@ type QueryEvidence = {
 ```
 
 Session query evidence is browser-smoke-ready after S1-FIX and S1-FE for data_service-supported text-source session query citations carrying `source_id + unit_id + evidence_id`. S1-FIX proved the API ids; S1-FE proved the browser citation click path through the existing Drawer, DocumentUnit, and EvidenceSpan highlight flow.
+
+S2 all-source-type discovery found no non-text source type with preview/unit/evidence contracts ready. `pdf`, `pptx`, `json`, `markdown`, `html`, `video`, and `audio` remain `NOT_READY_NOT_SMOKED` for EvidenceSpan navigation.
 
 ## Navigation Rules
 

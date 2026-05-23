@@ -1,6 +1,6 @@
 # V1.1 Capability Manifest Contract
 
-文档状态：V1.1-D-RC browser visual smoke passed for supported text-source workspace query EvidenceSpan navigation。
+文档状态：V1.1-D/S1-FE browser smoke passed for supported text-source evidence navigation；S2 all-source-type contract discovery completed and found non-text source types not ready。
 
 ## Purpose
 
@@ -91,6 +91,21 @@ These true values are necessary but not sufficient for frontend precise navigati
 
 V1.1-D frontend API-adapter/UI smoke is ready. Real data_service HTTP smoke has verified the manifest flags, workspace query jumpable evidence, unit detail route, EvidenceSpan detail route, and offset contract. Browser visual smoke has verified the visible citation -> preview drawer -> unit detail -> EvidenceSpan highlight path.
 
+## V1.1-S2 All-Source-Type Discovery Result
+
+S2 discovery observed the current manifest as:
+
+```text
+supported_source_types = text:unit
+```
+
+Therefore:
+
+- `text` remains the only source type with preview/unit/evidence navigation ready in V1.1.
+- `pdf`, `pptx`, `json`, `markdown`, `html`, `video`, and `audio` are not manifest-ready.
+- Frontend must continue showing unsupported / unavailable for non-text source types.
+- S3 must update data_service backend contracts before S4 can enable any non-text frontend behavior.
+
 ## Capability Rules For V1.1-B
 
 - `source_preview=false` -> UI does not call preview route.
@@ -111,4 +126,4 @@ V1.1-D frontend API-adapter/UI smoke is ready. Real data_service HTTP smoke has 
 - Feature modules 不拼 route string。
 - 后端未声明 capability 时，UI 必须显示 unsupported / capability missing。
 - `source trace integration` 与 `source preview integration` 是两个独立声明，不得互相替代。
-- `citation_backjump=true` in the manifest does not by itself make a citation jumpable. The evidence payload must include `sourceId + unitId + evidenceId`. Browser visual smoke has passed only for the supported text-source workspace query path; session/all-source coverage remains not ready.
+- `citation_backjump=true` in the manifest does not by itself make a citation jumpable. The evidence payload must include `sourceId + unitId + evidenceId`. Browser visual smoke has passed for supported text-source workspace and session query paths; all-source-type coverage remains not ready.

@@ -8,6 +8,7 @@ RC4 source trace re-smoke 时间：2026-05-22.
 RC5 final release sync 验证时间：2026-05-22T03:55:48Z.
 S1-FIX session precise navigation re-smoke 时间：2026-05-23.
 S1-FE session browser smoke 时间：2026-05-23.
+S2 all-source-type contract discovery 时间：2026-05-23.
 
 ## Status Table
 
@@ -23,6 +24,7 @@ S1-FE session browser smoke 时间：2026-05-23.
 | V1.1-RC5 final release sync | PASS_READY_FOR_SCOPED_COMMIT | `v1_1_rc5_final_release_sync.md` |
 | V1.1-S1 session precise navigation API smoke | API_SMOKE_READY | `v1_1_s1_session_precise_navigation_smoke_report.md`; S1-FIX returned `HAS_EVIDENCE_SPAN_IDS`, unit detail and EvidenceSpan detail resolved |
 | V1.1-S1-FE session citation browser smoke | PASS | `v1_1_s1_fe_session_browser_smoke_report.md`; session citation click opened Drawer, selected DocumentUnit, and rendered EvidenceSpan highlight |
+| V1.1-S2 all-source-type contract discovery | COMPLETE | `v1_1_s2_all_source_type_contract_discovery.md`; manifest only declares `text:unit`, non-text preview/unit/evidence remain blocked |
 | EvidenceSpan highlight visible | PASS | browser smoke artifact under `.smoke-artifacts/` |
 | Precise evidence navigation browser-release-ready | PASS | limited to supported text-source workspace query citations carrying `source_id + unit_id + evidence_id` |
 | Source trace integration | LIMITED PASS | Only for registry source_id-backed sources covered by RC4 smoke |
@@ -30,7 +32,7 @@ S1-FE session browser smoke 时间：2026-05-23.
 | trace-unavailable fallback | DEGRADED_ACCEPTED | Still accepted for unsupported or failing trace cases |
 | all-session precise navigation | NOT_READY | S1-FE covers only data_service-supported text-source session query citations carrying resolvable ids; all-session scope remains unverified |
 | all-source-type precise backjump | NOT_READY | only text-source workspace query path smoked |
-| Multi-format ingestion | NOT_READY | not in V1.1 scope |
+| Multi-format ingestion | NOT_READY | S2 discovery found only metadata source creation for non-text; native ingestion is not verified |
 | Assessment | NOT_READY | not in V1.1 scope |
 | Quality/Governance console | NOT_READY | not in V1.1 scope |
 | Graph editing/governance | NOT_READY | not in V1.1 scope |
@@ -90,6 +92,18 @@ EvidenceSpan highlight visible: PASS
 decision: session precise navigation is BROWSER_SMOKE_READY for supported text-source session query citations
 ```
 
+Latest S2 all-source-type discovery:
+
+```text
+npm run smoke:v1.1-s2-discovery: completed
+workspace_id: rn-v11-s2-discovery-1779552792409-workspace
+capability manifest: text:unit
+text preview/unit/evidence: PASS
+pdf/pptx/json/markdown/html/video/audio preview: UNSUPPORTED
+pdf/pptx/json/markdown/html/video/audio units: UNSUPPORTED
+decision: CONTRACT_DISCOVERY_COMPLETE; non-text source types remain blocked by backend contract
+```
+
 ## Boundary Checks
 
 ```text
@@ -108,7 +122,7 @@ no dangerous HTML rendering
 | Workspace text-source EvidenceSpan navigation | 0 | HTTP smoke, browser visual smoke, and RC2 live experience smoke passed | Manual acceptance can run on the supported workspace query path |
 | Registry source_id source trace | 0 | RC4 direct trace returned HTTP 200 for covered text source | Manual acceptance can run on the scoped RC4 path |
 | Session precise navigation | 0 | S1-FIX returned `HAS_EVIDENCE_SPAN_IDS`; S1-FE clicked the session citation and rendered EvidenceSpan highlight | Manual acceptance can run on the supported session query path |
-| All-source-type precise backjump | Not in current acceptance scope | Only text source has been smoked | Start All-Source-Type Contract Discovery after session path is fixed |
+| All-source-type precise backjump | Not in current acceptance scope | S2 discovered non-text preview/unit/evidence backend contracts are missing | Start Multi-Format Backend Contract Enablement before any frontend ready claim |
 
 Session precise navigation has reached manual acceptance for the supported text-source session query path. Do not generalize this result to all sessions or all source types.
 

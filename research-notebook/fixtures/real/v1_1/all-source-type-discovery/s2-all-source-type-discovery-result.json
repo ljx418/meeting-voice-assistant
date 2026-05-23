@@ -1,0 +1,206 @@
+{
+  "declaration": "CONTRACT_DISCOVERY_COMPLETE",
+  "workspace_id": "rn-v11-s2-discovery-1779552792409-workspace",
+  "candidates": [
+    {
+      "source_type": "text",
+      "source_id": "src_f250b5f0b1354c31",
+      "capability_manifest": {
+        "status": "PASS",
+        "preview": "unit",
+        "locators": []
+      },
+      "source_create": "PASS_REGISTRY_SOURCE_ID",
+      "native_ingestion": "PASS_TEXT_SOURCE",
+      "source_preview": "PASS",
+      "document_units": "PASS",
+      "evidence_spans": "PASS_TEXT_ROUTE_AVAILABLE",
+      "source_trace": "LIMITED_PASS",
+      "trace_http_status": 200,
+      "raw_path_leak": false
+    },
+    {
+      "source_type": "pdf",
+      "source_id": "src_2099cecd1b21e262",
+      "capability_manifest": {
+        "status": "NOT_READY",
+        "preview": "none",
+        "locators": []
+      },
+      "source_create": "PASS_REGISTRY_SOURCE_ID",
+      "native_ingestion": "NOT_VERIFIED_METADATA_ONLY",
+      "source_preview": "UNSUPPORTED",
+      "document_units": "UNSUPPORTED",
+      "evidence_spans": "NOT_READY_NOT_SMOKED",
+      "source_trace": "LIMITED_PASS",
+      "unsupported_reason": "source_type_not_supported",
+      "trace_http_status": 200,
+      "raw_path_leak": false
+    },
+    {
+      "source_type": "pptx",
+      "source_id": "src_1152f01c6b2fa388",
+      "capability_manifest": {
+        "status": "NOT_READY",
+        "preview": "none",
+        "locators": []
+      },
+      "source_create": "PASS_REGISTRY_SOURCE_ID",
+      "native_ingestion": "NOT_VERIFIED_METADATA_ONLY",
+      "source_preview": "UNSUPPORTED",
+      "document_units": "UNSUPPORTED",
+      "evidence_spans": "NOT_READY_NOT_SMOKED",
+      "source_trace": "LIMITED_PASS",
+      "unsupported_reason": "source_type_not_supported",
+      "trace_http_status": 200,
+      "raw_path_leak": false
+    },
+    {
+      "source_type": "json",
+      "source_id": "src_053ade1eb4d3c8c1",
+      "capability_manifest": {
+        "status": "NOT_READY",
+        "preview": "none",
+        "locators": []
+      },
+      "source_create": "PASS_REGISTRY_SOURCE_ID",
+      "native_ingestion": "NOT_VERIFIED_METADATA_ONLY",
+      "source_preview": "UNSUPPORTED",
+      "document_units": "UNSUPPORTED",
+      "evidence_spans": "NOT_READY_NOT_SMOKED",
+      "source_trace": "LIMITED_PASS",
+      "unsupported_reason": "source_type_not_supported",
+      "trace_http_status": 200,
+      "raw_path_leak": false
+    },
+    {
+      "source_type": "markdown",
+      "source_id": "src_20349e35cbee78b6",
+      "capability_manifest": {
+        "status": "NOT_READY",
+        "preview": "none",
+        "locators": []
+      },
+      "source_create": "PASS_REGISTRY_SOURCE_ID",
+      "native_ingestion": "NOT_VERIFIED_METADATA_ONLY",
+      "source_preview": "UNSUPPORTED",
+      "document_units": "UNSUPPORTED",
+      "evidence_spans": "NOT_READY_NOT_SMOKED",
+      "source_trace": "LIMITED_PASS",
+      "unsupported_reason": "source_type_not_supported",
+      "trace_http_status": 200,
+      "raw_path_leak": false
+    },
+    {
+      "source_type": "html",
+      "source_id": "src_d22abb03f876767e",
+      "capability_manifest": {
+        "status": "NOT_READY",
+        "preview": "none",
+        "locators": []
+      },
+      "source_create": "PASS_REGISTRY_SOURCE_ID",
+      "native_ingestion": "NOT_VERIFIED_METADATA_ONLY",
+      "source_preview": "UNSUPPORTED",
+      "document_units": "UNSUPPORTED",
+      "evidence_spans": "NOT_READY_NOT_SMOKED",
+      "source_trace": "LIMITED_PASS",
+      "unsupported_reason": "source_type_not_supported",
+      "trace_http_status": 200,
+      "raw_path_leak": false
+    },
+    {
+      "source_type": "video",
+      "source_id": "src_261aba6ecf527bc2",
+      "capability_manifest": {
+        "status": "NOT_READY",
+        "preview": "none",
+        "locators": []
+      },
+      "source_create": "PASS_REGISTRY_SOURCE_ID",
+      "native_ingestion": "NOT_VERIFIED_METADATA_ONLY",
+      "source_preview": "UNSUPPORTED",
+      "document_units": "UNSUPPORTED",
+      "evidence_spans": "NOT_READY_NOT_SMOKED",
+      "source_trace": "LIMITED_PASS",
+      "unsupported_reason": "source_type_not_supported",
+      "trace_http_status": 200,
+      "raw_path_leak": false
+    },
+    {
+      "source_type": "audio",
+      "source_id": "src_58f5520c6a467d47",
+      "capability_manifest": {
+        "status": "NOT_READY",
+        "preview": "none",
+        "locators": []
+      },
+      "source_create": "PASS_REGISTRY_SOURCE_ID",
+      "native_ingestion": "NOT_VERIFIED_METADATA_ONLY",
+      "source_preview": "UNSUPPORTED",
+      "document_units": "UNSUPPORTED",
+      "evidence_spans": "NOT_READY_NOT_SMOKED",
+      "source_trace": "LIMITED_PASS",
+      "unsupported_reason": "source_type_not_supported",
+      "trace_http_status": 200,
+      "raw_path_leak": false
+    }
+  ],
+  "results": [
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v11-s2-discovery-1779552792409-workspace"
+    },
+    {
+      "name": "capability manifest",
+      "status": "pass",
+      "detail": "text:unit"
+    },
+    {
+      "name": "discover text",
+      "status": "pass",
+      "detail": "PASS/PASS/LIMITED_PASS"
+    },
+    {
+      "name": "discover pdf",
+      "status": "pass",
+      "detail": "UNSUPPORTED/UNSUPPORTED/LIMITED_PASS"
+    },
+    {
+      "name": "discover pptx",
+      "status": "pass",
+      "detail": "UNSUPPORTED/UNSUPPORTED/LIMITED_PASS"
+    },
+    {
+      "name": "discover json",
+      "status": "pass",
+      "detail": "UNSUPPORTED/UNSUPPORTED/LIMITED_PASS"
+    },
+    {
+      "name": "discover markdown",
+      "status": "pass",
+      "detail": "UNSUPPORTED/UNSUPPORTED/LIMITED_PASS"
+    },
+    {
+      "name": "discover html",
+      "status": "pass",
+      "detail": "UNSUPPORTED/UNSUPPORTED/LIMITED_PASS"
+    },
+    {
+      "name": "discover video",
+      "status": "pass",
+      "detail": "UNSUPPORTED/UNSUPPORTED/LIMITED_PASS"
+    },
+    {
+      "name": "discover audio",
+      "status": "pass",
+      "detail": "UNSUPPORTED/UNSUPPORTED/LIMITED_PASS"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # ResearchNotebook V1.1 当前差距分析
 
-文档状态：V1.1-D-RC 浏览器可视化 smoke 已通过；RC4 source trace backend fix 和 re-smoke 已通过；S1-FIX session API smoke 已通过；S1-FE session browser smoke 已通过。
+文档状态：V1.1-D-RC 浏览器可视化 smoke 已通过；RC4 source trace backend fix 和 re-smoke 已通过；S1-FIX/S1-FE session path 已通过；S2 all-source-type contract discovery 已完成。
 配套图：`v1_1_current_gap_analysis.drawio`。
 
 ## 一句话结论
@@ -39,6 +39,7 @@ ResearchNotebook V1.1 已经把 V1.0 的“答案旁边显示来源证据”推�
 | 精确证据导航 | LIMITED PASS | 仅限文本源 workspace query citation，且 citation 必须包含 `source_id + unit_id + evidence_id`。 |
 | Source Trace route | LIMITED PASS | V1.1-RC4 backend fix 后重新验证：source create/list/get 返回的 registry `source_id` 可以 direct trace HTTP 200，并返回 trace/provenance；范围仅限 RC4 smoke 覆盖的 registry source_id-backed 文本源。 |
 | V1.1-S1 Session Precise Navigation Smoke | BROWSER_SMOKE_READY | S1-FIX 后 session query 返回可解析的 `source_id + unit_id + evidence_id` evidence item；S1-FE 已验证 session citation 浏览器点击路径、Drawer unit selection 和 EvidenceSpan highlight。 |
+| V1.1-S2 All-Source-Type Contract Discovery | COMPLETE_NON_TEXT_BLOCKED | manifest 当前只声明 `text:unit`；pdf/pptx/json/markdown/html/video/audio 的 preview 和 DocumentUnit 均返回 unsupported。 |
 
 ## 仍然不能声明
 
@@ -46,8 +47,8 @@ ResearchNotebook V1.1 已经把 V1.0 的“答案旁边显示来源证据”推�
 | --- | --- | --- |
 | source trace integration beyond RC4 scoped registry text path | NOT_READY | 当前只证明了 RC4 smoke 覆盖的 registry source_id-backed 文本源 direct trace；不能扩大到所有 source type 或 session precision。 |
 | all-session precise navigation ready | NOT_READY | S1-FE 只证明了 data_service-supported text-source session query citation path；不能扩大到所有 session、所有 source type 或未携带 ids 的 session answer。 |
-| all-source-type precise backjump ready | NOT_READY | 目前只 smoke 了文本源。 |
-| multi-format ingestion ready | NOT_READY | V1.1 未实现 JSON/PPT/video/audio parser UI 或多格式摄入声明。 |
+| all-source-type precise backjump ready | NOT_READY | S2 已发现非文本 source type 缺少 preview/unit/evidence 后端合同。 |
+| multi-format ingestion ready | NOT_READY | S2 只证明 metadata source creation，未证明 native PDF/PPT/JSON/video/audio ingestion。 |
 | assessment / mastery ready | NOT_READY | 不在 V1.1 范围。 |
 | quality governance console ready | NOT_READY | 不在 V1.1 范围。 |
 | graph editing/governance ready | NOT_READY | V1.0/M4 只做 read-only graph context。 |
@@ -224,15 +225,15 @@ ResearchNotebook V1.1 精确证据导航已在同一条受限路径完成 browse
 下一阶段应执行：
 
 ```text
-V1.1-S2 All-Source-Type Contract Discovery
+V1.1-S3 Multi-Format Backend Contract Enablement
 ```
 
 原因：
 
 - V1.1-S1-FE 已让 session answer citation 的浏览器点击路径通过 smoke；
-- 当前仍只覆盖 data_service-supported text-source session query citations carrying `source_id + unit_id + evidence_id`；
-- all-source-type precise backjump 和 multi-format ingestion 仍为 NOT_READY；
-- 下一步应先发现并冻结非文本来源类型的 capability / preview / unit / EvidenceSpan 合同。
+- V1.1-S2 已完成合同发现，确认当前 manifest 只声明 `text:unit`；
+- pdf/pptx/json/markdown/html/video/audio 的 preview/unit/evidence 仍为 UNSUPPORTED 或 NOT_READY；
+- 下一步必须先做 data_service 后端合同启用，而不是进入多格式前端 UI。
 
 下一步不应直接实现多格式 UI，也不应按文件扩展名硬猜能力；必须继续以 capability manifest 和真实后端 smoke 为准。
 
@@ -246,16 +247,16 @@ V1.1-S2 All-Source-Type Contract Discovery
 
 | 顺序 | 阶段 | 建议归属 | 目标 | V1.1 声明影响 |
 | --- | --- | --- | --- | --- |
-| 1 | V1.1-S2 All-Source-Type Contract Discovery | V1.1.x discovery 或 V1.2-A | 明确 PDF/PPT/JSON/video/audio 等格式的 preview、unit、locator、EvidenceSpan 合同 | 只做合同发现，不声明多格式 ready |
-| 2 | V1.1-S3 Multi-Format Backend Contract Enablement | V1.2 backend | 为选定格式补后端摄入、preview、unit、locator、EvidenceSpan 合同 | 后端合同 ready 后才能进入前端 |
-| 3 | V1.1-S4 Multi-Format Frontend Integration | V1.2 frontend | 前端消费后端多格式合同，显示 preview/unit/locator/unsupported 状态 | 按 source type 分别声明，不做 all-source-type 泛化 |
+| 1 | V1.1-S2 All-Source-Type Contract Discovery | DONE | 已发现 PDF/PPT/JSON/video/audio 等格式的 preview、unit、locator、EvidenceSpan 合同状态 | 结果：非文本均 blocked by backend contract |
+| 2 | V1.1-S3 Multi-Format Backend Contract Enablement | V1.1.x backend | 为选定格式补后端摄入、preview、unit、locator、EvidenceSpan 合同 | 后端合同 ready 后才能进入前端 |
+| 3 | V1.1-S4 Multi-Format Frontend Integration | V1.1.x frontend | 前端消费后端多格式合同，显示 preview/unit/locator/unsupported 状态 | 按 source type 分别声明，不做 all-source-type 泛化 |
 | 4 | V1.1-FINAL Final Manual Acceptance / Repository Sync | V1.1.x handoff | 汇总已完成 smoke、人工验收报告、gap/drawio/checklist，做 scoped commit / push | 只固化已通过范围，不扩大 ready 声明 |
 | 5 | Assessment / Mastery | V1.3+ | 题目、评分、掌握度 | 不属于 V1.1 |
 | 6 | Quality / Governance Console | V1.3+ | 质量治理、纠错、审计工作流 | 不属于 V1.1 |
 | 7 | Graph Editing / Governance | V1.4+ | 图谱编辑、合并、删除、治理 | 不属于 V1.1 |
 | 8 | Cloud Sync / Collaboration | V2.0+ | 账号、权限、同步、协作、冲突处理 | 不属于 V1.1 |
 
-当前推荐下一阶段是 `V1.1-S2 All-Source-Type Contract Discovery`。不要把文本源 session browser smoke 扩大为 all-source-type ready；必须按 source type 做合同发现和真实 smoke。
+当前推荐下一阶段是 `V1.1-S3 Multi-Format Backend Contract Enablement`。不要把 S2 的 source creation metadata probe 扩大为 native multi-format ingestion；必须由 data_service 后端合同、tests、fixtures 和 smoke 决定哪些格式进入 S4。
 
 ## 手动验收距离评估
 
@@ -264,7 +265,7 @@ V1.1-S2 All-Source-Type Contract Discovery
 | workspace query 文本源 EvidenceSpan 高亮 | 0 个开发阶段 | 已通过真实 HTTP smoke、浏览器 smoke、RC2 live experience smoke | 可以直接手动验收当前受限路径 |
 | source trace registry source_id 文本源路径 | 0 个开发阶段 | RC4 direct trace HTTP 200，属于 scoped LIMITED PASS | 可以手动验收 RC4 覆盖范围内的 source trace |
 | session query 精确证据导航 | 0 个开发阶段 | S1-FIX 已返回 `HAS_EVIDENCE_SPAN_IDS`，S1-FE 已验证浏览器点击和高亮路径 | 可以手动验收当前受限路径 |
-| all-source-type precise backjump | 至少 1 个阶段之后另开 | 当前只覆盖文本源，未做全来源类型合同发现 | 等 session UI path 验证后再进入 All-Source-Type Contract Discovery |
+| all-source-type precise backjump | 至少 1 个后端阶段之后另开 | S2 已发现非文本 preview/unit/evidence 合同缺失 | 先执行 Multi-Format Backend Contract Enablement |
 | multi-format ingestion / Assessment / Governance / Graph editing / Cloud sync | 不属于当前 V1.1 手动验收 | 明确为 V1.2+ 或更后范围 | 不应阻塞 V1.1 受限路径验收 |
 
 手动验收前的最小准入建议：
@@ -326,7 +327,7 @@ V1.2+ 产品扩展完成度：未开始
 | Weaknesses 劣势 | 当前精确证据导航和 source trace 仍只覆盖文本源 workspace/session query 与 RC4 registry source 路径；全来源类型、多格式摄入都未 ready；项目文档和阶段较多，维护成本高；后端 contract 一旦漂移，前端 smoke 容易失效。 |
 | Opportunities 机会 | source trace backend contract 已补齐最大声明缺口之一；S1-FE 已证明 session query citation 可以复用 V1.1-D 的 Drawer / unit / span 基础完成浏览器高亮；多格式 preview 可以基于 capability manifest 渐进开放；未来 Assessment / Governance / Graph editing 可在已有 source-grounded evidence 基础上扩展。 |
 | Threats 威胁 | 若继续前端先行而 backend contract 未冻结，容易出现 route 虚构或假 ready；如果把 S1-FE 文本源 session browser smoke 扩大成 all-session 或 all-source-type ready，声明边界会失真；多格式、Assessment、Governance 同时推进会扩大风险面；如果忽视路径脱敏和 artifact_ref 边界，可能产生隐私/安全风险。 |
-| 战略建议 | 短期进入 All-Source-Type Contract Discovery；长期另开 V1.2 处理多格式，并坚持 capability manifest gating。 |
+| 战略建议 | 短期进入 Multi-Format Backend Contract Enablement；长期另开 V1.2+ 处理更复杂的 Assessment/Governance/Graph/Cloud，并坚持 capability manifest gating。 |
 
 ## 未来仍需执行的开发阶段
 
@@ -334,10 +335,10 @@ V1.2+ 产品扩展完成度：未开始
 
 | 顺序 | 阶段 | 目标 | Entry Gate / 前置条件 | 验收重点 |
 | --- | --- | --- | --- | --- |
-| 1 | V1.1-S2 All-Source-Type Preview Contract Discovery | 明确 PDF/PPT/JSON/video/audio 等格式的 preview / unit / locator 合同 | data_service capability manifest 声明每种 source type 的 preview 级别和 locator 模型 | 只对真实支持的格式开放 UI，不按文件扩展名硬猜 |
-| 2 | V1.1-S3 Multi-format Backend Contract Enablement | 做多格式后端合同、tests、fixtures | 后端摄入合同、parser 支持范围、错误语义、artifact 隐私规则已冻结 | 后端合同 ready 后才能进入前端 |
+| 1 | V1.1-S2 All-Source-Type Preview Contract Discovery | DONE：明确 PDF/PPT/JSON/video/audio 等格式的 preview / unit / locator 合同状态 | S2 smoke 已完成 | 结果：非文本后端合同缺失 |
+| 2 | V1.1-S3 Multi-format Backend Contract Enablement | 做多格式后端合同、tests、fixtures | S2 report 已确认 blocker | 后端合同 ready 后才能进入前端 |
 | 3 | V1.1-S4 Multi-format Frontend Integration | 前端消费多格式合同 | S3 后端合同已通过 smoke | 导入状态可见；失败可解释；不把 artifact_ref 解析为路径 |
-| 4 | V1.1-FINAL Final Manual Acceptance / Repository Sync | 最终人工验收和 scoped sync | S1-FE 已通过，或明确保留更窄声明 | 固化已通过范围，不扩大 ready 声明 |
+| 4 | V1.1-FINAL Final Manual Acceptance / Repository Sync | 最终人工验收和 scoped sync | S4 完成或明确保留更窄声明 | 固化已通过范围，不扩大 ready 声明 |
 | 6 | Assessment / Mastery | 生成题目、尝试、评分、掌握度 | 后端 assessment contract、scoring semantics、source grounding 合同完成 | 题目可追溯来源；评分可解释；不影响 notebook 主链路 |
 | 7 | Quality / Governance Console | 质量治理、反馈归档、规则/纠错工作流 | 后端 governance/correction rules contract 完成 | 不再只是 lightweight feedback；需正式审计状态和权限模型 |
 | 8 | Graph Editing / Governance | 从 read-only graph context 升级为可编辑/治理图谱 | 后端 graph mutation/merge/delete/rebuild 合同完成 | 图谱写操作可审计、可回滚；不破坏 V1.0 read-only 路径 |
@@ -345,7 +346,7 @@ V1.2+ 产品扩展完成度：未开始
 
 优先级建议：
 
-1. 下一步应做 `V1.1-S2 All-Source-Type Contract Discovery`，不要直接实现多格式 UI。
+1. 下一步应做 `V1.1-S3 Multi-Format Backend Contract Enablement`，不要直接实现多格式 UI。
 2. 不要把 S1-FE 的文本源 session browser smoke 扩大为 all-session 或 all-source-type ready。
 3. 多格式、Assessment、Governance、Graph editing 和 Cloud sync 都应进入 V1.2+ 或更后阶段，不应塞回 V1.1。
 

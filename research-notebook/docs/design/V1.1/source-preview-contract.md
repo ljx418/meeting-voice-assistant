@@ -1,6 +1,6 @@
 # V1.1 Source Preview Contract
 
-文档状态：V1.1-C-RC real data_service HTTP smoke passed；source-level preview and manual unit navigation are integration-ready for supported text sources。
+文档状态：V1.1-C-RC real data_service HTTP smoke passed for supported text sources；S2 all-source-type discovery found non-text preview still unsupported。
 
 ## Purpose
 
@@ -114,6 +114,12 @@ READY_FOR_FRONTEND_INTEGRATION_AFTER_BACKEND_CHANGE_REVIEW
 ```
 
 The local data_service working tree now exposes `GET /api/workspaces/{workspace_id}/sources/{source_id}/preview` for source-level text preview. ResearchNotebook V1.1-B frontend route adaptation and real data_service smoke have passed for text source-level preview.
+
+## V1.1-S2 All-Source-Type Discovery Result
+
+S2 discovery probed `pdf`, `pptx`, `json`, `markdown`, `html`, `video`, and `audio` as synthetic registry sources. The current data_service manifest still advertises only `text:unit`, and non-text preview responses return `source_type_not_supported`.
+
+ResearchNotebook must therefore keep non-text source preview as unsupported/unavailable until S3 adds backend contracts and S4 validates frontend smoke per source type.
 
 ## Query / Citation Relationship
 

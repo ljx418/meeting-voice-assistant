@@ -1,0 +1,90 @@
+{
+  "workspace_id": "rn-v11-s2-discovery-1779552792409-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_58f5520c6a467d47",
+      "artifact_ref": "source://src_58f5520c6a467d47"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "trace": {
+      "source_id": "src_58f5520c6a467d47",
+      "source": {
+        "source_id": "src_58f5520c6a467d47",
+        "title": "Audio contract discovery",
+        "source_type": "audio",
+        "status": "active",
+        "ingest_status": "pending",
+        "metadata": {
+          "stage": "v1.1-s2-all-source-type-contract-discovery",
+          "source_type": "audio",
+          "extension": ".mp3"
+        },
+        "artifact_ref": "source://src_58f5520c6a467d47"
+      },
+      "title": "Audio contract discovery",
+      "trace_available": true,
+      "summary": "Source trace is available from the registry source record.",
+      "artifact_refs": [
+        {
+          "type": "source",
+          "source_id": "src_58f5520c6a467d47",
+          "artifact_ref": "source://src_58f5520c6a467d47"
+        }
+      ],
+      "provenance": [
+        {
+          "label": "Registry source",
+          "value": "src_58f5520c6a467d47"
+        },
+        {
+          "label": "Source type",
+          "value": "audio"
+        },
+        {
+          "label": "Source status",
+          "value": "active"
+        },
+        {
+          "label": "Ingest status",
+          "value": "pending"
+        },
+        {
+          "label": "Imported at",
+          "value": "2026-05-23T16:13:12.678962Z"
+        }
+      ],
+      "distill": {
+        "units": [],
+        "unit_count": 0,
+        "provenance_summary": {},
+        "profile_debug": {}
+      },
+      "llmwiki": {
+        "pages": [],
+        "page_count": 0
+      },
+      "graphrag": {
+        "nodes": [],
+        "edges": [],
+        "communities": [],
+        "node_count": 0,
+        "edge_count": 0,
+        "community_count": 0,
+        "graph_model_version": "1.0"
+      },
+      "trace_summary": {
+        "source_title": "Audio contract discovery",
+        "unit_count": 0,
+        "llmwiki_page_count": 0,
+        "graph_node_count": 0,
+        "graph_community_count": 0
+      }
+    }
+  }
+}

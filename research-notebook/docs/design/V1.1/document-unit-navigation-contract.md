@@ -1,6 +1,6 @@
 # V1.1 DocumentUnit Navigation Contract
 
-文档状态：V1.1-C-RC real data_service HTTP smoke passed；Unit-Level Source Navigation integration-ready for supported text sources。
+文档状态：V1.1-C-RC real data_service HTTP smoke passed；Unit-Level Source Navigation integration-ready for supported text sources；S2 found non-text DocumentUnit contracts unsupported。
 日期：2026-05-20。
 
 ## Purpose
@@ -31,6 +31,16 @@ Full unit-level navigation requires `data_service` to freeze:
 8. OpenAPI/schema or equivalent machine-readable contract update.
 
 V1.1-C-BE satisfies the backend side of this gate in the local `data_service` working tree. V1.1-C frontend integration wires the routes, passes mocked adapter/UI tests, and V1.1-C-RC real data_service HTTP smoke passed for supported text sources.
+
+## V1.1-S2 All-Source-Type Discovery Result
+
+S2 discovery confirmed that non-text candidates currently return unsupported DocumentUnit responses:
+
+```text
+pdf / pptx / json / markdown / html / video / audio DocumentUnit = UNSUPPORTED
+```
+
+S3 must add backend unit contracts, stable unit ids, pagination semantics, and locator models before S4 can expose non-text unit navigation.
 
 ## DTO
 

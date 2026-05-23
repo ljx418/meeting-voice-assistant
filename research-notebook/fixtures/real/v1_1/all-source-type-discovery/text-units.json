@@ -1,0 +1,38 @@
+{
+  "workspace_id": "rn-v11-s2-discovery-1779552792409-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_f250b5f0b1354c31",
+      "artifact_ref": "source://src_f250b5f0b1354c31"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "units": {
+      "source_id": "src_f250b5f0b1354c31",
+      "items": [
+        {
+          "unit_id": "unit_673ed6c1ebc53b82",
+          "source_id": "src_f250b5f0b1354c31",
+          "unit_type": "section",
+          "title": "Text contract discovery",
+          "text_preview": "Text contract discovery for V1.1-S2 all-source-type contract discovery. This payload is synthetic and contains no private content.",
+          "content_type": "text/plain",
+          "order_index": 0,
+          "artifact_ref": "unit://src_f250b5f0b1354c31/unit_673ed6c1ebc53b82",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 130,
+          "max_preview_size_bytes": 50000
+        }
+      ],
+      "next_cursor": null,
+      "limit": 20,
+      "has_more": false
+    }
+  }
+}

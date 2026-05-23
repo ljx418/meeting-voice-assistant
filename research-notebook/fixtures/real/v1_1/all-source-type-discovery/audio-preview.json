@@ -1,0 +1,20 @@
+{
+  "workspace_id": "rn-v11-s2-discovery-1779552792409-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "source_type_not_supported"
+  ],
+  "data": {
+    "preview": {
+      "source_id": "src_58f5520c6a467d47",
+      "title": "Audio contract discovery",
+      "source_type": "audio",
+      "preview_available": false,
+      "content_type": "text/plain",
+      "unsupported_reason": "source_type_not_supported"
+    }
+  }
+}

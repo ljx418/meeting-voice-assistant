@@ -1,6 +1,6 @@
 # ResearchNotebook V1.1 Feature Route Matrix
 
-文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed with scoped source trace integration；S1-FIX 后 session precise navigation API smoke passed；S1-FE session browser smoke passed。
+文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed with scoped source trace integration；S1-FIX/S1-FE session precise navigation passed；S2 all-source-type contract discovery completed。
 日期：2026-05-23。
 
 ## Classification
@@ -31,6 +31,7 @@ Every V1.1 feature must be classified as:
 | EvidenceSpan highlight | browser-smoke-ready for supported text workspace query path | EvidenceSpan route + offset semantics | Workspace query citation path implemented, real HTTP-smoked, and browser visual-smoked. |
 | Precise citation backjump | browser-smoke-ready for supported text workspace query path; browser-smoke-ready for supported text session query path | answer citation UX + EvidenceSpan route | Workspace query and supported session query citation browser paths are ready only when the evidence item carries `source_id + unit_id + evidence_id`. This is not all-session or all-source-type ready. |
 | Answer citation opens preview | unsupported in V1.1-B release gate | optional only after manifest support | Source Library / Source Detail Preview button is the V1.1-B release-gate entry. |
+| Non-text source preview/unit/evidence | blocked by backend contract | capability manifest + source preview/unit/evidence routes | S2 discovery probed pdf/pptx/json/markdown/html/video/audio. Manifest only declares `text:unit`; non-text preview and units return `source_type_not_supported`. |
 
 ## V1.1-BE Backend Contract Status
 
@@ -121,6 +122,20 @@ Trace-unavailable fallback = DEGRADED_ACCEPTED for unsupported or failing trace 
 ```
 
 RC4 confirms that Source Preview, DocumentUnit, EvidenceSpan, and Source Trace are separate contracts. Source Trace is now smoke-proven only for the RC4 registry source_id path.
+
+## V1.1-S2 All-Source-Type Contract Discovery
+
+```text
+Capability manifest supported_source_types = text:unit
+Text source preview/unit/evidence = PASS
+Non-text source preview = UNSUPPORTED
+Non-text DocumentUnit = UNSUPPORTED
+Non-text EvidenceSpan = NOT_READY_NOT_SMOKED
+Non-text native ingestion = NOT_VERIFIED_METADATA_ONLY
+Synthetic registry source trace = LIMITED_PASS
+```
+
+S2 confirms that non-text source types are blocked by data_service backend contracts. ResearchNotebook must not show pdf/pptx/json/markdown/html/video/audio as ready until S3 backend contracts and S4 frontend smoke pass for each source type.
 
 ## V1.1-S1 Session Precise Navigation Smoke Boundary
 
