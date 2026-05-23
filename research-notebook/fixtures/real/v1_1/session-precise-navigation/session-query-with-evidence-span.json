@@ -1,0 +1,312 @@
+{
+  "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "session_graph",
+      "session_id": "ksess_a92bf2adc1fe348a",
+      "artifact_ref": "graph-session://rn-v11-s1-session-1779552117955-workspace/ksess_a92bf2adc1fe348a"
+    }
+  ],
+  "next_actions": [
+    "knowledge_session_build_status",
+    "knowledge_graph_session"
+  ],
+  "data": {
+    "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+    "session_id": "ksess_a92bf2adc1fe348a",
+    "query": "What identifiers should session precise navigation preserve?",
+    "top_k": 5,
+    "answer": "Session graph returned 0 hits.",
+    "evidence": [
+      {
+        "evidence_key": "src_103b26d7f9363bae:unit_00194448f037516c:ev_9bdc4bc04ba34f6c",
+        "source_id": "src_103b26d7f9363bae",
+        "source_title": "V1.1 S1 Session Evidence Source",
+        "unit_id": "unit_00194448f037516c",
+        "evidence_id": "ev_9bdc4bc04ba34f6c",
+        "snippet": "Session precise navigation should preserve source id, unit id, and evidence id so the notebook can open the same highlighted source span from a session answer.",
+        "confidence": 1,
+        "locator": {},
+        "preview_available": true
+      }
+    ],
+    "evidence_refs": [
+      {
+        "evidence_key": "src_103b26d7f9363bae:unit_00194448f037516c:ev_9bdc4bc04ba34f6c",
+        "source_id": "src_103b26d7f9363bae",
+        "source_title": "V1.1 S1 Session Evidence Source",
+        "unit_id": "unit_00194448f037516c",
+        "evidence_id": "ev_9bdc4bc04ba34f6c",
+        "snippet": "Session precise navigation should preserve source id, unit id, and evidence id so the notebook can open the same highlighted source span from a session answer.",
+        "confidence": 1,
+        "locator": {},
+        "preview_available": true
+      }
+    ],
+    "evidence_state": "has_evidence_span_ids",
+    "results": [],
+    "items": [],
+    "nodes": [
+      {
+        "node_id": "source:src_c23139ec7c52f82c",
+        "entity_id": null,
+        "label": "V1.1 S1 session snippet",
+        "name": "V1.1 S1 session snippet",
+        "type": "source",
+        "kind": "source",
+        "summary": null,
+        "score": null,
+        "metadata": {
+          "source_type": "text",
+          "content_format": "text"
+        }
+      },
+      {
+        "node_id": "unit:unit_dfb6501b25121d7f",
+        "entity_id": null,
+        "label": "Session precise navigation should preserve source id, unit id, and evidence id s",
+        "name": "Session precise navigation should preserve source id, unit id, and evidence id s",
+        "type": "unit",
+        "kind": "unit",
+        "summary": null,
+        "score": null,
+        "metadata": {
+          "unit_type": "statement",
+          "text": "Session precise navigation should preserve source id, unit id, and evidence id so the notebook can open the same highlighted source span from a session answer.",
+          "confidence": 0.68
+        }
+      },
+      {
+        "node_id": "entity:session",
+        "entity_id": "entity:session",
+        "label": "Session",
+        "name": "Session",
+        "type": "entity",
+        "kind": "entity",
+        "summary": null,
+        "score": null,
+        "metadata": {}
+      },
+      {
+        "node_id": "entity:precise",
+        "entity_id": "entity:precise",
+        "label": "precise",
+        "name": "precise",
+        "type": "entity",
+        "kind": "entity",
+        "summary": null,
+        "score": null,
+        "metadata": {}
+      },
+      {
+        "node_id": "entity:navigation",
+        "entity_id": "entity:navigation",
+        "label": "navigation",
+        "name": "navigation",
+        "type": "entity",
+        "kind": "entity",
+        "summary": null,
+        "score": null,
+        "metadata": {}
+      }
+    ],
+    "edges": [
+      {
+        "edge_id": "edge_1",
+        "source_node_id": "unit:unit_dfb6501b25121d7f",
+        "target_node_id": "source:src_c23139ec7c52f82c",
+        "relation": "unit_related_to_source",
+        "type": "unit_related_to_source",
+        "weight": 1,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_2",
+        "source_node_id": "unit:unit_dfb6501b25121d7f",
+        "target_node_id": "entity:session",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_3",
+        "source_node_id": "unit:unit_dfb6501b25121d7f",
+        "target_node_id": "entity:precise",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_4",
+        "source_node_id": "unit:unit_dfb6501b25121d7f",
+        "target_node_id": "entity:navigation",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_5",
+        "source_node_id": "unit:unit_dfb6501b25121d7f",
+        "target_node_id": "entity:should",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_6",
+        "source_node_id": "unit:unit_dfb6501b25121d7f",
+        "target_node_id": "entity:preserve",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_7",
+        "source_node_id": "unit:unit_dfb6501b25121d7f",
+        "target_node_id": "entity:source",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_8",
+        "source_node_id": "unit:unit_dfb6501b25121d7f",
+        "target_node_id": "entity:id",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_9",
+        "source_node_id": "unit:unit_dfb6501b25121d7f",
+        "target_node_id": "entity:unit",
+        "relation": "unit_mentions_entity",
+        "type": "unit_mentions_entity",
+        "weight": 0.72,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_10",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:precise",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_11",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:navigation",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_12",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:should",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_13",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:preserve",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_14",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:source",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      },
+      {
+        "edge_id": "edge_15",
+        "source_node_id": "entity:session",
+        "target_node_id": "entity:id",
+        "relation": "entity_co_occurs",
+        "type": "entity_co_occurs",
+        "weight": 0.45,
+        "evidence_count": null,
+        "metadata": {
+          "relation_registry": "session-graph-1.0"
+        }
+      }
+    ],
+    "communities": [
+      {
+        "community_id": "comm_ksess_a92bf2adc1fe348a_overview",
+        "title": "会议全局脉络",
+        "summary": "围绕“会议全局脉络”，该社区汇聚 0 位说话人、10 个会议知识单元和 37 条关系。高频关联对象包括 Session, precise, navigation, should, preserve。代表性内容：Session precise navigation should preserve source id, unit id, and evidence id so the notebook can open the same highlighted source span from a session answer.",
+        "entity_count": 10,
+        "relationship_count": 37,
+        "score": 10,
+        "rank": null,
+        "metadata": {}
+      }
+    ],
+    "artifact_ref": "graph-session://rn-v11-s1-session-1779552117955-workspace/ksess_a92bf2adc1fe348a"
+  }
+}

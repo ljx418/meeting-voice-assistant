@@ -1,0 +1,77 @@
+{
+  "declaration": "BROWSER_SMOKE_READY",
+  "appUrl": "http://127.0.0.1:5173",
+  "dataServiceBaseUrl": "http://127.0.0.1:8003",
+  "workspace_id": "rn-v11-s1-fe-session-1779552117975-workspace",
+  "source_id": "src_730f2fb42bc6a574",
+  "session_id": "ksess_369913602193cc25",
+  "unit_id": "unit_5b52cd7d1a9a762b",
+  "evidence_id": "ev_f4b88ee55adf37a5",
+  "highlight_text": "Session precise navigation should preserve source id, unit id, and evidence id so the notebook can open a highlighted source span from a session answer.",
+  "screenshot_artifact": ".smoke-artifacts/v1_1_s1_fe_session_browser/1779552117975/session-evidence-highlight.png",
+  "forbiddenKnowledgeRequests": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "results": [
+    {
+      "name": "data_service target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v11-s1-fe-session-1779552117975-workspace"
+    },
+    {
+      "name": "source create",
+      "status": "pass",
+      "detail": "src_730f2fb42bc6a574"
+    },
+    {
+      "name": "session create",
+      "status": "pass",
+      "detail": "ksess_369913602193cc25"
+    },
+    {
+      "name": "session ingest",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "session build polling",
+      "status": "pass",
+      "detail": "succeeded"
+    },
+    {
+      "name": "browser opened workbench",
+      "status": "pass",
+      "detail": "http://127.0.0.1:5173"
+    },
+    {
+      "name": "session selected",
+      "status": "pass",
+      "detail": "ksess_369913602193cc25"
+    },
+    {
+      "name": "session citation render",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "session EvidenceSpan highlight visible",
+      "status": "pass",
+      "detail": "Session precise navigation should preserve source id, unit id, and evidence id so the notebook can open a highlighted source span from a session answer."
+    },
+    {
+      "name": "screenshot saved",
+      "status": "pass",
+      "detail": ".smoke-artifacts/v1_1_s1_fe_session_browser/1779552117975/session-evidence-highlight.png"
+    },
+    {
+      "name": "browser console/network guard",
+      "status": "pass",
+      "detail": ""
+    }
+  ]
+}

@@ -501,6 +501,19 @@ function extractSourceTrace(sourceId: string, payload: unknown): SourceTrace {
   const wrapped = trace.trace && typeof trace.trace === 'object' ? (trace.trace as Record<string, unknown>) : trace;
   const source = asRecord(wrapped.source);
   const traceSummary = asRecord(wrapped.trace_summary);
+  const returnedSourceId = readString(wrapped.source_id) ?? readString(source?.source_id);
+  const traceAvailable = readBoolean(wrapped.trace_available);
+  const unavailableReason = readString(wrapped.unavailable_reason);
+
+  if (!returnedSourceId || returnedSourceId !== sourceId) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'Source trace response source_id does not match the requested source.',
+      retryable: false,
+      details: payload
+    });
+  }
+
   const provenanceRaw = Array.isArray(wrapped.provenance) ? wrapped.provenance : [];
   const provenance = provenanceRaw
     .map((item) => {
@@ -514,14 +527,28 @@ function extractSourceTrace(sourceId: string, payload: unknown): SourceTrace {
       return null;
     })
     .filter((item): item is { label: string; value: string } => item !== null);
+  const artifactRefs = readArtifactRefs(wrapped.artifact_refs);
+  const title = readString(wrapped.title) ?? readString(wrapped.name) ?? readString(traceSummary?.source_title) ?? readString(source?.title);
+  const summary = readString(wrapped.summary) ?? readString(traceSummary?.source_title);
+  const hasTraceContent = Boolean(summary || provenance.length);
+  const explicitlyUnavailable = traceAvailable === false && Boolean(unavailableReason);
+
+  if (!hasTraceContent && !explicitlyUnavailable) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'Source trace response is missing trace content or explicit unavailable state.',
+      retryable: false,
+      details: payload
+    });
+  }
 
   return {
-    source_id: readString(wrapped.source_id) ?? readString(source?.source_id) ?? sourceId,
-    title: readString(wrapped.title) ?? readString(wrapped.name) ?? readString(traceSummary?.source_title) ?? readString(source?.title),
-    artifact_refs: readArtifactRefs(wrapped.artifact_refs),
-    trace_available: readBoolean(wrapped.trace_available) ?? true,
+    source_id: returnedSourceId,
+    title,
+    artifact_refs: artifactRefs,
+    trace_available: traceAvailable ?? true,
     provenance,
-    summary: readString(wrapped.summary) ?? readString(traceSummary?.source_title)
+    summary
   };
 }
 
@@ -735,7 +762,14 @@ function extractSourcePreview(sourceId: string, payload: unknown): SourcePreview
 }
 
 function assertPreviewSourceId(sourceId: string) {
-  if (!sourceId || sourceId.includes('://') || sourceId.includes('/') || sourceId.startsWith('source-')) {
+  if (
+    !sourceId ||
+    sourceId.includes('://') ||
+    sourceId.includes('/') ||
+    sourceId.includes('\\') ||
+    /^[A-Za-z]:/.test(sourceId) ||
+    sourceId.startsWith('source-')
+  ) {
     throw new DataServiceError({
       code: 'validation_error',
       message: 'Source preview requires a registry source_id.',
@@ -1466,6 +1500,7 @@ export function createDataServiceClient(options: ClientOptions = {}) {
         return extractSource(workspaceId, payload);
       },
       async trace(workspaceId: string, sourceId: string) {
+        assertPreviewSourceId(sourceId);
         const payload = await request<unknown>(
           `/api/workspaces/${encodeURIComponent(workspaceId)}/sources/${encodeURIComponent(sourceId)}/trace`
         );

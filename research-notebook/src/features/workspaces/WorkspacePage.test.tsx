@@ -723,6 +723,185 @@ describe('Workspace M2 smoke', () => {
     expect(screen.getByText(`evidence_id: ${evidenceId}`)).toBeInTheDocument();
   });
 
+  it('switches to the cited unit when another same-source citation is clicked', async () => {
+    const firstUnitId = 'unit_62567063869df3b5';
+    const secondUnitId = 'unit_72567063869df3b6';
+    const firstEvidenceId = 'ev_2e14b7785f3fbb06';
+    const secondEvidenceId = 'ev_3e14b7785f3fbb07';
+    vi.stubGlobal(
+      'fetch',
+      createWorkspaceFetch({
+        [capabilitiesPath]: () =>
+          jsonResponse({
+            data: {
+              manifest: {
+                capabilities: {
+                  source_preview: true,
+                  document_units: true,
+                  evidence_spans: true,
+                  source_level_preview: true,
+                  unit_level_navigation: true,
+                  precise_span_highlight: true,
+                  citation_backjump: true
+                },
+                supported_source_types: [{ source_type: 'text', preview: 'span', locators: ['offset'] }]
+              }
+            }
+          }),
+        [queryPath]: () =>
+          jsonResponse({
+            answer: 'Use queues and keep answers visible.',
+            evidence: [
+              {
+                source_id: 'src_1',
+                source_title: 'Architecture notes',
+                unit_id: firstUnitId,
+                evidence_id: firstEvidenceId,
+                snippet: 'Queues absorb burst traffic.'
+              },
+              {
+                source_id: 'src_1',
+                source_title: 'Architecture notes',
+                unit_id: secondUnitId,
+                evidence_id: secondEvidenceId,
+                snippet: 'Keep the answer visible.'
+              }
+            ]
+          }),
+        [sourceDetailPath]: () =>
+          jsonResponse({
+            source_id: 'src_1',
+            workspace_id: 'ws_1',
+            title: 'Architecture notes',
+            source_type: 'text'
+          }),
+        [sourcePreviewPath]: () =>
+          jsonResponse({
+            data: {
+              preview: {
+                source_id: 'src_1',
+                title: 'Architecture notes',
+                source_type: 'text',
+                preview_available: true,
+                content_type: 'text/plain',
+                text_preview: 'Source-level preview remains visible.'
+              }
+            }
+          }),
+        [sourceUnitsPath]: () =>
+          jsonResponse({
+            data: {
+              units: {
+                source_id: 'src_1',
+                items: [
+                  {
+                    unit_id: firstUnitId,
+                    source_id: 'src_1',
+                    unit_type: 'section',
+                    title: 'Queue backpressure',
+                    order_index: 0,
+                    preview_available: true
+                  },
+                  {
+                    unit_id: secondUnitId,
+                    source_id: 'src_1',
+                    unit_type: 'section',
+                    title: 'Answer locality',
+                    order_index: 1,
+                    preview_available: true
+                  }
+                ],
+                next_cursor: null,
+                limit: 20,
+                has_more: false
+              }
+            }
+          }),
+        [sourceUnitPath(firstUnitId)]: () =>
+          jsonResponse({
+            data: {
+              unit: {
+                unit_id: firstUnitId,
+                source_id: 'src_1',
+                unit_type: 'section',
+                title: 'Queue backpressure',
+                text_preview: 'Queues absorb burst traffic.',
+                content_type: 'text/plain',
+                order_index: 0,
+                preview_available: true
+              }
+            }
+          }),
+        [sourceUnitPath(secondUnitId)]: () =>
+          jsonResponse({
+            data: {
+              unit: {
+                unit_id: secondUnitId,
+                source_id: 'src_1',
+                unit_type: 'section',
+                title: 'Answer locality',
+                text_preview: 'Keep the answer visible.',
+                content_type: 'text/plain',
+                order_index: 1,
+                preview_available: true
+              }
+            }
+          }),
+        [sourceEvidenceSpanPath(firstUnitId, firstEvidenceId)]: () =>
+          jsonResponse({
+            data: {
+              evidence_span: {
+                evidence_id: firstEvidenceId,
+                source_id: 'src_1',
+                unit_id: firstUnitId,
+                snippet: 'absorb',
+                start_offset: 7,
+                end_offset: 13,
+                offset_basis: 'normalized_text',
+                offset_range: 'half_open',
+                text_basis: 'document_unit_text',
+                preview_available: true
+              }
+            }
+          }),
+        [sourceEvidenceSpanPath(secondUnitId, secondEvidenceId)]: () =>
+          jsonResponse({
+            data: {
+              evidence_span: {
+                evidence_id: secondEvidenceId,
+                source_id: 'src_1',
+                unit_id: secondUnitId,
+                snippet: 'answer',
+                start_offset: 9,
+                end_offset: 15,
+                offset_basis: 'normalized_text',
+                offset_range: 'half_open',
+                text_basis: 'document_unit_text',
+                preview_available: true
+              }
+            }
+          })
+      })
+    );
+
+    render(<App />);
+
+    await screen.findByText('No sources yet');
+    await userEvent.type(screen.getByLabelText(/question/i), 'What should remain visible?');
+    await userEvent.click(screen.getByRole('button', { name: /ask workspace/i }));
+
+    expect(await screen.findByText('Use queues and keep answers visible.')).toBeInTheDocument();
+    const citations = await screen.findAllByTestId('jumpable-evidence-citation');
+    await userEvent.click(citations[0]);
+    expect(await screen.findByText(`evidence_id: ${firstEvidenceId}`)).toBeInTheDocument();
+    expect(await screen.findByText('absorb')).toBeInTheDocument();
+
+    await userEvent.click(citations[1]);
+    expect(await screen.findByText(`evidence_id: ${secondEvidenceId}`)).toBeInTheDocument();
+    expect(await screen.findByText('answer')).toBeInTheDocument();
+    expect(screen.getByLabelText('Selected document unit')).toHaveTextContent(secondUnitId);
+  });
+
   it('renders query answer with no evidence state', async () => {
     vi.stubGlobal(
       'fetch',

@@ -1,0 +1,42 @@
+{
+  "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "session_source",
+      "session_id": "ksess_a92bf2adc1fe348a",
+      "source_id": "src_c23139ec7c52f82c",
+      "artifact_ref": "session-source://ksess_a92bf2adc1fe348a/src_c23139ec7c52f82c"
+    }
+  ],
+  "next_actions": [
+    "knowledge_session_build_start"
+  ],
+  "data": {
+    "source": {
+      "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+      "session_id": "ksess_a92bf2adc1fe348a",
+      "source_id": "src_c23139ec7c52f82c",
+      "session_source_id": "src_c23139ec7c52f82c",
+      "source_scope": "session",
+      "source_type": "text",
+      "content_format": "text",
+      "title": "V1.1 S1 session snippet",
+      "record_count": 1,
+      "status": "ingested",
+      "artifact_ref": "session-source://ksess_a92bf2adc1fe348a/src_c23139ec7c52f82c",
+      "created_at": "2026-05-23T16:01:58.089124Z",
+      "updated_at": "2026-05-23T16:01:58.089124Z",
+      "metadata": {
+        "stage": "v1.1-s1-session-precise-navigation",
+        "external_id": "bf16238dfcb34d199c63591f8a045ad5"
+      },
+      "related_source_ids": [
+        "src_103b26d7f9363bae"
+      ],
+      "auto_link": false
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "session",
+      "session_id": "ksess_a92bf2adc1fe348a",
+      "artifact_ref": "session://ksess_a92bf2adc1fe348a"
+    }
+  ],
+  "next_actions": [
+    "knowledge_session_get",
+    "knowledge_session_close"
+  ],
+  "data": {
+    "session": {
+      "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+      "session_id": "ksess_a92bf2adc1fe348a",
+      "external_id": "bf16238dfcb34d199c63591f8a045ad5",
+      "session_type": "generic",
+      "title": "rn-v11-s1-session-1779552117955 session precise navigation",
+      "status": "active",
+      "ephemeral": false,
+      "ttl_seconds": null,
+      "expires_at": null,
+      "metadata": {},
+      "artifact_ref": "session://ksess_a92bf2adc1fe348a",
+      "created_at": "2026-05-23T16:01:58.076612Z",
+      "updated_at": "2026-05-23T16:01:58.076612Z",
+      "closed_at": null,
+      "deleted_at": null,
+      "removed_at": null
+    },
+    "created": true
+  }
+}

@@ -12,8 +12,13 @@ const closePath = [sessionRoot, 'close'].join('/');
 const sessionBuildStartPath = [sessionRoot, 'build', 'start'].join('/');
 const sessionOperationPath = [sessionRoot, 'build', 'operations', 'op_session'].join('/');
 const sessionQueryPath = [sessionRoot, 'query'].join('/');
+const capabilitiesPath = [workspaceRoot, 'capabilities'].join('/');
 const sourceDetailPath = [workspaceRoot, 'sources', 'src_1'].join('/');
 const sourceTracePath = [workspaceRoot, 'sources', 'src_1', 'trace'].join('/');
+const sourcePreviewPath = [workspaceRoot, 'sources', 'src_1', 'preview'].join('/');
+const sourceUnitsPath = [workspaceRoot, 'sources', 'src_1', 'units?limit=20'].join('/');
+const sourceUnitPath = [workspaceRoot, 'sources', 'src_1', 'units', 'unit_1'].join('/');
+const sourceEvidenceSpanPath = [sourceUnitPath, 'evidence', 'ev_1'].join('/');
 const sessionGraphPath = [workspaceRoot, 'graph', `session?session_id=ses_1`].join('/');
 const feedbackPath = [workspaceRoot, 'quality', 'feedback'].join('/');
 
@@ -155,6 +160,138 @@ describe('Session Workbench M3 smoke', () => {
     expect(await screen.findByText(/Feedback submitted: up/i)).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /Heap notes/i }));
     expect(await screen.findByText('manual source')).toBeInTheDocument();
+  });
+
+  it('opens EvidenceSpan navigation from a jumpable session citation', async () => {
+    vi.stubGlobal(
+      'fetch',
+      createWorkbenchFetch({
+        [sessionsRoot]: () => jsonResponse({ sessions: [sessionPayload('ready')] }),
+        [sessionRoot]: () => jsonResponse({ session: sessionPayload('ready') }),
+        [capabilitiesPath]: () =>
+          jsonResponse({
+            data: {
+              manifest: {
+                workspace_id: 'ws_1',
+                service_version: 'test',
+                schema_version: 'v1.1-evidence-spans',
+                generated_at: '2026-05-23T00:00:00Z',
+                capabilities: {
+                  source_preview: true,
+                  document_units: true,
+                  evidence_spans: true,
+                  source_level_preview: true,
+                  unit_level_navigation: true,
+                  precise_span_highlight: true,
+                  citation_backjump: true
+                },
+                supported_source_types: [{ source_type: 'text', preview: 'unit', locators: [] }]
+              }
+            }
+          }),
+        [sessionQueryPath]: () =>
+          jsonResponse({
+            answer: 'Session precise navigation preserves evidence ids.',
+            evidence: [
+              {
+                source_id: 'src_1',
+                source_title: 'Session Evidence Source',
+                unit_id: 'unit_1',
+                evidence_id: 'ev_1',
+                snippet: 'preserves evidence ids'
+              }
+            ]
+          }),
+        [sourceDetailPath]: () =>
+          jsonResponse({
+            source_id: 'src_1',
+            workspace_id: 'ws_1',
+            title: 'Session Evidence Source',
+            source_type: 'text'
+          }),
+        [sourcePreviewPath]: () =>
+          jsonResponse({
+            data: {
+              preview: {
+                source_id: 'src_1',
+                title: 'Session Evidence Source',
+                source_type: 'text',
+                preview_available: true,
+                content_type: 'text/plain',
+                text_preview: 'Session precise navigation preserves evidence ids for the selected unit.',
+                artifact_refs: ['artifact://source/src_1']
+              }
+            }
+          }),
+        [sourceUnitsPath]: () =>
+          jsonResponse({
+            data: {
+              units: {
+                source_id: 'src_1',
+                items: [
+                  {
+                    unit_id: 'unit_1',
+                    source_id: 'src_1',
+                    unit_type: 'text',
+                    title: 'Session unit',
+                    order_index: 0,
+                    preview_available: true
+                  }
+                ],
+                next_cursor: null,
+                limit: 20,
+                has_more: false
+              }
+            }
+          }),
+        [sourceUnitPath]: () =>
+          jsonResponse({
+            data: {
+              unit: {
+                unit_id: 'unit_1',
+                source_id: 'src_1',
+                unit_type: 'text',
+                title: 'Session unit',
+                content_type: 'text/plain',
+                text_preview: 'Session precise navigation preserves evidence ids for the selected unit.',
+                preview_available: true
+              }
+            }
+          }),
+        [sourceEvidenceSpanPath]: () =>
+          jsonResponse({
+            data: {
+              evidence_span: {
+                evidence_id: 'ev_1',
+                source_id: 'src_1',
+                unit_id: 'unit_1',
+                snippet: 'preserves evidence ids',
+                start_offset: 27,
+                end_offset: 49,
+                offset_basis: 'normalized_text',
+                offset_range: 'half_open',
+                text_basis: 'document_unit_text',
+                preview_available: true
+              }
+            }
+          })
+      })
+    );
+
+    render(<App />);
+
+    await userEvent.click(await screen.findByRole('button', { name: /Interview prep/i }));
+    await userEvent.type(screen.getByLabelText(/session question/i), 'What identifiers should session precise navigation preserve?');
+    await userEvent.click(screen.getByRole('button', { name: /ask session/i }));
+
+    expect(await screen.findByText('Session precise navigation preserves evidence ids.')).toBeInTheDocument();
+    await userEvent.click(await screen.findByTestId('jumpable-evidence-citation'));
+
+    expect(await screen.findByTestId('source-preview-drawer')).toBeInTheDocument();
+    expect((await screen.findAllByText('Session unit')).length).toBeGreaterThan(0);
+    expect(await screen.findByText('evidence_id: ev_1')).toBeInTheDocument();
+    expect(await screen.findByTestId('evidence-highlight')).toHaveTextContent('preserves evidence ids');
+    expect(screen.getByText('Session precise navigation preserves evidence ids.')).toBeInTheDocument();
   });
 
   it('renders session graph context without blocking session answer', async () => {

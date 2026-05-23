@@ -13,12 +13,14 @@ import {
 } from '../../shared/api/workspaceM3Queries';
 import { useSourcesQuery } from '../../shared/api/workspaceM2Queries';
 import { useSessionGraphQuery } from '../../shared/api/workspaceM4Queries';
+import { isEvidenceSpanNavigationSupported, useCapabilitiesQuery } from '../../shared/api/workspaceM2Queries';
 import { queryKeys } from '../../app/routes/queryKeys';
 import { useOperationPolling } from '../../shared/hooks/useOperationPolling';
-import type { BuildOperation, SessionDetail, SessionState, SessionSummary } from '../../shared/types/api';
+import type { AnswerEvidence, BuildOperation, SessionDetail, SessionState, SessionSummary } from '../../shared/types/api';
 import { ApiErrorState } from '../../shared/components/ApiErrorState';
 import { EvidenceList } from '../../shared/components/EvidenceList';
 import { SourceTraceDrawer } from '../../shared/components/SourceTraceDrawer';
+import { SourcePreviewDrawer } from '../../shared/components/SourcePreviewDrawer';
 import { EmptyState, LoadingState, StateBlock, UnsupportedFeatureState } from '../../shared/components/StateBlock';
 import { LightweightFeedback } from '../../shared/components/LightweightFeedback';
 import { SessionGraphContext } from '../../shared/components/GraphContextPanel';
@@ -290,17 +292,21 @@ function SessionBuildPanel({ workspaceId, session }: { workspaceId: string; sess
 function SessionAskPanel({
   workspaceId,
   session,
-  onTraceSourceId
+  onTraceSourceId,
+  onNavigateEvidence
 }: {
   workspaceId: string;
   session: SessionSummary;
   onTraceSourceId: (sourceId: string) => void;
+  onNavigateEvidence: (evidence: AnswerEvidence) => void;
 }) {
   const questionId = useId();
   const [question, setQuestion] = useState('');
   const isClosed = session.state === 'closed';
   const querySession = useSessionQueryMutation(workspaceId, session.session_id);
   const sourcesQuery = useSourcesQuery(workspaceId);
+  const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
+  const preciseNavigationEnabled = isEvidenceSpanNavigationSupported(capabilitiesQuery.data);
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -339,7 +345,12 @@ function SessionAskPanel({
           <article className="answer-card">
             <h3>Session Answer</h3>
             <p>{querySession.data.answer}</p>
-            <EvidenceList evidence={querySession.data.evidence} onTrace={onTraceSourceId} />
+            <EvidenceList
+              evidence={querySession.data.evidence}
+              onTrace={onTraceSourceId}
+              onNavigateEvidence={onNavigateEvidence}
+              preciseNavigationEnabled={preciseNavigationEnabled}
+            />
             <LightweightFeedback workspaceId={workspaceId} target={{ target_type: 'session_answer', session_id: session.session_id }} />
           </article>
         ) : null}
@@ -369,6 +380,15 @@ function SessionGraphPanel({ workspaceId, sessionId }: { workspaceId: string; se
 
 function SessionWorkbench({ workspaceId, activeSessionId, onSessionClosed }: { workspaceId: string; activeSessionId: string | null; onSessionClosed: () => void }) {
   const [traceSourceId, setTraceSourceId] = useState<string | null>(null);
+  const [previewSource, setPreviewSource] = useState<{
+    source_id: string;
+    title?: string;
+    unitId?: string;
+    evidenceId?: string;
+    evidenceKey?: string;
+  } | null>(null);
+  const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
+  const preciseNavigationEnabled = isEvidenceSpanNavigationSupported(capabilitiesQuery.data);
   const sessionQuery = useSessionQuery(workspaceId, activeSessionId);
 
   if (!activeSessionId) {
@@ -388,16 +408,55 @@ function SessionWorkbench({ workspaceId, activeSessionId, onSessionClosed }: { w
       <SessionIngestPanel workspaceId={workspaceId} session={session} />
       <SessionBuildPanel workspaceId={workspaceId} session={session} />
       <SessionGraphPanel workspaceId={workspaceId} sessionId={session.session_id} />
-      <SessionAskPanel workspaceId={workspaceId} session={session} onTraceSourceId={setTraceSourceId} />
+      <SessionAskPanel
+        workspaceId={workspaceId}
+        session={session}
+        onTraceSourceId={setTraceSourceId}
+        onNavigateEvidence={(evidence) => {
+          if (!evidence.sourceId) return;
+          setPreviewSource({
+            source_id: evidence.sourceId,
+            title: evidence.sourceTitle,
+            unitId: evidence.unitId,
+            evidenceId: evidence.evidenceId,
+            evidenceKey: evidence.evidenceKey
+          });
+        }}
+      />
       {session.last_answer ? (
         <article className="answer-card">
           <h3>Last Answer</h3>
           <p>{session.last_answer.answer}</p>
-          <EvidenceList evidence={session.last_answer.evidence} onTrace={setTraceSourceId} />
+          <EvidenceList
+            evidence={session.last_answer.evidence}
+            onTrace={setTraceSourceId}
+            onNavigateEvidence={(evidence) => {
+              if (!evidence.sourceId) return;
+              setPreviewSource({
+                source_id: evidence.sourceId,
+                title: evidence.sourceTitle,
+                unitId: evidence.unitId,
+                evidenceId: evidence.evidenceId,
+                evidenceKey: evidence.evidenceKey
+              });
+            }}
+            preciseNavigationEnabled={preciseNavigationEnabled}
+          />
           <LightweightFeedback workspaceId={workspaceId} target={{ target_type: 'session_answer', session_id: session.session_id }} />
         </article>
       ) : null}
       <SourceTraceDrawer workspaceId={workspaceId} sourceId={traceSourceId} onClose={() => setTraceSourceId(null)} />
+      <SourcePreviewDrawer
+        workspaceId={workspaceId}
+        sourceId={previewSource?.source_id ?? null}
+        sourceTitle={previewSource?.title}
+        initialEvidence={
+          previewSource?.unitId || previewSource?.evidenceId
+            ? { unitId: previewSource.unitId, evidenceId: previewSource.evidenceId, evidenceKey: previewSource.evidenceKey }
+            : null
+        }
+        onClose={() => setPreviewSource(null)}
+      />
     </div>
   );
 }

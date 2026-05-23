@@ -1,7 +1,7 @@
 # ResearchNotebook V1.1 Feature Route Matrix
 
-文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed with scoped source trace integration。
-日期：2026-05-22。
+文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed with scoped source trace integration；S1-FIX 后 session precise navigation API smoke passed；S1-FE session browser smoke passed。
+日期：2026-05-23。
 
 ## Classification
 
@@ -26,9 +26,10 @@ Every V1.1 feature must be classified as:
 | Manual unit selection in preview drawer | backed by data_service target route | unit list/detail routes | Integration-ready for data_service-supported text sources after V1.1-C-RC HTTP smoke. |
 | Scroll-to-unit / answer citation unit jump | unsupported | none in V1.1-C | Not implemented; this is not precise citation backjump. |
 | EvidenceSpan backend detail | backed by data_service target route | `GET /api/workspaces/{workspace_id}/sources/{source_id}/units/{unit_id}/evidence/{evidence_id}` | Backend contract ready after V1.1-D-BE tests and smoke; real HTTP smoke now verifies route and offset contract. |
-| Query evidence span ids | backed by data_service target route | `POST /api/workspaces/{workspace_id}/query` | Real HTTP smoke observed workspace query evidence with registry `source_id`, backend `unit_id`, and backend `evidence_id` for a text source. Session query is not EvidenceSpan-ready. |
+| Query evidence span ids | backed by data_service target route | `POST /api/workspaces/{workspace_id}/query` | Real HTTP smoke observed workspace query evidence with registry `source_id`, backend `unit_id`, and backend `evidence_id` for a text source. |
+| Session query evidence span ids | browser-smoke-ready for supported text session query path | `POST /api/workspaces/{workspace_id}/sessions/{session_id}/query` | S1-FIX re-smoke returned `HAS_EVIDENCE_SPAN_IDS`; S1-FE browser smoke clicked the session citation and resolved the ids through DocumentUnit detail and EvidenceSpan detail. |
 | EvidenceSpan highlight | browser-smoke-ready for supported text workspace query path | EvidenceSpan route + offset semantics | Workspace query citation path implemented, real HTTP-smoked, and browser visual-smoked. |
-| Precise citation backjump | browser-smoke-ready for supported text workspace query path | answer citation UX + EvidenceSpan route | Supported only for workspace query citations carrying `source_id + unit_id + evidence_id`; session/all-source coverage remains NOT_READY. |
+| Precise citation backjump | browser-smoke-ready for supported text workspace query path; browser-smoke-ready for supported text session query path | answer citation UX + EvidenceSpan route | Workspace query and supported session query citation browser paths are ready only when the evidence item carries `source_id + unit_id + evidence_id`. This is not all-session or all-source-type ready. |
 | Answer citation opens preview | unsupported in V1.1-B release gate | optional only after manifest support | Source Library / Source Detail Preview button is the V1.1-B release-gate entry. |
 
 ## V1.1-BE Backend Contract Status
@@ -91,7 +92,7 @@ Backend capability manifest precise_span_highlight = TRUE
 Backend capability manifest citation_backjump = TRUE
 Backend EvidenceSpan detail route = READY_FOR_FRONTEND_INTEGRATION_AFTER_BACKEND_CHANGE_REVIEW
 Workspace query evidence source_id/unit_id/evidence_id = READY_FOR_TEXT_SOURCES
-Session query EvidenceSpan shape = NOT_READY
+Session query EvidenceSpan shape = BROWSER_SMOKE_READY_AFTER_S1_FE
 Real data_service HTTP smoke = PASS_WITH_ACCEPTED_DEGRADED_STATES
 Browser visual smoke = PASS
 Frontend EvidenceSpan highlight = BROWSER_SMOKE_READY_FOR_SUPPORTED_TEXT_WORKSPACE_QUERY
@@ -99,6 +100,8 @@ Frontend precise citation backjump = BROWSER_SMOKE_READY_FOR_SUPPORTED_TEXT_WORK
 ```
 
 V1.1-D frontend has now wired the workspace query citation path to `SourcePreviewDrawer`, `sources.getUnit`, and `sources.getEvidenceSpan`. It passed mocked/API-adapter UI smoke through `npm run check`, `node scripts/v1_1_d_evidence_smoke.mjs` verified the real data_service HTTP route/evidence contract, and `npm run smoke:v1.1-d-browser` verified the browser-visible highlight path.
+
+V1.1-S1 separately verified the session query route. The first S1 smoke returned graph nodes/edges but no resolvable EvidenceSpan evidence item. After S1-FIX, the session query returned `source_id + unit_id + evidence_id`, and the ids resolved through DocumentUnit and EvidenceSpan routes. S1-FE then browser-smoked the session citation click path through SourcePreviewDrawer, selected DocumentUnit, and EvidenceSpan highlight. The declaration remains limited to data_service-supported text-source session query citations carrying resolvable ids.
 
 Current declaration:
 
@@ -118,6 +121,20 @@ Trace-unavailable fallback = DEGRADED_ACCEPTED for unsupported or failing trace 
 ```
 
 RC4 confirms that Source Preview, DocumentUnit, EvidenceSpan, and Source Trace are separate contracts. Source Trace is now smoke-proven only for the RC4 registry source_id path.
+
+## V1.1-S1 Session Precise Navigation Smoke Boundary
+
+```text
+Session build = PASS
+Session query route = HTTP 200
+Session query evidence shape = HAS_EVIDENCE_SPAN_IDS
+Unit detail resolution = PASS
+EvidenceSpan resolution = PASS
+UI citation result = PASS
+Session precise navigation = BROWSER_SMOKE_READY_FOR_SUPPORTED_TEXT_SESSION_QUERY
+```
+
+S1-FIX proved that the backend/API contract provides ids needed by the existing EvidenceSpan navigation path. S1-FE proved that the browser session citation path can reuse the existing Drawer / unit / span flow. This does not imply all-session or all-source-type readiness.
 
 ## Boundary Rules
 

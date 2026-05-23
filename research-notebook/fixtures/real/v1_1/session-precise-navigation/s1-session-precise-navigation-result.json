@@ -1,0 +1,70 @@
+{
+  "declaration": "API_SMOKE_READY",
+  "session_query_evidence_shape": "HAS_EVIDENCE_SPAN_IDS",
+  "unit_detail_resolution": "PASS",
+  "evidence_span_resolution": "PASS",
+  "ui_citation_result": "NOT_RUN",
+  "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+  "source_id": "src_103b26d7f9363bae",
+  "session_id": "ksess_a92bf2adc1fe348a",
+  "session_build_required": "yes",
+  "session_build_operation_id": "sop_fa3a8c340cdb",
+  "session_build_final_status": "succeeded",
+  "results": [
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v11-s1-session-1779552117955-workspace"
+    },
+    {
+      "name": "source create",
+      "status": "pass",
+      "detail": "src_103b26d7f9363bae"
+    },
+    {
+      "name": "source list/get registry id",
+      "status": "pass",
+      "detail": "src_103b26d7f9363bae"
+    },
+    {
+      "name": "capability manifest evidence flags",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "session create",
+      "status": "pass",
+      "detail": "ksess_a92bf2adc1fe348a"
+    },
+    {
+      "name": "session ingest",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "session build polling",
+      "status": "pass",
+      "detail": "succeeded"
+    },
+    {
+      "name": "session query",
+      "status": "pass",
+      "detail": "HAS_EVIDENCE_SPAN_IDS"
+    },
+    {
+      "name": "unit detail resolution",
+      "status": "pass",
+      "detail": "unit_00194448f037516c"
+    },
+    {
+      "name": "evidence span resolution",
+      "status": "pass",
+      "detail": "normalized_text/half_open/document_unit_text"
+    }
+  ]
+}

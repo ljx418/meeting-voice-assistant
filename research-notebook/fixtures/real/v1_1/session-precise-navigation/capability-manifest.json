@@ -1,5 +1,5 @@
 {
-  "workspace_id": "rn-v11d-1779440659852-workspace",
+  "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
   "operation_id": null,
   "status": "ok",
   "warnings": [],
@@ -7,10 +7,10 @@
   "next_actions": [],
   "data": {
     "manifest": {
-      "workspace_id": "rn-v11d-1779440659852-workspace",
+      "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
       "service_version": "0.1.0",
       "schema_version": "v1.1-document-units",
-      "generated_at": "2026-05-22T09:04:19.921351Z",
+      "generated_at": "2026-05-23T16:01:58.068059Z",
       "capabilities": {
         "source_preview": true,
         "document_units": true,

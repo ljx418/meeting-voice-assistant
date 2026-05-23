@@ -1,6 +1,6 @@
 # V1.1 Evidence Navigation Contract
 
-文档状态：V1.1-D-RC browser visual smoke passed for supported text-source workspace query EvidenceSpan navigation。
+文档状态：V1.1-D workspace query browser smoke passed；V1.1-S1-FE session query browser smoke passed；两者都仅限 data_service-supported text-source citations carrying `source_id + unit_id + evidence_id`。
 
 ## Purpose
 
@@ -90,7 +90,7 @@ type QueryEvidence = {
 };
 ```
 
-Session query evidence is not EvidenceSpan-ready in this phase and must not be used to claim citation backjump for sessions.
+Session query evidence is browser-smoke-ready after S1-FIX and S1-FE for data_service-supported text-source session query citations carrying `source_id + unit_id + evidence_id`. S1-FIX proved the API ids; S1-FE proved the browser citation click path through the existing Drawer, DocumentUnit, and EvidenceSpan highlight flow.
 
 ## Navigation Rules
 
@@ -124,7 +124,7 @@ Offsets are relative to the normalized text of the `DocumentUnit` identified by 
 
 ## Frontend V1.1-D Rules
 
-ResearchNotebook now implements the frontend API-adapter/UI path for workspace query citations carrying `sourceId + unitId + evidenceId`:
+ResearchNotebook now implements the frontend API-adapter/UI path for workspace and supported session query citations carrying `sourceId + unitId + evidenceId`:
 
 - `EvidenceList` shows precise navigation only when the capability manifest advertises `evidence_spans=true`, `precise_span_highlight=true`, `citation_backjump=true`, `document_units=true`, and `unit_level_navigation=true`.
 - Each evidence item must also include `sourceId`, `unitId`, and `evidenceId`; manifest truth alone is not sufficient.
@@ -149,6 +149,15 @@ Browser visual smoke has also verified:
 - answer/source preview/unit detail remain visible during the successful path;
 - no `/api/v1/knowledge/*` network request was observed.
 
+S1-FE browser smoke has separately verified the session query path:
+
+- session query answer rendered a jumpable citation carrying `source_id + unit_id + evidence_id`;
+- clicking the session citation opened/focused `SourcePreviewDrawer`;
+- the drawer displayed the source preview, selected the correct DocumentUnit, and rendered the EvidenceSpan highlight;
+- the highlighted text was non-empty and inside the selected unit detail;
+- answer/source preview/unit detail remained visible;
+- no `/api/v1/knowledge/*` network request was observed.
+
 ## Current Declaration Boundary
 
 Can declare:
@@ -157,6 +166,7 @@ Can declare:
 data_service EvidenceSpan backend contract is ready for ResearchNotebook V1.1-D frontend integration after backend change review.
 ResearchNotebook V1.1-D EvidenceSpan highlight is browser-smoke-ready for workspace query citations carrying source_id + unit_id + evidence_id.
 ResearchNotebook V1.1 precise evidence navigation is browser-smoke-ready for the same supported workspace query path.
+ResearchNotebook session precise evidence navigation is browser-smoke-ready for data_service-supported text-source session query citations carrying source_id + unit_id + evidence_id.
 ```
 
 Cannot declare:
@@ -164,6 +174,30 @@ Cannot declare:
 - all-source-type source trace integration ready;
 - all-session precise navigation ready;
 - all-source-type precise backjump ready.
+
+## V1.1-S1 Session Query Boundary
+
+V1.1-S1 verified the session query path separately from the workspace query path:
+
+```text
+POST /api/workspaces/{workspace_id}/sessions/{session_id}/query
+```
+
+Observed result:
+
+```text
+Session build = PASS
+Session query = HTTP 200
+Before S1-FIX session evidence shape = GRAPH_ONLY_NO_EVIDENCE
+After S1-FIX session evidence shape = HAS_EVIDENCE_SPAN_IDS
+```
+
+The first response returned session graph nodes/edges, but did not return a citation evidence item carrying `source_id + unit_id + evidence_id`. S1-FIX then updated the backend/API contract so session query evidence ids resolve through DocumentUnit detail and EvidenceSpan detail. S1-FE then verified the browser click path. Therefore:
+
+- workspace query EvidenceSpan readiness does not apply to session query;
+- session precise navigation is `BROWSER_SMOKE_READY` for the supported text-source session query path;
+- session answer citation jump may call EvidenceSpan route only when the evidence item itself carries `source_id + unit_id + evidence_id`;
+- this still must not be generalized to all sessions, all source types, or evidence items that lack resolvable ids.
 
 ## RC4 Source Trace Re-Smoke Boundary
 

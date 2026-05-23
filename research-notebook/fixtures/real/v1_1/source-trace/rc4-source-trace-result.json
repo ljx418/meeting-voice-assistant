@@ -1,6 +1,6 @@
 {
   "decision": "PASS",
-  "workspace_id": "rn-v11-rc4-trace-1779422315630-workspace",
+  "workspace_id": "rn-v11-rc4-trace-1779440653458-workspace",
   "source_id": "src_cce80f0ca6dad217",
   "direct_trace_status": 200,
   "results": [
@@ -12,7 +12,7 @@
     {
       "name": "workspace create",
       "status": "pass",
-      "detail": "rn-v11-rc4-trace-1779422315630-workspace"
+      "detail": "rn-v11-rc4-trace-1779440653458-workspace"
     },
     {
       "name": "source create",

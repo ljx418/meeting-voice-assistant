@@ -1,0 +1,34 @@
+{
+  "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_103b26d7f9363bae",
+      "artifact_ref": "source://src_103b26d7f9363bae"
+    }
+  ],
+  "next_actions": [
+    "knowledge_source_list",
+    "knowledge_source_trace"
+  ],
+  "data": {
+    "source": {
+      "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+      "source_id": "src_103b26d7f9363bae",
+      "title": "V1.1 S1 Session Evidence Source",
+      "status": "active",
+      "ingest_status": "pending",
+      "metadata": {
+        "stage": "v1.1-s1-session-precise-navigation"
+      },
+      "created_at": "2026-05-23T16:01:58.043310Z",
+      "updated_at": "2026-05-23T16:01:58.043310Z",
+      "removed_at": null,
+      "remove_reason": "",
+      "artifact_ref": "source://src_103b26d7f9363bae"
+    }
+  }
+}

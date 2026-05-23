@@ -1,0 +1,88 @@
+{
+  "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+  "operation_id": "sop_fa3a8c340cdb",
+  "status": "succeeded",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "session_build_operation",
+      "session_id": "ksess_a92bf2adc1fe348a",
+      "operation_id": "sop_fa3a8c340cdb",
+      "artifact_ref": "session-build://ksess_a92bf2adc1fe348a/sop_fa3a8c340cdb"
+    },
+    {
+      "type": "session_build_artifact",
+      "session_id": "ksess_a92bf2adc1fe348a",
+      "operation_id": "sop_fa3a8c340cdb",
+      "artifact_ref": "session-artifact://ksess_a92bf2adc1fe348a/edcda56fe9ff2f25"
+    },
+    {
+      "type": "session_build_artifact",
+      "session_id": "ksess_a92bf2adc1fe348a",
+      "operation_id": "sop_fa3a8c340cdb",
+      "artifact_ref": "session-artifact://ksess_a92bf2adc1fe348a/3699a8b7f4e7a387"
+    },
+    {
+      "type": "session_build_artifact",
+      "session_id": "ksess_a92bf2adc1fe348a",
+      "operation_id": "sop_fa3a8c340cdb",
+      "artifact_ref": "session-artifact://ksess_a92bf2adc1fe348a/c77eff07a96df231"
+    }
+  ],
+  "next_actions": [
+    "knowledge_session_build_status"
+  ],
+  "data": {
+    "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+    "session_id": "ksess_a92bf2adc1fe348a",
+    "operation_id": "sop_fa3a8c340cdb",
+    "mode": "full",
+    "status": "succeeded",
+    "stage": "completed",
+    "progress": 1,
+    "created_at": "2026-05-23T16:01:58.102002Z",
+    "updated_at": "2026-05-23T16:01:58.114722Z",
+    "started_at": null,
+    "completed_at": null,
+    "artifact_ref": "session-build://ksess_a92bf2adc1fe348a/sop_fa3a8c340cdb",
+    "artifact_refs": [
+      {
+        "type": "session_build_operation",
+        "session_id": "ksess_a92bf2adc1fe348a",
+        "operation_id": "sop_fa3a8c340cdb",
+        "artifact_ref": "session-build://ksess_a92bf2adc1fe348a/sop_fa3a8c340cdb"
+      },
+      {
+        "type": "session_build_artifact",
+        "session_id": "ksess_a92bf2adc1fe348a",
+        "operation_id": "sop_fa3a8c340cdb",
+        "artifact_ref": "session-artifact://ksess_a92bf2adc1fe348a/edcda56fe9ff2f25"
+      },
+      {
+        "type": "session_build_artifact",
+        "session_id": "ksess_a92bf2adc1fe348a",
+        "operation_id": "sop_fa3a8c340cdb",
+        "artifact_ref": "session-artifact://ksess_a92bf2adc1fe348a/3699a8b7f4e7a387"
+      },
+      {
+        "type": "session_build_artifact",
+        "session_id": "ksess_a92bf2adc1fe348a",
+        "operation_id": "sop_fa3a8c340cdb",
+        "artifact_ref": "session-artifact://ksess_a92bf2adc1fe348a/c77eff07a96df231"
+      }
+    ],
+    "warnings": [],
+    "next_actions": [],
+    "error": {
+      "code": "error",
+      "message": "error",
+      "retryable": false
+    },
+    "retryable": false,
+    "results": {
+      "unit_count": 1,
+      "relation_count": 37,
+      "node_count": 10
+    }
+  }
+}

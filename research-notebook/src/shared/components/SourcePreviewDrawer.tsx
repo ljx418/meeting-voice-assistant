@@ -75,7 +75,7 @@ export function SourcePreviewDrawer({
   initialEvidence?: InitialEvidenceNavigation | null;
   onClose: () => void;
 }) {
-  const [selectedUnit, setSelectedUnit] = useState<{ sourceId: string; unitId: string } | null>(null);
+  const [selectedUnit, setSelectedUnit] = useState<{ sourceId: string; unitId: string; navigationKey: string } | null>(null);
   const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
   const sourceQuery = useSourceQuery(workspaceId, sourceId);
   const effectiveSourceType = sourceType ?? sourceQuery.data?.source_type;
@@ -83,9 +83,10 @@ export function SourcePreviewDrawer({
   const evidenceNavigationSupported = isEvidenceSpanNavigationSupported(capabilitiesQuery.data);
   const previewSupported = isSourceLevelPreviewSupported(capabilitiesQuery.data, effectiveSourceType);
   const unitNavigationSupported = isUnitLevelNavigationSupported(capabilitiesQuery.data, effectiveSourceType);
+  const navigationKey = `${initialEvidence?.unitId ?? ''}:${initialEvidence?.evidenceId ?? ''}:${initialEvidence?.evidenceKey ?? ''}`;
   const selectedUnitId =
     unitNavigationSupported && sourceId
-      ? selectedUnit?.sourceId === sourceId
+      ? selectedUnit?.sourceId === sourceId && selectedUnit.navigationKey === navigationKey
         ? selectedUnit.unitId
         : (initialEvidence?.unitId ?? null)
       : null;
@@ -263,7 +264,7 @@ export function SourcePreviewDrawer({
                     type="button"
                     key={unit.unit_id}
                     aria-pressed={selectedUnitId === unit.unit_id}
-                    onClick={() => setSelectedUnit({ sourceId, unitId: unit.unit_id })}
+                    onClick={() => setSelectedUnit({ sourceId, unitId: unit.unit_id, navigationKey })}
                   >
                     <span>
                       <strong>{unit.title ?? unit.unit_id}</strong>

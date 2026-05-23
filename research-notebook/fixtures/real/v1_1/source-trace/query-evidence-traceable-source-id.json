@@ -31,7 +31,7 @@
     {
       "evidence_key": "src_cce80f0ca6dad217:unit_9698214a718f3236:ev_fd100ce946996492",
       "source_id": "src_cce80f0ca6dad217",
-      "source_title": "rn-v11-rc4-trace-1779422315630 Source Trace Source",
+      "source_title": "rn-v11-rc4-trace-1779440653458 Source Trace Source",
       "unit_id": "unit_9698214a718f3236",
       "evidence_id": "ev_fd100ce946996492",
       "snippet": "Source trace contract re-smoke should prove that a registry source id can open source-level provenance. The answer should preserve evidence if source trace is unavailable.",
@@ -44,7 +44,7 @@
     {
       "evidence_key": "src_cce80f0ca6dad217:unit_9698214a718f3236:ev_fd100ce946996492",
       "source_id": "src_cce80f0ca6dad217",
-      "source_title": "rn-v11-rc4-trace-1779422315630 Source Trace Source",
+      "source_title": "rn-v11-rc4-trace-1779440653458 Source Trace Source",
       "unit_id": "unit_9698214a718f3236",
       "evidence_id": "ev_fd100ce946996492",
       "snippet": "Source trace contract re-smoke should prove that a registry source id can open source-level provenance. The answer should preserve evidence if source trace is unavailable.",

@@ -1,0 +1,29 @@
+{
+  "workspace_id": "rn-v11-s1-session-1779552117955-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_103b26d7f9363bae",
+      "artifact_ref": "source://src_103b26d7f9363bae"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_9bdc4bc04ba34f6c",
+      "source_id": "src_103b26d7f9363bae",
+      "unit_id": "unit_00194448f037516c",
+      "snippet": "Session precise navigation should preserve source id, unit id, and evidence id so the notebook can open the same highlighted source span from a session answer.",
+      "start_offset": 0,
+      "end_offset": 159,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {},
+      "preview_available": true
+    }
+  }
+}

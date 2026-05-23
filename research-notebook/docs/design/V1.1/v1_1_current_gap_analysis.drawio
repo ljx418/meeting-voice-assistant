@@ -1,34 +1,34 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
   <diagram id="v1-1-current-gap-analysis" name="V1.1 Current Gap Analysis">
-    <mxGraphModel dx="1872" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1900" math="0" shadow="0">
+    <mxGraphModel dx="1872" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="2180" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="title" parent="1" style="text;html=0;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" value="ResearchNotebook V1.1 当前差距分析：证据导航链路" vertex="1">
           <mxGeometry height="50" width="1640" x="280" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=15;align=center;fontStyle=1" value="当前状态：V1.1-D-RC 浏览器 smoke 已通过｜RC4 source trace backend fix + re-smoke 已通过｜绿色=已完成，黄色=范围限制，红色=禁止声明" vertex="1">
+        <mxCell id="subtitle" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=15;align=center;fontStyle=1" value="当前状态：V1.1-D-RC 浏览器 smoke 已通过｜RC4 source trace 已通过｜S1-FIX session API smoke 已通过｜S1-FE session 浏览器 smoke 已通过｜绿色=已完成，黄色=范围限制，红色=禁止声明" vertex="1">
           <mxGeometry height="58" width="1620" x="290" y="85" as="geometry" />
         </mxCell>
         <mxCell id="section_arch" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=20;fontStyle=1;align=center" value="七平面目标架构：ResearchNotebook 产品 UI 消费 data_service 后端事实源" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="175" as="geometry" />
         </mxCell>
-        <mxCell id="p0" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;fontStyle=1;align=center" value="平面 0&#xa;产品交互&#xa;&#xa;Workspace 提问&#xa;Source Library&#xa;预览抽屉&#xa;证据 citation" vertex="1">
+        <mxCell id="p0" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;fontStyle=1;align=center" value="平面 0&#10;产品交互&#10;&#10;Workspace 提问&#10;Source Library&#10;预览抽屉&#10;证据 citation" vertex="1">
           <mxGeometry height="150" width="250" x="70" y="260" as="geometry" />
         </mxCell>
-        <mxCell id="p1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center" value="平面 1&#xa;前端 UI&#xa;&#xa;Vite + React&#xa;AppShell&#xa;Workspace / Source / Session&#xa;SourcePreviewDrawer" vertex="1">
+        <mxCell id="p1" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=13;align=center" value="平面 1&#10;前端 UI&#10;&#10;Vite + React&#10;AppShell&#10;Workspace / Source / Session&#10;SourcePreviewDrawer" vertex="1">
           <mxGeometry height="160" width="300" x="370" y="250" as="geometry" />
         </mxCell>
-        <mxCell id="p2" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#EDE9FE;strokeColor=#7C3AED;fontSize=13;align=center" value="平面 2&#xa;应用状态&#xa;&#xa;TanStack Query&#xa;抽屉局部状态&#xa;selectedUnitId&#xa;evidence target state" vertex="1">
+        <mxCell id="p2" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#EDE9FE;strokeColor=#7C3AED;fontSize=13;align=center" value="平面 2&#10;应用状态&#10;&#10;TanStack Query&#10;抽屉局部状态&#10;selectedUnitId&#10;evidence target state" vertex="1">
           <mxGeometry height="180" width="310" x="720" y="240" as="geometry" />
         </mxCell>
-        <mxCell id="p3" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;fontStyle=1;align=center" value="平面 3&#xa;API 适配边界&#xa;&#xa;dataServiceClient.ts&#xa;typed wrappers&#xa;后端 raw shape 映射&#xa;统一错误模型" vertex="1">
+        <mxCell id="p3" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;fontStyle=1;align=center" value="平面 3&#10;API 适配边界&#10;&#10;dataServiceClient.ts&#10;typed wrappers&#10;后端 raw shape 映射&#10;统一错误模型" vertex="1">
           <mxGeometry height="180" width="310" x="1080" y="240" as="geometry" />
         </mxCell>
-        <mxCell id="p4" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" value="平面 4&#xa;后端目标路由&#xa;&#xa;/api/workspaces/...&#xa;capabilities&#xa;preview / units&#xa;evidence spans" vertex="1">
+        <mxCell id="p4" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" value="平面 4&#10;后端目标路由&#10;&#10;/api/workspaces/...&#10;capabilities&#10;preview / units&#10;evidence spans" vertex="1">
           <mxGeometry height="180" width="300" x="1440" y="240" as="geometry" />
         </mxCell>
-        <mxCell id="p5" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F0FDF4;strokeColor=#22C55E;fontSize=13;align=center" value="平面 5&#xa;data_service&#xa;&#xa;registry source_id&#xa;DocumentUnit&#xa;EvidenceSpan&#xa;query evidence" vertex="1">
+        <mxCell id="p5" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F0FDF4;strokeColor=#22C55E;fontSize=13;align=center" value="平面 5&#10;data_service&#10;&#10;registry source_id&#10;DocumentUnit&#10;EvidenceSpan&#10;query evidence" vertex="1">
           <mxGeometry height="180" width="260" x="1790" y="240" as="geometry" />
         </mxCell>
         <mxCell id="guardrail" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" value="边界规则：feature 层不直接 fetch，不拼 route string，不解析 artifact_ref/raw path，不为新功能调用 /api/v1/knowledge/*。" vertex="1">
@@ -49,16 +49,16 @@
         <mxCell id="edge_p4_p5" edge="1" parent="1" source="p4" style="endArrow=block;html=0;rounded=0;strokeColor=#64748B;strokeWidth=2" target="p5">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="section_status" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" value="当前状态 -&gt; 剩余差距 -&gt; V1.1-D-RC 出门边界" vertex="1">
+        <mxCell id="section_status" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" value="当前状态 -&gt; 剩余差距 -&gt; V1.1-D / S1-FE 出门边界" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="570" as="geometry" />
         </mxCell>
-        <mxCell id="current" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#EFF6FF;strokeColor=#3B82F6;fontSize=14;align=left;spacingLeft=16" value="当前可以声明&#xa;&#xa;PASS: V1.0 M0-M4 主链路 integration-smoke-ready&#xa;PASS: V1.1-B 文本源 Source Preview&#xa;PASS: V1.1-C 文本源 Unit-Level Source Navigation&#xa;PASS: V1.1-D route/evidence 真实 HTTP smoke&#xa;PASS: V1.1-D 浏览器可视化 smoke&#xa;PASS: V1.1-RC2 live experience smoke" vertex="1">
+        <mxCell id="current" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#EFF6FF;strokeColor=#3B82F6;fontSize=14;align=left;spacingLeft=16" value="当前可以声明&#10;&#10;PASS: V1.0 M0-M4 主链路 integration-smoke-ready&#10;PASS: V1.1-B 文本源 Source Preview&#10;PASS: V1.1-C 文本源 Unit-Level Source Navigation&#10;PASS: V1.1-D workspace 浏览器 evidence highlight&#10;PASS: V1.1-S1-FE session 浏览器 evidence highlight&#10;PASS: V1.1-RC2 live experience smoke" vertex="1">
           <mxGeometry height="250" width="620" x="130" y="660" as="geometry" />
         </mxCell>
-        <mxCell id="gaps" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#FFFBEB;strokeColor=#F59E0B;fontSize=14;align=left;spacingLeft=16" value="剩余限制&#xa;&#xa;LIMITED: 精确导航只覆盖文本源 workspace query citation&#xa;要求 citation 有 source_id + unit_id + evidence_id&#xa;LIMITED: source trace 只覆盖 RC4 registry source_id 文本路径&#xa;DEGRADED: artifact-like evidence id 当前返回 404，不是首选 422&#xa;NOT_READY: session 精确导航和所有来源类型回跳" vertex="1">
+        <mxCell id="gaps" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#FFFBEB;strokeColor=#F59E0B;fontSize=14;align=left;spacingLeft=16" value="剩余限制&#10;&#10;LIMITED: 精确导航覆盖文本源 workspace query citation&#10;LIMITED: session 精确导航覆盖文本源 session query citation&#10;要求 citation 有 source_id + unit_id + evidence_id&#10;LIMITED: source trace 只覆盖 RC4 registry source_id 文本路径&#10;DEGRADED: artifact-like evidence id 当前返回 404，不是首选 422&#10;NOT_READY: 所有来源类型回跳和多格式摄入" vertex="1">
           <mxGeometry height="250" width="620" x="790" y="660" as="geometry" />
         </mxCell>
-        <mxCell id="target" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ECFDF5;strokeColor=#059669;fontSize=14;align=left;spacingLeft=16" value="V1.1-D-RC 出门边界&#xa;&#xa;真实 data_service 浏览器 smoke：PASS&#xa;jumpable citation 打开 SourcePreviewDrawer&#xa;Drawer 加载 source preview + unit detail + EvidenceSpan&#xa;支持的 offset 能看到文本高亮&#xa;浏览器未观察到 /api/v1/knowledge 请求&#xa;No False Green 边界保持有效" vertex="1">
+        <mxCell id="target" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ECFDF5;strokeColor=#059669;fontSize=14;align=left;spacingLeft=16" value="V1.1-D/S1-FE 出门边界&#10;&#10;真实 data_service 浏览器 smoke：PASS&#10;workspace/session jumpable citation 打开 SourcePreviewDrawer&#10;Drawer 加载 source preview + unit detail + EvidenceSpan&#10;支持的 offset 能看到文本高亮&#10;浏览器未观察到 /api/v1/knowledge 请求&#10;No False Green 边界保持有效" vertex="1">
           <mxGeometry height="250" width="620" x="1450" y="660" as="geometry" />
         </mxCell>
         <mxCell id="edge_current_gaps" edge="1" parent="1" source="current" style="endArrow=block;html=0;rounded=0;strokeColor=#64748B;strokeWidth=2" target="gaps">
@@ -70,38 +70,41 @@
         <mxCell id="section_matrix" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=20;fontStyle=1;align=center" value="能力矩阵与 No False Green 边界" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="970" as="geometry" />
         </mxCell>
-        <mxCell id="m_v10" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ECFDF5;strokeColor=#059669;fontSize=13;fontStyle=1;align=center" value="V1.0&#xa;M0-M4&#xa;PASS&#xa;&#xa;Workspace / Source / Build / Ask / Session / Graph / Feedback" vertex="1">
+        <mxCell id="m_v10" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ECFDF5;strokeColor=#059669;fontSize=13;fontStyle=1;align=center" value="V1.0&#10;M0-M4&#10;PASS&#10;&#10;Workspace / Source / Build / Ask / Session / Graph / Feedback" vertex="1">
           <mxGeometry height="180" width="260" x="120" y="1060" as="geometry" />
         </mxCell>
-        <mxCell id="m_b" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ECFDF5;strokeColor=#059669;fontSize=13;fontStyle=1;align=center" value="V1.1-B&#xa;Source Preview&#xa;PASS&#xa;&#xa;已支持文本源 source-level preview" vertex="1">
+        <mxCell id="m_b" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ECFDF5;strokeColor=#059669;fontSize=13;fontStyle=1;align=center" value="V1.1-B&#10;Source Preview&#10;PASS&#10;&#10;已支持文本源 source-level preview" vertex="1">
           <mxGeometry height="180" width="260" x="420" y="1060" as="geometry" />
         </mxCell>
-        <mxCell id="m_c" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ECFDF5;strokeColor=#059669;fontSize=13;fontStyle=1;align=center" value="V1.1-C&#xa;DocumentUnit&#xa;PASS&#xa;&#xa;已支持文本源手动 unit 级导航" vertex="1">
+        <mxCell id="m_c" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ECFDF5;strokeColor=#059669;fontSize=13;fontStyle=1;align=center" value="V1.1-C&#10;DocumentUnit&#10;PASS&#10;&#10;已支持文本源手动 unit 级导航" vertex="1">
           <mxGeometry height="180" width="260" x="720" y="1060" as="geometry" />
         </mxCell>
-        <mxCell id="m_d" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ECFDF5;strokeColor=#059669;fontSize=13;fontStyle=1;align=center" value="V1.1-D&#xa;EvidenceSpan&#xa;浏览器 PASS&#xa;&#xa;文本源 workspace query 精确证据导航" vertex="1">
+        <mxCell id="m_d" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#ECFDF5;strokeColor=#059669;fontSize=13;fontStyle=1;align=center" value="V1.1-D&#10;EvidenceSpan&#10;浏览器 PASS&#10;&#10;文本源 workspace query 精确证据导航" vertex="1">
           <mxGeometry height="180" width="260" x="1020" y="1060" as="geometry" />
         </mxCell>
-        <mxCell id="m_red" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=13;fontStyle=1;align=center" value="NOT_READY&#xa;&#xa;session 精确导航&#xa;所有来源类型回跳&#xa;多格式摄入&#xa;assessment / mastery&#xa;quality governance console&#xa;graph editing / cloud sync" vertex="1">
+        <mxCell id="m_red" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=13;fontStyle=1;align=center" value="NOT_READY&#10;&#10;all-session 泛化声明&#10;所有来源类型回跳&#10;多格式摄入&#10;assessment / mastery&#10;quality governance console&#10;graph editing / cloud sync" vertex="1">
           <mxGeometry height="180" width="300" x="1320" y="1060" as="geometry" />
         </mxCell>
-        <mxCell id="m_next" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" value="后续阶段&#xa;&#xa;1. V1.1-RC5 Final Release Sync&#xa;2. Session precise navigation smoke&#xa;3. V1.2+ 多格式 / Assessment / Governance / Graph editing / Cloud sync&#xa;&#xa;禁止把未来能力回填成 V1.1 ready" vertex="1">
+        <mxCell id="m_next" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" value="离手动验收还剩多少？&#10;&#10;workspace 文本源证据导航：0 个开发阶段&#10;session precise navigation：0 个开发阶段&#10;&#10;已完成：S1-FIX 后端合同修复 + S1 API re-smoke + S1-FE 浏览器 smoke&#10;&#10;禁止扩大为 all-session / all-source-type ready" vertex="1">
           <mxGeometry height="180" width="300" x="1660" y="1060" as="geometry" />
         </mxCell>
         <mxCell id="section_files" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=17;fontStyle=1;align=center" value="剩余阶段、完成度评估、风险与 SWOT" vertex="1">
           <mxGeometry height="48" width="2060" x="70" y="1310" as="geometry" />
         </mxCell>
-        <mxCell id="remaining_v11" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=13;align=left;spacingLeft=14" value="V1.1 还剩 1 个 hardening 阶段&#xa;&#xa;1. V1.1-RC5 Final Evidence Navigation Release Sync&#xa;   final checklist / docs / scoped commit / push&#xa;&#xa;已完成：&#xa;Source Trace Backend Contract Fix&#xa;V1.1-RC4 Source Trace Re-Smoke Rerun&#xa;&#xa;V1.2+ 产品扩展另算：session 精确导航、多格式、Assessment、Governance、Graph editing、Cloud sync。" vertex="1">
+        <mxCell id="remaining_v11" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#EFF6FF;strokeColor=#2563EB;fontSize=13;align=left;spacingLeft=14" value="当前验收距离&#10;&#10;可立即手动验收：&#10;workspace query 文本源 EvidenceSpan 高亮&#10;session query 文本源 EvidenceSpan 高亮&#10;RC4 scoped source trace&#10;&#10;session precise navigation 还需 0 阶段&#10;&#10;S1-FIX 结果：HAS_EVIDENCE_SPAN_IDS。&#10;S1-FE 结果：浏览器点击 citation、选中 unit、显示高亮。" vertex="1">
           <mxGeometry height="330" width="620" x="90" y="1390" as="geometry" />
         </mxCell>
-        <mxCell id="completion_risk" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=left;spacingLeft=14" value="完成度与主要风险&#xa;&#xa;完成度：&#xa;V1.0 M0-M4：100%&#xa;V1.1-A/B/C/D：100%（限定文本源 workspace query）&#xa;RC1/RC2/RC3：100%&#xa;RC4 trace fix + re-smoke：100%（受限范围）&#xa;&#xa;高风险：&#xa;能力声明被扩大成 all-session / all-source-type&#xa;&#xa;中高风险：&#xa;前后端合同漂移&#xa;多格式支持误判&#xa;fixtures / artifacts 泄漏本地路径" vertex="1">
+        <mxCell id="completion_risk" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#FFF7ED;strokeColor=#EA580C;fontSize=13;align=left;spacingLeft=14" value="完成度与主要风险&#10;&#10;完成度：&#10;V1.0 M0-M4：100%&#10;V1.1-A/B/C/D：100%（限定文本源 workspace query）&#10;RC1/RC2/RC3/RC5：100%&#10;RC4 trace fix + re-smoke：100%（受限范围）&#10;S1 session precise navigation：100%（限定文本源 session query）&#10;&#10;高风险：&#10;能力声明被扩大成 all-session / all-source-type&#10;&#10;中高风险：&#10;非文本 source type contract 缺口&#10;前后端合同漂移&#10;fixtures / artifacts 泄漏本地路径" vertex="1">
           <mxGeometry height="330" width="620" x="790" y="1390" as="geometry" />
         </mxCell>
-        <mxCell id="swot" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F5F3FF;strokeColor=#7C3AED;fontSize=13;align=left;spacingLeft=14" value="SWOT 摘要&#xa;&#xa;S 优势：&#xa;adapter 边界清晰；B/C/D/RC4 真实 HTTP + 浏览器 smoke 证据完整；No False Green 纪律较强。&#xa;&#xa;W 劣势：&#xa;只覆盖文本源 workspace query 和 RC4 registry trace；文档和阶段维护成本高。&#xa;&#xa;O 机会：&#xa;trace contract 已补齐 scoped 缺口；session precise navigation 可复用现有 Drawer / unit / span 基础。&#xa;&#xa;T 威胁：&#xa;backend contract 漂移会造成假 ready；多格式/Assessment/Governance 并行会扩大风险面。" vertex="1">
+        <mxCell id="swot" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F5F3FF;strokeColor=#7C3AED;fontSize=13;align=left;spacingLeft=14" value="SWOT 摘要&#10;&#10;S 优势：&#10;adapter 边界清晰；B/C/D/RC4/S1 真实 HTTP + 浏览器 smoke 证据完整；No False Green 纪律较强。&#10;&#10;W 劣势：&#10;只覆盖文本源 workspace/session query 和 RC4 registry trace；all-source-type 未验证；文档和阶段维护成本高。&#10;&#10;O 机会：&#10;trace contract 已补齐 scoped 缺口；S1-FE 证明 session query citation 可复用 Drawer / unit / span 高亮基础；下一步可进入 source type 合同发现。&#10;&#10;T 威胁：&#10;backend contract 漂移会造成假 ready；把文本源 session smoke 扩大成 all-session / all-source-type ready 会导致声明失真；多格式/Assessment/Governance 并行会扩大风险面。" vertex="1">
           <mxGeometry height="330" width="620" x="1490" y="1390" as="geometry" />
         </mxCell>
-        <mxCell id="files" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=13;align=center;fontStyle=1" value="核心维护文档：v1_1_current_gap_analysis.md / .drawio、feature-route-matrix.md、evidence-navigation-contract.md、capability-manifest-contract.md、v1_1_rc4_source_trace_resmoke_report.md、v1_1_release_readiness_checklist.md。&#xa;维护规则：Source Trace 必须由 direct trace route 成功证明，不能用 Source Preview / DocumentUnit / EvidenceSpan 成功替代。" vertex="1">
-          <mxGeometry height="90" width="2060" x="70" y="1770" as="geometry" />
+        <mxCell id="future_stages" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F0F9FF;strokeColor=#0284C7;fontSize=13;align=left;spacingLeft=16;fontStyle=1" value="后续开发阶段划分&#10;&#10;V1.1-S2：All-Source-Type Contract Discovery，只做 PDF/PPT/JSON/video/audio 合同发现，不声明 ready。&#10;V1.1-S3：Multi-Format Backend Contract Enablement，后端合同、tests、fixtures 先行。&#10;V1.1-S4：Multi-Format Frontend Integration，前端只消费后端合同，不写 parser。&#10;V1.1-FINAL：最终人工验收、gap/drawio/checklist 同步、scoped commit / push。&#10;V1.3+：Assessment、Governance、Graph editing、Cloud sync 另开，不属于 V1.1 ready。&#10;&#10;已完成：S1-FE session citation 浏览器 smoke。" vertex="1">
+          <mxGeometry height="250" width="2060" x="70" y="1745" as="geometry" />
+        </mxCell>
+        <mxCell id="files" parent="1" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=13;align=center;fontStyle=1" value="核心维护文档：v1_1_current_gap_analysis.md / .drawio、feature-route-matrix.md、evidence-navigation-contract.md、capability-manifest-contract.md、v1_1_rc4_source_trace_resmoke_report.md、v1_1_release_readiness_checklist.md。&#10;维护规则：Source Trace 必须由 direct trace route 成功证明，不能用 Source Preview / DocumentUnit / EvidenceSpan 成功替代。" vertex="1">
+          <mxGeometry height="90" width="2060" x="70" y="2030" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

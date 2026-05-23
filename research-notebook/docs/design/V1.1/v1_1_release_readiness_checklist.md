@@ -6,6 +6,8 @@ RC1 最终验证时间：2026-05-21T03:05:33Z.
 RC2 live experience smoke 时间：2026-05-21T03:42:19Z.
 RC4 source trace re-smoke 时间：2026-05-22.
 RC5 final release sync 验证时间：2026-05-22T03:55:48Z.
+S1-FIX session precise navigation re-smoke 时间：2026-05-23.
+S1-FE session browser smoke 时间：2026-05-23.
 
 ## Status Table
 
@@ -19,12 +21,14 @@ RC5 final release sync 验证时间：2026-05-22T03:55:48Z.
 | V1.1-RC2 live experience smoke | PASS | `v1_1_rc2_live_experience_smoke_report.md` |
 | V1.1-RC4 source trace re-smoke | PASS | `v1_1_rc4_source_trace_resmoke_report.md`; registry `source_id` trace returned HTTP 200 |
 | V1.1-RC5 final release sync | PASS_READY_FOR_SCOPED_COMMIT | `v1_1_rc5_final_release_sync.md` |
+| V1.1-S1 session precise navigation API smoke | API_SMOKE_READY | `v1_1_s1_session_precise_navigation_smoke_report.md`; S1-FIX returned `HAS_EVIDENCE_SPAN_IDS`, unit detail and EvidenceSpan detail resolved |
+| V1.1-S1-FE session citation browser smoke | PASS | `v1_1_s1_fe_session_browser_smoke_report.md`; session citation click opened Drawer, selected DocumentUnit, and rendered EvidenceSpan highlight |
 | EvidenceSpan highlight visible | PASS | browser smoke artifact under `.smoke-artifacts/` |
 | Precise evidence navigation browser-release-ready | PASS | limited to supported text-source workspace query citations carrying `source_id + unit_id + evidence_id` |
 | Source trace integration | LIMITED PASS | Only for registry source_id-backed sources covered by RC4 smoke |
 | all-source-type source trace | NOT_READY | RC4 only covers registry source_id-backed text source trace |
 | trace-unavailable fallback | DEGRADED_ACCEPTED | Still accepted for unsupported or failing trace cases |
-| all-session precise navigation | NOT_READY | session query EvidenceSpan shape not smoked |
+| all-session precise navigation | NOT_READY | S1-FE covers only data_service-supported text-source session query citations carrying resolvable ids; all-session scope remains unverified |
 | all-source-type precise backjump | NOT_READY | only text-source workspace query path smoked |
 | Multi-format ingestion | NOT_READY | not in V1.1 scope |
 | Assessment | NOT_READY | not in V1.1 scope |
@@ -60,6 +64,32 @@ direct source trace: HTTP 200
 decision: source trace integration is LIMITED PASS for RC4-covered registry source_id-backed sources
 ```
 
+Latest S1-FIX session precise navigation smoke:
+
+```text
+npm run smoke:v1.1-s1-session: completed
+workspace_id: rn-v11-s1-session-1779552117955-workspace
+source_id: src_103b26d7f9363bae
+session_id: ksess_a92bf2adc1fe348a
+session build: succeeded
+session query evidence shape: HAS_EVIDENCE_SPAN_IDS
+unit detail resolution: PASS
+EvidenceSpan resolution: PASS
+decision: session precise navigation is API_SMOKE_READY; S1-FE browser smoke later verified the UI click path
+```
+
+Latest S1-FE session browser smoke:
+
+```text
+npm run smoke:v1.1-s1-fe-browser: completed
+workspace_id: rn-v11-s1-fe-session-1779552117975-workspace
+source_id: src_730f2fb42bc6a574
+session_id: ksess_369913602193cc25
+session citation render: PASS
+EvidenceSpan highlight visible: PASS
+decision: session precise navigation is BROWSER_SMOKE_READY for supported text-source session query citations
+```
+
 ## Boundary Checks
 
 ```text
@@ -71,6 +101,17 @@ no frontend parser logic
 no dangerous HTML rendering
 ```
 
+## Manual Acceptance Distance
+
+| Acceptance target | Remaining stages | Current basis | Next action |
+| --- | --- | --- | --- |
+| Workspace text-source EvidenceSpan navigation | 0 | HTTP smoke, browser visual smoke, and RC2 live experience smoke passed | Manual acceptance can run on the supported workspace query path |
+| Registry source_id source trace | 0 | RC4 direct trace returned HTTP 200 for covered text source | Manual acceptance can run on the scoped RC4 path |
+| Session precise navigation | 0 | S1-FIX returned `HAS_EVIDENCE_SPAN_IDS`; S1-FE clicked the session citation and rendered EvidenceSpan highlight | Manual acceptance can run on the supported session query path |
+| All-source-type precise backjump | Not in current acceptance scope | Only text source has been smoked | Start All-Source-Type Contract Discovery after session path is fixed |
+
+Session precise navigation has reached manual acceptance for the supported text-source session query path. Do not generalize this result to all sessions or all source types.
+
 ## Final Declaration
 
 Allowed:
@@ -81,6 +122,10 @@ ResearchNotebook V1.1-D EvidenceSpan Highlight is browser-smoke-ready for data_s
 ResearchNotebook V1.1 precise evidence navigation is browser-smoke-ready for the same supported workspace query citation path.
 
 ResearchNotebook source trace integration is ready for registry source_id-backed sources covered by RC4 smoke.
+
+ResearchNotebook session precise evidence navigation is API-smoke-ready for data_service-supported text-source session query citations carrying source_id + unit_id + evidence_id.
+
+ResearchNotebook session precise evidence navigation is browser-smoke-ready for data_service-supported text-source session query citations carrying source_id + unit_id + evidence_id.
 ```
 
 Not allowed:

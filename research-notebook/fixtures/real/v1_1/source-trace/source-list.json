@@ -1,5 +1,5 @@
 {
-  "workspace_id": "rn-v11-rc4-trace-1779422315630-workspace",
+  "workspace_id": "rn-v11-rc4-trace-1779440653458-workspace",
   "operation_id": null,
   "status": "ok",
   "warnings": [],
@@ -8,16 +8,16 @@
   "data": {
     "items": [
       {
-        "workspace_id": "rn-v11-rc4-trace-1779422315630-workspace",
+        "workspace_id": "rn-v11-rc4-trace-1779440653458-workspace",
         "source_id": "src_cce80f0ca6dad217",
-        "title": "rn-v11-rc4-trace-1779422315630 Source Trace Source",
+        "title": "rn-v11-rc4-trace-1779440653458 Source Trace Source",
         "status": "active",
         "ingest_status": "pending",
         "metadata": {
           "stage": "v1.1-rc4-source-trace"
         },
-        "created_at": "2026-05-22T03:58:35.712695Z",
-        "updated_at": "2026-05-22T03:58:35.712695Z",
+        "created_at": "2026-05-22T09:04:13.538323Z",
+        "updated_at": "2026-05-22T09:04:13.538323Z",
         "removed_at": null,
         "remove_reason": "",
         "artifact_ref": "source://src_cce80f0ca6dad217"

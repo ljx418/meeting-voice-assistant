@@ -1,7 +1,7 @@
 # ResearchNotebook V1.1 Design Docs
 
-文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed；source trace integration is scoped LIMITED PASS。
-日期：2026-05-22。
+文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed；S1-FIX session precise navigation API smoke passed；S1-FE session browser smoke passed。
+日期：2026-05-23。
 
 ## Positioning
 
@@ -28,6 +28,8 @@ V1.1 不进入 multi-format ingestion、Assessment、Quality/Governance console�
 - `V1.1-D real data_service HTTP smoke` 已通过：workspace query 返回 `source_id + unit_id + evidence_id`，EvidenceSpan route 返回 `normalized_text / half_open / document_unit_text` offset contract；
 - `V1.1-D-RC browser visual smoke` 已通过：真实浏览器打开 app、创建 workspace/source、打开 Source Preview、加载 DocumentUnit、提交 workspace query、点击 jumpable citation，并看到 EvidenceSpan 高亮；
 - `V1.1-RC4 Source Trace Re-Smoke` 已执行：source create/list/get 返回 registry `source_id`，workspace query evidence 也观察到 registry source id，direct `sources.trace` 返回 HTTP 200；
+- `V1.1-S1 Session Precise Navigation Smoke` 已重新执行：S1-FIX 后 session query 返回可解析的 `source_id + unit_id + evidence_id` evidence item，unit detail 和 EvidenceSpan detail 均可解析；
+- `V1.1-S1-FE Session Browser Smoke` 已通过：session answer citation 在浏览器中打开 Source Preview Drawer、选中 DocumentUnit 并显示 EvidenceSpan 高亮；
 - 可以声明 Source Preview ready for data_service-supported source-level text sources；
 - 可以声明 DocumentUnit navigation disabled shell ready；
 - 可以声明 data_service DocumentUnit backend contract ready for frontend integration after backend change review；
@@ -36,6 +38,12 @@ V1.1 不进入 multi-format ingestion、Assessment、Quality/Governance console�
 - 可以声明 ResearchNotebook V1.1-D EvidenceSpan Highlight browser-smoke-ready for data_service-supported text-source workspace query citations；
 - 可以声明 ResearchNotebook V1.1 precise evidence navigation browser-smoke-ready for the same supported workspace query path；
 - 可以声明 source trace integration ready for registry source_id-backed sources covered by RC4 smoke。
+
+## Manual Acceptance Distance
+
+如果手动验收目标是当前已经完成的 workspace query 文本源证据导航路径，则还剩 0 个开发阶段。
+
+如果手动验收目标是 session precise navigation，则还剩 0 个开发阶段。S1-FE 已用浏览器路径证明 session answer citation 能打开 Drawer、选择正确 unit、显示 EvidenceSpan 高亮。
 
 ## Documents
 
@@ -64,6 +72,10 @@ V1.1 不进入 multi-format ingestion、Assessment、Quality/Governance console�
 | `v1_1_rc2_live_experience_smoke_report.md` | V1.1-RC2 live experience smoke report using already-running local frontend/backend services。 |
 | `v1_1_rc4_source_trace_resmoke_report.md` | V1.1-RC4 source trace direct route re-smoke result；records scoped source trace integration PASS。 |
 | `v1_1_rc5_final_release_sync.md` | V1.1-RC5 final release sync scope, verification evidence, still-not-ready boundaries, and scoped commit/push rules。 |
+| `v1_1_s1_session_precise_navigation_smoke_report.md` | V1.1-S1 session precise navigation smoke result；records historical `GRAPH_ONLY_NO_EVIDENCE`, S1-FIX `HAS_EVIDENCE_SPAN_IDS`, and API-smoke-ready decision。 |
+| `v1_1_s1_fe_session_browser_smoke_report.md` | V1.1-S1-FE browser smoke result；records session citation click, Drawer navigation, selected unit, EvidenceSpan highlight, and browser-smoke-ready decision。 |
+| `v1_1_s1_fe_sync_status.md` | V1.1-S1-FE sync status；records latest S1 API/browser smoke evidence and the audited S2 entry direction。 |
+| `v1_1_manual_acceptance_report.md` | V1.1 manual acceptance report；records manually acceptable workspace/session text-source scope, checklist, and fill-in fields。 |
 
 ## Entry Gate
 
@@ -104,6 +116,8 @@ V1.1-D frontend EvidenceSpan highlight: BROWSER_SMOKE_READY_FOR_SUPPORTED_TEXT_W
 V1.1-D real data_service HTTP smoke: PASS_WITH_ACCEPTED_DEGRADED_STATES
 V1.1-D browser visual smoke: PASS
 V1.1-RC4 source trace re-smoke: PASS_SCOPED_REGISTRY_SOURCE_TRACE
+V1.1-S1 session precise navigation smoke: API_SMOKE_READY_HAS_EVIDENCE_SPAN_IDS
+V1.1-S1-FE session browser smoke: BROWSER_SMOKE_READY_FOR_SUPPORTED_TEXT_SESSION_QUERY
 ```
 
-Do not generalize this to all sessions or all source types. Source trace integration is scoped to registry source_id-backed sources covered by RC4 smoke.
+Do not generalize this to all sessions or all source types. Source trace integration is scoped to registry source_id-backed sources covered by RC4 smoke. Session precise navigation is scoped to data_service-supported text-source session query citations carrying `source_id + unit_id + evidence_id`.

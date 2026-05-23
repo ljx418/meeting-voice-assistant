@@ -10,9 +10,7 @@ const dataServiceBaseUrl = process.env.RN_DATA_SERVICE_BASE_URL ?? process.env.V
 const timestamp = Date.now();
 const prefix = process.env.RN_BROWSER_WORKSPACE_PREFIX ?? `rn-v11d-browser-${timestamp}`;
 const artifactsDir = join(process.cwd(), '.smoke-artifacts', 'v1_1_d_browser', String(timestamp));
-const chromePath =
-  process.env.RN_CHROMIUM_PATH ??
-  '/Users/Zhuanz/Library/Caches/ms-playwright/chromium-1223/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing';
+const chromePath = resolveChromiumPath();
 const chromePort = Number(process.env.RN_CHROME_REMOTE_DEBUGGING_PORT ?? 9223);
 const userDataDir = join('/private/tmp', `rn-v11d-browser-profile-${timestamp}`);
 
@@ -35,6 +33,20 @@ function mark(name, status, detail = '') {
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function resolveChromiumPath() {
+  if (process.env.RN_CHROMIUM_PATH) return process.env.RN_CHROMIUM_PATH;
+  const candidates = [
+    '/Applications/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing',
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    '/usr/bin/google-chrome',
+    '/usr/bin/chromium',
+    '/usr/bin/chromium-browser',
+    '/snap/bin/chromium'
+  ];
+  return candidates.find((candidate) => existsSync(candidate)) ?? '';
 }
 
 async function waitFor(fn, label, timeoutMs = 30_000) {
@@ -79,8 +91,10 @@ async function cleanupWorkspace() {
 }
 
 function assertChromiumAvailable() {
-  if (!existsSync(chromePath)) {
-    throw new Error(`Chromium executable not found: ${chromePath}`);
+  if (!chromePath || !existsSync(chromePath)) {
+    throw new Error(
+      'Chromium executable not found. Set RN_CHROMIUM_PATH to a local Chrome/Chromium executable, or install Chrome in a standard application path.'
+    );
   }
 }
 

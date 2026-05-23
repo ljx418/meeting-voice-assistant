@@ -7,6 +7,7 @@ const workspacesPath = ['', 'api', 'workspaces'].join('/');
 const workspacePath = (workspaceId: string) => [workspacesPath, workspaceId].join('/');
 const sourcesPath = (workspaceId: string) => [workspacePath(workspaceId), 'sources'].join('/');
 const capabilitiesPath = (workspaceId: string) => [workspacePath(workspaceId), 'capabilities'].join('/');
+const sourceTracePath = (workspaceId: string, sourceId: string) => [sourcesPath(workspaceId), sourceId, 'trace'].join('/');
 const sourcePreviewPath = (workspaceId: string, sourceId: string) => [sourcesPath(workspaceId), sourceId, 'preview'].join('/');
 const sourceUnitsPath = (workspaceId: string, sourceId: string) => [sourcesPath(workspaceId), sourceId, 'units'].join('/');
 const sourceUnitPath = (workspaceId: string, sourceId: string, unitId: string) => [sourceUnitsPath(workspaceId, sourceId), unitId].join('/');
@@ -141,6 +142,92 @@ describe('dataServiceClient workspace wrappers', () => {
     await expect(client.sources.trace('ws_1', 'src_1')).resolves.toEqual(
       expect.objectContaining({ source_id: 'src_1', trace_available: true })
     );
+    expect(fetchImpl).toHaveBeenCalledWith(sourceTracePath('ws_1', 'src_1'), expect.objectContaining({ method: 'GET' }));
+  });
+
+  it('rejects source trace responses for a different source id', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        source_id: 'src_other',
+        title: 'System design',
+        artifact_refs: ['artifact:1']
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.trace('ws_1', 'src_1')).rejects.toMatchObject({
+      code: 'version_or_schema_mismatch'
+    });
+  });
+
+  it('rejects empty metadata-only source trace responses without explicit unavailable state', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        source_id: 'src_1',
+        metadata: { imported_at: 'today' }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.trace('ws_1', 'src_1')).rejects.toMatchObject({
+      code: 'version_or_schema_mismatch'
+    });
+  });
+
+  it('rejects title and artifact-only source trace responses as metadata-only', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        source_id: 'src_1',
+        title: 'System design',
+        artifact_refs: ['artifact:1']
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.trace('ws_1', 'src_1')).rejects.toMatchObject({
+      code: 'version_or_schema_mismatch'
+    });
+  });
+
+  it('accepts source trace responses with summary content', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        source_id: 'src_1',
+        title: 'System design',
+        summary: 'Imported from the source registry.'
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.trace('ws_1', 'src_1')).resolves.toEqual(
+      expect.objectContaining({ source_id: 'src_1', trace_available: true, summary: 'Imported from the source registry.' })
+    );
+  });
+
+  it('accepts explicit unavailable source trace responses without trace content', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        source_id: 'src_1',
+        trace_available: false,
+        unavailable_reason: 'trace_not_built'
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.trace('ws_1', 'src_1')).resolves.toEqual(
+      expect.objectContaining({ source_id: 'src_1', trace_available: false })
+    );
+  });
+
+  it('rejects artifact refs, source slugs, and raw paths as trace source ids before fetch', async () => {
+    const fetchImpl = vi.fn();
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.trace('ws_1', 'source://src_1')).rejects.toMatchObject({ code: 'validation_error' });
+    await expect(client.sources.trace('ws_1', 'source-src-architecture-notes')).rejects.toMatchObject({ code: 'validation_error' });
+    await expect(client.sources.trace('ws_1', '/tmp/raw-source.txt')).rejects.toMatchObject({ code: 'validation_error' });
+    await expect(client.sources.trace('ws_1', 'C:\\raw\\source.txt')).rejects.toMatchObject({ code: 'validation_error' });
+    expect(fetchImpl).not.toHaveBeenCalled();
   });
 
   it('loads V1.1 capability manifest successfully', async () => {
