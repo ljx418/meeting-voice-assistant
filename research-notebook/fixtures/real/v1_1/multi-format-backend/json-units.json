@@ -1,0 +1,54 @@
+{
+  "workspace_id": "rn-v11-s3-multiformat-1779595456314-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_87b95b9c07184aaa",
+      "artifact_ref": "source://src_87b95b9c07184aaa"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "units": {
+      "source_id": "src_87b95b9c07184aaa",
+      "items": [
+        {
+          "unit_id": "unit_ed42c82daf11f1bd",
+          "source_id": "src_87b95b9c07184aaa",
+          "unit_type": "json_node",
+          "title": "V1.1 S3 JSON Source / summary",
+          "text_preview": "\"jsonanchor queue evidence proves json node navigation\"",
+          "content_type": "text/plain",
+          "order_index": 0,
+          "artifact_ref": "unit://src_87b95b9c07184aaa/unit_ed42c82daf11f1bd",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 55,
+          "max_preview_size_bytes": 50000,
+          "json_path": "<redacted>"
+        },
+        {
+          "unit_id": "unit_e468905c6d5832e6",
+          "source_id": "src_87b95b9c07184aaa",
+          "unit_type": "json_node",
+          "title": "V1.1 S3 JSON Source / status",
+          "text_preview": "\"supported\"",
+          "content_type": "text/plain",
+          "order_index": 1,
+          "artifact_ref": "unit://src_87b95b9c07184aaa/unit_e468905c6d5832e6",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 11,
+          "max_preview_size_bytes": 50000,
+          "json_path": "<redacted>"
+        }
+      ],
+      "next_cursor": null,
+      "limit": 20,
+      "has_more": false
+    }
+  }
+}

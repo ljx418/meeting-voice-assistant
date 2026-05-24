@@ -90,7 +90,20 @@ _SOURCE_PREVIEW_SCHEMA_VERSION = "v1.1-document-units"
 _SOURCE_PREVIEW_MAX_BYTES = 50_000
 _DOCUMENT_UNIT_DEFAULT_LIMIT = 50
 _DOCUMENT_UNIT_MAX_LIMIT = 100
-_TEXT_PREVIEW_SUFFIXES = {".txt", ".text", ".md", ".markdown"}
+_TEXT_PREVIEW_SUFFIXES = {".txt", ".text", ".md", ".markdown", ".json"}
+_SOURCE_TYPE_BY_SUFFIX = {
+    ".txt": "text",
+    ".text": "text",
+    ".md": "markdown",
+    ".markdown": "markdown",
+    ".json": "json",
+}
+_SOURCE_PREVIEW_CONTENT_TYPE = {
+    "text": "text/plain",
+    "markdown": "text/markdown",
+    "json": "text/plain",
+}
+_SOURCE_PREVIEW_SUPPORTED_TYPES = {"text", "markdown", "json"}
 _SOURCE_ID_PATTERN = re.compile(r"^src_[A-Fa-f0-9]{16}$")
 _DOCUMENT_UNIT_ID_PATTERN = re.compile(r"^unit_[A-Fa-f0-9]{16}$")
 _EVIDENCE_ID_PATTERN = re.compile(r"^ev_[A-Fa-f0-9]{16}$")
@@ -819,8 +832,8 @@ def _infer_source_type(record: dict[str, Any]) -> str:
     if explicit:
         return explicit
     suffix = Path(str(record.get("path") or "")).suffix.lower()
-    if suffix in _TEXT_PREVIEW_SUFFIXES:
-        return "text"
+    if suffix in _SOURCE_TYPE_BY_SUFFIX:
+        return _SOURCE_TYPE_BY_SUFFIX[suffix]
     return suffix.lstrip(".") or "unknown"
 
 
@@ -844,6 +857,16 @@ def _source_preview_manifest(*, workspace_id: str) -> dict:
                 "source_type": "text",
                 "preview": "unit",
                 "locators": [],
+            },
+            {
+                "source_type": "markdown",
+                "preview": "unit",
+                "locators": ["offset"],
+            },
+            {
+                "source_type": "json",
+                "preview": "unit",
+                "locators": ["json_path"],
             }
         ],
     }
@@ -859,11 +882,11 @@ def _source_preview_payload(workspace: Path, *, workspace_id: str, source_id: st
         "title": title,
         "source_type": source_type,
         "preview_available": False,
-        "content_type": "text/plain",
+        "content_type": _SOURCE_PREVIEW_CONTENT_TYPE.get(source_type, "text/plain"),
     }
     if record.get("status", "active") != "active":
         return {**base_preview, "unsupported_reason": "preview_not_available"}
-    if source_type != "text":
+    if source_type not in _SOURCE_PREVIEW_SUPPORTED_TYPES:
         return {**base_preview, "unsupported_reason": "source_type_not_supported"}
     path_value = str(record.get("path") or "").strip()
     if not path_value:
@@ -930,6 +953,76 @@ def _document_unit_segments(text: str) -> list[str]:
     return segments or ([text] if text else [])
 
 
+def _json_document_unit_segments(text: str) -> list[tuple[str, str, str]]:
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError:
+        stripped = text.strip()
+        return [("$", "JSON document", stripped)] if stripped else []
+
+    if isinstance(parsed, dict):
+        items = list(parsed.items())
+        if not items:
+            return [("$", "JSON object", "{}")]
+        return [
+            (
+                f"$.{key}",
+                str(key),
+                json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True),
+            )
+            for key, value in items
+        ]
+    if isinstance(parsed, list):
+        if not parsed:
+            return [("$", "JSON array", "[]")]
+        return [
+            (
+                f"$[{index}]",
+                f"Item {index + 1}",
+                json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True),
+            )
+            for index, value in enumerate(parsed)
+        ]
+    return [("$", "JSON value", json.dumps(parsed, ensure_ascii=False, indent=2, sort_keys=True))]
+
+
+def _append_document_unit(
+    units: list[dict],
+    *,
+    source_id: str,
+    source_title: str,
+    order_index: int,
+    text: str,
+    unit_type: str,
+    content_type: str,
+    title: str,
+    json_path: str | None = None,
+) -> None:
+    raw = text.encode("utf-8", errors="replace")
+    truncated = len(raw) > _SOURCE_PREVIEW_MAX_BYTES
+    if truncated:
+        raw = raw[:_SOURCE_PREVIEW_MAX_BYTES]
+    text_preview = raw.decode("utf-8", errors="replace")
+    unit_id = _stable_document_unit_id(source_id=source_id, order_index=order_index, text=text)
+    unit = {
+        "unit_id": unit_id,
+        "source_id": source_id,
+        "unit_type": unit_type,
+        "title": title or (source_title if order_index == 0 else f"{source_title} / Section {order_index + 1}"),
+        "text_preview": text_preview,
+        "content_type": content_type,
+        "order_index": order_index,
+        "artifact_ref": f"unit://{source_id}/{unit_id}",
+        "preview_available": True,
+        "preview_truncated": truncated,
+        "preview_size_bytes": len(text.encode("utf-8", errors="replace")),
+        "max_preview_size_bytes": _SOURCE_PREVIEW_MAX_BYTES,
+    }
+    if json_path:
+        unit["json_path"] = json_path
+    units.append(unit)
+
+
 def _document_unit_items(workspace: Path, *, workspace_id: str, source_id: str) -> tuple[list[dict], str | None]:
     preview = _source_preview_payload(workspace, workspace_id=workspace_id, source_id=source_id)
     if not preview.get("preview_available"):
@@ -937,29 +1030,34 @@ def _document_unit_items(workspace: Path, *, workspace_id: str, source_id: str) 
 
     units: list[dict] = []
     source_title = str(preview.get("title") or source_id)
-    for order_index, segment in enumerate(_document_unit_segments(str(preview.get("text_preview") or ""))):
-        raw = segment.encode("utf-8", errors="replace")
-        truncated = len(raw) > _SOURCE_PREVIEW_MAX_BYTES
-        if truncated:
-            raw = raw[:_SOURCE_PREVIEW_MAX_BYTES]
-        text_preview = raw.decode("utf-8", errors="replace")
-        unit_id = _stable_document_unit_id(source_id=source_id, order_index=order_index, text=segment)
-        units.append(
-            {
-                "unit_id": unit_id,
-                "source_id": source_id,
-                "unit_type": "section",
-                "title": source_title if len(units) == 0 else f"{source_title} / Section {order_index + 1}",
-                "text_preview": text_preview,
-                "content_type": "text/plain",
-                "order_index": order_index,
-                "artifact_ref": f"unit://{source_id}/{unit_id}",
-                "preview_available": True,
-                "preview_truncated": truncated,
-                "preview_size_bytes": len(segment.encode("utf-8", errors="replace")),
-                "max_preview_size_bytes": _SOURCE_PREVIEW_MAX_BYTES,
-            }
-        )
+    source_type = str(preview.get("source_type") or "text")
+    content_type = str(preview.get("content_type") or _SOURCE_PREVIEW_CONTENT_TYPE.get(source_type, "text/plain"))
+    text = str(preview.get("text_preview") or "")
+    if source_type == "json":
+        for order_index, (json_path, label, segment) in enumerate(_json_document_unit_segments(text)):
+            _append_document_unit(
+                units,
+                source_id=source_id,
+                source_title=source_title,
+                order_index=order_index,
+                text=segment,
+                unit_type="json_node",
+                content_type="text/plain",
+                title=f"{source_title} / {label}",
+                json_path=json_path,
+            )
+    else:
+        for order_index, segment in enumerate(_document_unit_segments(text)):
+            _append_document_unit(
+                units,
+                source_id=source_id,
+                source_title=source_title,
+                order_index=order_index,
+                text=segment,
+                unit_type="section",
+                content_type=content_type,
+                title=source_title if order_index == 0 else f"{source_title} / Section {order_index + 1}",
+            )
     units.sort(key=lambda item: (int(item.get("order_index") or 0), str(item.get("unit_id") or "")))
     return units, None
 
@@ -2405,6 +2503,7 @@ async def query_target_session(workspace_id: str, session_id: str, request: Targ
         session_id=session_id,
         query=request.query,
         top_k=request.top_k,
+        evidence_resolver=lambda query, top_k: _query_evidence_items(workspace, workspace_id=meta["workspace_id"], query=query, top_k=top_k),
         envelope=_target_envelope,
         blocked=_blocked,
     )

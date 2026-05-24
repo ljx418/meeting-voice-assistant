@@ -1,6 +1,6 @@
 # ResearchNotebook V1.1-S2 All-Source-Type Contract Discovery
 
-文档状态：S2 contract discovery 已执行；当前 data_service 只对 `text` 声明 unit-level preview，非文本 source type 仍为 NOT_READY / UNSUPPORTED。
+文档状态：S2 contract discovery 已执行；这是 S3 之前的发现基线。S3 后 `markdown/json` 已进入 backend/API-smoke-ready，PDF/PPTX/HTML/video/audio 仍为 NOT_READY / UNSUPPORTED。
 日期：2026-05-23。
 
 ## Summary
@@ -29,13 +29,13 @@ S2_ALL_SOURCE_TYPE_DISCOVERY_DECISION CONTRACT_DISCOVERY_COMPLETE
 
 ## Capability Manifest
 
-data_service 当前 manifest 只声明：
+S2 执行时 data_service manifest 只声明：
 
 ```text
 supported_source_types = text:unit
 ```
 
-这意味着：
+S2 当时意味着：
 
 - `text` 支持 source preview、DocumentUnit、EvidenceSpan 当前路径；
 - `pdf` / `pptx` / `json` / `markdown` / `html` / `video` / `audio` 未在 manifest 中声明 ready；
@@ -85,9 +85,9 @@ Fixtures were sanitized. They must not contain raw filesystem paths, cache paths
 
 ## Next Stage Audit
 
-S3 cannot proceed as a frontend implementation stage. S2 found no non-text source type with preview/unit/evidence backend contract ready.
+S3 could not proceed as a frontend implementation stage. S2 found no non-text source type with preview/unit/evidence backend contract ready.
 
-Correct next stage:
+Correct next stage at that time:
 
 ```text
 V1.1-S3 Multi-Format Backend Contract Enablement
@@ -108,6 +108,14 @@ Allowed:
 ```text
 V1.1-S2 all-source-type contract discovery is complete.
 Non-text source types remain blocked by data_service backend contract for preview/unit/evidence navigation.
+```
+
+S3 follow-up:
+
+```text
+S3 completed backend/API-smoke-ready for markdown and json.
+Frontend/browser readiness for markdown/json remains blocked until S4.
+PDF/PPTX/HTML/video/audio remain backend-contract blocked.
 ```
 
 Still NOT_READY:

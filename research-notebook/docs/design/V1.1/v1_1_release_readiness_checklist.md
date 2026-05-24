@@ -9,6 +9,8 @@ RC5 final release sync 验证时间：2026-05-22T03:55:48Z.
 S1-FIX session precise navigation re-smoke 时间：2026-05-23.
 S1-FE session browser smoke 时间：2026-05-23.
 S2 all-source-type contract discovery 时间：2026-05-23.
+S3 markdown/json backend contract smoke 时间：2026-05-24.
+S4 markdown/json frontend browser smoke 时间：2026-05-24.
 
 ## Status Table
 
@@ -24,15 +26,17 @@ S2 all-source-type contract discovery 时间：2026-05-23.
 | V1.1-RC5 final release sync | PASS_READY_FOR_SCOPED_COMMIT | `v1_1_rc5_final_release_sync.md` |
 | V1.1-S1 session precise navigation API smoke | API_SMOKE_READY | `v1_1_s1_session_precise_navigation_smoke_report.md`; S1-FIX returned `HAS_EVIDENCE_SPAN_IDS`, unit detail and EvidenceSpan detail resolved |
 | V1.1-S1-FE session citation browser smoke | PASS | `v1_1_s1_fe_session_browser_smoke_report.md`; session citation click opened Drawer, selected DocumentUnit, and rendered EvidenceSpan highlight |
-| V1.1-S2 all-source-type contract discovery | COMPLETE | `v1_1_s2_all_source_type_contract_discovery.md`; manifest only declares `text:unit`, non-text preview/unit/evidence remain blocked |
+| V1.1-S2 all-source-type contract discovery | COMPLETE | `v1_1_s2_all_source_type_contract_discovery.md`; discovery baseline before S3 |
+| V1.1-S3 markdown/json backend contract | API_SMOKE_READY | `v1_1_s3_multi_format_backend_readiness.md`; manifest declares `markdown:unit` and `json:unit`; preview, DocumentUnit, query evidence and EvidenceSpan resolved |
+| V1.1-S4 markdown/json frontend browser smoke | PASS | `v1_1_s4_multi_format_frontend_smoke_report.md`; markdown/json Preview, DocumentUnit and EvidenceSpan highlight visible |
 | EvidenceSpan highlight visible | PASS | browser smoke artifact under `.smoke-artifacts/` |
 | Precise evidence navigation browser-release-ready | PASS | limited to supported text-source workspace query citations carrying `source_id + unit_id + evidence_id` |
 | Source trace integration | LIMITED PASS | Only for registry source_id-backed sources covered by RC4 smoke |
 | all-source-type source trace | NOT_READY | RC4 only covers registry source_id-backed text source trace |
 | trace-unavailable fallback | DEGRADED_ACCEPTED | Still accepted for unsupported or failing trace cases |
 | all-session precise navigation | NOT_READY | S1-FE covers only data_service-supported text-source session query citations carrying resolvable ids; all-session scope remains unverified |
-| all-source-type precise backjump | NOT_READY | only text-source workspace query path smoked |
-| Multi-format ingestion | NOT_READY | S2 discovery found only metadata source creation for non-text; native ingestion is not verified |
+| all-source-type precise backjump | NOT_READY | text/markdown/json have supported smoke paths; PDF/PPTX/HTML/video/audio are still not ready |
+| Multi-format ingestion | NOT_READY | S4 covers markdown/json UI paths only; native PDF/PPTX/video/audio ingestion is not verified |
 | Assessment | NOT_READY | not in V1.1 scope |
 | Quality/Governance console | NOT_READY | not in V1.1 scope |
 | Graph editing/governance | NOT_READY | not in V1.1 scope |
@@ -96,12 +100,35 @@ Latest S2 all-source-type discovery:
 
 ```text
 npm run smoke:v1.1-s2-discovery: completed
-workspace_id: rn-v11-s2-discovery-1779552792409-workspace
-capability manifest: text:unit
+workspace_id: rn-v11-s2-discovery-1779595137369-workspace
+capability manifest: text:unit, markdown:unit, json:unit
 text preview/unit/evidence: PASS
-pdf/pptx/json/markdown/html/video/audio preview: UNSUPPORTED
-pdf/pptx/json/markdown/html/video/audio units: UNSUPPORTED
-decision: CONTRACT_DISCOVERY_COMPLETE; non-text source types remain blocked by backend contract
+markdown preview/unit: PASS
+json preview/unit: PASS
+pdf/pptx/html/video/audio preview/units: UNSUPPORTED
+decision: CONTRACT_DISCOVERY_COMPLETE; S3 later proves markdown/json backend contracts
+```
+
+Latest S3 markdown/json backend contract smoke:
+
+```text
+npm run smoke:v1.1-s3-multiformat: completed
+workspace_id: rn-v11-s3-multiformat-1779595456314-workspace
+capability manifest: text:unit, markdown:unit, json:unit
+markdown preview/unit/query evidence/EvidenceSpan: PASS
+json preview/unit/query evidence/EvidenceSpan: PASS
+decision: READY_MARKDOWN_JSON
+```
+
+Latest S4 markdown/json frontend browser smoke:
+
+```text
+npm run smoke:v1.1-s4-multiformat-browser: completed
+workspace_id: rn-v11-s4-multiformat-1779596647207-workspace
+markdown preview/unit/highlight: PASS
+json preview/unit/highlight: PASS
+no /api/v1/knowledge request: PASS
+decision: BROWSER_SMOKE_READY_MARKDOWN_JSON
 ```
 
 ## Boundary Checks
@@ -122,7 +149,9 @@ no dangerous HTML rendering
 | Workspace text-source EvidenceSpan navigation | 0 | HTTP smoke, browser visual smoke, and RC2 live experience smoke passed | Manual acceptance can run on the supported workspace query path |
 | Registry source_id source trace | 0 | RC4 direct trace returned HTTP 200 for covered text source | Manual acceptance can run on the scoped RC4 path |
 | Session precise navigation | 0 | S1-FIX returned `HAS_EVIDENCE_SPAN_IDS`; S1-FE clicked the session citation and rendered EvidenceSpan highlight | Manual acceptance can run on the supported session query path |
-| All-source-type precise backjump | Not in current acceptance scope | S2 discovered non-text preview/unit/evidence backend contracts are missing | Start Multi-Format Backend Contract Enablement before any frontend ready claim |
+| Markdown/JSON source preview + unit/evidence backend | 0 | S3 backend/API smoke passed for markdown/json | Frontend/browser acceptance still requires S4 |
+| Markdown/JSON frontend precise navigation | 0 | S4 browser smoke passed | Manual acceptance can run on markdown/json workspace query path |
+| All-source-type precise backjump | Not in current acceptance scope | PDF/PPTX/HTML/video/audio preview/unit/evidence backend contracts are missing | Keep blocked until per-format backend contracts and browser smoke pass |
 
 Session precise navigation has reached manual acceptance for the supported text-source session query path. Do not generalize this result to all sessions or all source types.
 
@@ -140,6 +169,10 @@ ResearchNotebook source trace integration is ready for registry source_id-backed
 ResearchNotebook session precise evidence navigation is API-smoke-ready for data_service-supported text-source session query citations carrying source_id + unit_id + evidence_id.
 
 ResearchNotebook session precise evidence navigation is browser-smoke-ready for data_service-supported text-source session query citations carrying source_id + unit_id + evidence_id.
+
+data_service markdown/json source preview, DocumentUnit, query evidence, and EvidenceSpan backend contracts are API-smoke-ready.
+
+ResearchNotebook markdown/json source preview, DocumentUnit navigation, and EvidenceSpan highlight are browser-smoke-ready for data_service-supported markdown/json workspace query citations carrying source_id + unit_id + evidence_id.
 ```
 
 Not allowed:

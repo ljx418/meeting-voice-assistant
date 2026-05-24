@@ -1,0 +1,46 @@
+{
+  "workspace_id": "rn-v11-s3-multiformat-1779595456314-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [],
+  "data": {
+    "manifest": {
+      "workspace_id": "rn-v11-s3-multiformat-1779595456314-workspace",
+      "service_version": "0.1.0",
+      "schema_version": "v1.1-document-units",
+      "generated_at": "2026-05-24T04:04:16.378752Z",
+      "capabilities": {
+        "source_preview": true,
+        "document_units": true,
+        "evidence_spans": true,
+        "source_level_preview": true,
+        "unit_level_navigation": true,
+        "precise_span_highlight": true,
+        "citation_backjump": true
+      },
+      "supported_source_types": [
+        {
+          "source_type": "text",
+          "preview": "unit",
+          "locators": []
+        },
+        {
+          "source_type": "markdown",
+          "preview": "unit",
+          "locators": [
+            "offset"
+          ]
+        },
+        {
+          "source_type": "json",
+          "preview": "unit",
+          "locators": [
+            "json_path"
+          ]
+        }
+      ]
+    }
+  }
+}

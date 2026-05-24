@@ -57,6 +57,22 @@ def _import_text_source(client: TestClient, workspace_id: str, *, title="Archite
     return response.json()["data"]["sources"][0]["source_id"]
 
 
+def _import_typed_text_source(
+    client: TestClient,
+    workspace_id: str,
+    *,
+    source_type: str,
+    title: str,
+    content: str,
+) -> str:
+    response = client.post(
+        f"/api/workspaces/{workspace_id}/sources",
+        json={"texts": [{"title": title, "content": content, "metadata": {"source_type": source_type}}]},
+    )
+    assert response.status_code == 200
+    return response.json()["data"]["sources"][0]["source_id"]
+
+
 def test_v11be_capability_manifest_source_preview_contract(tmp_path, monkeypatch):
     root = tmp_path / "managed"
     monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
@@ -83,7 +99,11 @@ def test_v11be_capability_manifest_source_preview_contract(tmp_path, monkeypatch
         "precise_span_highlight": True,
         "citation_backjump": True,
     }
-    assert manifest["supported_source_types"] == [{"source_type": "text", "preview": "unit", "locators": []}]
+    assert manifest["supported_source_types"] == [
+        {"source_type": "text", "preview": "unit", "locators": []},
+        {"source_type": "markdown", "preview": "unit", "locators": ["offset"]},
+        {"source_type": "json", "preview": "unit", "locators": ["json_path"]},
+    ]
     _assert_no_internal_paths(payload)
 
 
@@ -117,6 +137,51 @@ def test_v11be_source_preview_success_for_registry_text_source(tmp_path, monkeyp
     assert "evidence_id" not in preview
     assert "locator" not in preview
     _assert_no_internal_paths(payload)
+
+
+def test_v11s3_source_preview_success_for_markdown_and_json_sources(tmp_path, monkeypatch):
+    root = tmp_path / "managed"
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
+
+    client = TestClient(app)
+    workspace_id = _create_workspace(client, "RN S3 Preview")
+    markdown_source_id = _import_typed_text_source(
+        client,
+        workspace_id,
+        source_type="markdown",
+        title="Markdown source",
+        content="# Release notes\n\nQueues absorb burst traffic.",
+    )
+    json_source_id = _import_typed_text_source(
+        client,
+        workspace_id,
+        source_type="json",
+        title="JSON source",
+        content='{"summary":"Queues absorb burst traffic","risk":"low"}',
+    )
+
+    markdown = client.get(f"/api/workspaces/{workspace_id}/sources/{markdown_source_id}/preview")
+    assert markdown.status_code == 200
+    markdown_preview = markdown.json()["data"]["preview"]
+    assert markdown_preview["source_id"] == markdown_source_id
+    assert markdown_preview["source_type"] == "markdown"
+    assert markdown_preview["preview_available"] is True
+    assert markdown_preview["content_type"] == "text/markdown"
+    assert "# Release notes" in markdown_preview["text_preview"]
+    assert "units" not in markdown_preview
+    _assert_no_internal_paths(markdown.json())
+
+    json_response = client.get(f"/api/workspaces/{workspace_id}/sources/{json_source_id}/preview")
+    assert json_response.status_code == 200
+    json_preview = json_response.json()["data"]["preview"]
+    assert json_preview["source_id"] == json_source_id
+    assert json_preview["source_type"] == "json"
+    assert json_preview["preview_available"] is True
+    assert json_preview["content_type"] == "text/plain"
+    assert "Queues absorb burst traffic" in json_preview["text_preview"]
+    assert "units" not in json_preview
+    _assert_no_internal_paths(json_response.json())
 
 
 def test_v11be_source_preview_rejects_unknown_artifact_ref_and_slug_source_ids(tmp_path, monkeypatch):

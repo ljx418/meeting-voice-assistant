@@ -1,6 +1,6 @@
 # ResearchNotebook V1.1 当前差距分析
 
-文档状态：V1.1-D-RC 浏览器可视化 smoke 已通过；RC4 source trace backend fix 和 re-smoke 已通过；S1-FIX/S1-FE session path 已通过；S2 all-source-type contract discovery 已完成。
+文档状态：V1.1-D-RC 浏览器可视化 smoke 已通过；RC4 source trace backend fix 和 re-smoke 已通过；S1-FIX/S1-FE session path 已通过；S2 all-source-type contract discovery 已完成；S3 markdown/json backend contract 已通过 API smoke；S4 markdown/json frontend browser smoke 已通过。
 配套图：`v1_1_current_gap_analysis.drawio`。
 
 ## 一句话结论
@@ -39,7 +39,9 @@ ResearchNotebook V1.1 已经把 V1.0 的“答案旁边显示来源证据”推�
 | 精确证据导航 | LIMITED PASS | 仅限文本源 workspace query citation，且 citation 必须包含 `source_id + unit_id + evidence_id`。 |
 | Source Trace route | LIMITED PASS | V1.1-RC4 backend fix 后重新验证：source create/list/get 返回的 registry `source_id` 可以 direct trace HTTP 200，并返回 trace/provenance；范围仅限 RC4 smoke 覆盖的 registry source_id-backed 文本源。 |
 | V1.1-S1 Session Precise Navigation Smoke | BROWSER_SMOKE_READY | S1-FIX 后 session query 返回可解析的 `source_id + unit_id + evidence_id` evidence item；S1-FE 已验证 session citation 浏览器点击路径、Drawer unit selection 和 EvidenceSpan highlight。 |
-| V1.1-S2 All-Source-Type Contract Discovery | COMPLETE_NON_TEXT_BLOCKED | manifest 当前只声明 `text:unit`；pdf/pptx/json/markdown/html/video/audio 的 preview 和 DocumentUnit 均返回 unsupported。 |
+| V1.1-S2 All-Source-Type Contract Discovery | COMPLETE | 已发现非文本格式合同状态；S3 前仅 text ready。 |
+| V1.1-S3 Multi-Format Backend Contract | API_SMOKE_READY_MARKDOWN_JSON | manifest 已声明 `markdown:unit` 和 `json:unit`；markdown/json 的 preview、DocumentUnit、query evidence、EvidenceSpan route 已真实 HTTP smoke 通过。 |
+| V1.1-S4 Multi-Format Frontend Smoke | BROWSER_SMOKE_READY_MARKDOWN_JSON | markdown/json 的 Preview、DocumentUnit、workspace query citation、EvidenceSpan highlight 已通过浏览器 smoke。 |
 
 ## 仍然不能声明
 
@@ -47,8 +49,8 @@ ResearchNotebook V1.1 已经把 V1.0 的“答案旁边显示来源证据”推�
 | --- | --- | --- |
 | source trace integration beyond RC4 scoped registry text path | NOT_READY | 当前只证明了 RC4 smoke 覆盖的 registry source_id-backed 文本源 direct trace；不能扩大到所有 source type 或 session precision。 |
 | all-session precise navigation ready | NOT_READY | S1-FE 只证明了 data_service-supported text-source session query citation path；不能扩大到所有 session、所有 source type 或未携带 ids 的 session answer。 |
-| all-source-type precise backjump ready | NOT_READY | S2 已发现非文本 source type 缺少 preview/unit/evidence 后端合同。 |
-| multi-format ingestion ready | NOT_READY | S2 只证明 metadata source creation，未证明 native PDF/PPT/JSON/video/audio ingestion。 |
+| all-source-type precise backjump ready | NOT_READY | S4 只证明 markdown/json workspace query path；PDF/PPTX/HTML/video/audio 仍缺少可声明合同或浏览器验收。 |
+| multi-format ingestion ready | NOT_READY | S4 证明 markdown/json UI path；不代表 native PDF/PPTX/video/audio ingestion。 |
 | assessment / mastery ready | NOT_READY | 不在 V1.1 范围。 |
 | quality governance console ready | NOT_READY | 不在 V1.1 范围。 |
 | graph editing/governance ready | NOT_READY | V1.0/M4 只做 read-only graph context。 |
@@ -69,6 +71,9 @@ ResearchNotebook V1.1 已经把 V1.0 的“答案旁边显示来源证据”推�
 | V1.1-D-RC | 真实浏览器可视化 smoke 和 release readiness 文档 | PASS。 |
 | V1.1-RC4 | Source Trace Contract Fix / Re-Smoke | data_service 已修复 target trace contract；registry `source_id` direct trace 返回 HTTP 200；source trace integration 对 RC4 smoke 覆盖范围进入受限 PASS。 |
 | V1.1-S1 | Session Precise Navigation Smoke / Contract Discovery | 初次 smoke 返回 graph-only/no evidence；S1-FIX 后 re-smoke 已返回 HAS_EVIDENCE_SPAN_IDS；S1-FE 已完成 browser smoke。 |
+| V1.1-S2 | All-Source-Type Contract Discovery | 完成 text/pdf/pptx/json/markdown/html/video/audio 能力发现。 |
+| V1.1-S3 | Multi-Format Backend Contract Enablement | 第一批 `markdown/json` 后端合同完成；API smoke 覆盖 preview、DocumentUnit、query evidence、EvidenceSpan。 |
+| V1.1-S4 | Multi-Format Frontend Integration | `markdown/json` 前端浏览器 smoke 通过；Preview、DocumentUnit、citation、EvidenceSpan highlight 可见。 |
 
 ## 当前前端实现边界
 
@@ -225,17 +230,16 @@ ResearchNotebook V1.1 精确证据导航已在同一条受限路径完成 browse
 下一阶段应执行：
 
 ```text
-V1.1-S3 Multi-Format Backend Contract Enablement
+V1.1-FINAL Final Manual Acceptance / Repository Sync
 ```
 
 原因：
 
-- V1.1-S1-FE 已让 session answer citation 的浏览器点击路径通过 smoke；
-- V1.1-S2 已完成合同发现，确认当前 manifest 只声明 `text:unit`；
-- pdf/pptx/json/markdown/html/video/audio 的 preview/unit/evidence 仍为 UNSUPPORTED 或 NOT_READY；
-- 下一步必须先做 data_service 后端合同启用，而不是进入多格式前端 UI。
+- V1.1-S4 已让 ResearchNotebook 前端通过 markdown/json 浏览器 smoke；
+- markdown/json 的 source preview、DocumentUnit、workspace query evidence 和 EvidenceSpan highlight 均有真实浏览器证据；
+- PDF/PPTX/HTML/video/audio 仍保持 NOT_READY。
 
-下一步不应直接实现多格式 UI，也不应按文件扩展名硬猜能力；必须继续以 capability manifest 和真实后端 smoke 为准。
+下一步只允许最终收口、文档一致性检查、fixtures hygiene、复跑 smoke/check 和 scoped commit/push，不新增业务功能。
 
 ## V1.1 还剩多少开发阶段
 
@@ -247,16 +251,16 @@ V1.1-S3 Multi-Format Backend Contract Enablement
 
 | 顺序 | 阶段 | 建议归属 | 目标 | V1.1 声明影响 |
 | --- | --- | --- | --- | --- |
-| 1 | V1.1-S2 All-Source-Type Contract Discovery | DONE | 已发现 PDF/PPT/JSON/video/audio 等格式的 preview、unit、locator、EvidenceSpan 合同状态 | 结果：非文本均 blocked by backend contract |
-| 2 | V1.1-S3 Multi-Format Backend Contract Enablement | V1.1.x backend | 为选定格式补后端摄入、preview、unit、locator、EvidenceSpan 合同 | 后端合同 ready 后才能进入前端 |
-| 3 | V1.1-S4 Multi-Format Frontend Integration | V1.1.x frontend | 前端消费后端多格式合同，显示 preview/unit/locator/unsupported 状态 | 按 source type 分别声明，不做 all-source-type 泛化 |
-| 4 | V1.1-FINAL Final Manual Acceptance / Repository Sync | V1.1.x handoff | 汇总已完成 smoke、人工验收报告、gap/drawio/checklist，做 scoped commit / push | 只固化已通过范围，不扩大 ready 声明 |
+| 1 | V1.1-S2 All-Source-Type Contract Discovery | DONE | 已发现 PDF/PPT/JSON/video/audio 等格式的 preview、unit、locator、EvidenceSpan 合同状态 | 结果：S3 前只有 text ready |
+| 2 | V1.1-S3 Multi-Format Backend Contract Enablement | DONE | 已为 `markdown/json` 补后端 preview、unit、locator、EvidenceSpan 合同 | 后端 API smoke ready；前端未 browser-ready |
+| 3 | V1.1-S4 Multi-Format Frontend Integration | DONE | 前端消费 markdown/json 合同，显示 preview/unit/locator/unsupported 状态并跑浏览器 smoke | markdown/json browser-smoke-ready；不做 all-source-type 泛化 |
+| 4 | V1.1-FINAL Final Manual Acceptance / Repository Sync | NEXT | 汇总已完成 smoke、人工验收报告、gap/drawio/checklist，做 scoped commit / push | 只固化已通过范围，不扩大 ready 声明 |
 | 5 | Assessment / Mastery | V1.3+ | 题目、评分、掌握度 | 不属于 V1.1 |
 | 6 | Quality / Governance Console | V1.3+ | 质量治理、纠错、审计工作流 | 不属于 V1.1 |
 | 7 | Graph Editing / Governance | V1.4+ | 图谱编辑、合并、删除、治理 | 不属于 V1.1 |
 | 8 | Cloud Sync / Collaboration | V2.0+ | 账号、权限、同步、协作、冲突处理 | 不属于 V1.1 |
 
-当前推荐下一阶段是 `V1.1-S3 Multi-Format Backend Contract Enablement`。不要把 S2 的 source creation metadata probe 扩大为 native multi-format ingestion；必须由 data_service 后端合同、tests、fixtures 和 smoke 决定哪些格式进入 S4。
+当前推荐下一阶段是 `V1.1-FINAL Final Manual Acceptance / Repository Sync`。不要把 S4 的 markdown/json browser smoke 扩大为 all-source-type ready；PDF/PPTX/HTML/video/audio、Assessment、Governance、Graph editing、Cloud sync 仍不属于当前 ready 范围。
 
 ## 手动验收距离评估
 

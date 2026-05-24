@@ -1,0 +1,79 @@
+{
+  "mode": "hybrid",
+  "query": "jsonanchor queue",
+  "answer": "LLMWiki pages: 0 hits\nGraphRAG entities/units: 0 hits",
+  "hits": [],
+  "engine_payloads": {
+    "llmwiki": {
+      "pages": [],
+      "passages": [],
+      "citations": [],
+      "related_pages": []
+    },
+    "graphrag": {
+      "status": "missing_db",
+      "db_path": "<redacted>",
+      "graph_model_version": "1.0",
+      "nodes": [],
+      "edges": [],
+      "communities": [],
+      "hits": [],
+      "stats": {
+        "entity_count": 0,
+        "theme_count": 0,
+        "relationship_count": 0,
+        "community_count": 0,
+        "document_count": 0
+      },
+      "source": "app.graphrag.bridge"
+    }
+  },
+  "evidence": [
+    {
+      "evidence_key": "src_87b95b9c07184aaa:unit_ed42c82daf11f1bd:ev_bbeec37ecd14c0d8",
+      "source_id": "src_87b95b9c07184aaa",
+      "source_title": "V1.1 S3 JSON Source",
+      "unit_id": "unit_ed42c82daf11f1bd",
+      "evidence_id": "ev_bbeec37ecd14c0d8",
+      "snippet": "\"jsonanchor queue evidence proves json node navigation\"",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_1101fe581e2adfbf:unit_0a09dca106df27fe:ev_36addc38d2a2aae9",
+      "source_id": "src_1101fe581e2adfbf",
+      "source_title": "V1.1 S3 Markdown Source",
+      "unit_id": "unit_0a09dca106df27fe",
+      "evidence_id": "ev_36addc38d2a2aae9",
+      "snippet": "markdownanchor queue evidence proves markdown unit navigation.",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_87b95b9c07184aaa:unit_ed42c82daf11f1bd:ev_bbeec37ecd14c0d8",
+      "source_id": "src_87b95b9c07184aaa",
+      "source_title": "V1.1 S3 JSON Source",
+      "unit_id": "unit_ed42c82daf11f1bd",
+      "evidence_id": "ev_bbeec37ecd14c0d8",
+      "snippet": "\"jsonanchor queue evidence proves json node navigation\"",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_1101fe581e2adfbf:unit_0a09dca106df27fe:ev_36addc38d2a2aae9",
+      "source_id": "src_1101fe581e2adfbf",
+      "source_title": "V1.1 S3 Markdown Source",
+      "unit_id": "unit_0a09dca106df27fe",
+      "evidence_id": "ev_36addc38d2a2aae9",
+      "snippet": "markdownanchor queue evidence proves markdown unit navigation.",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ]
+}

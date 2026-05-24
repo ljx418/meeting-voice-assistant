@@ -1,6 +1,6 @@
 {
   "declaration": "CONTRACT_DISCOVERY_COMPLETE",
-  "workspace_id": "rn-v11-s2-discovery-1779552792409-workspace",
+  "workspace_id": "rn-v11-s2-discovery-1779595137369-workspace",
   "candidates": [
     {
       "source_type": "text",
@@ -59,17 +59,18 @@
       "source_type": "json",
       "source_id": "src_053ade1eb4d3c8c1",
       "capability_manifest": {
-        "status": "NOT_READY",
-        "preview": "none",
-        "locators": []
+        "status": "PASS",
+        "preview": "unit",
+        "locators": [
+          "json_path"
+        ]
       },
       "source_create": "PASS_REGISTRY_SOURCE_ID",
       "native_ingestion": "NOT_VERIFIED_METADATA_ONLY",
-      "source_preview": "UNSUPPORTED",
-      "document_units": "UNSUPPORTED",
+      "source_preview": "PASS",
+      "document_units": "PASS",
       "evidence_spans": "NOT_READY_NOT_SMOKED",
       "source_trace": "LIMITED_PASS",
-      "unsupported_reason": "source_type_not_supported",
       "trace_http_status": 200,
       "raw_path_leak": false
     },
@@ -77,17 +78,18 @@
       "source_type": "markdown",
       "source_id": "src_20349e35cbee78b6",
       "capability_manifest": {
-        "status": "NOT_READY",
-        "preview": "none",
-        "locators": []
+        "status": "PASS",
+        "preview": "unit",
+        "locators": [
+          "offset"
+        ]
       },
       "source_create": "PASS_REGISTRY_SOURCE_ID",
       "native_ingestion": "NOT_VERIFIED_METADATA_ONLY",
-      "source_preview": "UNSUPPORTED",
-      "document_units": "UNSUPPORTED",
+      "source_preview": "PASS",
+      "document_units": "PASS",
       "evidence_spans": "NOT_READY_NOT_SMOKED",
       "source_trace": "LIMITED_PASS",
-      "unsupported_reason": "source_type_not_supported",
       "trace_http_status": 200,
       "raw_path_leak": false
     },
@@ -155,12 +157,12 @@
     {
       "name": "workspace create",
       "status": "pass",
-      "detail": "rn-v11-s2-discovery-1779552792409-workspace"
+      "detail": "rn-v11-s2-discovery-1779595137369-workspace"
     },
     {
       "name": "capability manifest",
       "status": "pass",
-      "detail": "text:unit"
+      "detail": "text:unit, markdown:unit, json:unit"
     },
     {
       "name": "discover text",
@@ -180,12 +182,12 @@
     {
       "name": "discover json",
       "status": "pass",
-      "detail": "UNSUPPORTED/UNSUPPORTED/LIMITED_PASS"
+      "detail": "PASS/PASS/LIMITED_PASS"
     },
     {
       "name": "discover markdown",
       "status": "pass",
-      "detail": "UNSUPPORTED/UNSUPPORTED/LIMITED_PASS"
+      "detail": "PASS/PASS/LIMITED_PASS"
     },
     {
       "name": "discover html",

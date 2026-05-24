@@ -1,5 +1,5 @@
 {
-  "workspace_id": "rn-v11-s2-discovery-1779552792409-workspace",
+  "workspace_id": "rn-v11-s2-discovery-1779595137369-workspace",
   "operation_id": null,
   "status": "ok",
   "warnings": [],
@@ -7,10 +7,10 @@
   "next_actions": [],
   "data": {
     "manifest": {
-      "workspace_id": "rn-v11-s2-discovery-1779552792409-workspace",
+      "workspace_id": "rn-v11-s2-discovery-1779595137369-workspace",
       "service_version": "0.1.0",
       "schema_version": "v1.1-document-units",
-      "generated_at": "2026-05-23T16:13:12.480897Z",
+      "generated_at": "2026-05-24T03:58:57.469099Z",
       "capabilities": {
         "source_preview": true,
         "document_units": true,
@@ -25,6 +25,20 @@
           "source_type": "text",
           "preview": "unit",
           "locators": []
+        },
+        {
+          "source_type": "markdown",
+          "preview": "unit",
+          "locators": [
+            "offset"
+          ]
+        },
+        {
+          "source_type": "json",
+          "preview": "unit",
+          "locators": [
+            "json_path"
+          ]
         }
       ]
     }

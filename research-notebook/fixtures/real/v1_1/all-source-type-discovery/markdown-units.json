@@ -1,20 +1,38 @@
 {
-  "workspace_id": "rn-v11-s2-discovery-1779552792409-workspace",
+  "workspace_id": "rn-v11-s2-discovery-1779595137369-workspace",
   "operation_id": null,
   "status": "ok",
   "warnings": [],
-  "artifact_refs": [],
-  "next_actions": [
-    "source_type_not_supported"
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_20349e35cbee78b6",
+      "artifact_ref": "source://src_20349e35cbee78b6"
+    }
   ],
+  "next_actions": [],
   "data": {
     "units": {
       "source_id": "src_20349e35cbee78b6",
-      "items": [],
+      "items": [
+        {
+          "unit_id": "unit_690287f7c87284c2",
+          "source_id": "src_20349e35cbee78b6",
+          "unit_type": "section",
+          "title": "Markdown contract discovery",
+          "text_preview": "Markdown contract discovery for V1.1-S2 all-source-type contract discovery. This payload is synthetic and contains no private content.",
+          "content_type": "text/markdown",
+          "order_index": 0,
+          "artifact_ref": "unit://src_20349e35cbee78b6/unit_690287f7c87284c2",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 134,
+          "max_preview_size_bytes": 50000
+        }
+      ],
       "next_cursor": null,
       "limit": 20,
-      "has_more": false,
-      "unsupported_reason": "source_type_not_supported"
+      "has_more": false
     }
   }
 }

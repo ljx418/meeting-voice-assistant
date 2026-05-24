@@ -1,7 +1,7 @@
 # ResearchNotebook V1.1 Feature Route Matrix
 
-文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed with scoped source trace integration；S1-FIX/S1-FE session precise navigation passed；S2 all-source-type contract discovery completed。
-日期：2026-05-23。
+文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed with scoped source trace integration；S1-FIX/S1-FE session precise navigation passed；S2 all-source-type contract discovery completed；S3 markdown/json backend contract API smoke passed；S4 markdown/json frontend browser smoke passed。
+日期：2026-05-24。
 
 ## Classification
 
@@ -31,7 +31,9 @@ Every V1.1 feature must be classified as:
 | EvidenceSpan highlight | browser-smoke-ready for supported text workspace query path | EvidenceSpan route + offset semantics | Workspace query citation path implemented, real HTTP-smoked, and browser visual-smoked. |
 | Precise citation backjump | browser-smoke-ready for supported text workspace query path; browser-smoke-ready for supported text session query path | answer citation UX + EvidenceSpan route | Workspace query and supported session query citation browser paths are ready only when the evidence item carries `source_id + unit_id + evidence_id`. This is not all-session or all-source-type ready. |
 | Answer citation opens preview | unsupported in V1.1-B release gate | optional only after manifest support | Source Library / Source Detail Preview button is the V1.1-B release-gate entry. |
-| Non-text source preview/unit/evidence | blocked by backend contract | capability manifest + source preview/unit/evidence routes | S2 discovery probed pdf/pptx/json/markdown/html/video/audio. Manifest only declares `text:unit`; non-text preview and units return `source_type_not_supported`. |
+| Markdown source preview/unit/evidence | browser-smoke-ready | capability manifest + source preview/unit/evidence routes | S3 backend smoke and S4 browser smoke passed for markdown source preview, DocumentUnit, workspace query evidence ids and EvidenceSpan highlight. |
+| JSON source preview/unit/evidence | browser-smoke-ready | capability manifest + source preview/unit/evidence routes | S3 backend smoke and S4 browser smoke passed for json source preview, `json_node` DocumentUnit, workspace query evidence ids and EvidenceSpan highlight. |
+| PDF/PPTX/HTML/video/audio source preview/unit/evidence | blocked by backend contract | capability manifest + source preview/unit/evidence routes | S2 discovery probed these source types. They remain unsupported or not smoked; do not declare ready. |
 
 ## V1.1-BE Backend Contract Status
 
@@ -126,7 +128,7 @@ RC4 confirms that Source Preview, DocumentUnit, EvidenceSpan, and Source Trace a
 ## V1.1-S2 All-Source-Type Contract Discovery
 
 ```text
-Capability manifest supported_source_types = text:unit
+Capability manifest supported_source_types at S2 baseline = text:unit
 Text source preview/unit/evidence = PASS
 Non-text source preview = UNSUPPORTED
 Non-text DocumentUnit = UNSUPPORTED
@@ -136,6 +138,38 @@ Synthetic registry source trace = LIMITED_PASS
 ```
 
 S2 confirms that non-text source types are blocked by data_service backend contracts. ResearchNotebook must not show pdf/pptx/json/markdown/html/video/audio as ready until S3 backend contracts and S4 frontend smoke pass for each source type.
+
+## V1.1-S3 Multi-Format Backend Contract Status
+
+```text
+Capability manifest supported_source_types = text:unit, markdown:unit, json:unit
+Markdown source preview = PASS
+Markdown DocumentUnit = PASS
+Markdown workspace query evidence = PASS
+Markdown EvidenceSpan = PASS
+JSON source preview = PASS
+JSON DocumentUnit json_node = PASS
+JSON workspace query evidence = PASS
+JSON EvidenceSpan = PASS
+S3 backend/API smoke = PASS
+Frontend markdown/json browser smoke = PASS
+PDF/PPTX/HTML/video/audio = NOT_READY
+```
+
+S3 enables the backend/API contract. S4 proves the markdown/json browser path through Source Preview Drawer, DocumentUnit, workspace query citation, and EvidenceSpan highlight. This does not imply native binary ingestion or all-source-type precise backjump.
+
+## V1.1-S4 Multi-Format Frontend Status
+
+```text
+Markdown source preview drawer = PASS
+Markdown DocumentUnit selection = PASS
+Markdown EvidenceSpan highlight = PASS
+JSON source preview drawer = PASS
+JSON json_node DocumentUnit selection = PASS
+JSON EvidenceSpan highlight = PASS
+No /api/v1/knowledge browser request = PASS
+PDF/PPTX/HTML/video/audio frontend readiness = NOT_READY
+```
 
 ## V1.1-S1 Session Precise Navigation Smoke Boundary
 

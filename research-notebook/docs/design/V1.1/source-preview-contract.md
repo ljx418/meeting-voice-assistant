@@ -1,6 +1,6 @@
 # V1.1 Source Preview Contract
 
-文档状态：V1.1-C-RC real data_service HTTP smoke passed for supported text sources；S2 all-source-type discovery found non-text preview still unsupported。
+文档状态：V1.1-C-RC real data_service HTTP smoke passed for supported text sources；S3 markdown/json source preview backend/API smoke passed。
 
 ## Purpose
 
@@ -117,9 +117,27 @@ The local data_service working tree now exposes `GET /api/workspaces/{workspace_
 
 ## V1.1-S2 All-Source-Type Discovery Result
 
-S2 discovery probed `pdf`, `pptx`, `json`, `markdown`, `html`, `video`, and `audio` as synthetic registry sources. The current data_service manifest still advertises only `text:unit`, and non-text preview responses return `source_type_not_supported`.
+S2 discovery probed `pdf`, `pptx`, `json`, `markdown`, `html`, `video`, and `audio` as synthetic registry sources. At that point data_service manifest advertised only `text:unit`, and non-text preview responses returned `source_type_not_supported`.
 
 ResearchNotebook must therefore keep non-text source preview as unsupported/unavailable until S3 adds backend contracts and S4 validates frontend smoke per source type.
+
+## V1.1-S3 Markdown / JSON Backend Result
+
+S3 enabled source preview backend contracts for `markdown` and `json`:
+
+```text
+markdown source preview = PASS
+json source preview = PASS
+```
+
+Observed contract:
+
+- markdown preview returns `source_type=markdown`, `preview_available=true`, `content_type=text/markdown`;
+- json preview returns `source_type=json`, `preview_available=true`, `content_type=text/plain`;
+- source preview still does not return units by default;
+- responses are fixture-sanitized and do not include raw filesystem/cache/artifact physical paths on the preview contract surface.
+
+S4 has now browser-smoked ResearchNotebook markdown/json preview and unit navigation. PDF/PPTX/HTML/video/audio remain unsupported.
 
 ## Query / Citation Relationship
 

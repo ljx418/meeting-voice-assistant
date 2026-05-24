@@ -1,0 +1,53 @@
+{
+  "declaration": "S3_MULTI_FORMAT_BACKEND_READY_MARKDOWN_JSON",
+  "workspace_id": "rn-v11-s3-multiformat-1779595456314-workspace",
+  "candidates": [
+    {
+      "source_type": "markdown",
+      "source_id": "src_1101fe581e2adfbf",
+      "preview": "PASS",
+      "document_units": "PASS",
+      "query_evidence": "PASS",
+      "evidence_span": "PASS",
+      "first_unit_id": "unit_0a09dca106df27fe",
+      "evidence_id": "ev_36addc38d2a2aae9"
+    },
+    {
+      "source_type": "json",
+      "source_id": "src_87b95b9c07184aaa",
+      "preview": "PASS",
+      "document_units": "PASS",
+      "query_evidence": "PASS",
+      "evidence_span": "PASS",
+      "first_unit_id": "unit_ed42c82daf11f1bd",
+      "evidence_id": "ev_bbeec37ecd14c0d8"
+    }
+  ],
+  "results": [
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v11-s3-multiformat-1779595456314-workspace"
+    },
+    {
+      "name": "capability manifest markdown/json",
+      "status": "pass",
+      "detail": "text:unit, markdown:unit, json:unit"
+    },
+    {
+      "name": "smoke markdown",
+      "status": "pass",
+      "detail": "unit_0a09dca106df27fe/ev_36addc38d2a2aae9"
+    },
+    {
+      "name": "smoke json",
+      "status": "pass",
+      "detail": "unit_ed42c82daf11f1bd/ev_bbeec37ecd14c0d8"
+    }
+  ]
+}

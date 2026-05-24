@@ -1,7 +1,7 @@
 # ResearchNotebook V1.1 Design Docs
 
-文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed；S1-FIX/S1-FE session precise navigation passed；S2 all-source-type contract discovery completed。
-日期：2026-05-23。
+文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed；S1-FIX/S1-FE session precise navigation passed；S2 all-source-type contract discovery completed；S3 markdown/json backend contract API smoke passed；S4 markdown/json frontend browser smoke passed。
+日期：2026-05-24。
 
 ## Positioning
 
@@ -30,7 +30,9 @@ V1.1 不进入 multi-format ingestion、Assessment、Quality/Governance console�
 - `V1.1-RC4 Source Trace Re-Smoke` 已执行：source create/list/get 返回 registry `source_id`，workspace query evidence 也观察到 registry source id，direct `sources.trace` 返回 HTTP 200；
 - `V1.1-S1 Session Precise Navigation Smoke` 已重新执行：S1-FIX 后 session query 返回可解析的 `source_id + unit_id + evidence_id` evidence item，unit detail 和 EvidenceSpan detail 均可解析；
 - `V1.1-S1-FE Session Browser Smoke` 已通过：session answer citation 在浏览器中打开 Source Preview Drawer、选中 DocumentUnit 并显示 EvidenceSpan 高亮；
-- `V1.1-S2 All-Source-Type Contract Discovery` 已执行：manifest 当前只声明 `text:unit`，非文本 source type 的 preview/unit/evidence 仍为 `UNSUPPORTED` 或 `NOT_READY`；
+- `V1.1-S2 All-Source-Type Contract Discovery` 已执行：完成 text/pdf/pptx/json/markdown/html/video/audio 的合同发现；
+- `V1.1-S3 Multi-Format Backend Contract Enablement` 已完成第一批格式：`markdown/json` 的 preview、DocumentUnit、workspace query evidence 和 EvidenceSpan 后端/API smoke 已通过；
+- `V1.1-S4 Multi-Format Frontend Integration` 已完成第一批格式：`markdown/json` 的 Preview、DocumentUnit、workspace query citation 和 EvidenceSpan highlight 浏览器 smoke 已通过；
 - 可以声明 Source Preview ready for data_service-supported source-level text sources；
 - 可以声明 DocumentUnit navigation disabled shell ready；
 - 可以声明 data_service DocumentUnit backend contract ready for frontend integration after backend change review；
@@ -76,7 +78,10 @@ V1.1 不进入 multi-format ingestion、Assessment、Quality/Governance console�
 | `v1_1_s1_session_precise_navigation_smoke_report.md` | V1.1-S1 session precise navigation smoke result；records historical `GRAPH_ONLY_NO_EVIDENCE`, S1-FIX `HAS_EVIDENCE_SPAN_IDS`, and API-smoke-ready decision。 |
 | `v1_1_s1_fe_session_browser_smoke_report.md` | V1.1-S1-FE browser smoke result；records session citation click, Drawer navigation, selected unit, EvidenceSpan highlight, and browser-smoke-ready decision。 |
 | `v1_1_s1_fe_sync_status.md` | V1.1-S1-FE sync status；records latest S1 API/browser smoke evidence and the audited S2 entry direction。 |
-| `v1_1_s2_all_source_type_contract_discovery.md` | V1.1-S2 all-source-type contract discovery；records current per-source-type backend capability and blockers。 |
+| `v1_1_s2_all_source_type_contract_discovery.md` | V1.1-S2 all-source-type contract discovery；records per-source-type backend capability baseline and blockers。 |
+| `v1_1_s3_multi_format_backend_readiness.md` | V1.1-S3 markdown/json backend contract readiness；records manifest, preview, DocumentUnit, query evidence and EvidenceSpan API smoke。 |
+| `v1_1_s4_multi_format_frontend_smoke_report.md` | V1.1-S4 markdown/json frontend browser smoke；records Preview, DocumentUnit and EvidenceSpan highlight result。 |
+| `v1_1_final_manual_acceptance_and_sync.md` | V1.1 FINAL 收口文档；records final acceptance scope, command evidence, fixture hygiene and scoped sync scope。 |
 | `v1_1_manual_acceptance_report.md` | V1.1 manual acceptance report；records manually acceptable workspace/session text-source scope, checklist, and fill-in fields。 |
 
 ## Entry Gate
@@ -120,7 +125,10 @@ V1.1-D browser visual smoke: PASS
 V1.1-RC4 source trace re-smoke: PASS_SCOPED_REGISTRY_SOURCE_TRACE
 V1.1-S1 session precise navigation smoke: API_SMOKE_READY_HAS_EVIDENCE_SPAN_IDS
 V1.1-S1-FE session browser smoke: BROWSER_SMOKE_READY_FOR_SUPPORTED_TEXT_SESSION_QUERY
-V1.1-S2 all-source-type contract discovery: COMPLETE_NON_TEXT_BLOCKED_BY_BACKEND_CONTRACT
+V1.1-S2 all-source-type contract discovery: COMPLETE
+V1.1-S3 markdown/json backend contract: API_SMOKE_READY
+V1.1-S4 markdown/json frontend smoke: BROWSER_SMOKE_READY
+V1.1-FINAL manual acceptance / sync: READY_FOR_SCOPED_COMMIT
 ```
 
-Do not generalize this to all sessions or all source types. Source trace integration is scoped to registry source_id-backed sources covered by RC4 smoke. Session precise navigation is scoped to data_service-supported text-source session query citations carrying `source_id + unit_id + evidence_id`. S2 confirms non-text source types are not ready for preview/unit/evidence navigation until data_service backend contracts are added.
+Do not generalize this to all sessions or all source types. Source trace integration is scoped to registry source_id-backed sources covered by RC4 smoke. Session precise navigation is scoped to data_service-supported text-source session query citations carrying `source_id + unit_id + evidence_id`. S4 confirms markdown/json frontend browser paths for workspace query citations, but PDF/PPTX/HTML/video/audio remain NOT_READY.

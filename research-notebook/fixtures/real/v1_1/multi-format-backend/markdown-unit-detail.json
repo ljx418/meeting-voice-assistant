@@ -1,0 +1,30 @@
+{
+  "workspace_id": "rn-v11-s3-multiformat-1779595456314-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_1101fe581e2adfbf",
+      "artifact_ref": "source://src_1101fe581e2adfbf"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "unit": {
+      "unit_id": "unit_0a09dca106df27fe",
+      "source_id": "src_1101fe581e2adfbf",
+      "unit_type": "section",
+      "title": "V1.1 S3 Markdown Source / Section 2",
+      "text_preview": "markdownanchor queue evidence proves markdown unit navigation.",
+      "content_type": "text/markdown",
+      "order_index": 1,
+      "artifact_ref": "unit://src_1101fe581e2adfbf/unit_0a09dca106df27fe",
+      "preview_available": true,
+      "preview_truncated": false,
+      "preview_size_bytes": 62,
+      "max_preview_size_bytes": 50000
+    }
+  }
+}

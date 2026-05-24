@@ -1,6 +1,6 @@
 # V1.1 Capability Manifest Contract
 
-文档状态：V1.1-D/S1-FE browser smoke passed for supported text-source evidence navigation；S2 all-source-type contract discovery completed and found non-text source types not ready。
+文档状态：V1.1-D/S1-FE browser smoke passed for supported text-source evidence navigation；S2 all-source-type contract discovery completed；S3 markdown/json backend contract API smoke passed。
 
 ## Purpose
 
@@ -91,20 +91,27 @@ These true values are necessary but not sufficient for frontend precise navigati
 
 V1.1-D frontend API-adapter/UI smoke is ready. Real data_service HTTP smoke has verified the manifest flags, workspace query jumpable evidence, unit detail route, EvidenceSpan detail route, and offset contract. Browser visual smoke has verified the visible citation -> preview drawer -> unit detail -> EvidenceSpan highlight path.
 
-## V1.1-S2 All-Source-Type Discovery Result
+## V1.1-S2 / S3 Source-Type Manifest Result
 
-S2 discovery observed the current manifest as:
+S2 discovery observed the pre-S3 manifest as:
 
 ```text
 supported_source_types = text:unit
 ```
 
+S3 backend contract enablement updated and smoked the manifest as:
+
+```text
+supported_source_types = text:unit, markdown:unit, json:unit
+```
+
 Therefore:
 
-- `text` remains the only source type with preview/unit/evidence navigation ready in V1.1.
-- `pdf`, `pptx`, `json`, `markdown`, `html`, `video`, and `audio` are not manifest-ready.
-- Frontend must continue showing unsupported / unavailable for non-text source types.
-- S3 must update data_service backend contracts before S4 can enable any non-text frontend behavior.
+- `text` remains browser-smoke-ready through the existing workspace/session evidence navigation path.
+- `markdown` and `json` are backend/API-smoke-ready for preview, DocumentUnit, query evidence ids, and EvidenceSpan detail.
+- `markdown` and `json` frontend/browser readiness passed S4 for workspace query citation paths.
+- `pdf`, `pptx`, `html`, `video`, and `audio` are not manifest-ready.
+- Frontend must continue showing unsupported / unavailable for unsupported source types.
 
 ## Capability Rules For V1.1-B
 

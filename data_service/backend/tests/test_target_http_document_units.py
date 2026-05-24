@@ -4,7 +4,7 @@ from urllib.parse import quote
 from fastapi.testclient import TestClient
 
 from app.main import app
-from test_target_http_source_preview import _assert_no_internal_paths, _create_workspace, _import_text_source
+from test_target_http_source_preview import _assert_no_internal_paths, _create_workspace, _import_text_source, _import_typed_text_source
 
 
 def _setup_client(tmp_path, monkeypatch):
@@ -56,6 +56,48 @@ def test_v11cbe_document_unit_list_and_detail_success(tmp_path, monkeypatch):
     detail = client.get(f"/api/workspaces/{workspace_id}/sources/{source_id}/units/{first['unit_id']}")
     assert detail.status_code == 200
     assert detail.json()["data"]["unit"] == first
+    _assert_no_internal_paths(detail.json())
+
+
+def test_v11s3_document_units_for_markdown_and_json_sources(tmp_path, monkeypatch):
+    client = _setup_client(tmp_path, monkeypatch)
+    workspace_id = _create_workspace(client, "RN S3 Units")
+    markdown_source_id = _import_typed_text_source(
+        client,
+        workspace_id,
+        source_type="markdown",
+        title="Markdown source",
+        content="# Overview\n\nQueues absorb burst traffic.",
+    )
+    json_source_id = _import_typed_text_source(
+        client,
+        workspace_id,
+        source_type="json",
+        title="JSON source",
+        content='{"summary":"Queues absorb burst traffic","risk":{"level":"low"}}',
+    )
+
+    markdown_response = client.get(f"/api/workspaces/{workspace_id}/sources/{markdown_source_id}/units")
+    assert markdown_response.status_code == 200
+    markdown_units = markdown_response.json()["data"]["units"]["items"]
+    assert len(markdown_units) == 2
+    assert markdown_units[0]["source_id"] == markdown_source_id
+    assert markdown_units[0]["unit_type"] == "section"
+    assert markdown_units[0]["content_type"] == "text/markdown"
+    assert "# Overview" in markdown_units[0]["text_preview"]
+    _assert_no_internal_paths(markdown_response.json())
+
+    json_response = client.get(f"/api/workspaces/{workspace_id}/sources/{json_source_id}/units")
+    assert json_response.status_code == 200
+    json_units = json_response.json()["data"]["units"]["items"]
+    assert [unit["json_path"] for unit in json_units] == ["$.summary", "$.risk"]
+    assert all(unit["unit_type"] == "json_node" for unit in json_units)
+    assert all(unit["content_type"] == "text/plain" for unit in json_units)
+    assert "Queues absorb burst traffic" in json_units[0]["text_preview"]
+    detail = client.get(f"/api/workspaces/{workspace_id}/sources/{json_source_id}/units/{json_units[0]['unit_id']}")
+    assert detail.status_code == 200
+    assert detail.json()["data"]["unit"]["json_path"] == "$.summary"
+    _assert_no_internal_paths(json_response.json())
     _assert_no_internal_paths(detail.json())
 
 

@@ -1,0 +1,29 @@
+{
+  "workspace_id": "rn-v11-s3-multiformat-1779595456314-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_87b95b9c07184aaa",
+      "artifact_ref": "source://src_87b95b9c07184aaa"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_bbeec37ecd14c0d8",
+      "source_id": "src_87b95b9c07184aaa",
+      "unit_id": "unit_ed42c82daf11f1bd",
+      "snippet": "\"jsonanchor queue evidence proves json node navigation\"",
+      "start_offset": 0,
+      "end_offset": 55,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {},
+      "preview_available": true
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "workspace_id": "rn-v11-s3-multiformat-1779595456314-workspace",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_1101fe581e2adfbf",
+      "artifact_ref": "source://src_1101fe581e2adfbf"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_36addc38d2a2aae9",
+      "source_id": "src_1101fe581e2adfbf",
+      "unit_id": "unit_0a09dca106df27fe",
+      "snippet": "markdownanchor queue evidence proves markdown unit navigation.",
+      "start_offset": 0,
+      "end_offset": 62,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {},
+      "preview_available": true
+    }
+  }
+}

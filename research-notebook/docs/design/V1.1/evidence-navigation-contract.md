@@ -1,6 +1,6 @@
 # V1.1 Evidence Navigation Contract
 
-文档状态：V1.1-D workspace query browser smoke passed；V1.1-S1-FE session query browser smoke passed；S2 found non-text EvidenceSpan contracts not ready。
+文档状态：V1.1-D workspace query browser smoke passed；V1.1-S1-FE session query browser smoke passed；S3 markdown/json EvidenceSpan backend/API smoke passed。
 
 ## Purpose
 
@@ -92,7 +92,16 @@ type QueryEvidence = {
 
 Session query evidence is browser-smoke-ready after S1-FIX and S1-FE for data_service-supported text-source session query citations carrying `source_id + unit_id + evidence_id`. S1-FIX proved the API ids; S1-FE proved the browser citation click path through the existing Drawer, DocumentUnit, and EvidenceSpan highlight flow.
 
-S2 all-source-type discovery found no non-text source type with preview/unit/evidence contracts ready. `pdf`, `pptx`, `json`, `markdown`, `html`, `video`, and `audio` remain `NOT_READY_NOT_SMOKED` for EvidenceSpan navigation.
+S2 all-source-type discovery found no non-text source type with preview/unit/evidence contracts ready at that baseline. S3 then added backend/API evidence support for `markdown` and `json`:
+
+```text
+markdown workspace query evidence ids = PASS
+markdown EvidenceSpan detail = PASS
+json workspace query evidence ids = PASS
+json EvidenceSpan detail = PASS
+```
+
+S4 has now browser-smoked markdown/json frontend EvidenceSpan navigation for workspace query citations. `pdf`, `pptx`, `html`, `video`, and `audio` remain `NOT_READY_NOT_SMOKED` for EvidenceSpan navigation.
 
 ## Navigation Rules
 
@@ -169,6 +178,8 @@ data_service EvidenceSpan backend contract is ready for ResearchNotebook V1.1-D 
 ResearchNotebook V1.1-D EvidenceSpan highlight is browser-smoke-ready for workspace query citations carrying source_id + unit_id + evidence_id.
 ResearchNotebook V1.1 precise evidence navigation is browser-smoke-ready for the same supported workspace query path.
 ResearchNotebook session precise evidence navigation is browser-smoke-ready for data_service-supported text-source session query citations carrying source_id + unit_id + evidence_id.
+data_service markdown/json EvidenceSpan backend contracts are API-smoke-ready.
+ResearchNotebook markdown/json EvidenceSpan highlight is browser-smoke-ready for workspace query citations carrying source_id + unit_id + evidence_id.
 ```
 
 Cannot declare:
@@ -176,6 +187,7 @@ Cannot declare:
 - all-source-type source trace integration ready;
 - all-session precise navigation ready;
 - all-source-type precise backjump ready.
+- PDF/PPTX/HTML/video/audio precise navigation ready.
 
 ## V1.1-S1 Session Query Boundary
 

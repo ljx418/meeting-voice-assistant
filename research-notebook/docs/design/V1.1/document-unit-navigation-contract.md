@@ -1,7 +1,7 @@
 # V1.1 DocumentUnit Navigation Contract
 
-文档状态：V1.1-C-RC real data_service HTTP smoke passed；Unit-Level Source Navigation integration-ready for supported text sources；S2 found non-text DocumentUnit contracts unsupported。
-日期：2026-05-20。
+文档状态：V1.1-C-RC real data_service HTTP smoke passed；Unit-Level Source Navigation integration-ready for supported text sources；S3 markdown/json DocumentUnit backend/API smoke passed。
+日期：2026-05-24。
 
 ## Purpose
 
@@ -34,13 +34,32 @@ V1.1-C-BE satisfies the backend side of this gate in the local `data_service` wo
 
 ## V1.1-S2 All-Source-Type Discovery Result
 
-S2 discovery confirmed that non-text candidates currently return unsupported DocumentUnit responses:
+S2 discovery confirmed that non-text candidates returned unsupported DocumentUnit responses at the discovery baseline:
 
 ```text
 pdf / pptx / json / markdown / html / video / audio DocumentUnit = UNSUPPORTED
 ```
 
 S3 must add backend unit contracts, stable unit ids, pagination semantics, and locator models before S4 can expose non-text unit navigation.
+
+## V1.1-S3 Markdown / JSON DocumentUnit Result
+
+S3 added and smoked the first non-text DocumentUnit backend contracts:
+
+```text
+markdown DocumentUnit = PASS
+json DocumentUnit = PASS
+```
+
+Observed behavior:
+
+- markdown produces stable `section` units with `content_type=text/markdown`;
+- json produces stable `json_node` units with `json_path` metadata;
+- list/detail routes resolve backend-generated `unit_id`;
+- query evidence can reference the returned units;
+- EvidenceSpan detail can resolve against those units.
+
+S4 verified that the ResearchNotebook browser UI can display markdown/json units safely and highlight evidence without adding a frontend parser or unsafe HTML rendering. PDF/PPTX/HTML/video/audio remain NOT_READY.
 
 ## DTO
 
