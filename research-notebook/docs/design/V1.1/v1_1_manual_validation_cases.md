@@ -36,6 +36,25 @@ V1.1 功能开发剩余为 0 个阶段。当前还需要人工确认的是受限
 | 控制台 | 无阻塞 console error / pageerror | 待填写 |
 | 网络边界 | 未出现 `/api/v1/knowledge/*` 功能请求 | 待填写 |
 
+## 可视化自动辅助验收
+
+如需让本机 Chrome 直接模拟普通用户操作，可先启动前后端服务，然后执行：
+
+```bash
+RN_CHROMIUM_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+RN_VISIBLE_E2E_KEEP_BROWSER_OPEN=1 \
+npm run smoke:v1.1-visible-user-e2e
+```
+
+脚本会打开真实 Chrome 窗口并逐步操作 Home、Workspace、Source Preview、DocumentUnit、workspace citation、session citation、markdown/json citation 和 Source Trace。浏览器默认保留打开，便于人工观察最终状态。
+
+输出记录：
+
+```text
+.smoke-artifacts/v1_1_visible_user_e2e/<timestamp>/
+fixtures/real/v1_1/visible-user-e2e/
+```
+
 ## 用例 1：Text Workspace EvidenceSpan
 
 建议 source content：

@@ -131,6 +131,13 @@ no /api/v1/knowledge request: PASS
 decision: BROWSER_SMOKE_READY_MARKDOWN_JSON
 ```
 
+Visible Chrome user E2E:
+
+```text
+npm run smoke:v1.1-visible-user-e2e: script added, pending manual visible run
+decision: NOT_RUN until local backend/frontend services are both active
+```
+
 ## Boundary Checks
 
 ```text
