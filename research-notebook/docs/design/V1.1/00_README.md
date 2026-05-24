@@ -83,6 +83,8 @@ V1.1 不进入 multi-format ingestion、Assessment、Quality/Governance console�
 | `v1_1_s4_multi_format_frontend_smoke_report.md` | V1.1-S4 markdown/json frontend browser smoke；records Preview, DocumentUnit and EvidenceSpan highlight result。 |
 | `v1_1_final_manual_acceptance_and_sync.md` | V1.1 FINAL 收口文档；records final acceptance scope, command evidence, fixture hygiene and scoped sync scope。 |
 | `v1_1_manual_acceptance_report.md` | V1.1 manual acceptance report；records manually acceptable workspace/session text-source scope, checklist, and fill-in fields。 |
+| `v1_1_manual_validation_cases.md` | V1.1 手工验证用例；records text/session/markdown/json/source trace/fallback/cleanup 的逐项验收表。 |
+| `v1_1_usage_guide_image_prompts.md` | V1.1 使用指南图像 prompts；records GPT Image 2 prompt set and combined guide prompt。 |
 
 ## Entry Gate
 
