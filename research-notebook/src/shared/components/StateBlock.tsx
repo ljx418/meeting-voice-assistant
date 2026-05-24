@@ -32,7 +32,7 @@ export function StateBlock({
 }
 
 export function LoadingState({ label = 'Loading' }: { label?: string }) {
-  return <StateBlock title={label}>Loading the current workspace data.</StateBlock>;
+  return <StateBlock title={label === 'Loading' ? '加载中' : label}>正在加载当前工作区数据。</StateBlock>;
 }
 
 export function EmptyState({ title, children }: { title: string; children?: ReactNode }) {
@@ -42,19 +42,19 @@ export function EmptyState({ title, children }: { title: string; children?: Reac
 export function BackendUnavailableState({ onRetry }: { onRetry?: () => void }) {
   return (
     <StateBlock
-      title="Backend unavailable"
+      title="后端服务不可用"
       tone="error"
-      action={onRetry ? <button className="secondary-button" onClick={onRetry}>Retry</button> : null}
+      action={onRetry ? <button className="secondary-button" onClick={onRetry}>重试</button> : null}
     >
-      The local data service is not reachable. Workspace data cannot be loaded until it is available.
+      当前无法连接本地数据服务。服务恢复前，工作区数据无法加载。
     </StateBlock>
   );
 }
 
 export function VersionMismatchState() {
   return (
-    <StateBlock title="Version or schema mismatch" tone="warning">
-      The frontend shell is running, but the backend contract needs to be checked before this feature can continue.
+    <StateBlock title="版本或接口结构不匹配" tone="warning">
+      前端界面已运行，但需要先确认后端合同后才能继续使用该能力。
     </StateBlock>
   );
 }
@@ -62,7 +62,7 @@ export function VersionMismatchState() {
 export function UnsupportedFeatureState({ title, children }: { title: string; children?: ReactNode }) {
   return (
     <StateBlock title={title} tone="warning">
-      {children ?? 'This surface is a placeholder for a future milestone and is not available in the current V1.0 milestone.'}
+      {children ?? '该区域是后续阶段预留能力，当前版本尚不可用。'}
     </StateBlock>
   );
 }

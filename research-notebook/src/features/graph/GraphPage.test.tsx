@@ -47,7 +47,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe('Graph M4 smoke', () => {
+describe('图谱上下文 smoke', () => {
   it('renders missing graph artifact state', async () => {
     vi.stubGlobal(
       'fetch',
@@ -58,7 +58,7 @@ describe('Graph M4 smoke', () => {
 
     render(<App />);
 
-    expect(await screen.findByText('Missing graph artifact')).toBeInTheDocument();
+    expect(await screen.findByText('缺少图谱工件')).toBeInTheDocument();
   });
 
   it('renders read-only communities and node-scoped neighbors', async () => {
@@ -119,7 +119,7 @@ describe('Graph M4 smoke', () => {
     render(<App />);
 
     await userEvent.click(await screen.findByRole('button', { name: /Backpressure/i }));
-    expect(screen.getByText('Selected node: n_2')).toBeInTheDocument();
+    expect(screen.getByText('已选节点：n_2')).toBeInTheDocument();
   });
 
   it('submits graph context feedback', async () => {
@@ -132,8 +132,8 @@ describe('Graph M4 smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('Read-only Graph Context');
-    await userEvent.click(screen.getByRole('button', { name: /helpful/i }));
-    expect(await screen.findByText(/Feedback submitted: up/i)).toBeInTheDocument();
+    expect((await screen.findAllByText('知识图谱上下文')).length).toBeGreaterThan(0);
+    await userEvent.click(screen.getByRole('button', { name: /有帮助/ }));
+    expect(await screen.findByText(/反馈已提交：有帮助/)).toBeInTheDocument();
   });
 });

@@ -1,0 +1,46 @@
+<mxfile host="app.diagrams.net" modified="2026-05-24T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="v1_2_gap" name="V1.2 Gap">
+    <mxGraphModel dx="1000" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="780" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="ResearchNotebook V1.2 当前差距图" style="text;html=1;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="300" y="30" width="600" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="baseline" value="V1.2-A&#xa;V1.1 最终基线&#xa;PASS" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="ux" value="V1.2-B&#xa;多格式导入 UI 合同&#xa;text / markdown / json 已验证&#xa;其他格式显示待就绪&#xa;PASS" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="120" width="260" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="smoke" value="V1.2-C&#xa;Markdown / JSON 浏览器 smoke&#xa;PASS&#xa;npm run smoke:v1.2-multiformat-browser" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="120" width="300" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="manual" value="V1.2-D&#xa;手工验收与最终同步&#xa;NOT_STARTED" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#ECEFF1;strokeColor=#607D8B;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="310" width="300" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="ready" value="可声明范围&#xa;Markdown / JSON 证据导航产品化基线&#xa;仅限携带 source_id + unit_id + evidence_id 的 workspace citation" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="330" width="540" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="notready" value="仍然 NOT_READY&#xa;PDF / PPTX / HTML / video / audio&#xa;all-source-type precise backjump&#xa;Assessment / Governance / Graph editing / Cloud sync" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFEBEE;strokeColor=#C62828;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="520" width="700" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="baseline" target="ux" style="endArrow=block;html=1;rounded=0;strokeColor=#455A64;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="ux" target="smoke" style="endArrow=block;html=1;rounded=0;strokeColor=#455A64;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="smoke" target="manual" style="endArrow=block;html=1;rounded=0;strokeColor=#455A64;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="ux" target="ready" style="endArrow=block;html=1;rounded=0;strokeColor=#1565C0;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="smoke" target="notready" style="endArrow=block;html=1;rounded=0;dashed=1;strokeColor=#C62828;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

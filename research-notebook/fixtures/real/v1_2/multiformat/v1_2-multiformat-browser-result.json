@@ -1,0 +1,79 @@
+{
+  "appUrl": "http://127.0.0.1:5173",
+  "dataServiceBaseUrl": "http://127.0.0.1:8003",
+  "workspaceId": "rn-v12-multiformat-1779609883023-workspace",
+  "candidates": [
+    {
+      "sourceType": "markdown",
+      "sourceId": "src_757976bbaacf5627",
+      "unitId": "unit_565c3f27655f6262",
+      "evidenceId": "ev_97285b32abc795e2",
+      "highlightText": "v12markdownanchor evidence should be highlighted from markdown source.",
+      "screenshotArtifact": "<research-notebook>/.smoke-artifacts/v1_2_multiformat/1779609883023/markdown-highlight.png"
+    },
+    {
+      "sourceType": "json",
+      "sourceId": "src_16b7d3a7231c79c1",
+      "unitId": "unit_358ea576827186b9",
+      "evidenceId": "ev_b18970f8080aeb9c",
+      "highlightText": "{\"summary\":\"v12jsonanchor evidence should be highlighted from json source\",\"status\":\"supported\"}",
+      "screenshotArtifact": "<research-notebook>/.smoke-artifacts/v1_2_multiformat/1779609883023/json-highlight.png"
+    }
+  ],
+  "forbiddenKnowledgeRequests": [],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "declaration": "V1_2_MARKDOWN_JSON_BROWSER_SMOKE_READY",
+  "results": [
+    {
+      "name": "data_service target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "browser opened app",
+      "status": "pass",
+      "detail": "http://127.0.0.1:5173"
+    },
+    {
+      "name": "workspace create and enter",
+      "status": "pass",
+      "detail": "rn-v12-multiformat-1779609883023-workspace"
+    },
+    {
+      "name": "markdown source import visible",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "markdown preview and unit visible",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "markdown evidence highlight visible",
+      "status": "pass",
+      "detail": "v12markdownanchor evidence should be highlighted from markdown source."
+    },
+    {
+      "name": "json source import visible",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "json preview and unit visible",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "json evidence highlight visible",
+      "status": "pass",
+      "detail": "{\"summary\":\"v12jsonanchor evidence should be highlighted from json source\",\"status\":\"supported\"}"
+    },
+    {
+      "name": "browser console/network guard",
+      "status": "pass",
+      "detail": ""
+    }
+  ]
+}

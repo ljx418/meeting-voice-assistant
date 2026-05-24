@@ -28,33 +28,33 @@ export function LightweightFeedback({ workspaceId, target }: { workspaceId: stri
   };
 
   return (
-    <div className="feedback-box" aria-label="Lightweight feedback">
-      <div className="workspace-meta">Feedback</div>
+    <div className="feedback-box" aria-label="轻量反馈">
+      <div className="workspace-meta">反馈</div>
       <div className="feedback-actions">
         <form onSubmit={submit('up')}>
           <input type="hidden" name="rating" value="up" />
           <button className="secondary-button" type="submit" disabled={feedback.isPending}>
-            Helpful
+            有帮助
           </button>
         </form>
         <form onSubmit={submit('down')}>
           <input type="hidden" name="rating" value="down" />
           <button className="secondary-button" type="submit" disabled={feedback.isPending}>
-            Needs work
+            需要改进
           </button>
         </form>
       </div>
       <label>
-        <span className="field-label">Comment</span>
+        <span className="field-label">备注</span>
         <input
           className="text-input"
           value={comment}
           onChange={(event) => setComment(event.target.value)}
-          placeholder="Optional feedback"
+          placeholder="可选反馈"
         />
       </label>
-      {submittedRating ? <p className="workspace-meta">Feedback submitted: {submittedRating}</p> : null}
-      {feedback.error ? <ApiErrorState title="Feedback submit failed" error={feedback.error} /> : null}
+      {submittedRating ? <p className="workspace-meta">反馈已提交：{submittedRating === 'up' ? '有帮助' : '需要改进'}</p> : null}
+      {feedback.error ? <ApiErrorState title="反馈提交失败" error={feedback.error} /> : null}
     </div>
   );
 }

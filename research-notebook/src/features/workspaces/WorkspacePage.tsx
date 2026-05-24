@@ -30,7 +30,32 @@ import { LightweightFeedback } from '../../shared/components/LightweightFeedback
 
 function SourceStateBadge({ source }: { source: SourceSummary }) {
   const state = source.build_state ?? source.import_state ?? 'idle';
-  return <span className={`state-pill state-${state}`}>{state}</span>;
+  const labels: Record<string, string> = {
+    idle: '空闲',
+    pending: '等待中',
+    importing: '导入中',
+    imported: '已导入',
+    building: '构建中',
+    ready: '就绪',
+    failed: '失败',
+    unsupported_type: '暂不支持'
+  };
+  return <span className={`state-pill state-${state}`}>{labels[state] ?? state}</span>;
+}
+
+function operationStateLabel(state: string) {
+  const labels: Record<string, string> = {
+    idle: '空闲',
+    running: '运行中',
+    completed: '已完成',
+    failed: '失败',
+    cancelling: '取消中',
+    cancelled: '已取消',
+    backend_unavailable: '后端不可用',
+    request_timeout: '请求超时',
+    operation_unavailable: '操作不可用'
+  };
+  return labels[state] ?? state;
 }
 
 function SourceImportForm({ workspaceId }: { workspaceId: string }) {
@@ -38,7 +63,7 @@ function SourceImportForm({ workspaceId }: { workspaceId: string }) {
   const typeId = useId();
   const contentId = useId();
   const [title, setTitle] = useState('');
-  const [sourceType, setSourceType] = useState('');
+  const [sourceType, setSourceType] = useState('text');
   const [content, setContent] = useState('');
   const createSource = useCreateSourceMutation(workspaceId);
 
@@ -55,7 +80,7 @@ function SourceImportForm({ workspaceId }: { workspaceId: string }) {
       {
         onSuccess: () => {
           setTitle('');
-          setSourceType('');
+          setSourceType('text');
           setContent('');
         }
       }
@@ -63,34 +88,45 @@ function SourceImportForm({ workspaceId }: { workspaceId: string }) {
   };
 
   return (
-    <form className="source-import-form" onSubmit={submit} aria-label="Import source">
+    <form className="source-import-form" onSubmit={submit} aria-label="导入来源">
       <label>
-        <span className="field-label">Source title</span>
+        <span className="field-label">来源标题</span>
         <input id={titleId} className="text-input" value={title} onChange={(event) => setTitle(event.target.value)} />
       </label>
       <label>
-        <span className="field-label">Source type</span>
-        <input
+        <span className="field-label">来源类型</span>
+        <select
           id={typeId}
           className="text-input"
           value={sourceType}
           onChange={(event) => setSourceType(event.target.value)}
-          placeholder="Optional backend-supported type"
-        />
+        >
+          <option value="text">文本：已验证</option>
+          <option value="markdown">Markdown：已验证</option>
+          <option value="json">JSON：已验证</option>
+          <option value="pdf">PDF：后端合同待就绪</option>
+          <option value="pptx">PPTX：后端合同待就绪</option>
+          <option value="html">HTML：后端合同待就绪</option>
+          <option value="video">视频：后端合同待就绪</option>
+          <option value="audio">音频：后端合同待就绪</option>
+        </select>
       </label>
       <label className="wide-field">
-        <span className="field-label">Text or JSON payload</span>
+        <span className="field-label">文本或结构化内容</span>
         <textarea
           id={contentId}
           className="text-area"
           value={content}
           onChange={(event) => setContent(event.target.value)}
-          placeholder="Minimal source create payload. Full file upload and format support are future backend capabilities."
+          placeholder="当前支持最小文本内容。完整文件上传和更多格式支持仍是后续能力。"
         />
       </label>
-      {createSource.error ? <ApiErrorState title="Source import failed" error={createSource.error} /> : null}
+      <StateBlock title="格式支持边界">
+        当前已通过浏览器验收的来源类型是文本、Markdown 和 JSON。PDF、PPTX、HTML、视频、音频会作为来源类型元数据提交，但不能声明预览、文档单元或证据高亮 ready。
+      </StateBlock>
+      {createSource.error ? <ApiErrorState title="来源导入失败" error={createSource.error} /> : null}
       <button className="primary-button" type="submit" disabled={createSource.isPending || !title.trim()}>
-        {createSource.isPending ? 'Importing' : 'Import source'}
+        {createSource.isPending ? '导入中' : '导入来源'}
       </button>
     </form>
   );
@@ -116,17 +152,17 @@ function SourceLibrary({
   return (
     <section className="panel" aria-labelledby="source-library-title">
       <div className="panel-header">
-        <h2 id="source-library-title">Source Library</h2>
+        <h2 id="source-library-title">来源库</h2>
       </div>
       <div className="panel-body page-grid">
         <SourceImportForm workspaceId={workspaceId} />
-        {sourcesQuery.isLoading ? <LoadingState label="Loading sources" /> : null}
+        {sourcesQuery.isLoading ? <LoadingState label="正在加载来源" /> : null}
         {sourcesQuery.error ? (
-          <ApiErrorState title="Source library unavailable" error={sourcesQuery.error} onRetry={() => void sourcesQuery.refetch()} />
+          <ApiErrorState title="来源库不可用" error={sourcesQuery.error} onRetry={() => void sourcesQuery.refetch()} />
         ) : null}
-        {removeSource.error ? <ApiErrorState title="Remove source failed" error={removeSource.error} /> : null}
+        {removeSource.error ? <ApiErrorState title="移除来源失败" error={removeSource.error} /> : null}
         {sourcesQuery.data && sourcesQuery.data.length === 0 ? (
-          <EmptyState title="No sources yet">Import a source before building workspace knowledge.</EmptyState>
+          <EmptyState title="暂无来源">请先导入来源，再构建工作区知识。</EmptyState>
         ) : null}
         {sourcesQuery.data && sourcesQuery.data.length > 0 ? (
           <div className="source-list">
@@ -139,30 +175,30 @@ function SourceLibrary({
                   </div>
                   <dl className="source-meta-grid">
                     <div>
-                      <dt>source_id</dt>
+                      <dt>来源 ID</dt>
                       <dd>{source.source_id}</dd>
                     </div>
                     <div>
-                      <dt>type</dt>
-                      <dd>{source.source_type || 'service-defined'}</dd>
+                      <dt>类型</dt>
+                      <dd>{source.source_type || '服务定义'}</dd>
                     </div>
                     <div>
-                      <dt>updated</dt>
-                      <dd>{source.updated_at || 'unknown'}</dd>
+                      <dt>更新时间</dt>
+                      <dd>{source.updated_at || '未知'}</dd>
                     </div>
                     <div>
-                      <dt>artifact refs</dt>
-                      <dd>{source.artifact_refs?.length ? `${source.artifact_refs.length} present` : 'none'}</dd>
+                      <dt>工件引用</dt>
+                      <dd>{source.artifact_refs?.length ? `${source.artifact_refs.length} 个` : '无'}</dd>
                     </div>
                     <div>
-                      <dt>trace</dt>
-                      <dd>{source.trace_available ? 'available' : 'unavailable'}</dd>
+                      <dt>来源溯源</dt>
+                      <dd>{source.trace_available ? '可用' : '不可用'}</dd>
                     </div>
                   </dl>
                 </div>
                 <div className="source-actions">
                   <button className="secondary-button" type="button" onClick={() => onTrace(source)} disabled={!source.trace_available}>
-                    Trace
+                    溯源
                   </button>
                   <button
                     className="secondary-button"
@@ -173,17 +209,17 @@ function SourceLibrary({
                     )}
                     title={
                       capabilitiesQuery.data && !isSourceLevelPreviewSupported(capabilitiesQuery.data, source.source_type)
-                        ? 'Source preview is not advertised for this source type.'
+                        ? '该来源类型未声明支持预览。'
                         : undefined
                     }
                   >
-                    Preview
+                    预览
                   </button>
                   <button className="secondary-button" type="button" onClick={onAsk}>
-                    Ask workspace
+                    提问
                   </button>
                   <button className="secondary-button" type="button" onClick={onRebuild}>
-                    Rebuild workspace knowledge
+                    重建知识
                   </button>
                   <button
                     className="secondary-button"
@@ -191,7 +227,7 @@ function SourceLibrary({
                     onClick={() => removeSource.mutate(source.source_id)}
                     disabled={removeSource.isPending}
                   >
-                    Remove
+                    移除
                   </button>
                 </div>
               </article>
@@ -246,31 +282,31 @@ function BuildPanel({ workspaceId, rebuildSignal }: { workspaceId: string; rebui
   return (
     <section className="panel" aria-labelledby="build-panel-title">
       <div className="panel-header">
-        <h2 id="build-panel-title">Workspace Build</h2>
+        <h2 id="build-panel-title">工作区构建</h2>
       </div>
       <div className="panel-body page-grid">
-        {startBuild.error ? <ApiErrorState title="Build start failed" error={startBuild.error} /> : null}
+        {startBuild.error ? <ApiErrorState title="启动构建失败" error={startBuild.error} /> : null}
         <div className="toolbar-row">
           <div>
-            <div className="workspace-meta">Active operation</div>
-            <strong>{activeOperationId ?? 'none'}</strong>
+            <div className="workspace-meta">当前操作</div>
+            <strong>{activeOperationId ?? '无'}</strong>
           </div>
           <button className="primary-button" type="button" onClick={start} disabled={startBuild.isPending}>
-            {startBuild.isPending ? 'Starting' : 'Rebuild workspace knowledge'}
+            {startBuild.isPending ? '启动中' : '重建工作区知识'}
           </button>
         </div>
         <StateBlock
-          title={`Build status: ${polling.uiState}`}
+          title={`构建状态：${operationStateLabel(polling.uiState)}`}
           tone={polling.uiState === 'failed' || polling.uiState === 'operation_unavailable' ? 'error' : 'neutral'}
           action={
             polling.canCancel ? (
               <button className="secondary-button" type="button" onClick={() => void polling.cancelOperation()} disabled={polling.isCancelling}>
-                {polling.isCancelling ? 'Cancelling' : 'Cancel'}
+                {polling.isCancelling ? '取消中' : '取消'}
               </button>
             ) : null
           }
         >
-          {polling.operation?.message || 'Workspace build status is shown for the active workspace operation only.'}
+          {polling.operation?.message || '这里只显示当前工作区操作的构建状态。'}
         </StateBlock>
       </div>
     </section>
@@ -320,28 +356,28 @@ function WorkspaceQueryPanel({
   return (
     <section className="panel" aria-labelledby="workspace-query-title">
       <div className="panel-header">
-        <h2 id="workspace-query-title">Ask with Evidence</h2>
+        <h2 id="workspace-query-title">带证据提问</h2>
       </div>
       <div className="panel-body page-grid">
         <form className="ask-form" onSubmit={submit}>
           <label className="wide-field">
-            <span className="field-label">Question</span>
+            <span className="field-label">问题</span>
             <textarea
               id={questionId}
               className="text-area"
               value={question}
               onChange={(event) => setQuestion(event.target.value)}
-              placeholder="Ask a question against this workspace."
+              placeholder="基于当前工作区提问。"
             />
           </label>
           <button className="primary-button" type="submit" disabled={queryWorkspace.isPending || !question.trim()}>
-            {queryWorkspace.isPending ? 'Asking' : 'Ask workspace'}
+            {queryWorkspace.isPending ? '提问中' : '询问工作区'}
           </button>
         </form>
-        {queryWorkspace.error ? <ApiErrorState title="Workspace query failed" error={queryWorkspace.error} /> : null}
+        {queryWorkspace.error ? <ApiErrorState title="工作区提问失败" error={queryWorkspace.error} /> : null}
         {queryWorkspace.data ? (
           <article className="answer-card">
-            <h3>Answer</h3>
+            <h3>回答</h3>
             <p>{queryWorkspace.data.answer}</p>
             <EvidenceList
               evidence={queryWorkspace.data.evidence}
@@ -374,7 +410,7 @@ export function WorkspacePage() {
   const [askFocusSignal, setAskFocusSignal] = useState(0);
 
   if (workspaceQuery.isLoading) {
-    return <LoadingState label="Loading workspace" />;
+    return <LoadingState label="正在加载工作区" />;
   }
 
   if (workspaceQuery.error) {
@@ -385,9 +421,9 @@ export function WorkspacePage() {
       if (workspaceQuery.error.code === 'version_or_schema_mismatch') {
         return <VersionMismatchState />;
       }
-      return <StateBlock title="Workspace unavailable" tone="error">{workspaceQuery.error.message}</StateBlock>;
+      return <StateBlock title="工作区不可用" tone="error">{workspaceQuery.error.message}</StateBlock>;
     }
-    return <StateBlock title="Workspace unavailable" tone="error">The workspace could not be loaded.</StateBlock>;
+    return <StateBlock title="工作区不可用" tone="error">工作区无法加载。</StateBlock>;
   }
 
   const workspace = workspaceQuery.data;
@@ -397,7 +433,7 @@ export function WorkspacePage() {
       <div className="workspace-main page-grid">
         <div className="toolbar-row">
           <div>
-            <div className="eyebrow">Workspace</div>
+            <div className="eyebrow">工作区</div>
             <h2 className="page-title">{workspace?.name ?? workspaceId}</h2>
           </div>
           <button
@@ -406,31 +442,31 @@ export function WorkspacePage() {
             onClick={() => archiveWorkspace.mutate()}
             disabled={archiveWorkspace.isPending || workspace?.archived}
           >
-            {workspace?.archived ? 'Archived' : 'Archive'}
+            {workspace?.archived ? '已归档' : '归档'}
           </button>
           <Link className="secondary-button" to={`/workspaces/${workspaceId}/workbench`}>
-            Workbench
+            会话工作台
           </Link>
           <Link className="secondary-button" to={`/workspaces/${workspaceId}/graph`}>
-            Graph
+            知识图谱
           </Link>
         </div>
 
         {archiveWorkspace.error ? (
-          <StateBlock title="Archive failed" tone="error">
+          <StateBlock title="归档失败" tone="error">
             {isNormalizedApiError(archiveWorkspace.error)
               ? archiveWorkspace.error.message
-              : 'The workspace could not be archived.'}
+              : '工作区无法归档。'}
           </StateBlock>
         ) : null}
 
         <section className="panel">
           <div className="panel-header">
-            <h2>Workspace overview</h2>
+            <h2>工作区概览</h2>
           </div>
           <div className="panel-body">
-            <p className="workspace-meta">Stable ID: {workspace?.workspace_id}</p>
-            <p>{workspace?.description || 'No description provided.'}</p>
+            <p className="workspace-meta">稳定 ID：{workspace?.workspace_id}</p>
+            <p>{workspace?.description || '暂无描述。'}</p>
           </div>
         </section>
 

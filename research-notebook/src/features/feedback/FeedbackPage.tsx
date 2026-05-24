@@ -2,9 +2,8 @@ import { UnsupportedFeatureState } from '../../shared/components/StateBlock';
 
 export function FeedbackPage() {
   return (
-    <UnsupportedFeatureState title="Feedback is available near answers">
-      Lightweight feedback is implemented as a secondary action near workspace, session, and graph context surfaces. Quality/Governance console
-      workflows remain out of V1.0-M4.
+    <UnsupportedFeatureState title="反馈入口位于回答和上下文附近">
+      当前版本提供轻量反馈入口，分布在工作区回答、会话回答和图谱上下文附近。质量治理控制台仍属于后续能力。
     </UnsupportedFeatureState>
   );
 }

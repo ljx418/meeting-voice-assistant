@@ -37,13 +37,13 @@ function highlightedUnitText(text: string, evidence: ReturnType<typeof useSource
     evidence.text_basis === undefined ||
     evidence.unit_id === undefined
   ) {
-    return { state: 'unavailable', reason: 'EvidenceSpan is missing offset basis, offset range, text basis, or unit_id.', content: text };
+    return { state: 'unavailable', reason: '证据片段缺少偏移基准、偏移范围、文本基准或单元 ID。', content: text };
   }
   if (evidence.offset_basis !== 'normalized_text' || evidence.offset_range !== 'half_open' || evidence.text_basis !== 'document_unit_text') {
-    return { state: 'unavailable', reason: 'EvidenceSpan offset contract is not supported by the frontend highlighter.', content: text };
+    return { state: 'unavailable', reason: '当前前端高亮器不支持该证据片段的偏移合同。', content: text };
   }
   if (evidence.start_offset < 0 || evidence.end_offset <= evidence.start_offset || evidence.end_offset > text.length) {
-    return { state: 'unavailable', reason: 'EvidenceSpan offsets are outside the rendered unit text.', content: text };
+    return { state: 'unavailable', reason: '证据片段偏移超出了当前渲染的单元文本。', content: text };
   }
 
   return {
@@ -105,8 +105,8 @@ export function SourcePreviewDrawer({
   const capabilityUnsupported =
     capabilitiesQuery.data && !previewSupported
       ? sourceType
-        ? `data_service does not advertise source-level preview for source type "${effectiveSourceType}".`
-        : 'data_service does not advertise any source-level preview capability for this workspace.'
+        ? `数据服务未声明来源类型“${effectiveSourceType}”支持来源级预览。`
+        : '数据服务未声明该工作区支持来源级预览能力。'
       : null;
   const preview = previewQuery.data?.preview;
   const contentType = preview?.content_type ?? 'unknown';
@@ -115,9 +115,9 @@ export function SourcePreviewDrawer({
     rawPreviewText.length > MAX_RENDERED_PREVIEW_CHARS ? rawPreviewText.slice(0, MAX_RENDERED_PREVIEW_CHARS) : rawPreviewText;
   const contentSafetyNotice =
     contentType === 'text/html' || contentType === 'text/markdown'
-      ? `${contentType} returned by backend; rendered as escaped text.`
+      ? `后端返回 ${contentType}，已按转义文本渲染。`
       : contentType === 'unknown'
-        ? 'Unknown content_type; rendered as escaped text.'
+        ? 'content_type 未知，已按转义文本渲染。'
         : null;
   const unitMetadataAllowed = Boolean(capabilitiesQuery.data?.capabilities.document_units);
   const previewUnits = unitMetadataAllowed ? (preview?.units ?? []) : [];
@@ -148,32 +148,32 @@ export function SourcePreviewDrawer({
   if (!sourceId) return null;
 
   return (
-    <aside className="right-drawer" aria-label="Source preview drawer" data-testid="source-preview-drawer">
+    <aside className="right-drawer" aria-label="来源预览抽屉" data-testid="source-preview-drawer">
       <div className="drawer-header">
         <div>
-          <div className="eyebrow">V1.1-D Source Preview / Evidence Navigation</div>
-          <h2>Source Preview</h2>
+          <div className="eyebrow">来源预览与证据定位</div>
+          <h2>来源预览</h2>
         </div>
         <button className="secondary-button" type="button" onClick={onClose}>
-          Close
+          关闭
         </button>
       </div>
       <div className="drawer-body page-grid">
-        {capabilitiesQuery.isLoading ? <LoadingState label="Checking source preview capability" /> : null}
+        {capabilitiesQuery.isLoading ? <LoadingState label="正在检查来源预览能力" /> : null}
         {capabilitiesQuery.error && isNormalizedApiError(capabilitiesQuery.error) && capabilitiesQuery.error.code === 'capability_missing' ? (
-          <UnsupportedFeatureState title="Source preview contract missing">
-            data_service did not expose the capability manifest for this workspace. Source Preview remains disabled and is not claimed ready.
+          <UnsupportedFeatureState title="缺少来源预览合同">
+            数据服务没有暴露该工作区的能力清单，来源预览保持禁用状态。
           </UnsupportedFeatureState>
         ) : null}
         {capabilitiesQuery.error && (!isNormalizedApiError(capabilitiesQuery.error) || capabilitiesQuery.error.code !== 'capability_missing') ? (
-          <ApiErrorState title="Source preview capability unavailable" error={capabilitiesQuery.error} onRetry={() => void capabilitiesQuery.refetch()} />
+          <ApiErrorState title="来源预览能力不可用" error={capabilitiesQuery.error} onRetry={() => void capabilitiesQuery.refetch()} />
         ) : null}
         {capabilityUnsupported ? (
-          <UnsupportedFeatureState title="Source preview unsupported">{capabilityUnsupported}</UnsupportedFeatureState>
+          <UnsupportedFeatureState title="暂不支持来源预览">{capabilityUnsupported}</UnsupportedFeatureState>
         ) : null}
-        {previewQuery.isLoading ? <LoadingState label="Loading source preview" /> : null}
+        {previewQuery.isLoading ? <LoadingState label="正在加载来源预览" /> : null}
         {previewQuery.error ? (
-          <ApiErrorState title="Source preview unavailable" error={previewQuery.error} onRetry={() => void previewQuery.refetch()} />
+          <ApiErrorState title="来源预览不可用" error={previewQuery.error} onRetry={() => void previewQuery.refetch()} />
         ) : null}
         {preview ? (
           <section className="panel">
@@ -183,81 +183,80 @@ export function SourcePreviewDrawer({
             <div className="panel-body page-grid">
               <dl className="source-meta-grid">
                 <div>
-                  <dt>source_id</dt>
+                  <dt>来源 ID</dt>
                   <dd>{preview.source_id}</dd>
                 </div>
                 <div>
-                  <dt>type</dt>
-                  <dd>{preview.source_type ?? effectiveSourceType ?? 'service-defined'}</dd>
+                  <dt>类型</dt>
+                  <dd>{preview.source_type ?? effectiveSourceType ?? '服务定义'}</dd>
                 </div>
                 <div>
                   <dt>content_type</dt>
                   <dd>{contentType}</dd>
                 </div>
                 <div>
-                  <dt>artifact refs</dt>
-                  <dd>{preview.artifact_refs?.length ? `${preview.artifact_refs.length} present` : 'none'}</dd>
+                  <dt>工件引用</dt>
+                  <dd>{preview.artifact_refs?.length ? `${preview.artifact_refs.length} 个` : '无'}</dd>
                 </div>
               </dl>
               {preview.preview_available ? null : (
-                <UnsupportedFeatureState title="Preview unavailable">
-                  {preview.unsupported_reason ?? 'data_service recognizes this source but did not return a preview.'}
+                <UnsupportedFeatureState title="预览不可用">
+                  {preview.unsupported_reason ?? '数据服务可以识别该来源，但没有返回预览内容。'}
                 </UnsupportedFeatureState>
               )}
               {preview.artifact_refs?.length ? (
-                <StateBlock title="Artifact refs are metadata only">{preview.artifact_refs.join(', ')}</StateBlock>
+                <StateBlock title="工件引用仅作为元数据展示">{preview.artifact_refs.join(', ')}</StateBlock>
               ) : null}
-              {contentSafetyNotice ? <StateBlock title="Content safety">{contentSafetyNotice}</StateBlock> : null}
+              {contentSafetyNotice ? <StateBlock title="内容安全">{contentSafetyNotice}</StateBlock> : null}
               {rawPreviewText.length > MAX_RENDERED_PREVIEW_CHARS || preview.preview_truncated ? (
-                <StateBlock title="Preview truncated">
-                  Showing the first {renderedPreviewText.length.toLocaleString()} characters. Backend size:{' '}
-                  {preview.preview_size_bytes?.toLocaleString() ?? 'unknown'} bytes; max:{' '}
-                  {preview.max_preview_size_bytes?.toLocaleString() ?? 'unknown'} bytes.
+                <StateBlock title="预览已截断">
+                  当前显示前 {renderedPreviewText.length.toLocaleString()} 个字符。后端大小：{' '}
+                  {preview.preview_size_bytes?.toLocaleString() ?? '未知'} 字节；上限：{' '}
+                  {preview.max_preview_size_bytes?.toLocaleString() ?? '未知'} 字节。
                 </StateBlock>
               ) : null}
               {renderedPreviewText ? (
-                <pre className="text-preview" aria-label="Source preview text">
+                <pre className="text-preview" aria-label="来源预览文本">
                   {renderedPreviewText}
                 </pre>
               ) : preview.preview_available ? (
-                <StateBlock title="No text preview returned">data_service returned preview_available=true without text_preview.</StateBlock>
+                <StateBlock title="未返回文本预览">数据服务声明预览可用，但没有返回 text_preview。</StateBlock>
               ) : null}
             </div>
           </section>
         ) : null}
         <section className="panel" aria-labelledby="document-units-title">
           <div className="panel-header">
-            <h3 id="document-units-title">Document Units</h3>
+            <h3 id="document-units-title">文档单元</h3>
           </div>
           <div className="panel-body page-grid">
             {!capabilitiesQuery.data?.capabilities.document_units ? (
-              <UnsupportedFeatureState title="Unit navigation unsupported">
-                data_service does not advertise document_units for this workspace. Unit-level navigation remains NOT_READY.
+              <UnsupportedFeatureState title="暂不支持单元导航">
+                数据服务未声明该工作区支持文档单元能力。
               </UnsupportedFeatureState>
             ) : null}
             {capabilitiesQuery.data?.capabilities.document_units && !unitNavigationSupported ? (
-              <UnsupportedFeatureState title="Units metadata returned but navigation disabled">
-                DocumentUnit metadata can be displayed, but unit navigation is disabled until the manifest advertises unit-level navigation for
-                this source type.
+              <UnsupportedFeatureState title="已返回单元元数据，但导航未启用">
+                可以展示文档单元元数据；只有能力清单声明该来源类型支持单元导航后，才会启用导航。
               </UnsupportedFeatureState>
             ) : null}
             {preview?.units?.length && !unitMetadataAllowed ? (
-              <StateBlock title="Document units ignored">
-                Preview response included units, but capability manifest does not advertise document_units=true.
+              <StateBlock title="已忽略文档单元">
+                预览响应包含 units，但能力清单没有声明 document_units=true。
               </StateBlock>
             ) : null}
-            {unitNavigationSupported && unitsQuery.isLoading ? <LoadingState label="Loading document units" /> : null}
+            {unitNavigationSupported && unitsQuery.isLoading ? <LoadingState label="正在加载文档单元" /> : null}
             {unitNavigationSupported && unitsQuery.error ? (
-              <ApiErrorState title="Document units unavailable" error={unitsQuery.error} onRetry={() => void unitsQuery.refetch()} />
+              <ApiErrorState title="文档单元不可用" error={unitsQuery.error} onRetry={() => void unitsQuery.refetch()} />
             ) : null}
             {unitListUnsupportedReason ? (
-              <UnsupportedFeatureState title="Document units unavailable">{unitListUnsupportedReason}</UnsupportedFeatureState>
+              <UnsupportedFeatureState title="文档单元不可用">{unitListUnsupportedReason}</UnsupportedFeatureState>
             ) : null}
             {unitNavigationSupported && !unitsQuery.isLoading && !unitsQuery.error && routeUnits.length === 0 && !unitListUnsupportedReason ? (
-              <StateBlock title="No DocumentUnits returned">data_service returned an empty DocumentUnit list for this source.</StateBlock>
+              <StateBlock title="未返回文档单元">数据服务为该来源返回了空的文档单元列表。</StateBlock>
             ) : null}
             {unitNavigationSupported && routeUnits.length > 0 ? (
-              <div className="source-list" aria-label="Document units outline" data-testid="document-units-outline">
+              <div className="source-list" aria-label="文档单元大纲" data-testid="document-units-outline">
                 {routeUnits.map((unit) => (
                   <button
                     className="source-card"
@@ -269,7 +268,7 @@ export function SourcePreviewDrawer({
                     <span>
                       <strong>{unit.title ?? unit.unit_id}</strong>
                       <span className="workspace-meta">
-                        {unit.unit_type} / order {unit.order_index ?? 'unknown'} / {unit.unit_id}
+                        {unit.unit_type} / 顺序 {unit.order_index ?? '未知'} / {unit.unit_id}
                       </span>
                     </span>
                   </button>
@@ -283,14 +282,14 @@ export function SourcePreviewDrawer({
                 disabled={unitsQuery.isFetchingNextPage}
                 onClick={() => void unitsQuery.fetchNextPage()}
               >
-                {unitsQuery.isFetchingNextPage ? 'Loading more units...' : 'Load more units'}
+                {unitsQuery.isFetchingNextPage ? '正在加载更多单元...' : '加载更多单元'}
               </button>
             ) : null}
             {unitNavigationSupported && unitsQuery.isFetchNextPageError ? (
-              <ApiErrorState title="Load more units failed" error={unitsQuery.error} onRetry={() => void unitsQuery.fetchNextPage()} />
+              <ApiErrorState title="加载更多单元失败" error={unitsQuery.error} onRetry={() => void unitsQuery.fetchNextPage()} />
             ) : null}
             {!unitNavigationSupported && unitMetadataAllowed && previewUnits.length > 0 ? (
-              <div className="source-list" aria-label="Document units metadata">
+              <div className="source-list" aria-label="文档单元元数据">
                 {previewUnits.map((unit) => (
                   <article className="source-card" key={unit.unit_id}>
                     <div>
@@ -301,28 +300,28 @@ export function SourcePreviewDrawer({
                           <dd>{unit.unit_id}</dd>
                         </div>
                         <div>
-                          <dt>unit_type</dt>
+                          <dt>单元类型</dt>
                           <dd>{unit.unit_type}</dd>
                         </div>
                         <div>
-                          <dt>order</dt>
-                          <dd>{unit.order_index ?? 'unknown'}</dd>
+                          <dt>顺序</dt>
+                          <dd>{unit.order_index ?? '未知'}</dd>
                         </div>
                         <div>
-                          <dt>locator</dt>
+                          <dt>定位信息</dt>
                           <dd>
                             {[
-                              unit.page_no !== undefined ? `page ${unit.page_no}` : undefined,
-                              unit.slide_no !== undefined ? `slide ${unit.slide_no}` : undefined,
+                              unit.page_no !== undefined ? `页码 ${unit.page_no}` : undefined,
+                              unit.slide_no !== undefined ? `幻灯片 ${unit.slide_no}` : undefined,
                               unit.timestamp_start_ms !== undefined ? `${unit.timestamp_start_ms}ms` : undefined,
                               unit.json_path
                             ]
                               .filter(Boolean)
-                              .join(' / ') || 'none'}
+                              .join(' / ') || '无'}
                           </dd>
                         </div>
                       </dl>
-                      {unit.artifact_ref ? <p className="workspace-meta">artifact_ref metadata: {unit.artifact_ref}</p> : null}
+                      {unit.artifact_ref ? <p className="workspace-meta">artifact_ref 元数据：{unit.artifact_ref}</p> : null}
                       {unit.text_preview ? <p>{unit.text_preview}</p> : null}
                     </div>
                   </article>
@@ -330,14 +329,14 @@ export function SourcePreviewDrawer({
               </div>
             ) : null}
             {unitNavigationSupported && selectedUnitId ? (
-              <section className="panel" aria-label="Selected document unit" data-testid="selected-document-unit">
+              <section className="panel" aria-label="已选文档单元" data-testid="selected-document-unit">
                 <div className="panel-header">
                   <h4>{selectedUnitDetail?.title ?? selectedUnitId}</h4>
                 </div>
                 <div className="panel-body page-grid">
-                  {unitDetailQuery.isLoading ? <LoadingState label="Loading selected unit" /> : null}
+                  {unitDetailQuery.isLoading ? <LoadingState label="正在加载已选单元" /> : null}
                   {unitDetailQuery.error ? (
-                    <ApiErrorState title="Document unit unavailable" error={unitDetailQuery.error} onRetry={() => void unitDetailQuery.refetch()} />
+                    <ApiErrorState title="文档单元不可用" error={unitDetailQuery.error} onRetry={() => void unitDetailQuery.refetch()} />
                   ) : null}
                   {selectedUnitDetail ? (
                     <>
@@ -352,7 +351,7 @@ export function SourcePreviewDrawer({
                         </div>
                         <div>
                           <dt>artifact_ref</dt>
-                          <dd>{selectedUnitDetail.artifact_ref ?? 'none'}</dd>
+                          <dd>{selectedUnitDetail.artifact_ref ?? '无'}</dd>
                         </div>
                         {requestedEvidenceId ? (
                           <div>
@@ -362,44 +361,44 @@ export function SourcePreviewDrawer({
                         ) : null}
                       </dl>
                       {selectedContentType === 'text/html' || selectedContentType === 'text/markdown' ? (
-                        <StateBlock title="Content safety">{selectedContentType} returned by backend; rendered as escaped text.</StateBlock>
+                        <StateBlock title="内容安全">后端返回 {selectedContentType}，已按转义文本渲染。</StateBlock>
                       ) : null}
                       {requestedEvidenceId && evidenceNavigationSupported && evidenceSpanQuery.isLoading ? (
-                        <LoadingState label="Loading EvidenceSpan" />
+                        <LoadingState label="正在加载证据片段" />
                       ) : null}
                       {requestedEvidenceId && !evidenceNavigationSupported ? (
-                        <UnsupportedFeatureState title="EvidenceSpan navigation unsupported">
-                          data_service capability manifest does not advertise precise EvidenceSpan navigation for this workspace.
+                        <UnsupportedFeatureState title="暂不支持证据片段导航">
+                          数据服务能力清单未声明该工作区支持精确证据片段导航。
                         </UnsupportedFeatureState>
                       ) : null}
                       {requestedEvidenceId && evidenceSpanQuery.error ? (
                         <ApiErrorState
-                          title="EvidenceSpan unavailable"
+                          title="证据片段不可用"
                           error={evidenceSpanQuery.error}
                           onRetry={() => void evidenceSpanQuery.refetch()}
                         />
                       ) : null}
                       {highlightDisabledByTruncation ? (
-                        <StateBlock title="Highlight unavailable" tone="warning">
-                          The selected unit text is truncated before the EvidenceSpan end offset. The frontend will not fabricate a highlight.
+                        <StateBlock title="高亮不可用" tone="warning">
+                          已选单元文本在证据片段结束偏移前被截断，前端不会伪造高亮。
                         </StateBlock>
                       ) : null}
                       {highlightResult.state === 'unavailable' && !highlightDisabledByTruncation ? (
-                        <StateBlock title="Highlight unavailable" tone="warning">{highlightResult.reason}</StateBlock>
+                        <StateBlock title="高亮不可用" tone="warning">{highlightResult.reason}</StateBlock>
                       ) : null}
                       {selectedUnitDetail.preview_truncated || selectedPreviewText.length > MAX_RENDERED_PREVIEW_CHARS ? (
-                        <StateBlock title="Unit preview truncated">
-                          Showing the first {renderedSelectedPreviewText.length.toLocaleString()} characters. Backend size:{' '}
-                          {selectedUnitDetail.preview_size_bytes?.toLocaleString() ?? 'unknown'} bytes; max:{' '}
-                          {selectedUnitDetail.max_preview_size_bytes?.toLocaleString() ?? 'unknown'} bytes.
+                        <StateBlock title="单元预览已截断">
+                          当前显示前 {renderedSelectedPreviewText.length.toLocaleString()} 个字符。后端大小：{' '}
+                          {selectedUnitDetail.preview_size_bytes?.toLocaleString() ?? '未知'} 字节；上限：{' '}
+                          {selectedUnitDetail.max_preview_size_bytes?.toLocaleString() ?? '未知'} 字节。
                         </StateBlock>
                       ) : null}
                       {renderedSelectedPreviewText ? (
-                        <pre className="text-preview" aria-label="Selected unit preview text">
+                        <pre className="text-preview" aria-label="已选单元预览文本">
                           {highlightDisabledByTruncation ? renderedSelectedPreviewText : highlightResult.content}
                         </pre>
                       ) : (
-                        <StateBlock title="No unit text preview returned">data_service returned unit metadata without text_preview.</StateBlock>
+                        <StateBlock title="未返回单元文本预览">数据服务返回了单元元数据，但没有返回 text_preview。</StateBlock>
                       )}
                     </>
                   ) : null}

@@ -26,12 +26,27 @@ import { LightweightFeedback } from '../../shared/components/LightweightFeedback
 import { SessionGraphContext } from '../../shared/components/GraphContextPanel';
 
 function visibleSessionState(state?: SessionState) {
-  if (state === 'closed') return 'Closed';
-  if (state === 'building') return 'Building';
-  if (state === 'ready') return 'Ready';
-  if (state === 'ingested_not_built') return 'Needs build';
-  if (state === 'failed_build' || state === 'failed_ingest') return 'Failed';
-  return 'Active';
+  if (state === 'closed') return '已关闭';
+  if (state === 'building') return '构建中';
+  if (state === 'ready') return '就绪';
+  if (state === 'ingested_not_built') return '需要构建';
+  if (state === 'failed_build' || state === 'failed_ingest') return '失败';
+  return '活跃';
+}
+
+function operationStateLabel(state: string) {
+  const labels: Record<string, string> = {
+    idle: '空闲',
+    running: '运行中',
+    completed: '已完成',
+    failed: '失败',
+    cancelling: '取消中',
+    cancelled: '已取消',
+    backend_unavailable: '后端不可用',
+    request_timeout: '请求超时',
+    operation_unavailable: '操作不可用'
+  };
+  return labels[state] ?? state;
 }
 
 function SessionCreateForm({ workspaceId, onCreated }: { workspaceId: string; onCreated: (sessionId: string) => void }) {
@@ -55,14 +70,14 @@ function SessionCreateForm({ workspaceId, onCreated }: { workspaceId: string; on
   };
 
   return (
-    <form className="session-create-form" onSubmit={submit} aria-label="Create session">
+    <form className="session-create-form" onSubmit={submit} aria-label="创建会话">
       <label>
-        <span className="field-label">Session title</span>
+        <span className="field-label">会话标题</span>
         <input id={titleId} className="text-input" value={title} onChange={(event) => setTitle(event.target.value)} />
       </label>
-      {createSession.error ? <ApiErrorState title="Create session failed" error={createSession.error} /> : null}
+      {createSession.error ? <ApiErrorState title="创建会话失败" error={createSession.error} /> : null}
       <button className="primary-button" type="submit" disabled={createSession.isPending || !title.trim()}>
-        {createSession.isPending ? 'Creating' : 'Create session'}
+        {createSession.isPending ? '创建中' : '创建会话'}
       </button>
     </form>
   );
@@ -82,16 +97,16 @@ function SessionList({
   return (
     <section className="panel session-sidebar" aria-labelledby="session-list-title">
       <div className="panel-header">
-        <h2 id="session-list-title">Sessions</h2>
+        <h2 id="session-list-title">会话列表</h2>
       </div>
       <div className="panel-body page-grid">
         <SessionCreateForm workspaceId={workspaceId} onCreated={onSelect} />
-        {sessionsQuery.isLoading ? <LoadingState label="Loading sessions" /> : null}
+        {sessionsQuery.isLoading ? <LoadingState label="正在加载会话" /> : null}
         {sessionsQuery.error ? (
-          <ApiErrorState title="Session list unavailable" error={sessionsQuery.error} onRetry={() => void sessionsQuery.refetch()} />
+          <ApiErrorState title="会话列表不可用" error={sessionsQuery.error} onRetry={() => void sessionsQuery.refetch()} />
         ) : null}
         {sessionsQuery.data && sessionsQuery.data.length === 0 ? (
-          <EmptyState title="No sessions yet">Create a session to start a focused workbench.</EmptyState>
+          <EmptyState title="暂无会话">创建一个会话，开始专注工作台流程。</EmptyState>
         ) : null}
         {sessionsQuery.data && sessionsQuery.data.length > 0 ? (
           <div className="session-list">
@@ -132,34 +147,34 @@ function SessionSummaryPanel({
   return (
     <section className="panel" aria-labelledby="session-summary-title">
       <div className="panel-header">
-        <h2 id="session-summary-title">Session Context</h2>
+        <h2 id="session-summary-title">会话上下文</h2>
       </div>
       <div className="panel-body page-grid">
         <div className="toolbar-row">
           <div>
-            <div className="eyebrow">Current session</div>
+            <div className="eyebrow">当前会话</div>
             <h3>{session.title}</h3>
           </div>
           <span className={`state-pill state-${session.state}`}>{visibleSessionState(session.state)}</span>
         </div>
         <dl className="source-meta-grid">
           <div>
-            <dt>session_id</dt>
+            <dt>会话 ID</dt>
             <dd>{session.session_id}</dd>
           </div>
           <div>
-            <dt>artifact refs</dt>
-            <dd>{session.artifact_refs?.length ? `${session.artifact_refs.length} present` : 'none'}</dd>
+            <dt>工件引用</dt>
+            <dd>{session.artifact_refs?.length ? `${session.artifact_refs.length} 个` : '无'}</dd>
           </div>
           <div>
-            <dt>source context</dt>
-            <dd>{session.source_ids?.length ? `${session.source_ids.length} sources` : 'none'}</dd>
+            <dt>来源上下文</dt>
+            <dd>{session.source_ids?.length ? `${session.source_ids.length} 个来源` : '无'}</dd>
           </div>
         </dl>
-        <p>{session.context_summary || 'No session context summary returned yet.'}</p>
-        {closeSession.error ? <ApiErrorState title="Close session failed" error={closeSession.error} /> : null}
+        <p>{session.context_summary || '尚未返回会话上下文摘要。'}</p>
+        {closeSession.error ? <ApiErrorState title="关闭会话失败" error={closeSession.error} /> : null}
         <button className="secondary-button" type="button" onClick={close} disabled={isClosed || closeSession.isPending}>
-          {isClosed ? 'Closed' : closeSession.isPending ? 'Closing' : 'Close session'}
+          {isClosed ? '已关闭' : closeSession.isPending ? '关闭中' : '关闭会话'}
         </button>
       </div>
     </section>
@@ -192,28 +207,28 @@ function SessionIngestPanel({ workspaceId, session }: { workspaceId: string; ses
   return (
     <section className="panel" aria-labelledby="session-ingest-title">
       <div className="panel-header">
-        <h2 id="session-ingest-title">Snippet Ingest</h2>
+        <h2 id="session-ingest-title">片段导入</h2>
       </div>
       <div className="panel-body page-grid">
         <form className="ask-form" onSubmit={submit}>
           <label>
-            <span className="field-label">Context label</span>
+            <span className="field-label">上下文标签</span>
             <input id={labelId} className="text-input" value={label} onChange={(event) => setLabel(event.target.value)} disabled={isClosed} />
           </label>
           <label className="wide-field">
-            <span className="field-label">Snippet or context</span>
+            <span className="field-label">片段或上下文</span>
             <textarea
               id={contentId}
               className="text-area"
               value={content}
               onChange={(event) => setContent(event.target.value)}
               disabled={isClosed}
-              placeholder="Session-scoped text/context only. Source import and file upload are not part of M3 ingest."
+              placeholder="这里只导入会话范围内的文本或上下文；来源导入和文件上传请在来源库处理。"
             />
           </label>
-          {ingest.error ? <ApiErrorState title="Session ingest failed" error={ingest.error} /> : null}
+          {ingest.error ? <ApiErrorState title="会话片段导入失败" error={ingest.error} /> : null}
           <button className="primary-button" type="submit" disabled={isClosed || ingest.isPending || !content.trim()}>
-            {isClosed ? 'Session closed' : ingest.isPending ? 'Ingesting' : 'Ingest snippet'}
+            {isClosed ? '会话已关闭' : ingest.isPending ? '导入中' : '导入片段'}
           </button>
         </form>
       </div>
@@ -258,31 +273,31 @@ function SessionBuildPanel({ workspaceId, session }: { workspaceId: string; sess
   return (
     <section className="panel" aria-labelledby="session-build-title">
       <div className="panel-header">
-        <h2 id="session-build-title">Session Build</h2>
+        <h2 id="session-build-title">会话构建</h2>
       </div>
       <div className="panel-body page-grid">
-        {startBuild.error ? <ApiErrorState title="Session build start failed" error={startBuild.error} /> : null}
+        {startBuild.error ? <ApiErrorState title="启动会话构建失败" error={startBuild.error} /> : null}
         <div className="toolbar-row">
           <div>
-            <div className="workspace-meta">Active session operation</div>
-            <strong>{activeOperationId ?? 'none'}</strong>
+            <div className="workspace-meta">当前会话操作</div>
+            <strong>{activeOperationId ?? '无'}</strong>
           </div>
           <button className="primary-button" type="button" onClick={start} disabled={isClosed || startBuild.isPending}>
-            {isClosed ? 'Session closed' : startBuild.isPending ? 'Starting' : 'Build session'}
+            {isClosed ? '会话已关闭' : startBuild.isPending ? '启动中' : '构建会话'}
           </button>
         </div>
         <StateBlock
-          title={`Session build status: ${polling.uiState}`}
+          title={`会话构建状态：${operationStateLabel(polling.uiState)}`}
           tone={polling.uiState === 'failed' || polling.uiState === 'operation_unavailable' ? 'error' : 'neutral'}
           action={
             polling.canCancel ? (
               <button className="secondary-button" type="button" onClick={() => void polling.cancelOperation()} disabled={polling.isCancelling}>
-                {polling.isCancelling ? 'Cancelling' : 'Cancel'}
+                {polling.isCancelling ? '取消中' : '取消'}
               </button>
             ) : null
           }
         >
-          {polling.operation?.message || 'Session build status is scoped to the selected session only.'}
+          {polling.operation?.message || '这里只显示当前选中会话的构建状态。'}
         </StateBlock>
       </div>
     </section>
@@ -321,29 +336,29 @@ function SessionAskPanel({
   return (
     <section className="panel" aria-labelledby="session-query-title">
       <div className="panel-header">
-        <h2 id="session-query-title">Session Ask</h2>
+        <h2 id="session-query-title">会话提问</h2>
       </div>
       <div className="panel-body page-grid">
         <form className="ask-form" onSubmit={submit}>
           <label className="wide-field">
-            <span className="field-label">Session question</span>
+            <span className="field-label">会话问题</span>
             <textarea
               id={questionId}
               className="text-area"
               value={question}
               onChange={(event) => setQuestion(event.target.value)}
               disabled={isClosed}
-              placeholder="Ask against the selected session context."
+              placeholder="基于当前会话上下文提问。"
             />
           </label>
           <button className="primary-button" type="submit" disabled={isClosed || querySession.isPending || !question.trim()}>
-            {isClosed ? 'Session closed' : querySession.isPending ? 'Asking' : 'Ask session'}
+            {isClosed ? '会话已关闭' : querySession.isPending ? '提问中' : '询问会话'}
           </button>
         </form>
-        {querySession.error ? <ApiErrorState title="Session query failed" error={querySession.error} /> : null}
+        {querySession.error ? <ApiErrorState title="会话提问失败" error={querySession.error} /> : null}
         {querySession.data ? (
           <article className="answer-card">
-            <h3>Session Answer</h3>
+            <h3>会话回答</h3>
             <p>{querySession.data.answer}</p>
             <EvidenceList
               evidence={querySession.data.evidence}
@@ -365,12 +380,12 @@ function SessionGraphPanel({ workspaceId, sessionId }: { workspaceId: string; se
   return (
     <section className="panel" aria-labelledby="session-graph-title">
       <div className="panel-header">
-        <h2 id="session-graph-title">Read-only Session Graph</h2>
+        <h2 id="session-graph-title">只读会话图谱</h2>
       </div>
       <div className="panel-body page-grid">
-        {graphQuery.isLoading ? <LoadingState label="Loading session graph" /> : null}
+        {graphQuery.isLoading ? <LoadingState label="正在加载会话图谱" /> : null}
         {graphQuery.error ? (
-          <ApiErrorState title="Session graph unavailable" error={graphQuery.error} onRetry={() => void graphQuery.refetch()} />
+          <ApiErrorState title="会话图谱不可用" error={graphQuery.error} onRetry={() => void graphQuery.refetch()} />
         ) : null}
         {graphQuery.data ? <SessionGraphContext graph={graphQuery.data} /> : null}
       </div>
@@ -392,13 +407,13 @@ function SessionWorkbench({ workspaceId, activeSessionId, onSessionClosed }: { w
   const sessionQuery = useSessionQuery(workspaceId, activeSessionId);
 
   if (!activeSessionId) {
-    return <EmptyState title="No active session">Select or create a session to use the workbench.</EmptyState>;
+    return <EmptyState title="暂无活跃会话">请选择或创建一个会话后再使用工作台。</EmptyState>;
   }
-  if (sessionQuery.isLoading) return <LoadingState label="Loading session" />;
+  if (sessionQuery.isLoading) return <LoadingState label="正在加载会话" />;
   if (sessionQuery.error) {
-    return <ApiErrorState title="Session unavailable" error={sessionQuery.error} onRetry={() => void sessionQuery.refetch()} />;
+    return <ApiErrorState title="会话不可用" error={sessionQuery.error} onRetry={() => void sessionQuery.refetch()} />;
   }
-  if (!sessionQuery.data) return <EmptyState title="Session unavailable">The selected session returned no detail.</EmptyState>;
+  if (!sessionQuery.data) return <EmptyState title="会话不可用">选中的会话没有返回详情。</EmptyState>;
 
   const session = sessionQuery.data;
 
@@ -425,7 +440,7 @@ function SessionWorkbench({ workspaceId, activeSessionId, onSessionClosed }: { w
       />
       {session.last_answer ? (
         <article className="answer-card">
-          <h3>Last Answer</h3>
+          <h3>上次回答</h3>
           <p>{session.last_answer.answer}</p>
           <EvidenceList
             evidence={session.last_answer.evidence}
@@ -473,8 +488,8 @@ export function WorkbenchPage() {
 
   if (!workspaceId) {
     return (
-      <UnsupportedFeatureState title="Open Workbench From A Workspace">
-        Session Workbench is scoped to a workspace. Open a workspace first, then use its workbench route.
+      <UnsupportedFeatureState title="请先从工作区打开会话工作台">
+        会话工作台属于具体工作区。请先打开一个工作区，再进入会话工作台。
       </UnsupportedFeatureState>
     );
   }
@@ -483,11 +498,11 @@ export function WorkbenchPage() {
     <div className="session-workbench">
       <div className="toolbar-row">
         <div>
-          <div className="eyebrow">V1.0-M3</div>
-          <h2 className="page-title">Session Workbench</h2>
+          <div className="eyebrow">会话</div>
+          <h2 className="page-title">会话工作台</h2>
         </div>
         <Link className="secondary-button" to={`/workspaces/${workspaceId}`}>
-          Workspace
+          返回工作区
         </Link>
       </div>
       <div className="session-workbench-grid">

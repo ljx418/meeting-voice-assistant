@@ -355,7 +355,7 @@ async function getSmokeState(cdp) {
         selectedUnitVisible: Boolean(selectedUnit),
         highlightText: highlight?.textContent || '',
         highlightInsideSelectedUnit: Boolean(highlight && selectedUnit && selectedUnit.contains(highlight)),
-        sourcePreviewVisible: document.body.innerText.includes('Source Preview'),
+        sourcePreviewVisible: document.body.innerText.includes('来源预览') || document.body.innerText.includes('Source Preview'),
         sourceIdText,
         unitText,
         evidenceText
@@ -404,7 +404,7 @@ async function main() {
     cdp.on('Network.requestWillBeSent', (params) => networkRequests.push(params.request?.url ?? ''));
 
     await cdp.send('Page.navigate', { url: `${appUrl}/workspaces/${encodeURIComponent(workspaceId)}/workbench` });
-    await waitFor(() => textExists(cdp, 'Session Workbench'), 'session workbench rendered');
+    await waitFor(() => textExists(cdp, '会话工作台'), 'session workbench rendered');
     mark('browser opened workbench', 'pass', appUrl);
 
     await waitFor(() => textExists(cdp, `${prefix} session browser smoke`), 'session appears');
@@ -420,22 +420,22 @@ async function main() {
       })()`
     );
     if (!sessionSelected) throw new Error('could not select session');
-    await waitFor(() => textExists(cdp, 'Session Ask'), 'session ask visible');
+    await waitFor(() => textExists(cdp, '会话提问'), 'session ask visible');
     mark('session selected', 'pass', sessionId);
 
     const question = 'What identifiers should session precise navigation preserve?';
-    if (!(await setTextareaByLabel(cdp, 'session question', question))) throw new Error('could not set session question');
+    if (!(await setTextareaByLabel(cdp, '会话问题', question))) throw new Error('could not set session question');
     const asked = await evalJs(
       cdp,
       `(() => {
-        const button = [...document.querySelectorAll('button')].find((el) => (el.textContent || '').includes('Ask session'));
+        const button = [...document.querySelectorAll('button')].find((el) => (el.textContent || '').includes('询问会话') || (el.textContent || '').includes('Ask session'));
         if (!button || button.disabled) return false;
         button.click();
         return true;
       })()`
     );
     if (!asked) throw new Error('could not submit session question');
-    await waitFor(() => textExists(cdp, 'Session Answer'), 'session answer renders');
+    await waitFor(() => textExists(cdp, '会话回答'), 'session answer renders');
     await waitFor(() => evalJs(cdp, `Boolean(document.querySelector('[data-testid="jumpable-evidence-citation"]'))`), 'jumpable session citation visible');
     mark('session citation render', 'pass');
 

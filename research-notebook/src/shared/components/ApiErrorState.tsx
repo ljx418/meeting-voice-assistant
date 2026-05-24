@@ -9,5 +9,5 @@ export function ApiErrorState({ title, error, onRetry }: { title: string; error:
     if (error.code === 'version_or_schema_mismatch') return <VersionMismatchState />;
     return <StateBlock title={title} tone="error">{error.message}</StateBlock>;
   }
-  return <StateBlock title={title} tone="error">The request could not be completed.</StateBlock>;
+  return <StateBlock title={title} tone="error">请求未能完成。</StateBlock>;
 }

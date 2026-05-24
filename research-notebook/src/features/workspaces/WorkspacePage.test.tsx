@@ -62,7 +62,7 @@ describe('Workspace M2 smoke', () => {
 
     render(<App />);
 
-    expect(await screen.findByText('No sources yet')).toBeInTheDocument();
+    expect(await screen.findByText('暂无来源')).toBeInTheDocument();
   });
 
   it('shows source after mocked import', async () => {
@@ -89,9 +89,9 @@ describe('Workspace M2 smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No sources yet');
-    await userEvent.type(screen.getByLabelText(/source title/i), 'Architecture notes');
-    await userEvent.click(screen.getByRole('button', { name: /import source/i }));
+    await screen.findByText('暂无来源');
+    await userEvent.type(screen.getByLabelText(/来源标题/), 'Architecture notes');
+    await userEvent.click(screen.getByRole('button', { name: /导入来源/ }));
 
     expect(await screen.findByText('Architecture notes')).toBeInTheDocument();
   });
@@ -110,10 +110,10 @@ describe('Workspace M2 smoke', () => {
     render(<App />);
 
     expect(await screen.findByText('Architecture notes')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /preview/i }));
+    await userEvent.click(screen.getByRole('button', { name: /预览/ }));
 
-    expect(await screen.findByText('Source preview contract missing')).toBeInTheDocument();
-    expect(screen.getByText(/not claimed ready/i)).toBeInTheDocument();
+    expect(await screen.findByText('缺少来源预览合同')).toBeInTheDocument();
+    expect(screen.getByText(/来源预览保持禁用状态/)).toBeInTheDocument();
   });
 
   it('opens source-level preview drawer when capability manifest supports the source type', async () => {
@@ -181,12 +181,12 @@ describe('Workspace M2 smoke', () => {
     render(<App />);
 
     expect(await screen.findByText('Architecture notes')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /preview/i }));
+    await userEvent.click(screen.getByRole('button', { name: /预览/ }));
 
     expect(await screen.findByText('Queues absorb burst traffic.')).toBeInTheDocument();
     expect(screen.getByText('text/plain')).toBeInTheDocument();
-    expect(screen.getByText('Artifact refs are metadata only')).toBeInTheDocument();
-    expect(screen.getByText('Unit navigation unsupported')).toBeInTheDocument();
+    expect(screen.getByText('工件引用仅作为元数据展示')).toBeInTheDocument();
+    expect(screen.getByText('暂不支持单元导航')).toBeInTheDocument();
   });
 
   it('shows DocumentUnit metadata as non-clickable disabled shell when manifest allows units', async () => {
@@ -244,12 +244,12 @@ describe('Workspace M2 smoke', () => {
     render(<App />);
 
     expect(await screen.findByText('Unit notes')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /preview/i }));
+    await userEvent.click(screen.getByRole('button', { name: /预览/ }));
 
-    expect(await screen.findByText('Units metadata returned but navigation disabled')).toBeInTheDocument();
+    expect(await screen.findByText('已返回单元元数据，但导航未启用')).toBeInTheDocument();
     expect(screen.getByText('Page 1')).toBeInTheDocument();
     expect(screen.getByText('unit_1')).toBeInTheDocument();
-    expect(screen.getByText('page 1')).toBeInTheDocument();
+    expect(screen.getByText('页码 1')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /Page 1/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /Page 1/i })).not.toBeInTheDocument();
   });
@@ -297,9 +297,9 @@ describe('Workspace M2 smoke', () => {
     render(<App />);
 
     expect(await screen.findByText('Ignored unit notes')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /preview/i }));
+    await userEvent.click(screen.getByRole('button', { name: /预览/ }));
 
-    expect(await screen.findByText('Document units ignored')).toBeInTheDocument();
+    expect(await screen.findByText('已忽略文档单元')).toBeInTheDocument();
     expect(screen.queryByText('Ignored unit')).not.toBeInTheDocument();
     expect(fetchMock).not.toHaveBeenCalledWith(sourceUnitsPath, expect.anything());
   });
@@ -385,13 +385,13 @@ describe('Workspace M2 smoke', () => {
     render(<App />);
 
     expect(await screen.findByText('Unit-ready notes')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /preview/i }));
+    await userEvent.click(screen.getByRole('button', { name: /预览/ }));
 
     expect(await screen.findByText('Source preview remains visible.')).toBeInTheDocument();
     await userEvent.click(await screen.findByRole('button', { name: /Overview/i }));
 
     expect(await screen.findByText('<strong>Escaped unit preview</strong>')).toBeInTheDocument();
-    expect(screen.getByText(/text\/html returned by backend; rendered as escaped text/i)).toBeInTheDocument();
+    expect(screen.getByText(/后端返回 text\/html，已按转义文本渲染/)).toBeInTheDocument();
     expect(screen.getByText('Source preview remains visible.')).toBeInTheDocument();
   });
 
@@ -451,11 +451,11 @@ describe('Workspace M2 smoke', () => {
     render(<App />);
 
     expect(await screen.findByText('Paged units')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /preview/i }));
+    await userEvent.click(screen.getByRole('button', { name: /预览/ }));
     expect(await screen.findByText('First unit')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /load more units/i }));
+    await userEvent.click(screen.getByRole('button', { name: /加载更多单元/ }));
 
-    expect(await screen.findByText('Load more units failed')).toBeInTheDocument();
+    expect(await screen.findByText('加载更多单元失败')).toBeInTheDocument();
     expect(screen.getByText('First unit')).toBeInTheDocument();
   });
 
@@ -489,7 +489,7 @@ describe('Workspace M2 smoke', () => {
     render(<App />);
 
     expect(await screen.findByText('Architecture notes')).toBeInTheDocument();
-    expect(await screen.findByRole('button', { name: /preview/i })).toBeDisabled();
+    expect(await screen.findByRole('button', { name: /预览/ })).toBeDisabled();
     expect(fetchMock).not.toHaveBeenCalledWith(sourcePreviewPath, expect.anything());
   });
 
@@ -537,10 +537,10 @@ describe('Workspace M2 smoke', () => {
     render(<App />);
 
     expect(await screen.findByText('HTML notes')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /preview/i }));
+    await userEvent.click(screen.getByRole('button', { name: /预览/ }));
 
     expect(await screen.findByText('<strong>Do not render as HTML</strong>')).toBeInTheDocument();
-    expect(screen.getByText(/rendered as escaped text/i)).toBeInTheDocument();
+    expect(screen.getByText(/已按转义文本渲染/)).toBeInTheDocument();
   });
 
   it('starts build and shows status', async () => {
@@ -554,10 +554,10 @@ describe('Workspace M2 smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No sources yet');
-    fireEvent.click(screen.getByRole('button', { name: /rebuild workspace knowledge/i }));
+    await screen.findByText('暂无来源');
+    fireEvent.click(screen.getByRole('button', { name: /重建工作区知识|重建知识/ }));
 
-    expect(await screen.findByText(/Build status: completed/i)).toBeInTheDocument();
+    expect(await screen.findByText(/构建状态：已完成/)).toBeInTheDocument();
     expect(screen.getByText('Workspace build completed')).toBeInTheDocument();
   });
 
@@ -583,13 +583,13 @@ describe('Workspace M2 smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No sources yet');
-    await userEvent.type(screen.getByLabelText(/question/i), 'How should we handle traffic spikes?');
-    await userEvent.click(screen.getByRole('button', { name: /ask workspace/i }));
+    await screen.findByText('暂无来源');
+    await userEvent.type(screen.getByLabelText(/问题/), 'How should we handle traffic spikes?');
+    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
 
     expect(await screen.findByText('Use a queue to absorb spikes.')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /helpful/i }));
-    expect(await screen.findByText(/Feedback submitted: up/i)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: /有帮助/ }));
+    expect(await screen.findByText(/反馈已提交：有帮助/)).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /Architecture notes/i }));
     expect(await screen.findByText('manual note')).toBeInTheDocument();
   });
@@ -710,9 +710,9 @@ describe('Workspace M2 smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No sources yet');
-    await userEvent.type(screen.getByLabelText(/question/i), 'How should we handle burst traffic?');
-    await userEvent.click(screen.getByRole('button', { name: /ask workspace/i }));
+    await screen.findByText('暂无来源');
+    await userEvent.type(screen.getByLabelText(/问题/), 'How should we handle burst traffic?');
+    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
 
     expect(await screen.findByText('Use queues for burst traffic.')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /Architecture notes/i }));
@@ -886,9 +886,9 @@ describe('Workspace M2 smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No sources yet');
-    await userEvent.type(screen.getByLabelText(/question/i), 'What should remain visible?');
-    await userEvent.click(screen.getByRole('button', { name: /ask workspace/i }));
+    await screen.findByText('暂无来源');
+    await userEvent.type(screen.getByLabelText(/问题/), 'What should remain visible?');
+    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
 
     expect(await screen.findByText('Use queues and keep answers visible.')).toBeInTheDocument();
     const citations = await screen.findAllByTestId('jumpable-evidence-citation');
@@ -899,7 +899,7 @@ describe('Workspace M2 smoke', () => {
     await userEvent.click(citations[1]);
     expect(await screen.findByText(`evidence_id: ${secondEvidenceId}`)).toBeInTheDocument();
     expect(await screen.findByText('answer')).toBeInTheDocument();
-    expect(screen.getByLabelText('Selected document unit')).toHaveTextContent(secondUnitId);
+    expect(screen.getByLabelText('已选文档单元')).toHaveTextContent(secondUnitId);
   });
 
   it('renders query answer with no evidence state', async () => {
@@ -912,12 +912,12 @@ describe('Workspace M2 smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No sources yet');
-    await userEvent.type(screen.getByLabelText(/question/i), 'What is known?');
-    await userEvent.click(screen.getByRole('button', { name: /ask workspace/i }));
+    await screen.findByText('暂无来源');
+    await userEvent.type(screen.getByLabelText(/问题/), 'What is known?');
+    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
 
     expect(await screen.findByText('The backend returned no source evidence.')).toBeInTheDocument();
-    expect(screen.getByText('No evidence available')).toBeInTheDocument();
+    expect(screen.getByText('暂无可用证据')).toBeInTheDocument();
   });
 
   it('shows trace unavailable without clearing answer', async () => {
@@ -942,13 +942,13 @@ describe('Workspace M2 smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No sources yet');
-    await userEvent.type(screen.getByLabelText(/question/i), 'Show evidence');
-    await userEvent.click(screen.getByRole('button', { name: /ask workspace/i }));
+    await screen.findByText('暂无来源');
+    await userEvent.type(screen.getByLabelText(/问题/), 'Show evidence');
+    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
 
     expect(await screen.findByText('Evidence source exists.')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /Architecture notes/i }));
-    expect(await screen.findByText('Trace unavailable')).toBeInTheDocument();
+    expect(await screen.findByText('溯源不可用')).toBeInTheDocument();
     expect(screen.getByText('Evidence source exists.')).toBeInTheDocument();
   });
 
@@ -963,13 +963,13 @@ describe('Workspace M2 smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No sources yet');
-    await userEvent.type(screen.getByLabelText(/question/i), 'Can I rate this?');
-    await userEvent.click(screen.getByRole('button', { name: /ask workspace/i }));
+    await screen.findByText('暂无来源');
+    await userEvent.type(screen.getByLabelText(/问题/), 'Can I rate this?');
+    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
 
     expect(await screen.findByText('Feedback target remains visible.')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /needs work/i }));
-    expect(await screen.findByText('Feedback submit failed')).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: /需要改进/ }));
+    expect(await screen.findByText('反馈提交失败')).toBeInTheDocument();
     expect(screen.getByText('Feedback target remains visible.')).toBeInTheDocument();
   });
 });

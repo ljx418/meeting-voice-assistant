@@ -28,7 +28,7 @@ describe('Workspace Home smoke', () => {
 
     render(<App />);
 
-    expect(await screen.findByText('No workspaces yet')).toBeInTheDocument();
+    expect(await screen.findByText('暂无工作区')).toBeInTheDocument();
   });
 
   it('renders workspace list', async () => {
@@ -58,9 +58,9 @@ describe('Workspace Home smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No workspaces yet');
-    await userEvent.type(screen.getByPlaceholderText('Technical interview notes'), 'Interviews');
-    await userEvent.click(screen.getByRole('button', { name: /create workspace/i }));
+    await screen.findByText('暂无工作区');
+    await userEvent.type(screen.getByPlaceholderText('例如：技术访谈笔记'), 'Interviews');
+    await userEvent.click(screen.getByRole('button', { name: /创建工作区/ }));
 
     await waitFor(() => {
       expect(screen.getByText('Interviews')).toBeInTheDocument();
@@ -76,11 +76,11 @@ describe('Workspace Home smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No workspaces yet');
-    await userEvent.type(screen.getByPlaceholderText('Technical interview notes'), 'Duplicate');
-    await userEvent.click(screen.getByRole('button', { name: /create workspace/i }));
+    await screen.findByText('暂无工作区');
+    await userEvent.type(screen.getByPlaceholderText('例如：技术访谈笔记'), 'Duplicate');
+    await userEvent.click(screen.getByRole('button', { name: /创建工作区/ }));
 
-    expect(await screen.findByText('Create workspace failed')).toBeInTheDocument();
+    expect(await screen.findByText('创建工作区失败')).toBeInTheDocument();
     expect(screen.getByText('name already exists')).toBeInTheDocument();
   });
 });

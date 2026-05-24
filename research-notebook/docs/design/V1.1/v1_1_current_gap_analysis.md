@@ -3,6 +3,8 @@
 文档状态：V1.1-D-RC 浏览器可视化 smoke 已通过；RC4 source trace backend fix 和 re-smoke 已通过；S1-FIX/S1-FE session path 已通过；S2 all-source-type contract discovery 已完成；S3 markdown/json backend contract 已通过 API smoke；S4 markdown/json frontend browser smoke 已通过。
 配套图：`v1_1_current_gap_analysis.drawio`。
 
+后续版本指针：V1.2 文档已建立在 `docs/design/V1.2/`，用于收口 markdown/json 多格式产品化。V1.1 的 ready 声明不因此扩大到 PDF/PPTX/HTML/video/audio。
+
 ## 一句话结论
 
 ResearchNotebook V1.1 已经把 V1.0 的“答案旁边显示来源证据”推进到：

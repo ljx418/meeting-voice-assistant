@@ -8,8 +8,8 @@ function graphNodeDescriptor(node: GraphNeighborsResponse['nodes'][number] | Gra
 
 export function MissingGraphArtifactState() {
   return (
-    <StateBlock title="Missing graph artifact" tone="warning">
-      Build graph artifacts in the backend before using graph context.
+    <StateBlock title="缺少图谱工件" tone="warning">
+      使用图谱上下文前，需要先由后端构建图谱工件。
     </StateBlock>
   );
 }
@@ -25,12 +25,12 @@ export function GraphNeighborsList({
 }) {
   if (graph.status === 'missing_artifact') return <MissingGraphArtifactState />;
   if (graph.neighbors.length === 0 && graph.nodes.length === 0) {
-    return <StateBlock title="No graph neighbors" tone="neutral">The graph route returned no related nodes.</StateBlock>;
+    return <StateBlock title="暂无图谱邻居" tone="neutral">图谱接口没有返回相关节点。</StateBlock>;
   }
 
   const nodes = graph.neighbors.length > 0 ? graph.neighbors : graph.nodes;
   return (
-    <div className="graph-node-list" aria-label="Graph neighbors">
+    <div className="graph-node-list" aria-label="图谱邻居">
       {nodes.map((node) => (
         <button
           className={`graph-node${selectedNodeId === node.node_id ? ' selected' : ''}`}
@@ -57,11 +57,11 @@ export function GraphCommunitiesList({
 }) {
   if (communities.status === 'missing_artifact') return <MissingGraphArtifactState />;
   if (communities.communities.length === 0) {
-    return <StateBlock title="No graph communities" tone="neutral">The graph route returned no communities.</StateBlock>;
+    return <StateBlock title="暂无图谱社区" tone="neutral">图谱接口没有返回社区。</StateBlock>;
   }
 
   return (
-    <div className="graph-community-list" aria-label="Graph communities">
+    <div className="graph-community-list" aria-label="图谱社区">
       {communities.communities.map((community) => (
         <article className="graph-community-card" key={community.community_id}>
           <h3>{community.title}</h3>
@@ -72,16 +72,16 @@ export function GraphCommunitiesList({
               <dd>{community.community_id}</dd>
             </div>
             <div>
-              <dt>nodes</dt>
-              <dd>{community.node_count ?? 'unknown'}</dd>
+              <dt>节点数</dt>
+              <dd>{community.node_count ?? '未知'}</dd>
             </div>
             <div>
-              <dt>relationships</dt>
-              <dd>{community.relationship_count ?? 'unknown'}</dd>
+              <dt>关系数</dt>
+              <dd>{community.relationship_count ?? '未知'}</dd>
             </div>
             <div>
-              <dt>score</dt>
-              <dd>{community.score ?? 'unknown'}</dd>
+              <dt>分数</dt>
+              <dd>{community.score ?? '未知'}</dd>
             </div>
           </dl>
           {community.members?.length ? (
@@ -108,14 +108,14 @@ export function GraphCommunitiesList({
 export function SessionGraphContext({ graph }: { graph: SessionGraphContextResponse }) {
   if (graph.status === 'missing_artifact') return <MissingGraphArtifactState />;
   if (graph.related_nodes.length === 0 && graph.related_communities.length === 0) {
-    return <StateBlock title="No session graph context" tone="neutral">No related graph context was returned for this session.</StateBlock>;
+    return <StateBlock title="暂无会话图谱上下文" tone="neutral">当前会话没有返回相关图谱上下文。</StateBlock>;
   }
 
   return (
     <div className="session-graph-context">
       {graph.summary ? <p>{graph.summary}</p> : null}
       {graph.related_nodes.length > 0 ? (
-        <div className="graph-node-list" aria-label="Session graph nodes">
+        <div className="graph-node-list" aria-label="会话图谱节点">
           {graph.related_nodes.map((node) => (
             <div className="graph-node static" key={node.node_id}>
               <span>{node.label}</span>

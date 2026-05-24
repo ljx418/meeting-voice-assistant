@@ -18,30 +18,30 @@ export function SourceTraceDrawer({
   const traceNotFound = isNormalizedApiError(traceQuery.error) && traceQuery.error.code === 'not_found';
 
   return (
-    <aside className="trace-drawer" aria-label="Source trace drawer">
+    <aside className="trace-drawer" aria-label="来源溯源抽屉">
       <div className="toolbar-row">
         <div>
-          <div className="eyebrow">Source Trace</div>
-          <h2>Provenance</h2>
+          <div className="eyebrow">来源溯源</div>
+          <h2>来源与出处</h2>
         </div>
         <button className="secondary-button" type="button" onClick={onClose}>
-          Close
+          关闭
         </button>
       </div>
-      {traceQuery.isLoading ? <LoadingState label="Loading trace" /> : null}
+      {traceQuery.isLoading ? <LoadingState label="正在加载溯源" /> : null}
       {traceQuery.error && !traceNotFound ? (
-        <ApiErrorState title="Trace unavailable" error={traceQuery.error} onRetry={() => void traceQuery.refetch()} />
+        <ApiErrorState title="溯源不可用" error={traceQuery.error} onRetry={() => void traceQuery.refetch()} />
       ) : null}
-      {traceNotFound && sourceQuery.isLoading ? <LoadingState label="Loading source metadata" /> : null}
+      {traceNotFound && sourceQuery.isLoading ? <LoadingState label="正在加载来源元数据" /> : null}
       {traceNotFound && sourceQuery.data ? (
         <div className="trace-content">
-          <StateBlock title="Trace unavailable" tone="warning">
-            The backend recognizes this source, but its source trace route returned no provenance for the current artifact.
+          <StateBlock title="溯源不可用" tone="warning">
+            后端可以识别该来源，但当前来源溯源路由没有返回出处信息。
           </StateBlock>
-          <p className="workspace-meta">source_id: {sourceQuery.data.source_id}</p>
+          <p className="workspace-meta">来源 ID：{sourceQuery.data.source_id}</p>
           <h3>{sourceQuery.data.title || sourceId}</h3>
           <div className="trace-section">
-            <h4>Artifact refs</h4>
+            <h4>工件引用</h4>
             {sourceQuery.data.artifact_refs?.length ? (
               <ul>
                 {sourceQuery.data.artifact_refs.map((ref) => (
@@ -49,24 +49,24 @@ export function SourceTraceDrawer({
                 ))}
               </ul>
             ) : (
-              <p className="workspace-meta">No artifact refs returned.</p>
+              <p className="workspace-meta">未返回工件引用。</p>
             )}
           </div>
           <button className="secondary-button" type="button" onClick={() => void traceQuery.refetch()}>
-            Retry trace
+            重试溯源
           </button>
         </div>
       ) : null}
       {traceNotFound && sourceQuery.error ? (
-        <ApiErrorState title="Source not found" error={sourceQuery.error} onRetry={() => void sourceQuery.refetch()} />
+        <ApiErrorState title="未找到来源" error={sourceQuery.error} onRetry={() => void sourceQuery.refetch()} />
       ) : null}
       {traceQuery.data ? (
         <div className="trace-content">
-          <p className="workspace-meta">source_id: {traceQuery.data.source_id}</p>
+          <p className="workspace-meta">来源 ID：{traceQuery.data.source_id}</p>
           <h3>{traceQuery.data.title || sourceId}</h3>
           {traceQuery.data.summary ? <p>{traceQuery.data.summary}</p> : null}
           <div className="trace-section">
-            <h4>Artifact refs</h4>
+            <h4>工件引用</h4>
             {traceQuery.data.artifact_refs?.length ? (
               <ul>
                 {traceQuery.data.artifact_refs.map((ref) => (
@@ -74,11 +74,11 @@ export function SourceTraceDrawer({
                 ))}
               </ul>
             ) : (
-              <p className="workspace-meta">No artifact refs returned.</p>
+              <p className="workspace-meta">未返回工件引用。</p>
             )}
           </div>
           <div className="trace-section">
-            <h4>Provenance</h4>
+            <h4>出处信息</h4>
             {traceQuery.data.provenance?.length ? (
               <dl>
                 {traceQuery.data.provenance.map((item) => (
@@ -89,7 +89,7 @@ export function SourceTraceDrawer({
                 ))}
               </dl>
             ) : (
-              <p className="workspace-meta">Trace route returned no provenance rows.</p>
+              <p className="workspace-meta">溯源路由没有返回出处行。</p>
             )}
           </div>
         </div>

@@ -3,6 +3,8 @@
 文档状态：V1.1-D-RC browser visual smoke passed；RC4 source trace backend fix 和 re-smoke passed；S1-FIX/S1-FE session precise navigation passed；S2 all-source-type contract discovery completed；S3 markdown/json backend contract API smoke passed；S4 markdown/json frontend browser smoke passed。
 日期：2026-05-24。
 
+后续版本指针：V1.2 多格式摄入产品化文档位于 `docs/design/V1.2/`。V1.2 只整理 markdown/json 第一批格式产品化，不把 PDF/PPTX/HTML/video/audio 声明为 ready。
+
 ## Positioning
 
 ResearchNotebook V1.1 的目标是把 V1.0 的 source-level evidence metadata 升级为 NotebookLM-like 的来源预览和证据导航体验：

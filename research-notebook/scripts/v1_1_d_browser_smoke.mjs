@@ -177,7 +177,7 @@ async function evalJs(cdp, expression, awaitPromise = true) {
   return result.result?.value;
 }
 
-async function setFieldInForm(cdp, formLabel, fieldIndex, value, fieldSelector = 'input, textarea') {
+async function setFieldInForm(cdp, formLabel, fieldIndex, value, fieldSelector = 'input, select, textarea') {
   return evalJs(
     cdp,
     `(() => {
@@ -185,9 +185,13 @@ async function setFieldInForm(cdp, formLabel, fieldIndex, value, fieldSelector =
       if (!form) return false;
       const field = [...form.querySelectorAll(${JSON.stringify(fieldSelector)})][${fieldIndex}];
       if (!field) return false;
-      const proto = field.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
-      const setter = Object.getOwnPropertyDescriptor(proto, 'value').set;
-      setter.call(field, ${JSON.stringify(value)});
+      if (field.tagName === 'SELECT') {
+        field.value = ${JSON.stringify(value)};
+      } else {
+        const proto = field.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+        const setter = Object.getOwnPropertyDescriptor(proto, 'value').set;
+        setter.call(field, ${JSON.stringify(value)});
+      }
       field.dispatchEvent(new Event('input', { bubbles: true }));
       field.dispatchEvent(new Event('change', { bubbles: true }));
       return true;
@@ -221,7 +225,9 @@ async function getSmokeState(cdp) {
       const drawer = document.querySelector('[data-testid="source-preview-drawer"]');
       const selectedUnit = document.querySelector('[data-testid="selected-document-unit"]');
       const citation = document.querySelector('[data-testid="jumpable-evidence-citation"]');
-      const sourceIdText = [...document.querySelectorAll('dt')].find((dt) => dt.textContent === 'source_id')?.nextElementSibling?.textContent || '';
+      const sourceIdText = [...document.querySelectorAll('dt')]
+        .find((dt) => ['source_id', '来源 ID'].includes((dt.textContent || '').trim()))
+        ?.nextElementSibling?.textContent || '';
       const unitText = [...document.querySelectorAll('small, dd, span')].map((el) => el.textContent || '').find((text) => text.includes('unit_')) || '';
       const evidenceText = [...document.querySelectorAll('small, dd, span')].map((el) => el.textContent || '').find((text) => text.includes('ev_')) || '';
       return {
@@ -281,24 +287,24 @@ async function main() {
   });
 
   await cdp.send('Page.navigate', { url: appUrl });
-  await waitFor(() => textExists(cdp, 'Personal knowledge workspaces'), 'app home rendered');
+  await waitFor(() => textExists(cdp, '个人知识工作区'), 'app home rendered');
   mark('browser opened app', 'pass', appUrl);
 
   const workspaceName = `${prefix}-workspace`;
-  if (!(await setFieldInForm(cdp, 'Create workspace', 0, workspaceName))) throw new Error('could not set workspace name');
-  if (!(await submitForm(cdp, 'Create workspace'))) throw new Error('could not submit workspace form');
+  if (!(await setFieldInForm(cdp, '创建工作区', 0, workspaceName))) throw new Error('could not set workspace name');
+  if (!(await submitForm(cdp, '创建工作区'))) throw new Error('could not submit workspace form');
   await waitFor(() => evalJs(cdp, `location.pathname.startsWith('/workspaces/')`), 'workspace route after create');
-  await waitFor(() => textExists(cdp, 'Source Library'), 'workspace page rendered');
+  await waitFor(() => textExists(cdp, '来源库'), 'workspace page rendered');
   workspaceId = await evalJs(cdp, `location.pathname.split('/').filter(Boolean)[1] || ''`);
   mark('workspace create and enter', 'pass', workspaceId);
 
   const sourceTitle = `${prefix} EvidenceSpan source`;
   const sourceContent =
     'Queues absorb burst traffic during release validation. EvidenceSpan navigation should highlight this sentence after query evidence resolves to a source id, unit id, and evidence id.';
-  if (!(await setFieldInForm(cdp, 'Import source', 0, sourceTitle))) throw new Error('could not set source title');
-  if (!(await setFieldInForm(cdp, 'Import source', 1, 'text'))) throw new Error('could not set source type');
-  if (!(await setFieldInForm(cdp, 'Import source', 2, sourceContent))) throw new Error('could not set source content');
-  if (!(await submitForm(cdp, 'Import source'))) throw new Error('could not submit source form');
+  if (!(await setFieldInForm(cdp, '导入来源', 0, sourceTitle))) throw new Error('could not set source title');
+  if (!(await setFieldInForm(cdp, '导入来源', 1, 'text'))) throw new Error('could not set source type');
+  if (!(await setFieldInForm(cdp, '导入来源', 2, sourceContent))) throw new Error('could not set source content');
+  if (!(await submitForm(cdp, '导入来源'))) throw new Error('could not submit source form');
   await waitFor(
     () =>
       evalJs(
@@ -315,7 +321,7 @@ async function main() {
         cdp,
         `(() => {
           const card = [...document.querySelectorAll('article.source-card')].find((el) => (el.textContent || '').includes(${JSON.stringify(sourceTitle)}));
-          const button = card && [...card.querySelectorAll('button')].find((el) => (el.textContent || '').includes('Preview'));
+          const button = card && [...card.querySelectorAll('button')].find((el) => (el.textContent || '').includes('预览') || (el.textContent || '').includes('Preview'));
           return Boolean(button && !button.disabled);
         })()`
       ),
@@ -325,15 +331,15 @@ async function main() {
     cdp,
     `(() => {
       const card = [...document.querySelectorAll('article.source-card')].find((el) => (el.textContent || '').includes(${JSON.stringify(sourceTitle)}));
-      const button = card && [...card.querySelectorAll('button')].find((el) => (el.textContent || '').includes('Preview'));
+      const button = card && [...card.querySelectorAll('button')].find((el) => (el.textContent || '').includes('预览') || (el.textContent || '').includes('Preview'));
       if (!button) return false;
       button.click();
       return true;
     })()`
   );
   if (!previewClicked) throw new Error('could not click source preview');
-  await waitFor(() => textExists(cdp, 'Source Preview'), 'source preview drawer opens');
-  await waitFor(() => textExists(cdp, 'Document Units'), 'document units visible');
+  await waitFor(() => textExists(cdp, '来源预览'), 'source preview drawer opens');
+  await waitFor(() => textExists(cdp, '文档单元'), 'document units visible');
   mark('source preview opens', 'pass');
 
   await waitFor(
@@ -372,14 +378,14 @@ async function main() {
   const asked = await evalJs(
     cdp,
     `(() => {
-      const button = [...document.querySelectorAll('.ask-form button')].find((el) => (el.textContent || '').includes('Ask workspace'));
+      const button = [...document.querySelectorAll('.ask-form button')].find((el) => (el.textContent || '').includes('询问工作区') || (el.textContent || '').includes('Ask workspace'));
       if (!button || button.disabled) return false;
       button.click();
       return true;
     })()`
   );
   if (!asked) throw new Error('could not submit workspace question');
-  await waitFor(() => textExists(cdp, 'Answer'), 'answer renders');
+  await waitFor(() => textExists(cdp, '回答'), 'answer renders');
   await waitFor(() => evalJs(cdp, `Boolean(document.querySelector('[data-testid="jumpable-evidence-citation"]'))`), 'jumpable citation visible');
   mark('workspace query jumpable citation visible', 'pass');
 

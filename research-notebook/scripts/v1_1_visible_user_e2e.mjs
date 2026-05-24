@@ -232,16 +232,20 @@ async function evalJs(expression, awaitPromise = true) {
   return result.result?.value;
 }
 
-async function setFieldInForm(formLabel, fieldIndex, value, fieldSelector = 'input, textarea') {
+async function setFieldInForm(formLabel, fieldIndex, value, fieldSelector = 'input, select, textarea') {
   return evalJs(
     `(() => {
       const form = [...document.querySelectorAll('form')].find((el) => el.getAttribute('aria-label') === ${JSON.stringify(formLabel)});
       if (!form) return false;
       const field = [...form.querySelectorAll(${JSON.stringify(fieldSelector)})][${fieldIndex}];
       if (!field) return false;
-      const proto = field.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
-      const setter = Object.getOwnPropertyDescriptor(proto, 'value').set;
-      setter.call(field, ${JSON.stringify(value)});
+      if (field.tagName === 'SELECT') {
+        field.value = ${JSON.stringify(value)};
+      } else {
+        const proto = field.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+        const setter = Object.getOwnPropertyDescriptor(proto, 'value').set;
+        setter.call(field, ${JSON.stringify(value)});
+      }
       field.dispatchEvent(new Event('input', { bubbles: true }));
       field.dispatchEvent(new Event('change', { bubbles: true }));
       return true;
@@ -299,7 +303,7 @@ async function closeDrawer() {
   await evalJs(
     `(() => {
       const drawer = document.querySelector('[data-testid="source-preview-drawer"], .trace-drawer');
-      const button = drawer && [...drawer.querySelectorAll('button')].find((el) => (el.textContent || '').includes('Close'));
+      const button = drawer && [...drawer.querySelectorAll('button')].find((el) => (el.textContent || '').includes('关闭') || (el.textContent || '').includes('Close'));
       if (button) button.click();
       return true;
     })()`
@@ -308,13 +312,13 @@ async function closeDrawer() {
 }
 
 async function importSource(sourceCase) {
-  if (!(await setFieldInForm('Import source', 0, sourceCase.title))) throw new Error(`could not set ${sourceCase.sourceType} source title`);
-  if (!(await setFieldInForm('Import source', 1, sourceCase.sourceType))) throw new Error(`could not set ${sourceCase.sourceType} source type`);
-  if (!(await setFieldInForm('Import source', 2, sourceCase.content))) throw new Error(`could not set ${sourceCase.sourceType} source content`);
+  if (!(await setFieldInForm('导入来源', 0, sourceCase.title))) throw new Error(`could not set ${sourceCase.sourceType} source title`);
+  if (!(await setFieldInForm('导入来源', 1, sourceCase.sourceType))) throw new Error(`could not set ${sourceCase.sourceType} source type`);
+  if (!(await setFieldInForm('导入来源', 2, sourceCase.content))) throw new Error(`could not set ${sourceCase.sourceType} source content`);
   await pause(`filled ${sourceCase.sourceType} source form`);
-  if (!(await submitForm('Import source'))) throw new Error(`could not submit ${sourceCase.sourceType} source`);
+  if (!(await submitForm('导入来源'))) throw new Error(`could not submit ${sourceCase.sourceType} source`);
   await waitFor(() => textExists(sourceCase.title), `${sourceCase.sourceType} source appears`);
-  await pause(`${sourceCase.sourceType} source visible in Source Library`);
+  await pause(`${sourceCase.sourceType} source visible in 来源库`);
   mark(`${sourceCase.sourceType} source import visible`, 'pass', sourceCase.title);
 }
 
@@ -322,7 +326,7 @@ async function clickPreviewForSource(title) {
   return evalJs(
     `(() => {
       const card = [...document.querySelectorAll('article.source-card')].find((el) => (el.textContent || '').includes(${JSON.stringify(title)}));
-      const button = card && [...card.querySelectorAll('button')].find((el) => (el.textContent || '').includes('Preview'));
+      const button = card && [...card.querySelectorAll('button')].find((el) => (el.textContent || '').includes('预览') || (el.textContent || '').includes('Preview'));
       if (!button || button.disabled) return false;
       button.click();
       return true;
@@ -334,7 +338,7 @@ async function clickTraceForSource(title) {
   return evalJs(
     `(() => {
       const card = [...document.querySelectorAll('article.source-card')].find((el) => (el.textContent || '').includes(${JSON.stringify(title)}));
-      const button = card && [...card.querySelectorAll('button')].find((el) => (el.textContent || '').includes('Trace'));
+      const button = card && [...card.querySelectorAll('button')].find((el) => (el.textContent || '').includes('溯源') || (el.textContent || '').includes('Trace'));
       if (!button || button.disabled) return false;
       button.click();
       return true;
@@ -369,7 +373,7 @@ async function askWorkspace(question) {
     })()`
   );
   await pause('filled workspace question');
-  return clickButtonByText('Ask workspace', '.ask-form');
+  return clickButtonByText('询问工作区', '.ask-form');
 }
 
 async function clickLatestJumpableCitation(anchor) {
@@ -391,7 +395,7 @@ async function getHighlightState() {
       const drawer = document.querySelector('[data-testid="source-preview-drawer"]');
       const selectedUnit = document.querySelector('[data-testid="selected-document-unit"]');
       const sourceIdTexts = [...document.querySelectorAll('dt')]
-        .filter((dt) => dt.textContent === 'source_id')
+        .filter((dt) => ['source_id', '来源 ID'].includes((dt.textContent || '').trim()))
         .map((dt) => dt.nextElementSibling?.textContent || '')
         .filter(Boolean);
       const selectedUnitText = selectedUnit?.innerText || '';
@@ -407,7 +411,7 @@ async function getHighlightState() {
         selectedUnitVisible: Boolean(selectedUnit),
         highlightText: highlight?.textContent || '',
         highlightInsideSelectedUnit: Boolean(highlight && selectedUnit && selectedUnit.contains(highlight)),
-        sourcePreviewVisible: document.body.innerText.includes('Source Preview'),
+        sourcePreviewVisible: document.body.innerText.includes('来源预览') || document.body.innerText.includes('Source Preview'),
         sourceIdText: sourceIdTexts[sourceIdTexts.length - 1] || '',
         unitText,
         evidenceText
@@ -426,9 +430,9 @@ async function saveScreenshot(name) {
 
 async function verifySourcePreviewUnitAndEvidence(sourceCase) {
   await waitFor(() => clickPreviewForSource(sourceCase.title), `${sourceCase.sourceType} preview button clickable`);
-  await waitFor(() => textExists('Source Preview'), `${sourceCase.sourceType} drawer opens`);
-  await waitFor(() => textExists('Document Units'), `${sourceCase.sourceType} units visible`);
-  await pause(`${sourceCase.sourceType} Source Preview Drawer visible`);
+  await waitFor(() => textExists('来源预览'), `${sourceCase.sourceType} drawer opens`);
+  await waitFor(() => textExists('文档单元'), `${sourceCase.sourceType} units visible`);
+  await pause(`${sourceCase.sourceType} 来源预览抽屉 visible`);
   await selectFirstUnit();
   await pause(`${sourceCase.sourceType} DocumentUnit selected`);
   mark(`${sourceCase.sourceType} preview and unit visible`, 'pass');
@@ -464,9 +468,9 @@ async function verifySourcePreviewUnitAndEvidence(sourceCase) {
 
 async function verifySourceTrace(sourceCase) {
   await waitFor(() => clickTraceForSource(sourceCase.title), 'source trace button clickable');
-  await waitFor(() => textExists('Source Trace'), 'source trace drawer opens');
-  await waitFor(() => evalJs(`document.body.innerText.includes('Trace summary') || document.body.innerText.includes('Provenance')`), 'trace content visible');
-  await pause('Source Trace drawer visible');
+  await waitFor(() => textExists('来源溯源'), 'source trace drawer opens');
+  await waitFor(() => evalJs(`document.body.innerText.includes('Trace summary') || document.body.innerText.includes('出处信息') || document.body.innerText.includes('Provenance')`), 'trace content visible');
+  await pause('来源溯源抽屉 visible');
   await saveScreenshot('source-trace.png');
   mark('source trace drawer visible', 'pass', sourceCase.title);
   await closeDrawer();
@@ -474,40 +478,40 @@ async function verifySourceTrace(sourceCase) {
 
 async function runSessionPath() {
   await cdp.send('Page.navigate', { url: `${appUrl}/workspaces/${encodeURIComponent(workspaceId)}/workbench` });
-  await waitFor(() => textExists('Session Workbench'), 'session workbench rendered');
-  await pause('Session Workbench visible');
+  await waitFor(() => textExists('会话工作台'), 'session workbench rendered');
+  await pause('会话工作台 visible');
 
   const sessionTitle = `${prefix} Session`;
-  if (!(await setFieldInForm('Create session', 0, sessionTitle))) throw new Error('could not set session title');
+  if (!(await setFieldInForm('创建会话', 0, sessionTitle))) throw new Error('could not set session title');
   await pause('filled session title');
-  if (!(await submitForm('Create session'))) throw new Error('could not create session');
+  if (!(await submitForm('创建会话'))) throw new Error('could not create session');
   await waitFor(() => textExists(sessionTitle), 'session visible');
   sessionId = await evalJs(
     `(() => {
-      const idRow = [...document.querySelectorAll('dt')].find((dt) => dt.textContent === 'session_id');
+      const idRow = [...document.querySelectorAll('dt')].find((dt) => dt.textContent === '会话 ID' || dt.textContent === 'session_id');
       return idRow?.nextElementSibling?.textContent || '';
     })()`
   );
   await pause('created and selected session');
   mark('session create visible', 'pass', sessionTitle);
 
-  if (!(await setTextareaByLabel('snippet or context', sessionContent))) throw new Error('could not set session snippet');
+  if (!(await setTextareaByLabel('片段或上下文', sessionContent))) throw new Error('could not set session snippet');
   await pause('filled session snippet');
-  if (!(await clickButtonByText('Ingest snippet'))) throw new Error('could not ingest session snippet');
+  if (!(await clickButtonByText('导入片段'))) throw new Error('could not ingest session snippet');
   await delay(2_500);
-  if (await textExists('Session ingest failed')) throw new Error('session ingest failed');
+  if (await textExists('会话片段导入失败')) throw new Error('session ingest failed');
   mark('session ingest visible', 'pass');
 
-  if (!(await clickButtonByText('Build session'))) throw new Error('could not start session build');
-  await waitFor(() => textExists('Session build status: completed') || textExists('Ready'), 'session build completed', 60_000);
+  if (!(await clickButtonByText('构建会话'))) throw new Error('could not start session build');
+  await waitFor(() => textExists('会话构建状态：已完成') || textExists('就绪'), 'session build completed', 60_000);
   await pause('session build completed');
   mark('session build visible', 'pass');
 
   const question = 'What identifiers should visible session precise navigation preserve?';
-  if (!(await setTextareaByLabel('session question', question))) throw new Error('could not set session question');
+  if (!(await setTextareaByLabel('会话问题', question))) throw new Error('could not set session question');
   await pause('filled session question');
-  if (!(await clickButtonByText('Ask session'))) throw new Error('could not ask session');
-  await waitFor(() => textExists('Session Answer'), 'session answer renders');
+  if (!(await clickButtonByText('询问会话'))) throw new Error('could not ask session');
+  await waitFor(() => textExists('会话回答'), 'session answer renders');
   await waitFor(() => evalJs(`Boolean(document.querySelector('[data-testid="jumpable-evidence-citation"]'))`), 'session jumpable citation visible');
   await waitFor(() => clickLatestJumpableCitation(''), 'session citation clicked');
   await waitFor(() => evalJs(`Boolean(document.querySelector('[data-testid="evidence-highlight"]'))`), 'session highlight visible');
@@ -567,16 +571,16 @@ async function main() {
     cdp.on('Network.requestWillBeSent', (params) => networkRequests.push(params.request?.url ?? ''));
 
     await cdp.send('Page.navigate', { url: appUrl });
-    await waitFor(() => textExists('Personal knowledge workspaces'), 'app home rendered');
+    await waitFor(() => textExists('个人知识工作区'), 'app home rendered');
     await pause('Home page visible');
     mark('visible Chrome opened app', 'pass', appUrl);
 
     const workspaceName = `${prefix} Workspace`;
-    if (!(await setFieldInForm('Create workspace', 0, workspaceName))) throw new Error('could not set workspace name');
+    if (!(await setFieldInForm('创建工作区', 0, workspaceName))) throw new Error('could not set workspace name');
     await pause('filled workspace name');
-    if (!(await submitForm('Create workspace'))) throw new Error('could not create workspace');
+    if (!(await submitForm('创建工作区'))) throw new Error('could not create workspace');
     await waitFor(() => evalJs(`location.pathname.startsWith('/workspaces/')`), 'workspace route after create');
-    await waitFor(() => textExists('Source Library'), 'workspace page rendered');
+    await waitFor(() => textExists('来源库'), 'workspace page rendered');
     workspaceId = await evalJs(`location.pathname.split('/').filter(Boolean)[1] || ''`);
     await pause('Workspace page visible');
     mark('workspace create and enter', 'pass', workspaceId);

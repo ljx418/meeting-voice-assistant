@@ -67,14 +67,14 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe('Session Workbench M3 smoke', () => {
+describe('会话工作台 smoke', () => {
   it('renders session empty state', async () => {
     vi.stubGlobal('fetch', createWorkbenchFetch());
 
     render(<App />);
 
-    expect(await screen.findByText('No sessions yet')).toBeInTheDocument();
-    expect(screen.getByText('No active session')).toBeInTheDocument();
+    expect(await screen.findByText('暂无会话')).toBeInTheDocument();
+    expect(screen.getByText('暂无活跃会话')).toBeInTheDocument();
   });
 
   it('creates a session and selects it', async () => {
@@ -92,12 +92,12 @@ describe('Session Workbench M3 smoke', () => {
 
     render(<App />);
 
-    await screen.findByText('No sessions yet');
-    await userEvent.type(screen.getByLabelText(/session title/i), 'Interview prep');
-    await userEvent.click(screen.getByRole('button', { name: /create session/i }));
+    await screen.findByText('暂无会话');
+    await userEvent.type(screen.getByLabelText(/会话标题/), 'Interview prep');
+    await userEvent.click(screen.getByRole('button', { name: /创建会话/ }));
 
     expect(await screen.findByRole('button', { name: /Interview prep/i })).toBeInTheDocument();
-    expect(await screen.findByText('Current session')).toBeInTheDocument();
+    expect(await screen.findByText('当前会话')).toBeInTheDocument();
   });
 
   it('ingests snippet and starts session build', async () => {
@@ -119,12 +119,12 @@ describe('Session Workbench M3 smoke', () => {
     render(<App />);
 
     await userEvent.click(await screen.findByRole('button', { name: /Interview prep/i }));
-    await userEvent.type(screen.getByLabelText(/snippet or context/i), 'Hash table review notes');
-    await userEvent.click(screen.getByRole('button', { name: /ingest snippet/i }));
-    expect(await screen.findByText(/Needs build/i)).toBeInTheDocument();
+    await userEvent.type(screen.getByLabelText(/片段或上下文/), 'Hash table review notes');
+    await userEvent.click(screen.getByRole('button', { name: /导入片段/ }));
+    expect(await screen.findByText(/需要构建/)).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /build session/i }));
-    expect(await screen.findByText(/Session build status: completed/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /构建会话/ }));
+    expect(await screen.findByText(/会话构建状态：已完成/)).toBeInTheDocument();
     expect(screen.getByText('Session build complete')).toBeInTheDocument();
   });
 
@@ -152,12 +152,12 @@ describe('Session Workbench M3 smoke', () => {
     render(<App />);
 
     await userEvent.click(await screen.findByRole('button', { name: /Interview prep/i }));
-    await userEvent.type(screen.getByLabelText(/session question/i), 'What should I review?');
-    await userEvent.click(screen.getByRole('button', { name: /ask session/i }));
+    await userEvent.type(screen.getByLabelText(/会话问题/), 'What should I review?');
+    await userEvent.click(screen.getByRole('button', { name: /询问会话/ }));
 
     expect(await screen.findByText('Review heap invariants.')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /helpful/i }));
-    expect(await screen.findByText(/Feedback submitted: up/i)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: /有帮助/ }));
+    expect(await screen.findByText(/反馈已提交：有帮助/)).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /Heap notes/i }));
     expect(await screen.findByText('manual source')).toBeInTheDocument();
   });
@@ -281,8 +281,8 @@ describe('Session Workbench M3 smoke', () => {
     render(<App />);
 
     await userEvent.click(await screen.findByRole('button', { name: /Interview prep/i }));
-    await userEvent.type(screen.getByLabelText(/session question/i), 'What identifiers should session precise navigation preserve?');
-    await userEvent.click(screen.getByRole('button', { name: /ask session/i }));
+    await userEvent.type(screen.getByLabelText(/会话问题/), 'What identifiers should session precise navigation preserve?');
+    await userEvent.click(screen.getByRole('button', { name: /询问会话/ }));
 
     expect(await screen.findByText('Session precise navigation preserves evidence ids.')).toBeInTheDocument();
     await userEvent.click(await screen.findByTestId('jumpable-evidence-citation'));
@@ -315,8 +315,8 @@ describe('Session Workbench M3 smoke', () => {
 
     await userEvent.click(await screen.findByRole('button', { name: /Interview prep/i }));
     expect(await screen.findByText('Heap invariant')).toBeInTheDocument();
-    await userEvent.type(screen.getByLabelText(/session question/i), 'Still ask?');
-    await userEvent.click(screen.getByRole('button', { name: /ask session/i }));
+    await userEvent.type(screen.getByLabelText(/会话问题/), 'Still ask?');
+    await userEvent.click(screen.getByRole('button', { name: /询问会话/ }));
     expect(await screen.findByText('Session answer still works.')).toBeInTheDocument();
   });
 
@@ -333,11 +333,11 @@ describe('Session Workbench M3 smoke', () => {
     render(<App />);
 
     await userEvent.click(await screen.findByRole('button', { name: /Interview prep/i }));
-    await userEvent.type(screen.getByLabelText(/session question/i), 'Anything?');
-    await userEvent.click(screen.getByRole('button', { name: /ask session/i }));
+    await userEvent.type(screen.getByLabelText(/会话问题/), 'Anything?');
+    await userEvent.click(screen.getByRole('button', { name: /询问会话/ }));
 
     expect(await screen.findByText('No session evidence returned.')).toBeInTheDocument();
-    expect(screen.getByText('No evidence available')).toBeInTheDocument();
+    expect(screen.getByText('暂无可用证据')).toBeInTheDocument();
   });
 
   it('shows trace failure without clearing session answer', async () => {
@@ -365,12 +365,12 @@ describe('Session Workbench M3 smoke', () => {
     render(<App />);
 
     await userEvent.click(await screen.findByRole('button', { name: /Interview prep/i }));
-    await userEvent.type(screen.getByLabelText(/session question/i), 'Show evidence');
-    await userEvent.click(screen.getByRole('button', { name: /ask session/i }));
+    await userEvent.type(screen.getByLabelText(/会话问题/), 'Show evidence');
+    await userEvent.click(screen.getByRole('button', { name: /询问会话/ }));
 
     expect(await screen.findByText('Evidence exists.')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /Heap notes/i }));
-    expect(await screen.findByText('Trace unavailable')).toBeInTheDocument();
+    expect(await screen.findByText('溯源不可用')).toBeInTheDocument();
     expect(screen.getByText('Evidence exists.')).toBeInTheDocument();
   });
 
@@ -388,12 +388,12 @@ describe('Session Workbench M3 smoke', () => {
     render(<App />);
 
     await userEvent.click(await screen.findByRole('button', { name: /Interview prep/i }));
-    await userEvent.type(screen.getByLabelText(/session question/i), 'Can I rate this?');
-    await userEvent.click(screen.getByRole('button', { name: /ask session/i }));
+    await userEvent.type(screen.getByLabelText(/会话问题/), 'Can I rate this?');
+    await userEvent.click(screen.getByRole('button', { name: /询问会话/ }));
 
     expect(await screen.findByText('Session feedback target remains visible.')).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /needs work/i }));
-    expect(await screen.findByText('Feedback submit failed')).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: /需要改进/ }));
+    expect(await screen.findByText('反馈提交失败')).toBeInTheDocument();
     expect(screen.getByText('Session feedback target remains visible.')).toBeInTheDocument();
   });
 
@@ -411,9 +411,9 @@ describe('Session Workbench M3 smoke', () => {
 
     await userEvent.click(await screen.findByRole('button', { name: /Interview prep/i }));
 
-    expect(screen.getAllByRole('button', { name: /Session closed/i }).every((button) => button.hasAttribute('disabled'))).toBe(true);
-    expect(screen.getByRole('button', { name: /^Closed$/i })).toBeDisabled();
-    expect(screen.getByLabelText(/snippet or context/i)).toBeDisabled();
-    expect(screen.getByLabelText(/session question/i)).toBeDisabled();
+    expect(screen.getAllByRole('button', { name: /会话已关闭/ }).every((button) => button.hasAttribute('disabled'))).toBe(true);
+    expect(screen.getByRole('button', { name: /^已关闭$/ })).toBeDisabled();
+    expect(screen.getByLabelText(/片段或上下文/)).toBeDisabled();
+    expect(screen.getByLabelText(/会话问题/)).toBeDisabled();
   });
 });

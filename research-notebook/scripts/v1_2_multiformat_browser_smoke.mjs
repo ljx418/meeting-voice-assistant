@@ -9,27 +9,27 @@ import { spawn } from 'node:child_process';
 const appUrl = process.env.RN_BROWSER_APP_URL ?? 'http://127.0.0.1:5173';
 const dataServiceBaseUrl = process.env.RN_DATA_SERVICE_BASE_URL ?? process.env.VITE_DATA_SERVICE_BASE_URL ?? 'http://127.0.0.1:8003';
 const timestamp = Date.now();
-const prefix = `rn-v11-s4-multiformat-${timestamp}`;
-const artifactsDir = join(process.cwd(), '.smoke-artifacts', 'v1_1_s4_multiformat', String(timestamp));
-const fixturesDir = join(process.cwd(), 'fixtures/real/v1_1/multi-format-frontend');
+const prefix = `rn-v12-multiformat-${timestamp}`;
+const artifactsDir = join(process.cwd(), '.smoke-artifacts', 'v1_2_multiformat', String(timestamp));
+const fixturesDir = join(process.cwd(), 'fixtures/real/v1_2/multiformat');
 const chromePath = resolveChromiumPath();
 const chromePort = Number(process.env.RN_CHROME_REMOTE_DEBUGGING_PORT ?? 9226);
-const userDataDir = join('/private/tmp', `rn-v11-s4-browser-profile-${timestamp}`);
+const userDataDir = join('/private/tmp', `rn-v12-browser-profile-${timestamp}`);
 
 const candidates = [
   {
     sourceType: 'markdown',
-    title: 'V1.1 S4 Markdown Browser Source',
-    anchor: 's4markdownanchor',
-    content: '# Markdown Browser Evidence\n\ns4markdownanchor evidence should be highlighted from markdown source.',
-    question: 'What should s4markdownanchor evidence do?'
+    title: 'V1.2 Markdown Browser Source',
+    anchor: 'v12markdownanchor',
+    content: '# Markdown Browser Evidence\n\nv12markdownanchor evidence should be highlighted from markdown source.',
+    question: 'What should v12markdownanchor evidence do?'
   },
   {
     sourceType: 'json',
-    title: 'V1.1 S4 JSON Browser Source',
-    anchor: 's4jsonanchor',
-    content: JSON.stringify({ summary: 's4jsonanchor evidence should be highlighted from json source', status: 'supported' }),
-    question: 'What should s4jsonanchor evidence do?'
+    title: 'V1.2 JSON Browser Source',
+    anchor: 'v12jsonanchor',
+    content: JSON.stringify({ summary: 'v12jsonanchor evidence should be highlighted from json source', status: 'supported' }),
+    question: 'What should v12jsonanchor evidence do?'
   }
 ];
 
@@ -442,15 +442,15 @@ async function main() {
       forbiddenKnowledgeRequests: forbiddenRequests,
       consoleErrors,
       pageErrors,
-      declaration: 'S4_MARKDOWN_JSON_FRONTEND_BROWSER_SMOKE_READY',
+      declaration: 'V1_2_MARKDOWN_JSON_BROWSER_SMOKE_READY',
       results
     };
-    await saveFixture('s4-multiformat-browser-result.json', summary);
+    await saveFixture('v1_2-multiformat-browser-result.json', summary);
     await writeFile(join(artifactsDir, 'browser-smoke-result.json'), JSON.stringify(summary, null, 2) + '\n');
-    console.log('S4_MULTI_FORMAT_FRONTEND_DECISION BROWSER_SMOKE_READY_MARKDOWN_JSON');
+    console.log('V1_2_MULTIFORMAT_BROWSER_DECISION BROWSER_SMOKE_READY_MARKDOWN_JSON');
     cdp.close();
   } catch (error) {
-    mark('v1.1-s4 multiformat browser smoke', 'fail', error instanceof Error ? error.message : String(error));
+    mark('v1.2 multiformat browser smoke', 'fail', error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
   } finally {
     await cleanupWorkspace();
