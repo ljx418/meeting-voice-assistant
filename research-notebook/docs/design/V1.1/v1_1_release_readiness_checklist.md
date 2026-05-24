@@ -134,8 +134,13 @@ decision: BROWSER_SMOKE_READY_MARKDOWN_JSON
 Visible Chrome user E2E:
 
 ```text
-npm run smoke:v1.1-visible-user-e2e: script added, pending manual visible run
-decision: NOT_RUN until local backend/frontend services are both active
+npm run smoke:v1.1-visible-user-e2e: completed
+workspace_id: rn-v11-visible-user-1779602822347-workspace
+text/markdown/json workspace citation highlight: PASS
+source trace drawer: PASS
+session citation highlight: PASS
+no /api/v1/knowledge request: PASS
+decision: VISIBLE_USER_E2E_PASS
 ```
 
 ## Boundary Checks

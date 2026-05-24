@@ -175,10 +175,9 @@ function startChrome() {
       '--disable-background-networking',
       'about:blank'
     ],
-    { stdio: ['ignore', 'pipe', 'pipe'] }
+    { detached: keepBrowserOpen, stdio: 'ignore' }
   );
-  chromeProcess.stdout.on('data', (chunk) => process.stdout.write(chunk));
-  chromeProcess.stderr.on('data', (chunk) => process.stderr.write(chunk));
+  if (keepBrowserOpen) chromeProcess.unref();
 }
 
 async function getWebSocketUrl() {
@@ -395,8 +394,14 @@ async function getHighlightState() {
         .filter((dt) => dt.textContent === 'source_id')
         .map((dt) => dt.nextElementSibling?.textContent || '')
         .filter(Boolean);
-      const unitText = [...document.querySelectorAll('small, dd, span')].map((el) => el.textContent || '').find((text) => text.includes('unit_')) || '';
-      const evidenceText = [...document.querySelectorAll('small, dd, span')].map((el) => el.textContent || '').find((text) => text.includes('ev_')) || '';
+      const selectedUnitText = selectedUnit?.innerText || '';
+      const drawerText = drawer?.innerText || '';
+      const unitText = selectedUnitText.includes('unit_')
+        ? selectedUnitText
+        : [...document.querySelectorAll('small, dd, span')].map((el) => el.textContent || '').find((text) => text.includes('unit_')) || '';
+      const evidenceText = drawerText.includes('ev_')
+        ? drawerText
+        : [...document.querySelectorAll('small, dd, span')].map((el) => el.textContent || '').find((text) => text.includes('ev_')) || '';
       return {
         drawerOpen: Boolean(drawer),
         selectedUnitVisible: Boolean(selectedUnit),
@@ -479,9 +484,8 @@ async function runSessionPath() {
   await waitFor(() => textExists(sessionTitle), 'session visible');
   sessionId = await evalJs(
     `(() => {
-      const text = document.body.innerText;
-      const match = text.match(/session_[a-z0-9_:-]+/i);
-      return match?.[0] || '';
+      const idRow = [...document.querySelectorAll('dt')].find((dt) => dt.textContent === 'session_id');
+      return idRow?.nextElementSibling?.textContent || '';
     })()`
   );
   await pause('created and selected session');
@@ -490,7 +494,8 @@ async function runSessionPath() {
   if (!(await setTextareaByLabel('snippet or context', sessionContent))) throw new Error('could not set session snippet');
   await pause('filled session snippet');
   if (!(await clickButtonByText('Ingest snippet'))) throw new Error('could not ingest session snippet');
-  await waitFor(() => textExists('Needs build') || textExists('Ready') || textExists('Active'), 'session ingest reflected');
+  await delay(2_500);
+  if (await textExists('Session ingest failed')) throw new Error('session ingest failed');
   mark('session ingest visible', 'pass');
 
   if (!(await clickButtonByText('Build session'))) throw new Error('could not start session build');
@@ -632,7 +637,7 @@ async function main() {
     process.exitCode = 1;
   } finally {
     await cleanupWorkspace();
-    if (cdp && !keepBrowserOpen) cdp.close();
+    if (cdp) cdp.close();
     if (chromeProcess && !chromeProcess.killed && !keepBrowserOpen) chromeProcess.kill('SIGTERM');
     if (keepBrowserOpen) {
       console.log(`VISIBLE_CHROME_LEFT_OPEN remote_debugging_port=${chromePort} profile=${userDataDir}`);

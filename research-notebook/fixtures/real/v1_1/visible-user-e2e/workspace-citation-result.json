@@ -1,0 +1,8 @@
+{
+  "source_type": "text",
+  "source_id": "src_4a886373a8be1a0a",
+  "unit_id": "unit_8e6b24750abe818c",
+  "evidence_id": "ev_a9365b67358f33b1",
+  "highlight_text": "Visible user evidence navigation should keep the answer, source preview, document unit, and highlighted evidence span visible.",
+  "screenshot_artifact": ".smoke-artifacts/v1_1_visible_user_e2e/1779602822347/text-evidence-highlight.png"
+}

@@ -115,6 +115,19 @@ describe('dataServiceClient workspace wrappers', () => {
     expect(fetchImpl).toHaveBeenCalledWith(sourcesPath('ws_1'), expect.objectContaining({ method: 'GET' }));
   });
 
+  it('keeps source trace action enabled when source list omits trace availability', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        sources: [{ source_id: 'src_1', workspace_id: 'ws_1', title: 'System design' }]
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.list('ws_1')).resolves.toEqual([
+      expect.objectContaining({ source_id: 'src_1', trace_available: true })
+    ]);
+  });
+
   it('creates source successfully', async () => {
     const fetchImpl = vi.fn().mockResolvedValue(
       jsonResponse({

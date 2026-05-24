@@ -262,7 +262,7 @@ V1.1-FINAL Final Manual Acceptance / Repository Sync
 
 当前推荐下一阶段是 `V1.1-FINAL Final Manual Acceptance / Repository Sync`。不要把 S4 的 markdown/json browser smoke 扩大为 all-source-type ready；PDF/PPTX/HTML/video/audio、Assessment、Governance、Graph editing、Cloud sync 仍不属于当前 ready 范围。
 
-补充：已新增 Chrome CLI 可视化用户端到端验收脚本 `npm run smoke:v1.1-visible-user-e2e`。该脚本用于人工可见地复核 V1.1 当前受限路径；在本地后端 8003 和前端 5173 同时运行前，状态为 NOT_RUN。
+补充：Chrome CLI 可视化用户端到端验收脚本 `npm run smoke:v1.1-visible-user-e2e` 已在本机通过。该脚本已用真实 Chrome 窗口复核 V1.1 当前受限路径：text/markdown/json workspace citation highlight、Source Trace Drawer、session citation highlight 和 cleanup 均通过。
 
 ## 手动验收距离评估
 

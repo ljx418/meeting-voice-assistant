@@ -377,7 +377,7 @@ function assertSourceSummary(value: unknown, workspaceId?: string): SourceSummar
     import_state: normalizeSourceImportState(source.import_state ?? source.ingest_status ?? source.status),
     build_state: normalizeSourceBuildState(source.build_state ?? source.index_state),
     updated_at: readString(source.updated_at),
-    trace_available: readBoolean(source.trace_available) ?? Boolean(source.trace || source.provenance),
+    trace_available: readBoolean(source.trace_available) ?? readBoolean(source.traceAvailable) ?? true,
     artifact_refs: readArtifactRefs(source.artifact_refs)
   };
 }
