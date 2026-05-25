@@ -16,7 +16,7 @@
         <mxCell id="smoke" value="V1.2-C&#xa;Markdown / JSON 浏览器 smoke&#xa;PASS&#xa;npm run smoke:v1.2-multiformat-browser" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="700" y="120" width="300" height="130" as="geometry"/>
         </mxCell>
-        <mxCell id="manual" value="V1.2-D&#xa;手工验收与最终同步&#xa;NOT_STARTED" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#ECEFF1;strokeColor=#607D8B;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="manual" value="V1.2-D&#xa;手工验收跳过&#xa;验收门迁移到 V1.3 Agent 入口" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFF3E0;strokeColor=#EF6C00;fontSize=14;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="700" y="310" width="300" height="110" as="geometry"/>
         </mxCell>
         <mxCell id="ready" value="可声明范围&#xa;Markdown / JSON 证据导航产品化基线&#xa;仅限携带 source_id + unit_id + evidence_id 的 workspace citation" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=14;" vertex="1" parent="1">

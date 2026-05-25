@@ -1,0 +1,46 @@
+<mxfile host="app.diagrams.net" modified="2026-05-25T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="v1_3_gap" name="V1.3 Gap">
+    <mxGraphModel dx="1200" dy="760" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1280" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="ResearchNotebook V1.3 Agent Workflow 路线图" style="text;html=1;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="280" y="30" width="720" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="v12" value="V1.2 技术基线&#xa;markdown/json smoke PASS&#xa;手工验收跳过" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="230" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="a" value="V1.3-A&#xa;Agent Workflow 合同发现&#xa;NEXT" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFF8E1;strokeColor=#F9A825;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="120" width="240" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="b" value="V1.3-B&#xa;Local Folder Connector Backend&#xa;NEXT&#xa;md/txt only" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFF8E1;strokeColor=#F9A825;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="120" width="260" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="c" value="V1.3-C/D/E/F/G&#xa;Runtime / Summary / UI / Planner / Evidence&#xa;NOT_STARTED" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#ECEFF1;strokeColor=#607D8B;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="990" y="120" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="rc" value="V1.3-RC&#xa;Agent Entry Acceptance&#xa;用户一句话触发 workflow&#xa;NOT_STARTED" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#ECEFF1;strokeColor=#607D8B;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="340" width="320" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="guard" value="边界&#xa;不读取未授权目录&#xa;不展示 /Users 绝对路径&#xa;不声明 PDF/PPT/video/audio ready&#xa;不把 draft 当运行结果" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFEBEE;strokeColor=#C62828;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="560" width="800" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="v12" target="a" style="endArrow=block;html=1;strokeColor=#455A64;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="a" target="b" style="endArrow=block;html=1;strokeColor=#455A64;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="b" target="c" style="endArrow=block;html=1;strokeColor=#455A64;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="c" target="rc" style="endArrow=block;html=1;strokeColor=#455A64;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="rc" target="guard" style="endArrow=block;html=1;dashed=1;strokeColor=#C62828;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

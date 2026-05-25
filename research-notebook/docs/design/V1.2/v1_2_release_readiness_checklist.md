@@ -1,6 +1,6 @@
 # ResearchNotebook V1.2 Release Readiness Checklist
 
-文档状态：V1.2-C 已通过；V1.2-D 待执行。
+文档状态：V1.2-C 已通过；V1.2-D 手工验收按产品决策跳过，验收门迁移到 V1.3 Agent 入口。
 
 | 检查项 | 状态 | 证据 |
 | --- | --- | --- |
@@ -12,8 +12,9 @@
 | `.smoke-artifacts/` 不提交 | PASS | `git status --short -- .smoke-artifacts` 无输出。 |
 | no `/api/v1/knowledge/*` 新功能调用 | PASS | 命中仅为 smoke guard 和文档说明，未新增功能调用。 |
 | route shape 只在 dataServiceClient | PASS | `/api/` 命中为 adapter import path，不是 feature route string。 |
-| 手工验收报告 | NOT_STARTED | `v1_2_manual_acceptance_report.md` 待填写。 |
-| scoped commit / push | NOT_STARTED | V1.2-D 执行。 |
+| 手工验收报告 | SKIPPED_BY_PRODUCT_DECISION | 当前传统 UI 体验不完整；最终验收迁移到 V1.3 Agent Workflow。 |
+| 技术分享 Chrome CLI 探索 | PASS_WITH_PRODUCT_GAP | `tech_share_manual_import_report.md` 已记录导入可行性和体验不足。 |
+| scoped commit / push | PENDING | 本次 V1.2 closeout + V1.3 planning 执行。 |
 
 ## 仍为 NOT_READY
 

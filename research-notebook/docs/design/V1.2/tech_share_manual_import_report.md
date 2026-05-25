@@ -1,0 +1,105 @@
+# 技术分享目录 Chrome CLI 导入验收报告
+执行时间：2026-05-24T10:53:39.479Z
+## 环境
+- 前端：http://127.0.0.1:5173
+- 后端：http://127.0.0.1:8003
+- 工作区：技术分享导入验收-1779619968409
+- workspace_id：1779619968409
+- 源目录：`<tech-share-root>`
+## 结果
+- 扫描后导入来源数：90（89 个逐条来源 + 1 个“剩余技术分享文件清单”聚合来源）
+- metadata-only 文件数：925
+- 跳过文件/目录数：0
+- 预览抽样：3
+- Chrome 窗口保留：是
+## 说明
+- md/json/py/html/csv 等文本类文件直接抽取文本。
+- pptx/docx 通过 zip XML 尽力抽取文本。
+- 为避免 170+ 来源卡片导致当前来源库 UI 退化，前 89 个文档逐条导入，其余可抽取文档与媒体资产统一记录到“剩余技术分享文件清单”来源中。
+- pdf/mp4/mp3/png/jpg 等以 metadata-only 清单导入，不代表音视频/图像正文摄入 ready。
+- 报告与 fixture 不记录本地绝对路径。
+## 主要文件
+- 01-funasr原理/FunASR 语音识别技术深度解析.pptx (text, pptx_zip_xml_text)
+- 01-funasr原理/funasr大纲.md (markdown, direct_text)
+- 02-claudecode技术分享/Claude Code 高阶使用技巧.pptx (text, pptx_zip_xml_text)
+- 02-claudecode技术分享/ClaudeCode高阶技巧.docx (text, docx_zip_xml_text)
+- 02-claudecode技术分享/ClaudeCode高阶技巧.md (markdown, direct_text)
+- 02-claudecode技术分享/debug_render.py (text, direct_text)
+- 02-claudecode技术分享/export_drawio.py (text, direct_text)
+- 02-claudecode技术分享/images/agent-team.drawio (text, direct_text)
+- 02-claudecode技术分享/images/git-worktree.drawio (text, direct_text)
+- 02-claudecode技术分享/images/memory-system.drawio (text, direct_text)
+- 02-claudecode技术分享/images/plan-mode-flow.drawio (text, direct_text)
+- 02-claudecode技术分享/images/settings-structure.drawio (text, direct_text)
+- 02-claudecode技术分享/images/task-state.drawio (text, direct_text)
+- 03-graphRag、deerflow、deepsearch、llmWiki/AI技术演进：从信息检索到任务执行.pptx (text, pptx_zip_xml_text)
+- 03-graphRag、deerflow、deepsearch、llmWiki/diagrams/01-四象限对比图.drawio (text, direct_text)
+- 03-graphRag、deerflow、deepsearch、llmWiki/diagrams/02-DeerFlow架构图.drawio (text, direct_text)
+- 03-graphRag、deerflow、deepsearch、llmWiki/diagrams/03-DeepSearch工作流程图.drawio (text, direct_text)
+- 03-graphRag、deerflow、deepsearch、llmWiki/diagrams/04-LLMWiki闭环图.drawio (text, direct_text)
+- 03-graphRag、deerflow、deepsearch、llmWiki/diagrams/05-三步走演进路线图.drawio (text, direct_text)
+- 03-graphRag、deerflow、deepsearch、llmWiki/diagrams/06-会议助手协同生态图.drawio (text, direct_text)
+- 03-graphRag、deerflow、deepsearch、llmWiki/generate_word.py (text, direct_text)
+- 03-graphRag、deerflow、deepsearch、llmWiki/PPT大纲.docx (text, docx_zip_xml_text)
+- 03-graphRag、deerflow、deepsearch、llmWiki/PPT大纲.md (markdown, direct_text)
+- 04-AgentTeamOrSubAgent/01-PPT大纲.md (markdown, direct_text)
+- 04-AgentTeamOrSubAgent/02-案例库.md (markdown, direct_text)
+- 04-AgentTeamOrSubAgent/03-团队落地指南.md (markdown, direct_text)
+- 04-AgentTeamOrSubAgent/04-集成示例.md (markdown, direct_text)
+- 04-AgentTeamOrSubAgent/Claude Code 团队协作实战：Subagent vs Agent Team.pptx (text, pptx_zip_xml_text)
+- 05-HermesOrOpenClaw&VideoFlow/Hermes vs OpenClaw——两大开源 AI Agent 框架对比分析.pptx (text, pptx_zip_xml_text)
+- 05-HermesOrOpenClaw&VideoFlow/Hermes_vs_OpenClaw_培训大纲_完善版.md (markdown, direct_text)
+- 06-AgentOS:Harness/harnessOS 项目基线与目标架构评审-v1.0.pptx (text, pptx_zip_xml_text)
+- 06-AgentOS:Harness/harnessOS 项目基线与目标架构评审-V2.0.pptx (text, pptx_zip_xml_text)
+- 06-AgentOS:Harness/harnessOS 项目基线与目标架构评审-V3.0.pptx (text, pptx_zip_xml_text)
+- 06-AgentOS:Harness/harnessos_ppt_detailed_script_v1.md (markdown, direct_text)
+- 06-AgentOS:Harness/v3_architecture_discussion_record.md (markdown, direct_text)
+- 07-HarnessOS-4.0/harnessos_v35_v40_ppt_outline_with_diagrams.md (markdown, direct_text)
+- 08-AITextToVideoWorkflow/ai_video_workflow_skill_materials/outline.md (markdown, direct_text)
+- 08-AITextToVideoWorkflow/ai_video_workflow_skill_materials/script.md (markdown, direct_text)
+- 08-AITextToVideoWorkflow/docs/assets-plan.md (markdown, direct_text)
+- 08-AITextToVideoWorkflow/docs/outline.md (markdown, direct_text)
+- 08-AITextToVideoWorkflow/docs/script.md (markdown, direct_text)
+- 08-AITextToVideoWorkflow/docs/storyboard.md (markdown, direct_text)
+- 08-AITextToVideoWorkflow/presentation/audio-segments.json (json, direct_text)
+- 08-AITextToVideoWorkflow/presentation/index.html (text, direct_text)
+- 08-AITextToVideoWorkflow/presentation/scripts/speedup_audio.py (text, direct_text)
+- 08-AITextToVideoWorkflow/presentation/scripts/synthesize-audio.sh (text, direct_text)
+- 08-AITextToVideoWorkflow/presentation/tsconfig.json (json, direct_text)
+- 08-AITextToVideoWorkflow/README.md (markdown, direct_text)
+- 08-AITextToVideoWorkflow/verification/storage-step-01.json (json, direct_text)
+- 08-AITextToVideoWorkflow/verification/storage-step-20.json (json, direct_text)
+- 08-AITextToVideoWorkflow/verification/storage-step-38.json (json, direct_text)
+- 08-AITextToVideoWorkflow/verification/storage-step-46.json (json, direct_text)
+- 09-DeskPat/AI_Agent_桌面宠物_团队科普交付包/AI_Agent_桌面宠物_应用场景与演进路线.pptx (text, pptx_zip_xml_text)
+- 09-DeskPat/AI_Agent_桌面宠物_团队科普交付包/AI_Agent_桌面宠物_NotebookLM资料包.docx (text, docx_zip_xml_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/00_文档包索引.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/01_项目总览与定位.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/02_阶段演进与当前基线.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/03_目标架构说明.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/04_核心对象与运行事实源.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/05_目标交互形态与前端体验.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/06_应用场景与业务价值.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/07_VideoStudio业务适配示例.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/08_低代码工作流与Agent协作机制.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/09_与Dify_Coze_ComfyUI等项目对比.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/10_V4_0开发路线与验收标准.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/11_团队宣讲PPT大纲.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/12_风险边界与NoFalseGreen.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/00_项目总览_面向产品经理.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/01_目标架构与技术边界_面向技术专家.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/02_目标交互形态与Console治理.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/03_应用场景与业务适配.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/04_接口契约与治理机制.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/05_路线图与验收状态.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/06_内部团队执行指南.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/07_NotebookLM_PPT生成素材包.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/README_文档包说明.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/00-Cybernetic_Agent_Interface.pptx (text, pptx_zip_xml_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_项目立项报告_20页深度版.pptx (text, pptx_zip_xml_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/00_资料包索引与使用说明.md (markdown, direct_text)
+- 10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/01_高管一页摘要.md (markdown, direct_text)
+- 其余 10 条见 fixture。
+## Artifact
+- Summary fixture：fixtures/manual/tech-share-import-summary.json
+- 截图目录：<home>/Desktop/workspace/research-notebook/.smoke-artifacts/tech-share-import/1779619968409

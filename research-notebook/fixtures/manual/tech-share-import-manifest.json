@@ -1,0 +1,728 @@
+{
+  "source_root": "<tech-share-root>",
+  "source_count": 90,
+  "metadata_only_count": 925,
+  "skipped": [],
+  "records": [
+    {
+      "relative_path": "01-funasr原理/FunASR 语音识别技术深度解析.pptx",
+      "title": "01-funasr原理/FunASR 语音识别技术深度解析.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 12244
+    },
+    {
+      "relative_path": "01-funasr原理/funasr大纲.md",
+      "title": "01-funasr原理/funasr大纲.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": true,
+      "content_size": 24057
+    },
+    {
+      "relative_path": "02-claudecode技术分享/Claude Code 高阶使用技巧.pptx",
+      "title": "02-claudecode技术分享/Claude Code 高阶使用技巧.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 17304
+    },
+    {
+      "relative_path": "02-claudecode技术分享/ClaudeCode高阶技巧.docx",
+      "title": "02-claudecode技术分享/ClaudeCode高阶技巧.docx",
+      "source_type": "text",
+      "extraction_method": "docx_zip_xml_text",
+      "truncated": false,
+      "content_size": 9107
+    },
+    {
+      "relative_path": "02-claudecode技术分享/ClaudeCode高阶技巧.md",
+      "title": "02-claudecode技术分享/ClaudeCode高阶技巧.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 10697
+    },
+    {
+      "relative_path": "02-claudecode技术分享/debug_render.py",
+      "title": "02-claudecode技术分享/debug_render.py",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2192
+    },
+    {
+      "relative_path": "02-claudecode技术分享/export_drawio.py",
+      "title": "02-claudecode技术分享/export_drawio.py",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 5562
+    },
+    {
+      "relative_path": "02-claudecode技术分享/images/agent-team.drawio",
+      "title": "02-claudecode技术分享/images/agent-team.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 12518
+    },
+    {
+      "relative_path": "02-claudecode技术分享/images/git-worktree.drawio",
+      "title": "02-claudecode技术分享/images/git-worktree.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 11007
+    },
+    {
+      "relative_path": "02-claudecode技术分享/images/memory-system.drawio",
+      "title": "02-claudecode技术分享/images/memory-system.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 7914
+    },
+    {
+      "relative_path": "02-claudecode技术分享/images/plan-mode-flow.drawio",
+      "title": "02-claudecode技术分享/images/plan-mode-flow.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 9992
+    },
+    {
+      "relative_path": "02-claudecode技术分享/images/settings-structure.drawio",
+      "title": "02-claudecode技术分享/images/settings-structure.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 12566
+    },
+    {
+      "relative_path": "02-claudecode技术分享/images/task-state.drawio",
+      "title": "02-claudecode技术分享/images/task-state.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 9331
+    },
+    {
+      "relative_path": "03-graphRag、deerflow、deepsearch、llmWiki/AI技术演进：从信息检索到任务执行.pptx",
+      "title": "03-graphRag、deerflow、deepsearch、llmWiki/AI技术演进：从信息检索到任务执行.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 3541
+    },
+    {
+      "relative_path": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/01-四象限对比图.drawio",
+      "title": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/01-四象限对比图.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 5808
+    },
+    {
+      "relative_path": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/02-DeerFlow架构图.drawio",
+      "title": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/02-DeerFlow架构图.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 6448
+    },
+    {
+      "relative_path": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/03-DeepSearch工作流程图.drawio",
+      "title": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/03-DeepSearch工作流程图.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 6196
+    },
+    {
+      "relative_path": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/04-LLMWiki闭环图.drawio",
+      "title": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/04-LLMWiki闭环图.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 6120
+    },
+    {
+      "relative_path": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/05-三步走演进路线图.drawio",
+      "title": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/05-三步走演进路线图.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 9905
+    },
+    {
+      "relative_path": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/06-会议助手协同生态图.drawio",
+      "title": "03-graphRag、deerflow、deepsearch、llmWiki/diagrams/06-会议助手协同生态图.drawio",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 8259
+    },
+    {
+      "relative_path": "03-graphRag、deerflow、deepsearch、llmWiki/generate_word.py",
+      "title": "03-graphRag、deerflow、deepsearch、llmWiki/generate_word.py",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 6747
+    },
+    {
+      "relative_path": "03-graphRag、deerflow、deepsearch、llmWiki/PPT大纲.docx",
+      "title": "03-graphRag、deerflow、deepsearch、llmWiki/PPT大纲.docx",
+      "source_type": "text",
+      "extraction_method": "docx_zip_xml_text",
+      "truncated": false,
+      "content_size": 4610
+    },
+    {
+      "relative_path": "03-graphRag、deerflow、deepsearch、llmWiki/PPT大纲.md",
+      "title": "03-graphRag、deerflow、deepsearch、llmWiki/PPT大纲.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 7378
+    },
+    {
+      "relative_path": "04-AgentTeamOrSubAgent/01-PPT大纲.md",
+      "title": "04-AgentTeamOrSubAgent/01-PPT大纲.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 11787
+    },
+    {
+      "relative_path": "04-AgentTeamOrSubAgent/02-案例库.md",
+      "title": "04-AgentTeamOrSubAgent/02-案例库.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 8156
+    },
+    {
+      "relative_path": "04-AgentTeamOrSubAgent/03-团队落地指南.md",
+      "title": "04-AgentTeamOrSubAgent/03-团队落地指南.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 9685
+    },
+    {
+      "relative_path": "04-AgentTeamOrSubAgent/04-集成示例.md",
+      "title": "04-AgentTeamOrSubAgent/04-集成示例.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 16439
+    },
+    {
+      "relative_path": "04-AgentTeamOrSubAgent/Claude Code 团队协作实战：Subagent vs Agent Team.pptx",
+      "title": "04-AgentTeamOrSubAgent/Claude Code 团队协作实战：Subagent vs Agent Team.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 5642
+    },
+    {
+      "relative_path": "05-HermesOrOpenClaw&VideoFlow/Hermes vs OpenClaw——两大开源 AI Agent 框架对比分析.pptx",
+      "title": "05-HermesOrOpenClaw&VideoFlow/Hermes vs OpenClaw——两大开源 AI Agent 框架对比分析.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 4613
+    },
+    {
+      "relative_path": "05-HermesOrOpenClaw&VideoFlow/Hermes_vs_OpenClaw_培训大纲_完善版.md",
+      "title": "05-HermesOrOpenClaw&VideoFlow/Hermes_vs_OpenClaw_培训大纲_完善版.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": true,
+      "content_size": 24094
+    },
+    {
+      "relative_path": "06-AgentOS:Harness/harnessOS 项目基线与目标架构评审-v1.0.pptx",
+      "title": "06-AgentOS:Harness/harnessOS 项目基线与目标架构评审-v1.0.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 10258
+    },
+    {
+      "relative_path": "06-AgentOS:Harness/harnessOS 项目基线与目标架构评审-V2.0.pptx",
+      "title": "06-AgentOS:Harness/harnessOS 项目基线与目标架构评审-V2.0.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 15218
+    },
+    {
+      "relative_path": "06-AgentOS:Harness/harnessOS 项目基线与目标架构评审-V3.0.pptx",
+      "title": "06-AgentOS:Harness/harnessOS 项目基线与目标架构评审-V3.0.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 18665
+    },
+    {
+      "relative_path": "06-AgentOS:Harness/harnessos_ppt_detailed_script_v1.md",
+      "title": "06-AgentOS:Harness/harnessos_ppt_detailed_script_v1.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 12207
+    },
+    {
+      "relative_path": "06-AgentOS:Harness/v3_architecture_discussion_record.md",
+      "title": "06-AgentOS:Harness/v3_architecture_discussion_record.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3260
+    },
+    {
+      "relative_path": "07-HarnessOS-4.0/harnessos_v35_v40_ppt_outline_with_diagrams.md",
+      "title": "07-HarnessOS-4.0/harnessos_v35_v40_ppt_outline_with_diagrams.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 21547
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/ai_video_workflow_skill_materials/outline.md",
+      "title": "08-AITextToVideoWorkflow/ai_video_workflow_skill_materials/outline.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 8759
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/ai_video_workflow_skill_materials/script.md",
+      "title": "08-AITextToVideoWorkflow/ai_video_workflow_skill_materials/script.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 6224
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/docs/assets-plan.md",
+      "title": "08-AITextToVideoWorkflow/docs/assets-plan.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 590
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/docs/outline.md",
+      "title": "08-AITextToVideoWorkflow/docs/outline.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 7191
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/docs/script.md",
+      "title": "08-AITextToVideoWorkflow/docs/script.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 5091
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/docs/storyboard.md",
+      "title": "08-AITextToVideoWorkflow/docs/storyboard.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 677
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/presentation/audio-segments.json",
+      "title": "08-AITextToVideoWorkflow/presentation/audio-segments.json",
+      "source_type": "json",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 10272
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/presentation/index.html",
+      "title": "08-AITextToVideoWorkflow/presentation/index.html",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 147
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/presentation/scripts/speedup_audio.py",
+      "title": "08-AITextToVideoWorkflow/presentation/scripts/speedup_audio.py",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3523
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/presentation/scripts/synthesize-audio.sh",
+      "title": "08-AITextToVideoWorkflow/presentation/scripts/synthesize-audio.sh",
+      "source_type": "text",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 5495
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/presentation/tsconfig.json",
+      "title": "08-AITextToVideoWorkflow/presentation/tsconfig.json",
+      "source_type": "json",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 223
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/README.md",
+      "title": "08-AITextToVideoWorkflow/README.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 621
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/verification/storage-step-01.json",
+      "title": "08-AITextToVideoWorkflow/verification/storage-step-01.json",
+      "source_type": "json",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 328
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/verification/storage-step-20.json",
+      "title": "08-AITextToVideoWorkflow/verification/storage-step-20.json",
+      "source_type": "json",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 328
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/verification/storage-step-38.json",
+      "title": "08-AITextToVideoWorkflow/verification/storage-step-38.json",
+      "source_type": "json",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 328
+    },
+    {
+      "relative_path": "08-AITextToVideoWorkflow/verification/storage-step-46.json",
+      "title": "08-AITextToVideoWorkflow/verification/storage-step-46.json",
+      "source_type": "json",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 328
+    },
+    {
+      "relative_path": "09-DeskPat/AI_Agent_桌面宠物_团队科普交付包/AI_Agent_桌面宠物_应用场景与演进路线.pptx",
+      "title": "09-DeskPat/AI_Agent_桌面宠物_团队科普交付包/AI_Agent_桌面宠物_应用场景与演进路线.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 6380
+    },
+    {
+      "relative_path": "09-DeskPat/AI_Agent_桌面宠物_团队科普交付包/AI_Agent_桌面宠物_NotebookLM资料包.docx",
+      "title": "09-DeskPat/AI_Agent_桌面宠物_团队科普交付包/AI_Agent_桌面宠物_NotebookLM资料包.docx",
+      "source_type": "text",
+      "extraction_method": "docx_zip_xml_text",
+      "truncated": false,
+      "content_size": 8637
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/00_文档包索引.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/00_文档包索引.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 1653
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/01_项目总览与定位.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/01_项目总览与定位.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 1896
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/02_阶段演进与当前基线.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/02_阶段演进与当前基线.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3035
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/03_目标架构说明.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/03_目标架构说明.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3351
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/04_核心对象与运行事实源.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/04_核心对象与运行事实源.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3300
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/05_目标交互形态与前端体验.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/05_目标交互形态与前端体验.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2756
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/06_应用场景与业务价值.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/06_应用场景与业务价值.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 1730
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/07_VideoStudio业务适配示例.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/07_VideoStudio业务适配示例.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3136
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/08_低代码工作流与Agent协作机制.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/08_低代码工作流与Agent协作机制.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2133
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/09_与Dify_Coze_ComfyUI等项目对比.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/09_与Dify_Coze_ComfyUI等项目对比.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 1824
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/10_V4_0开发路线与验收标准.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/10_V4_0开发路线与验收标准.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2408
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/11_团队宣讲PPT大纲.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/11_团队宣讲PPT大纲.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2546
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/12_风险边界与NoFalseGreen.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/01-harnessOS/harnessos_notebooklm_pack/12_风险边界与NoFalseGreen.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2235
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/00_项目总览_面向产品经理.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/00_项目总览_面向产品经理.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3304
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/01_目标架构与技术边界_面向技术专家.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/01_目标架构与技术边界_面向技术专家.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 5802
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/02_目标交互形态与Console治理.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/02_目标交互形态与Console治理.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3721
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/03_应用场景与业务适配.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/03_应用场景与业务适配.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3108
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/04_接口契约与治理机制.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/04_接口契约与治理机制.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 4045
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/05_路线图与验收状态.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/05_路线图与验收状态.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3742
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/06_内部团队执行指南.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/06_内部团队执行指南.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3239
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/07_NotebookLM_PPT生成素材包.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/07_NotebookLM_PPT生成素材包.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 3084
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/README_文档包说明.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/02-dataService/data_service_presentation_pack/README_文档包说明.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 1346
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/00-Cybernetic_Agent_Interface.pptx",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/00-Cybernetic_Agent_Interface.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 2523
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_项目立项报告_20页深度版.pptx",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_项目立项报告_20页深度版.pptx",
+      "source_type": "text",
+      "extraction_method": "pptx_zip_xml_text",
+      "truncated": false,
+      "content_size": 7825
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/00_资料包索引与使用说明.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/00_资料包索引与使用说明.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 1921
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/01_高管一页摘要.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/01_高管一页摘要.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 1927
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/02_产品定位与价值主张.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/02_产品定位与价值主张.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 1610
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/03_目标架构与技术路线.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/03_目标架构与技术路线.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2901
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/04_目标交互形态与体验设计.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/04_目标交互形态与体验设计.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2119
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/05_应用场景与用户故事.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/05_应用场景与用户故事.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2040
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/06_业务适配与工作流接入.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/06_业务适配与工作流接入.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2689
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/07_协议安全与治理边界.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/07_协议安全与治理边界.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2442
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/08_版本路线图与验收标准.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/08_版本路线图与验收标准.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2804
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/09_风险决策与非目标.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/09_风险决策与非目标.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 1924
+    },
+    {
+      "relative_path": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/10_PPT生成大纲与讲稿素材.md",
+      "title": "10-阶段性技术分享（HarnessOS、data_service、桌宠）/03-deskPet/agent-desktop-pet_NotebookLM_多文档资料包/10_PPT生成大纲与讲稿素材.md",
+      "source_type": "markdown",
+      "extraction_method": "direct_text",
+      "truncated": false,
+      "content_size": 2567
+    },
+    {
+      "relative_path": "_剩余技术分享文件清单",
+      "title": "_剩余技术分享文件清单",
+      "source_type": "text",
+      "extraction_method": "aggregated_remaining_manifest",
+      "truncated": false,
+      "content_size": 6776
+    }
+  ]
+}

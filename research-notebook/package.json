@@ -20,6 +20,7 @@
     "smoke:v1.1-s4-multiformat-browser": "node scripts/v1_1_s4_multiformat_browser_smoke.mjs",
     "smoke:v1.1-visible-user-e2e": "node scripts/v1_1_visible_user_e2e.mjs",
     "smoke:v1.2-multiformat-browser": "node scripts/v1_2_multiformat_browser_smoke.mjs",
+    "manual:tech-share-import": "node scripts/manual_import_tech_share_chrome_cli.mjs",
     "check:boundaries": "node scripts/check-boundaries.mjs",
     "check": "npm run check:boundaries && npm run lint && npm run test && npm run build"
   },
