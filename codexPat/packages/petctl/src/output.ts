@@ -28,6 +28,42 @@ export type CliResult = {
     currentState?: string;
     isDefault?: boolean;
   }>;
+  diagnostics?: Array<{
+    name: string;
+    status: "passed" | "warning" | "failed";
+    reasonCode?: string;
+    detail?: string;
+  }>;
+  probe?: {
+    terminalAppName?: string;
+    terminalBundleId?: string;
+    windowSummary?: string;
+    processId?: number;
+    processName?: string;
+    codexCliVersion?: string;
+    ttySummary?: string;
+    sessionSummary?: string;
+    permissionState?: "granted" | "denied" | "unknown";
+    verdict?: "candidate" | "unsupported" | "unavailable";
+    reasonCode?: string;
+  };
+  codexBinding?: {
+    candidateId?: string;
+    bindingId?: string;
+    bindingStatus?: "candidate" | "active" | "stale" | "expired";
+    terminalAppName?: string;
+    terminalBundleId?: string;
+    processId?: number;
+    processName?: string;
+    codexCliVersion?: string;
+    ttySummary?: string;
+    sessionSummary?: string;
+    petInstanceId?: string;
+    candidateObservedAt?: string;
+    bindingCreatedAt?: string;
+    lastValidatedAt?: string;
+    expiresAt?: string;
+  };
   raw?: unknown;
 };
 
@@ -61,7 +97,67 @@ export function formatResult(result: CliResult, pretty: boolean) {
         ].filter(Boolean).join(" "))
         .join("\n");
     }
+    if (result.diagnostics) {
+      return result.diagnostics
+        .map((diagnostic) => [
+          `diagnostic=${diagnostic.name}`,
+          `status=${diagnostic.status}`,
+          diagnostic.reasonCode ? `reasonCode=${diagnostic.reasonCode}` : undefined,
+          diagnostic.detail ? `detail="${diagnostic.detail}"` : undefined
+        ].filter(Boolean).join(" "))
+        .join("\n");
+    }
+    if (result.probe) {
+      return [
+        "codex probe active-window",
+        result.probe.verdict ? `verdict=${result.probe.verdict}` : undefined,
+        result.probe.terminalAppName ? `terminal=${result.probe.terminalAppName}` : undefined,
+        result.probe.terminalBundleId ? `bundle=${result.probe.terminalBundleId}` : undefined,
+        result.probe.permissionState ? `permission=${result.probe.permissionState}` : undefined,
+        result.probe.reasonCode ? `reasonCode=${result.probe.reasonCode}` : undefined
+      ].filter(Boolean).join(" ");
+    }
+    if (result.codexBinding) {
+      return [
+        "codex binding",
+        result.codexBinding.bindingStatus ? `status=${result.codexBinding.bindingStatus}` : undefined,
+        result.codexBinding.candidateId ? `candidate=${result.codexBinding.candidateId}` : undefined,
+        result.codexBinding.bindingId ? `binding=${result.codexBinding.bindingId}` : undefined,
+        result.codexBinding.petInstanceId ? `instanceId=${result.codexBinding.petInstanceId}` : undefined
+      ].filter(Boolean).join(" ");
+    }
     return `accepted eventId=${result.eventId ?? "unknown"}`;
+  }
+  if (result.probe) {
+    return [
+      `error reasonCode=${result.reasonCode ?? result.probe.reasonCode ?? "unknown_error"} reason="${result.reason ?? "probe failed"}"`,
+      "codex probe active-window",
+      result.probe.verdict ? `verdict=${result.probe.verdict}` : undefined,
+      result.probe.terminalAppName ? `terminal=${result.probe.terminalAppName}` : undefined,
+      result.probe.terminalBundleId ? `bundle=${result.probe.terminalBundleId}` : undefined,
+      result.probe.permissionState ? `permission=${result.probe.permissionState}` : undefined,
+      result.probe.reasonCode ? `reasonCode=${result.probe.reasonCode}` : undefined
+    ].filter(Boolean).join(" ");
+  }
+  if (result.diagnostics) {
+    return [
+      `error reasonCode=${result.reasonCode ?? "unknown_error"} reason="${result.reason ?? "unknown error"}"`,
+      ...result.diagnostics.map((diagnostic) => [
+        `diagnostic=${diagnostic.name}`,
+        `status=${diagnostic.status}`,
+        diagnostic.reasonCode ? `reasonCode=${diagnostic.reasonCode}` : undefined,
+        diagnostic.detail ? `detail="${diagnostic.detail}"` : undefined
+      ].filter(Boolean).join(" "))
+    ].join("\n");
+  }
+  if (result.codexBinding) {
+    return [
+      `error reasonCode=${result.reasonCode ?? "unknown_error"} reason="${result.reason ?? "codex binding failed"}"`,
+      "codex binding",
+      result.codexBinding.bindingStatus ? `status=${result.codexBinding.bindingStatus}` : undefined,
+      result.codexBinding.candidateId ? `candidate=${result.codexBinding.candidateId}` : undefined,
+      result.codexBinding.bindingId ? `binding=${result.codexBinding.bindingId}` : undefined
+    ].filter(Boolean).join(" ");
   }
   return `error reasonCode=${result.reasonCode ?? "unknown_error"} reason="${result.reason ?? "unknown error"}"`;
 }

@@ -1,97 +1,152 @@
 # Current vs Target Gap
 
-文档状态：active gap；V3.1 stabilization and onboarding release。  
-配套图：`current-vs-target-gap.drawio`。
+文档状态：active gap；V4.x OS-level Codex binding feasibility line。  
+配套图：`current-vs-target-gap.drawio`。  
+当前日期：2026-05-26。
 
-## Current State
+## Active Line
 
-当前已完成并验收：
+```text
+Current active line: V4.x OS-level Codex window/session binding feasibility.
+V3.x status: closed scoped baseline.
+V5.x status: planned future renderer / asset line.
+```
 
-- macOS-first MVP：Tauri 桌面猫、透明窗口、拖拽、托盘、设置页。
-- PetEvent / HTTP API / diagnostics / `petctl notify` / safe sound。
-- V2.0 workflow templates、recipes、shell/Node 示例、settings diagnostics polish、CSS cat polish、macOS local distribution docs。
-- V2.1-A third-party local HTTP contract smoke passed。
-- V2.1-B Codex local workflow integration verified for tested local Codex CLI smoke scenarios。
-- V3.0 multi-instance Codex workflow final acceptance passed for tested local Codex session scenarios。
+V3.x 不再是当前开发主线。V3.x 只作为已验收基线和回归约束存在。
 
-当前 V3.1 主线是稳定化与交付整理：文档收口、用户上手、多 Codex workflow guide、Manager polish、runtime smoke 和本地迁移说明。
+## Closed Baseline Summary
 
-## Implemented Baseline Checklist
-
-| Version / phase | Implemented capability | Evidence / notes |
+| Baseline | Status | Notes |
 | --- | --- | --- |
-| ✅ V1.0 / macOS-first MVP | Tauri 桌面壳、透明无边框置顶窗口、拖拽、位置持久化、系统托盘、设置页。 | macOS-first MVP 已验收；Windows 不在 V1.0 验收范围内。 |
-| ✅ V1.0 / Local Event Bridge | PetEvent JSON Schema、本地 HTTP API、token、白名单、rate limit、diagnostics、rejected reason sanitization。 | HTTP / diagnostics smoke 已通过。 |
-| ✅ V1.0 / CLI & Sound | `petctl notify`、JSON stdin、内置安全声音白名单、静音、cooldown。 | CLI smoke 与 safe sound smoke 已通过。 |
-| ✅ V2.0 Final Acceptance | Developer workflow polish。 | `docs/V2.0/v2_0-final-acceptance-report.md` passed。 |
-| ✅ V2.1-A | Third-party local HTTP contract smoke passed。 | 不代表真实第三方产品集成 verified。 |
-| ✅ V2.1-B | Codex local workflow integration verified for tested local Codex CLI smoke scenarios。 | 不代表所有 Codex workflow、MCP 或 cross-platform。 |
-| ✅ V3.0 Final Acceptance | Multi-instance Codex desktop pet workflow ready for tested local Codex session scenarios。 | `docs/V3.0/v3_0-final-acceptance-report.md` and evidence passed。 |
-| ✅ V3.1 Phase 1 | V3.0 Release Freeze & Documentation Cleanup。 | complete。 |
-| ✅ V3.1 Phase 2 | Multi-Codex User Workflow Guide。 | complete。 |
-| ✅ V3.1 Final Acceptance | Stabilization, onboarding, Manager polish, runtime smoke and migration guidance。 | `docs/V3.1/v3_1-final-acceptance-report.md` passed。 |
+| macOS-first desktop pet | passed | Tauri 桌面猫、透明窗口、拖拽、托盘、设置页。 |
+| PetEvent / HTTP / petctl | passed | token、白名单、rate limit、diagnostics、safe sound。 |
+| V3.1 stabilization | passed | onboarding、Manager polish、runtime smoke、migration guidance。 |
+| V3.2 scoped integration | passed scoped | MCP adapter minimal smoke、third-party contract v3；不代表 MCP ready。 |
+| V3.3 Codex binding | passed scoped | wrapper-first `petctl codex launch` binding；不代表 OS-level binding。 |
+| V3.4 hooks mapping | passed scoped | tested local Codex hook scenarios；不代表 exact internal reasoning。 |
+| V3.5 diagnostics | passed scoped | `petctl codex doctor` 和 recovery smoke。 |
+| V3.6 hook-only failure mapping | historical blocked / deprecated | `PostToolUse` payload 无稳定 failure fields；不再作为 active strategy。 |
+| V3.7 JSONL monitor | passed scoped / current recommended exec path | wrapper-launched `codex exec --json`；不覆盖 interactive TUI 或 OS-level window binding。 |
+| V3.x final | passed scoped | evidence / claim / PRD / security / regression 收口。 |
 
-## Target State
+V3.x 允许的核心声明：
 
-V3.1 目标：
+```text
+V3.x scoped Codex local workflow acceptance passed with documented evidence and claim boundaries.
+V3.7 Codex exec JSONL monitor state mapping passed for tested local wrapper-launched codex exec --json scenarios.
+V3.6 hook-only monitoring is deprecated as an active strategy and superseded by V3.7 JSONL monitoring for supported wrapper-launched codex exec --json sessions.
+```
 
-- README 是快速入口，不复制完整历史阶段内容。
-- docs map 明确普通用户、开发者、维护者分别该读哪些文档。
-- multi-codex workflow guide 能让新用户完成“一只 Codex 窗口一只猫”。
-- Manager UI 更易理解。
-- runtime smoke 可重复执行且不泄露 token、不破坏用户配置。
-- migration 文档基于真实 config 路径，不虚构。
+## V4.x Active Gap
 
-## Gap Matrix
+V4.x 处理 V3.x 明确不覆盖的用户诉求：
+
+```text
+Already-running or active Codex terminal window -> explicit user-confirmed pet binding.
+```
 
 | Gap | Current | Target | Status |
 | --- | --- | --- | --- |
-| V3.0 release evidence | V3.0 final checklist and evidence passed。 | Final acceptance report 作为统一入口。 | ✅ V3.1 Phase 1 |
-| README / docs map | README 快速入口和 docs map 已收口。 | README 快速入口；docs map 按角色导读。 | ✅ V3.1 Phase 1 |
-| Multi-Codex onboarding | V3.0 能力已实现，workflow guide 已存在。 | 新用户按文档完成 A/B Codex session 各一只猫。 | ✅ V3.1 Phase 2 |
-| Manager UI usability | 文案、反馈、复制安全和布局 polish 已实现并通过人工验收。 | 自动检查和人工验收通过后冻结。 | ✅ V3.1 Phase 3 |
-| Runtime smoke | 脚本与最小清理能力已实现并通过。 | 一条脚本可重复验证核心 runtime 链路。 | ✅ V3.1 Phase 4 |
-| Migration / backup | 只读 config audit 和迁移备份文档已实现并通过。 | 明确真实 config 路径和迁移策略。 | ✅ V3.1 Phase 5 |
-| V3.1 final acceptance | 自动检查、runtime smoke、config audit 和 Manager UI 人工验收均已通过。 | final acceptance report passed 后允许 V3.1 ready。 | ✅ V3.1 ready |
+| Already-running Codex discovery | Not implemented. V3.7 requires wrapper-launched `codex exec --json`. | Feasibility audit for active window / session candidate discovery only. | V4.0 accepted feasibility |
+| State event source for already-running sessions | OS-level discovery does not provide lifecycle events. | Hooks/registry/wrapper relaunch are the only plausible safe sources; discovery alone is no-go for routing. | V4.0 accepted feasibility |
+| Existing session env injection | Not supported. | If `AGENT_DESKTOP_PET_INSTANCE_ID` cannot be injected, user must relaunch through V3.7 wrapper or future registry path. | V4.0 accepted feasibility |
+| macOS permission model | Feasibility model documented. | Accessibility / automation permissions must be opt-in and scoped before V4.1. | V4.0 accepted feasibility |
+| Terminal app matrix | Feasibility matrix completed. | Terminal.app and iTerm2 are first V4.1 safe-field probe candidates; VS Code/Warp/Ghostty remain deferred/no-go without app-specific support. | V4.0 accepted feasibility |
+| Safe identity fields | Field boundary defined. | Only safe session hints; no terminal text, prompt, command, workspace path, full local path. | V4.0 accepted feasibility |
+| Active window probe | CLI implementation built and unit-tested, including Node-packaged Codex CLI detection. Terminal.app runtime evidence passed in the tested local environment. | V4.2 may plan from Terminal.app-only evidence; iTerm2/all-terminal support remains unproven. | V4.1 passed-terminal-app |
+| User-confirmed binding | CLI implementation built and unit-tested; runtime acceptance blocked because focused app was Chrome during preview attempt. | Two-step preview / confirm flow, stale-aware binding record, Terminal.app-only candidate-to-PetInstance association. | V4.2 blocked-runtime-focus |
+| Manual route-test | Not implemented. | Revalidated binding can send an explicit manual test event only to the bound PetInstance. | planned V4.3 Terminal.app-only |
+| Lifecycle routing | Not implemented. OS discovery is not an event source. | Remains unsupported unless a trusted event source is added later; use V3.7 wrapper path for reliable monitoring. | no-go from OS discovery alone |
+| Unsupported terminal handling | Not implemented. | Unsupported apps fail safely and are not counted as passed. | planned |
+| V4.x final acceptance | Not started. | Scoped final report with terminal/app/version boundary. | future |
 
-## Allowed Current Claims
+V4.x must not treat candidate window discovery as Codex lifecycle monitoring. If no safe event source exists for an already-running Codex session, the accepted fallback is to prompt the user to relaunch through the V3.7 wrapper path.
+
+## V5.x Future Gap
+
+V5.x is a separate future line, not the active V4.x binding work.
+
+| Gap | Current | Target | Status |
+| --- | --- | --- | --- |
+| Asset system freeze | Reference design only. | Manifest, action mapping, fallback, security rules. | planned V5.0 |
+| High-quality 2D actions | CSS profiles / Asset Pack v1 only. | Sprite / 2D Asset Pack v2 for core states. | planned V5.1 |
+| Renderer plugin interface | Not implemented. | CSS / sprite / GLTF / Rive / Live2D abstraction. | planned V5.2 |
+| GLTF / Three.js 3D prototype | Not implemented. | Bundled GLB/GLTF renderer prototype. | planned V5.3 |
+| 3D action clips | Not implemented. | Bundled clips for core pet states. | planned V5.4 |
+| Custom asset import | Forbidden today. | Manifest-validated local import after bundled assets pass. | future V5.5 |
+
+## Planning Claims
+
+Allowed planning claims:
 
 ```text
-macOS-first MVP ready: local desktop agent status pet with HTTP + petctl integration and safe sound feedback.
-V2.0 ready: local agent workflow integration and developer usability polish complete.
-Third-party local HTTP contract smoke passed.
-Codex local workflow integration verified for tested local Codex CLI smoke scenarios.
-V3.0 ready: multi-instance Codex desktop pet workflow ready for tested local Codex session scenarios.
-V3.1 planning ready: stabilization, onboarding, runtime smoke, and migration cleanup can start from the V3.0 accepted baseline.
-V3.1 Phase 4 complete: repeatable runtime regression smoke ready.
-V3.1 Phase 5 complete: local app migration and backup guidance ready.
-V3.1 ready: multi-instance Codex pet workflow stabilized with user onboarding, manager polish, repeatable runtime smoke, and migration guidance.
+V4.x OS-level Codex window/session binding is planned for feasibility review.
+V5.x Cat Renderer & Asset System is planned for high-quality 2D, 3D, and action asset development.
 ```
 
-当前 final acceptance：
+## Forbidden Claims
+
+Forbidden as ready / passed:
 
 ```text
-V3.1 final acceptance passed.
-```
-
-## Forbidden Current Claims
-
-```text
-all Codex workflows verified
-unqualified multi-instance Codex verified beyond tested local scenarios
-per-instance queue ready
 OS-level Codex window binding ready
-Claude Code integration verified
-Third-party agent integration verified
+interactive Codex TUI monitoring ready
+already-open Codex window auto-detection ready
+all Codex workflows verified
+Codex internal reasoning exact mapping ready
 MCP ready
+Third-party agent integration verified
+Claude Code integration verified
 Windows ready
 cross-platform ready
 USB ready
-Rive/Live2D/3D ready
+production signed release ready
+per-instance queue ready
+Rive / Live2D / 3D ready
 photo customization ready
 user asset upload ready
 remote asset download ready
 custom asset pack import ready
-production signed release ready
-auto update ready
+asset marketplace ready
 ```
+
+## Audit Files
+
+Current active docs:
+
+- `docs/active/development-plan.md`
+- `docs/active/acceptance-plan.md`
+- `docs/active/current-vs-target-gap.md`
+- `docs/active/current-vs-target-gap.drawio`
+
+V4.x planning:
+
+- `docs/V4.x/v4_x-development-plan.md`
+- `docs/V4.x/v4_x-acceptance-plan.md`
+- `docs/V4.x/v4_x-current-gap-analysis.md`
+- `docs/V4.x/v4_x-claim-matrix.md`
+- `docs/V4.x/v4_0-development-plan.md`
+- `docs/V4.x/v4_0-acceptance-plan.md`
+- `docs/V4.x/v4_0-prd-spec-review.md`
+- `docs/V4.x/v4_0-plan-audit.md`
+- `docs/V4.x/v4_0-os-binding-feasibility-review.md`
+- `docs/V4.x/v4_1-development-plan.md`
+- `docs/V4.x/v4_1-acceptance-plan.md`
+- `docs/V4.x/v4_1-prd-spec-review.md`
+- `docs/V4.x/v4_1-plan-audit.md`
+- `docs/V4.x/evidence/v4_1-safe-field-probe-2026-05-26.md`
+- `docs/V4.x/v4_1-final-acceptance-report.md`
+
+V5.x future planning:
+
+- `docs/V5.x/v5_x-development-plan.md`
+- `docs/V5.x/v5_x-acceptance-plan.md`
+- `docs/V5.x/v5_x-current-gap-analysis.md`
+- `docs/V5.x/v5_x-claim-matrix.md`
+
+V3.x closed baseline:
+
+- `docs/V3.x/v3_x-final-acceptance-report.md`
+- `docs/V3.x/v3_x-codex-monitoring-strategy.md`
+- `docs/V3.7/v3_7-final-acceptance-report.md`
+- `docs/V3.6/v3_6-final-acceptance-report.md`

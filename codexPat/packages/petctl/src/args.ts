@@ -40,7 +40,65 @@ export type DetachArgs = {
   instance?: string;
 };
 
-export type PetctlArgs = NotifyArgs | AttachArgs | ListArgs | DetachArgs;
+export type CodexLaunchArgs = {
+  command: "codex";
+  action: "launch";
+  json: boolean;
+  pretty: boolean;
+  token?: string;
+  url?: string;
+  name?: string;
+  workspaceLabel?: string;
+  workspaceHash?: string;
+  bin: string;
+  monitor: "none" | "jsonl";
+  noTitle: boolean;
+  passthrough: string[];
+};
+
+export type CodexDoctorArgs = {
+  command: "codex";
+  action: "doctor";
+  json: boolean;
+  pretty: boolean;
+  token?: string;
+  url?: string;
+};
+
+export type CodexProbeArgs = {
+  command: "codex";
+  action: "probe";
+  probeTarget: "active-window";
+  terminal: "terminal" | "iterm2";
+  json: boolean;
+  pretty: boolean;
+};
+
+export type CodexBindPreviewArgs = {
+  command: "codex";
+  action: "bind";
+  bindAction: "active-window";
+  terminal: "terminal";
+  preview: true;
+  json: boolean;
+  pretty: boolean;
+};
+
+export type CodexBindConfirmArgs = {
+  command: "codex";
+  action: "bind";
+  bindAction: "confirm";
+  candidate?: string;
+  name?: string;
+  token?: string;
+  url?: string;
+  json: boolean;
+  pretty: boolean;
+};
+
+export type CodexBindArgs = CodexBindPreviewArgs | CodexBindConfirmArgs;
+
+export type PetctlArgs = NotifyArgs | AttachArgs | ListArgs | DetachArgs | CodexLaunchArgs | CodexDoctorArgs | CodexProbeArgs | CodexBindArgs;
 
 export type PayloadOptions = {
   sourceId?: string;
@@ -85,8 +143,11 @@ export function parseArgs(argv: string[]): PetctlArgs {
   if (command === "detach") {
     return parseDetachArgs(rest);
   }
+  if (command === "codex") {
+    return parseCodexArgs(rest);
+  }
   if (command !== "notify") {
-    throw new Error("usage: petctl <notify|attach|list|detach> [options]");
+    throw new Error("usage: petctl <notify|attach|list|detach|codex> [options]");
   }
 
   const args: NotifyArgs = {
@@ -169,6 +230,255 @@ export function parseArgs(argv: string[]): PetctlArgs {
 
   if (Object.keys(args.payloadOptions.metadata).length > 20) {
     throw new Error("--metadata supports at most 20 keys");
+  }
+
+  return args;
+}
+
+function parseCodexArgs(rest: string[]): CodexLaunchArgs | CodexDoctorArgs | CodexProbeArgs | CodexBindArgs {
+  const [action, ...options] = rest;
+  if (action === "doctor") {
+    return parseCodexDoctorArgs(options);
+  }
+  if (action === "probe") {
+    return parseCodexProbeArgs(options);
+  }
+  if (action === "bind") {
+    return parseCodexBindArgs(options);
+  }
+  if (action !== "launch") {
+    throw new Error("usage: petctl codex <launch|doctor|probe|bind> [options]");
+  }
+  const args: CodexLaunchArgs = {
+    command: "codex",
+    action: "launch",
+    json: false,
+    pretty: false,
+    bin: "codex",
+    monitor: "none",
+    noTitle: false,
+    passthrough: []
+  };
+
+  for (let index = 0; index < options.length; index += 1) {
+    const flag = options[index];
+    if (flag === "--") {
+      args.passthrough = options.slice(index + 1);
+      break;
+    }
+    switch (flag) {
+      case "--json":
+        args.json = true;
+        break;
+      case "--pretty":
+        args.pretty = true;
+        break;
+      case "--token":
+        args.token = readValue(options, ++index, flag);
+        break;
+      case "--url":
+        args.url = readValue(options, ++index, flag);
+        break;
+      case "--name":
+        args.name = readValue(options, ++index, flag);
+        break;
+      case "--workspace-label":
+        args.workspaceLabel = readValue(options, ++index, flag);
+        break;
+      case "--workspace-hash":
+        args.workspaceHash = readValue(options, ++index, flag);
+        break;
+      case "--bin":
+        args.bin = readValue(options, ++index, flag);
+        break;
+      case "--monitor": {
+        const monitor = readValue(options, ++index, flag);
+        if (monitor !== "none" && monitor !== "jsonl") {
+          throw new Error("--monitor must be none or jsonl");
+        }
+        args.monitor = monitor;
+        break;
+      }
+      case "--no-title":
+        args.noTitle = true;
+        break;
+      default:
+        throw new Error(`unknown option: ${flag}`);
+    }
+  }
+
+  if (!args.bin || args.bin.startsWith("--")) {
+    throw new Error("--bin requires a value");
+  }
+
+  return args;
+}
+
+function parseCodexBindArgs(options: string[]): CodexBindArgs {
+  const [bindAction, ...flags] = options;
+  if (bindAction === "active-window") {
+    const args: CodexBindPreviewArgs = {
+      command: "codex",
+      action: "bind",
+      bindAction,
+      terminal: "terminal",
+      preview: true,
+      json: false,
+      pretty: false
+    };
+    let terminalSet = false;
+    let previewSet = false;
+
+    for (let index = 0; index < flags.length; index += 1) {
+      const flag = flags[index];
+      switch (flag) {
+        case "--json":
+          args.json = true;
+          break;
+        case "--pretty":
+          args.pretty = true;
+          break;
+        case "--preview":
+          previewSet = true;
+          break;
+        case "--terminal": {
+          const terminal = readValue(flags, ++index, flag);
+          if (terminal !== "terminal") {
+            throw new Error("--terminal must be terminal for V4.2 codex bind");
+          }
+          args.terminal = terminal;
+          terminalSet = true;
+          break;
+        }
+        default:
+          throw new Error(`unknown option: ${flag}`);
+      }
+    }
+
+    if (!terminalSet) {
+      throw new Error("petctl codex bind active-window requires --terminal");
+    }
+    if (!previewSet) {
+      throw new Error("confirmation_required");
+    }
+    return args;
+  }
+
+  if (bindAction === "confirm") {
+    const args: CodexBindConfirmArgs = {
+      command: "codex",
+      action: "bind",
+      bindAction,
+      json: false,
+      pretty: false
+    };
+
+    for (let index = 0; index < flags.length; index += 1) {
+      const flag = flags[index];
+      switch (flag) {
+        case "--json":
+          args.json = true;
+          break;
+        case "--pretty":
+          args.pretty = true;
+          break;
+        case "--candidate":
+          args.candidate = readValue(flags, ++index, flag);
+          break;
+        case "--name":
+          args.name = readValue(flags, ++index, flag);
+          break;
+        case "--token":
+          args.token = readValue(flags, ++index, flag);
+          break;
+        case "--url":
+          args.url = readValue(flags, ++index, flag);
+          break;
+        default:
+          throw new Error(`unknown option: ${flag}`);
+      }
+    }
+
+    if (!args.candidate) {
+      throw new Error("petctl codex bind confirm requires --candidate");
+    }
+    return args;
+  }
+
+  throw new Error("usage: petctl codex bind <active-window|confirm> [options]");
+}
+
+function parseCodexProbeArgs(options: string[]): CodexProbeArgs {
+  const [probeTarget, ...flags] = options;
+  if (probeTarget !== "active-window") {
+    throw new Error("usage: petctl codex probe active-window --terminal <terminal|iterm2> [--json|--pretty]");
+  }
+  const args: CodexProbeArgs = {
+    command: "codex",
+    action: "probe",
+    probeTarget,
+    terminal: "terminal",
+    json: false,
+    pretty: false
+  };
+  let terminalSet = false;
+
+  for (let index = 0; index < flags.length; index += 1) {
+    const flag = flags[index];
+    switch (flag) {
+      case "--json":
+        args.json = true;
+        break;
+      case "--pretty":
+        args.pretty = true;
+        break;
+      case "--terminal": {
+        const terminal = readValue(flags, ++index, flag);
+        if (terminal !== "terminal" && terminal !== "iterm2") {
+          throw new Error("--terminal must be terminal or iterm2");
+        }
+        args.terminal = terminal;
+        terminalSet = true;
+        break;
+      }
+      default:
+        throw new Error(`unknown option: ${flag}`);
+    }
+  }
+
+  if (!terminalSet) {
+    throw new Error("petctl codex probe active-window requires --terminal");
+  }
+
+  return args;
+}
+
+function parseCodexDoctorArgs(options: string[]): CodexDoctorArgs {
+  const args: CodexDoctorArgs = {
+    command: "codex",
+    action: "doctor",
+    json: false,
+    pretty: false
+  };
+
+  for (let index = 0; index < options.length; index += 1) {
+    const flag = options[index];
+    switch (flag) {
+      case "--json":
+        args.json = true;
+        break;
+      case "--pretty":
+        args.pretty = true;
+        break;
+      case "--token":
+        args.token = readValue(options, ++index, flag);
+        break;
+      case "--url":
+        args.url = readValue(options, ++index, flag);
+        break;
+      default:
+        throw new Error(`unknown option: ${flag}`);
+    }
   }
 
   return args;

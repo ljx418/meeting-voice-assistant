@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 import { parseArgs, buildEventFromOptions } from "./args.js";
+import { confirmCodexBinding, previewCodexBinding } from "./codex-bind.js";
+import { runCodexDoctor } from "./codex-doctor.js";
+import { launchCodex } from "./codex-launch.js";
+import { runCodexProbe } from "./codex-probe.js";
 import { attachCodex, detachInstance, listInstances } from "./instances.js";
 import { notify } from "./notify.js";
 import { formatResult, EXIT_CODES } from "./output.js";
@@ -39,6 +43,46 @@ export async function main(argv = process.argv.slice(2)) {
         instance: args.instance
       });
       pretty = pretty || args.json;
+    } else if (args.command === "codex" && args.action === "launch") {
+      result = await launchCodex({
+        token: args.token,
+        url: args.url,
+        name: args.name,
+        workspaceLabel: args.workspaceLabel,
+        workspaceHash: args.workspaceHash,
+        bin: args.bin,
+        monitor: args.monitor,
+        passthrough: args.passthrough,
+        noTitle: args.noTitle
+      });
+      pretty = pretty || args.json;
+    } else if (args.command === "codex" && args.action === "doctor") {
+      result = await runCodexDoctor({
+        token: args.token,
+        url: args.url
+      });
+      pretty = pretty || args.json;
+    } else if (args.command === "codex" && args.action === "probe") {
+      result = await runCodexProbe({
+        terminal: args.terminal
+      });
+      pretty = pretty || args.json;
+    } else if (args.command === "codex" && args.action === "bind" && args.bindAction === "active-window") {
+      result = await previewCodexBinding({
+        terminal: args.terminal
+      });
+      pretty = pretty || args.json;
+    } else if (args.command === "codex" && args.action === "bind" && args.bindAction === "confirm") {
+      if (!args.candidate) {
+        throw new Error("petctl codex bind confirm requires --candidate");
+      }
+      result = await confirmCodexBinding({
+        candidateId: args.candidate,
+        name: args.name,
+        token: args.token,
+        url: args.url
+      });
+      pretty = pretty || args.json;
     } else {
       const event = args.json ? await readStdinJson() : buildEventFromOptions(args.payloadOptions);
       result = await notify({
@@ -51,11 +95,12 @@ export async function main(argv = process.argv.slice(2)) {
     writeResult(result, pretty);
     return result.exitCode;
   } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
     const result = {
       ok: false,
       exitCode: EXIT_CODES.genericError,
-      reasonCode: "unknown_error",
-      reason: error instanceof Error ? error.message : String(error)
+      reasonCode: message === "confirmation_required" ? "confirmation_required" : "unknown_error",
+      reason: message
     };
     writeResult(result, pretty);
     return result.exitCode;
