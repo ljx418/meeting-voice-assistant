@@ -1,6 +1,6 @@
 # harnessOS V4.0 Design Docs
 
-文档状态：V4.0-P complete；V4.0-Q planned。当前基于 V4.0-G governed editing hardening、V4.0-H canvas-to-runtime patch bridge、V4.0-I stateful Agent assistant baseline、V4.0-J AgentTalk governance baseline、V4.0-K Agent action handoff baseline、V4.0-L handoff lifecycle baseline、V4.0-M operation evidence baseline、V4.0-N canvas editing readiness baseline、V4.0-O governed canvas proposal workflow baseline 和 V4.0-P AgentTalkWindow interaction E2E baseline。V3.6-J Dummy Pipeline E2E / V4.0 Gate 已通过，且 V3.6/V4.0 preflight hardening 已完成。下一阶段 V4.0-Q 只能进入 Controlled Executor Design Gate；这仍不代表完整 Workflow Studio、完整低代码编辑器、complete AgentTalkWindow、controlled executor、Agent executor 或 autonomous workflow editing 已完成。
+文档状态：V4.0-Z complete；V4.0 final audit package ready for review。当前基于 V4.0-G governed editing hardening、V4.0-H canvas-to-runtime patch bridge、V4.0-I stateful Agent assistant baseline、V4.0-J AgentTalk governance baseline、V4.0-K Agent action handoff baseline、V4.0-L handoff lifecycle baseline、V4.0-M operation evidence baseline、V4.0-N canvas editing readiness baseline、V4.0-O governed canvas proposal workflow baseline、V4.0-P AgentTalkWindow interaction E2E baseline、V4.0-Q Controlled Executor Design Gate、V4.0-R Production Readiness Preflight、V4.0-S Production Auth / Tenant Boundary Follow-up Design、V4.0-T Token Lifecycle Design、V4.0-U Secret Management Design、V4.0-V Observability / Audit Retention Design、V4.0-W External App Onboarding Design、V4.0-X Production Readiness Consolidation Gate、V4.0-Y Controlled Executor Implementation Gate 和 V4.0-Z Final Audit / Release Gate。V3.6-J Dummy Pipeline E2E / V4.0 Gate 已通过，且 V3.6/V4.0 preflight hardening 已完成。最终允许声明为 `V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.`；这仍不代表完整 Workflow Studio、完整低代码编辑器、complete AgentTalkWindow、controlled executor、Agent executor、autonomous workflow editing、enterprise auth、多租户控制台、OAuth/SSO 或 production-ready external app support 已完成。
 
 ## Positioning
 
@@ -67,6 +67,37 @@ Plane-6 Connector / Tool / Store / Asset Plane
 | `v4_0_o_governed_canvas_proposal_workflow_completion_note.md` | V4.0-O COMPLETION EVIDENCE | V4.0-O 的实现证据、测试结果和 No False Green 边界。 |
 | `v4_0_p_agenttalk_window_interaction_e2e_plan.md` | V4.0-P PLAN | V4.0-O 后的 AgentTalkWindow interaction E2E 计划，覆盖 explain/summarize/suggest/handoff/evidence review、event truth、fixture isolation 和 claim guard。 |
 | `v4_0_p_agenttalk_window_interaction_e2e_completion_note.md` | V4.0-P COMPLETION EVIDENCE | V4.0-P 的实现证据、测试结果和 No False Green 边界。 |
+| `v4_0_q_controlled_executor_design_gate_pre_review.md` | V4.0-Q PRE-REVIEW | V4.0-Q 阶段启动前的一份自包含审查文档，覆盖 P baseline、Q 边界、policy/capability/approval/sandbox/evidence 风险。 |
+| `v4_0_q_controlled_executor_design_gate_plan.md` | V4.0-Q PLAN | Controlled Executor Design Gate 的实现计划；只做设计门禁，不实现 executor。 |
+| `v4_0_q_controlled_executor_design_gate_contract.json` | V4.0-Q MACHINE-READABLE DESIGN CONTRACT | Q 阶段 policy matrix、capability profile、approval gate、sandbox boundary、rollback / kill switch 和 future evidence contract 的机器可读审计输入；不是运行时配置。 |
+| `v4_0_q_controlled_executor_design_gate_completion_note.md` | V4.0-Q COMPLETION EVIDENCE | V4.0-Q 的实现证据、测试结果和 No False Green 边界。 |
+| `v4_0_r_production_readiness_preflight_plan.md` | V4.0-R PLAN | Production Readiness Preflight 的计划；只登记生产化 gap，不实现 production-ready 能力。 |
+| `v4_0_r_production_readiness_preflight_contract.json` | V4.0-R MACHINE-READABLE PREFLIGHT CONTRACT | R 阶段生产化 gap register、身份/租户字段、token lifecycle、secret hygiene、observability/audit 和 external app onboarding gap 的机器可读审计输入；不是运行时配置。 |
+| `v4_0_r_production_readiness_preflight_completion_note.md` | V4.0-R COMPLETION EVIDENCE | V4.0-R 的实现证据、测试结果和 No False Green 边界。 |
+| `v4_0_s_production_auth_tenant_boundary_design_plan.md` | V4.0-S PLAN | Production Auth / Tenant Boundary Follow-up Design 的计划；只做 auth/tenant 设计门禁，不实现 OAuth、SSO 或 tenant control plane。 |
+| `v4_0_s_production_auth_tenant_boundary_design_contract.json` | V4.0-S MACHINE-READABLE DESIGN CONTRACT | S 阶段 identity matrix、tenant isolation matrix、service account / agent identity、OAuth / SSO gap 和 capability token binding 的机器可读审计输入；不是运行时配置。 |
+| `v4_0_s_production_auth_tenant_boundary_design_completion_note.md` | V4.0-S COMPLETION EVIDENCE | V4.0-S 的实现证据、测试结果和 No False Green 边界。 |
+| `v4_0_t_production_token_lifecycle_design_plan.md` | V4.0-T PLAN | Production Token Lifecycle Follow-up Design；只做 token lifecycle 设计门禁，不实现 token rotate/revoke/refresh/introspect。 |
+| `v4_0_t_production_token_lifecycle_design_contract.json` | V4.0-T MACHINE-READABLE DESIGN CONTRACT | T 阶段 token lifecycle matrix、agent/executor boundary、event truth 和 redaction 的机器可读审计输入。 |
+| `v4_0_t_production_token_lifecycle_design_completion_note.md` | V4.0-T COMPLETION EVIDENCE | V4.0-T 的实现证据、测试结果和 No False Green 边界。 |
+| `v4_0_u_production_secret_management_design_plan.md` | V4.0-U PLAN | Production Secret Management Follow-up Design；只做 secret boundary 设计，不实现 production secret manager。 |
+| `v4_0_u_production_secret_management_design_contract.json` | V4.0-U MACHINE-READABLE DESIGN CONTRACT | U 阶段 secret boundary matrix、sandbox boundary 和 event truth 的机器可读审计输入。 |
+| `v4_0_u_production_secret_management_design_completion_note.md` | V4.0-U COMPLETION EVIDENCE | V4.0-U 的实现证据、测试结果和 No False Green 边界。 |
+| `v4_0_v_production_observability_audit_retention_design_plan.md` | V4.0-V PLAN | Production Observability / Audit Retention Follow-up Design；只做 observability/audit gap 设计，不实现 audit export 或 observability platform。 |
+| `v4_0_v_production_observability_audit_retention_design_contract.json` | V4.0-V MACHINE-READABLE DESIGN CONTRACT | V 阶段 observability gap matrix 和 evidence boundary 的机器可读审计输入。 |
+| `v4_0_v_production_observability_audit_retention_design_completion_note.md` | V4.0-V COMPLETION EVIDENCE | V4.0-V 的实现证据、测试结果和 No False Green 边界。 |
+| `v4_0_w_external_app_production_onboarding_design_plan.md` | V4.0-W PLAN | External App Production Onboarding Follow-up Design；只做 onboarding gap 设计，不实现 production customer onboarding。 |
+| `v4_0_w_external_app_production_onboarding_design_contract.json` | V4.0-W MACHINE-READABLE DESIGN CONTRACT | W 阶段 external app onboarding gap matrix 和 dev/local boundary 的机器可读审计输入。 |
+| `v4_0_w_external_app_production_onboarding_design_completion_note.md` | V4.0-W COMPLETION EVIDENCE | V4.0-W 的实现证据、测试结果和 No False Green 边界。 |
+| `v4_0_x_production_readiness_consolidation_gate_plan.md` | V4.0-X PLAN | Production Readiness Consolidation Gate；聚合 R/S/T/U/V/W 设计门禁，只输出 implementation review gate。 |
+| `v4_0_x_production_readiness_consolidation_gate_contract.json` | V4.0-X MACHINE-READABLE GATE CONTRACT | X 阶段 source contracts、blocking categories 和 consolidated result 的机器可读审计输入。 |
+| `v4_0_x_production_readiness_consolidation_gate_completion_note.md` | V4.0-X COMPLETION EVIDENCE | V4.0-X 的实现证据、测试结果和 No False Green 边界。 |
+| `v4_0_y_controlled_executor_implementation_gate_plan.md` | V4.0-Y PLAN | Controlled Executor Implementation Gate；只做 executor implementation 前置门禁，不实现 executor。 |
+| `v4_0_y_controlled_executor_implementation_gate_contract.json` | V4.0-Y MACHINE-READABLE GATE CONTRACT | Y 阶段 executor implementation requirements、agent boundary 和 event truth 的机器可读审计输入。 |
+| `v4_0_y_controlled_executor_implementation_gate_completion_note.md` | V4.0-Y COMPLETION EVIDENCE | V4.0-Y 的实现证据、测试结果和 No False Green 边界。 |
+| `v4_0_z_final_audit_release_gate_plan.md` | V4.0-Z PLAN | Final Audit / Release Gate；聚合 V4.0-O 到 V4.0-Z 的最终审计包。 |
+| `v4_0_z_final_audit_release_gate_contract.json` | V4.0-Z MACHINE-READABLE FINAL AUDIT CONTRACT | Z 阶段 final allowed claim、forbidden claims、stage claims 和 validation commands 的机器可读审计输入。 |
+| `v4_0_z_final_audit_release_gate_completion_note.md` | V4.0-Z COMPLETION EVIDENCE | V4.0-Z 的实现证据、测试结果和 No False Green 边界。 |
 | `v4_0_completion_audit_report.md` | CURRENT AUDIT REPORT | 当前 V3.5 / V3.6 / V4.0 完成情况审计报告，包含文档清单、测试证据、架构边界判断和下一步建议。 |
 
 V4.0 正式开发必须继续参考以下基线：
@@ -125,6 +156,11 @@ V4.0 主要关注：
 - V4.0-N Canvas Editing Readiness 已完成：controlled node catalog、CanvasDraftProjection、node/edge/Inspector proposal flow、edge validation、Inspector allowlist 和 layout boundary 已完成；Canvas 仍不是 runtime truth。
 - V4.0-O Governed Canvas Proposal Workflow 已完成：PatchQueueDTO、projection freshness、catalog versioning、Inspector/edge validation、E2E fixture isolation、redaction/event truth 和声明审计风险已形成验证基线；仍不是完整 Workflow Studio 或 AgentTalkWindow。
 - V4.0-P AgentTalkWindow Interaction E2E 已完成：AgentTalkInteractionState、explain/summarize read-only guard、suggest patch to handoff to panel、evidence review read-only、event refresh truth、multi-proposal stale guard、redaction 和 browser smoke 已形成验证基线；仍不引入 Agent executor。
+- V4.0-Q Controlled Executor Design Gate 已完成：机器可读 policy matrix、capability profile、approval gate design、sandbox boundary、rollback / kill switch design、future executor evidence contract、event truth guard 和 claim guard 已形成审计门禁；仍不实现 controlled executor。
+- V4.0-R Production Readiness Preflight 已完成：机器可读 production readiness gap register、auth/tenant boundary、token lifecycle、secret hygiene、observability/audit、external app production boundary、forbidden route scan 和 claim guard 已形成预检门禁；仍不实现 production-ready external app support。
+- V4.0-S Production Auth / Tenant Boundary Follow-up Design 已完成：机器可读 identity matrix、tenant isolation matrix、service account / agent identity design、OAuth / SSO gap contract、capability token binding design、forbidden route scan 和 claim guard 已形成设计门禁；仍不实现 enterprise auth、OAuth、SSO、tenant control plane 或 production-ready external app support。
+- V4.0-T/U/V/W 已完成 production follow-up design：token lifecycle、secret management、observability / audit retention、external app onboarding 均形成机器可读设计合同；仍不实现 production runtime。
+- V4.0-X/Y/Z 已完成 consolidation / executor implementation gate / final audit：生产化 blocker 已聚合，controlled executor implementation 前置门禁已固化，最终允许声明为 `V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.`。
 
 建议 V4.0 阶段拆分为：
 
@@ -148,7 +184,16 @@ V4.0 主要关注：
 | V4.0-N Canvas Editing Readiness | controlled catalog、CanvasDraftProjection、node/edge/Inspector proposal 和 layout boundary；不实现完整低代码编辑器。 | 已完成：canvas editing readiness baseline ready for dev/local Workflow Console。 |
 | V4.0-O Governed Canvas Proposal Workflow | patch queue、projection freshness、catalog versioning、Inspector/edge validation、proposal apply race hardening、fixture isolation 和风险声明审计。 | 已完成：governed canvas proposal workflow ready for expanded dev/local Workflow Console validation；不是完整 Workflow Studio 或 AgentTalkWindow。 |
 | V4.0-P AgentTalkWindow Interaction E2E | Agent explain/summarize/suggest/handoff/evidence review 交互 E2E；event refresh truth；DOM redaction；browser smoke。 | 已完成：AgentTalkWindow interaction E2E baseline ready for dev/local Workflow Console validation；不是 complete AgentTalkWindow 或 Agent executor。 |
-| V4.0-Q Controlled Executor Design Gate | 只做受控执行器设计门禁：policy、approval、capability、sandbox、audit、rollback、kill switch；不默认实现真实 executor。 | 下一阶段计划：controlled executor design gate，不声明 controlled executor ready。 |
+| V4.0-Q Controlled Executor Design Gate | 只做受控执行器设计门禁：policy、approval、capability、sandbox、audit、rollback、kill switch；不实现真实 executor。 | 已完成：controlled executor design gate ready for review；不声明 controlled executor ready。 |
+| V4.0-R Production Readiness Preflight | 只做 production readiness 预检：auth/SSO/multi-tenant/control plane/observability/security hardening 差距清单和验收计划。 | 已完成：production readiness preflight ready for review；不声明 production-ready。 |
+| V4.0-S Production Auth / Tenant Boundary Follow-up Design | 基于 R gap register 选择 Auth / Tenant Boundary 方向进入设计；仍不得实现 OAuth、SSO、tenant control plane 或 production-ready。 | 已完成：production auth and tenant boundary follow-up design ready for review；不声明 enterprise auth ready。 |
+| V4.0-T Production Token Lifecycle Follow-up Design | 细化 token lifecycle production gaps。 | 已完成：production token lifecycle follow-up design ready for review；不实现 token lifecycle runtime。 |
+| V4.0-U Production Secret Management Follow-up Design | 细化 secret boundary 和 future executor sandbox boundary。 | 已完成：production secret management follow-up design ready for review；不实现 production secret manager。 |
+| V4.0-V Production Observability / Audit Retention Follow-up Design | 细化 observability、audit retention 和 export gaps。 | 已完成：production observability and audit retention follow-up design ready for review；不实现 observability platform 或 audit export。 |
+| V4.0-W External App Production Onboarding Follow-up Design | 细化 app registration、domain verification、tenant provisioning、quota、offboarding 和 support runbook gaps。 | 已完成：external app production onboarding follow-up design ready for review；不实现 production onboarding。 |
+| V4.0-X Production Readiness Consolidation Gate | 聚合 R/S/T/U/V/W production readiness blockers。 | 已完成：production readiness consolidation gate ready for implementation review；不声明 production-ready。 |
+| V4.0-Y Controlled Executor Implementation Gate | 基于 Q/X 固化 executor implementation 前置门禁。 | 已完成：controlled executor implementation gate ready for review；不实现 controlled executor。 |
+| V4.0-Z Final Audit / Release Gate | 聚合 V4.0-O 到 V4.0-Z 的 final audit package。 | 已完成：V4.0 final audit package ready for review；允许 V4.0 complete 的审计口径，但不声明 production-ready 或 executor ready。 |
 
 ## V3.6 Gate
 

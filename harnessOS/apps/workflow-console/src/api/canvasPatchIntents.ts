@@ -1,8 +1,15 @@
 import type { EdgeAddIntent, InspectorUpdateIntent, NodeAddIntent, NodeCatalogItem, StationBoardSummary } from "./types.js";
 
 export const NODE_LIBRARY_FALLBACK_LABELS = [
-  "用户输入",
-  "文件输入",
+  "文件夹输入",
+  "递归文件扫描",
+  "Markdown 文件过滤",
+  "Markdown 内容解析",
+  "子文件夹分组",
+  "子文件夹总结 Agent",
+  "总目录总结 Agent",
+  "质量检查 Agent",
+  "输出总结文件",
   "Planner Agent",
   "Script Writer Agent",
   "Director Agent",

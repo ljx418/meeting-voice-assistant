@@ -4,6 +4,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from tests.v4_0_guard_utils import (
+    SAFE_FORBIDDEN_CLAIM_CONTEXT_MARKERS,
+    assert_phrases_only_in_safe_context,
+    v4_0_doc_and_frontend_files,
+)
+
 
 ALLOWED_O_CLAIM = "V4.0-O complete: governed canvas proposal workflow ready for expanded dev/local Workflow Console validation."
 FORBIDDEN_CLAIMS = {
@@ -34,12 +40,13 @@ def test_v4_0_o_allowed_claim_is_documented() -> None:
 
 
 def test_forbidden_claims_only_appear_as_forbidden_or_non_goals() -> None:
-    for path in [*Path("docs/design/V4.0").glob("*.md"), *Path("apps/workflow-console/src").rglob("*.*")]:
-        text = path.read_text(encoding="utf-8")
-        relative = path.as_posix()
-        for claim in FORBIDDEN_CLAIMS:
-            if claim not in text:
-                continue
-            assert relative in ALLOWED_FORBIDDEN_CLAIM_FILES or "不能声明" in text or "禁止" in text or "Forbidden" in text, (
-                f"{claim!r} appears outside explicit forbidden/non-goal context in {relative}"
-            )
+    files = [
+        path
+        for path in v4_0_doc_and_frontend_files()
+        if path.as_posix() not in ALLOWED_FORBIDDEN_CLAIM_FILES
+    ]
+    assert_phrases_only_in_safe_context(
+        files=files,
+        phrases=FORBIDDEN_CLAIMS,
+        safe_markers=SAFE_FORBIDDEN_CLAIM_CONTEXT_MARKERS,
+    )

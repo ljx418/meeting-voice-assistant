@@ -43,6 +43,10 @@ export function App() {
       activeAgentHandoff={data.activeAgentHandoff}
       operationEvidence={data.operationEvidence}
       governanceReview={data.governanceReview}
+      folderSummaryProposal={data.folderSummaryProposal}
+      folderSummaryAuthorization={data.folderSummaryAuthorization}
+      folderSummaryScan={data.folderSummaryScan}
+      folderSummaryRun={data.folderSummaryRun}
       modeLabel={data.mode === "demo" ? "Demo / Fixture" : undefined}
       eventState={data.eventState}
       onWorkflowChange={data.setSelectedWorkflowId}
@@ -59,6 +63,14 @@ export function App() {
       onDismissAgentSuggestion={data.dismissAgentSuggestion}
       onDismissAgentActionProposal={data.dismissAgentActionProposal}
       onCreateAgentActionHandoff={data.createAgentActionHandoff}
+      onCreateFolderSummaryProposal={data.createFolderSummaryProposal}
+      onAuthorizeFolderSummaryRead={data.authorizeFolderSummaryRead}
+      onDebugFolderSummaryScan={data.debugFolderSummaryScan}
+      onApplyFolderSummaryProposal={data.applyFolderSummaryProposal}
+      onPublishFolderSummaryProposal={data.publishFolderSummaryProposal}
+      onRunFolderSummaryWorkflow={data.runFolderSummaryWorkflow}
+      onRerunFolderSummaryMarkdownParse={data.rerunFolderSummaryMarkdownParse}
+      onCreateFolderSummaryAgentDebugProposal={data.createFolderSummaryAgentDebugProposal}
     />
   );
 }

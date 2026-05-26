@@ -10,6 +10,10 @@ import type {
   ApprovalSummary,
   CanvasPatchIntent,
   CanvasDraftProjection,
+  FolderSummaryAuthorization,
+  FolderSummaryProposal,
+  FolderSummaryRun,
+  FolderSummaryScanResult,
   GovernanceReviewSummary,
   NodeCatalogItem,
   OperationEvidenceRecord,
@@ -55,6 +59,10 @@ export interface LoadedWorkflowConsoleData {
   activeAgentHandoff?: AgentActionHandoff | null;
   operationEvidence?: OperationEvidenceRecord[];
   governanceReview?: GovernanceReviewSummary | null;
+  folderSummaryProposal?: FolderSummaryProposal | null;
+  folderSummaryAuthorization?: FolderSummaryAuthorization | null;
+  folderSummaryScan?: FolderSummaryScanResult | null;
+  folderSummaryRun?: FolderSummaryRun | null;
 }
 
 export interface WorkflowConsoleDataState extends LoadedWorkflowConsoleData {
@@ -83,10 +91,18 @@ export interface WorkflowConsoleDataState extends LoadedWorkflowConsoleData {
   rejectPatch: (patchId: string, reason?: string, handoff?: AgentActionHandoff | null) => Promise<void>;
   publishWorkflowVersion: (version: string, expectedDraftRevision: number, handoff?: AgentActionHandoff | null) => Promise<void>;
   proposeCanvasPatch: (intent: CanvasPatchIntent) => Promise<void>;
-  sendAgentMessage: (content: string) => Promise<void>;
+  sendAgentMessage: (content: string, context?: { selected_station_id?: string; selected_station_name?: string }) => Promise<void>;
   dismissAgentSuggestion: (suggestionId: string) => Promise<void>;
   dismissAgentActionProposal: (proposalId: string) => Promise<void>;
   createAgentActionHandoff: (proposal: AgentActionProposal, targetPanel: AgentActionHandoff["target_panel"]) => Promise<AgentActionHandoff>;
+  createFolderSummaryProposal: (folderPath: string) => Promise<void>;
+  authorizeFolderSummaryRead: (folderPath: string) => Promise<void>;
+  debugFolderSummaryScan: () => Promise<void>;
+  applyFolderSummaryProposal: (proposalId?: string) => Promise<void>;
+  publishFolderSummaryProposal: (proposalId?: string) => Promise<void>;
+  runFolderSummaryWorkflow: (proposalId?: string) => Promise<void>;
+  rerunFolderSummaryMarkdownParse: () => Promise<void>;
+  createFolderSummaryAgentDebugProposal: () => Promise<void>;
 }
 
 export function isDemoMode(env: Record<string, unknown> = {}): boolean {
@@ -99,7 +115,11 @@ export async function loadWorkflowConsoleData(client: WorkflowConsoleClient): Pr
   const versions = selectedWorkflowId ? await client.listWorkflowVersions(selectedWorkflowId) : [];
   const instances = await client.listInstances();
   const selectedVersionId = versions[0]?.workflow_version_id || "";
-  const selectedInstanceId = instances[0]?.workflow_instance_id || "";
+  const selectedInstanceId =
+    instances.find((item) => item.workflow_template_id === selectedWorkflowId && (!selectedVersionId || item.workflow_version_id === selectedVersionId))
+      ?.workflow_instance_id ||
+    instances.find((item) => item.workflow_template_id === selectedWorkflowId)?.workflow_instance_id ||
+    "";
   const [status, runtimeBoard, canvasProjection] = selectedInstanceId
     ? await Promise.all([client.getInstanceStatus(selectedInstanceId), client.getBoard(selectedInstanceId), getCanvasProjectionOptional(client, selectedInstanceId)])
     : [null, null, null];
@@ -139,7 +159,31 @@ export async function loadWorkflowConsoleData(client: WorkflowConsoleClient): Pr
     ...patchState,
     ...agentState,
     ...governanceState,
+    ...(await loadFolderSummaryRecoveryState(client)),
   };
+}
+
+async function loadFolderSummaryRecoveryState(client: WorkflowConsoleClient): Promise<{
+  folderSummaryRun?: FolderSummaryRun | null;
+  operationEvidence?: OperationEvidenceRecord[];
+  governanceReview?: GovernanceReviewSummary | null;
+}> {
+  if (typeof window === "undefined") {
+    return {};
+  }
+  const instanceId = window.localStorage.getItem("harnessos.v4_1.folder_summary.instance_id");
+  if (!instanceId) {
+    return {};
+  }
+  try {
+    const run = await client.getFolderSummaryInstance(instanceId);
+    const operationEvidence = run.operation_evidence || (await client.listFolderSummaryOperationEvidence(instanceId));
+    const governanceReview = run.governance_review || (await client.getFolderSummaryGovernanceReview(instanceId));
+    return { folderSummaryRun: run, operationEvidence, governanceReview };
+  } catch {
+    window.localStorage.removeItem("harnessos.v4_1.folder_summary.instance_id");
+    return {};
+  }
 }
 
 export function shouldRefreshForEvent(event: WorkflowEvent): boolean {
@@ -335,7 +379,14 @@ export function projectBoardForCanvas(runtimeBoard: WorkflowBoard, projection: C
 }
 
 function mergeLoadedState(current: LoadedWorkflowConsoleData, updated: LoadedWorkflowConsoleData): LoadedWorkflowConsoleData {
-  return { ...current, ...updated };
+  return {
+    ...current,
+    ...updated,
+    folderSummaryProposal: updated.folderSummaryProposal === undefined ? current.folderSummaryProposal : updated.folderSummaryProposal,
+    folderSummaryAuthorization: updated.folderSummaryAuthorization === undefined ? current.folderSummaryAuthorization : updated.folderSummaryAuthorization,
+    folderSummaryScan: updated.folderSummaryScan === undefined ? current.folderSummaryScan : updated.folderSummaryScan,
+    folderSummaryRun: updated.folderSummaryRun === undefined ? current.folderSummaryRun : updated.folderSummaryRun,
+  };
 }
 
 async function loadInstanceRuntimeState(
@@ -377,6 +428,10 @@ export function useWorkflowConsoleData(client: WorkflowConsoleClient = workflowC
         agentActionProposals: [],
         operationEvidence: [],
         governanceReview: null,
+        folderSummaryProposal: null,
+        folderSummaryAuthorization: null,
+        folderSummaryScan: null,
+        folderSummaryRun: null,
   });
   const [loading, setLoading] = useState(!demoEnabled);
   const [error, setError] = useState<string | null>(null);
@@ -511,6 +566,14 @@ export function useWorkflowConsoleData(client: WorkflowConsoleClient = workflowC
         createAgentActionHandoff: async () => {
           throw new Error("Demo mode does not create runtime handoffs");
         },
+        createFolderSummaryProposal: async () => undefined,
+        authorizeFolderSummaryRead: async () => undefined,
+        debugFolderSummaryScan: async () => undefined,
+        applyFolderSummaryProposal: async () => undefined,
+        publishFolderSummaryProposal: async () => undefined,
+        runFolderSummaryWorkflow: async () => undefined,
+        rerunFolderSummaryMarkdownParse: async () => undefined,
+        createFolderSummaryAgentDebugProposal: async () => undefined,
         stationOutputs: [],
         approvals: demo.board.approvals || [],
         quality: demo.board.quality_evaluations || [],
@@ -544,6 +607,10 @@ export function useWorkflowConsoleData(client: WorkflowConsoleClient = workflowC
         agentActionProposals: loaded.agentActionProposals || [],
         operationEvidence: loaded.operationEvidence || [],
         governanceReview: loaded.governanceReview || null,
+        folderSummaryProposal: loaded.folderSummaryProposal || null,
+        folderSummaryAuthorization: loaded.folderSummaryAuthorization || null,
+        folderSummaryScan: loaded.folderSummaryScan || null,
+        folderSummaryRun: loaded.folderSummaryRun || null,
         setSelectedWorkflowId: (value: string) =>
           applyAsyncUpdate(async (current) => {
             const versions = value ? await client.listWorkflowVersions(value) : [];
@@ -646,35 +713,168 @@ export function useWorkflowConsoleData(client: WorkflowConsoleClient = workflowC
           ]);
           setLoaded((current) => ({ ...mergeLoadedState(current, updated), patchProposal: proposal, patchDiff: diff }));
         },
-        sendAgentMessage: async (content: string) => {
-          const agentSession = await client.sendAgentMessage(loaded.selectedInstanceId, { content, created_by: "workflow_console" });
+        sendAgentMessage: async (content: string, context?: { selected_station_id?: string; selected_station_name?: string }) => {
+          const agentSession = await client.sendAgentMessage(loaded.selectedInstanceId, {
+            content,
+            created_by: "workflow_console",
+            selected_station_id: context?.selected_station_id,
+            selected_station_name: context?.selected_station_name,
+          });
+          const shouldCreateFolderSummary = isFolderSummaryRequest(content);
+          const folderSummaryProposal = shouldCreateFolderSummary
+            ? await client.createFolderSummaryProposal({ folder_path: "Desktop/技术分享", source: "workflow_console" })
+            : loaded.folderSummaryProposal || null;
+          const optimistic = {
+            ...loaded,
+            agentSession,
+            agentSuggestions: agentSession.suggestions,
+            agentActionProposals: [],
+            folderSummaryProposal,
+          };
           setLoaded((current) => ({
             ...current,
             agentSession,
             agentSuggestions: agentSession.suggestions,
-            agentActionProposals: current.agentActionProposals,
+            agentActionProposals: [],
+            folderSummaryProposal,
           }));
-          applyAsyncUpdate((current) => refreshWorkflowConsoleRuntimeState(client, current));
+          const updated = await refreshWorkflowConsoleRuntimeState(client, optimistic);
+          setLoaded((current) => mergeLoadedState(current, updated));
         },
         dismissAgentSuggestion: async (suggestionId: string) => {
           await client.dismissAgentSuggestion(loaded.selectedInstanceId, suggestionId);
           applyAsyncUpdate((current) => refreshWorkflowConsoleRuntimeState(client, current));
         },
         dismissAgentActionProposal: async (proposalId: string) => {
-          await client.dismissAgentActionProposal(loaded.selectedInstanceId, proposalId);
+          const proposalInstanceId =
+            loaded.agentActionProposals?.find((proposal) => proposal.proposal_id === proposalId)?.workflow_instance_id || loaded.selectedInstanceId;
+          await client.dismissAgentActionProposal(proposalInstanceId, proposalId);
           applyAsyncUpdate((current) => refreshWorkflowConsoleRuntimeState(client, current));
         },
         createAgentActionHandoff: async (proposal: AgentActionProposal, targetPanel: AgentActionHandoff["target_panel"]) => {
           const resource = proposal.resource_refs || {};
-          const handoff = await client.createAgentActionHandoff(loaded.selectedInstanceId, proposal.proposal_id, {
+          const proposalInstanceId = proposal.workflow_instance_id || loaded.selectedInstanceId;
+          const handoff = await client.createAgentActionHandoff(proposalInstanceId, proposal.proposal_id, {
             target_panel: targetPanel,
             workflow_patch_id: typeof proposal.workflow_patch_id === "string" ? proposal.workflow_patch_id : undefined,
             approval_id: typeof resource.approval_id === "string" ? resource.approval_id : undefined,
             target_path: targetPanel === "context_panel" ? "business.operator_note" : undefined,
             suggested_form_prefill: proposal.payload_summary,
           });
+          const workflowPatchId = typeof handoff.target_resource.workflow_patch_id === "string" ? handoff.target_resource.workflow_patch_id : "";
+          if (targetPanel === "editing_panel" && workflowPatchId) {
+            const [patchQueue, patchDiff] = await Promise.all([
+              client.listWorkflowPatchQueue(loaded.selectedWorkflowId, loaded.selectedInstanceId),
+              client.getPatchDiff(loaded.selectedWorkflowId, workflowPatchId),
+            ]);
+            const patchProposal = patchQueue.find((item) => item.workflow_patch_id === workflowPatchId);
+            setLoaded((current) => ({
+              ...current,
+              activeAgentHandoff: handoff,
+              patchQueue,
+              patchProposal: patchProposal as unknown as WorkflowPatchProposal | undefined,
+              patchDiff,
+            }));
+            return handoff;
+          }
           setLoaded((current) => ({ ...current, activeAgentHandoff: handoff }));
           return handoff;
+        },
+        createFolderSummaryProposal: async (folderPath: string) => {
+          const proposal = await client.createFolderSummaryProposal({ folder_path: folderPath, source: "workflow_console" });
+          setLoaded((current) => ({ ...current, folderSummaryProposal: proposal }));
+        },
+        authorizeFolderSummaryRead: async (folderPath: string) => {
+          const authorization = await client.authorizeFolderSummaryRead({
+            folder_path: folderPath,
+            user_confirmed: true,
+            source: "folder_input_inspector",
+          });
+          setLoaded((current) => ({ ...current, folderSummaryAuthorization: authorization }));
+        },
+        debugFolderSummaryScan: async () => {
+          const authorizationId = loaded.folderSummaryAuthorization?.authorization_id;
+          if (!authorizationId) {
+            throw new Error("请先授权读取文件夹");
+          }
+          const scan = await client.debugFolderSummaryScan({ authorization_id: authorizationId });
+          setLoaded((current) => ({ ...current, folderSummaryScan: scan }));
+        },
+        applyFolderSummaryProposal: async (visibleProposalId?: string) => {
+          const proposalId = visibleProposalId || loaded.folderSummaryProposal?.proposal_id;
+          if (!proposalId) {
+            throw new Error("请先生成工作流草案");
+          }
+          const result = await client.applyFolderSummaryProposal(proposalId, {
+            authorization_id: loaded.folderSummaryAuthorization?.authorization_id,
+            user_confirmed: true,
+            source: "editing_panel",
+          });
+          setLoaded((current) => ({ ...current, folderSummaryProposal: result.resource }));
+        },
+        publishFolderSummaryProposal: async (visibleProposalId?: string) => {
+          const proposalId = visibleProposalId || loaded.folderSummaryProposal?.proposal_id;
+          if (!proposalId) {
+            throw new Error("请先应用工作流草案");
+          }
+          const result = await client.publishFolderSummaryProposal(proposalId, { user_confirmed: true, source: "editing_panel" });
+          setLoaded((current) => ({ ...current, folderSummaryProposal: result.resource }));
+        },
+        runFolderSummaryWorkflow: async (visibleProposalId?: string) => {
+          const proposalId = visibleProposalId || loaded.folderSummaryProposal?.proposal_id;
+          const authorizationId = loaded.folderSummaryAuthorization?.authorization_id;
+          if (!proposalId || !authorizationId) {
+            throw new Error("请先生成草案并授权读取文件夹");
+          }
+          const run = await client.runFolderSummaryWorkflow(proposalId, {
+            authorization_id: authorizationId,
+            user_confirmed: true,
+            source: "run_panel",
+          });
+          if (typeof window !== "undefined") {
+            window.localStorage.setItem("harnessos.v4_1.folder_summary.instance_id", run.workflow_instance_id);
+          }
+          setLoaded((current) => ({
+            ...current,
+            folderSummaryRun: run,
+            operationEvidence: run.operation_evidence || current.operationEvidence,
+            governanceReview: run.governance_review || current.governanceReview,
+            folderSummaryProposal: current.folderSummaryProposal ? { ...current.folderSummaryProposal, status: "completed", workflow_instance_id: run.workflow_instance_id } : current.folderSummaryProposal,
+          }));
+        },
+        rerunFolderSummaryMarkdownParse: async () => {
+          const instanceId = loaded.folderSummaryRun?.workflow_instance_id;
+          if (!instanceId) {
+            throw new Error("请先运行工作流");
+          }
+          const run = await client.rerunFolderSummaryNode(instanceId, {
+            station_id: "markdown_parse",
+            user_confirmed: true,
+            source: "run_panel",
+          });
+          if (typeof window !== "undefined") {
+            window.localStorage.setItem("harnessos.v4_1.folder_summary.instance_id", run.workflow_instance_id);
+          }
+          setLoaded((current) => ({
+            ...current,
+            folderSummaryRun: run,
+            operationEvidence: run.operation_evidence || current.operationEvidence,
+            governanceReview: run.governance_review || current.governanceReview,
+          }));
+        },
+        createFolderSummaryAgentDebugProposal: async () => {
+          const instanceId = loaded.folderSummaryRun?.workflow_instance_id;
+          if (!instanceId) {
+            throw new Error("请先运行工作流");
+          }
+          await client.createFolderSummaryAgentDebugProposal(instanceId, {
+            requested_change: "empty_folder_placeholder_summary",
+          });
+          const [operationEvidence, governanceReview] = await Promise.all([
+            client.listFolderSummaryOperationEvidence(instanceId),
+            client.getFolderSummaryGovernanceReview(instanceId),
+          ]);
+          setLoaded((current) => ({ ...current, operationEvidence, governanceReview }));
         },
       };
 
@@ -686,4 +886,8 @@ function recoveryHandoffId(): string {
     return "";
   }
   return new URLSearchParams(window.location.search).get("handoff_id") || "";
+}
+
+function isFolderSummaryRequest(content: string): boolean {
+  return content.includes("技术分享") && content.includes("递归") && content.toLowerCase().includes("md") && content.includes("总结");
 }

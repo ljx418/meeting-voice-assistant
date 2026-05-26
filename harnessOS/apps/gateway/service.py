@@ -4338,6 +4338,10 @@ def _patch_after_summary(operation: WorkflowPatchOperation, payload: Dict[str, A
     summary = {"operation": operation.value}
     target = _patch_target_summary(operation, payload)
     summary.update(target)
+    if operation == WorkflowPatchOperation.ADD_STATION:
+        station = payload.get("station") if isinstance(payload.get("station"), dict) else {}
+        if isinstance(station.get("name"), str):
+            summary["station_name"] = station["name"]
     if operation == WorkflowPatchOperation.UPDATE_APPROVAL_POINT and "approval_required" in payload:
         summary["approval_required"] = payload["approval_required"]
     if operation == WorkflowPatchOperation.UPDATE_CONNECTOR and "connector_refs" in payload:

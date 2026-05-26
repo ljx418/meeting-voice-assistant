@@ -1,8 +1,8 @@
 # V4.0 Completion Audit Report
 
-审计日期：2026-05-22  
-审计对象：harnessOS V3.5 / V3.6 / V4.0 当前完成情况  
-审计结论：当前可以声明 `V4.0-P complete: AgentTalkWindow interaction E2E baseline ready for dev/local Workflow Console validation.`。下一阶段只能进入 V4.0-Q Controlled Executor Design Gate，优先审计 policy、approval、capability、sandbox、rollback、kill switch 和 audit，而不是进入 Agent executor、controlled executor 实现或完整低代码编辑器。
+审计日期：2026-05-23
+审计对象：harnessOS V3.5 / V3.6 / V4.0 当前完成情况
+审计结论：当前可以声明 `V4.0-Z complete: V4.0 final audit package ready for review.` 以及 `V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.`。这只是最终审计包和生产化设计门禁完成，不是 enterprise auth、multi-tenant control plane、controlled executor 或 production-ready external app support。
 
 ## 1. 审计结论
 
@@ -13,7 +13,8 @@
 ```text
 V3.5 complete at dev/local Application Adaptation Layer level.
 V3.6 complete: Workflow Runtime Contract & Pipeline Operating Model ready for V4.0 development.
-V4.0-P complete: AgentTalkWindow interaction E2E baseline ready for dev/local Workflow Console validation.
+V4.0-Z complete: V4.0 final audit package ready for review.
+V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.
 ```
 
 不能声明：
@@ -24,6 +25,10 @@ complete AgentTalkWindow ready
 production-ready external app support
 distributed workflow engine ready
 enterprise auth/OAuth/SSO ready
+enterprise auth ready
+multi-tenant control plane ready
+OAuth ready
+SSO ready
 full browser E2E ready
 autonomous workflow editing ready
 controlled executor ready
@@ -46,8 +51,18 @@ direct canvas-to-runtime mutation ready
 - V4.0-N 已完成 canvas editing readiness baseline；controlled catalog、CanvasDraftProjection、node/edge/Inspector proposal flow、edge validation、Inspector allowlist 和 layout boundary 均已覆盖。
 - V4.0-O 已完成 governed canvas proposal workflow baseline；PatchQueueDTO、projection freshness、catalog versioning、Inspector mapping V2、edge validation V2、fixture isolation、redaction/event truth regression 和 claim guard 均已覆盖。
 - V4.0-P 已完成 AgentTalkWindow interaction E2E baseline；AgentTalkInteractionState、explain/summarize read-only、suggest patch -> handoff -> panel、evidence review read-only、event refresh truth、multi-proposal stale guard、redaction 和 browser smoke 均已覆盖。
+- V4.0-Q 已完成 Controlled Executor Design Gate；机器可读 policy matrix、capability profile、approval gate design、sandbox boundary、rollback / kill switch design、future executor evidence contract、event truth guard 和 claim guard 均已覆盖，且没有新增 executor route、worker、runtime service 或 frontend execute client。
+- V4.0-R 已完成 Production Readiness Preflight；机器可读 production readiness gap register、auth/tenant boundary、token lifecycle gap、secret hygiene、observability/audit gap、external app production boundary、forbidden route scan 和 claim guard 均已覆盖，且没有新增 production auth、OAuth/SSO、tenant admin、token rotate/revoke、quota、audit export 或 production onboarding route。
+- V4.0-S 已完成 Production Auth / Tenant Boundary Follow-up Design；机器可读 identity matrix、tenant isolation matrix、service account / agent identity design、OAuth / SSO gap contract、capability token binding design、runtime boundary、forbidden route scan 和 claim guard 均已覆盖，且没有新增 OAuth/SSO/OIDC/SAML/callback、tenant admin、token rotate/revoke、production auth middleware 或 production onboarding route。
+- V4.0-T 已完成 Production Token Lifecycle Follow-up Design；机器可读 token lifecycle matrix、agent/executor boundary、event truth 和 redaction fields 均已覆盖，且没有新增 token rotate/revoke/refresh/introspect/emergency revoke route。
+- V4.0-U 已完成 Production Secret Management Follow-up Design；机器可读 secret boundary matrix、sandbox boundary 和 event truth 均已覆盖，且没有新增 production secret manager、secret admin、token lifecycle 或 audit export route。
+- V4.0-V 已完成 Production Observability / Audit Retention Follow-up Design；机器可读 observability gap matrix 和 evidence boundary 均已覆盖，且没有新增 observability platform、metrics admin、audit export、incident timeline 或 SLO/SLA route。
+- V4.0-W 已完成 External App Production Onboarding Follow-up Design；机器可读 onboarding gap matrix 和 dev/local boundary 均已覆盖，且没有新增 production onboarding、tenant provisioning、quota、customer offboarding 或 data export/delete route。
+- V4.0-X 已完成 Production Readiness Consolidation Gate；R/S/T/U/V/W 设计合同已聚合，production readiness flags 仍为 false，只允许进入 implementation review。
+- V4.0-Y 已完成 Controlled Executor Implementation Gate；Q/X 前置门禁已聚合，source=agent 仍不能执行 mutation，且没有新增 executor route、worker、runtime service、connector.call 或 external_llm.call。
+- V4.0-Z 已完成 Final Audit / Release Gate；最终允许声明收敛为 governed dev/local Workflow Console and production readiness design gates ready for implementation review，所有 production-ready / executor-ready / complete Studio false claims 仍禁止。
 - 当前前端是 Workflow Console / Workflow Studio shell + governed editing hardening + patch proposal bridge，不是完整低代码编辑器。
-- 完整 AgentTalkWindow、自主 Agent executor、生产级 auth/multi-tenant control plane 仍未完成。
+- 完整 AgentTalkWindow、自主 Agent executor、production auth implementation、OAuth/SSO implementation、生产级 auth/multi-tenant control plane 和 production-ready external app support 仍未完成。
 
 ## 2. 审计过的核心文档
 
@@ -79,6 +94,38 @@ docs/design/V4.0/v4_0_n_canvas_editing_readiness_completion_note.md
 docs/design/V4.0/v4_0_o_governed_canvas_proposal_workflow_plan.md
 docs/design/V4.0/v4_0_o_governed_canvas_proposal_workflow_completion_note.md
 docs/design/V4.0/v4_0_p_agenttalk_window_interaction_e2e_plan.md
+docs/design/V4.0/v4_0_p_agenttalk_window_interaction_e2e_completion_note.md
+docs/design/V4.0/v4_0_q_controlled_executor_design_gate_pre_review.md
+docs/design/V4.0/v4_0_q_controlled_executor_design_gate_plan.md
+docs/design/V4.0/v4_0_q_controlled_executor_design_gate_contract.json
+docs/design/V4.0/v4_0_q_controlled_executor_design_gate_completion_note.md
+docs/design/V4.0/v4_0_r_production_readiness_preflight_plan.md
+docs/design/V4.0/v4_0_r_production_readiness_preflight_contract.json
+docs/design/V4.0/v4_0_r_production_readiness_preflight_completion_note.md
+docs/design/V4.0/v4_0_s_production_auth_tenant_boundary_design_plan.md
+docs/design/V4.0/v4_0_s_production_auth_tenant_boundary_design_contract.json
+docs/design/V4.0/v4_0_s_production_auth_tenant_boundary_design_completion_note.md
+docs/design/V4.0/v4_0_t_production_token_lifecycle_design_plan.md
+docs/design/V4.0/v4_0_t_production_token_lifecycle_design_contract.json
+docs/design/V4.0/v4_0_t_production_token_lifecycle_design_completion_note.md
+docs/design/V4.0/v4_0_u_production_secret_management_design_plan.md
+docs/design/V4.0/v4_0_u_production_secret_management_design_contract.json
+docs/design/V4.0/v4_0_u_production_secret_management_design_completion_note.md
+docs/design/V4.0/v4_0_v_production_observability_audit_retention_design_plan.md
+docs/design/V4.0/v4_0_v_production_observability_audit_retention_design_contract.json
+docs/design/V4.0/v4_0_v_production_observability_audit_retention_design_completion_note.md
+docs/design/V4.0/v4_0_w_external_app_production_onboarding_design_plan.md
+docs/design/V4.0/v4_0_w_external_app_production_onboarding_design_contract.json
+docs/design/V4.0/v4_0_w_external_app_production_onboarding_design_completion_note.md
+docs/design/V4.0/v4_0_x_production_readiness_consolidation_gate_plan.md
+docs/design/V4.0/v4_0_x_production_readiness_consolidation_gate_contract.json
+docs/design/V4.0/v4_0_x_production_readiness_consolidation_gate_completion_note.md
+docs/design/V4.0/v4_0_y_controlled_executor_implementation_gate_plan.md
+docs/design/V4.0/v4_0_y_controlled_executor_implementation_gate_contract.json
+docs/design/V4.0/v4_0_y_controlled_executor_implementation_gate_completion_note.md
+docs/design/V4.0/v4_0_z_final_audit_release_gate_plan.md
+docs/design/V4.0/v4_0_z_final_audit_release_gate_contract.json
+docs/design/V4.0/v4_0_z_final_audit_release_gate_completion_note.md
 ```
 
 V4.0 UI / 协议映射文档：
@@ -127,35 +174,35 @@ docs/integration/bff_minimal_smoke.md
 最新审计实际执行结果：
 
 ```text
-./.venv/bin/python -m pytest tests/test_v4_0_canvas_patch_queue_bff.py tests/test_v4_0_canvas_projection_freshness.py tests/test_v4_0_canvas_edge_contracts.py tests/test_v4_0_inspector_mapping_v2.py tests/test_v4_0_node_catalog_versioning.py tests/test_v4_0_canvas_proposal_scope_redaction.py tests/test_v4_0_claim_guard.py -q
-18 passed
+./.venv/bin/python -m pytest tests/test_v4_0_production_token_lifecycle_design.py tests/test_v4_0_production_secret_management_design.py tests/test_v4_0_production_observability_audit_retention_design.py tests/test_v4_0_production_external_app_onboarding_design.py tests/test_v4_0_production_readiness_consolidation_gate.py tests/test_v4_0_controlled_executor_implementation_gate.py tests/test_v4_0_final_audit_release_gate.py -q
+29 passed
+
+./.venv/bin/python -m pytest tests/test_v4_0_*.py -q
+212 passed, 5 warnings
+
+./.venv/bin/python -m pytest tests/test_v3_6_*.py -q
+86 passed, 6 warnings
+
+./.venv/bin/python -m pytest tests/test_v3_5_*.py -q
+146 passed, 6 warnings
+
+./.venv/bin/python -m pytest -q
+653 passed, 3 skipped, 6 warnings
 
 cd apps/workflow-console && npm test
-48 passed
+70 passed
 
 cd apps/workflow-console && npm run build
 passed
 
 cd apps/workflow-console && npm run test:e2e
-12 passed
-
-./.venv/bin/python -m pytest tests/test_v4_0_*.py -q
-134 passed
-
-./.venv/bin/python -m pytest tests/test_v3_6_*.py -q
-86 passed
-
-./.venv/bin/python -m pytest tests/test_v3_5_*.py -q
-146 passed
+14 passed
 
 cd sdk/typescript && npm test
 23 passed
 
 xmllint --noout docs/design/V4.0/v4_0_current_gap_analysis.drawio
 passed
-
-./.venv/bin/python -m pytest -q
-575 passed, 3 skipped, 6 warnings
 ```
 
 重点测试文件：
@@ -206,6 +253,12 @@ tests/test_v4_0_operation_evidence_idempotency.py
 tests/test_v4_0_governance_review_panel.py
 tests/test_v4_0_frontend_no_direct_core_calls.py
 tests/test_v4_0_contract_doc_alignment.py
+tests/test_v4_0_production_readiness_preflight.py
+tests/test_v4_0_production_auth_gap.py
+tests/test_v4_0_production_secret_hygiene.py
+tests/test_v4_0_production_observability_gap.py
+tests/test_v4_0_production_external_app_boundary.py
+tests/test_v4_0_production_claim_guard.py
 apps/workflow-console/e2e/workflow-console-smoke.spec.ts
 apps/workflow-console/e2e/workflow-editing-smoke.spec.ts
 apps/workflow-console/e2e/workflow-canvas-bridge-smoke.spec.ts
@@ -330,15 +383,16 @@ Plane-6 Connector / Tool / Store / Asset Plane
 
 ## 7. 审计建议
 
-当前可以进入后续 V4.0 开发，下一阶段应在 V4.0-P AgentTalkWindow interaction E2E baseline 之上执行 V4.0-Q Controlled Executor Design Gate，而不是直接声明完整 Workflow Studio、完整 AgentTalkWindow 或 controlled executor：
+当前可以进入 V4.0 后续 implementation review，而不是直接声明完整 Workflow Studio、完整 AgentTalkWindow、controlled executor、enterprise auth、多租户控制台、OAuth/SSO 或 production-ready：
 
-1. V4.0-Q Controlled Executor Design Gate：只做受控执行器设计门禁，覆盖 policy、approval、capability、sandbox、rollback、kill switch 和 audit。
-2. V4.0-R Production Readiness Preflight：单独审计 auth/SSO/multi-tenant/observability/security/secret management，不提前声明 production-ready。
+1. Production implementation review：逐项关闭 R/S/T/U/V/W/X blockers，分别立项 auth/tenant、token lifecycle、secret management、observability/audit、external app onboarding。
+2. Controlled executor implementation review：必须另行立项并重新审计 Q/Y policy matrix、approval gate、capability、sandbox、rollback、kill switch 和 audit。
 
 当前阶段声明：
 
 ```text
-V4.0-P complete: AgentTalkWindow interaction E2E baseline ready for dev/local Workflow Console validation.
+V4.0-Z complete: V4.0 final audit package ready for review.
+V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.
 ```
 
 仍不能升级为：
@@ -351,6 +405,10 @@ full browser E2E ready
 autonomous workflow editing ready
 controlled executor ready
 Agent executor ready
+enterprise auth ready
+multi-tenant control plane ready
+OAuth ready
+SSO ready
 ```
 
-仍不能声明 complete Workflow Studio ready、complete AgentTalkWindow ready 或 production-ready external app support。
+仍不能声明 complete Workflow Studio ready、complete AgentTalkWindow ready、enterprise auth ready、multi-tenant control plane ready、OAuth ready、SSO ready 或 production-ready external app support。

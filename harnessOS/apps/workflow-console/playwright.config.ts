@@ -2,6 +2,10 @@ import { defineConfig, devices } from "@playwright/test";
 
 const bffPort = Number(process.env.WORKFLOW_CONSOLE_BFF_PORT || 18040);
 const previewPort = Number(process.env.WORKFLOW_CONSOLE_PREVIEW_PORT || 4174);
+const useLocalChrome = process.env.WORKFLOW_CONSOLE_LOCAL_CHROME === "1";
+const localChromeExecutable =
+  process.env.WORKFLOW_CONSOLE_CHROME_EXECUTABLE || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const localChromeSlowMo = Number(process.env.WORKFLOW_CONSOLE_SLOW_MO || 0);
 
 export default defineConfig({
   testDir: "./e2e",
@@ -21,6 +25,20 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    ...(useLocalChrome
+      ? [
+          {
+            name: "chrome-local",
+            use: {
+              ...devices["Desktop Chrome"],
+              launchOptions: {
+                executablePath: localChromeExecutable,
+                slowMo: localChromeSlowMo,
+              },
+            },
+          },
+        ]
+      : []),
   ],
   webServer: [
     {

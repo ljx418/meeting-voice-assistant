@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { renderToStaticMarkup } from "react-dom/server";
 import { test } from "node:test";
 import { AgentTalkShell } from "../components/AgentTalkShell.js";
@@ -67,6 +68,17 @@ test("Agent action proposal queue exposes non-executable controls only", () => {
   for (const forbidden of ["自动应用", "自动发布", "已帮你修改并发布"]) {
     assert(!html.includes(forbidden), `${forbidden} appeared in Agent action proposal queue`);
   }
+});
+
+test("AgentTalk visible controls have local feedback or navigation handlers", () => {
+  const source = readFileSync("src/components/AgentTalkShell.tsx", "utf8");
+
+  assert(source.includes("function applyQuickPrompt"));
+  assert(source.includes("function requestSuggestion"));
+  assert(source.includes("data-testid=\"agent-action-proposal-detail\""));
+  assert(!source.includes('<button type="button">生成建议</button>'));
+  assert(!source.includes('<button type="button">查看详情</button>'));
+  assert(!source.includes('<button type="button" key={item}>{item}</button>'));
 });
 
 test("Agent action proposal client uses structured BFF routes", async () => {

@@ -1,0 +1,60 @@
+{
+  "stage": "V4.0-X",
+  "contract_type": "production_readiness_consolidation_gate",
+  "runtime_enabled": false,
+  "production_implementation_enabled": false,
+  "allowed_claim": "V4.0-X complete: production readiness consolidation gate ready for implementation review.",
+  "source_contracts": [
+    "docs/design/V4.0/v4_0_r_production_readiness_preflight_contract.json",
+    "docs/design/V4.0/v4_0_s_production_auth_tenant_boundary_design_contract.json",
+    "docs/design/V4.0/v4_0_t_production_token_lifecycle_design_contract.json",
+    "docs/design/V4.0/v4_0_u_production_secret_management_design_contract.json",
+    "docs/design/V4.0/v4_0_v_production_observability_audit_retention_design_contract.json",
+    "docs/design/V4.0/v4_0_w_external_app_production_onboarding_design_contract.json"
+  ],
+  "blocking_categories": [
+    "auth_sso_oauth",
+    "multi_tenant_isolation",
+    "capability_token_lifecycle",
+    "secret_management",
+    "observability_audit_retention",
+    "external_app_onboarding",
+    "rate_limit_abuse_control",
+    "data_residency_export_deletion",
+    "incident_recovery"
+  ],
+  "consolidated_result": {
+    "production_ready": false,
+    "enterprise_auth_ready": false,
+    "multi_tenant_control_plane_ready": false,
+    "external_app_production_ready": false,
+    "controlled_executor_ready": false,
+    "ready_for_implementation_review": true
+  },
+  "forbidden_implementation_routes": [
+    "/oauth/*",
+    "/sso/*",
+    "/oidc/*",
+    "/saml/*",
+    "/login/callback",
+    "/tenant/*",
+    "/admin/tenant/*",
+    "/token/rotate",
+    "/token/revoke",
+    "/secret",
+    "/secrets",
+    "/audit/export",
+    "/production/onboarding",
+    "/quota/*"
+  ],
+  "no_false_green": {
+    "v4_0_x_proves": "production readiness gaps are consolidated for implementation review",
+    "v4_0_x_does_not_prove": [
+      "production-ready external app support",
+      "enterprise auth ready",
+      "multi-tenant control plane ready",
+      "controlled executor ready",
+      "complete Workflow Studio ready"
+    ]
+  }
+}

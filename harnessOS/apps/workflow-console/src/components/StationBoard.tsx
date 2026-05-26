@@ -104,7 +104,7 @@ export function StationBoard({ stations, onSelectRun, ghostNodes = [], onNodeDro
           <span>{Math.round(zoom * 100)}%</span>
           <button type="button" aria-label="放大" onClick={() => setZoom((value) => Math.min(1.4, value + 0.08))}>＋</button>
           <button type="button" onClick={fitView}>适配画布</button>
-          <button type="button" disabled>小地图</button>
+          <button type="button" disabled title="小地图属于后续画布布局能力，当前可使用缩放和平移。">小地图（后续）</button>
         </div>
       </div>
       <div className="canvas-navigation" aria-hidden="true">
@@ -115,12 +115,12 @@ export function StationBoard({ stations, onSelectRun, ghostNodes = [], onNodeDro
         <span>⛶</span>
       </div>
       <div className="canvas-runtime-meter" aria-hidden="true">
-        <span>SYSTEM HEALTHY</span>
-        <span>FPS 60</span>
-        <span>MEM 120MB</span>
+        <span>Projection fresh</span>
+        <span>Draft read model</span>
+        <span>Proposal only</span>
       </div>
       <div className="canvas-action-bar" aria-hidden="true">
-        <button type="button" disabled>✓ 保存当前工作流</button>
+        <button type="button" disabled title="画布当前只生成 proposal；保存工作流需走用户确认的 patch/publish 路径。">等待用户确认</button>
       </div>
       <div className="canvas-ghost-link left" aria-hidden="true" />
       <div className="canvas-ghost-link right" aria-hidden="true" />

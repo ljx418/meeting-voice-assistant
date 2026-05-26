@@ -13,8 +13,7 @@ test("Agent handoff recovery opens panel without mutation", async ({ page }) => 
   await page.getByTestId("agent-send-button").click();
   await expect(page.getByTestId("agent-action-proposal-card").first()).toBeVisible();
   const handoff = await page.evaluate(async () => {
-    const instances = await fetch("/bff/instances").then((response) => response.json());
-    const instanceId = instances[0].workflow_instance_id;
+    const instanceId = (document.querySelector("[data-testid='workflow-instance-selector']") as HTMLSelectElement | null)?.value;
     const proposals = await fetch(`/bff/instances/${instanceId}/agent/action-proposals`).then((response) => response.json());
     const proposal = proposals.find((item: { target_panel?: string; workflow_patch_id?: string }) => item.target_panel === "editing" && item.workflow_patch_id);
     return fetch(`/bff/instances/${instanceId}/agent/action-proposals/${proposal.proposal_id}/handoff`, {

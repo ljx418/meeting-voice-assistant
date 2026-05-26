@@ -1,0 +1,285 @@
+{
+  "stage": "V4.0-S",
+  "contract_type": "production_auth_tenant_boundary_follow_up_design",
+  "runtime_enabled": false,
+  "production_auth_implementation_enabled": false,
+  "tenant_control_plane_enabled": false,
+  "oauth_sso_implementation_enabled": false,
+  "allowed_claim": "V4.0-S complete: production auth and tenant boundary follow-up design ready for review.",
+  "forbidden_claims": [
+    "production-ready external app support",
+    "enterprise auth ready",
+    "multi-tenant control plane ready",
+    "OAuth ready",
+    "SSO ready",
+    "controlled executor ready",
+    "Agent executor ready",
+    "autonomous workflow editing ready",
+    "complete Workflow Studio ready",
+    "complete AgentTalkWindow ready",
+    "full low-code canvas editing ready"
+  ],
+  "forbidden_implementation_routes": [
+    "/oauth/*",
+    "/sso/*",
+    "/oidc/*",
+    "/saml/*",
+    "/login/callback",
+    "/tenant/*",
+    "/admin/tenant/*",
+    "/token/rotate",
+    "/token/revoke"
+  ],
+  "identity_fields": [
+    {
+      "field": "tenant_id",
+      "source_of_truth": "future tenant control plane",
+      "trusted_source": "server-bound production identity provider mapping",
+      "client_supplied_allowed": false,
+      "server_bound_required": true,
+      "token_claim_allowed": true,
+      "audit_required": true,
+      "current_status": "production_gap",
+      "production_gap": "No production tenant_id ownership, tenant admin lifecycle, tenant provisioning, or cross-tenant audit exists.",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "field": "app_id",
+      "source_of_truth": "V3.5/V4.0 dev-local scope guard",
+      "trusted_source": "BFF validated scope query in dev/local baseline",
+      "client_supplied_allowed": true,
+      "server_bound_required": true,
+      "token_claim_allowed": true,
+      "audit_required": true,
+      "current_status": "current_dev_local_scope_guard",
+      "production_gap": "Production app registration, ownership review, and tenant-bound app lifecycle remain gaps.",
+      "risk_level": "high",
+      "blocking_for_production": true
+    },
+    {
+      "field": "project_id",
+      "source_of_truth": "V3.5/V4.0 dev-local scope guard",
+      "trusted_source": "BFF validated scope query in dev/local baseline",
+      "client_supplied_allowed": true,
+      "server_bound_required": true,
+      "token_claim_allowed": true,
+      "audit_required": true,
+      "current_status": "current_dev_local_scope_guard",
+      "production_gap": "Production project ownership, tenant mapping, and admin policy remain gaps.",
+      "risk_level": "high",
+      "blocking_for_production": true
+    },
+    {
+      "field": "workspace_id",
+      "source_of_truth": "V3.5/V4.0 dev-local scope guard",
+      "trusted_source": "BFF validated scope query in dev/local baseline",
+      "client_supplied_allowed": true,
+      "server_bound_required": true,
+      "token_claim_allowed": true,
+      "audit_required": true,
+      "current_status": "current_dev_local_scope_guard",
+      "production_gap": "Production workspace ownership, tenant mapping, and resource policy remain gaps.",
+      "risk_level": "high",
+      "blocking_for_production": true
+    },
+    {
+      "field": "user_id",
+      "source_of_truth": "future enterprise identity provider",
+      "trusted_source": "server-bound production auth session",
+      "client_supplied_allowed": false,
+      "server_bound_required": true,
+      "token_claim_allowed": true,
+      "audit_required": true,
+      "current_status": "production_gap",
+      "production_gap": "No production user lifecycle, provisioning, group mapping, or session binding exists.",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "field": "actor_type",
+      "source_of_truth": "future server-side actor policy",
+      "trusted_source": "server-bound user/service account/agent classification",
+      "client_supplied_allowed": false,
+      "server_bound_required": true,
+      "token_claim_allowed": true,
+      "audit_required": true,
+      "current_status": "production_gap",
+      "production_gap": "Production actor policy distinguishing human user, service account, and agent remains a gap.",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "field": "actor_id",
+      "source_of_truth": "future server-side actor policy",
+      "trusted_source": "server-bound actor identity derived from user_id, service_account_id, or agent_id",
+      "client_supplied_allowed": false,
+      "server_bound_required": true,
+      "token_claim_allowed": true,
+      "audit_required": true,
+      "current_status": "production_gap",
+      "production_gap": "Production actor binding and audit attribution remain gaps.",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "field": "service_account_id",
+      "source_of_truth": "future service account lifecycle",
+      "trusted_source": "server-bound service account registry",
+      "client_supplied_allowed": false,
+      "server_bound_required": true,
+      "token_claim_allowed": true,
+      "audit_required": true,
+      "current_status": "production_gap",
+      "production_gap": "No production service account lifecycle, rotation, revocation, or owner binding exists.",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "field": "agent_id",
+      "source_of_truth": "V4.0 AgentTalk BFF/UI read model and future server-side agent registry",
+      "trusted_source": "BFF generated AgentTalk state; not executor identity",
+      "client_supplied_allowed": false,
+      "server_bound_required": true,
+      "token_claim_allowed": false,
+      "audit_required": true,
+      "current_status": "dev_local_agenttalk_identity_only",
+      "production_gap": "Production agent registry and tenant-bound agent identity remain gaps; agent_id is not executor identity.",
+      "risk_level": "high",
+      "blocking_for_production": true
+    },
+    {
+      "field": "session_id",
+      "source_of_truth": "Gateway/BFF session state and future production auth session binding",
+      "trusted_source": "server-created session state",
+      "client_supplied_allowed": false,
+      "server_bound_required": true,
+      "token_claim_allowed": false,
+      "audit_required": true,
+      "current_status": "dev_local_session_identity_only",
+      "production_gap": "Production auth session binding, logout, expiration, and tenant mapping remain gaps.",
+      "risk_level": "high",
+      "blocking_for_production": true
+    }
+  ],
+  "tenant_isolation_matrix": [
+    {
+      "boundary": "workspace ownership",
+      "ownership_chain": "tenant_id -> app_id -> project_id -> workspace_id",
+      "denial_rule": "cross-tenant denied and same-tenant wrong-workspace denied",
+      "current_status": "design_only"
+    },
+    {
+      "boundary": "project ownership",
+      "ownership_chain": "tenant_id -> app_id -> project_id",
+      "denial_rule": "cross-tenant denied, cross-scope denied and wrong-project denied",
+      "current_status": "design_only"
+    },
+    {
+      "boundary": "resource ownership",
+      "ownership_chain": "tenant_id -> app_id -> project_id -> workspace_id -> workflow_instance_id -> resource",
+      "denial_rule": "cross-tenant denied and same-workspace wrong-resource denied",
+      "current_status": "design_only"
+    },
+    {
+      "boundary": "agent session ownership",
+      "ownership_chain": "tenant_id -> app_id -> project_id -> workspace_id -> workflow_instance_id -> agent_session_id",
+      "denial_rule": "cross-tenant denied and same-instance wrong-agent-session denied",
+      "current_status": "design_only"
+    },
+    {
+      "boundary": "workflow instance ownership",
+      "ownership_chain": "tenant_id -> app_id -> project_id -> workspace_id -> workflow_instance_id",
+      "denial_rule": "cross-tenant denied and cross-scope denied",
+      "current_status": "current_dev_local_scope_guard_plus_design_gap"
+    },
+    {
+      "boundary": "patch ownership",
+      "ownership_chain": "tenant_id -> app_id -> project_id -> workspace_id -> workflow_instance_id -> patch_id",
+      "denial_rule": "cross-tenant denied and same-instance wrong-proposal/handoff/evidence denied",
+      "current_status": "current_dev_local_scope_guard_plus_design_gap"
+    },
+    {
+      "boundary": "handoff ownership",
+      "ownership_chain": "tenant_id -> app_id -> project_id -> workspace_id -> workflow_instance_id -> handoff_id",
+      "denial_rule": "cross-tenant denied and same-instance wrong-proposal/handoff/evidence denied",
+      "current_status": "current_dev_local_scope_guard_plus_design_gap"
+    },
+    {
+      "boundary": "evidence ownership",
+      "ownership_chain": "tenant_id -> app_id -> project_id -> workspace_id -> workflow_instance_id -> evidence_id",
+      "denial_rule": "cross-tenant denied and same-instance wrong-proposal/handoff/evidence denied",
+      "current_status": "current_dev_local_scope_guard_plus_design_gap"
+    },
+    {
+      "boundary": "audit ownership",
+      "ownership_chain": "tenant_id -> app_id -> project_id -> workspace_id -> workflow_instance_id -> audit_record",
+      "denial_rule": "cross-tenant denied, cross-scope denied and same-workspace wrong-resource denied",
+      "current_status": "design_only"
+    }
+  ],
+  "service_account_and_agent_identity_design": {
+    "service_account_id_lifecycle": "future design only: issue, rotate, revoke, owner bind, and audit service accounts before production onboarding",
+    "agent_id_binding": "agent_id is bound to AgentTalk read model or future agent registry; it is not executor identity",
+    "agent_session_id_binding": "agent_session_id must be server-created and tenant/workflow scoped in future production design",
+    "actor_type_policy": "future actor_type values are human_user, service_account, and agent; all are server-bound",
+    "human_user_vs_service_account_vs_agent": "human users may confirm operations in panels; service accounts require explicit future policy; agents remain propose/handoff/explain/navigate only",
+    "source_agent_boundary": "source=agent remains proposal/handoff only and cannot execute mutation",
+    "executor_identity_enabled": false
+  },
+  "oauth_sso_gap_contract": [
+    { "capability": "identity provider registration", "status": "gap_only" },
+    { "capability": "OIDC discovery", "status": "gap_only" },
+    { "capability": "SAML metadata", "status": "gap_only" },
+    { "capability": "JWKS rotation", "status": "gap_only" },
+    { "capability": "login callback", "status": "gap_only" },
+    { "capability": "session binding", "status": "planned_future" },
+    { "capability": "tenant mapping", "status": "planned_future" },
+    { "capability": "user provisioning", "status": "gap_only" },
+    { "capability": "group mapping", "status": "gap_only" },
+    { "capability": "logout", "status": "gap_only" },
+    { "capability": "token expiration", "status": "planned_future" },
+    { "capability": "token revocation", "status": "planned_future" },
+    { "capability": "audit trail", "status": "planned_future" }
+  ],
+  "capability_token_binding_design": [
+    { "binding": "origin binding", "status": "current_dev_local_guard_plus_production_gap", "can_bypass_user_confirmation": false },
+    { "binding": "audience binding", "status": "production_gap", "can_bypass_user_confirmation": false },
+    { "binding": "tenant binding", "status": "production_gap", "can_bypass_user_confirmation": false },
+    { "binding": "workspace binding", "status": "current_dev_local_guard_plus_production_gap", "can_bypass_user_confirmation": false },
+    { "binding": "actor binding", "status": "production_gap", "can_bypass_user_confirmation": false },
+    { "binding": "capability binding", "status": "current_dev_local_guard_plus_production_gap", "can_bypass_user_confirmation": false },
+    { "binding": "expiration", "status": "production_gap", "can_bypass_user_confirmation": false },
+    { "binding": "rotation", "status": "production_gap", "can_bypass_user_confirmation": false },
+    { "binding": "revocation", "status": "production_gap", "can_bypass_user_confirmation": false },
+    { "binding": "emergency revoke", "status": "production_gap", "can_bypass_user_confirmation": false },
+    { "binding": "audit", "status": "production_gap", "can_bypass_user_confirmation": false }
+  ],
+  "agent_and_executor_boundary": {
+    "source_agent_can_mutate": false,
+    "agent_allowed_actions": ["propose", "handoff", "explain", "navigate"],
+    "executor_capabilities_active": false,
+    "future_executor_claims_enable_mutation": false,
+    "user_confirmation_required_for_mutation": true
+  },
+  "runtime_boundary": {
+    "v3_6_runtime_contract_changed": false,
+    "workflow_template_tenant_control_plane": false,
+    "workflow_draft_tenant_control_plane": false,
+    "workflow_version_tenant_control_plane": false,
+    "station_run_tenant_control_plane": false,
+    "eventbridge_builds_auth_truth": false
+  },
+  "redaction_fields": [
+    "capability_token",
+    "subscription_token",
+    "Authorization",
+    "Bearer",
+    "secret",
+    "raw_trace_payload",
+    "raw_artifact_content",
+    "raw_connector_payload",
+    "raw prompt",
+    "upstream signed URL"
+  ]
+}

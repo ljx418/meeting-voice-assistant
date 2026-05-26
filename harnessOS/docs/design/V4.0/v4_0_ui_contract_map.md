@@ -1,6 +1,6 @@
 # V4.0 UI Contract Map
 
-文档状态：V4.0-N complete；V4.0-O planned。本文定义 Workflow Console / Studio / AgentTalkWindow 前置 UI 可以消费的 RPC、事件和 BFF route，并记录当前 `apps/workflow-console` 已实现的页面边界。
+文档状态：V4.0-Z complete。本文定义 Workflow Console / Studio / AgentTalkWindow 前置 UI 可以消费的 RPC、事件和 BFF route，并记录当前 `apps/workflow-console` 已实现的页面边界。V4.0-Z 只完成 final audit / release gate，不新增 production auth、OAuth/SSO、OIDC/SAML、login callback、tenant admin、token lifecycle、quota、audit export、onboarding UI route 或 executor UI route。
 
 ## Terminology
 
@@ -13,6 +13,8 @@
 | 连线 / 工作流边 | WorkflowEdge | 工作流节点之间的数据或控制关系。 |
 | 节点配置 / Inspector | Station + ArtifactContract + QualityContract + approval policy | 通过 patch 修改 draft。 |
 | Agent 助手 | Governed stateful Agent assistant baseline + handoff lifecycle | BFF/UI 层 session/message/suggestion/action proposal/handoff；handoff 支持 lifecycle、audit、recovery 和 stale/blocked guard；只能 explain/summarize/propose/show diff/交接到用户确认面板，不直接 apply/reject/publish/respond。 |
+| Production readiness preflight | Gap / audit read model only | R 阶段只登记生产化 gap，不新增 OAuth/SSO、tenant admin、token rotate/revoke、quota、audit export 或 production onboarding UI。 |
+| Production auth / tenant boundary design | Design contract only | S 阶段只登记 identity matrix、tenant isolation、OAuth / SSO gap 和 capability token binding，不新增 production auth、OAuth/SSO、tenant control plane 或 token lifecycle UI。 |
 
 禁用混用术语：
 
@@ -47,6 +49,8 @@ ghost node
 drag state
 active handoff
 handoff recovery target
+production preflight contract review state
+production auth tenant design review state
 ```
 
 这些状态只存在于前端，不写入 WorkflowTemplate、WorkflowDraft、WorkflowVersion、WorkflowInstance 或 StationRun。
@@ -449,7 +453,7 @@ Rules:
 
 ## V4.0-N/O Canvas Editing Readiness And Proposal Workflow
 
-Implementation status: V4.0-N complete, V4.0-O planned. V4.0-N added controlled catalog, CanvasDraftProjection, node/edge/Inspector proposal flow and layout boundary. V4.0-O will harden the proposal workflow with patch queue selection, projection freshness, catalog versioning, Inspector mapping V2, edge validation V2, fixture isolation and claim guard tests.
+Implementation status: V4.0-O complete and preserved through V4.0-Z final audit. V4.0-N added controlled catalog, CanvasDraftProjection, node/edge/Inspector proposal flow and layout boundary. V4.0-O hardened the proposal workflow with patch queue selection, projection freshness, catalog versioning, Inspector mapping V2, edge validation V2, fixture isolation and claim guard tests.
 
 Allowed BFF routes:
 
@@ -615,3 +619,41 @@ Rules:
 - Governance Review Panel is read-only and may only navigate back to existing operation panels.
 - UI must not construct evidence truth from EventBridge payload; it must reload evidence/governance DTOs.
 - Agent panel still must not show Apply, Publish, Approve, Reject, Execute, Run, 自动应用, 自动发布, or 已帮你修改并发布.
+
+## V4.0-Q/R/S Design Gates
+
+Implementation status: complete through V4.0-S. Q/R/S contracts are docs-only audit artifacts, not runtime configuration.
+
+Forbidden production BFF / UI routes:
+
+```text
+/oauth/*
+/sso/*
+/oidc/*
+/saml/*
+/login/callback
+/tenant/*
+/admin/tenant/*
+/production/onboarding
+/token/rotate
+/token/revoke
+/quota/*
+/audit/export
+```
+
+Rules:
+
+- V4.0-Q controlled executor design contract must not create frontend executor controls, executor client methods, or runtime mutation routes.
+- V4.0-R production readiness preflight contract must not create frontend OAuth/SSO, tenant admin, token rotation/revocation, quota, audit export, production onboarding, enterprise auth, or production-ready copy.
+- V4.0-S production auth / tenant boundary design contract must not create frontend OAuth/SSO/OIDC/SAML/callback, tenant admin, token rotation/revocation, production auth middleware, enterprise auth, or production-ready copy.
+## V4.0-Z Final Audit Update
+
+V4.0-Z does not add UI runtime capability. It only records the final audit package for governed dev/local Workflow Console and production readiness design gates.
+
+Allowed final claim:
+
+```text
+V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.
+```
+
+UI boundary remains unchanged: workflow-console must use BFF DTOs and must not add production auth, tenant admin, token lifecycle, secret manager, audit export, production onboarding, or executor UI routes. No False Green: 不能声明 complete Workflow Studio ready, complete AgentTalkWindow ready, controlled executor ready, Agent executor ready, enterprise auth ready, multi-tenant control plane ready, OAuth ready, SSO ready, or production-ready external app support.

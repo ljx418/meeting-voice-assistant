@@ -1,0 +1,71 @@
+{
+  "stage": "V4.0-Y",
+  "contract_type": "controlled_executor_implementation_gate",
+  "runtime_enabled": false,
+  "controlled_executor_implementation_enabled": false,
+  "executor_worker_enabled": false,
+  "executor_runtime_service_enabled": false,
+  "allowed_claim": "V4.0-Y complete: controlled executor implementation gate ready for review.",
+  "source_contracts": [
+    "docs/design/V4.0/v4_0_q_controlled_executor_design_gate_contract.json",
+    "docs/design/V4.0/v4_0_x_production_readiness_consolidation_gate_contract.json"
+  ],
+  "forbidden_implementation_routes": [
+    "/execute",
+    "/run",
+    "/agent/execute",
+    "/connector/call",
+    "/external-llm/call",
+    "/executor/dry-run",
+    "/kill-switch",
+    "/rollback",
+    "/admin-override"
+  ],
+  "implementation_gate_requirements": [
+    {
+      "requirement_id": "policy_matrix_approved",
+      "current_status": "design_ready_for_review",
+      "blocking_before_executor": true
+    },
+    {
+      "requirement_id": "capability_profile_inactive_until_approved",
+      "current_status": "design_ready_for_review",
+      "blocking_before_executor": true
+    },
+    {
+      "requirement_id": "approval_gate_implemented_future",
+      "current_status": "not_implemented",
+      "blocking_before_executor": true
+    },
+    {
+      "requirement_id": "sandbox_boundary_implemented_future",
+      "current_status": "not_implemented",
+      "blocking_before_executor": true
+    },
+    {
+      "requirement_id": "rollback_kill_switch_implemented_future",
+      "current_status": "not_implemented",
+      "blocking_before_executor": true
+    },
+    {
+      "requirement_id": "production_readiness_blockers_resolved_future",
+      "current_status": "not_implemented",
+      "blocking_before_executor": true
+    }
+  ],
+  "agent_boundary": {
+    "source_agent_can_execute_mutation": false,
+    "agent_can_apply_patch": false,
+    "agent_can_publish_template": false,
+    "agent_can_approval_respond": false,
+    "agent_can_context_update": false,
+    "agent_can_business_event_emit": false,
+    "agent_can_connector_call": false,
+    "agent_can_external_llm_call": false
+  },
+  "event_truth_boundary": {
+    "eventbridge_triggers_refresh_only": true,
+    "fake_executor_event_payload_trusted": false,
+    "event_payload_builds_executor_truth": false
+  }
+}

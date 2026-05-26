@@ -1004,8 +1004,23 @@ async def create_agent_talk_message(
         )
         messages = _AGENT_TALK_MESSAGES.setdefault(session["agent_session_id"], [])
         messages.extend([user_message, assistant_message])
-        suggestions = _generate_agent_suggestions(gateway, workflow_instance_id, instance.workflow_template_id, auth.scope)
+        preferred_patch_id = await _maybe_create_agent_canvas_patch(
+            gateway,
+            workflow_instance_id,
+            instance.workflow_template_id,
+            auth.scope,
+            content,
+            body,
+        )
+        suggestions = _generate_agent_suggestions(
+            gateway,
+            workflow_instance_id,
+            instance.workflow_template_id,
+            auth.scope,
+            preferred_patch_id=preferred_patch_id,
+        )
         _AGENT_TALK_SUGGESTIONS[session["agent_session_id"]] = suggestions
+        _AGENT_ACTION_PROPOSALS[session["agent_session_id"]] = []
         _ensure_agent_action_proposals(session, suggestions)
         _record_agent_audit(
             "agent.message.created",
@@ -2260,6 +2275,15 @@ def _agent_message(
 
 def _agent_assistant_reply(content: str) -> str:
     text = content.lower()
+    node_template_id = _agent_node_template_for_content(content)
+    if node_template_id == "quality_evaluation":
+        return "我已生成一个新增质量检查节点的 Patch proposal。该建议只进入 Diff 和编辑面板，应用仍需要用户显式确认。"
+    if node_template_id:
+        return "我已生成一个新增画布节点的 Patch proposal。该建议只进入 Diff 和编辑面板，应用仍需要用户显式确认。"
+    if "优化" in content or "prompt" in text:
+        return "我已为当前节点生成 Prompt Patch proposal。该建议只进入 Diff 和编辑面板，应用仍需要用户显式确认。"
+    if "连接" in content or "edge" in text:
+        return "我可以生成连线 Patch proposal；连线写入仍需要用户在编辑面板显式确认。"
     if "优化" in content or "patch" in text or "diff" in text:
         return "我已基于当前工作流事实源生成可审计建议。建议只会进入 Patch proposal / Diff，应用与发布仍需要用户到编辑面板显式确认。"
     if "解释" in content or "summary" in text:
@@ -2272,6 +2296,8 @@ def _generate_agent_suggestions(
     workflow_instance_id: str,
     workflow_template_id: str,
     scope: ScopeContext,
+    *,
+    preferred_patch_id: str | None = None,
 ) -> list[dict[str, Any]]:
     instance = gateway.workflow_repository.get_instance(workflow_instance_id, scope=scope)
     patches = [
@@ -2279,7 +2305,12 @@ def _generate_agent_suggestions(
         for patch in gateway.workflow_repository.list_patches(scope=scope, workflow_template_id=workflow_template_id)
         if _patch_matches_instance(patch, workflow_instance_id)
     ]
-    patch = next((item for item in patches if item.get("status") == "proposed"), None) or (patches[0] if patches else None)
+    patch = (
+        next((item for item in patches if item.get("workflow_patch_id") == preferred_patch_id), None)
+        if preferred_patch_id
+        else None
+    )
+    patch = patch or next((item for item in patches if item.get("status") == "proposed"), None) or (patches[0] if patches else None)
     station_ids = list(instance.current_station_ids or [])
     target_station_id = station_ids[0] if station_ids else None
     suggestions = [
@@ -2334,20 +2365,38 @@ def _generate_agent_suggestions(
             )
         )
     if target_station_id:
+        preferred_operation = str(patch.get("operation") or "") if patch else ""
+        if preferred_operation == "add_station":
+            preferred_title = "生成节点调整建议"
+            preferred_summary = "新增画布节点的 Patch proposal 已生成；后续应用仍必须进入编辑面板由用户确认。"
+            preferred_intent_type = "node_add"
+        elif preferred_operation == "update_edge":
+            preferred_title = "生成连线调整建议"
+            preferred_summary = "新增连线的 Patch proposal 已生成；后续应用仍必须进入编辑面板由用户确认。"
+            preferred_intent_type = "edge_add"
+        elif preferred_operation == "update_station_prompt":
+            preferred_title = "生成 Prompt 调整建议"
+            preferred_summary = "当前节点 Prompt Patch proposal 已生成；后续应用仍必须进入编辑面板由用户确认。"
+            preferred_intent_type = "inspector_update"
+        else:
+            preferred_title = "生成优化建议"
+            preferred_summary = "生成 source=agent 的 Patch proposal payload；后续应用仍必须进入编辑面板由用户确认。"
+            preferred_intent_type = "inspector_update"
         suggestions.append(
             _agent_suggestion(
                 workflow_instance_id=workflow_instance_id,
                 workflow_template_id=workflow_template_id,
                 suggestion_type="propose_patch",
-                title="生成优化建议",
-                summary="生成 source=agent 的 Patch proposal payload；后续应用仍必须进入编辑面板由用户确认。",
+                title=preferred_title if preferred_patch_id else "生成优化建议",
+                summary=preferred_summary if preferred_patch_id else "生成 source=agent 的 Patch proposal payload；后续应用仍必须进入编辑面板由用户确认。",
                 action="suggest_patch",
+                workflow_patch_id=preferred_patch_id,
                 patch_intent={
                     "source": "agent",
-                    "intent_type": "inspector_update",
-                    "operation": "update_station_prompt",
+                    "intent_type": preferred_intent_type if preferred_patch_id else "inspector_update",
+                    "operation": preferred_operation if preferred_patch_id else "update_station_prompt",
                     "workflow_instance_id": workflow_instance_id,
-                    "payload": {
+                    "payload": patch.get("payload") if preferred_patch_id and isinstance(patch.get("payload"), dict) else {
                         "station_id": target_station_id,
                         "prompt_patch": "增强角色一致性、镜头衔接和输出结构约束。",
                     },
@@ -2361,6 +2410,242 @@ def _generate_agent_suggestions(
         resource_refs=_agent_resource_refs(workflow_instance_id=workflow_instance_id, workflow_template_id=workflow_template_id),
     )
     return suggestions
+
+
+async def _maybe_create_agent_canvas_patch(
+    gateway: GatewayService,
+    workflow_instance_id: str,
+    workflow_template_id: str,
+    scope: ScopeContext,
+    content: str,
+    body: dict[str, Any],
+) -> str | None:
+    template = gateway.workflow_repository.get_template(workflow_template_id, scope=scope)
+    draft = gateway.workflow_repository.get_draft(str(template.latest_draft_id), scope=scope)
+    draft_payload = draft.draft if isinstance(draft.draft, dict) else {}
+    patch = _agent_canvas_patch_for_content(workflow_instance_id, content, body, draft_payload)
+    if patch is None:
+        return None
+    _validate_canvas_patch_payload(gateway, workflow_template_id, patch, scope)
+    result = await _rpc(
+        gateway,
+        "workflow.patch.propose",
+        {
+            "workflow_template_id": workflow_template_id,
+            "patch": patch,
+            "scope": _scope_dto(scope),
+        },
+    )
+    patch_result = result.get("patch") if isinstance(result, dict) else {}
+    if isinstance(patch_result, dict):
+        return str(patch_result.get("workflow_patch_id") or "") or None
+    return None
+
+
+def _agent_canvas_patch_for_content(
+    workflow_instance_id: str,
+    content: str,
+    body: dict[str, Any],
+    draft_payload: dict[str, Any],
+) -> dict[str, Any] | None:
+    node_template_id = _agent_node_template_for_content(content)
+    if node_template_id:
+        station_id = _unique_agent_station_id(f"station_agent_{node_template_id}", draft_payload)
+        return {
+            "operation": "add_station",
+            "payload": _agent_node_payload(node_template_id, station_id=station_id),
+            "actor_type": "agent",
+            "actor_id": "agent_proposal",
+            "proposed_by": "agent_proposal",
+            "metadata": {
+                "source": "agent",
+                "intent_type": "node_add",
+                "workflow_instance_id": workflow_instance_id,
+            },
+        }
+    if _is_agent_prompt_update_request(content):
+        station_id = _selected_or_first_station_id(body, draft_payload)
+        if not station_id:
+            return None
+        return {
+            "operation": "update_station_prompt",
+            "payload": {
+                "station_id": station_id,
+                "prompt_patch": _agent_prompt_patch(content),
+            },
+            "actor_type": "agent",
+            "actor_id": "agent_proposal",
+            "proposed_by": "agent_proposal",
+            "metadata": {
+                "source": "agent",
+                "intent_type": "inspector_update",
+                "workflow_instance_id": workflow_instance_id,
+            },
+        }
+    edge_pair = _agent_edge_pair_for_content(content, body, draft_payload)
+    if edge_pair:
+        from_station_id, to_station_id = edge_pair
+        return {
+            "operation": "update_edge",
+            "payload": {
+                "edge_id": f"edge_{from_station_id}_to_{to_station_id}",
+                "edge_patch": {
+                    "action": "add",
+                    "from_station_id": from_station_id,
+                    "to_station_id": to_station_id,
+                },
+            },
+            "actor_type": "agent",
+            "actor_id": "agent_proposal",
+            "proposed_by": "agent_proposal",
+            "metadata": {
+                "source": "agent",
+                "intent_type": "edge_add",
+                "workflow_instance_id": workflow_instance_id,
+            },
+        }
+    return None
+
+
+def _agent_node_template_for_content(content: str) -> str | None:
+    if not any(token in content for token in ("增加", "新增", "添加", "加一个")):
+        return None
+    if "审批" in content:
+        return "manual_approval"
+    if "角色" in content or "一致性" in content:
+        return "character_consistency"
+    if "质量" in content or "检查" in content or "评估" in content:
+        return "quality_evaluation"
+    return None
+
+
+def _is_agent_prompt_update_request(content: str) -> bool:
+    lowered = content.lower()
+    return ("优化" in content or "修改" in content or "调整" in content) and ("prompt" in lowered or "提示词" in content or "节点" in content)
+
+
+def _agent_prompt_patch(content: str) -> str:
+    if "角色" in content or "一致性" in content:
+        return "增强角色一致性、镜头衔接和输出结构约束。"
+    if "质量" in content:
+        return "补充质量检查标准，明确输出可验收条件和失败原因。"
+    return "根据用户自然语言要求优化当前节点 Prompt，并保持输出结构可审计。"
+
+
+def _selected_or_first_station_id(body: dict[str, Any], draft_payload: dict[str, Any]) -> str:
+    station_ids = [str(item.get("station_id")) for item in draft_payload.get("stations", []) if isinstance(item, dict) and item.get("station_id")]
+    selected = body.get("selected_station_id")
+    if isinstance(selected, str) and selected in station_ids:
+        return selected
+    return station_ids[0] if station_ids else ""
+
+
+def _agent_edge_pair_for_content(content: str, body: dict[str, Any], draft_payload: dict[str, Any]) -> tuple[str, str] | None:
+    if "连接" not in content and "edge" not in content.lower():
+        return None
+    station_ids = [str(item.get("station_id")) for item in draft_payload.get("stations", []) if isinstance(item, dict) and item.get("station_id")]
+    selected = body.get("selected_station_id")
+    target = body.get("target_station_id")
+    if isinstance(selected, str) and isinstance(target, str) and selected in station_ids and target in station_ids and selected != target:
+        return selected, target
+    if len(station_ids) >= 2:
+        return station_ids[-2], station_ids[-1]
+    return None
+
+
+def _unique_agent_station_id(base_id: str, draft_payload: dict[str, Any]) -> str:
+    existing_ids = {item.get("station_id") for item in draft_payload.get("stations", []) if isinstance(item, dict)}
+    if base_id not in existing_ids:
+        return base_id
+    index = 2
+    while f"{base_id}_{index}" in existing_ids:
+        index += 1
+    return f"{base_id}_{index}"
+
+
+def _agent_node_payload(node_template_id: str, *, station_id: str) -> dict[str, Any]:
+    contract = NODE_CATALOG_CONTRACTS[node_template_id]
+    node_label = "质量检查节点" if node_template_id == "quality_evaluation" else NODE_CATALOG_LABELS.get(node_template_id, node_template_id)
+    return {
+        "station": {
+            "station_id": station_id,
+            "name": node_label,
+            "role": contract["station_kind"],
+            "skill_refs": list(contract["allowed_skill_refs"]),
+            "connector_refs": list(contract["allowed_connector_refs"]),
+            "metadata": {
+                "node_catalog_id": node_template_id,
+                "node_label": node_label,
+                **contract,
+            },
+        }
+    }
+
+
+async def _maybe_create_agent_node_add_patch(
+    gateway: GatewayService,
+    workflow_instance_id: str,
+    workflow_template_id: str,
+    scope: ScopeContext,
+    content: str,
+) -> str | None:
+    if not _is_agent_node_add_request(content):
+        return None
+    template = gateway.workflow_repository.get_template(workflow_template_id, scope=scope)
+    draft = gateway.workflow_repository.get_draft(str(template.latest_draft_id), scope=scope)
+    draft_payload = draft.draft if isinstance(draft.draft, dict) else {}
+    station_id = _unique_agent_station_id("station_agent_quality_check", draft_payload)
+    patch = {
+        "operation": "add_station",
+        "payload": _agent_quality_node_payload(station_id=station_id),
+        "actor_type": "agent",
+        "actor_id": "agent_proposal",
+        "proposed_by": "agent_proposal",
+        "metadata": {
+            "source": "agent",
+            "intent_type": "node_add",
+            "workflow_instance_id": workflow_instance_id,
+        },
+    }
+    _validate_canvas_patch_payload(gateway, workflow_template_id, patch, scope)
+    result = await _rpc(
+        gateway,
+        "workflow.patch.propose",
+        {
+            "workflow_template_id": workflow_template_id,
+            "patch": patch,
+            "scope": _scope_dto(scope),
+        },
+    )
+    patch_result = result.get("patch") if isinstance(result, dict) else {}
+    if isinstance(patch_result, dict):
+        return str(patch_result.get("workflow_patch_id") or "") or None
+    return None
+
+
+def _is_agent_node_add_request(content: str) -> bool:
+    return (
+        any(token in content for token in ("增加", "新增", "添加"))
+        and any(token in content for token in ("质量", "检查", "评估"))
+        and any(token in content for token in ("节点", "node"))
+    )
+
+
+def _agent_quality_node_payload(*, station_id: str = "station_agent_quality_check") -> dict[str, Any]:
+    contract = NODE_CATALOG_CONTRACTS["quality_evaluation"]
+    return {
+        "station": {
+            "station_id": station_id,
+            "name": "质量检查节点",
+            "role": contract["station_kind"],
+            "skill_refs": ["video.quality"],
+            "connector_refs": [],
+            "metadata": {
+                "node_catalog_id": "quality_evaluation",
+                **contract,
+            },
+        }
+    }
 
 
 def _agent_suggestion(

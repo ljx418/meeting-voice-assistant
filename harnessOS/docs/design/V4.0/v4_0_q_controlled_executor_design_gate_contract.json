@@ -1,0 +1,252 @@
+{
+  "stage": "V4.0-Q",
+  "contract_type": "controlled_executor_design_gate",
+  "runtime_enabled": false,
+  "callable_executor_routes_enabled": false,
+  "allowed_claim": "V4.0-Q complete: controlled executor design gate ready for review.",
+  "forbidden_claims": [
+    "controlled executor ready",
+    "Agent executor ready",
+    "autonomous workflow editing ready",
+    "complete AgentTalkWindow ready",
+    "complete Workflow Studio ready",
+    "production-ready external app support",
+    "full low-code canvas editing ready"
+  ],
+  "no_implementation_guard": {
+    "forbidden_routes": [
+      "/execute",
+      "/run",
+      "/agent/execute",
+      "/kill-switch",
+      "/rollback",
+      "/admin-override"
+    ],
+    "forbidden_services": [
+      "executor worker",
+      "executor runtime service",
+      "connector.call path",
+      "external_llm.call path"
+    ],
+    "design_only_capabilities": [
+      "executor.dry_run"
+    ]
+  },
+  "policy_matrix": [
+    {
+      "action": "workflow.patch.apply",
+      "classification": "user_confirmed_only",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": true,
+      "requires_approval_gate": true
+    },
+    {
+      "action": "workflow.patch.reject",
+      "classification": "user_confirmed_only",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": true,
+      "requires_approval_gate": false
+    },
+    {
+      "action": "workflow.template.publish",
+      "classification": "approval_gated_future",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": true,
+      "requires_approval_gate": true
+    },
+    {
+      "action": "approval.respond",
+      "classification": "user_confirmed_only",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": true,
+      "requires_approval_gate": false
+    },
+    {
+      "action": "workflow.context.update",
+      "classification": "user_confirmed_only",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": true,
+      "requires_approval_gate": true
+    },
+    {
+      "action": "business.event.emit",
+      "classification": "user_confirmed_only",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": true,
+      "requires_approval_gate": true
+    },
+    {
+      "action": "workflow.instance.start",
+      "classification": "approval_gated_future",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": true,
+      "requires_approval_gate": true
+    },
+    {
+      "action": "station.rerun",
+      "classification": "approval_gated_future",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": true,
+      "requires_approval_gate": true
+    },
+    {
+      "action": "connector.call",
+      "classification": "never_executor",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": false,
+      "requires_approval_gate": true
+    },
+    {
+      "action": "external_llm.call",
+      "classification": "never_executor",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": false,
+      "requires_approval_gate": true
+    },
+    {
+      "action": "artifact.write",
+      "classification": "approval_gated_future",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": true,
+      "requires_approval_gate": true
+    },
+    {
+      "action": "quality.evaluation.create",
+      "classification": "approval_gated_future",
+      "q_stage_callable_by_executor": false,
+      "future_executor_eligible": false,
+      "requires_user_confirmation": true,
+      "requires_approval_gate": true
+    }
+  ],
+  "capability_profile": [
+    {
+      "capability": "agent.propose",
+      "active_in_q": true,
+      "can_mutate_runtime": false
+    },
+    {
+      "capability": "agent.handoff",
+      "active_in_q": true,
+      "can_mutate_runtime": false
+    },
+    {
+      "capability": "agent.explain",
+      "active_in_q": true,
+      "can_mutate_runtime": false
+    },
+    {
+      "capability": "agent.navigate",
+      "active_in_q": true,
+      "can_mutate_runtime": false
+    },
+    {
+      "capability": "executor.dry_run",
+      "active_in_q": false,
+      "can_mutate_runtime": false
+    },
+    {
+      "capability": "executor.user_confirmed_execute",
+      "active_in_q": false,
+      "can_mutate_runtime": false
+    },
+    {
+      "capability": "executor.approval_gated_execute",
+      "active_in_q": false,
+      "can_mutate_runtime": false
+    },
+    {
+      "capability": "executor.admin_override",
+      "active_in_q": false,
+      "can_mutate_runtime": false
+    }
+  ],
+  "approval_gate_design": {
+    "implemented_in_q": false,
+    "creates_approval_request_in_q": false,
+    "calls_approval_respond_in_q": false,
+    "high_risk_conditions": [
+      "requires_approval=true",
+      "high risk_flags",
+      "external side effect",
+      "connector mutation",
+      "publish workflow",
+      "context mutation",
+      "business event emit",
+      "artifact write",
+      "quality score mutation"
+    ]
+  },
+  "sandbox_boundary": {
+    "future_executor_input": "redacted BFF DTO only",
+    "forbidden_fields_and_access": [
+      "capability_token",
+      "subscription_token",
+      "Authorization",
+      "Bearer",
+      "secret",
+      "raw_trace_payload",
+      "raw_artifact_content",
+      "raw_connector_payload",
+      "raw prompt",
+      "upstream signed URL",
+      "direct WorkflowStore write",
+      "direct WorkflowDraft write",
+      "direct WorkflowVersion write",
+      "direct StationRun write"
+    ]
+  },
+  "rollback_and_kill_switch_design": {
+    "implemented_in_q": false,
+    "items": [
+      "per-agent kill switch",
+      "per-workspace kill switch",
+      "capability revocation",
+      "operation timeout",
+      "idempotency key",
+      "rollback descriptor",
+      "manual recovery path",
+      "audit retention"
+    ]
+  },
+  "evidence_contract": {
+    "creates_real_executor_evidence_in_q": false,
+    "fields": [
+      "proposal_id",
+      "handoff_id",
+      "user_confirmed",
+      "approval_id",
+      "capability_decision",
+      "policy_decision",
+      "runtime_result_ref",
+      "correlation_id",
+      "idempotency_key",
+      "redaction_status",
+      "created_at",
+      "created_by"
+    ]
+  },
+  "event_truth": {
+    "eventbridge_payload_can_construct_truth": false,
+    "forbidden_truth_from_event_payload": [
+      "executor truth",
+      "agent action truth",
+      "patch truth",
+      "approval truth",
+      "evidence truth",
+      "board/status truth",
+      "context truth"
+    ]
+  }
+}

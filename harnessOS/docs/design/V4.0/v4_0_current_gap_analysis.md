@@ -1,6 +1,6 @@
 # V4.0 Current Gap Analysis
 
-文档状态：V4.0-P complete；下一阶段进入 V4.0-Q Controlled Executor Design Gate planning。当前基于 V4.0-G governed editing hardening、V4.0-H canvas-to-runtime patch bridge、V4.0-I stateful Agent assistant baseline、V4.0-J AgentTalk governance baseline、V4.0-K Agent action handoff baseline、V4.0-L handoff lifecycle baseline、V4.0-M operation evidence baseline、V4.0-N canvas editing readiness baseline、V4.0-O governed canvas proposal workflow baseline 与 V4.0-P AgentTalkWindow interaction E2E baseline。V3.6 complete baseline 与 V3.6/V4.0 preflight hardening 已完成，Workflow Console read-only MVP、AgentTalkWindow preparation shell、低代码 Workflow Studio Shell、真实 BFF read/event data bridge、Quality / Approval / Context operation panels、Reference Workflow Console component-level + BFF integration E2E、Playwright browser smoke baseline、governed patch apply/reject/publish editing hardening、canvas / Inspector intent 到 WorkflowPatch proposal 的桥接、BFF/UI 层 stateful Agent assistant baseline、Agent action proposal governance、Agent action handoff to user-confirmed operation panels、Agent handoff lifecycle / audit / recovery hardening、user-confirmed operation evidence / governance review baseline、canvas editing readiness baseline、governed canvas proposal workflow baseline，以及 AgentTalkWindow interaction E2E baseline 均已完成。当前 P 阶段仍不实现 executor、完整 AgentTalkWindow 或完整低代码编辑器。  
+文档状态：V4.0-Z complete；V4.0 final audit package ready for review。当前基于 V4.0-G governed editing hardening、V4.0-H canvas-to-runtime patch bridge、V4.0-I stateful Agent assistant baseline、V4.0-J AgentTalk governance baseline、V4.0-K Agent action handoff baseline、V4.0-L handoff lifecycle baseline、V4.0-M operation evidence baseline、V4.0-N canvas editing readiness baseline、V4.0-O governed canvas proposal workflow baseline、V4.0-P AgentTalkWindow interaction E2E baseline、V4.0-Q Controlled Executor Design Gate、V4.0-R Production Readiness Preflight、V4.0-S Production Auth / Tenant Boundary Follow-up Design、V4.0-T Production Token Lifecycle Follow-up Design、V4.0-U Production Secret Management Follow-up Design、V4.0-V Production Observability / Audit Retention Follow-up Design、V4.0-W External App Production Onboarding Follow-up Design、V4.0-X Production Readiness Consolidation Gate、V4.0-Y Controlled Executor Implementation Gate 和 V4.0-Z Final Audit / Release Gate。V3.6 complete baseline 与 V3.6/V4.0 preflight hardening 已完成，Workflow Console read-only MVP、AgentTalkWindow preparation shell、低代码 Workflow Studio Shell、真实 BFF read/event data bridge、Quality / Approval / Context operation panels、Reference Workflow Console component-level + BFF integration E2E、Playwright browser smoke baseline、governed patch apply/reject/publish editing hardening、canvas / Inspector intent 到 WorkflowPatch proposal 的桥接、BFF/UI 层 stateful Agent assistant baseline、Agent action proposal governance、Agent action handoff to user-confirmed operation panels、Agent handoff lifecycle / audit / recovery hardening、user-confirmed operation evidence / governance review baseline、canvas editing readiness baseline、governed canvas proposal workflow baseline、AgentTalkWindow interaction E2E baseline、Controlled Executor Design Gate、Production Readiness Preflight、Auth / Tenant Boundary Design、Token Lifecycle Design、Secret Management Design、Observability / Audit Retention Design、External App Onboarding Design、Production Readiness Consolidation Gate、Controlled Executor Implementation Gate 和 Final Audit / Release Gate 均已完成。最终允许声明为 `V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.`。当前仍不能声明 executor、完整 AgentTalkWindow、完整低代码编辑器、enterprise auth、OAuth/SSO、多租户控制台或 production-ready external app support。
 配套图：`v4_0_current_gap_analysis.drawio`。
 
 本文与 `v4_0_current_gap_analysis.drawio` 是 V4.0 后续规划、验收和与用户交互时的核心维护文件。两者必须同步更新：本文承载文字合同，drawio 承载同一套架构演进、差距矩阵、阶段路线图和 V4.0 gate。
@@ -44,7 +44,7 @@ V4.0 要回答的问题是：
 - V3.6 已完成 WorkflowTemplate / WorkflowVersion / WorkflowDraft、WorkflowInstance、Station、StationRun、ArtifactContract、QualityEvaluation、Pipeline Board API、Business Event Bridge / Workflow Context、WorkflowPatch 和平台中立 Dummy Pipeline E2E。
 - V3.6-J 已验证 runtime E2E 与 editing E2E 分离：V1 completed instance 与 V1 version snapshot 不受 V2 patch/publish 影响，patched V2 可被 runtime 消费。
 - V3.6 preflight 已补齐 session/memory scope guard、workflow-bound legacy approval guard、high-risk workflow patch governance、Board/status job scope double-check、business EventBridge channel permissions、EventBridge follow mode、subscription origin binding、business event atomic idempotency、duplicate binding guard、platform startup neutrality 和 V4.0 protocol naming。
-- 当前 P 阶段已验证：V4.0-P focused tests `11 passed`；V4.0 focused tests `143 passed`；workflow-console unit tests `53 passed`；workflow-console build passed；workflow-console browser smoke `14 passed`；V3.6 focused `86 passed`；V3.5 focused `146 passed`；full pytest `584 passed, 3 skipped, 6 warnings`；TypeScript SDK `23 passed`；drawio XML validation passed。
+- 当前 Z 阶段新增 Final Audit / Release Gate：T/U/V/W 分别补齐 token lifecycle、secret management、observability / audit retention、external app onboarding 的机器可读设计合同；X 聚合 R/S/T/U/V/W 的 production readiness blockers；Y 固化 controlled executor implementation gate；Z 聚合 V4.0 final audit package 和 No False Green 结论。
 - V4.0-0 已新增 UI contract map、mock-to-real checklist、event contract map、frontend stack decision 和 Stitch prototype mapping。
 - V4.0-A2 已补齐 Real Data Bridge：内置 `/bff/*` structured routes、BFF frontend DTO redaction、instance-scoped station/artifact ownership guard、BFF EventBridge proxy、真实 V3.6 dummy pipeline fixture 到 board/status/output/artifact metadata/lineage 的集成测试。
 
@@ -67,10 +67,10 @@ V4.0 要回答的问题是：
 当前仍未完成：
 
 - 没有完整 Workflow Studio 可视化编辑器：V4.0-H 已把节点库 click/drag、连线 proposal 和 Inspector 输入转换为 patch proposal；但仍不声明完整低代码画布编辑 ready。
-- 没有完整 AgentTalkWindow 状态机；V4.0-I 只完成 BFF/UI 层 stateful Agent assistant baseline，V4.0-J 增加 action proposal governance，V4.0-K 增加 handoff 到用户确认 operation panels，V4.0-L 补强 handoff lifecycle / audit / recovery，V4.0-M 补强用户确认操作证据链和治理审计；Agent 仍不能自动 apply/reject/publish/approval.respond/context.update/business.event.emit/start workflow/rerun station。
+- 没有完整 AgentTalkWindow 状态机；V4.0-I 只完成 BFF/UI 层 stateful Agent assistant baseline，V4.0-J 增加 action proposal governance，V4.0-K 增加 handoff 到用户确认 operation panels，V4.0-L 补强 handoff lifecycle / audit / recovery，V4.0-M 补强用户确认操作证据链和治理审计，V4.0-P 补齐交互 E2E，V4.0-Q 只完成 controlled executor design gate，V4.0-R 只完成 production readiness preflight，V4.0-S 只完成 production auth / tenant boundary follow-up design；Agent 仍不能自动 apply/reject/publish/approval.respond/context.update/business.event.emit/start workflow/rerun station。
 - UI 已通过 BFF 消费 V3.6 Board / status / output / artifact metadata / lineage 的真实读链路；Approval respond、context update 和 business event 已进入 V4.0-D operation panels；Patch apply/publish 与 Quality create/attach 仍不暴露。
 - 已完成 V4.0 Reference Workflow Console component-level + BFF integration E2E、V4.0-F Playwright 浏览器级 smoke、V4.0-G governed patch apply/reject/publish editing hardening、V4.0-H Canvas-to-runtime bridge、V4.0-I AgentTalk stateful assistant baseline、V4.0-J AgentTalk governance baseline、V4.0-K Agent action handoff baseline、V4.0-L Agent handoff lifecycle baseline、V4.0-M operation evidence / governance review baseline 和 V4.0-N canvas editing readiness baseline。
-- 没有 production-ready external app support、OAuth/SSO、多租户控制台或分布式调度。
+- 没有 production-ready external app support、OAuth/SSO implementation、多租户控制台、production secret manager、production observability platform、production audit export、controlled executor implementation 或分布式调度。
 
 ## 3. 架构演进口径
 
@@ -139,18 +139,18 @@ V4.0 完成后，harnessOS 应具备以下目标状态：
 | Workflow Console / Studio shell | V4.0-A/C 之上已实现 React/Vite 低代码 Workflow Studio Shell：节点库、Stitch 最新浅色高保真视觉、ComfyUI-like 底层工作台画布、VideoStudio 多节点画布、分镜 warning、Agent 工作流助手、Patch/Diff 用户确认、Inspector、底部运行面板、redaction tests；V4.0-A2 已接真实 BFF read data。 | 后续实现节点拖入、连线编辑、Inspector patch 写回。 | V4.0-A2 complete |
 | Live event UI | BFF EventBridge proxy 已支持 SSE id/event/data、Last-Event-ID/cursor、auth failure precheck、upstream token hiding；UI 事件只触发 refresh / 展示，不从 payload 自建 runtime state；quality live event 仍非出门条件。 | 后续把更多操作面板与事件刷新联动，但仍以 `workflow.board.get` / `workflow.instance.status` 为事实源。 | V4.0-A2 complete |
 | Workflow editing UI | 已完成 governed `workflow.patch.apply/reject` 和 `workflow.template.publish` BFF/UI/browser smoke；Apply / Reject / Publish 均要求用户显式确认，`source=agent` 被拒绝，高风险 patch 默认不能 apply。V4.0-H 已新增 NodeAddIntent / EdgeAddIntent / InspectorUpdateIntent 到 proposal 的桥接。 | 画布/Inspector 只生成 WorkflowPatch proposal，Apply 后才通过 G path 修改 draft；不直接写 runtime。 | V4.0-H complete |
-| Agent editing boundary | V4.0-I 已实现 BFF/UI 层 AgentTalkSession / AgentMessage / AgentSuggestion / AgentActionIntent baseline；V4.0-J 已实现 AgentActionProposal queue、display/navigation/proposal/forbidden policy guard 和 redacted audit baseline；V4.0-K 已实现 AgentActionHandoff 到 Editing / Approval / Context panels 的安全交接；V4.0-L 已实现 handoff repository、active/opened/used/dismissed/expired/stale/blocked lifecycle、lazy expiration、URL recovery、append-only audit 和 stale/blocked UI guard；V4.0-M 已实现 user-confirmed operation evidence 和只读 governance review；V4.0-N/O 已实现 canvas proposal workflow readiness 与治理收口；V4.0-P 已实现 AgentTalkInteractionState、explain/summarize read-only、suggest patch handoff、evidence review read-only 和 event refresh truth；deterministic suggestions 不调用外部 LLM/MCP/connector；`source=agent` 可 propose patch/action proposal/handoff，但不能直接 apply/reject/publish/approval.respond/context.update/business.event.emit/start workflow/rerun station。 | 后续 V4.0-Q 只能做 Controlled Executor Design Gate；实现 executor 前必须另行审计 policy、approval、capability、sandbox、rollback、kill switch 和 audit。 | V4.0-P complete |
+| Agent editing boundary | V4.0-I 已实现 BFF/UI 层 AgentTalkSession / AgentMessage / AgentSuggestion / AgentActionIntent baseline；V4.0-J/K/L/M 已完成 action proposal、handoff、lifecycle 和 evidence；V4.0-N/O/P 已完成 canvas proposal workflow 和 AgentTalk interaction E2E；V4.0-Q/Y 已完成 executor 设计门禁和 implementation gate；deterministic suggestions 不调用外部 LLM/MCP/connector；`source=agent` 可 propose patch/action proposal/handoff，但不能直接 apply/reject/publish/approval.respond/context.update/business.event.emit/start workflow/rerun station。 | 后续如果实现 executor，必须另行立项并通过 Q/Y gate、approval gate、sandbox boundary、rollback / kill switch 和 production readiness blockers。 | V4.0-Z complete |
 | Quality / Approval / Context panels | 已完成 Quality read-only、workflow-bound approval.respond、context.business update、business.event.emit 操作面板。 | 后续继续作为 H 阶段 canvas/inspector patch bridge 的事实刷新面板，不扩展 Quality create/attach。 | V4.0-D complete |
 | Reference console E2E | 已完成平台中立 runtime fixture、BusinessEventBinding、seeded patch diff、approval side-effect、context update、EventBridge refresh truth、DTO redaction、scope/ownership guard 和 frontend real DTO render tests。 | 已通过 V4.0-F 补最小 browser-level smoke，但仍不声明 full browser E2E。 | V4.0-E complete at integration baseline |
 | Browser smoke | 已完成 Playwright 浏览器级 smoke；component-level + BFF integration E2E 继续通过。 | 已验证 build 后 Vite preview、同一 test BFF / V3.6 runtime fixture、open console、select instance、render board、approval respond、context update、可控 EventBridge refresh、no direct `/v1/*`、无 Demo / Fixture fallback 和 DOM redaction。 | V4.0-F complete |
 | Editing browser smoke | 已完成 Playwright governed editing smoke；保留 V4.0-F browser smoke。 | 已验证 render Patch Diff、用户确认 Apply to Draft、用户确认 Publish New Version、BFF apply/publish route、version refresh、fake event payload 不被采信、no direct `/v1/*` 和 DOM redaction。 | V4.0-G complete |
-| Production readiness | V3.5/V3.6 均为 dev/local baseline。 | V4.0-E 后仍只能声明 dev/local Workflow Console baseline，不能声明 production-ready。 | 全阶段 |
+| Production readiness | V3.5/V3.6 均为 dev/local baseline；V4.0-R/S/T/U/V/W 已登记 production readiness、auth/tenant、token、secret、observability/audit 和 external app onboarding gaps；V4.0-X 已聚合 blockers。 | 当前只能声明 production readiness design gates ready for implementation review，不能声明 enterprise auth、OAuth/SSO、tenant control plane 或 production-ready。 | V4.0-Z complete |
 
 ## 6. 开发计划摘要
 
 ### 6.1 当前开发阶段
 
-当前项目处于 **V4.0-P AgentTalkWindow Interaction E2E complete；V4.0-Q Controlled Executor Design Gate planned**。V3.6 后端 gate 已完成，V4.0 已有画布优先 Workflow Studio Shell、真实 BFF read/event data bridge、AgentTalkWindow preparation shell、Quality / Approval / Context 操作面板、平台中立 Reference Workflow Console component-level + BFF integration E2E、Playwright browser smoke baseline、用户显式确认的 patch apply/reject/publish editing hardening、canvas / Inspector 到 patch proposal 的桥接、BFF/UI 层 AgentTalk stateful baseline、可治理 action proposal queue、handoff 到用户确认 operation panels 的安全交接、handoff lifecycle / audit / recovery hardening、user-confirmed operation evidence / governance review baseline、canvas editing readiness baseline、governed canvas proposal workflow baseline，以及 AgentTalkWindow interaction E2E baseline。当前仍不声明完整 AgentTalkWindow、Agent executor、controlled executor 或完整 Workflow Studio ready。
+当前项目处于 **V4.0-Z Final Audit / Release Gate complete**。V3.6 后端 gate 已完成，V4.0 已有画布优先 Workflow Studio Shell、真实 BFF read/event data bridge、AgentTalkWindow preparation shell、Quality / Approval / Context 操作面板、平台中立 Reference Workflow Console component-level + BFF integration E2E、Playwright browser smoke baseline、用户显式确认的 patch apply/reject/publish editing hardening、canvas / Inspector 到 patch proposal 的桥接、BFF/UI 层 AgentTalk stateful baseline、可治理 action proposal queue、handoff 到用户确认 operation panels 的安全交接、handoff lifecycle / audit / recovery hardening、user-confirmed operation evidence / governance review baseline、canvas editing readiness baseline、governed canvas proposal workflow baseline、AgentTalkWindow interaction E2E baseline、controlled executor design gate、production readiness preflight、production auth / tenant boundary follow-up design、token lifecycle design、secret management design、observability / audit retention design、external app onboarding design、production readiness consolidation gate、controlled executor implementation gate 和 final audit package。最终允许声明：`V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.`。当前仍不声明完整 AgentTalkWindow、Agent executor、controlled executor、完整 Workflow Studio ready、enterprise auth、OAuth/SSO、多租户控制台或 production-ready external app support。
 
 当前已经完成的是：
 
@@ -173,14 +173,18 @@ V4.0 完成后，harnessOS 应具备以下目标状态：
 - `apps/workflow-console/` 已新增 QualityPanel、ApprovalPanel、ContextPanel，并接入 `useWorkflowConsoleData` real hook；Quality 保持 read-only，approval.respond 只能由用户显式点击触发，context update 只能写 `business.*`。
 - `tests/v4_0_reference_support.py` 已新增平台中立 V4.0-E fixture：生成 WorkflowTemplate / WorkflowVersion / WorkflowInstance / StationRun / Job / Artifact / Approval / QualityEvaluation / WorkflowContext / BusinessEventBinding / seeded WorkflowPatch。
 - V4.0-E 已验证：`business.event.emit -> BusinessEventBinding -> context.business` 更新；seeded patch diff 来自 V3.6 patch repository；workflow-bound `approval.respond` 会推动 waiting_approval station 继续；EventBridge 事件只触发 refresh，不采信 payload 中伪造状态。
-- V4.0-P 定向验证已通过：focused P tests 11 passed；V4.0 focused tests 143 passed；workflow-console unit tests 53 passed；workflow-console e2e 14 passed；full pytest 584 passed, 3 skipped, 6 warnings。
+- V4.0-R 新增 production readiness preflight：auth/SSO/OAuth、multi-tenant isolation、capability token lifecycle、secret management、audit retention、observability/metrics/alerting、rate limit/abuse control、data residency/export/deletion、external app onboarding 和 incident recovery 均登记为 open production gaps。
+- V4.0-Q 已完成 implementation baseline：policy matrix、capability profile、approval gate design、sandbox boundary、rollback / kill switch design、future executor evidence contract、event truth guard 和 claim guard 均只作为设计门禁存在，不新增 executor route、worker、runtime service 或 frontend execute client。
+- V4.0-R 已完成 implementation baseline：production readiness gap register、auth/tenant boundary、token lifecycle gap、secret hygiene、observability/audit gap、external app boundary、forbidden route scan 和 claim guard 均只作为 preflight 存在，不新增 production auth、OAuth/SSO、tenant admin、token rotate/revoke、quota、audit export 或 production onboarding route。
+- V4.0-S 已完成 implementation baseline：identity matrix、tenant isolation matrix、service account / agent identity design、OAuth / SSO gap contract、capability token binding design、runtime boundary、forbidden route scan 和 claim guard 均只作为设计门禁存在，不新增 OAuth/SSO/OIDC/SAML/callback、tenant admin、token rotate/revoke、production auth middleware 或 production onboarding route。
 - V4.0-H 已完成：`CanvasPatchIntent / NodeAddIntent / EdgeAddIntent / InspectorUpdateIntent`、统一 BFF proposal route、Node / Edge / Inspector proposal UI、H focused tests 和 browser smoke 已通过。
 - V4.0-I 已完成 implementation baseline：AgentTalkSession / AgentMessage / AgentSuggestion / AgentActionIntent 均为 BFF/UI 层对象，不进入 V3.6 runtime contract；deterministic suggestions 不调用外部 LLM / MCP / connector；Agent 面板不暴露 Apply / Reject / Publish / Approve / Reject 等突变动作。
 
 当前需要继续推进的是：
 
-- 后续阶段必须在 No False Green 边界内另行规划，不能把 J/K/L/M/N/O 阶段升级为 controlled executor ready、autonomous workflow editing ready、complete AgentTalkWindow ready 或 complete Workflow Studio ready。
-- 下一批开发进入 V4.0-Q Controlled Executor Design Gate：只做设计门禁和审计计划，覆盖 policy、approval、capability、sandbox、rollback、kill switch、audit 和 No False Green；仍不实现或声明 controlled executor ready。
+- V4.0-Z 后应进入 implementation review，而不是继续扩大 V4.0 完成声明。
+- 后续 production implementation 必须逐项关闭 R/S/T/U/V/W/X blockers，并分别立项 auth/tenant、token lifecycle、secret management、observability/audit、external app onboarding。
+- 后续 controlled executor implementation 必须重新审计 Q/Y policy matrix、capability、approval gate、sandbox、rollback、kill switch 和 audit evidence。
 
 ### 6.2 阶段路线图
 
@@ -204,8 +208,16 @@ V4.0 完成后，harnessOS 应具备以下目标状态：
 | V4.0-N | Canvas Editing Readiness | 在 H 的 proposal bridge 之上补 controlled 节点库 catalog、CanvasDraftProjection、Inspector form mapping、edge validation、draft refresh 和 layout boundary；仍通过 patch 写 draft。 | 已完成：canvas editing readiness baseline ready for dev/local Workflow Console。 |
 | V4.0-O | Governed Canvas Proposal Workflow | 在 N 之上补 patch queue、projection freshness、catalog versioning、Inspector/edge validation、proposal apply race hardening、fixture isolation 和风险声明审计。 | 已完成：governed canvas proposal workflow ready for expanded dev/local Workflow Console validation。 |
 | V4.0-P | AgentTalkWindow Interaction E2E | 在 I/J/K/L/M/O 之上补 Agent 面板交互闭环：解释、建议、handoff、evidence review、事件刷新；仍不引入 autonomous executor。 | 已完成：AgentTalkWindow interaction E2E baseline ready for dev/local Workflow Console validation。 |
-| V4.0-Q | Controlled Executor Design Gate | 只做受控执行器设计门禁：policy、approval、capability、sandbox、audit、rollback、kill switch；不默认实现真实 executor。 | 计划中：controlled executor readiness plan，不声明 executor ready。 |
-| V4.0-R | Production Readiness Preflight | production path 预检：auth/SSO/multi-tenant/control plane/observability/security hardening 的差距清单和验收计划。 | 计划中：production readiness gap only，不声明 production-ready。 |
+| V4.0-Q | Controlled Executor Design Gate | 只做受控执行器设计门禁：policy、approval、capability、sandbox、audit、rollback、kill switch；不实现真实 executor。 | 已完成：controlled executor design gate ready for review；不声明 executor ready。 |
+| V4.0-R | Production Readiness Preflight | production path 预检：auth/SSO/multi-tenant/control plane/observability/security hardening 的差距清单和验收计划。 | 已完成：production readiness preflight ready for review；不声明 production-ready。 |
+| V4.0-S | Production Auth / Tenant Boundary Follow-up Design | 基于 R gap register 选择 Auth / Tenant Boundary 方向做设计收敛：identity matrix、tenant isolation、service account / agent identity、OAuth / SSO gap、capability token binding。 | 已完成：production auth and tenant boundary follow-up design ready for review；不声明 enterprise auth、OAuth/SSO 或 tenant control plane ready。 |
+| V4.0-T | Production Token Lifecycle Follow-up Design | 细化 issuance、expiration、rotation、revocation、origin/audience/scope binding、emergency revoke 和 token audit。 | 已完成：production token lifecycle follow-up design ready for review；不实现 token lifecycle runtime。 |
+| V4.0-U | Production Secret Management Follow-up Design | 细化 capability token、subscription token、connector secret、external LLM key、signed URL 和 raw prompt redaction / sandbox boundary。 | 已完成：production secret management follow-up design ready for review；不实现 production secret manager。 |
+| V4.0-V | Production Observability / Audit Retention Follow-up Design | 细化 trace/evidence retention、audit export gap、security audit log、correlation/idempotency coverage、metrics/alerting 和 error taxonomy。 | 已完成：production observability and audit retention follow-up design ready for review；不实现 audit export 或 observability platform。 |
+| V4.0-W | External App Production Onboarding Follow-up Design | 细化 app registration、domain verification、tenant provisioning、service account lifecycle、quota/rate limit、offboarding 和 support runbook。 | 已完成：external app production onboarding follow-up design ready for review；不实现 production onboarding。 |
+| V4.0-X | Production Readiness Consolidation Gate | 聚合 R/S/T/U/V/W production readiness blockers。 | 已完成：production readiness consolidation gate ready for implementation review；不声明 production-ready。 |
+| V4.0-Y | Controlled Executor Implementation Gate | 基于 Q/X 固化 executor implementation 前置门禁和 source=agent 非执行边界。 | 已完成：controlled executor implementation gate ready for review；不实现 controlled executor。 |
+| V4.0-Z | Final Audit / Release Gate | 聚合 V4.0-O 到 V4.0-Z 的最终审计包、allowed final claim 和 forbidden claims。 | 已完成：V4.0 final audit package ready for review；允许 V4.0 complete 的审计口径，但不声明 production-ready 或 executor ready。 |
 
 ### 6.3 V4.0-0 具体计划
 
@@ -638,12 +650,41 @@ V4.0-P 已收敛 AgentTalkWindow interaction E2E 的 read model、只读 explain
 
 ### 6.18 V4.0-P 后未来阶段
 
-以下阶段是 V4.0-P 之后仍需执行的开发计划。它们是 future plan，不代表当前已完成，也不能提前用于出门声明。
+以下阶段原本是 V4.0-P 之后的开发计划；当前已推进到 V4.0-Z final audit gate。它们仍然只是设计门禁和审计门禁，不代表 production-ready 或 executor-ready。
 
 | 阶段 | 阶段定位 | 核心交付 | No False Green 边界 |
 | --- | --- | --- | --- |
 | V4.0-Q Controlled Executor Design Gate | 评估是否可以进入受控执行器实现。 | executor policy matrix、capability profile、approval gate、sandbox/rollback/kill-switch 设计、审计要求和验收计划。 | 只做设计门禁；不能声明 controlled executor ready 或 Agent executor ready。 |
-| V4.0-R Production Readiness Preflight | 生产化前置差距审计。 | OAuth/SSO、多租户控制面、observability、security、secret management、production BFF deployment 的 gap 与验收计划。 | 只做 preflight；不能声明 production-ready external app support。 |
+| V4.0-R Production Readiness Preflight | 生产化前置差距审计。 | OAuth/SSO、多租户控制面、observability、security、secret management、production BFF deployment 的 gap 与验收计划。 | 已完成；只做 preflight；不能声明 production-ready external app support。 |
+| V4.0-S Production Auth / Tenant Boundary Follow-up Design | auth / tenant boundary 设计门禁。 | identity matrix、tenant isolation matrix、service account / agent identity、OAuth / SSO gap contract、capability token binding。 | 已完成；只做 design gate；不能声明 enterprise auth、OAuth/SSO 或 tenant control plane ready。 |
+| V4.0-T/U/V/W Production Follow-up Designs | token lifecycle、secret management、observability / audit retention、external app onboarding 设计门禁。 | 机器可读 follow-up contracts 和 route/claim guards。 | 已完成；不能声明 production-ready。 |
+| V4.0-X/Y/Z Consolidation / Executor Gate / Final Audit | 聚合 production blockers、executor implementation blockers 和 final audit package。 | consolidation contract、executor implementation gate contract、final audit release gate contract。 | 已完成；不能声明 controlled executor ready、Agent executor ready 或 production-ready。 |
+
+### 6.19 V4.0-R 后风险细化
+
+V4.0-R 已把生产化风险显式登记为 open gaps，V4.0-S/T/U/V/W 已把 Auth / Tenant、Token Lifecycle、Secret Management、Observability / Audit Retention 和 External App Onboarding 方向细化为设计门禁，V4.0-X/Y/Z 已完成 consolidation、executor implementation gate 和 final audit。不能把 design gate 误写成 production-ready implementation。
+
+| 风险 ID | 风险 | 严重度 | 概率 | V4.0-R 控制措施 |
+| --- | --- | --- | --- | --- |
+| R-R1 | Production Readiness Preflight 被误写成 production-ready external app support。 | critical | high | R 只产出 gap register、preflight contract 和 claim guard；不得新增 production route。 |
+| R-R2 | dev/local scope guard 被误写成 production tenant isolation。 | critical | medium | 明确 tenant_id/user_id/service_account_id/agent_id 等仍为 open gaps。 |
+| R-R3 | capability token lifecycle 被误写成 production-ready。 | high | medium | issuance/expiration/rotation/revocation/audit 全部登记为 gap，不新增 rotate/revoke route。 |
+| R-R4 | V4.0-M operation evidence 被误写成 production audit export/retention。 | high | medium | completion note 明确 operation evidence 只是 dev/local baseline。 |
+| R-R5 | V3.5 SDK/BFF/Embed 被误写成生产客户接入。 | critical | medium | external app onboarding gap 覆盖 app registration、domain verification、tenant provisioning、quota 和 offboarding。 |
+| R-R6 | 文档或 UI copy 出现 enterprise auth ready / multi-tenant ready / production ready。 | medium | high | claim guard 扫描 docs/source/UI copy/completion note。 |
+
+### 6.20 V4.0-S 后风险细化
+
+V4.0-S 已把 auth / tenant boundary 风险细化为 identity matrix、tenant isolation matrix、service account / agent identity、OAuth / SSO gap contract 和 capability token binding design。后续阶段仍不能把这些设计门禁误写成 production auth implementation。
+
+| 风险 ID | 风险 | 严重度 | 概率 | V4.0-S 控制措施 |
+| --- | --- | --- | --- | --- |
+| S-R1 | identity matrix 被误写成 enterprise auth ready。 | critical | high | 合同明确 `tenant_id/user_id/service_account_id` 是 production gap；claim guard 阻止 enterprise auth ready。 |
+| S-R2 | OAuth / SSO gap contract 被误写成 OAuth ready 或 SSO ready。 | critical | medium | 每项 OAuth/SSO capability 只能是 `gap_only` 或 `planned_future`。 |
+| S-R3 | tenant isolation design 被误写成 multi-tenant control plane ready。 | critical | high | isolation matrix 是 design_only，不新增 `/tenant/*` 或 `/admin/tenant/*` route。 |
+| S-R4 | capability token binding 被误写成可绕过 user confirmation。 | high | medium | token binding 明确 `can_bypass_user_confirmation=false`，`source=agent` 仍不能 mutation。 |
+| S-R5 | auth / tenant design 写入 V3.6 runtime contract。 | high | low | runtime boundary 明确不修改 WorkflowTemplate、WorkflowDraft、WorkflowVersion 或 StationRun。 |
+| S-R6 | UI copy 出现生产认证或 OAuth/SSO 已接入误导文案。 | medium | high | frontend no-false-green test 扫描 production auth false-green copy。 |
 
 V4.0-N 已补齐 V4.0-H 之后的 canvas editing readiness 和 V4.0-K/L/M 之后的审计闭环：
 
@@ -928,9 +969,10 @@ V4.0-M Operation Evidence / Governance Review
 V4.0-N Canvas Editing Readiness
 V4.0-O Governed Canvas Proposal Workflow
 V4.0-P AgentTalkWindow Interaction E2E
+V4.0-Q Controlled Executor Design Gate
 ```
 
-其中 V4.0-E/F/G/H/I/J/K/L/M/N/O/P 必须证明：
+其中 V4.0-E/F/G/H/I/J/K/L/M/N/O/P/Q 必须证明：
 
 - UI 默认通过 BFF / SDK / hooks 调用 harnessOS。
 - 不直接读 Core Store 或 WorkflowStore。
@@ -944,16 +986,20 @@ V4.0-P AgentTalkWindow Interaction E2E
 - Agent handoff lifecycle、URL recovery、audit query 和 stale/expired/blocked guard 不产生 executor 行为。
 - Operation evidence / governance review 是只读审计视图，不执行 mutation，也不把 EventBridge payload 当作 evidence truth。
 - V4.0-O 的 patch queue、projection freshness、catalog versioning、Inspector/edge validation 和 fixture isolation 不得引入 UI-only mutation bypass。
-- 后续 V4.0-Q/R 也必须继续复用 BFF / SDK / hooks / V3.6 runtime contract，不得新增 UI-only mutation bypass。
+- V4.0-Q 的 policy matrix、capability profile、approval gate、sandbox boundary、rollback / kill switch 和 future executor evidence 只是设计门禁，不得成为可调用 executor。
+- V4.0-R 的 production readiness gap register 只是 preflight，不得新增 production auth、OAuth/SSO、tenant admin、token lifecycle、quota、audit export 或 onboarding route。
+- V4.0-S 的 production auth / tenant boundary design 只是设计门禁，不得新增 OAuth/SSO/OIDC/SAML/callback、tenant admin、token lifecycle、production auth middleware、tenant control plane 或 onboarding route。
+- V4.0-T/U/V/W/X/Y/Z 也必须继续复用 BFF / SDK / hooks / V3.6 runtime contract，不得新增 UI-only mutation bypass。
 
-V4.0-Q/R 不是 V4.0 dev/local Workflow Console 出门前必须完成的功能阶段；它们是进入受控 executor 或 production readiness 前的独立设计 / preflight gate。
+V4.0-Z 是 final audit / release gate；它只证明 governed dev/local Workflow Console and production readiness design gates ready for implementation review。
 
 ## 13. 出门声明
 
-V4.0-P 完成后可以声明：
+V4.0-Z 完成后可以声明：
 
 ```text
-V4.0-P complete: AgentTalkWindow interaction E2E baseline ready for dev/local Workflow Console validation.
+V4.0-Z complete: V4.0 final audit package ready for review.
+V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.
 ```
 
 仍不能声明：
@@ -965,6 +1011,11 @@ complete Workflow Studio
 controlled executor ready
 Agent executor ready
 autonomous workflow editing ready
+production-ready external app support
 distributed workflow engine ready
 enterprise auth/OAuth/SSO ready
+enterprise auth ready
+multi-tenant control plane ready
+OAuth ready
+SSO ready
 ```

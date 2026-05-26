@@ -1,0 +1,557 @@
+[
+  {
+    "method": "GET",
+    "pathname": "/",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/assets/index-BfhPre61.js",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/assets/index-BbBidPW-.css",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/versions",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/status",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/board",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/canvas-projection",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/stations/sr_b8c8fc537b3a/outputs",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/approvals",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/quality",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/context",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/node-catalog",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/patches",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/session",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/interaction-state",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/suggestions",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/action-proposals",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/operation-evidence",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/governance-review",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_2900c9e13ed4/diff",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/events/subscribe",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/status",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/board",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/canvas-projection",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/approvals",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/quality",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/context",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/versions",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/patches",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_2900c9e13ed4/diff",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/session",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/interaction-state",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/suggestions",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/action-proposals",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/operation-evidence",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/governance-review",
+    "postData": null
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/messages",
+    "postData": "{\"content\":\"帮我创建一个工作流，读取 Desktop/技术分享 文件夹，递归解析里面的 md 文件，并为每个子文件夹生成单独总结，最后生成总览总结。\",\"created_by\":\"workflow_console\",\"selected_station_id\":\"station_a\",\"selected_station_name\":\"Collect Input\"}"
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/stations/sr_b8c8fc537b3a/outputs",
+    "postData": null
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/proposals",
+    "postData": "{\"folder_path\":\"Desktop/技术分享\",\"source\":\"workflow_console\"}"
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/status",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/board",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/canvas-projection",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/approvals",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/quality",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/context",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/versions",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/patches",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_2900c9e13ed4/diff",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/session",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/interaction-state",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/suggestions",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/action-proposals",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/operation-evidence",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/governance-review",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/stations/sr_b8c8fc537b3a/outputs",
+    "postData": null
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_d660ee4b35b5/apply",
+    "postData": "{\"user_confirmed\":true,\"source\":\"editing_panel\"}"
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/authorize",
+    "postData": "{\"folder_path\":\"Desktop/技术分享\",\"user_confirmed\":true,\"source\":\"folder_input_inspector\"}"
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/debug-scan",
+    "postData": "{\"authorization_id\":\"folder_auth_e7d6ca486d56\"}"
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_d660ee4b35b5/publish",
+    "postData": "{\"user_confirmed\":true,\"source\":\"editing_panel\"}"
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_d660ee4b35b5/start-local-workflow",
+    "postData": "{\"authorization_id\":\"folder_auth_e7d6ca486d56\",\"user_confirmed\":true,\"source\":\"run_panel\"}"
+  },
+  {
+    "method": "GET",
+    "pathname": "/",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/assets/index-BfhPre61.js",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/assets/index-BbBidPW-.css",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/versions",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/status",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/board",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/canvas-projection",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/stations/sr_b8c8fc537b3a/outputs",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/approvals",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/quality",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/context",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/node-catalog",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/patches",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/session",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/interaction-state",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/suggestions",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/action-proposals",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/operation-evidence",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/governance-review",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_2900c9e13ed4/diff",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_33938cb2f056",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/events/subscribe",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/status",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/board",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/canvas-projection",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/approvals",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/quality",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/context",
+    "postData": null
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/proposals",
+    "postData": "{\"folder_path\":\"tests/fixtures/desktop/技术分享_损坏\",\"source\":\"workflow_console\"}"
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/versions",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/patches",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_2900c9e13ed4/diff",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/session",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/interaction-state",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/suggestions",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/action-proposals",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/operation-evidence",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/agent/governance-review",
+    "postData": null
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/authorize",
+    "postData": "{\"folder_path\":\"tests/fixtures/desktop/技术分享_损坏\",\"user_confirmed\":true,\"source\":\"folder_input_inspector\"}"
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_21d3f9a630ad/stations/sr_b8c8fc537b3a/outputs",
+    "postData": null
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_3e47cfc679ef/apply",
+    "postData": "{\"authorization_id\":\"folder_auth_8e07c3119ff6\",\"user_confirmed\":true,\"source\":\"editing_panel\"}"
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_3e47cfc679ef/publish",
+    "postData": "{\"user_confirmed\":true,\"source\":\"editing_panel\"}"
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_3e47cfc679ef/start-local-workflow",
+    "postData": "{\"authorization_id\":\"folder_auth_8e07c3119ff6\",\"user_confirmed\":true,\"source\":\"run_panel\"}"
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_b16251b0dbb2/rerun-node",
+    "postData": "{\"station_id\":\"markdown_parse\",\"user_confirmed\":true,\"source\":\"run_panel\"}"
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_b16251b0dbb2/agent-debug-proposal",
+    "postData": "{\"requested_change\":\"empty_folder_placeholder_summary\"}"
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_b16251b0dbb2/operation-evidence",
+    "postData": null
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_b16251b0dbb2/governance-review",
+    "postData": null
+  }
+]

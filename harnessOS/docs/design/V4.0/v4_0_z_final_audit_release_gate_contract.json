@@ -1,0 +1,57 @@
+{
+  "stage": "V4.0-Z",
+  "contract_type": "final_audit_release_gate",
+  "runtime_enabled": false,
+  "production_ready_enabled": false,
+  "allowed_stage_claim": "V4.0-Z complete: V4.0 final audit package ready for review.",
+  "allowed_final_claim": "V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.",
+  "completed_stage_claims": [
+    "V4.0-O complete: governed canvas proposal workflow ready for expanded dev/local Workflow Console validation.",
+    "V4.0-P complete: AgentTalkWindow interaction E2E baseline ready for dev/local Workflow Console validation.",
+    "V4.0-Q complete: controlled executor design gate ready for review.",
+    "V4.0-R complete: production readiness preflight ready for review.",
+    "V4.0-S complete: production auth and tenant boundary follow-up design ready for review.",
+    "V4.0-T complete: production token lifecycle follow-up design ready for review.",
+    "V4.0-U complete: production secret management follow-up design ready for review.",
+    "V4.0-V complete: production observability and audit retention follow-up design ready for review.",
+    "V4.0-W complete: external app production onboarding follow-up design ready for review.",
+    "V4.0-X complete: production readiness consolidation gate ready for implementation review.",
+    "V4.0-Y complete: controlled executor implementation gate ready for review.",
+    "V4.0-Z complete: V4.0 final audit package ready for review."
+  ],
+  "forbidden_claims": [
+    "production-ready external app support",
+    "enterprise auth ready",
+    "multi-tenant control plane ready",
+    "OAuth ready",
+    "SSO ready",
+    "controlled executor ready",
+    "Agent executor ready",
+    "autonomous workflow editing ready",
+    "complete Workflow Studio ready",
+    "complete AgentTalkWindow ready",
+    "full low-code canvas editing ready"
+  ],
+  "final_result": {
+    "governed_dev_local_workflow_console_ready": true,
+    "production_readiness_design_gates_ready_for_review": true,
+    "production_ready": false,
+    "enterprise_auth_ready": false,
+    "multi_tenant_control_plane_ready": false,
+    "controlled_executor_ready": false,
+    "agent_executor_ready": false,
+    "complete_workflow_studio_ready": false,
+    "complete_agenttalkwindow_ready": false
+  },
+  "required_validation_commands": [
+    "./.venv/bin/python -m pytest tests/test_v4_0_*.py -q",
+    "./.venv/bin/python -m pytest tests/test_v3_6_*.py -q",
+    "./.venv/bin/python -m pytest tests/test_v3_5_*.py -q",
+    "./.venv/bin/python -m pytest -q",
+    "cd apps/workflow-console && npm test",
+    "cd apps/workflow-console && npm run build",
+    "cd apps/workflow-console && npm run test:e2e",
+    "cd sdk/typescript && npm test",
+    "xmllint --noout docs/design/V4.0/v4_0_current_gap_analysis.drawio"
+  ]
+}

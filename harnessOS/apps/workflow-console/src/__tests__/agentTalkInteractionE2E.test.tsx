@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -60,6 +61,21 @@ test("AgentTalk shell renders interaction state stale guard and evidence navigat
   for (const forbidden of ["自动应用", "自动发布", "已帮你修改并发布", "Agent 已执行", "Agent 已发布"]) {
     assert(!html.includes(forbidden), `${forbidden} appeared in AgentTalk interaction UI`);
   }
+});
+
+test("Canvas Copilot renders proposal results inline and keeps terminal-style input behavior", () => {
+  const html = renderToStaticMarkup(
+    <AgentTalkShell session={session} interactionState={interactionState} actionProposals={[proposal]} events={[]} />,
+  );
+  const source = readFileSync("src/components/AgentTalkShell.tsx", "utf8");
+
+  assert(html.includes("Canvas Copilot"));
+  assert(html.includes("agent-proposal-result-message"));
+  assert(html.includes("Proposal Result"));
+  assert(html.includes("workflow.patch.propose"));
+  assert(source.includes("function handleInputKeyDown"));
+  assert(source.includes("event.key !== \"Enter\" || event.shiftKey"));
+  assert(source.includes("event.preventDefault()"));
 });
 
 test("AgentTalk client exposes interaction state route without direct core calls", async () => {

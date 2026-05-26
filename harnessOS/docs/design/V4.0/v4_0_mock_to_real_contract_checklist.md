@@ -1,6 +1,6 @@
 # V4.0 Mock-to-Real Contract Checklist
 
-文档状态：V4.0-N complete checklist；V4.0-O planned updates。每个 V4.0 UI mock 字段都必须落入本表结构，不允许把 mock schema 直接提升为 runtime contract。
+文档状态：V4.0-Z complete checklist。每个 V4.0 UI mock 字段都必须落入本表结构，不允许把 mock schema 直接提升为 runtime contract。
 
 ## Required Table Shape
 
@@ -45,6 +45,8 @@
 | Governance Review | operation evidence list | V4.0 BFF/UI layer | `/bff/instances/{id}/agent/operation-evidence` | BFF-local dev/local only | no | possible redacted resource refs | yes | V4.0-M |
 | Governance Review | evidence detail | V4.0 BFF/UI layer | `/bff/instances/{id}/agent/operation-evidence/{evidence_id}` | BFF-local dev/local only | no | possible redacted runtime refs | yes | V4.0-M |
 | Governance Review | governance summary | V4.0 BFF/UI layer | `/bff/instances/{id}/agent/governance-review` | derived read model | no | possible redacted audit refs | yes | V4.0-M |
+| Executor Design Gate | policy / capability / sandbox contract | V4.0 design audit artifact | `v4_0_q_controlled_executor_design_gate_contract.json` | docs only | no | no raw payload | yes | V4.0-Q |
+| Production Readiness Preflight | production gap register | V4.0 design audit artifact | `v4_0_r_production_readiness_preflight_contract.json` | docs only | no | possible evidence labels only | yes | V4.0-R |
 | Side Panel | panel collapsed | UI-only transient | none | local UI only | no | no | no | never persisted |
 | Side Panel | side panel width | UI-only transient | none | local UI only | no | no | no | never persisted |
 | Tabs | active tab | UI-only transient | none | local UI only | no | no | no | never persisted |
@@ -77,3 +79,17 @@ future
 - V4.0-N CanvasDraftProjection is a UI-only read model derived from WorkflowDraft/WorkflowTemplate, BoardDTO/InstanceStatusDTO and PatchDiffDTO. It must not include persisted layout state, secrets, raw trace payload, raw artifact content or raw connector payload.
 - V4.0-O PatchQueueDTO, projection freshness markers and catalog version mismatch state remain BFF/UI read models. They must not write WorkflowTemplate, WorkflowDraft, WorkflowVersion or WorkflowStore directly.
 - V4.0-O proposal payloads must reject `x/y/zoom/viewport/selectedNode/panelCollapsed/activeTab`, token fields, Authorization, raw trace payload, raw artifact content and raw connector payload.
+- V4.0-Q controlled executor design gate contract is docs-only and must not become runtime configuration, executor allowlist, BFF route, or frontend executable control.
+- V4.0-R production readiness preflight contract is docs-only and must not become production auth, OAuth/SSO, tenant admin, token rotation/revocation, quota, audit export, or production onboarding implementation.
+- V4.0-S production auth / tenant boundary design contract is docs-only and must not become production auth middleware, OAuth/SSO/OIDC/SAML route, login callback, tenant control plane, token rotation/revocation, V3.6 runtime contract, or frontend production-ready UI.
+## V4.0-Z Final Audit Update
+
+T-Z add design contracts only. They do not promote token lifecycle, secret management, observability, audit export, external app onboarding, production auth, tenant control plane, or executor fields into V3.6 runtime contracts.
+
+Allowed final claim:
+
+```text
+V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.
+```
+
+No False Green: mock-to-real coverage still forbids turning UI-only/design-gate objects into runtime truth. 不能声明 production-ready external app support, enterprise auth ready, multi-tenant control plane ready, controlled executor ready, complete Workflow Studio ready, or complete AgentTalkWindow ready.

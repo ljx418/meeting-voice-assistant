@@ -197,6 +197,87 @@ export interface CanvasDraftProjection {
   redaction_status: "redacted";
 }
 
+export interface FolderSummaryAuthorization {
+  authorization_id: string;
+  requested_path: string;
+  resolved_path_label: string;
+  allowed_root: string;
+  status: string;
+  created_at: string;
+  expires_at: string;
+  redaction_status: "redacted";
+}
+
+export interface FolderSummaryScanResult {
+  folder_tree: Array<{ path: string; kind: "file" | "folder" }>;
+  total_file_count: number;
+  markdown_file_count: number;
+  child_folder_count: number;
+  unsupported_file_count: number;
+  unsupported_files: string[];
+  empty_folders: string[];
+  redaction_status: "redacted";
+}
+
+export interface FolderSummaryProposal {
+  proposal_id: string;
+  workflow_template_id: string;
+  workflow_draft_id: string;
+  workflow_instance_id?: string | null;
+  draft_revision: number;
+  status: "proposed" | "applied" | "published" | "completed" | "failed";
+  requested_path: string;
+  nodes: Array<{ station_id: string; name: string; status: string }>;
+  edges: Array<{ edge_id: string; from_station_id: string; to_station_id: string }>;
+  risk_flags: string[];
+  requires_user_confirmation: boolean;
+  created_at: string;
+  updated_at: string;
+  redaction_status: "redacted";
+}
+
+export interface FolderSummaryArtifact {
+  artifact_id: string;
+  name: string;
+  kind: string;
+  content: string;
+  metadata?: Record<string, unknown>;
+  redaction_status: "redacted";
+}
+
+export interface FolderSummaryQualityReport {
+  status: string;
+  summary_coverage: { expected_folder_count: number; generated_summary_count: number };
+  unsupported_files: string[];
+  empty_folders: string[];
+  markdown_file_count: number;
+  child_folder_count: number;
+  redaction_status: "redacted";
+}
+
+export interface FolderSummaryNodeAttempt {
+  attempt_id: string;
+  attempt: number;
+  status: string;
+  created_at: string;
+  error?: string | null;
+}
+
+export interface FolderSummaryRun {
+  workflow_instance_id: string;
+  proposal_id: string;
+  authorization_id: string;
+  status: string;
+  nodes: Array<{ station_id: string; name: string; status: string; updated_at: string; error?: string | null; attempts?: FolderSummaryNodeAttempt[] }>;
+  artifacts: FolderSummaryArtifact[];
+  quality_report: FolderSummaryQualityReport;
+  operation_evidence?: OperationEvidenceRecord[];
+  governance_review?: GovernanceReviewSummary;
+  created_at: string;
+  updated_at: string;
+  redaction_status: "redacted";
+}
+
 export interface NodeAddIntent {
   source: "canvas";
   intent_type: "node_add";

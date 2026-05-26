@@ -1,6 +1,6 @@
 # harnessOS V4.0 Target Architecture: Workflow Console Platform
 
-文档状态：V4.0 target architecture planning baseline；V3.6-J Dummy Pipeline E2E / V4.0 Gate 已通过，V4.0-L Agent handoff lifecycle baseline 已完成。本文定义 Workflow Console / Studio / AgentTalkWindow 目标架构，不代表 complete Workflow Studio、complete AgentTalkWindow、controlled executor ready 或 Agent executor ready。
+文档状态：V4.0 target architecture planning baseline；V3.6-J Dummy Pipeline E2E / V4.0 Gate 已通过，V4.0-Z Final Audit / Release Gate 已完成。本文定义 Workflow Console / Studio / AgentTalkWindow 目标架构，不代表 complete Workflow Studio、complete AgentTalkWindow、controlled executor ready、Agent executor ready、enterprise auth ready、OAuth ready、SSO ready、multi-tenant control plane ready 或 production-ready external app support。
 
 当前进展、核心差距、阶段路线图和验收状态以 `v4_0_current_gap_analysis.md` 与 `v4_0_current_gap_analysis.drawio` 为最高优先级维护入口。本文只保留目标架构解释，不替代 gap 文件对。
 
@@ -19,7 +19,7 @@ V4.0 的目标不是单一新增一个视频产品，而是把 harnessOS 演进�
 
 V4.0 正式 UI 主开发不能直接从 mock schema 起步。它必须消费已经通过 V3.6-J gate 的 Workflow Runtime Contract、Pipeline Board API、WorkflowPatch、QualityEvaluation、Business Event 和 Dummy Pipeline E2E 结果。
 
-截至 V4.0-L，Workflow Console 已具备 read/event bridge、operation panels、browser smoke、governed editing hardening、canvas/Inspector patch proposal bridge、stateful Agent assistant baseline、Agent action proposal governance、AgentActionHandoff 到用户确认 operation panels 的安全交接，以及 handoff lifecycle / audit / URL recovery / stale guard。Agent 仍只是 proposal / handoff generator，不是 executor。
+截至 V4.0-Z，Workflow Console 已具备 read/event bridge、operation panels、browser smoke、governed editing hardening、canvas/Inspector patch proposal bridge、stateful Agent assistant baseline、Agent action proposal governance、AgentActionHandoff 到用户确认 operation panels 的安全交接、handoff lifecycle / audit / URL recovery / stale guard、operation evidence / governance review、canvas proposal workflow、AgentTalk interaction E2E、controlled executor design gate、production readiness preflight、production auth / tenant boundary follow-up design、token lifecycle design、secret management design、observability / audit retention design、external app onboarding design、production readiness consolidation gate、controlled executor implementation gate 和 final audit package。Agent 仍只是 proposal / handoff generator，不是 executor；Z 也不是 production auth、OAuth/SSO、tenant control plane、controlled executor 或 production-ready implementation。
 
 ## 2. 目标能力
 
@@ -299,3 +299,14 @@ autonomous workflow editing ready
 production workflow automation ready
 distributed workflow engine ready
 ```
+## V4.0-Z Final Audit Update
+
+V4.0-Z closes the current V4.0 audit package at the design-gate level:
+
+```text
+V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.
+```
+
+This target architecture remains an implementation review input, not a production implementation claim. Production auth, tenant control plane, token lifecycle runtime, production secret manager, observability platform, audit export, external app production onboarding, controlled executor, Agent executor, complete Workflow Studio, and complete AgentTalkWindow remain future work.
+
+No False Green: V4.0-Z 不能声明 production-ready external app support, enterprise auth ready, multi-tenant control plane ready, OAuth ready, SSO ready, controlled executor ready, Agent executor ready, autonomous workflow editing ready, complete Workflow Studio ready, complete AgentTalkWindow ready, or full low-code canvas editing ready.

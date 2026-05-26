@@ -86,6 +86,53 @@ def test_suggest_patch_handoff_opens_panel_without_applying_patch(monkeypatch, t
     assert_no_forbidden_text({"handoff": handoff, "diff": diff})
 
 
+def test_canvas_chatbot_adds_controlled_approval_node_as_proposal_only(monkeypatch, tmp_path) -> None:
+    client, seeded = _client(monkeypatch, tmp_path, "v4_p_canvas_chatbot_approval")
+    instance_id = seeded["instance"]["workflow_instance_id"]
+    template_id = seeded["template"]["workflow_template_id"]
+
+    before_board = client.get(f"/bff/instances/{instance_id}/board{SCOPE_QUERY}").json()
+    response = client.post(
+        f"/bff/instances/{instance_id}/agent/messages{SCOPE_QUERY}",
+        json={"content": "给这个工作流增加一个人工审批节点", "selected_station_id": "station_b"},
+    ).json()
+    proposals = client.get(f"/bff/instances/{instance_id}/agent/action-proposals{SCOPE_QUERY}").json()
+    proposal = next(item for item in proposals if item["title"] == "生成节点调整建议")
+    diff = client.get(f"/bff/instances/{instance_id}/patches/{proposal['workflow_patch_id']}/diff{SCOPE_QUERY}").json()
+    after_board = client.get(f"/bff/instances/{instance_id}/board{SCOPE_QUERY}").json()
+    patch_queue = client.get(f"/bff/workflows/{template_id}/patches{SCOPE_QUERY}&workflow_instance_id={instance_id}").json()
+
+    assert response["messages"][-1]["content"].startswith("我已生成一个新增画布节点")
+    assert proposal["title"] == "生成节点调整建议"
+    assert diff["operation"] == "add_station"
+    assert "人工审批" in str(diff)
+    assert before_board["stations"] == after_board["stations"]
+    assert any(item["patch_id"] == proposal["workflow_patch_id"] and item["status"] == "proposed" for item in patch_queue)
+    assert_no_forbidden_text({"response": response, "proposal": proposal, "diff": diff})
+
+
+def test_canvas_chatbot_updates_selected_node_prompt_as_proposal_only(monkeypatch, tmp_path) -> None:
+    client, seeded = _client(monkeypatch, tmp_path, "v4_p_canvas_chatbot_prompt")
+    instance_id = seeded["instance"]["workflow_instance_id"]
+
+    before_board = client.get(f"/bff/instances/{instance_id}/board{SCOPE_QUERY}").json()
+    response = client.post(
+        f"/bff/instances/{instance_id}/agent/messages{SCOPE_QUERY}",
+        json={"content": "优化当前节点 Prompt，增强角色一致性", "selected_station_id": "station_b", "selected_station_name": "Storyboard"},
+    ).json()
+    proposals = client.get(f"/bff/instances/{instance_id}/agent/action-proposals{SCOPE_QUERY}").json()
+    proposal = next(item for item in proposals if item["title"] == "生成 Prompt 调整建议")
+    diff = client.get(f"/bff/instances/{instance_id}/patches/{proposal['workflow_patch_id']}/diff{SCOPE_QUERY}").json()
+    after_board = client.get(f"/bff/instances/{instance_id}/board{SCOPE_QUERY}").json()
+
+    assert "Prompt Patch proposal" in response["messages"][-1]["content"]
+    assert proposal["title"] == "生成 Prompt 调整建议"
+    assert diff["operation"] == "update_station_prompt"
+    assert "station_b" in str(diff)
+    assert before_board["stations"] == after_board["stations"]
+    assert_no_forbidden_text({"response": response, "proposal": proposal, "diff": diff})
+
+
 def test_dismissed_proposal_and_agent_source_mutation_are_blocked(monkeypatch, tmp_path) -> None:
     client, seeded = _client(monkeypatch, tmp_path, "v4_p_stale_guards")
     instance_id = seeded["instance"]["workflow_instance_id"]

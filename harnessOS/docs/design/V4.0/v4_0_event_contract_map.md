@@ -1,6 +1,6 @@
 # V4.0 Event Contract Map
 
-文档状态：V4.0-N complete；V4.0-O planned。本文定义 V4.0 UI 可以消费的事件边界；当前 Workflow Console 已通过 BFF EventBridge proxy 接入真实 SSE replay/follow 路径，demo event feed 仅在显式 fixture mode 下使用。
+文档状态：V4.0-Z complete。本文定义 V4.0 UI 可以消费的事件边界；当前 Workflow Console 已通过 BFF EventBridge proxy 接入真实 SSE replay/follow 路径，demo event feed 仅在显式 fixture mode 下使用。V4.0-Z 不新增 production auth、tenant、OAuth/SSO、token lifecycle、secret、observability、external app onboarding 或 executor runtime event。
 
 ## Consumption Path
 
@@ -44,7 +44,13 @@ V4.0-M complete：operation evidence / governance review 不新增 runtime Event
 
 V4.0-N complete：CanvasDraftProjection 不新增 runtime EventBridge event。EventBridge 仍只触发 refresh，UI 必须重新拉 `/bff/instances/{id}/canvas-projection`、board/status 和 patch DTO，不得从 event payload 构造 canvas truth。
 
-V4.0-O planned：PatchQueueDTO、projection freshness、catalog versioning、Inspector mapping V2 和 edge validation V2 不新增 runtime EventBridge event。EventBridge 仍只触发 refresh，UI 必须重新拉 canvas projection、patch queue、catalog、board/status 和 diff DTO，不得从 event payload 构造 patch queue truth、catalog truth、edge truth 或 evidence truth。Browser smoke 必须继续使用 fake event payload 验证 UI 不采信事件中的伪造 draft_revision、station、edge、patch_status 或 evidence 字段。
+V4.0-O complete：PatchQueueDTO、projection freshness、catalog versioning、Inspector mapping V2 和 edge validation V2 不新增 runtime EventBridge event。EventBridge 仍只触发 refresh，UI 必须重新拉 canvas projection、patch queue、catalog、board/status 和 diff DTO，不得从 event payload 构造 patch queue truth、catalog truth、edge truth 或 evidence truth。Browser smoke 必须继续使用 fake event payload 验证 UI 不采信事件中的伪造 draft_revision、station、edge、patch_status 或 evidence 字段。
+
+V4.0-Q complete：Controlled Executor Design Gate 不新增 executor event。EventBridge payload 不得构造 executor truth、agent action truth、patch truth、approval truth、evidence truth、board/status truth 或 context truth。
+
+V4.0-R complete：Production Readiness Preflight 不新增 production readiness event。Auth/tenant/token/observability/external-app production gaps 只记录在机器可读 preflight contract 和文档中，不从 event payload 构造 production readiness truth。
+
+V4.0-S complete：Production Auth / Tenant Boundary Follow-up Design 不新增 auth、tenant、OAuth、SSO、OIDC、SAML、login callback、token lifecycle 或 control-plane event。Identity matrix、tenant isolation matrix、OAuth / SSO gap 和 capability token binding 只记录在机器可读设计合同和文档中，不从 event payload 构造 auth truth、tenant truth、token truth 或 executor truth。
 
 | Event | Channel | Source | V4.0 Usage | First UI Phase |
 | --- | --- | --- | --- | --- |
@@ -92,4 +98,15 @@ V4.0-F 仍不把 `quality.evaluated` 作为 live 出门条件；browser smoke �
 
 V4.0-I 仍不把 `quality.evaluated` 作为 live 出门条件；Agent assistant 只通过 board/quality/context/patch DTO 展示摘要，不以 quality event payload 构造状态。
 
-V4.0-O 仍不新增 canvas collaboration、catalog update 或 patch queue runtime event。若未来需要 live catalog/collaboration event，必须先补 EVENT_SCHEMAS、SSE tests、BFF DTO redaction 和本文件更新。
+V4.0-O/R/S 仍不新增 canvas collaboration、catalog update、patch queue runtime event、production readiness runtime event 或 auth/tenant runtime event。若未来需要 live catalog/collaboration/production-readiness/auth/tenant event，必须先补 EVENT_SCHEMAS、SSE tests、BFF DTO redaction 和本文件更新。
+## V4.0-Z Final Audit Update
+
+V4.0-Z does not change EventBridge semantics. EventBridge still only triggers refresh and must not construct canvas truth, AgentTalk truth, token truth, secret truth, executor truth, evidence truth, board/status truth, or production tenant/auth truth from event payload.
+
+Allowed final claim:
+
+```text
+V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.
+```
+
+No False Green: event coverage remains a dev/local Workflow Console and design-gate baseline. 不能声明 production-ready external app support, enterprise auth ready, multi-tenant control plane ready, controlled executor ready, or Agent executor ready.

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>V4.1 Stitch Prototype Screenshot Review</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 24px;
+        color: #172033;
+        background: #f6f8fb;
+        font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 28px 0 12px;
+        font-size: 18px;
+      }
+      p {
+        margin: 0 0 16px;
+        color: #526173;
+        line-height: 1.7;
+      }
+      .notice {
+        margin-bottom: 20px;
+        padding: 12px 14px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+        color: #1e3a8a;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 18px;
+      }
+      .figure {
+        margin: 0;
+        padding: 12px;
+        border: 1px solid #d9e2ec;
+        border-radius: 8px;
+        background: #fff;
+      }
+      img {
+        display: block;
+        width: 100%;
+        border: 1px solid #e5eaf0;
+        border-radius: 6px;
+      }
+      .figcaption {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .meta {
+        margin-top: 4px;
+        font-size: 12px;
+        font-weight: 400;
+        color: #64748b;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>V4.1 Stitch Prototype Screenshot Review</h1>
+    <p>本地预览清单，用于检查我对 Stitch 0.x / V4.1 原型图的理解是否有偏差。</p>
+    <div class="notice">
+      本页面只用于前端交互审查。截图来自 Stitch MCP 暴露的浅色原型图，不代表运行时能力已经完成。
+    </div>
+
+    <h2>0.x 全局基础图</h2>
+    <div class="grid">
+      <div class="figure">
+        <img src="00-design-system-overview.png" alt="00 Design System Overview" />
+        <div class="figcaption">00-Design-System-Overview</div>
+        <div class="meta">浅色设计系统、密度、状态色、工作台语气。</div>
+      </div>
+      <div class="figure">
+        <img src="01-workflow-studio-base-layout.png" alt="01 Workflow Studio Base Layout" />
+        <div class="figcaption">01-Workflow-Studio-Base-Layout</div>
+        <div class="meta">Top Bar / Node Library / Canvas / Agent Inspector / Run Panel 五区布局。</div>
+      </div>
+      <div class="figure">
+        <img src="02-workflow-studio-overview.png" alt="Workflow Studio Overview" />
+        <div class="figcaption">V4.x / Workflow Studio Overview Reference</div>
+        <div class="meta">场景入口和工作台定位参考，不能替代 V4.1 主流程。</div>
+      </div>
+    </div>
+
+    <h2>V4.1 主流程图</h2>
+    <div class="grid">
+      <div class="figure">
+        <img src="v4-1-00-workflow-studio-home.png" alt="V4.1 Workflow Studio Home" />
+        <div class="figcaption">V4.1-00-Workflow-Studio-Home</div>
+        <div class="meta">本地知识工作流首屏，画布优先。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-01-agent-create-draft.png" alt="V4.1 Agent Create Draft" />
+        <div class="figcaption">V4.1-01-Agent-Create-Draft</div>
+        <div class="meta">用户在 Agent 助手输入自然语言需求。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-02-agent-draft-proposal.png" alt="V4.1 Agent Draft Proposal" />
+        <div class="figcaption">V4.1-02-Agent-Draft-Proposal</div>
+        <div class="meta">Agent 只生成 proposal，画布显示 pending / ghost 节点。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-03-patch-diff-review.png" alt="V4.1 Patch Diff Review" />
+        <div class="figcaption">V4.1-03-Patch-Diff-Review</div>
+        <div class="meta">用户查看 Diff，确认节点、边和风险。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-04-apply-confirmation.png" alt="V4.1 Apply Confirmation" />
+        <div class="figcaption">V4.1-04-Apply-Confirmation</div>
+        <div class="meta">应用到草稿必须用户确认，不能由 Agent 自动执行。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-05-draft-applied-canvas.png" alt="V4.1 Draft Applied Canvas" />
+        <div class="figcaption">V4.1-05-Draft-Applied-Canvas</div>
+        <div class="meta">草稿应用后正式节点出现在画布。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-06-folder-input-inspector.png" alt="V4.1 Folder Input Inspector" />
+        <div class="figcaption">V4.1-06-Folder-Input-Inspector</div>
+        <div class="meta">右侧 Inspector 配置 Desktop/技术分享 或 fixture 路径。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-07-folder-authorization.png" alt="V4.1 Folder Authorization" />
+        <div class="figcaption">V4.1-07-Folder-Authorization</div>
+        <div class="meta">显式授权读取，本地文件不能由浏览器直接读取。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-08-debug-scan-result.png" alt="V4.1 Debug Scan Result" />
+        <div class="figcaption">V4.1-08-Debug-Scan-Result</div>
+        <div class="meta">调试扫描只显示树和统计，不生成总结。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-09-publish-version-confirm.png" alt="V4.1 Publish Version Confirm" />
+        <div class="figcaption">V4.1-09-Publish-Version-Confirm</div>
+        <div class="meta">发布版本需要用户确认。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-10-run-workflow-confirm.png" alt="V4.1 Run Workflow Confirm" />
+        <div class="figcaption">V4.1-10-Run-Workflow-Confirm</div>
+        <div class="meta">运行工作流需要用户确认。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-11-run-board-in-progress.png" alt="V4.1 Run Board In Progress" />
+        <div class="figcaption">V4.1-11-Run-Board-In-Progress</div>
+        <div class="meta">底部运行看板展示 9 个节点逐步执行。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-12-run-completed-artifacts.png" alt="V4.1 Run Completed Artifacts" />
+        <div class="figcaption">V4.1-12-Run-Completed-Artifacts</div>
+        <div class="meta">Artifacts 面板展示每个子文件夹总结和总览总结。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-13-quality-report.png" alt="V4.1 Quality Report" />
+        <div class="figcaption">V4.1-13-Quality-Report</div>
+        <div class="meta">质量报告记录 unsupported 文件和空文件夹。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-14-refresh-recovery.png" alt="V4.1 Refresh Recovery" />
+        <div class="figcaption">V4.1-14-Refresh-Recovery</div>
+        <div class="meta">刷新后恢复 workflow instance、状态和产物。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-15-failure-and-rerun.png" alt="V4.1 Failure And Rerun" />
+        <div class="figcaption">V4.1-15-Failure-And-Rerun</div>
+        <div class="meta">失败节点可用户确认重跑，attempt history 保留。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-16-agent-debug-fix-proposal.png" alt="V4.1 Agent Debug Fix Proposal" />
+        <div class="figcaption">V4.1-16-Agent-Debug-Fix-Proposal</div>
+        <div class="meta">Agent 调试只解释或生成修复 proposal。</div>
+      </div>
+      <div class="figure">
+        <img src="v4-1-17-governance-evidence-readonly.png" alt="V4.1 Governance Evidence ReadOnly" />
+        <div class="figcaption">V4.1-17-Governance-Evidence-ReadOnly</div>
+        <div class="meta">治理证据链只读，不显示执行类操作按钮。</div>
+      </div>
+    </div>
+  </body>
+</html>

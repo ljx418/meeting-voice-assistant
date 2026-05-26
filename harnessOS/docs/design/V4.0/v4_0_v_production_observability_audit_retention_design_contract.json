@@ -1,0 +1,80 @@
+{
+  "stage": "V4.0-V",
+  "contract_type": "production_observability_audit_retention_follow_up_design",
+  "runtime_enabled": false,
+  "production_observability_platform_enabled": false,
+  "production_audit_export_enabled": false,
+  "allowed_claim": "V4.0-V complete: production observability and audit retention follow-up design ready for review.",
+  "forbidden_implementation_routes": [
+    "/audit/export",
+    "/metrics/admin",
+    "/observability/admin",
+    "/incident/timeline",
+    "/slo",
+    "/sla"
+  ],
+  "observability_gap_matrix": [
+    {
+      "gap_id": "trace_retention",
+      "required_production_state": "tenant-scoped trace retention policy with expiry and legal hold",
+      "current_status": "dev_local_baseline",
+      "risk_level": "high",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "operation_evidence_retention",
+      "required_production_state": "append-only evidence retention with immutable retention policy",
+      "current_status": "dev_local_baseline",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "governance_review_export",
+      "required_production_state": "authorized export with redaction, scope guard, and audit",
+      "current_status": "gap_only",
+      "risk_level": "high",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "security_audit_log",
+      "required_production_state": "central security audit log with actor, request, decision, and outcome",
+      "current_status": "gap_only",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "correlation_id_coverage",
+      "required_production_state": "correlation_id on every request, event, evidence, and error",
+      "current_status": "partial_dev_local",
+      "risk_level": "high",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "idempotency_key_coverage",
+      "required_production_state": "idempotency key on every mutation and future executor operation",
+      "current_status": "partial_dev_local",
+      "risk_level": "high",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "metrics_alerting",
+      "required_production_state": "production metrics, alert routing, SLO, SLA, and incident timeline",
+      "current_status": "gap_only",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "error_taxonomy",
+      "required_production_state": "stable error taxonomy mapped to customer-visible and operator-visible errors",
+      "current_status": "partial_dev_local",
+      "risk_level": "medium",
+      "blocking_for_production": true
+    }
+  ],
+  "evidence_boundary": {
+    "v4_0_m_operation_evidence_is_dev_local_baseline": true,
+    "production_audit_retention_ready": false,
+    "production_audit_export_ready": false,
+    "event_payload_builds_audit_truth": false
+  }
+}

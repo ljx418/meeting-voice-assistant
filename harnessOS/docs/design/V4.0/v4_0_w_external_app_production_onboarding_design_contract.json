@@ -1,0 +1,77 @@
+{
+  "stage": "V4.0-W",
+  "contract_type": "external_app_production_onboarding_follow_up_design",
+  "runtime_enabled": false,
+  "production_external_app_onboarding_enabled": false,
+  "tenant_provisioning_enabled": false,
+  "quota_runtime_enabled": false,
+  "allowed_claim": "V4.0-W complete: external app production onboarding follow-up design ready for review.",
+  "forbidden_implementation_routes": [
+    "/production/onboarding",
+    "/app/register",
+    "/domain/verify",
+    "/tenant/provision",
+    "/service-account",
+    "/quota",
+    "/customer/offboard",
+    "/data/export",
+    "/data/delete"
+  ],
+  "onboarding_gap_matrix": [
+    "app_registration",
+    "domain_verification",
+    "origin_allowlist_review",
+    "tenant_provisioning",
+    "service_account_lifecycle",
+    "token_rotation_revocation",
+    "sdk_versioning_policy",
+    "api_compatibility_policy",
+    "quota_rate_limit",
+    "abuse_detection",
+    "customer_offboarding",
+    "data_export_deletion",
+    "support_runbook"
+  ],
+  "gap_details": [
+    {
+      "gap_id": "app_registration",
+      "current_status": "gap_only",
+      "required_production_state": "reviewed app registration with owner, domain, workspace, and support contacts",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "domain_verification",
+      "current_status": "gap_only",
+      "required_production_state": "domain verification and origin allowlist approval workflow",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "tenant_provisioning",
+      "current_status": "gap_only",
+      "required_production_state": "tenant provisioning and workspace ownership chain",
+      "risk_level": "critical",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "quota_rate_limit",
+      "current_status": "gap_only",
+      "required_production_state": "quota, rate limit, abuse detection, and operator override policy",
+      "risk_level": "high",
+      "blocking_for_production": true
+    },
+    {
+      "gap_id": "customer_offboarding",
+      "current_status": "gap_only",
+      "required_production_state": "offboarding, data export, deletion, and support runbook",
+      "risk_level": "high",
+      "blocking_for_production": true
+    }
+  ],
+  "dev_local_boundary": {
+    "v3_5_sdk_bff_embed_is_dev_local_baseline": true,
+    "production_ready_external_app_support": false,
+    "production_customer_onboarding_ready": false
+  }
+}

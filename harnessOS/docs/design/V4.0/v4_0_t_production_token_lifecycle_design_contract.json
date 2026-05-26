@@ -1,0 +1,136 @@
+{
+  "stage": "V4.0-T",
+  "contract_type": "production_token_lifecycle_follow_up_design",
+  "runtime_enabled": false,
+  "production_token_lifecycle_implementation_enabled": false,
+  "allowed_claim": "V4.0-T complete: production token lifecycle follow-up design ready for review.",
+  "forbidden_claims": [
+    "production-ready external app support",
+    "enterprise auth ready",
+    "multi-tenant control plane ready",
+    "OAuth ready",
+    "SSO ready",
+    "token lifecycle production-ready",
+    "controlled executor ready",
+    "Agent executor ready",
+    "autonomous workflow editing ready",
+    "complete Workflow Studio ready",
+    "complete AgentTalkWindow ready",
+    "full low-code canvas editing ready"
+  ],
+  "forbidden_implementation_routes": [
+    "/token/rotate",
+    "/token/revoke",
+    "/token/refresh",
+    "/token/introspect",
+    "/token/emergency-revoke",
+    "/oauth/*",
+    "/sso/*",
+    "/oidc/*",
+    "/saml/*",
+    "/login/callback",
+    "/tenant/*",
+    "/admin/tenant/*"
+  ],
+  "token_lifecycle_matrix": [
+    {
+      "capability": "issuance",
+      "current_status": "design_gap",
+      "production_gap": "server-bound issuance, issuer audit, and workspace/tenant binding are not implemented",
+      "risk_level": "critical",
+      "blocking_for_production": true,
+      "required_controls": ["server_bound_issuance", "issuer_audit", "tenant_workspace_binding"]
+    },
+    {
+      "capability": "expiration",
+      "current_status": "design_gap",
+      "production_gap": "production TTL policy and clock-skew handling are not implemented",
+      "risk_level": "high",
+      "blocking_for_production": true,
+      "required_controls": ["ttl_policy", "clock_skew_policy", "expiry_audit"]
+    },
+    {
+      "capability": "rotation",
+      "current_status": "design_gap",
+      "production_gap": "token rotation route and staged rollover are not implemented",
+      "risk_level": "critical",
+      "blocking_for_production": true,
+      "required_controls": ["staged_rollover", "old_token_grace_window", "rotation_audit"]
+    },
+    {
+      "capability": "revocation",
+      "current_status": "design_gap",
+      "production_gap": "production revocation list and revoke route are not implemented",
+      "risk_level": "critical",
+      "blocking_for_production": true,
+      "required_controls": ["revocation_list", "revocation_propagation", "revocation_audit"]
+    },
+    {
+      "capability": "origin_binding",
+      "current_status": "design_gap",
+      "production_gap": "production origin binding policy is not implemented",
+      "risk_level": "high",
+      "blocking_for_production": true,
+      "required_controls": ["origin_allowlist", "origin_signature", "mismatch_denial"]
+    },
+    {
+      "capability": "audience_binding",
+      "current_status": "design_gap",
+      "production_gap": "audience restriction and confused-deputy mitigation are not implemented",
+      "risk_level": "high",
+      "blocking_for_production": true,
+      "required_controls": ["audience_claim", "resource_server_check", "confused_deputy_guard"]
+    },
+    {
+      "capability": "scope_binding",
+      "current_status": "design_gap",
+      "production_gap": "capability downgrade and scope narrowing lifecycle are not implemented",
+      "risk_level": "high",
+      "blocking_for_production": true,
+      "required_controls": ["least_privilege_scope", "capability_downgrade", "scope_audit"]
+    },
+    {
+      "capability": "emergency_revoke",
+      "current_status": "design_gap",
+      "production_gap": "emergency revoke and blast-radius report are not implemented",
+      "risk_level": "critical",
+      "blocking_for_production": true,
+      "required_controls": ["emergency_revoke", "blast_radius_report", "incident_linkage"]
+    },
+    {
+      "capability": "token_audit",
+      "current_status": "design_gap",
+      "production_gap": "production token issuance/use/revoke audit trail is not implemented",
+      "risk_level": "critical",
+      "blocking_for_production": true,
+      "required_controls": ["issuance_audit", "use_audit", "revocation_audit", "retention_policy"]
+    }
+  ],
+  "agent_executor_boundary": {
+    "source_agent_can_execute_mutation": false,
+    "capability_token_can_bypass_user_confirmation": false,
+    "executor_capabilities_active": false,
+    "future_executor_claims_enable_execution_in_t": false
+  },
+  "event_truth_boundary": {
+    "eventbridge_triggers_refresh_only": true,
+    "event_payload_builds_token_truth": false,
+    "fake_token_event_payload_trusted": false
+  },
+  "redaction_fields": [
+    "capability_token",
+    "subscription_token",
+    "Authorization",
+    "Bearer",
+    "secret",
+    "raw_trace_payload",
+    "raw_artifact_content",
+    "raw_connector_payload",
+    "raw prompt",
+    "upstream signed URL",
+    "refresh_token",
+    "access_token",
+    "id_token",
+    "jwt"
+  ]
+}

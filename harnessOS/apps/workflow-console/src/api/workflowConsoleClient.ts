@@ -10,6 +10,12 @@ import type {
   CanvasPatchIntent,
   CanvasDraftProjection,
   GovernanceReviewSummary,
+  FolderSummaryArtifact,
+  FolderSummaryAuthorization,
+  FolderSummaryProposal,
+  FolderSummaryQualityReport,
+  FolderSummaryRun,
+  FolderSummaryScanResult,
   NodeCatalogItem,
   OperationResult,
   OperationEvidenceRecord,
@@ -33,6 +39,83 @@ export class WorkflowConsoleClient {
 
   listWorkflows(): Promise<WorkflowSummary[]> {
     return this.get<WorkflowSummary[]>("/workflows");
+  }
+
+  createFolderSummaryProposal(payload: { folder_path: string; source: "workflow_console" }): Promise<FolderSummaryProposal> {
+    return this.post<FolderSummaryProposal>("/v4_1/folder-summary/proposals", payload);
+  }
+
+  authorizeFolderSummaryRead(payload: {
+    folder_path: string;
+    user_confirmed: true;
+    source: "workflow_console" | "folder_input_inspector";
+  }): Promise<FolderSummaryAuthorization> {
+    return this.post<FolderSummaryAuthorization>("/v4_1/folder-summary/authorize", payload);
+  }
+
+  debugFolderSummaryScan(payload: { authorization_id: string }): Promise<FolderSummaryScanResult> {
+    return this.post<FolderSummaryScanResult>("/v4_1/folder-summary/debug-scan", payload);
+  }
+
+  applyFolderSummaryProposal(
+    proposalId: string,
+    payload: { authorization_id?: string; user_confirmed: true; source: "workflow_console" | "editing_panel" },
+  ): Promise<{ operation: string; status: string; resource: FolderSummaryProposal; redaction_status: "redacted" }> {
+    return this.post<{ operation: string; status: string; resource: FolderSummaryProposal; redaction_status: "redacted" }>(
+      `/v4_1/folder-summary/proposals/${encodeURIComponent(proposalId)}/apply`,
+      payload,
+    );
+  }
+
+  publishFolderSummaryProposal(
+    proposalId: string,
+    payload: { user_confirmed: true; source: "workflow_console" | "editing_panel" },
+  ): Promise<{ operation: string; status: string; resource: FolderSummaryProposal; redaction_status: "redacted" }> {
+    return this.post<{ operation: string; status: string; resource: FolderSummaryProposal; redaction_status: "redacted" }>(
+      `/v4_1/folder-summary/proposals/${encodeURIComponent(proposalId)}/publish`,
+      payload,
+    );
+  }
+
+  runFolderSummaryWorkflow(
+    proposalId: string,
+    payload: { authorization_id: string; user_confirmed: true; source: "workflow_console" | "run_panel" },
+  ): Promise<FolderSummaryRun> {
+    return this.post<FolderSummaryRun>(`/v4_1/folder-summary/proposals/${encodeURIComponent(proposalId)}/start-local-workflow`, payload);
+  }
+
+  getFolderSummaryInstance(instanceId: string): Promise<FolderSummaryRun> {
+    return this.get<FolderSummaryRun>(`/v4_1/folder-summary/instances/${encodeURIComponent(instanceId)}`);
+  }
+
+  rerunFolderSummaryNode(
+    instanceId: string,
+    payload: { station_id: "markdown_parse"; user_confirmed: true; source: "run_panel" },
+  ): Promise<FolderSummaryRun> {
+    return this.post<FolderSummaryRun>(`/v4_1/folder-summary/instances/${encodeURIComponent(instanceId)}/rerun-node`, payload);
+  }
+
+  createFolderSummaryAgentDebugProposal(instanceId: string, payload: { requested_change: string }): Promise<Record<string, unknown>> {
+    return this.post<Record<string, unknown>>(
+      `/v4_1/folder-summary/instances/${encodeURIComponent(instanceId)}/agent-debug-proposal`,
+      payload,
+    );
+  }
+
+  listFolderSummaryOperationEvidence(instanceId: string): Promise<OperationEvidenceRecord[]> {
+    return this.get<OperationEvidenceRecord[]>(`/v4_1/folder-summary/instances/${encodeURIComponent(instanceId)}/operation-evidence`);
+  }
+
+  getFolderSummaryGovernanceReview(instanceId: string): Promise<GovernanceReviewSummary> {
+    return this.get<GovernanceReviewSummary>(`/v4_1/folder-summary/instances/${encodeURIComponent(instanceId)}/governance-review`);
+  }
+
+  listFolderSummaryArtifacts(instanceId: string): Promise<FolderSummaryArtifact[]> {
+    return this.get<FolderSummaryArtifact[]>(`/v4_1/folder-summary/instances/${encodeURIComponent(instanceId)}/artifacts`);
+  }
+
+  getFolderSummaryQualityReport(instanceId: string): Promise<FolderSummaryQualityReport> {
+    return this.get<FolderSummaryQualityReport>(`/v4_1/folder-summary/instances/${encodeURIComponent(instanceId)}/quality-report`);
   }
 
   getWorkflow(templateId: string): Promise<WorkflowSummary> {
@@ -187,7 +270,17 @@ export class WorkflowConsoleClient {
     return this.get<AgentTalkInteractionState>(`/instances/${encodeURIComponent(instanceId)}/agent/interaction-state`);
   }
 
-  sendAgentMessage(instanceId: string, payload: { content: string; created_by?: string }): Promise<AgentTalkSession> {
+  sendAgentMessage(
+    instanceId: string,
+    payload: {
+      content: string;
+      created_by?: string;
+      selected_station_id?: string;
+      selected_station_name?: string;
+      target_station_id?: string;
+      target_station_name?: string;
+    },
+  ): Promise<AgentTalkSession> {
     return this.post<AgentTalkSession>(`/instances/${encodeURIComponent(instanceId)}/agent/messages`, payload);
   }
 

@@ -1,6 +1,6 @@
 # V4.0 Stitch Prototype Mapping
 
-文档状态：V4.0-N complete + V4.0-O planned。本文把 Stitch 原型和 PRD v0.2 中的主要 UI 区域映射到 V3.6 API、V4.0 BFF read model 或 UI-only transient state，并记录当前 `apps/workflow-console` 对 “harnessOS Workflow Studio + Agent 工作流助手” 的实现状态。
+文档状态：V4.0-Z complete mapping。本文把 Stitch 原型和 PRD v0.2 中的主要 UI 区域映射到 V3.6 API、V4.0 BFF read model 或 UI-only transient state，并记录当前 `apps/workflow-console` 对 “harnessOS Workflow Studio + Agent 工作流助手” 的实现状态；不代表 complete Workflow Studio、complete AgentTalkWindow、controlled executor 或 production-ready support。
 
 原型来源：
 
@@ -26,7 +26,7 @@ https://stitch.withgoogle.com/projects/10240451325799222489
 
 ## Current Implementation Snapshot
 
-当前 `apps/workflow-console` 已按 Stitch 方向完成一版 low-code shell，并在 V4.0-N 后具备 controlled catalog、CanvasDraftProjection、node/edge/Inspector proposal flow 和 layout boundary：
+当前 `apps/workflow-console` 已按 Stitch 方向完成一版 low-code shell，并在 V4.0-Z final audit 中确认具备 controlled catalog、CanvasDraftProjection、node/edge/Inspector proposal flow、layout boundary、governed proposal workflow 和 AgentTalk interaction E2E baseline：
 
 ```text
 Top bar:
