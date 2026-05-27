@@ -14,18 +14,28 @@ const SENSITIVE_TEXT = [
 test("governed patch apply and publish browser smoke", async ({ page }) => {
   const browserRequests: string[] = [];
   const bffResponses: string[] = [];
+  const responseReads: Promise<void>[] = [];
   page.on("request", (request) => {
     const url = new URL(request.url());
     browserRequests.push(url.pathname);
   });
-  page.on("response", async (response) => {
+  page.on("response", (response) => {
     const url = new URL(response.url());
     if (!url.pathname.startsWith("/bff/")) {
       return;
     }
     const contentType = response.headers()["content-type"] || "";
     if (contentType.includes("application/json")) {
-      bffResponses.push(await response.text());
+      responseReads.push(
+        response
+          .text()
+          .then((text) => {
+            bffResponses.push(text);
+          })
+          .catch(() => {
+            // Some browser responses may be disposed by navigation; redaction checks use successfully captured payloads.
+          }),
+      );
     }
   });
   page.on("dialog", async (dialog) => {
@@ -59,7 +69,7 @@ test("governed patch apply and publish browser smoke", async ({ page }) => {
     await expect(page.getByTestId("patch-status")).toHaveText("applied", { timeout: 7000 });
   }
 
-  const publishVersion = `2.0.${Date.now() % 100000}`;
+  const publishVersion = `2.0.${Date.now()}`;
   await page.getByTestId("publish-version-input").fill(publishVersion);
   const publishResponse = page.waitForResponse((response) =>
     response.url().includes(`/bff/workflows/${health.workflow_template_id}/publish`) &&
@@ -82,6 +92,7 @@ test("governed patch apply and publish browser smoke", async ({ page }) => {
   expect(browserRequests).not.toContain("/v1/events/subscribe");
   const bodyText = (await page.locator("body").textContent()) || "";
   const html = await page.content();
+  await Promise.all(responseReads);
   for (const value of SENSITIVE_TEXT) {
     expect(bodyText).not.toContain(value);
     expect(html).not.toContain(value);

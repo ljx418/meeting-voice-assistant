@@ -6,6 +6,13 @@ export interface WorkflowHeaderProps {
   instances: WorkflowInstanceSummary[];
   status: WorkflowStatus;
   activeTopTab?: "workflows" | "nodes" | "agents" | "logs";
+  displayWorkflowName?: string;
+  displayVersionLabel?: string;
+  scenarioStatusLabel?: string;
+  onPrimaryAction?: () => void;
+  onSecondaryAction?: () => void;
+  primaryActionLabel?: string;
+  secondaryActionLabel?: string;
   selectedWorkflowId: string;
   selectedVersionId: string;
   selectedInstanceId: string;
@@ -21,6 +28,13 @@ export function WorkflowHeader({
   instances,
   status,
   activeTopTab = "workflows",
+  displayWorkflowName,
+  displayVersionLabel,
+  scenarioStatusLabel,
+  onPrimaryAction,
+  onSecondaryAction,
+  primaryActionLabel = "继续下一步",
+  secondaryActionLabel = "查看产物",
   selectedWorkflowId,
   selectedVersionId,
   selectedInstanceId,
@@ -62,8 +76,8 @@ export function WorkflowHeader({
         ))}
       </nav>
       <div className="workflow-title-block">
-        <strong>{selectedWorkflow?.name || "技术分享资料递归总结工作流"}</strong>
-        <span>{selectedVersion?.version || "Draft rev. 2"}</span>
+        <strong>{displayWorkflowName || selectedWorkflow?.name || "技术分享资料递归总结工作流"}</strong>
+        <span>{displayVersionLabel || selectedVersion?.version || "Draft rev. 2"}</span>
       </div>
       <label className="toolbar-field sr-field">
         工作流
@@ -95,11 +109,10 @@ export function WorkflowHeader({
           ))}
         </select>
       </label>
-      <span className="status status-compact" data-testid="workflow-status">草稿 · {status.status}</span>
+      <span className="status status-compact" data-testid="workflow-status">{scenarioStatusLabel || `草稿 · ${status.status}`}</span>
       <div className="header-actions" aria-label="工作流操作">
-        <button type="button" disabled title="V4.0 当前只支持受治理 proposal 和用户确认路径，完整草稿保存是后续能力。">保存草稿（后续）</button>
-        <button type="button" disabled title="运行测试必须走用户确认的 V4.1 本地工作流路径；顶部快捷入口是后续能力。">调试运行（后续）</button>
-        <button type="button" disabled title="发布必须走 Patch apply 后的 governed publish path；顶部快捷发布是后续能力。">发布版本（后续）</button>
+        <button className="header-primary-action" type="button" onClick={onPrimaryAction}>{primaryActionLabel}</button>
+        <button type="button" onClick={onSecondaryAction}>{secondaryActionLabel}</button>
         <label className="header-search">
           <span className="sr-only">搜索</span>
           <input placeholder="搜索" />

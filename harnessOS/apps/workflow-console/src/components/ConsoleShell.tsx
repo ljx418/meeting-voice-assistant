@@ -122,6 +122,7 @@ export interface ConsoleShellProps {
 type RightTab = "agent" | "inspector" | "patch";
 type BottomTab = "run" | "events" | "trace" | "artifacts" | "quality" | "approvals" | "context" | "patch" | "governance";
 type TopTab = "workflows" | "nodes" | "agents" | "logs";
+type FolderSummaryStage = "draft" | "review" | "apply" | "authorize" | "scan" | "publish" | "run" | "artifacts" | "quality" | "governance";
 
 interface CanvasNodeData extends Record<string, unknown> {
   label: string;
@@ -145,6 +146,10 @@ interface CanvasEdgeData extends Record<string, unknown> {
 export function ConsoleShell(props: ConsoleShellProps) {
   const nodeCatalog = props.nodeCatalog?.length ? props.nodeCatalog : fallbackCatalog();
   const hasFolderSummaryState = Boolean(props.folderSummaryProposal || props.folderSummaryAuthorization || props.folderSummaryScan || props.folderSummaryRun);
+  const folderStage = deriveFolderSummaryStage(props.folderSummaryProposal, props.folderSummaryAuthorization, props.folderSummaryScan, props.folderSummaryRun);
+  const folderCanvasStations = buildFolderSummaryCanvasStations(props.folderSummaryProposal, props.folderSummaryRun);
+  const visibleCanvasStations = folderCanvasStations || projectStationsForV41Scenario(props.board.stations);
+  const visibleBoard = { ...props.board, stations: visibleCanvasStations };
   const [nodeSearch, setNodeSearch] = useState("");
   const [topTab, setTopTab] = useState<TopTab>("workflows");
   const [rightTab, setRightTab] = useState<RightTab>(() => (hasFolderSummaryState ? "inspector" : "agent"));
@@ -159,12 +164,9 @@ export function ConsoleShell(props: ConsoleShellProps) {
   const [operationMessage, setOperationMessage] = useState("");
   const [activeHandoff, setActiveHandoff] = useState<AgentActionHandoff | null>(props.activeAgentHandoff || null);
 
-  const selectedStation = props.board.stations.find((station) => station.station.station_id === selectedStationId) || props.board.stations[0];
+  const selectedStation = visibleCanvasStations.find((station) => station.station.station_id === selectedStationId) || visibleCanvasStations[0] || props.board.stations[0];
   const selectedRun = selectedStation?.runs[0];
-  const folderGhostNodes =
-    props.folderSummaryProposal && props.folderSummaryProposal.status === "proposed"
-      ? props.folderSummaryProposal.nodes.map((node) => ({ id: `v41_${node.station_id}`, label: node.name }))
-      : [];
+  const folderGhostNodes: Array<{ id: string; label: string; uiPosition?: XYPosition }> = [];
   const ghostNodes = [...localGhostNodes, ...folderGhostNodes];
 
   useEffect(() => {
@@ -252,6 +254,78 @@ export function ConsoleShell(props: ConsoleShellProps) {
     await props.onProposeCanvasPatch?.(buildInspectorPromptIntent(selectedStation.station.station_id, inspectorPrompt.trim(), props.selectedInstanceId));
   }
 
+  function showFolderSummaryPatchReview() {
+    setRightCollapsed(false);
+    setRightTab("inspector");
+    setBottomCollapsed(false);
+    setBottomTab("patch");
+    setOperationMessage("请在右侧查看工作流草案，确认后应用到草稿。");
+  }
+
+  function focusFolderSummaryStep(stage: FolderSummaryStage) {
+    if (stage === "draft") {
+      setRightCollapsed(false);
+      setRightTab("agent");
+      setBottomCollapsed(true);
+      return;
+    }
+    if (stage === "review") {
+      showFolderSummaryPatchReview();
+      return;
+    }
+    if (stage === "apply" || stage === "authorize" || stage === "scan" || stage === "publish" || stage === "run") {
+      setRightCollapsed(false);
+      setRightTab("inspector");
+      setBottomCollapsed(stage !== "run");
+      setBottomTab(stage === "run" ? "run" : "patch");
+      return;
+    }
+    setRightCollapsed(true);
+    setBottomCollapsed(false);
+    setBottomTab(stage);
+  }
+
+  async function runPrimaryFolderSummaryAction() {
+    try {
+      if (folderStage === "draft") {
+        setRightCollapsed(false);
+        setRightTab("agent");
+        setBottomCollapsed(true);
+        setOperationMessage("请在 Agent 助手中发送自然语言需求，系统只会生成草案。");
+        return;
+      }
+      if (folderStage === "review") {
+        showFolderSummaryPatchReview();
+        return;
+      }
+      if (folderStage === "apply") {
+        await props.onApplyFolderSummaryProposal?.(props.folderSummaryProposal?.proposal_id);
+        return;
+      }
+      if (folderStage === "authorize") {
+        await props.onAuthorizeFolderSummaryRead?.(folderPath);
+        return;
+      }
+      if (folderStage === "scan") {
+        await props.onDebugFolderSummaryScan?.();
+        return;
+      }
+      if (folderStage === "publish") {
+        await props.onPublishFolderSummaryProposal?.(props.folderSummaryProposal?.proposal_id);
+        return;
+      }
+      if (folderStage === "run") {
+        setBottomCollapsed(false);
+        setBottomTab("run");
+        await props.onRunFolderSummaryWorkflow?.(props.folderSummaryProposal?.proposal_id);
+        return;
+      }
+      focusFolderSummaryStep(folderStage);
+    } catch (caught) {
+      setOperationMessage(caught instanceof Error ? caught.message : "操作失败，请检查当前步骤。");
+    }
+  }
+
   return (
     <div className="studio-shell" data-testid="workflow-console">
       <WorkflowHeader
@@ -260,6 +334,13 @@ export function ConsoleShell(props: ConsoleShellProps) {
         instances={props.instances}
         status={props.status}
         activeTopTab={topTab}
+        displayWorkflowName="技术分享资料递归总结工作流"
+        displayVersionLabel={folderHeaderVersionLabel(props.folderSummaryProposal)}
+        scenarioStatusLabel={`${folderStageLabel(folderStage)} · ${props.status.status}`}
+        primaryActionLabel={folderPrimaryActionLabel(folderStage)}
+        secondaryActionLabel="查看结果"
+        onPrimaryAction={() => void runPrimaryFolderSummaryAction()}
+        onSecondaryAction={() => focusFolderSummaryStep(props.folderSummaryRun ? "artifacts" : "review")}
         selectedWorkflowId={props.selectedWorkflowId}
         selectedVersionId={props.selectedVersionId}
         selectedInstanceId={props.selectedInstanceId}
@@ -297,6 +378,15 @@ export function ConsoleShell(props: ConsoleShellProps) {
         onInstanceChange={props.onInstanceChange}
       />
       <main className={`studio-main ${bottomCollapsed ? "bottom-is-collapsed" : ""} ${leftCollapsed ? "left-is-collapsed" : ""} ${rightCollapsed ? "right-is-collapsed" : ""}`}>
+        <FolderSummaryStepper
+          stage={folderStage}
+          proposal={props.folderSummaryProposal}
+          authorization={props.folderSummaryAuthorization}
+          scan={props.folderSummaryScan}
+          run={props.folderSummaryRun}
+          onPrimary={() => void runPrimaryFolderSummaryAction()}
+          onStepSelect={focusFolderSummaryStep}
+        />
         {leftCollapsed ? (
           <CollapsedSideRail
             side="left"
@@ -315,8 +405,9 @@ export function ConsoleShell(props: ConsoleShellProps) {
           />
         )}
         <WorkflowCanvas
-          stations={props.board.stations}
+          stations={visibleCanvasStations}
           ghostNodes={ghostNodes}
+          scenarioEmpty={!hasFolderSummaryState}
           selectedStationId={selectedStation?.station.station_id}
           onEdgeProposal={proposeEdgeAdd}
           onNodeDrop={(nodeId, uiPosition) => void proposeNodeAdd(nodeId, uiPosition)}
@@ -440,7 +531,7 @@ export function ConsoleShell(props: ConsoleShellProps) {
       <RunBottomPanel
         activeTab={bottomTab}
         approvals={props.approvals || props.board.approvals || []}
-        board={props.board}
+        board={visibleBoard}
         context={props.context}
         eventState={props.eventState}
         events={props.events}
@@ -509,6 +600,58 @@ function CollapsedBottomRail({ activeTab, onExpand }: { activeTab: BottomTab; on
   );
 }
 
+function FolderSummaryStepper({
+  authorization,
+  onPrimary,
+  onStepSelect,
+  proposal,
+  run,
+  scan,
+  stage,
+}: {
+  authorization?: FolderSummaryAuthorization | null;
+  onPrimary: () => void;
+  onStepSelect: (stage: FolderSummaryStage) => void;
+  proposal?: FolderSummaryProposal | null;
+  run?: FolderSummaryRun | null;
+  scan?: FolderSummaryScanResult | null;
+  stage: FolderSummaryStage;
+}) {
+  const steps: Array<{ id: FolderSummaryStage; label: string; detail: string; complete: boolean }> = [
+    { id: "draft", label: "生成草案", detail: "Agent 只生成 proposal", complete: Boolean(proposal) },
+    { id: "review", label: "查看 Diff", detail: "审查 9 节点计划", complete: Boolean(proposal && proposal.status !== "proposed") },
+    { id: "apply", label: "应用草稿", detail: "用户确认写入草稿", complete: Boolean(proposal && proposal.status !== "proposed") },
+    { id: "authorize", label: "授权读取", detail: authorization ? "已授权本地 fixture" : "等待用户授权", complete: Boolean(authorization) },
+    { id: "scan", label: "调试扫描", detail: scan ? `${scan.markdown_file_count} 个 Markdown` : "只预览，不生成总结", complete: Boolean(scan) },
+    { id: "publish", label: "发布版本", detail: "用户确认发布", complete: Boolean(proposal && ["published", "completed"].includes(proposal.status)) },
+    { id: "run", label: "运行工作流", detail: run ? "WorkflowInstance 已创建" : "等待用户运行", complete: Boolean(run) },
+    { id: "artifacts", label: "查看产物", detail: run ? `${run.artifacts.length} 个产物` : "等待运行完成", complete: Boolean(run?.artifacts.length) },
+    { id: "quality", label: "质量检查", detail: run?.quality_report.status || "等待质量报告", complete: Boolean(run?.quality_report) },
+    { id: "governance", label: "审计证据", detail: "证据已留痕", complete: Boolean(run?.operation_evidence?.length || run?.governance_review) },
+  ];
+  return (
+    <section className="v41-stepper-card" aria-label="V4.1 本地知识工作流步骤" data-testid="v41-scenario-stepper">
+      <div className="v41-stepper-head">
+        <div>
+          <span className="eyebrow">V4.1 Local Knowledge Workflow</span>
+          <h2>Desktop/技术分享 递归总结</h2>
+          <p>Agent 生成草案，用户确认后授权、发布并运行；浏览器只访问 BFF。</p>
+        </div>
+        <button className="primary" data-testid="v41-next-action" type="button" onClick={onPrimary}>{folderPrimaryActionLabel(stage)}</button>
+      </div>
+      <div className="v41-step-list">
+        {steps.map((item) => (
+          <button className={`${item.id === stage ? "active" : ""} ${item.complete ? "complete" : ""}`} data-testid={`v41-step-${item.id}`} key={item.id} type="button" onClick={() => onStepSelect(item.id)}>
+            <span>{item.complete ? "✓" : steps.findIndex((step) => step.id === item.id) + 1}</span>
+            <strong>{item.label}</strong>
+            <small>{item.detail}</small>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function NodeLibraryPanel({
   catalog,
   nodeSearch,
@@ -532,7 +675,7 @@ function NodeLibraryPanel({
   const hasMatch = visibleSections.some((section) => section.nodes.length);
   const categories = ["全部", ...sections.map((section) => section.title)];
   const quickNodes = catalog
-    .filter((node) => node.label.includes("角色一致性检查"))
+    .filter((node) => ["文件夹输入", "递归文件扫描", "Markdown 文件过滤", "子文件夹总结 Agent"].includes(node.label))
     .map((node) => ({ id: node.id, label: node.label, description: node.station_kind || "BFF 受控节点", badge: node.catalog_version }));
   return (
     <aside className="studio-left" aria-label="节点库">
@@ -574,6 +717,7 @@ function NodeLibraryPanel({
         ))}
       </div>
       <button className="custom-node-button" type="button" onClick={onCreateCustom}>+ 自定义节点</button>
+      {operationMessage ? <p className="operation-message node-operation-message">{operationMessage}</p> : null}
       {!hasMatch && nodeSearch ? <p className="operation-message node-empty-message">没有匹配节点，请调整搜索词。</p> : null}
       <div className="node-section-list">
         {visibleSections.map((section) => (
@@ -599,7 +743,6 @@ function NodeLibraryPanel({
           </section>
         ))}
       </div>
-      {operationMessage ? <p className="operation-message">{operationMessage}</p> : null}
     </aside>
   );
 }
@@ -607,6 +750,7 @@ function NodeLibraryPanel({
 function WorkflowCanvas({
   stations,
   ghostNodes,
+  scenarioEmpty,
   selectedStationId,
   onEdgeProposal,
   onNodeDrop,
@@ -614,6 +758,7 @@ function WorkflowCanvas({
 }: {
   stations: WorkflowBoard["stations"];
   ghostNodes: Array<{ id: string; label: string; uiPosition?: XYPosition }>;
+  scenarioEmpty: boolean;
   selectedStationId?: string;
   onEdgeProposal: (fromStationId: string, toStationId: string) => void;
   onNodeDrop: (nodeId: string, uiPosition?: XYPosition) => void;
@@ -628,7 +773,7 @@ function WorkflowCanvas({
     const stationNodes = stations.map((station, index) => ({
       id: station.station.station_id,
       type: "workflowNode",
-      position: nodePositions[station.station.station_id] || { x: 292 + (index % 3) * 194, y: 86 + Math.floor(index / 3) * 146 },
+      position: nodePositions[station.station.station_id] || { x: 292 + (index % 3) * 194, y: 190 + Math.floor(index / 3) * 146 },
       data: {
         label: station.station.name || station.station.station_id,
         role: station.station.role || "station",
@@ -638,6 +783,7 @@ function WorkflowCanvas({
         artifactName: station.output_artifacts?.[0]?.name || station.runs[0]?.output_artifacts?.[0]?.name || "待生成",
         attemptCount: station.runs?.length || 0,
         qualityState: station.status === "failed" ? "需检查" : station.status === "completed" ? "通过" : "待评估",
+        ghost: statusKey(station.status) === "pending-proposal",
         selected: selectedStationId === station.station.station_id,
         onSelect: onSelectStation,
       },
@@ -645,7 +791,7 @@ function WorkflowCanvas({
     const pendingNodes = ghostNodes.map((ghost, index) => ({
       id: ghost.id,
       type: "workflowNode",
-      position: nodePositions[ghost.id] || ghost.uiPosition || { x: 292 + (index % 3) * 194, y: 86 + Math.floor(index / 3) * 146 },
+      position: nodePositions[ghost.id] || ghost.uiPosition || { x: 292 + (index % 3) * 194, y: 190 + Math.floor(index / 3) * 146 },
       data: {
         label: ghost.label,
         role: "pending",
@@ -710,6 +856,19 @@ function WorkflowCanvas({
         </div>
       </header>
       <div className="canvas-surface">
+        {scenarioEmpty ? (
+          <div className="canvas-empty-guide" data-testid="v41-scenario-empty">
+            <span className="canvas-empty-icon">流</span>
+            <h3>从一句话创建本地知识总结工作流</h3>
+            <p>在右侧 Agent 助手输入需求后，画布会先出现 9 个待确认节点。Apply 前不会扫描文件夹，也不会修改草稿。</p>
+            <ol>
+              <li>读取 Desktop/技术分享</li>
+              <li>递归扫描 Markdown 文件</li>
+              <li>为每个子文件夹生成单独总结</li>
+              <li>生成总览总结和质量报告</li>
+            </ol>
+          </div>
+        ) : null}
         {supportsInteractiveCanvas ? (
           <ReactFlowProvider>
             <WorkflowFlow
@@ -1164,7 +1323,7 @@ function nodeSections(catalog: NodeCatalogItem[], search: string) {
     .map((item) => ({ id: item.id, label: item.label, description: item.station_kind || "BFF 受控节点", badge: item.catalog_version }))
     .filter((node) => (normalizedSearch ? node.label.toLowerCase().includes(normalizedSearch) : true));
   return additionalNodes.length
-    ? [{ title: "BFF 受控节点", ids: [], fallback: [], description: "来自 BFF controlled catalog", badge: "BFF", nodes: additionalNodes }, ...groupedSections]
+    ? [...groupedSections, { title: "更多受控节点", ids: [], fallback: [], description: "来自 BFF controlled catalog", badge: "BFF", nodes: additionalNodes }]
     : groupedSections;
 }
 
@@ -1202,6 +1361,152 @@ function statusLabel(status: string): string {
 
 function statusKey(status: string): string {
   return status.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "unknown";
+}
+
+function deriveFolderSummaryStage(
+  proposal?: FolderSummaryProposal | null,
+  authorization?: FolderSummaryAuthorization | null,
+  scan?: FolderSummaryScanResult | null,
+  run?: FolderSummaryRun | null,
+): FolderSummaryStage {
+  if (run?.quality_report) return "artifacts";
+  if (proposal?.status === "published") return "run";
+  if (proposal?.status === "applied" && scan) return "publish";
+  if (proposal?.status === "applied" && authorization) return "scan";
+  if (proposal?.status === "applied") return "authorize";
+  if (proposal?.status === "proposed") return "review";
+  return "draft";
+}
+
+function folderPrimaryActionLabel(stage: FolderSummaryStage): string {
+  const labels: Record<FolderSummaryStage, string> = {
+    draft: "让 Agent 生成草案",
+    review: "查看 Diff",
+    apply: "应用到草稿",
+    authorize: "授权读取",
+    scan: "调试扫描",
+    publish: "发布版本",
+    run: "运行工作流",
+    artifacts: "查看产物",
+    quality: "查看质量",
+    governance: "查看审计",
+  };
+  return labels[stage];
+}
+
+function folderStageLabel(stage: FolderSummaryStage): string {
+  const labels: Record<FolderSummaryStage, string> = {
+    draft: "等待生成草案",
+    review: "草案待审查",
+    apply: "等待应用草稿",
+    authorize: "等待授权读取",
+    scan: "等待调试扫描",
+    publish: "等待发布版本",
+    run: "等待运行",
+    artifacts: "运行完成",
+    quality: "质量报告可查看",
+    governance: "证据链已记录",
+  };
+  return labels[stage];
+}
+
+function folderHeaderVersionLabel(proposal?: FolderSummaryProposal | null): string {
+  if (!proposal) return "V4.1 MVP · Proposal-first";
+  return `Draft rev. ${proposal.draft_revision} · ${proposal.status}`;
+}
+
+function buildFolderSummaryCanvasStations(proposal?: FolderSummaryProposal | null, run?: FolderSummaryRun | null): WorkflowBoard["stations"] | null {
+  const sourceNodes = run?.nodes.length
+    ? run.nodes.map((node) => ({
+        station_id: node.station_id,
+        name: node.name,
+        status: node.status,
+        attempts: node.attempts || [],
+        error: node.error,
+      }))
+    : proposal?.nodes.map((node) => ({
+        station_id: node.station_id,
+        name: node.name,
+        status: proposal.status === "proposed" ? "pending_proposal" : proposal.status === "applied" ? "draft_ready" : proposal.status,
+        attempts: [],
+        error: null,
+      }));
+  if (!sourceNodes?.length) return null;
+  return sourceNodes.map((node) => ({
+    station: {
+      station_id: node.station_id,
+      name: node.name,
+      role: folderNodeRole(node.station_id),
+    },
+    status: node.status,
+    runs: node.attempts.length
+      ? node.attempts.map((attempt) => ({
+          station_run_id: attempt.attempt_id,
+          station_id: node.station_id,
+          status: attempt.status,
+          output_artifacts: [],
+        }))
+      : [],
+    input_artifacts: [],
+    output_artifacts: folderNodeOutput(node.station_id),
+  }));
+}
+
+function projectStationsForV41Scenario(stations: WorkflowBoard["stations"]): WorkflowBoard["stations"] {
+  const labels = V41_FOLDER_SUMMARY_NODES;
+  return stations.map((station, index) => {
+    const planned = labels[index] || labels[labels.length - 1];
+    const shouldProjectName = isLegacyFixtureStationName(station.station.name || "");
+    return {
+      ...station,
+      station: {
+        ...station.station,
+        name: shouldProjectName ? planned.name : station.station.name,
+        role: shouldProjectName ? planned.role : station.station.role || planned.role,
+      },
+      output_artifacts: station.output_artifacts?.length ? station.output_artifacts : folderNodeOutput(planned.station_id),
+    };
+  });
+}
+
+function isLegacyFixtureStationName(name: string): boolean {
+  return ["Collect Input", "Transform Input", "Human Gate", "用户输入", "分镜生成", "分镜生成 Agent"].includes(name);
+}
+
+const V41_FOLDER_SUMMARY_NODES = [
+  { station_id: "folder_input", name: "文件夹输入", role: "Input" },
+  { station_id: "folder_scan", name: "递归文件扫描", role: "Tool" },
+  { station_id: "markdown_filter", name: "Markdown 文件过滤", role: "Tool" },
+  { station_id: "markdown_parse", name: "Markdown 内容解析", role: "Tool" },
+  { station_id: "folder_group", name: "子文件夹分组", role: "Tool" },
+  { station_id: "per_folder_summary", name: "子文件夹总结 Agent", role: "Agent" },
+  { station_id: "overview_summary", name: "总目录总结 Agent", role: "Agent" },
+  { station_id: "quality_check", name: "质量检查 Agent", role: "Reviewer" },
+  { station_id: "artifact_publish", name: "输出总结文件", role: "Output" },
+];
+
+function folderNodeRole(stationId: string): string {
+  if (stationId === "folder_input") return "Input";
+  if (["folder_scan", "markdown_filter", "markdown_parse", "folder_group"].includes(stationId)) return "Tool";
+  if (["per_folder_summary", "overview_summary"].includes(stationId)) return "Agent";
+  if (stationId === "quality_check") return "Reviewer";
+  if (stationId === "artifact_publish") return "Output";
+  return "Station";
+}
+
+function folderNodeOutput(stationId: string): Array<{ artifact_id: string; name: string }> {
+  const outputs: Record<string, string> = {
+    folder_input: "folder_ref",
+    folder_scan: "file_tree.json",
+    markdown_filter: "md_file_list.json",
+    markdown_parse: "parsed_docs.json",
+    folder_group: "grouped_docs.json",
+    per_folder_summary: "子文件夹总结",
+    overview_summary: "总览总结.md",
+    quality_check: "quality_report.json",
+    artifact_publish: "output_package",
+  };
+  return [{ artifact_id: `${stationId}_out`, name: outputs[stationId] || "待生成" }];
 }
 
 function nodeIcon(label: string): string {

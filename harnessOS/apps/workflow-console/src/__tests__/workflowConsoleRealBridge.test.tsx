@@ -71,7 +71,8 @@ test("ConsoleShell renders BFF-style real board DTO without leaking secrets", ()
     />,
   );
   assert.match(html, /真实工作流/);
-  assert.match(html, /分镜生成 Agent/);
+  assert.match(html, /技术分享资料递归总结工作流/);
+  assert.match(html, /文件夹输入/);
   assert.match(html, /事件连接：connected/);
   for (const forbidden of ["cap-token", "sub-token", "Bearer secret", "raw_trace_payload", "raw_artifact_content", "raw_connector_payload"]) {
     assert(!html.includes(forbidden), `${forbidden} leaked in real bridge render`);

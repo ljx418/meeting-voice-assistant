@@ -25,7 +25,8 @@ test("visible frontend controls provide local feedback or navigation", async ({ 
   await page.locator(".quick-prompts button", { hasText: "查看 Diff" }).click();
   await expect(page.getByTestId("editing-panel")).toBeVisible();
 
-  await expect(page.getByRole("button", { name: "保存草稿（后续）" })).toHaveAttribute("title", /后续能力/);
+  await expect(page.getByTestId("v41-scenario-stepper")).toContainText("Desktop/技术分享 递归总结");
+  await expect(page.getByTestId("v41-next-action")).toBeVisible();
   await page.getByTestId("canvas-minimap-toggle").click();
   await expect(page.locator(".react-flow__minimap")).toBeVisible();
 });

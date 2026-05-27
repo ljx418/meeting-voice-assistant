@@ -1,0 +1,132 @@
+.workflow-node-card {
+  background: var(--hos-bg-panel);
+  border: 1px solid var(--hos-border-default);
+  border-radius: var(--hos-radius-node);
+  box-shadow: var(--hos-shadow-node);
+  color: var(--hos-text-primary);
+  min-height: 132px;
+  padding: var(--hos-space-3);
+  position: relative;
+  width: 230px;
+}
+
+.workflow-node-card--selected {
+  border-color: var(--hos-accent-blue);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 14%), var(--hos-shadow-node);
+}
+
+.workflow-node-card--ghost,
+.workflow-node-card--pending {
+  border-style: dashed;
+}
+
+.workflow-node-card--running {
+  border-color: var(--hos-accent-blue);
+}
+
+.workflow-node-card--completed {
+  border-color: rgb(22 163 74 / 45%);
+}
+
+.workflow-node-card--failed {
+  border-color: rgb(220 38 38 / 55%);
+}
+
+.workflow-node-card__header {
+  align-items: flex-start;
+  display: grid;
+  gap: var(--hos-space-2);
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+}
+
+.workflow-node-card__icon {
+  align-items: center;
+  background: var(--hos-surface-running);
+  border-radius: var(--hos-radius-small);
+  color: var(--hos-accent-blue);
+  display: inline-flex;
+  font-weight: 800;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.workflow-node-card__header h3 {
+  font: 700 var(--hos-text-node-title) / var(--hos-leading-node-title) var(--hos-font-family);
+  margin: 0;
+}
+
+.workflow-node-card__header p {
+  color: var(--hos-text-muted);
+  font-size: var(--hos-text-caption);
+  line-height: var(--hos-leading-caption);
+  margin: 0;
+}
+
+.workflow-node-card__meta {
+  display: grid;
+  gap: 6px;
+  margin: var(--hos-space-3) 0;
+}
+
+.workflow-node-card__meta div {
+  align-items: center;
+  display: flex;
+  gap: var(--hos-space-2);
+  justify-content: space-between;
+}
+
+.workflow-node-card__meta dt {
+  color: var(--hos-text-muted);
+  font-size: var(--hos-text-caption);
+}
+
+.workflow-node-card__meta dd {
+  background: var(--hos-bg-subtle);
+  border-radius: var(--hos-radius-small);
+  font-family: var(--hos-font-mono);
+  font-size: var(--hos-text-mono-artifact);
+  margin: 0;
+  max-width: 150px;
+  overflow: hidden;
+  padding: 2px 6px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workflow-node-card__footer {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.workflow-node-card__footer span:last-child {
+  color: var(--hos-text-muted);
+  font-size: var(--hos-text-caption);
+}
+
+.workflow-node-card__error {
+  color: var(--hos-status-failed);
+  font-size: var(--hos-text-caption);
+  line-height: var(--hos-leading-caption);
+  margin: var(--hos-space-2) 0 0;
+}
+
+.workflow-node-card__port {
+  background: var(--hos-bg-panel);
+  border: 2px solid var(--hos-accent-blue);
+  border-radius: 50%;
+  height: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+}
+
+.workflow-node-card__port--input {
+  left: -6px;
+}
+
+.workflow-node-card__port--output {
+  right: -6px;
+}

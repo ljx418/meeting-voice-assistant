@@ -118,7 +118,8 @@ test("reference console renders real BFF DTOs and seeded PatchDiffDTO", async ()
     />,
   );
   assert.match(html, /Reference Workflow/);
-  assert.match(html, /Human Gate/);
+  assert.match(html, /技术分享资料递归总结工作流/);
+  assert.match(html, /Markdown 文件过滤/);
   assert.equal(diff.operation, "update_station_prompt");
   assert.equal(diff.redacted, true);
   assert.equal(loaded.approvals[0].approval_id, "appr_reference");

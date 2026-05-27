@@ -102,7 +102,8 @@ test("folder summary workflow renders proposal controls, ghost nodes, artifacts 
   assert.match(html, /应用到草稿/);
   assert.match(html, /发布版本/);
   assert.match(html, /运行工作流/);
-  assert.match(html, /Pending Proposal/);
+  assert.match(html, /Desktop\/技术分享 递归总结/);
+  assert.match(html, /查看产物/);
   assert.match(html, /folder_input/);
   assert.match(html, /artifact_publish/);
   assert.match(html, /AgentOS_总结.md/);

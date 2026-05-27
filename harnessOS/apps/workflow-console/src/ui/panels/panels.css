@@ -1,0 +1,117 @@
+.panel-gallery {
+  background: var(--hos-bg-page);
+  display: grid;
+  gap: var(--hos-space-4);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: 100vh;
+  padding: var(--hos-space-6);
+}
+
+.studio-right-panel {
+  min-height: 640px;
+}
+
+.assistant-boundary {
+  background: var(--hos-surface-waiting);
+  border: 1px solid rgb(124 58 237 / 18%);
+  border-radius: var(--hos-radius-panel);
+  display: grid;
+  gap: 4px;
+  padding: var(--hos-space-3);
+}
+
+.chat-stack {
+  display: grid;
+  gap: var(--hos-space-3);
+  margin: var(--hos-space-3) 0;
+}
+
+.chat-message {
+  border-radius: var(--hos-radius-panel);
+  line-height: var(--hos-leading-body);
+  padding: var(--hos-space-3);
+}
+
+.chat-message--user {
+  background: var(--hos-text-primary);
+  color: #ffffff;
+}
+
+.chat-message--agent {
+  background: var(--hos-bg-subtle);
+  color: var(--hos-text-primary);
+}
+
+.proposal-card {
+  border: 1px solid rgb(124 58 237 / 24%);
+  border-radius: var(--hos-radius-panel);
+  padding: var(--hos-space-3);
+}
+
+.proposal-card header,
+.proposal-card__actions,
+.panel-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hos-space-2);
+}
+
+.proposal-card header {
+  justify-content: space-between;
+}
+
+.assistant-input,
+.field-stack {
+  display: grid;
+  gap: var(--hos-space-2);
+}
+
+.assistant-input textarea,
+.field-stack input {
+  background: var(--hos-bg-panel);
+  border: 1px solid var(--hos-border-default);
+  border-radius: var(--hos-radius-input);
+  color: var(--hos-text-primary);
+  font: var(--hos-text-body) / var(--hos-leading-body) var(--hos-font-family);
+  min-height: 36px;
+  padding: var(--hos-space-2);
+}
+
+.assistant-input textarea {
+  min-height: 86px;
+  resize: vertical;
+}
+
+.scan-result,
+.quality-tab {
+  background: var(--hos-bg-subtle);
+  border-radius: var(--hos-radius-panel);
+  display: grid;
+  gap: var(--hos-space-2);
+  margin-top: var(--hos-space-3);
+  padding: var(--hos-space-3);
+}
+
+.metric-grid {
+  display: grid;
+  gap: var(--hos-space-2);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.clean-list {
+  display: grid;
+  gap: var(--hos-space-2);
+  margin: 0;
+  padding-left: var(--hos-space-4);
+}
+
+.bottom-run-panel {
+  height: 100%;
+}
+
+.bottom-tab-grid {
+  display: grid;
+  gap: var(--hos-space-3);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}

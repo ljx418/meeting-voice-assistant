@@ -90,12 +90,13 @@ export function AgentTalkShell({ fixture, session, interactionState, suggestions
       </div>
 
       <div className="agent-status-bar" aria-label="画布助手状态">
-        <span>当前节点：{safeText(selectedStationName || "分镜生成 Agent")}</span>
-        <span>{interactionState?.stale_reasons.length ? "存在失效选择" : visibleActionProposals.some((item) => item.workflow_patch_id) ? "Patch Proposal 已生成，等待用户确认" : "等待你的调整指令"}</span>
-        <span data-testid="agent-interaction-refresh-generation">刷新：{safeText(interactionState?.refresh_generation || "local")}</span>
+        <span>当前节点：{safeText(selectedStationName || "文件夹输入")}</span>
+        <span data-testid="agent-user-status">{interactionState?.stale_reasons.length ? "存在失效选择，已阻断继续操作" : visibleActionProposals.some((item) => item.workflow_patch_id) ? "草案已生成，等待你查看 Diff 并确认" : "等待你的自然语言需求"}</span>
+        <span data-testid="agent-interaction-refresh-generation">状态已刷新</span>
+        <span>边界：Agent 只生成建议，不会替你应用、发布或运行。</span>
         {interactionState?.stale_reasons.length ? (
           <p className="operation-message" data-testid="agent-interaction-stale-warning">
-            {safeText(`已阻断失效选择：${interactionState.stale_reasons.join(", ")}`)}
+            已阻断失效选择，请刷新后重新选择建议。
           </p>
         ) : null}
       </div>
@@ -229,7 +230,14 @@ export function AgentTalkShell({ fixture, session, interactionState, suggestions
         <summary>上下文与事件摘要</summary>
         <strong>上下文与事件摘要</strong>
         <p>事件数量：{eventCount}</p>
-        <p>业务上下文：{safeText(JSON.stringify(businessContext))}</p>
+        <p>业务上下文：{Object.keys(businessContext).length ? "已加载，可用于解释流程" : "暂无业务上下文"}</p>
+      </details>
+
+      <details className="agent-context-card agent-secondary-panel" data-testid="agent-developer-diagnostics">
+        <summary>开发诊断</summary>
+        <p>刷新代次：{safeText(interactionState?.refresh_generation || "local")}</p>
+        <p>建议数量：{visibleSuggestions.length}</p>
+        <p>Proposal 数量：{visibleActionProposals.length}</p>
       </details>
 
       <div className="agent-input-area">

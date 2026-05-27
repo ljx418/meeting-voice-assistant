@@ -1,7 +1,28 @@
 import { ConsoleShell } from "./components/ConsoleShell.js";
 import { useWorkflowConsoleData } from "./hooks/useWorkflowConsoleData.js";
+import { WorkflowStudioLayout, type VisualAcceptanceState } from "./ui/layout/WorkflowStudioLayout.js";
+
+function staticStudioState(): VisualAcceptanceState | null {
+  if (typeof window === "undefined") return null;
+  const state = new URLSearchParams(window.location.search).get("studio");
+  if (
+    state === "overview" ||
+    state === "agent-draft-proposal" ||
+    state === "folder-debug-scan" ||
+    state === "running-board" ||
+    state === "artifacts-quality" ||
+    state === "governance-evidence"
+  ) {
+    return state;
+  }
+  return null;
+}
 
 export function App() {
+  const studioState = staticStudioState();
+  if (studioState) {
+    return <WorkflowStudioLayout state={studioState} />;
+  }
   const data = useWorkflowConsoleData();
   if (data.loading) {
     return <div className="console-state" data-testid="workflow-console-loading">正在连接真实工作流数据…</div>;

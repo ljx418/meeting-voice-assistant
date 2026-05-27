@@ -1,0 +1,85 @@
+:root {
+  --hos-bg-page: #f6f8fb;
+  --hos-bg-canvas: #f8fafc;
+  --hos-bg-panel: #ffffff;
+  --hos-bg-subtle: #f1f5f9;
+
+  --hos-border-default: #d9e2ec;
+  --hos-border-strong: #b6c2d1;
+
+  --hos-text-primary: #172033;
+  --hos-text-secondary: #526173;
+  --hos-text-muted: #7b8794;
+
+  --hos-accent-blue: #2563eb;
+  --hos-accent-blue-hover: #1d4ed8;
+  --hos-accent-violet: #7c3aed;
+  --hos-accent-cyan: #0891b2;
+
+  --hos-status-pending: #64748b;
+  --hos-status-running: #2563eb;
+  --hos-status-completed: #16a34a;
+  --hos-status-failed: #dc2626;
+  --hos-status-warning: #d97706;
+  --hos-status-waiting: #9333ea;
+  --hos-status-ghost: #7c3aed;
+  --hos-status-stale: #b45309;
+
+  --hos-surface-pending: #f1f5f9;
+  --hos-surface-running: #eff6ff;
+  --hos-surface-completed: #ecfdf5;
+  --hos-surface-failed: #fef2f2;
+  --hos-surface-warning: #fffbeb;
+  --hos-surface-waiting: #f5f3ff;
+  --hos-surface-ghost: #f5f3ff;
+  --hos-surface-stale: #fff7ed;
+
+  --hos-font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --hos-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --hos-text-page-title: 20px;
+  --hos-leading-page-title: 28px;
+  --hos-text-section-title: 16px;
+  --hos-leading-section-title: 24px;
+  --hos-text-panel-title: 14px;
+  --hos-leading-panel-title: 20px;
+  --hos-text-body: 14px;
+  --hos-leading-body: 22px;
+  --hos-text-caption: 12px;
+  --hos-leading-caption: 18px;
+  --hos-text-node-title: 13px;
+  --hos-leading-node-title: 18px;
+  --hos-text-mono-artifact: 12px;
+  --hos-leading-mono-artifact: 18px;
+
+  --hos-space-1: 4px;
+  --hos-space-2: 8px;
+  --hos-space-3: 12px;
+  --hos-space-4: 16px;
+  --hos-space-5: 20px;
+  --hos-space-6: 24px;
+  --hos-space-8: 32px;
+
+  --hos-radius-small: 6px;
+  --hos-radius-panel: 8px;
+  --hos-radius-node: 8px;
+  --hos-radius-button: 6px;
+  --hos-radius-input: 6px;
+
+  --hos-shadow-panel: 0 10px 28px rgb(23 32 51 / 8%);
+  --hos-shadow-node: 0 8px 18px rgb(23 32 51 / 8%);
+  --hos-focus-ring: 0 0 0 3px rgb(37 99 235 / 18%);
+
+  --hos-topbar-height: 56px;
+  --hos-left-panel-width: 260px;
+  --hos-right-panel-width: 360px;
+  --hos-bottom-panel-height: 244px;
+  --hos-collapsed-side-width: 64px;
+  --hos-collapsed-bottom-height: 48px;
+}
+
+body {
+  background: var(--hos-bg-page);
+  color: var(--hos-text-primary);
+  font-family: var(--hos-font-family);
+}

@@ -1,0 +1,25 @@
+.workflow-canvas {
+  background: var(--hos-bg-canvas);
+  border: 1px solid var(--hos-border-default);
+  border-radius: var(--hos-radius-panel);
+  height: 100%;
+  min-height: 480px;
+  overflow: hidden;
+}
+
+.workflow-canvas .react-flow__edge-path {
+  stroke: var(--hos-accent-blue);
+  stroke-width: 2;
+}
+
+.workflow-canvas .workflow-edge--proposal .react-flow__edge-path {
+  stroke: var(--hos-accent-violet);
+  stroke-dasharray: 7 5;
+}
+
+.workflow-canvas .react-flow__controls,
+.workflow-canvas .react-flow__minimap {
+  border: 1px solid var(--hos-border-default);
+  border-radius: var(--hos-radius-panel);
+  box-shadow: var(--hos-shadow-panel);
+}

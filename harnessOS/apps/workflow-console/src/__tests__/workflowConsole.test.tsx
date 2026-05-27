@@ -63,11 +63,13 @@ test("ConsoleShell renders read-only board summaries", () => {
   assert.match(html, /节点库/);
   assert.match(html, /受控节点库生成 proposal/);
   assert.match(html, /工作流画布/);
+  assert.match(html, /Desktop\/技术分享 递归总结/);
+  assert.match(html, /让 Agent 生成草案/);
   assert.match(html, /质量检查 Agent/);
   assert.match(html, /WARNING/);
   assert.match(html, /节点配置/);
   assert.match(html, /Agent 工作流助手/);
-  assert.match(html, /Patch Proposal/);
+  assert.match(html, /proposal/i);
   assert.match(html, /前往编辑面板/);
   assert.match(html, /事件/);
   assert.match(html, /Trace/);
@@ -88,8 +90,8 @@ test("node library search and placeholder controls provide feedback", () => {
   assert(consoleSource.includes("value={nodeSearch}"));
   assert(consoleSource.includes("没有匹配节点"));
   assert(consoleSource.includes("自定义节点编辑器属于后续能力"));
-  assert(headerSource.includes("完整草稿保存是后续能力"));
-  assert(headerSource.includes("运行测试必须走用户确认的 V4.1 本地工作流路径"));
+  assert(headerSource.includes("header-primary-action"));
+  assert(headerSource.includes("primaryActionLabel"));
   assert(boardSource.includes("小地图属于后续画布布局能力"));
   assert(boardSource.includes("画布当前只生成 proposal"));
 });
@@ -156,7 +158,7 @@ test("AgentTalk shell is fixture-only and redacts timeline, patch, approval and 
   };
   const html = renderToStaticMarkup(<AgentTalkShell fixture={fixture} />);
   assert.match(html, /Agent 工作流助手/);
-  assert.match(html, /分镜生成 Agent/);
+  assert.match(html, /文件夹输入/);
   assert.match(html, /等待用户确认/);
   assert.match(html, /生成建议/);
   assert.match(html, /前往编辑面板/);

@@ -1,0 +1,134 @@
+.workflow-studio-layout {
+  background: var(--hos-bg-page);
+  display: grid;
+  grid-template-columns: var(--hos-left-panel-width) minmax(0, 1fr) var(--hos-right-panel-width);
+  grid-template-rows: var(--hos-topbar-height) minmax(0, 1fr) var(--hos-bottom-panel-height);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.studio-topbar {
+  align-items: center;
+  background: var(--hos-bg-panel);
+  border-bottom: 1px solid var(--hos-border-default);
+  display: grid;
+  gap: var(--hos-space-4);
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(260px, 1fr) auto auto;
+  padding: 0 var(--hos-space-4);
+}
+
+.studio-topbar > div:first-child {
+  display: grid;
+  gap: 2px;
+}
+
+.studio-topbar span {
+  color: var(--hos-text-secondary);
+  font-size: var(--hos-text-caption);
+}
+
+.studio-topbar__actions {
+  display: flex;
+  gap: var(--hos-space-2);
+}
+
+.left-node-library {
+  min-height: 0;
+  padding: var(--hos-space-3);
+}
+
+.workflow-studio-layout__canvas {
+  display: grid;
+  gap: var(--hos-space-2);
+  grid-template-rows: 36px minmax(0, 1fr);
+  min-height: 0;
+  padding: var(--hos-space-3) 0;
+}
+
+.workflow-studio-layout__right {
+  min-height: 0;
+  padding: var(--hos-space-3);
+}
+
+.workflow-studio-layout__bottom {
+  grid-column: 1 / -1;
+  min-height: 0;
+  padding: 0 var(--hos-space-3) var(--hos-space-3);
+}
+
+.canvas-status-strip {
+  align-items: center;
+  background: var(--hos-bg-panel);
+  border: 1px solid var(--hos-border-default);
+  border-radius: var(--hos-radius-panel);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--hos-space-3);
+}
+
+.node-library-search {
+  background: var(--hos-bg-subtle);
+  border: 1px solid var(--hos-border-default);
+  border-radius: var(--hos-radius-input);
+  color: var(--hos-text-muted);
+  margin-bottom: var(--hos-space-3);
+  padding: var(--hos-space-2);
+}
+
+.node-library-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hos-space-2);
+  margin-bottom: var(--hos-space-3);
+}
+
+.node-library-categories span {
+  background: var(--hos-bg-subtle);
+  border-radius: 999px;
+  color: var(--hos-text-secondary);
+  font-size: var(--hos-text-caption);
+  padding: 3px 8px;
+}
+
+.node-library-list {
+  display: grid;
+  gap: var(--hos-space-2);
+}
+
+.node-library-item {
+  align-items: center;
+  background: var(--hos-bg-panel);
+  border: 1px solid var(--hos-border-default);
+  border-radius: var(--hos-radius-panel);
+  display: grid;
+  gap: var(--hos-space-2);
+  grid-template-columns: 30px minmax(0, 1fr);
+  padding: var(--hos-space-2);
+}
+
+.node-library-item > span {
+  align-items: center;
+  background: var(--hos-surface-running);
+  border-radius: var(--hos-radius-small);
+  color: var(--hos-accent-blue);
+  display: inline-flex;
+  font-weight: 800;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.node-library-item strong,
+.node-library-item p {
+  display: block;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.node-library-item p {
+  color: var(--hos-text-muted);
+  font-size: var(--hos-text-caption);
+}
