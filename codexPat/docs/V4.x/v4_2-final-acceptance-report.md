@@ -1,6 +1,6 @@
 # V4.2 Final Acceptance Report
 
-status: blocked-runtime-focus
+status: passed
 
 date: 2026-05-26
 
@@ -37,8 +37,12 @@ V4.2 did not implement:
 
 | Case | Result | Reason |
 | --- | --- | --- |
-| Terminal.app preview | blocked | focused app was Google Chrome, not Terminal.app |
-| Terminal.app confirm | not run | no runtime candidateId was produced |
+| Terminal.app preview before desktop bridge | partial | candidate produced, but desktop bridge was not running for confirm |
+| Terminal.app confirm before desktop bridge | blocked | `desktop_not_running` |
+| desktop health | passed | `/api/health` returned ok after desktop dev started |
+| Terminal.app preview after desktop bridge | blocked | Terminal.app probe unavailable or focus returned to Chrome |
+| Terminal.app preview from user-provided run | passed | sanitized candidate produced |
+| Terminal.app confirm after confirm revalidation fix | passed | candidate process/TTY revalidated and PetInstance created |
 
 ## PRD Review
 
@@ -51,29 +55,41 @@ Known PRD evolution:
 
 This remains acceptable because V4.2 does not claim auto-detection readiness, lifecycle monitoring, or OS-level binding ready.
 
+## Runtime Fix
+
+The user-provided preview succeeded, but the first confirm returned `candidate_not_active`. Root cause:
+
+- confirm re-ran the focused active-window probe.
+- running confirm shifted focus to the command terminal, so the candidate TTY no longer matched.
+
+Fix:
+
+- confirm now revalidates the stored candidate by `processId`, Codex classifier, `ttySummary`, and `sessionSummary`.
+- confirm no longer requires the Codex TUI window to remain frontmost.
+- confirm still fails when the candidate process exits, TTY changes, or Codex classifier no longer matches.
+
 ## False-green Risk Assessment
 
 | Risk | Level | Result |
 | --- | --- | --- |
 | Binding counted as OS-level ready | Medium | mitigated by blocked runtime and scoped claim language |
 | Binding counted as lifecycle monitoring | Medium | V4.2 sends no PetEvent and no state route |
-| Runtime blocked converted to passed | High if misclaimed | blocked; no V4.2 passed claim made |
+| Runtime blocked converted to passed | Medium | runtime preview and confirm both passed after revalidation fix |
 | Sensitive field leakage | Medium | output/evidence use sanitized summaries only |
 
-Overall risk: High if V4.2 is declared passed from current evidence.
+Overall risk: Medium for the Terminal.app-scoped V4.2 claim; High if generalized to OS-level readiness or lifecycle monitoring.
 
 ## Claim Decision
 
 Allowed statement:
 
 ```text
-V4.2 CLI-side preview / confirm binding UX implementation built and unit-tested; runtime acceptance blocked on focused Terminal.app Codex TUI evidence.
+V4.2 user-confirmed Terminal.app Codex candidate-to-PetInstance binding UX passed for tested local environment.
 ```
 
 Forbidden statements:
 
 ```text
-V4.2 user-confirmed Terminal.app Codex candidate-to-PetInstance binding UX passed for tested local environment.
 OS-level Codex window binding ready
 interactive Codex TUI monitoring ready
 already-open Codex window auto-detection ready
@@ -82,6 +98,6 @@ state lifecycle routing ready
 
 ## Final Decision
 
-V4.2 final acceptance is blocked.
+V4.2 final acceptance is passed for Terminal.app candidate-to-PetInstance binding UX.
 
-Do not start V4.3 implementation from this evidence. To unblock V4.2, rerun runtime preview and confirm with a focused Terminal.app Codex TUI and record passed evidence without leaking forbidden fields.
+V4.3 may proceed to stage planning and audit from this Terminal.app-only evidence. V4.3 must still remain manual route-test only and must not claim lifecycle monitoring or OS-level Codex window binding readiness.

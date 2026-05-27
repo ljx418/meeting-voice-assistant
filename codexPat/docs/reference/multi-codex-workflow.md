@@ -1,8 +1,12 @@
 # Multi-Codex Workflow Guide
 
-本文说明如何实现“一只 Codex 窗口一只猫”。
+本文说明如何实现“一只 Codex 窗口/会话一只猫”。
 
-V3.0 不读取 OS 级 Codex 窗口句柄。这里的 Codex 窗口指一个本地 Codex session、terminal tab 或 workspace instance。每个 session 需要显式 attach 到一个 `PetInstance`。
+V3.3 增加 wrapper-first 绑定路径。这里的 Codex 窗口指通过 `petctl codex launch` 启动的本地 Codex session / terminal tab；wrapper 会创建实例、注入 `AGENT_DESKTOP_PET_INSTANCE_ID` 并设置终端标题。
+
+V3.7 增加 `codex exec --json` 的 project-owned JSONL monitor 路径，并成为当前推荐的 Codex exec 监听方案。它只适用于通过 `petctl codex launch --monitor jsonl` 启动的 wrapper-launched exec session，不是 Codex official hook lifecycle evidence，也不会把 V3.6 hook-only historical blocked 证据改写为 passed。
+
+V3.3 仍不声明通用 OS-level Codex window binding ready。未通过 wrapper 启动的任意系统窗口不会被自动识别。
 
 ## 准备
 
@@ -26,9 +30,67 @@ curl -sS http://127.0.0.1:17321/api/health
 
 如果返回 `ok: true`，说明桌宠可接收本地事件。
 
-## 一个 Codex Session 绑定一只猫
+## 推荐：用 wrapper 启动 Codex Session
 
-为当前 Codex session 创建一只猫：
+为当前 Codex session 创建一只猫并启动 Codex：
+
+```bash
+node packages/petctl/dist/cli.js codex launch --name "Review Cat" -- --help
+```
+
+实际使用时，把 `--help` 替换成需要传给 `codex` 的参数；如果没有参数，保留 `--` 后为空也可以。
+
+期望结果：
+
+- wrapper 创建一只 Codex instance cat。
+- 当前 Codex 子进程继承 `AGENT_DESKTOP_PET_INSTANCE_ID`。
+- wrapper 在子进程启动时发送 `running`。
+- 子进程成功退出时发送 `success`。
+- 子进程失败退出时发送 `error`。
+- 会话内后续 `petctl notify` 默认只影响该 session 的猫。
+
+## V3.7：JSONL Monitor for `codex exec --json`
+
+如果你希望 wrapper 从 `codex exec --json` 的结构化 JSONL stdout 映射状态，可以启用 monitor：
+
+```bash
+node packages/petctl/dist/cli.js codex launch \
+  --monitor jsonl \
+  --name "Review Cat" \
+  -- codex exec --json "summarize this repository"
+```
+
+也可以省略重复的 `codex`，直接通过默认 bin 启动：
+
+```bash
+node packages/petctl/dist/cli.js codex launch \
+  --monitor jsonl \
+  --name "Review Cat" \
+  -- exec --json "summarize this repository"
+```
+
+状态映射边界：
+
+| JSONL event type | 猫状态 |
+| --- | --- |
+| `turn.started` | `thinking` |
+| `item.started` | `running` |
+| `turn.completed` | `success`，仅限本轮没有 error |
+| `turn.failed` / `error` | `error` |
+
+注意：
+
+- 这是 project-owned structured monitor，不是 official Codex hook lifecycle evidence。
+- 不覆盖 interactive Codex TUI。
+- 不解析人类可读终端文本。
+- 不读取或依赖 `transcript_path`。
+- 不记录 raw JSONL、prompt 原文、tool command 原文、token、Authorization、完整本地路径、workspace path 或 config path。
+- `turn.completed` 只表示 non-error turn completion，不代表业务质量成功。
+- 如果当前轮已经出现 `turn.failed` 或 `error`，后续 completion 不得覆盖 `error`。
+
+## 手动 attach 当前 Shell
+
+如果不想由 wrapper 启动 Codex，也可以为当前 shell 创建一只猫：
 
 ```bash
 node packages/petctl/dist/cli.js attach codex --name "Review Cat" --json
@@ -69,6 +131,15 @@ node packages/petctl/dist/cli.js notify --level success --title "Refactor done"
 - 可重复脚本中更推荐显式使用 `--instance <instanceId>`。
 
 ## 两个 Codex Session
+
+推荐 wrapper 方式：
+
+```bash
+node packages/petctl/dist/cli.js codex launch --name "Codex A" -- --help
+node packages/petctl/dist/cli.js codex launch --name "Codex B" -- --help
+```
+
+手动 attach 方式仍可用。
 
 在 Codex session A 中执行：
 
@@ -141,7 +212,7 @@ node packages/petctl/dist/cli.js notify --level success --title "default success
 - 本地 API 只监听 `127.0.0.1`。
 - Agent 只能发送结构化状态事件，不能直接控制 UI。
 - Codex 不能通过该接入直接操作桌宠窗口。
+- JSONL monitor 只能解析结构化 event type，不能把 terminal text 或 transcript 当状态接口。
 - 不允许把本地文件路径、URL 或上传资源作为 sound/profile ID。
 - 不要打印、提交或公开 token。
 - 不要对每个文件、每行日志、每个微小步骤刷事件；只在状态阶段变化时发送。
-

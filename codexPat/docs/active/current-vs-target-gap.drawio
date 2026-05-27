@@ -7,7 +7,7 @@
         <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=28;fontStyle=1" value="agent-desktop-pet Current Gap: V4.x OS-level Binding Feasibility" vertex="1">
           <mxGeometry x="220" y="20" width="1760" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" value="Active line: V4.x Terminal.app scoped binding feasibility. V4.0 completed, V4.1 Terminal.app probe passed. V5.x is future renderer / asset line." vertex="1">
+        <mxCell id="subtitle" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center" value="Active line: V4.x scoped managed Codex session mapping and Terminal.app binding prototype passed. V5.x is future renderer / asset line." vertex="1">
           <mxGeometry x="290" y="85" width="1620" height="58" as="geometry" />
         </mxCell>
 
@@ -17,7 +17,7 @@
         <mxCell id="v3_base" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="V3.x Closed Baseline&lt;br&gt;&lt;br&gt;✅ scoped Codex local workflow accepted&lt;br&gt;✅ V3.7 JSONL monitor is current wrapper exec path&lt;br&gt;🛑 V3.6 hook-only historical blocked / deprecated&lt;br&gt;&lt;br&gt;Not active development." vertex="1">
           <mxGeometry x="100" y="265" width="560" height="200" as="geometry" />
         </mxCell>
-        <mxCell id="v4_active" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;align=left;spacingLeft=16;fontSize=14;fontStyle=1" value="V4.x Active Line&lt;br&gt;&lt;br&gt;V4.0 completed feasibility&lt;br&gt;V4.1 Terminal.app probe passed&lt;br&gt;&lt;br&gt;Discovery/binding is separate from state event source. Window discovery is not TUI monitoring." vertex="1">
+        <mxCell id="v4_active" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;align=left;spacingLeft=16;fontSize=14;fontStyle=1" value="V4.x Scoped Line&lt;br&gt;&lt;br&gt;V4.0 feasibility passed&lt;br&gt;V4.1 Terminal.app probe passed&lt;br&gt;V4.2 binding UX passed&lt;br&gt;V4.3 manual route-test passed&lt;br&gt;V4.4 managed exec JSONL passed&lt;br&gt;V4.5 scoped TUI hooks passed&lt;br&gt;V4.6 diagnostics passed&lt;br&gt;V4.7 status passed" vertex="1">
           <mxGeometry x="820" y="265" width="560" height="200" as="geometry" />
         </mxCell>
         <mxCell id="v5_future" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F3FF;strokeColor=#7C3AED;align=left;spacingLeft=16;fontSize=14" value="V5.x Future Line&lt;br&gt;&lt;br&gt;Cat Renderer &amp; Asset System&lt;br&gt;&lt;br&gt;3D/action assets, renderer plugin, custom packs.&lt;br&gt;&lt;br&gt;Not part of V4.x binding." vertex="1">
@@ -33,10 +33,10 @@
         <mxCell id="section_v4_gap" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=20;fontStyle=1;align=center" value="V4.x Active Gap" vertex="1">
           <mxGeometry x="70" y="545" width="2060" height="52" as="geometry" />
         </mxCell>
-        <mxCell id="gap_now" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=16;fontSize=14" value="Current&lt;br&gt;&lt;br&gt;• V3.7 remains wrapper-launched codex exec --json path&lt;br&gt;• Terminal.app Codex candidate discovery passed&lt;br&gt;• no user-confirmed binding yet&lt;br&gt;• no event source for already-running sessions&lt;br&gt;• no lifecycle event ownership proof" vertex="1">
+        <mxCell id="gap_now" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;align=left;spacingLeft=16;fontSize=14" value="Current&lt;br&gt;&lt;br&gt;• managed codex session start exec/jsonl passed&lt;br&gt;• scoped managed TUI hooks passed&lt;br&gt;• session diagnostics/status passed&lt;br&gt;• Terminal.app candidate binding passed&lt;br&gt;• no event source for arbitrary already-running sessions" vertex="1">
           <mxGeometry x="100" y="635" width="590" height="220" as="geometry" />
         </mxCell>
-        <mxCell id="gap_target" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="V4.2 / V4.3 Target&lt;br&gt;&lt;br&gt;• Terminal.app-only preview / confirm binding&lt;br&gt;• stale / TTL binding record&lt;br&gt;• manual route-test only&lt;br&gt;• no lifecycle monitoring&lt;br&gt;• no iTerm2 / all-terminal claim" vertex="1">
+        <mxCell id="gap_target" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="V4.x Passed Scope&lt;br&gt;&lt;br&gt;• Terminal.app-only preview / confirm binding&lt;br&gt;• manual route-test only&lt;br&gt;• managed exec JSONL state mapping&lt;br&gt;• scoped managed TUI hook mapping&lt;br&gt;• diagnostics and sanitized status&lt;br&gt;• no iTerm2 / all-terminal claim" vertex="1">
           <mxGeometry x="805" y="635" width="590" height="220" as="geometry" />
         </mxCell>
         <mxCell id="gap_risk" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;align=left;spacingLeft=16;fontSize=14" value="Risk / Forbidden&lt;br&gt;&lt;br&gt;• no terminal text / screen contents&lt;br&gt;• no prompt or command text&lt;br&gt;• no workspace/full local path&lt;br&gt;• no automatic silent binding&lt;br&gt;• no OS-level ready or TUI monitoring claim" vertex="1">
@@ -52,13 +52,13 @@
         <mxCell id="v41" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" value="V4.1&lt;br&gt;Terminal.app Probe Passed&lt;br&gt;&lt;br&gt;safe fields only&lt;br&gt;Terminal.app only&lt;br&gt;no binding claim" vertex="1">
           <mxGeometry x="470" y="1025" width="300" height="145" as="geometry" />
         </mxCell>
-        <mxCell id="v42" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" value="V4.2&lt;br&gt;User-confirmed Binding&lt;br&gt;&lt;br&gt;preview + confirm&lt;br&gt;stale / TTL record&lt;br&gt;no PetEvent" vertex="1">
+        <mxCell id="v42" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" value="V4.2&lt;br&gt;Binding UX Passed&lt;br&gt;&lt;br&gt;preview + confirm&lt;br&gt;stale / TTL record&lt;br&gt;no PetEvent" vertex="1">
           <mxGeometry x="840" y="1025" width="300" height="145" as="geometry" />
         </mxCell>
-        <mxCell id="v43" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" value="V4.3&lt;br&gt;Manual Route-test Only&lt;br&gt;&lt;br&gt;revalidate binding&lt;br&gt;bound pet only&lt;br&gt;not lifecycle routing" vertex="1">
+        <mxCell id="v43" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" value="V4.3&lt;br&gt;Manual Route-test Passed&lt;br&gt;&lt;br&gt;revalidate binding&lt;br&gt;bound pet only&lt;br&gt;not lifecycle routing" vertex="1">
           <mxGeometry x="1210" y="1025" width="300" height="145" as="geometry" />
         </mxCell>
-        <mxCell id="v4final" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" value="V4.x Final&lt;br&gt;Scoped Acceptance&lt;br&gt;&lt;br&gt;terminal/app/version boundary&lt;br&gt;claim scan" vertex="1">
+        <mxCell id="v4final" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=13;align=center" value="V4.x Final&lt;br&gt;Scoped Acceptance Passed&lt;br&gt;&lt;br&gt;V4.0-V4.7 evidence&lt;br&gt;claim scan&lt;br&gt;no OS-level ready" vertex="1">
           <mxGeometry x="1580" y="1025" width="300" height="145" as="geometry" />
         </mxCell>
 
@@ -68,7 +68,7 @@
         <mxCell id="v3_claims" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#059669;align=left;spacingLeft=16;fontSize=14" value="V3.x Allowed Baseline&lt;br&gt;&lt;br&gt;• V3.x scoped Codex local workflow acceptance passed&lt;br&gt;• V3.7 JSONL monitor passed for wrapper-launched codex exec --json&lt;br&gt;• V3.6 hook-only deprecated / historical blocked" vertex="1">
           <mxGeometry x="100" y="1340" width="590" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="v4_claims" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="V4.x Claims&lt;br&gt;&lt;br&gt;Allowed now: V4.0 feasibility completed; V4.1 Terminal.app safe-field probe passed.&lt;br&gt;&lt;br&gt;Future only: V4.2 binding UX, V4.3 manual route-test.&lt;br&gt;&lt;br&gt;Not ready: OS-level binding, TUI monitoring, all terminals." vertex="1">
+        <mxCell id="v4_claims" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="V4.x Claims&lt;br&gt;&lt;br&gt;Allowed now: managed exec JSONL mapping, scoped managed TUI hook mapping, diagnostics/status, and Terminal.app binding/manual route-test prototype passed.&lt;br&gt;&lt;br&gt;Not ready: OS-level binding, broad TUI monitoring, lifecycle routing from OS discovery, all terminals." vertex="1">
           <mxGeometry x="805" y="1340" width="590" height="190" as="geometry" />
         </mxCell>
         <mxCell id="v5_claims" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F3FF;strokeColor=#7C3AED;align=left;spacingLeft=16;fontSize=14" value="V5.x Future Claim&lt;br&gt;&lt;br&gt;V5.x Cat Renderer &amp; Asset System is planned.&lt;br&gt;&lt;br&gt;Not ready:&lt;br&gt;Rive / Live2D / 3D ready&lt;br&gt;custom asset pack import ready&lt;br&gt;asset marketplace ready" vertex="1">

@@ -1,6 +1,6 @@
 # V4.x Claim Matrix
 
-status: v4-1-terminal-app-passed-v4-2-planned
+status: v4-5-preflight-passed-lifecycle-pending
 
 date: 2026-05-26
 
@@ -10,6 +10,8 @@ date: 2026-05-26
 V4.0 OS-level Codex window/session binding feasibility review completed with scoped go/no-go decision.
 V4.1 macOS active window safe-field probe completed for Terminal.app on tested local environment.
 V3.7 remains the default reliable path for wrapper-launched codex exec --json monitoring.
+V4.4 managed Codex exec JSONL state mapping passed for tested local wrapper-launched scenario.
+V4.5 managed Codex TUI wrapper preflight passed; real hook lifecycle acceptance remains pending.
 ```
 
 ## Allowed Scoped Claims
@@ -38,10 +40,46 @@ V4.3, only after manual route-test evidence:
 V4.3 user-confirmed Terminal.app binding manual route-test prototype passed for tested local environment.
 ```
 
-V4.x Final, only after V4.0-V4.3 evidence closure:
+Historical V4.x Final for V4.0-V4.3 evidence closure:
 
 ```text
 V4.x Terminal.app scoped Codex candidate discovery, user-confirmed PetInstance binding, and explicit route-test prototype passed for tested local environment.
+```
+
+V4.4, only after managed session evidence:
+
+```text
+V4.4 managed Codex exec JSONL state mapping passed for tested local wrapper-launched scenario.
+```
+
+V4.5 managed TUI wrapper preflight:
+
+```text
+V4.5 managed Codex TUI wrapper preflight passed; real hook lifecycle acceptance remains pending.
+```
+
+V4.5 real managed TUI hook lifecycle, scoped to the observed local hook events after manual `/hooks` trust and real lifecycle evidence:
+
+```text
+V4.5 managed Codex TUI hook state mapping passed for UserPromptSubmit, PreToolUse, and Stop in tested local wrapper-launched scenario; PermissionRequest remains blocked by local policy.
+```
+
+V4.6, only after startup diagnostics and UX hardening evidence:
+
+```text
+V4.6 managed session startup diagnostics and UX hardening passed for tested local wrapper-launched scenarios.
+```
+
+V4.7, only after sanitized status and stale-binding diagnostics evidence:
+
+```text
+V4.7 managed session status and stale-binding diagnostics passed for tested local wrapper-launched scenarios.
+```
+
+Current V4.x Final after V4.4-V4.7:
+
+```text
+V4.x managed Codex session-to-PetInstance state mapping passed for tested local wrapper-launched exec JSONL and scoped managed TUI hook scenarios, with Terminal.app candidate binding and manual route-test prototype accepted.
 ```
 
 ## Forbidden Claims
@@ -50,6 +88,7 @@ V4.x Terminal.app scoped Codex candidate discovery, user-confirmed PetInstance b
 OS-level Codex window binding ready
 interactive Codex TUI monitoring ready
 already-open Codex window auto-detection ready
+already-open Codex window auto-monitoring ready
 state lifecycle routing ready
 lifecycle event routing from OS discovery
 all terminal apps supported
@@ -63,6 +102,9 @@ MCP ready
 Windows ready
 cross-platform ready
 production signed release ready
+V4.5 managed Codex TUI hook state mapping passed
+V4.5 managed Codex TUI lifecycle acceptance passed
+V4.5 managed Codex TUI hook state mapping passed for PermissionRequest
 ```
 
 ## Boundary Rules
@@ -79,3 +121,6 @@ production signed release ready
 - V4.x must not record prompt text, command text, shell history, clipboard contents, workspace path, full local paths, token, Authorization, raw payload, config path, or `api-token.json`.
 - If `AGENT_DESKTOP_PET_INSTANCE_ID` cannot be injected into an already-running session, V4.x must consider prompting the user to relaunch through the wrapper path.
 - V3.7 wrapper-launched JSONL monitoring remains the default reliable path but is not OS-level evidence.
+- V4.5 wrapper preflight is not real hook lifecycle evidence.
+- V4.5 real lifecycle acceptance requires `/hooks` review/trust and observed hook-to-pet state changes.
+- V4.x Final is scoped and must not be reworded into OS-level binding readiness, interactive TUI monitoring readiness, or all-workflow verification.

@@ -1,11 +1,14 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { attachCodex } from "./instances.js";
-import { runCodexProbe, type CodexProbeTerminal } from "./codex-probe.js";
+import { listInstances } from "./instances.js";
+import { notify } from "./notify.js";
+import { runCodexProbe } from "./codex-probe.js";
 import { EXIT_CODES, type CliResult } from "./output.js";
+import type { PetEventLevel } from "@agent-desktop-pet/pet-protocol";
 
 export type CodexBindPreviewOptions = {
   terminal: "terminal";
@@ -17,6 +20,17 @@ export type CodexBindPreviewOptions = {
 export type CodexBindConfirmOptions = {
   candidateId: string;
   name?: string;
+  token?: string;
+  url?: string;
+  now?: Date;
+  storePath?: string;
+  spawnImpl?: typeof spawnSync;
+  fetchImpl?: typeof fetch;
+};
+
+export type CodexRouteTestOptions = {
+  bindingId: string;
+  level: PetEventLevel;
   token?: string;
   url?: string;
   now?: Date;
@@ -55,6 +69,7 @@ type Store = {
 };
 
 const CANDIDATE_TTL_MS = 5 * 60 * 1000;
+const BINDING_TTL_MS = 60 * 60 * 1000;
 
 export async function previewCodexBinding(options: CodexBindPreviewOptions): Promise<CliResult> {
   const observedAt = options.now ?? new Date();
@@ -100,20 +115,9 @@ export async function confirmCodexBinding(options: CodexBindConfirmOptions): Pro
     return bindingFailure("candidate_expired", "candidate expired", candidate);
   }
 
-  const revalidated = await runCodexProbe({
-    terminal: "terminal" as CodexProbeTerminal,
-    spawnImpl: options.spawnImpl
-  });
-  if (!revalidated.ok || !revalidated.probe) {
+  const revalidated = revalidateCandidateProcess(candidate, options.spawnImpl ?? spawnSync);
+  if (!revalidated) {
     return bindingFailure("candidate_not_active", "candidate is not active", candidate);
-  }
-  if (!matchesCandidate(candidate, revalidated)) {
-    candidate.bindingStatus = "stale";
-    writeStore(store, options.storePath);
-    return bindingFailure("candidate_not_active", "candidate is not active", {
-      ...candidate,
-      bindingStatus: "stale"
-    });
   }
 
   const attached = await attachCodex({
@@ -130,6 +134,7 @@ export async function confirmCodexBinding(options: CodexBindConfirmOptions): Pro
     petInstanceId: attached.instanceId,
     bindingCreatedAt: now.toISOString(),
     lastValidatedAt: now.toISOString(),
+    expiresAt: new Date(now.getTime() + BINDING_TTL_MS).toISOString(),
     bindingStatus: "active"
   };
   store.bindings = [
@@ -146,6 +151,73 @@ export async function confirmCodexBinding(options: CodexBindConfirmOptions): Pro
     displayName: attached.displayName,
     windowLabel: attached.windowLabel,
     codexBinding: binding
+  };
+}
+
+export async function routeCodexBindingTest(options: CodexRouteTestOptions): Promise<CliResult> {
+  if (!isValidBindingId(options.bindingId)) {
+    return bindingFailure("binding_id_invalid", "binding id is invalid", { bindingId: options.bindingId });
+  }
+  if (!isValidLevel(options.level)) {
+    return bindingFailure("level_invalid", "level is invalid", { bindingId: options.bindingId });
+  }
+
+  const now = options.now ?? new Date();
+  const store = readStore(options.storePath);
+  const binding = store.bindings.find((item) => item.bindingId === options.bindingId);
+  if (!binding) {
+    return bindingFailure("binding_not_found", "binding not found", { bindingId: options.bindingId });
+  }
+  if (binding.terminalBundleId !== "com.apple.Terminal") {
+    return bindingFailure("terminal_mismatch", "terminal mismatch", binding);
+  }
+  if (binding.bindingStatus !== "active" || binding.expiresAt <= now.toISOString()) {
+    binding.bindingStatus = "stale";
+    writeStore(store, options.storePath);
+    return bindingFailure("binding_stale", "binding is stale", binding);
+  }
+  if (!revalidateCandidateProcess(binding, options.spawnImpl ?? spawnSync)) {
+    binding.bindingStatus = "stale";
+    writeStore(store, options.storePath);
+    return bindingFailure("candidate_not_active", "candidate is not active", binding);
+  }
+
+  const listed = await listInstances({
+    token: options.token,
+    url: options.url,
+    fetchImpl: options.fetchImpl
+  });
+  if (!listed.ok) return { ...listed, codexBinding: binding };
+  const petExists = listed.instances?.some((item) => item.instanceId === binding.petInstanceId) === true;
+  if (!petExists) {
+    return bindingFailure("pet_instance_not_found", "pet instance not found", binding);
+  }
+
+  const routed = await notify({
+    token: options.token,
+    url: options.url,
+    instance: binding.petInstanceId,
+    fetchImpl: options.fetchImpl,
+    event: {
+      source: { id: "codex.local", kind: "codex", name: "Codex" },
+      level: options.level,
+      title: "Codex manual route test",
+      sound: "none",
+      metadata: {
+        codexBinding: "terminal-app-manual-route-test",
+        bindingId: binding.bindingId,
+        routeTest: "true",
+        lifecycleEvidence: "false"
+      }
+    }
+  });
+  return {
+    ...routed,
+    instanceId: binding.petInstanceId,
+    codexBinding: {
+      ...binding,
+      lastValidatedAt: now.toISOString()
+    }
   };
 }
 
@@ -178,16 +250,30 @@ function candidateFromProbe(result: CliResult, observedAt: Date): SafeCandidate 
   };
 }
 
-function matchesCandidate(candidate: SafeCandidate, result: CliResult) {
-  const probe = result.probe;
-  return Boolean(
-    probe &&
-    probe.terminalBundleId === candidate.terminalBundleId &&
-    probe.processId === candidate.processId &&
-    probe.processName === candidate.processName &&
-    probe.ttySummary === candidate.ttySummary &&
-    probe.sessionSummary === candidate.sessionSummary
-  );
+function revalidateCandidateProcess(candidate: SafeCandidate, spawnImpl: typeof spawnSync) {
+  const processInfo = spawnImpl("ps", ["-p", String(candidate.processId), "-o", "comm=,tty="], {
+    encoding: "utf8",
+    timeout: 3000,
+    maxBuffer: 64 * 1024
+  }) as ProbeResult;
+  if (processInfo.status !== 0) return false;
+  const match = String(processInfo.stdout || "").trim().match(/^(\S+)\s+(\S+)$/);
+  if (!match) return false;
+  const [, command, tty] = match;
+  if (redactedSummary(tty, "tty") !== candidate.ttySummary) return false;
+  if (redactedSummary(tty, "session") !== candidate.sessionSummary) return false;
+
+  const commandName = command.split("/").pop() ?? command;
+  if (/^codex(?:\.js)?$/i.test(commandName)) return true;
+  if (!/^(?:node|nodejs|npm|npx|env|n)$/i.test(commandName)) return false;
+
+  const args = spawnImpl("ps", ["-p", String(candidate.processId), "-o", "args="], {
+    encoding: "utf8",
+    timeout: 3000,
+    maxBuffer: 64 * 1024
+  }) as ProbeResult;
+  if (args.status !== 0) return false;
+  return codexArgsSignature(String(args.stdout || ""));
 }
 
 function bindingFailure(reasonCode: string, reason: string, codexBinding?: CliResult["codexBinding"]): CliResult {
@@ -230,6 +316,25 @@ function defaultStorePath() {
   return join(base, appId, "codex-bindings.json");
 }
 
+type ProbeResult = ReturnType<typeof spawnSync>;
+
+function redactedSummary(value: string | undefined, prefix: string) {
+  if (!value) return undefined;
+  const safe = value.replace(/^\/dev\//, "");
+  if (!/^[A-Za-z0-9._/-]{1,64}$/.test(safe)) return undefined;
+  const digest = createHash("sha256").update(safe).digest("hex").slice(0, 12);
+  return `${prefix}_${digest}`;
+}
+
+function codexArgsSignature(args: string) {
+  const normalized = args.replace(/\\/g, "/").toLowerCase();
+  return (
+    normalized.includes("@openai/codex") ||
+    normalized.includes("/codex/bin/") ||
+    normalized.includes("/codex-cli/")
+  );
+}
+
 function isSafeCandidate(value: unknown): value is SafeCandidate {
   const item = value as SafeCandidate;
   return Boolean(
@@ -259,4 +364,12 @@ function isSafeBinding(value: unknown): value is SafeBinding {
 
 function isValidCandidateId(value: string) {
   return /^cand_[A-Za-z0-9]{1,64}$/.test(value);
+}
+
+function isValidBindingId(value: string) {
+  return /^bind_[A-Za-z0-9]{1,64}$/.test(value);
+}
+
+function isValidLevel(value: string): value is PetEventLevel {
+  return ["idle", "thinking", "running", "need_input", "success", "error"].includes(value);
 }

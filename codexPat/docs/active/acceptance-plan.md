@@ -1,145 +1,347 @@
-# Acceptance Plan
+# Active Acceptance Plan
 
-文档状态：active acceptance；V3.1 stabilization and onboarding release。
+文档状态：active acceptance index；V4.x OS-level Codex binding feasibility line。  
+当前日期：2026-05-26。
 
-## Baseline Gate
+## Current Acceptance Status
 
-V3.1 只能从 V3.0 final acceptance passed 的基线开始。
+| Phase | Status | Evidence |
+| --- | --- | --- |
+| V3.1 | passed | `docs/V3.1/v3_1-final-acceptance-report.md` |
+| V3.2 | passed scoped | `docs/V3.2/v3_2-final-acceptance-report.md` |
+| V3.3 | passed scoped | `docs/V3.3/v3_3-final-acceptance-report.md` |
+| V3.4 | passed scoped | `docs/V3.4/v3_4-final-acceptance-report.md` |
+| V3.5 | passed scoped | `docs/V3.5/v3_5-final-acceptance-report.md` |
+| V3.6 | historical blocked / deprecated active strategy | `docs/V3.6/v3_6-final-acceptance-report.md` |
+| V3.7 | passed scoped / current Codex exec monitoring strategy | `docs/V3.7/v3_7-final-acceptance-report.md` |
+| V3.x Final | passed scoped / closed baseline | `docs/V3.x/v3_x-final-acceptance-report.md` |
+| V4.0 | accepted feasibility review / no readiness claim | `docs/V4.x/v4_0-os-binding-feasibility-review.md` |
+| V4.4 | passed scoped managed exec JSONL / TUI hooks not-run | `docs/V4.x/v4_4-final-acceptance-report.md` |
+| V4.5 | preflight passed / real hook lifecycle pending | `docs/V4.x/v4_5-final-acceptance-report.md` |
+| V4.6 | planned | pending |
+| V4.7 | planned | pending |
+| V4.x Final | do not rerun until V4.5 has clear decision | pending |
+| V5.x | future planned / not active | `docs/V5.x/v5_x-acceptance-plan.md` |
 
-必须存在并通过：
+## Closed V3.x Acceptance
 
-- `docs/V3.0/evidence/performance-hardening-final-acceptance-2026-05-20.md`：`status: passed`。
-- `docs/V3.0/v3_0-final-visual-acceptance-checklist.md`：operator result passed。
-- `docs/V3.0/v3_0-final-acceptance-report.md`：记录 V3.0 ready scope。
-- `docs/V3.0/v3_0-claim-matrix.md`：声明边界与 evidence 一致。
+V3.x Final passed on 2026-05-26 because:
 
-当前检查结果：baseline passed。
+- PRD conformance scan passed for the scoped V3.x local workflow baseline.
+- V3.6 remains historical blocked / deprecated as active strategy.
+- V3.7 remains scoped JSONL monitor and current Codex exec monitoring path.
+- V3.4 real Codex hook lifecycle evidence remains operator-accepted, with trust/manual lifecycle requirements documented.
+- required smoke and automatic checks had no hard failure.
+- security scan passed.
+- claim scan passed.
+- git artifact check confirmed generated `dist/`, `target/`, and `node_modules/` are not staged as source changes.
 
-## Phase 1 Acceptance：Release Freeze & Docs Cleanup
+Allowed closed baseline claim:
 
-通过标准：
+```text
+V3.x scoped Codex local workflow acceptance passed with documented evidence and claim boundaries.
+```
 
-- README 是快速入口，不复制完整历史阶段。
-- `docs/README.md` 能告诉普通用户、开发者、维护者分别读哪些文档。
-- V3.0 final acceptance report 存在。
-- active / V3.0 / drawio 对 V3.0 ready 和禁止声明保持一致。
-- 不声明 MCP、Windows、USB、3D、照片自定义或 production release。
+## V3.7 Regression Baseline
 
-当前结果：passed。
+V3.7 remains the current accepted Codex monitoring fallback:
 
-## Phase 2 Acceptance：Multi-Codex Workflow Guide
+```text
+V3.7 Codex exec JSONL monitor state mapping passed for tested local wrapper-launched codex exec --json scenarios.
+```
 
-通过标准：
+Required evidence:
 
-- `docs/reference/multi-codex-workflow.md` 存在。
-- 文档能指导用户完成：
-  - `attach codex`
-  - `notify --instance`
-  - `AGENT_DESKTOP_PET_INSTANCE_ID`
-  - 两个 Codex session 分别对应两只猫
-  - Manager UI 检查
-- 常见错误和安全边界完整。
-- 不暗示 OS-level window binding 或 all Codex workflows verified。
+- `docs/V3.7/evidence/codex-exec-jsonl-monitor-smoke-2026-05-25.md`
+- `docs/V3.7/v3_7-final-acceptance-report.md`
 
-当前结果：passed。
-
-## Phase 3 Acceptance：Manager UI Usability Polish
-
-通过标准：
-
-- Manager UI 中文文案可理解。
-- Rename / copy / detach 有即时反馈。
-- default 和 extra pet 的含义明确。
-- currentState 值显示为中文。
-- 重命名后卡片和猫窗口名字即时更新，不需要 reload。
-- 移除使用“移除 / 确认移除”二次点击，不使用系统 confirm。
-- 复制环境变量和通知命令只复制文本，不执行命令。
-- 不显示 token、raw payload、metadata 全量或 workspace path。
-- 不提供命令执行按钮。
-
-验收证据：
-
-- `docs/V3.1/evidence/manager-ui-polish-2026-05-20.md`
-
-当前结果：passed。允许声明 `V3.1 Phase 3 complete: multi-pet manager usability polish ready.`。
-
-## Phase 4 Acceptance：Runtime Regression Harness
-
-通过标准：
-
-- 一条本地 smoke 命令可覆盖 V3 runtime/API/CLI 链路。
-- 脚本不打印 token。
-- 脚本不破坏用户现有配置；临时实例会被清理，或明确记录不可清理项。
-- 失败时输出具体 case。
-- `DELETE /api/instances/:instanceId` 和 `petctl detach --instance` 只用于安全清理非 default 测试实例。
-- 脚本不启动 GUI 自动视觉判断，不替代人工验收。
-
-验收证据：
-
-- `docs/V3.1/evidence/runtime-regression-harness-2026-05-21.md`
-
-当前结果：passed。允许声明 `V3.1 Phase 4 complete: repeatable runtime regression smoke ready.`。
-
-## Phase 5 Acceptance：Local App Migration & Backup
-
-通过标准：
-
-- 文档中的 config 路径来自当前实现或实际验证，不虚构。
-- 用户知道迁移项目目录、依赖、Tauri config、token/settings/pet instance registry。
-- 安全边界明确：token/config 不应公开分享。
-- 不把 unsigned local app 写成正式发布。
-- `node scripts/v3_1_config_audit.mjs` 和 `--json` 输出均脱敏。
-- audit 不打印 token、raw settings、Authorization header、完整 `/Users/<name>/...` 路径或完整 workspace path。
-- README 只保留入口，不复制完整迁移文档。
-
-验收证据：
-
-- `docs/V3.1/evidence/local-app-migration-backup-2026-05-21.md`
-
-当前结果：passed。允许声明 `V3.1 Phase 5 complete: local app migration and backup guidance ready.`。
-
-## Phase 6 Acceptance：V3.1 Final Acceptance
-
-自动检查：
+Required regression smoke:
 
 ```bash
-pnpm run doctor
-pnpm --filter @agent-desktop-pet/pet-protocol check
-pnpm --filter @agent-desktop-pet/pet-protocol test
-pnpm --filter @agent-desktop-pet/petctl check
-pnpm --filter @agent-desktop-pet/petctl test
-pnpm --filter desktop check
-cargo check --manifest-path apps/desktop/src-tauri/Cargo.toml
-pnpm --filter desktop build
-pnpm --filter desktop tauri build -b app
+node scripts/v3_7_codex_exec_jsonl_monitor_smoke.mjs
 ```
 
-final acceptance report `status: passed`，允许声明：
+Unsupported by this claim:
+
+- interactive Codex TUI monitoring.
+- already-open Codex terminal window discovery.
+- OS-level Codex window binding.
+- official `PostToolUse failure` hook evidence.
+- all Codex workflows verification.
+
+## V4.0 Acceptance Gate
+
+V4.0 is a strict feasibility and claim-boundary phase. It has passed as feasibility review only and does not claim readiness or implementation.
+
+Required V4.0 evidence:
+
+- terminal app feasibility matrix covering Terminal.app, iTerm2, VS Code integrated terminal, Warp, and Ghostty.
+- permission model for Accessibility, Automation, shell integration, and any local helper process.
+- privacy and redaction model for process metadata, window identifiers, TTY identifiers, session identifiers, permissions, and forbidden fields.
+- safe identity field list.
+- state event source analysis for already-running Codex sessions.
+- analysis of whether `AGENT_DESKTOP_PET_INSTANCE_ID` can be injected into already-running sessions; if not, relaunch-through-wrapper fallback must be stated.
+- event ownership proof analysis for any future selected-terminal routing.
+- no-go list for unsupported terminal / Codex scenarios.
+- go / no-go decision for implementation.
+- claim scan proving forbidden claims are not used as ready / passed.
+
+V4.0 explicitly does not include active window probe, explicit binding UX, selected-terminal routing, or runtime smoke.
+
+Allowed V4.0 scoped claim:
 
 ```text
-V3.1 ready: multi-instance Codex pet workflow stabilized with user onboarding, manager polish, repeatable runtime smoke, and migration guidance.
+V4.0 OS-level Codex window/session binding feasibility review completed with scoped go/no-go decision.
 ```
 
-当前结果：
+V4.0 decision:
 
-- `docs/V3.1/v3_1-final-acceptance-report.md`：`status: passed`。
-- 自动检查、runtime smoke 和 config audit 在 2026-05-22 复跑通过。
-- Manager UI evidence 已通过人工验收。
-- 当前允许声明 V3.1 ready，声明范围以 final acceptance report 为准。
+- Go for V4.1 planning for Terminal.app and iTerm2 safe-field probe only.
+- No-go for V4.3 selected-terminal routing from OS-level discovery alone.
+- No-go for interactive Codex TUI monitoring ready.
 
-## No False-Green
-
-V3.1 仍不得声明：
+V4.0 may not claim:
 
 ```text
+OS-level Codex window binding ready
+interactive Codex TUI monitoring ready
+already-open Codex window auto-detection ready
+all Codex workflows verified
+Codex internal reasoning exact mapping ready
+```
+
+## V4.1-V4.3 Acceptance Split
+
+| Phase | Earliest Allowed Work | Maximum Allowed Claim |
+| --- | --- | --- |
+| V4.1 | active window safe-field probe prototype | `V4.1 macOS active window safe-field probe completed for <terminal app> on tested local environment.` |
+| V4.2 | explicit user-confirmed binding UX | no auto-bind or monitoring claim |
+| V4.3 | selected-terminal routing prototype | `V4.3 user-confirmed binding prototype passed for <terminal app>/<macOS>/<Codex version> tested local scenario.` |
+
+V4.3 may pass only if events can be proven to belong to the user-confirmed bound session. If event ownership cannot be proven, V4.3 must be blocked.
+
+## V4.x Final Gate
+
+V4.x Final must not add features. It may only consolidate regression, evidence, security, artifact, and claim scans for whatever V4.x scope was actually implemented.
+
+Required final checks:
+
+- all V4.x scoped runtime smokes, if implementation exists.
+- V3.7 regression smoke remains passing unless explicitly superseded with accepted evidence.
+- no security leakage in V4.x evidence.
+- no forbidden claim used as ready.
+- generated `dist/`, `target/`, and `node_modules/` are not committed as source changes.
+
+## V4.4 Managed Session Acceptance
+
+V4.4 adds a managed user entry for state mapping:
+
+```bash
+node packages/petctl/dist/cli.js codex session start \
+  --mode exec \
+  --monitor jsonl \
+  --name "Review Cat" \
+  -- codex exec --json "task"
+```
+
+Accepted V4.4 scope:
+
+```text
+V4.4 managed Codex exec JSONL state mapping passed for tested local wrapper-launched scenario.
+```
+
+Evidence:
+
+- `docs/V4.x/v4_4-development-plan.md`
+- `docs/V4.x/v4_4-acceptance-plan.md`
+- `docs/V4.x/v4_4-prd-spec-review.md`
+- `docs/V4.x/v4_4-plan-audit.md`
+- `docs/V4.x/evidence/v4_4-managed-exec-jsonl-smoke-2026-05-27.md`
+- `docs/V4.x/evidence/v4_4-managed-tui-hooks-smoke-2026-05-27.md`
+- `docs/V4.x/v4_4-final-acceptance-report.md`
+
+Managed TUI hooks remain not-run. No interactive TUI monitoring ready claim is allowed.
+
+## V4.5 Managed TUI Hook Acceptance
+
+Current allowed claim:
+
+```text
+V4.5 managed Codex TUI hook state mapping passed for UserPromptSubmit, PreToolUse, and Stop in tested local wrapper-launched scenario; PermissionRequest remains blocked by local policy.
+```
+
+Required real manual acceptance:
+
+- start `node packages/petctl/dist/cli.js codex session start --mode tui --monitor hooks --name "V4.5 TUI Cat" -- codex`.
+- run `/hooks` inside Codex TUI.
+- review/trust project hooks.
+- submit real prompt.
+- trigger tool use.
+- trigger permission request if local policy allows.
+- let turn stop.
+- confirm target cat changes.
+- confirm default and unrelated pets unchanged.
+
+Required evidence:
+
+- `UserPromptSubmit -> thinking`.
+- `PreToolUse -> running`.
+- `Stop -> success` / idle marker.
+- `PermissionRequest -> need_input`, or blocked by local policy.
+- no curl.
+- no manual `petctl notify`.
+- no fixture smoke as lifecycle evidence.
+- no terminal text parsing.
+- no `transcript_path`.
+- no raw hook payload.
+- no prompt text.
+- no tool command text.
+
+If only preflight passes, status remains `pending-manual-hook-lifecycle`. The 2026-05-27 local run passed scoped real lifecycle acceptance for `UserPromptSubmit`, `PreToolUse`, and `Stop`; `PermissionRequest` was not observed and is not claimed passed.
+
+## V4.6 UX Hardening Acceptance
+
+Status: passed on 2026-05-27.
+
+Allowed scope:
+
+- desktop health preflight.
+- hooks config check.
+- wrapper script check.
+- Codex CLI check.
+- clear "run `/hooks` and trust hooks" instruction.
+- stable reasonCode.
+
+Recommended reasonCode:
+
+```text
+desktop_not_running
+hook_config_missing
+hook_wrapper_missing
+hook_trust_required
+hook_lifecycle_not_observed
+codex_not_found
+pet_instance_create_failed
+binding_env_missing
+```
+
+Allowed claim:
+
+```text
+V4.6 managed session startup diagnostics and UX hardening passed for tested local wrapper-launched scenarios.
+```
+
+Evidence:
+
+- `docs/V4.x/evidence/v4_6-startup-diagnostics-smoke-2026-05-27.md`
+
+Forbidden expansion:
+
+- TUI hook mapping passed.
+- interactive Codex TUI monitoring ready.
+- OS-level binding ready.
+
+## V4.7 Session Status Acceptance
+
+Status: passed on 2026-05-27.
+
+Allowed command:
+
+```bash
+petctl codex session status --json
+```
+
+Allowed fields:
+
+- `instanceId`
+- redacted `bindingId`
+- `mode`
+- `monitor`
+- `status` as `active` / `stale` / `unknown`
+- `lastEventKind`
+- `lastSeenAt`
+
+Forbidden fields:
+
+- raw TTY
+- raw args
+- window title
+- path
+- prompt
+- tool command
+- raw hook payload
+- token
+- Authorization
+
+Allowed claim:
+
+```text
+V4.7 managed session status and stale-binding diagnostics passed for tested local wrapper-launched scenarios.
+```
+
+Evidence:
+
+- `docs/V4.x/evidence/v4_7-session-status-smoke-2026-05-27.md`
+
+## V4.x Final Boundary
+
+V4.x Final status: passed on 2026-05-27.
+
+```text
+V4.x managed Codex session-to-PetInstance state mapping passed for tested local wrapper-launched exec JSONL and scoped managed TUI hook scenarios, with Terminal.app candidate binding and manual route-test prototype accepted.
+```
+
+## V5.x Acceptance Boundary
+
+V5.x is future planned work for renderer, 3D, and action assets. It is not active while V4.x feasibility is active.
+
+V5.x acceptance must be defined in `docs/V5.x/v5_x-acceptance-plan.md` before implementation begins.
+
+## Security Gate
+
+Acceptance evidence must not contain:
+
+```text
+token
+Authorization
+raw JSONL payload
+raw hook payload
+prompt text
+tool command text
+shell history
+screen contents
+clipboard contents
+transcript_path
+full /Users path
+workspace path
+config path
+api-token.json
+```
+
+## Claim Gate
+
+Forbidden as ready / passed:
+
+```text
+OS-level Codex window binding ready
+interactive Codex TUI monitoring ready
+already-open Codex window auto-detection ready
+already-open Codex window auto-monitoring ready
+V3.6 selected Codex workflow hook coverage smoke passed
+PostToolUse failure hook evidence passed
+all Codex workflows verified
+Codex internal reasoning exact mapping ready
+ModelThinkingStart / ModelThinkingEnd verified
+MCP ready
+Third-party agent integration verified
+Claude Code integration verified
 Windows ready
 cross-platform ready
-MCP ready
 USB ready
 production signed release ready
-OS-level Codex window binding ready
-all Codex workflows verified
-Rive / Live2D / 3D ready
-photo customization ready
 per-instance queue ready
+Rive / Live2D / 3D ready
+custom asset pack import ready
+user asset upload ready
+asset marketplace ready
 ```

@@ -16,6 +16,11 @@ docs/
   V2.2/        MCP adapter 预研文档，不代表已实现
   V3.0/        Multi-instance Codex Working Partner System 已验收基线
   V3.1/        V3.1 稳定化、用户上手、runtime smoke、迁移备份阶段文档
+  V3.2/        Agent Integration Readiness：MCP adapter、Claude hook、third-party contract v3
+  V3.7/        Codex Exec JSONL Monitor：当前推荐 Codex exec 监听路径，wrapper-launched codex exec --json 状态映射
+  V3.x/        V3.x 后续开发总计划、子阶段验收标准和最终收口计划
+  V4.x/        OS-level Codex window/session binding feasibility planning
+  V5.x/        Cat Renderer & Asset System：3D 化、动作资产和高级猫咪体验规划
 ```
 
 ## 推荐阅读路径
@@ -30,10 +35,12 @@ docs/
 
 开发者：
 
-1. `active/development-plan.md`：当前 V3.1 稳定化计划。
-2. `active/acceptance-plan.md`：当前验收计划。
-3. `blueprint/03-pet-event-protocol.md`：PetEvent 协议边界。
-4. `reference/agent-integration-guide.md` 和 `reference/petctl-recipes.md`：agent 接入与命令 cookbook。
+1. `active/development-plan.md`：当前 V4.x active line 和开发边界。
+2. `active/acceptance-plan.md`：当前 V4.x 验收门禁。
+3. `V4.x/v4_x-development-plan.md`：OS-level Codex window/session binding feasibility planning。
+4. `V3.x/v3_x-final-acceptance-report.md`：V3.x closed scoped baseline。
+5. `blueprint/03-pet-event-protocol.md`：PetEvent 协议边界。
+6. `reference/agent-integration-guide.md` 和 `reference/petctl-recipes.md`：agent 接入与命令 cookbook。
 
 维护者 / 审计者：
 
@@ -43,6 +50,14 @@ docs/
 4. `active/current-vs-target-gap.md` 与 `active/current-vs-target-gap.drawio`：当前 gap 和图。
 5. `V3.1/v3_1-final-manual-acceptance-checklist.md`：V3.1 最终人工验收逐项检查表。
 6. `V3.1/evidence/`：V3.1 各阶段 evidence。
+7. `V3.2/v3_2-claim-matrix.md`：V3.2 集成声明边界。
+8. `V3.2/evidence/`：V3.2 MCP / Claude hook / third-party contract evidence。
+9. `V3.7/v3_7-final-acceptance-report.md`：V3.7 JSONL monitor scoped passed 的最终依据。
+10. `V3.x/v3_x-evidence-index.md`：V3.x final evidence 索引。
+11. `V3.x/v3_x-claim-matrix.md`：V3.x final claim 边界。
+12. `V3.x/v3_x-final-acceptance-report.md`：V3.x final consolidation 收口报告。
+13. `V4.x/v4_x-claim-matrix.md`：V4.x OS-level binding 规划声明边界。
+14. `V5.x/v5_x-claim-matrix.md`：V5.x renderer / asset 规划声明边界。
 
 历史阶段文档（`V1.0/`、`V2.0/`、`V2.1/`、`V2.2/`）主要用于审计和追溯。普通用户不需要阅读这些目录才能使用桌宠。
 
@@ -88,7 +103,7 @@ docs/
 - `multi-codex-workflow.md`：V3.1 用户流程文档，说明一只 Codex 窗口一只猫。
 - `agent-integration-guide.md`：V2.0 本地 Agent 工作流接入指南。
 - `petctl-recipes.md`：V2.0 `petctl notify` 命令 cookbook。
-- `third-party-agent-contract.md`：V2.1 third-party local agent HTTP contract。
+- `third-party-agent-contract.md`：V3.2 third-party local agent HTTP + multi-instance contract。
 - `08-hardware-light.md`：USB 氛围灯协议参考。
 - `post-mvp-roadmap.md`：MVP 之后路线图。
 
@@ -125,6 +140,15 @@ docs/
 - `V3.1/`：V3.0 之后的稳定化和用户上手阶段；包含 Manager polish、runtime regression harness、local app migration and backup 文档及 evidence。
 - `V3.1/v3_1-final-manual-acceptance-checklist.md`：V3.1 final acceptance 的人工验收步骤，用于补齐 Manager UI operator acceptance。
 - `V3.1/v3_1-final-acceptance-report.md`：V3.1 final acceptance 的收口报告；当前为 passed，是 V3.1 ready 声明依据。
+- `V3.2/`：Agent Integration Readiness 阶段；包含 MCP adapter 最小实现计划、Claude Code hook deferred、third-party contract v3、claim matrix 和 evidence index。V3.2 不代表 `MCP ready`、`Claude Code integration verified` 或 `Third-party agent integration verified`。
+- `V3.3/`：Codex window/session-to-pet binding 阶段；早期 Claude Code hook 尝试保留为 historical / superseded，当前 V3.3 final acceptance 依据是 `petctl codex launch` wrapper-first binding smoke。V3.3 不代表 `OS-level Codex window binding ready`、`all Codex workflows verified` 或 `Claude Code integration verified`。
+- `V3.4/`：Codex Hooks State Mapping 阶段；包含 `.codex/hooks.json`、`scripts/codex-pet-hook.mjs`、fixture smoke 和 real lifecycle smoke gate。当前 scoped final acceptance 已 passed，依据是 fixture smoke、Codex `/hooks` review/trust 和 operator-confirmed real lifecycle state sync。
+- `V3.5/`：Codex hook diagnostics and recovery 阶段；`petctl codex doctor` 和 diagnostics smoke passed。
+- `V3.6/`：Real Codex Workflow Coverage Expansion 阶段；当前作为 historical blocked evidence 保留，原因是真实 `PostToolUse` failure hook payload 无稳定 failure fields；hook-only 路线已从 active strategy 中废弃。
+- `V3.7/`：Codex Exec JSONL Monitor 阶段；project-owned structured monitor for wrapper-launched `codex exec --json`，当前 scoped final acceptance passed，并作为当前推荐 Codex exec 监听路径。V3.7 不代表 V3.6 hook-only passed、official `PostToolUse` failure hook evidence passed、interactive Codex TUI coverage 或 OS-level window binding。
+- `V3.x/`：V3.x 后续开发总计划和 final consolidation；当前包含 `v3_x-development-plan.md`、`v3_x-evidence-index.md`、`v3_x-claim-matrix.md`、`v3_x-final-acceptance-report.md` 和 `v3_x-codex-monitoring-strategy.md`，用于审计 V3.5 hook diagnostics、V3.6 historical blocked boundary、V3.7 JSONL monitor 和 V3.x final consolidation。
+- `V4.x/`：已打开 Codex 活动窗口 / OS-level session binding 的 feasibility planning。V4.x 当前不代表 `OS-level Codex window binding ready`，只能声明 planned for feasibility review。
+- `V5.x/`：Cat Renderer & Asset System 规划；承接高质量 2D、GLTF/Three.js 3D、动作资产、renderer plugin 和后续自定义资产包导入。V5.x 当前不代表 `Rive / Live2D / 3D ready`。
 
 维护规则：
 

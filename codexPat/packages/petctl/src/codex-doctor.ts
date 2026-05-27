@@ -10,6 +10,9 @@ export type CodexDoctorOptions = {
   fetchImpl?: typeof fetch;
   spawnImpl?: typeof spawnSync;
   repoRoot?: string;
+  strict?: boolean;
+  includeInstanceEnv?: boolean;
+  includeTrustHint?: boolean;
 };
 
 type Diagnostic = NonNullable<CliResult["diagnostics"]>[number];
@@ -32,12 +35,17 @@ export async function runCodexDoctor(options: CodexDoctorOptions = {}): Promise<
   const spawnImpl = options.spawnImpl ?? spawnSync;
   const diagnostics: Diagnostic[] = [];
 
-  diagnostics.push(codexVersionDiagnostic(spawnImpl));
+  diagnostics.push(codexVersionDiagnostic(spawnImpl, options.strict === true));
   diagnostics.push(hookConfigDiagnostic(repoRoot));
   diagnostics.push(hookWrapperDiagnostic(repoRoot, spawnImpl));
-  diagnostics.push(instanceEnvDiagnostic());
-  diagnostics.push(tokenDiagnostic(options.token));
-  diagnostics.push(await desktopHealthDiagnostic(options, options.fetchImpl ?? fetch));
+  if (options.includeInstanceEnv !== false) {
+    diagnostics.push(instanceEnvDiagnostic());
+  }
+  if (options.includeTrustHint === true) {
+    diagnostics.push(hookTrustDiagnostic());
+  }
+  diagnostics.push(tokenDiagnostic(options.token, options.strict === true));
+  diagnostics.push(await desktopHealthDiagnostic(options, options.fetchImpl ?? fetch, options.strict === true));
 
   const hardFailure = diagnostics.find((diagnostic) => diagnostic.status === "failed");
   return {
@@ -49,13 +57,13 @@ export async function runCodexDoctor(options: CodexDoctorOptions = {}): Promise<
   };
 }
 
-function codexVersionDiagnostic(spawnImpl: typeof spawnSync): Diagnostic {
+function codexVersionDiagnostic(spawnImpl: typeof spawnSync, strict: boolean): Diagnostic {
   const result = spawnImpl("codex", ["--version"], { encoding: "utf8" });
   if (result.status !== 0) {
     return {
       name: "codex_cli",
-      status: "warning",
-      reasonCode: "codex_not_available",
+      status: strict ? "failed" : "warning",
+      reasonCode: "codex_not_found",
       detail: "codex cli unavailable"
     };
   }
@@ -172,7 +180,7 @@ function instanceEnvDiagnostic(): Diagnostic {
     return {
       name: "instance_env",
       status: "warning",
-      reasonCode: "instance_env_missing",
+      reasonCode: "binding_env_missing",
       detail: "instance env missing"
     };
   }
@@ -191,12 +199,21 @@ function instanceEnvDiagnostic(): Diagnostic {
   };
 }
 
-function tokenDiagnostic(cliToken?: string): Diagnostic {
+function hookTrustDiagnostic(): Diagnostic {
+  return {
+    name: "hook_trust",
+    status: "warning",
+    reasonCode: "hook_trust_required",
+    detail: "run /hooks and trust project hooks before lifecycle acceptance"
+  };
+}
+
+function tokenDiagnostic(cliToken: string | undefined, strict: boolean): Diagnostic {
   const resolution = resolveToken(cliToken);
   if (!resolution.value) {
     return {
       name: "token",
-      status: "warning",
+      status: strict ? "failed" : "warning",
       reasonCode: "token_missing",
       detail: "token missing"
     };
@@ -208,7 +225,7 @@ function tokenDiagnostic(cliToken?: string): Diagnostic {
   };
 }
 
-async function desktopHealthDiagnostic(options: CodexDoctorOptions, fetchImpl: typeof fetch): Promise<Diagnostic> {
+async function desktopHealthDiagnostic(options: CodexDoctorOptions, fetchImpl: typeof fetch, strict: boolean): Promise<Diagnostic> {
   const url = resolveUrl(options.url).value!;
   try {
     const response = await fetchImpl(`${url}/api/health`);
@@ -222,14 +239,14 @@ async function desktopHealthDiagnostic(options: CodexDoctorOptions, fetchImpl: t
     }
     return {
       name: "desktop_health",
-      status: "warning",
+      status: strict ? "failed" : "warning",
       reasonCode: "desktop_health_not_ok",
       detail: "desktop health not ok"
     };
   } catch {
     return {
       name: "desktop_health",
-      status: "warning",
+      status: strict ? "failed" : "warning",
       reasonCode: "desktop_not_running",
       detail: "desktop unavailable"
     };

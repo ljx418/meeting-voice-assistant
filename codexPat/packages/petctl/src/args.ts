@@ -56,6 +56,33 @@ export type CodexLaunchArgs = {
   passthrough: string[];
 };
 
+export type CodexSessionStartArgs = {
+  command: "codex";
+  action: "session";
+  sessionAction: "start";
+  json: boolean;
+  pretty: boolean;
+  token?: string;
+  url?: string;
+  name?: string;
+  workspaceLabel?: string;
+  workspaceHash?: string;
+  mode: "exec" | "tui";
+  monitor: "none" | "jsonl" | "hooks";
+  bin: string;
+  noTitle: boolean;
+  passthrough: string[];
+};
+
+export type CodexSessionStatusArgs = {
+  command: "codex";
+  action: "session";
+  sessionAction: "status";
+  json: boolean;
+  pretty: boolean;
+  instance?: string;
+};
+
 export type CodexDoctorArgs = {
   command: "codex";
   action: "doctor";
@@ -98,7 +125,21 @@ export type CodexBindConfirmArgs = {
 
 export type CodexBindArgs = CodexBindPreviewArgs | CodexBindConfirmArgs;
 
-export type PetctlArgs = NotifyArgs | AttachArgs | ListArgs | DetachArgs | CodexLaunchArgs | CodexDoctorArgs | CodexProbeArgs | CodexBindArgs;
+export type CodexRouteTestArgs = {
+  command: "codex";
+  action: "route";
+  routeAction: "test";
+  binding?: string;
+  level?: PetEventLevel;
+  token?: string;
+  url?: string;
+  json: boolean;
+  pretty: boolean;
+};
+
+export type CodexRouteArgs = CodexRouteTestArgs;
+
+export type PetctlArgs = NotifyArgs | AttachArgs | ListArgs | DetachArgs | CodexLaunchArgs | CodexSessionStartArgs | CodexSessionStatusArgs | CodexDoctorArgs | CodexProbeArgs | CodexBindArgs | CodexRouteArgs;
 
 export type PayloadOptions = {
   sourceId?: string;
@@ -235,8 +276,11 @@ export function parseArgs(argv: string[]): PetctlArgs {
   return args;
 }
 
-function parseCodexArgs(rest: string[]): CodexLaunchArgs | CodexDoctorArgs | CodexProbeArgs | CodexBindArgs {
+function parseCodexArgs(rest: string[]): CodexLaunchArgs | CodexSessionStartArgs | CodexSessionStatusArgs | CodexDoctorArgs | CodexProbeArgs | CodexBindArgs | CodexRouteArgs {
   const [action, ...options] = rest;
+  if (action === "session") {
+    return parseCodexSessionArgs(options);
+  }
   if (action === "doctor") {
     return parseCodexDoctorArgs(options);
   }
@@ -246,8 +290,11 @@ function parseCodexArgs(rest: string[]): CodexLaunchArgs | CodexDoctorArgs | Cod
   if (action === "bind") {
     return parseCodexBindArgs(options);
   }
+  if (action === "route") {
+    return parseCodexRouteArgs(options);
+  }
   if (action !== "launch") {
-    throw new Error("usage: petctl codex <launch|doctor|probe|bind> [options]");
+    throw new Error("usage: petctl codex <launch|session|doctor|probe|bind|route> [options]");
   }
   const args: CodexLaunchArgs = {
     command: "codex",
@@ -311,6 +358,180 @@ function parseCodexArgs(rest: string[]): CodexLaunchArgs | CodexDoctorArgs | Cod
     throw new Error("--bin requires a value");
   }
 
+  return args;
+}
+
+function parseCodexSessionArgs(options: string[]): CodexSessionStartArgs | CodexSessionStatusArgs {
+  const [sessionAction, ...flags] = options;
+  if (sessionAction === "status") {
+    const args: CodexSessionStatusArgs = {
+      command: "codex",
+      action: "session",
+      sessionAction,
+      json: false,
+      pretty: false
+    };
+    for (let index = 0; index < flags.length; index += 1) {
+      const flag = flags[index];
+      switch (flag) {
+        case "--json":
+          args.json = true;
+          break;
+        case "--pretty":
+          args.pretty = true;
+          break;
+        case "--instance":
+          args.instance = readValue(flags, ++index, flag);
+          break;
+        default:
+          throw new Error(`unknown option: ${flag}`);
+      }
+    }
+    return args;
+  }
+  if (sessionAction !== "start") {
+    throw new Error("usage: petctl codex session <start|status> [options]");
+  }
+
+  const args: CodexSessionStartArgs = {
+    command: "codex",
+    action: "session",
+    sessionAction,
+    json: false,
+    pretty: false,
+    mode: "exec",
+    monitor: "jsonl",
+    bin: "codex",
+    noTitle: false,
+    passthrough: []
+  };
+  let modeSet = false;
+  let monitorSet = false;
+
+  for (let index = 0; index < flags.length; index += 1) {
+    const flag = flags[index];
+    if (flag === "--") {
+      args.passthrough = flags.slice(index + 1);
+      break;
+    }
+    switch (flag) {
+      case "--json":
+        args.json = true;
+        break;
+      case "--pretty":
+        args.pretty = true;
+        break;
+      case "--token":
+        args.token = readValue(flags, ++index, flag);
+        break;
+      case "--url":
+        args.url = readValue(flags, ++index, flag);
+        break;
+      case "--name":
+        args.name = readValue(flags, ++index, flag);
+        break;
+      case "--workspace-label":
+        args.workspaceLabel = readValue(flags, ++index, flag);
+        break;
+      case "--workspace-hash":
+        args.workspaceHash = readValue(flags, ++index, flag);
+        break;
+      case "--mode": {
+        const mode = readValue(flags, ++index, flag);
+        if (mode !== "exec" && mode !== "tui") {
+          throw new Error("--mode must be exec or tui");
+        }
+        args.mode = mode;
+        modeSet = true;
+        break;
+      }
+      case "--monitor": {
+        const monitor = readValue(flags, ++index, flag);
+        if (monitor !== "none" && monitor !== "jsonl" && monitor !== "hooks") {
+          throw new Error("--monitor must be none, jsonl, or hooks");
+        }
+        args.monitor = monitor;
+        monitorSet = true;
+        break;
+      }
+      case "--bin":
+        args.bin = readValue(flags, ++index, flag);
+        break;
+      case "--no-title":
+        args.noTitle = true;
+        break;
+      default:
+        throw new Error(`unknown option: ${flag}`);
+    }
+  }
+
+  if (!modeSet) {
+    throw new Error("petctl codex session start requires --mode");
+  }
+  if (!monitorSet) {
+    throw new Error("petctl codex session start requires --monitor");
+  }
+  if (args.mode === "exec" && args.monitor !== "jsonl") {
+    throw new Error("--mode exec requires --monitor jsonl");
+  }
+  if (args.mode === "tui" && args.monitor === "jsonl") {
+    throw new Error("--mode tui requires --monitor hooks or none");
+  }
+  if (!args.bin || args.bin.startsWith("--")) {
+    throw new Error("--bin requires a value");
+  }
+  if (args.passthrough.length === 0) {
+    throw new Error("petctl codex session start requires a command after --");
+  }
+
+  return args;
+}
+
+function parseCodexRouteArgs(options: string[]): CodexRouteArgs {
+  const [routeAction, ...flags] = options;
+  if (routeAction !== "test") {
+    throw new Error("usage: petctl codex route test --binding <bindingId> --level <level> [--json|--pretty]");
+  }
+  const args: CodexRouteTestArgs = {
+    command: "codex",
+    action: "route",
+    routeAction,
+    json: false,
+    pretty: false
+  };
+
+  for (let index = 0; index < flags.length; index += 1) {
+    const flag = flags[index];
+    switch (flag) {
+      case "--json":
+        args.json = true;
+        break;
+      case "--pretty":
+        args.pretty = true;
+        break;
+      case "--binding":
+        args.binding = readValue(flags, ++index, flag);
+        break;
+      case "--level":
+        args.level = readValue(flags, ++index, flag) as PetEventLevel;
+        break;
+      case "--token":
+        args.token = readValue(flags, ++index, flag);
+        break;
+      case "--url":
+        args.url = readValue(flags, ++index, flag);
+        break;
+      default:
+        throw new Error(`unknown option: ${flag}`);
+    }
+  }
+
+  if (!args.binding) {
+    throw new Error("petctl codex route test requires --binding");
+  }
+  if (!args.level) {
+    throw new Error("petctl codex route test requires --level");
+  }
   return args;
 }
 

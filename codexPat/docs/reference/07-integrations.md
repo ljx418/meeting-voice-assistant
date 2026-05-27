@@ -1,8 +1,8 @@
 # Integrations Reference
 
-文档状态：Phase 6 complete；MCP/Skill reference。
+文档状态：V3.7 integration reference。
 
-当前 Phase 6 已完成本地 HTTP API、`petctl notify` CLI 和 safe sound feedback 闭环。MCP server、Codex Skill、Claude Code Skill 都是 Post-MVP adapter / instruction layer，不能作为当前验收项。
+当前已有本地 HTTP API、`petctl notify` CLI、safe sound feedback、多实例路由、最小 MCP adapter、Codex session wrapper 和 V3.7 `codex exec --json` JSONL monitor。V3.7 JSONL monitor 是当前推荐的 Codex exec 监听路径。MCP adapter 和 JSONL monitor 都只能通过 localhost HTTP/Event Bridge 写入结构化 PetEvent，不能直接控制 UI，也不能绕过 PetEvent schema、token、白名单、rate limit 或 diagnostics。
 
 ## petctl CLI
 
@@ -76,13 +76,75 @@ AGENT_DESKTOP_PET_URL
 http://127.0.0.1:17321
 ```
 
+## Codex Wrapper and JSONL Monitor
+
+Wrapper-first Codex binding：
+
+```bash
+petctl codex launch --name "Review Cat" -- exec --help
+```
+
+JSONL monitor for wrapper-launched `codex exec --json`，当前推荐 Codex exec 监听路径：
+
+```bash
+petctl codex launch --monitor jsonl --name "Review Cat" -- exec --json "summarize this repository"
+```
+
+等价显式命令形态：
+
+```bash
+petctl codex launch --monitor jsonl --name "Review Cat" -- codex exec --json "summarize this repository"
+```
+
+规则：
+
+- 默认 `--monitor none` 保持旧 wrapper 行为：根据子进程 exit code 发送最终 `success` / `error`。
+- `--monitor jsonl` 只适用于 wrapper-launched `codex exec --json`。
+- JSONL monitor 只解析结构化 `type` / `event.type`。
+- 不解析人类可读终端文本。
+- 不读取或依赖 `transcript_path`。
+- 不记录 raw JSONL、prompt 原文、tool command 原文、token、Authorization、完整本地路径、workspace path 或 config path。
+
+初始状态映射：
+
+| JSONL event type | Pet state |
+| --- | --- |
+| `thread.started` | marker-only |
+| `turn.started` | `thinking` |
+| `item.started` | `running` |
+| `item.completed` | marker / keep current |
+| `turn.completed` | `success` only if no current-turn error |
+| `turn.failed` | `error` |
+| `error` | `error` |
+
+Allowed scoped claim after V3.7 acceptance:
+
+```text
+V3.7 Codex exec JSONL monitor state mapping passed for tested local wrapper-launched codex exec --json scenarios.
+```
+
+Forbidden expansions:
+
+```text
+V3.6 selected Codex workflow hook coverage smoke passed
+PostToolUse failure hook evidence passed
+all Codex workflows verified
+Codex internal reasoning exact mapping ready
+OS-level Codex window binding ready
+```
+
+V3.6 hook-only monitoring remains historical blocked evidence and is deprecated as the active strategy. Do not describe V3.7 as official `PostToolUse` failure hook evidence.
+
 ## HTTP API
 
 ```text
 POST http://127.0.0.1:17321/api/events
+POST http://127.0.0.1:17321/api/instances/:instanceId/events
 Authorization: Bearer <local-token>
 Content-Type: application/json
 ```
+
+`/api/events` 是 legacy default route，只影响 default pet。`/api/instances/:instanceId/events` 是 V3 multi-instance route，只影响目标 pet。
 
 示例：
 
@@ -114,48 +176,77 @@ curl -X POST http://127.0.0.1:17321/api/events \
   }'
 ```
 
-## Post-MVP MCP tools
+## V3.2 MCP Adapter Tools
 
 工具列表：
 
 ```text
 pet_notify
-pet_set_status
-pet_clear_status
+pet_list_instances
 pet_get_capabilities
 pet_get_state
 ```
+
+所有 MCP 工具都必须通过 localhost HTTP/Event Bridge。工具不得直接控制桌宠 UI、窗口、状态机、资源加载或声音文件。
 
 `pet_notify` 参数：
 
 ```json
 {
-  "level": "running",
-  "title": "正在分析代码",
-  "message": "扫描项目结构。",
-  "action": "running",
-  "sound": "none",
-  "durationMs": 5000,
-  "hardware": {
-    "light": {
-      "effect": "running_flow"
+  "instanceId": "codex_123",
+  "event": {
+    "source": {
+      "id": "mcp-agent.local",
+      "kind": "custom",
+      "name": "MCP Agent"
+    },
+    "level": "running",
+    "title": "正在分析代码",
+    "message": "扫描项目结构。",
+    "action": "running",
+    "sound": "none",
+    "durationMs": 5000,
+    "metadata": {
+      "task": "repo-analysis"
     }
   },
-  "metadata": {
-    "task": "repo-analysis"
-  }
 }
 ```
 
-`pet_set_status`：
+规则：
 
-- 用于较长任务状态，例如 `thinking`、`running`、`sleeping`。
-- 可以被后续状态覆盖。
+- `instanceId` 可选；省略时走 legacy default route。
+- `instanceId` 存在时走 `/api/instances/:instanceId/events`。
+- payload 不能包含 `via`；transport 由 bridge 记录。
+- payload 必须符合 PetEvent schema。
 
-`pet_clear_status`：
+`pet_list_instances`：
 
-- 清空当前来自某 source 的状态。
-- 猫咪回到 `idle` 或继续消费队列。
+- 读取 `GET /api/instances`。
+- 返回 sanitized instance list。
+- 不返回 token、Authorization header、raw payload、完整本地路径、`position`、`workspaceLabel` 或 `workspaceHash`。
+
+`pet_get_capabilities`：
+
+- 读取 `GET /api/capabilities`。
+- 可接受 `instanceId` 参数以保持工具调用形状一致，但当前返回全局 capabilities。
+
+`pet_get_state`：
+
+- 读取 sanitized instance state。
+- `instanceId` 可选；省略时返回所有实例的 sanitized state。
+- unknown instance 返回 `instance_not_found`。
+
+Deferred tools：
+
+```text
+pet_set_status
+pet_clear_status
+```
+
+这两个工具不是 V3.2 MCP adapter 的已验收工具。长任务状态应通过 `pet_notify` 发送 `thinking` / `running` / `sleeping` 等结构化事件；清空状态应通过后续 `idle` 或其他状态事件表达。
+
+V3.2 允许声明 `V3.2 MCP adapter minimal smoke passed for localhost bridge routing.`，但不得声明 `MCP ready`。
 
 ## Post-MVP Codex Skill
 

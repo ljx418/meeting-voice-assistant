@@ -64,6 +64,15 @@ export type CliResult = {
     lastValidatedAt?: string;
     expiresAt?: string;
   };
+  codexSession?: {
+    instanceId?: string;
+    bindingId?: string;
+    mode?: "exec" | "tui" | "legacy";
+    monitor?: "none" | "jsonl" | "hooks";
+    status: "active" | "stale" | "unknown";
+    lastEventKind?: string;
+    lastSeenAt?: string;
+  };
   raw?: unknown;
 };
 
@@ -72,6 +81,15 @@ export function formatResult(result: CliResult, pretty: boolean) {
     return JSON.stringify(result, null, 2);
   }
   if (result.ok) {
+    if (result.codexBinding) {
+      return [
+        "codex binding",
+        result.codexBinding.bindingStatus ? `status=${result.codexBinding.bindingStatus}` : undefined,
+        result.codexBinding.candidateId ? `candidate=${result.codexBinding.candidateId}` : undefined,
+        result.codexBinding.bindingId ? `binding=${result.codexBinding.bindingId}` : undefined,
+        result.codexBinding.petInstanceId ? `instanceId=${result.codexBinding.petInstanceId}` : undefined
+      ].filter(Boolean).join(" ");
+    }
     if (result.instanceId) {
       if (!result.displayName && !result.exportCommand) {
         return [
@@ -117,13 +135,15 @@ export function formatResult(result: CliResult, pretty: boolean) {
         result.probe.reasonCode ? `reasonCode=${result.probe.reasonCode}` : undefined
       ].filter(Boolean).join(" ");
     }
-    if (result.codexBinding) {
+    if (result.codexSession) {
       return [
-        "codex binding",
-        result.codexBinding.bindingStatus ? `status=${result.codexBinding.bindingStatus}` : undefined,
-        result.codexBinding.candidateId ? `candidate=${result.codexBinding.candidateId}` : undefined,
-        result.codexBinding.bindingId ? `binding=${result.codexBinding.bindingId}` : undefined,
-        result.codexBinding.petInstanceId ? `instanceId=${result.codexBinding.petInstanceId}` : undefined
+        "codex session",
+        `status=${result.codexSession.status}`,
+        result.codexSession.instanceId ? `instanceId=${result.codexSession.instanceId}` : undefined,
+        result.codexSession.bindingId ? `binding=${result.codexSession.bindingId}` : undefined,
+        result.codexSession.mode ? `mode=${result.codexSession.mode}` : undefined,
+        result.codexSession.monitor ? `monitor=${result.codexSession.monitor}` : undefined,
+        result.codexSession.lastEventKind ? `lastEvent=${result.codexSession.lastEventKind}` : undefined
       ].filter(Boolean).join(" ");
     }
     return `accepted eventId=${result.eventId ?? "unknown"}`;

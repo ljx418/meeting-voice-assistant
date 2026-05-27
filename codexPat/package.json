@@ -12,7 +12,9 @@
     "protocol:check": "pnpm --filter @agent-desktop-pet/pet-protocol check",
     "protocol:test": "pnpm --filter @agent-desktop-pet/pet-protocol test",
     "petctl:check": "pnpm --filter @agent-desktop-pet/petctl check",
-    "petctl:test": "pnpm --filter @agent-desktop-pet/petctl test"
+    "petctl:test": "pnpm --filter @agent-desktop-pet/petctl test",
+    "pet-mcp:check": "pnpm --filter @agent-desktop-pet/pet-mcp check",
+    "pet-mcp:test": "pnpm --filter @agent-desktop-pet/pet-mcp test"
   },
   "devDependencies": {}
 }

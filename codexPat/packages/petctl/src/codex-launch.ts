@@ -1,6 +1,9 @@
 import { spawn } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import type { Readable, Writable } from "node:stream";
 import type { PetEventLevel } from "@agent-desktop-pet/pet-protocol";
+import { runCodexDoctor } from "./codex-doctor.js";
+import { touchManagedSession } from "./codex-session-status.js";
 import { attachCodex } from "./instances.js";
 import { notify } from "./notify.js";
 import { EXIT_CODES, type CliResult } from "./output.js";
@@ -12,7 +15,8 @@ export type CodexLaunchOptions = {
   workspaceLabel?: string;
   workspaceHash?: string;
   bin: string;
-  monitor?: "none" | "jsonl";
+  monitor?: "none" | "jsonl" | "hooks";
+  sessionMode?: "legacy" | "exec" | "tui";
   passthrough: string[];
   noTitle?: boolean;
   spawnImpl?: typeof spawn;
@@ -20,13 +24,31 @@ export type CodexLaunchOptions = {
 };
 
 type MonitorSummary = {
-  mode: "none" | "jsonl";
+  mode: "none" | "jsonl" | "hooks";
+  sessionMode: "legacy" | "exec" | "tui";
+  bindingId: string;
   observedEventTypes: string[];
   mappedStates: PetEventLevel[];
   observedFailureSignal: boolean;
 };
 
 export async function launchCodex(options: CodexLaunchOptions): Promise<CliResult> {
+  if (options.sessionMode === "tui" && options.monitor === "hooks") {
+    const diagnostics = await runCodexDoctor({
+      token: options.token,
+      url: options.url,
+      strict: true,
+      includeInstanceEnv: false,
+      includeTrustHint: true
+    });
+    if (!diagnostics.ok) {
+      return {
+        ...diagnostics,
+        reason: "codex managed TUI startup diagnostics failed"
+      };
+    }
+  }
+
   const attached = await attachCodex({
     token: options.token,
     url: options.url,
@@ -54,13 +76,25 @@ export async function launchCodex(options: CodexLaunchOptions): Promise<CliResul
   }
 
   const monitorMode = options.monitor ?? "none";
+  const sessionMode = options.sessionMode ?? "legacy";
+  const bindingId = `bind_managed_${randomUUID().replace(/-/g, "").slice(0, 24)}`;
   const command = resolveLaunchCommand(options);
   const monitorSummary: MonitorSummary = {
     mode: monitorMode,
+    sessionMode,
+    bindingId,
     observedEventTypes: [],
     mappedStates: [],
     observedFailureSignal: false
   };
+  touchManagedSession({
+    instanceId: attached.instanceId,
+    bindingId,
+    mode: sessionMode,
+    monitor: monitorMode,
+    status: "active",
+    lastEventKind: "session.started"
+  });
 
   const spawnImpl = options.spawnImpl ?? spawn;
   const child = spawnImpl(command.bin, command.args, {
@@ -68,6 +102,9 @@ export async function launchCodex(options: CodexLaunchOptions): Promise<CliResul
     env: {
       ...process.env,
       AGENT_DESKTOP_PET_INSTANCE_ID: attached.instanceId,
+      AGENT_DESKTOP_PET_BINDING_ID: bindingId,
+      AGENT_DESKTOP_PET_SESSION_MODE: sessionMode,
+      AGENT_DESKTOP_PET_MONITOR: monitorMode,
       AGENT_DESKTOP_PET_SOURCE_ID: "codex.local",
       AGENT_DESKTOP_PET_SOURCE_KIND: "codex",
       AGENT_DESKTOP_PET_SOURCE_NAME: "Codex"
@@ -83,6 +120,14 @@ export async function launchCodex(options: CodexLaunchOptions): Promise<CliResul
     child.once("exit", (code, signal) => resolve({ code, signal }));
   });
   await monitorDone;
+  touchManagedSession({
+    instanceId: attached.instanceId,
+    bindingId,
+    mode: sessionMode,
+    monitor: monitorMode,
+    status: "stale",
+    lastEventKind: "process.exit"
+  });
 
   const passed = exit.code === 0 && exit.signal === null;
   if (monitorMode !== "jsonl") {
@@ -93,6 +138,7 @@ export async function launchCodex(options: CodexLaunchOptions): Promise<CliResul
       passed ? "Codex session completed" : "Codex session failed",
       {
         codexBinding: "wrapper",
+        codexSessionMode: sessionMode,
         exitCode: exit.code === null ? "none" : String(exit.code),
         signal: exit.signal ?? "none"
       }
@@ -116,8 +162,8 @@ export async function launchCodex(options: CodexLaunchOptions): Promise<CliResul
   };
 }
 
-function resolveLaunchCommand(options: CodexLaunchOptions) {
-  if ((options.monitor ?? "none") === "jsonl" && options.bin === "codex" && options.passthrough[0] === "codex") {
+export function resolveLaunchCommand(options: CodexLaunchOptions) {
+  if (options.bin === "codex" && options.passthrough[0] === "codex") {
     return { bin: "codex", args: options.passthrough.slice(1) };
   }
   return { bin: options.bin, args: options.passthrough };
@@ -164,12 +210,21 @@ async function handleJsonlLine(
   if (mapping.failure) {
     summary.observedFailureSignal = true;
   }
+  touchManagedSession({
+    instanceId,
+    bindingId: summary.bindingId,
+    mode: options.sessionMode ?? "legacy",
+    monitor: options.monitor ?? "none",
+    status: "active",
+    lastEventKind: eventType
+  });
   if (mapping.level === "success" && summary.observedFailureSignal) {
     return;
   }
   const result = await sendCodexState(options, instanceId, mapping.level, mapping.title, {
     codexBinding: "jsonl-monitor",
     codexLauncher: "petctl",
+    codexSessionMode: options.sessionMode ?? "legacy",
     monitorEventType: safeMetadataValue(eventType),
     mappingVersion: "v3.7",
     failureDetected: mapping.failure ? "true" : "false"

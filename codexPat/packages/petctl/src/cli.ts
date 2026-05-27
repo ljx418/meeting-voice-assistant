@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import { parseArgs, buildEventFromOptions } from "./args.js";
-import { confirmCodexBinding, previewCodexBinding } from "./codex-bind.js";
+import { confirmCodexBinding, previewCodexBinding, routeCodexBindingTest } from "./codex-bind.js";
 import { runCodexDoctor } from "./codex-doctor.js";
 import { launchCodex } from "./codex-launch.js";
 import { runCodexProbe } from "./codex-probe.js";
+import { getManagedSessionStatus } from "./codex-session-status.js";
 import { attachCodex, detachInstance, listInstances } from "./instances.js";
 import { notify } from "./notify.js";
 import { formatResult, EXIT_CODES } from "./output.js";
@@ -56,10 +57,30 @@ export async function main(argv = process.argv.slice(2)) {
         noTitle: args.noTitle
       });
       pretty = pretty || args.json;
+    } else if (args.command === "codex" && args.action === "session" && args.sessionAction === "start") {
+      result = await launchCodex({
+        token: args.token,
+        url: args.url,
+        name: args.name,
+        workspaceLabel: args.workspaceLabel,
+        workspaceHash: args.workspaceHash,
+        bin: args.bin,
+        monitor: args.monitor,
+        sessionMode: args.mode,
+        passthrough: args.passthrough,
+        noTitle: args.noTitle
+      });
+      pretty = pretty || args.json;
+    } else if (args.command === "codex" && args.action === "session" && args.sessionAction === "status") {
+      result = getManagedSessionStatus({
+        instanceId: args.instance
+      });
+      pretty = pretty || args.json;
     } else if (args.command === "codex" && args.action === "doctor") {
       result = await runCodexDoctor({
         token: args.token,
-        url: args.url
+        url: args.url,
+        includeTrustHint: true
       });
       pretty = pretty || args.json;
     } else if (args.command === "codex" && args.action === "probe") {
@@ -83,7 +104,21 @@ export async function main(argv = process.argv.slice(2)) {
         url: args.url
       });
       pretty = pretty || args.json;
-    } else {
+    } else if (args.command === "codex" && args.action === "route" && args.routeAction === "test") {
+      if (!args.binding) {
+        throw new Error("petctl codex route test requires --binding");
+      }
+      if (!args.level) {
+        throw new Error("petctl codex route test requires --level");
+      }
+      result = await routeCodexBindingTest({
+        bindingId: args.binding,
+        level: args.level,
+        token: args.token,
+        url: args.url
+      });
+      pretty = pretty || args.json;
+    } else if (args.command === "notify") {
       const event = args.json ? await readStdinJson() : buildEventFromOptions(args.payloadOptions);
       result = await notify({
         event,
@@ -91,6 +126,8 @@ export async function main(argv = process.argv.slice(2)) {
         url: args.url,
         instance: args.instance
       });
+    } else {
+      throw new Error("unsupported command");
     }
     writeResult(result, pretty);
     return result.exitCode;

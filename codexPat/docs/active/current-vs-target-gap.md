@@ -54,13 +54,19 @@ Already-running or active Codex terminal window -> explicit user-confirmed pet b
 | Terminal app matrix | Feasibility matrix completed. | Terminal.app and iTerm2 are first V4.1 safe-field probe candidates; VS Code/Warp/Ghostty remain deferred/no-go without app-specific support. | V4.0 accepted feasibility |
 | Safe identity fields | Field boundary defined. | Only safe session hints; no terminal text, prompt, command, workspace path, full local path. | V4.0 accepted feasibility |
 | Active window probe | CLI implementation built and unit-tested, including Node-packaged Codex CLI detection. Terminal.app runtime evidence passed in the tested local environment. | V4.2 may plan from Terminal.app-only evidence; iTerm2/all-terminal support remains unproven. | V4.1 passed-terminal-app |
-| User-confirmed binding | CLI implementation built and unit-tested; runtime acceptance blocked because focused app was Chrome during preview attempt. | Two-step preview / confirm flow, stale-aware binding record, Terminal.app-only candidate-to-PetInstance association. | V4.2 blocked-runtime-focus |
-| Manual route-test | Not implemented. | Revalidated binding can send an explicit manual test event only to the bound PetInstance. | planned V4.3 Terminal.app-only |
+| User-confirmed binding | CLI implementation built, unit-tested, and runtime accepted for Terminal.app candidate-to-PetInstance binding UX. | Two-step preview / confirm flow, stale-aware binding record, Terminal.app-only candidate-to-PetInstance association. | V4.2 passed Terminal.app-only |
+| Manual route-test | CLI implementation built, unit-tested, and runtime accepted for Terminal.app manual route-test. | Revalidated binding can send an explicit manual test event only to the bound PetInstance. | V4.3 passed Terminal.app-only |
+| Managed exec JSONL state mapping | `petctl codex session start --mode exec --monitor jsonl` implemented and runtime accepted. | Wrapper-launched Codex exec session can create one cat and map structured state to that cat. | V4.4 passed scoped exec JSONL |
+| Managed TUI hooks state mapping | V4.5 wrapper preflight passed. Real Codex TUI hook lifecycle passed for `UserPromptSubmit -> thinking`, `PreToolUse -> running`, and `Stop -> success` in the tested wrapper-launched local scenario. `PermissionRequest` was not observed because local policy did not emit it. | Requires managed wrapper launch and trusted project hooks. Does not cover already-open Codex windows, OS-level lifecycle monitoring, or all hook events. | V4.5 passed scoped / PermissionRequest not observed |
+| V4.6 UX hardening | Implemented and accepted for startup diagnostics. | Desktop health preflight, hook config check, wrapper check, Codex CLI check, stable reasonCode, and clear `/hooks` trust instruction. | V4.6 passed |
+| V4.7 session status | Implemented and accepted for managed wrapper-launched sessions. | Sanitized `petctl codex session status --json` with redacted binding/session fields only. | V4.7 passed |
 | Lifecycle routing | Not implemented. OS discovery is not an event source. | Remains unsupported unless a trusted event source is added later; use V3.7 wrapper path for reliable monitoring. | no-go from OS discovery alone |
 | Unsupported terminal handling | Not implemented. | Unsupported apps fail safely and are not counted as passed. | planned |
-| V4.x final acceptance | Not started. | Scoped final report with terminal/app/version boundary. | future |
+| V4.x final acceptance | V4.0-V4.7 scoped final completed. | Managed session mapping and Terminal.app binding prototype accepted with scoped claims and no OS-level or all-workflow expansion. | V4.x final passed scoped |
 
-V4.x must not treat candidate window discovery as Codex lifecycle monitoring. If no safe event source exists for an already-running Codex session, the accepted fallback is to prompt the user to relaunch through the V3.7 wrapper path.
+V4.x must not treat candidate window discovery as Codex lifecycle monitoring. If no safe event source exists for an already-running Codex session, the accepted fallback is to prompt the user to relaunch through the managed wrapper path.
+
+V4.5 preflight is not real hook lifecycle evidence. The scoped V4.5 lifecycle acceptance used a real wrapper-launched Codex TUI session after `/hooks` review/trust and observed real hook-driven state changes. `PermissionRequest` remains not-passed for this local run.
 
 ## V5.x Future Gap
 
@@ -81,6 +87,8 @@ Allowed planning claims:
 
 ```text
 V4.x OS-level Codex window/session binding is planned for feasibility review.
+V4.6 managed session startup diagnostics and UX hardening passed for tested local wrapper-launched scenarios.
+V4.7 managed session status and stale-binding diagnostics passed for tested local wrapper-launched scenarios.
 V5.x Cat Renderer & Asset System is planned for high-quality 2D, 3D, and action asset development.
 ```
 
@@ -92,6 +100,7 @@ Forbidden as ready / passed:
 OS-level Codex window binding ready
 interactive Codex TUI monitoring ready
 already-open Codex window auto-detection ready
+already-open Codex window auto-monitoring ready
 all Codex workflows verified
 Codex internal reasoning exact mapping ready
 MCP ready

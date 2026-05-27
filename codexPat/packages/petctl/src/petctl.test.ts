@@ -4,8 +4,10 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
 import { parseArgs, buildEventFromOptions } from "./args.js";
-import { confirmCodexBinding, previewCodexBinding } from "./codex-bind.js";
+import { confirmCodexBinding, previewCodexBinding, routeCodexBindingTest } from "./codex-bind.js";
 import { runCodexDoctor } from "./codex-doctor.js";
+import { getManagedSessionStatus, touchManagedSession } from "./codex-session-status.js";
+import { resolveLaunchCommand } from "./codex-launch.js";
 import { runCodexProbe } from "./codex-probe.js";
 import { attachCodex, detachInstance, listInstances } from "./instances.js";
 import { notify } from "./notify.js";
@@ -76,6 +78,89 @@ describe("petctl args", () => {
     assert.throws(() => parseArgs(["codex", "launch", "--monitor", "text"]), /--monitor must be none or jsonl/);
   });
 
+  it("parses managed codex exec session args", () => {
+    const args = parseArgs([
+      "codex",
+      "session",
+      "start",
+      "--mode",
+      "exec",
+      "--monitor",
+      "jsonl",
+      "--name",
+      "V4.4 Exec Cat",
+      "--json",
+      "--",
+      "codex",
+      "exec",
+      "--json",
+      "redacted"
+    ]);
+    assert.equal(args.command, "codex");
+    assert.equal(args.action, "session");
+    assert.equal(args.sessionAction, "start");
+    assert.equal(args.mode, "exec");
+    assert.equal(args.monitor, "jsonl");
+    assert.equal(args.name, "V4.4 Exec Cat");
+    assert.deepEqual(args.passthrough, ["codex", "exec", "--json", "redacted"]);
+  });
+
+  it("parses managed codex tui hooks session args", () => {
+    const args = parseArgs([
+      "codex",
+      "session",
+      "start",
+      "--mode",
+      "tui",
+      "--monitor",
+      "hooks",
+      "--name",
+      "V4.4 TUI Cat",
+      "--no-title",
+      "--",
+      "codex"
+    ]);
+    assert.equal(args.command, "codex");
+    assert.equal(args.action, "session");
+    assert.equal(args.sessionAction, "start");
+    assert.equal(args.mode, "tui");
+    assert.equal(args.monitor, "hooks");
+    assert.equal(args.noTitle, true);
+    assert.deepEqual(args.passthrough, ["codex"]);
+  });
+
+  it("parses managed codex session status args", () => {
+    const args = parseArgs(["codex", "session", "status", "--instance", "codex_1", "--json"]);
+    assert.equal(args.command, "codex");
+    assert.equal(args.action, "session");
+    assert.equal(args.sessionAction, "status");
+    assert.equal(args.instance, "codex_1");
+    assert.equal(args.json, true);
+  });
+
+  it("drops duplicated codex binary token for managed tui launch", () => {
+    const command = resolveLaunchCommand({
+      bin: "codex",
+      monitor: "hooks",
+      sessionMode: "tui",
+      passthrough: ["codex"],
+      noTitle: true
+    });
+    assert.equal(command.bin, "codex");
+    assert.deepEqual(command.args, []);
+  });
+
+  it("rejects incompatible managed codex session monitor", () => {
+    assert.throws(
+      () => parseArgs(["codex", "session", "start", "--mode", "exec", "--monitor", "hooks", "--", "codex"]),
+      /--mode exec requires --monitor jsonl/
+    );
+    assert.throws(
+      () => parseArgs(["codex", "session", "start", "--mode", "tui", "--monitor", "jsonl", "--", "codex"]),
+      /--mode tui requires --monitor hooks or none/
+    );
+  });
+
   it("parses codex doctor args", () => {
     const args = parseArgs(["codex", "doctor", "--json"]);
     assert.equal(args.command, "codex");
@@ -119,6 +204,16 @@ describe("petctl args", () => {
     assert.equal(args.json, true);
   });
 
+  it("parses codex route test args", () => {
+    const args = parseArgs(["codex", "route", "test", "--binding", "bind_abc", "--level", "running", "--json"]);
+    assert.equal(args.command, "codex");
+    assert.equal(args.action, "route");
+    assert.equal(args.routeAction, "test");
+    assert.equal(args.binding, "bind_abc");
+    assert.equal(args.level, "running");
+    assert.equal(args.json, true);
+  });
+
   it("rejects invalid codex probe terminal", () => {
     assert.throws(
       () => parseArgs(["codex", "probe", "active-window", "--terminal", "warp"]),
@@ -154,6 +249,9 @@ describe("petctl codex bind", () => {
       spawnImpl: fakeProbeSpawn({
         osascriptStdout: "Terminal\ncom.apple.Terminal\n123\n/dev/ttys013\n",
         psStdout: "75164 node ttys013\n",
+        psCommTtyByPid: {
+          75164: "node ttys013"
+        },
         psArgsByPid: {
           75164: "/usr/local/bin/node /usr/local/lib/node_modules/@openai/codex/bin/codex.js /Users/example/workspace"
         },
@@ -179,6 +277,9 @@ describe("petctl codex bind", () => {
     const spawnImpl = fakeProbeSpawn({
       osascriptStdout: "Terminal\ncom.apple.Terminal\n123\n/dev/ttys013\n",
       psStdout: "75164 node ttys013\n",
+      psCommTtyByPid: {
+        75164: "node ttys013"
+      },
       psArgsByPid: {
         75164: "/usr/local/bin/node /usr/local/lib/node_modules/@openai/codex/bin/codex.js"
       },
@@ -233,6 +334,9 @@ describe("petctl codex bind", () => {
     const spawnImpl = fakeProbeSpawn({
       osascriptStdout: "Terminal\ncom.apple.Terminal\n123\n/dev/ttys013\n",
       psStdout: "75164 node ttys013\n",
+      psCommTtyByPid: {
+        75164: "node ttys013"
+      },
       psArgsByPid: {
         75164: "/usr/local/bin/node /usr/local/lib/node_modules/@openai/codex/bin/codex.js"
       }
@@ -268,6 +372,9 @@ describe("petctl codex bind", () => {
       spawnImpl: fakeProbeSpawn({
         osascriptStdout: "Terminal\ncom.apple.Terminal\n123\n/dev/ttys013\n",
         psStdout: "75164 node ttys013\n",
+        psCommTtyByPid: {
+          75164: "node ttys013"
+        },
         psArgsByPid: {
           75164: "/usr/local/bin/node /usr/local/lib/node_modules/@openai/codex/bin/codex.js"
         }
@@ -281,7 +388,10 @@ describe("petctl codex bind", () => {
       now: new Date("2026-05-26T00:01:00.000Z"),
       spawnImpl: fakeProbeSpawn({
         osascriptStdout: "Terminal\ncom.apple.Terminal\n123\n/dev/ttys013\n",
-        psStdout: "75164 zsh ttys013\n"
+        psStdout: "75164 zsh ttys013\n",
+        psCommTtyByPid: {
+          75164: "zsh ttys013"
+        }
       }) as any,
       fetchImpl: async () => {
         throw new Error("should not create instance");
@@ -290,6 +400,148 @@ describe("petctl codex bind", () => {
 
     assert.equal(confirmed.ok, false);
     assert.equal(confirmed.reasonCode, "candidate_not_active");
+  });
+
+  it("routes a manual test event only to the bound instance", async () => {
+    const storePath = tempStorePath();
+    const spawnImpl = fakeProbeSpawn({
+      osascriptStdout: "Terminal\ncom.apple.Terminal\n123\n/dev/ttys013\n",
+      psStdout: "75164 node ttys013\n",
+      psCommTtyByPid: {
+        75164: "node ttys013"
+      },
+      psArgsByPid: {
+        75164: "/usr/local/bin/node /usr/local/lib/node_modules/@openai/codex/bin/codex.js"
+      },
+      codexVersion: "codex-cli 0.131.0\n"
+    }) as any;
+    const preview = await previewCodexBinding({
+      terminal: "terminal",
+      storePath,
+      now: new Date("2026-05-26T00:00:00.000Z"),
+      spawnImpl
+    });
+    const confirmed = await confirmCodexBinding({
+      candidateId: preview.codexBinding!.candidateId!,
+      name: "V4.2 Cat",
+      token: "secret-token",
+      storePath,
+      now: new Date("2026-05-26T00:01:00.000Z"),
+      spawnImpl,
+      fetchImpl: async () => new Response(JSON.stringify({
+        ok: true,
+        created: true,
+        instanceId: "codex_v42",
+        displayName: "V4.2 Cat",
+        windowLabel: "pet-codex_v42"
+      }), { status: 200 })
+    });
+    const bindingId = confirmed.codexBinding?.bindingId;
+    assert.ok(bindingId);
+    const calledUrls: string[] = [];
+
+    const routed = await routeCodexBindingTest({
+      bindingId,
+      level: "running",
+      token: "secret-token",
+      storePath,
+      now: new Date("2026-05-26T00:02:00.000Z"),
+      spawnImpl,
+      fetchImpl: async (input, init) => {
+        calledUrls.push(String(input));
+        if (String(input).endsWith("/api/instances")) {
+          return new Response(JSON.stringify({
+            ok: true,
+            instances: [
+              { instanceId: "default", displayName: "Agent Desktop Pet", isDefault: true, currentState: "idle" },
+              { instanceId: "codex_v42", displayName: "V4.2 Cat", currentState: "idle" },
+              { instanceId: "codex_other", displayName: "Other Cat", currentState: "idle" }
+            ]
+          }), { status: 200 });
+        }
+        assert.equal(String(input), "http://127.0.0.1:17321/api/instances/codex_v42/events");
+        assert.equal(init?.method, "POST");
+        const payload = JSON.parse(String(init?.body));
+        assert.equal(payload.level, "running");
+        assert.equal(payload.metadata.codexBinding, "terminal-app-manual-route-test");
+        assert.equal(payload.metadata.lifecycleEvidence, "false");
+        return new Response(JSON.stringify({
+          ok: true,
+          accepted: true,
+          eventId: "evt_route_test",
+          queued: true
+        }), { status: 202 });
+      }
+    });
+
+    assert.equal(routed.ok, true);
+    assert.equal(routed.eventId, "evt_route_test");
+    assert.equal(routed.instanceId, "codex_v42");
+    assert.deepEqual(calledUrls, [
+      "http://127.0.0.1:17321/api/instances",
+      "http://127.0.0.1:17321/api/instances/codex_v42/events"
+    ]);
+    const serialized = JSON.stringify(routed);
+    assert.equal(serialized.includes("secret-token"), false);
+    assert.equal(serialized.includes("Authorization"), false);
+    assert.equal(serialized.includes("/Users/"), false);
+  });
+
+  it("does not route unknown or stale bindings", async () => {
+    const storePath = tempStorePath();
+    const unknown = await routeCodexBindingTest({
+      bindingId: "bind_missing",
+      level: "running",
+      token: "secret-token",
+      storePath,
+      fetchImpl: async () => {
+        throw new Error("should not call bridge");
+      }
+    });
+    assert.equal(unknown.ok, false);
+    assert.equal(unknown.reasonCode, "binding_not_found");
+
+    const spawnImpl = fakeProbeSpawn({
+      osascriptStdout: "Terminal\ncom.apple.Terminal\n123\n/dev/ttys013\n",
+      psStdout: "75164 node ttys013\n",
+      psCommTtyByPid: {
+        75164: "node ttys013"
+      },
+      psArgsByPid: {
+        75164: "/usr/local/bin/node /usr/local/lib/node_modules/@openai/codex/bin/codex.js"
+      }
+    }) as any;
+    const preview = await previewCodexBinding({
+      terminal: "terminal",
+      storePath,
+      now: new Date("2026-05-26T00:00:00.000Z"),
+      spawnImpl
+    });
+    const confirmed = await confirmCodexBinding({
+      candidateId: preview.codexBinding!.candidateId!,
+      token: "secret-token",
+      storePath,
+      now: new Date("2026-05-26T00:01:00.000Z"),
+      spawnImpl,
+      fetchImpl: async () => new Response(JSON.stringify({
+        ok: true,
+        created: true,
+        instanceId: "codex_v42"
+      }), { status: 200 })
+    });
+    const stale = await routeCodexBindingTest({
+      bindingId: confirmed.codexBinding!.bindingId!,
+      level: "running",
+      token: "secret-token",
+      storePath,
+      now: new Date("2026-05-26T01:02:00.000Z"),
+      spawnImpl,
+      fetchImpl: async () => {
+        throw new Error("should not call bridge");
+      }
+    });
+    assert.equal(stale.ok, false);
+    assert.equal(stale.reasonCode, "binding_stale");
   });
 });
 
@@ -502,7 +754,89 @@ describe("petctl codex doctor", () => {
 
     assert.equal(result.ok, true);
     assert.equal(result.diagnostics?.find((diagnostic) => diagnostic.name === "instance_env")?.status, "warning");
+    assert.equal(result.diagnostics?.find((diagnostic) => diagnostic.name === "instance_env")?.reasonCode, "binding_env_missing");
     assert.equal(result.diagnostics?.find((diagnostic) => diagnostic.name === "desktop_health")?.status, "warning");
+  });
+
+  it("reports strict managed startup diagnostics with stable reason codes", async () => {
+    const result = await runCodexDoctor({
+      token: "secret-token",
+      strict: true,
+      includeInstanceEnv: false,
+      includeTrustHint: true,
+      fetchImpl: async () => {
+        throw new Error("offline");
+      },
+      spawnImpl: ((command: string, args?: readonly string[]) => {
+        if (command === "codex") {
+          return { status: 1, stdout: "", stderr: "" };
+        }
+        if (args?.includes("--check")) {
+          return { status: 0, stdout: "", stderr: "" };
+        }
+        return { status: 1, stdout: "", stderr: "" };
+      }) as any
+    });
+
+    assert.equal(result.ok, false);
+    assert.equal(result.diagnostics?.some((diagnostic) => diagnostic.reasonCode === "codex_not_found"), true);
+    assert.equal(result.diagnostics?.some((diagnostic) => diagnostic.reasonCode === "desktop_not_running"), true);
+    assert.equal(result.diagnostics?.some((diagnostic) => diagnostic.reasonCode === "hook_trust_required"), true);
+    assert.equal(result.diagnostics?.some((diagnostic) => diagnostic.reasonCode === "binding_env_missing"), false);
+    const serialized = JSON.stringify(result);
+    assert.equal(serialized.includes("secret-token"), false);
+    assert.equal(serialized.includes("Authorization"), false);
+  });
+});
+
+describe("petctl codex session status", () => {
+  it("returns sanitized managed session status without raw binding id", () => {
+    const storePath = tempStorePath();
+    touchManagedSession({
+      instanceId: "codex_status",
+      bindingId: "bind_managed_abc123",
+      mode: "tui",
+      monitor: "hooks",
+      status: "active",
+      lastEventKind: "UserPromptSubmit",
+      now: new Date("2026-05-27T00:00:00.000Z"),
+      storePath
+    });
+    const result = getManagedSessionStatus({
+      instanceId: "codex_status",
+      now: new Date("2026-05-27T00:01:00.000Z"),
+      storePath
+    });
+
+    assert.equal(result.ok, true);
+    assert.equal(result.codexSession?.instanceId, "codex_status");
+    assert.equal(result.codexSession?.mode, "tui");
+    assert.equal(result.codexSession?.monitor, "hooks");
+    assert.equal(result.codexSession?.status, "active");
+    assert.equal(result.codexSession?.lastEventKind, "UserPromptSubmit");
+    assert.match(result.codexSession?.bindingId ?? "", /^binding_[a-f0-9]{12}$/);
+    assert.equal(JSON.stringify(result).includes("bind_managed_abc123"), false);
+  });
+
+  it("marks old managed sessions stale", () => {
+    const storePath = tempStorePath();
+    touchManagedSession({
+      instanceId: "codex_stale",
+      bindingId: "bind_managed_stale",
+      mode: "exec",
+      monitor: "jsonl",
+      status: "active",
+      lastEventKind: "turn.started",
+      now: new Date("2026-05-27T00:00:00.000Z"),
+      storePath
+    });
+    const result = getManagedSessionStatus({
+      instanceId: "codex_stale",
+      now: new Date("2026-05-27T00:30:00.000Z"),
+      storePath
+    });
+
+    assert.equal(result.codexSession?.status, "stale");
   });
 });
 
@@ -690,6 +1024,7 @@ function fakeProbeSpawn(options: {
   osascriptStdout?: string;
   osascriptStderr?: string;
   psStdout?: string;
+  psCommTtyByPid?: Record<number, string>;
   psArgsByPid?: Record<number, string>;
   codexVersion?: string;
 }) {
@@ -702,6 +1037,15 @@ function fakeProbeSpawn(options: {
       };
     }
     if (command === "ps") {
+      if (args?.[0] === "-p" && args[2] === "-o" && args[3] === "comm=,tty=") {
+        const pid = Number(args[1]);
+        const stdout = Number.isInteger(pid) ? options.psCommTtyByPid?.[pid] : undefined;
+        return {
+          status: stdout === undefined ? 1 : 0,
+          stdout: stdout ?? "",
+          stderr: ""
+        };
+      }
       if (args?.[0] === "-p" && args[2] === "-o" && args[3] === "args=") {
         const pid = Number(args[1]);
         const stdout = Number.isInteger(pid) ? options.psArgsByPid?.[pid] : undefined;

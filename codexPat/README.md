@@ -17,18 +17,16 @@
 - `V3.1 Phase 4 complete: repeatable runtime regression smoke ready.`
 - `V3.1 Phase 5 complete: local app migration and backup guidance ready.`
 - `V3.1 ready: multi-instance Codex pet workflow stabilized with user onboarding, manager polish, repeatable runtime smoke, and migration guidance.`
+- `V3.3 Codex window/session-to-pet binding smoke passed for tested local macOS terminal scenarios.`
+- `V3.7 Codex exec JSONL monitor state mapping passed for tested local wrapper-launched codex exec --json scenarios.`
 
 当前主线：
 
-- V3.0 已完成多实例 Codex 工作伙伴系统：一个 Tauri app 内可运行多只猫。
-- 每个 Codex session / terminal tab 可通过 `petctl attach codex` 创建或绑定自己的猫。
-- 事件可通过 `petctl notify --instance <instanceId>` 路由到目标猫。
-- 设置页 Multi-pet Manager 支持重命名、显示/隐藏、重置位置、移除、复制命令模板和外观选择。
-- V3.1 当前规划方向是稳定化、用户上手文档、Manager polish、runtime smoke 和本地迁移说明。
-- V3.1 Phase 3 的 Manager UI polish 已完成并通过人工验收。
-- V3.1 Phase 4 的 runtime regression harness 已通过，脚本不替代人工视觉验收。
-- V3.1 Phase 5 的迁移和备份指南已通过只读 config audit，当前仍不代表 production release。
-- V3.1 final acceptance 已通过，声明范围仅限 tested local Codex session scenarios 和本地 macOS workflow。
+- V3.x 已完成 scoped final acceptance，作为已验收本地 Codex workflow 基线关闭。
+- V3.7 是当前可用的推荐监听路径：`petctl codex launch --monitor jsonl` 可为 wrapper-launched `codex exec --json` 做 project-owned structured JSONL 状态映射。
+- V3.6 hook-only 方案保留为 historical blocked evidence：真实 `PostToolUse` failure hook payload 没有稳定 failure fields，当前不再作为主动开发路线。
+- V4.x 是当前 active planning line：评估已打开 Codex 活动窗口 / OS-level session binding 的 feasibility review；当前不能声明 OS-level ready。
+- V5.x 是后续 renderer / 3D / action asset line，不属于 V4.x OS-level binding 主线。
 
 当前不能声明：
 
@@ -36,6 +34,8 @@
 - `Third-party agent integration verified`
 - `unqualified multi-instance Codex verified beyond tested local scenarios`
 - `all Codex workflows verified`
+- `V3.6 selected Codex workflow hook coverage smoke passed`
+- `PostToolUse failure hook evidence passed`
 - `OS-level Codex window binding ready`
 - `Windows ready`
 - `cross-platform ready`
@@ -50,6 +50,7 @@
 
 V2.0 final acceptance report: [docs/V2.0/v2_0-final-acceptance-report.md](docs/V2.0/v2_0-final-acceptance-report.md).
 V3.0 final acceptance report: [docs/V3.0/v3_0-final-acceptance-report.md](docs/V3.0/v3_0-final-acceptance-report.md).
+V3.x final acceptance report: [docs/V3.x/v3_x-final-acceptance-report.md](docs/V3.x/v3_x-final-acceptance-report.md).
 
 ## macOS Quick Start
 
@@ -116,7 +117,24 @@ pnpm --filter @agent-desktop-pet/petctl petctl -- notify --level success --title
 
 ## Workflow Examples
 
-一只 Codex 窗口一只猫：
+推荐：一只 Codex 窗口/会话一只猫：
+
+```bash
+node packages/petctl/dist/cli.js codex launch --name "Review Cat" -- --help
+```
+
+V3.7 JSONL monitor：当前推荐 Codex exec 监听路径，只适用于 wrapper-launched `codex exec --json`：
+
+```bash
+node packages/petctl/dist/cli.js codex launch \
+  --monitor jsonl \
+  --name "Review Cat" \
+  -- exec --json "summarize this repository"
+```
+
+该 monitor 只解析结构化 JSONL event type，不解析终端文本，不读取 `transcript_path`。V3.6 hook-only 路线已废弃为 active strategy，但 V3.7 不代表 V3.6 hook-only acceptance passed，也不覆盖 interactive Codex TUI 或 OS-level window binding。
+
+手动 attach / notify 仍可用：
 
 ```bash
 node packages/petctl/dist/cli.js attach codex --name "Review Cat" --json
@@ -168,6 +186,17 @@ node examples/node/notify-pet.mjs need_input
 - [V3.1 Local App Migration and Backup](docs/V3.1/v3_1-local-app-migration-backup.md)
 - [V3.1 final manual acceptance checklist](docs/V3.1/v3_1-final-manual-acceptance-checklist.md)
 - [V3.1 final acceptance report](docs/V3.1/v3_1-final-acceptance-report.md)
+- [V3.2 development plan](docs/V3.2/v3_2-development-plan.md)
+- [V3.2 acceptance plan](docs/V3.2/v3_2-acceptance-plan.md)
+- [V3.2 claim matrix](docs/V3.2/v3_2-claim-matrix.md)
+- [V3.2 evidence index](docs/V3.2/v3_2-evidence-index.md)
+- [V3.3 development plan](docs/V3.3/v3_3-development-plan.md)
+- [V3.3 Codex window binding design](docs/V3.3/v3_3-codex-window-binding-design.md)
+- [V3.3 final acceptance report](docs/V3.3/v3_3-final-acceptance-report.md)
+- [V3.7 final acceptance report](docs/V3.7/v3_7-final-acceptance-report.md)
+- [V3.7 JSONL monitor evidence](docs/V3.7/evidence/codex-exec-jsonl-monitor-smoke-2026-05-25.md)
+- [V4.x development plan](docs/V4.x/v4_x-development-plan.md)
+- [V5.x renderer and asset development plan](docs/V5.x/v5_x-development-plan.md)
 
 Ops:
 
@@ -210,4 +239,4 @@ Do not commit tokens into scripts or public repositories.
 
 ## No False-Green
 
-This repository currently supports a macOS-first local workflow. Windows validation, production signing, notarization, auto update, MCP, USB, Rive/Live2D/3D, and photo customization are future work unless separately implemented and accepted.
+This repository currently supports a macOS-first local workflow. V3.7 is the current recommended Codex exec monitoring path for wrapper-launched `codex exec --json`; V3.6 hook-only monitoring remains historical blocked evidence and is deprecated as the active strategy. V4.x plans OS-level Codex binding feasibility. V5.x plans 3D/action asset development. `MCP ready`, Windows validation, production signing, notarization, auto update, USB, Rive/Live2D/3D, and photo customization remain future work unless separately implemented and accepted.
