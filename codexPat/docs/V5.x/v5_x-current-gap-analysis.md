@@ -53,7 +53,7 @@ Not implemented:
 | User import | V5.8 passed scoped | manifest-validated local import after bundled assets pass | passed V5.8 CLI smoke |
 | Imported pack activation | V5.9 passed scoped | imported pack to PetInstance mapping | passed V5.9 CLI smoke |
 | Provider feasibility | V5.10 completed scoped | optional adapter boundary | completed V5.10 |
-| Import UI | Not implemented | Desktop Manager local manifest import UX | planned V5.11 |
+| Import UI | Implemented with automated smoke; manual UI acceptance pending | Desktop Manager local manifest import UX | V5.11 blocked pending manual UI |
 | Runtime imported rendering | Not implemented | activated imported pack renders per PetInstance | planned V5.12 |
 | Photo-guided workflow | Not implemented | local prompt and import-instruction flow | planned V5.13 |
 | Provider adapter | Feasibility only | explicit-consent provider smoke if pursued | planned V5.14 |

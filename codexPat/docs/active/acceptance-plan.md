@@ -308,6 +308,8 @@ V5.x is renderer, 3D, and action asset work. V5.0-V5.10 have passed scoped accep
 
 V5.x acceptance is defined in `docs/V5.x/v5_x-acceptance-plan.md`. V5.11-V5.15 must not move from planned to passed without phase-specific evidence and final acceptance reports.
 
+V5.11 automated implementation smoke passed, but final acceptance is blocked pending manual Desktop Manager UI validation. See `docs/V5.x/v5_11-final-acceptance-report.md` and `docs/V5.x/v5_11-manual-ui-acceptance-steps.md`.
+
 Planned V5 productization acceptance docs:
 
 - `docs/V5.x/v5_11-import-ui-acceptance-plan.md`

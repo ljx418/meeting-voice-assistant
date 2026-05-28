@@ -29,6 +29,15 @@ Provider adapter may receive only user-approved generation inputs. It must not r
 - terminal payloads.
 - raw PetEvent payloads.
 
+## Provider Credential Boundary
+
+- Provider credential is never stored in an asset pack.
+- Provider credential is never written to evidence.
+- Provider credential is never included in generated prompts.
+- Provider credential is isolated from renderer/runtime.
+- Logs redact Authorization, API key, bearer token, cookie, session token, and provider raw response.
+- Real provider smoke evidence must identify the tested provider, consent screen, retention/license terms, cost disclosure, and output import validation result.
+
 ## Acceptance
 
 V5.14 can pass only as either:
@@ -52,6 +61,8 @@ If real provider smoke passes later:
 ```text
 V5.14 explicit-consent provider adapter smoke passed for tested local personalized asset generation scenario.
 ```
+
+This claim must name the tested provider and scenario in the final report. It must not be shortened to `provider integration verified`.
 
 ## Forbidden Claims
 

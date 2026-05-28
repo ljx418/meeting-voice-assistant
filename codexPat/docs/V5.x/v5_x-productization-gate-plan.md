@@ -19,12 +19,18 @@ Close V5.x productization only after UI import, runtime imported rendering, guid
 - Security scan finds no token, Authorization, raw payload, full local path, workspace path, config path, remote asset URL, or executable/script reference.
 - Claim scan confirms forbidden claims appear only in forbidden / not-ready contexts.
 
-## Final Allowed Claim
+## Final Allowed Claims
 
-If all gates pass:
+If V5.14 remains feasibility-only:
 
 ```text
-V5.x personalized cat renderer and asset workflow productization passed for tested local import, runtime rendering, and guided external asset generation scenarios.
+V5.x personalized cat renderer and asset workflow productization passed for tested local import, runtime rendering, and guided external asset instruction scenarios. External provider generation remains not verified.
+```
+
+If V5.14 real provider smoke passes with explicit consent, credential, retention, license, and import-validation evidence:
+
+```text
+V5.x personalized cat renderer and asset workflow productization passed for tested local import, runtime rendering, guided external asset instructions, and one explicit-consent provider smoke scenario.
 ```
 
 This still does not imply production signed release readiness unless release signing, installer, notarization, and distribution gates pass in a separate release track.

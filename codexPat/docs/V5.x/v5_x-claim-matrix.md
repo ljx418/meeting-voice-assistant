@@ -31,6 +31,17 @@ V5.14 external generation provider feasibility completed with explicit consent b
 V5.15 visual quality and action QA passed for tested bundled and imported asset scenarios.
 ```
 
+## Conditional Claim Boundaries
+
+| Capability | Earliest Phase | Claim Condition | Must Not Imply |
+| --- | --- | --- | --- |
+| CLI local import | V5.8 | petctl import/list/activate smoke passes with sanitized output | user-facing import UI or runtime rendering |
+| UI local import | V5.11 | Desktop Manager imports valid local manifests and lists sanitized metadata | runtime activation/rendering |
+| Runtime rendering | V5.12 | user-selected imported pack renders per PetInstance with fallback | provider generation or photo-to-3D |
+| Guided prompt workflow | V5.13 | local prompt/instruction generation passes privacy review | automatic asset generation |
+| Provider smoke | V5.14 | explicit consent, credential redaction, retention/license evidence, and imported output validation pass | provider integration verified |
+| Productization gate | V5.x Gate | V5.11-V5.15 accepted with security/claim/license scans | production signed release ready |
+
 Current accepted scoped claim:
 
 ```text
@@ -106,3 +117,5 @@ provider integration verified
 - Custom asset import is not allowed until bundled assets and manifest validation pass.
 - Asset pack manifests may reference only bundled IDs or app-managed imported asset IDs, never arbitrary runtime paths or remote URLs.
 - V5.11-V5.15 claims require new acceptance evidence; planning documents alone do not make those claims accepted.
+- V5.11 import UI acceptance must not be described as ordinary-user end-to-end personalization until V5.12 activation/rendering and V5.13 guided workflow also pass.
+- V5.14 feasibility-only acceptance must not use wording that suggests external generation was verified.

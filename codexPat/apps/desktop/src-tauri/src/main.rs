@@ -1,3 +1,4 @@
+mod asset_import;
 mod bridge;
 mod sound;
 
@@ -168,7 +169,9 @@ fn main() {
             set_pet_instance_profile,
             set_pet_instance_visible,
             reset_pet_instance_position,
-            detach_pet_instance
+            detach_pet_instance,
+            list_personalized_asset_packs,
+            import_personalized_asset_pack
         ])
         .run(tauri::generate_context!())
         .expect("failed to run Agent Desktop Pet");
@@ -479,6 +482,22 @@ fn detach_pet_instance(
 ) -> Result<Vec<PetInstanceView>, String> {
     detach_pet_instance_by_id(&app, &state, &instance_id)?;
     list_pet_instances(state)
+}
+
+#[tauri::command]
+fn list_personalized_asset_packs(
+    app: AppHandle,
+) -> Result<Vec<asset_import::PersonalizedAssetPackView>, String> {
+    asset_import::list_personalized_asset_packs(&app)
+}
+
+#[tauri::command]
+fn import_personalized_asset_pack(
+    manifest_path: String,
+    display_name: Option<String>,
+    app: AppHandle,
+) -> Result<asset_import::PersonalizedAssetImportResult, String> {
+    asset_import::import_personalized_asset_pack(&app, manifest_path, display_name)
 }
 
 pub(crate) fn detach_pet_instance_by_id(

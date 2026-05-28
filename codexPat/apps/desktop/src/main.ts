@@ -51,6 +51,27 @@ type PetInstanceListResult = {
   limits: PetInstanceLimits;
 };
 
+type PersonalizedAssetPack = {
+  packId: string;
+  displayName: string;
+  rendererKind: "sprite" | "gltf";
+  copiedAssetIds: string[];
+  manifestHash: string;
+  createdAt: string;
+  activeInstances: string[];
+  validationStatus: string;
+};
+
+type PersonalizedAssetImportResult = {
+  packId: string;
+  displayName: string;
+  rendererKind: "sprite" | "gltf";
+  copiedAssetIds: string[];
+  manifestHash: string;
+  appManagedStorage: boolean;
+  validationStatus: string;
+};
+
 type CatProfile = {
   id: string;
   name: string;
@@ -181,6 +202,17 @@ async function getPetInstanceListResult(): Promise<PetInstanceListResult> {
 
 async function listCatProfiles(): Promise<CatProfile[]> {
   return invoke<CatProfile[]>("list_cat_profiles");
+}
+
+async function listPersonalizedAssetPacks(): Promise<PersonalizedAssetPack[]> {
+  return invoke<PersonalizedAssetPack[]>("list_personalized_asset_packs");
+}
+
+async function importPersonalizedAssetPack(manifestPath: string, displayName?: string): Promise<PersonalizedAssetImportResult> {
+  return invoke<PersonalizedAssetImportResult>("import_personalized_asset_pack", {
+    manifestPath,
+    displayName: displayName || null
+  });
 }
 
 async function createPetInstance(displayName?: string): Promise<PetInstance> {
@@ -340,6 +372,7 @@ async function renderSettings(settings: AppSettings) {
   });
   const { instances, limits } = instanceResult;
   const profiles = await listCatProfiles().catch(() => defaultCatProfiles());
+  const assetPacks = await listPersonalizedAssetPacks().catch(() => [] as PersonalizedAssetPack[]);
 
   appRoot.innerHTML = `
     <main class="settings-panel">
@@ -386,6 +419,31 @@ async function renderSettings(settings: AppSettings) {
 
       <section class="instance-list" id="instance-list">
         ${instanceList(instances, profiles)}
+      </section>
+
+      <section class="settings-section api-debug-section">
+        <div>
+          <h2>个性化资产包</h2>
+          <p>导入本地 manifest，文件会复制到应用托管存储。此阶段只导入和列出资产，不会切换任何猫的运行时渲染。</p>
+        </div>
+      </section>
+
+      <section class="asset-import-panel" id="asset-import-panel">
+        <div class="asset-import-controls">
+          <label>
+            <span>Manifest 路径</span>
+            <input id="asset-manifest-path" type="text" autocomplete="off" spellcheck="false" placeholder="输入本地 manifest.json 路径" />
+          </label>
+          <label>
+            <span>显示名称</span>
+            <input id="asset-display-name" type="text" maxlength="80" autocomplete="off" placeholder="可选" />
+          </label>
+          <button class="primary-action" id="asset-import-submit" type="button">导入</button>
+        </div>
+        <p class="asset-import-feedback" id="asset-import-feedback" aria-live="polite"></p>
+        <div id="asset-pack-list">
+          ${assetPackList(assetPacks)}
+        </div>
       </section>
 
       <section class="settings-section api-debug-section">
@@ -562,6 +620,44 @@ async function renderSettings(settings: AppSettings) {
     attachCopyButtons(instanceListElement);
   }
 
+  appRoot.querySelector<HTMLButtonElement>("#asset-import-submit")?.addEventListener("click", async () => {
+    const manifestInput = appRoot.querySelector<HTMLInputElement>("#asset-manifest-path");
+    const displayNameInput = appRoot.querySelector<HTMLInputElement>("#asset-display-name");
+    const feedback = appRoot.querySelector<HTMLElement>("#asset-import-feedback");
+    const list = appRoot.querySelector<HTMLElement>("#asset-pack-list");
+    const button = appRoot.querySelector<HTMLButtonElement>("#asset-import-submit");
+    const manifestPath = manifestInput?.value.trim() ?? "";
+    const displayName = displayNameInput?.value.trim() ?? "";
+    if (!manifestPath) {
+      setAssetImportFeedback("请输入 manifest.json 路径。", "error");
+      manifestInput?.focus();
+      return;
+    }
+    button?.setAttribute("disabled", "true");
+    if (feedback) {
+      feedback.textContent = "正在导入...";
+      feedback.classList.remove("is-error");
+    }
+    try {
+      const imported = await importPersonalizedAssetPack(manifestPath, displayName);
+      const packs = await listPersonalizedAssetPacks();
+      if (list) {
+        list.innerHTML = assetPackList(packs);
+      }
+      if (manifestInput) {
+        manifestInput.value = "";
+      }
+      setAssetImportFeedback(`已导入 ${imported.displayName}。`);
+    } catch (error) {
+      setAssetImportFeedback(assetImportErrorMessage(error), "error");
+    } finally {
+      if (manifestInput) {
+        manifestInput.value = "";
+      }
+      button?.removeAttribute("disabled");
+    }
+  });
+
   appRoot.querySelector<HTMLButtonElement>("#api-refresh")?.addEventListener("click", async () => {
     const summary = appRoot.querySelector<HTMLElement>("#settings-api-summary");
     const panel = appRoot.querySelector<HTMLElement>("#diagnostics-panel");
@@ -731,6 +827,32 @@ function instanceList(instances: PetInstance[], profiles: CatProfile[]) {
               <button class="secondary-action" type="button" data-instance-detach="${escapeHtml(instance.instanceId)}">移除</button>
             `}
           </div>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+function assetPackList(packs: PersonalizedAssetPack[]) {
+  if (packs.length === 0) {
+    return `<p class="diagnostics-empty">尚未导入个性化资产包。</p>`;
+  }
+  return `
+    <div class="asset-pack-list-grid">
+      ${packs.map((pack) => `
+        <article class="asset-pack-card">
+          <div>
+            <h3>${escapeHtml(pack.displayName)}</h3>
+            <dl class="asset-pack-meta-grid">
+              <div><dt>Pack ID</dt><dd>${escapeHtml(pack.packId)}</dd></div>
+              <div><dt>Renderer</dt><dd>${escapeHtml(pack.rendererKind)}</dd></div>
+              <div><dt>Actions</dt><dd>${pack.copiedAssetIds.length}/8</dd></div>
+              <div><dt>Hash</dt><dd>${escapeHtml(pack.manifestHash)}</dd></div>
+              <div><dt>Imported</dt><dd>${escapeHtml(formatTimestamp(pack.createdAt))}</dd></div>
+              <div><dt>Status</dt><dd>${escapeHtml(pack.validationStatus)}</dd></div>
+            </dl>
+          </div>
+          <span class="instance-badge">Import only</span>
         </article>
       `).join("")}
     </div>
@@ -1082,6 +1204,40 @@ function quickCommand(label: string, command: string, copyLabel = "复制") {
       <button class="copy-command" type="button" data-copy="${escapeHtml(command)}" data-copy-label="${escapeHtml(copyLabel)}">${escapeHtml(copyLabel)}</button>
     </div>
   `;
+}
+
+function setAssetImportFeedback(message: string, tone: "success" | "error" = "success") {
+  const feedback = appRoot.querySelector<HTMLElement>("#asset-import-feedback");
+  if (!feedback) {
+    return;
+  }
+  feedback.textContent = message;
+  feedback.classList.toggle("is-error", tone === "error");
+}
+
+function assetImportErrorMessage(error: unknown) {
+  const reason = userFacingError(error);
+  const messages: Record<string, string> = {
+    import_cancelled: "已取消导入。",
+    asset_manifest_not_found: "找不到 manifest 文件。",
+    asset_manifest_invalid_json: "manifest 不是有效 JSON。",
+    asset_manifest_schema_invalid: "manifest schemaVersion 不正确。",
+    asset_pack_invalid: "资产包 ID 不合法。",
+    asset_display_name_invalid: "资产包显示名称不合法。",
+    asset_renderer_invalid: "rendererKind 必须是 sprite 或 gltf。",
+    asset_license_missing: "manifest 缺少 license 信息。",
+    core_action_missing: "manifest 缺少必要核心动作。",
+    asset_missing: "动作引用的资产不存在。",
+    asset_file_invalid: "资产文件名不安全或扩展名不匹配。",
+    asset_file_not_found: "manifest 引用的资产文件不存在。",
+    asset_manifest_forbidden_content: "manifest 包含不允许的路径、URL、脚本或敏感字段。",
+    asset_pack_too_large: "资产包超过本地导入限制。",
+    asset_symlink_rejected: "资产文件不能是符号链接。",
+    gltf_external_resource_rejected: "GLTF/GLB 包含外部资源或不安全 URI。",
+    gltf_required_extension_rejected: "GLTF/GLB 包含未允许的 required extension。",
+    asset_import_copy_failed: "导入复制失败，当前资产状态未改变。"
+  };
+  return messages[reason] ?? reason;
 }
 
 function attachCopyButtons(root: ParentNode) {

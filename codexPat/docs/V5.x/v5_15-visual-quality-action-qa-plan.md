@@ -23,6 +23,18 @@ Harden visual quality, action clarity, performance, and evidence for bundled and
 - Performance baseline for idle and active animation.
 - Visual regression notes for imported pack rendering after V5.12.
 
+## Quantitative Thresholds
+
+- Each core action has at least 3 seconds of recording or a fixed-frame screenshot set.
+- GLTF/canvas nonblank pixel ratio is greater than 1%.
+- Cat bounding box stays inside the viewport with at least 4px margin.
+- Action switches contain no full blank frame.
+- Idle CPU and memory baselines are recorded.
+- Active animation CPU and memory baselines are recorded.
+- Hidden/minimized renderer work is reduced or technically justified.
+- `warning`, `error`, and `need_input` remain visually distinguishable at 1x and 0.75x scale.
+- `success` does not override active `error` or `need_input` priority state.
+
 ## Regression
 
 ```bash
