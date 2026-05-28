@@ -1,6 +1,6 @@
 # V5.x Current Gap Analysis
 
-status: final-passed-scoped
+status: personalized-extension-passed-scoped
 
 date: 2026-05-28
 
@@ -20,15 +20,19 @@ Implemented scoped:
 - GLTF / Three.js prototype renderer.
 - bundled scripted GLTF core action clips.
 - local explicit runtime renderer selection.
+- personalized prompt-pack generation.
+- manifest-validated local personalized asset import smoke.
+- imported pack activation records.
 
 Not implemented:
 
 - Rive renderer.
 - Live2D renderer.
 - user asset upload.
-- custom asset pack import.
 - remote asset download.
 - marketplace.
+- automatic photo-to-3D generation.
+- external provider integration.
 
 ## Gap Matrix
 
@@ -45,7 +49,10 @@ Not implemented:
 | 3D renderer | V5.3 passed scoped | bundled GLTF / Three.js prototype | passed V5.3 |
 | 3D action clips | V5.4 passed scoped | bundled core action clips | passed V5.4 |
 | Runtime renderer selection | V5.5 passed scoped | explicit local CSS/sprite/GLTF selection with CSS fallback | passed V5.5 |
-| User import | forbidden | manifest-validated local import after bundled assets pass | future |
+| Personalized prompt pack | V5.7 passed | standardized external-generation prompts | passed V5.7 |
+| User import | V5.8 passed scoped | manifest-validated local import after bundled assets pass | passed V5.8 CLI smoke |
+| Imported pack activation | V5.9 passed scoped | imported pack to PetInstance mapping | passed V5.9 CLI smoke |
+| Provider feasibility | V5.10 completed scoped | optional adapter boundary | completed V5.10 |
 | Remote assets | forbidden | no target until separate security review | out of scope |
 | Photo customization | forbidden | separate future stage | out of scope |
 | Production signed release | not covered | separate productization track | out of scope |
@@ -70,7 +77,9 @@ go / no-go: V5.0 through V5.5 and V5.x Final passed scoped acceptance. No-go for
 - Production-quality 3D art and animation polish.
 - Lazy loading or code splitting for Three.js before any product default.
 - Rive / Live2D exploration.
-- Manifest-validated custom import after separate security review.
+- Desktop Manager UI for personalized asset import and preview.
+- Runtime renderer selection for imported asset packs.
+- Real external provider integration after separate privacy/cost/license review.
 - Productization packaging, signing, license audit, and release artifact integrity.
 
 ## Current Allowed Claim
@@ -78,4 +87,5 @@ go / no-go: V5.0 through V5.5 and V5.x Final passed scoped acceptance. No-go for
 ```text
 V5.x Cat Renderer & Asset System is planned for high-quality 2D, 3D, and action asset development.
 V5.x scoped renderer and bundled asset acceptance passed final regression.
+V5 personalized prompt-pack and local import pipeline passed scoped CLI acceptance.
 ```

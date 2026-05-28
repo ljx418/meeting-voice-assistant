@@ -1,6 +1,6 @@
 # V5.x Development Plan
 
-status: final-passed-scoped
+status: personalized-extension-passed-scoped
 
 date: 2026-05-28
 
@@ -15,6 +15,7 @@ This stage owns:
 - GLTF / Three.js 3D cat prototype.
 - bundled 3D action asset pack.
 - future custom asset pack import after separate security review.
+- personalized cat prompt-pack and local standardized import.
 - renderer / asset architecture design.
 - visual evidence and performance baseline for renderer changes.
 
@@ -75,6 +76,11 @@ Agents must not directly control model internals, local files, URLs, scripts, bo
 | V5.3 | GLTF / Three.js 3D Cat Prototype | bundled GLB/GLTF renderer prototype |
 | V5.4 | 3D Action Asset Pack | bundled 3D clips for core pet states |
 | V5.5 | Runtime Renderer Selection | explicit local CSS/sprite/GLTF selection with CSS fallback |
+| V5.6 | Photo Personalization Scope Freeze | privacy, claim, and provider boundary |
+| V5.7 | AI Prompt Pack Generator | standardized external-generation prompts |
+| V5.8 | Standardized Local Asset Import | manifest-validated local sprite/GLTF import |
+| V5.9 | Dynamic Action Pack Builder | imported pack activation and safe action mapping |
+| V5.10 | Provider Feasibility | optional external provider adapter boundary |
 | V5.x Final | scoped asset acceptance | final report, visual evidence, security scan, claim scan |
 
 ## Required Design Documents Before Implementation
@@ -198,6 +204,20 @@ Required constraints:
 - invalid renderer choices fall back to CSS.
 - renderer adapters remain safe action-id driven.
 
+## V5.6-V5.10 Personalized Cat Asset Pipeline
+
+V5.6-V5.10 extend V5 with personalized cat assets while preserving the accepted V5.0-V5.5 baseline.
+
+The default path is prompt-pack generation plus manifest-validated local import. The project does not default-upload user photos and does not claim automatic photo-to-3D readiness.
+
+Supported scoped workflow:
+
+```text
+cat description/photo notes -> prompt pack -> external asset generation by user -> local manifest import -> safe action mapping
+```
+
+Provider integration remains feasibility-only until a separate privacy, cost, license, and real-smoke acceptance exists.
+
 ## Allowed Planning Claim
 
 ```text
@@ -215,6 +235,8 @@ remote asset download ready
 custom asset pack import ready
 asset marketplace ready
 production signed release ready
+automatic photo-to-3D ready
+provider integration verified
 ```
 
 ## Development Stop Rules

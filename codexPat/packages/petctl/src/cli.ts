@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { parseArgs, buildEventFromOptions } from "./args.js";
+import { activateAssetPack, generateAssetPromptPack, importAssetPack, listAssetPacks } from "./assets.js";
 import { confirmCodexBinding, previewCodexBinding, routeCodexBindingTest } from "./codex-bind.js";
 import { runCodexDoctor } from "./codex-doctor.js";
 import { launchCodex } from "./codex-launch.js";
@@ -116,6 +117,28 @@ export async function main(argv = process.argv.slice(2)) {
         level: args.level,
         token: args.token,
         url: args.url
+      });
+      pretty = pretty || args.json;
+    } else if (args.command === "asset" && args.action === "prompt-pack") {
+      result = generateAssetPromptPack({
+        name: args.name ?? "",
+        description: args.description ?? "",
+        renderer: args.renderer
+      });
+      pretty = pretty || args.json;
+    } else if (args.command === "asset" && args.action === "import") {
+      result = importAssetPack({
+        manifestPath: args.manifest ?? "",
+        name: args.name
+      });
+      pretty = pretty || args.json;
+    } else if (args.command === "asset" && args.action === "list") {
+      result = listAssetPacks();
+      pretty = pretty || args.json;
+    } else if (args.command === "asset" && args.action === "activate") {
+      result = activateAssetPack({
+        packId: args.pack ?? "",
+        instanceId: args.instance ?? ""
       });
       pretty = pretty || args.json;
     } else if (args.command === "notify") {

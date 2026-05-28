@@ -9,7 +9,7 @@
 ```text
 Current active line: V4.x OS-level Codex window/session binding feasibility.
 V3.x status: closed scoped baseline.
-V5.x status: scoped renderer / asset line passed final regression.
+V5.x status: scoped renderer / asset line plus personalized asset CLI pipeline passed scoped.
 ```
 
 V3.x 不再是当前开发主线。V3.x 只作为已验收基线和回归约束存在。
@@ -80,7 +80,10 @@ V5.x is a separate renderer / asset line, not the active V4.x binding work.
 | GLTF / Three.js 3D prototype | V5.3 passed scoped. | Bundled GLB/GLTF renderer prototype. | passed V5.3 |
 | 3D action clips | V5.4 passed scoped. | Bundled clips for core pet states. | passed V5.4 |
 | Runtime renderer selection | V5.5 passed scoped. | Explicit local CSS/sprite/GLTF selection with CSS fallback. | passed V5.5 |
-| Custom asset import | Forbidden today. | Manifest-validated local import after separate security review. | future post-V5.x |
+| Personalized prompt pack | V5.7 passed. | Standardized prompt pack for external asset generation. | passed V5.7 |
+| Custom asset import | V5.8 CLI smoke passed scoped. | Manifest-validated local import after separate security review. | passed V5.8 scoped |
+| Personalized action mapping | V5.9 CLI smoke passed scoped. | Imported pack activation for a PetInstance. | passed V5.9 scoped |
+| Provider adapter | Feasibility only. | Explicit-consent external generation adapter. | V5.10 feasibility completed |
 
 ## Planning Claims
 
@@ -92,6 +95,7 @@ V4.6 managed session startup diagnostics and UX hardening passed for tested loca
 V4.7 managed session status and stale-binding diagnostics passed for tested local wrapper-launched scenarios.
 V5.x Cat Renderer & Asset System is planned for high-quality 2D, 3D, and action asset development.
 V5.x scoped renderer and bundled asset acceptance passed final regression.
+V5 personalized prompt-pack and local import pipeline passed scoped CLI acceptance.
 ```
 
 ## Forbidden Claims
@@ -119,6 +123,8 @@ user asset upload ready
 remote asset download ready
 custom asset pack import ready
 asset marketplace ready
+automatic photo-to-3D ready
+provider integration verified
 ```
 
 ## Audit Files

@@ -73,6 +73,35 @@ export type CliResult = {
     lastEventKind?: string;
     lastSeenAt?: string;
   };
+  assetPromptPack?: {
+    packId: string;
+    catName: string;
+    rendererTarget: "sprite" | "gltf";
+    prompts: Record<string, string>;
+    safetyNotes: string[];
+  };
+  assetImport?: {
+    packId: string;
+    displayName: string;
+    rendererKind: "sprite" | "gltf";
+    copiedAssetIds: string[];
+    manifestHash: string;
+    appManagedStorage: boolean;
+  };
+  assetPacks?: Array<{
+    packId: string;
+    displayName: string;
+    rendererKind: "sprite" | "gltf";
+    copiedAssetIds: string[];
+    manifestHash: string;
+    createdAt: string;
+    activeInstances: string[];
+  }>;
+  assetActivation?: {
+    packId: string;
+    instanceId: string;
+    rendererKind: "sprite" | "gltf";
+  };
   raw?: unknown;
 };
 
@@ -145,6 +174,40 @@ export function formatResult(result: CliResult, pretty: boolean) {
         result.codexSession.monitor ? `monitor=${result.codexSession.monitor}` : undefined,
         result.codexSession.lastEventKind ? `lastEvent=${result.codexSession.lastEventKind}` : undefined
       ].filter(Boolean).join(" ");
+    }
+    if (result.assetPromptPack) {
+      return [
+        "asset prompt-pack",
+        `packId=${result.assetPromptPack.packId}`,
+        `renderer=${result.assetPromptPack.rendererTarget}`
+      ].join(" ");
+    }
+    if (result.assetImport) {
+      return [
+        "asset import",
+        `packId=${result.assetImport.packId}`,
+        `renderer=${result.assetImport.rendererKind}`,
+        `assets=${result.assetImport.copiedAssetIds.length}`
+      ].join(" ");
+    }
+    if (result.assetPacks) {
+      return result.assetPacks
+        .map((pack) => [
+          "asset pack",
+          `packId=${pack.packId}`,
+          `displayName="${pack.displayName}"`,
+          `renderer=${pack.rendererKind}`,
+          `assets=${pack.copiedAssetIds.length}`
+        ].join(" "))
+        .join("\n");
+    }
+    if (result.assetActivation) {
+      return [
+        "asset activation",
+        `packId=${result.assetActivation.packId}`,
+        `instanceId=${result.assetActivation.instanceId}`,
+        `renderer=${result.assetActivation.rendererKind}`
+      ].join(" ");
     }
     return `accepted eventId=${result.eventId ?? "unknown"}`;
   }

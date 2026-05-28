@@ -139,7 +139,44 @@ export type CodexRouteTestArgs = {
 
 export type CodexRouteArgs = CodexRouteTestArgs;
 
-export type PetctlArgs = NotifyArgs | AttachArgs | ListArgs | DetachArgs | CodexLaunchArgs | CodexSessionStartArgs | CodexSessionStatusArgs | CodexDoctorArgs | CodexProbeArgs | CodexBindArgs | CodexRouteArgs;
+export type AssetPromptPackArgs = {
+  command: "asset";
+  action: "prompt-pack";
+  json: boolean;
+  pretty: boolean;
+  name?: string;
+  description?: string;
+  renderer: "sprite" | "gltf";
+};
+
+export type AssetImportArgs = {
+  command: "asset";
+  action: "import";
+  json: boolean;
+  pretty: boolean;
+  manifest?: string;
+  name?: string;
+};
+
+export type AssetListArgs = {
+  command: "asset";
+  action: "list";
+  json: boolean;
+  pretty: boolean;
+};
+
+export type AssetActivateArgs = {
+  command: "asset";
+  action: "activate";
+  json: boolean;
+  pretty: boolean;
+  pack?: string;
+  instance?: string;
+};
+
+export type AssetArgs = AssetPromptPackArgs | AssetImportArgs | AssetListArgs | AssetActivateArgs;
+
+export type PetctlArgs = NotifyArgs | AttachArgs | ListArgs | DetachArgs | CodexLaunchArgs | CodexSessionStartArgs | CodexSessionStatusArgs | CodexDoctorArgs | CodexProbeArgs | CodexBindArgs | CodexRouteArgs | AssetArgs;
 
 export type PayloadOptions = {
   sourceId?: string;
@@ -187,8 +224,11 @@ export function parseArgs(argv: string[]): PetctlArgs {
   if (command === "codex") {
     return parseCodexArgs(rest);
   }
+  if (command === "asset") {
+    return parseAssetArgs(rest);
+  }
   if (command !== "notify") {
-    throw new Error("usage: petctl <notify|attach|list|detach|codex> [options]");
+    throw new Error("usage: petctl <notify|attach|list|detach|codex|asset> [options]");
   }
 
   const args: NotifyArgs = {
@@ -274,6 +314,135 @@ export function parseArgs(argv: string[]): PetctlArgs {
   }
 
   return args;
+}
+
+function parseAssetArgs(rest: string[]): AssetArgs {
+  const [action, ...flags] = rest;
+  if (action === "prompt-pack") {
+    const args: AssetPromptPackArgs = {
+      command: "asset",
+      action,
+      json: false,
+      pretty: false,
+      renderer: "gltf"
+    };
+    for (let index = 0; index < flags.length; index += 1) {
+      const flag = flags[index];
+      switch (flag) {
+        case "--json":
+          args.json = true;
+          break;
+        case "--pretty":
+          args.pretty = true;
+          break;
+        case "--name":
+          args.name = readValue(flags, ++index, flag);
+          break;
+        case "--description":
+          args.description = readValue(flags, ++index, flag);
+          break;
+        case "--renderer": {
+          const renderer = readValue(flags, ++index, flag);
+          if (renderer !== "sprite" && renderer !== "gltf") {
+            throw new Error("--renderer must be sprite or gltf");
+          }
+          args.renderer = renderer;
+          break;
+        }
+        default:
+          throw new Error(`unknown option: ${flag}`);
+      }
+    }
+    if (!args.name) throw new Error("petctl asset prompt-pack requires --name");
+    if (!args.description) throw new Error("petctl asset prompt-pack requires --description");
+    return args;
+  }
+
+  if (action === "import") {
+    const args: AssetImportArgs = {
+      command: "asset",
+      action,
+      json: false,
+      pretty: false
+    };
+    for (let index = 0; index < flags.length; index += 1) {
+      const flag = flags[index];
+      switch (flag) {
+        case "--json":
+          args.json = true;
+          break;
+        case "--pretty":
+          args.pretty = true;
+          break;
+        case "--manifest":
+          args.manifest = readValue(flags, ++index, flag);
+          break;
+        case "--name":
+          args.name = readValue(flags, ++index, flag);
+          break;
+        default:
+          throw new Error(`unknown option: ${flag}`);
+      }
+    }
+    if (!args.manifest) throw new Error("petctl asset import requires --manifest");
+    return args;
+  }
+
+  if (action === "list") {
+    const args: AssetListArgs = {
+      command: "asset",
+      action,
+      json: false,
+      pretty: false
+    };
+    for (let index = 0; index < flags.length; index += 1) {
+      const flag = flags[index];
+      switch (flag) {
+        case "--json":
+          args.json = true;
+          break;
+        case "--pretty":
+          args.pretty = true;
+          break;
+        default:
+          throw new Error(`unknown option: ${flag}`);
+      }
+    }
+    return args;
+  }
+
+  if (action === "activate") {
+    const args: AssetActivateArgs = {
+      command: "asset",
+      action,
+      json: false,
+      pretty: false
+    };
+    for (let index = 0; index < flags.length; index += 1) {
+      const flag = flags[index];
+      switch (flag) {
+        case "--json":
+          args.json = true;
+          break;
+        case "--pretty":
+          args.pretty = true;
+          break;
+        case "--pack":
+          args.pack = readValue(flags, ++index, flag);
+          break;
+        case "--instance":
+          args.instance = readValue(flags, ++index, flag);
+          break;
+        default:
+          throw new Error(`unknown option: ${flag}`);
+      }
+    }
+    if (!args.pack) throw new Error("petctl asset activate requires --pack");
+    if (!args.instance) throw new Error("petctl asset activate requires --instance");
+    return args;
+  }
+
+  throw new Error("usage: petctl asset <prompt-pack|import|list|activate> [options]");
 }
 
 function parseCodexArgs(rest: string[]): CodexLaunchArgs | CodexSessionStartArgs | CodexSessionStatusArgs | CodexDoctorArgs | CodexProbeArgs | CodexBindArgs | CodexRouteArgs {

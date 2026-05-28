@@ -27,7 +27,12 @@
 | V5.3 | passed scoped bundled GLTF prototype | `docs/V5.x/v5_3-final-acceptance-report.md` |
 | V5.4 | passed scoped bundled 3D action pack smoke | `docs/V5.x/v5_4-final-acceptance-report.md` |
 | V5.5 | passed scoped local renderer selection smoke | `docs/V5.x/v5_5-final-acceptance-report.md` |
-| V5.x Final | passed scoped bundled renderer / asset system | `docs/V5.x/v5_x-final-acceptance-report.md` |
+| V5.6 | passed scoped privacy and claim boundary | `docs/V5.x/v5_6-photo-personalization-claim-matrix.md` |
+| V5.7 | passed prompt pack generator | `docs/V5.x/v5_7-prompt-pack-final-acceptance-report.md` |
+| V5.8 | passed scoped local personalized import | `docs/V5.x/v5_8-local-asset-import-final-acceptance-report.md` |
+| V5.9 | passed scoped CLI activation mapping | `docs/V5.x/v5_9-dynamic-action-pack-final-acceptance-report.md` |
+| V5.10 | completed scoped provider feasibility | `docs/V5.x/v5_10-provider-feasibility-report.md` |
+| V5.x Final | passed scoped bundled renderer / asset system and personalized CLI pipeline | `docs/V5.x/v5_personalized_asset_pipeline_final_report.md` |
 
 ## Closed V3.x Acceptance
 

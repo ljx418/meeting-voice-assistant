@@ -1,6 +1,6 @@
 # V5.x Claim Matrix
 
-status: v5_5-passed-scoped
+status: personalized-extension-passed-scoped
 
 date: 2026-05-28
 
@@ -20,6 +20,10 @@ V5.2 renderer plugin interface smoke passed for safe action-id driven renderers.
 V5.3 bundled GLTF renderer prototype smoke passed for tested local macOS environment.
 V5.4 bundled 3D action asset pack smoke passed for core pet states.
 V5.5 local renderer selection smoke passed for CSS fallback and bundled GLTF prototype renderer.
+V5.7 personalized cat AI prompt pack generated for standardized external asset creation.
+V5.8 manifest-validated local personalized asset import passed for tested sprite and GLTF asset packs.
+V5.9 personalized asset action mapping passed for imported local asset packs in tested CLI activation path.
+V5.10 external asset generation provider feasibility completed with scoped adapter boundary.
 ```
 
 Current accepted scoped claim:
@@ -31,6 +35,10 @@ V5.2 renderer plugin interface smoke passed for safe action-id driven renderers.
 V5.3 bundled GLTF renderer prototype smoke passed for tested local macOS environment.
 V5.4 bundled 3D action asset pack smoke passed for core pet states.
 V5.5 local renderer selection smoke passed for CSS fallback and bundled GLTF prototype renderer.
+V5.7 personalized cat AI prompt pack generated for standardized external asset creation.
+V5.8 manifest-validated local personalized asset import passed for tested sprite and GLTF asset packs.
+V5.9 personalized asset action mapping passed for imported local asset packs in tested CLI activation path.
+V5.10 external asset generation provider feasibility completed with scoped adapter boundary.
 ```
 
 Evidence:
@@ -49,6 +57,9 @@ Evidence:
 - `docs/V5.x/evidence/v5_4-3d-action-pack-evidence-2026-05-28.md`
 - `docs/V5.x/v5_5-final-acceptance-report.md`
 - `docs/V5.x/evidence/v5_5-renderer-selection-smoke-2026-05-28.md`
+- `docs/V5.x/v5_personalized_asset_pipeline_final_report.md`
+- `docs/V5.x/evidence/v5_7_prompt_pack_smoke_2026-05-28.md`
+- `docs/V5.x/evidence/v5_8_local_asset_import_smoke_2026-05-28.md`
 
 V5.x Final, only after accepted evidence:
 
@@ -67,6 +78,8 @@ remote asset download ready
 custom asset pack import ready
 asset marketplace ready
 production signed release ready
+automatic photo-to-3D ready
+provider integration verified
 ```
 
 ## Boundary Rules

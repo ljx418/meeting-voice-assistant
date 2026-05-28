@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
 import { parseArgs, buildEventFromOptions } from "./args.js";
+import { activateAssetPack, generateAssetPromptPack, importAssetPack, listAssetPacks } from "./assets.js";
 import { confirmCodexBinding, previewCodexBinding, routeCodexBindingTest } from "./codex-bind.js";
 import { runCodexDoctor } from "./codex-doctor.js";
 import { getManagedSessionStatus, touchManagedSession } from "./codex-session-status.js";
@@ -236,6 +237,148 @@ describe("petctl args", () => {
 
   it("requires detach instance", () => {
     assert.throws(() => parseArgs(["detach"]), /requires --instance/);
+  });
+
+  it("parses asset prompt pack args", () => {
+    const args = parseArgs(["asset", "prompt-pack", "--name", "Mochi", "--description", "orange tabby", "--renderer", "gltf", "--json"]);
+    assert.equal(args.command, "asset");
+    assert.equal(args.action, "prompt-pack");
+    assert.equal(args.name, "Mochi");
+    assert.equal(args.renderer, "gltf");
+    assert.equal(args.json, true);
+  });
+
+  it("parses asset import and activation args", () => {
+    const imported = parseArgs(["asset", "import", "--manifest", "manifest.json", "--name", "Mochi", "--json"]);
+    assert.equal(imported.command, "asset");
+    assert.equal(imported.action, "import");
+    assert.equal(imported.manifest, "manifest.json");
+    const activated = parseArgs(["asset", "activate", "--pack", "mochi", "--instance", "codex_1", "--json"]);
+    assert.equal(activated.command, "asset");
+    assert.equal(activated.action, "activate");
+    assert.equal(activated.pack, "mochi");
+    assert.equal(activated.instance, "codex_1");
+  });
+});
+
+describe("petctl personalized assets", () => {
+  it("generates a sanitized prompt pack for all core actions", () => {
+    const result = generateAssetPromptPack({
+      name: "Mochi",
+      description: "orange tabby with green eyes and fluffy tail",
+      renderer: "gltf"
+    });
+    assert.equal(result.ok, true);
+    assert.equal(result.assetPromptPack?.rendererTarget, "gltf");
+    for (const action of ["idle", "thinking", "running", "success", "warning", "error", "need_input", "sleeping"]) {
+      assert.equal(typeof result.assetPromptPack?.prompts[action], "string");
+    }
+    const serialized = JSON.stringify(result);
+    assert.equal(serialized.includes("/Users/"), false);
+    assert.equal(serialized.includes("Authorization"), false);
+    assert.equal(serialized.includes("api-token.json"), false);
+  });
+
+  it("imports, lists, and activates a valid local gltf asset pack without leaking paths", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pet-asset-"));
+    try {
+      writeFileSync(join(dir, "idle.glb"), "glb");
+      writeFileSync(join(dir, "thinking.glb"), "glb");
+      writeFileSync(join(dir, "running.glb"), "glb");
+      writeFileSync(join(dir, "success.glb"), "glb");
+      writeFileSync(join(dir, "warning.glb"), "glb");
+      writeFileSync(join(dir, "error.glb"), "glb");
+      writeFileSync(join(dir, "need_input.glb"), "glb");
+      writeFileSync(join(dir, "sleeping.glb"), "glb");
+      const manifest = validImportManifest();
+      const manifestPath = join(dir, "manifest.json");
+      writeFileSync(manifestPath, JSON.stringify(manifest));
+      const storePath = join(dir, "store.json");
+      const storageRoot = join(dir, "managed");
+
+      const imported = importAssetPack({
+        manifestPath,
+        name: "Mochi",
+        storePath,
+        storageRoot,
+        now: new Date("2026-05-28T00:00:00.000Z")
+      });
+      assert.equal(imported.ok, true);
+      assert.equal(imported.assetImport?.packId, "mochi-gltf");
+      assert.equal(imported.assetImport?.appManagedStorage, true);
+
+      const listed = listAssetPacks({ storePath });
+      assert.equal(listed.ok, true);
+      assert.equal(listed.assetPacks?.length, 1);
+
+      const activated = activateAssetPack({ packId: "mochi-gltf", instanceId: "codex_123", storePath });
+      assert.equal(activated.ok, true);
+      assert.equal(activated.assetActivation?.instanceId, "codex_123");
+
+      const serialized = JSON.stringify({ imported, listed, activated });
+      assert.equal(serialized.includes(dir), false);
+      assert.equal(serialized.includes("/Users/"), false);
+      assert.equal(serialized.includes("Authorization"), false);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("imports a valid local sprite asset pack", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pet-asset-sprite-"));
+    try {
+      for (const action of ["idle", "thinking", "running", "success", "warning", "error", "need_input", "sleeping"]) {
+        writeFileSync(join(dir, `${action}.png`), "png");
+      }
+      const manifest = validImportManifest("sprite");
+      const manifestPath = join(dir, "manifest.json");
+      writeFileSync(manifestPath, JSON.stringify(manifest));
+      const storePath = join(dir, "store.json");
+      const storageRoot = join(dir, "managed");
+
+      const imported = importAssetPack({
+        manifestPath,
+        name: "Mochi Sprite",
+        storePath,
+        storageRoot,
+        now: new Date("2026-05-28T00:00:00.000Z")
+      });
+
+      assert.equal(imported.ok, true);
+      assert.equal(imported.assetImport?.packId, "mochi-sprite");
+      assert.equal(imported.assetImport?.rendererKind, "sprite");
+      assert.equal(imported.assetImport?.appManagedStorage, true);
+      const serialized = JSON.stringify(imported);
+      assert.equal(serialized.includes(dir), false);
+      assert.equal(serialized.includes("/Users/"), false);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("rejects missing core actions and forbidden asset references", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pet-asset-bad-"));
+    try {
+      const storePath = join(dir, "store.json");
+      const storageRoot = join(dir, "managed");
+      const missingCore = validImportManifest();
+      delete missingCore.actions.error;
+      const missingPath = join(dir, "missing.json");
+      writeFileSync(missingPath, JSON.stringify(missingCore));
+      const missing = importAssetPack({ manifestPath: missingPath, storePath, storageRoot });
+      assert.equal(missing.ok, false);
+      assert.equal(missing.reasonCode, "core_action_missing");
+
+      const forbidden = validImportManifest();
+      forbidden.assets.idle.fileName = "../idle.glb";
+      const forbiddenPath = join(dir, "forbidden.json");
+      writeFileSync(forbiddenPath, JSON.stringify(forbidden));
+      const rejected = importAssetPack({ manifestPath: forbiddenPath, storePath, storageRoot });
+      assert.equal(rejected.ok, false);
+      assert.equal(rejected.reasonCode, "asset_manifest_forbidden_content");
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });
 
@@ -1082,4 +1225,31 @@ function tempStorePath() {
     }
   });
   return join(dir, "codex-bindings.json");
+}
+
+function validImportManifest(rendererKind: "gltf" | "sprite" = "gltf"): any {
+  const extension = rendererKind === "sprite" ? "png" : "glb";
+  const assets: Record<string, { assetId: string; kind: "gltf" | "sprite"; fileName: string }> = {};
+  const actions: Record<string, { assetId: string; loop: boolean; priority: "base" | "transient" | "urgent"; durationMs?: number }> = {};
+  for (const action of ["idle", "thinking", "running", "success", "warning", "error", "need_input", "sleeping"]) {
+    assets[action] = { assetId: action, kind: rendererKind, fileName: `${action}.${extension}` };
+    actions[action] = {
+      assetId: action,
+      loop: action === "idle" || action === "thinking" || action === "running" || action === "sleeping",
+      priority: action === "error" || action === "need_input" ? "urgent" : action === "success" || action === "warning" ? "transient" : "base",
+      durationMs: action === "error" || action === "need_input" ? 6000 : undefined
+    };
+  }
+  return {
+    schemaVersion: "5.8",
+    packId: `mochi-${rendererKind}`,
+    displayName: "Mochi",
+    rendererKind,
+    license: {
+      type: "user-generated",
+      attribution: "User provided generated asset"
+    },
+    assets,
+    actions
+  };
 }

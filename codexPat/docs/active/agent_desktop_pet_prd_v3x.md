@@ -600,6 +600,48 @@ Cat Renderer & Asset System
 
 上述后续 productization track 不代表 `production signed release ready`，也不代表 `Rive / Live2D / 3D ready` 或 `custom asset pack import ready`。
 
+### 13.10 V5.6+：个性化猫资产生成与导入管线
+
+V5.6+ 承接新的个性化桌宠诉求：
+
+```text
+用户提供猫照片或特征描述 -> 标准化资产生成需求 -> 外部生成式 AI 生成素材 -> 本地 manifest 校验导入 -> 动作映射与管理
+```
+
+阶段规划：
+
+- V5.6 Photo Personalization Scope Freeze：照片隐私、claim 边界、provider 边界。
+- V5.7 AI Prompt Pack Generator：生成 2D / GLTF / action clip 标准提示词包。
+- V5.8 Standardized Local Asset Import：导入用户生成的 sprite / GLTF 资产包，必须复制到 app-managed storage。
+- V5.9 Dynamic Action Pack Builder：将导入资产映射到 `idle`、`thinking`、`running`、`success`、`warning`、`error`、`need_input`、`sleeping`。
+- V5.10 External Generation Provider Feasibility：仅做 provider adapter 可行性，不默认上传照片。
+
+默认策略：
+
+- 用户照片是敏感输入，默认不上传到第三方服务。
+- 如果本项目不能本地生成 3D 资产，先降级为输出标准化 prompt pack，由用户自行使用外部生成式 AI。
+- 外部生成结果必须通过本项目 manifest 校验和本地导入，不能绕过 renderer 安全边界。
+- provider adapter 必须另做隐私、费用、license、用户授权和真实 smoke 验收。
+
+V5.6+ 允许 scoped 声明：
+
+```text
+V5.7 personalized cat AI prompt pack generated for standardized external asset creation.
+V5.8 manifest-validated local personalized asset import passed for tested sprite and GLTF asset packs.
+V5.9 personalized asset action mapping passed for imported local asset packs in tested CLI activation path.
+V5.10 external asset generation provider feasibility completed with scoped adapter boundary.
+```
+
+V5.6+ 仍不得声明：
+
+```text
+automatic photo-to-3D ready
+provider integration verified
+remote asset loading ready
+asset marketplace ready
+production signed release ready
+```
+
 V5.x 规划文档：
 
 - `docs/V5.x/v5_x-development-plan.md`
