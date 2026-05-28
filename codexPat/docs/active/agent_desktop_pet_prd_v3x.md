@@ -649,6 +649,18 @@ V5.x 规划文档：
 - `docs/V5.x/v5_x-current-gap-analysis.md`
 - `docs/V5.x/v5_x-claim-matrix.md`
 
+V5.11+ 产品化计划文档：
+
+- `docs/V5.x/v5_11-import-ui-development-plan.md`
+- `docs/V5.x/v5_11-import-ui-acceptance-plan.md`
+- `docs/V5.x/v5_12-runtime-imported-pack-rendering-development-plan.md`
+- `docs/V5.x/v5_12-runtime-imported-pack-rendering-acceptance-plan.md`
+- `docs/V5.x/v5_13-photo-to-asset-guided-workflow-development-plan.md`
+- `docs/V5.x/v5_13-photo-to-asset-guided-workflow-privacy-review.md`
+- `docs/V5.x/v5_14-provider-adapter-feasibility-and-consent-plan.md`
+- `docs/V5.x/v5_15-visual-quality-action-qa-plan.md`
+- `docs/V5.x/v5_x-productization-gate-plan.md`
+
 V5.x 前仍不得声明：
 
 ```text

@@ -71,7 +71,7 @@
         <mxCell id="v4_claims" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;align=left;spacingLeft=16;fontSize=14" value="V4.x Claims&lt;br&gt;&lt;br&gt;Allowed now: managed exec JSONL mapping, scoped managed TUI hook mapping, diagnostics/status, and Terminal.app binding/manual route-test prototype passed.&lt;br&gt;&lt;br&gt;Not ready: OS-level binding, broad TUI monitoring, lifecycle routing from OS discovery, all terminals." vertex="1">
           <mxGeometry x="805" y="1340" width="590" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="v5_claims" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F3FF;strokeColor=#7C3AED;align=left;spacingLeft=16;fontSize=14" value="V5.x Future Claim&lt;br&gt;&lt;br&gt;V5.x Cat Renderer &amp; Asset System is planned.&lt;br&gt;&lt;br&gt;Not ready:&lt;br&gt;Rive / Live2D / 3D ready&lt;br&gt;custom asset pack import ready&lt;br&gt;asset marketplace ready" vertex="1">
+        <mxCell id="v5_claims" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F3FF;strokeColor=#7C3AED;align=left;spacingLeft=16;fontSize=14" value="V5.x Claims&lt;br&gt;&lt;br&gt;V5.0-V5.10 passed scoped for renderer/assets and personalized CLI import pipeline.&lt;br&gt;&lt;br&gt;Planned: V5.11 import UI, V5.12 runtime imported rendering, V5.13 guided prompts, V5.14 provider consent, V5.15 visual QA.&lt;br&gt;&lt;br&gt;Not ready: photo-to-3D, provider verified, marketplace, production signed release." vertex="1">
           <mxGeometry x="1510" y="1340" width="590" height="190" as="geometry" />
         </mxCell>
 

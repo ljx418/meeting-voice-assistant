@@ -57,7 +57,7 @@ Allowed planning claims:
 V5.x Cat Renderer & Asset System is planned for high-quality 2D, 3D, and action asset development.
 ```
 
-V4.x is no longer a planning-only line; it has scoped final acceptance evidence. V5.x remains planning-only and does not imply readiness, user distribution readiness, or OS-level binding acceptance.
+V4.x is no longer a planning-only line; it has scoped final acceptance evidence. V5.0-V5.10 also have scoped acceptance evidence for renderer/assets and the personalized CLI import pipeline. V5.11-V5.15 remain planned productization work and do not imply user distribution readiness, provider readiness, photo-to-3D readiness, or OS-level binding acceptance.
 
 ## Forbidden Claims
 
@@ -85,6 +85,9 @@ Rive / Live2D / 3D ready
 custom asset pack import ready
 user asset upload ready
 asset marketplace ready
+automatic photo-to-3D ready
+provider integration verified
+remote asset loading ready
 ```
 
 ## Current Implementation Direction

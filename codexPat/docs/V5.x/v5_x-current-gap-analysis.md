@@ -1,6 +1,6 @@
 # V5.x Current Gap Analysis
 
-status: personalized-extension-passed-scoped
+status: personalized-extension-passed-scoped / productization-planned
 
 date: 2026-05-28
 
@@ -53,6 +53,11 @@ Not implemented:
 | User import | V5.8 passed scoped | manifest-validated local import after bundled assets pass | passed V5.8 CLI smoke |
 | Imported pack activation | V5.9 passed scoped | imported pack to PetInstance mapping | passed V5.9 CLI smoke |
 | Provider feasibility | V5.10 completed scoped | optional adapter boundary | completed V5.10 |
+| Import UI | Not implemented | Desktop Manager local manifest import UX | planned V5.11 |
+| Runtime imported rendering | Not implemented | activated imported pack renders per PetInstance | planned V5.12 |
+| Photo-guided workflow | Not implemented | local prompt and import-instruction flow | planned V5.13 |
+| Provider adapter | Feasibility only | explicit-consent provider smoke if pursued | planned V5.14 |
+| Visual QA | Partial per previous renderer phases | productized bundled/imported action quality evidence | planned V5.15 |
 | Remote assets | forbidden | no target until separate security review | out of scope |
 | Photo customization | forbidden | separate future stage | out of scope |
 | Production signed release | not covered | separate productization track | out of scope |
@@ -70,7 +75,7 @@ Not implemented:
 
 overall risk: Medium
 
-go / no-go: V5.0 through V5.5 and V5.x Final passed scoped acceptance. No-go for production 3D readiness, custom imports, Rive, Live2D, marketplace, or signed release claims.
+go / no-go: V5.0 through V5.10 passed scoped acceptance. Go for V5.11 planning review. No-go for production 3D readiness, provider integration, marketplace, or signed release claims.
 
 ## Remaining Product Gaps
 

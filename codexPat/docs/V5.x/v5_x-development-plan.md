@@ -1,6 +1,6 @@
 # V5.x Development Plan
 
-status: personalized-extension-passed-scoped
+status: personalized-extension-passed-scoped / productization-planned
 
 date: 2026-05-28
 
@@ -18,6 +18,7 @@ This stage owns:
 - personalized cat prompt-pack and local standardized import.
 - renderer / asset architecture design.
 - visual evidence and performance baseline for renderer changes.
+- productized personalized asset import, runtime rendering, guided photo-to-asset workflow, and visual QA after V5.10.
 
 This stage is separate from:
 
@@ -81,7 +82,12 @@ Agents must not directly control model internals, local files, URLs, scripts, bo
 | V5.8 | Standardized Local Asset Import | manifest-validated local sprite/GLTF import |
 | V5.9 | Dynamic Action Pack Builder | imported pack activation and safe action mapping |
 | V5.10 | Provider Feasibility | optional external provider adapter boundary |
-| V5.x Final | scoped asset acceptance | final report, visual evidence, security scan, claim scan |
+| V5.11 | Personalized Asset Import UI | Desktop Manager local import UX |
+| V5.12 | Runtime Imported Pack Rendering | activated imported pack renders per PetInstance |
+| V5.13 | Photo-To-Asset Guided Workflow | local prompt and import-instruction workflow |
+| V5.14 | Provider Adapter Feasibility / Consent | explicit-consent provider boundary or smoke |
+| V5.15 | Visual Quality And Action QA | action clarity, performance, visual evidence |
+| V5.x Productization Gate | scoped productization acceptance | final report, visual evidence, security scan, claim scan |
 
 ## Required Design Documents Before Implementation
 
@@ -218,6 +224,33 @@ cat description/photo notes -> prompt pack -> external asset generation by user 
 
 Provider integration remains feasibility-only until a separate privacy, cost, license, and real-smoke acceptance exists.
 
+## V5.11-V5.15 Productized Personalized Asset Workflow
+
+V5.11-V5.15 are the remaining V5 productization phases after the accepted CLI pipeline.
+
+Required design documents:
+
+- `docs/V5.x/v5_11-import-ui-development-plan.md`
+- `docs/V5.x/v5_11-import-ui-acceptance-plan.md`
+- `docs/V5.x/v5_11-import-ui-prd-spec-review.md`
+- `docs/V5.x/v5_12-runtime-imported-pack-rendering-development-plan.md`
+- `docs/V5.x/v5_12-runtime-imported-pack-rendering-acceptance-plan.md`
+- `docs/V5.x/v5_13-photo-to-asset-guided-workflow-development-plan.md`
+- `docs/V5.x/v5_13-photo-to-asset-guided-workflow-privacy-review.md`
+- `docs/V5.x/v5_14-provider-adapter-feasibility-and-consent-plan.md`
+- `docs/V5.x/v5_15-visual-quality-action-qa-plan.md`
+- `docs/V5.x/v5_x-productization-gate-plan.md`
+
+Development order:
+
+1. V5.11 makes local import usable from Desktop Manager.
+2. V5.12 makes activated imported packs render in the live pet runtime per PetInstance.
+3. V5.13 adds a privacy-preserving guided workflow for photo/description-to-standardized prompts and import instructions.
+4. V5.14 keeps provider work explicit-consent and separate from the default path.
+5. V5.15 hardens visual quality, action clarity, and performance evidence.
+
+V5.11-V5.15 must not change V3/V4 Codex monitoring, PetEvent security semantics, or OS-level binding behavior.
+
 ## Allowed Planning Claim
 
 ```text
@@ -237,6 +270,8 @@ asset marketplace ready
 production signed release ready
 automatic photo-to-3D ready
 provider integration verified
+remote asset loading ready
+asset marketplace ready
 ```
 
 ## Development Stop Rules

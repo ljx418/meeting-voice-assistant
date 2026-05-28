@@ -1,6 +1,6 @@
 # V5.x Claim Matrix
 
-status: personalized-extension-passed-scoped
+status: personalized-extension-passed-scoped / productization-planned
 
 date: 2026-05-28
 
@@ -24,6 +24,11 @@ V5.7 personalized cat AI prompt pack generated for standardized external asset c
 V5.8 manifest-validated local personalized asset import passed for tested sprite and GLTF asset packs.
 V5.9 personalized asset action mapping passed for imported local asset packs in tested CLI activation path.
 V5.10 external asset generation provider feasibility completed with scoped adapter boundary.
+V5.11 personalized asset import UI passed for tested local manifest import scenarios.
+V5.12 runtime imported asset pack rendering passed for tested local PetInstance scenarios.
+V5.13 photo-guided personalized asset workflow passed for local prompt and import-instruction generation.
+V5.14 external generation provider feasibility completed with explicit consent boundary.
+V5.15 visual quality and action QA passed for tested bundled and imported asset scenarios.
 ```
 
 Current accepted scoped claim:
@@ -60,6 +65,12 @@ Evidence:
 - `docs/V5.x/v5_personalized_asset_pipeline_final_report.md`
 - `docs/V5.x/evidence/v5_7_prompt_pack_smoke_2026-05-28.md`
 - `docs/V5.x/evidence/v5_8_local_asset_import_smoke_2026-05-28.md`
+- `docs/V5.x/v5_11-import-ui-development-plan.md`
+- `docs/V5.x/v5_12-runtime-imported-pack-rendering-development-plan.md`
+- `docs/V5.x/v5_13-photo-to-asset-guided-workflow-development-plan.md`
+- `docs/V5.x/v5_14-provider-adapter-feasibility-and-consent-plan.md`
+- `docs/V5.x/v5_15-visual-quality-action-qa-plan.md`
+- `docs/V5.x/v5_x-productization-gate-plan.md`
 
 V5.x Final, only after accepted evidence:
 
@@ -75,6 +86,7 @@ bundled 3D action pack ready
 photo customization ready
 user asset upload ready
 remote asset download ready
+remote asset loading ready
 custom asset pack import ready
 asset marketplace ready
 production signed release ready
@@ -93,3 +105,4 @@ provider integration verified
 - GLTF prototype acceptance does not imply full 3D readiness.
 - Custom asset import is not allowed until bundled assets and manifest validation pass.
 - Asset pack manifests may reference only bundled IDs or app-managed imported asset IDs, never arbitrary runtime paths or remote URLs.
+- V5.11-V5.15 claims require new acceptance evidence; planning documents alone do not make those claims accepted.

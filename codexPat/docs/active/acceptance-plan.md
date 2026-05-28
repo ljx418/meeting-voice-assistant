@@ -304,9 +304,18 @@ V4.x managed Codex session-to-PetInstance state mapping passed for tested local 
 
 ## V5.x Acceptance Boundary
 
-V5.x is renderer, 3D, and action asset work. V5.0 Asset System Freeze, V5.1 bundled 2D sprite smoke, V5.2 renderer plugin interface, and V5.3 bundled GLTF prototype have passed scoped acceptance. V5.4 3D action asset pack work has not started.
+V5.x is renderer, 3D, and action asset work. V5.0-V5.10 have passed scoped acceptance through bundled renderer/assets and the personalized CLI import pipeline. V5.11-V5.15 remain planned for productized personalized asset UX, runtime imported rendering, guided photo-to-asset workflow, provider consent review, and visual QA.
 
-V5.x acceptance is defined in `docs/V5.x/v5_x-acceptance-plan.md`. V5.1 evidence is recorded in `docs/V5.x/evidence/v5_1-sprite-asset-pack-v2-evidence-2026-05-28.md`, `docs/V5.x/evidence/v5_1-visual-regression-2026-05-28.md`, and `docs/V5.x/v5_1-final-acceptance-report.md`. V5.1 must not be interpreted as 3D readiness or production release readiness.
+V5.x acceptance is defined in `docs/V5.x/v5_x-acceptance-plan.md`. V5.11-V5.15 must not move from planned to passed without phase-specific evidence and final acceptance reports.
+
+Planned V5 productization acceptance docs:
+
+- `docs/V5.x/v5_11-import-ui-acceptance-plan.md`
+- `docs/V5.x/v5_12-runtime-imported-pack-rendering-acceptance-plan.md`
+- `docs/V5.x/v5_13-photo-to-asset-guided-workflow-privacy-review.md`
+- `docs/V5.x/v5_14-provider-adapter-feasibility-and-consent-plan.md`
+- `docs/V5.x/v5_15-visual-quality-action-qa-plan.md`
+- `docs/V5.x/v5_x-productization-gate-plan.md`
 
 ## Security Gate
 
@@ -355,4 +364,7 @@ Rive / Live2D / 3D ready
 custom asset pack import ready
 user asset upload ready
 asset marketplace ready
+automatic photo-to-3D ready
+provider integration verified
+remote asset loading ready
 ```

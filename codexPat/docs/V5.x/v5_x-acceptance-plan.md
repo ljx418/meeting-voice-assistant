@@ -1,6 +1,6 @@
 # V5.x Acceptance Plan
 
-status: final-passed-scoped
+status: final-passed-scoped / productization-planned
 
 date: 2026-05-28
 
@@ -9,6 +9,8 @@ date: 2026-05-28
 V5.x cannot pass by only showing the existing CSS cat profiles.
 
 Every renderer or asset claim must have visual evidence, security evidence, and regression evidence. A 3D prototype does not imply Rive, Live2D, user upload, marketplace, or photo customization readiness.
+
+V5.11-V5.15 extend the accepted CLI pipeline into productized local import, runtime rendering, guided personalization, provider consent, and visual QA. Each phase requires its own acceptance report before the associated claim can move from planned to passed.
 
 ## Required Gates
 
@@ -71,6 +73,11 @@ Planned files:
 - `docs/V5.x/v5_x-final-security-scan.md`
 - `docs/V5.x/v5_x-final-claim-scan.md`
 - `docs/V5.x/v5_x-final-acceptance-report.md`
+- `docs/V5.x/evidence/v5_11-import-ui-smoke-YYYY-MM-DD.md`
+- `docs/V5.x/evidence/v5_12-runtime-imported-pack-rendering-smoke-YYYY-MM-DD.md`
+- `docs/V5.x/evidence/v5_13-photo-guided-workflow-smoke-YYYY-MM-DD.md`
+- `docs/V5.x/evidence/v5_14-provider-adapter-smoke-YYYY-MM-DD.md`
+- `docs/V5.x/evidence/v5_15-visual-quality-action-qa-YYYY-MM-DD.md`
 
 ## Forbidden Claims Before Final Acceptance
 
@@ -83,6 +90,9 @@ remote asset download ready
 custom asset pack import ready
 asset marketplace ready
 production signed release ready
+automatic photo-to-3D ready
+provider integration verified
+remote asset loading ready
 ```
 
 ## Per-phase Acceptance Rules
@@ -93,3 +103,8 @@ production signed release ready
 - V5.3 may pass as a bundled GLTF prototype only; it does not imply 3D ready.
 - V5.4 may pass for bundled 3D action clips only; it does not imply user import readiness or 3D production readiness.
 - V5.5 may pass for explicit local renderer selection only; it does not imply custom import readiness.
+- V5.11 may pass for local import UI only; it does not imply runtime rendering of imported packs.
+- V5.12 may pass for runtime local imported pack rendering only; it does not imply provider generation.
+- V5.13 may pass for guided prompt and import-instruction generation only; it does not imply automatic photo-to-3D.
+- V5.14 may pass only with explicit consent and separate provider evidence; feasibility alone is not provider integration verified.
+- V5.15 may pass for visual QA only; it does not imply production signed release readiness.
