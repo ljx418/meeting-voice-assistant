@@ -2,14 +2,14 @@
 
 文档状态：active gap；V4.x OS-level Codex binding feasibility line。  
 配套图：`current-vs-target-gap.drawio`。  
-当前日期：2026-05-26。
+当前日期：2026-05-28。
 
 ## Active Line
 
 ```text
 Current active line: V4.x OS-level Codex window/session binding feasibility.
 V3.x status: closed scoped baseline.
-V5.x status: planned future renderer / asset line.
+V5.x status: scoped renderer / asset line passed final regression.
 ```
 
 V3.x 不再是当前开发主线。V3.x 只作为已验收基线和回归约束存在。
@@ -70,16 +70,17 @@ V4.5 preflight is not real hook lifecycle evidence. The scoped V4.5 lifecycle ac
 
 ## V5.x Future Gap
 
-V5.x is a separate future line, not the active V4.x binding work.
+V5.x is a separate renderer / asset line, not the active V4.x binding work.
 
 | Gap | Current | Target | Status |
 | --- | --- | --- | --- |
-| Asset system freeze | Reference design only. | Manifest, action mapping, fallback, security rules. | planned V5.0 |
-| High-quality 2D actions | CSS profiles / Asset Pack v1 only. | Sprite / 2D Asset Pack v2 for core states. | planned V5.1 |
-| Renderer plugin interface | Not implemented. | CSS / sprite / GLTF / Rive / Live2D abstraction. | planned V5.2 |
-| GLTF / Three.js 3D prototype | Not implemented. | Bundled GLB/GLTF renderer prototype. | planned V5.3 |
-| 3D action clips | Not implemented. | Bundled clips for core pet states. | planned V5.4 |
-| Custom asset import | Forbidden today. | Manifest-validated local import after bundled assets pass. | future V5.5 |
+| Asset system freeze | V5.0 passed scoped. | Manifest, action mapping, fallback, security rules. | passed V5.0 |
+| High-quality 2D actions | V5.1 sprite smoke passed scoped. | Sprite / 2D Asset Pack v2 for core states. | passed V5.1 |
+| Renderer plugin interface | V5.2 passed scoped. | CSS / sprite / GLTF / Rive / Live2D abstraction. | passed V5.2 for css/sprite/gltf |
+| GLTF / Three.js 3D prototype | V5.3 passed scoped. | Bundled GLB/GLTF renderer prototype. | passed V5.3 |
+| 3D action clips | V5.4 passed scoped. | Bundled clips for core pet states. | passed V5.4 |
+| Runtime renderer selection | V5.5 passed scoped. | Explicit local CSS/sprite/GLTF selection with CSS fallback. | passed V5.5 |
+| Custom asset import | Forbidden today. | Manifest-validated local import after separate security review. | future post-V5.x |
 
 ## Planning Claims
 
@@ -90,6 +91,7 @@ V4.x OS-level Codex window/session binding is planned for feasibility review.
 V4.6 managed session startup diagnostics and UX hardening passed for tested local wrapper-launched scenarios.
 V4.7 managed session status and stale-binding diagnostics passed for tested local wrapper-launched scenarios.
 V5.x Cat Renderer & Asset System is planned for high-quality 2D, 3D, and action asset development.
+V5.x scoped renderer and bundled asset acceptance passed final regression.
 ```
 
 ## Forbidden Claims
@@ -152,6 +154,8 @@ V5.x future planning:
 - `docs/V5.x/v5_x-acceptance-plan.md`
 - `docs/V5.x/v5_x-current-gap-analysis.md`
 - `docs/V5.x/v5_x-claim-matrix.md`
+- `docs/V5.x/v5_4-final-acceptance-report.md`
+- `docs/V5.x/v5_5-final-acceptance-report.md`
 
 V3.x closed baseline:
 

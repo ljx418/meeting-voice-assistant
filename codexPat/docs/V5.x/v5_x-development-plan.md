@@ -1,8 +1,8 @@
 # V5.x Development Plan
 
-status: planned
+status: final-passed-scoped
 
-date: 2026-05-26
+date: 2026-05-28
 
 ## Scope
 
@@ -14,13 +14,22 @@ This stage owns:
 - renderer plugin boundary.
 - GLTF / Three.js 3D cat prototype.
 - bundled 3D action asset pack.
-- future custom asset pack import.
+- future custom asset pack import after separate security review.
+- renderer / asset architecture design.
+- visual evidence and performance baseline for renderer changes.
 
 This stage is separate from:
 
 - V3.x Codex workflow monitoring.
 - V4.x OS-level Codex window/session binding.
 - V4.x feasibility, probe, binding, and routing work.
+- production signed release readiness.
+- marketplace / remote asset distribution.
+
+Detailed scope and architecture:
+
+- `docs/V5.x/v5_x-development-scope.md`
+- `docs/V5.x/v5_x-detailed-design.md`
 
 ## Current Baseline
 
@@ -65,8 +74,34 @@ Agents must not directly control model internals, local files, URLs, scripts, bo
 | V5.2 | Renderer Plugin Interface | renderer abstraction for CSS/sprite/GLTF/Rive/Live2D |
 | V5.3 | GLTF / Three.js 3D Cat Prototype | bundled GLB/GLTF renderer prototype |
 | V5.4 | 3D Action Asset Pack | bundled 3D clips for core pet states |
-| V5.5 | Asset Import / Custom Pack | manifest-validated local import, no remote or script execution |
+| V5.5 | Runtime Renderer Selection | explicit local CSS/sprite/GLTF selection with CSS fallback |
 | V5.x Final | scoped asset acceptance | final report, visual evidence, security scan, claim scan |
+
+## Required Design Documents Before Implementation
+
+V5.0 must create and pass review for:
+
+- `docs/V5.x/v5_0-asset-system-freeze.md`
+- `docs/V5.x/v5_0-asset-manifest-schema.md`
+- `docs/V5.x/v5_0-security-boundary.md`
+- `docs/V5.x/v5_0-architecture-design.md`
+- `docs/V5.x/v5_x-development-scope.md`
+- `docs/V5.x/v5_x-detailed-design.md`
+
+V5.1-V5.5 must create phase-specific design and evidence documents before implementation begins:
+
+- `docs/V5.x/v5_1-sprite-renderer-design.md`
+- `docs/V5.x/v5_2-renderer-plugin-interface-design.md`
+- `docs/V5.x/v5_3-threejs-renderer-architecture.md`
+- `docs/V5.x/v5_4-action-clip-priority-design.md`
+- `docs/V5.x/v5_5-development-plan.md`
+
+Each phase must include a plan audit and PRD/spec review before code changes:
+
+```text
+docs/V5.x/v5_N-plan-audit.md
+docs/V5.x/v5_N-prd-spec-review.md
+```
 
 ## V5.0 Asset System Freeze
 
@@ -77,8 +112,10 @@ Required decisions:
 - required core actions: `idle`, `thinking`, `running`, `success`, `warning`, `error`, `need_input`, `sleeping`.
 - optional actions: `walk`, `tease`, `stretch`, `blink`.
 - renderer types: `css`, `sprite`, `gltf`, `rive`, `live2d`.
-- fallback: missing action falls back to `idle` and records warning.
+- fallback: missing optional action falls back to `idle` and records warning.
+- missing required core action fails manifest validation.
 - no arbitrary local paths, remote URLs, scripts, or shell commands.
+- no raw PetEvent, raw Agent payload, prompt text, tool command text, token, Authorization header, workspace path, config path, or full local path enters renderer or asset manifests.
 
 ## V5.1 Sprite / 2D Asset Pack v2
 
@@ -89,6 +126,7 @@ Reason:
 - validates action semantics before 3D complexity.
 - keeps productization risk lower than immediate 3D.
 - provides fallback if 3D performance or packaging is not acceptable.
+- gives V5 a shippable visual improvement even if V5.3/V5.4 remain prototype-only.
 
 ## V5.2 Renderer Plugin Interface
 
@@ -106,11 +144,25 @@ scale
 
 They must not receive raw Agent payloads.
 
+The renderer interface must be deterministic and side-effect constrained:
+
+```text
+mount(container, profile)
+setAction(actionId, playbackIntent)
+setScale(scale)
+setVisible(visible)
+dispose()
+```
+
+Renderer plugins must not fetch remote assets, execute code from assets, or read arbitrary local paths.
+
 ## V5.3 GLTF / Three.js 3D Cat Prototype
 
 Implement bundled GLTF / GLB rendering only.
 
 No user upload, no remote download, and no custom model import in this phase.
+
+This phase may only claim a bundled GLTF/GLB prototype smoke. It must not claim `3D ready`.
 
 Acceptance must include:
 
@@ -130,20 +182,21 @@ Action behavior:
 - `success`, `warning`, `error`, and `need_input` are short one-shot or priority clips.
 - `error` and `need_input` must be visually distinct.
 - `Stop` / completion events must not force a happy animation after an error state.
+- clip transitions must avoid blank frames and uncontrolled resizing.
 
-## V5.5 Asset Import / Custom Pack
+## V5.5 Runtime Renderer Selection
 
-Only after bundled assets pass.
+Only bundled renderers are selectable.
+
+CSS remains the default. GLTF can be selected explicitly through local runtime selection for tested scenarios.
 
 Required constraints:
 
-- local import must copy into app-managed storage.
-- manifest validation required before activation.
-- no direct external path references at runtime.
 - no remote URL loading.
-- no embedded scripts.
-- no executable assets.
-- invalid packs fail safely and preserve the previous active pack.
+- no arbitrary local paths.
+- no user upload or custom import.
+- invalid renderer choices fall back to CSS.
+- renderer adapters remain safe action-id driven.
 
 ## Allowed Planning Claim
 
@@ -155,12 +208,25 @@ V5.x Cat Renderer & Asset System is planned for high-quality 2D, 3D, and action 
 
 ```text
 Rive / Live2D / 3D ready
+bundled 3D action pack ready
 photo customization ready
 user asset upload ready
 remote asset download ready
 custom asset pack import ready
 asset marketplace ready
+production signed release ready
 ```
+
+## Development Stop Rules
+
+Stop and return to planning if any phase audit finds High risk in:
+
+- renderer accepting raw Agent payloads.
+- asset manifest allowing remote URL or arbitrary local path.
+- custom import before bundled assets and manifest validation pass.
+- visual evidence missing for a visual claim.
+- performance evidence missing for GLTF / Three.js claims.
+- claim wording implying Rive / Live2D / 3D / custom import readiness before scoped acceptance.
 
 ## V4.x Boundary
 

@@ -1,7 +1,7 @@
 # Active Acceptance Plan
 
 文档状态：active acceptance index；V4.x OS-level Codex binding feasibility line。  
-当前日期：2026-05-26。
+当前日期：2026-05-28。
 
 ## Current Acceptance Status
 
@@ -16,12 +16,18 @@
 | V3.7 | passed scoped / current Codex exec monitoring strategy | `docs/V3.7/v3_7-final-acceptance-report.md` |
 | V3.x Final | passed scoped / closed baseline | `docs/V3.x/v3_x-final-acceptance-report.md` |
 | V4.0 | accepted feasibility review / no readiness claim | `docs/V4.x/v4_0-os-binding-feasibility-review.md` |
-| V4.4 | passed scoped managed exec JSONL / TUI hooks not-run | `docs/V4.x/v4_4-final-acceptance-report.md` |
-| V4.5 | preflight passed / real hook lifecycle pending | `docs/V4.x/v4_5-final-acceptance-report.md` |
-| V4.6 | planned | pending |
-| V4.7 | planned | pending |
-| V4.x Final | do not rerun until V4.5 has clear decision | pending |
-| V5.x | future planned / not active | `docs/V5.x/v5_x-acceptance-plan.md` |
+| V4.4 | passed scoped managed exec JSONL | `docs/V4.x/v4_4-final-acceptance-report.md` |
+| V4.5 | passed scoped real TUI hook lifecycle / PermissionRequest not observed | `docs/V4.x/v4_5-final-acceptance-report.md` |
+| V4.6 | passed startup diagnostics | `docs/V4.x/evidence/v4_6-startup-diagnostics-smoke-2026-05-27.md` |
+| V4.7 | passed sanitized session status | `docs/V4.x/evidence/v4_7-session-status-smoke-2026-05-27.md` |
+| V4.x Final | passed scoped | `docs/V4.x/v4_x-final-acceptance-report.md` |
+| V5.0 | passed scoped asset system freeze | `docs/V5.x/v5_0-final-acceptance-report.md` |
+| V5.1 | passed scoped bundled 2D sprite smoke | `docs/V5.x/v5_1-final-acceptance-report.md` |
+| V5.2 | passed scoped renderer plugin interface | `docs/V5.x/v5_2-final-acceptance-report.md` |
+| V5.3 | passed scoped bundled GLTF prototype | `docs/V5.x/v5_3-final-acceptance-report.md` |
+| V5.4 | passed scoped bundled 3D action pack smoke | `docs/V5.x/v5_4-final-acceptance-report.md` |
+| V5.5 | passed scoped local renderer selection smoke | `docs/V5.x/v5_5-final-acceptance-report.md` |
+| V5.x Final | passed scoped bundled renderer / asset system | `docs/V5.x/v5_x-final-acceptance-report.md` |
 
 ## Closed V3.x Acceptance
 
@@ -293,9 +299,9 @@ V4.x managed Codex session-to-PetInstance state mapping passed for tested local 
 
 ## V5.x Acceptance Boundary
 
-V5.x is future planned work for renderer, 3D, and action assets. It is not active while V4.x feasibility is active.
+V5.x is renderer, 3D, and action asset work. V5.0 Asset System Freeze, V5.1 bundled 2D sprite smoke, V5.2 renderer plugin interface, and V5.3 bundled GLTF prototype have passed scoped acceptance. V5.4 3D action asset pack work has not started.
 
-V5.x acceptance must be defined in `docs/V5.x/v5_x-acceptance-plan.md` before implementation begins.
+V5.x acceptance is defined in `docs/V5.x/v5_x-acceptance-plan.md`. V5.1 evidence is recorded in `docs/V5.x/evidence/v5_1-sprite-asset-pack-v2-evidence-2026-05-28.md`, `docs/V5.x/evidence/v5_1-visual-regression-2026-05-28.md`, and `docs/V5.x/v5_1-final-acceptance-report.md`. V5.1 must not be interpreted as 3D readiness or production release readiness.
 
 ## Security Gate
 

@@ -8,14 +8,19 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "check": "tsc --noEmit",
+    "test": "node --test --import tsx src/assets/asset-pack-validator.test.ts src/assets/sprite-pack.test.ts src/state/cat-action-resolver.test.ts src/renderer/renderer-registry.test.ts src/renderer/renderer-selection.test.ts",
     "tauri:build:app": "tauri build -b app",
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": "^2.0.0"
+    "@tauri-apps/api": "^2.0.0",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.0.0",
+    "@types/node": "^22.15.3",
+    "@types/three": "^0.184.1",
+    "tsx": "^4.20.6",
     "typescript": "^5.6.0",
     "vite": "^5.4.0"
   }

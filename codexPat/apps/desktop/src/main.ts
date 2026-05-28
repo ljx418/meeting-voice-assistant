@@ -2,6 +2,9 @@ import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { CAT_STATE_CONFIG, CAT_STATE_ORDER, labelForState, type CatState } from "./pet-states";
+import { RendererRegistry } from "./renderer/renderer-registry";
+import { manifestForRuntimeRenderer, resolveRuntimeRendererKind } from "./renderer/renderer-selection";
+import { resolveCatAction } from "./state/cat-action-resolver";
 import { CatStateMachine, catStateStorageKey, readStoredCatStateSnapshot, type CatStateSnapshot } from "./state-machine";
 import "./styles.css";
 
@@ -248,9 +251,27 @@ async function renderPet(settings: AppSettings) {
   const stateLabel = appRoot.querySelector<HTMLElement>("#pet-state-label");
   const queueLabel = appRoot.querySelector<HTMLElement>("#pet-queue-label");
   const nameLabel = appRoot.querySelector<HTMLElement>(".pet-name-label");
+  const runtimeRenderer = resolveRuntimeRendererKind();
+  const activeManifest = manifestForRuntimeRenderer(runtimeRenderer.selectedKind);
+  const rendererSelection = new RendererRegistry().create(runtimeRenderer.selectedKind);
+  if (shell) {
+    rendererSelection.renderer.mount(shell, {
+      profileId: instance.catProfileId,
+      rendererKind: rendererSelection.selectedKind,
+      packId: activeManifest.packId,
+      scale: 1
+    });
+    shell.dataset.requestedRendererKind = runtimeRenderer.requestedKind ?? "css";
+    shell.dataset.rendererFallbackUsed = String(runtimeRenderer.fallbackUsed);
+    if (runtimeRenderer.reasonCode) {
+      shell.dataset.rendererReasonCode = runtimeRenderer.reasonCode;
+    }
+  }
 
   stateMachine.subscribe((snapshot) => {
     updatePetStateUi(shell, stateLabel, queueLabel, snapshot);
+    const resolvedAction = resolveCatAction(snapshot.current, activeManifest);
+    rendererSelection.renderer.setAction(resolvedAction.actionId, resolvedAction.playback);
   });
 
   listen<AcceptedPetEvent>("pet-event:accepted", (event) => {

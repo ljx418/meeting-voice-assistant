@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>V5.1 Sprite Visual Fixture</title>
+<style>
+body { margin: 0; font-family: Inter, system-ui, sans-serif; background: #f8fafc; color: #18212f; }
+main { padding: 24px; }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(160px, 1fr)); gap: 16px; max-width: 900px; }
+.tile { background: white; border: 1px solid #dbe3ee; border-radius: 8px; padding: 14px; }
+.tile h2 { margin: 0 0 10px; font-size: 14px; }
+svg { display: block; width: 100%; height: 150px; }
+</style>
+</head>
+<body>
+<main>
+<h1>V5.1 Sprite Visual Fixture</h1>
+<p>Bundled static 2D sprite smoke for core pet states.</p>
+<section class="grid">
+<article class="tile" data-action="idle"><h2>Idle</h2><svg viewBox="0 0 160 150" role="img" aria-label="Idle">
+<ellipse cx="80" cy="130" rx="46" ry="9" fill="rgba(15,23,42,0.14)"/>
+<path d="M113 92 C145 77 146 112 122 108" fill="none" stroke="#667386" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="80" cy="60" rx="42" ry="36" fill="#8d99a8"/>
+<path d="M48 40 L57 16 L70 41 Z" fill="#667386"/>
+<path d="M91 41 L105 16 L113 40 Z" fill="#667386"/>
+<rect x="49" y="28" width="63" height="55" rx="25" fill="#8d99a8"/>
+<circle cx="68" cy="58" r="5" fill="#111827"/><circle cx="94" cy="58" r="5" fill="#111827"/>
+<path d="M77 70 q4 4 8 0" stroke="#111827" stroke-width="3" fill="none" stroke-linecap="round"/>
+<text x="18" y="142" font-size="12" fill="#667386" font-weight="700">Idle</text>
+</svg></article>
+<article class="tile" data-action="thinking"><h2>Thinking</h2><svg viewBox="0 0 160 150" role="img" aria-label="Thinking">
+<ellipse cx="80" cy="130" rx="46" ry="9" fill="rgba(15,23,42,0.14)"/>
+<path d="M113 92 C145 77 146 112 122 108" fill="none" stroke="#3f6f85" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="80" cy="60" rx="42" ry="36" fill="#8fa0ad"/>
+<path d="M48 40 L57 16 L70 41 Z" fill="#3f6f85"/>
+<path d="M91 41 L105 16 L113 40 Z" fill="#3f6f85"/>
+<rect x="49" y="28" width="63" height="55" rx="25" fill="#8fa0ad"/>
+<circle cx="68" cy="58" r="5" fill="#111827"/><circle cx="94" cy="58" r="5" fill="#111827"/>
+<path d="M77 70 q4 4 8 0" stroke="#111827" stroke-width="3" fill="none" stroke-linecap="round"/>
+<text x="18" y="142" font-size="12" fill="#3f6f85" font-weight="700">Thinking</text>
+</svg></article>
+<article class="tile" data-action="running"><h2>Running</h2><svg viewBox="0 0 160 150" role="img" aria-label="Running">
+<ellipse cx="80" cy="130" rx="46" ry="9" fill="rgba(15,23,42,0.14)"/>
+<path d="M113 92 C145 77 146 112 122 108" fill="none" stroke="#245f7a" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="80" cy="60" rx="42" ry="36" fill="#7da0b8"/>
+<path d="M48 40 L57 16 L70 41 Z" fill="#245f7a"/>
+<path d="M91 41 L105 16 L113 40 Z" fill="#245f7a"/>
+<rect x="49" y="28" width="63" height="55" rx="25" fill="#7da0b8"/>
+<circle cx="68" cy="58" r="5" fill="#111827"/><circle cx="94" cy="58" r="5" fill="#111827"/>
+<path d="M77 70 q4 4 8 0" stroke="#111827" stroke-width="3" fill="none" stroke-linecap="round"/>
+<text x="18" y="142" font-size="12" fill="#245f7a" font-weight="700">Running</text>
+</svg></article>
+<article class="tile" data-action="success"><h2>Success</h2><svg viewBox="0 0 160 150" role="img" aria-label="Success">
+<ellipse cx="80" cy="130" rx="46" ry="9" fill="rgba(15,23,42,0.14)"/>
+<path d="M113 92 C145 77 146 112 122 108" fill="none" stroke="#34795a" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="80" cy="60" rx="42" ry="36" fill="#88b59b"/>
+<path d="M48 40 L57 16 L70 41 Z" fill="#34795a"/>
+<path d="M91 41 L105 16 L113 40 Z" fill="#34795a"/>
+<rect x="49" y="28" width="63" height="55" rx="25" fill="#88b59b"/>
+<circle cx="68" cy="58" r="5" fill="#111827"/><circle cx="94" cy="58" r="5" fill="#111827"/>
+<path d="M77 70 q4 4 8 0" stroke="#111827" stroke-width="3" fill="none" stroke-linecap="round"/>
+<text x="18" y="142" font-size="12" fill="#34795a" font-weight="700">Success</text>
+</svg></article>
+<article class="tile" data-action="warning"><h2>Warning</h2><svg viewBox="0 0 160 150" role="img" aria-label="Warning">
+<ellipse cx="80" cy="130" rx="46" ry="9" fill="rgba(15,23,42,0.14)"/>
+<path d="M113 92 C145 77 146 112 122 108" fill="none" stroke="#80621f" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="80" cy="60" rx="42" ry="36" fill="#c2aa72"/>
+<path d="M48 40 L57 16 L70 41 Z" fill="#80621f"/>
+<path d="M91 41 L105 16 L113 40 Z" fill="#80621f"/>
+<rect x="49" y="28" width="63" height="55" rx="25" fill="#c2aa72"/>
+<circle cx="68" cy="58" r="5" fill="#111827"/><circle cx="94" cy="58" r="5" fill="#111827"/>
+<path d="M77 70 q4 4 8 0" stroke="#111827" stroke-width="3" fill="none" stroke-linecap="round"/>
+<text x="18" y="142" font-size="12" fill="#80621f" font-weight="700">Warning</text>
+</svg></article>
+<article class="tile" data-action="error"><h2>Error</h2><svg viewBox="0 0 160 150" role="img" aria-label="Error">
+<ellipse cx="80" cy="130" rx="46" ry="9" fill="rgba(15,23,42,0.14)"/>
+<path d="M113 92 C145 77 146 112 122 108" fill="none" stroke="#6b2538" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="80" cy="60" rx="42" ry="36" fill="#a47482"/>
+<path d="M48 40 L57 16 L70 41 Z" fill="#6b2538"/>
+<path d="M91 41 L105 16 L113 40 Z" fill="#6b2538"/>
+<rect x="49" y="28" width="63" height="55" rx="25" fill="#a47482"/>
+<circle cx="68" cy="58" r="5" fill="#111827"/><circle cx="94" cy="58" r="5" fill="#111827"/>
+<path d="M77 70 q4 4 8 0" stroke="#111827" stroke-width="3" fill="none" stroke-linecap="round"/>
+<text x="18" y="142" font-size="12" fill="#6b2538" font-weight="700">Error</text>
+</svg></article>
+<article class="tile" data-action="need_input"><h2>Need Input</h2><svg viewBox="0 0 160 150" role="img" aria-label="Need Input">
+<ellipse cx="80" cy="130" rx="46" ry="9" fill="rgba(15,23,42,0.14)"/>
+<path d="M113 92 C145 77 146 112 122 108" fill="none" stroke="#604293" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="80" cy="60" rx="42" ry="36" fill="#9b8cc4"/>
+<path d="M48 40 L57 16 L70 41 Z" fill="#604293"/>
+<path d="M91 41 L105 16 L113 40 Z" fill="#604293"/>
+<rect x="49" y="28" width="63" height="55" rx="25" fill="#9b8cc4"/>
+<circle cx="68" cy="58" r="5" fill="#111827"/><circle cx="94" cy="58" r="5" fill="#111827"/>
+<path d="M77 70 q4 4 8 0" stroke="#111827" stroke-width="3" fill="none" stroke-linecap="round"/>
+<text x="18" y="142" font-size="12" fill="#604293" font-weight="700">Need Input</text>
+</svg></article>
+<article class="tile" data-action="sleeping"><h2>Sleeping</h2><svg viewBox="0 0 160 150" role="img" aria-label="Sleeping">
+<ellipse cx="80" cy="130" rx="46" ry="9" fill="rgba(15,23,42,0.14)"/>
+<path d="M113 92 C145 77 146 112 122 108" fill="none" stroke="#536071" stroke-width="15" stroke-linecap="round"/>
+<ellipse cx="80" cy="60" rx="42" ry="36" fill="#8792a3"/>
+<path d="M48 40 L57 16 L70 41 Z" fill="#536071"/>
+<path d="M91 41 L105 16 L113 40 Z" fill="#536071"/>
+<rect x="49" y="28" width="63" height="55" rx="25" fill="#8792a3"/>
+<circle cx="68" cy="58" r="5" fill="#111827"/><circle cx="94" cy="58" r="5" fill="#111827"/>
+<path d="M77 70 q4 4 8 0" stroke="#111827" stroke-width="3" fill="none" stroke-linecap="round"/>
+<text x="18" y="142" font-size="12" fill="#536071" font-weight="700">Sleeping</text>
+</svg></article>
+</section>
+</main>
+</body>
+</html>
