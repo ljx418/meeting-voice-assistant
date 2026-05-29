@@ -84,7 +84,7 @@ V5.x is a separate renderer / asset line, not the active V4.x binding work.
 | Custom asset import | V5.8 CLI smoke passed scoped. | Manifest-validated local import after separate security review. | passed V5.8 scoped |
 | Personalized action mapping | V5.9 CLI smoke passed scoped. | Imported pack activation for a PetInstance. | passed V5.9 scoped |
 | Provider adapter | Feasibility only. | Explicit-consent external generation adapter. | V5.10 feasibility completed |
-| Import UI | Implemented with automated smoke; manual UI acceptance pending. | Desktop Manager local manifest import UX. | V5.11 blocked pending manual UI |
+| Import UI | Implemented and manually accepted. | Desktop Manager local manifest import UX. | passed V5.11 scoped |
 | Runtime imported rendering | Not implemented. | Activated imported pack renders per PetInstance. | planned V5.12 |
 | Photo-guided workflow | Not implemented. | Local prompt and import-instruction generation from user-approved cat traits/photo notes. | planned V5.13 |
 | Provider consent smoke | Feasibility only. | Explicit-consent provider adapter if separately accepted. | planned V5.14 |

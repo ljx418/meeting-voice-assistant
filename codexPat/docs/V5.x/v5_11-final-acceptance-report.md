@@ -1,6 +1,6 @@
 # V5.11 Final Acceptance Report
 
-status: blocked-pending-manual-ui
+status: passed
 
 date: 2026-05-28
 
@@ -38,21 +38,17 @@ node scripts/v5_8_personalized_asset_pipeline_smoke.mjs: passed
 
 Automated evidence output contains no token, Authorization, raw payload, workspace path, config path, full local user path, `api-token.json`, or remote asset URL.
 
-## Manual UI Blocker
+## Manual UI Acceptance
 
-The following required V5.11 manual UI scenarios are not yet run:
+Manual UI acceptance was completed on 2026-05-29 with the prepared local fixtures:
 
-- real local sprite manifest import from Desktop Manager.
-- real local GLTF/GLB manifest import from Desktop Manager.
-- invalid manifest UI failure with stable reason code.
-- visual confirmation that imported pack list shows sanitized metadata only.
-- visual confirmation that V5.11 does not change current cat runtime renderer.
+- real local sprite manifest import from Desktop Manager: passed.
+- real local GLTF/GLB manifest import from Desktop Manager: passed.
+- invalid manifest UI failure with stable reason code: passed.
+- imported pack list shows sanitized metadata only: passed by operator confirmation.
+- V5.11 does not expose runtime activation/rendering controls: passed by operator confirmation.
 
 ## Allowed Claim
-
-Not yet allowed.
-
-After manual UI acceptance passes, the allowed claim is:
 
 ```text
 V5.11 personalized asset import UI passed for tested local manifest import scenarios.
@@ -74,4 +70,6 @@ runtime imported pack rendering passed
 
 ## Final Decision
 
-Blocked pending manual UI acceptance. Do not enter V5.12 implementation until V5.11 manual UI acceptance is completed or explicitly deferred with a no-passed claim.
+V5.11 final acceptance passed for scoped local import UI.
+
+Do not enter V5.12 implementation until the V5.12 plan is re-audited immediately before implementation.

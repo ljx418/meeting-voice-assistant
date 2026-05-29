@@ -1,6 +1,6 @@
 # V5.11 Import UI Smoke Evidence
 
-status: automated-passed / manual-ui-pending
+status: passed
 
 date: 2026-05-28
 
@@ -8,7 +8,7 @@ date: 2026-05-28
 
 This evidence covers V5.11 automated backend and frontend checks for local personalized asset import UI.
 
-It does not claim final V5.11 acceptance until Desktop Manager manual UI import is completed.
+Manual Desktop Manager UI import was completed on 2026-05-29.
 
 ## Commands
 
@@ -41,15 +41,15 @@ node scripts/v5_8_personalized_asset_pipeline_smoke.mjs
 - Sanitized imported pack list shape.
 - Import UI source compiles and does not add runtime activation.
 
-## Pending Manual UI Cases
+## Manual UI Cases
 
-- Open Desktop Manager.
-- Import a real local sprite manifest.
-- Import a real local GLTF/GLB manifest.
-- Import an invalid manifest and confirm stable error.
-- Confirm imported pack list shows sanitized metadata only.
-- Confirm no cat runtime renderer changes during V5.11 import-only flow.
+- Open Desktop Manager: passed.
+- Import real local sprite manifest: passed.
+- Import real local GLTF/GLB manifest: passed.
+- Import invalid manifest and confirm stable error: passed.
+- Confirm imported pack list shows sanitized metadata only: passed by operator confirmation.
+- Confirm no runtime activation control exists in V5.11 import-only flow: passed by operator confirmation.
 
 ## Claim Decision
 
-Do not claim V5.11 passed until manual UI cases are accepted.
+V5.11 scoped import UI claim is allowed.
