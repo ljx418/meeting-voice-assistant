@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "5.8",
+  "packId": "v5-11-manual-gltf",
+  "displayName": "V5.11 Manual GLTF Cat",
+  "rendererKind": "gltf",
+  "license": {
+    "type": "test-fixture",
+    "attribution": "Agent Desktop Pet V5.11 manual GLTF fixture"
+  },
+  "assets": {
+    "idle": { "assetId": "idle", "kind": "gltf", "fileName": "idle.gltf" },
+    "thinking": { "assetId": "thinking", "kind": "gltf", "fileName": "thinking.gltf" },
+    "running": { "assetId": "running", "kind": "gltf", "fileName": "running.gltf" },
+    "success": { "assetId": "success", "kind": "gltf", "fileName": "success.gltf" },
+    "warning": { "assetId": "warning", "kind": "gltf", "fileName": "warning.gltf" },
+    "error": { "assetId": "error", "kind": "gltf", "fileName": "error.gltf" },
+    "need_input": { "assetId": "need_input", "kind": "gltf", "fileName": "need_input.gltf" },
+    "sleeping": { "assetId": "sleeping", "kind": "gltf", "fileName": "sleeping.gltf" }
+  },
+  "actions": {
+    "idle": { "assetId": "idle", "loop": true, "priority": "base" },
+    "thinking": { "assetId": "thinking", "loop": true, "priority": "base" },
+    "running": { "assetId": "running", "loop": true, "priority": "base" },
+    "success": { "assetId": "success", "loop": false, "priority": "transient", "durationMs": 3000 },
+    "warning": { "assetId": "warning", "loop": false, "priority": "transient", "durationMs": 4000 },
+    "error": { "assetId": "error", "loop": false, "priority": "urgent", "durationMs": 6000 },
+    "need_input": { "assetId": "need_input", "loop": false, "priority": "urgent", "durationMs": 8000 },
+    "sleeping": { "assetId": "sleeping", "loop": true, "priority": "base" }
+  }
+}
