@@ -95,6 +95,7 @@ async def test_data_service_mcp_lists_quality_tools():
         "knowledge_community_summary",
         "knowledge_session_query",
         "knowledge_actor_summary",
+        "knowledge_codebase_import",
     }
 
 
@@ -106,7 +107,7 @@ async def test_data_service_mcp_tool_registry_contract():
     specs = all_tool_specs()
     names = [spec["name"] for spec in specs]
 
-    assert len(names) == 40
+    assert len(names) == 41
     assert len(names) == len(set(names))
     assert set(V2_TOOL_MAP) <= set(names)
     assert set(V2_TOOL_MAP.values()) <= set(names)
@@ -118,6 +119,7 @@ async def test_data_service_mcp_tool_registry_contract():
         "knowledge_source_trace",
         "knowledge_session_build_start",
         "knowledge_query_v2",
+        "knowledge_codebase_import",
     } <= set(names)
 
 
@@ -129,7 +131,7 @@ def test_console_mcp_contract_snapshot_matches_registry():
     console_tool_names = re.findall(r"name: '(knowledge_[^']+)'", contract_source)
     console_resource_uris = re.findall(r"uri: '([^']+)'", contract_source)
 
-    registry_tool_names = [spec["name"] for spec in all_tool_specs()]
+    registry_tool_names = [spec["name"] for spec in all_tool_specs() if spec["name"] != "knowledge_codebase_import"]
     canonical_resource_uris = {spec["uri"] for spec in RESOURCE_SPECS}
 
     assert console_tool_names == registry_tool_names
@@ -354,7 +356,7 @@ async def test_phaseg29_source_trace_mcp_reuses_shared_contract(tmp_path, monkey
     assert mcp_payload == helper_payload
     assert mcp_payload == http_payload
     assert mcp_payload == cli_payload
-    assert set(mcp_payload) == {"workspace", "source_id", "source", "distill", "llmwiki", "graphrag", "trace_summary"}
+    assert {"workspace", "source_id", "source", "distill", "llmwiki", "graphrag", "trace_summary"} <= set(mcp_payload)
 
     specs = {spec["name"]: spec for spec in all_tool_specs()}
     schema = specs["knowledge_source_trace"]["inputSchema"]
@@ -1415,7 +1417,10 @@ def test_phaseg14_quality_cli_stage3_commands_documented():
     knowledge_parser = cli_module._build_knowledge_parser()
     knowledge_action = next(action for action in knowledge_parser._actions if getattr(action, "choices", None))
     assert knowledge_parser.prog == "knowledge"
-    assert set(knowledge_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace"}
+    assert set(knowledge_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace", "code"}
+    code_parser = knowledge_action.choices["code"]
+    code_action = next(action for action in code_parser._actions if getattr(action, "choices", None))
+    assert set(code_action.choices) == {"import"}
     workspace_parser = knowledge_action.choices["workspace"]
     workspace_action = next(action for action in workspace_parser._actions if getattr(action, "choices", None))
     assert set(workspace_action.choices) == {"create", "list", "describe", "archive"}

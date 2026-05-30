@@ -3,10 +3,12 @@
 from fastapi import APIRouter
 
 from .v1 import router as v1_router
+from .v1.code_assets import router as code_assets_target_router
 from .v1.data_service import target_router as data_service_target_router
 
 api_router = APIRouter()
 api_router.include_router(data_service_target_router)
+api_router.include_router(code_assets_target_router)
 api_router.include_router(v1_router, prefix="/v1")
 
 __all__ = ["api_router"]

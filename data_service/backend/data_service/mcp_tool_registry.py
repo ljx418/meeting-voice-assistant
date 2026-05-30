@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from .mcp_build_tools import BUILD_TOOL_SPECS
+from .mcp_code_tools import CODE_TOOL_SPECS
 from .mcp_core_tools import CORE_TOOL_SPECS
 from .mcp_quality_tools import QUALITY_TOOL_SPECS, RULE_STATUSES
 from .mcp_session_tools import SESSION_TOOL_SPECS
@@ -130,6 +131,7 @@ def all_tool_specs() -> list[dict]:
         *CORE_TOOL_SPECS,
         *QUALITY_TOOL_SPECS,
         *V2_TOOL_SPECS,
+        *CODE_TOOL_SPECS,
         *WORKSPACE_TOOL_SPECS,
         *SOURCE_TOOL_SPECS,
         *BUILD_TOOL_SPECS,

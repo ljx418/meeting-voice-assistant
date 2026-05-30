@@ -7,6 +7,7 @@ import json
 import sys
 from pathlib import Path
 
+from .cli_code import add_code_parser, run_code_command
 from .models import GraphExecutionOwner, QueryMode
 from .distill_contract import run_distill_contract
 from .graph_community_contract import graph_community_payload
@@ -285,6 +286,7 @@ def _build_knowledge_parser() -> argparse.ArgumentParser:
     _add_build_lifecycle_parser(subparsers)
     _add_graph_lifecycle_parser(subparsers)
     _add_trace_lifecycle_parser(subparsers)
+    add_code_parser(subparsers)
     _add_query_parser(subparsers)
     _add_quality_parser(subparsers)
     return parser
@@ -586,6 +588,8 @@ def _run_parsed_args(args: argparse.Namespace) -> int:
         return _run_graph_command(args)
     if args.command == "trace":
         return _run_trace_command(args)
+    if args.command == "code":
+        return run_code_command(args)
 
     service = DataService(Path(args.workspace))
 

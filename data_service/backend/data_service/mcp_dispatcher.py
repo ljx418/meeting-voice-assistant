@@ -8,6 +8,7 @@ from typing import Any
 
 from .mcp_build_runtime import BuildRuntime
 from .mcp_build_tools import BUILD_TOOL_NAMES, handle_build_tool
+from .mcp_code_tools import CODE_TOOL_NAMES, handle_code_tool
 from .mcp_common import blocked, bounded_int, envelope, now, read_json, slug, write_json
 from .mcp_core_tools import CORE_TOOL_NAMES, handle_core_tool
 from .mcp_quality_tools import QUALITY_TOOL_NAMES, handle_quality_tool
@@ -38,6 +39,16 @@ class MCPToolDispatcher:
 
         if name in V2_TOOL_MAP:
             return await self._call_v2_tool(name, arguments, service)
+
+        if name in CODE_TOOL_NAMES:
+            return handle_code_tool(
+                name,
+                arguments,
+                blocked=blocked,
+                envelope=envelope,
+                ensure_workspace_meta=self.workspace_runtime.ensure_workspace_meta,
+                resolve_workspace=self.workspace_runtime.resolve_workspace,
+            )
 
         if name in SESSION_TOOL_NAMES:
             return handle_session_tool(
