@@ -1,7 +1,11 @@
+import { KeyboardEvent, useEffect, useRef } from 'react';
 import { isNormalizedApiError } from '../api/dataServiceClient';
 import { useSourceQuery, useSourceTraceQuery } from '../api/workspaceM2Queries';
 import { LoadingState, StateBlock } from './StateBlock';
 import { ApiErrorState } from './ApiErrorState';
+
+const FOCUSABLE_SELECTOR =
+  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export function SourceTraceDrawer({
   workspaceId,
@@ -12,19 +16,62 @@ export function SourceTraceDrawer({
   sourceId: string | null;
   onClose: () => void;
 }) {
+  const drawerRef = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<globalThis.HTMLButtonElement | null>(null);
+  const previousActiveElementRef = useRef<globalThis.Element | null>(null);
   const traceQuery = useSourceTraceQuery(workspaceId, sourceId);
   const sourceQuery = useSourceQuery(workspaceId, sourceId);
+  useEffect(() => {
+    if (!sourceId) return undefined;
+    previousActiveElementRef.current = document.activeElement;
+    closeButtonRef.current?.focus();
+    return () => {
+      const previous = previousActiveElementRef.current;
+      if (previous instanceof HTMLElement) previous.focus();
+    };
+  }, [sourceId]);
   if (!sourceId) return null;
   const traceNotFound = isNormalizedApiError(traceQuery.error) && traceQuery.error.code === 'not_found';
 
+  const onDialogKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      onClose();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const focusable = Array.from(drawerRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR) ?? []).filter(
+      (element) => element.offsetParent !== null
+    );
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
   return (
-    <aside className="trace-drawer" aria-label="来源溯源抽屉">
+    <>
+      <button className="drawer-backdrop" type="button" aria-label="关闭来源溯源抽屉" onClick={onClose} />
+      <aside
+        ref={drawerRef}
+        className="trace-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="source-trace-drawer-title"
+        onKeyDown={onDialogKeyDown}
+      >
       <div className="toolbar-row">
         <div>
           <div className="eyebrow">来源溯源</div>
-          <h2>来源与出处</h2>
+          <h2 id="source-trace-drawer-title">来源与出处</h2>
         </div>
-        <button className="secondary-button" type="button" onClick={onClose}>
+        <button ref={closeButtonRef} className="secondary-button" type="button" onClick={onClose}>
           关闭
         </button>
       </div>
@@ -94,6 +141,7 @@ export function SourceTraceDrawer({
           </div>
         </div>
       ) : null}
-    </aside>
+      </aside>
+    </>
   );
 }

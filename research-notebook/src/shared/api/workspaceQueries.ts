@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { queryKeys } from '../../app/routes/queryKeys';
 import { dataServiceClient } from './dataServiceClient';
-import type { CreateWorkspaceRequest } from '../types/api';
+import type { CreateWorkspaceRequest, RenameWorkspaceRequest } from '../types/api';
 
 export function useWorkspacesQuery() {
   return useQuery({
@@ -37,6 +37,20 @@ export function useArchiveWorkspaceMutation(workspaceId: string) {
 
   return useMutation({
     mutationFn: () => dataServiceClient.workspaces.archive(workspaceId),
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: queryKeys.workspaces }),
+        queryClient.invalidateQueries({ queryKey: queryKeys.workspace(workspaceId) })
+      ]);
+    }
+  });
+}
+
+export function useRenameWorkspaceMutation(workspaceId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (input: RenameWorkspaceRequest) => dataServiceClient.workspaces.rename(workspaceId, input),
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: queryKeys.workspaces }),

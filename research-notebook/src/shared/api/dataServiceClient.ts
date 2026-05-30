@@ -1,5 +1,7 @@
 import type {
   AnswerEvidence,
+  AgentWorkflowDraftRequest,
+  AgentWorkflowDraftResponse,
   BuildOperation,
   BuildStartRequest,
   BuildStartResponse,
@@ -13,6 +15,13 @@ import type {
   DocumentUnitListResponse,
   EvidenceNavigationResponse,
   EvidenceSpan,
+  FolderCollection,
+  FolderFile,
+  FolderNode,
+  FolderScanRequest,
+  FolderScanResponse,
+  FolderSummaryWorkflowRunRequest,
+  FolderSummaryWorkflowRunResponse,
   GraphCommunitiesResponse,
   GraphCommunity,
   GraphEdge,
@@ -22,10 +31,16 @@ import type {
   GraphNode,
   NormalizedErrorCode,
   NormalizedErrorEnvelope,
+  NotebookGuide,
   QualityFeedbackRequest,
   QualityFeedbackResponse,
+  RenameSourceRequest,
+  RenameWorkspaceRequest,
+  PermissionGrant,
   QueryRequest,
   QueryResponse,
+  ResearchReport,
+  ResearchRequest,
   CloseSessionResponse,
   CreateSessionRequest,
   CreateSessionResponse,
@@ -46,6 +61,13 @@ import type {
   SourceImportState,
   SourceSummary,
   SourceTrace,
+  StudioArtifact,
+  StudioArtifactRequest,
+  SkippedFileReason,
+  SummaryArtifact,
+  Workflow,
+  WorkflowRun,
+  WorkflowStep,
   WorkspaceArchiveResult,
   WorkspaceDetail,
   WorkspaceSummary
@@ -84,7 +106,7 @@ type RequestOptions = {
   normalizeError?: (status: number, payload: unknown) => NormalizedErrorEnvelope;
 };
 
-const DEFAULT_TIMEOUT_MS = 12_000;
+const DEFAULT_TIMEOUT_MS = 60_000;
 
 const defaultBaseUrl = import.meta.env.VITE_DATA_SERVICE_BASE_URL ?? '';
 
@@ -102,6 +124,31 @@ function capabilityMissingError(message: string): DataServiceError {
     message,
     retryable: false
   });
+}
+
+function agentWorkflowContractMissing(): DataServiceError {
+  return capabilityMissingError(
+    'V1.3 Agent Workflow contract is not implemented by data_service. Local folder access and workflow execution remain disabled.'
+  );
+}
+
+function assertNoAbsolutePathLikeValue(value: string, context: string) {
+  if (
+    value.includes('/Users') ||
+    value.includes('file://') ||
+    value.includes('cache_path') ||
+    value.includes('artifact_path') ||
+    value.includes('physical_path') ||
+    value.includes('/private/tmp') ||
+    value.includes('/tmp/') ||
+    /^[A-Za-z]:\\/.test(value)
+  ) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: `${context} contains an internal path-like value.`,
+      retryable: false
+    });
+  }
 }
 
 function normalizeUnknownError(error: unknown): NormalizedErrorEnvelope {
@@ -448,6 +495,10 @@ function extractArchiveResult(workspaceId: string, payload: unknown): WorkspaceA
   };
 }
 
+function extractWorkspaceRename(payload: unknown): CreateWorkspaceResponse {
+  return { workspace: extractWorkspace(payload) };
+}
+
 function extractSourceList(workspaceId: string, payload: unknown): SourceSummary[] {
   const body = unwrapData(payload);
   const maybeObject = body as Record<string, unknown>;
@@ -485,6 +536,10 @@ function extractCreateSource(workspaceId: string, payload: unknown): CreateSourc
     const [first] = (body as Record<string, unknown>).sources as unknown[];
     return { source: assertSourceDetail(first, workspaceId) };
   }
+  return { source: extractSource(workspaceId, payload) };
+}
+
+function extractSourceMutation(workspaceId: string, payload: unknown): CreateSourceResponse {
   return { source: extractSource(workspaceId, payload) };
 }
 
@@ -589,20 +644,26 @@ function extractCapabilityManifest(workspaceId: string, payload: unknown): Capab
     }
   }
 
+  const normalizedCapabilities: CapabilityManifest['capabilities'] = {
+    source_preview: readBoolean(capabilities.source_preview) ?? false,
+    document_units: readBoolean(capabilities.document_units) ?? false,
+    evidence_spans: readBoolean(capabilities.evidence_spans) ?? false,
+    source_level_preview: readBoolean(capabilities.source_level_preview) ?? false,
+    unit_level_navigation: readBoolean(capabilities.unit_level_navigation) ?? false,
+    precise_span_highlight: readBoolean(capabilities.precise_span_highlight) ?? false,
+    citation_backjump: readBoolean(capabilities.citation_backjump) ?? false
+  };
+  const ocr = readBoolean(capabilities.ocr);
+  if (ocr !== undefined) normalizedCapabilities.ocr = ocr;
+  const scannedPdfOcr = readBoolean(capabilities.scanned_pdf_ocr);
+  if (scannedPdfOcr !== undefined) normalizedCapabilities.scanned_pdf_ocr = scannedPdfOcr;
+
   return {
     workspace_id: readString(manifest.workspace_id) ?? workspaceId,
     service_version: readString(manifest.service_version),
     schema_version: readString(manifest.schema_version),
     generated_at: readString(manifest.generated_at),
-    capabilities: {
-      source_preview: readBoolean(capabilities.source_preview) ?? false,
-      document_units: readBoolean(capabilities.document_units) ?? false,
-      evidence_spans: readBoolean(capabilities.evidence_spans) ?? false,
-      source_level_preview: readBoolean(capabilities.source_level_preview) ?? false,
-      unit_level_navigation: readBoolean(capabilities.unit_level_navigation) ?? false,
-      precise_span_highlight: readBoolean(capabilities.precise_span_highlight) ?? false,
-      citation_backjump: readBoolean(capabilities.citation_backjump) ?? false
-    },
+    capabilities: normalizedCapabilities,
     supported_source_types: supportedSourceTypesRaw.map((item) => {
       const sourceType = asRecord(item);
       const preview = readString(sourceType?.preview);
@@ -761,6 +822,184 @@ function extractSourcePreview(sourceId: string, payload: unknown): SourcePreview
   };
 }
 
+function extractNotebookGuide(payload: unknown): NotebookGuide {
+  const body = unwrapData(payload);
+  const raw = asRecord(body);
+  const guide = asRecord(raw?.guide) ?? raw;
+  const guideAvailable = readBoolean(guide?.guide_available);
+  const sourceCount = readNumber(guide?.source_count);
+  if (!guide || guideAvailable === undefined || sourceCount === undefined) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'Notebook Guide response is missing guide_available or source_count.',
+      retryable: false,
+      details: payload
+    });
+  }
+  const topicsRaw = Array.isArray(guide.key_topics) ? guide.key_topics : [];
+  const metadata = asRecord(guide.generation_metadata) ?? asRecord(guide.generationMetadata);
+  return {
+    guide_available: guideAvailable,
+    source_count: sourceCount,
+    overview: readString(guide.overview) ?? '',
+    key_topics: topicsRaw
+      .map((topic) => asRecord(topic))
+      .filter((topic): topic is Record<string, unknown> => Boolean(topic))
+      .map((topic) => ({
+        title: readString(topic.title) ?? '主题',
+        summary: readString(topic.summary) ?? '',
+        ...(Array.isArray(topic.evidence_refs)
+          ? { evidence_refs: topic.evidence_refs.map((item, index) => normalizeEvidence(item, index)) }
+          : {})
+      }))
+      .filter((topic) => topic.summary),
+    suggested_questions: readStringArray(guide.suggested_questions) ?? [],
+    evidence_refs: Array.isArray(guide.evidence_refs)
+      ? guide.evidence_refs.map((item, index) => normalizeEvidence(item, index))
+      : [],
+    unavailable_reason: readString(guide.unavailable_reason),
+    generation_metadata: metadata
+      ? {
+          provider: readString(metadata.provider),
+          provider_name: readString(metadata.provider_name),
+          model: readString(metadata.model),
+          prompt_version: readString(metadata.prompt_version),
+          evidence_ref_count: readNumber(metadata.evidence_ref_count),
+          fallback_mode: readBoolean(metadata.fallback_mode),
+          latency_ms: readNumber(metadata.latency_ms),
+          response_schema: readString(metadata.response_schema),
+          error_code: readString(metadata.error_code)
+        }
+      : undefined
+  };
+}
+
+function extractStudioArtifact(payload: unknown): StudioArtifact {
+  const body = unwrapData(payload);
+  const raw = asRecord(body);
+  const artifact = asRecord(raw?.artifact) ?? raw;
+  const artifactId = readString(artifact?.artifact_id) ?? readString(artifact?.artifactId);
+  const artifactType = readString(artifact?.artifact_type) ?? readString(artifact?.artifactType);
+  const title = readString(artifact?.title);
+  const artifactAvailable = readBoolean(artifact?.artifact_available) ?? readBoolean(artifact?.artifactAvailable);
+  if (!artifact || !artifactId || !artifactType || !title || artifactAvailable === undefined) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'Studio artifact response is missing required fields.',
+      retryable: false,
+      details: payload
+    });
+  }
+  const sectionsRaw = Array.isArray(artifact.sections) ? artifact.sections : [];
+  const metadata = asRecord(artifact.generation_metadata) ?? asRecord(artifact.generationMetadata);
+  return {
+    artifact_id: artifactId,
+    artifact_type: artifactType,
+    title,
+    artifact_available: artifactAvailable,
+    summary: readString(artifact.summary) ?? '',
+    sections: sectionsRaw
+      .map((section) => asRecord(section))
+      .filter((section): section is Record<string, unknown> => Boolean(section))
+      .map((section) => ({
+        title: readString(section.title) ?? '未命名段落',
+        content: readString(section.content) ?? '',
+        ...(Array.isArray(section.evidence_refs)
+          ? { evidence_refs: section.evidence_refs.map((item, index) => normalizeEvidence(item, index)) }
+          : {})
+      })),
+    evidence_refs: Array.isArray(artifact.evidence_refs)
+      ? artifact.evidence_refs.map((item, index) => normalizeEvidence(item, index))
+      : [],
+    unsupported_reason: readString(artifact.unsupported_reason) ?? readString(artifact.unsupportedReason),
+    generation_metadata: metadata
+      ? {
+          provider: readString(metadata.provider),
+          provider_name: readString(metadata.provider_name),
+          model: readString(metadata.model),
+          prompt_version: readString(metadata.prompt_version),
+          artifact_type: readString(metadata.artifact_type),
+          evidence_ref_count: readNumber(metadata.evidence_ref_count),
+          fallback_mode: readBoolean(metadata.fallback_mode),
+          latency_ms: readNumber(metadata.latency_ms),
+          response_schema: readString(metadata.response_schema),
+          error_code: readString(metadata.error_code)
+        }
+      : undefined
+  };
+}
+
+function extractResearchReport(payload: unknown): ResearchReport {
+  const body = unwrapData(payload);
+  const raw = asRecord(body);
+  const report = asRecord(raw?.research) ?? raw;
+  const available = readBoolean(report?.research_available) ?? readBoolean(report?.researchAvailable);
+  const question = readString(report?.question);
+  if (!report || available === undefined || !question) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'Research response is missing required fields.',
+      retryable: false,
+      details: payload
+    });
+  }
+  const mapEvidenceArray = (value: unknown) => (Array.isArray(value) ? value.map((item, index) => normalizeEvidence(item, index)) : []);
+  const conclusionsRaw = Array.isArray(report.supported_conclusions) ? report.supported_conclusions : [];
+  const inferencesRaw = Array.isArray(report.inferences) ? report.inferences : [];
+  const conflictsRaw = Array.isArray(report.conflicts) ? report.conflicts : [];
+  const metadata = asRecord(report.generation_metadata) ?? asRecord(report.generationMetadata);
+  return {
+    research_available: available,
+    question,
+    coverage_status: readString(report.coverage_status) ?? 'unknown',
+    answer_basis: readString(report.answer_basis) ?? 'unknown',
+    answer: readString(report.answer) ?? '',
+    supported_conclusions: conclusionsRaw
+      .map((item) => asRecord(item))
+      .filter((item): item is Record<string, unknown> => Boolean(item))
+      .map((item) => ({
+        claim: readString(item.claim) ?? '',
+        evidence_refs: mapEvidenceArray(item.evidence_refs)
+      })),
+    inferences: inferencesRaw
+      .map((item) => asRecord(item))
+      .filter((item): item is Record<string, unknown> => Boolean(item))
+      .map((item) => ({
+        inference: readString(item.inference) ?? '',
+        inference_notice: readString(item.inference_notice),
+        evidence_refs: mapEvidenceArray(item.evidence_refs)
+      })),
+    conflicts: conflictsRaw
+      .map((item) => asRecord(item))
+      .filter((item): item is Record<string, unknown> => Boolean(item))
+      .map((item) => ({
+        topic: readString(item.topic) ?? '',
+        positions: Array.isArray(item.positions)
+          ? item.positions
+              .map((position) => asRecord(position))
+              .filter((position): position is Record<string, unknown> => Boolean(position))
+              .map((position) => ({
+                claim: readString(position.claim) ?? '',
+                evidence_refs: mapEvidenceArray(position.evidence_refs)
+              }))
+          : []
+      })),
+    missing_evidence: readStringArray(report.missing_evidence) ?? [],
+    suggested_source_actions: readStringArray(report.suggested_source_actions) ?? [],
+    evidence_refs: mapEvidenceArray(report.evidence_refs),
+    generation_metadata: metadata
+      ? {
+          provider: readString(metadata.provider),
+          provider_name: readString(metadata.provider_name),
+          model: readString(metadata.model),
+          prompt_version: readString(metadata.prompt_version),
+          evidence_ref_count: readNumber(metadata.evidence_ref_count),
+          fallback_mode: readBoolean(metadata.fallback_mode)
+        }
+      : undefined
+  };
+}
+
 function assertPreviewSourceId(sourceId: string) {
   if (
     !sourceId ||
@@ -874,6 +1113,413 @@ function documentUnitListQuery(input?: DocumentUnitListRequest) {
   if (input?.cursor) params.set('cursor', input.cursor);
   const query = params.toString();
   return query ? `?${query}` : '';
+}
+
+function normalizeFolderExtractionStatus(value: unknown): FolderFile['extraction_status'] {
+  if (value === 'extracted' || value === 'skipped' || value === 'unsupported' || value === 'failed') return value;
+  return 'skipped';
+}
+
+function assertFolderNode(value: unknown): FolderNode {
+  const node = asRecord(value);
+  const folderId = readString(node?.folder_id);
+  const relativePath = readString(node?.relative_path);
+  const depth = readNumber(node?.depth);
+  const fileCount = readNumber(node?.file_count);
+  const childFolderCount = readNumber(node?.child_folder_count);
+  if (!node || !folderId || !relativePath || depth === undefined || fileCount === undefined || childFolderCount === undefined) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'FolderNode is missing folder_id, relative_path, depth, file_count, or child_folder_count.',
+      retryable: false,
+      details: value
+    });
+  }
+  assertNoAbsolutePathLikeValue(relativePath, 'FolderNode.relative_path');
+  return {
+    folder_id: folderId,
+    parent_folder_id: readString(node.parent_folder_id),
+    relative_path: relativePath,
+    depth,
+    file_count: fileCount,
+    child_folder_count: childFolderCount
+  };
+}
+
+function assertFolderFile(value: unknown): FolderFile {
+  const file = asRecord(value);
+  const fileId = readString(file?.file_id);
+  const relativePath = readString(file?.relative_path);
+  const extension = readString(file?.extension);
+  const sizeBytes = readNumber(file?.size_bytes);
+  if (!file || !fileId || !relativePath || !extension || sizeBytes === undefined) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'FolderFile is missing file_id, relative_path, extension, or size_bytes.',
+      retryable: false,
+      details: value
+    });
+  }
+  assertNoAbsolutePathLikeValue(relativePath, 'FolderFile.relative_path');
+  if (extension !== '.md' && extension !== '.txt') {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'V1.3-B folder files must be limited to md/txt.',
+      retryable: false,
+      details: value
+    });
+  }
+  return {
+    file_id: fileId,
+    folder_id: readString(file.folder_id),
+    relative_path: relativePath,
+    extension,
+    size_bytes: sizeBytes,
+    extraction_status: normalizeFolderExtractionStatus(file.extraction_status),
+    text_preview: readString(file.text_preview)
+  };
+}
+
+function normalizeSkippedFileReason(value: unknown): SkippedFileReason | undefined {
+  const allowed: ReadonlySet<SkippedFileReason> = new Set([
+    'hidden_file',
+    'hidden_dir',
+    'excluded_dir',
+    'unsupported_extension',
+    'secret_like_file',
+    'max_file_size_exceeded',
+    'binary_file',
+    'symlink_skipped',
+    'extract_failed',
+    'permission_denied'
+  ]);
+  return typeof value === 'string' && allowed.has(value as SkippedFileReason) ? (value as SkippedFileReason) : undefined;
+}
+
+function assertFolderCollection(workspaceId: string, value: unknown): FolderCollection {
+  const collection = asRecord(value);
+  const collectionId = readString(collection?.collection_id);
+  const returnedWorkspaceId = readString(collection?.workspace_id);
+  const rootLabel = readString(collection?.root_label);
+  const folders = Array.isArray(collection?.folders) ? collection.folders.map(assertFolderNode) : undefined;
+  const files = Array.isArray(collection?.files) ? collection.files.map(assertFolderFile) : undefined;
+  const skippedRaw = Array.isArray(collection?.skipped_files) ? collection.skipped_files : undefined;
+  if (!collection || !collectionId || !returnedWorkspaceId || !rootLabel || !folders || !files || !skippedRaw) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'FolderCollection response is missing collection_id, workspace_id, root_label, folders, files, or skipped_files.',
+      retryable: false,
+      details: value
+    });
+  }
+  if (returnedWorkspaceId !== workspaceId) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'FolderCollection workspace_id does not match the requested workspace.',
+      retryable: false,
+      details: value
+    });
+  }
+  assertNoAbsolutePathLikeValue(rootLabel, 'FolderCollection.root_label');
+  return {
+    collection_id: collectionId,
+    workspace_id: returnedWorkspaceId,
+    root_label: rootLabel,
+    folders,
+    files,
+    skipped_files: skippedRaw.map((item) => {
+      const skipped = asRecord(item);
+      const relativePath = readString(skipped?.relative_path);
+      const skippedReason = normalizeSkippedFileReason(skipped?.skipped_reason);
+      if (!relativePath || !skippedReason) {
+        throw new DataServiceError({
+          code: 'version_or_schema_mismatch',
+          message: 'SkippedFile is missing relative_path or skipped_reason.',
+          retryable: false,
+          details: item
+        });
+      }
+      assertNoAbsolutePathLikeValue(relativePath, 'SkippedFile.relative_path');
+      return { relative_path: relativePath, skipped_reason: skippedReason };
+    })
+  };
+}
+
+function assertPermissionGrant(workspaceId: string, value: unknown): PermissionGrant {
+  const grant = asRecord(value);
+  const permissionGrantId = readString(grant?.permission_grant_id);
+  const returnedWorkspaceId = readString(grant?.workspace_id);
+  const rootLabel = readString(grant?.root_label);
+  const status = readString(grant?.status);
+  const scopes = readStringArray(grant?.scopes);
+  if (!grant || !permissionGrantId || !returnedWorkspaceId || !rootLabel || !status || !scopes) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'PermissionGrant is missing permission_grant_id, workspace_id, root_label, status, or scopes.',
+      retryable: false,
+      details: value
+    });
+  }
+  if (returnedWorkspaceId !== workspaceId || !['active', 'expired', 'revoked'].includes(status)) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'PermissionGrant has invalid workspace_id or status.',
+      retryable: false,
+      details: value
+    });
+  }
+  assertNoAbsolutePathLikeValue(rootLabel, 'PermissionGrant.root_label');
+  return {
+    permission_grant_id: permissionGrantId,
+    workspace_id: returnedWorkspaceId,
+    root_label: rootLabel,
+    scopes,
+    status: status as PermissionGrant['status'],
+    created_at: readString(grant.created_at),
+    expires_at: readString(grant.expires_at) ?? null
+  };
+}
+
+function extractFolderScanResponse(workspaceId: string, payload: unknown): FolderScanResponse {
+  const body = unwrapData(payload);
+  const raw = asRecord(body);
+  return {
+    collection: assertFolderCollection(workspaceId, raw?.collection),
+    permission_grant: assertPermissionGrant(workspaceId, raw?.permission_grant)
+  };
+}
+
+function normalizeWorkflowStepStatus(value: unknown): WorkflowStep['status'] {
+  if (value === 'pending' || value === 'running' || value === 'completed' || value === 'failed' || value === 'skipped') return value;
+  return 'failed';
+}
+
+function assertWorkflowStep(value: unknown): WorkflowStep {
+  const step = asRecord(value);
+  const stepId = readString(step?.step_id);
+  const name = readString(step?.name);
+  if (!step || !stepId || !name) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'WorkflowStep is missing step_id or name.',
+      retryable: false,
+      details: value
+    });
+  }
+  const logs = readStringArray(step.logs) ?? [];
+  logs.forEach((log) => assertNoAbsolutePathLikeValue(log, 'WorkflowStep.logs'));
+  return {
+    step_id: stepId,
+    name,
+    status: normalizeWorkflowStepStatus(step.status),
+    input_ref: readString(step.input_ref),
+    output_ref: readString(step.output_ref),
+    logs,
+    started_at: readString(step.started_at),
+    finished_at: readString(step.finished_at),
+    error_code: readString(step.error_code),
+    error_message: readString(step.error_message),
+    retry_count: readNumber(step.retry_count) ?? 0,
+    artifact_refs: readStringArray(step.artifact_refs) ?? []
+  };
+}
+
+function normalizeWorkflowStatus(value: unknown): Workflow['status'] {
+  if (value === 'draft' || value === 'ready' || value === 'disabled') return value;
+  return 'disabled';
+}
+
+function assertWorkflow(value: unknown): Workflow {
+  const workflow = asRecord(value);
+  const workflowId = readString(workflow?.workflow_id);
+  const name = readString(workflow?.name);
+  const templateId = readString(workflow?.template_id);
+  const steps = Array.isArray(workflow?.steps) ? workflow.steps.map(assertWorkflowStep) : undefined;
+  if (!workflow || !workflowId || !name || !templateId || !steps) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'Workflow is missing workflow_id, name, template_id, or steps.',
+      retryable: false,
+      details: value
+    });
+  }
+  return {
+    workflow_id: workflowId,
+    name,
+    template_id: templateId,
+    status: normalizeWorkflowStatus(workflow.status),
+    required_permissions: readStringArray(workflow.required_permissions) ?? [],
+    draft_parameters: normalizeWorkflowDraftParameters(workflow.draft_parameters),
+    steps
+  };
+}
+
+function normalizeWorkflowDraftParameters(value: unknown): Workflow['draft_parameters'] {
+  const params = asRecord(value);
+  if (!params) return undefined;
+  const authorizedRootHint = readString(params.authorized_root_hint);
+  if (authorizedRootHint) assertNoAbsolutePathLikeValue(authorizedRootHint, 'Workflow.draft_parameters.authorized_root_hint');
+  return {
+    authorized_root_hint: authorizedRootHint,
+    include_extensions: readStringArray(params.include_extensions) ?? [],
+    exclude_globs: readStringArray(params.exclude_globs) ?? [],
+    follow_symlinks: readBoolean(params.follow_symlinks) ?? false,
+    requires_user_confirmation: readBoolean(params.requires_user_confirmation) ?? true
+  };
+}
+
+function assertAgentTask(workspaceId: string, value: unknown): AgentWorkflowDraftResponse['task'] {
+  const task = asRecord(value);
+  const taskId = readString(task?.task_id);
+  const taskWorkspaceId = readString(task?.workspace_id);
+  const userGoal = readString(task?.user_goal);
+  const status = readString(task?.status);
+  if (!task || !taskId || !taskWorkspaceId || !userGoal || !status) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'AgentTask is missing task_id, workspace_id, user_goal, or status.',
+      retryable: false,
+      details: value
+    });
+  }
+  if (taskWorkspaceId !== workspaceId) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'AgentTask workspace_id does not match the requested workspace.',
+      retryable: false,
+      details: value
+    });
+  }
+  return {
+    task_id: taskId,
+    workspace_id: taskWorkspaceId,
+    user_goal: userGoal,
+    status: status === 'draft' || status === 'awaiting_approval' || status === 'running' || status === 'completed' || status === 'failed'
+      ? status
+      : 'failed',
+    workflow_id: readString(task.workflow_id)
+  };
+}
+
+function normalizeWorkflowRunStatus(value: unknown): WorkflowRun['status'] {
+  if (value === 'pending' || value === 'running' || value === 'completed' || value === 'failed' || value === 'cancelled') return value;
+  return 'failed';
+}
+
+function assertWorkflowRun(value: unknown): FolderSummaryWorkflowRunResponse['run'] {
+  const run = asRecord(value);
+  const runId = readString(run?.run_id);
+  const workflowId = readString(run?.workflow_id);
+  const createdAt = readString(run?.created_at);
+  const report = asRecord(run?.run_report);
+  if (!run || !runId || !workflowId || !createdAt || !report) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'WorkflowRun is missing run_id, workflow_id, created_at, or run_report.',
+      retryable: false,
+      details: value
+    });
+  }
+  return {
+    run_id: runId,
+    workflow_id: workflowId,
+    status: normalizeWorkflowRunStatus(run.status),
+    created_at: createdAt,
+    finished_at: readString(run.finished_at),
+    dry_run: readBoolean(run.dry_run) ?? true,
+    run_report: {
+      scanned_file_count: readNumber(report.scanned_file_count) ?? 0,
+      manifest_file_count: readNumber(report.manifest_file_count),
+      extracted_file_count: readNumber(report.extracted_file_count) ?? 0,
+      skipped_file_count: readNumber(report.skipped_file_count) ?? 0,
+      folder_count: readNumber(report.folder_count),
+      generated_artifact_count: readNumber(report.generated_artifact_count) ?? 0
+    },
+    artifacts: Array.isArray(run.artifacts) ? run.artifacts.map(assertSummaryArtifact) : []
+  };
+}
+
+function assertSummaryArtifact(value: unknown): SummaryArtifact {
+  const artifact = asRecord(value);
+  const artifactId = readString(artifact?.artifact_id);
+  const title = readString(artifact?.title);
+  const artifactType = readString(artifact?.artifact_type);
+  const collectionId = readString(artifact?.collection_id);
+  const status = readString(artifact?.status);
+  const schemaVersion = readString(artifact?.schema_version);
+  const coverage = asRecord(artifact?.coverage);
+  const markdown = readString(artifact?.markdown);
+  if (!artifact || !artifactId || !title || !collectionId || !schemaVersion || !coverage || !markdown) {
+    throw new DataServiceError({
+      code: 'version_or_schema_mismatch',
+      message: 'SummaryArtifact is missing required fields.',
+      retryable: false,
+      details: value
+    });
+  }
+  const evidenceRefsRaw = Array.isArray(artifact.evidence_refs) ? artifact.evidence_refs : [];
+  return {
+    artifact_id: artifactId,
+    title,
+    artifact_type: artifactType === 'folder_summary' ? 'folder_summary' : 'root_summary',
+    folder_id: readString(artifact.folder_id),
+    collection_id: collectionId,
+    status:
+      status === 'draft' || status === 'ready' || status === 'failed' || status === 'skipped'
+        ? status
+        : 'failed',
+    schema_version: schemaVersion,
+    coverage: {
+      file_count: readNumber(coverage.file_count) ?? 0,
+      extracted_file_count: readNumber(coverage.extracted_file_count) ?? 0,
+      skipped_file_count: readNumber(coverage.skipped_file_count) ?? 0,
+      evidence_ref_count: readNumber(coverage.evidence_ref_count) ?? 0
+    },
+    markdown,
+    evidence_refs: evidenceRefsRaw.map((item) => {
+      const ref = asRecord(item);
+      const relativePath = readString(ref?.relative_path);
+      if (relativePath) assertNoAbsolutePathLikeValue(relativePath, 'EvidenceRef.relative_path');
+      const evidenceStatus = readString(ref?.evidence_status);
+      const normalizedRef: SummaryArtifact['evidence_refs'][number] = {
+        evidence_status: evidenceStatus === 'source_unit_span' ? 'source_unit_span' : 'relative_path_only'
+      };
+      const sourceId = readString(ref?.source_id);
+      const sourceTitle = readString(ref?.source_title) ?? readString(ref?.sourceTitle) ?? readString(ref?.title);
+      const unitId = readString(ref?.unit_id);
+      const evidenceId = readString(ref?.evidence_id);
+      const fileId = readString(ref?.file_id);
+      const snippet = readString(ref?.snippet) ?? readString(ref?.text);
+      if (sourceId) normalizedRef.source_id = sourceId;
+      if (sourceTitle) normalizedRef.source_title = sourceTitle;
+      if (unitId) normalizedRef.unit_id = unitId;
+      if (evidenceId) normalizedRef.evidence_id = evidenceId;
+      if (fileId) normalizedRef.file_id = fileId;
+      if (relativePath) normalizedRef.relative_path = relativePath;
+      if (snippet) normalizedRef.snippet = snippet;
+      return normalizedRef;
+    })
+  };
+}
+
+function extractFolderSummaryWorkflowRunResponse(workspaceId: string, payload: unknown): FolderSummaryWorkflowRunResponse {
+  const body = unwrapData(payload);
+  const raw = asRecord(body);
+  return {
+    workflow: assertWorkflow(raw?.workflow),
+    run: assertWorkflowRun(raw?.run),
+    collection: assertFolderCollection(workspaceId, raw?.collection),
+    permission_grant: assertPermissionGrant(workspaceId, raw?.permission_grant)
+  };
+}
+
+function extractAgentWorkflowDraftResponse(workspaceId: string, payload: unknown): AgentWorkflowDraftResponse {
+  const body = unwrapData(payload);
+  const raw = asRecord(body);
+  return {
+    task: assertAgentTask(workspaceId, raw?.task),
+    workflow: raw?.workflow ? assertWorkflow(raw.workflow) : undefined
+  };
 }
 
 function extractBuildStart(payload: unknown): BuildStartResponse {
@@ -1035,10 +1681,16 @@ function extractQueryResponse(payload: unknown, registrySourceIds?: string[]): Q
   const sourceIdSet = new Set(registrySourceIds?.filter(Boolean) ?? []);
   const evidence = rawEvidence.map((item, index) => normalizeEvidence(item, index, sourceIdSet));
   const usefulEvidence = evidence.filter((item) => item.sourceId || item.sourceRef || (item.artifactRefs && item.artifactRefs.length > 0));
+  const suggestedSourceActions = readStringArray(raw.suggested_source_actions) ?? readStringArray(raw.suggestedSourceActions) ?? [];
   return {
     answer,
     evidence: usefulEvidence,
-    noEvidence: usefulEvidence.length === 0
+    noEvidence: readBoolean(raw.no_evidence) ?? readBoolean(raw.noEvidence) ?? usefulEvidence.length === 0,
+    coverageStatus: readString(raw.coverage_status) ?? readString(raw.coverageStatus),
+    answerBasis: readString(raw.answer_basis) ?? readString(raw.answerBasis),
+    unsupportedReason: readString(raw.unsupported_reason) ?? readString(raw.unsupportedReason),
+    suggestedSourceActions,
+    inferenceNotice: readString(raw.inference_notice) ?? readString(raw.inferenceNotice)
   };
 }
 
@@ -1355,26 +2007,57 @@ function extractQualityFeedback(workspaceId: string, payload: unknown): QualityF
 }
 
 function sourceCreateBody(input: CreateSourceRequest) {
-  if (input.content) {
+  if (input.file) {
+    const sourceType = input.file.source_type ?? input.source_type;
     return {
-      texts: [
+      files: [
         {
           title: input.title,
-          content: input.content,
+          file_name: input.file.file_name,
+          content_base64: input.file.content_base64,
+          content_type: input.file.content_type,
+          source_type: sourceType,
           metadata: input.metadata ?? {}
         }
       ],
       metadata: input.metadata ?? {}
     };
   }
-  return {
-    texts: [],
-    metadata: {
+  if (input.url) {
+    return {
+      urls: [
+        {
+          title: input.title,
+          url: input.url,
+          metadata: input.metadata ?? {}
+        }
+      ],
+      metadata: input.metadata ?? {}
+    };
+  }
+  if (input.content) {
+    const metadata = {
       ...(input.metadata ?? {}),
-      title: input.title,
       source_type: input.source_type
-    }
-  };
+    };
+    return {
+      texts: [
+        {
+          title: input.title,
+          content: input.content,
+          metadata
+        }
+      ],
+      metadata: input.metadata ?? {}
+    };
+  }
+  throw new DataServiceError({
+    code: 'validation_error',
+    message: 'Source creation requires a file, public URL, or text content.',
+    status: 422,
+    retryable: false,
+    details: { title: input.title, source_type: input.source_type }
+  });
 }
 
 function buildStartBody(input?: BuildStartRequest | SessionBuildStartRequest) {
@@ -1447,6 +2130,30 @@ export function createDataServiceClient(options: ClientOptions = {}) {
         return extractCapabilityManifest(workspaceId, payload);
       }
     },
+    guide: {
+      async get(workspaceId: string) {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/guide`);
+        return extractNotebookGuide(payload);
+      }
+    },
+    studio: {
+      async createArtifact(workspaceId: string, input: StudioArtifactRequest) {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/studio/artifacts`, {
+          method: 'POST',
+          body: { artifact_type: input.artifact_type }
+        });
+        return extractStudioArtifact(payload);
+      }
+    },
+    research: {
+      async createReport(workspaceId: string, input: ResearchRequest) {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/research`, {
+          method: 'POST',
+          body: { question: input.question, top_k: input.top_k }
+        });
+        return extractResearchReport(payload);
+      }
+    },
     workspaces: {
       async list() {
         const payload = await request<unknown>('/api/workspaces');
@@ -1458,6 +2165,13 @@ export function createDataServiceClient(options: ClientOptions = {}) {
           body: { name: input.name }
         });
         return extractCreateWorkspace(payload);
+      },
+      async rename(workspaceId: string, input: RenameWorkspaceRequest) {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/rename`, {
+          method: 'POST',
+          body: { name: input.name }
+        });
+        return extractWorkspaceRename(payload);
       },
       async get(workspaceId: string) {
         const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}`);
@@ -1498,6 +2212,16 @@ export function createDataServiceClient(options: ClientOptions = {}) {
           }
         );
         return extractSource(workspaceId, payload);
+      },
+      async rename(workspaceId: string, sourceId: string, input: RenameSourceRequest) {
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/sources/${encodeURIComponent(sourceId)}/rename`,
+          {
+            method: 'POST',
+            body: { title: input.title }
+          }
+        );
+        return extractSourceMutation(workspaceId, payload);
       },
       async trace(workspaceId: string, sourceId: string) {
         assertPreviewSourceId(sourceId);
@@ -1584,6 +2308,64 @@ export function createDataServiceClient(options: ClientOptions = {}) {
           body: { query: input.question }
         });
         return extractQueryResponse(payload, input.registrySourceIds);
+      }
+    },
+    agentWorkflows: {
+      async createDraft(workspaceId: string, input: AgentWorkflowDraftRequest): Promise<AgentWorkflowDraftResponse> {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/agent-workflows/draft`, {
+          method: 'POST',
+          body: { user_goal: input.user_goal }
+        });
+        return extractAgentWorkflowDraftResponse(workspaceId, payload);
+      },
+      async getDraft(workspaceId: string, taskId: string): Promise<AgentWorkflowDraftResponse> {
+        void workspaceId;
+        void taskId;
+        throw agentWorkflowContractMissing();
+      },
+      async startRun(workspaceId: string, workflowId: string): Promise<never> {
+        void workspaceId;
+        void workflowId;
+        throw agentWorkflowContractMissing();
+      }
+    },
+    folderCollections: {
+      async scan(workspaceId: string, input: FolderScanRequest): Promise<FolderScanResponse> {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/folder-collections/scan`, {
+          method: 'POST',
+          body: {
+            authorized_root: input.authorized_root,
+            permission_grant_id: input.permission_grant_id,
+            dry_run: true,
+            recursive: input.recursive ?? true,
+            include_extensions: input.include_extensions ?? ['.md', '.txt'],
+            exclude_globs: input.exclude_globs ?? [],
+            max_depth: input.max_depth,
+            max_file_size_bytes: input.max_file_size_bytes,
+            follow_symlinks: false
+          }
+        });
+        return extractFolderScanResponse(workspaceId, payload);
+      }
+    },
+    folderSummaryWorkflows: {
+      async startRun(workspaceId: string, input: FolderSummaryWorkflowRunRequest): Promise<FolderSummaryWorkflowRunResponse> {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/workflows/folder-summary/runs`, {
+          method: 'POST',
+          body: {
+            authorized_root: input.authorized_root,
+            permission_grant_id: input.permission_grant_id,
+            dry_run: input.dry_run,
+            confirm_extract: input.confirm_extract ?? false,
+            recursive: input.recursive ?? true,
+            include_extensions: input.include_extensions ?? ['.md', '.txt'],
+            exclude_globs: input.exclude_globs ?? [],
+            max_depth: input.max_depth,
+            max_file_size_bytes: input.max_file_size_bytes,
+            follow_symlinks: false
+          }
+        });
+        return extractFolderSummaryWorkflowRunResponse(workspaceId, payload);
       }
     },
     sessions: {

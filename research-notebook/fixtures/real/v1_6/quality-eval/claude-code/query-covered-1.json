@@ -1,0 +1,268 @@
+{
+  "mode": "hybrid",
+  "query": "Claude Code 的高阶技巧有哪些？",
+  "answer": "根据文档内容，Claude Code 高阶使用技巧主要包括：Agent 协作、Memory 系统、Skills、Plan Mode、Task 管理、MCP、代码审查与 Git 工作流集成等主题。",
+  "hits": [
+    {
+      "title": "Claude Code 高阶使用技巧",
+      "snippet": "<mark>Claude</mark> <mark>Code</mark> 高阶使用技巧",
+      "source": "source-claude-code-高阶使用技巧-6dc7c143",
+      "score": 0.00000397147571437478,
+      "meta": {
+        "kind": "page",
+        "slug": "source-claude-code-高阶使用技巧-6dc7c143"
+      }
+    },
+    {
+      "title": "Claude",
+      "snippet": "<mark>Claude</mark>",
+      "source": "claude",
+      "score": 0.000003948597971719048,
+      "meta": {
+        "kind": "page",
+        "slug": "claude"
+      }
+    },
+    {
+      "title": "Passage afc31dc2",
+      "snippet": "启动",
+      "source": "",
+      "score": 4.210250636411679,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "afc31dc2-d87d-4be0-a351-3c32741d1ec2"
+      }
+    },
+    {
+      "title": "Passage 579ccaf6",
+      "snippet": "资源 源链 链接 官方 方文 文档 文档 官方 方规 规范",
+      "source": "",
+      "score": 3.5222682468254045,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "579ccaf6-9072-47ab-afc5-1eba69a1789d"
+      }
+    },
+    {
+      "title": "Passage 4d1d9bf3",
+      "snippet": "是扩 扩展 能力 力的 的协 协议",
+      "source": "",
+      "score": 3.4063723473304255,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "4d1d9bf3-5a4a-4b78-abc3-cd998a6683b2"
+      }
+    },
+    {
+      "title": "Passage 3a4f2919",
+      "snippet": "高阶 阶使 使用 用技 技巧 本文 文档 档面 面向 向中 中级 级开 开发 发者 介绍 的高 高阶 阶使 使用 用技 技巧 涵盖 协作 系统 管理 代码 码审 审查 查与 工作...",
+      "source": "",
+      "score": 3.3086909011617713,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "3a4f2919-0aed-473f-85fc-69db6fb95100"
+      }
+    }
+  ],
+  "answer_basis": "source_supported",
+  "key_claims": [
+    {
+      "claim": "Claude Code 高阶使用技巧面向中级开发者，涵盖多个高级功能主题",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_7374674fe9a10971:unit_f58b34706b7a062f:ev_1128ce699b2e8713",
+          "source_id": "src_7374674fe9a10971",
+          "source_title": "ClaudeCode高阶技巧.md",
+          "unit_id": "unit_f58b34706b7a062f",
+          "evidence_id": "ev_1128ce699b2e8713",
+          "snippet": "> 本文档面向中级开发者，介绍 Claude Code 的高阶使用技巧，涵盖 Agent 协作、Memory 系统、Skills、Plan Mode、Task 管理、MCP、代码审查与 Git 工作流集成等主题。",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "Agent 是 Claude Code 最强大的功能之一，允许创建子任务执行者来处理复杂工作",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_7374674fe9a10971:unit_db8da7a06446fc25:ev_1967acdf9bdcaf82",
+          "source_id": "src_7374674fe9a10971",
+          "source_title": "ClaudeCode高阶技巧.md",
+          "unit_id": "unit_db8da7a06446fc25",
+          "evidence_id": "ev_1967acdf9bdcaf82",
+          "snippet": "Agent 是 Claude Code 最强大的功能之一，允许创建子任务执行者来处理复杂工作。",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "Memory 系统让 Claude Code 能够跨会话持久化信息，非常适合长期项目",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_7374674fe9a10971:unit_eb1fc55c01e94d3b:ev_10f90a96fcf9fda0",
+          "source_id": "src_7374674fe9a10971",
+          "source_title": "ClaudeCode高阶技巧.md",
+          "unit_id": "unit_eb1fc55c01e94d3b",
+          "evidence_id": "ev_10f90a96fcf9fda0",
+          "snippet": "Memory 系统让 Claude Code 能够跨会话持久化信息，非常适合长期项目。",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        }
+      ]
+    }
+  ],
+  "inference_notice": "回答基于当前 Notebook sources 的可解析证据生成。",
+  "generation_metadata": {
+    "provider": "openai_compatible",
+    "provider_name": "minimax",
+    "model": "MiniMax-M2.7",
+    "prompt_version": "v1_5_d_source_grounded_qa_2026_05_27",
+    "evidence_ref_count": 6,
+    "fallback_mode": false,
+    "latency_ms": 2756,
+    "response_schema": "openai_chat_completions"
+  },
+  "evidence": [
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_b65f30b9d415fbc4:ev_99f7a8653377e3d1",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_b65f30b9d415fbc4",
+      "evidence_id": "ev_99f7a8653377e3d1",
+      "snippet": "# Claude Code 高阶使用技巧",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_f58b34706b7a062f:ev_1128ce699b2e8713",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_f58b34706b7a062f",
+      "evidence_id": "ev_1128ce699b2e8713",
+      "snippet": "> 本文档面向中级开发者，介绍 Claude Code 的高阶使用技巧，涵盖 Agent 协作、Memory 系统、Skills、Plan Mode、Task 管理、MCP、代码审查与 Git 工作流集成等主题。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_c8698ef19e18bb81:ev_b2d1bbf3989020c9",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_c8698ef19e18bb81",
+      "evidence_id": "ev_b2d1bbf3989020c9",
+      "snippet": "`CLAUDE.md` 是项目级别的配置文件，用于向 Claude Code 传递项目特定上下文、约定和规则。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_25c571db2058cc0a:ev_baf5451b6a75cf2c",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_25c571db2058cc0a",
+      "evidence_id": "ev_baf5451b6a75cf2c",
+      "snippet": "```bash\n# 启动 Claude Code\nclaude",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_db8da7a06446fc25:ev_1967acdf9bdcaf82",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_db8da7a06446fc25",
+      "evidence_id": "ev_1967acdf9bdcaf82",
+      "snippet": "Agent 是 Claude Code 最强大的功能之一，允许创建子任务执行者来处理复杂工作。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_eb1fc55c01e94d3b:ev_10f90a96fcf9fda0",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_eb1fc55c01e94d3b",
+      "evidence_id": "ev_10f90a96fcf9fda0",
+      "snippet": "Memory 系统让 Claude Code 能够跨会话持久化信息，非常适合长期项目。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_b65f30b9d415fbc4:ev_99f7a8653377e3d1",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_b65f30b9d415fbc4",
+      "evidence_id": "ev_99f7a8653377e3d1",
+      "snippet": "# Claude Code 高阶使用技巧",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_f58b34706b7a062f:ev_1128ce699b2e8713",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_f58b34706b7a062f",
+      "evidence_id": "ev_1128ce699b2e8713",
+      "snippet": "> 本文档面向中级开发者，介绍 Claude Code 的高阶使用技巧，涵盖 Agent 协作、Memory 系统、Skills、Plan Mode、Task 管理、MCP、代码审查与 Git 工作流集成等主题。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_c8698ef19e18bb81:ev_b2d1bbf3989020c9",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_c8698ef19e18bb81",
+      "evidence_id": "ev_b2d1bbf3989020c9",
+      "snippet": "`CLAUDE.md` 是项目级别的配置文件，用于向 Claude Code 传递项目特定上下文、约定和规则。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_25c571db2058cc0a:ev_baf5451b6a75cf2c",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_25c571db2058cc0a",
+      "evidence_id": "ev_baf5451b6a75cf2c",
+      "snippet": "```bash\n# 启动 Claude Code\nclaude",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_db8da7a06446fc25:ev_1967acdf9bdcaf82",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_db8da7a06446fc25",
+      "evidence_id": "ev_1967acdf9bdcaf82",
+      "snippet": "Agent 是 Claude Code 最强大的功能之一，允许创建子任务执行者来处理复杂工作。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_7374674fe9a10971:unit_eb1fc55c01e94d3b:ev_10f90a96fcf9fda0",
+      "source_id": "src_7374674fe9a10971",
+      "source_title": "ClaudeCode高阶技巧.md",
+      "unit_id": "unit_eb1fc55c01e94d3b",
+      "evidence_id": "ev_10f90a96fcf9fda0",
+      "snippet": "Memory 系统让 Claude Code 能够跨会话持久化信息，非常适合长期项目。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "no_evidence": false,
+  "coverage_status": "source_supported",
+  "suggested_source_actions": []
+}

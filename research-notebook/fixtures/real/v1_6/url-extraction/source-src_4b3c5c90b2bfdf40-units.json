@@ -1,0 +1,66 @@
+{
+  "workspace_id": "rn-v16-url-1779956944050",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_4b3c5c90b2bfdf40",
+      "artifact_ref": "source://src_4b3c5c90b2bfdf40"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "units": {
+      "source_id": "src_4b3c5c90b2bfdf40",
+      "items": [
+        {
+          "unit_id": "unit_25a19457dd653715",
+          "source_id": "src_4b3c5c90b2bfdf40",
+          "unit_type": "section",
+          "title": "V1.6 URL Source 2",
+          "text_preview": "# Example Domain",
+          "content_type": "text/plain",
+          "order_index": 0,
+          "artifact_ref": "unit://src_4b3c5c90b2bfdf40/unit_25a19457dd653715",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 16,
+          "max_preview_size_bytes": 50000
+        },
+        {
+          "unit_id": "unit_b2b717509390dd3e",
+          "source_id": "src_4b3c5c90b2bfdf40",
+          "unit_type": "section",
+          "title": "V1.6 URL Source 2 / Section 2",
+          "text_preview": "Source URL: http://example.org/",
+          "content_type": "text/plain",
+          "order_index": 1,
+          "artifact_ref": "unit://src_4b3c5c90b2bfdf40/unit_b2b717509390dd3e",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 31,
+          "max_preview_size_bytes": 50000
+        },
+        {
+          "unit_id": "unit_09c861fd2547b159",
+          "source_id": "src_4b3c5c90b2bfdf40",
+          "unit_type": "section",
+          "title": "V1.6 URL Source 2 / Section 3",
+          "text_preview": "Example Domain\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more",
+          "content_type": "text/plain",
+          "order_index": 2,
+          "artifact_ref": "unit://src_4b3c5c90b2bfdf40/unit_09c861fd2547b159",
+          "preview_available": true,
+          "preview_truncated": false,
+          "preview_size_bytes": 127,
+          "max_preview_size_bytes": 50000
+        }
+      ],
+      "next_cursor": null,
+      "limit": 50,
+      "has_more": false
+    }
+  }
+}

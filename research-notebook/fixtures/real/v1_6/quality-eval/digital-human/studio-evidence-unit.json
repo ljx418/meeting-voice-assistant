@@ -1,0 +1,30 @@
+{
+  "workspace_id": "rn-v16-quality-digital-human-1779957007858",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_918ee4610eb8dfcd",
+      "artifact_ref": "source://src_918ee4610eb8dfcd"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "unit": {
+      "unit_id": "unit_b20c96845f5d1383",
+      "source_id": "src_918ee4610eb8dfcd",
+      "unit_type": "section",
+      "title": "01_industry_overview.md",
+      "text_preview": "# 01 AI 数字人行业概览",
+      "content_type": "text/markdown",
+      "order_index": 0,
+      "artifact_ref": "unit://src_918ee4610eb8dfcd/unit_b20c96845f5d1383",
+      "preview_available": true,
+      "preview_truncated": false,
+      "preview_size_bytes": 29,
+      "max_preview_size_bytes": 50000
+    }
+  }
+}

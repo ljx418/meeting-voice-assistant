@@ -1,0 +1,33 @@
+{
+  "workspace_id": "rn-v16-quality-digital-human-1779957007858",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "workspace",
+      "artifact_ref": "workspace://rn-v16-quality-digital-human-1779957007858"
+    }
+  ],
+  "next_actions": [
+    "knowledge_workspace_describe",
+    "knowledge_source_import"
+  ],
+  "data": {
+    "workspace": {
+      "workspace_id": "rn-v16-quality-digital-human-1779957007858",
+      "name": "rn-v16-quality-digital-human-1779957007858",
+      "owner": "v1.6-quality-smoke",
+      "tags": [
+        "v1.6",
+        "quality-eval",
+        "digital-human"
+      ],
+      "status": "active",
+      "created_at": "2026-05-28T08:30:07.982470Z",
+      "updated_at": "2026-05-28T08:30:07.982470Z",
+      "archived_at": null,
+      "archive_reason": ""
+    }
+  }
+}

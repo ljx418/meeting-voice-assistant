@@ -1,0 +1,33 @@
+{
+  "base_url": "http://127.0.0.1:8013",
+  "workspace_id": "rn-v13d-summary-1779708126092-workspace",
+  "result_count": 5,
+  "results": [
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8013"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v13d-summary-1779708126092-workspace"
+    },
+    {
+      "name": "summary generator",
+      "status": "pass",
+      "detail": "artifacts=11 extracted=113"
+    },
+    {
+      "name": "confirm_extract required",
+      "status": "pass",
+      "detail": "HTTP 422"
+    },
+    {
+      "name": "workspace archive cleanup",
+      "status": "pass",
+      "detail": "rn-v13d-summary-1779708126092-workspace"
+    }
+  ],
+  "final_decision": "PASS_LIMITED"
+}

@@ -1,0 +1,81 @@
+{
+  "generated_at": "2026-05-30T01:55:45.372Z",
+  "app_url": "http://127.0.0.1:5173",
+  "base_url": "http://127.0.0.1:8003",
+  "workspace_id": "rn-v15-e2e-1780106080924",
+  "browser": {
+    "headless": true
+  },
+  "screenshots": [
+    ".smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780106080924/01-guide.png",
+    ".smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780106080924/02-qa-answer.png",
+    ".smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780106080924/03-citation-highlight.png",
+    ".smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780106080924/04-studio-1.png",
+    ".smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780106080924/04-studio-2.png",
+    ".smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780106080924/04-studio-3.png",
+    ".smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780106080924/04-studio-4.png",
+    ".smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780106080924/05-refusal.png"
+  ],
+  "results": [
+    {
+      "name": "startup",
+      "status": "pass",
+      "detail": "http://127.0.0.1:5173 / http://127.0.0.1:8003"
+    },
+    {
+      "name": "seed workspace/source/build",
+      "status": "pass",
+      "detail": "rn-v15-e2e-1780106080924"
+    },
+    {
+      "name": "browser guide visible",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "browser qa citation visible",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "browser citation highlight",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "browser studio Notes",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "browser studio Study Guide",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "browser studio Briefing Doc",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "browser studio FAQ",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "browser refusal visible",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "cleanup",
+      "status": "pass",
+      "detail": "rn-v15-e2e-1780106080924"
+    }
+  ],
+  "console_error_count": 0,
+  "page_error_count": 0,
+  "blocked_network_request_count": 0,
+  "final_decision": "PASS",
+  "declaration": "V1.5-E ChromeCLI / manual E2E is pass for the AI digital human P0 dataset."
+}

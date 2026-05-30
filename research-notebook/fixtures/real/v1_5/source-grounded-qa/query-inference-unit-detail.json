@@ -1,0 +1,31 @@
+{
+  "workspace_id": "rn-v15-ai-qa-1779933390179",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_40b57439418988cf",
+      "artifact_ref": "source://src_40b57439418988cf"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "unit": {
+      "unit_id": "unit_10af7b2b65b91f7a",
+      "source_id": "src_40b57439418988cf",
+      "unit_type": "page",
+      "title": "Page 3",
+      "text_preview": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclosure、声音克隆、版\n权和肖像授权\n产品形态 数字人直播、数字员工、内容生产工具、平台化\n解决方案\nAI video platform、visual agent、developer API、\ndigital people SDK\n中国市场的商业化尤其集中在直播和营销内容生产。China Daily 2025 年报道引用 QbitAI 数据称，中国虚\n拟人市场规模预计到 2030 年达到 2700 亿元人民币；报道同时强调大模型和多模态能力会推动数字人外\n观、手势和动作更接近真人。[S05] WIRED 2025 年对中国虚拟人直播销售的深度报道也显示，24/7 虚拟销\n售员已在部分电商场景挑战真人主播。[S06]\n二、技术进展：从“会说话的头像”到“实时多模态交互体”\n数字人技术栈正在从单点能力走向集成系统。典型系统包括：语音识别、语音合成、LLM/RAG、表情与唇\n形同步、动作生成、3D/视频渲染、实时低延迟推理、内容安全和水印/溯源。\n输入理解\nASR、文本、图像、\n知识库、RAG。\n对话大脑\nLLM、Agent、工具调\n用、记忆与策略。\n人像驱动\nTTS、唇形、表情、头\n部和肢体动作。\n输出与治理\n视频/3D渲染、低延迟\n流、审核、水印、\nC2PA。\nAI数字人产业发展报告 | 3/10",
+      "content_type": "text/plain",
+      "order_index": 2,
+      "artifact_ref": "unit://src_40b57439418988cf/unit_10af7b2b65b91f7a",
+      "preview_available": true,
+      "preview_truncated": false,
+      "preview_size_bytes": 1971,
+      "max_preview_size_bytes": 50000,
+      "page_no": 3
+    }
+  }
+}

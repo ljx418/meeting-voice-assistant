@@ -1,0 +1,29 @@
+{
+  "workspace_id": "rn-v16-url-1779956944050",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_4b3c5c90b2bfdf40",
+      "artifact_ref": "source://src_4b3c5c90b2bfdf40"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_d217157e59b2eaf1",
+      "source_id": "src_4b3c5c90b2bfdf40",
+      "unit_id": "unit_09c861fd2547b159",
+      "snippet": "Example Domain\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more",
+      "start_offset": 0,
+      "end_offset": 127,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {},
+      "preview_available": true
+    }
+  }
+}

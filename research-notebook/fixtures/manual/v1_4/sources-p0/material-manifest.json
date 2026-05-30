@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-05-26T11:11:07.856Z",
+  "source_folder_label": "技术分享/11-数字人/AI数字人资料包",
+  "markdown_files": [
+    "01_industry_overview.md",
+    "02_technology_trends.md",
+    "05_policy_and_risks.md"
+  ],
+  "derived_files": [
+    "ai-digital-human-sample.txt",
+    "ai-digital-human-real-sample.pdf"
+  ],
+  "pdf_source": "user_provided",
+  "pdf_note": "User-provided PDF copied into manual fixtures for V1.4-C source import validation."
+}

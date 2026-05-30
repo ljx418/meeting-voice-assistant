@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="V1.4 Current Gap">
+    <mxGraphModel dx="1120" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="760" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="prd" value="PRD Phase 1 MVP&#xa;导入资料 -> Guide -> 引用问答 -> Studio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="60" y="60" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="v13" value="V1.3 已完成受限路径&#xa;Agent folder summary PASS_LIMITED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="210" width="260" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="v14a" value="V1.4-0/A 基线与三列 Notebook&#xa;Sources / Chat / Studio PASS_LIMITED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="380" y="60" width="280" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="v14core" value="V1.4 核心缺口&#xa;RC 集中验收 / 手工体验确认" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e5;strokeColor=#f29900;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="380" y="210" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="v14b" value="V1.4-B Notebook 生命周期&#xa;创建 / 列表 / 重命名 / 归档 / 最近打开 PASS_LIMITED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="380" y="360" width="280" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="v14c" value="V1.4-C Sources P0&#xa;Markdown/TXT/PDF_EXTRACTED PASS_LIMITED&#xa;浏览器式上传 smoke 通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="360" width="260" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="v14d" value="V1.4-D Notebook Guide&#xa;Overview / Key Topics / Suggested Questions PASS_LIMITED&#xa;确定性导读，非完整 AI Guide" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="740" y="430" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="v14e" value="V1.4-E Source-grounded Chat&#xa;引用问答 / 拒答 / 补源建议 PASS_LIMITED&#xa;完整 Research 未声明 ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="740" y="570" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="v14f" value="V1.4-F Studio 轻量输出&#xa;Notes / Study Guide / Briefing Doc / FAQ PASS_LIMITED&#xa;确定性输出，保留 evidence_refs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="380" y="520" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="v14g" value="V1.4-G Citation Navigation&#xa;Chat / Studio citation -> Drawer / Unit / Span PASS_LIMITED&#xa;非全格式 precise backjump" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="520" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="v14h" value="V1.4-H 补源入口&#xa;资料不足 -> 添加来源 PASS_LIMITED&#xa;不声明自动 Research" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="650" width="260" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="rc" value="V1.4-RC Final Acceptance&#xa;自动化集中验收 PASS_LIMITED&#xa;npm check / sources smoke 通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="740" y="120" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="v15" value="V1.5 Backlog&#xa;AI 质量验收 / ChromeCLI 人工体验 / Audio / PPT / Research" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8fd;strokeColor=#9334e6;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="740" y="290" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="prd" target="v14a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="v14a" target="v14core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2b" edge="1" parent="1" source="v14a" target="v14b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2c" edge="1" parent="1" source="v14b" target="v14c" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2d" edge="1" parent="1" source="v14c" target="v14d" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2e" edge="1" parent="1" source="v14d" target="v14core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2f" edge="1" parent="1" source="v14d" target="v14e" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2g" edge="1" parent="1" source="v14e" target="v14core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2h" edge="1" parent="1" source="v14e" target="v14f" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2i" edge="1" parent="1" source="v14f" target="v14core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2j" edge="1" parent="1" source="v14f" target="v14g" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2k" edge="1" parent="1" source="v14g" target="v14core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2l" edge="1" parent="1" source="v14g" target="v14h" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2m" edge="1" parent="1" source="v14h" target="v14core" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="v14core" target="rc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="v13" target="rc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="rc" target="v15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;dashed=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

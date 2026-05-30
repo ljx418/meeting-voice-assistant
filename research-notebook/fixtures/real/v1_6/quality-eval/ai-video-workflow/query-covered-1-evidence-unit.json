@@ -1,0 +1,30 @@
+{
+  "workspace_id": "rn-v16-quality-ai-video-workflow-1779957266393",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_1ced51878616cfd4",
+      "artifact_ref": "source://src_1ced51878616cfd4"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "unit": {
+      "unit_id": "unit_ea79efb150787a81",
+      "source_id": "src_1ced51878616cfd4",
+      "unit_type": "section",
+      "title": "README.md / Section 6",
+      "text_preview": "主题：AI 文生视频工作流  \n目标：讲清楚从想法、脚本、分镜、提示词、生成、剪辑到发布的完整链路。  \n风格：技术分享，清晰、实用、流程化，避免只展示工具名。",
+      "content_type": "text/markdown",
+      "order_index": 5,
+      "artifact_ref": "unit://src_1ced51878616cfd4/unit_ea79efb150787a81",
+      "preview_available": true,
+      "preview_truncated": false,
+      "preview_size_bytes": 222,
+      "max_preview_size_bytes": 50000
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "workspace_id": "rn-v16-quality-ai-video-workflow-1779957266393",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "studio_artifact",
+      "artifact_id": "studio_briefing_doc_3c83923c2f35"
+    }
+  ],
+  "next_actions": [
+    "knowledge_query",
+    "knowledge_source_list"
+  ],
+  "data": {
+    "artifact": {
+      "artifact_id": "studio_briefing_doc_3c83923c2f35",
+      "artifact_type": "briefing_doc",
+      "title": "Briefing Doc",
+      "artifact_available": true,
+      "summary": "基于现有资料，该项目为 AI Text-to-Video Workflow Project，相关文档信息有限。",
+      "sections": [
+        {
+          "title": "项目基本信息",
+          "content": "根据提供的 evidence_context，仅获得项目标题信息为 AI Text-to-Video Workflow Project，来源于 README.md 文件。资料未提供项目具体功能、技术架构或实现细节。",
+          "evidence_refs": [
+            {
+              "source_id": "src_1ced51878616cfd4",
+              "source_title": "README.md",
+              "unit_id": "unit_5e4e2035622c64e1",
+              "evidence_id": "ev_71772f37d0e95cef",
+              "snippet": "# AI Text-to-Video Workflow Project",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "资料覆盖范围说明",
+          "content": "当前 evidence_context 仅包含一个文档来源（README.md）的标题信息，无法提取详细项目描述、功能说明或技术实现相关内容。需要补充更多证据资料以完成详细分析。",
+          "evidence_refs": [
+            {
+              "source_id": "src_1ced51878616cfd4",
+              "source_title": "README.md",
+              "unit_id": "unit_5e4e2035622c64e1",
+              "evidence_id": "ev_71772f37d0e95cef",
+              "snippet": "# AI Text-to-Video Workflow Project",
+              "locator": {}
+            }
+          ]
+        }
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "src_1ced51878616cfd4",
+          "source_title": "README.md",
+          "unit_id": "unit_5e4e2035622c64e1",
+          "evidence_id": "ev_71772f37d0e95cef",
+          "snippet": "# AI Text-to-Video Workflow Project",
+          "locator": {}
+        }
+      ],
+      "generation_metadata": {
+        "provider": "openai_compatible",
+        "provider_name": "minimax",
+        "model": "MiniMax-M2.7",
+        "prompt_version": "v1_5_c_ai_studio_2026_05_27",
+        "artifact_type": "briefing_doc",
+        "evidence_ref_count": 1,
+        "fallback_mode": false,
+        "latency_ms": 10109,
+        "response_schema": "openai_chat_completions"
+      }
+    }
+  }
+}

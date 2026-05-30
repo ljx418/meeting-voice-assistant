@@ -1,0 +1,39 @@
+{
+  "base_url": "http://127.0.0.1:8013",
+  "workspace_id": "rn-v13b-folder-1779697569177-workspace",
+  "root_label": "技术分享",
+  "result_count": 6,
+  "results": [
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8013"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v13b-folder-1779697569177-workspace"
+    },
+    {
+      "name": "folder scan dry-run manifest",
+      "status": "pass",
+      "detail": "folders=189 files=110 skipped=1018"
+    },
+    {
+      "name": "dry_run false rejected",
+      "status": "pass",
+      "detail": "HTTP 422"
+    },
+    {
+      "name": "unsupported include extension rejected",
+      "status": "pass",
+      "detail": "HTTP 422"
+    },
+    {
+      "name": "workspace archive cleanup",
+      "status": "pass",
+      "detail": "rn-v13b-folder-1779697569177-workspace"
+    }
+  ],
+  "final_decision": "PASS_LIMITED"
+}

@@ -48,11 +48,11 @@ export function EvidenceList({
           >
             <span>{label}</span>
             {item.snippet ? <small>{item.snippet}</small> : null}
-            {item.unitId ? <small>unit_id: {item.unitId}</small> : null}
-            {item.evidenceId ? <small>evidence_id: {item.evidenceId}</small> : null}
+            {item.unitId ? <small>文档单元：{item.unitId}</small> : null}
+            {item.evidenceId ? <small>证据片段：{item.evidenceId}</small> : null}
             {canOpenPreciseEvidence ? <small>可精确定位证据</small> : null}
             {item.locator?.pageNo ? <small>页码 {item.locator.pageNo}</small> : null}
-            {!item.sourceId && item.sourceRef ? <small>source_ref: {item.sourceRef}</small> : null}
+            {!item.sourceId && item.sourceRef ? <small>来源引用：{item.sourceRef}</small> : null}
             {!item.sourceId && item.artifactRefs?.length ? <small>{item.artifactRefs.length} 个工件引用</small> : null}
             {!item.traceAvailable && item.traceUnavailableReason ? <small>{item.traceUnavailableReason}</small> : null}
           </button>

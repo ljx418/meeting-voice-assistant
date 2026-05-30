@@ -1,0 +1,29 @@
+{
+  "workspace_id": "rn-v16-quality-claude-code-1779957144855",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_7374674fe9a10971",
+      "artifact_ref": "source://src_7374674fe9a10971"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_99f7a8653377e3d1",
+      "source_id": "src_7374674fe9a10971",
+      "unit_id": "unit_b65f30b9d415fbc4",
+      "snippet": "# Claude Code 高阶使用技巧",
+      "start_offset": 0,
+      "end_offset": 20,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {},
+      "preview_available": true
+    }
+  }
+}

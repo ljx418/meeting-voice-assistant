@@ -10,6 +10,7 @@ import {
   StateBlock,
   VersionMismatchState
 } from '../../shared/components/StateBlock';
+import { mergeRecentWorkspaces, recentWorkspaceOpenedAt } from './recentWorkspaces';
 
 function WorkspaceError({ error, onRetry }: { error: unknown; onRetry: () => void }) {
   if (isNormalizedApiError(error)) {
@@ -95,6 +96,7 @@ function CreateWorkspaceForm() {
 
 export function HomePage() {
   const workspacesQuery = useWorkspacesQuery();
+  const workspaces = workspacesQuery.data ? mergeRecentWorkspaces(workspacesQuery.data) : [];
 
   return (
     <div className="page-grid">
@@ -120,23 +122,27 @@ export function HomePage() {
                 创建一个工作区，开始管理基于来源的个人知识库。
               </EmptyState>
             ) : null}
-            {workspacesQuery.data && workspacesQuery.data.length > 0 ? (
+            {workspaces.length > 0 ? (
               <div className="workspace-list" aria-label="工作区列表">
-                {workspacesQuery.data.map((workspace) => (
-                  <Link
-                    className="workspace-card"
-                    to={`/workspaces/${encodeURIComponent(workspace.workspace_id)}`}
-                    key={workspace.workspace_id}
-                  >
-                    <div>
-                      <p className="workspace-title">{workspace.name}</p>
-                      <div className="workspace-meta">
-                        {workspace.description || '暂无描述'} · {workspace.workspace_id}
+                {workspaces.map((workspace) => {
+                  const openedAt = recentWorkspaceOpenedAt(workspace.workspace_id);
+                  return (
+                    <Link
+                      className="workspace-card"
+                      to={`/workspaces/${encodeURIComponent(workspace.workspace_id)}`}
+                      key={workspace.workspace_id}
+                    >
+                      <div>
+                        <p className="workspace-title">{workspace.name}</p>
+                        <div className="workspace-meta">
+                          {workspace.description || '暂无描述'} · {workspace.workspace_id}
+                        </div>
+                        {openedAt ? <div className="workspace-meta">最近打开：{openedAt}</div> : null}
                       </div>
-                    </div>
-                    <span className="service-status">{workspace.archived ? '已归档' : '可用'}</span>
-                  </Link>
-                ))}
+                      <span className="service-status">{workspace.archived ? '已归档' : '可用'}</span>
+                    </Link>
+                  );
+                })}
               </div>
             ) : null}
           </div>

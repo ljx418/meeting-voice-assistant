@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ResearchNotebook V1.6 人工质量验收截图报告</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f7f9;
+        --panel: #ffffff;
+        --text: #17202a;
+        --muted: #5f6b7a;
+        --line: #d9dee7;
+        --pass: #0f7a3a;
+        --warn: #9a5b00;
+        --fail: #b42318;
+        --accent: #234f9f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          "PingFang SC",
+          "Microsoft YaHei",
+          sans-serif;
+        line-height: 1.55;
+      }
+
+      header {
+        padding: 32px 40px 20px;
+        background: #ffffff;
+        border-bottom: 1px solid var(--line);
+      }
+
+      main {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+
+      h2 {
+        margin: 0 0 16px;
+        font-size: 22px;
+      }
+
+      h3 {
+        margin: 0 0 10px;
+        font-size: 17px;
+      }
+
+      p {
+        margin: 0 0 12px;
+      }
+
+      code,
+      pre {
+        font-family: "SFMono-Regular", Consolas, monospace;
+      }
+
+      pre {
+        overflow: auto;
+        padding: 14px;
+        background: #101828;
+        color: #f8fafc;
+        border-radius: 8px;
+        font-size: 13px;
+      }
+
+      .meta {
+        color: var(--muted);
+      }
+
+      .banner {
+        margin-top: 16px;
+        padding: 14px 16px;
+        border: 1px solid #e5b96a;
+        border-radius: 8px;
+        background: #fff7e6;
+        color: #5f3b00;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+      }
+
+      .section {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 20px;
+      }
+
+      .shot {
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr);
+        gap: 18px;
+        align-items: start;
+        padding: 16px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .shot:first-of-type {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      .shot img {
+        width: 100%;
+        max-height: 240px;
+        object-fit: contain;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        cursor: zoom-in;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .pass {
+        background: #e7f6ed;
+        color: var(--pass);
+      }
+
+      .manual {
+        background: #fff1d6;
+        color: var(--warn);
+      }
+
+      .risk {
+        background: #fde8e7;
+        color: var(--fail);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0 0;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--line);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #f1f4f8;
+      }
+
+      a {
+        color: var(--accent);
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: none;
+        grid-template-rows: auto minmax(0, 1fr);
+        background: rgba(10, 15, 25, 0.94);
+        color: #fff;
+      }
+
+      .lightbox[data-open="true"] {
+        display: grid;
+      }
+
+      .lightbox-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .lightbox-title {
+        min-width: 220px;
+        margin: 0;
+        font-size: 15px;
+        color: #e6edf8;
+      }
+
+      .lightbox-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .lightbox button {
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        padding: 7px 10px;
+        cursor: pointer;
+      }
+
+      .lightbox button:hover {
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .lightbox-stage {
+        position: relative;
+        overflow: hidden;
+        cursor: grab;
+      }
+
+      .lightbox-stage[data-dragging="true"] {
+        cursor: grabbing;
+      }
+
+      .lightbox-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        max-width: none;
+        max-height: none;
+        transform-origin: center center;
+        user-select: none;
+        -webkit-user-drag: none;
+        box-shadow: 0 16px 60px rgba(0, 0, 0, 0.45);
+        background: #fff;
+      }
+
+      .zoom-help {
+        font-size: 12px;
+        color: #b9c4d6;
+      }
+
+      @media (max-width: 900px) {
+        header {
+          padding: 24px 18px 16px;
+        }
+
+        main {
+          padding: 16px;
+        }
+
+        .shot {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>ResearchNotebook V1.6 人工质量验收截图报告</h1>
+      <p class="meta">日期：2026-05-29。用途：把 ChromeCLI 验证路径的截图和关键文本集中给人工查看。</p>
+      <div class="banner">
+        自动化结论只代表路径可达，不代表体验质量合格。V1.6 仍是人工验收待完成状态。
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="section">
+        <h2>结论边界</h2>
+        <p><span class="badge pass">路径可达</span> ChromeCLI 已验证创建工作区、导入来源、引用问答、EvidenceSpan 高亮、Studio 输出路径可打开。</p>
+        <p><span class="badge manual">等待人工验收</span> 需要人工判断页面是否可操作、内容是否可信、文案是否自然、PRD 三列体验是否成立。</p>
+        <p><span class="badge risk">不得过度声明</span> 当前不能声明 V1.6 final acceptance passed。</p>
+      </section>
+
+      <section class="section">
+        <h2>关键路径文本</h2>
+        <pre>PASS visible Chrome opened app
+PASS workspace create and enter
+PASS text / markdown / json source import visible
+PASS SourcePreview / DocumentUnit visible
+PASS EvidenceSpan highlight visible
+PASS source trace drawer visible
+PASS session evidence highlight visible
+PASS browser console/network guard
+
+PASS browser guide visible
+PASS browser qa citation visible
+PASS browser citation highlight
+PASS browser studio Notes / Study Guide / Briefing Doc / FAQ
+PASS browser refusal visible</pre>
+        <p>完整关键文本见：<a href="./v1_6_manual_quality_review_key_texts.md">v1_6_manual_quality_review_key_texts.md</a></p>
+      </section>
+
+      <section class="section">
+        <h2>人工质量验收清单</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>验收点</th>
+              <th>人工判断标准</th>
+              <th>建议记录</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>三列 Notebook 体验</td>
+              <td>页面应像 PRD 的 Sources / Chat / Studio，而不是功能堆叠。</td>
+              <td>PASS / FAIL / NEEDS_FIX</td>
+            </tr>
+            <tr>
+              <td>来源库</td>
+              <td>批量资料导入、状态、预览入口、失败反馈是否清楚。</td>
+              <td>PASS / FAIL / NEEDS_FIX</td>
+            </tr>
+            <tr>
+              <td>问答反馈</td>
+              <td>点击问题后是否能看出系统正在处理，回答区是否容易找到。</td>
+              <td>PASS / FAIL / NEEDS_FIX</td>
+            </tr>
+            <tr>
+              <td>引用和高亮</td>
+              <td>citation 是否容易理解，跳转后的高亮是否清楚、不误导。</td>
+              <td>PASS / FAIL / NEEDS_FIX</td>
+            </tr>
+            <tr>
+              <td>Guide / QA / Studio 内容</td>
+              <td>输出是否可读、可信、引用充分，是否存在模板感或幻觉。</td>
+              <td>PASS / FAIL / NEEDS_FIX</td>
+            </tr>
+            <tr>
+              <td>中文文案</td>
+              <td>是否像面向用户的产品，不像开发调试界面。</td>
+              <td>PASS / FAIL / NEEDS_FIX</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section">
+        <h2>PRD Guide / QA / Studio 截图</h2>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780026136870/01-guide.png" alt="Notebook Guide 截图" />
+          <div>
+            <h3>Notebook Guide</h3>
+            <p><span class="badge pass">路径 PASS</span> Guide 区域可见。</p>
+            <p>人工重点：Overview 是否真正概括资料；Key Topics 是否有信息量；Suggested Questions 是否适合继续研究。</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780026136870/02-qa-answer.png" alt="引用问答截图" />
+          <div>
+            <h3>引用问答</h3>
+            <p><span class="badge pass">路径 PASS</span> 问答和 citation 可见。</p>
+            <p>人工重点：回答是否基于来源，关键断言是否带引用，资料不足时是否拒答。</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780026136870/03-citation-highlight.png" alt="citation 高亮截图" />
+          <div>
+            <h3>citation 高亮</h3>
+            <p><span class="badge pass">路径 PASS</span> 点击 citation 后可打开来源并高亮片段。</p>
+            <p>人工重点：高亮是否明显；来源预览、DocumentUnit、证据片段的层级是否容易理解。</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780026136870/04-studio-1.png" alt="Studio Notes 截图" />
+          <div>
+            <h3>Studio Notes</h3>
+            <p><span class="badge pass">路径 PASS</span> Notes 可生成。</p>
+            <p>人工重点：是否适合保存为笔记，是否带 citation metadata。</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780026136870/04-studio-2.png" alt="Study Guide 截图" />
+          <div>
+            <h3>Study Guide</h3>
+            <p><span class="badge pass">路径 PASS</span> Study Guide 可生成。</p>
+            <p>人工重点：结构是否清楚，能否辅助复习，每个核心 section 是否有引用。</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780026136870/04-studio-3.png" alt="Briefing Doc 截图" />
+          <div>
+            <h3>Briefing Doc</h3>
+            <p><span class="badge pass">路径 PASS</span> Briefing Doc 可生成。</p>
+            <p>人工重点：是否适合汇报复述，关键结论是否有来源支撑。</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780026136870/04-studio-4.png" alt="FAQ 截图" />
+          <div>
+            <h3>FAQ</h3>
+            <p><span class="badge pass">路径 PASS</span> FAQ 可生成。</p>
+            <p>人工重点：每条答案是否有 citation 或明确资料未覆盖。</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_5_e_chromecli_manual_e2e/1780026136870/05-refusal.png" alt="资料不足拒答截图" />
+          <div>
+            <h3>资料不足拒答</h3>
+            <p><span class="badge pass">路径 PASS</span> 资料外问题可显示拒答。</p>
+            <p>人工重点：是否明确说明未覆盖，是否给出合理补源建议，是否没有硬答。</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="section">
+        <h2>普通用户可见路径截图</h2>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_1_visible_user_e2e/1780026263488/text-evidence-highlight.png" alt="Text EvidenceSpan 高亮截图" />
+          <div>
+            <h3>Text 来源高亮</h3>
+            <p><span class="badge pass">路径 PASS</span> text 来源可导入、预览、问答、定位高亮。</p>
+            <p>关键文本：Visible user evidence navigation should keep the answer, source preview, document unit, and highlighted evidence span visible.</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_1_visible_user_e2e/1780026263488/markdown-evidence-highlight.png" alt="Markdown EvidenceSpan 高亮截图" />
+          <div>
+            <h3>Markdown 来源高亮</h3>
+            <p><span class="badge pass">路径 PASS</span> Markdown 来源可导入、预览、问答、定位高亮。</p>
+            <p>关键文本：visiblemarkdownanchor evidence should be highlighted from markdown source.</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_1_visible_user_e2e/1780026263488/json-evidence-highlight.png" alt="JSON EvidenceSpan 高亮截图" />
+          <div>
+            <h3>JSON 来源高亮</h3>
+            <p><span class="badge pass">路径 PASS</span> JSON 来源路径可达，但不代表 PRD P0 格式范围扩大。</p>
+            <p>关键文本："visiblejsonanchor evidence should be highlighted from json source"</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_1_visible_user_e2e/1780026263488/source-trace.png" alt="Source Trace 截图" />
+          <div>
+            <h3>来源溯源抽屉</h3>
+            <p><span class="badge pass">路径 PASS</span> Source Trace Drawer 可打开。</p>
+            <p>人工重点：溯源信息是否像用户能理解的 provenance，而不是开发字段堆叠。</p>
+          </div>
+        </article>
+        <article class="shot">
+          <img src="../../../.smoke-artifacts/v1_1_visible_user_e2e/1780026263488/session-evidence-highlight.png" alt="Session EvidenceSpan 高亮截图" />
+          <div>
+            <h3>会话 EvidenceSpan 高亮</h3>
+            <p><span class="badge pass">路径 PASS</span> 会话问答 citation 可定位高亮。</p>
+            <p>人工重点：会话与工作区问答入口是否容易区分，是否增加认知负担。</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="section">
+        <h2>建议人工记录</h2>
+        <pre>三列体验：PASS / FAIL / NEEDS_FIX
+来源库批量导入：PASS / FAIL / NEEDS_FIX
+问答反馈：PASS / FAIL / NEEDS_FIX
+Guide 内容质量：PASS / FAIL / NEEDS_FIX
+QA 引用质量：PASS / FAIL / NEEDS_FIX
+Studio 输出质量：PASS / FAIL / NEEDS_FIX
+中文文案：PASS / FAIL / NEEDS_FIX
+最终人工结论：ACCEPT / REWORK_REQUIRED</pre>
+      </section>
+    </main>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="截图全屏查看">
+      <div class="lightbox-toolbar">
+        <p class="lightbox-title" id="lightboxTitle">截图预览</p>
+        <div class="lightbox-actions">
+          <span class="zoom-help">滚轮缩放，拖动查看局部</span>
+          <button type="button" id="zoomOut">缩小</button>
+          <button type="button" id="zoomReset">重置</button>
+          <button type="button" id="zoomIn">放大</button>
+          <button type="button" id="closeLightbox">关闭</button>
+        </div>
+      </div>
+      <div class="lightbox-stage" id="lightboxStage">
+        <img class="lightbox-image" id="lightboxImage" alt="" />
+      </div>
+    </div>
+
+    <script>
+      const lightbox = document.getElementById('lightbox');
+      const stage = document.getElementById('lightboxStage');
+      const image = document.getElementById('lightboxImage');
+      const title = document.getElementById('lightboxTitle');
+      const closeButton = document.getElementById('closeLightbox');
+      const zoomInButton = document.getElementById('zoomIn');
+      const zoomOutButton = document.getElementById('zoomOut');
+      const zoomResetButton = document.getElementById('zoomReset');
+
+      let scale = 1;
+      let offsetX = 0;
+      let offsetY = 0;
+      let dragging = false;
+      let dragStartX = 0;
+      let dragStartY = 0;
+      let dragOriginX = 0;
+      let dragOriginY = 0;
+
+      function renderLightboxImage() {
+        image.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px)) scale(${scale})`;
+      }
+
+      function resetZoom() {
+        scale = 1;
+        offsetX = 0;
+        offsetY = 0;
+        renderLightboxImage();
+      }
+
+      function openLightbox(src, label) {
+        image.src = src;
+        image.alt = label || '截图预览';
+        title.textContent = label || '截图预览';
+        lightbox.dataset.open = 'true';
+        lightbox.setAttribute('aria-hidden', 'false');
+        resetZoom();
+      }
+
+      function closeLightbox() {
+        lightbox.dataset.open = 'false';
+        lightbox.setAttribute('aria-hidden', 'true');
+        image.removeAttribute('src');
+      }
+
+      function applyZoom(nextScale, centerX, centerY) {
+        const previousScale = scale;
+        scale = Math.min(5, Math.max(0.5, nextScale));
+        if (centerX !== undefined && centerY !== undefined && previousScale !== scale) {
+          const rect = stage.getBoundingClientRect();
+          const dx = centerX - rect.left - rect.width / 2 - offsetX;
+          const dy = centerY - rect.top - rect.height / 2 - offsetY;
+          const ratio = scale / previousScale;
+          offsetX -= dx * (ratio - 1);
+          offsetY -= dy * (ratio - 1);
+        }
+        renderLightboxImage();
+      }
+
+      document.querySelectorAll('.shot img').forEach((thumb) => {
+        thumb.addEventListener('click', () => openLightbox(thumb.getAttribute('src'), thumb.getAttribute('alt')));
+      });
+
+      closeButton.addEventListener('click', closeLightbox);
+      zoomInButton.addEventListener('click', () => applyZoom(scale + 0.25));
+      zoomOutButton.addEventListener('click', () => applyZoom(scale - 0.25));
+      zoomResetButton.addEventListener('click', resetZoom);
+
+      stage.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        const delta = event.deltaY < 0 ? 0.18 : -0.18;
+        applyZoom(scale + delta, event.clientX, event.clientY);
+      }, { passive: false });
+
+      stage.addEventListener('pointerdown', (event) => {
+        dragging = true;
+        stage.dataset.dragging = 'true';
+        dragStartX = event.clientX;
+        dragStartY = event.clientY;
+        dragOriginX = offsetX;
+        dragOriginY = offsetY;
+        stage.setPointerCapture(event.pointerId);
+      });
+
+      stage.addEventListener('pointermove', (event) => {
+        if (!dragging) return;
+        offsetX = dragOriginX + event.clientX - dragStartX;
+        offsetY = dragOriginY + event.clientY - dragStartY;
+        renderLightboxImage();
+      });
+
+      stage.addEventListener('pointerup', (event) => {
+        dragging = false;
+        stage.dataset.dragging = 'false';
+        stage.releasePointerCapture(event.pointerId);
+      });
+
+      stage.addEventListener('pointercancel', () => {
+        dragging = false;
+        stage.dataset.dragging = 'false';
+      });
+
+      lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (lightbox.dataset.open !== 'true') return;
+        if (event.key === 'Escape') closeLightbox();
+        if (event.key === '+' || event.key === '=') applyZoom(scale + 0.25);
+        if (event.key === '-') applyZoom(scale - 0.25);
+        if (event.key === '0') resetZoom();
+      });
+    </script>
+  </body>
+</html>

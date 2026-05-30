@@ -1,0 +1,100 @@
+{
+  "workspace_id": "rn-v13f-agent-planner-1779705661629-workspace",
+  "operation_id": "task_480c55724489efe8",
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "review_workflow_draft",
+    "confirm_folder_permission_before_run"
+  ],
+  "data": {
+    "task": {
+      "task_id": "task_480c55724489efe8",
+      "workspace_id": "rn-v13f-agent-planner-1779705661629-workspace",
+      "user_goal": "递归总结 Desktop/技术分享，每个子文件夹生成一份总结。",
+      "status": "awaiting_approval",
+      "workflow_id": "wf_f7cfd10cc332bd01"
+    },
+    "workflow": {
+      "workflow_id": "wf_f7cfd10cc332bd01",
+      "name": "递归文件夹总结",
+      "template_id": "folder_summary_v1",
+      "status": "draft",
+      "required_permissions": [
+        "folder:scan",
+        "folder:extract:md_txt"
+      ],
+      "draft_parameters": {
+        "authorized_root_hint": "Desktop/技术分享",
+        "include_extensions": [
+          ".md",
+          ".txt"
+        ],
+        "exclude_globs": [
+          "**/*.tmp"
+        ],
+        "follow_symlinks": false,
+        "requires_user_confirmation": true
+      },
+      "steps": [
+        {
+          "step_id": "step_482913148d92defc",
+          "name": "scan_folder",
+          "status": "pending",
+          "logs": [],
+          "retry_count": 0,
+          "artifact_refs": []
+        },
+        {
+          "step_id": "step_3db34547f0d0ee92",
+          "name": "extract_text",
+          "status": "pending",
+          "logs": [],
+          "retry_count": 0,
+          "artifact_refs": []
+        },
+        {
+          "step_id": "step_90ac5fced3fa5dd0",
+          "name": "group_by_subfolder",
+          "status": "pending",
+          "logs": [],
+          "retry_count": 0,
+          "artifact_refs": []
+        },
+        {
+          "step_id": "step_3ff79f5a0cd69c72",
+          "name": "create_sources",
+          "status": "pending",
+          "logs": [],
+          "retry_count": 0,
+          "artifact_refs": []
+        },
+        {
+          "step_id": "step_2b8f495e53b83699",
+          "name": "summarize_folder",
+          "status": "pending",
+          "logs": [],
+          "retry_count": 0,
+          "artifact_refs": []
+        },
+        {
+          "step_id": "step_c40d1861b5553bf2",
+          "name": "generate_index_report",
+          "status": "pending",
+          "logs": [],
+          "retry_count": 0,
+          "artifact_refs": []
+        },
+        {
+          "step_id": "step_7e9cdda1157954ce",
+          "name": "write_artifacts",
+          "status": "pending",
+          "logs": [],
+          "retry_count": 0,
+          "artifact_refs": []
+        }
+      ]
+    }
+  }
+}

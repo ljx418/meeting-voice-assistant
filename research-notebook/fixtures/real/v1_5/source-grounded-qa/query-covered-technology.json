@@ -1,0 +1,302 @@
+{
+  "mode": "hybrid",
+  "query": "数字人 技术 趋势是什么？",
+  "answer": "基于来源的推断：数字人技术正从传统内容工具向企业级智能交互系统演进，主要趋势包括：多模态大模型融合、实时交互能力提升、可验证身份与内容溯源技术（如C2PA、SynthID水印）、端侧部署优化，以及3D/视频生成的持续升级。短期商业化重点聚焦企业培训、营销、客服和直播电商等场景。",
+  "hits": [
+    {
+      "title": "AI数字人行业概览",
+      "snippet": "AI数字人行业概览",
+      "source": "ai数字人行业概览",
+      "score": 0.7205364161020237,
+      "meta": {
+        "kind": "page",
+        "slug": "ai数字人行业概览"
+      }
+    },
+    {
+      "title": "01 AI 数字人行业概览",
+      "snippet": "01 AI 数字人行业概览",
+      "source": "source-01-ai-数字人行业概览-d8a83249",
+      "score": 0.6279238423233563,
+      "meta": {
+        "kind": "page",
+        "slug": "source-01-ai-数字人行业概览-d8a83249"
+      }
+    },
+    {
+      "title": "Passage c4deac01",
+      "snippet": "数字 字人 人行 行业 业概 概览 来源 源名 名称 多来 来源 源资 资料 料汇 汇编 详见 来源 源链 链接 见本 本文 文件 件内 内引 引用 用与 发布 布日 日期 资料...",
+      "source": "",
+      "score": 2.2282072964329434,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "c4deac01-59e4-49da-8c01-0f0249988ce0"
+      }
+    },
+    {
+      "title": "Passage 1e5d7895",
+      "snippet": "市场 场规 规模 模与 与趋 趋势 势口 口径 来源 日期 口径 关键 键数 数据 备注 预测 亿美 美元 亿美 美元 范围 围较 较宽 覆盖 来源 预测 增量 亿美 美元 可作...",
+      "source": "",
+      "score": 2.141156042220927,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "1e5d7895-83c2-481e-a66a-23b93c4d825c"
+      }
+    },
+    {
+      "title": "Passage 8feefa48",
+      "snippet": "内容 容溯 溯源 源和 和水 水印 <mark>技术</mark> 术规 规范 范把 把内 内容 容凭 凭证 证作 作为 为可 可绑 绑定 定到 到数 数字 字内 内容 容的 结构 包含 含可 可见 见水...",
+      "source": "",
+      "score": 1.3811273985395836,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "8feefa48-3eab-4037-8a4c-ab37c60389fc"
+      }
+    },
+    {
+      "title": "Passage 85fd6f00",
+      "snippet": "适合 后续 续问 问答 答的 的问 问题 解决 决的 的问 问题 题有 有什 什么 么不 不同 的技 <mark>技术</mark> 术模 模块 块如 如何 何组 组成 成一 一个 个实 实时 时数 数字...",
+      "source": "",
+      "score": 0.7357380858772675,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "85fd6f00-4590-4a65-b429-13fc75be9ca3"
+      }
+    }
+  ],
+  "answer_basis": "source_based_inference",
+  "key_claims": [
+    {
+      "claim": "数字人技术正在从'预制形象+配音视频'内容工具向'多模态Agent+实时交互+可验证身份'的企业级交互层演进",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI 数字人产业发展报告 PDF",
+          "unit_id": "unit_d828942112bd9872",
+          "evidence_id": "ev_cd442ab43f9c6eb3",
+          "snippet": "执行摘要\n核心判断：AI 数字人产业正在从“预制形象 + 配音视频”的内容工具，向“多模态 Agent + 实时交互 +\n可验证身份与内容来源”的企业级交互层演进。短期商业化更稳的方向不是泛娱乐，而是企业培训、营\n销内容生产、客服/数字员工、直播电商和品牌内容资产管理。\n49.8%Grand View Research 对 digital avatar 市场\n2024-2030 CAGR 的预测，预计 2030 年达\n2706.1 亿美元。[S01]\n$5.93BMarketsandMarkets 预测 AI Avatar 市场 2032\n年达到 59.",
+          "confidence": 1,
+          "locator": {
+            "page_no": 2
+          },
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "技术进展涵盖多模态大模型、语音合成、唇形同步、表情/动作驱动、实时交互、端侧部署和3D/视频生成等多个维度",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_ae153b63c6aa4a7c:unit_f47c1ba17d52def3:ev_3e5af32364b7fc12",
+          "source_id": "src_ae153b63c6aa4a7c",
+          "source_title": "AI 数字人技术趋势 Markdown",
+          "unit_id": "unit_f47c1ba17d52def3",
+          "evidence_id": "ev_3e5af32364b7fc12",
+          "snippet": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理多模态大模型、语音合成、唇形同步、表情/动作驱动、实时交互、端侧部署、3D/视频生成数字人的技术变化。",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "内容溯源和水印技术（如C2PA、Content Credentials、SynthID）成为重要技术方向",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_40b57439418988cf:unit_bfb679bdfa4a07d4:ev_fec4501dd384f601",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI 数字人产业发展报告 PDF",
+          "unit_id": "unit_bfb679bdfa4a07d4",
+          "evidence_id": "ev_fec4501dd384f601",
+          "snippet": "5.4 内容溯源和水印\nC2PA 技术规范把内容凭证作为可绑定到数字内容的 provenance 结构，包含可见水印、不可见水印和元数\n据等思路。[S23] OpenAI 在 2026 年 5 月宣布将结合 Content Credentials、SynthID 和公开验证工具来帮\n助识别 AI 生成内容来源。[S24] 对数字人企业来说，水印与溯源不只是“合规成本”，未来可能成为客户\n采购的必要条件。\n合规建议：任何面向真实用户的数字人产品，都应默认包含 AI 身份告知、内容生成标识、肖像/声音授\n权记录、日志留痕、输出审核、投诉/撤回机制和高风险行业",
+          "confidence": 1,
+          "locator": {
+            "page_no": 7
+          },
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "数字人技术短期商业化方向包括企业培训、营销内容生产、客服/数字员工、直播电商和品牌内容资产管理",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI 数字人产业发展报告 PDF",
+          "unit_id": "unit_d828942112bd9872",
+          "evidence_id": "ev_cd442ab43f9c6eb3",
+          "snippet": "执行摘要\n核心判断：AI 数字人产业正在从“预制形象 + 配音视频”的内容工具，向“多模态 Agent + 实时交互 +\n可验证身份与内容来源”的企业级交互层演进。短期商业化更稳的方向不是泛娱乐，而是企业培训、营\n销内容生产、客服/数字员工、直播电商和品牌内容资产管理。\n49.8%Grand View Research 对 digital avatar 市场\n2024-2030 CAGR 的预测，预计 2030 年达\n2706.1 亿美元。[S01]\n$5.93BMarketsandMarkets 预测 AI Avatar 市场 2032\n年达到 59.",
+          "confidence": 1,
+          "locator": {
+            "page_no": 2
+          },
+          "preview_available": true
+        }
+      ]
+    }
+  ],
+  "inference_notice": "基于来源的推断：回答含解释性归纳，所有关键判断仍需回看引用片段。",
+  "generation_metadata": {
+    "provider": "openai_compatible",
+    "provider_name": "minimax",
+    "model": "MiniMax-M2.7",
+    "prompt_version": "v1_5_d_source_grounded_qa_2026_05_27",
+    "evidence_ref_count": 6,
+    "fallback_mode": false,
+    "latency_ms": 9473,
+    "response_schema": "openai_chat_completions"
+  },
+  "evidence": [
+    {
+      "evidence_key": "src_40b57439418988cf:unit_bfb679bdfa4a07d4:ev_fec4501dd384f601",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人产业发展报告 PDF",
+      "unit_id": "unit_bfb679bdfa4a07d4",
+      "evidence_id": "ev_fec4501dd384f601",
+      "snippet": "5.4 内容溯源和水印\nC2PA 技术规范把内容凭证作为可绑定到数字内容的 provenance 结构，包含可见水印、不可见水印和元数\n据等思路。[S23] OpenAI 在 2026 年 5 月宣布将结合 Content Credentials、SynthID 和公开验证工具来帮\n助识别 AI 生成内容来源。[S24] 对数字人企业来说，水印与溯源不只是“合规成本”，未来可能成为客户\n采购的必要条件。\n合规建议：任何面向真实用户的数字人产品，都应默认包含 AI 身份告知、内容生成标识、肖像/声音授\n权记录、日志留痕、输出审核、投诉/撤回机制和高风险行业",
+      "confidence": 1,
+      "locator": {
+        "page_no": 7
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_29c9201d3a3d716a:ev_8ffbf20ef6182276",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人产业发展报告 PDF",
+      "unit_id": "unit_29c9201d3a3d716a",
+      "evidence_id": "ev_8ffbf20ef6182276",
+      "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+      "confidence": 1,
+      "locator": {
+        "page_no": 1
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_ae153b63c6aa4a7c:unit_8a049783ab0386da:ev_61aa2d7915da6528",
+      "source_id": "src_ae153b63c6aa4a7c",
+      "source_title": "AI 数字人技术趋势 Markdown",
+      "unit_id": "unit_8a049783ab0386da",
+      "evidence_id": "ev_61aa2d7915da6528",
+      "snippet": "# 02 AI 数字人技术进展",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人产业发展报告 PDF",
+      "unit_id": "unit_d828942112bd9872",
+      "evidence_id": "ev_cd442ab43f9c6eb3",
+      "snippet": "执行摘要\n核心判断：AI 数字人产业正在从“预制形象 + 配音视频”的内容工具，向“多模态 Agent + 实时交互 +\n可验证身份与内容来源”的企业级交互层演进。短期商业化更稳的方向不是泛娱乐，而是企业培训、营\n销内容生产、客服/数字员工、直播电商和品牌内容资产管理。\n49.8%Grand View Research 对 digital avatar 市场\n2024-2030 CAGR 的预测，预计 2030 年达\n2706.1 亿美元。[S01]\n$5.93BMarketsandMarkets 预测 AI Avatar 市场 2032\n年达到 59.",
+      "confidence": 1,
+      "locator": {
+        "page_no": 2
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_918ee4610eb8dfcd:unit_3b26930d8409312f:ev_6dd4eb6576c716a4",
+      "source_id": "src_918ee4610eb8dfcd",
+      "source_title": "AI 数字人行业概览 Markdown",
+      "unit_id": "unit_3b26930d8409312f",
+      "evidence_id": "ev_6dd4eb6576c716a4",
+      "snippet": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理 2024 年以来 AI 数字人 / 虚拟人 / AI Avatar / 数字员工的市场规模、增长趋势、应用场景和",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_ae153b63c6aa4a7c:unit_f47c1ba17d52def3:ev_3e5af32364b7fc12",
+      "source_id": "src_ae153b63c6aa4a7c",
+      "source_title": "AI 数字人技术趋势 Markdown",
+      "unit_id": "unit_f47c1ba17d52def3",
+      "evidence_id": "ev_3e5af32364b7fc12",
+      "snippet": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理多模态大模型、语音合成、唇形同步、表情/动作驱动、实时交互、端侧部署、3D/视频生成数字人的技术变化。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_40b57439418988cf:unit_bfb679bdfa4a07d4:ev_fec4501dd384f601",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人产业发展报告 PDF",
+      "unit_id": "unit_bfb679bdfa4a07d4",
+      "evidence_id": "ev_fec4501dd384f601",
+      "snippet": "5.4 内容溯源和水印\nC2PA 技术规范把内容凭证作为可绑定到数字内容的 provenance 结构，包含可见水印、不可见水印和元数\n据等思路。[S23] OpenAI 在 2026 年 5 月宣布将结合 Content Credentials、SynthID 和公开验证工具来帮\n助识别 AI 生成内容来源。[S24] 对数字人企业来说，水印与溯源不只是“合规成本”，未来可能成为客户\n采购的必要条件。\n合规建议：任何面向真实用户的数字人产品，都应默认包含 AI 身份告知、内容生成标识、肖像/声音授\n权记录、日志留痕、输出审核、投诉/撤回机制和高风险行业",
+      "confidence": 1,
+      "locator": {
+        "page_no": 7
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_29c9201d3a3d716a:ev_8ffbf20ef6182276",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人产业发展报告 PDF",
+      "unit_id": "unit_29c9201d3a3d716a",
+      "evidence_id": "ev_8ffbf20ef6182276",
+      "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+      "confidence": 1,
+      "locator": {
+        "page_no": 1
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_ae153b63c6aa4a7c:unit_8a049783ab0386da:ev_61aa2d7915da6528",
+      "source_id": "src_ae153b63c6aa4a7c",
+      "source_title": "AI 数字人技术趋势 Markdown",
+      "unit_id": "unit_8a049783ab0386da",
+      "evidence_id": "ev_61aa2d7915da6528",
+      "snippet": "# 02 AI 数字人技术进展",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人产业发展报告 PDF",
+      "unit_id": "unit_d828942112bd9872",
+      "evidence_id": "ev_cd442ab43f9c6eb3",
+      "snippet": "执行摘要\n核心判断：AI 数字人产业正在从“预制形象 + 配音视频”的内容工具，向“多模态 Agent + 实时交互 +\n可验证身份与内容来源”的企业级交互层演进。短期商业化更稳的方向不是泛娱乐，而是企业培训、营\n销内容生产、客服/数字员工、直播电商和品牌内容资产管理。\n49.8%Grand View Research 对 digital avatar 市场\n2024-2030 CAGR 的预测，预计 2030 年达\n2706.1 亿美元。[S01]\n$5.93BMarketsandMarkets 预测 AI Avatar 市场 2032\n年达到 59.",
+      "confidence": 1,
+      "locator": {
+        "page_no": 2
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_918ee4610eb8dfcd:unit_3b26930d8409312f:ev_6dd4eb6576c716a4",
+      "source_id": "src_918ee4610eb8dfcd",
+      "source_title": "AI 数字人行业概览 Markdown",
+      "unit_id": "unit_3b26930d8409312f",
+      "evidence_id": "ev_6dd4eb6576c716a4",
+      "snippet": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理 2024 年以来 AI 数字人 / 虚拟人 / AI Avatar / 数字员工的市场规模、增长趋势、应用场景和",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_ae153b63c6aa4a7c:unit_f47c1ba17d52def3:ev_3e5af32364b7fc12",
+      "source_id": "src_ae153b63c6aa4a7c",
+      "source_title": "AI 数字人技术趋势 Markdown",
+      "unit_id": "unit_f47c1ba17d52def3",
+      "evidence_id": "ev_3e5af32364b7fc12",
+      "snippet": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理多模态大模型、语音合成、唇形同步、表情/动作驱动、实时交互、端侧部署、3D/视频生成数字人的技术变化。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "no_evidence": false,
+  "coverage_status": "source_supported",
+  "suggested_source_actions": []
+}

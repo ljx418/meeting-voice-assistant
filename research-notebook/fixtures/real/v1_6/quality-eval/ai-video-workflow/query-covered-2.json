@@ -1,0 +1,99 @@
+{
+  "mode": "hybrid",
+  "query": "assets/images、assets/audio、assets/video 和 output 分别用于什么？",
+  "answer": "LLMWiki pages: 3 hits\nGraphRAG entities/units: 0 hits\nTop wiki result: AI",
+  "hits": [
+    {
+      "title": "AI",
+      "snippet": "AI",
+      "source": "ai",
+      "score": 0.0000013145029875067902,
+      "meta": {
+        "kind": "page",
+        "slug": "ai"
+      }
+    },
+    {
+      "title": "Passage 56cb561b",
+      "snippet": "建议 议工 工作 作流 确认 认视 视频 频受 受众 众和 和时 时长 完善 扩写 生成 成画 画面 面和 和视 视频 频片 片段 整理 理素 素材 材到 剪辑 辑并 并导 导出...",
+      "source": "",
+      "score": 0.0000010163695889414332,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "56cb561b-cf2b-4d0e-b18b-09dd6725e5f0"
+      }
+    },
+    {
+      "title": "Passage 5c163e7a",
+      "snippet": "目录 录结 结构 视频 频结 结构 构与 与章 章节 节提 提纲 旁白 白脚 脚本 本草 草案 分镜 镜与 与画 画面 面设 设计 素材 材与 与生 生成 成清 清单 图片 概念...",
+      "source": "",
+      "score": 8.494983277591973e-7,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "5c163e7a-8a9e-4da8-904c-58002514647a"
+      }
+    }
+  ],
+  "generation_metadata": {
+    "provider": "openai_compatible",
+    "provider_name": "minimax",
+    "model": "MiniMax-M2.7",
+    "prompt_version": "v1_5_d_source_grounded_qa_2026_05_27",
+    "evidence_ref_count": 2,
+    "fallback_mode": true,
+    "error_code": "response_schema_mismatch"
+  },
+  "answer_basis": "source_supported_fallback",
+  "inference_notice": "回答使用确定性 fallback；不能作为 V1.5-D AI QA quality pass。",
+  "evidence": [
+    {
+      "evidence_key": "src_1ced51878616cfd4:unit_f22c5a6fd76f00dd:ev_126766056862e243",
+      "source_id": "src_1ced51878616cfd4",
+      "source_title": "README.md",
+      "unit_id": "unit_f22c5a6fd76f00dd",
+      "evidence_id": "ev_126766056862e243",
+      "snippet": "- `docs/outline.md`: 视频结构与章节提纲\n- `docs/script.md`: 旁白脚本草案\n- `docs/storyboard.md`: 分镜与画面设计\n- `docs/assets-plan.md`: 素材与生成清单\n- `assets/images/`: 图片、概念图、封面图\n- `assets/audio/`: 配音、音效、音乐\n- `assets/video/`: AI 生成视频片段、录屏、参考视频\n- `output/`: 最终导出文件",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_1ced51878616cfd4:unit_04ae903bd5b2d2c9:ev_dbf6127a8f14868d",
+      "source_id": "src_1ced51878616cfd4",
+      "source_title": "README.md",
+      "unit_id": "unit_04ae903bd5b2d2c9",
+      "evidence_id": "ev_dbf6127a8f14868d",
+      "snippet": "1. 确认视频受众和时长\n2. 完善 `docs/outline.md`\n3. 扩写 `docs/script.md`\n4. 按 `docs/storyboard.md` 生成画面和视频片段\n5. 整理素材到 `assets/`\n6. 剪辑并导出到 `output/`",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_1ced51878616cfd4:unit_f22c5a6fd76f00dd:ev_126766056862e243",
+      "source_id": "src_1ced51878616cfd4",
+      "source_title": "README.md",
+      "unit_id": "unit_f22c5a6fd76f00dd",
+      "evidence_id": "ev_126766056862e243",
+      "snippet": "- `docs/outline.md`: 视频结构与章节提纲\n- `docs/script.md`: 旁白脚本草案\n- `docs/storyboard.md`: 分镜与画面设计\n- `docs/assets-plan.md`: 素材与生成清单\n- `assets/images/`: 图片、概念图、封面图\n- `assets/audio/`: 配音、音效、音乐\n- `assets/video/`: AI 生成视频片段、录屏、参考视频\n- `output/`: 最终导出文件",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_1ced51878616cfd4:unit_04ae903bd5b2d2c9:ev_dbf6127a8f14868d",
+      "source_id": "src_1ced51878616cfd4",
+      "source_title": "README.md",
+      "unit_id": "unit_04ae903bd5b2d2c9",
+      "evidence_id": "ev_dbf6127a8f14868d",
+      "snippet": "1. 确认视频受众和时长\n2. 完善 `docs/outline.md`\n3. 扩写 `docs/script.md`\n4. 按 `docs/storyboard.md` 生成画面和视频片段\n5. 整理素材到 `assets/`\n6. 剪辑并导出到 `output/`",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "no_evidence": false,
+  "coverage_status": "source_supported",
+  "suggested_source_actions": []
+}

@@ -1,0 +1,29 @@
+{
+  "workspace_id": "rn-v16-quality-ai-video-workflow-1779957266393",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_1ced51878616cfd4",
+      "artifact_ref": "source://src_1ced51878616cfd4"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_71772f37d0e95cef",
+      "source_id": "src_1ced51878616cfd4",
+      "unit_id": "unit_5e4e2035622c64e1",
+      "snippet": "# AI Text-to-Video Workflow Project",
+      "start_offset": 0,
+      "end_offset": 35,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {},
+      "preview_available": true
+    }
+  }
+}

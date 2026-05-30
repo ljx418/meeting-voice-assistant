@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { KeyboardEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { isNormalizedApiError } from '../api/dataServiceClient';
 import {
   isEvidenceSpanNavigationSupported,
@@ -15,6 +15,8 @@ import { ApiErrorState } from './ApiErrorState';
 import { LoadingState, StateBlock, UnsupportedFeatureState } from './StateBlock';
 
 const MAX_RENDERED_PREVIEW_CHARS = 20_000;
+const FOCUSABLE_SELECTOR =
+  'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 type InitialEvidenceNavigation = {
   unitId?: string;
@@ -75,6 +77,9 @@ export function SourcePreviewDrawer({
   initialEvidence?: InitialEvidenceNavigation | null;
   onClose: () => void;
 }) {
+  const drawerRef = useRef<HTMLElement | null>(null);
+  const closeButtonRef = useRef<globalThis.HTMLButtonElement | null>(null);
+  const previousActiveElementRef = useRef<globalThis.Element | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<{ sourceId: string; unitId: string; navigationKey: string } | null>(null);
   const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
   const sourceQuery = useSourceQuery(workspaceId, sourceId);
@@ -117,7 +122,7 @@ export function SourcePreviewDrawer({
     contentType === 'text/html' || contentType === 'text/markdown'
       ? `后端返回 ${contentType}，已按转义文本渲染。`
       : contentType === 'unknown'
-        ? 'content_type 未知，已按转义文本渲染。'
+        ? '内容类型未知，已按转义文本渲染。'
         : null;
   const unitMetadataAllowed = Boolean(capabilitiesQuery.data?.capabilities.document_units);
   const previewUnits = unitMetadataAllowed ? (preview?.units ?? []) : [];
@@ -145,16 +150,58 @@ export function SourcePreviewDrawer({
     Boolean(evidenceSpanQuery.data && selectedUnitDetail?.preview_truncated && evidenceSpanQuery.data.end_offset !== undefined) &&
     evidenceSpanQuery.data!.end_offset! > renderedSelectedPreviewText.length;
 
+  useEffect(() => {
+    if (!sourceId) return undefined;
+    previousActiveElementRef.current = document.activeElement;
+    closeButtonRef.current?.focus();
+    return () => {
+      const previous = previousActiveElementRef.current;
+      if (previous instanceof HTMLElement) previous.focus();
+    };
+  }, [sourceId]);
+
+  const onDialogKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      onClose();
+      return;
+    }
+    if (event.key !== 'Tab') return;
+    const focusable = Array.from(drawerRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR) ?? []).filter(
+      (element) => element.offsetParent !== null
+    );
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
   if (!sourceId) return null;
 
   return (
-    <aside className="right-drawer" aria-label="来源预览抽屉" data-testid="source-preview-drawer">
+    <>
+      <button className="drawer-backdrop" type="button" aria-label="关闭来源预览抽屉" onClick={onClose} />
+      <aside
+        ref={drawerRef}
+        className="right-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="source-preview-drawer-title"
+        data-testid="source-preview-drawer"
+        onKeyDown={onDialogKeyDown}
+      >
       <div className="drawer-header">
         <div>
           <div className="eyebrow">来源预览与证据定位</div>
-          <h2>来源预览</h2>
+          <h2 id="source-preview-drawer-title">来源预览</h2>
         </div>
-        <button className="secondary-button" type="button" onClick={onClose}>
+        <button ref={closeButtonRef} className="secondary-button" type="button" onClick={onClose}>
           关闭
         </button>
       </div>
@@ -191,7 +238,7 @@ export function SourcePreviewDrawer({
                   <dd>{preview.source_type ?? effectiveSourceType ?? '服务定义'}</dd>
                 </div>
                 <div>
-                  <dt>content_type</dt>
+                  <dt>内容类型</dt>
                   <dd>{contentType}</dd>
                 </div>
                 <div>
@@ -296,7 +343,7 @@ export function SourcePreviewDrawer({
                       <h4>{unit.title ?? unit.unit_id}</h4>
                       <dl className="source-meta-grid">
                         <div>
-                          <dt>unit_id</dt>
+                          <dt>单元 ID</dt>
                           <dd>{unit.unit_id}</dd>
                         </div>
                         <div>
@@ -321,7 +368,7 @@ export function SourcePreviewDrawer({
                           </dd>
                         </div>
                       </dl>
-                      {unit.artifact_ref ? <p className="workspace-meta">artifact_ref 元数据：{unit.artifact_ref}</p> : null}
+                      {unit.artifact_ref ? <p className="workspace-meta">工件引用元数据：{unit.artifact_ref}</p> : null}
                       {unit.text_preview ? <p>{unit.text_preview}</p> : null}
                     </div>
                   </article>
@@ -342,20 +389,20 @@ export function SourcePreviewDrawer({
                     <>
                       <dl className="source-meta-grid">
                         <div>
-                          <dt>unit_id</dt>
+                          <dt>单元 ID</dt>
                           <dd>{selectedUnitDetail.unit_id}</dd>
                         </div>
                         <div>
-                          <dt>content_type</dt>
+                          <dt>内容类型</dt>
                           <dd>{selectedContentType}</dd>
                         </div>
                         <div>
-                          <dt>artifact_ref</dt>
+                          <dt>工件引用</dt>
                           <dd>{selectedUnitDetail.artifact_ref ?? '无'}</dd>
                         </div>
                         {requestedEvidenceId ? (
                           <div>
-                            <dt>evidence_id</dt>
+                            <dt>证据片段 ID</dt>
                             <dd>{requestedEvidenceId}</dd>
                           </div>
                         ) : null}
@@ -408,6 +455,7 @@ export function SourcePreviewDrawer({
           </div>
         </section>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }

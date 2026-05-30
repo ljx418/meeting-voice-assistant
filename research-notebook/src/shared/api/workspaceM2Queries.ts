@@ -1,7 +1,16 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '../../app/routes/queryKeys';
 import { dataServiceClient } from './dataServiceClient';
-import type { BuildStartRequest, CapabilityManifest, CreateSourceRequest, QueryRequest, QueryResponse } from '../types/api';
+import type {
+  BuildStartRequest,
+  CapabilityManifest,
+  CreateSourceRequest,
+  QueryRequest,
+  QueryResponse,
+  ResearchRequest,
+  RenameSourceRequest,
+  StudioArtifactRequest
+} from '../types/api';
 
 export function isSourceLevelPreviewSupported(manifest: CapabilityManifest | undefined, sourceType?: string) {
   if (!manifest?.capabilities.source_preview || !manifest.capabilities.source_level_preview) return false;
@@ -45,6 +54,15 @@ export function useSourcesQuery(workspaceId: string) {
     queryKey: queryKeys.sources(workspaceId),
     queryFn: () => dataServiceClient.sources.list(workspaceId),
     enabled: Boolean(workspaceId)
+  });
+}
+
+export function useNotebookGuideQuery(workspaceId: string, enabled = true) {
+  return useQuery({
+    queryKey: queryKeys.notebookGuide(workspaceId),
+    queryFn: () => dataServiceClient.guide.get(workspaceId),
+    enabled: Boolean(workspaceId && enabled),
+    retry: false
   });
 }
 
@@ -117,7 +135,10 @@ export function useCreateSourceMutation(workspaceId: string) {
   return useMutation({
     mutationFn: (input: CreateSourceRequest) => dataServiceClient.sources.create(workspaceId, input),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.sources(workspaceId) });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: queryKeys.sources(workspaceId) }),
+        queryClient.invalidateQueries({ queryKey: queryKeys.notebookGuide(workspaceId) })
+      ]);
     }
   });
 }
@@ -127,8 +148,27 @@ export function useRemoveSourceMutation(workspaceId: string) {
   return useMutation({
     mutationFn: (sourceId: string) => dataServiceClient.sources.remove(workspaceId, sourceId),
     onSuccess: async (_response, sourceId) => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.sources(workspaceId) });
-      await queryClient.invalidateQueries({ queryKey: queryKeys.sourcePreview(workspaceId, sourceId) });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: queryKeys.sources(workspaceId) }),
+        queryClient.invalidateQueries({ queryKey: queryKeys.notebookGuide(workspaceId) }),
+        queryClient.invalidateQueries({ queryKey: queryKeys.sourcePreview(workspaceId, sourceId) })
+      ]);
+    }
+  });
+}
+
+export function useRenameSourceMutation(workspaceId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ sourceId, input }: { sourceId: string; input: RenameSourceRequest }) =>
+      dataServiceClient.sources.rename(workspaceId, sourceId, input),
+    onSuccess: async (_response, variables) => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: queryKeys.sources(workspaceId) }),
+        queryClient.invalidateQueries({ queryKey: queryKeys.notebookGuide(workspaceId) }),
+        queryClient.invalidateQueries({ queryKey: queryKeys.source(workspaceId, variables.sourceId) }),
+        queryClient.invalidateQueries({ queryKey: queryKeys.sourcePreview(workspaceId, variables.sourceId) })
+      ]);
     }
   });
 }
@@ -146,5 +186,17 @@ export function useWorkspaceQueryMutation(workspaceId: string) {
     onSuccess: (response: QueryResponse) => {
       queryClient.setQueryData(queryKeys.workspaceQuery(workspaceId), response);
     }
+  });
+}
+
+export function useStudioArtifactMutation(workspaceId: string) {
+  return useMutation({
+    mutationFn: (input: StudioArtifactRequest) => dataServiceClient.studio.createArtifact(workspaceId, input)
+  });
+}
+
+export function useResearchReportMutation(workspaceId: string) {
+  return useMutation({
+    mutationFn: (input: ResearchRequest) => dataServiceClient.research.createReport(workspaceId, input)
   });
 }

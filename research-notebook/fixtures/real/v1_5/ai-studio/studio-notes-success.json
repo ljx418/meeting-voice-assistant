@@ -1,0 +1,126 @@
+{
+  "workspace_id": "rn-v15-ai-studio-1779933325956",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "studio_artifact",
+      "artifact_id": "studio_notes_717141922c84"
+    }
+  ],
+  "next_actions": [
+    "knowledge_query",
+    "knowledge_source_list"
+  ],
+  "data": {
+    "artifact": {
+      "artifact_id": "studio_notes_717141922c84",
+      "artifact_type": "notes",
+      "title": "Notes",
+      "artifact_available": true,
+      "summary": "本笔记基于AI数字人行业概览、技术趋势及产业发展报告(2024-2026)整理，涵盖行业现状、技术进展、市场机会、商业化路径与合规边界等内容。",
+      "sections": [
+        {
+          "title": "行业概览",
+          "content": "AI数字人行业正处于快速发展阶段，从虚拟主播到企业数字员工，应用场景不断拓展。",
+          "evidence_refs": [
+            {
+              "source_id": "src_918ee4610eb8dfcd",
+              "source_title": "AI 数字人行业概览 Markdown",
+              "unit_id": "unit_b20c96845f5d1383",
+              "evidence_id": "ev_f73c69d129c8bca6",
+              "snippet": "# 01 AI 数字人行业概览",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "技术进展",
+          "content": "技术层面持续演进，驱动数字人在外观、交互、智能化等方面的能力提升。",
+          "evidence_refs": [
+            {
+              "source_id": "src_ae153b63c6aa4a7c",
+              "source_title": "AI 数字人技术趋势 Markdown",
+              "unit_id": "unit_8a049783ab0386da",
+              "evidence_id": "ev_61aa2d7915da6528",
+              "snippet": "# 02 AI 数字人技术进展",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "市场与商业化",
+          "content": "商业化潜力显著，但仍需关注市场拓展路径与商业模式验证。",
+          "evidence_refs": [
+            {
+              "source_id": "src_40b57439418988cf",
+              "source_title": "AI 数字人产业发展报告 PDF",
+              "unit_id": "unit_29c9201d3a3d716a",
+              "evidence_id": "ev_8ffbf20ef6182276",
+              "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+              "locator": {
+                "page_no": 1
+              }
+            }
+          ]
+        },
+        {
+          "title": "合规与风险",
+          "content": "行业发展需关注监管风险，合规边界是重要的考量因素。",
+          "evidence_refs": [
+            {
+              "source_id": "src_40b57439418988cf",
+              "source_title": "AI 数字人产业发展报告 PDF",
+              "unit_id": "unit_29c9201d3a3d716a",
+              "evidence_id": "ev_8ffbf20ef6182276",
+              "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+              "locator": {
+                "page_no": 1
+              }
+            }
+          ]
+        }
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "src_918ee4610eb8dfcd",
+          "source_title": "AI 数字人行业概览 Markdown",
+          "unit_id": "unit_b20c96845f5d1383",
+          "evidence_id": "ev_f73c69d129c8bca6",
+          "snippet": "# 01 AI 数字人行业概览",
+          "locator": {}
+        },
+        {
+          "source_id": "src_ae153b63c6aa4a7c",
+          "source_title": "AI 数字人技术趋势 Markdown",
+          "unit_id": "unit_8a049783ab0386da",
+          "evidence_id": "ev_61aa2d7915da6528",
+          "snippet": "# 02 AI 数字人技术进展",
+          "locator": {}
+        },
+        {
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI 数字人产业发展报告 PDF",
+          "unit_id": "unit_29c9201d3a3d716a",
+          "evidence_id": "ev_8ffbf20ef6182276",
+          "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+          "locator": {
+            "page_no": 1
+          }
+        }
+      ],
+      "generation_metadata": {
+        "provider": "openai_compatible",
+        "provider_name": "minimax",
+        "model": "MiniMax-M2.7",
+        "prompt_version": "v1_5_c_ai_studio_2026_05_27",
+        "artifact_type": "notes",
+        "evidence_ref_count": 3,
+        "fallback_mode": false,
+        "latency_ms": 4047,
+        "response_schema": "openai_chat_completions"
+      }
+    }
+  }
+}

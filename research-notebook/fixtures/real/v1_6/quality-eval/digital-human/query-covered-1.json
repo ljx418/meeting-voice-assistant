@@ -1,0 +1,374 @@
+{
+  "mode": "hybrid",
+  "query": "数字人的主要应用场景是什么？",
+  "answer": "数字人的主要应用场景包括企业培训、营销内容生产、客服/数字员工、直播电商和品牌内容资产管理。中国市场侧重于直播电商、营销短视频、客服、政务/金融服务、品牌数字员工；海外市场则以企业培训视频、销售/客服数字员工、创作者视频生产和游戏娱乐为主。",
+  "hits": [],
+  "answer_basis": "source_supported",
+  "key_claims": [
+    {
+      "claim": "企业培训是数字人的重要应用场景",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_40b57439418988cf:unit_5e4c554cb3b1364d:ev_3525de0c591615ee",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_5e4c554cb3b1364d",
+          "evidence_id": "ev_3525de0c591615ee",
+          "snippet": "定性评估依据：当前应用案例、技术成熟度、合规难度、单位经济性、可重复交付能力。该图为分析判断，不是市场规模数\n据。\n3.1 企业视频与培训：最稳的 B2B 商业化路径\nSynthesia 2025 年 1 月宣布完成 1.8 亿美元 D 轮融资，累计融资超过 3.3 亿美元，估值达 21 亿美元。\n[S13] 这说明企业视频沟通、培训、销售启用和内部知识传达是数字人商业化的重要方向。相比 C 端娱乐，\n企业视频的优势是需求稳定、版权可控、ROI 可计算。\n3.2 直播电商：高频场景，但强依赖平台和监管\n中国直播电商为虚拟主播提供了强需求：24 小时在线、",
+          "confidence": 1,
+          "locator": {
+            "page_no": 5
+          },
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_d828942112bd9872",
+          "evidence_id": "ev_cd442ab43f9c6eb3",
+          "snippet": "执行摘要\n核心判断：AI 数字人产业正在从“预制形象 + 配音视频”的内容工具，向“多模态 Agent + 实时交互 +\n可验证身份与内容来源”的企业级交互层演进。短期商业化更稳的方向不是泛娱乐，而是企业培训、营\n销内容生产、客服/数字员工、直播电商和品牌内容资产管理。\n49.8%Grand View Research 对 digital avatar 市场\n2024-2030 CAGR 的预测，预计 2030 年达\n2706.1 亿美元。[S01]\n$5.93BMarketsandMarkets 预测 AI Avatar 市场 2032\n年达到 59.",
+          "confidence": 1,
+          "locator": {
+            "page_no": 2
+          },
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_10af7b2b65b91f7a",
+          "evidence_id": "ev_b9f2268a8cb5ca6c",
+          "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+          "confidence": 1,
+          "locator": {
+            "page_no": 3
+          },
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "直播电商是数字人的高频应用场景",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_40b57439418988cf:unit_5e4c554cb3b1364d:ev_3525de0c591615ee",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_5e4c554cb3b1364d",
+          "evidence_id": "ev_3525de0c591615ee",
+          "snippet": "定性评估依据：当前应用案例、技术成熟度、合规难度、单位经济性、可重复交付能力。该图为分析判断，不是市场规模数\n据。\n3.1 企业视频与培训：最稳的 B2B 商业化路径\nSynthesia 2025 年 1 月宣布完成 1.8 亿美元 D 轮融资，累计融资超过 3.3 亿美元，估值达 21 亿美元。\n[S13] 这说明企业视频沟通、培训、销售启用和内部知识传达是数字人商业化的重要方向。相比 C 端娱乐，\n企业视频的优势是需求稳定、版权可控、ROI 可计算。\n3.2 直播电商：高频场景，但强依赖平台和监管\n中国直播电商为虚拟主播提供了强需求：24 小时在线、",
+          "confidence": 1,
+          "locator": {
+            "page_no": 5
+          },
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_d828942112bd9872",
+          "evidence_id": "ev_cd442ab43f9c6eb3",
+          "snippet": "执行摘要\n核心判断：AI 数字人产业正在从“预制形象 + 配音视频”的内容工具，向“多模态 Agent + 实时交互 +\n可验证身份与内容来源”的企业级交互层演进。短期商业化更稳的方向不是泛娱乐，而是企业培训、营\n销内容生产、客服/数字员工、直播电商和品牌内容资产管理。\n49.8%Grand View Research 对 digital avatar 市场\n2024-2030 CAGR 的预测，预计 2030 年达\n2706.1 亿美元。[S01]\n$5.93BMarketsandMarkets 预测 AI Avatar 市场 2032\n年达到 59.",
+          "confidence": 1,
+          "locator": {
+            "page_no": 2
+          },
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_10af7b2b65b91f7a",
+          "evidence_id": "ev_b9f2268a8cb5ca6c",
+          "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+          "confidence": 1,
+          "locator": {
+            "page_no": 3
+          },
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "客服和数字员工是数字人的核心应用方向",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_d828942112bd9872",
+          "evidence_id": "ev_cd442ab43f9c6eb3",
+          "snippet": "执行摘要\n核心判断：AI 数字人产业正在从“预制形象 + 配音视频”的内容工具，向“多模态 Agent + 实时交互 +\n可验证身份与内容来源”的企业级交互层演进。短期商业化更稳的方向不是泛娱乐，而是企业培训、营\n销内容生产、客服/数字员工、直播电商和品牌内容资产管理。\n49.8%Grand View Research 对 digital avatar 市场\n2024-2030 CAGR 的预测，预计 2030 年达\n2706.1 亿美元。[S01]\n$5.93BMarketsandMarkets 预测 AI Avatar 市场 2032\n年达到 59.",
+          "confidence": 1,
+          "locator": {
+            "page_no": 2
+          },
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_10af7b2b65b91f7a",
+          "evidence_id": "ev_b9f2268a8cb5ca6c",
+          "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+          "confidence": 1,
+          "locator": {
+            "page_no": 3
+          },
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_40b57439418988cf:unit_8884ba861fdc2b64:ev_8bd71e8d6ff7f0cd",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_8884ba861fdc2b64",
+          "evidence_id": "ev_8bd71e8d6ff7f0cd",
+          "snippet": "2.1 实时语音驱动人脸\nMicrosoft Research 的 VASA-1 于 2024 年 4 月发布，目标是从单张静态图和语音片段生成具有唇形同步、\n表情细节和头部动作的 talking face；论文摘要称其可在线生成 512x512 视频，最高 40 FPS，并具有很低\n的启动延迟。[S09] 这类技术把“数字人视频生成”从离线生成推向实时交互，为客服、陪伴、远程教育等\n场景降低门槛。\n2.2 全身数字人和多模态驱动\nByteDance Research 的 OmniHuman-1 于 2025 年 2 月发布，提出基于 Diffusion",
+          "confidence": 1,
+          "locator": {
+            "page_no": 4
+          },
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "营销内容生产是数字人的商业化方向之一",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_40b57439418988cf:unit_5e4c554cb3b1364d:ev_3525de0c591615ee",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_5e4c554cb3b1364d",
+          "evidence_id": "ev_3525de0c591615ee",
+          "snippet": "定性评估依据：当前应用案例、技术成熟度、合规难度、单位经济性、可重复交付能力。该图为分析判断，不是市场规模数\n据。\n3.1 企业视频与培训：最稳的 B2B 商业化路径\nSynthesia 2025 年 1 月宣布完成 1.8 亿美元 D 轮融资，累计融资超过 3.3 亿美元，估值达 21 亿美元。\n[S13] 这说明企业视频沟通、培训、销售启用和内部知识传达是数字人商业化的重要方向。相比 C 端娱乐，\n企业视频的优势是需求稳定、版权可控、ROI 可计算。\n3.2 直播电商：高频场景，但强依赖平台和监管\n中国直播电商为虚拟主播提供了强需求：24 小时在线、",
+          "confidence": 1,
+          "locator": {
+            "page_no": 5
+          },
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_d828942112bd9872",
+          "evidence_id": "ev_cd442ab43f9c6eb3",
+          "snippet": "执行摘要\n核心判断：AI 数字人产业正在从“预制形象 + 配音视频”的内容工具，向“多模态 Agent + 实时交互 +\n可验证身份与内容来源”的企业级交互层演进。短期商业化更稳的方向不是泛娱乐，而是企业培训、营\n销内容生产、客服/数字员工、直播电商和品牌内容资产管理。\n49.8%Grand View Research 对 digital avatar 市场\n2024-2030 CAGR 的预测，预计 2030 年达\n2706.1 亿美元。[S01]\n$5.93BMarketsandMarkets 预测 AI Avatar 市场 2032\n年达到 59.",
+          "confidence": 1,
+          "locator": {
+            "page_no": 2
+          },
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "中国市场的特色场景包括政务/金融服务和品牌数字员工",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_10af7b2b65b91f7a",
+          "evidence_id": "ev_b9f2268a8cb5ca6c",
+          "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+          "confidence": 1,
+          "locator": {
+            "page_no": 3
+          },
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "海外市场的特色场景包括创作者视频生产和游戏娱乐",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+          "unit_id": "unit_10af7b2b65b91f7a",
+          "evidence_id": "ev_b9f2268a8cb5ca6c",
+          "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+          "confidence": 1,
+          "locator": {
+            "page_no": 3
+          },
+          "preview_available": true
+        }
+      ]
+    }
+  ],
+  "inference_notice": "回答基于当前 Notebook sources 的可解析证据生成。",
+  "generation_metadata": {
+    "provider": "openai_compatible",
+    "provider_name": "minimax",
+    "model": "MiniMax-M2.7",
+    "prompt_version": "v1_5_d_source_grounded_qa_2026_05_27",
+    "evidence_ref_count": 6,
+    "fallback_mode": false,
+    "latency_ms": 13272,
+    "response_schema": "openai_chat_completions"
+  },
+  "evidence": [
+    {
+      "evidence_key": "src_918ee4610eb8dfcd:unit_3b26930d8409312f:ev_6dd4eb6576c716a4",
+      "source_id": "src_918ee4610eb8dfcd",
+      "source_title": "01_industry_overview.md",
+      "unit_id": "unit_3b26930d8409312f",
+      "evidence_id": "ev_6dd4eb6576c716a4",
+      "snippet": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理 2024 年以来 AI 数字人 / 虚拟人 / AI Avatar / 数字员工的市场规模、增长趋势、应用场景和",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_5e4c554cb3b1364d:ev_3525de0c591615ee",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+      "unit_id": "unit_5e4c554cb3b1364d",
+      "evidence_id": "ev_3525de0c591615ee",
+      "snippet": "定性评估依据：当前应用案例、技术成熟度、合规难度、单位经济性、可重复交付能力。该图为分析判断，不是市场规模数\n据。\n3.1 企业视频与培训：最稳的 B2B 商业化路径\nSynthesia 2025 年 1 月宣布完成 1.8 亿美元 D 轮融资，累计融资超过 3.3 亿美元，估值达 21 亿美元。\n[S13] 这说明企业视频沟通、培训、销售启用和内部知识传达是数字人商业化的重要方向。相比 C 端娱乐，\n企业视频的优势是需求稳定、版权可控、ROI 可计算。\n3.2 直播电商：高频场景，但强依赖平台和监管\n中国直播电商为虚拟主播提供了强需求：24 小时在线、",
+      "confidence": 1,
+      "locator": {
+        "page_no": 5
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+      "unit_id": "unit_d828942112bd9872",
+      "evidence_id": "ev_cd442ab43f9c6eb3",
+      "snippet": "执行摘要\n核心判断：AI 数字人产业正在从“预制形象 + 配音视频”的内容工具，向“多模态 Agent + 实时交互 +\n可验证身份与内容来源”的企业级交互层演进。短期商业化更稳的方向不是泛娱乐，而是企业培训、营\n销内容生产、客服/数字员工、直播电商和品牌内容资产管理。\n49.8%Grand View Research 对 digital avatar 市场\n2024-2030 CAGR 的预测，预计 2030 年达\n2706.1 亿美元。[S01]\n$5.93BMarketsandMarkets 预测 AI Avatar 市场 2032\n年达到 59.",
+      "confidence": 1,
+      "locator": {
+        "page_no": 2
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+      "unit_id": "unit_10af7b2b65b91f7a",
+      "evidence_id": "ev_b9f2268a8cb5ca6c",
+      "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+      "confidence": 1,
+      "locator": {
+        "page_no": 3
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_8884ba861fdc2b64:ev_8bd71e8d6ff7f0cd",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+      "unit_id": "unit_8884ba861fdc2b64",
+      "evidence_id": "ev_8bd71e8d6ff7f0cd",
+      "snippet": "2.1 实时语音驱动人脸\nMicrosoft Research 的 VASA-1 于 2024 年 4 月发布，目标是从单张静态图和语音片段生成具有唇形同步、\n表情细节和头部动作的 talking face；论文摘要称其可在线生成 512x512 视频，最高 40 FPS，并具有很低\n的启动延迟。[S09] 这类技术把“数字人视频生成”从离线生成推向实时交互，为客服、陪伴、远程教育等\n场景降低门槛。\n2.2 全身数字人和多模态驱动\nByteDance Research 的 OmniHuman-1 于 2025 年 2 月发布，提出基于 Diffusion",
+      "confidence": 1,
+      "locator": {
+        "page_no": 4
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_918ee4610eb8dfcd:unit_c3e3b91aedad1c7b:ev_9e01903ccfbcdbc5",
+      "source_id": "src_918ee4610eb8dfcd",
+      "source_title": "01_industry_overview.md",
+      "unit_id": "unit_c3e3b91aedad1c7b",
+      "evidence_id": "ev_9e01903ccfbcdbc5",
+      "snippet": "- 2024 年以来，AI 数字人行业从“虚拟主播/虚拟偶像”扩展为“AI Avatar + 语音/视频生成 + Agent/客服/培训”的综合市场；研究机构对市场规模口径差异较大，但普遍预测未来数年保持高增长。Grand View Research 估算全球 digital avatar 市场 2023 年为 181.9 亿美元，并预测 2024-2030 年 CAGR 49.8%；Research and Markets 的 digital human avatar 报告则预测 2024-2029 年增量 274.3 亿美元、CAGR 43.9%。来",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_918ee4610eb8dfcd:unit_3b26930d8409312f:ev_6dd4eb6576c716a4",
+      "source_id": "src_918ee4610eb8dfcd",
+      "source_title": "01_industry_overview.md",
+      "unit_id": "unit_3b26930d8409312f",
+      "evidence_id": "ev_6dd4eb6576c716a4",
+      "snippet": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理 2024 年以来 AI 数字人 / 虚拟人 / AI Avatar / 数字员工的市场规模、增长趋势、应用场景和",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_5e4c554cb3b1364d:ev_3525de0c591615ee",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+      "unit_id": "unit_5e4c554cb3b1364d",
+      "evidence_id": "ev_3525de0c591615ee",
+      "snippet": "定性评估依据：当前应用案例、技术成熟度、合规难度、单位经济性、可重复交付能力。该图为分析判断，不是市场规模数\n据。\n3.1 企业视频与培训：最稳的 B2B 商业化路径\nSynthesia 2025 年 1 月宣布完成 1.8 亿美元 D 轮融资，累计融资超过 3.3 亿美元，估值达 21 亿美元。\n[S13] 这说明企业视频沟通、培训、销售启用和内部知识传达是数字人商业化的重要方向。相比 C 端娱乐，\n企业视频的优势是需求稳定、版权可控、ROI 可计算。\n3.2 直播电商：高频场景，但强依赖平台和监管\n中国直播电商为虚拟主播提供了强需求：24 小时在线、",
+      "confidence": 1,
+      "locator": {
+        "page_no": 5
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+      "unit_id": "unit_d828942112bd9872",
+      "evidence_id": "ev_cd442ab43f9c6eb3",
+      "snippet": "执行摘要\n核心判断：AI 数字人产业正在从“预制形象 + 配音视频”的内容工具，向“多模态 Agent + 实时交互 +\n可验证身份与内容来源”的企业级交互层演进。短期商业化更稳的方向不是泛娱乐，而是企业培训、营\n销内容生产、客服/数字员工、直播电商和品牌内容资产管理。\n49.8%Grand View Research 对 digital avatar 市场\n2024-2030 CAGR 的预测，预计 2030 年达\n2706.1 亿美元。[S01]\n$5.93BMarketsandMarkets 预测 AI Avatar 市场 2032\n年达到 59.",
+      "confidence": 1,
+      "locator": {
+        "page_no": 2
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+      "unit_id": "unit_10af7b2b65b91f7a",
+      "evidence_id": "ev_b9f2268a8cb5ca6c",
+      "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+      "confidence": 1,
+      "locator": {
+        "page_no": 3
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_8884ba861fdc2b64:ev_8bd71e8d6ff7f0cd",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI数字人产业发展报告_2026-05-26.pdf",
+      "unit_id": "unit_8884ba861fdc2b64",
+      "evidence_id": "ev_8bd71e8d6ff7f0cd",
+      "snippet": "2.1 实时语音驱动人脸\nMicrosoft Research 的 VASA-1 于 2024 年 4 月发布，目标是从单张静态图和语音片段生成具有唇形同步、\n表情细节和头部动作的 talking face；论文摘要称其可在线生成 512x512 视频，最高 40 FPS，并具有很低\n的启动延迟。[S09] 这类技术把“数字人视频生成”从离线生成推向实时交互，为客服、陪伴、远程教育等\n场景降低门槛。\n2.2 全身数字人和多模态驱动\nByteDance Research 的 OmniHuman-1 于 2025 年 2 月发布，提出基于 Diffusion",
+      "confidence": 1,
+      "locator": {
+        "page_no": 4
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_918ee4610eb8dfcd:unit_c3e3b91aedad1c7b:ev_9e01903ccfbcdbc5",
+      "source_id": "src_918ee4610eb8dfcd",
+      "source_title": "01_industry_overview.md",
+      "unit_id": "unit_c3e3b91aedad1c7b",
+      "evidence_id": "ev_9e01903ccfbcdbc5",
+      "snippet": "- 2024 年以来，AI 数字人行业从“虚拟主播/虚拟偶像”扩展为“AI Avatar + 语音/视频生成 + Agent/客服/培训”的综合市场；研究机构对市场规模口径差异较大，但普遍预测未来数年保持高增长。Grand View Research 估算全球 digital avatar 市场 2023 年为 181.9 亿美元，并预测 2024-2030 年 CAGR 49.8%；Research and Markets 的 digital human avatar 报告则预测 2024-2029 年增量 274.3 亿美元、CAGR 43.9%。来",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "no_evidence": false,
+  "coverage_status": "source_supported",
+  "suggested_source_actions": []
+}

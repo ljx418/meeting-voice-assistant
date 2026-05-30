@@ -1,0 +1,30 @@
+{
+  "workspace_id": "rn-v16-quality-claude-code-1779957144855",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_7374674fe9a10971",
+      "artifact_ref": "source://src_7374674fe9a10971"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "unit": {
+      "unit_id": "unit_b65f30b9d415fbc4",
+      "source_id": "src_7374674fe9a10971",
+      "unit_type": "section",
+      "title": "ClaudeCode高阶技巧.md",
+      "text_preview": "# Claude Code 高阶使用技巧",
+      "content_type": "text/markdown",
+      "order_index": 0,
+      "artifact_ref": "unit://src_7374674fe9a10971/unit_b65f30b9d415fbc4",
+      "preview_available": true,
+      "preview_truncated": false,
+      "preview_size_bytes": 32,
+      "max_preview_size_bytes": 50000
+    }
+  }
+}

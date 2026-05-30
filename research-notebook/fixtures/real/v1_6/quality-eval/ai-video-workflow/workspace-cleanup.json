@@ -1,0 +1,32 @@
+{
+  "workspace_id": "rn-v16-quality-ai-video-workflow-1779957266393",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "workspace",
+      "artifact_ref": "workspace://rn-v16-quality-ai-video-workflow-1779957266393"
+    }
+  ],
+  "next_actions": [
+    "knowledge_workspace_list"
+  ],
+  "data": {
+    "workspace": {
+      "workspace_id": "rn-v16-quality-ai-video-workflow-1779957266393",
+      "name": "rn-v16-quality-ai-video-workflow-1779957266393",
+      "owner": "v1.6-quality-smoke",
+      "tags": [
+        "v1.6",
+        "quality-eval",
+        "ai-video-workflow"
+      ],
+      "status": "archived",
+      "created_at": "2026-05-28T08:34:26.464657Z",
+      "updated_at": "2026-05-28T08:35:02.011269Z",
+      "archived_at": "2026-05-28T08:35:02.011269Z",
+      "archive_reason": "v1.6 quality eval cleanup: ai-video-workflow"
+    }
+  }
+}

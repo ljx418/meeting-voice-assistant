@@ -289,7 +289,7 @@ describe('会话工作台 smoke', () => {
 
     expect(await screen.findByTestId('source-preview-drawer')).toBeInTheDocument();
     expect((await screen.findAllByText('Session unit')).length).toBeGreaterThan(0);
-    expect(await screen.findByText('evidence_id: ev_1')).toBeInTheDocument();
+    expect(await screen.findByText('证据片段：ev_1')).toBeInTheDocument();
     expect(await screen.findByTestId('evidence-highlight')).toHaveTextContent('preserves evidence ids');
     expect(screen.getByText('Session precise navigation preserves evidence ids.')).toBeInTheDocument();
   });

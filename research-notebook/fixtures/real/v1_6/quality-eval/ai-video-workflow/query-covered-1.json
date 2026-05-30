@@ -1,0 +1,170 @@
+{
+  "mode": "hybrid",
+  "query": "AI 文生视频工作流从想法、脚本、分镜、提示词、生成、剪辑到发布的完整链路是什么？",
+  "answer": "AI文生视频工作流的完整链路包括以下环节：首先进行想法构思和主题规划（对应 outline.md 视频结构与章节提纲），其次完成旁白脚本的撰写（对应 script.md 旁白脚本草案），然后进行分镜与画面设计（对应 storyboard.md），接着编写AI生成所需的提示词和素材清单（对应 assets-plan.md 素材与生成清单），之后使用AI工具进行视频片段生成（对应 assets/video/ 中的AI生成视频片段），再进行后期剪辑整合，最后发布成品（对应 output/ 最终导出文件）。",
+  "hits": [
+    {
+      "title": "AI",
+      "snippet": "<mark>AI</mark>",
+      "source": "ai",
+      "score": 0.000002006871223788651,
+      "meta": {
+        "kind": "page",
+        "slug": "ai"
+      }
+    },
+    {
+      "title": "AI Text to Video Workflow Project",
+      "snippet": "<mark>AI</mark> Text to Video Workflow Project",
+      "source": "source-ai-text-to-video-workflow-project-2f792efb",
+      "score": 0.0000019904589570653066,
+      "meta": {
+        "kind": "page",
+        "slug": "source-ai-text-to-video-workflow-project-2f792efb"
+      }
+    },
+    {
+      "title": "Passage 69010fd8",
+      "snippet": "本项 项目 目用 用于 于制 制作 作一 一支 支介 介绍 文生 生视 视频 频工 工作 作流 的视 视频",
+      "source": "",
+      "score": 0.0000015897581792318634,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "69010fd8-3ff7-4180-acad-ac53e6edbc6c"
+      }
+    },
+    {
+      "title": "Passage a4c5ac00",
+      "snippet": "当前 前视 视频 频定 定位 主题 文生 生视 视频 频工 工作 作流 目标 讲清 清楚 楚从 从想 想法 脚本 分镜 提示 示词 生成 剪辑 辑到 到发 发布 布的 的完 完整...",
+      "source": "",
+      "score": 9.657794676806086e-7,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "a4c5ac00-bc3e-4857-8bc7-bc4a47507282"
+      }
+    },
+    {
+      "title": "Passage 5c163e7a",
+      "snippet": "目录 录结 结构 视频 频结 结构 构与 与章 章节 节提 提纲 旁白 白脚 脚本 本草 草案 分镜 镜与 与画 画面 面设 设计 素材 材与 与生 生成 成清 清单 图片 概念...",
+      "source": "",
+      "score": 8.494983277591973e-7,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "5c163e7a-8a9e-4da8-904c-58002514647a"
+      }
+    }
+  ],
+  "answer_basis": "source_supported",
+  "key_claims": [
+    {
+      "claim": "AI文生视频工作流从想法开始，经过脚本撰写、分镜设计、提示词编写、AI生成、剪辑到发布的完整链路已在 evidence_context 中明确说明",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_1ced51878616cfd4:unit_ea79efb150787a81:ev_2023ada2890c5477",
+          "source_id": "src_1ced51878616cfd4",
+          "source_title": "README.md",
+          "unit_id": "unit_ea79efb150787a81",
+          "evidence_id": "ev_2023ada2890c5477",
+          "snippet": "主题：AI 文生视频工作流  \n目标：讲清楚从想法、脚本、分镜、提示词、生成、剪辑到发布的完整链路。  \n风格：技术分享，清晰、实用、流程化，避免只展示工具名。",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "工作流中涉及的主要文档包括 outline.md（视频结构提纲）、script.md（旁白脚本）、storyboard.md（分镜设计）、assets-plan.md（素材与生成清单）",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_1ced51878616cfd4:unit_f22c5a6fd76f00dd:ev_126766056862e243",
+          "source_id": "src_1ced51878616cfd4",
+          "source_title": "README.md",
+          "unit_id": "unit_f22c5a6fd76f00dd",
+          "evidence_id": "ev_126766056862e243",
+          "snippet": "- `docs/outline.md`: 视频结构与章节提纲\n- `docs/script.md`: 旁白脚本草案\n- `docs/storyboard.md`: 分镜与画面设计\n- `docs/assets-plan.md`: 素材与生成清单\n- `assets/images/`: 图片、概念图、封面图\n- `assets/audio/`: 配音、音效、音乐\n- `assets/video/`: AI 生成视频片段、录屏、参考视频\n- `output/`: 最终导出文件",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        }
+      ]
+    },
+    {
+      "claim": "工作流涉及的资源类型包括图片资产（assets/images/）、音频资产（assets/audio/）、视频资产（assets/video/）以及最终输出文件（output/）",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_1ced51878616cfd4:unit_f22c5a6fd76f00dd:ev_126766056862e243",
+          "source_id": "src_1ced51878616cfd4",
+          "source_title": "README.md",
+          "unit_id": "unit_f22c5a6fd76f00dd",
+          "evidence_id": "ev_126766056862e243",
+          "snippet": "- `docs/outline.md`: 视频结构与章节提纲\n- `docs/script.md`: 旁白脚本草案\n- `docs/storyboard.md`: 分镜与画面设计\n- `docs/assets-plan.md`: 素材与生成清单\n- `assets/images/`: 图片、概念图、封面图\n- `assets/audio/`: 配音、音效、音乐\n- `assets/video/`: AI 生成视频片段、录屏、参考视频\n- `output/`: 最终导出文件",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        }
+      ]
+    }
+  ],
+  "inference_notice": "回答基于当前 Notebook sources 的可解析证据生成。",
+  "generation_metadata": {
+    "provider": "openai_compatible",
+    "provider_name": "minimax",
+    "model": "MiniMax-M2.7",
+    "prompt_version": "v1_5_d_source_grounded_qa_2026_05_27",
+    "evidence_ref_count": 2,
+    "fallback_mode": false,
+    "latency_ms": 11098,
+    "response_schema": "openai_chat_completions"
+  },
+  "evidence": [
+    {
+      "evidence_key": "src_1ced51878616cfd4:unit_ea79efb150787a81:ev_2023ada2890c5477",
+      "source_id": "src_1ced51878616cfd4",
+      "source_title": "README.md",
+      "unit_id": "unit_ea79efb150787a81",
+      "evidence_id": "ev_2023ada2890c5477",
+      "snippet": "主题：AI 文生视频工作流  \n目标：讲清楚从想法、脚本、分镜、提示词、生成、剪辑到发布的完整链路。  \n风格：技术分享，清晰、实用、流程化，避免只展示工具名。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_1ced51878616cfd4:unit_f22c5a6fd76f00dd:ev_126766056862e243",
+      "source_id": "src_1ced51878616cfd4",
+      "source_title": "README.md",
+      "unit_id": "unit_f22c5a6fd76f00dd",
+      "evidence_id": "ev_126766056862e243",
+      "snippet": "- `docs/outline.md`: 视频结构与章节提纲\n- `docs/script.md`: 旁白脚本草案\n- `docs/storyboard.md`: 分镜与画面设计\n- `docs/assets-plan.md`: 素材与生成清单\n- `assets/images/`: 图片、概念图、封面图\n- `assets/audio/`: 配音、音效、音乐\n- `assets/video/`: AI 生成视频片段、录屏、参考视频\n- `output/`: 最终导出文件",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_1ced51878616cfd4:unit_ea79efb150787a81:ev_2023ada2890c5477",
+      "source_id": "src_1ced51878616cfd4",
+      "source_title": "README.md",
+      "unit_id": "unit_ea79efb150787a81",
+      "evidence_id": "ev_2023ada2890c5477",
+      "snippet": "主题：AI 文生视频工作流  \n目标：讲清楚从想法、脚本、分镜、提示词、生成、剪辑到发布的完整链路。  \n风格：技术分享，清晰、实用、流程化，避免只展示工具名。",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_1ced51878616cfd4:unit_f22c5a6fd76f00dd:ev_126766056862e243",
+      "source_id": "src_1ced51878616cfd4",
+      "source_title": "README.md",
+      "unit_id": "unit_f22c5a6fd76f00dd",
+      "evidence_id": "ev_126766056862e243",
+      "snippet": "- `docs/outline.md`: 视频结构与章节提纲\n- `docs/script.md`: 旁白脚本草案\n- `docs/storyboard.md`: 分镜与画面设计\n- `docs/assets-plan.md`: 素材与生成清单\n- `assets/images/`: 图片、概念图、封面图\n- `assets/audio/`: 配音、音效、音乐\n- `assets/video/`: AI 生成视频片段、录屏、参考视频\n- `output/`: 最终导出文件",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "no_evidence": false,
+  "coverage_status": "source_supported",
+  "suggested_source_actions": []
+}

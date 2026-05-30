@@ -1,0 +1,34 @@
+{
+  "workspace_id": "rn-v16-url-1779956944050",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_38c28c096b05c01f",
+      "artifact_ref": "source://src_38c28c096b05c01f"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "preview": {
+      "source_id": "src_38c28c096b05c01f",
+      "title": "V1.6 URL Source 1",
+      "source_type": "url",
+      "preview_available": true,
+      "content_type": "text/plain",
+      "text_preview": "# Example Domain\n\nSource URL: http://example.com/\n\nExample Domain\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more",
+      "artifact_refs": [
+        {
+          "type": "source",
+          "source_id": "src_38c28c096b05c01f",
+          "artifact_ref": "source://src_38c28c096b05c01f"
+        }
+      ],
+      "preview_truncated": false,
+      "preview_size_bytes": 178,
+      "max_preview_size_bytes": 50000
+    }
+  }
+}

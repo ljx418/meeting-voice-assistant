@@ -1,0 +1,32 @@
+{
+  "workspace_id": "rn-v15-ai-qa-1779933390179",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "workspace",
+      "artifact_ref": "workspace://rn-v15-ai-qa-1779933390179"
+    }
+  ],
+  "next_actions": [
+    "knowledge_workspace_describe",
+    "knowledge_source_import"
+  ],
+  "data": {
+    "workspace": {
+      "workspace_id": "rn-v15-ai-qa-1779933390179",
+      "name": "rn-v15-ai-qa-1779933390179",
+      "owner": "v1.5-ai-qa-smoke",
+      "tags": [
+        "v1.5",
+        "ai-qa"
+      ],
+      "status": "active",
+      "created_at": "2026-05-28T01:56:30.287046Z",
+      "updated_at": "2026-05-28T01:56:30.287046Z",
+      "archived_at": null,
+      "archive_reason": ""
+    }
+  }
+}

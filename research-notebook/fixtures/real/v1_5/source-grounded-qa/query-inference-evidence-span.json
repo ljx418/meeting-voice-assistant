@@ -1,0 +1,31 @@
+{
+  "workspace_id": "rn-v15-ai-qa-1779933390179",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_40b57439418988cf",
+      "artifact_ref": "source://src_40b57439418988cf"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_b9f2268a8cb5ca6c",
+      "source_id": "src_40b57439418988cf",
+      "unit_id": "unit_10af7b2b65b91f7a",
+      "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+      "start_offset": 0,
+      "end_offset": 280,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {
+        "page_no": 3
+      },
+      "preview_available": true
+    }
+  }
+}

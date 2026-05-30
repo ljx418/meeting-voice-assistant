@@ -1,0 +1,37 @@
+{
+  "status": 200,
+  "payload": {
+    "workspace_id": "rn-v14-sources-p0-1779793867844-workspace",
+    "operation_id": null,
+    "status": "ok",
+    "warnings": [],
+    "artifact_refs": [
+      {
+        "type": "source",
+        "source_id": "src_918ee4610eb8dfcd",
+        "artifact_ref": "source://src_918ee4610eb8dfcd"
+      }
+    ],
+    "next_actions": [],
+    "data": {
+      "preview": {
+        "source_id": "src_918ee4610eb8dfcd",
+        "title": "AI 数字人行业概览 Markdown",
+        "source_type": "markdown",
+        "preview_available": true,
+        "content_type": "text/markdown",
+        "text_preview": "# 01 AI 数字人行业概览\n\n来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理 2024 年以来 AI 数字人 / 虚拟人 / AI Avatar / 数字员工的市场规模、增长趋势、应用场景和中外差异。\n\n> 使用说明：本文是 ResearchNotebook 导入资料包的一部分。每条重要事实后保留来源编号和 URL。市场规模类数据来自不同商业研究机构，口径差异较大，建议作为趋势参考，不直接合并成单一绝对数值。\n\n\n## 1. 核心结论\n\n- 2024 年以来，AI 数字人行业从“虚拟主播/虚拟偶像”扩展为“AI Avatar + 语音/视频生成 + Agent/客服/培训”的综合市场；研究机构对市场规模口径差异较大，但普遍预测未来数年保持高增长。Grand View Research 估算全球 digital avatar 市场 2023 年为 181.9 亿美元，并预测 2024-2030 年 CAGR 49.8%；Research and Markets 的 digital human avatar 报告则预测 2024-2029 年增量 274.3 亿美元、CAGR 43.9%。来源：[S001](https://www.grandviewresearch.com/industry-analysis/digital-avatar-market-report)；[S002](https://www.researchandmarkets.com/reports/6108560/digital-human-avatar-market)\n- AI avatar 市场的应用方向从内容生成扩展到 virtual agents / assistants、企业教育培训、市场营销和客服。MarketsandMarkets 资料称 virtual agents & assistants 预计是主要应用方向之一，education enterprise 是快速增长的 end-user 方向。来源：[S003](https://www.marketsandmarkets.com/Market-Reports/ai-avatar-market-146528536.html)\n- 中国市场在“直播电商、政企服务、金融/文旅导览、营销内容生产”上落地更快。艾媒咨询 2024 白皮书给出 2023 年中国虚拟人核心市场规模 205.2 亿元、预计 2025 年 480.6 亿元；百度引用 IDC《中国AI数字人市场份额，2024》称 2024 年中国 AI 数字人市场规模 41.2 亿元，同比增长 85.3%。来源：[S005](https://www.iimedia.cn/c400/99947.html)；[S006](https://qianfan.cloud.baidu.com/qianfandev/topic/686121)\n- “数字员工”概念正在从拟人化界面扩展到 AI agent，但组织接受度和治理边界仍不成熟。Lattice 2024 年关于 AI employee record 的尝试引发反弹，说明企业把 AI agent 当“员工”管理仍有社会和组织风险。来源：[S032](https://www.theguardian.com/technology/article/2024/jul/21/ai-digital-workers-employment)\n\n## 2. 市场规模与趋势口径\n\n| 来源 | 日期 | 口径 | 关键数据 | 备注 |\n|---|---:|---|---|---|\n| Grand View Research | 2024-2030预测 | Digital avatar | 2023 年 181.9 亿美元，2030 年 2706.1 亿美元，CAGR 49.8% | 范围较宽，覆盖 AR/VR/AI avatar 等。来源：[S001](https://www.grandviewresearch.com/industry-analysis/digital-avatar-market-report) |\n| Research and Markets | 2025-2029预测 | Digital human avatar | 2024-2029 增量 274.3 亿美元，CAGR 43.9% | 可作为趋势参考。来源：[S002](https://www.researchandmarkets.com/reports/6108560/digital-human-avatar-market) |\n| Global Market Insights | 2026-2035预测 | AI avatars | 2025 年 63 亿美元，2035 年 934 亿美元，CAGR 30.6% | 预测范围较长。来源：[S004](https://www.gminsights.com/industry-analysis/ai-avatars-market) |\n| iiMedia | 2024 | 中国虚拟人 | 2023 年核心市场 205.2 亿元，预计 2025 年 480.6 亿元 | 中国口径，偏虚拟人产业链。来源：[S005](https://www.iimedia.cn/c400/99947.html) |\n| Baidu / IDC 引用 | 2025-06-23 | 中国 AI 数字人 | 2024 年中国 AI 数字人市场 41.2 亿元，同比增长 85.3% | 公司公告引用 IDC，需注意公司传播口径。来源：[S006](https://qianfan.cloud.baidu.com/qianfandev/topic/686121) |\n\n## 3. 国内外差异\n\n### 中国市场\n\n- 中国数字人落地以直播电商、内容营销、政务/金融服务导览和企业客服为主，强调降本、规模化、直播时长和运营效率。China Daily 2025 年报道指出数字人技术正在进入直播电商场景，并引用业内预测称中国虚拟人市场有望到 2030 年达到 2700 亿元人民币。来源：[S007](https://www.chinadaily.com.cn/a/202507/28/WS6886d095a310ad07b5d924cb.html)\n- 中国厂商通常把数字人包装为云服务、营销内容生产平台、虚拟直播间、智能交互终端和数字员工。例如百度曦灵、阿里云虚拟数字人、腾讯云智能数智人、讯飞虚拟人平台都提供 2D/3D 形象、视频合成、直播或交互能力。来源：[S028](https://xiling.cloud.baidu.com/)；[S029](https://www.aliyun.com/product/ai/avatar)；[S030](https://cloud.tencent.com/document/product/1240)；[S031](https://virtual-man.xfyun.cn/)\n\n### 海外市场\n\n- 海外厂商更偏向企业视频生产、培训、品牌营销、AI avatar API、实时 conversational agent 和客服。Synthesia、HeyGen、D-ID 等强调企业级 AI video、avatar video API、interactive visual agent；NVIDIA ACE 侧重给开发者提供语音、语言理解和动画微服务。来源：[S020](https://www.synthesia.io/post/express-2-is-synthesias-next-chapter-for-full-body-expressive-ai-avatars)；[S022](https://developers.heygen.com/)；[S024](https://www.d-id.com/ai-agents/)；[S009](https://nvidianews.nvidia.com/news/digital-humans-ace-generative-ai-microservices)\n- 海外监管更突出 deepfake disclosure、AI-generated voice、内容 provenance 和平台责任。例如 EU AI Act Article 50 要求特定 AI 交互和 synthetic/deepfake 内容透明披露；美国 FCC 2024 年明确 AI-generated voice robocalls 受到 TCPA 限制。来源：[S033](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng)；[S034](https://www.fcc.gov/document/fcc-makes-ai-generated-voices-robocalls-illegal)\n\n## 4. 近 12 个月重要变化\n\n- 监管从泛化生成式 AI 转向更具体的标识和数字虚拟人治理。中国 2025 年发布《人工智能生成合成内容标识办法》，2026 年发布《数字虚拟人信息服务管理办法（征求意见稿）》；欧盟 AI Act 也形成对 deepfake / synthetic content 的透明义务。来源：[S035](https://www.cac.gov.cn/2025-03/14/c_1743654684782215.htm)；[S038](https://politics.people.com.cn/n1/2026/0403/c461001-40695046.html)；[S033](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng)\n- 视频生成模型快速提高了“数字人视频”的供给能力。Runway Gen-3、OpenAI Sora、Google Veo 2、Meta Movie Gen 等在 2024-2025 年持续提升视频真实感、运动一致性、音画同步和个性化视频生成能力，这会降低数字人内容生产成本。来源：[S016](https://runwayml.com/research/introducing-gen-3-alpha)；[S017](https://openai.com/index/sora-is-here/)；[S018](https://developers.googleblog.com/veo-2-video-generation-now-generally-available/)；[S019](https://arxiv.org/html/2410.13720v1)\n- 企业数字员工概念受到关注但也受到反弹。Lattice 案例说明，企业把 AI agent 纳入员工体系时，沟通、治理、责任归属和人类员工心理接受度是现实障碍。来源：[S032](https://www.theguardian.com/technology/article/2024/jul/21/ai-digital-workers-employment)\n\n## 5. 适合 ResearchNotebook 后续问答的问题\n\n1. 中国与海外 AI 数字人市场的主要落地场景有何不同？\n2. 为什么不同研究机构的市场规模差异很大？\n3. 数字员工和 AI Avatar 的边界是什么？\n4. 直播电商为什么成为中国数字人落地的重要场景？\n5. 当前行业增长主要来自视频生成、实时交互，还是企业客服？\n",
+        "artifact_refs": [
+          {
+            "type": "source",
+            "source_id": "src_918ee4610eb8dfcd",
+            "artifact_ref": "source://src_918ee4610eb8dfcd"
+          }
+        ],
+        "preview_truncated": false,
+        "preview_size_bytes": 7923,
+        "max_preview_size_bytes": 50000
+      }
+    }
+  }
+}

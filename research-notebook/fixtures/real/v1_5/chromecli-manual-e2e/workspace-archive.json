@@ -1,0 +1,31 @@
+{
+  "workspace_id": "rn-v15-e2e-1780106080924",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "workspace",
+      "artifact_ref": "workspace://rn-v15-e2e-1780106080924"
+    }
+  ],
+  "next_actions": [
+    "knowledge_workspace_list"
+  ],
+  "data": {
+    "workspace": {
+      "workspace_id": "rn-v15-e2e-1780106080924",
+      "name": "rn-v15-e2e-1780106080924",
+      "owner": "v1.5-e2e",
+      "tags": [
+        "v1.5",
+        "chromecli-e2e"
+      ],
+      "status": "archived",
+      "created_at": "2026-05-30T01:54:41.006191Z",
+      "updated_at": "2026-05-30T01:55:45.369634Z",
+      "archived_at": "2026-05-30T01:55:45.369634Z",
+      "archive_reason": "v1.5 chromecli manual e2e cleanup"
+    }
+  }
+}

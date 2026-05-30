@@ -231,6 +231,56 @@ async function setFieldInForm(formLabel, fieldIndex, value, fieldSelector = 'inp
   );
 }
 
+async function setInputByLabel(labelText, value) {
+  return evalJs(
+    `(() => {
+      const label = [...document.querySelectorAll('label')].find((el) => (el.textContent || '').toLowerCase().includes(${JSON.stringify(
+        labelText.toLowerCase()
+      )}));
+      const field = label?.querySelector('input:not([type="file"])');
+      if (!field) return false;
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+      setter.call(field, ${JSON.stringify(value)});
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    })()`
+  );
+}
+
+async function setSelectByLabel(labelText, value) {
+  return evalJs(
+    `(() => {
+      const label = [...document.querySelectorAll('label')].find((el) => (el.textContent || '').toLowerCase().includes(${JSON.stringify(
+        labelText.toLowerCase()
+      )}));
+      const field = label?.querySelector('select');
+      if (!field) return false;
+      field.value = ${JSON.stringify(value)};
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    })()`
+  );
+}
+
+async function setTextareaByLabel(labelText, value) {
+  return evalJs(
+    `(() => {
+      const label = [...document.querySelectorAll('label')].find((el) => (el.textContent || '').toLowerCase().includes(${JSON.stringify(
+        labelText.toLowerCase()
+      )}));
+      const field = label?.querySelector('textarea');
+      if (!field) return false;
+      const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set;
+      setter.call(field, ${JSON.stringify(value)});
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    })()`
+  );
+}
+
 async function submitForm(formLabel) {
   return evalJs(
     `(() => {
@@ -385,9 +435,9 @@ function makeRecord(relativePath, sourceType, body, method) {
 }
 
 async function importSource(record, index, total) {
-  if (!(await setFieldInForm('导入来源', 0, record.title))) throw new Error(`could not set title for ${record.relative_path}`);
-  if (!(await setFieldInForm('导入来源', 1, record.source_type))) throw new Error(`could not set source type for ${record.relative_path}`);
-  if (!(await setFieldInForm('导入来源', 2, record.content))) throw new Error(`could not set content for ${record.relative_path}`);
+  if (!(await setInputByLabel('来源标题', record.title))) throw new Error(`could not set title for ${record.relative_path}`);
+  if (!(await setSelectByLabel('来源类型', record.source_type))) throw new Error(`could not set source type for ${record.relative_path}`);
+  if (!(await setTextareaByLabel('文本或结构化内容', record.content))) throw new Error(`could not set content for ${record.relative_path}`);
   if (!(await submitForm('导入来源'))) throw new Error(`could not submit source form for ${record.relative_path}`);
   await waitFor(
     () =>

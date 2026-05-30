@@ -1,0 +1,77 @@
+{
+  "final_decision": "PASS_LIMITED",
+  "base_url": "http://127.0.0.1:8003",
+  "success_urls": [
+    "http://example.com/",
+    "http://example.org/"
+  ],
+  "blocked_url": "http://127.0.0.1:8003/",
+  "workspace_id": "rn-v16-url-1779956944050",
+  "source_ids": [
+    "src_38c28c096b05c01f",
+    "src_4b3c5c90b2bfdf40"
+  ],
+  "results": [
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v16-url-1779956944050"
+    },
+    {
+      "name": "unsafe URL blocked",
+      "status": "pass",
+      "detail": "url_security_blocked"
+    },
+    {
+      "name": "url import 1",
+      "status": "pass",
+      "detail": "src_38c28c096b05c01f"
+    },
+    {
+      "name": "url import 2",
+      "status": "pass",
+      "detail": "src_4b3c5c90b2bfdf40"
+    },
+    {
+      "name": "workspace build",
+      "status": "pass",
+      "detail": "op_70cccdd8371b"
+    },
+    {
+      "name": "source chain src_38c28c096b05c01f",
+      "status": "pass",
+      "detail": "unit_079a596da0ff550a"
+    },
+    {
+      "name": "source chain src_4b3c5c90b2bfdf40",
+      "status": "pass",
+      "detail": "unit_25a19457dd653715"
+    },
+    {
+      "name": "query evidence span",
+      "status": "pass",
+      "detail": "ev_d217157e59b2eaf1"
+    },
+    {
+      "name": "guide URL evidence",
+      "status": "pass",
+      "detail": "2 refs"
+    },
+    {
+      "name": "studio URL evidence",
+      "status": "pass",
+      "detail": "2 refs"
+    },
+    {
+      "name": "workspace cleanup",
+      "status": "pass",
+      "detail": "rn-v16-url-1779956944050"
+    }
+  ],
+  "still_not_ready": [
+    "all websites URL extraction",
+    "login/private/paywalled pages",
+    "javascript rendered pages",
+    "batch web crawl"
+  ]
+}

@@ -266,6 +266,39 @@ async function submitForm(formLabel) {
   );
 }
 
+async function setInputByLabel(labelText, value) {
+  return evalJs(
+    `(() => {
+      const label = [...document.querySelectorAll('label')].find((el) => (el.textContent || '').toLowerCase().includes(${JSON.stringify(
+        labelText.toLowerCase()
+      )}));
+      const field = label?.querySelector('input:not([type="file"])');
+      if (!field) return false;
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+      setter.call(field, ${JSON.stringify(value)});
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    })()`
+  );
+}
+
+async function setSelectByLabel(labelText, value) {
+  return evalJs(
+    `(() => {
+      const label = [...document.querySelectorAll('label')].find((el) => (el.textContent || '').toLowerCase().includes(${JSON.stringify(
+        labelText.toLowerCase()
+      )}));
+      const field = label?.querySelector('select');
+      if (!field) return false;
+      field.value = ${JSON.stringify(value)};
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    })()`
+  );
+}
+
 async function setTextareaByLabel(labelText, value) {
   return evalJs(
     `(() => {
@@ -312,9 +345,9 @@ async function closeDrawer() {
 }
 
 async function importSource(sourceCase) {
-  if (!(await setFieldInForm('导入来源', 0, sourceCase.title))) throw new Error(`could not set ${sourceCase.sourceType} source title`);
-  if (!(await setFieldInForm('导入来源', 1, sourceCase.sourceType))) throw new Error(`could not set ${sourceCase.sourceType} source type`);
-  if (!(await setFieldInForm('导入来源', 2, sourceCase.content))) throw new Error(`could not set ${sourceCase.sourceType} source content`);
+  if (!(await setInputByLabel('来源标题', sourceCase.title))) throw new Error(`could not set ${sourceCase.sourceType} source title`);
+  if (!(await setSelectByLabel('来源类型', sourceCase.sourceType))) throw new Error(`could not set ${sourceCase.sourceType} source type`);
+  if (!(await setTextareaByLabel('文本或结构化内容', sourceCase.content))) throw new Error(`could not set ${sourceCase.sourceType} source content`);
   await pause(`filled ${sourceCase.sourceType} source form`);
   if (!(await submitForm('导入来源'))) throw new Error(`could not submit ${sourceCase.sourceType} source`);
   await waitFor(() => textExists(sourceCase.title), `${sourceCase.sourceType} source appears`);

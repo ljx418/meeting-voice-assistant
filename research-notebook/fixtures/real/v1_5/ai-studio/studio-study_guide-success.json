@@ -1,0 +1,206 @@
+{
+  "workspace_id": "rn-v15-ai-studio-1779933325956",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "studio_artifact",
+      "artifact_id": "studio_study_guide_a5b69a1bd6a4"
+    }
+  ],
+  "next_actions": [
+    "knowledge_query",
+    "knowledge_source_list"
+  ],
+  "data": {
+    "artifact": {
+      "artifact_id": "studio_study_guide_a5b69a1bd6a4",
+      "artifact_type": "study_guide",
+      "title": "Study Guide",
+      "artifact_available": true,
+      "summary": "本学习导读基于AI数字人行业概览、技术趋势及产业发展报告三份资料，涵盖行业现状、技术进展、商业化路径与合规边界等核心内容。",
+      "sections": [
+        {
+          "title": "学习目标",
+          "content": "通过本资料学习，期望掌握AI数字人行业的基本概念与发展脉络，理解技术演进趋势，了解商业化应用场景与监管要求，建立对AI数字人产业的系统性认知框架。",
+          "evidence_refs": [
+            {
+              "source_id": "src_918ee4610eb8dfcd",
+              "source_title": "AI 数字人行业概览 Markdown",
+              "unit_id": "unit_b20c96845f5d1383",
+              "evidence_id": "ev_f73c69d129c8bca6",
+              "snippet": "# 01 AI 数字人行业概览",
+              "locator": {}
+            },
+            {
+              "source_id": "src_ae153b63c6aa4a7c",
+              "source_title": "AI 数字人技术趋势 Markdown",
+              "unit_id": "unit_8a049783ab0386da",
+              "evidence_id": "ev_61aa2d7915da6528",
+              "snippet": "# 02 AI 数字人技术进展",
+              "locator": {}
+            },
+            {
+              "source_id": "src_40b57439418988cf",
+              "source_title": "AI 数字人产业发展报告 PDF",
+              "unit_id": "unit_29c9201d3a3d716a",
+              "evidence_id": "ev_8ffbf20ef6182276",
+              "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+              "locator": {
+                "page_no": 1
+              }
+            }
+          ]
+        },
+        {
+          "title": "核心主题一：行业概览",
+          "content": "资料来源为《AI 数字人行业概览 Markdown》，提供了行业基础认知框架，涵盖AI数字人的定义、分类及市场发展阶段等基础内容，为后续深入学习奠定基础。",
+          "evidence_refs": [
+            {
+              "source_id": "src_918ee4610eb8dfcd",
+              "source_title": "AI 数字人行业概览 Markdown",
+              "unit_id": "unit_b20c96845f5d1383",
+              "evidence_id": "ev_f73c69d129c8bca6",
+              "snippet": "# 01 AI 数字人行业概览",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "核心主题二：技术进展",
+          "content": "《AI 数字人技术趋势 Markdown》聚焦技术演进路径，分析生成式AI、多模态交互、实时渲染等关键技术突破，探讨技术成熟度与未来发展方向。资料未覆盖具体技术细节数据，建议结合技术白皮书深化理解。",
+          "evidence_refs": [
+            {
+              "source_id": "src_ae153b63c6aa4a7c",
+              "source_title": "AI 数字人技术趋势 Markdown",
+              "unit_id": "unit_8a049783ab0386da",
+              "evidence_id": "ev_61aa2d7915da6528",
+              "snippet": "# 02 AI 数字人技术进展",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "核心主题三：产业分析",
+          "content": "《AI 数字人产业发展报告 PDF》系统梳理了2024-2026年行业现状，从虚拟主播到企业数字员工的商业化路径，涵盖市场机会与监管风险，但具体市场数据和案例细节需查阅原报告。",
+          "evidence_refs": [
+            {
+              "source_id": "src_40b57439418988cf",
+              "source_title": "AI 数字人产业发展报告 PDF",
+              "unit_id": "unit_29c9201d3a3d716a",
+              "evidence_id": "ev_8ffbf20ef6182276",
+              "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+              "locator": {
+                "page_no": 1
+              }
+            }
+          ]
+        },
+        {
+          "title": "核心主题四：商业化路径",
+          "content": "综合产业报告内容，AI数字人商业化涵盖B端企业数字员工和C端虚拟主播两大方向，涉及营销服务、教育培训、影视娱乐等领域。资料提及商业化潜力评估，但具体商业模式和盈利案例资料中未详细展开。",
+          "evidence_refs": [
+            {
+              "source_id": "src_40b57439418988cf",
+              "source_title": "AI 数字人产业发展报告 PDF",
+              "unit_id": "unit_29c9201d3a3d716a",
+              "evidence_id": "ev_8ffbf20ef6182276",
+              "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+              "locator": {
+                "page_no": 1
+              }
+            }
+          ]
+        },
+        {
+          "title": "核心主题五：合规边界",
+          "content": "产业报告指出监管风险是行业发展重要议题，涵盖数据合规、知识产权、伦理规范等内容。资料未覆盖具体法规条款和合规细则，建议查阅相关政策文件深入了解监管要求。",
+          "evidence_refs": [
+            {
+              "source_id": "src_40b57439418988cf",
+              "source_title": "AI 数字人产业发展报告 PDF",
+              "unit_id": "unit_29c9201d3a3d716a",
+              "evidence_id": "ev_8ffbf20ef6182276",
+              "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+              "locator": {
+                "page_no": 1
+              }
+            }
+          ]
+        },
+        {
+          "title": "建议追问",
+          "content": "1. AI数字人在不同应用场景中的技术需求差异是什么？\n2. 当前商业化过程中面临的核心挑战有哪些？\n3. 国内外监管政策对比与趋势分析如何？\n4. 产业链上下游的价值分布情况如何？",
+          "evidence_refs": [
+            {
+              "source_id": "src_918ee4610eb8dfcd",
+              "source_title": "AI 数字人行业概览 Markdown",
+              "unit_id": "unit_b20c96845f5d1383",
+              "evidence_id": "ev_f73c69d129c8bca6",
+              "snippet": "# 01 AI 数字人行业概览",
+              "locator": {}
+            },
+            {
+              "source_id": "src_ae153b63c6aa4a7c",
+              "source_title": "AI 数字人技术趋势 Markdown",
+              "unit_id": "unit_8a049783ab0386da",
+              "evidence_id": "ev_61aa2d7915da6528",
+              "snippet": "# 02 AI 数字人技术进展",
+              "locator": {}
+            },
+            {
+              "source_id": "src_40b57439418988cf",
+              "source_title": "AI 数字人产业发展报告 PDF",
+              "unit_id": "unit_29c9201d3a3d716a",
+              "evidence_id": "ev_8ffbf20ef6182276",
+              "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+              "locator": {
+                "page_no": 1
+              }
+            }
+          ]
+        }
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "src_918ee4610eb8dfcd",
+          "source_title": "AI 数字人行业概览 Markdown",
+          "unit_id": "unit_b20c96845f5d1383",
+          "evidence_id": "ev_f73c69d129c8bca6",
+          "snippet": "# 01 AI 数字人行业概览",
+          "locator": {}
+        },
+        {
+          "source_id": "src_ae153b63c6aa4a7c",
+          "source_title": "AI 数字人技术趋势 Markdown",
+          "unit_id": "unit_8a049783ab0386da",
+          "evidence_id": "ev_61aa2d7915da6528",
+          "snippet": "# 02 AI 数字人技术进展",
+          "locator": {}
+        },
+        {
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI 数字人产业发展报告 PDF",
+          "unit_id": "unit_29c9201d3a3d716a",
+          "evidence_id": "ev_8ffbf20ef6182276",
+          "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+          "locator": {
+            "page_no": 1
+          }
+        }
+      ],
+      "generation_metadata": {
+        "provider": "openai_compatible",
+        "provider_name": "minimax",
+        "model": "MiniMax-M2.7",
+        "prompt_version": "v1_5_c_ai_studio_2026_05_27",
+        "artifact_type": "study_guide",
+        "evidence_ref_count": 3,
+        "fallback_mode": false,
+        "latency_ms": 6385,
+        "response_schema": "openai_chat_completions"
+      }
+    }
+  }
+}

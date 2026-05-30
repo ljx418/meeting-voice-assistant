@@ -1,0 +1,17 @@
+{
+  "mode": "hybrid",
+  "query": "火星采矿农业机械的投资结论是什么？",
+  "answer": "当前资料未覆盖“火星采矿农业机械的投资结论是什么？”的可引用依据。已导入来源包括：01_industry_overview.md、02_technology_trends.md、AI数字人产业发展报告_2026-05-26.pdf。请补充更直接相关的资料，或改问这些来源覆盖的内容。",
+  "hits": [],
+  "coverage_status": "insufficient_evidence",
+  "answer_basis": "source_grounded_refusal",
+  "unsupported_reason": "insufficient_evidence",
+  "suggested_source_actions": [
+    "添加与问题直接相关的 PDF、TXT 或 Markdown",
+    "使用来源标题、关键段落或资料中的术语重新提问",
+    "补充原始报告、论文、公告或白皮书后再综合研究"
+  ],
+  "evidence": [],
+  "evidence_refs": [],
+  "no_evidence": true
+}

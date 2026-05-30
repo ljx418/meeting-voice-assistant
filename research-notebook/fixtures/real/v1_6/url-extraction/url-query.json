@@ -1,0 +1,163 @@
+{
+  "mode": "hybrid",
+  "query": "What is Example Domain used for?",
+  "answer": "LLMWiki pages: 5 hits\nGraphRAG entities/units: 0 hits\nTop wiki result: Example",
+  "hits": [
+    {
+      "title": "Example",
+      "snippet": "<mark>Example</mark>",
+      "source": "example",
+      "score": 0.000007166317420011117,
+      "meta": {
+        "kind": "page",
+        "slug": "example"
+      }
+    },
+    {
+      "title": "Example Domain",
+      "snippet": "<mark>Example</mark> <mark>Domain</mark>",
+      "source": "source-example-domain-3b505939",
+      "score": 0.000006146015997932983,
+      "meta": {
+        "kind": "page",
+        "slug": "source-example-domain-3b505939"
+      }
+    },
+    {
+      "title": "Example Domain",
+      "snippet": "<mark>Example</mark> <mark>Domain</mark>",
+      "source": "source-example-domain-9dd3771a",
+      "score": 0.000006146015997932983,
+      "meta": {
+        "kind": "page",
+        "slug": "source-example-domain-9dd3771a"
+      }
+    },
+    {
+      "title": "Passage 5648ddb7",
+      "snippet": "# Example Domain\n\nSource URL: http://example.org/\n\nExample Domain\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more",
+      "source": "",
+      "score": 0.000005142857142857142,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "5648ddb7-7dd9-4a6a-9312-1125bfba13e9"
+      }
+    },
+    {
+      "title": "Passage a26ab492",
+      "snippet": "# Example Domain\n\nSource URL: http://example.com/\n\nExample Domain\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more",
+      "source": "",
+      "score": 0.000005142857142857142,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "a26ab492-ba88-4af1-b752-c6edb8acc833"
+      }
+    }
+  ],
+  "generation_metadata": {
+    "provider": "openai_compatible",
+    "provider_name": "minimax",
+    "model": "MiniMax-M2.7",
+    "prompt_version": "v1_5_d_source_grounded_qa_2026_05_27",
+    "evidence_ref_count": 4,
+    "fallback_mode": true,
+    "error_code": "response_schema_mismatch"
+  },
+  "answer_basis": "source_supported_fallback",
+  "inference_notice": "回答使用确定性 fallback；不能作为 V1.5-D AI QA quality pass。",
+  "evidence": [
+    {
+      "evidence_key": "src_4b3c5c90b2bfdf40:unit_09c861fd2547b159:ev_d217157e59b2eaf1",
+      "source_id": "src_4b3c5c90b2bfdf40",
+      "source_title": "V1.6 URL Source 2",
+      "unit_id": "unit_09c861fd2547b159",
+      "evidence_id": "ev_d217157e59b2eaf1",
+      "snippet": "Example Domain\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_38c28c096b05c01f:unit_a922a823f26c3d26:ev_5b39727b51f53d34",
+      "source_id": "src_38c28c096b05c01f",
+      "source_title": "V1.6 URL Source 1",
+      "unit_id": "unit_a922a823f26c3d26",
+      "evidence_id": "ev_5b39727b51f53d34",
+      "snippet": "Example Domain\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_4b3c5c90b2bfdf40:unit_25a19457dd653715:ev_45dba86cf649d960",
+      "source_id": "src_4b3c5c90b2bfdf40",
+      "source_title": "V1.6 URL Source 2",
+      "unit_id": "unit_25a19457dd653715",
+      "evidence_id": "ev_45dba86cf649d960",
+      "snippet": "# Example Domain",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_38c28c096b05c01f:unit_079a596da0ff550a:ev_0a7f44112bb39eb6",
+      "source_id": "src_38c28c096b05c01f",
+      "source_title": "V1.6 URL Source 1",
+      "unit_id": "unit_079a596da0ff550a",
+      "evidence_id": "ev_0a7f44112bb39eb6",
+      "snippet": "# Example Domain",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_4b3c5c90b2bfdf40:unit_09c861fd2547b159:ev_d217157e59b2eaf1",
+      "source_id": "src_4b3c5c90b2bfdf40",
+      "source_title": "V1.6 URL Source 2",
+      "unit_id": "unit_09c861fd2547b159",
+      "evidence_id": "ev_d217157e59b2eaf1",
+      "snippet": "Example Domain\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_38c28c096b05c01f:unit_a922a823f26c3d26:ev_5b39727b51f53d34",
+      "source_id": "src_38c28c096b05c01f",
+      "source_title": "V1.6 URL Source 1",
+      "unit_id": "unit_a922a823f26c3d26",
+      "evidence_id": "ev_5b39727b51f53d34",
+      "snippet": "Example Domain\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\nLearn more",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_4b3c5c90b2bfdf40:unit_25a19457dd653715:ev_45dba86cf649d960",
+      "source_id": "src_4b3c5c90b2bfdf40",
+      "source_title": "V1.6 URL Source 2",
+      "unit_id": "unit_25a19457dd653715",
+      "evidence_id": "ev_45dba86cf649d960",
+      "snippet": "# Example Domain",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_38c28c096b05c01f:unit_079a596da0ff550a:ev_0a7f44112bb39eb6",
+      "source_id": "src_38c28c096b05c01f",
+      "source_title": "V1.6 URL Source 1",
+      "unit_id": "unit_079a596da0ff550a",
+      "evidence_id": "ev_0a7f44112bb39eb6",
+      "snippet": "# Example Domain",
+      "confidence": 1,
+      "locator": {},
+      "preview_available": true
+    }
+  ],
+  "no_evidence": false,
+  "coverage_status": "source_supported",
+  "suggested_source_actions": []
+}

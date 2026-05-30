@@ -1,0 +1,130 @@
+{
+  "workspace_id": "rn-v16-quality-claude-code-1779957144855",
+  "operation_id": "op_fef2fc59d8f4",
+  "status": "completed",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "operation",
+      "operation_id": "op_fef2fc59d8f4",
+      "artifact_ref": "operation://op_fef2fc59d8f4"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://d4c385ca12396387"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://c857d09db23e6822"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://240930dedb42d4c5"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://3d632698f37d7c8c"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://c92dc39f4547bff4"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://6b2158e932c823a9"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://f859baa317ddc723"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://9b6d567cd3852322"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://3a5a5e132c81ec02"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://982dadc77e1c0bc3"
+    }
+  ],
+  "next_actions": [
+    "knowledge_build_status"
+  ],
+  "data": {
+    "operation_id": "op_fef2fc59d8f4",
+    "mode": "full",
+    "stage": "completed",
+    "progress": 1,
+    "status": "completed",
+    "started_at": "2026-05-28T08:32:24.911706Z",
+    "completed_at": "2026-05-28T08:32:28.946145Z",
+    "created_at": "2026-05-28T08:32:24.908604Z",
+    "updated_at": "2026-05-28T08:32:28.946682Z",
+    "error": {
+      "code": "error",
+      "message": "error",
+      "retryable": false
+    },
+    "retryable": false,
+    "artifact_refs": [
+      {
+        "type": "operation",
+        "operation_id": "op_fef2fc59d8f4",
+        "artifact_ref": "operation://op_fef2fc59d8f4"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://d4c385ca12396387"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://c857d09db23e6822"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://240930dedb42d4c5"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://3d632698f37d7c8c"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://c92dc39f4547bff4"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://6b2158e932c823a9"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://f859baa317ddc723"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://9b6d567cd3852322"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://3a5a5e132c81ec02"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://982dadc77e1c0bc3"
+      }
+    ],
+    "results": [
+      {
+        "engine": "llmwiki",
+        "status": "success"
+      },
+      {
+        "engine": "graphrag",
+        "status": "indexed"
+      }
+    ]
+  }
+}

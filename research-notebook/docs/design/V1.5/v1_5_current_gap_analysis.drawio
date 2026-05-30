@@ -1,0 +1,49 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="V1.5 Current Gap">
+    <mxGraphModel dx="1120" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="760" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="prd" value="PRD Phase 1&#xa;AI 驱动 Notebook Guide / 引用问答 / Studio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="60" y="60" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="v14" value="V1.4 PASS_LIMITED&#xa;确定性 Guide / Studio / citation 主路径可用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="210" width="300" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="v15a" value="V1.5-A AI Provider Contract&#xa;PASS&#xa;MiniMax 真实调用 / schema / 脱敏通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="430" y="60" width="320" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="v15bcd" value="V1.5-B/C/D PASS_LIMITED&#xa;AI Guide + Studio + QA&#xa;MiniMax + 数字人资料 smoke 通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="430" y="220" width="320" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="v15e" value="V1.5-E ChromeCLI / Manual E2E&#xa;PASS_LIMITED&#xa;Guide / QA / Studio / citation / 拒答通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="430" y="390" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="risk" value="风险门禁&#xa;规格漂移 LOW&#xa;虚假验收 MEDIUM&#xa;API smoke 不等于人工 E2E PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e5;strokeColor=#f29900;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="820" y="190" width="280" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="next" value="V1.5 Revalidation&#xa;2026-05-28 收紧复验 PASS_LIMITED&#xa;A/B/C/D/E smoke 重新通过 / 后续 V1.6" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#5f6368;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="820" y="390" width="280" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="prd" target="v14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="v14" target="v15a" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="v15a" target="v15bcd" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="v15bcd" target="v15e" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="v15a" target="risk" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="risk" target="next" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

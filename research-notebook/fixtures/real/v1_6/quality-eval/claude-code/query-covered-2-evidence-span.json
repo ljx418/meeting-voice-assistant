@@ -1,0 +1,29 @@
+{
+  "workspace_id": "rn-v16-quality-claude-code-1779957144855",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_7374674fe9a10971",
+      "artifact_ref": "source://src_7374674fe9a10971"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_1128ce699b2e8713",
+      "source_id": "src_7374674fe9a10971",
+      "unit_id": "unit_f58b34706b7a062f",
+      "snippet": "> 本文档面向中级开发者，介绍 Claude Code 的高阶使用技巧，涵盖 Agent 协作、Memory 系统、Skills、Plan Mode、Task 管理、MCP、代码审查与 Git 工作流集成等主题。",
+      "start_offset": 0,
+      "end_offset": 106,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {},
+      "preview_available": true
+    }
+  }
+}

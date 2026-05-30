@@ -7,6 +7,9 @@ const workspacesPath = ['', 'api', 'workspaces'].join('/');
 const workspacePath = (workspaceId: string) => [workspacesPath, workspaceId].join('/');
 const sourcesPath = (workspaceId: string) => [workspacePath(workspaceId), 'sources'].join('/');
 const capabilitiesPath = (workspaceId: string) => [workspacePath(workspaceId), 'capabilities'].join('/');
+const folderCollectionsScanPath = (workspaceId: string) => [workspacePath(workspaceId), 'folder-collections', 'scan'].join('/');
+const folderSummaryWorkflowRunsPath = (workspaceId: string) => [workspacePath(workspaceId), 'workflows', 'folder-summary', 'runs'].join('/');
+const agentWorkflowDraftPath = (workspaceId: string) => [workspacePath(workspaceId), 'agent-workflows', 'draft'].join('/');
 const sourceTracePath = (workspaceId: string, sourceId: string) => [sourcesPath(workspaceId), sourceId, 'trace'].join('/');
 const sourcePreviewPath = (workspaceId: string, sourceId: string) => [sourcesPath(workspaceId), sourceId, 'preview'].join('/');
 const sourceUnitsPath = (workspaceId: string, sourceId: string) => [sourcesPath(workspaceId), sourceId, 'units'].join('/');
@@ -59,6 +62,25 @@ describe('dataServiceClient workspace wrappers', () => {
     );
   });
 
+  it('renames workspace through target route', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          workspace: { workspace_id: 'ws_1', name: 'Renamed Notebook' }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.workspaces.rename('ws_1', { name: 'Renamed Notebook' })).resolves.toEqual({
+      workspace: { workspace_id: 'ws_1', name: 'Renamed Notebook' }
+    });
+    expect(fetchImpl).toHaveBeenCalledWith(
+      [workspacePath('ws_1'), 'rename'].join('/'),
+      expect.objectContaining({ method: 'POST', body: JSON.stringify({ name: 'Renamed Notebook' }) })
+    );
+  });
+
   it('normalizes backend unavailable errors', async () => {
     const fetchImpl = vi.fn().mockRejectedValue(new TypeError('network failed'));
     const client = createDataServiceClient({ fetchImpl });
@@ -88,6 +110,473 @@ describe('dataServiceClient workspace wrappers', () => {
       status: 422,
       retryable: false
     });
+  });
+
+  it('creates V1.3 Agent Workflow draft for the registered folder summary template', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        status: 'ok',
+        data: {
+          task: {
+            task_id: 'task_1',
+            workspace_id: 'ws_1',
+            user_goal: '递归总结 Desktop/技术分享',
+            status: 'awaiting_approval',
+            workflow_id: 'wf_1'
+          },
+          workflow: {
+            workflow_id: 'wf_1',
+            name: '递归文件夹总结',
+            template_id: 'folder_summary_v1',
+            status: 'draft',
+            required_permissions: ['folder:scan', 'folder:extract:md_txt'],
+            draft_parameters: {
+              authorized_root_hint: 'Desktop/技术分享',
+              include_extensions: ['.md', '.txt'],
+              exclude_globs: ['**/*.tmp'],
+              follow_symlinks: false,
+              requires_user_confirmation: true
+            },
+            steps: [{ step_id: 'step_1', name: 'scan_folder', status: 'pending', retry_count: 0, artifact_refs: [] }]
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    const result = await client.agentWorkflows.createDraft('ws_1', { user_goal: '递归总结 Desktop/技术分享' });
+
+    expect(result.task.status).toBe('awaiting_approval');
+    expect(result.workflow?.template_id).toBe('folder_summary_v1');
+    expect(result.workflow?.draft_parameters?.authorized_root_hint).toBe('Desktop/技术分享');
+    expect(fetchImpl).toHaveBeenCalledWith(
+      agentWorkflowDraftPath('ws_1'),
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({ user_goal: '递归总结 Desktop/技术分享' })
+      })
+    );
+  });
+
+  it('keeps unimplemented Agent Workflow follow-up routes disabled without calling routes', async () => {
+    const fetchImpl = vi.fn();
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.agentWorkflows.getDraft('ws_1', 'task_1')).rejects.toMatchObject({
+      code: 'capability_missing',
+      retryable: false
+    });
+    await expect(client.agentWorkflows.startRun('ws_1', 'workflow_1')).rejects.toMatchObject({
+      code: 'capability_missing',
+      retryable: false
+    });
+    expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
+  it('rejects unsafe Agent Workflow draft fields with local path-like values', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        status: 'ok',
+        data: {
+          task: {
+            task_id: 'task_1',
+            workspace_id: 'ws_1',
+            user_goal: '递归总结 Desktop/技术分享',
+            status: 'awaiting_approval'
+          },
+          workflow: {
+            workflow_id: 'wf_1',
+            name: '递归文件夹总结',
+            template_id: 'folder_summary_v1',
+            status: 'draft',
+            required_permissions: ['folder:scan'],
+            draft_parameters: { authorized_root_hint: '/Users/Zhuanz/Desktop/技术分享' },
+            steps: [{ step_id: 'step_1', name: 'scan_folder', status: 'pending', retry_count: 0, artifact_refs: [] }]
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.agentWorkflows.createDraft('ws_1', { user_goal: '递归总结 Desktop/技术分享' })).rejects.toMatchObject({
+      code: 'version_or_schema_mismatch',
+      retryable: false
+    });
+  });
+
+  it('normalizes unsupported Agent Workflow goals as validation errors', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ detail: 'VALIDATION_ERROR: unsupported goal' }, { status: 422 }));
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.agentWorkflows.createDraft('ws_1', { user_goal: '整理图片' })).rejects.toMatchObject({
+      code: 'validation_error',
+      status: 422,
+      retryable: false
+    });
+  });
+
+  it('scans V1.3 folder collection manifest with md/txt-only dry-run request', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        status: 'ok',
+        data: {
+          collection: {
+            collection_id: 'fc_1',
+            workspace_id: 'ws_1',
+            root_label: '技术分享',
+            folders: [
+              {
+                folder_id: 'fld_root',
+                relative_path: '.',
+                depth: 0,
+                file_count: 0,
+                child_folder_count: 1
+              },
+              {
+                folder_id: 'fld_a',
+                parent_folder_id: 'fld_root',
+                relative_path: '专题A',
+                depth: 1,
+                file_count: 1,
+                child_folder_count: 0
+              }
+            ],
+            files: [
+              {
+                file_id: 'file_1',
+                folder_id: 'fld_a',
+                relative_path: '专题A/notes.md',
+                extension: '.md',
+                size_bytes: 42,
+                extraction_status: 'skipped'
+              }
+            ],
+            skipped_files: [{ relative_path: 'slides.pptx', skipped_reason: 'unsupported_extension' }]
+          },
+          permission_grant: {
+            permission_grant_id: 'grant_1',
+            workspace_id: 'ws_1',
+            root_label: '技术分享',
+            scopes: ['scan'],
+            status: 'active',
+            created_at: '2026-05-25T00:00:00Z',
+            expires_at: null
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(
+      client.folderCollections.scan('ws_1', {
+        authorized_root: '/Users/Zhuanz/Desktop/技术分享',
+        permission_grant_id: 'grant_1',
+        dry_run: true
+      })
+    ).resolves.toEqual({
+      collection: expect.objectContaining({
+        collection_id: 'fc_1',
+        root_label: '技术分享',
+        files: [
+          {
+            file_id: 'file_1',
+            folder_id: 'fld_a',
+            relative_path: '专题A/notes.md',
+            extension: '.md',
+            size_bytes: 42,
+            extraction_status: 'skipped',
+            text_preview: undefined
+          }
+        ],
+        skipped_files: [{ relative_path: 'slides.pptx', skipped_reason: 'unsupported_extension' }]
+      }),
+      permission_grant: expect.objectContaining({ permission_grant_id: 'grant_1', status: 'active' })
+    });
+    expect(fetchImpl).toHaveBeenCalledWith(
+      folderCollectionsScanPath('ws_1'),
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({
+          authorized_root: '/Users/Zhuanz/Desktop/技术分享',
+          permission_grant_id: 'grant_1',
+          dry_run: true,
+          recursive: true,
+          include_extensions: ['.md', '.txt'],
+          exclude_globs: [],
+          follow_symlinks: false
+        })
+      })
+    );
+  });
+
+  it('rejects folder collection schema mismatch with absolute returned paths', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        status: 'ok',
+        data: {
+          collection: {
+            collection_id: 'fc_bad',
+            workspace_id: 'ws_1',
+            root_label: '技术分享',
+            folders: [],
+            files: [
+              {
+                file_id: 'file_bad',
+                relative_path: '/Users/Zhuanz/Desktop/技术分享/notes.md',
+                extension: '.md',
+                size_bytes: 1,
+                extraction_status: 'skipped'
+              }
+            ],
+            skipped_files: []
+          },
+          permission_grant: {
+            permission_grant_id: 'grant_1',
+            workspace_id: 'ws_1',
+            root_label: '技术分享',
+            scopes: ['scan'],
+            status: 'active'
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(
+      client.folderCollections.scan('ws_1', {
+        authorized_root: '/Users/Zhuanz/Desktop/技术分享',
+        permission_grant_id: 'grant_1',
+        dry_run: true
+      })
+    ).rejects.toMatchObject({
+      code: 'version_or_schema_mismatch'
+    });
+  });
+
+  it('starts V1.3 folder summary workflow as dry-run runtime without summary artifacts', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        status: 'ok',
+        data: {
+          workflow: {
+            workflow_id: 'wf_1',
+            name: 'Folder Summary V1',
+            template_id: 'folder_summary_v1',
+            status: 'ready',
+            required_permissions: ['folder:scan'],
+            steps: [
+              {
+                step_id: 'step_scan',
+                name: 'scan_folder',
+                status: 'completed',
+                logs: ['Manifest ready: folders=2, files=1, skipped=1.'],
+                started_at: '2026-05-25T00:00:00Z',
+                finished_at: '2026-05-25T00:00:00Z',
+                retry_count: 0,
+                artifact_refs: []
+              },
+              {
+                step_id: 'step_summary',
+                name: 'summarize_folder',
+                status: 'skipped',
+                logs: ['Summary generation is owned by V1.3-D.'],
+                started_at: '2026-05-25T00:00:00Z',
+                finished_at: '2026-05-25T00:00:00Z',
+                retry_count: 0,
+                artifact_refs: []
+              }
+            ]
+          },
+          run: {
+            run_id: 'run_1',
+            workflow_id: 'wf_1',
+            status: 'completed',
+            created_at: '2026-05-25T00:00:00Z',
+            finished_at: '2026-05-25T00:00:00Z',
+            dry_run: true,
+            run_report: {
+              scanned_file_count: 2,
+              manifest_file_count: 1,
+              extracted_file_count: 0,
+              skipped_file_count: 1,
+              folder_count: 2,
+              generated_artifact_count: 0
+            },
+            artifacts: []
+          },
+          collection: {
+            collection_id: 'fc_1',
+            workspace_id: 'ws_1',
+            root_label: '技术分享',
+            folders: [{ folder_id: 'fld_root', relative_path: '.', depth: 0, file_count: 0, child_folder_count: 1 }],
+            files: [
+              {
+                file_id: 'file_1',
+                relative_path: 'notes.md',
+                extension: '.md',
+                size_bytes: 10,
+                extraction_status: 'skipped'
+              }
+            ],
+            skipped_files: [{ relative_path: 'slides.pptx', skipped_reason: 'unsupported_extension' }]
+          },
+          permission_grant: {
+            permission_grant_id: 'grant_1',
+            workspace_id: 'ws_1',
+            root_label: '技术分享',
+            scopes: ['scan'],
+            status: 'active'
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    const result = await client.folderSummaryWorkflows.startRun('ws_1', {
+      authorized_root: '/Users/Zhuanz/Desktop/技术分享',
+      permission_grant_id: 'grant_1',
+      dry_run: true
+    });
+
+    expect(result.workflow.template_id).toBe('folder_summary_v1');
+    expect(result.workflow.steps.map((step) => [step.name, step.status])).toEqual([
+      ['scan_folder', 'completed'],
+      ['summarize_folder', 'skipped']
+    ]);
+    expect(result.run.dry_run).toBe(true);
+    expect(result.run.run_report?.generated_artifact_count).toBe(0);
+    expect(result.run.artifacts).toEqual([]);
+    expect(fetchImpl).toHaveBeenCalledWith(
+      folderSummaryWorkflowRunsPath('ws_1'),
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({
+          authorized_root: '/Users/Zhuanz/Desktop/技术分享',
+          permission_grant_id: 'grant_1',
+          dry_run: true,
+          confirm_extract: false,
+          recursive: true,
+          include_extensions: ['.md', '.txt'],
+          exclude_globs: [],
+          follow_symlinks: false
+        })
+      })
+    );
+  });
+
+  it('maps V1.3 folder summary artifacts after explicit extract confirmation', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        status: 'ok',
+        data: {
+          workflow: {
+            workflow_id: 'wf_1',
+            name: 'Folder Summary V1',
+            template_id: 'folder_summary_v1',
+            status: 'ready',
+            required_permissions: ['folder:scan'],
+            steps: [
+              {
+                step_id: 'step_summary',
+                name: 'summarize_folder',
+                status: 'completed',
+                logs: ['Generated 1 deterministic SummaryArtifact records.'],
+                retry_count: 0,
+                artifact_refs: []
+              }
+            ]
+          },
+          run: {
+            run_id: 'run_1',
+            workflow_id: 'wf_1',
+            status: 'completed',
+            created_at: '2026-05-25T00:00:00Z',
+            dry_run: false,
+            run_report: {
+              scanned_file_count: 1,
+              manifest_file_count: 1,
+              extracted_file_count: 1,
+              skipped_file_count: 0,
+              folder_count: 1,
+              generated_artifact_count: 1
+            },
+            artifacts: [
+              {
+                artifact_id: 'sum_1',
+                title: '根目录总览',
+                artifact_type: 'root_summary',
+                collection_id: 'fc_1',
+                status: 'ready',
+                schema_version: 'v1.3-summary-artifact',
+                coverage: {
+                  file_count: 1,
+                  extracted_file_count: 1,
+                  skipped_file_count: 0,
+                  evidence_ref_count: 1
+                },
+                markdown: '# 根目录总览',
+                evidence_refs: [
+                  { file_id: 'file_1', relative_path: 'notes.md', evidence_status: 'relative_path_only' },
+                  {
+                    source_id: 'src_1',
+                    source_title: 'Architecture notes',
+                    unit_id: 'unit_62567063869df3b5',
+                    evidence_id: 'ev_2e14b7785f3fbb06',
+                    snippet: 'Queues absorb burst traffic.',
+                    evidence_status: 'source_unit_span'
+                  }
+                ]
+              }
+            ]
+          },
+          collection: {
+            collection_id: 'fc_1',
+            workspace_id: 'ws_1',
+            root_label: '技术分享',
+            folders: [{ folder_id: 'fld_root', relative_path: '.', depth: 0, file_count: 1, child_folder_count: 0 }],
+            files: [{ file_id: 'file_1', relative_path: 'notes.md', extension: '.md', size_bytes: 10, extraction_status: 'skipped' }],
+            skipped_files: []
+          },
+          permission_grant: {
+            permission_grant_id: 'grant_1',
+            workspace_id: 'ws_1',
+            root_label: '技术分享',
+            scopes: ['scan'],
+            status: 'active'
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    const result = await client.folderSummaryWorkflows.startRun('ws_1', {
+      authorized_root: '/Users/Zhuanz/Desktop/技术分享',
+      permission_grant_id: 'grant_1',
+      dry_run: false,
+      confirm_extract: true
+    });
+
+    expect(result.run.dry_run).toBe(false);
+    expect(result.run.run_report?.generated_artifact_count).toBe(1);
+    expect(result.run.artifacts[0].evidence_refs[0]).toEqual({
+      file_id: 'file_1',
+      relative_path: 'notes.md',
+      evidence_status: 'relative_path_only'
+    });
+    expect(result.run.artifacts[0].evidence_refs[1]).toEqual({
+      source_id: 'src_1',
+      source_title: 'Architecture notes',
+      unit_id: 'unit_62567063869df3b5',
+      evidence_id: 'ev_2e14b7785f3fbb06',
+      snippet: 'Queues absorb burst traffic.',
+      evidence_status: 'source_unit_span'
+    });
+    expect(fetchImpl).toHaveBeenCalledWith(
+      folderSummaryWorkflowRunsPath('ws_1'),
+      expect.objectContaining({
+        body: expect.stringContaining('"confirm_extract":true')
+      })
+    );
   });
 
   it('normalizes schema mismatch during response validation', async () => {
@@ -136,9 +625,138 @@ describe('dataServiceClient workspace wrappers', () => {
     );
     const client = createDataServiceClient({ fetchImpl });
 
-    await expect(client.sources.create('ws_1', { title: 'Algorithms' })).resolves.toEqual({
+    await expect(client.sources.create('ws_1', { title: 'Algorithms', content: 'Algorithm notes.' })).resolves.toEqual({
       source: expect.objectContaining({ source_id: 'src_2', title: 'Algorithms' })
     });
+  });
+
+  it('rejects metadata-only source creation before sending a request', async () => {
+    const fetchImpl = vi.fn();
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.create('ws_1', { title: 'Algorithms' })).rejects.toMatchObject({
+      code: 'validation_error',
+      status: 422
+    });
+    expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
+  it('creates browser uploaded PDF source through base64 file contract', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          sources: [
+            {
+              source_id: 'src_pdf',
+              workspace_id: 'ws_1',
+              title: '数字人报告',
+              metadata: { browser_file_import: true, file_upload_contract: 'base64_file_content' }
+            }
+          ]
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(
+      client.sources.create('ws_1', {
+        title: '数字人报告',
+        source_type: 'pdf',
+        file: {
+          file_name: 'digital-human.pdf',
+          content_base64: 'JVBERi0xLjc=',
+          content_type: 'application/pdf',
+          source_type: 'pdf'
+        },
+        metadata: { browser_file_import: true, file_upload_contract: 'base64_file_content' }
+      })
+    ).resolves.toEqual({
+      source: expect.objectContaining({ source_id: 'src_pdf', title: '数字人报告' })
+    });
+    expect(fetchImpl).toHaveBeenCalledWith(
+      sourcesPath('ws_1'),
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({
+          files: [
+            {
+              title: '数字人报告',
+              file_name: 'digital-human.pdf',
+              content_base64: 'JVBERi0xLjc=',
+              content_type: 'application/pdf',
+              source_type: 'pdf',
+              metadata: { browser_file_import: true, file_upload_contract: 'base64_file_content' }
+            }
+          ],
+          metadata: { browser_file_import: true, file_upload_contract: 'base64_file_content' }
+        })
+      })
+    );
+  });
+
+  it('creates URL source through public URL contract', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          sources: [
+            {
+              source_id: 'src_url',
+              workspace_id: 'ws_1',
+              title: '公开网页',
+              source_type: 'url',
+              metadata: { url_import_contract: 'public_url_text_v1' }
+            }
+          ]
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(
+      client.sources.create('ws_1', {
+        title: '公开网页',
+        url: 'https://example.com/article',
+        source_type: 'url',
+        metadata: { url_import_contract: 'public_url_text_v1', url_source_input: true }
+      })
+    ).resolves.toEqual({
+      source: expect.objectContaining({ source_id: 'src_url', title: '公开网页', source_type: 'url' })
+    });
+    expect(fetchImpl).toHaveBeenCalledWith(
+      sourcesPath('ws_1'),
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({
+          urls: [
+            {
+              title: '公开网页',
+              url: 'https://example.com/article',
+              metadata: { url_import_contract: 'public_url_text_v1', url_source_input: true }
+            }
+          ],
+          metadata: { url_import_contract: 'public_url_text_v1', url_source_input: true }
+        })
+      })
+    );
+  });
+
+  it('renames source through target route', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          source: { source_id: 'src_1', workspace_id: 'ws_1', title: 'Renamed source' }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.sources.rename('ws_1', 'src_1', { title: 'Renamed source' })).resolves.toEqual({
+      source: expect.objectContaining({ source_id: 'src_1', title: 'Renamed source' })
+    });
+    expect(fetchImpl).toHaveBeenCalledWith(
+      [sourcesPath('ws_1'), 'src_1', 'rename'].join('/'),
+      expect.objectContaining({ method: 'POST', body: JSON.stringify({ title: 'Renamed source' }) })
+    );
   });
 
   it('loads source trace successfully', async () => {
@@ -348,6 +966,177 @@ describe('dataServiceClient workspace wrappers', () => {
       })
     });
     expect(fetchImpl).toHaveBeenCalledWith(sourcePreviewPath('ws_1', 'src_1'), expect.objectContaining({ method: 'GET' }));
+  });
+
+  it('loads Notebook Guide successfully', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          guide: {
+            guide_available: true,
+            source_count: 1,
+            overview: '当前 Notebook 已导入 1 个来源。',
+            key_topics: [
+              {
+                title: '来源范围',
+                summary: '包含 PDF。',
+                evidence_refs: [
+                  {
+                    source_id: 'src_1',
+                    unit_id: 'unit_62567063869df3b5',
+                    evidence_id: 'ev_62567063869df3b5',
+                    snippet: 'AI 数字人资料片段。'
+                  }
+                ]
+              }
+            ],
+            suggested_questions: ['这份资料的核心观点是什么？'],
+            evidence_refs: [
+              {
+                source_id: 'src_1',
+                source_title: '数字人报告',
+                unit_id: 'unit_62567063869df3b5',
+                evidence_id: 'ev_62567063869df3b5',
+                snippet: 'AI 数字人资料片段。'
+              }
+            ],
+            generation_metadata: {
+              provider: 'openai_compatible',
+              provider_name: 'minimax',
+              model: 'MiniMax-M2.7',
+              prompt_version: 'v1_5_b_ai_guide_2026_05_27',
+              evidence_ref_count: 1,
+              fallback_mode: false,
+              latency_ms: 42,
+              response_schema: 'openai_chat_completions'
+            }
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.guide.get('ws_1')).resolves.toEqual({
+      guide_available: true,
+      source_count: 1,
+      overview: '当前 Notebook 已导入 1 个来源。',
+      key_topics: [
+        {
+          title: '来源范围',
+          summary: '包含 PDF。',
+          evidence_refs: [
+            expect.objectContaining({
+              sourceId: 'src_1',
+              unitId: 'unit_62567063869df3b5',
+              evidenceId: 'ev_62567063869df3b5',
+              snippet: 'AI 数字人资料片段。'
+            })
+          ]
+        }
+      ],
+      suggested_questions: ['这份资料的核心观点是什么？'],
+      evidence_refs: [
+        expect.objectContaining({
+          sourceId: 'src_1',
+          unitId: 'unit_62567063869df3b5',
+          evidenceId: 'ev_62567063869df3b5',
+          snippet: 'AI 数字人资料片段。'
+        })
+      ],
+      unavailable_reason: undefined,
+      generation_metadata: {
+        provider: 'openai_compatible',
+        provider_name: 'minimax',
+        model: 'MiniMax-M2.7',
+        prompt_version: 'v1_5_b_ai_guide_2026_05_27',
+        evidence_ref_count: 1,
+        fallback_mode: false,
+        latency_ms: 42,
+        response_schema: 'openai_chat_completions',
+        error_code: undefined
+      }
+    });
+    const guidePath = ['', 'api', 'workspaces', 'ws_1', 'guide'].join('/');
+    expect(fetchImpl).toHaveBeenCalledWith(guidePath, expect.objectContaining({ method: 'GET' }));
+  });
+
+  it('creates Studio artifact with evidence refs', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        data: {
+          artifact: {
+            artifact_id: 'studio_study_guide_1',
+            artifact_type: 'study_guide',
+            title: 'Study Guide',
+            artifact_available: true,
+            summary: '已生成学习导读。',
+            sections: [
+              {
+                title: '学习目标',
+                content: '理解数字人。',
+                evidence_refs: [
+                  {
+                    source_id: 'src_1',
+                    source_title: '数字人报告',
+                    unit_id: 'unit_1',
+                    evidence_id: 'ev_1',
+                    snippet: '数字人需要证据治理。'
+                  }
+                ]
+              }
+            ],
+            evidence_refs: [
+              {
+                source_id: 'src_1',
+                source_title: '数字人报告',
+                unit_id: 'unit_1',
+                evidence_id: 'ev_1',
+                snippet: '数字人需要证据治理。'
+              }
+            ],
+            generation_metadata: {
+              provider: 'openai_compatible',
+              provider_name: 'minimax',
+              model: 'MiniMax-M2.7',
+              prompt_version: 'v1_5_c_ai_studio_2026_05_27',
+              artifact_type: 'study_guide',
+              evidence_ref_count: 1,
+              fallback_mode: false,
+              latency_ms: 64,
+              response_schema: 'openai_chat_completions'
+            }
+          }
+        }
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.studio.createArtifact('ws_1', { artifact_type: 'study_guide' })).resolves.toEqual(
+      expect.objectContaining({
+        artifact_id: 'studio_study_guide_1',
+        artifact_type: 'study_guide',
+        artifact_available: true,
+        sections: [
+          expect.objectContaining({
+            title: '学习目标',
+            content: '理解数字人。',
+            evidence_refs: [expect.objectContaining({ sourceId: 'src_1', unitId: 'unit_1', evidenceId: 'ev_1' })]
+          })
+        ],
+        evidence_refs: [expect.objectContaining({ sourceId: 'src_1', unitId: 'unit_1', evidenceId: 'ev_1' })],
+        generation_metadata: expect.objectContaining({
+          provider_name: 'minimax',
+          prompt_version: 'v1_5_c_ai_studio_2026_05_27',
+          artifact_type: 'study_guide',
+          fallback_mode: false
+        })
+      })
+    );
+    const studioArtifactsPath = ['', 'api', 'workspaces', 'ws_1', 'studio', 'artifacts'].join('/');
+    expect(fetchImpl).toHaveBeenCalledWith(
+      studioArtifactsPath,
+      expect.objectContaining({ method: 'POST', body: JSON.stringify({ artifact_type: 'study_guide' }) })
+    );
   });
 
   it('maps DocumentUnit metadata from preview response without enabling navigation', async () => {
@@ -700,7 +1489,8 @@ describe('dataServiceClient workspace wrappers', () => {
     );
     const client = createDataServiceClient({ fetchImpl });
 
-    await expect(client.query.workspace('ws_1', { question: 'How handle load?' })).resolves.toEqual({
+    await expect(client.query.workspace('ws_1', { question: 'How handle load?' })).resolves.toEqual(
+      expect.objectContaining({
       answer: 'Use queues for backpressure.',
       evidence: [
         expect.objectContaining({
@@ -710,7 +1500,8 @@ describe('dataServiceClient workspace wrappers', () => {
         })
       ],
       noEvidence: false
-    });
+      })
+    );
   });
 
   it('maps V1.1 unit and evidence identifiers without claiming preview readiness', async () => {
@@ -731,7 +1522,8 @@ describe('dataServiceClient workspace wrappers', () => {
     );
     const client = createDataServiceClient({ fetchImpl });
 
-    await expect(client.query.workspace('ws_1', { question: 'Explain heap', registrySourceIds: ['src_1'] })).resolves.toEqual({
+    await expect(client.query.workspace('ws_1', { question: 'Explain heap', registrySourceIds: ['src_1'] })).resolves.toEqual(
+      expect.objectContaining({
       answer: 'Use the heap parent and child relationship.',
       evidence: [
         expect.objectContaining({
@@ -743,18 +1535,50 @@ describe('dataServiceClient workspace wrappers', () => {
         })
       ],
       noEvidence: false
-    });
+      })
+    );
   });
 
   it('normalizes query response without evidence', async () => {
     const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ answer: 'No grounded source returned.' }));
     const client = createDataServiceClient({ fetchImpl });
 
-    await expect(client.query.workspace('ws_1', { question: 'Anything?' })).resolves.toEqual({
+    await expect(client.query.workspace('ws_1', { question: 'Anything?' })).resolves.toEqual(
+      expect.objectContaining({
       answer: 'No grounded source returned.',
       evidence: [],
       noEvidence: true
-    });
+      })
+    );
+  });
+
+  it('normalizes source-grounded refusal metadata', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(
+      jsonResponse({
+        answer: '当前资料未覆盖这个问题。',
+        evidence: [],
+        no_evidence: true,
+        coverage_status: 'insufficient_evidence',
+        answer_basis: 'source_grounded_refusal',
+        unsupported_reason: 'insufficient_evidence',
+        suggested_source_actions: ['添加相关 PDF'],
+        inference_notice: 'unused'
+      })
+    );
+    const client = createDataServiceClient({ fetchImpl });
+
+    await expect(client.query.workspace('ws_1', { question: 'Anything?' })).resolves.toEqual(
+      expect.objectContaining({
+        answer: '当前资料未覆盖这个问题。',
+        evidence: [],
+        noEvidence: true,
+        coverageStatus: 'insufficient_evidence',
+        answerBasis: 'source_grounded_refusal',
+        unsupportedReason: 'insufficient_evidence',
+        suggestedSourceActions: ['添加相关 PDF'],
+        inferenceNotice: 'unused'
+      })
+    );
   });
 
   it('normalizes source trace not found', async () => {
@@ -854,22 +1678,26 @@ describe('dataServiceClient workspace wrappers', () => {
     );
     const client = createDataServiceClient({ fetchImpl });
 
-    await expect(client.sessions.query('ws_1', 'ses_1', { question: 'What should I review?' })).resolves.toEqual({
-      answer: 'Review heap invariants.',
-      evidence: [expect.objectContaining({ sourceId: 'src_1', sourceTitle: 'Heap notes' })],
-      noEvidence: false
-    });
+    await expect(client.sessions.query('ws_1', 'ses_1', { question: 'What should I review?' })).resolves.toEqual(
+      expect.objectContaining({
+        answer: 'Review heap invariants.',
+        evidence: [expect.objectContaining({ sourceId: 'src_1', sourceTitle: 'Heap notes' })],
+        noEvidence: false
+      })
+    );
   });
 
   it('normalizes session query response without evidence', async () => {
     const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ answer: 'No evidence returned.' }));
     const client = createDataServiceClient({ fetchImpl });
 
-    await expect(client.sessions.query('ws_1', 'ses_1', { question: 'Anything?' })).resolves.toEqual({
-      answer: 'No evidence returned.',
-      evidence: [],
-      noEvidence: true
-    });
+    await expect(client.sessions.query('ws_1', 'ses_1', { question: 'Anything?' })).resolves.toEqual(
+      expect.objectContaining({
+        answer: 'No evidence returned.',
+        evidence: [],
+        noEvidence: true
+      })
+    );
   });
 
   it('normalizes session not found', async () => {

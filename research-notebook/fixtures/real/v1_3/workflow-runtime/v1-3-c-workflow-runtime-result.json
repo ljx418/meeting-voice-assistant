@@ -1,0 +1,33 @@
+{
+  "base_url": "http://127.0.0.1:8013",
+  "workspace_id": "rn-v13c-runtime-1779700871070-workspace",
+  "result_count": 5,
+  "results": [
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8013"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v13c-runtime-1779700871070-workspace"
+    },
+    {
+      "name": "workflow dry-run runtime",
+      "status": "pass",
+      "detail": "steps=7 files=110 skipped=1018"
+    },
+    {
+      "name": "workflow dry_run false rejected",
+      "status": "pass",
+      "detail": "HTTP 422"
+    },
+    {
+      "name": "workspace archive cleanup",
+      "status": "pass",
+      "detail": "rn-v13c-runtime-1779700871070-workspace"
+    }
+  ],
+  "final_decision": "PASS_LIMITED"
+}

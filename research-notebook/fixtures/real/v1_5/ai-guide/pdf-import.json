@@ -1,0 +1,41 @@
+{
+  "workspace_id": "rn-v15-ai-guide-1779933293978",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_40b57439418988cf",
+      "artifact_ref": "source://src_40b57439418988cf"
+    }
+  ],
+  "next_actions": [
+    "knowledge_source_list",
+    "knowledge_build_start"
+  ],
+  "data": {
+    "sources": [
+      {
+        "workspace_id": "rn-v15-ai-guide-1779933293978",
+        "source_id": "src_40b57439418988cf",
+        "title": "AI 数字人产业发展报告 PDF",
+        "status": "active",
+        "ingest_status": "pending",
+        "metadata": {
+          "file_name": "AI数字人产业发展报告_2026-05-26.pdf",
+          "v1_5_ai_guide": true,
+          "source_type": "pdf",
+          "browser_file_import": true,
+          "content_type": "application/pdf",
+          "file_upload_contract": "base64_file_content"
+        },
+        "created_at": "2026-05-28T01:54:54.176139Z",
+        "updated_at": "2026-05-28T01:54:54.176139Z",
+        "removed_at": null,
+        "remove_reason": "",
+        "artifact_ref": "source://src_40b57439418988cf"
+      }
+    ]
+  }
+}

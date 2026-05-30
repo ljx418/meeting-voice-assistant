@@ -1,0 +1,38 @@
+{
+  "base_url": "http://127.0.0.1:8013",
+  "workspace_id": "rn-v13g-evidence-summary-1779708126088-workspace",
+  "result_count": 6,
+  "results": [
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8013"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v13g-evidence-summary-1779708126088-workspace"
+    },
+    {
+      "name": "summary evidence refs",
+      "status": "pass",
+      "detail": "source_id=src_25f649d3e5107848"
+    },
+    {
+      "name": "unit detail resolution",
+      "status": "pass",
+      "detail": "unit_30ecd095abfc78d9"
+    },
+    {
+      "name": "EvidenceSpan resolution",
+      "status": "pass",
+      "detail": "ev_2f5c169008a63c5b"
+    },
+    {
+      "name": "workspace archive cleanup",
+      "status": "pass",
+      "detail": "rn-v13g-evidence-summary-1779708126088-workspace"
+    }
+  ],
+  "final_decision": "PASS_LIMITED"
+}

@@ -1,0 +1,91 @@
+{
+  "generated_at": "2026-05-28T01:57:08.720Z",
+  "base_url": "http://127.0.0.1:8003",
+  "workspace_id": "rn-v15-ai-qa-1779933390179",
+  "questions": [
+    {
+      "key": "covered-technology",
+      "kind": "covered",
+      "text": "数字人 技术 趋势是什么？"
+    },
+    {
+      "key": "covered-risk",
+      "kind": "covered",
+      "text": "数字人 风险 监管 政策有哪些？"
+    },
+    {
+      "key": "outside",
+      "kind": "outside",
+      "text": "火星采矿 农业机械 海洋运输的结论是什么？"
+    },
+    {
+      "key": "inference",
+      "kind": "inference",
+      "text": "基于资料推断，数字人未来商业化可能面临什么挑战？"
+    }
+  ],
+  "results": [
+    {
+      "name": "material check",
+      "status": "pass",
+      "detail": "AI digital human Markdown/PDF available"
+    },
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v15-ai-qa-1779933390179"
+    },
+    {
+      "name": "markdown import",
+      "status": "pass",
+      "detail": "src_918ee4610eb8dfcd"
+    },
+    {
+      "name": "technology markdown import",
+      "status": "pass",
+      "detail": "src_ae153b63c6aa4a7c"
+    },
+    {
+      "name": "pdf import",
+      "status": "pass",
+      "detail": "src_40b57439418988cf"
+    },
+    {
+      "name": "workspace build",
+      "status": "pass",
+      "detail": "op_4fc59b97e535"
+    },
+    {
+      "name": "query covered-technology",
+      "status": "pass",
+      "detail": "covered"
+    },
+    {
+      "name": "query covered-risk",
+      "status": "pass",
+      "detail": "covered"
+    },
+    {
+      "name": "query outside",
+      "status": "pass",
+      "detail": "outside"
+    },
+    {
+      "name": "query inference",
+      "status": "pass",
+      "detail": "inference"
+    },
+    {
+      "name": "cleanup",
+      "status": "pass",
+      "detail": "rn-v15-ai-qa-1779933390179"
+    }
+  ],
+  "final_decision": "PASS",
+  "declaration": "V1.5-D source-grounded QA is quality-smoke-ready for the AI digital human P0 dataset."
+}

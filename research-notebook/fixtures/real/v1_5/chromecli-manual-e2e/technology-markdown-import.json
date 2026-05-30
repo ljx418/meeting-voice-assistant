@@ -1,0 +1,37 @@
+{
+  "workspace_id": "rn-v15-e2e-1780106080924",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_ae153b63c6aa4a7c",
+      "artifact_ref": "source://src_ae153b63c6aa4a7c"
+    }
+  ],
+  "next_actions": [
+    "knowledge_source_list",
+    "knowledge_build_start"
+  ],
+  "data": {
+    "sources": [
+      {
+        "workspace_id": "rn-v15-e2e-1780106080924",
+        "source_id": "src_ae153b63c6aa4a7c",
+        "title": "AI 数字人技术趋势 Markdown",
+        "status": "active",
+        "ingest_status": "pending",
+        "source_type": "markdown",
+        "metadata": {
+          "source_format": "markdown"
+        },
+        "created_at": "2026-05-30T01:54:41.032601Z",
+        "updated_at": "2026-05-30T01:54:41.032601Z",
+        "removed_at": null,
+        "remove_reason": "",
+        "artifact_ref": "source://src_ae153b63c6aa4a7c"
+      }
+    ]
+  }
+}

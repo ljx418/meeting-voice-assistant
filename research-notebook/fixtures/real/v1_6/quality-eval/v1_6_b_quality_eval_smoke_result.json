@@ -1,0 +1,249 @@
+{
+  "final_decision": "CANDIDATE_READY_FOR_MANUAL_REVIEW",
+  "base_url": "http://127.0.0.1:8003",
+  "dataset_summaries": [
+    {
+      "dataset_key": "digital-human",
+      "dataset_name": "数字人",
+      "source_count": 3,
+      "source_ids": [
+        "src_918ee4610eb8dfcd",
+        "src_ae153b63c6aa4a7c",
+        "src_40b57439418988cf"
+      ],
+      "guide_evidence_ref_count": 3,
+      "covered_queries": [
+        {
+          "question": "数字人的主要应用场景是什么？",
+          "evidence_ref_count": 6
+        },
+        {
+          "question": "数字人技术趋势有哪些？",
+          "evidence_ref_count": 6
+        }
+      ],
+      "outside_refusal_auto_observed": true,
+      "studio_artifact": "faq",
+      "studio_evidence_ref_count": 3,
+      "manual_review_required": true,
+      "auto_decision": "CANDIDATE_READY_FOR_MANUAL_REVIEW"
+    },
+    {
+      "dataset_key": "claude-code",
+      "dataset_name": "Claude Code 技术分享",
+      "source_count": 1,
+      "source_ids": [
+        "src_7374674fe9a10971"
+      ],
+      "guide_evidence_ref_count": 1,
+      "covered_queries": [
+        {
+          "question": "Claude Code 的高阶技巧有哪些？",
+          "evidence_ref_count": 6
+        },
+        {
+          "question": "如何更好地组织 Claude Code 工作流？",
+          "evidence_ref_count": 6
+        }
+      ],
+      "outside_refusal_auto_observed": true,
+      "studio_artifact": "study_guide",
+      "studio_evidence_ref_count": 1,
+      "manual_review_required": true,
+      "auto_decision": "CANDIDATE_READY_FOR_MANUAL_REVIEW"
+    },
+    {
+      "dataset_key": "ai-video-workflow",
+      "dataset_name": "AI 视频工作流",
+      "source_count": 1,
+      "source_ids": [
+        "src_1ced51878616cfd4"
+      ],
+      "guide_evidence_ref_count": 1,
+      "covered_queries": [
+        {
+          "question": "AI 文生视频工作流从想法、脚本、分镜、提示词、生成、剪辑到发布的完整链路是什么？",
+          "evidence_ref_count": 2
+        },
+        {
+          "question": "assets/images、assets/audio、assets/video 和 output 分别用于什么？",
+          "evidence_ref_count": 2
+        }
+      ],
+      "outside_refusal_auto_observed": true,
+      "studio_artifact": "briefing_doc",
+      "studio_evidence_ref_count": 1,
+      "manual_review_required": true,
+      "auto_decision": "CANDIDATE_READY_FOR_MANUAL_REVIEW"
+    }
+  ],
+  "results": [
+    {
+      "name": "digital-human workspace create",
+      "status": "pass",
+      "detail": "rn-v16-quality-digital-human-1779957007858"
+    },
+    {
+      "name": "digital-human source import",
+      "status": "pass",
+      "detail": "3 sources"
+    },
+    {
+      "name": "digital-human build",
+      "status": "pass",
+      "detail": "op_17ba83c87499"
+    },
+    {
+      "name": "digital-human guide",
+      "status": "pass",
+      "detail": "3 refs"
+    },
+    {
+      "name": "digital-human covered query 1",
+      "status": "pass",
+      "detail": "6 refs"
+    },
+    {
+      "name": "digital-human query retry",
+      "status": "degraded",
+      "detail": "provider_timeout; retry 1/3"
+    },
+    {
+      "name": "digital-human query retry",
+      "status": "degraded",
+      "detail": "provider_timeout; retry 2/3"
+    },
+    {
+      "name": "digital-human covered query 2",
+      "status": "pass",
+      "detail": "6 refs"
+    },
+    {
+      "name": "digital-human outside refusal",
+      "status": "pass",
+      "detail": "source-grounded refusal observed"
+    },
+    {
+      "name": "digital-human studio",
+      "status": "pass",
+      "detail": "3 refs"
+    },
+    {
+      "name": "digital-human cleanup",
+      "status": "pass",
+      "detail": "rn-v16-quality-digital-human-1779957007858"
+    },
+    {
+      "name": "claude-code workspace create",
+      "status": "pass",
+      "detail": "rn-v16-quality-claude-code-1779957144855"
+    },
+    {
+      "name": "claude-code source import",
+      "status": "pass",
+      "detail": "1 sources"
+    },
+    {
+      "name": "claude-code build",
+      "status": "pass",
+      "detail": "op_fef2fc59d8f4"
+    },
+    {
+      "name": "claude-code guide",
+      "status": "pass",
+      "detail": "1 refs"
+    },
+    {
+      "name": "claude-code covered query 1",
+      "status": "pass",
+      "detail": "6 refs"
+    },
+    {
+      "name": "claude-code query retry",
+      "status": "degraded",
+      "detail": "provider_timeout; retry 1/3"
+    },
+    {
+      "name": "claude-code query retry",
+      "status": "degraded",
+      "detail": "provider_timeout; retry 2/3"
+    },
+    {
+      "name": "claude-code query retry",
+      "status": "degraded",
+      "detail": "provider_timeout; retry 3/3"
+    },
+    {
+      "name": "claude-code covered query 2",
+      "status": "pass",
+      "detail": "6 refs"
+    },
+    {
+      "name": "claude-code outside refusal",
+      "status": "pass",
+      "detail": "source-grounded refusal observed"
+    },
+    {
+      "name": "claude-code studio",
+      "status": "pass",
+      "detail": "1 refs"
+    },
+    {
+      "name": "claude-code cleanup",
+      "status": "pass",
+      "detail": "rn-v16-quality-claude-code-1779957144855"
+    },
+    {
+      "name": "ai-video-workflow workspace create",
+      "status": "pass",
+      "detail": "rn-v16-quality-ai-video-workflow-1779957266393"
+    },
+    {
+      "name": "ai-video-workflow source import",
+      "status": "pass",
+      "detail": "1 sources"
+    },
+    {
+      "name": "ai-video-workflow build",
+      "status": "pass",
+      "detail": "op_9ed55dc14289"
+    },
+    {
+      "name": "ai-video-workflow guide",
+      "status": "pass",
+      "detail": "1 refs"
+    },
+    {
+      "name": "ai-video-workflow covered query 1",
+      "status": "pass",
+      "detail": "2 refs"
+    },
+    {
+      "name": "ai-video-workflow covered query 2",
+      "status": "pass",
+      "detail": "2 refs"
+    },
+    {
+      "name": "ai-video-workflow outside refusal",
+      "status": "pass",
+      "detail": "source-grounded refusal observed"
+    },
+    {
+      "name": "ai-video-workflow studio",
+      "status": "pass",
+      "detail": "1 refs"
+    },
+    {
+      "name": "ai-video-workflow cleanup",
+      "status": "pass",
+      "detail": "rn-v16-quality-ai-video-workflow-1779957266393"
+    }
+  ],
+  "manual_review_required": true,
+  "not_claimed": [
+    "V1.6-B PASS",
+    "multi-dataset quality ready",
+    "all-domain ready",
+    "all-source-type ready"
+  ]
+}

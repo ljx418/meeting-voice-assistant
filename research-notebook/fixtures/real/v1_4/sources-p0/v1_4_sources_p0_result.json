@@ -1,0 +1,93 @@
+{
+  "decision": "PASS_LIMITED",
+  "pdf_classification": "PDF_EXTRACTED",
+  "workspace_id": "rn-v14-sources-p0-1779793867844-workspace",
+  "source_ids": {
+    "markdown": "src_918ee4610eb8dfcd",
+    "txt": "src_3271cbd7484110b8",
+    "pdf": "src_40b57439418988cf"
+  },
+  "material_folder_label": "技术分享/11-数字人/AI数字人资料包",
+  "results": [
+    {
+      "name": "material preparation",
+      "status": "pass",
+      "detail": "AI数字人 Markdown/TXT/PDF samples prepared"
+    },
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v14-sources-p0-1779793867844-workspace"
+    },
+    {
+      "name": "markdown import",
+      "status": "pass",
+      "detail": "src_918ee4610eb8dfcd"
+    },
+    {
+      "name": "txt import",
+      "status": "pass",
+      "detail": "src_3271cbd7484110b8"
+    },
+    {
+      "name": "pdf browser upload import",
+      "status": "pass",
+      "detail": "src_40b57439418988cf"
+    },
+    {
+      "name": "source list",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "workspace build",
+      "status": "pass",
+      "detail": "completed"
+    },
+    {
+      "name": "markdown preview",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "txt preview",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "pdf preview",
+      "status": "pass",
+      "detail": "PDF_EXTRACTED"
+    },
+    {
+      "name": "markdown query citation",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "txt query citation",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "pdf query citation",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "fixture raw path hygiene before sanitization",
+      "status": "degraded",
+      "detail": "raw path-like values redacted in saved fixtures"
+    },
+    {
+      "name": "workspace cleanup",
+      "status": "pass",
+      "detail": "HTTP 200"
+    }
+  ]
+}

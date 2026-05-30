@@ -1,43 +1,85 @@
 <mxfile host="app.diagrams.net" modified="2026-05-25T00:00:00.000Z" agent="Codex" version="24.7.17">
   <diagram id="v1_3_gap" name="V1.3 Gap">
-    <mxGraphModel dx="1200" dy="760" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1280" pageHeight="820" math="0" shadow="0">
+    <mxGraphModel dx="1280" dy="980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1160" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
-        <mxCell id="title" value="ResearchNotebook V1.3 Agent Workflow 路线图" style="text;html=1;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1">
-          <mxGeometry x="280" y="30" width="720" height="40" as="geometry"/>
+        <mxCell id="title" value="ResearchNotebook V1.3 Agent Workflow / Folder Summary 路线图" style="text;html=1;strokeColor=none;fillColor=none;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="260" y="30" width="980" height="40" as="geometry"/>
         </mxCell>
-        <mxCell id="v12" value="V1.2 技术基线&#xa;markdown/json smoke PASS&#xa;手工验收跳过" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="60" y="120" width="230" height="110" as="geometry"/>
+        <mxCell id="baseline" value="当前基线&#xa;Source Preview PASS&#xa;DocumentUnit PASS&#xa;EvidenceSpan PASS_LIMITED&#xa;V1.2 手工验收跳过" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E3F2FD;strokeColor=#1565C0;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="250" height="140" as="geometry"/>
         </mxCell>
-        <mxCell id="a" value="V1.3-A&#xa;Agent Workflow 合同发现&#xa;NEXT" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFF8E1;strokeColor=#F9A825;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="360" y="120" width="240" height="110" as="geometry"/>
+        <mxCell id="gate" value="V1.3-0 PASS&#xa;Governance Gate Update&#xa;每阶段验收后必须评估&#xa;规格漂移 + 虚假验收&#xa;HIGH/BLOCKING 停止" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFF3E0;strokeColor=#EF6C00;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="110" width="280" height="150" as="geometry"/>
         </mxCell>
-        <mxCell id="b" value="V1.3-B&#xa;Local Folder Connector Backend&#xa;NEXT&#xa;md/txt only" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFF8E1;strokeColor=#F9A825;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="670" y="120" width="260" height="120" as="geometry"/>
+        <mxCell id="a" value="V1.3-A DISABLED_READY&#xa;Agent Workflow Contract Discovery&#xa;DTO / adapter shell / disabled UI&#xa;不得声明 Agent ready" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFF8E1;strokeColor=#F9A825;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="710" y="120" width="290" height="130" as="geometry"/>
         </mxCell>
-        <mxCell id="c" value="V1.3-C/D/E/F/G&#xa;Runtime / Summary / UI / Planner / Evidence&#xa;NOT_STARTED" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#ECEFF1;strokeColor=#607D8B;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="990" y="120" width="240" height="130" as="geometry"/>
+        <mxCell id="b" value="V1.3-B PASS_LIMITED&#xa;Local Folder Connector Backend&#xa;permission / dry-run / folder tree / symlink 已实现&#xa;md/txt only / relative_path only&#xa;Desktop/技术分享 real HTTP smoke PASS" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="120" width="300" height="130" as="geometry"/>
         </mxCell>
-        <mxCell id="rc" value="V1.3-RC&#xa;Agent Entry Acceptance&#xa;用户一句话触发 workflow&#xa;NOT_STARTED" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#ECEFF1;strokeColor=#607D8B;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="500" y="340" width="320" height="120" as="geometry"/>
+        <mxCell id="b_rc" value="V1.3-B 验收证据&#xa;folders=189 / files=110 / skipped=1018&#xa;dry_run=false -> 422&#xa;非 md/txt include -> 422&#xa;fixtures 已脱敏" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="265" width="300" height="145" as="geometry"/>
         </mxCell>
-        <mxCell id="guard" value="边界&#xa;不读取未授权目录&#xa;不展示 /Users 绝对路径&#xa;不声明 PDF/PPT/video/audio ready&#xa;不把 draft 当运行结果" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFEBEE;strokeColor=#C62828;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="240" y="560" width="800" height="120" as="geometry"/>
+        <mxCell id="c" value="V1.3-C PASS_LIMITED&#xa;Deterministic Workflow Runtime&#xa;dry-run step timeline + run report&#xa;scan/group completed&#xa;summary/artifacts skipped" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="500" width="300" height="140" as="geometry"/>
         </mxCell>
-        <mxCell id="e1" edge="1" parent="1" source="v12" target="a" style="endArrow=block;html=1;strokeColor=#455A64;">
+        <mxCell id="d" value="V1.3-D PASS_LIMITED&#xa;Folder Summary Generator&#xa;confirm_extract 后生成 11 个 SummaryArtifact&#xa;evidence_refs=relative_path_only&#xa;citation click 仍 NOT_READY" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="710" y="330" width="290" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="e" value="V1.3-E PASS_LIMITED&#xa;Workflow UI&#xa;手动目录输入 + dry-run / confirmed run&#xa;step timeline / artifacts panel" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="330" width="280" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="f" value="V1.3-F PASS_LIMITED&#xa;Agent Planner&#xa;自然语言 -> registered template draft&#xa;用户确认前不运行 / 不读取目录&#xa;不得任意工具调用" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="330" width="250" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="g" value="V1.3-G PASS_LIMITED&#xa;Evidence-backed Summary&#xa;SummaryArtifact source_unit_span citation&#xa;SourcePreview / DocumentUnit / EvidenceSpan 回跳 PASS&#xa;仅 confirmed md/txt folder_summary_v1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8F5E9;strokeColor=#2E7D32;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="570" width="310" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="rc" value="V1.3-RC PASS_LIMITED&#xa;Agent Entry Browser Acceptance&#xa;用户输入：递归总结 Desktop/技术分享&#xa;输出：summary artifacts + 根目录总览&#xa;summary citation highlight PASS" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E0F2F1;strokeColor=#00695C;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="720" width="520" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="prd_alignment" value="PRD 对齐 PASS_LIMITED&#xa;中文化和开发态文案清理&#xa;Agent 入口任务导向&#xa;证据状态更清晰&#xa;PRD 原文仍需二次审计" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#E8EAF6;strokeColor=#3949AB;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="760" width="430" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="notready" value="仍不能声明&#xa;PDF/PPTX/DOCX/video/audio ready&#xa;arbitrary Agent tool execution ready&#xa;Assessment / Governance ready&#xa;Graph editing / Cloud sync ready" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFEBEE;strokeColor=#C62828;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="960" width="660" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#424242;" edge="1" parent="1" source="baseline" target="gate">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="e2" edge="1" parent="1" source="a" target="b" style="endArrow=block;html=1;strokeColor=#455A64;">
+        <mxCell id="edge2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#424242;" edge="1" parent="1" source="gate" target="a">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="e3" edge="1" parent="1" source="b" target="c" style="endArrow=block;html=1;strokeColor=#455A64;">
+        <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#424242;" edge="1" parent="1" source="a" target="b">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="e4" edge="1" parent="1" source="c" target="rc" style="endArrow=block;html=1;strokeColor=#455A64;">
+        <mxCell id="edge4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#424242;" edge="1" parent="1" source="b" target="b_rc">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
-        <mxCell id="e5" edge="1" parent="1" source="rc" target="guard" style="endArrow=block;html=1;dashed=1;strokeColor=#C62828;">
+        <mxCell id="edge4b" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#424242;" edge="1" parent="1" source="b_rc" target="c">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#424242;" edge="1" parent="1" source="c" target="d">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#424242;" edge="1" parent="1" source="d" target="e">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#424242;" edge="1" parent="1" source="e" target="f">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#424242;" edge="1" parent="1" source="f" target="g">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#424242;" edge="1" parent="1" source="g" target="rc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge_prd" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#3949AB;" edge="1" parent="1" source="rc" target="prd_alignment">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;dashed=1;strokeColor=#C62828;" edge="1" parent="1" source="prd_alignment" target="notready">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
       </root>

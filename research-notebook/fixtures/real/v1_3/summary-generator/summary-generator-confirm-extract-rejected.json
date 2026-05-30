@@ -1,0 +1,3 @@
+{
+  "detail": "VALIDATION_ERROR: non-dry-run folder summary requires confirm_extract=true."
+}

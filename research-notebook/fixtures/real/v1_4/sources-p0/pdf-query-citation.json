@@ -1,0 +1,256 @@
+{
+  "mode": "hybrid",
+  "query": "VASA-1 与 OmniHuman-1 解决的问题有什么不同？",
+  "answer": "LLMWiki pages: 5 hits\nGraphRAG entities/units: 0 hits\nTop wiki result: Page",
+  "hits": [
+    {
+      "title": "Page",
+      "snippet": "Page",
+      "source": "page",
+      "score": 1.7455189830863898,
+      "meta": {
+        "kind": "page",
+        "slug": "page"
+      }
+    },
+    {
+      "title": "Page 1",
+      "snippet": "Page 1",
+      "source": "source-page-1-0e135fe7",
+      "score": 0.7836455625305738,
+      "meta": {
+        "kind": "page",
+        "slug": "source-page-1-0e135fe7"
+      }
+    },
+    {
+      "title": "Passage 61c325ec",
+      "snippet": "Real Human\nCounterparts\nWIRED 2025-08-20 https://www.wired.com/story/artificial-intelligence-tiktok-shop-\necommerce-china/\n深\n度\n报\n道\n中\nS07 NVIDIA Releases Digital\nHuman Microservices\nNVIDIA Newsroom2024",
+      "source": "",
+      "score": 5.543635652167819,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "61c325ec-9b18-4613-9c3b-c6249c457210"
+      }
+    },
+    {
+      "title": "Passage 3c6a1d50",
+      "snippet": "实时 时语 语音 音驱 驱动 动人 人脸 月发 发布 目标 标是 是从 从单 单张 张静 静态 态图 图和 和语 语音 音片 片段 段生 生成 成具 具有 有唇 唇形 形同 同步...",
+      "source": "",
+      "score": 3.739654784042437,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "3c6a1d50-9e7a-4d15-bd76-56f803dce2aa"
+      }
+    },
+    {
+      "title": "Passage e663c002",
+      "snippet": "娱乐 角色 中高 授权 虚拟 拟角 角色 色互 互动 粉丝 丝运 运营 肖像 像权 版权 未成 成年 年人 人保 保护 商业 业模 模式 订阅 按账 账号 模板 视频 频分 分钟...",
+      "source": "",
+      "score": 2.529375668756297,
+      "meta": {
+        "kind": "passage",
+        "passage_id": "e663c002-ae7f-47dd-8070-6909ebabc3ad"
+      }
+    }
+  ],
+  "engine_payloads": {
+    "llmwiki": {
+      "pages": [
+        {
+          "result_id": "page",
+          "result_type": "page",
+          "title": "Page",
+          "snippet": "Page",
+          "score": 1.7455189830863898,
+          "meta": {
+            "slug": "page"
+          }
+        },
+        {
+          "result_id": "source-page-1-0e135fe7",
+          "result_type": "page",
+          "title": "Page 1",
+          "snippet": "Page 1",
+          "score": 0.7836455625305738,
+          "meta": {
+            "slug": "source-page-1-0e135fe7"
+          }
+        }
+      ],
+      "passages": [
+        {
+          "result_id": "61c325ec-9b18-4613-9c3b-c6249c457210",
+          "result_type": "passage",
+          "title": "Passage 61c325ec",
+          "snippet": "Real Human\nCounterparts\nWIRED 2025-08-20 https://www.wired.com/story/artificial-intelligence-tiktok-shop-\necommerce-china/\n深\n度\n报\n道\n中\nS07 NVIDIA Releases Digital\nHuman Microservices\nNVIDIA Newsroom2024",
+          "score": 5.543635652167819,
+          "meta": {
+            "passage_id": "61c325ec-9b18-4613-9c3b-c6249c457210",
+            "source_id": "0e135fe728016703",
+            "locator": "{\"kind\": \"pdf_page\", \"page\": 9, \"passage_order\": 1}"
+          }
+        },
+        {
+          "result_id": "3c6a1d50-9e7a-4d15-bd76-56f803dce2aa",
+          "result_type": "passage",
+          "title": "Passage 3c6a1d50",
+          "snippet": "实时 时语 语音 音驱 驱动 动人 人脸 月发 发布 目标 标是 是从 从单 单张 张静 静态 态图 图和 和语 语音 音片 片段 段生 生成 成具 具有 有唇 唇形 形同 同步...",
+          "score": 3.739654784042437,
+          "meta": {
+            "passage_id": "3c6a1d50-9e7a-4d15-bd76-56f803dce2aa",
+            "source_id": "0e135fe728016703",
+            "locator": "{\"kind\": \"pdf_page\", \"page\": 4, \"passage_order\": 0}"
+          }
+        },
+        {
+          "result_id": "e663c002-ae7f-47dd-8070-6909ebabc3ad",
+          "result_type": "passage",
+          "title": "Passage e663c002",
+          "snippet": "娱乐 角色 中高 授权 虚拟 拟角 角色 色互 互动 粉丝 丝运 运营 肖像 像权 版权 未成 成年 年人 人保 保护 商业 业模 模式 订阅 按账 账号 模板 视频 频分 分钟...",
+          "score": 2.529375668756297,
+          "meta": {
+            "passage_id": "e663c002-ae7f-47dd-8070-6909ebabc3ad",
+            "source_id": "0e135fe728016703",
+            "locator": "{\"kind\": \"pdf_page\", \"page\": 8, \"passage_order\": 0}"
+          }
+        }
+      ],
+      "citations": [
+        {
+          "source_id": "0e135fe728016703",
+          "title": "Page 1",
+          "authority": "PRIMARY_DOC",
+          "source_type": "pdf",
+          "locator": "{\"kind\": \"pdf_page\", \"page\": 9, \"passage_order\": 1}",
+          "excerpt": "Real Human\nCounterparts\nWIRED 2025-08-20 https://www.wired.com/story/artificial-intelligence-tiktok-shop-\necommerce-china/\n深\n度\n报\n道\n中\nS07 NVIDIA Releases Digital\nHuman Microservices\nNVIDIA Newsroom2024"
+        },
+        {
+          "source_id": "0e135fe728016703",
+          "title": "Page 1",
+          "authority": "PRIMARY_DOC",
+          "source_type": "pdf",
+          "locator": "{\"kind\": \"pdf_page\", \"page\": 4, \"passage_order\": 0}",
+          "excerpt": "实时 时语 语音 音驱 驱动 动人 人脸 月发 发布 目标 标是 是从 从单 单张 张静 静态 态图 图和 和语 语音 音片 片段 段生 生成 成具 具有 有唇 唇形 形同 同步..."
+        },
+        {
+          "source_id": "0e135fe728016703",
+          "title": "Page 1",
+          "authority": "PRIMARY_DOC",
+          "source_type": "pdf",
+          "locator": "{\"kind\": \"pdf_page\", \"page\": 8, \"passage_order\": 0}",
+          "excerpt": "娱乐 角色 中高 授权 虚拟 拟角 角色 色互 互动 粉丝 丝运 运营 肖像 像权 版权 未成 成年 年人 人保 保护 商业 业模 模式 订阅 按账 账号 模板 视频 频分 分钟..."
+        }
+      ],
+      "related_pages": [
+        "page",
+        "source-page-1-0e135fe7"
+      ]
+    },
+    "graphrag": {
+      "graph_model_version": "1.0",
+      "entities": [],
+      "relationships": [],
+      "units": [],
+      "nodes": [],
+      "edges": [],
+      "communities": [],
+      "hits": [],
+      "stats": {
+        "entity_count": 0,
+        "theme_count": 0,
+        "relationship_count": 0,
+        "community_count": 0,
+        "document_count": 0
+      },
+      "source": "app.graphrag.bridge"
+    }
+  },
+  "evidence": [
+    {
+      "evidence_key": "src_40b57439418988cf:unit_8884ba861fdc2b64:ev_8bd71e8d6ff7f0cd",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_8884ba861fdc2b64",
+      "evidence_id": "ev_8bd71e8d6ff7f0cd",
+      "snippet": "2.1 实时语音驱动人脸\nMicrosoft Research 的 VASA-1 于 2024 年 4 月发布，目标是从单张静态图和语音片段生成具有唇形同步、\n表情细节和头部动作的 talking face；论文摘要称其可在线生成 512x512 视频，最高 40 FPS，并具有很低\n的启动延迟。[S09] 这类技术把“数字人视频生成”从离线生成推向实时交互，为客服、陪伴、远程教育等\n场景降低门槛。\n2.2 全身数字人和多模态驱动\nByteDance Research 的 OmniHuman-1 于 2025 年 2 月发布，提出基于 Diffusion",
+      "confidence": 1,
+      "locator": {
+        "page_no": 4
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_5962764af70d6813:ev_4d7cc0027bba1190",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_5962764af70d6813",
+      "evidence_id": "ev_4d7cc0027bba1190",
+      "snippet": "附录：主要来源索引\n编\n号 标题 来源 日期 URL 类\n型\n可\n信\n度\nS01 Grand View Research:\nDigital Avatar Market\nSize & Growth Report,\n2030\nGrand View Research报告预测期\n2024-2030；网\n页未标注发布日\n期\nhttps://www.grandviewresearch.com/industry-analysis/digital-\navatar-market-report\n市\n场\n报\n告\n中\nS02 Digital Human Avatar\nMarke",
+      "confidence": 1,
+      "locator": {
+        "page_no": 9
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_bfb679bdfa4a07d4:ev_fec4501dd384f601",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_bfb679bdfa4a07d4",
+      "evidence_id": "ev_fec4501dd384f601",
+      "snippet": "5.4 内容溯源和水印\nC2PA 技术规范把内容凭证作为可绑定到数字内容的 provenance 结构，包含可见水印、不可见水印和元数\n据等思路。[S23] OpenAI 在 2026 年 5 月宣布将结合 Content Credentials、SynthID 和公开验证工具来帮\n助识别 AI 生成内容来源。[S24] 对数字人企业来说，水印与溯源不只是“合规成本”，未来可能成为客户\n采购的必要条件。\n合规建议：任何面向真实用户的数字人产品，都应默认包含 AI 身份告知、内容生成标识、肖像/声音授\n权记录、日志留痕、输出审核、投诉/撤回机制和高风险行业",
+      "confidence": 1,
+      "locator": {
+        "page_no": 7
+      },
+      "preview_available": true
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_key": "src_40b57439418988cf:unit_8884ba861fdc2b64:ev_8bd71e8d6ff7f0cd",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_8884ba861fdc2b64",
+      "evidence_id": "ev_8bd71e8d6ff7f0cd",
+      "snippet": "2.1 实时语音驱动人脸\nMicrosoft Research 的 VASA-1 于 2024 年 4 月发布，目标是从单张静态图和语音片段生成具有唇形同步、\n表情细节和头部动作的 talking face；论文摘要称其可在线生成 512x512 视频，最高 40 FPS，并具有很低\n的启动延迟。[S09] 这类技术把“数字人视频生成”从离线生成推向实时交互，为客服、陪伴、远程教育等\n场景降低门槛。\n2.2 全身数字人和多模态驱动\nByteDance Research 的 OmniHuman-1 于 2025 年 2 月发布，提出基于 Diffusion",
+      "confidence": 1,
+      "locator": {
+        "page_no": 4
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_5962764af70d6813:ev_4d7cc0027bba1190",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_5962764af70d6813",
+      "evidence_id": "ev_4d7cc0027bba1190",
+      "snippet": "附录：主要来源索引\n编\n号 标题 来源 日期 URL 类\n型\n可\n信\n度\nS01 Grand View Research:\nDigital Avatar Market\nSize & Growth Report,\n2030\nGrand View Research报告预测期\n2024-2030；网\n页未标注发布日\n期\nhttps://www.grandviewresearch.com/industry-analysis/digital-\navatar-market-report\n市\n场\n报\n告\n中\nS02 Digital Human Avatar\nMarke",
+      "confidence": 1,
+      "locator": {
+        "page_no": 9
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_bfb679bdfa4a07d4:ev_fec4501dd384f601",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_bfb679bdfa4a07d4",
+      "evidence_id": "ev_fec4501dd384f601",
+      "snippet": "5.4 内容溯源和水印\nC2PA 技术规范把内容凭证作为可绑定到数字内容的 provenance 结构，包含可见水印、不可见水印和元数\n据等思路。[S23] OpenAI 在 2026 年 5 月宣布将结合 Content Credentials、SynthID 和公开验证工具来帮\n助识别 AI 生成内容来源。[S24] 对数字人企业来说，水印与溯源不只是“合规成本”，未来可能成为客户\n采购的必要条件。\n合规建议：任何面向真实用户的数字人产品，都应默认包含 AI 身份告知、内容生成标识、肖像/声音授\n权记录、日志留痕、输出审核、投诉/撤回机制和高风险行业",
+      "confidence": 1,
+      "locator": {
+        "page_no": 7
+      },
+      "preview_available": true
+    }
+  ],
+  "no_evidence": false,
+  "coverage_status": "source_supported",
+  "answer_basis": "source_supported",
+  "inference_notice": "回答基于当前 Notebook sources 的可解析证据生成；如包含解释性表述，应视为基于来源的归纳。",
+  "suggested_source_actions": []
+}

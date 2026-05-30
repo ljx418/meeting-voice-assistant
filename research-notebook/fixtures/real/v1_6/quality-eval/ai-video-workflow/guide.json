@@ -1,0 +1,87 @@
+{
+  "workspace_id": "rn-v16-quality-ai-video-workflow-1779957266393",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "knowledge_query",
+    "knowledge_source_list"
+  ],
+  "data": {
+    "guide": {
+      "overview": "这是一个AI文本到视频工作流程项目，旨在通过人工智能技术将文本内容转换为视频。",
+      "key_topics": [
+        {
+          "title": "AI文本到视频转换技术",
+          "summary": "项目核心功能是利用人工智能技术实现从文本到视频内容的自动转换与生成。",
+          "evidence_refs": [
+            {
+              "source_id": "src_1ced51878616cfd4",
+              "source_title": "README.md",
+              "unit_id": "unit_5e4e2035622c64e1",
+              "evidence_id": "ev_71772f37d0e95cef",
+              "snippet": "# AI Text-to-Video Workflow Project",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "工作流程自动化",
+          "summary": "项目采用系统化的工作流程设计，自动化处理文本到视频的完整转换过程。",
+          "evidence_refs": [
+            {
+              "source_id": "src_1ced51878616cfd4",
+              "source_title": "README.md",
+              "unit_id": "unit_5e4e2035622c64e1",
+              "evidence_id": "ev_71772f37d0e95cef",
+              "snippet": "# AI Text-to-Video Workflow Project",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "项目文档与说明",
+          "summary": "项目通过README.md文件提供核心项目信息和文档说明。",
+          "evidence_refs": [
+            {
+              "source_id": "src_1ced51878616cfd4",
+              "source_title": "README.md",
+              "unit_id": "unit_5e4e2035622c64e1",
+              "evidence_id": "ev_71772f37d0e95cef",
+              "snippet": "# AI Text-to-Video Workflow Project",
+              "locator": {}
+            }
+          ]
+        }
+      ],
+      "suggested_questions": [
+        "这个AI文本到视频工作流项目的主要功能是什么？",
+        "项目如何处理文本到视频的转换过程？",
+        "如何开始使用该项目进行文本到视频的生成？"
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "src_1ced51878616cfd4",
+          "source_title": "README.md",
+          "unit_id": "unit_5e4e2035622c64e1",
+          "evidence_id": "ev_71772f37d0e95cef",
+          "snippet": "# AI Text-to-Video Workflow Project",
+          "locator": {}
+        }
+      ],
+      "guide_available": true,
+      "source_count": 1,
+      "generation_metadata": {
+        "provider": "openai_compatible",
+        "provider_name": "minimax",
+        "model": "MiniMax-M2.7",
+        "prompt_version": "v1_5_b_ai_guide_2026_05_27",
+        "evidence_ref_count": 1,
+        "fallback_mode": false,
+        "latency_ms": 3707,
+        "response_schema": "openai_chat_completions"
+      }
+    }
+  }
+}

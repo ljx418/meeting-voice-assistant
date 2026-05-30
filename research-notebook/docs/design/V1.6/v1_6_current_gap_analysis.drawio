@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net" modified="2026-05-29T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram name="V1.6 Current Gap">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="820" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="ResearchNotebook V1.6 Final Gap&#xa;V1.6_FINAL_ACCEPTANCE_PASS_SCOPED / URL PASS_LIMITED / Phase 2-3 DISABLED_READY / 云同步协作 OUT_OF_SCOPE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1967d2;fontSize=18;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="40" width="1080" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="v15" value="V1.6-0 Gate PASS&#xa;V1.5 revalidation PASS_LIMITED&#xa;历史 BLOCKED 已标注 superseded" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="150" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="v16a" value="V1.6-A URL 抽取&#xa;PASS_LIMITED&#xa;公开 HTTP URL / citation smoke 通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="150" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="v16b" value="V1.6-B 质量评测集&#xa;PASS_LIMITED_ACCEPTED&#xa;三组真实数据集 + 截图报告人工验收通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="660" y="150" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="v16c" value="V1.6-C OCR 合同&#xa;CONTRACT_DISCOVERY_READY&#xa;ocr=false / scanned_pdf_ocr=false / ocr_required" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#5f6368;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="v16d" value="V1.6-D Studio 导出&#xa;PASS_LIMITED_ACCEPTED&#xa;Markdown / JSON 保留 citation metadata&#xa;截图报告人工验收通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="370" y="320" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="v16e" value="V1.6-E Research 补源&#xa;PASS_LIMITED_CONTRACT_SMOKE&#xa;无来源拒答 / 补源后 evidence_refs 可解析&#xa;冲突分析仍非完整 ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="660" y="320" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="v16f" value="V1.6-F Phase 2/3 合同&#xa;DISABLED_READY&#xa;Audio / PPT / Mindmap / Compare&#xa;合同未就绪，不发起后端请求" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#5f6368;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="80" y="490" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="rc" value="V1.6-RC 集中验收&#xa;V1.6_FINAL_ACCEPTANCE_PASS_SCOPED&#xa;npm check + ChromeCLI + 用户人工截图验收通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="490" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="out" value="OUT_OF_SCOPE&#xa;云同步 / 协作&#xa;不作为 V1.x 剩余闭环目标" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#5f6368;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="660" y="490" width="250" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" style="endArrow=block;html=1;strokeColor=#5f6368" edge="1" parent="1" source="v15" target="v16a">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" style="endArrow=block;html=1;strokeColor=#5f6368" edge="1" parent="1" source="v16a" target="v16b">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" style="endArrow=block;html=1;strokeColor=#5f6368" edge="1" parent="1" source="v16b" target="v16d">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" style="endArrow=block;html=1;strokeColor=#5f6368" edge="1" parent="1" source="v16d" target="v16e">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" style="endArrow=block;html=1;strokeColor=#5f6368" edge="1" parent="1" source="v16e" target="rc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

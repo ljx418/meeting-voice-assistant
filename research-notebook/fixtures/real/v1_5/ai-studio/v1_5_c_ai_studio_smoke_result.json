@@ -1,0 +1,75 @@
+{
+  "generated_at": "2026-05-28T01:56:14.423Z",
+  "base_url": "http://127.0.0.1:8003",
+  "workspace_id": "rn-v15-ai-studio-1779933325956",
+  "artifact_types": [
+    "notes",
+    "study_guide",
+    "briefing_doc",
+    "faq"
+  ],
+  "results": [
+    {
+      "name": "material check",
+      "status": "pass",
+      "detail": "AI digital human Markdown/PDF available"
+    },
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v15-ai-studio-1779933325956"
+    },
+    {
+      "name": "markdown import",
+      "status": "pass",
+      "detail": "src_918ee4610eb8dfcd"
+    },
+    {
+      "name": "technology markdown import",
+      "status": "pass",
+      "detail": "src_ae153b63c6aa4a7c"
+    },
+    {
+      "name": "pdf import",
+      "status": "pass",
+      "detail": "src_40b57439418988cf"
+    },
+    {
+      "name": "workspace build",
+      "status": "pass",
+      "detail": "op_70fb5fdbdc20"
+    },
+    {
+      "name": "studio notes",
+      "status": "pass",
+      "detail": "AI output/citations/metadata"
+    },
+    {
+      "name": "studio study_guide",
+      "status": "pass",
+      "detail": "AI output/citations/metadata"
+    },
+    {
+      "name": "studio briefing_doc",
+      "status": "pass",
+      "detail": "AI output/citations/metadata"
+    },
+    {
+      "name": "studio faq",
+      "status": "pass",
+      "detail": "AI output/citations/metadata"
+    },
+    {
+      "name": "cleanup",
+      "status": "pass",
+      "detail": "rn-v15-ai-studio-1779933325956"
+    }
+  ],
+  "final_decision": "PASS",
+  "declaration": "V1.5-C AI Studio outputs are quality-smoke-ready for the AI digital human P0 dataset."
+}

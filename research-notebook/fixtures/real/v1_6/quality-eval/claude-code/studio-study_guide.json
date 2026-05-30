@@ -1,0 +1,90 @@
+{
+  "workspace_id": "rn-v16-quality-claude-code-1779957144855",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "studio_artifact",
+      "artifact_id": "studio_study_guide_90ecc4bc0745"
+    }
+  ],
+  "next_actions": [
+    "knowledge_query",
+    "knowledge_source_list"
+  ],
+  "data": {
+    "artifact": {
+      "artifact_id": "studio_study_guide_90ecc4bc0745",
+      "artifact_type": "study_guide",
+      "title": "Study Guide",
+      "artifact_available": true,
+      "summary": "本学习指南基于《Claude Code 高阶技巧》资料，帮助学习者了解 Claude Code 的进阶使用方法。",
+      "sections": [
+        {
+          "title": "学习目标",
+          "content": "通过本指南，学习者应能够：1）理解 Claude Code 的高级功能；2）掌握提升开发效率的技巧；3）学会在复杂项目中有效使用 Claude Code。资料中仅提供了标题框架，具体内容需要参考完整文档。",
+          "evidence_refs": [
+            {
+              "source_id": "src_7374674fe9a10971",
+              "source_title": "ClaudeCode高阶技巧.md",
+              "unit_id": "unit_b65f30b9d415fbc4",
+              "evidence_id": "ev_99f7a8653377e3d1",
+              "snippet": "# Claude Code 高阶使用技巧",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "核心主题",
+          "content": "资料标题表明本章节涵盖 Claude Code 的高阶使用技巧。核心主题可能包括：高级命令使用、代码生成优化、项目结构理解、自动化脚本编写等。由于提供的 snippet 信息有限，无法确认具体涵盖哪些主题，建议学习者查阅完整文档以获取详细内容。",
+          "evidence_refs": [
+            {
+              "source_id": "src_7374674fe9a10971",
+              "source_title": "ClaudeCode高阶技巧.md",
+              "unit_id": "unit_b65f30b9d415fbc4",
+              "evidence_id": "ev_99f7a8653377e3d1",
+              "snippet": "# Claude Code 高阶使用技巧",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "建议追问",
+          "content": "在学习过程中，建议思考以下问题：1）Claude Code 有哪些高级命令可以帮助提升编码效率？2）如何在不同编程语言项目中最佳实践？3）如何利用 Claude Code 进行代码审查和重构？由于现有资料仅包含标题，建议结合 Claude Code 官方文档进行深入学习。",
+          "evidence_refs": [
+            {
+              "source_id": "src_7374674fe9a10971",
+              "source_title": "ClaudeCode高阶技巧.md",
+              "unit_id": "unit_b65f30b9d415fbc4",
+              "evidence_id": "ev_99f7a8653377e3d1",
+              "snippet": "# Claude Code 高阶使用技巧",
+              "locator": {}
+            }
+          ]
+        }
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "src_7374674fe9a10971",
+          "source_title": "ClaudeCode高阶技巧.md",
+          "unit_id": "unit_b65f30b9d415fbc4",
+          "evidence_id": "ev_99f7a8653377e3d1",
+          "snippet": "# Claude Code 高阶使用技巧",
+          "locator": {}
+        }
+      ],
+      "generation_metadata": {
+        "provider": "openai_compatible",
+        "provider_name": "minimax",
+        "model": "MiniMax-M2.7",
+        "prompt_version": "v1_5_c_ai_studio_2026_05_27",
+        "artifact_type": "study_guide",
+        "evidence_ref_count": 1,
+        "fallback_mode": false,
+        "latency_ms": 14530,
+        "response_schema": "openai_chat_completions"
+      }
+    }
+  }
+}

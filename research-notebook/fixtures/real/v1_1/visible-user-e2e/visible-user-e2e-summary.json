@@ -2,8 +2,8 @@
   "declaration": "VISIBLE_USER_E2E_PASS",
   "app_url": "http://127.0.0.1:5173",
   "data_service_base_url": "http://127.0.0.1:8003",
-  "workspace_id": "rn-v11-visible-user-1779602822347-workspace",
-  "session_id": "ksess_f36af3eb7c0b4ab6",
+  "workspace_id": "rn-v11-visible-user-1780106888120-workspace",
+  "session_id": "ksess_2632ba285dd6aabf",
   "keep_browser_open": true,
   "source_results": [
     {
@@ -12,7 +12,7 @@
       "unit_id": "unit_8e6b24750abe818c",
       "evidence_id": "ev_a9365b67358f33b1",
       "highlight_text": "Visible user evidence navigation should keep the answer, source preview, document unit, and highlighted evidence span visible.",
-      "screenshot_artifact": ".smoke-artifacts/v1_1_visible_user_e2e/1779602822347/text-evidence-highlight.png"
+      "screenshot_artifact": ".smoke-artifacts/v1_1_visible_user_e2e/1780106888120/text-evidence-highlight.png"
     },
     {
       "source_type": "markdown",
@@ -20,23 +20,23 @@
       "unit_id": "unit_2b96c325efb03832",
       "evidence_id": "ev_f4c971fd244ab57c",
       "highlight_text": "visiblemarkdownanchor evidence should be highlighted from markdown source.",
-      "screenshot_artifact": ".smoke-artifacts/v1_1_visible_user_e2e/1779602822347/markdown-evidence-highlight.png"
+      "screenshot_artifact": ".smoke-artifacts/v1_1_visible_user_e2e/1780106888120/markdown-evidence-highlight.png"
     },
     {
       "source_type": "json",
       "source_id": "src_16ab3b3c9c7aad7a",
-      "unit_id": "unit_cbbe0b021ba4122e",
-      "evidence_id": "ev_35edc6d4b37b4ed1",
-      "highlight_text": "{\"summary\":\"visiblejsonanchor evidence should be highlighted from json source\",\"status\":\"supported\"}",
-      "screenshot_artifact": ".smoke-artifacts/v1_1_visible_user_e2e/1779602822347/json-evidence-highlight.png"
+      "unit_id": "unit_d13637f212e9ebfc",
+      "evidence_id": "ev_9d6630add5e0e5dc",
+      "highlight_text": "\"visiblejsonanchor evidence should be highlighted from json source\"",
+      "screenshot_artifact": ".smoke-artifacts/v1_1_visible_user_e2e/1780106888120/json-evidence-highlight.png"
     }
   ],
   "screenshot_artifacts": [
-    ".smoke-artifacts/v1_1_visible_user_e2e/1779602822347/text-evidence-highlight.png",
-    ".smoke-artifacts/v1_1_visible_user_e2e/1779602822347/markdown-evidence-highlight.png",
-    ".smoke-artifacts/v1_1_visible_user_e2e/1779602822347/json-evidence-highlight.png",
-    ".smoke-artifacts/v1_1_visible_user_e2e/1779602822347/source-trace.png",
-    ".smoke-artifacts/v1_1_visible_user_e2e/1779602822347/session-evidence-highlight.png"
+    ".smoke-artifacts/v1_1_visible_user_e2e/1780106888120/text-evidence-highlight.png",
+    ".smoke-artifacts/v1_1_visible_user_e2e/1780106888120/markdown-evidence-highlight.png",
+    ".smoke-artifacts/v1_1_visible_user_e2e/1780106888120/json-evidence-highlight.png",
+    ".smoke-artifacts/v1_1_visible_user_e2e/1780106888120/source-trace.png",
+    ".smoke-artifacts/v1_1_visible_user_e2e/1780106888120/session-evidence-highlight.png"
   ],
   "forbidden_knowledge_requests": [],
   "console_errors": [],
@@ -55,12 +55,12 @@
     {
       "name": "workspace create and enter",
       "status": "pass",
-      "detail": "rn-v11-visible-user-1779602822347-workspace"
+      "detail": "rn-v11-visible-user-1780106888120-workspace"
     },
     {
       "name": "text source import visible",
       "status": "pass",
-      "detail": "rn-v11-visible-user-1779602822347 Text Evidence Source"
+      "detail": "rn-v11-visible-user-1780106888120 Text Evidence Source"
     },
     {
       "name": "text preview and unit visible",
@@ -75,7 +75,7 @@
     {
       "name": "markdown source import visible",
       "status": "pass",
-      "detail": "rn-v11-visible-user-1779602822347 Markdown Evidence Source"
+      "detail": "rn-v11-visible-user-1780106888120 Markdown Evidence Source"
     },
     {
       "name": "markdown preview and unit visible",
@@ -90,7 +90,7 @@
     {
       "name": "json source import visible",
       "status": "pass",
-      "detail": "rn-v11-visible-user-1779602822347 JSON Evidence Source"
+      "detail": "rn-v11-visible-user-1780106888120 JSON Evidence Source"
     },
     {
       "name": "json preview and unit visible",
@@ -100,17 +100,17 @@
     {
       "name": "json evidence highlight visible",
       "status": "pass",
-      "detail": "{\"summary\":\"visiblejsonanchor evidence should be highlighted from json source\",\"status\":\"supported\"}"
+      "detail": "\"visiblejsonanchor evidence should be highlighted from json source\""
     },
     {
       "name": "source trace drawer visible",
       "status": "pass",
-      "detail": "rn-v11-visible-user-1779602822347 Text Evidence Source"
+      "detail": "rn-v11-visible-user-1780106888120 Text Evidence Source"
     },
     {
       "name": "session create visible",
       "status": "pass",
-      "detail": "rn-v11-visible-user-1779602822347 Session"
+      "detail": "rn-v11-visible-user-1780106888120 Session"
     },
     {
       "name": "session ingest visible",
@@ -125,7 +125,7 @@
     {
       "name": "session evidence highlight visible",
       "status": "pass",
-      "detail": "# Visible Markdown Evidence"
+      "detail": "visiblemarkdownanchor evidence should be highlighted from markdown source."
     },
     {
       "name": "browser console/network guard",

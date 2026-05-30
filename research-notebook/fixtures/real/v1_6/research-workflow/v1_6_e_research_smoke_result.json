@@ -1,0 +1,43 @@
+{
+  "finalDecision": "PASS_LIMITED_CONTRACT_SMOKE",
+  "results": [
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v16-research-1779957312663"
+    },
+    {
+      "name": "no-source refusal",
+      "status": "pass",
+      "detail": "no_sources"
+    },
+    {
+      "name": "source import",
+      "status": "pass",
+      "detail": "src_918ee4610eb8dfcd"
+    },
+    {
+      "name": "evidence resolution",
+      "status": "pass",
+      "detail": "ev_6dd4eb6576c716a4"
+    },
+    {
+      "name": "research report",
+      "status": "pass",
+      "detail": "3 conclusions"
+    },
+    {
+      "name": "workspace archive",
+      "status": "pass",
+      "detail": "200"
+    }
+  ],
+  "baseUrl": "http://127.0.0.1:8003",
+  "sourceFile": "[home]/Zhuanz/Desktop/技术分享/11-数字人/AI数字人资料包/01_industry_overview.md",
+  "question": "数字人行业的市场趋势和商业应用有哪些？"
+}

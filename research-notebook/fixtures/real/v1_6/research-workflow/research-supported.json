@@ -1,0 +1,151 @@
+{
+  "workspace_id": "rn-v16-research-1779957312663",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "research_report",
+      "question": "数字人行业的市场趋势和商业应用有哪些？"
+    }
+  ],
+  "next_actions": [
+    "knowledge_source_list",
+    "knowledge_query"
+  ],
+  "data": {
+    "research": {
+      "research_available": true,
+      "question": "数字人行业的市场趋势和商业应用有哪些？",
+      "coverage_status": "source_supported",
+      "answer_basis": "source_supported",
+      "answer": "已基于当前 Notebook sources 生成受限 Research 输出。",
+      "supported_conclusions": [
+        {
+          "claim": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理 2024 年以来 AI 数字人 / 虚拟人 / AI Avatar / 数字员工的市场规模、增长趋势、应用场景和",
+          "evidence_refs": [
+            {
+              "evidence_key": "src_918ee4610eb8dfcd:unit_3b26930d8409312f:ev_6dd4eb6576c716a4",
+              "source_id": "src_918ee4610eb8dfcd",
+              "source_title": "01_industry_overview.md",
+              "unit_id": "unit_3b26930d8409312f",
+              "evidence_id": "ev_6dd4eb6576c716a4",
+              "snippet": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理 2024 年以来 AI 数字人 / 虚拟人 / AI Avatar / 数字员工的市场规模、增长趋势、应用场景和",
+              "confidence": 1,
+              "locator": {},
+              "preview_available": true
+            }
+          ]
+        },
+        {
+          "claim": "- 2024 年以来，AI 数字人行业从“虚拟主播/虚拟偶像”扩展为“AI Avatar + 语音/视频生成 + Agent/客服/培训”的综合市场；研究机构对市场规模口径差异较大，但普遍预测未来数年保持高增长。Grand View Research 估算全球 digital avatar 市场 2023 年为 181.9 亿美元，并预测 2024-2030 年 CAGR 49.8%；Research and Markets 的 digital human avatar 报告则预测 2024-2029 年增量 274.3 亿美元、CAGR 43.9%。来",
+          "evidence_refs": [
+            {
+              "evidence_key": "src_918ee4610eb8dfcd:unit_c3e3b91aedad1c7b:ev_9e01903ccfbcdbc5",
+              "source_id": "src_918ee4610eb8dfcd",
+              "source_title": "01_industry_overview.md",
+              "unit_id": "unit_c3e3b91aedad1c7b",
+              "evidence_id": "ev_9e01903ccfbcdbc5",
+              "snippet": "- 2024 年以来，AI 数字人行业从“虚拟主播/虚拟偶像”扩展为“AI Avatar + 语音/视频生成 + Agent/客服/培训”的综合市场；研究机构对市场规模口径差异较大，但普遍预测未来数年保持高增长。Grand View Research 估算全球 digital avatar 市场 2023 年为 181.9 亿美元，并预测 2024-2030 年 CAGR 49.8%；Research and Markets 的 digital human avatar 报告则预测 2024-2029 年增量 274.3 亿美元、CAGR 43.9%。来",
+              "confidence": 1,
+              "locator": {},
+              "preview_available": true
+            }
+          ]
+        },
+        {
+          "claim": "| 来源 | 日期 | 口径 | 关键数据 | 备注 |\n|---|---:|---|---|---|\n| Grand View Research | 2024-2030预测 | Digital avatar | 2023 年 181.9 亿美元，2030 年 2706.1 亿美元，CAGR 49.8% | 范围较宽，覆盖 AR/VR/AI avatar 等。来源：[S001](https://www.grandviewresearch.com/industry-analysis/digital-avatar-market-report) |\n| Res",
+          "evidence_refs": [
+            {
+              "evidence_key": "src_918ee4610eb8dfcd:unit_5f48c8b89842aae9:ev_e0d539c0b845a37a",
+              "source_id": "src_918ee4610eb8dfcd",
+              "source_title": "01_industry_overview.md",
+              "unit_id": "unit_5f48c8b89842aae9",
+              "evidence_id": "ev_e0d539c0b845a37a",
+              "snippet": "| 来源 | 日期 | 口径 | 关键数据 | 备注 |\n|---|---:|---|---|---|\n| Grand View Research | 2024-2030预测 | Digital avatar | 2023 年 181.9 亿美元，2030 年 2706.1 亿美元，CAGR 49.8% | 范围较宽，覆盖 AR/VR/AI avatar 等。来源：[S001](https://www.grandviewresearch.com/industry-analysis/digital-avatar-market-report) |\n| Res",
+              "confidence": 1,
+              "locator": {},
+              "preview_available": true
+            }
+          ]
+        }
+      ],
+      "inferences": [
+        {
+          "inference": "基于来源的推断：这些证据可以作为后续综合研究的初始依据，但仍需人工审阅来源上下文。",
+          "evidence_refs": [
+            {
+              "evidence_key": "src_918ee4610eb8dfcd:unit_3b26930d8409312f:ev_6dd4eb6576c716a4",
+              "source_id": "src_918ee4610eb8dfcd",
+              "source_title": "01_industry_overview.md",
+              "unit_id": "unit_3b26930d8409312f",
+              "evidence_id": "ev_6dd4eb6576c716a4",
+              "snippet": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理 2024 年以来 AI 数字人 / 虚拟人 / AI Avatar / 数字员工的市场规模、增长趋势、应用场景和",
+              "confidence": 1,
+              "locator": {},
+              "preview_available": true
+            },
+            {
+              "evidence_key": "src_918ee4610eb8dfcd:unit_c3e3b91aedad1c7b:ev_9e01903ccfbcdbc5",
+              "source_id": "src_918ee4610eb8dfcd",
+              "source_title": "01_industry_overview.md",
+              "unit_id": "unit_c3e3b91aedad1c7b",
+              "evidence_id": "ev_9e01903ccfbcdbc5",
+              "snippet": "- 2024 年以来，AI 数字人行业从“虚拟主播/虚拟偶像”扩展为“AI Avatar + 语音/视频生成 + Agent/客服/培训”的综合市场；研究机构对市场规模口径差异较大，但普遍预测未来数年保持高增长。Grand View Research 估算全球 digital avatar 市场 2023 年为 181.9 亿美元，并预测 2024-2030 年 CAGR 49.8%；Research and Markets 的 digital human avatar 报告则预测 2024-2029 年增量 274.3 亿美元、CAGR 43.9%。来",
+              "confidence": 1,
+              "locator": {},
+              "preview_available": true
+            }
+          ],
+          "inference_notice": "该段为基于来源的推断，不是资料外事实。"
+        }
+      ],
+      "conflicts": [],
+      "missing_evidence": [],
+      "suggested_source_actions": [],
+      "evidence_refs": [
+        {
+          "evidence_key": "src_918ee4610eb8dfcd:unit_3b26930d8409312f:ev_6dd4eb6576c716a4",
+          "source_id": "src_918ee4610eb8dfcd",
+          "source_title": "01_industry_overview.md",
+          "unit_id": "unit_3b26930d8409312f",
+          "evidence_id": "ev_6dd4eb6576c716a4",
+          "snippet": "来源名称：多来源资料汇编（详见 sources_index.md）  \n来源链接：见本文件内引用与 `sources_index.md`  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sources_index.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理 2024 年以来 AI 数字人 / 虚拟人 / AI Avatar / 数字员工的市场规模、增长趋势、应用场景和",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_918ee4610eb8dfcd:unit_c3e3b91aedad1c7b:ev_9e01903ccfbcdbc5",
+          "source_id": "src_918ee4610eb8dfcd",
+          "source_title": "01_industry_overview.md",
+          "unit_id": "unit_c3e3b91aedad1c7b",
+          "evidence_id": "ev_9e01903ccfbcdbc5",
+          "snippet": "- 2024 年以来，AI 数字人行业从“虚拟主播/虚拟偶像”扩展为“AI Avatar + 语音/视频生成 + Agent/客服/培训”的综合市场；研究机构对市场规模口径差异较大，但普遍预测未来数年保持高增长。Grand View Research 估算全球 digital avatar 市场 2023 年为 181.9 亿美元，并预测 2024-2030 年 CAGR 49.8%；Research and Markets 的 digital human avatar 报告则预测 2024-2029 年增量 274.3 亿美元、CAGR 43.9%。来",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_918ee4610eb8dfcd:unit_5f48c8b89842aae9:ev_e0d539c0b845a37a",
+          "source_id": "src_918ee4610eb8dfcd",
+          "source_title": "01_industry_overview.md",
+          "unit_id": "unit_5f48c8b89842aae9",
+          "evidence_id": "ev_e0d539c0b845a37a",
+          "snippet": "| 来源 | 日期 | 口径 | 关键数据 | 备注 |\n|---|---:|---|---|---|\n| Grand View Research | 2024-2030预测 | Digital avatar | 2023 年 181.9 亿美元，2030 年 2706.1 亿美元，CAGR 49.8% | 范围较宽，覆盖 AR/VR/AI avatar 等。来源：[S001](https://www.grandviewresearch.com/industry-analysis/digital-avatar-market-report) |\n| Res",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        }
+      ],
+      "generation_metadata": {
+        "provider": "deterministic",
+        "provider_name": "source-grounded-contract",
+        "model": "evidence-ref-synthesizer",
+        "prompt_version": "v1_6_e_source_grounded_research_2026_05_28",
+        "evidence_ref_count": 3,
+        "fallback_mode": true
+      }
+    }
+  }
+}

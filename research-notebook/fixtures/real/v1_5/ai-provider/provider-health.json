@@ -1,0 +1,43 @@
+{
+  "workspace_id": "provider-health",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "ai_guide_generate",
+    "ai_studio_generate",
+    "source_grounded_query"
+  ],
+  "data": {
+    "provider_health": {
+      "provider_available": true,
+      "provider": {
+        "provider": "openai_compatible",
+        "provider_name": "minimax",
+        "model": "MiniMax-M2.7",
+        "timeout_ms": 30000,
+        "max_tokens": 1200,
+        "temperature": 0.2,
+        "api_key_configured": true
+      },
+      "latency_ms": 22884,
+      "response_schema": "openai_chat_completions",
+      "response_text_chars": 5423,
+      "raw_response_keys": [
+        "base_resp",
+        "choices",
+        "created",
+        "id",
+        "input_sensitive",
+        "input_sensitive_type",
+        "model",
+        "object",
+        "output_sensitive",
+        "output_sensitive_int",
+        "output_sensitive_type",
+        "usage"
+      ]
+    }
+  }
+}

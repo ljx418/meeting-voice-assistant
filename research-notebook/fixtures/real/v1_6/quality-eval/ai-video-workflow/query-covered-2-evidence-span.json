@@ -1,0 +1,29 @@
+{
+  "workspace_id": "rn-v16-quality-ai-video-workflow-1779957266393",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_1ced51878616cfd4",
+      "artifact_ref": "source://src_1ced51878616cfd4"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_126766056862e243",
+      "source_id": "src_1ced51878616cfd4",
+      "unit_id": "unit_f22c5a6fd76f00dd",
+      "snippet": "- `docs/outline.md`: 视频结构与章节提纲\n- `docs/script.md`: 旁白脚本草案\n- `docs/storyboard.md`: 分镜与画面设计\n- `docs/assets-plan.md`: 素材与生成清单\n- `assets/images/`: 图片、概念图、封面图\n- `assets/audio/`: 配音、音效、音乐\n- `assets/video/`: AI 生成视频片段、录屏、参考视频\n- `output/`: 最终导出文件",
+      "start_offset": 0,
+      "end_offset": 238,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {},
+      "preview_available": true
+    }
+  }
+}

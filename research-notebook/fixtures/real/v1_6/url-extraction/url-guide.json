@@ -1,0 +1,103 @@
+{
+  "workspace_id": "rn-v16-url-1779956944050",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "knowledge_query",
+    "knowledge_source_list"
+  ],
+  "data": {
+    "guide": {
+      "guide_available": true,
+      "source_count": 2,
+      "overview": "当前 Notebook 已导入 2 个来源。系统将基于这些来源进行导读和问答，不使用资料外内容冒充结论。",
+      "key_topics": [
+        {
+          "title": "来源范围",
+          "summary": "当前 Notebook 包含 2 个来源，类型包括：url。",
+          "evidence_refs": [
+            {
+              "source_id": "src_38c28c096b05c01f",
+              "source_title": "V1.6 URL Source 1",
+              "unit_id": "unit_079a596da0ff550a",
+              "evidence_id": "ev_0a7f44112bb39eb6",
+              "snippet": "# Example Domain",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "重点资料",
+          "summary": "V1.6 URL Source 1；V1.6 URL Source 2",
+          "evidence_refs": [
+            {
+              "source_id": "src_38c28c096b05c01f",
+              "source_title": "V1.6 URL Source 1",
+              "unit_id": "unit_079a596da0ff550a",
+              "evidence_id": "ev_0a7f44112bb39eb6",
+              "snippet": "# Example Domain",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "可追溯证据",
+          "summary": "已找到 2 条可跳转来源片段，可用于后续问答和引用定位。",
+          "evidence_refs": [
+            {
+              "source_id": "src_38c28c096b05c01f",
+              "source_title": "V1.6 URL Source 1",
+              "unit_id": "unit_079a596da0ff550a",
+              "evidence_id": "ev_0a7f44112bb39eb6",
+              "snippet": "# Example Domain",
+              "locator": {}
+            },
+            {
+              "source_id": "src_4b3c5c90b2bfdf40",
+              "source_title": "V1.6 URL Source 2",
+              "unit_id": "unit_25a19457dd653715",
+              "evidence_id": "ev_45dba86cf649d960",
+              "snippet": "# Example Domain",
+              "locator": {}
+            }
+          ]
+        }
+      ],
+      "suggested_questions": [
+        "V1.6 URL Source 1 的核心观点是什么？",
+        "这些资料有哪些可引用的关键结论？",
+        "当前资料还缺少哪些信息，需要继续补充？"
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "src_38c28c096b05c01f",
+          "source_title": "V1.6 URL Source 1",
+          "unit_id": "unit_079a596da0ff550a",
+          "evidence_id": "ev_0a7f44112bb39eb6",
+          "snippet": "# Example Domain",
+          "locator": {}
+        },
+        {
+          "source_id": "src_4b3c5c90b2bfdf40",
+          "source_title": "V1.6 URL Source 2",
+          "unit_id": "unit_25a19457dd653715",
+          "evidence_id": "ev_45dba86cf649d960",
+          "snippet": "# Example Domain",
+          "locator": {}
+        }
+      ],
+      "generation_metadata": {
+        "provider": "openai_compatible",
+        "provider_name": "minimax",
+        "model": "MiniMax-M2.7",
+        "prompt_version": "v1_5_b_ai_guide_2026_05_27",
+        "evidence_ref_count": 2,
+        "fallback_mode": true,
+        "error_code": "response_schema_mismatch"
+      },
+      "unavailable_reason": "response_schema_mismatch"
+    }
+  }
+}

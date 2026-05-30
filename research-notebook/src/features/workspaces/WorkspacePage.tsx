@@ -1,20 +1,25 @@
-import { FormEvent, useCallback, useEffect, useId, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { isNormalizedApiError, dataServiceClient } from '../../shared/api/dataServiceClient';
-import { useArchiveWorkspaceMutation, useWorkspaceQuery } from '../../shared/api/workspaceQueries';
+import { useArchiveWorkspaceMutation, useRenameWorkspaceMutation, useWorkspaceQuery } from '../../shared/api/workspaceQueries';
 import {
   useCreateSourceMutation,
   useCapabilitiesQuery,
+  useNotebookGuideQuery,
+  useResearchReportMutation,
+  useStudioArtifactMutation,
+  isEvidenceSpanNavigationSupported,
   isSourceLevelPreviewSupported,
   useRemoveSourceMutation,
+  useRenameSourceMutation,
   useSourcesQuery,
   useStartBuildMutation,
   useWorkspaceQueryMutation
 } from '../../shared/api/workspaceM2Queries';
 import { queryKeys } from '../../app/routes/queryKeys';
 import { useOperationPolling } from '../../shared/hooks/useOperationPolling';
-import type { AnswerEvidence, BuildOperation, SourceSummary } from '../../shared/types/api';
+import type { AnswerEvidence, BuildOperation, ResearchReport, SourceSummary, StudioArtifact, StudioArtifactType } from '../../shared/types/api';
 import {
   BackendUnavailableState,
   EmptyState,
@@ -27,6 +32,11 @@ import { EvidenceList } from '../../shared/components/EvidenceList';
 import { SourceTraceDrawer } from '../../shared/components/SourceTraceDrawer';
 import { SourcePreviewDrawer } from '../../shared/components/SourcePreviewDrawer';
 import { LightweightFeedback } from '../../shared/components/LightweightFeedback';
+import { AgentWorkflowPanel } from '../../shared/components/AgentWorkflowPanel';
+import { recordRecentWorkspace } from './recentWorkspaces';
+
+const MAX_IMPORT_FILES = 10;
+const MAX_IMPORT_FILE_BYTES = 25 * 1024 * 1024;
 
 function SourceStateBadge({ source }: { source: SourceSummary }) {
   const state = source.build_state ?? source.import_state ?? 'idle';
@@ -58,30 +68,216 @@ function operationStateLabel(state: string) {
   return labels[state] ?? state;
 }
 
-function SourceImportForm({ workspaceId }: { workspaceId: string }) {
+function fileToBase64(file: globalThis.File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new globalThis.FileReader();
+    reader.onerror = () => reject(new Error('file_read_failed'));
+    reader.onload = () => {
+      const result = typeof reader.result === 'string' ? reader.result : '';
+      const commaIndex = result.indexOf(',');
+      resolve(commaIndex >= 0 ? result.slice(commaIndex + 1) : result);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function validateSelectedFiles(files: globalThis.File[]) {
+  if (files.length > MAX_IMPORT_FILES) return `一次最多导入 ${MAX_IMPORT_FILES} 个文件。`;
+  const oversized = files.find((file) => file.size > MAX_IMPORT_FILE_BYTES);
+  if (oversized) return `${oversized.name} 超过 25MB，请拆分或压缩后再导入。`;
+  return null;
+}
+
+function validatePublicUrl(input: string) {
+  if (!input.trim()) return null;
+  let url: URL;
+  try {
+    url = new URL(input.trim());
+  } catch {
+    return '请输入有效的公开网页 URL。';
+  }
+  if (url.protocol !== 'https:' && url.protocol !== 'http:') return 'URL 仅支持 http 或 https。';
+  const hostname = url.hostname.toLowerCase();
+  if (
+    hostname === 'localhost' ||
+    hostname === '0.0.0.0' ||
+    hostname === '127.0.0.1' ||
+    hostname === '::1' ||
+    hostname.startsWith('127.') ||
+    hostname.startsWith('10.') ||
+    hostname.startsWith('192.168.') ||
+    /^172\.(1[6-9]|2\d|3[0-1])\./.test(hostname) ||
+    /^169\.254\./.test(hostname)
+  ) {
+    return 'URL 必须是公开网页，不能是本机、内网或私有地址。';
+  }
+  return null;
+}
+
+function SourceImportForm({ workspaceId, focusSignal }: { workspaceId: string; focusSignal: number }) {
   const titleId = useId();
   const typeId = useId();
   const contentId = useId();
+  const urlId = useId();
+  const fileId = useId();
+  const titleInputRef = useRef<globalThis.HTMLInputElement | null>(null);
+  const fileInputRef = useRef<globalThis.HTMLInputElement | null>(null);
+  const lastFocusSignalRef = useRef(0);
   const [title, setTitle] = useState('');
   const [sourceType, setSourceType] = useState('text');
   const [content, setContent] = useState('');
+  const [sourceUrl, setSourceUrl] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState<globalThis.File[]>([]);
+  const [fileReadError, setFileReadError] = useState<string | null>(null);
+  const [batchImport, setBatchImport] = useState<{
+    total: number;
+    completed: number;
+    failed: number;
+    currentFile?: string;
+    errors: string[];
+  } | null>(null);
   const createSource = useCreateSourceMutation(workspaceId);
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (focusSignal > 0 && focusSignal !== lastFocusSignalRef.current) {
+      lastFocusSignalRef.current = focusSignal;
+      titleInputRef.current?.scrollIntoView?.({ block: 'center' });
+      titleInputRef.current?.focus();
+    }
+  }, [focusSignal]);
+
+  const inferSourceType = (file: globalThis.File) => {
+    const lowerName = file.name.toLowerCase();
+    if (lowerName.endsWith('.md') || lowerName.endsWith('.markdown')) return 'markdown';
+    if (lowerName.endsWith('.pdf')) return 'pdf';
+    return 'text';
+  };
+
+  const onFileChange = (event: ChangeEvent) => {
+    const input = event.currentTarget as { files?: ArrayLike<globalThis.File> | null };
+    const files = Array.from(input.files ?? []);
+    const validationError = validateSelectedFiles(files);
+    if (validationError) {
+      setSelectedFiles([]);
+      setFileReadError(validationError);
+      setBatchImport(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+    setSelectedFiles(files);
+    setFileReadError(null);
+    setBatchImport(null);
+    const firstFile = files[0];
+    if (!firstFile) return;
+    setTitle((current) => current || (files.length === 1 ? firstFile.name : ''));
+    setSourceType(inferSourceType(firstFile));
+  };
+
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const trimmedTitle = title.trim();
-    if (!trimmedTitle) return;
+    const trimmedUrl = sourceUrl.trim();
+    const trimmedTitle = title.trim() || (selectedFiles.length === 1 ? selectedFiles[0]?.name.trim() : '') || trimmedUrl || '';
+    const nextContent = content.trim() || undefined;
+    const hasImportPayload = selectedFiles.length > 0 || Boolean(trimmedUrl) || Boolean(nextContent);
+    if (!hasImportPayload) {
+      setFileReadError('请添加文件、公开网页 URL 或正文内容后再导入。');
+      return;
+    }
+    if (!trimmedTitle && selectedFiles.length === 0) return;
+    const urlValidationError = validatePublicUrl(trimmedUrl);
+    if (urlValidationError) {
+      setFileReadError(urlValidationError);
+      return;
+    }
+    const fileValidationError = validateSelectedFiles(selectedFiles);
+    if (fileValidationError) {
+      setFileReadError(fileValidationError);
+      return;
+    }
+    if (selectedFiles.length > 0) {
+      const total = selectedFiles.length;
+      const errors: string[] = [];
+      setBatchImport({ total, completed: 0, failed: 0, errors: [] });
+      setFileReadError(null);
+      for (const file of selectedFiles) {
+        setBatchImport((current) => ({
+          total,
+          completed: current?.completed ?? 0,
+          failed: current?.failed ?? 0,
+          currentFile: file.name,
+          errors: current?.errors ?? []
+        }));
+        try {
+          const nextSourceType = selectedFiles.length === 1 ? sourceType : inferSourceType(file);
+          await createSource.mutateAsync({
+            title: selectedFiles.length === 1 ? trimmedTitle : file.name,
+            source_type: nextSourceType,
+            file: {
+              file_name: file.name,
+              content_base64: await fileToBase64(file),
+              content_type: file.type || undefined,
+              source_type: nextSourceType
+            },
+            metadata: {
+              file_name: file.name,
+              file_size_bytes: file.size,
+              browser_file_import: true,
+              batch_file_import: total > 1,
+              file_upload_contract: 'base64_file_content'
+            }
+          });
+          setBatchImport((current) => ({
+            total,
+            completed: (current?.completed ?? 0) + 1,
+            failed: current?.failed ?? 0,
+            currentFile: file.name,
+            errors: current?.errors ?? []
+          }));
+        } catch (error) {
+          const message = error instanceof Error ? error.message : '未知错误';
+          errors.push(`${file.name}: ${message}`);
+          setBatchImport((current) => ({
+            total,
+            completed: current?.completed ?? 0,
+            failed: (current?.failed ?? 0) + 1,
+            currentFile: file.name,
+            errors: [...(current?.errors ?? []), `${file.name}: ${message}`]
+          }));
+        }
+      }
+      setTitle('');
+      setSourceType('text');
+      setContent('');
+      setSourceUrl('');
+      setSelectedFiles([]);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      setBatchImport((current) => (current ? { ...current, currentFile: undefined } : current));
+      if (errors.length > 0) setFileReadError(`部分文件导入失败：${errors.join('；')}`);
+      return;
+    }
     createSource.mutate(
       {
         title: trimmedTitle,
-        source_type: sourceType.trim() || undefined,
-        content: content.trim() || undefined
+        source_type: trimmedUrl ? 'url' : sourceType.trim() || undefined,
+        content: trimmedUrl ? undefined : nextContent,
+        url: trimmedUrl ? trimmedUrl : undefined,
+        metadata: trimmedUrl
+          ? {
+              url_import_contract: 'public_url_text_v1',
+              url_source_input: true
+            }
+          : undefined
       },
       {
         onSuccess: () => {
           setTitle('');
           setSourceType('text');
           setContent('');
+          setSourceUrl('');
+          setSelectedFiles([]);
+          setFileReadError(null);
+          setBatchImport(null);
+          if (fileInputRef.current) fileInputRef.current.value = '';
         }
       }
     );
@@ -90,8 +286,41 @@ function SourceImportForm({ workspaceId }: { workspaceId: string }) {
   return (
     <form className="source-import-form" onSubmit={submit} aria-label="导入来源">
       <label>
+        <span className="field-label">文件</span>
+        <input
+          id={fileId}
+          ref={fileInputRef}
+          className="text-input"
+          type="file"
+          multiple
+          accept=".txt,.md,.markdown,.pdf,text/plain,text/markdown,application/pdf"
+          onChange={onFileChange}
+        />
+      </label>
+      <label>
+        <span className="field-label">公开网页 URL</span>
+        <input
+          id={urlId}
+          className="text-input"
+          type="url"
+              value={sourceUrl}
+              onChange={(event) => {
+                setSourceUrl(event.target.value);
+                setFileReadError(null);
+                if (event.target.value.trim()) setSourceType('url');
+              }}
+          placeholder="https://example.com/article"
+        />
+      </label>
+      <label>
         <span className="field-label">来源标题</span>
-        <input id={titleId} className="text-input" value={title} onChange={(event) => setTitle(event.target.value)} />
+        <input
+          id={titleId}
+          ref={titleInputRef}
+          className="text-input"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
       </label>
       <label>
         <span className="field-label">来源类型</span>
@@ -104,7 +333,8 @@ function SourceImportForm({ workspaceId }: { workspaceId: string }) {
           <option value="text">文本：已验证</option>
           <option value="markdown">Markdown：已验证</option>
           <option value="json">JSON：已验证</option>
-          <option value="pdf">PDF：后端合同待就绪</option>
+          <option value="pdf">PDF：可抽取文本已验证</option>
+          <option value="url">公开 URL：V1.6-A 限定站点</option>
           <option value="pptx">PPTX：后端合同待就绪</option>
           <option value="html">HTML：后端合同待就绪</option>
           <option value="video">视频：后端合同待就绪</option>
@@ -122,13 +352,171 @@ function SourceImportForm({ workspaceId }: { workspaceId: string }) {
         />
       </label>
       <StateBlock title="格式支持边界">
-        当前已通过浏览器验收的来源类型是文本、Markdown 和 JSON。PDF、PPTX、HTML、视频、音频会作为来源类型元数据提交，但不能声明预览、文档单元或证据高亮 ready。
+        TXT、Markdown、可抽取文本 PDF 与公开网页 URL 会作为受控来源导入。URL 只支持公开 HTML/纯文本站点；扫描版 PDF、OCR、PPT、音视频和图片仍未声明 ready。
       </StateBlock>
+      {fileReadError ? (
+        <StateBlock title="文件读取失败" tone="error">
+          {fileReadError}
+        </StateBlock>
+      ) : null}
       {createSource.error ? <ApiErrorState title="来源导入失败" error={createSource.error} /> : null}
-      <button className="primary-button" type="submit" disabled={createSource.isPending || !title.trim()}>
-        {createSource.isPending ? '导入中' : '导入来源'}
+      <button
+        className="primary-button"
+        type="submit"
+        disabled={createSource.isPending || !(selectedFiles.length || sourceUrl.trim() || content.trim())}
+      >
+        {createSource.isPending ? '导入中' : selectedFiles.length > 1 ? `导入 ${selectedFiles.length} 个来源` : '导入来源'}
       </button>
+      {selectedFiles.length > 1 ? (
+        <StateBlock title="已选择多个文件">
+          将按顺序导入 {selectedFiles.length} 个文件：{selectedFiles.map((file) => file.name).join('、')}
+        </StateBlock>
+      ) : null}
+      {batchImport ? (
+        <StateBlock title="批量导入进度" tone={batchImport.failed ? 'warning' : 'neutral'}>
+          已完成 {batchImport.completed}/{batchImport.total}
+          {batchImport.failed ? `，失败 ${batchImport.failed}` : ''}{batchImport.currentFile ? `，当前：${batchImport.currentFile}` : ''}
+          {batchImport.errors.length ? `。失败文件：${batchImport.errors.join('；')}` : ''}
+        </StateBlock>
+      ) : null}
     </form>
+  );
+}
+
+function SourceCard({
+  source,
+  workspaceId,
+  previewDisabled,
+  previewDisabledTitle,
+  onTrace,
+  onPreview,
+  onAsk,
+  onRebuild,
+  onRemove,
+  removePending
+}: {
+  source: SourceSummary;
+  workspaceId: string;
+  previewDisabled: boolean;
+  previewDisabledTitle?: string;
+  onTrace: (source: SourceSummary) => void;
+  onPreview: (source: SourceSummary) => void;
+  onAsk: () => void;
+  onRebuild: () => void;
+  onRemove: (sourceId: string) => void;
+  removePending: boolean;
+}) {
+  const [isRenaming, setIsRenaming] = useState(false);
+  const [draftTitle, setDraftTitle] = useState(source.title);
+  const renameSource = useRenameSourceMutation(workspaceId);
+  const failed = source.import_state === 'failed_import' || source.build_state === 'failed_build';
+
+  const submitRename = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const nextTitle = draftTitle.trim();
+    if (!nextTitle || nextTitle === source.title) {
+      setIsRenaming(false);
+      setDraftTitle(source.title);
+      return;
+    }
+    renameSource.mutate(
+      { sourceId: source.source_id, input: { title: nextTitle } },
+      { onSuccess: () => setIsRenaming(false) }
+    );
+  };
+
+  return (
+    <article className="source-card">
+      <div>
+        <div className="source-title-row">
+          {isRenaming ? (
+            <form className="inline-edit-form" onSubmit={submitRename} aria-label={`重命名来源 ${source.title}`}>
+              <input
+                className="text-input"
+                value={draftTitle}
+                onChange={(event) => setDraftTitle(event.target.value)}
+                aria-label="来源新标题"
+              />
+              <button className="secondary-button" type="submit" disabled={renameSource.isPending || !draftTitle.trim()}>
+                保存
+              </button>
+              <button
+                className="secondary-button"
+                type="button"
+                onClick={() => {
+                  setIsRenaming(false);
+                  setDraftTitle(source.title);
+                }}
+              >
+                取消
+              </button>
+            </form>
+          ) : (
+            <h3>{source.title}</h3>
+          )}
+          <SourceStateBadge source={source} />
+        </div>
+        {renameSource.error ? <ApiErrorState title="来源重命名合同不可用" error={renameSource.error} /> : null}
+        <dl className="source-meta-grid">
+          <div>
+            <dt>来源 ID</dt>
+            <dd>{source.source_id}</dd>
+          </div>
+          <div>
+            <dt>类型</dt>
+            <dd>{source.source_type || '服务定义'}</dd>
+          </div>
+          <div>
+            <dt>更新时间</dt>
+            <dd>{source.updated_at || '未知'}</dd>
+          </div>
+          <div>
+            <dt>工件引用</dt>
+            <dd>{source.artifact_refs?.length ? `${source.artifact_refs.length} 个` : '无'}</dd>
+          </div>
+          <div>
+            <dt>来源溯源</dt>
+            <dd>{source.trace_available ? '可用' : '不可用'}</dd>
+          </div>
+        </dl>
+      </div>
+      <div className="source-actions">
+        <button className="secondary-button" type="button" onClick={() => onTrace(source)} disabled={!source.trace_available}>
+          溯源
+        </button>
+        <button
+          className="secondary-button"
+          type="button"
+          onClick={() => onPreview(source)}
+          disabled={previewDisabled}
+          title={previewDisabledTitle}
+        >
+          预览
+        </button>
+        <button className="secondary-button" type="button" onClick={onAsk}>
+          提问
+        </button>
+        <button className="secondary-button" type="button" onClick={onRebuild}>
+          重建知识
+        </button>
+        {failed ? (
+          <button className="secondary-button" type="button" onClick={onRebuild}>
+            重试
+          </button>
+        ) : null}
+        <button className="secondary-button" type="button" onClick={() => setIsRenaming(true)}>
+          重命名
+        </button>
+        <button
+          className="secondary-button"
+          type="button"
+          onClick={() => onRemove(source.source_id)}
+          disabled={removePending}
+        >
+          移除
+        </button>
+      </div>
+    </article>
   );
 }
 
@@ -137,13 +525,15 @@ function SourceLibrary({
   onTrace,
   onPreview,
   onAsk,
-  onRebuild
+  onRebuild,
+  importFocusSignal
 }: {
   workspaceId: string;
   onTrace: (source: SourceSummary) => void;
   onPreview: (source: SourceSummary) => void;
   onAsk: () => void;
   onRebuild: () => void;
+  importFocusSignal: number;
 }) {
   const sourcesQuery = useSourcesQuery(workspaceId);
   const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
@@ -155,7 +545,7 @@ function SourceLibrary({
         <h2 id="source-library-title">来源库</h2>
       </div>
       <div className="panel-body page-grid">
-        <SourceImportForm workspaceId={workspaceId} />
+        <SourceImportForm workspaceId={workspaceId} focusSignal={importFocusSignal} />
         {sourcesQuery.isLoading ? <LoadingState label="正在加载来源" /> : null}
         {sourcesQuery.error ? (
           <ApiErrorState title="来源库不可用" error={sourcesQuery.error} onRetry={() => void sourcesQuery.refetch()} />
@@ -166,72 +556,26 @@ function SourceLibrary({
         ) : null}
         {sourcesQuery.data && sourcesQuery.data.length > 0 ? (
           <div className="source-list">
-            {sourcesQuery.data.map((source) => (
-              <article className="source-card" key={source.source_id}>
-                <div>
-                  <div className="source-title-row">
-                    <h3>{source.title}</h3>
-                    <SourceStateBadge source={source} />
-                  </div>
-                  <dl className="source-meta-grid">
-                    <div>
-                      <dt>来源 ID</dt>
-                      <dd>{source.source_id}</dd>
-                    </div>
-                    <div>
-                      <dt>类型</dt>
-                      <dd>{source.source_type || '服务定义'}</dd>
-                    </div>
-                    <div>
-                      <dt>更新时间</dt>
-                      <dd>{source.updated_at || '未知'}</dd>
-                    </div>
-                    <div>
-                      <dt>工件引用</dt>
-                      <dd>{source.artifact_refs?.length ? `${source.artifact_refs.length} 个` : '无'}</dd>
-                    </div>
-                    <div>
-                      <dt>来源溯源</dt>
-                      <dd>{source.trace_available ? '可用' : '不可用'}</dd>
-                    </div>
-                  </dl>
-                </div>
-                <div className="source-actions">
-                  <button className="secondary-button" type="button" onClick={() => onTrace(source)} disabled={!source.trace_available}>
-                    溯源
-                  </button>
-                  <button
-                    className="secondary-button"
-                    type="button"
-                    onClick={() => onPreview(source)}
-                    disabled={Boolean(
-                      capabilitiesQuery.data && !isSourceLevelPreviewSupported(capabilitiesQuery.data, source.source_type)
-                    )}
-                    title={
-                      capabilitiesQuery.data && !isSourceLevelPreviewSupported(capabilitiesQuery.data, source.source_type)
-                        ? '该来源类型未声明支持预览。'
-                        : undefined
-                    }
-                  >
-                    预览
-                  </button>
-                  <button className="secondary-button" type="button" onClick={onAsk}>
-                    提问
-                  </button>
-                  <button className="secondary-button" type="button" onClick={onRebuild}>
-                    重建知识
-                  </button>
-                  <button
-                    className="secondary-button"
-                    type="button"
-                    onClick={() => removeSource.mutate(source.source_id)}
-                    disabled={removeSource.isPending}
-                  >
-                    移除
-                  </button>
-                </div>
-              </article>
-            ))}
+            {sourcesQuery.data.map((source) => {
+              const previewDisabled = Boolean(
+                capabilitiesQuery.data && !isSourceLevelPreviewSupported(capabilitiesQuery.data, source.source_type)
+              );
+              return (
+                <SourceCard
+                  key={source.source_id}
+                  source={source}
+                  workspaceId={workspaceId}
+                  previewDisabled={previewDisabled}
+                  previewDisabledTitle={previewDisabled ? '该来源类型未声明支持预览。' : undefined}
+                  onTrace={onTrace}
+                  onPreview={onPreview}
+                  onAsk={onAsk}
+                  onRebuild={onRebuild}
+                  onRemove={(sourceId) => removeSource.mutate(sourceId)}
+                  removePending={removeSource.isPending}
+                />
+              );
+            })}
           </div>
         ) : null}
       </div>
@@ -248,7 +592,10 @@ function BuildPanel({ workspaceId, rebuildSignal }: { workspaceId: string; rebui
   const onCompleted = useCallback(
     async (operation: BuildOperation) => {
       if (operation.status === 'completed') {
-        await queryClient.invalidateQueries({ queryKey: queryKeys.sources(workspaceId) });
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: queryKeys.sources(workspaceId) }),
+          queryClient.invalidateQueries({ queryKey: queryKeys.notebookGuide(workspaceId) })
+        ]);
       }
     },
     [queryClient, workspaceId]
@@ -317,16 +664,26 @@ function WorkspaceQueryPanel({
   workspaceId,
   onTraceSourceId,
   onNavigateEvidence,
-  focusSignal
+  onAddSource,
+  focusSignal,
+  submitSignal,
+  question,
+  onQuestionChange
 }: {
   workspaceId: string;
   onTraceSourceId: (sourceId: string) => void;
   onNavigateEvidence: (evidence: AnswerEvidence) => void;
+  onAddSource: () => void;
   focusSignal: number;
+  submitSignal: number;
+  question: string;
+  onQuestionChange: (question: string) => void;
 }) {
   const questionId = useId();
-  const [question, setQuestion] = useState('');
+  const panelRef = useRef<HTMLElement | null>(null);
+  const answerRef = useRef<HTMLElement | null>(null);
   const queryWorkspace = useWorkspaceQueryMutation(workspaceId);
+  const researchReport = useResearchReportMutation(workspaceId);
   const sourcesQuery = useSourcesQuery(workspaceId);
   const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
   const preciseNavigationEnabled = Boolean(
@@ -336,25 +693,57 @@ function WorkspaceQueryPanel({
       capabilitiesQuery.data.capabilities.document_units &&
       capabilitiesQuery.data.capabilities.unit_level_navigation
   );
+  const lastSubmitSignalRef = useRef(0);
 
   useEffect(() => {
     if (focusSignal > 0) {
       document.getElementById(questionId)?.focus();
+      panelRef.current?.scrollIntoView?.({ block: 'start' });
     }
   }, [focusSignal, questionId]);
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const submitQuestion = useCallback(() => {
     const trimmed = question.trim();
     if (!trimmed) return;
     queryWorkspace.mutate({
       question: trimmed,
       registrySourceIds: sourcesQuery.data?.map((source) => source.source_id)
     });
+  }, [queryWorkspace, question, sourcesQuery.data]);
+
+  const createResearchReport = () => {
+    const trimmed = question.trim();
+    if (!trimmed) return;
+    researchReport.mutate({ question: trimmed, top_k: 8 });
+  };
+
+  useEffect(() => {
+    if (submitSignal > 0 && submitSignal !== lastSubmitSignalRef.current) {
+      lastSubmitSignalRef.current = submitSignal;
+      panelRef.current?.scrollIntoView?.({ block: 'start' });
+      submitQuestion();
+    }
+  }, [submitQuestion, submitSignal]);
+
+  useEffect(() => {
+    if (queryWorkspace.isPending) {
+      panelRef.current?.scrollIntoView?.({ block: 'start' });
+    }
+  }, [queryWorkspace.isPending]);
+
+  useEffect(() => {
+    if (queryWorkspace.data) {
+      answerRef.current?.scrollIntoView?.({ block: 'nearest' });
+    }
+  }, [queryWorkspace.data]);
+
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    submitQuestion();
   };
 
   return (
-    <section className="panel" aria-labelledby="workspace-query-title">
+    <section className="panel" aria-labelledby="workspace-query-title" ref={panelRef}>
       <div className="panel-header">
         <h2 id="workspace-query-title">带证据提问</h2>
       </div>
@@ -366,7 +755,7 @@ function WorkspaceQueryPanel({
               id={questionId}
               className="text-area"
               value={question}
-              onChange={(event) => setQuestion(event.target.value)}
+              onChange={(event) => onQuestionChange(event.target.value)}
               placeholder="基于当前工作区提问。"
             />
           </label>
@@ -374,22 +763,513 @@ function WorkspaceQueryPanel({
             {queryWorkspace.isPending ? '提问中' : '询问工作区'}
           </button>
         </form>
+        {queryWorkspace.isPending ? (
+          <StateBlock title="正在基于来源生成回答">
+            已收到问题，正在检索当前 Notebook sources 并生成带引用回答。回答完成前不会清空来源库、资料导读或 Studio 输出。
+          </StateBlock>
+        ) : null}
         {queryWorkspace.error ? <ApiErrorState title="工作区提问失败" error={queryWorkspace.error} /> : null}
         {queryWorkspace.data ? (
-          <article className="answer-card">
+          <article className="answer-card" ref={answerRef} aria-live="polite">
             <h3>回答</h3>
+            {queryWorkspace.data.noEvidence ? (
+              <StateBlock
+                title="当前资料未覆盖"
+                tone="warning"
+                action={
+                  <button className="secondary-button" type="button" onClick={onAddSource}>
+                    添加来源
+                  </button>
+                }
+              >
+                {queryWorkspace.data.unsupportedReason === 'no_sources'
+                  ? '请先添加 PDF、TXT 或 Markdown 来源，再进行基于来源的问答。'
+                  : '当前 Notebook sources 没有返回可引用证据，系统不会使用资料外内容硬答。'}
+              </StateBlock>
+            ) : queryWorkspace.data.inferenceNotice ? (
+              <StateBlock title="回答依据">{queryWorkspace.data.inferenceNotice}</StateBlock>
+            ) : null}
             <p>{queryWorkspace.data.answer}</p>
+            {queryWorkspace.data.suggestedSourceActions?.length ? (
+              <div className="source-list" aria-label="补源建议">
+                {queryWorkspace.data.suggestedSourceActions.map((action) => (
+                  <StateBlock title="补源建议" key={action}>
+                    {action}
+                  </StateBlock>
+                ))}
+              </div>
+            ) : null}
             <EvidenceList
               evidence={queryWorkspace.data.evidence}
               onTrace={onTraceSourceId}
               onNavigateEvidence={onNavigateEvidence}
               preciseNavigationEnabled={preciseNavigationEnabled}
             />
+            <div className="source-actions">
+              <button className="secondary-button" type="button" disabled={researchReport.isPending || !question.trim()} onClick={createResearchReport}>
+                {researchReport.isPending ? '生成 Research 中' : '生成 Research 综合'}
+              </button>
+            </div>
+            {researchReport.error ? <ApiErrorState title="Research 输出失败" error={researchReport.error} /> : null}
+            {researchReport.data ? (
+              <ResearchReportCard
+                report={researchReport.data}
+                onTraceSourceId={onTraceSourceId}
+                onNavigateEvidence={onNavigateEvidence}
+                preciseNavigationEnabled={preciseNavigationEnabled}
+              />
+            ) : null}
             <LightweightFeedback workspaceId={workspaceId} target={{ target_type: 'workspace_answer' }} />
           </article>
         ) : null}
       </div>
     </section>
+  );
+}
+
+function ResearchReportCard({
+  report,
+  onTraceSourceId,
+  onNavigateEvidence,
+  preciseNavigationEnabled
+}: {
+  report: ResearchReport;
+  onTraceSourceId: (sourceId: string) => void;
+  onNavigateEvidence: (evidence: AnswerEvidence) => void;
+  preciseNavigationEnabled: boolean;
+}) {
+  return (
+    <section className="source-card" aria-label="Research 综合输出">
+      <div>
+        <div className="source-title-row">
+          <h3>Research 综合输出</h3>
+          <span className={`state-pill ${report.research_available ? 'state-ready' : 'state-warning'}`}>
+            {report.research_available ? '来源支持' : '需要补源'}
+          </span>
+        </div>
+        <p className="workspace-meta">
+          {report.coverage_status} · {report.answer_basis}
+        </p>
+        <p>{report.answer}</p>
+      </div>
+      {report.supported_conclusions.length ? (
+        <div className="source-list" aria-label="资料明确支持的结论">
+          {report.supported_conclusions.map((item, index) => (
+            <article className="source-card" key={`${item.claim}-${index}`}>
+              <h4>资料明确支持的结论</h4>
+              <p>{item.claim}</p>
+              <EvidenceList
+                evidence={item.evidence_refs}
+                onTrace={onTraceSourceId}
+                onNavigateEvidence={onNavigateEvidence}
+                preciseNavigationEnabled={preciseNavigationEnabled}
+              />
+            </article>
+          ))}
+        </div>
+      ) : null}
+      {report.inferences.length ? (
+        <div className="source-list" aria-label="基于来源的推断">
+          {report.inferences.map((item, index) => (
+            <StateBlock title="基于来源的推断" key={`${item.inference}-${index}`}>
+              {item.inference_notice ? `${item.inference_notice} ` : ''}
+              {item.inference}
+            </StateBlock>
+          ))}
+        </div>
+      ) : null}
+      {report.conflicts.length ? (
+        <div className="source-list" aria-label="来源分歧">
+          {report.conflicts.map((conflict, index) => (
+            <StateBlock title="来源分歧" key={`${conflict.topic}-${index}`}>
+              {conflict.topic}
+            </StateBlock>
+          ))}
+        </div>
+      ) : (
+        <StateBlock title="来源分歧">当前受限 Research 合同未检测到来源分歧；这不代表全量冲突分析 ready。</StateBlock>
+      )}
+      {report.missing_evidence.length || report.suggested_source_actions.length ? (
+        <div className="source-list" aria-label="缺口与补源建议">
+          {report.missing_evidence.map((item) => (
+            <StateBlock title="缺少证据" key={item} tone="warning">
+              {item}
+            </StateBlock>
+          ))}
+          {report.suggested_source_actions.map((item) => (
+            <StateBlock title="补源建议" key={item}>
+              {item}
+            </StateBlock>
+          ))}
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+function NotebookGuidePanel({ workspaceId, onAskQuestion }: { workspaceId: string; onAskQuestion: (question: string) => void }) {
+  const sourcesQuery = useSourcesQuery(workspaceId);
+  const sourceCount = sourcesQuery.data?.length ?? 0;
+  const guideQuery = useNotebookGuideQuery(workspaceId, sourceCount > 0);
+  const guide = guideQuery.data;
+  const suggestedQuestions =
+    guide?.suggested_questions.length && guide.guide_available
+      ? guide.suggested_questions
+      : ['这些资料的主要主题是什么？', '有哪些关键结论需要重点关注？', '当前资料还缺少哪些信息？'];
+
+  return (
+    <section className="panel notebook-guide-panel" aria-labelledby="notebook-guide-title">
+      <div className="panel-header">
+        <div>
+          <div className="eyebrow">Notebook Guide</div>
+          <h2 id="notebook-guide-title">资料导读</h2>
+        </div>
+      </div>
+      <div className="panel-body page-grid">
+        {sourceCount === 0 ? (
+          <EmptyState title="请先添加来源">导入 PDF、TXT 或 Markdown 后，Notebook Guide 将展示 Overview、Key Topics 和 Suggested Questions。</EmptyState>
+        ) : guideQuery.isLoading ? (
+          <LoadingState label="正在生成资料导读" />
+        ) : guideQuery.error ? (
+          <ApiErrorState title="资料导读不可用" error={guideQuery.error} onRetry={() => void guideQuery.refetch()} />
+        ) : guide?.guide_available ? (
+          <>
+            <article className="source-card">
+              <div>
+                <h3>概览</h3>
+                <p>{guide.overview}</p>
+                <p className="workspace-meta">
+                  基于 {guide.source_count} 个来源生成。回答仍必须基于当前来源并带引用。
+                </p>
+              </div>
+            </article>
+            <div className="source-list" aria-label="关键主题">
+              {guide.key_topics.map((topic) => (
+                <article className="source-card" key={`${topic.title}-${topic.summary}`}>
+                  <div>
+                    <h3>{topic.title}</h3>
+                    <p>{topic.summary}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <article className="source-card">
+              <div>
+                <h3>建议追问</h3>
+                <p className="workspace-meta">点击后会进入带证据提问，回答必须基于当前来源。</p>
+              </div>
+            </article>
+            <div className="suggested-question-list" aria-label="建议问题">
+              {suggestedQuestions.map((question) => (
+                <button className="secondary-button" type="button" key={question} onClick={() => onAskQuestion(question)}>
+                  {question}
+                </button>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <StateBlock title="资料导读暂不可用">
+              已检测到 {sourceCount} 个来源，但后端未返回可用导读。请先构建知识或补充资料；当前不会伪造 Overview、Key Topics 或 Suggested Questions。
+            </StateBlock>
+            <article className="source-card">
+              <div>
+                <h3>建议追问</h3>
+                <p className="workspace-meta">这些问题只作为提问入口，回答仍必须基于当前来源并带引用。</p>
+              </div>
+            </article>
+            <div className="suggested-question-list" aria-label="建议问题">
+              {suggestedQuestions.map((question) => (
+                <button className="secondary-button" type="button" key={question} onClick={() => onAskQuestion(question)}>
+                  {question}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function safeExportSlug(value: string) {
+  return (
+    value
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9\u4e00-\u9fa5._-]+/gi, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 72) || 'studio-artifact'
+  );
+}
+
+function evidenceLabel(evidence: AnswerEvidence, index: number) {
+  const fields = [
+    `key=${evidence.evidenceKey ?? `evidence-${index + 1}`}`,
+    evidence.sourceId ? `source_id=${evidence.sourceId}` : undefined,
+    evidence.unitId ? `unit_id=${evidence.unitId}` : undefined,
+    evidence.evidenceId ? `evidence_id=${evidence.evidenceId}` : undefined
+  ].filter(Boolean);
+  return fields.join(' ');
+}
+
+function studioArtifactToMarkdown(artifact: StudioArtifact) {
+  const lines = [`# ${artifact.title}`, '', artifact.summary, ''];
+  artifact.sections.forEach((section) => {
+    lines.push(`## ${section.title}`, '', section.content, '');
+    if (section.evidence_refs?.length) {
+      lines.push('引用：', ...section.evidence_refs.map((item, index) => `- ${evidenceLabel(item, index)}`), '');
+    }
+  });
+  if (artifact.evidence_refs.length) {
+    lines.push('## 全局引用', '', ...artifact.evidence_refs.map((item, index) => `- ${evidenceLabel(item, index)}`), '');
+  }
+  return lines.filter((line, index, array) => line || array[index - 1]).join('\n');
+}
+
+function studioArtifactToJson(artifact: StudioArtifact) {
+  return JSON.stringify(
+    {
+      artifact_id: artifact.artifact_id,
+      artifact_type: artifact.artifact_type,
+      title: artifact.title,
+      summary: artifact.summary,
+      sections: artifact.sections,
+      evidence_refs: artifact.evidence_refs,
+      generation_metadata: artifact.generation_metadata,
+      schema_version: 'v1_6_d_studio_export',
+      exported_at: new Date().toISOString()
+    },
+    null,
+    2
+  );
+}
+
+function downloadTextFile(filename: string, content: string, contentType: string) {
+  const blob = new globalThis.Blob([content], { type: contentType });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+function StudioPanel({
+  workspaceId,
+  onTraceSourceId,
+  onNavigateEvidence
+}: {
+  workspaceId: string;
+  onTraceSourceId: (sourceId: string) => void;
+  onNavigateEvidence: (evidence: AnswerEvidence) => void;
+}) {
+  const tools = [
+    { type: 'notes' as StudioArtifactType, title: 'Notes', description: '保存高价值回答、摘录和用户笔记，并保留引用。' },
+    { type: 'study_guide' as StudioArtifactType, title: 'Study Guide', description: '生成学习导读、结构化大纲、要点和建议追问。' },
+    { type: 'briefing_doc' as StudioArtifactType, title: 'Briefing Doc', description: '生成面向复述或汇报的资料简报。' },
+    { type: 'faq' as StudioArtifactType, title: 'FAQ', description: '生成常见问题与答案，每条都需要引用。' }
+  ];
+  const phaseTwoTools = [
+    { title: 'Audio Overview', description: '需要语音 provider、音频 artifact schema 和真实播放 smoke。' },
+    { title: 'PPT 生成', description: '需要 slide schema、导出合同和真实文件验收。' },
+    { title: '思维导图', description: '需要节点/边 schema、布局合同和可视化验收。' },
+    { title: '文档对比', description: '需要多来源差异 schema、冲突证据和引用定位验收。' }
+  ];
+  const createArtifact = useStudioArtifactMutation(workspaceId);
+  const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
+  const preciseNavigationEnabled = isEvidenceSpanNavigationSupported(capabilitiesQuery.data);
+  const artifact = createArtifact.data;
+  const [exportStatus, setExportStatus] = useState<string | null>(null);
+  const exportBaseName = artifact ? safeExportSlug(`${artifact.artifact_type}-${artifact.title}`) : 'studio-artifact';
+
+  const copyMarkdown = async () => {
+    if (!artifact) return;
+    try {
+      await globalThis.navigator.clipboard.writeText(studioArtifactToMarkdown(artifact));
+      setExportStatus('Markdown 已复制，包含 citation metadata。');
+    } catch {
+      setExportStatus('复制失败，请使用下载导出。');
+    }
+  };
+
+  const downloadMarkdown = () => {
+    if (!artifact) return;
+    downloadTextFile(`${exportBaseName}.md`, studioArtifactToMarkdown(artifact), 'text/markdown;charset=utf-8');
+    setExportStatus('Markdown 已下载，包含 citation metadata。');
+  };
+
+  const downloadJson = () => {
+    if (!artifact) return;
+    downloadTextFile(`${exportBaseName}.json`, studioArtifactToJson(artifact), 'application/json;charset=utf-8');
+    setExportStatus('JSON 已下载，包含 artifact、sections 和 evidence_refs。');
+  };
+
+  return (
+    <section className="panel studio-panel" aria-labelledby="studio-title">
+      <div className="panel-header">
+        <h2 id="studio-title">Studio</h2>
+      </div>
+      <div className="panel-body page-grid">
+        <StateBlock title="轻量输出">
+          Notes、Study Guide、Briefing Doc 和 FAQ 会基于当前来源生成。没有可引用证据时不会生成无来源输出。
+        </StateBlock>
+        {createArtifact.error ? <ApiErrorState title="Studio 输出失败" error={createArtifact.error} /> : null}
+        <div className="studio-tool-list">
+          {tools.map((tool) => (
+            <article className="source-card" key={tool.title}>
+              <div>
+                <div className="source-title-row">
+                  <h3>{tool.title}</h3>
+                  <span className={`state-pill ${artifact?.artifact_type === tool.type ? 'state-ready' : 'state-idle'}`}>
+                    {artifact?.artifact_type === tool.type ? '已生成' : '可生成'}
+                  </span>
+                </div>
+                <p className="workspace-meta">{tool.description}</p>
+              </div>
+              <button
+                className="secondary-button"
+                type="button"
+                disabled={createArtifact.isPending}
+                onClick={() => createArtifact.mutate({ artifact_type: tool.type })}
+              >
+                {createArtifact.isPending ? '生成中' : '生成'}
+              </button>
+            </article>
+          ))}
+        </div>
+        <article className="source-card" aria-label="Phase 2/3 输出工具">
+          <div>
+            <h3>Phase 2/3 输出工具</h3>
+            <p className="workspace-meta">以下能力仅展示合同发现边界。当前不会生成伪输出，也不会调用后端。</p>
+          </div>
+          <div className="studio-tool-list">
+            {phaseTwoTools.map((tool) => (
+              <article className="source-card" key={tool.title}>
+                <div>
+                  <div className="source-title-row">
+                    <h4>{tool.title}</h4>
+                    <span className="state-pill state-idle">合同未就绪</span>
+                  </div>
+                  <p className="workspace-meta">{tool.description}</p>
+                </div>
+                <button className="secondary-button" type="button" disabled>
+                  暂不可用
+                </button>
+              </article>
+            ))}
+          </div>
+        </article>
+        {artifact ? (
+          <article className="answer-card">
+            <h3>{artifact.title}</h3>
+            {artifact.artifact_available ? (
+              <>
+                <p>{artifact.summary}</p>
+                {artifact.sections.map((section) => (
+                  <section key={`${artifact.artifact_id}-${section.title}`}>
+                    <h4>{section.title}</h4>
+                    <p>{section.content}</p>
+                  </section>
+                ))}
+                <EvidenceList
+                  evidence={artifact.evidence_refs}
+                  onTrace={onTraceSourceId}
+                  onNavigateEvidence={onNavigateEvidence}
+                  preciseNavigationEnabled={preciseNavigationEnabled}
+                />
+                <div className="source-actions" aria-label="Studio 导出">
+                  <button className="secondary-button" type="button" onClick={copyMarkdown}>
+                    复制 Markdown
+                  </button>
+                  <button className="secondary-button" type="button" onClick={downloadMarkdown}>
+                    下载 Markdown
+                  </button>
+                  <button className="secondary-button" type="button" onClick={downloadJson}>
+                    下载 JSON
+                  </button>
+                </div>
+                {exportStatus ? <StateBlock title="导出状态">{exportStatus}</StateBlock> : null}
+              </>
+            ) : (
+              <StateBlock title="Studio 输出暂不可用" tone="warning">
+                当前没有可引用证据，不能生成无来源输出。
+              </StateBlock>
+            )}
+          </article>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function WorkspaceTitleEditor({
+  workspaceId,
+  name,
+  archived
+}: {
+  workspaceId: string;
+  name: string;
+  archived?: boolean;
+}) {
+  const [isRenaming, setIsRenaming] = useState(false);
+  const [draftName, setDraftName] = useState(name);
+  const renameWorkspace = useRenameWorkspaceMutation(workspaceId);
+
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const nextName = draftName.trim();
+    if (!nextName || nextName === name) {
+      setIsRenaming(false);
+      setDraftName(name);
+      return;
+    }
+    renameWorkspace.mutate({ name: nextName }, { onSuccess: () => setIsRenaming(false) });
+  };
+
+  return (
+    <div>
+      <div className="eyebrow">工作区</div>
+      {isRenaming ? (
+        <form className="inline-edit-form" onSubmit={submit} aria-label="重命名工作区">
+          <input
+            className="text-input"
+            value={draftName}
+            onChange={(event) => setDraftName(event.target.value)}
+            aria-label="工作区新名称"
+          />
+          <button className="secondary-button" type="submit" disabled={renameWorkspace.isPending || !draftName.trim()}>
+            保存
+          </button>
+          <button
+            className="secondary-button"
+            type="button"
+            onClick={() => {
+              setIsRenaming(false);
+              setDraftName(name);
+            }}
+          >
+            取消
+          </button>
+        </form>
+      ) : (
+        <div className="title-action-row">
+          <h2 className="page-title">{name}</h2>
+          <button
+            className="secondary-button"
+            type="button"
+            onClick={() => {
+              setDraftName(name);
+              setIsRenaming(true);
+            }}
+            disabled={archived}
+          >
+            重命名
+          </button>
+        </div>
+      )}
+      {renameWorkspace.error ? <ApiErrorState title="工作区重命名合同不可用" error={renameWorkspace.error} /> : null}
+    </div>
   );
 }
 
@@ -408,6 +1288,14 @@ export function WorkspacePage() {
   } | null>(null);
   const [rebuildSignal, setRebuildSignal] = useState(0);
   const [askFocusSignal, setAskFocusSignal] = useState(0);
+  const [askSubmitSignal, setAskSubmitSignal] = useState(0);
+  const [sourceImportFocusSignal, setSourceImportFocusSignal] = useState(0);
+  const [workspaceQuestion, setWorkspaceQuestion] = useState('');
+  const workspace = workspaceQuery.data;
+
+  useEffect(() => {
+    if (workspace) recordRecentWorkspace(workspace);
+  }, [workspace]);
 
   if (workspaceQuery.isLoading) {
     return <LoadingState label="正在加载工作区" />;
@@ -425,17 +1313,11 @@ export function WorkspacePage() {
     }
     return <StateBlock title="工作区不可用" tone="error">工作区无法加载。</StateBlock>;
   }
-
-  const workspace = workspaceQuery.data;
-
   return (
     <div className="workspace-layout">
       <div className="workspace-main page-grid">
         <div className="toolbar-row">
-          <div>
-            <div className="eyebrow">工作区</div>
-            <h2 className="page-title">{workspace?.name ?? workspaceId}</h2>
-          </div>
+          <WorkspaceTitleEditor workspaceId={workspaceId} name={workspace?.name ?? workspaceId} archived={workspace?.archived} />
           <button
             className="secondary-button"
             type="button"
@@ -460,41 +1342,79 @@ export function WorkspacePage() {
           </StateBlock>
         ) : null}
 
-        <section className="panel">
-          <div className="panel-header">
-            <h2>工作区概览</h2>
+        <div className="notebook-three-column" aria-label="Notebook 三列工作区">
+          <div className="notebook-column notebook-column-sources">
+            <SourceLibrary
+              workspaceId={workspaceId}
+              onTrace={(source) => setTraceSourceId(source.source_id)}
+              onPreview={(source) =>
+                setPreviewSource({ source_id: source.source_id, title: source.title, source_type: source.source_type })
+              }
+              onAsk={() => setAskFocusSignal((value) => value + 1)}
+              onRebuild={() => setRebuildSignal((value) => value + 1)}
+              importFocusSignal={sourceImportFocusSignal}
+            />
+            <BuildPanel workspaceId={workspaceId} rebuildSignal={rebuildSignal} />
           </div>
-          <div className="panel-body">
-            <p className="workspace-meta">稳定 ID：{workspace?.workspace_id}</p>
-            <p>{workspace?.description || '暂无描述。'}</p>
+          <div className="notebook-column notebook-column-chat">
+            <NotebookGuidePanel
+              workspaceId={workspaceId}
+              onAskQuestion={(question) => {
+                setWorkspaceQuestion(question);
+                setAskFocusSignal((value) => value + 1);
+                setAskSubmitSignal((value) => value + 1);
+              }}
+            />
+            <WorkspaceQueryPanel
+              workspaceId={workspaceId}
+              onTraceSourceId={setTraceSourceId}
+              onNavigateEvidence={(evidence) => {
+                if (!evidence.sourceId) return;
+                setPreviewSource({
+                  source_id: evidence.sourceId,
+                  title: evidence.sourceTitle,
+                  unitId: evidence.unitId,
+                  evidenceId: evidence.evidenceId,
+                  evidenceKey: evidence.evidenceKey
+                });
+              }}
+              onAddSource={() => setSourceImportFocusSignal((value) => value + 1)}
+              focusSignal={askFocusSignal}
+              submitSignal={askSubmitSignal}
+              question={workspaceQuestion}
+              onQuestionChange={setWorkspaceQuestion}
+            />
           </div>
-        </section>
-
-        <BuildPanel workspaceId={workspaceId} rebuildSignal={rebuildSignal} />
-        <SourceLibrary
-          workspaceId={workspaceId}
-          onTrace={(source) => setTraceSourceId(source.source_id)}
-          onPreview={(source) =>
-            setPreviewSource({ source_id: source.source_id, title: source.title, source_type: source.source_type })
-          }
-          onAsk={() => setAskFocusSignal((value) => value + 1)}
-          onRebuild={() => setRebuildSignal((value) => value + 1)}
-        />
-        <WorkspaceQueryPanel
-          workspaceId={workspaceId}
-          onTraceSourceId={setTraceSourceId}
-          onNavigateEvidence={(evidence) => {
-            if (!evidence.sourceId) return;
-            setPreviewSource({
-              source_id: evidence.sourceId,
-              title: evidence.sourceTitle,
-              unitId: evidence.unitId,
-              evidenceId: evidence.evidenceId,
-              evidenceKey: evidence.evidenceKey
-            });
-          }}
-          focusSignal={askFocusSignal}
-        />
+          <div className="notebook-column notebook-column-studio">
+            <StudioPanel
+              workspaceId={workspaceId}
+              onTraceSourceId={setTraceSourceId}
+              onNavigateEvidence={(evidence) => {
+                if (!evidence.sourceId) return;
+                setPreviewSource({
+                  source_id: evidence.sourceId,
+                  title: evidence.sourceTitle,
+                  unitId: evidence.unitId,
+                  evidenceId: evidence.evidenceId,
+                  evidenceKey: evidence.evidenceKey
+                });
+              }}
+            />
+            <AgentWorkflowPanel
+              workspaceId={workspaceId}
+              onNavigateEvidence={(evidence) => {
+                if (!evidence.sourceId) return;
+                setPreviewSource({
+                  source_id: evidence.sourceId,
+                  title: evidence.sourceTitle,
+                  unitId: evidence.unitId,
+                  evidenceId: evidence.evidenceId,
+                  evidenceKey: evidence.evidenceKey
+                });
+              }}
+            />
+          </div>
+        </div>
       </div>
       <SourceTraceDrawer workspaceId={workspaceId} sourceId={traceSourceId} onClose={() => setTraceSourceId(null)} />
       <SourcePreviewDrawer

@@ -1,0 +1,87 @@
+{
+  "workspace_id": "rn-v16-quality-claude-code-1779957144855",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "knowledge_query",
+    "knowledge_source_list"
+  ],
+  "data": {
+    "guide": {
+      "overview": "本资料介绍 Claude Code 的高阶使用技巧，涵盖高级功能的应用、方法论和最佳实践等内容。",
+      "key_topics": [
+        {
+          "title": "Claude Code 高级功能应用",
+          "summary": "探讨 Claude Code 提供的高级功能特性及其使用方法。",
+          "evidence_refs": [
+            {
+              "source_id": "src_7374674fe9a10971",
+              "source_title": "ClaudeCode高阶技巧.md",
+              "unit_id": "unit_b65f30b9d415fbc4",
+              "evidence_id": "ev_99f7a8653377e3d1",
+              "snippet": "# Claude Code 高阶使用技巧",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "高阶代码生成技巧",
+          "summary": "介绍如何高效运用 Claude Code 进行代码生成和编辑的高级技巧。",
+          "evidence_refs": [
+            {
+              "source_id": "src_7374674fe9a10971",
+              "source_title": "ClaudeCode高阶技巧.md",
+              "unit_id": "unit_b65f30b9d415fbc4",
+              "evidence_id": "ev_99f7a8653377e3d1",
+              "snippet": "# Claude Code 高阶使用技巧",
+              "locator": {}
+            }
+          ]
+        },
+        {
+          "title": "最佳实践与方法论",
+          "summary": "总结 Claude Code 高阶使用的最佳实践和方法论。",
+          "evidence_refs": [
+            {
+              "source_id": "src_7374674fe9a10971",
+              "source_title": "ClaudeCode高阶技巧.md",
+              "unit_id": "unit_b65f30b9d415fbc4",
+              "evidence_id": "ev_99f7a8653377e3d1",
+              "snippet": "# Claude Code 高阶使用技巧",
+              "locator": {}
+            }
+          ]
+        }
+      ],
+      "suggested_questions": [
+        "Claude Code 有哪些高阶功能可以提升开发效率？",
+        "如何使用 Claude Code 进行复杂的代码生成任务？",
+        "Claude Code 高阶使用有哪些推荐的最佳实践？"
+      ],
+      "evidence_refs": [
+        {
+          "source_id": "src_7374674fe9a10971",
+          "source_title": "ClaudeCode高阶技巧.md",
+          "unit_id": "unit_b65f30b9d415fbc4",
+          "evidence_id": "ev_99f7a8653377e3d1",
+          "snippet": "# Claude Code 高阶使用技巧",
+          "locator": {}
+        }
+      ],
+      "guide_available": true,
+      "source_count": 1,
+      "generation_metadata": {
+        "provider": "openai_compatible",
+        "provider_name": "minimax",
+        "model": "MiniMax-M2.7",
+        "prompt_version": "v1_5_b_ai_guide_2026_05_27",
+        "evidence_ref_count": 1,
+        "fallback_mode": false,
+        "latency_ms": 4078,
+        "response_schema": "openai_chat_completions"
+      }
+    }
+  }
+}

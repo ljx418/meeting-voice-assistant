@@ -1,0 +1,178 @@
+{
+  "workspace_id": "rn-v15-ai-studio-1779933325956",
+  "operation_id": "op_70fb5fdbdc20",
+  "status": "completed",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "operation",
+      "operation_id": "op_70fb5fdbdc20",
+      "artifact_ref": "operation://op_70fb5fdbdc20"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://a04e0c603be35052"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://5311f952f0ba08fd"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://d40dbd948d135aee"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://3660315a9af3df25"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://535ba2a34a2f0521"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://f3720ff752eef999"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://db63d45d8a203006"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://58daf05d56f33488"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://26d0415a62f57627"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://6a876265f423d016"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://da99141b63dc19dd"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://7e1c4a3ee7c579ec"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://039d701249da1048"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://0bc5b1bfada6008a"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://7beefa792e575257"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://dacea6ab510b65ec"
+    }
+  ],
+  "next_actions": [
+    "knowledge_build_status"
+  ],
+  "data": {
+    "operation_id": "op_70fb5fdbdc20",
+    "mode": "full",
+    "stage": "completed",
+    "progress": 1,
+    "status": "completed",
+    "started_at": "2026-05-28T01:55:26.121234Z",
+    "completed_at": "2026-05-28T01:55:29.832204Z",
+    "created_at": "2026-05-28T01:55:26.119170Z",
+    "updated_at": "2026-05-28T01:55:29.832436Z",
+    "error": {
+      "code": "error",
+      "message": "error",
+      "retryable": false
+    },
+    "retryable": false,
+    "artifact_refs": [
+      {
+        "type": "operation",
+        "operation_id": "op_70fb5fdbdc20",
+        "artifact_ref": "operation://op_70fb5fdbdc20"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://a04e0c603be35052"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://5311f952f0ba08fd"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://d40dbd948d135aee"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://3660315a9af3df25"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://535ba2a34a2f0521"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://f3720ff752eef999"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://db63d45d8a203006"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://58daf05d56f33488"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://26d0415a62f57627"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://6a876265f423d016"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://da99141b63dc19dd"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://7e1c4a3ee7c579ec"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://039d701249da1048"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://0bc5b1bfada6008a"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://7beefa792e575257"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://dacea6ab510b65ec"
+      }
+    ],
+    "results": [
+      {
+        "engine": "llmwiki",
+        "status": "success"
+      },
+      {
+        "engine": "graphrag",
+        "status": "indexed"
+      }
+    ]
+  }
+}

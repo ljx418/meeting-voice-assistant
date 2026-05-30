@@ -1,0 +1,130 @@
+{
+  "workspace_id": "rn-v16-quality-ai-video-workflow-1779957266393",
+  "operation_id": "op_9ed55dc14289",
+  "status": "completed",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "operation",
+      "operation_id": "op_9ed55dc14289",
+      "artifact_ref": "operation://op_9ed55dc14289"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://118cd908e797fd25"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://32e83e92d45d71f6"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://72b4c02d5e753e28"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://834fcabe7f9b2190"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://204f4b5bbc529f37"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://4beea7fd8c780fef"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://85bbb0f937311005"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://7620cc27d77d0931"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://a8b6c33a973f43da"
+    },
+    {
+      "type": "artifact",
+      "artifact_ref": "artifact://b7fd93b0101ab09c"
+    }
+  ],
+  "next_actions": [
+    "knowledge_build_status"
+  ],
+  "data": {
+    "operation_id": "op_9ed55dc14289",
+    "mode": "full",
+    "stage": "completed",
+    "progress": 1,
+    "status": "completed",
+    "started_at": "2026-05-28T08:34:26.536139Z",
+    "completed_at": "2026-05-28T08:34:31.855562Z",
+    "created_at": "2026-05-28T08:34:26.522676Z",
+    "updated_at": "2026-05-28T08:34:31.855925Z",
+    "error": {
+      "code": "error",
+      "message": "error",
+      "retryable": false
+    },
+    "retryable": false,
+    "artifact_refs": [
+      {
+        "type": "operation",
+        "operation_id": "op_9ed55dc14289",
+        "artifact_ref": "operation://op_9ed55dc14289"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://118cd908e797fd25"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://32e83e92d45d71f6"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://72b4c02d5e753e28"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://834fcabe7f9b2190"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://204f4b5bbc529f37"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://4beea7fd8c780fef"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://85bbb0f937311005"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://7620cc27d77d0931"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://a8b6c33a973f43da"
+      },
+      {
+        "type": "artifact",
+        "artifact_ref": "artifact://b7fd93b0101ab09c"
+      }
+    ],
+    "results": [
+      {
+        "engine": "llmwiki",
+        "status": "success"
+      },
+      {
+        "engine": "graphrag",
+        "status": "indexed"
+      }
+    ]
+  }
+}

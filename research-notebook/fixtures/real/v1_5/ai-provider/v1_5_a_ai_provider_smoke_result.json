@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-05-28T01:54:46.734Z",
+  "base_url": "http://127.0.0.1:8003",
+  "results": [
+    {
+      "name": "provider health route reachable",
+      "status": "pass",
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "real provider call",
+      "status": "pass",
+      "detail": "minimax / MiniMax-M2.7"
+    },
+    {
+      "name": "response schema",
+      "status": "pass",
+      "detail": "openai_chat_completions"
+    },
+    {
+      "name": "sanitized payload",
+      "status": "pass",
+      "detail": ""
+    }
+  ],
+  "final_decision": "PASS",
+  "declaration": "V1.5-A provider contract PASS; V1.5-B may be audited next."
+}
