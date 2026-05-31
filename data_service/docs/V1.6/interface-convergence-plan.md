@@ -1,6 +1,6 @@
 # V1.6 Interface Convergence Plan
 
-更新时间：2026-05-15
+更新时间：2026-05-16
 
 ## Baseline
 
@@ -44,7 +44,11 @@ V1.6-E4 已完成 Quality Correction Plan Target HTTP Minimal Surface。E4 通�
 
 V1.6-E5 已完成 Quality Correction Rules Build Target HTTP Minimal Surface。E5 通过 phase overlay 新增 1 个 correction-rules artifact build target HTTP route，current target HTTP surface = 35 routes。E5 不新增 MCP tool、CLI command 或 CLI subcommand；该 build 不是 quality build、workspace build、session build、correction plan build 或 correction apply。
 
-V1.6-F1 已完成 Console Governance Evidence Baseline Sync。F1 不新增公开面，不新增 backend route、MCP tool、CLI command 或 CLI subcommand，不修改 frontend 或 `/knowledge` 行为；current target HTTP surface 仍为 35 routes，MCP tool count 仍为 40，CLI diff = none。F2 Console Governance Polish remains planned / not implemented。
+V1.6-F1 已完成 Console Governance Evidence Baseline Sync。F1 不新增公开面，不新增 backend route、MCP tool、CLI command 或 CLI subcommand，不修改 frontend 或 `/knowledge` 行为；current target HTTP surface 仍为 35 routes，MCP tool count 仍为 40，CLI diff = none。
+
+V1.6-F2 已完成 Console Governance Polish。F2 只更新 `/knowledge` governance evidence display 和前端静态 build 产物，不新增 backend route、target HTTP route、compatibility HTTP route、MCP tool、CLI command 或 CLI subcommand；current target HTTP surface 仍为 35 routes，MCP tool count 仍为 40，CLI diff = none。
+
+V1.6 Closure Acceptance 已完成。Closure 只做最终公开面冻结审计、focused closure test、回归验收、drawio XML validation 和文档同步；不修改功能代码，不新增 backend route、target HTTP route、compatibility HTTP route、MCP tool、CLI command 或 CLI subcommand。Current target HTTP surface 仍为 35 routes，MCP tool count 仍为 40，CLI diff = none。Correction apply target HTTP 仍未实现；V1.7 capabilities remain planned only。
 
 ## Convergence Rules
 
@@ -68,7 +72,7 @@ V1.6-F1 已完成 Console Governance Evidence Baseline Sync。F1 不新增公开
 | graph | MCP graph tools already exist；CLI exposes snapshot + neighbors + community + query + session；target HTTP exposes C1 neighbors, C2 community, C3 query and C4 graph session inspection | keep read-only graph surfaces behind stable projection |
 | session | MCP session tools already exist；C4 opens only graph-scoped artifact inspection；D1 contract inventory/hardening completed；D2 opens minimal session lifecycle target HTTP create/list/get/close/delete；D3 contract planning completed with no public surface；D4 opens session ingest target HTTP only；D5 opens session query target HTTP only；D6 opens session build start/status/cancel target HTTP only | full Session GraphRAG public contract convergence remains staged; quality remains separate |
 | quality | MCP + CLI + compatibility HTTP；E1 quality feedback target HTTP accepted；E2 correction rules target HTTP accepted；E3 correction review target HTTP accepted；E4 correction plan target HTTP accepted；E5 correction rules build target HTTP accepted | keep quality target HTTP split by governance action; no correction apply route is open |
-| console governance | `/knowledge` governance console exists；F1 evidence baseline and matrix accepted with no frontend behavior change | F2 may add evidence display after separate frontend scope and acceptance |
+| console governance | `/knowledge` governance console exists；F1 evidence baseline accepted；F2 evidence display accepted；Closure Acceptance accepted | no new backend public surface after F2; V1.7 planning remains separate |
 
 ## Drift Guards
 

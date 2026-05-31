@@ -18,6 +18,11 @@ V2 后续开发采用“阶段前计划 -> PRD 规格审计 -> 开发 -> 真实�
 
 - 对照 `docs/V2_PROJECT_INTELLIGENCE_PRD.md` 做 PRD 规格检视。
 - 对照 `docs/V2_PROJECT_BASELINE.md` 做架构边界检视。
+- 对照 V2.0 目标文档做阶段范围检视：
+  - `docs/V2_0_TARGET_ARCHITECTURE.md`
+  - `docs/V2_0_TARGET_PRD.md`
+  - `docs/V2_0_TARGET_ACCEPTANCE_PLAN.md`
+  - `docs/V2_0_PHASE_2_7_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
 - 明确本阶段真实数据验收样例、命令、预期产物、失败处理。
 - 审计意见分级：`fatal | major | minor | note`。
 - `fatal` 或 `major` 未闭环时不得进入实质开发。
@@ -131,23 +136,29 @@ V2 后续开发采用“阶段前计划 -> PRD 规格审计 -> 开发 -> 真实�
 - 对比三端输出关键字段一致。
 - V1 MCP/HTTP/CLI smoke tests 通过。
 
-### Phase 7 / PR7：Agent Context Pack MVP
+### Phase 7 / PR7：Project Overview + Agent Context Pack MVP
 
-目标：生成 task-aware、证据驱动的 Agent Context Pack。
+目标：生成可供 Agent 阅读项目的 Project Overview，并生成 task-aware、证据驱动的 Agent Context Pack。
 
 真实数据验收：
 
+- 对当前 repo 通过 HTTP/MCP/CLI 读取 Project Overview。
+- Overview 必须包含项目定位、入口、公开能力、核心模块、存储结构、风险和 evidence。
+- Context Pack 支持 `project_brief` 和 `task_context` 两种模式。
+- 对当前 repo 输入通用阅读任务：“请阅读并汇总当前项目的定位、入口、公开能力、核心模块和证据”。
 - 对当前 repo 输入任务：“新增 codebase import MCP tool，并同步 HTTP API”。
 - 输出必须包含相关 MCP registry、dispatcher、existing source/build tool patterns、HTTP router、CLI parser、tests。
-- 每个关键建议有 evidence。
+- 每个关键建议、风险、测试建议和 recommended next step 有 evidence 或 `needs_review`。
 - evidence 不足标记 `needs_review`。
 - 设置较小 `max_tokens` 时必须裁剪并输出 omitted reasons。
 
-## Stretch Phases
+## V2.1 Expansion Phases
 
 - Phase 8：DevWiki Baseline。仅在 PR1-PR7 验收通过后进入，必须基于 V2 artifacts，不允许纯 LLM 编写。
 - Phase 9：Code Graph Baseline。仅在 mapping/evidence 质量稳定后进入，生成确定性 file/module/symbol/surface/capability graph。
 - Phase 10：Quality Governance Extension。仅在 Agent Context Pack 和 DevWiki 对象稳定后进入。
+
+V2.0 Agent-callable MVP = Phase 1-7。DevWiki、Code Graph、Code Quality Governance Extension 和最小前端只读页面属于 V2.1 Expansion，除非 PRD 和验收计划再次明确调整。
 
 ## Stage Failure Policy
 
@@ -157,6 +168,8 @@ V2 后续开发采用“阶段前计划 -> PRD 规格审计 -> 开发 -> 真实�
 - 真实数据验收失败两轮后仍无法闭环。
 - 需要修改 V1 核心行为或破坏兼容性。
 - 需要继续扩大 `backend/app/api/v1/data_service.py` 或 `backend/data_service/service.py` 才能完成。
+- V2 codebase artifact 生成会污染 `lifecycle/sources.json` 或依赖普通 source registry 才能工作。
+- Phase 7 需要把 ranking、rendering、token budget、evidence selection 和 persistence 全部堆进单个巨型 context pack 文件。
 - 出现 evidence 伪阳性、虚假 line range、mock 冒充真实验收。
 - 安全策略需要放宽，例如允许任意路径扫描或返回敏感绝对路径。
 - 性能目标明显无法满足 5,000 files / 100k LOC。
@@ -174,4 +187,3 @@ V2 后续开发采用“阶段前计划 -> PRD 规格审计 -> 开发 -> 真实�
 - audit report
 
 真实数据验收默认使用当前 `data_service` repo。mock 只能用于边界条件，不得替代最终验收。
-

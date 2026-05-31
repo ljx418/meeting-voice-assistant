@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from data_service.code_assets.registry import CodebaseRegistry
+from data_service.code_assets.snapshot import CodebaseSnapshotService, public_snapshot
 from data_service.mcp_common import bounded_int, envelope
 from data_service.mcp_workspace_runtime import WorkspaceRuntime
 
@@ -28,6 +29,11 @@ class CodebaseImportRequest(BaseModel):
 
 class CodebaseArchiveRequest(BaseModel):
     reason: str = ""
+
+
+class CodebaseSnapshotRequest(BaseModel):
+    scan_policy: dict[str, Any] = Field(default_factory=dict)
+    include_git: bool = True
 
 
 def _runtime() -> WorkspaceRuntime:
@@ -131,8 +137,68 @@ async def archive_codebase(workspace_id: str, codebase_id: str, request: Codebas
     return envelope(workspace_id=str(meta["workspace_id"]), data={"codebase": asset.public_dict()})
 
 
+@router.post("/{workspace_id}/codebases/{codebase_id}/snapshots")
+async def create_codebase_snapshot(workspace_id: str, codebase_id: str, request: CodebaseSnapshotRequest) -> dict[str, Any]:
+    _runtime_obj, workspace, meta, _registry = _registry_for(workspace_id)
+    if meta.get("status") == "archived":
+        return _blocked(
+            workspace_id=str(meta["workspace_id"]),
+            message="Workspace is archived and cannot create codebase snapshots",
+            code="workspace_archived",
+            next_actions=["knowledge_workspace_describe"],
+        )
+    service = CodebaseSnapshotService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        result = service.create_snapshot(codebase_id, scan_policy=request.scan_policy, include_git=request.include_git)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=f"Unknown codebase_id: {codebase_id}") from exc
+    except ValueError as exc:
+        return _blocked(
+            workspace_id=str(meta["workspace_id"]),
+            message=_snapshot_error_message(str(exc)),
+            code=str(exc),
+            next_actions=["knowledge_codebase_describe"],
+        )
+    snapshot = public_snapshot(result["snapshot"])
+    return envelope(
+        workspace_id=str(meta["workspace_id"]),
+        artifact_refs=snapshot["artifact_refs"],
+        next_actions=["knowledge_project_inventory", "knowledge_code_symbol_search"],
+        data={"snapshot": snapshot},
+    )
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/snapshots")
+async def list_codebase_snapshots(workspace_id: str, codebase_id: str, limit: int = 100) -> dict[str, Any]:
+    _runtime_obj, workspace, meta, _registry = _registry_for(workspace_id)
+    service = CodebaseSnapshotService(workspace, workspace_id=str(meta["workspace_id"]))
+    bounded_limit = bounded_int(limit, default=100, minimum=1, maximum=500, field="limit")
+    try:
+        items = service.list_snapshots(codebase_id, limit=bounded_limit)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=f"Unknown codebase_id: {codebase_id}") from exc
+    return envelope(workspace_id=str(meta["workspace_id"]), data={"items": items})
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/snapshots/{snapshot_id}")
+async def describe_codebase_snapshot(workspace_id: str, codebase_id: str, snapshot_id: str) -> dict[str, Any]:
+    _runtime_obj, workspace, meta, _registry = _registry_for(workspace_id)
+    service = CodebaseSnapshotService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        snapshot = public_snapshot(service.read_snapshot(codebase_id, snapshot_id))
+    except FileNotFoundError as exc:
+        if str(exc) == codebase_id:
+            raise HTTPException(status_code=404, detail=f"Unknown codebase_id: {codebase_id}") from exc
+        raise HTTPException(status_code=404, detail=f"Unknown snapshot_id: {snapshot_id}") from exc
+    return envelope(
+        workspace_id=str(meta["workspace_id"]),
+        artifact_refs=snapshot["artifact_refs"],
+        data={"snapshot": snapshot},
+    )
+
+
 def _error_code(error: str) -> str:
-    if "outside allowed roots" in error.lower():
+    if error == "CODEBASE_PATH_NOT_ALLOWED":
         return "path_not_allowed"
     if error in {"CODEBASE_PATH_NOT_FOUND", "CODEBASE_PATH_NOT_DIRECTORY", "CODEBASE_ID_CONFLICT"}:
         return error
@@ -143,7 +209,7 @@ def _error_code(error: str) -> str:
 
 def _error_message(code: str, error: str) -> str:
     if code == "path_not_allowed":
-        return error
+        return "Codebase path is outside allowed roots"
     if code == "CODEBASE_PATH_NOT_FOUND":
         return "Codebase path does not exist"
     if code == "CODEBASE_PATH_NOT_DIRECTORY":
@@ -151,3 +217,9 @@ def _error_message(code: str, error: str) -> str:
     if code == "CODEBASE_ID_CONFLICT":
         return "codebase_id already exists for a different root path"
     return error or "Codebase import failed"
+
+
+def _snapshot_error_message(code: str) -> str:
+    if code == "CODEBASE_NOT_ACTIVE":
+        return "Codebase is not active"
+    return code or "Codebase snapshot failed"

@@ -7,7 +7,7 @@
         <mxCell id="title" value="Data Service V1.6 当前实现 / 目标架构 / Gap" style="text;html=1;strokeColor=none;fillColor=none;fontSize=32;fontStyle=1;fontColor=#0F172A;align=center;verticalAlign=middle;" vertex="1" parent="1">
           <mxGeometry x="260" y="30" width="1680" height="44" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" value="V1.5 baseline 冻结；V1.6-A、B1/B2/B3、C1/C2/C3/C4、D1/D2/D3/D4/D5/D6/E1/E2/E3/E4/E5/F1 已 accepted。当前 target HTTP = 35 routes；F2 Console 仍为 planned。" style="text;html=1;strokeColor=none;fillColor=none;fontSize=15;fontColor=#475569;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="subtitle" value="V1.5 baseline 冻结；V1.6-A、B1/B2/B3、C1/C2/C3/C4、D1/D2/D3/D4/D5/D6/E1/E2/E3/E4/E5/F1/F2/Closure 已 accepted。当前 target HTTP = 35 routes；V1.7 capabilities remain planned only。" style="text;html=1;strokeColor=none;fillColor=none;fontSize=15;fontColor=#475569;align=center;verticalAlign=middle;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="250" y="78" width="1700" height="46" as="geometry" />
         </mxCell>
 
@@ -20,7 +20,7 @@
         <mxCell id="current_surface" value="&lt;b&gt;当前 V1.6 accepted surface&lt;/b&gt;&lt;br&gt;&lt;br&gt;target HTTP：35 routes&lt;br&gt;B1 workspace + B2 source + B3 build&lt;br&gt;C1/C2/C3/C4 graph read-only&lt;br&gt;D2 session lifecycle minimal surface&lt;br&gt;D4 ingest + D5 query + D6 build&lt;br&gt;E1 feedback + E2 rules + E3 review + E4 plan + E5 rules build&lt;br&gt;MCP tool count 仍为 40&lt;br&gt;CLI 顶层未变化" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#EFF6FF;strokeColor=#3B82F6;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
           <mxGeometry x="610" y="180" width="470" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="remaining_gap" value="&lt;b&gt;剩余核心 Gap&lt;/b&gt;&lt;br&gt;&lt;br&gt;F1 evidence baseline 已完成&lt;br&gt;F2 console governance polish 仍 planned&lt;br&gt;V1.6 总体验收与文档一致性审计&lt;br&gt;未实现前不得写成 implemented" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
+        <mxCell id="remaining_gap" value="&lt;b&gt;V1.6 收口状态&lt;/b&gt;&lt;br&gt;&lt;br&gt;F1 evidence baseline 已完成&lt;br&gt;F2 console governance polish 已完成&lt;br&gt;Closure Acceptance 已完成&lt;br&gt;V1.7 capabilities remain planned only" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
           <mxGeometry x="1120" y="180" width="470" height="150" as="geometry" />
         </mxCell>
         <mxCell id="boundaries" value="&lt;b&gt;边界条件&lt;/b&gt;&lt;br&gt;&lt;br&gt;MCP-first local knowledge governance microservice&lt;br&gt;不做终端用户知识消费 App&lt;br&gt;不依赖 meeting / ASR / IDE plugin&lt;br&gt;不暴露内部 path/layout 为稳定 contract" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FEF2F2;strokeColor=#EF4444;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
@@ -83,7 +83,7 @@
         <mxCell id="t_c2" value="&lt;b&gt;Session scoped D4/D5/D6&lt;/b&gt;&lt;br&gt;D4 ingest + D5 query + D6 build&lt;br&gt;+5 routes&lt;br&gt;no quality&lt;br&gt;&lt;b&gt;current total：28&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#CCFBF1;strokeColor=#0F766E;fontColor=#0F172A;fontSize=13;align=center;spacing=10;" vertex="1" parent="1">
           <mxGeometry x="1650" y="820" width="190" height="110" as="geometry" />
         </mxCell>
-        <mxCell id="t_c3" value="&lt;b&gt;Quality + Evidence&lt;/b&gt;&lt;br&gt;E1-E5 quality +7 routes&lt;br&gt;F1 evidence +0 surface&lt;br&gt;&lt;b&gt;current total：35&lt;/b&gt;&lt;br&gt;F2 planned" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#0F172A;fontSize=13;align=center;spacing=10;" vertex="1" parent="1">
+        <mxCell id="t_c3" value="&lt;b&gt;Quality + Console&lt;/b&gt;&lt;br&gt;E1-E5 quality +7 routes&lt;br&gt;F1/F2/Closure +0 backend surface&lt;br&gt;&lt;b&gt;current total：35&lt;/b&gt;&lt;br&gt;closure accepted" style="rounded=1;whiteSpace=wrap;html=1;arcSize=8;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#0F172A;fontSize=13;align=center;spacing=10;" vertex="1" parent="1">
           <mxGeometry x="1890" y="810" width="210" height="130" as="geometry" />
         </mxCell>
 
@@ -115,17 +115,17 @@
         <mxCell id="closed_gaps" value="&lt;b&gt;已闭环 Gap&lt;/b&gt;&lt;br&gt;&lt;br&gt;公开面自动 guard&lt;br&gt;workspace/source/build lifecycle target HTTP&lt;br&gt;graph neighbors/community/query/session inspection read-only surface&lt;br&gt;session lifecycle create/list/get/close/delete target HTTP&lt;br&gt;D3 ingest/query/build contract planning&lt;br&gt;D4 ingest + D5 query + D6 build target HTTP&lt;br&gt;E1 feedback + E2 rules + E3 review + E4 plan + E5 rules build target HTTP&lt;br&gt;默认 response path/layout leakage 防护&lt;br&gt;API / MCP / combined regression 通过" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#ECFDF5;strokeColor=#10B981;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
           <mxGeometry x="100" y="1090" width="450" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="open_gaps" value="&lt;b&gt;仍未完成 Gap&lt;/b&gt;&lt;br&gt;&lt;br&gt;F2：Console governance polish&lt;br&gt;V1.6 closure acceptance&lt;br&gt;&lt;br&gt;未实现前不得写成 implemented。" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
+        <mxCell id="open_gaps" value="&lt;b&gt;仍未实现能力&lt;/b&gt;&lt;br&gt;&lt;br&gt;correction apply target HTTP 未实现&lt;br&gt;V1.7 capabilities remain planned only&lt;br&gt;no end-user knowledge app UX&lt;br&gt;F2 之后无新增 backend public surface" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
           <mxGeometry x="610" y="1090" width="470" height="210" as="geometry" />
         </mxCell>
         <mxCell id="acceptance" value="&lt;b&gt;每阶段验收门禁&lt;/b&gt;&lt;br&gt;&lt;br&gt;public surface guard 必须通过&lt;br&gt;MCP tool count = 40 unless explicitly planned&lt;br&gt;CLI top-level 不变 unless explicitly planned&lt;br&gt;target HTTP = baseline + accepted overlays&lt;br&gt;/api/v1/knowledge/* retained&lt;br&gt;无上层应用生产依赖&lt;br&gt;current-vs-target-gap.md 更新后必须同步更新本 drawio&lt;br&gt;md / drawio 的阶段状态、route count、剩余计划和验收门禁必须一致" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#F1F5F9;strokeColor=#64748B;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
           <mxGeometry x="1140" y="1090" width="450" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="next_phase" value="&lt;b&gt;建议下一阶段&lt;/b&gt;&lt;br&gt;&lt;br&gt;V1.6-F2 Console Governance Polish&lt;br&gt;&lt;br&gt;不要新增 backend public surface。&lt;br&gt;不得把 console polish 写成新业务能力。&lt;br&gt;进入前仍需先跑 public surface guard。" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#EEF2FF;strokeColor=#6366F1;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
+        <mxCell id="next_phase" value="&lt;b&gt;建议下一阶段&lt;/b&gt;&lt;br&gt;&lt;br&gt;V1.7 planning 或 post-V1.6 backlog triage&lt;br&gt;&lt;br&gt;不要新增 backend public surface。&lt;br&gt;新增公开面前必须先建立新 baseline / overlay plan。" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#EEF2FF;strokeColor=#6366F1;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
           <mxGeometry x="1650" y="1090" width="450" height="210" as="geometry" />
         </mxCell>
 
-        <mxCell id="dev_plan_header" value="剩余开发计划路线图：F2 + V1.6 收口（必须逐阶段执行，不能合并为一个大阶段）" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;fillColor=#DBEAFE;strokeColor=#2563EB;fontColor=#0F172A;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
+        <mxCell id="dev_plan_header" value="剩余开发计划路线图：V1.6 收口（必须逐阶段执行，不能合并为一个大阶段）" style="rounded=1;whiteSpace=wrap;html=1;arcSize=4;fillColor=#DBEAFE;strokeColor=#2563EB;fontColor=#0F172A;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
           <mxGeometry x="70" y="1360" width="2060" height="44" as="geometry" />
         </mxCell>
         <mxCell id="plan_c4" value="&lt;b&gt;已完成：V1.6-D6&lt;/b&gt;&lt;br&gt;&lt;b&gt;Session Build Target HTTP Minimal Surface&lt;/b&gt;&lt;br&gt;&lt;br&gt;已开放：session build start/status/cancel。&lt;br&gt;&lt;br&gt;验收：public surface guard；真实 operation_id；no quality。" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#ECFDF5;strokeColor=#10B981;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
@@ -134,10 +134,10 @@
         <mxCell id="plan_d" value="&lt;b&gt;已完成：V1.6-F1&lt;/b&gt;&lt;br&gt;&lt;b&gt;Console Governance Evidence Baseline&lt;/b&gt;&lt;br&gt;&lt;br&gt;开发：evidence matrix、route count 35、drawio sync、focused docs guard。&lt;br&gt;&lt;br&gt;验收：MCP 40；CLI diff none；no backend route；no frontend behavior change。" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#ECFEFF;strokeColor=#06B6D4;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
           <mxGeometry x="610" y="1440" width="470" height="240" as="geometry" />
         </mxCell>
-        <mxCell id="plan_e" value="&lt;b&gt;1. V1.6-F2&lt;/b&gt;&lt;br&gt;&lt;b&gt;Console Governance Polish&lt;/b&gt;&lt;br&gt;&lt;br&gt;开发：在 /knowledge 展示 public surface、target migration 和 contract evidence。&lt;br&gt;&lt;br&gt;验收：frontend build / screenshots；不把 /knowledge 变成终端用户知识消费 App。" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#F5F3FF;strokeColor=#8B5CF6;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
+        <mxCell id="plan_e" value="&lt;b&gt;已完成：V1.6-F2&lt;/b&gt;&lt;br&gt;&lt;b&gt;Console Governance Polish&lt;/b&gt;&lt;br&gt;&lt;br&gt;开发：在 /knowledge 展示 public surface、target migration 和 contract evidence。&lt;br&gt;&lt;br&gt;验收：frontend build；no backend public surface；不把 /knowledge 变成终端用户知识消费 App。" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#F5F3FF;strokeColor=#8B5CF6;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
           <mxGeometry x="1120" y="1440" width="470" height="240" as="geometry" />
         </mxCell>
-        <mxCell id="plan_f" value="&lt;b&gt;V1.6 收口验收&lt;/b&gt;&lt;br&gt;&lt;b&gt;Closure Acceptance&lt;/b&gt;&lt;br&gt;&lt;br&gt;开发：不新增能力，只做审计、回归、文档一致性和总结报告。&lt;br&gt;&lt;br&gt;验收：MCP 40；CLI 顶层不变；target HTTP = accepted overlays；/api/v1/knowledge/* retained。" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFF7ED;strokeColor=#F97316;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
+        <mxCell id="plan_f" value="&lt;b&gt;已完成：V1.6 Closure&lt;/b&gt;&lt;br&gt;&lt;b&gt;Final Release Audit&lt;/b&gt;&lt;br&gt;&lt;br&gt;开发：不新增能力，只做审计、回归、文档一致性和总结报告。&lt;br&gt;&lt;br&gt;验收：MCP 40；CLI 顶层不变；target HTTP = 35；/api/v1/knowledge/* retained。" style="rounded=1;whiteSpace=wrap;html=1;arcSize=6;fillColor=#FFF7ED;strokeColor=#F97316;fontColor=#0F172A;fontSize=14;spacing=14;align=left;" vertex="1" parent="1">
           <mxGeometry x="1630" y="1440" width="470" height="240" as="geometry" />
         </mxCell>
         <mxCell id="e_plan_c4_d" edge="1" parent="1" source="plan_c4" target="plan_d" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#94A3B8;strokeWidth=2;endArrow=block;endFill=1;">

@@ -1,6 +1,6 @@
 # Data Service V1.6 Acceptance Plan
 
-更新时间：2026-05-15
+更新时间：2026-05-16
 
 ## Acceptance Standard
 
@@ -56,7 +56,11 @@ V1.6-E4 已继续使用 phase overlay 机制：V1.5 baseline 不变，E4 overlay
 
 V1.6-E5 已继续使用 phase overlay 机制：V1.5 baseline 不变，E5 overlay 精确允许 1 个 quality correction-rules artifact build target HTTP addition。E5 accepted 后 current target HTTP surface = V1.5 baseline 3 + B1 overlay 4 + B2 overlay 4 + B3 overlay 3 + C1 overlay 1 + C2 overlay 1 + C3 overlay 1 + C4 overlay 1 + D2 overlay 5 + D4 overlay 1 + D5 overlay 1 + D6 overlay 3 + E1 overlay 1 + E2 overlay 2 + E3 overlay 1 + E4 overlay 2 + E5 overlay 1 = 35 routes。E5 不新增 MCP tool、CLI command 或 CLI subcommand，不开放 correction apply target HTTP。
 
-V1.6-F1 不新增 phase overlay。F1 accepted 后 current target HTTP surface 仍为 35 routes，MCP tool count 仍为 40，CLI top-level / nested diff = none，HTTP diff from E5 accepted surface = none。F1 只做 console governance evidence baseline、文档同步、drawio 同步和 focused documentation guard；不新增 backend route，不修改 frontend 或 `/knowledge` 行为。F2 Console Governance Polish 仍是 planned / not implemented。
+V1.6-F1 不新增 phase overlay。F1 accepted 后 current target HTTP surface 仍为 35 routes，MCP tool count 仍为 40，CLI top-level / nested diff = none，HTTP diff from E5 accepted surface = none。F1 只做 console governance evidence baseline、文档同步、drawio 同步和 focused documentation guard；不新增 backend route，不修改 frontend 或 `/knowledge` 行为。
+
+V1.6-F2 不新增 phase overlay。F2 accepted 后 current target HTTP surface 仍为 35 routes，MCP tool count 仍为 40，CLI top-level / nested diff = none，HTTP diff from F1/E5 accepted surface = none。F2 只修改 `/knowledge` governance evidence display 和前端静态 build 产物；不新增 backend route、MCP tool、CLI command 或 CLI subcommand，不改变 accepted API behavior，不把 `/knowledge` 改成 end-user knowledge consumption app。
+
+V1.6 Closure Acceptance 不新增 phase overlay。Closure accepted 后 current target HTTP surface 仍为 35 routes，MCP tool count 仍为 40，CLI top-level / nested diff = none，HTTP diff from F2/E5 accepted surface = none。Closure 只做最终公开面冻结审计、focused closure test、文档同步和最终报告；不修改功能代码，不新增 backend route、MCP tool、CLI command 或 CLI subcommand，不把 `/knowledge` 改成 end-user knowledge consumption app。
 
 ## Contract Acceptance
 
@@ -83,7 +87,9 @@ V1.6-F1 不新增 phase overlay。F1 accepted 后 current target HTTP surface �
 - Quality correction review E3 checks：only `POST /api/workspaces/{workspace_id}/quality/correction-rules/{rule_id}/review` added；target HTTP route count = 32；HTTP diff is exactly E3 overlay；MCP/CLI diff = none；no quality correction plan/build target HTTP；review-only helper does not generate/update correction plan；approved does not mean active/applied；review does not activate read-time governance or execute correction。
 - Quality correction plan E4 checks：only `GET /api/workspaces/{workspace_id}/quality/correction-plan` and `POST /api/workspaces/{workspace_id}/quality/correction-plan` added；target HTTP route count = 34；HTTP diff is exactly E4 overlay；MCP/CLI diff = none；no quality build target HTTP；GET does not generate plan；POST uses plan-only/generate-only semantics；approved rules snapshot is bound；repeated POST semantics fixed；no correction execution、apply、read-time governance activation or build/session operation。
 - Quality correction rules build E5 checks：only `POST /api/workspaces/{workspace_id}/quality/correction-rules/build` added；target HTTP route count = 35；HTTP diff is exactly E5 overlay；MCP/CLI diff = none；build is correction-rules artifact build only, not quality/workspace/session/correction-plan build or correction apply；request body is `{}` only；existing review statuses are preserved；correction plan is not generated or updated；stale correction plan is reported through warnings / next_actions only。
-- Console governance evidence F1 checks：no public surface addition；target HTTP route count remains 35；MCP tool count remains 40；CLI top-level / nested diff = none；no new backend route；no frontend behavior change；`/knowledge` remains service governance console；F2 remains planned / not implemented；A / D1 / D3 are documented as +0 guard/planning phases, not route overlays。
+- Console governance evidence F1 checks：no public surface addition；target HTTP route count remains 35；MCP tool count remains 40；CLI top-level / nested diff = none；no new backend route；no frontend behavior change；`/knowledge` remains service governance console；A / D1 / D3 are documented as +0 guard/planning phases, not route overlays。
+- Console governance polish F2 checks：only `/knowledge` governance evidence display changed；frontend build passes；target HTTP route count remains 35；MCP tool count remains 40；CLI top-level / nested diff = none；no new backend route；accepted graph CLI nested additions remain graph neighbors/community/query/session；`/knowledge` remains service governance console；console does not present raw internal path/layout as stable contract。
+- Closure Acceptance checks：no functional code changes；changed files limited to docs/tests/reports/drawio；target HTTP route count remains 35；MCP tool count remains 40；CLI top-level / nested diff = none relative to accepted current baseline；E5 focused test file exists and passes；C graph CLI focused tests pass；no correction apply / execution route；drawio XML validates；V1.7 remains planned only。
 - stable external IDs only。
 - debug/console-only internal path fields clearly marked non-contract。
 

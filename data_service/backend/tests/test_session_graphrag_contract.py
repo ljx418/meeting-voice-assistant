@@ -240,11 +240,19 @@ def test_v16d1_session_graph_error_envelope_and_artifact_distinctions(tmp_path, 
 
 def test_v16d1_session_contract_baseline_and_d2_surface_boundaries_remain_explicit():
     current_tools = {spec["name"] for spec in all_tool_specs()}
-    assert len(current_tools) == 40
+    assert len(current_tools) == 45
     assert SESSION_MCP_BASELINE <= current_tools
+    assert {
+        "knowledge_codebase_import",
+        "knowledge_codebase_list",
+        "knowledge_codebase_snapshot",
+        "knowledge_codebase_describe",
+        "knowledge_codebase_archive",
+    } <= current_tools
 
     inventory = _cli_inventory()
-    assert set(inventory) == {"build", "graph", "quality", "query", "source", "trace", "workspace"}
+    assert set(inventory) == {"build", "code", "graph", "quality", "query", "source", "trace", "workspace"}
+    assert inventory["code"] == ["archive", "describe", "import", "list", "snapshot"]
     assert inventory["graph"] == ["community", "neighbors", "query", "session", "snapshot"]
 
     data_service_routes = {
@@ -254,7 +262,7 @@ def test_v16d1_session_contract_baseline_and_d2_surface_boundaries_remain_explic
         if getattr(route, "path", "").startswith("/api/workspaces")
     }
     target_paths = {path for _, path in data_service_routes}
-    assert len(data_service_routes) == 35
+    assert len(data_service_routes) == 55
     assert "/api/workspaces/{workspace_id}/graph/session" in target_paths
     assert "/api/workspaces/{workspace_id}/sessions" in target_paths
     assert "/api/workspaces/{workspace_id}/sessions/{session_id}" in target_paths

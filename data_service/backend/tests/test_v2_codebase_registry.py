@@ -46,7 +46,7 @@ def test_v2_codebase_registry_blocks_disallowed_path_and_id_conflict(tmp_path, m
     try:
         registry.import_codebase(path=str(other_root), codebase_id="other")
     except ValueError as exc:
-        assert "outside allowed roots" in str(exc)
+        assert str(exc) == "CODEBASE_PATH_NOT_ALLOWED"
     else:
         raise AssertionError("Expected disallowed root to be blocked")
 

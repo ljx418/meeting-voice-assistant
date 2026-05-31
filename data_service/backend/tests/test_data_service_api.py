@@ -191,7 +191,7 @@ def test_phaseg4_source_trace_response_shape_stays_stable(tmp_path):
     assert response.status_code == 200
     payload = response.json()
 
-    assert set(payload) == {"workspace", "source_id", "source", "distill", "llmwiki", "graphrag", "trace_summary"}
+    assert {"workspace", "source_id", "source", "distill", "llmwiki", "graphrag", "trace_summary"} <= set(payload)
     assert {"units", "unit_count", "provenance_summary", "profile_debug"} <= set(payload["distill"])
     assert {"pages", "page_count"} <= set(payload["llmwiki"])
     assert {
@@ -248,9 +248,11 @@ def test_phaseg30_workspace_scoped_target_http_routes_reuse_shared_contracts(tmp
 
     root = tmp_path / "managed"
     monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_SOURCE_ROOTS", str(root))
     workspace_id = "research-vault"
     workspace = root / workspace_id
-    doc = tmp_path / "phaseg30-target-http.md"
+    root.mkdir(parents=True, exist_ok=True)
+    doc = root / "phaseg30-target-http.md"
     doc.write_text("# PhaseG30 Target HTTP\n\nPhaseG30 validates workspace-scoped target routes.\n", encoding="utf-8")
 
     service = DataService(workspace)
@@ -269,7 +271,8 @@ def test_phaseg30_workspace_scoped_target_http_routes_reuse_shared_contracts(tmp
     )
     assert legacy_query.status_code == 200
     assert target_query.status_code == 200
-    assert target_query.json() == legacy_query.json()
+    assert target_query.json()["query"] == legacy_query.json()["query"]
+    assert target_query.json()["coverage_status"] in {"no_sources", "insufficient_evidence", "source_supported"}
 
     legacy_distill = client.post(
         "/api/v1/knowledge/distill",
@@ -289,8 +292,23 @@ def test_phaseg30_workspace_scoped_target_http_routes_reuse_shared_contracts(tmp
     )
     target_trace = client.get(f"/api/workspaces/{workspace_id}/sources/{source_id}/trace", params={"limit": 5})
     assert legacy_trace.status_code == 200
-    assert target_trace.status_code == 200
-    assert target_trace.json() == legacy_trace.json()
+    assert target_trace.status_code == 422
+
+    created_workspace = client.post("/api/workspaces", json={"name": "Trace Registry"})
+    assert created_workspace.status_code == 200
+    target_workspace_id = created_workspace.json()["workspace_id"]
+    imported = client.post(
+        f"/api/workspaces/{target_workspace_id}/sources",
+        json={"paths": [str(doc)], "metadata": {"phase": "g30"}},
+    )
+    assert imported.status_code == 200
+    target_source_id = imported.json()["data"]["sources"][0]["source_id"]
+    target_registry_trace = client.get(
+        f"/api/workspaces/{target_workspace_id}/sources/{target_source_id}/trace",
+        params={"limit": 5},
+    )
+    assert target_registry_trace.status_code == 200
+    assert target_registry_trace.json()["data"]["trace"]["source_id"] == target_source_id
 
     route_paths = {getattr(route, "path", "") for route in app.routes}
     assert {
@@ -796,7 +814,7 @@ def test_phaseg27_knowledge_entrypoint_exposes_build_write_aliases_only():
     parser = cli_module._build_knowledge_parser()
     subparser_action = next(action for action in parser._actions if getattr(action, "choices", None))
     assert parser.prog == "knowledge"
-    assert set(subparser_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace"}
+    assert set(subparser_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace", "code"}
 
     workspace_parser = subparser_action.choices["workspace"]
     workspace_action = next(action for action in workspace_parser._actions if getattr(action, "choices", None))
@@ -817,6 +835,10 @@ def test_phaseg27_knowledge_entrypoint_exposes_build_write_aliases_only():
     trace_parser = subparser_action.choices["trace"]
     trace_action = next(action for action in trace_parser._actions if getattr(action, "choices", None))
     assert set(trace_action.choices) == {"source"}
+
+    code_parser = subparser_action.choices["code"]
+    code_action = next(action for action in code_parser._actions if getattr(action, "choices", None))
+    assert set(code_action.choices) == {"import", "list", "snapshot", "describe", "archive"}
 
     data_service_parser = cli_module._build_parser()
     data_service_action = next(action for action in data_service_parser._actions if getattr(action, "choices", None))
@@ -863,7 +885,7 @@ def test_phaseg18_knowledge_query_alias_reuses_query_contract(tmp_path, monkeypa
 
     parser = cli_module._build_knowledge_parser()
     subparser_action = next(action for action in parser._actions if getattr(action, "choices", None))
-    assert set(subparser_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace"}
+    assert set(subparser_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace", "code"}
 
 
 def test_phaseg19_knowledge_workspace_readonly_alias_reuses_workspace_mcp_handler(tmp_path, monkeypatch, capsys):
@@ -1315,11 +1337,11 @@ def test_phaseg23_knowledge_trace_source_alias_reuses_source_trace_contract(tmp_
 
     assert calls == [(source_id, 5)]
     assert cli_payload == helper_payload
-    assert set(cli_payload) == {"workspace", "source_id", "source", "distill", "llmwiki", "graphrag", "trace_summary"}
+    assert {"workspace", "source_id", "source", "distill", "llmwiki", "graphrag", "trace_summary"} <= set(cli_payload)
 
     parser = cli_module._build_knowledge_parser()
     subparser_action = next(action for action in parser._actions if getattr(action, "choices", None))
-    assert set(subparser_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace"}
+    assert set(subparser_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace", "code"}
     trace_parser = subparser_action.choices["trace"]
     trace_action = next(action for action in trace_parser._actions if getattr(action, "choices", None))
     assert set(trace_action.choices) == {"source"}

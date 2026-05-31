@@ -1,6 +1,6 @@
 # V1.6 Public Surface Baseline
 
-更新时间：2026-05-15
+更新时间：2026-05-16
 
 本文件固化 V1.5 accepted 状态，作为 V1.6 规划和实现的公开面基线。
 
@@ -40,6 +40,10 @@ V1.5 baseline 尚未开放：
 V1.6-B1 已通过 phase overlay 新增 workspace target HTTP routes；V1.6-B2 已通过 phase overlay 新增 source target HTTP routes；V1.6-B3 已通过 phase overlay 新增 build target HTTP routes；V1.6-C1 已通过 phase overlay 新增 graph neighbors target HTTP route 和 `knowledge graph neighbors` nested CLI command；V1.6-C2 已通过 phase overlay 新增 graph community target HTTP route 和 `knowledge graph community` nested CLI command；V1.6-C3 已通过 phase overlay 新增 graph query target HTTP route 和 `knowledge graph query` nested CLI command；V1.6-C4 已通过 phase overlay 新增 graph session inspection target HTTP route 和 `knowledge graph session` nested CLI command；V1.6-D2 已通过 phase overlay 新增 session lifecycle create/list/get/close/delete target HTTP routes；V1.6-D4/D5/D6 已分别通过 phase overlay 新增 session ingest、session query、session build target HTTP minimal surfaces；V1.6-E1 已通过 phase overlay 新增 quality feedback target HTTP minimal surface；V1.6-E2 已通过 phase overlay 新增 quality correction rules target HTTP minimal surface；V1.6-E3 已通过 phase overlay 新增 quality correction review target HTTP minimal surface；V1.6-E4 已通过 phase overlay 新增 quality correction plan target HTTP minimal surface；V1.6-E5 已通过 phase overlay 新增 quality correction-rules artifact build target HTTP minimal surface。当前 accepted target HTTP route count = 35。本节的 V1.5 baseline 不因此改写。
 
 V1.6-F1 Console Governance Evidence Baseline Sync 不新增 overlay，不新增 target HTTP route，不新增 MCP tool，不新增 CLI command 或 CLI subcommand，不修改 frontend 或 `/knowledge` 行为。F1 accepted 后 current target HTTP route count 仍为 35，MCP tool count 仍为 40，CLI diff = none。
+
+V1.6-F2 Console Governance Polish 不新增 overlay，不新增 target HTTP route，不新增 MCP tool，不新增 CLI command 或 CLI subcommand，不新增 backend route。F2 只更新 `/knowledge` governance evidence display 和前端静态 build 产物。F2 accepted 后 current target HTTP route count 仍为 35，MCP tool count 仍为 40，CLI diff = none。
+
+V1.6 Closure Acceptance 不新增 overlay，不新增 target HTTP route，不新增 MCP tool，不新增 CLI command 或 CLI subcommand，不新增 backend route。Closure 只完成最终公开面冻结审计、focused closure test、回归验收和文档同步。Closure accepted 后 current target HTTP route count 仍为 35，MCP tool count 仍为 40，CLI diff = none。
 
 ## Contract Baseline
 
@@ -331,4 +335,42 @@ Current accepted target HTTP after F1 remains:
 - E1/E2/E3/E4/E5 overlays +7 routes
 - total：35 routes
 
-F1 does not add MCP tools, CLI top-level commands, CLI nested commands, compatibility HTTP routes, backend routes, frontend behavior changes or `/knowledge` behavior changes. F2 Console Governance Polish remains planned / not implemented.
+F1 does not add MCP tools, CLI top-level commands, CLI nested commands, compatibility HTTP routes, backend routes, frontend behavior changes or `/knowledge` behavior changes.
+
+### V1.6-F2 Console Governance Polish
+
+F2 does not add an overlay.
+
+Current accepted target HTTP after F2 remains 35 routes:
+
+- V1.5 baseline 3 routes
+- A guard +0
+- B1/B2/B3 overlays +11 routes
+- C1/C2/C3/C4 overlays +4 routes
+- D1 planning +0
+- D2 overlay +5 routes
+- D3 planning +0
+- D4/D5/D6 overlays +5 routes
+- E1/E2/E3/E4/E5 overlays +7 routes
+- F1/F2 +0 backend surface
+
+F2 does not add MCP tools, CLI top-level commands, CLI nested commands, compatibility HTTP routes, backend routes or target HTTP routes. It only updates `/knowledge` governance evidence display and frontend static build output.
+
+### V1.6 Closure Acceptance / Final Release Audit
+
+Closure Acceptance does not add an overlay.
+
+Current accepted target HTTP after Closure remains 35 routes:
+
+- V1.5 baseline 3 routes
+- A guard +0
+- B1/B2/B3 overlays +11 routes
+- C1/C2/C3/C4 overlays +4 routes
+- D1 planning +0
+- D2 overlay +5 routes
+- D3 planning +0
+- D4/D5/D6 overlays +5 routes
+- E1/E2/E3/E4/E5 overlays +7 routes
+- F1/F2/Closure +0 backend surface
+
+Closure does not add MCP tools, CLI top-level commands, CLI nested commands, compatibility HTTP routes, backend routes or target HTTP routes. It only finalizes public surface freeze audit, focused closure tests, regression validation and documentation sync. V1.5 baseline remains immutable and is not rewritten as current surface.

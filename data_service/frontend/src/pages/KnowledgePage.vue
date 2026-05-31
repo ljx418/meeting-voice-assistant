@@ -631,6 +631,77 @@
           <pre class="code-block">{{ mcpContractSnapshot }}</pre>
         </div>
       </section>
+
+      <section class="card card--governance-evidence">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">V1.6 Governance Evidence</p>
+            <h2>公开面证据</h2>
+          </div>
+          <div class="head-pills">
+            <span class="pill">target HTTP 38</span>
+            <span class="pill">MCP 45</span>
+            <span class="pill">CLI top-level 8</span>
+          </div>
+        </div>
+
+        <div class="governance-metric-grid">
+          <div v-for="metric in governanceBaselineEvidence" :key="metric.label" class="stat-item governance-stat">
+            <span>{{ metric.label }}</span>
+            <strong>{{ metric.value }}</strong>
+            <small>{{ metric.detail }}</small>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="list-item-head">
+            <h3>Accepted Overlay Summary</h3>
+            <span class="muted">A / D1 / D3 / F1 / F2 are +0 backend surface phases</span>
+          </div>
+          <div class="governance-overlay-grid">
+            <div v-for="item in governanceOverlayEvidence" :key="item.phase" class="list-item static-item governance-overlay-card">
+              <div class="list-item-head">
+                <span class="item-title">{{ item.phase }}</span>
+                <span class="pill" :class="{ warning: item.delta === '+0' }">{{ item.delta }}</span>
+              </div>
+              <div class="item-body">{{ item.detail }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="list-item-head">
+            <h3>Capability Evidence</h3>
+            <span class="muted">Closure acceptance remains planned, not implemented</span>
+          </div>
+          <div class="governance-evidence-table">
+            <div v-for="item in governanceCapabilityEvidence" :key="item.capability" class="list-item static-item governance-evidence-row">
+              <div>
+                <div class="list-item-head">
+                  <span class="item-title">{{ item.capability }}</span>
+                  <span class="pill" :class="{ warning: item.status === 'planned' }">{{ item.status }}</span>
+                </div>
+              </div>
+              <div class="item-body">{{ item.evidence }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subsection">
+          <div class="list-item-head">
+            <h3>Graph CLI Nested Additions</h3>
+            <span class="muted">accepted from C phases</span>
+          </div>
+          <div class="head-pills">
+            <span v-for="item in acceptedGraphCliNestedAdditions" :key="item" class="pill">{{ item }}</span>
+          </div>
+        </div>
+
+        <div class="governance-boundary-box">
+          <strong>/knowledge remains service governance console</strong>
+          <span>F2 is display-only console governance evidence polish. It adds no backend public surface, no MCP tool, no CLI command, no correction apply route, and no V1.6 closure acceptance.</span>
+        </div>
+      </section>
       </template>
 
       <template v-if="activeWorkbench === 'explore'">
@@ -1405,7 +1476,17 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { marked } from 'marked'
 
 import GraphCommunityView from '@/components/GraphCommunityView.vue'
-import { interfaceEntryContracts, mcpResourceContracts, mcpToolContracts, mcpV2AliasContracts, type McpErrorPreview } from '@/data/mcpContract'
+import {
+  acceptedGraphCliNestedAdditions,
+  governanceBaselineEvidence,
+  governanceCapabilityEvidence,
+  governanceOverlayEvidence,
+  interfaceEntryContracts,
+  mcpResourceContracts,
+  mcpToolContracts,
+  mcpV2AliasContracts,
+  type McpErrorPreview,
+} from '@/data/mcpContract'
 import {
   buildKnowledgeCorrectionPlan,
   buildKnowledgeCorrectionRules,
@@ -4123,7 +4204,8 @@ button.list-item {
 .card--mcp-contract,
 .card--mcp-side,
 .card--mcp-debugger,
-.card--mcp-entry {
+.card--mcp-entry,
+.card--governance-evidence {
   width: 100%;
 }
 
@@ -4282,6 +4364,58 @@ button.list-item {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+}
+
+.governance-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.governance-stat small {
+  display: block;
+  margin-top: 4px;
+  color: #8fa1b7;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.governance-overlay-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.governance-overlay-card,
+.governance-evidence-row {
+  min-width: 0;
+}
+
+.governance-evidence-table {
+  display: grid;
+  gap: 10px;
+}
+
+.governance-evidence-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.4fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.governance-boundary-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #101722;
+  color: #cbd5e1;
+}
+
+.governance-boundary-box strong {
+  color: #f8fafc;
 }
 
 .interface-matrix {
@@ -4861,6 +4995,9 @@ button.list-item {
   .mcp-contract-layout,
   .mcp-field-grid,
   .mcp-entry-grid,
+  .governance-metric-grid,
+  .governance-overlay-grid,
+  .governance-evidence-row,
   .interface-row,
   .interface-cells,
   .mcp-debugger-grid,

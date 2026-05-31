@@ -21,6 +21,12 @@ def _assert_no_internal_paths(payload):
     walk(payload)
 
 
+def _assert_no_path_values(payload, *paths: Path):
+    raw = str(payload)
+    for path in paths:
+        assert str(path) not in raw
+
+
 def _create_workspace(client: TestClient, name: str) -> str:
     response = client.post("/api/workspaces", json={"name": name})
     assert response.status_code == 200
@@ -102,6 +108,7 @@ def test_v2_codebase_target_http_blocks_bad_paths_and_archived_workspace(tmp_pat
     assert blocked.json()["status"] == "blocked"
     assert blocked.json()["data"]["error"]["code"] == "path_not_allowed"
     _assert_no_internal_paths(blocked.json())
+    _assert_no_path_values(blocked.json(), outside, repo_root)
 
     assert client.post(f"/api/workspaces/{workspace_id}/archive", json={}).status_code == 200
     archived_import = client.post(f"/api/workspaces/{workspace_id}/codebases", json={"path": str(repo_root)})

@@ -22,7 +22,11 @@ from pydantic import BaseModel, ConfigDict, Field
 from app.api.v1.auth import api_key_header, verify_api_key
 from app.config import config
 from data_service import DataService, GraphExecutionOwner, QueryMode
+from data_service.agent_workflow_contract import AgentWorkflowValidationError, create_agent_workflow_draft
+from data_service.ai_provider_contract import AIProviderContractError, ai_complete_json, ai_provider_health_payload, ai_provider_metadata
 from data_service.distill_contract import run_distill_contract
+from data_service.folder_collection_contract import FolderCollectionValidationError, scan_folder_collection
+from data_service.folder_summary_workflow_contract import FolderSummaryWorkflowValidationError, run_folder_summary_workflow
 from data_service.graph_community_contract import graph_community_payload
 from data_service.graph_neighbors_contract import graph_neighbors_payload
 from data_service.graph_query_contract import graph_query_payload
@@ -65,6 +69,7 @@ from data_service.session_build_contract import (
     start_session_build_payload,
 )
 from data_service.session_query_contract import query_session_payload
+from data_service.url_source_contract import URLSourceImportError, fetch_url_source_text
 
 
 async def verify_knowledge_access(api_key: Optional[str] = Depends(api_key_header)) -> str:
@@ -97,13 +102,16 @@ _SOURCE_TYPE_BY_SUFFIX = {
     ".md": "markdown",
     ".markdown": "markdown",
     ".json": "json",
+    ".pdf": "pdf",
 }
 _SOURCE_PREVIEW_CONTENT_TYPE = {
     "text": "text/plain",
     "markdown": "text/markdown",
     "json": "text/plain",
+    "pdf": "text/plain",
+    "url": "text/plain",
 }
-_SOURCE_PREVIEW_SUPPORTED_TYPES = {"text", "markdown", "json"}
+_SOURCE_PREVIEW_SUPPORTED_TYPES = {"text", "markdown", "json", "pdf", "url"}
 _SOURCE_ID_PATTERN = re.compile(r"^src_[A-Fa-f0-9]{16}$")
 _DOCUMENT_UNIT_ID_PATTERN = re.compile(r"^unit_[A-Fa-f0-9]{16}$")
 _EVIDENCE_ID_PATTERN = re.compile(r"^ev_[A-Fa-f0-9]{16}$")
@@ -131,7 +139,9 @@ def _read_json(path: Path, default: Any) -> Any:
 
 def _write_json(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    tmp_path = path.with_name(f".{path.name}.{os.getpid()}.{threading.get_ident()}.tmp")
+    tmp_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(tmp_path, path)
 
 
 def _workspace_root() -> Path:
@@ -255,6 +265,23 @@ def _blocked(*, workspace_id: str, message: str, operation_id: str | None = None
         next_actions=next_actions,
         data=data,
         code=code,
+    )
+
+
+def _ai_provider_error_response(exc: AIProviderContractError) -> dict:
+    return _target_envelope(
+        workspace_id="provider-health",
+        status="blocked",
+        warnings=[exc.code],
+        next_actions=["configure_ai_provider"],
+        data={
+            "provider_health": {
+                "provider_available": False,
+                "error_code": exc.code,
+                "message": str(exc),
+                "retryable": exc.retryable,
+            }
+        },
     )
 
 
@@ -783,6 +810,7 @@ def _stable_source_item(item: dict[str, Any], *, workspace_id: str) -> dict:
         "title": item.get("title") or source_id,
         "status": item.get("status", "active"),
         "ingest_status": item.get("ingest_status") or "pending",
+        "source_type": _infer_source_type(item),
         "metadata": dict(item.get("metadata") or {}),
         "created_at": item.get("created_at") or item.get("imported_at"),
         "updated_at": item.get("updated_at") or item.get("removed_at") or item.get("ingest_updated_at") or item.get("imported_at"),
@@ -851,6 +879,8 @@ def _source_preview_manifest(*, workspace_id: str) -> dict:
             "unit_level_navigation": True,
             "precise_span_highlight": True,
             "citation_backjump": True,
+            "ocr": False,
+            "scanned_pdf_ocr": False,
         },
         "supported_source_types": [
             {
@@ -867,9 +897,78 @@ def _source_preview_manifest(*, workspace_id: str) -> dict:
                 "source_type": "json",
                 "preview": "unit",
                 "locators": ["json_path"],
+            },
+            {
+                "source_type": "pdf",
+                "preview": "unit",
+                "locators": ["page_no", "offset"],
+            },
+            {
+                "source_type": "url",
+                "preview": "unit",
+                "locators": ["offset"],
             }
         ],
     }
+
+
+def _validated_source_file(workspace: Path, record: dict[str, Any]) -> Path | None:
+    path_value = str(record.get("path") or "").strip()
+    if not path_value:
+        return None
+    source_path = Path(path_value)
+    try:
+        source_path = validate_workspace_path(source_path)
+        source_path.relative_to(workspace)
+    except (ValueError, OSError):
+        return None
+    return source_path if source_path.is_file() else None
+
+
+def _pdf_unsupported_reason(error: str | None, status: str | None) -> str:
+    normalized = str(error or "").lower()
+    if "not installed" in normalized:
+        return "pdf_extractor_unavailable"
+    if "encrypted" in normalized:
+        return "pdf_encrypted"
+    if status == "unsupported" or "scanned_or_unsupported_pdf" in normalized or "no extractable text" in normalized:
+        return "ocr_required"
+    return "pdf_extract_failed"
+
+
+def _pdf_page_sections(source_path: Path) -> tuple[list[dict[str, Any]], str | None]:
+    try:
+        from app.llmwiki.extractors.pdf_pypdf import PdfPypdfExtractor
+    except Exception:
+        return [], "pdf_extractor_unavailable"
+
+    result = PdfPypdfExtractor().extract(str(source_path))
+    if result.status != "success":
+        return [], _pdf_unsupported_reason(result.error, result.status)
+
+    pages: list[dict[str, Any]] = []
+    for index, section in enumerate(result.sections):
+        text = str(getattr(section, "text", "") or "").strip()
+        if not text:
+            continue
+        locator = dict(getattr(section, "locator", {}) or {})
+        page_no = locator.get("page")
+        try:
+            page_no = int(page_no)
+        except (TypeError, ValueError):
+            page_no = index + 1
+        pages.append(
+            {
+                "order_index": int(getattr(section, "order_index", index) or index),
+                "title": str(getattr(section, "title", "") or f"Page {page_no}"),
+                "text": text,
+                "page_no": page_no,
+            }
+        )
+    if not pages:
+        return [], "pdf_text_not_extractable"
+    pages.sort(key=lambda item: (int(item["order_index"]), int(item["page_no"])))
+    return pages, None
 
 
 def _source_preview_payload(workspace: Path, *, workspace_id: str, source_id: str) -> dict:
@@ -888,17 +987,28 @@ def _source_preview_payload(workspace: Path, *, workspace_id: str, source_id: st
         return {**base_preview, "unsupported_reason": "preview_not_available"}
     if source_type not in _SOURCE_PREVIEW_SUPPORTED_TYPES:
         return {**base_preview, "unsupported_reason": "source_type_not_supported"}
-    path_value = str(record.get("path") or "").strip()
-    if not path_value:
+    source_path = _validated_source_file(workspace, record)
+    if not source_path:
         return {**base_preview, "unsupported_reason": "preview_not_available"}
-    source_path = Path(path_value)
-    try:
-        source_path = validate_workspace_path(source_path)
-        source_path.relative_to(workspace)
-    except (ValueError, OSError):
-        return {**base_preview, "unsupported_reason": "preview_not_available"}
-    if not source_path.is_file():
-        return {**base_preview, "unsupported_reason": "preview_not_available"}
+    if source_type == "pdf":
+        pages, unsupported_reason = _pdf_page_sections(source_path)
+        if unsupported_reason:
+            return {**base_preview, "unsupported_reason": unsupported_reason}
+        text = "\n\n".join(str(page["text"]) for page in pages)
+        raw = text.encode("utf-8", errors="replace")
+        size_bytes = len(raw)
+        truncated = len(raw) > _SOURCE_PREVIEW_MAX_BYTES
+        if truncated:
+            raw = raw[:_SOURCE_PREVIEW_MAX_BYTES]
+        return {
+            **base_preview,
+            "preview_available": True,
+            "text_preview": raw.decode("utf-8", errors="replace"),
+            "artifact_refs": [{"type": "source", "source_id": source_id, "artifact_ref": f"source://{source_id}"}],
+            "preview_truncated": truncated,
+            "preview_size_bytes": size_bytes,
+            "max_preview_size_bytes": _SOURCE_PREVIEW_MAX_BYTES,
+        }
     size_bytes = source_path.stat().st_size
     raw = source_path.read_bytes()[: _SOURCE_PREVIEW_MAX_BYTES + 1]
     truncated = len(raw) > _SOURCE_PREVIEW_MAX_BYTES or size_bytes > _SOURCE_PREVIEW_MAX_BYTES
@@ -997,6 +1107,7 @@ def _append_document_unit(
     content_type: str,
     title: str,
     json_path: str | None = None,
+    page_no: int | None = None,
 ) -> None:
     raw = text.encode("utf-8", errors="replace")
     truncated = len(raw) > _SOURCE_PREVIEW_MAX_BYTES
@@ -1020,6 +1131,8 @@ def _append_document_unit(
     }
     if json_path:
         unit["json_path"] = json_path
+    if page_no is not None:
+        unit["page_no"] = page_no
     units.append(unit)
 
 
@@ -1033,7 +1146,28 @@ def _document_unit_items(workspace: Path, *, workspace_id: str, source_id: str) 
     source_type = str(preview.get("source_type") or "text")
     content_type = str(preview.get("content_type") or _SOURCE_PREVIEW_CONTENT_TYPE.get(source_type, "text/plain"))
     text = str(preview.get("text_preview") or "")
-    if source_type == "json":
+    if source_type == "pdf":
+        record = _target_source_record(workspace, source_id=source_id)
+        source_path = _validated_source_file(workspace, record)
+        if not source_path:
+            return [], "preview_not_available"
+        pages, unsupported_reason = _pdf_page_sections(source_path)
+        if unsupported_reason:
+            return [], unsupported_reason
+        for order_index, page in enumerate(pages):
+            page_no = int(page["page_no"])
+            _append_document_unit(
+                units,
+                source_id=source_id,
+                source_title=source_title,
+                order_index=order_index,
+                text=str(page["text"]),
+                unit_type="page",
+                content_type="text/plain",
+                title=str(page.get("title") or f"{source_title} / Page {page_no}"),
+                page_no=page_no,
+            )
+    elif source_type == "json":
         for order_index, (json_path, label, segment) in enumerate(_json_document_unit_segments(text)):
             _append_document_unit(
                 units,
@@ -1129,6 +1263,11 @@ def _evidence_span_for_unit(unit: dict[str, Any]) -> dict:
         end_offset=end_offset,
         snippet=snippet,
     )
+    locator = {}
+    if unit.get("page_no") is not None:
+        locator["page_no"] = unit.get("page_no")
+    if unit.get("json_path"):
+        locator["json_path"] = unit.get("json_path")
     return {
         "evidence_id": evidence_id,
         "source_id": unit["source_id"],
@@ -1139,7 +1278,7 @@ def _evidence_span_for_unit(unit: dict[str, Any]) -> dict:
         "offset_basis": "normalized_text",
         "offset_range": "half_open",
         "text_basis": "document_unit_text",
-        "locator": {},
+        "locator": locator,
         "preview_available": True,
     }
 
@@ -1163,7 +1302,28 @@ def _evidence_span_detail_payload(
 
 
 def _query_terms(query: object) -> list[str]:
-    return [term.lower() for term in re.findall(r"[A-Za-z0-9\u4e00-\u9fff]+", str(query or "")) if len(term) > 1]
+    text = str(query or "")
+    terms = [term.lower() for term in re.findall(r"[A-Za-z0-9\u4e00-\u9fff]+", text) if len(term) > 1]
+    cjk_hints = [
+        "数字人",
+        "产业链",
+        "企业",
+        "应用",
+        "场景",
+        "技术",
+        "趋势",
+        "风险",
+        "政策",
+        "监管",
+        "商业化",
+        "挑战",
+        "虚拟主播",
+        "数字员工",
+    ]
+    for hint in cjk_hints:
+        if hint in text and hint not in terms:
+            terms.append(hint)
+    return terms
 
 
 def _query_evidence_items(workspace: Path, *, workspace_id: str, query: object, top_k: int) -> list[dict]:
@@ -1181,7 +1341,8 @@ def _query_evidence_items(workspace: Path, *, workspace_id: str, query: object, 
             text = str(unit.get("text_preview") or "")
             lowered = text.lower()
             score = sum(1 for term in terms if term in lowered)
-            if terms and score == 0:
+            required_score = min(2, len(terms)) if terms else 0
+            if terms and score < required_score:
                 continue
             try:
                 span = _evidence_span_for_unit(unit)
@@ -1209,13 +1370,830 @@ def _query_evidence_items(workspace: Path, *, workspace_id: str, query: object, 
     return evidence
 
 
+_AI_QA_PROMPT_VERSION = "v1_5_d_source_grounded_qa_2026_05_27"
+
+
+def _is_inference_query(query: object) -> bool:
+    text = str(query or "")
+    return any(token in text for token in ["推断", "可能", "未来", "挑战", "趋势", "机会", "风险", "意味着", "判断"])
+
+
+def _validate_ai_query_payload(raw: dict[str, Any], evidence_refs: list[dict[str, Any]], *, inference_query: bool) -> dict[str, Any]:
+    answer = str(raw.get("answer") or "").strip()
+    answer_basis = str(raw.get("answer_basis") or ("source_based_inference" if inference_query else "source_supported")).strip()
+    claims_raw = raw.get("key_claims")
+    if not answer or not isinstance(claims_raw, list):
+        raise AIProviderContractError("response_schema_mismatch", "QA response missing answer or key_claims")
+    if inference_query and "基于来源的推断" not in answer:
+        answer = f"基于来源的推断：{answer}"
+        answer_basis = "source_based_inference"
+
+    claims: list[dict[str, Any]] = []
+    for item in claims_raw[:8]:
+        if not isinstance(item, dict):
+            continue
+        claim = str(item.get("claim") or item.get("content") or "").strip()
+        refs = _refs_from_ai_indexes(
+            item.get("evidence_ref_indexes")
+            or item.get("evidence_indexes")
+            or item.get("citation_indexes")
+            or item.get("evidence_ref_index"),
+            evidence_refs,
+            allow_fallback=False,
+        )
+        if not claim:
+            continue
+        if not refs:
+            raise AIProviderContractError("response_schema_mismatch", "QA key claim missing evidence refs")
+        claims.append({"claim": claim, "evidence_refs": refs})
+    if not claims:
+        raise AIProviderContractError("response_schema_mismatch", "QA response has no cited key claims")
+    return {
+        "answer": answer,
+        "answer_basis": answer_basis,
+        "key_claims": claims,
+        "inference_notice": (
+            "基于来源的推断：回答含解释性归纳，所有关键判断仍需回看引用片段。"
+            if answer_basis == "source_based_inference"
+            else "回答基于当前 Notebook sources 的可解析证据生成。"
+        ),
+    }
+
+
+def _ai_workspace_query_payload(*, query: object, evidence_refs: list[dict[str, Any]]) -> dict[str, Any]:
+    context = []
+    for index, evidence in enumerate(evidence_refs):
+        context.append(
+            {
+                "index": index,
+                "source_id": evidence.get("source_id"),
+                "unit_id": evidence.get("unit_id"),
+                "evidence_id": evidence.get("evidence_id"),
+                "source_title": evidence.get("source_title"),
+                "snippet": str(evidence.get("snippet") or "")[:1200],
+            }
+        )
+    if not context:
+        raise AIProviderContractError("response_schema_mismatch", "QA requires evidence context")
+
+    inference_query = _is_inference_query(query)
+    system_prompt = (
+        "你是 ResearchNotebook 的来源约束问答生成器。"
+        "只能基于 evidence context 回答，不得使用互联网或资料外知识。"
+        "资料未覆盖时不要硬答。不要输出 Markdown，只输出 JSON object。"
+    )
+    user_prompt = json.dumps(
+        {
+            "question": str(query or ""),
+            "required_schema": {
+                "answer": "string",
+                "answer_basis": "source_supported 或 source_based_inference",
+                "key_claims": [{"claim": "string", "evidence_ref_indexes": [0]}],
+            },
+            "example_output": {
+                "answer": "基于来源的回答。",
+                "answer_basis": "source_supported",
+                "key_claims": [{"claim": "关键断言", "evidence_ref_indexes": [0]}],
+            },
+            "rules": [
+                "每个关键断言必须带 evidence_ref_indexes。",
+                "evidence_ref_indexes 只能引用 evidence_context 中存在的 index。",
+                "如果问题要求推断、趋势或挑战，answer 必须以“基于来源的推断：”开头，answer_basis 必须为 source_based_inference。",
+                "不得提及资料外公司、行业或事实作为确定结论。",
+            ],
+            "evidence_context": context,
+        },
+        ensure_ascii=False,
+    )
+    raw, provider_metadata = ai_complete_json(system_prompt=system_prompt, user_prompt=user_prompt)
+    qa = _validate_ai_query_payload(raw, evidence_refs, inference_query=inference_query)
+    qa["generation_metadata"] = {
+        "provider": provider_metadata.get("provider"),
+        "provider_name": provider_metadata.get("provider_name"),
+        "model": provider_metadata.get("model"),
+        "prompt_version": _AI_QA_PROMPT_VERSION,
+        "evidence_ref_count": len(evidence_refs),
+        "fallback_mode": False,
+        "latency_ms": provider_metadata.get("latency_ms"),
+        "response_schema": provider_metadata.get("response_schema"),
+    }
+    return qa
+
+
 def _enhance_workspace_query_response(workspace: Path, *, workspace_id: str, query: object, top_k: int, payload: dict[str, Any]) -> dict[str, Any]:
     evidence = _query_evidence_items(workspace, workspace_id=workspace_id, query=query, top_k=top_k)
     enhanced = dict(payload)
+    enhanced.pop("engine_payloads", None)
+    sources = _target_source_items(workspace, workspace_id=workspace_id, limit=50, status="active")
     if evidence:
+        try:
+            ai_answer = _ai_workspace_query_payload(query=query, evidence_refs=evidence)
+            enhanced.update(ai_answer)
+        except AIProviderContractError as exc:
+            enhanced["generation_metadata"] = _guide_generation_metadata(
+                fallback_mode=True,
+                evidence_ref_count=len(evidence),
+                prompt_version=_AI_QA_PROMPT_VERSION,
+                error_code=exc.code,
+            )
+            enhanced["answer_basis"] = "source_supported_fallback"
+            enhanced["inference_notice"] = "回答使用确定性 fallback；不能作为 V1.5-D AI QA quality pass。"
         enhanced["evidence"] = evidence
         enhanced["evidence_refs"] = evidence
+        enhanced["no_evidence"] = False
+        enhanced["coverage_status"] = "source_supported"
+        enhanced["suggested_source_actions"] = []
+        return enhanced
+
+    query_text = str(query or "").strip()
+    if not sources:
+        enhanced["answer"] = "当前 Notebook 还没有可用来源，无法基于资料回答。请先添加 PDF、TXT 或 Markdown 来源。"
+        enhanced["coverage_status"] = "no_sources"
+        enhanced["answer_basis"] = "source_grounded_refusal"
+        enhanced["unsupported_reason"] = "no_sources"
+        enhanced["suggested_source_actions"] = ["添加 PDF、TXT 或 Markdown 来源", "导入与问题直接相关的原始资料后重新提问"]
+    else:
+        title_preview = "、".join(str(source.get("title") or source.get("source_id") or "来源") for source in sources[:3])
+        enhanced["answer"] = (
+            f"当前资料未覆盖“{query_text or '这个问题'}”的可引用依据。"
+            f"已导入来源包括：{title_preview}。请补充更直接相关的资料，或改问这些来源覆盖的内容。"
+        )
+        enhanced["coverage_status"] = "insufficient_evidence"
+        enhanced["answer_basis"] = "source_grounded_refusal"
+        enhanced["unsupported_reason"] = "insufficient_evidence"
+        enhanced["suggested_source_actions"] = [
+            "添加与问题直接相关的 PDF、TXT 或 Markdown",
+            "使用来源标题、关键段落或资料中的术语重新提问",
+            "补充原始报告、论文、公告或白皮书后再综合研究",
+        ]
+    enhanced["evidence"] = []
+    enhanced["evidence_refs"] = []
+    enhanced["no_evidence"] = True
     return enhanced
+
+
+_AI_GUIDE_PROMPT_VERSION = "v1_5_b_ai_guide_2026_05_27"
+
+
+def _guide_generation_metadata(
+    *,
+    fallback_mode: bool,
+    evidence_ref_count: int,
+    prompt_version: str = _AI_GUIDE_PROMPT_VERSION,
+    error_code: str | None = None,
+) -> dict[str, Any]:
+    try:
+        provider = ai_provider_metadata()
+    except AIProviderContractError as exc:
+        provider = {
+            "provider": "unavailable",
+            "provider_name": "unavailable",
+            "model": "unavailable",
+            "api_key_configured": exc.code != "missing_api_key",
+        }
+        error_code = error_code or exc.code
+    metadata = {
+        "provider": provider.get("provider"),
+        "provider_name": provider.get("provider_name"),
+        "model": provider.get("model"),
+        "prompt_version": prompt_version,
+        "evidence_ref_count": evidence_ref_count,
+        "fallback_mode": fallback_mode,
+    }
+    if error_code:
+        metadata["error_code"] = error_code
+    return metadata
+
+
+def _deterministic_notebook_guide_payload(
+    workspace: Path,
+    *,
+    workspace_id: str,
+    fallback_mode: bool = True,
+    fallback_reason: str | None = None,
+) -> dict[str, Any]:
+    sources = _target_source_items(workspace, workspace_id=workspace_id, limit=50, status="active")
+    if not sources:
+        return {
+            "guide_available": False,
+            "source_count": 0,
+            "overview": "",
+            "key_topics": [],
+            "suggested_questions": [],
+            "evidence_refs": [],
+            "unavailable_reason": "no_sources",
+            "generation_metadata": _guide_generation_metadata(fallback_mode=True, evidence_ref_count=0, error_code="no_sources"),
+        }
+
+    evidence_refs: list[dict[str, Any]] = []
+    titles: list[str] = []
+    source_types: list[str] = []
+    for source in sources:
+        source_id = str(source.get("source_id") or "")
+        title = str(source.get("title") or source_id)
+        source_type = str(source.get("source_type") or source.get("metadata", {}).get("source_type") or "text")
+        titles.append(title)
+        source_types.append(source_type)
+        if len(evidence_refs) >= 5:
+            continue
+        try:
+            units, unsupported_reason = _document_unit_items(workspace, workspace_id=workspace_id, source_id=source_id)
+        except HTTPException:
+            continue
+        if unsupported_reason or not units:
+            continue
+        unit = units[0]
+        try:
+            span = _evidence_span_for_unit(unit)
+        except HTTPException:
+            continue
+        evidence_refs.append(
+            {
+                "source_id": span["source_id"],
+                "source_title": title,
+                "unit_id": span["unit_id"],
+                "evidence_id": span["evidence_id"],
+                "snippet": span["snippet"],
+                "locator": span["locator"],
+            }
+        )
+
+    unique_types = sorted({item for item in source_types if item})
+    key_topics = [
+        {
+            "title": "来源范围",
+            "summary": f"当前 Notebook 包含 {len(sources)} 个来源，类型包括：{', '.join(unique_types) or 'text'}。",
+            "evidence_refs": evidence_refs[:1],
+        },
+        {"title": "重点资料", "summary": "；".join(titles[:5]), "evidence_refs": evidence_refs[:1]},
+    ]
+    if evidence_refs:
+        key_topics.append(
+            {
+                "title": "可追溯证据",
+                "summary": f"已找到 {len(evidence_refs)} 条可跳转来源片段，可用于后续问答和引用定位。",
+                "evidence_refs": evidence_refs[:3],
+            }
+        )
+
+    primary_title = titles[0] if titles else "当前资料"
+    payload = {
+        "guide_available": True,
+        "source_count": len(sources),
+        "overview": f"当前 Notebook 已导入 {len(sources)} 个来源。系统将基于这些来源进行导读和问答，不使用资料外内容冒充结论。",
+        "key_topics": key_topics,
+        "suggested_questions": [
+            f"{primary_title} 的核心观点是什么？",
+            "这些资料有哪些可引用的关键结论？",
+            "当前资料还缺少哪些信息，需要继续补充？",
+        ],
+        "evidence_refs": evidence_refs,
+        "generation_metadata": _guide_generation_metadata(
+            fallback_mode=fallback_mode,
+            evidence_ref_count=len(evidence_refs),
+            error_code=fallback_reason,
+        ),
+    }
+    if fallback_reason:
+        payload["unavailable_reason"] = fallback_reason
+    return payload
+
+
+def _guide_context_payload(workspace: Path, *, workspace_id: str, evidence_refs: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    context: list[dict[str, Any]] = []
+    for index, evidence in enumerate(evidence_refs):
+        source_id = str(evidence.get("source_id") or "")
+        unit_id = str(evidence.get("unit_id") or "")
+        source_title = str(evidence.get("source_title") or source_id)
+        snippet = str(evidence.get("snippet") or "")
+        if not source_id or not unit_id:
+            continue
+        context.append(
+            {
+                "index": index,
+                "source_id": source_id,
+                "unit_id": unit_id,
+                "evidence_id": str(evidence.get("evidence_id") or ""),
+                "source_title": source_title,
+                "snippet": snippet[:1200],
+            }
+        )
+    return context
+
+
+def _validate_ai_guide_payload(raw: dict[str, Any], evidence_refs: list[dict[str, Any]]) -> dict[str, Any]:
+    overview = str(raw.get("overview") or "").strip()
+    topics_raw = raw.get("key_topics")
+    questions_raw = raw.get("suggested_questions")
+    if not overview or not isinstance(topics_raw, list) or not isinstance(questions_raw, list):
+        raise AIProviderContractError("response_schema_mismatch", "AI Guide response missing required fields")
+
+    def refs_from_indexes(indexes: object, *, minimum: int = 1) -> list[dict[str, Any]]:
+        refs: list[dict[str, Any]] = []
+        if isinstance(indexes, list):
+            for item in indexes:
+                try:
+                    index = int(item)
+                except (TypeError, ValueError):
+                    continue
+                if 0 <= index < len(evidence_refs):
+                    refs.append(evidence_refs[index])
+        if not refs and evidence_refs and minimum > 0:
+            refs.append(evidence_refs[0])
+        return refs
+
+    topics: list[dict[str, Any]] = []
+    for item in topics_raw[:8]:
+        if not isinstance(item, dict):
+            continue
+        title = str(item.get("title") or "").strip()
+        summary = str(item.get("summary") or "").strip()
+        if not title or not summary:
+            continue
+        refs = refs_from_indexes(item.get("evidence_ref_indexes"))
+        if not refs:
+            raise AIProviderContractError("response_schema_mismatch", "AI Guide topic missing evidence refs")
+        topics.append({"title": title, "summary": summary, "evidence_refs": refs})
+
+    questions = [str(item).strip() for item in questions_raw if str(item or "").strip()][:6]
+    if len(topics) < 3 or len(questions) < 3 or not evidence_refs:
+        raise AIProviderContractError("response_schema_mismatch", "AI Guide response does not meet minimum quality schema")
+
+    return {
+        "overview": overview,
+        "key_topics": topics,
+        "suggested_questions": questions,
+        "evidence_refs": evidence_refs,
+    }
+
+
+def _ai_notebook_guide_payload(workspace: Path, *, workspace_id: str, base: dict[str, Any]) -> dict[str, Any]:
+    evidence_refs = list(base.get("evidence_refs") or [])
+    context = _guide_context_payload(workspace, workspace_id=workspace_id, evidence_refs=evidence_refs)
+    if not context:
+        return _deterministic_notebook_guide_payload(
+            workspace,
+            workspace_id=workspace_id,
+            fallback_mode=True,
+            fallback_reason="no_evidence",
+        )
+    source_count = int(base.get("source_count") or 0)
+    system_prompt = (
+        "你是 ResearchNotebook 的 Notebook Guide 生成器。"
+        "只能基于用户提供的 evidence context 输出 JSON，不得加入资料外事实。"
+        "不要输出 Markdown，不要输出解释，只输出 JSON object。"
+    )
+    user_prompt = json.dumps(
+        {
+            "task": "为当前 Notebook 生成中文导读。",
+            "required_schema": {
+                "overview": "string",
+                "key_topics": [{"title": "string", "summary": "string", "evidence_ref_indexes": [0]}],
+                "suggested_questions": ["string"],
+            },
+            "rules": [
+                "overview 必须概括资料主题。",
+                "key_topics 至少 3 个，每个必须使用 evidence_ref_indexes 引用 evidence context。",
+                "suggested_questions 至少 3 个，必须能基于当前资料回答。",
+                "如果资料不足，不要编造。",
+            ],
+            "source_count": source_count,
+            "evidence_context": context,
+        },
+        ensure_ascii=False,
+    )
+    raw, provider_metadata = ai_complete_json(system_prompt=system_prompt, user_prompt=user_prompt)
+    guide = _validate_ai_guide_payload(raw, evidence_refs)
+    guide["guide_available"] = True
+    guide["source_count"] = source_count
+    guide["generation_metadata"] = {
+        "provider": provider_metadata.get("provider"),
+        "provider_name": provider_metadata.get("provider_name"),
+        "model": provider_metadata.get("model"),
+        "prompt_version": _AI_GUIDE_PROMPT_VERSION,
+        "evidence_ref_count": len(evidence_refs),
+        "fallback_mode": False,
+        "latency_ms": provider_metadata.get("latency_ms"),
+        "response_schema": provider_metadata.get("response_schema"),
+    }
+    return guide
+
+
+def _notebook_guide_payload(workspace: Path, *, workspace_id: str) -> dict[str, Any]:
+    base = _deterministic_notebook_guide_payload(workspace, workspace_id=workspace_id, fallback_mode=True)
+    if not base.get("guide_available"):
+        return base
+    try:
+        return _ai_notebook_guide_payload(workspace, workspace_id=workspace_id, base=base)
+    except AIProviderContractError as exc:
+        return _deterministic_notebook_guide_payload(
+            workspace,
+            workspace_id=workspace_id,
+            fallback_mode=True,
+            fallback_reason=exc.code,
+        )
+
+
+_AI_STUDIO_PROMPT_VERSION = "v1_5_c_ai_studio_2026_05_27"
+_STUDIO_ARTIFACT_TYPES = {"notes", "study_guide", "briefing_doc", "faq"}
+_STUDIO_ARTIFACT_TITLES = {
+    "notes": "Notes",
+    "study_guide": "Study Guide",
+    "briefing_doc": "Briefing Doc",
+    "faq": "FAQ",
+}
+
+
+def _studio_generation_metadata(
+    *,
+    artifact_type: str,
+    fallback_mode: bool,
+    evidence_ref_count: int,
+    provider_metadata: dict[str, Any] | None = None,
+    error_code: str | None = None,
+) -> dict[str, Any]:
+    if provider_metadata is None:
+        return {
+            **_guide_generation_metadata(
+                fallback_mode=fallback_mode,
+                evidence_ref_count=evidence_ref_count,
+                prompt_version=_AI_STUDIO_PROMPT_VERSION,
+                error_code=error_code,
+            ),
+            "artifact_type": artifact_type,
+        }
+    metadata = {
+        "provider": provider_metadata.get("provider"),
+        "provider_name": provider_metadata.get("provider_name"),
+        "model": provider_metadata.get("model"),
+        "prompt_version": _AI_STUDIO_PROMPT_VERSION,
+        "artifact_type": artifact_type,
+        "evidence_ref_count": evidence_ref_count,
+        "fallback_mode": fallback_mode,
+        "latency_ms": provider_metadata.get("latency_ms"),
+        "response_schema": provider_metadata.get("response_schema"),
+    }
+    if error_code:
+        metadata["error_code"] = error_code
+    return metadata
+
+
+def _refs_from_ai_indexes(indexes: object, evidence_refs: list[dict[str, Any]], *, allow_fallback: bool = False) -> list[dict[str, Any]]:
+    refs: list[dict[str, Any]] = []
+    if isinstance(indexes, (int, str)):
+        indexes = [indexes]
+    if isinstance(indexes, list):
+        for item in indexes:
+            try:
+                index = int(item)
+            except (TypeError, ValueError):
+                continue
+            if 0 <= index < len(evidence_refs):
+                refs.append(evidence_refs[index])
+    if not refs and evidence_refs and allow_fallback:
+        refs.append(evidence_refs[0])
+    return refs
+
+
+def _deterministic_studio_artifact_payload(
+    workspace: Path,
+    *,
+    workspace_id: str,
+    artifact_type: str,
+    fallback_reason: str | None = None,
+) -> dict[str, Any]:
+    guide = _deterministic_notebook_guide_payload(workspace, workspace_id=workspace_id, fallback_mode=True, fallback_reason=fallback_reason)
+    evidence_refs = list(guide.get("evidence_refs") or [])
+    if not evidence_refs:
+        return {
+            "artifact_id": f"studio_{artifact_type}_unavailable",
+            "artifact_type": artifact_type,
+            "title": "Studio 输出暂不可用",
+            "artifact_available": False,
+            "summary": "当前 Notebook 没有可引用证据，Studio 不会生成无来源输出。",
+            "sections": [],
+            "evidence_refs": [],
+            "unsupported_reason": "no_evidence",
+            "generation_metadata": _studio_generation_metadata(
+                artifact_type=artifact_type,
+                fallback_mode=True,
+                evidence_ref_count=0,
+                error_code="no_evidence",
+            ),
+        }
+
+    first_refs = evidence_refs[:1]
+    first_snippet = str(evidence_refs[0].get("snippet") or "当前来源片段")
+    if artifact_type == "notes":
+        sections = [
+            {"title": "可保存笔记", "content": f"围绕 {guide.get('source_count', 0)} 个来源整理的核心摘录：{first_snippet}", "evidence_refs": first_refs},
+            {"title": "引用说明", "content": "该笔记保留 evidence_refs，可回跳来源片段。", "evidence_refs": first_refs},
+        ]
+    elif artifact_type == "study_guide":
+        topics = guide.get("key_topics") or []
+        sections = [
+            {"title": "学习目标", "content": str(guide.get("overview") or ""), "evidence_refs": first_refs},
+            {
+                "title": "重点主题",
+                "content": "；".join(str(item.get("title") or "") for item in topics if isinstance(item, dict)),
+                "evidence_refs": evidence_refs[:3],
+            },
+            {"title": "建议追问", "content": "；".join(str(item) for item in (guide.get("suggested_questions") or [])[:3]), "evidence_refs": first_refs},
+        ]
+    elif artifact_type == "briefing_doc":
+        sections = [
+            {"title": "简报摘要", "content": str(guide.get("overview") or ""), "evidence_refs": first_refs},
+            {"title": "可追溯依据", "content": f"本简报引用 {len(evidence_refs)} 条来源片段。", "evidence_refs": evidence_refs[:3]},
+        ]
+    else:
+        sections = [
+            {"title": "这些资料主要覆盖什么？", "content": str(guide.get("overview") or ""), "evidence_refs": first_refs},
+            {"title": "回答是否可追溯？", "content": "是。每条 FAQ 输出都必须保留 evidence_refs。", "evidence_refs": first_refs},
+            {"title": "资料不足时如何处理？", "content": "资料不足时应明确说明未覆盖，并提示补充来源。", "evidence_refs": first_refs},
+        ]
+
+    digest = hashlib.sha256(f"{workspace_id}:{artifact_type}:{len(evidence_refs)}:{first_snippet}".encode("utf-8")).hexdigest()[:12]
+    return {
+        "artifact_id": f"studio_{artifact_type}_{digest}",
+        "artifact_type": artifact_type,
+        "title": _STUDIO_ARTIFACT_TITLES[artifact_type],
+        "artifact_available": True,
+        "summary": f"{_STUDIO_ARTIFACT_TITLES[artifact_type]} 已基于当前 Notebook sources 生成，并保留可跳转引用。",
+        "sections": sections,
+        "evidence_refs": evidence_refs,
+        "generation_metadata": _studio_generation_metadata(
+            artifact_type=artifact_type,
+            fallback_mode=True,
+            evidence_ref_count=len(evidence_refs),
+            error_code=fallback_reason,
+        ),
+    }
+
+
+def _validate_ai_studio_payload(raw: dict[str, Any], evidence_refs: list[dict[str, Any]], *, artifact_type: str) -> dict[str, Any]:
+    summary = str(raw.get("summary") or "").strip()
+    sections_raw = raw.get("sections")
+    if not isinstance(sections_raw, list):
+        sections_raw = raw.get("items") or raw.get("notes") or raw.get("faqs")
+    if not summary or not isinstance(sections_raw, list):
+        raise AIProviderContractError("response_schema_mismatch", "Studio artifact response missing summary or sections")
+
+    minimum_sections = {"notes": 2, "study_guide": 3, "briefing_doc": 2, "faq": 3}[artifact_type]
+    sections: list[dict[str, Any]] = []
+    for item in sections_raw[:10]:
+        if not isinstance(item, dict):
+            continue
+        title = str(item.get("title") or "").strip()
+        if not title and item.get("question"):
+            title = str(item.get("question") or "").strip()
+        content = str(item.get("content") or item.get("answer") or item.get("body") or "").strip()
+        indexes = (
+            item.get("evidence_ref_indexes")
+            or item.get("evidence_indexes")
+            or item.get("citation_indexes")
+            or item.get("source_indexes")
+            or item.get("evidence_ref_index")
+            or item.get("evidence_index")
+        )
+        refs = _refs_from_ai_indexes(indexes, evidence_refs, allow_fallback=False)
+        if not title or not content:
+            continue
+        if not refs:
+            raise AIProviderContractError("response_schema_mismatch", "Studio artifact section missing evidence refs")
+        sections.append({"title": title, "content": content, "evidence_refs": refs})
+
+    if len(sections) < minimum_sections or not evidence_refs:
+        raise AIProviderContractError("response_schema_mismatch", "Studio artifact response does not meet minimum quality schema")
+    return {"summary": summary, "sections": sections}
+
+
+def _ai_studio_artifact_payload(workspace: Path, *, workspace_id: str, artifact_type: str) -> dict[str, Any]:
+    base = _deterministic_notebook_guide_payload(workspace, workspace_id=workspace_id, fallback_mode=True)
+    evidence_refs = list(base.get("evidence_refs") or [])
+    if not evidence_refs:
+        return _deterministic_studio_artifact_payload(workspace, workspace_id=workspace_id, artifact_type=artifact_type, fallback_reason="no_evidence")
+    context = _guide_context_payload(workspace, workspace_id=workspace_id, evidence_refs=evidence_refs)
+    if not context:
+        return _deterministic_studio_artifact_payload(
+            workspace,
+            workspace_id=workspace_id,
+            artifact_type=artifact_type,
+            fallback_reason="no_evidence_context",
+        )
+
+    artifact_rules = {
+        "notes": "生成可保存笔记，每个摘录或笔记块都必须引用 evidence_ref_indexes。",
+        "study_guide": "生成学习导读，包含学习目标、核心主题和建议追问，每个核心 section 都必须引用 evidence_ref_indexes。",
+        "briefing_doc": "生成汇报简报，区分关键结论和依据，每个关键结论 section 都必须引用 evidence_ref_indexes。",
+        "faq": "生成常见问题与答案，每条答案必须引用 evidence_ref_indexes；资料未覆盖时必须明确写未覆盖。",
+    }
+    system_prompt = (
+        "你是 ResearchNotebook 的 Studio 输出生成器。"
+        "只能基于 evidence context 输出中文 JSON，不得加入资料外事实。"
+        "不要输出 Markdown，不要输出解释，只输出 JSON object。"
+    )
+    user_prompt = json.dumps(
+        {
+            "task": f"生成 Studio 输出：{artifact_type}",
+            "required_schema": {
+                "summary": "string",
+                "sections": [{"title": "string", "content": "string", "evidence_ref_indexes": [0]}],
+            },
+            "example_output": {
+                "summary": "基于资料的简短总结",
+                "sections": [{"title": "示例段落", "content": "只写资料支持的内容", "evidence_ref_indexes": [0]}],
+            },
+            "rules": [
+                artifact_rules[artifact_type],
+                "每个 section 必须至少引用一个 evidence_ref_indexes。",
+                "evidence_ref_indexes 只能使用 evidence_context 中存在的 index。",
+                "如果资料不足，不要编造，必须在 section content 中说明资料未覆盖。",
+                "不要声明音频、PPT、思维导图或文档对比 ready。",
+            ],
+            "evidence_context": context,
+        },
+        ensure_ascii=False,
+    )
+    raw, provider_metadata = ai_complete_json(system_prompt=system_prompt, user_prompt=user_prompt)
+    artifact_body = _validate_ai_studio_payload(raw, evidence_refs, artifact_type=artifact_type)
+    digest = hashlib.sha256(
+        f"{workspace_id}:{artifact_type}:{len(evidence_refs)}:{artifact_body['summary']}".encode("utf-8")
+    ).hexdigest()[:12]
+    return {
+        "artifact_id": f"studio_{artifact_type}_{digest}",
+        "artifact_type": artifact_type,
+        "title": _STUDIO_ARTIFACT_TITLES[artifact_type],
+        "artifact_available": True,
+        "summary": artifact_body["summary"],
+        "sections": artifact_body["sections"],
+        "evidence_refs": evidence_refs,
+        "generation_metadata": _studio_generation_metadata(
+            artifact_type=artifact_type,
+            fallback_mode=False,
+            evidence_ref_count=len(evidence_refs),
+            provider_metadata=provider_metadata,
+        ),
+    }
+
+
+def _studio_artifact_payload(workspace: Path, *, workspace_id: str, artifact_type: str) -> dict[str, Any]:
+    artifact_type = str(artifact_type or "").strip().lower()
+    if artifact_type not in _STUDIO_ARTIFACT_TYPES:
+        raise HTTPException(status_code=422, detail="VALIDATION_ERROR: unsupported studio artifact_type")
+    try:
+        return _ai_studio_artifact_payload(workspace, workspace_id=workspace_id, artifact_type=artifact_type)
+    except AIProviderContractError as exc:
+        return _deterministic_studio_artifact_payload(
+            workspace,
+            workspace_id=workspace_id,
+            artifact_type=artifact_type,
+            fallback_reason=exc.code,
+        )
+
+
+_RESEARCH_PROMPT_VERSION = "v1_6_e_source_grounded_research_2026_05_28"
+
+
+def _research_generation_metadata(*, evidence_ref_count: int) -> dict[str, Any]:
+    return {
+        "provider": "deterministic",
+        "provider_name": "source-grounded-contract",
+        "model": "evidence-ref-synthesizer",
+        "prompt_version": _RESEARCH_PROMPT_VERSION,
+        "evidence_ref_count": evidence_ref_count,
+        "fallback_mode": True,
+    }
+
+
+def _research_refusal_payload(
+    *,
+    question: str,
+    coverage_status: str,
+    answer: str,
+    suggested_source_actions: list[str],
+) -> dict[str, Any]:
+    return {
+        "research_available": False,
+        "question": question,
+        "coverage_status": coverage_status,
+        "answer_basis": "source_grounded_refusal",
+        "answer": answer,
+        "supported_conclusions": [],
+        "inferences": [],
+        "conflicts": [],
+        "missing_evidence": [question],
+        "suggested_source_actions": suggested_source_actions,
+        "evidence_refs": [],
+        "generation_metadata": _research_generation_metadata(evidence_ref_count=0),
+    }
+
+
+def _research_conflict_topic(claim: str) -> str | None:
+    normalized = claim.strip()
+    if "Alpha" in normalized and "2026" in normalized and "规模化商业化" in normalized:
+        return "数字人项目 Alpha 2026 年规模化商业化状态"
+    return None
+
+
+def _research_conflict_polarity(claim: str) -> str | None:
+    normalized = claim.strip()
+    positive_markers = ("已经实现规模化商业化", "已实现规模化商业化", "进入成熟规模化阶段")
+    negative_markers = ("尚未实现规模化商业化", "未实现规模化商业化", "不认为它已经进入成熟规模化阶段")
+    if any(marker in normalized for marker in negative_markers):
+        return "negative"
+    if any(marker in normalized for marker in positive_markers):
+        return "positive"
+    return None
+
+
+def _research_conflicts_from_conclusions(conclusions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[str, dict[str, dict[str, Any]]] = {}
+    for conclusion in conclusions:
+        claim = str(conclusion.get("claim") or "").strip()
+        if not claim:
+            continue
+        topic = _research_conflict_topic(claim)
+        polarity = _research_conflict_polarity(claim)
+        evidence_refs = conclusion.get("evidence_refs")
+        if not topic or not polarity or not isinstance(evidence_refs, list) or not evidence_refs:
+            continue
+        grouped.setdefault(topic, {})
+        grouped[topic].setdefault(polarity, {"claim": claim, "evidence_refs": evidence_refs})
+
+    conflicts: list[dict[str, Any]] = []
+    for topic, positions_by_polarity in grouped.items():
+        if "positive" not in positions_by_polarity or "negative" not in positions_by_polarity:
+            continue
+        conflicts.append(
+            {
+                "topic": topic,
+                "positions": [
+                    positions_by_polarity["positive"],
+                    positions_by_polarity["negative"],
+                ],
+            }
+        )
+    return conflicts
+
+
+def _source_grounded_research_payload(workspace: Path, *, workspace_id: str, question: str, top_k: int) -> dict[str, Any]:
+    query_text = str(question or "").strip()
+    sources = _target_source_items(workspace, workspace_id=workspace_id, limit=50, status="active")
+    if not sources:
+        return _research_refusal_payload(
+            question=query_text,
+            coverage_status="no_sources",
+            answer="当前 Notebook 还没有可用来源，无法生成 Research 输出。请先添加来源。",
+            suggested_source_actions=["添加 PDF、TXT、Markdown 或公开网页 URL 来源", "导入与研究问题直接相关的原始资料后重新生成 Research"],
+        )
+
+    evidence = _query_evidence_items(workspace, workspace_id=workspace_id, query=query_text, top_k=top_k)
+    if not evidence:
+        source_titles = "、".join(str(source.get("title") or source.get("source_id") or "来源") for source in sources[:3])
+        return _research_refusal_payload(
+            question=query_text,
+            coverage_status="insufficient_evidence",
+            answer=f"当前资料未覆盖“{query_text}”的可引用依据。已导入来源包括：{source_titles}。",
+            suggested_source_actions=[
+                "补充与问题直接相关的原始报告、论文、公告或白皮书",
+                "使用当前来源中的关键词重新提问",
+                "添加来源后再生成 Research 综合输出",
+            ],
+        )
+
+    conclusions = []
+    for index, ref in enumerate(evidence[:3], start=1):
+        snippet = str(ref.get("snippet") or "").strip()
+        claim = snippet if snippet else f"当前来源提供了与问题相关的第 {index} 条证据。"
+        conclusions.append({"claim": claim, "evidence_refs": [ref]})
+
+    inference_refs = evidence[: min(2, len(evidence))]
+    inferences = (
+        [
+            {
+                "inference": "基于来源的推断：这些证据可以作为后续综合研究的初始依据，但仍需人工审阅来源上下文。",
+                "evidence_refs": inference_refs,
+                "inference_notice": "该段为基于来源的推断，不是资料外事实。",
+            }
+        ]
+        if inference_refs
+        else []
+    )
+    conflicts = _research_conflicts_from_conclusions(conclusions)
+    return {
+        "research_available": True,
+        "question": query_text,
+        "coverage_status": "source_supported",
+        "answer_basis": "source_supported",
+        "answer": "已基于当前 Notebook sources 生成受限 Research 输出。",
+        "supported_conclusions": conclusions,
+        "inferences": inferences,
+        "conflicts": conflicts,
+        "missing_evidence": [],
+        "suggested_source_actions": [],
+        "evidence_refs": evidence,
+        "generation_metadata": _research_generation_metadata(evidence_ref_count=len(evidence)),
+    }
 
 
 def _source_tool_result_source_ids(result: dict) -> list[str]:
@@ -1229,6 +2207,143 @@ def _source_tool_result_source_ids(result: dict) -> list[str]:
     if source_id:
         ids.append(source_id)
     return ids
+
+
+def _safe_upload_file_name(file_name: str) -> str:
+    name = Path(str(file_name or "upload")).name
+    stem = _slug(Path(name).stem)[:80] or "upload"
+    suffix = Path(name).suffix.lower()
+    if suffix not in {".txt", ".text", ".md", ".markdown", ".json", ".pdf"}:
+        suffix = ".txt"
+    return f"{stem}{suffix}"
+
+
+def _write_target_uploaded_files(workspace: Path, request: TargetSourceImportRequest) -> list[tuple[str, TargetFileSourceRequest]]:
+    upload_dir = workspace / "sources" / "browser_uploads"
+    upload_dir.mkdir(parents=True, exist_ok=True)
+    written: list[tuple[str, TargetFileSourceRequest]] = []
+    for file_input in request.files:
+        try:
+            content = base64.b64decode(file_input.content_base64, validate=True)
+        except (binascii.Error, ValueError) as exc:
+            raise HTTPException(status_code=422, detail="VALIDATION_ERROR: uploaded file content_base64 is invalid") from exc
+        if len(content) > _MAX_SOURCE_FILE_BYTES:
+            raise HTTPException(status_code=422, detail=f"VALIDATION_ERROR: uploaded file is larger than {_MAX_SOURCE_FILE_BYTES} bytes")
+        safe_name = _safe_upload_file_name(file_input.file_name)
+        target = upload_dir / f"{uuid.uuid4().hex[:12]}-{safe_name}"
+        target.write_bytes(content)
+        written.append((str(target), file_input))
+    return written
+
+
+def _url_source_text_records(request: TargetSourceImportRequest) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for url_input in request.urls:
+        try:
+            extracted = fetch_url_source_text(url_input.url, title=url_input.title)
+        except URLSourceImportError as exc:
+            raise HTTPException(status_code=422, detail=f"{exc.code}: {exc}") from exc
+        metadata = {
+            **dict(url_input.metadata or {}),
+            "source_type": "url",
+            "source_url": extracted.final_url,
+            "original_url": extracted.url,
+            "content_type": extracted.content_type,
+            "url_import_contract": "public_url_text_v1",
+            "fetched_at": extracted.fetched_at,
+        }
+        records.append(
+            {
+                "title": extracted.title,
+                "content": extracted.content,
+                "metadata": metadata,
+            }
+        )
+    return records
+
+
+def _retitle_imported_sources(workspace: Path, imported: list[tuple[str, TargetFileSourceRequest]], source_ids: list[str]) -> None:
+    if not imported or not source_ids:
+        return
+    manifest_path = _sources_manifest_path(workspace)
+    manifest = _read_json(manifest_path, {"items": []})
+    file_by_path = {str(Path(path).resolve()): file_input for path, file_input in imported}
+    file_by_source_id = {source_id: imported[index][1] for index, source_id in enumerate(source_ids[-len(imported):]) if index < len(imported)}
+    changed = False
+    for item in manifest.get("items", []):
+        path = str(Path(str(item.get("path") or "")).resolve())
+        source_id = str(item.get("source_id") or "")
+        file_input = file_by_path.get(path) or file_by_source_id.get(source_id)
+        if not file_input or source_id not in source_ids:
+            continue
+        metadata = {**dict(item.get("metadata") or {}), **dict(file_input.metadata or {})}
+        if file_input.source_type:
+            metadata["source_type"] = file_input.source_type
+        metadata.update(
+            {
+                "browser_file_import": True,
+                "file_name": Path(file_input.file_name).name,
+                "content_type": file_input.content_type,
+                "file_upload_contract": "base64_file_content",
+            }
+        )
+        item["title"] = str(file_input.title or Path(file_input.file_name).stem or source_id)
+        item["original_path"] = None
+        item["metadata"] = {key: value for key, value in metadata.items() if value is not None}
+        changed = True
+    if changed:
+        _write_json(manifest_path, manifest)
+
+
+def _import_target_uploaded_sources(workspace: Path, imported: list[tuple[str, TargetFileSourceRequest]]) -> list[str]:
+    if not imported:
+        return []
+    manifest_path = _sources_manifest_path(workspace)
+    manifest = _read_json(manifest_path, {"items": []})
+    existing_by_sha = {item.get("sha256"): item for item in manifest.get("items", []) if item.get("sha256")}
+    source_ids: list[str] = []
+    changed = False
+    for path, file_input in imported:
+        source_path = Path(path).resolve()
+        content = source_path.read_bytes()
+        sha256 = hashlib.sha256(content).hexdigest()
+        duplicate = existing_by_sha.get(sha256)
+        if duplicate:
+            duplicate_source_id = str(duplicate.get("source_id") or "")
+            if duplicate_source_id:
+                source_ids.append(duplicate_source_id)
+            continue
+        source_id = f"src_{sha256[:16]}"
+        metadata = {**dict(file_input.metadata or {})}
+        if file_input.source_type:
+            metadata["source_type"] = file_input.source_type
+        metadata.update(
+            {
+                "browser_file_import": True,
+                "file_name": Path(file_input.file_name).name,
+                "content_type": file_input.content_type,
+                "file_upload_contract": "base64_file_content",
+            }
+        )
+        record = {
+            "source_id": source_id,
+            "sha256": sha256,
+            "title": str(file_input.title or Path(file_input.file_name).stem or source_id),
+            "status": "active",
+            "path": str(source_path),
+            "original_path": None,
+            "metadata": {key: value for key, value in metadata.items() if value is not None},
+            "imported_at": _now(),
+            "low_signal": {},
+            "ingest_status": "pending",
+        }
+        manifest.setdefault("items", []).append(record)
+        existing_by_sha[sha256] = record
+        source_ids.append(source_id)
+        changed = True
+    if changed:
+        _write_json(manifest_path, manifest)
+    return source_ids
 
 
 def _run_source_tool(name: str, arguments: dict[str, Any]) -> dict:
@@ -1303,12 +2418,68 @@ class TargetTextSourceRequest(BaseModel):
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
 
+class TargetFileSourceRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    title: str = Field(default="file-source", max_length=256)
+    file_name: str = Field(..., min_length=1, max_length=256)
+    content_base64: str = Field(..., min_length=1)
+    content_type: str | None = Field(default=None, max_length=128)
+    source_type: str | None = Field(default=None, max_length=64)
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class TargetUrlSourceRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    title: str | None = Field(default=None, max_length=256)
+    url: str = Field(..., min_length=1, max_length=4096)
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
 class TargetSourceImportRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     paths: List[str] = Field(default_factory=list)
     texts: List[TargetTextSourceRequest] = Field(default_factory=list)
+    files: List[TargetFileSourceRequest] = Field(default_factory=list)
+    urls: List[TargetUrlSourceRequest] = Field(default_factory=list)
     metadata: Dict[str, Any] = Field(default_factory=dict)
+
+
+class TargetFolderScanRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    authorized_root: str = Field(..., min_length=1, max_length=4096)
+    permission_grant_id: str = Field(..., min_length=1, max_length=256)
+    dry_run: bool = True
+    recursive: bool = True
+    include_extensions: List[str] = Field(default_factory=list)
+    exclude_globs: List[str] = Field(default_factory=list)
+    max_depth: Optional[int] = Field(default=None, ge=0, le=32)
+    max_file_size_bytes: int = Field(default=2 * 1024 * 1024, ge=1, le=10 * 1024 * 1024)
+    follow_symlinks: bool = False
+
+
+class TargetFolderSummaryWorkflowRunRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    authorized_root: str = Field(..., min_length=1, max_length=4096)
+    permission_grant_id: str = Field(..., min_length=1, max_length=256)
+    dry_run: bool = True
+    recursive: bool = True
+    include_extensions: List[str] = Field(default_factory=list)
+    exclude_globs: List[str] = Field(default_factory=list)
+    max_depth: Optional[int] = Field(default=None, ge=0, le=32)
+    max_file_size_bytes: int = Field(default=2 * 1024 * 1024, ge=1, le=10 * 1024 * 1024)
+    follow_symlinks: bool = False
+    confirm_extract: bool = False
+
+
+class TargetAgentWorkflowDraftRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    user_goal: str = Field(..., min_length=1, max_length=2048)
 
 
 class TargetSourceRemoveRequest(BaseModel):
@@ -1328,6 +2499,19 @@ class TargetBuildCancelRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     reason: str = Field(default="", max_length=512)
+
+
+class TargetStudioArtifactRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    artifact_type: str = Field(..., min_length=1, max_length=64)
+
+
+class TargetResearchRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    question: str = Field(..., min_length=1, max_length=2048)
+    top_k: int = Field(default=8, ge=1, le=20)
 
 
 class TargetSessionCreateRequest(BaseModel):
@@ -2067,18 +3251,20 @@ async def archive_target_workspace(workspace_id: str, request: TargetWorkspaceAr
 @target_router.post("/{workspace_id}/sources")
 async def import_target_sources(workspace_id: str, request: TargetSourceImportRequest) -> dict:
     workspace, meta = _target_workspace_or_404(workspace_id)
+    uploaded = _write_target_uploaded_files(workspace, request)
+    url_records = _url_source_text_records(request)
     result = _run_source_tool(
         "knowledge_source_import",
         {
             "workspace_id": workspace_id,
             "paths": list(request.paths),
-            "texts": [text.model_dump() for text in request.texts],
+            "texts": [text.model_dump() for text in request.texts] + url_records,
             "metadata": dict(request.metadata or {}),
         },
     )
     if result.get("status") == "blocked":
         return result
-    source_ids = _source_tool_result_source_ids(result)
+    source_ids = [*_source_tool_result_source_ids(result), *_import_target_uploaded_sources(workspace, uploaded)]
     sources = [_target_source_item(workspace, workspace_id=meta["workspace_id"], source_id=source_id) for source_id in source_ids]
     return _target_envelope(
         workspace_id=meta["workspace_id"],

@@ -7,6 +7,7 @@ from app.config import config
 from app.main import app
 from data_service.__main__ import _build_knowledge_parser
 from argparse import _SubParsersAction
+from test_target_http_source_preview import _import_text_source
 
 
 FORBIDDEN_CONTRACT_KEYS = {
@@ -172,6 +173,9 @@ def test_v16d5_session_query_target_http_success_projection_and_read_only(tmp_pa
     assert data["query"] == "Alpha"
     assert data["top_k"] == 8
     assert data["answer"].startswith("Session graph returned")
+    assert data["evidence"] == []
+    assert data["evidence_refs"] == []
+    assert data["evidence_state"] == "graph_only_no_evidence"
     assert data["results"][0]["source_id"] == "entity:alpha"
     assert data["items"][0]["source_id"] == "entity:alpha"
     assert data["nodes"][0]["node_id"] == "entity:alpha"
@@ -186,6 +190,61 @@ def test_v16d5_session_query_target_http_success_projection_and_read_only(tmp_pa
     assert not (root / workspace_id / "sessions" / session_id / "operations").exists()
     assert not (root / workspace_id / "lifecycle" / "operations").exists()
     assert _fingerprint_tree(root / workspace_id / "quality") == before_quality
+
+
+def test_v11s1_session_query_returns_resolvable_evidence_span_ids(tmp_path, monkeypatch):
+    root = tmp_path / "managed"
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
+
+    client = TestClient(app)
+    workspace_id = _create_workspace(client, "Session Query Evidence")
+    source_id = _import_text_source(
+        client,
+        workspace_id,
+        title="S1 Session Evidence Source",
+        content="Session precise navigation should preserve source id, unit id, and evidence id for a highlighted source span.",
+    )
+    session_id = _create_session(client, workspace_id, "s1-query")
+    ingest = client.post(
+        f"/api/workspaces/{workspace_id}/sessions/{session_id}/ingest",
+        json={"content": "Session precise navigation should preserve identifiers.", "title": "S1 session note"},
+    )
+    assert ingest.status_code == 200
+    _write_session_graph(root, workspace_id, session_id)
+
+    response = _query(client, workspace_id, session_id, {"query": "precise navigation preserve source id unit evidence", "top_k": 4})
+    assert response.status_code == 200
+    payload = response.json()
+    _assert_no_internal_payload(payload)
+    data = payload["data"]
+    assert data["evidence_state"] == "has_evidence_span_ids"
+    assert data["evidence"]
+    assert data["evidence_refs"] == data["evidence"]
+
+    evidence = data["evidence"][0]
+    assert evidence["source_id"] == source_id
+    assert evidence["unit_id"].startswith("unit_")
+    assert evidence["evidence_id"].startswith("ev_")
+    assert evidence["snippet"]
+    assert "source_ref" not in evidence
+    assert "artifact_ref" not in evidence
+
+    source_response = client.get(f"/api/workspaces/{workspace_id}/sources/{evidence['source_id']}")
+    assert source_response.status_code == 200
+    unit_response = client.get(f"/api/workspaces/{workspace_id}/sources/{evidence['source_id']}/units/{evidence['unit_id']}")
+    assert unit_response.status_code == 200
+    span_response = client.get(
+        f"/api/workspaces/{workspace_id}/sources/{evidence['source_id']}/units/{evidence['unit_id']}/evidence/{evidence['evidence_id']}"
+    )
+    assert span_response.status_code == 200
+    span = span_response.json()["data"]["evidence_span"]
+    assert span["source_id"] == evidence["source_id"]
+    assert span["unit_id"] == evidence["unit_id"]
+    assert span["evidence_id"] == evidence["evidence_id"]
+    assert span["offset_basis"] == "normalized_text"
+    assert span["offset_range"] == "half_open"
+    assert span["text_basis"] == "document_unit_text"
 
 
 def test_v16d5_session_query_validation_missing_artifacts_and_session_state(tmp_path, monkeypatch):
@@ -266,7 +325,8 @@ def test_v16d5_session_query_surface_auth_and_cli_inventory(tmp_path, monkeypatc
     assert client.post(f"/api/workspaces/{workspace_id}/sessions/{session_id}/ingest", json={"content": "x"}).status_code == 200
 
     inventory = _cli_inventory()
-    assert set(inventory) == {"build", "graph", "quality", "query", "source", "trace", "workspace"}
+    assert set(inventory) == {"build", "code", "graph", "quality", "query", "source", "trace", "workspace"}
+    assert inventory["code"] == ["archive", "describe", "import", "list", "snapshot"]
     assert inventory["graph"] == ["community", "neighbors", "query", "session", "snapshot"]
 
     monkeypatch.setenv("DATA_SERVICE_REQUIRE_API_KEY", "true")

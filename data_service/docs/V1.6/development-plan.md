@@ -1,6 +1,6 @@
 # Data Service V1.6 Development Plan
 
-更新时间：2026-05-15
+更新时间：2026-05-16
 
 ## Summary
 
@@ -28,7 +28,7 @@ V1.6 从 V1.5 accepted baseline 出发，按最小能力组推进。每个阶段
 - CLI top-level and nested command diff = none。
 - target HTTP baseline/current/diff = exactly 3 routes / exactly 3 routes / none。
 - no hidden route/tool/command expansion。
-- V1.6-A completed with zero public surface additions. Since then, B1/B2/B3, C1/C2/C3/C4, D1/D2/D3/D4/D5/D6, E1/E2/E3/E4/E5 and F1 have been accepted; only F2 remains planned / candidate.
+- V1.6-A completed with zero public surface additions. Since then, B1/B2/B3, C1/C2/C3/C4, D1/D2/D3/D4/D5/D6, E1/E2/E3/E4/E5, F1, F2 and Closure Acceptance have been accepted.
 
 ## Phase V1.6-B: Lifecycle Target HTTP
 
@@ -558,21 +558,39 @@ V1.6 从 V1.5 accepted baseline 出发，按最小能力组推进。每个阶段
 - no new backend route。
 - no frontend behavior change。
 - `/knowledge` remains service governance console。
-- F2 remains planned / not implemented。
+- F2 completed without backend public surface addition。
 
 ### Phase V1.6-F2: Console Governance Polish
 
-状态：planned。
+状态：completed。
 
-候选交付：
+交付：
 
 - public surface baseline view。
 - target HTTP migration state view。
 - graph/session/quality contract evidence view。
+- accepted overlay summary。
+- capability evidence table。
+- service governance console wording。
 
 验收：
 
 - frontend build passes。
-- screenshot acceptance passes。
 - page remains governance console, not end-user knowledge app。
 - no backend public surface addition unless separately scoped and accepted。
+- target HTTP route count remains 35。
+- MCP tool count remains 40。
+- CLI top-level / nested diff = none。
+
+## Phase V1.6 Closure Acceptance / Final Release Audit
+
+状态：completed。
+
+目标：不新增能力，只做全量 public surface audit、API/MCP/CLI/frontend regression、文档一致性审计、drawio XML validation 和最终 V1.6 acceptance report。
+
+边界：
+
+- 不新增 backend public surface。
+- 不新增 MCP tool。
+- 不新增 CLI command 或 CLI subcommand。
+- Closure 不新增 backend public surface，不修改功能代码，只完成最终公开面冻结审计、回归验收和文档同步。

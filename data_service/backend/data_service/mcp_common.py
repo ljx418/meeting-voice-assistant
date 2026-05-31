@@ -168,6 +168,9 @@ def _sanitize_external_payload(value: Any) -> Any:
         if key == "error":
             result[key] = _normalize_error(item)
             continue
+        if key == "files" and not isinstance(item, (dict, list, tuple)):
+            result[key] = _sanitize_external_payload(item)
+            continue
         if key in _PATH_KEYS:
             debug_paths[key] = item
             if key not in {"path", "paths", "workspace_path", "workspace", "original_path", "root"}:

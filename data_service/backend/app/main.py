@@ -8,10 +8,16 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+
+_APP_DIR = Path(__file__).resolve().parent
+_BACKEND_DIR = _APP_DIR.parent
+load_dotenv(_BACKEND_DIR / ".env")
+load_dotenv(_APP_DIR / ".env")
 
 from app.api import api_router
 
-_STATIC_ROOT = Path(__file__).resolve().parent / "static" / "knowledge_console"
+_STATIC_ROOT = _APP_DIR / "static" / "knowledge_console"
 _STATIC_ASSETS = _STATIC_ROOT / "assets"
 _STATIC_INDEX = _STATIC_ROOT / "index.html"
 

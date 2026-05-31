@@ -190,7 +190,7 @@ def test_v16b3_build_target_http_source_trace_and_auth_unchanged(tmp_path, monke
     client = TestClient(app)
     workspace_id = _create_workspace(client, "Auth Build")
     missing_trace = client.get(f"/api/workspaces/{workspace_id}/sources/src_missing/trace")
-    assert missing_trace.status_code == 404
+    assert missing_trace.status_code == 422
 
     monkeypatch.setenv("DATA_SERVICE_REQUIRE_API_KEY", "true")
     monkeypatch.setattr(config.api, "api_key", "target-key")

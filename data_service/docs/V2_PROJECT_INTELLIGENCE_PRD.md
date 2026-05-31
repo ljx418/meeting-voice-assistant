@@ -6,7 +6,7 @@
 **V2 子产品名称**：Project Intelligence Service / Code Asset Governance
 **目标用户**：开发者、维护者、代码审查者、外部 Coding Agent、项目理解 Agent、文档生成 Agent
 **核心目标**：让其他 Agent 可以调用本服务，完成一个软件项目的阅读、理解、汇总、证据追踪和开发上下文准备。
-**阶段定位**：V2 MVP / V2.0
+**阶段定位**：V2.0 Agent-callable MVP / V2.1 Project Intelligence Expansion
 **当前基础**：V1 已具备本地知识治理底座，包括 workspace、source registry、build operation、distill、LLMWiki、GraphRAG、query、source trace、quality governance、MCP、HTTP、CLI、前端控制台。
 
 ---
@@ -305,7 +305,7 @@ V2 不做以下事情：
 
 # 7. V2 MVP 范围
 
-## 7.1 MVP 必须包含
+## 7.1 V2.0 Agent-callable MVP 必须包含
 
 1. Codebase Asset Registry
 2. Repo Snapshot
@@ -313,16 +313,28 @@ V2 不做以下事情：
 4. Python Symbol Index
 5. Surface-to-Symbol Mapping
 6. Code Evidence Trace
-7. Agent Context Pack
-8. DevWiki Baseline
-9. Code Graph Baseline
-10. MCP 工具暴露
-11. HTTP API 暴露
-12. CLI 基础命令
-13. 最小前端只读页面
-14. 测试与 contract fixtures
+7. Project Overview / Project Summary
+8. Agent Context Pack
+9. MCP 工具暴露
+10. HTTP API 暴露
+11. CLI 基础命令
+12. 测试与 contract fixtures
 
-## 7.2 MVP 不包含
+V2.0 的完成标准是外部 Agent 可以通过 HTTP/MCP/CLI 导入项目、生成 snapshot、读取项目结构和公开能力、搜索代码符号、追踪 capability 到 surface/symbol/file/line、获取项目摘要，并生成可用于开发任务的上下文包。
+
+## 7.2 V2.1 Project Intelligence Expansion
+
+以下能力不阻塞 V2.0 Agent-callable MVP，进入 V2.1 / Expansion：
+
+1. DevWiki Baseline
+2. Code Graph Baseline
+3. Code Knowledge Quality Governance Extension
+4. 最小前端只读页面
+5. DevWiki / Code Graph / Quality 的前端展示增强
+
+如果产品决定把 DevWiki、Code Graph 或前端只读页提前纳入 V2.0，必须同步更新本 PRD、Remaining Development Plan、Remaining Acceptance Plan，并重新执行阶段前审计。
+
+## 7.3 MVP 不包含
 
 1. 完整跨语言语义索引。
 2. 完整调用图。
@@ -2049,9 +2061,9 @@ backend/data_service/__main__.py
 
 ---
 
-# 22. V2 完成定义
+# 22. V2.0 Agent-callable MVP 完成定义
 
-V2 可以宣布完成，当且仅当满足以下条件：
+V2.0 Agent-callable MVP 可以宣布完成，当且仅当满足以下条件：
 
 1. 一个外部 Agent 可以通过 MCP 导入一个本地项目。
 2. Agent 可以生成 repo snapshot。
@@ -2060,13 +2072,15 @@ V2 可以宣布完成，当且仅当满足以下条件：
 5. Agent 可以查询 HTTP/MCP/CLI 对齐关系。
 6. Agent 可以搜索代码符号。
 7. Agent 可以追踪某个 capability 到文件、符号、行号。
-8. Agent 可以读取 DevWiki。
+8. Agent 可以获取 Project Overview / Project Summary。
 9. Agent 可以生成 Agent Context Pack。
 10. Agent Context Pack 足以指导另一个 Coding Agent 开始开发。
-11. 所有关键结论都有 evidence。
+11. 所有关键结论都有 evidence 或 `needs_review`。
 12. 现有 V1 功能不被破坏。
 13. V2 新增能力有测试覆盖。
 14. 当前 data_service 项目可以作为自举样例完整跑通。
+
+DevWiki、Code Graph、Code Quality Governance Extension 和最小前端只读页属于 V2.1 / Expansion 完成条件，不阻塞 V2.0 Agent-callable MVP。
 
 ---
 
@@ -2086,17 +2100,18 @@ PRD 应显式引用 `docs/V2_PROJECT_BASELINE.md`，说明 V2 复用哪些 V1 �
 
 ## 建议 2：收窄 MVP，避免第一版过宽
 
-当前 MVP 同时包含 registry、snapshot、surface、symbol、mapping、evidence、overview、query、context pack、DevWiki、graph、quality、frontend，范围偏大。建议 V2.0 MVP 必须项收敛为：
+当前 MVP 同时包含 registry、snapshot、surface、symbol、mapping、evidence、overview、query、context pack、DevWiki、graph、quality、frontend，范围偏大。V2.0 Agent-callable MVP 必须项收敛为：
 
 1. Codebase Registry
 2. Repo Snapshot
 3. Public Surface Inventory
 4. Python Symbol Index
 5. Surface-to-Symbol Mapping + Evidence
-6. Agent Context Pack
-7. 最小 HTTP/MCP/CLI
+6. Project Overview / Project Summary
+7. Agent Context Pack
+8. 最小 HTTP/MCP/CLI
 
-DevWiki、Code Graph、Quality Extension 可作为 V2.1 或 MVP stretch，除非产品明确要求首发。
+DevWiki、Code Graph、Quality Extension 和最小前端只读页面作为 V2.1 / Expansion，除非产品明确要求首发并同步更新本 PRD 与验收计划。
 
 ## 建议 3：把 schema_version 变成所有 artifact 的硬性要求
 

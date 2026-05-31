@@ -13,7 +13,5 @@ def validate_codebase_root(path: str | Path, *, workspace: str | Path) -> Path:
     fallback_roots = [workspace_path, workspace_path.parent, *default_allowed_roots()]
     roots = configured_allowed_roots("DATA_SERVICE_ALLOWED_CODEBASE_ROOTS", fallback=fallback_roots)
     if not is_relative_to_any(resolved, roots):
-        allowed = ", ".join(str(root) for root in roots)
-        raise ValueError(f"Codebase path is outside allowed roots: {resolved}. Allowed roots: {allowed}")
+        raise ValueError("CODEBASE_PATH_NOT_ALLOWED")
     return resolved
-

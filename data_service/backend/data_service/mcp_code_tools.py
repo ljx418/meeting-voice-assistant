@@ -6,10 +6,15 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .code_assets.registry import CodebaseRegistry
+from .code_assets.snapshot import CodebaseSnapshotService, public_snapshot
 
 
 CODE_TOOL_NAMES = {
+    "knowledge_codebase_archive",
+    "knowledge_codebase_describe",
     "knowledge_codebase_import",
+    "knowledge_codebase_list",
+    "knowledge_codebase_snapshot",
 }
 
 
@@ -30,6 +35,58 @@ CODE_TOOL_SPECS = [
             "required": ["workspace_id", "path"],
         },
     },
+    {
+        "name": "knowledge_codebase_list",
+        "description": "List V2 codebase assets for a managed workspace",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "workspace_id": {"type": "string"},
+                "include_archived": {"type": "boolean", "default": False},
+                "limit": {"type": "integer", "default": 100},
+            },
+            "required": ["workspace_id"],
+        },
+    },
+    {
+        "name": "knowledge_codebase_snapshot",
+        "description": "Generate a deterministic repo snapshot for an imported V2 codebase asset",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "workspace_id": {"type": "string"},
+                "codebase_id": {"type": "string"},
+                "scan_policy": {"type": "object"},
+                "include_git": {"type": "boolean", "default": True},
+            },
+            "required": ["workspace_id", "codebase_id"],
+        },
+    },
+    {
+        "name": "knowledge_codebase_describe",
+        "description": "Describe one V2 codebase asset",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "workspace_id": {"type": "string"},
+                "codebase_id": {"type": "string"},
+            },
+            "required": ["workspace_id", "codebase_id"],
+        },
+    },
+    {
+        "name": "knowledge_codebase_archive",
+        "description": "Archive one V2 codebase asset",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "workspace_id": {"type": "string"},
+                "codebase_id": {"type": "string"},
+                "reason": {"type": "string"},
+            },
+            "required": ["workspace_id", "codebase_id"],
+        },
+    },
 ]
 
 
@@ -42,19 +99,130 @@ def handle_code_tool(
     ensure_workspace_meta: Callable[..., dict[str, Any]],
     resolve_workspace: Callable[[str | None, str | None], Path],
 ) -> dict[str, Any]:
-    if name != "knowledge_codebase_import":
+    if name not in CODE_TOOL_NAMES:
         raise ValueError(f"Unknown code tool: {name}")
 
     workspace_path = resolve_workspace(arguments.get("workspace_id"), None)
     meta = ensure_workspace_meta(workspace_path)
     workspace_id = str(meta["workspace_id"])
-    if meta.get("status") == "archived":
+    if meta.get("status") == "archived" and name in {"knowledge_codebase_import", "knowledge_codebase_archive"}:
         return blocked(
             workspace_id=workspace_id,
-            message="Workspace is archived and cannot import codebases",
+            message="Workspace is archived and cannot modify codebases",
             next_actions=["knowledge_workspace_describe"],
             code="workspace_archived",
         )
+
+    registry = CodebaseRegistry(workspace_path, workspace_id=workspace_id)
+    if name == "knowledge_codebase_list":
+        try:
+            limit = int(arguments.get("limit") if arguments.get("limit") is not None else 100)
+        except (TypeError, ValueError):
+            return blocked(
+                workspace_id=workspace_id,
+                message="limit must be an integer",
+                next_actions=["knowledge_codebase_list"],
+                code="invalid_limit",
+            )
+        limit = max(1, min(limit, 500))
+        items = [
+            asset.public_dict()
+            for asset in registry.list_codebases(
+                include_archived=bool(arguments.get("include_archived", False)),
+                limit=limit,
+            )
+        ]
+        return envelope(workspace_id=workspace_id, data={"items": items})
+
+    if name == "knowledge_codebase_snapshot":
+        codebase_id = str(arguments.get("codebase_id") or "").strip()
+        if not codebase_id:
+            return blocked(
+                workspace_id=workspace_id,
+                message="codebase_id is required",
+                next_actions=["knowledge_codebase_list"],
+                code="invalid_codebase_id",
+            )
+        scan_policy = arguments.get("scan_policy") or {}
+        if not isinstance(scan_policy, dict):
+            return blocked(
+                workspace_id=workspace_id,
+                message="scan_policy must be an object",
+                next_actions=["knowledge_codebase_snapshot"],
+                code="invalid_scan_policy",
+            )
+        service = CodebaseSnapshotService(workspace_path, workspace_id=workspace_id)
+        try:
+            result = service.create_snapshot(
+                codebase_id,
+                scan_policy=scan_policy,
+                include_git=bool(arguments.get("include_git", True)),
+            )
+        except FileNotFoundError:
+            return blocked(
+                workspace_id=workspace_id,
+                message="Unknown codebase_id",
+                next_actions=["knowledge_codebase_list"],
+                code="codebase_not_found",
+            )
+        except ValueError as exc:
+            return blocked(
+                workspace_id=workspace_id,
+                message=_snapshot_error_message(str(exc)),
+                next_actions=["knowledge_codebase_describe"],
+                code=str(exc),
+            )
+        snapshot = public_snapshot(result["snapshot"])
+        return envelope(
+            workspace_id=workspace_id,
+            artifact_refs=snapshot["artifact_refs"],
+            next_actions=["knowledge_project_inventory", "knowledge_code_symbol_search"],
+            data={"snapshot": snapshot},
+        )
+
+    if name == "knowledge_codebase_describe":
+        codebase_id = str(arguments.get("codebase_id") or "").strip()
+        if not codebase_id:
+            return blocked(
+                workspace_id=workspace_id,
+                message="codebase_id is required",
+                next_actions=["knowledge_codebase_list"],
+                code="invalid_codebase_id",
+            )
+        try:
+            asset = registry.describe(codebase_id)
+        except FileNotFoundError:
+            return blocked(
+                workspace_id=workspace_id,
+                message="Unknown codebase_id",
+                next_actions=["knowledge_codebase_list"],
+                code="codebase_not_found",
+            )
+        except ValueError as exc:
+            return _blocked_from_error(blocked, envelope, workspace_id=workspace_id, error=str(exc))
+        return envelope(workspace_id=workspace_id, data={"codebase": asset.public_dict()})
+
+    if name == "knowledge_codebase_archive":
+        codebase_id = str(arguments.get("codebase_id") or "").strip()
+        if not codebase_id:
+            return blocked(
+                workspace_id=workspace_id,
+                message="codebase_id is required",
+                next_actions=["knowledge_codebase_list"],
+                code="invalid_codebase_id",
+            )
+        try:
+            asset = registry.archive(codebase_id, reason=str(arguments.get("reason") or ""))
+        except FileNotFoundError:
+            return blocked(
+                workspace_id=workspace_id,
+                message="Unknown codebase_id",
+                next_actions=["knowledge_codebase_list"],
+                code="codebase_not_found",
+            )
+        except ValueError as exc:
+            return _blocked_from_error(blocked, envelope, workspace_id=workspace_id, error=str(exc))
+        return envelope(workspace_id=workspace_id, data={"codebase": asset.public_dict()})
 
     path = str(arguments.get("path") or "").strip()
     if not path:
@@ -65,7 +233,6 @@ def handle_code_tool(
             code="invalid_codebase_path",
         )
 
-    registry = CodebaseRegistry(workspace_path, workspace_id=workspace_id)
     try:
         result = registry.import_codebase(
             path=path,
@@ -111,7 +278,7 @@ def _blocked_from_error(
 
 
 def _error_code(error: str) -> str:
-    if "outside allowed roots" in error.lower():
+    if error == "CODEBASE_PATH_NOT_ALLOWED":
         return "path_not_allowed"
     if error in {"CODEBASE_PATH_NOT_FOUND", "CODEBASE_PATH_NOT_DIRECTORY", "CODEBASE_ID_CONFLICT"}:
         return error
@@ -122,7 +289,7 @@ def _error_code(error: str) -> str:
 
 def _error_message(code: str, error: str) -> str:
     if code == "path_not_allowed":
-        return error
+        return "Codebase path is outside allowed roots"
     if code == "CODEBASE_PATH_NOT_FOUND":
         return "Codebase path does not exist"
     if code == "CODEBASE_PATH_NOT_DIRECTORY":
@@ -132,3 +299,9 @@ def _error_message(code: str, error: str) -> str:
     if code == "INVALID_CODEBASE_ID":
         return error
     return error or "Codebase import failed"
+
+
+def _snapshot_error_message(code: str) -> str:
+    if code == "CODEBASE_NOT_ACTIVE":
+        return "Codebase is not active"
+    return code or "Codebase snapshot failed"

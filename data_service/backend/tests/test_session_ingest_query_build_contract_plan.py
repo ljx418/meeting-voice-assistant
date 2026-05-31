@@ -46,6 +46,26 @@ EXPECTED_TARGET_ROUTES = {
     ("POST", "/api/workspaces/{workspace_id}/quality/correction-rules/{rule_id}/review"),
     ("GET", "/api/workspaces/{workspace_id}/quality/correction-plan"),
     ("POST", "/api/workspaces/{workspace_id}/quality/correction-plan"),
+    ("GET", "/api/workspaces/-/ai-provider/health"),
+    ("GET", "/api/workspaces/{workspace_id}/capabilities"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/archive"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots/{snapshot_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/guide"),
+    ("POST", "/api/workspaces/{workspace_id}/studio/artifacts"),
+    ("POST", "/api/workspaces/{workspace_id}/research"),
+    ("POST", "/api/workspaces/{workspace_id}/folder-collections/scan"),
+    ("POST", "/api/workspaces/{workspace_id}/workflows/folder-summary/runs"),
+    ("POST", "/api/workspaces/{workspace_id}/agent-workflows/draft"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id:path}/trace"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/preview"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/units"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/units/{unit_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/units/{unit_id}/evidence/{evidence_id}"),
 }
 SESSION_MCP_TOOLS = {
     "knowledge_session_ingest",
@@ -53,6 +73,13 @@ SESSION_MCP_TOOLS = {
     "knowledge_session_build_start",
     "knowledge_session_build_status",
     "knowledge_session_build_cancel",
+}
+V2_CODEBASE_MCP_TOOLS = {
+    "knowledge_codebase_import",
+    "knowledge_codebase_list",
+    "knowledge_codebase_snapshot",
+    "knowledge_codebase_describe",
+    "knowledge_codebase_archive",
 }
 FORBIDDEN_CONTRACT_KEYS = {
     "workspace_path",
@@ -153,7 +180,7 @@ def _write_session_graph(root: Path, workspace_id: str, session_id: str) -> None
 
 def test_v16d3_d4_d5_d6_surface_accepts_e_quality_minimal_routes_only():
     assert _target_routes() == EXPECTED_TARGET_ROUTES
-    assert len(_target_routes()) == 35
+    assert len(_target_routes()) == 55
 
     paths = {path for _, path in _target_routes()}
     assert "/api/workspaces/{workspace_id}/sessions/{session_id}/ingest" in paths
@@ -170,11 +197,13 @@ def test_v16d3_d4_d5_d6_surface_accepts_e_quality_minimal_routes_only():
     assert not any("/quality/corrections/build" in path for path in paths)
 
     tools = {spec["name"] for spec in all_tool_specs()}
-    assert len(tools) == 40
+    assert len(tools) == 45
     assert SESSION_MCP_TOOLS <= tools
+    assert V2_CODEBASE_MCP_TOOLS <= tools
 
     inventory = _cli_inventory()
-    assert set(inventory) == {"build", "graph", "quality", "query", "source", "trace", "workspace"}
+    assert set(inventory) == {"build", "code", "graph", "quality", "query", "source", "trace", "workspace"}
+    assert inventory["code"] == ["archive", "describe", "import", "list", "snapshot"]
     assert inventory["graph"] == ["community", "neighbors", "query", "session", "snapshot"]
 
 

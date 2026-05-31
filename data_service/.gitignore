@@ -1,7 +1,25 @@
 .DS_Store
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+backend/app/.env
+backend/app/.env.*
+!backend/app/.env.example
 .pytest_cache/
 __pycache__/
 *.py[cod]
 
 frontend/node_modules/
 frontend/.vite/
+
+# Local/generated acceptance artifacts
+backend/rn-*/
+backend/rn-*-workspace/
+harnessos-*/
+llmwiki.db
+llmwiki_*/
+llmwiki_summary.md
+summary/

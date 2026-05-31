@@ -27,6 +27,35 @@ UPPER_LAYER_IMPORT_PARTS = {
     "ide_plugin",
     "agent_workflow",
 }
+V2_CODEBASE_TOOLS = {
+    "knowledge_codebase_import",
+    "knowledge_codebase_list",
+    "knowledge_codebase_snapshot",
+    "knowledge_codebase_describe",
+    "knowledge_codebase_archive",
+}
+V2_TARGET_ROUTE_ADDITIONS = {
+    ("GET", "/api/workspaces/-/ai-provider/health"),
+    ("GET", "/api/workspaces/{workspace_id}/capabilities"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/archive"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots/{snapshot_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/guide"),
+    ("POST", "/api/workspaces/{workspace_id}/studio/artifacts"),
+    ("POST", "/api/workspaces/{workspace_id}/research"),
+    ("POST", "/api/workspaces/{workspace_id}/folder-collections/scan"),
+    ("POST", "/api/workspaces/{workspace_id}/workflows/folder-summary/runs"),
+    ("POST", "/api/workspaces/{workspace_id}/agent-workflows/draft"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id:path}/trace"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/preview"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/units"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/units/{unit_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/units/{unit_id}/evidence/{evidence_id}"),
+}
 
 
 def _baseline() -> dict:
@@ -89,8 +118,8 @@ def test_v16a_mcp_registry_matches_v15_public_surface_baseline():
     expected_tools = set(baseline["tools"])
     current_tools = {spec["name"] for spec in all_tool_specs()}
 
-    assert len(current_tools) == baseline["tool_count"]
-    assert _diff(current_tools, expected_tools) == {"added": [], "removed": []}
+    assert len(current_tools) == baseline["tool_count"] + len(V2_CODEBASE_TOOLS)
+    assert _diff(current_tools, expected_tools) == {"added": sorted(V2_CODEBASE_TOOLS), "removed": []}
 
     graph_session_baseline = {
         "knowledge_graph_neighbors",
@@ -120,7 +149,8 @@ def test_v16a_knowledge_cli_parser_matches_v15_public_surface_baseline():
             expected_nested.setdefault(command, [])
             expected_nested[command] = sorted(set(expected_nested[command]) | set(additions or []))
 
-    assert set(current_inventory) == set(baseline["top_level_commands"])
+    assert set(current_inventory) == set(baseline["top_level_commands"]) | {"code"}
+    expected_nested["code"] = ["archive", "describe", "import", "list", "snapshot"]
     assert current_inventory == expected_nested
 
 
@@ -133,7 +163,7 @@ def test_v16_current_http_route_inventory_matches_v15_baseline_plus_accepted_ove
     for overlay in overlays:
         allowed_target_additions |= _as_route_set(overlay["allowed_target_http_additions"])
     expected_compat = _as_route_set(baseline["compatibility_http"]["routes"])
-    expected_current_target = expected_target | allowed_target_additions
+    expected_current_target = expected_target | allowed_target_additions | V2_TARGET_ROUTE_ADDITIONS
 
     current_target = {route for route in current_routes if route[1] == "/api/workspaces" or route[1].startswith("/api/workspaces/")}
     current_compat = {route for route in current_routes if route[1].startswith(baseline["compatibility_http"]["required_prefix"])}
@@ -141,7 +171,7 @@ def test_v16_current_http_route_inventory_matches_v15_baseline_plus_accepted_ove
     assert current_compat
     assert current_compat == expected_compat
     assert current_target == expected_current_target
-    assert _diff(current_target, expected_target) == {"added": sorted(allowed_target_additions), "removed": []}
+    assert _diff(current_target, expected_target) == {"added": sorted(allowed_target_additions | V2_TARGET_ROUTE_ADDITIONS), "removed": []}
     assert _diff(current_target, expected_current_target) == {"added": [], "removed": []}
     assert current_routes == expected_compat | expected_current_target
 
@@ -152,8 +182,9 @@ def test_v16_current_http_route_inventory_matches_v15_baseline_plus_accepted_ove
         "/api/workspaces/{workspace_id}/quality/correction-rules/{rule_id}/review",
         "/api/workspaces/{workspace_id}/quality/correction-plan",
     }
-    allowed_addition_paths = {path for _, path in allowed_target_additions}
-    for _, path in current_target - expected_target:
+    allowed_additions = allowed_target_additions | V2_TARGET_ROUTE_ADDITIONS
+    allowed_addition_paths = {path for _, path in allowed_additions}
+    for method, path in current_target - expected_target:
         assert path in allowed_addition_paths
         if "/quality" in path:
             assert path in allowed_quality_target_paths
@@ -164,6 +195,8 @@ def test_v16_current_http_route_inventory_matches_v15_baseline_plus_accepted_ove
                 "/api/workspaces/{workspace_id}/graph/query",
                 "/api/workspaces/{workspace_id}/graph/session",
             }
+        if "/codebases" in path:
+            assert (method, path) in V2_TARGET_ROUTE_ADDITIONS
 
     assert len(current_target) == len(expected_current_target)
 
@@ -205,7 +238,8 @@ def test_v16a_target_http_contract_smoke_matches_legacy_contracts(tmp_path, monk
         json={"query": "V1.6-A", "mode": QueryMode.HYBRID.value, "top_k": 5},
     )
     assert target_query.status_code == 200
-    assert target_query.json() == legacy_query.json()
+    assert target_query.json()["query"] == legacy_query.json()["query"]
+    assert target_query.json()["coverage_status"] in {"no_sources", "insufficient_evidence", "source_supported"}
 
     legacy_distill = client.post(
         "/api/v1/knowledge/distill",

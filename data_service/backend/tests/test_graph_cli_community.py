@@ -75,7 +75,7 @@ def test_v16c2_graph_community_cli_inventory_list_and_detail(tmp_path, capsys):
 
     parser = _build_knowledge_parser()
     top_action = next(action for action in parser._actions if getattr(action, "dest", None) == "command")
-    assert set(top_action.choices) == {"build", "graph", "quality", "query", "source", "trace", "workspace"}
+    assert set(top_action.choices) == {"build", "code", "graph", "quality", "query", "source", "trace", "workspace"}
     graph_parser = top_action.choices["graph"]
     graph_subparser = next(action for action in graph_parser._actions if getattr(action, "dest", None) == "graph_command")
     assert {"snapshot", "neighbors", "community"} <= set(graph_subparser.choices)

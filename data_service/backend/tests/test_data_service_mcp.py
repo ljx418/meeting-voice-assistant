@@ -5,7 +5,8 @@ from pathlib import Path
 
 import pytest
 
-V15_DOCS_ROOT = Path("docs/V1.5")
+REPO_ROOT = Path(__file__).resolve().parents[2]
+V15_DOCS_ROOT = REPO_ROOT / "docs" / "V1.5"
 
 
 def _assert_no_public_path_keys(payload, *, path=()):
@@ -96,6 +97,10 @@ async def test_data_service_mcp_lists_quality_tools():
         "knowledge_session_query",
         "knowledge_actor_summary",
         "knowledge_codebase_import",
+        "knowledge_codebase_list",
+        "knowledge_codebase_snapshot",
+        "knowledge_codebase_describe",
+        "knowledge_codebase_archive",
     }
 
 
@@ -107,7 +112,7 @@ async def test_data_service_mcp_tool_registry_contract():
     specs = all_tool_specs()
     names = [spec["name"] for spec in specs]
 
-    assert len(names) == 41
+    assert len(names) == 45
     assert len(names) == len(set(names))
     assert set(V2_TOOL_MAP) <= set(names)
     assert set(V2_TOOL_MAP.values()) <= set(names)
@@ -120,6 +125,10 @@ async def test_data_service_mcp_tool_registry_contract():
         "knowledge_session_build_start",
         "knowledge_query_v2",
         "knowledge_codebase_import",
+        "knowledge_codebase_list",
+        "knowledge_codebase_snapshot",
+        "knowledge_codebase_describe",
+        "knowledge_codebase_archive",
     } <= set(names)
 
 
@@ -127,11 +136,11 @@ def test_console_mcp_contract_snapshot_matches_registry():
     from data_service.mcp_resources import RESOURCE_SPECS, canonical_resource_uri
     from data_service.mcp_tool_registry import all_tool_specs
 
-    contract_source = Path("frontend/src/data/mcpContract.ts").read_text(encoding="utf-8")
+    contract_source = (REPO_ROOT / "frontend" / "src" / "data" / "mcpContract.ts").read_text(encoding="utf-8")
     console_tool_names = re.findall(r"name: '(knowledge_[^']+)'", contract_source)
     console_resource_uris = re.findall(r"uri: '([^']+)'", contract_source)
 
-    registry_tool_names = [spec["name"] for spec in all_tool_specs() if spec["name"] != "knowledge_codebase_import"]
+    registry_tool_names = [spec["name"] for spec in all_tool_specs()]
     canonical_resource_uris = {spec["uri"] for spec in RESOURCE_SPECS}
 
     assert console_tool_names == registry_tool_names
@@ -142,8 +151,10 @@ def test_phaseg1_interface_matrix_documents_current_entrypoints():
     from app.api.v1.data_service import router
     from data_service.__main__ import _build_parser
 
-    contract_source = Path("frontend/src/data/mcpContract.ts").read_text(encoding="utf-8")
-    report_source = Path("docs/V1.5/PHASE-G1-INTERFACE-CONVERGENCE-BASELINE-REPORT-2026-05-11.md").read_text(encoding="utf-8")
+    contract_source = (REPO_ROOT / "frontend" / "src" / "data" / "mcpContract.ts").read_text(encoding="utf-8")
+    report_source = (V15_DOCS_ROOT / "PHASE-G1-INTERFACE-CONVERGENCE-BASELINE-REPORT-2026-05-11.md").read_text(
+        encoding="utf-8"
+    )
     matrix_source = (V15_DOCS_ROOT / "interface-convergence-matrix.md").read_text(encoding="utf-8")
 
     for capability in ["workspace", "source", "build", "query", "distill", "graph", "trace", "quality", "session"]:
@@ -1420,7 +1431,7 @@ def test_phaseg14_quality_cli_stage3_commands_documented():
     assert set(knowledge_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace", "code"}
     code_parser = knowledge_action.choices["code"]
     code_action = next(action for action in code_parser._actions if getattr(action, "choices", None))
-    assert set(code_action.choices) == {"import"}
+    assert set(code_action.choices) == {"import", "list", "snapshot", "describe", "archive"}
     workspace_parser = knowledge_action.choices["workspace"]
     workspace_action = next(action for action in workspace_parser._actions if getattr(action, "choices", None))
     assert set(workspace_action.choices) == {"create", "list", "describe", "archive"}

@@ -1,6 +1,6 @@
 # Data Service V1.6 当前架构与目标架构差距分析
 
-更新时间：2026-05-15
+更新时间：2026-05-16
 
 ## 1. 文档定位
 
@@ -12,7 +12,7 @@
 - 每个 V1.6 阶段分别解决哪些差距。
 - 每个阶段的验收重点是什么。
 
-本文档以 V1.5 accepted baseline 为冻结起点，并同步记录 V1.6 已接受阶段。V1.6-A、V1.6-B1/B2/B3、V1.6-C1/C2/C3/C4、V1.6-D1/D2/D3/D4/D5/D6、V1.6-E1/E2/E3/E4/E5 与 V1.6-F1 已 completed；V1.6-F2 仍是 planned / candidate，不表示已经实现。V1.6 的实现必须按阶段推进，每个阶段完成后都需要独立验收、公开面扫描和文档同步。
+本文档以 V1.5 accepted baseline 为冻结起点，并同步记录 V1.6 已接受阶段。V1.6-A、V1.6-B1/B2/B3、V1.6-C1/C2/C3/C4、V1.6-D1/D2/D3/D4/D5/D6、V1.6-E1/E2/E3/E4/E5、V1.6-F1、V1.6-F2 与 V1.6 Closure Acceptance 已 completed。V1.6 Closure Acceptance 只做最终公开面冻结审计、回归验收和文档同步，不新增 backend public surface。
 
 同步规则：每次更新本文档后，必须同步更新 `docs/V1.6/current-vs-target-gap.drawio`，确保 Markdown 与 drawio 在阶段状态、当前架构、目标架构、Gap 清单、route count 和验收门禁上保持一致。
 
@@ -192,12 +192,13 @@ A / D1 / D3 不是 route overlay；它们分别是 guard、contract planning 或
 
 ## 6.2 剩余开发计划总览
 
-截至 V1.6-F1 accepted，V1.6 剩余开发计划还有 1 个阶段。它必须继续按最小能力组推进，不允许新增 backend public surface，除非重新声明 scope 并重新验收。
+截至 V1.6 Closure Acceptance accepted，V1.6 剩余开发计划为 0。后续只能进入 V1.7 planning 或 post-V1.6 backlog triage，不应在 V1.6 内新增 backend public surface。
 
 | 顺序 | 阶段 | 状态 | 核心目标 | 不允许做的事 |
 | --- | --- | --- | --- | --- |
 | 1 | V1.6-F1 Console Governance Evidence Baseline Sync | completed | 建立 console governance evidence matrix、route count 证据、drawio 同步和 no-public-surface focused guard | 不新增 backend public surface；不修改 frontend 或 `/knowledge` 行为 |
-| 2 | V1.6-F2 Console Governance Polish | planned | 在 `/knowledge` 展示公开面、迁移状态、contract evidence 和验收证据 | 不把 `/knowledge` 做成终端用户知识消费 App；未实现前不得写成 implemented |
+| 2 | V1.6-F2 Console Governance Polish | completed | 在 `/knowledge` 展示公开面、迁移状态、contract evidence 和验收证据 | 不把 `/knowledge` 做成终端用户知识消费 App；不新增 backend public surface |
+| 3 | V1.6 Closure Acceptance / Final Release Audit | completed | 全量 public surface audit、回归、文档一致性审计和最终验收报告 | 不新增 backend public surface；不修改功能代码 |
 
 完成这些剩余阶段后，再进入 V1.6 总体验收与收口阶段。总体验收应重新运行 public surface guard、API/MCP/combined regression、前端 build / 截图验收、drawio XML validation 和文档一致性审计。
 
@@ -351,7 +352,7 @@ A / D1 / D3 不是 route overlay；它们分别是 guard、contract planning 或
 
 ### V1.6-F：Console Governance Evidence / Polish
 
-当前状态：V1.6-F1 Console Governance Evidence Baseline Sync completed；V1.6-F2 Console Governance Polish planned / not implemented。
+当前状态：V1.6-F1 Console Governance Evidence Baseline Sync completed；V1.6-F2 Console Governance Polish completed；V1.6 Closure Acceptance completed。
 
 目标：先用 F1 建立 console governance evidence baseline，再由 F2 让 `/knowledge` 更清楚地展示服务治理状态和 V1.6 contract evidence。
 
@@ -360,14 +361,15 @@ A / D1 / D3 不是 route overlay；它们分别是 guard、contract planning 或
 - F1 已新增 `console-governance-evidence-plan.md`，覆盖 V1.5 baseline、A guard、B/C/D/E accepted surfaces 与 F2 planned。
 - F1 已新增 focused documentation guard，验证 route count = 35、MCP tool count = 40、CLI diff = none、no frontend behavior change。
 - F1 未新增 backend public surface，未修改 frontend 或 `/knowledge` 行为。
-- F2 planned：增加 public surface baseline 展示、target HTTP migration state 展示、graph/session/quality contract evidence 展示与阶段验收证据入口。
+- F2 已在 `/knowledge` 增加 public surface baseline 展示、target HTTP migration state 展示、graph/session/quality contract evidence 展示与阶段验收证据入口。
+- F2 未新增 backend public surface，不新增 MCP/CLI，不新增 route，不把 `/knowledge` 改成 end-user knowledge consumption app。
 
 边界：
 
 - `/knowledge` 仍是 service governance console。
 - 不做成终端用户知识消费 App。
 - F1 不新增业务能力，只同步治理证据和 guard。
-- F2 未实现前不得写成 implemented。
+- Closure Acceptance 已完成最终公开面冻结审计；后续 V1.7 capabilities remain planned only。
 
 ## 8. 阶段验收计划摘要
 
@@ -378,7 +380,7 @@ A / D1 / D3 不是 route overlay；它们分别是 guard、contract planning 或
 | V1.6-C | C1 completed：graph neighbors target HTTP / CLI focused tests；C2 completed：graph community target HTTP / CLI focused tests；C3 completed：graph query target HTTP / CLI focused tests；C4 completed：graph session target HTTP / CLI focused tests；CLI parser scan；HTTP route scan；GraphRAG boundary check；snapshot compatibility |
 | V1.6-D | D1 completed：session contract tests；D2 completed：session lifecycle focused tests；D3 completed：planning guard；D4 completed：session ingest focused tests；D5 completed：session query focused tests；D6 completed：session build focused tests；MCP regression；target/session route scan；upper-layer dependency audit；artifact_ref / debug path audit；no quality target HTTP |
 | V1.6-E | E1 completed：quality feedback focused tests；E2 completed：quality correction rules focused tests；E3 completed：quality correction review focused tests；E4 completed：quality correction plan focused tests；E5 completed：quality correction rules build focused tests；API regression；shared helper reuse tests；non-destructive governance verification；compatibility HTTP retention |
-| V1.6-F | F1 completed：console governance evidence matrix；target HTTP route count = 35；MCP tool count = 40；CLI diff = none；no new backend route；no frontend behavior change；drawio sync。F2 planned：frontend `npm run build`；桌面/移动截图验收；public surface evidence 展示验收；文档一致性检查 |
+| V1.6-F | F1 completed：console governance evidence matrix；target HTTP route count = 35；MCP tool count = 40；CLI diff = none；no new backend route；drawio sync。F2 completed：frontend `npm run build`；public surface evidence 展示；`/knowledge` remains service governance console；no backend public surface |
 
 通用验收：
 
@@ -399,6 +401,6 @@ A / D1 / D3 不是 route overlay；它们分别是 guard、contract planning 或
 
 ## 10. 当前结论
 
-V1.6-B1 Workspace Target HTTP、V1.6-B2 Source Target HTTP、V1.6-B3 Build Target HTTP、V1.6-C1 Graph Neighbors、V1.6-C2 Graph Community、V1.6-C3 Graph Query、V1.6-C4 Graph Session Target HTTP / CLI Minimal Surface、V1.6-D1 Session GraphRAG Contract Hardening、V1.6-D2 Session Lifecycle Target HTTP Minimal Surface、V1.6-D3 Session Ingest / Query / Build Contract Planning、V1.6-D4 Session Ingest Target HTTP Minimal Surface、V1.6-D5 Session Query Target HTTP Minimal Surface、V1.6-D6 Session Build Target HTTP Minimal Surface、V1.6-E1 Quality Feedback Target HTTP Minimal Surface、V1.6-E2 Quality Correction Rules Target HTTP Minimal Surface、V1.6-E3 Quality Correction Review Target HTTP Minimal Surface、V1.6-E4 Quality Correction Plan Target HTTP Minimal Surface、V1.6-E5 Quality Correction Rules Build Target HTTP Minimal Surface 与 V1.6-F1 Console Governance Evidence Baseline Sync 已完成。下一阶段应进入 V1.6-F2 console governance polish；进入前仍必须先运行 public surface guard，不建议新增 backend public surface。
+V1.6-B1 Workspace Target HTTP、V1.6-B2 Source Target HTTP、V1.6-B3 Build Target HTTP、V1.6-C1 Graph Neighbors、V1.6-C2 Graph Community、V1.6-C3 Graph Query、V1.6-C4 Graph Session Target HTTP / CLI Minimal Surface、V1.6-D1 Session GraphRAG Contract Hardening、V1.6-D2 Session Lifecycle Target HTTP Minimal Surface、V1.6-D3 Session Ingest / Query / Build Contract Planning、V1.6-D4 Session Ingest Target HTTP Minimal Surface、V1.6-D5 Session Query Target HTTP Minimal Surface、V1.6-D6 Session Build Target HTTP Minimal Surface、V1.6-E1 Quality Feedback Target HTTP Minimal Surface、V1.6-E2 Quality Correction Rules Target HTTP Minimal Surface、V1.6-E3 Quality Correction Review Target HTTP Minimal Surface、V1.6-E4 Quality Correction Plan Target HTTP Minimal Surface、V1.6-E5 Quality Correction Rules Build Target HTTP Minimal Surface、V1.6-F1 Console Governance Evidence Baseline Sync、V1.6-F2 Console Governance Polish 与 V1.6 Closure Acceptance 已完成。下一阶段应进入 V1.7 planning 或 post-V1.6 backlog triage，不建议新增 backend public surface。
 
-当前剩余开发计划为 1 个阶段：V1.6-F2 Console Governance Polish。该阶段仍必须单独验收并同步更新 gap 文档、drawio、development plan、acceptance plan 和阶段报告。
+当前 V1.6 剩余开发计划为 0。V1.6 Closure Acceptance 已完成最终验收并同步 gap 文档、drawio、development plan、acceptance plan 和最终报告。

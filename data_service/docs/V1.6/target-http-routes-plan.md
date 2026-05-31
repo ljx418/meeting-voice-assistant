@@ -1,6 +1,6 @@
 # V1.6 Target HTTP Routes Plan
 
-更新时间：2026-05-15
+更新时间：2026-05-16
 
 ## Baseline
 
@@ -52,7 +52,9 @@ V1.6-E5 Quality Correction Rules Build Target HTTP Minimal Surface 已完成。E
 
 Current accepted target HTTP route count = 35. This is V1.5 baseline 3 + B1 4 + B2 4 + B3 3 + C1 1 + C2 1 + C3 1 + C4 1 + D2 5 + D4 1 + D5 1 + D6 3 + E1 1 + E2 2 + E3 1 + E4 2 + E5 1. D1 and D3 are planning / hardening phases with zero route additions. Correction apply target HTTP remains planned / not opened.
 
-V1.6-F1 Console Governance Evidence Baseline Sync 已完成。F1 不新增 target HTTP route，不新增 phase overlay，不新增 MCP tool，不新增 CLI command 或 CLI subcommand，不修改 frontend 或 `/knowledge` 行为。F1 accepted 后 current target HTTP route count 仍为 35。F2 Console Governance Polish 仍为 planned / not implemented。
+V1.6-F1 Console Governance Evidence Baseline Sync 已完成。F1 不新增 target HTTP route，不新增 phase overlay，不新增 MCP tool，不新增 CLI command 或 CLI subcommand，不修改 frontend 或 `/knowledge` 行为。F1 accepted 后 current target HTTP route count 仍为 35，MCP tool count 仍为 40。
+
+V1.6-F2 Console Governance Polish 已完成。F2 不新增 target HTTP route，不新增 phase overlay，不新增 MCP tool，不新增 CLI command 或 CLI subcommand，不新增 backend route。F2 只更新 `/knowledge` governance evidence display 和前端静态 build 产物。F2 accepted 后 current target HTTP route count 仍为 35，MCP tool count 仍为 40。
 
 ## Accepted Phase Overlays
 
@@ -458,7 +460,45 @@ Current accepted target HTTP after F1 remains:
 - E1/E2/E3/E4/E5 overlays +7 routes
 - total：35 routes
 
-F1 does not add MCP tools, CLI top-level commands, CLI nested commands, compatibility HTTP routes, backend routes, frontend behavior changes, or `/knowledge` behavior changes. F2 remains planned / not implemented.
+F1 does not add MCP tools, CLI top-level commands, CLI nested commands, compatibility HTTP routes, backend routes, frontend behavior changes, or `/knowledge` behavior changes.
+
+### V1.6-F2 Console Governance Polish
+
+F2 opens no route and adds no overlay.
+
+Current accepted target HTTP after F2 remains 35 routes:
+
+- V1.5 baseline 3 routes
+- A guard +0
+- B1/B2/B3 overlays +11 routes
+- C1/C2/C3/C4 overlays +4 routes
+- D1 planning +0
+- D2 overlay +5 routes
+- D3 planning +0
+- D4/D5/D6 overlays +5 routes
+- E1/E2/E3/E4/E5 overlays +7 routes
+- F1/F2 +0 backend surface
+
+F2 only updates `/knowledge` governance evidence display and frontend static build output. It does not add MCP tools, CLI top-level commands, CLI nested commands, compatibility HTTP routes, backend routes, target HTTP routes, or correction apply.
+
+### V1.6 Closure Acceptance / Final Release Audit
+
+Closure Acceptance opens no route and adds no overlay.
+
+Current accepted target HTTP after Closure remains 35 routes:
+
+- V1.5 baseline 3 routes
+- A guard +0
+- B1/B2/B3 overlays +11 routes
+- C1/C2/C3/C4 overlays +4 routes
+- D1 planning +0
+- D2 overlay +5 routes
+- D3 planning +0
+- D4/D5/D6 overlays +5 routes
+- E1/E2/E3/E4/E5 overlays +7 routes
+- F1/F2/Closure +0 backend surface
+
+Closure only performs the final public surface freeze audit, focused closure tests, regression validation and documentation sync. It does not add MCP tools, CLI top-level commands, CLI nested commands, compatibility HTTP routes, backend routes, target HTTP routes, or correction apply. V1.7 capabilities remain planned only.
 
 ## Route Opening Policy
 
@@ -479,7 +519,7 @@ F1 does not add MCP tools, CLI top-level commands, CLI nested commands, compatib
 | quality write | E1 completed for feedback；E2 completed for correction rules；E3 completed for correction review；E4 completed for correction plan；E5 completed for correction-rules artifact build | non-destructive governance contract and shared helper reuse |
 | session | D1 contract planning / hardening completed；D2 session lifecycle target HTTP create/list/get/close/delete completed；D3 session ingest/query/build planning completed；D4 session ingest target HTTP completed；D5 session query target HTTP completed；D6 session build target HTTP completed | target HTTP routes and cross-surface Session GraphRAG public contract; V1.6 does not add existing MCP session tools |
 
-下一阶段建议进入 V1.6-F2 console governance polish planning，不要新增 backend public surface。
+V1.6 route opening is closed at Closure Acceptance. 下一阶段建议进入 V1.7 planning 或 post-V1.6 backlog triage，不要在没有新 baseline/overlay plan 的情况下新增 backend public surface。
 
 ## Non Goals
 

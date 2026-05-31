@@ -1,4 +1,6 @@
 from pathlib import Path
+import base64
+from types import SimpleNamespace
 from urllib.parse import quote
 
 from fastapi.testclient import TestClient
@@ -73,6 +75,22 @@ def _import_typed_text_source(
     return response.json()["data"]["sources"][0]["source_id"]
 
 
+def _patch_pdf_extractor(monkeypatch, pages: list[str]):
+    def fake_extract(self, file_path):
+        sections = [
+            SimpleNamespace(
+                text=text,
+                title=f"Page {index + 1}",
+                locator={"kind": "pdf_page", "page": index + 1},
+                order_index=index,
+            )
+            for index, text in enumerate(pages)
+        ]
+        return SimpleNamespace(status="success", sections=sections, error=None)
+
+    monkeypatch.setattr("app.llmwiki.extractors.pdf_pypdf.PdfPypdfExtractor.extract", fake_extract)
+
+
 def test_v11be_capability_manifest_source_preview_contract(tmp_path, monkeypatch):
     root = tmp_path / "managed"
     monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
@@ -98,11 +116,15 @@ def test_v11be_capability_manifest_source_preview_contract(tmp_path, monkeypatch
         "unit_level_navigation": True,
         "precise_span_highlight": True,
         "citation_backjump": True,
+        "ocr": False,
+        "scanned_pdf_ocr": False,
     }
     assert manifest["supported_source_types"] == [
         {"source_type": "text", "preview": "unit", "locators": []},
         {"source_type": "markdown", "preview": "unit", "locators": ["offset"]},
         {"source_type": "json", "preview": "unit", "locators": ["json_path"]},
+        {"source_type": "pdf", "preview": "unit", "locators": ["page_no", "offset"]},
+        {"source_type": "url", "preview": "unit", "locators": ["offset"]},
     ]
     _assert_no_internal_paths(payload)
 
@@ -182,6 +204,135 @@ def test_v11s3_source_preview_success_for_markdown_and_json_sources(tmp_path, mo
     assert "Queues absorb burst traffic" in json_preview["text_preview"]
     assert "units" not in json_preview
     _assert_no_internal_paths(json_response.json())
+
+
+def test_v14c_source_preview_success_for_text_pdf_source(tmp_path, monkeypatch):
+    root = tmp_path / "managed"
+    source_root = tmp_path / "sources"
+    source_root.mkdir()
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_SOURCE_ROOTS", str(source_root))
+    _patch_pdf_extractor(
+        monkeypatch,
+        [
+            "AI digital humans use speech synthesis and real-time rendering.",
+            "Enterprise deployments require evidence-backed risk controls.",
+        ],
+    )
+
+    client = TestClient(app)
+    workspace_id = _create_workspace(client, "RN V1.4 PDF Preview")
+    pdf = source_root / "digital-human.pdf"
+    pdf.write_bytes(b"%PDF-1.7\nfake text pdf fixture\n")
+    imported = client.post(f"/api/workspaces/{workspace_id}/sources", json={"paths": [str(pdf)]})
+    assert imported.status_code == 200
+    source_id = imported.json()["data"]["sources"][0]["source_id"]
+
+    response = client.get(f"/api/workspaces/{workspace_id}/sources/{source_id}/preview")
+    assert response.status_code == 200
+    payload = response.json()
+    preview = payload["data"]["preview"]
+    assert preview["source_id"] == source_id
+    assert preview["source_type"] == "pdf"
+    assert preview["preview_available"] is True
+    assert preview["content_type"] == "text/plain"
+    assert "AI digital humans use speech synthesis" in preview["text_preview"]
+    assert "Enterprise deployments require evidence-backed risk controls" in preview["text_preview"]
+    assert preview["artifact_refs"] == [{"type": "source", "source_id": source_id, "artifact_ref": f"source://{source_id}"}]
+    assert preview["preview_truncated"] is False
+    assert "units" not in preview
+    _assert_no_internal_paths(payload)
+
+
+def test_v14c_source_preview_success_for_browser_uploaded_pdf_source(tmp_path, monkeypatch):
+    root = tmp_path / "managed"
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
+    _patch_pdf_extractor(monkeypatch, ["Browser uploaded PDF text is extractable."])
+
+    client = TestClient(app)
+    workspace_id = _create_workspace(client, "RN V1.4 Browser PDF Upload")
+    response = client.post(
+        f"/api/workspaces/{workspace_id}/sources",
+        json={
+            "files": [
+                {
+                    "title": "Browser PDF",
+                    "file_name": "browser-upload.pdf",
+                    "content_type": "application/pdf",
+                    "source_type": "pdf",
+                    "content_base64": base64.b64encode(b"%PDF-1.7 browser upload").decode("ascii"),
+                    "metadata": {"upload_surface": "browser"},
+                }
+            ]
+        },
+    )
+    assert response.status_code == 200
+    source = response.json()["data"]["sources"][0]
+    assert source["title"] == "Browser PDF"
+    assert source["metadata"]["browser_file_import"] is True
+    assert source["metadata"]["file_name"] == "browser-upload.pdf"
+    assert source["metadata"]["file_upload_contract"] == "base64_file_content"
+    _assert_no_internal_paths(response.json())
+
+    preview = client.get(f"/api/workspaces/{workspace_id}/sources/{source['source_id']}/preview")
+    assert preview.status_code == 200
+    preview_payload = preview.json()["data"]["preview"]
+    assert preview_payload["source_type"] == "pdf"
+    assert preview_payload["preview_available"] is True
+    assert "Browser uploaded PDF text is extractable" in preview_payload["text_preview"]
+    _assert_no_internal_paths(preview.json())
+
+
+def test_v16c_scanned_pdf_returns_ocr_required_without_claiming_ocr_ready(tmp_path, monkeypatch):
+    root = tmp_path / "managed"
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
+
+    def fake_extract(self, file_path):
+        return SimpleNamespace(status="unsupported", sections=[], error="scanned_or_unsupported_pdf")
+
+    monkeypatch.setattr("app.llmwiki.extractors.pdf_pypdf.PdfPypdfExtractor.extract", fake_extract)
+
+    client = TestClient(app)
+    workspace_id = _create_workspace(client, "RN V1.6 OCR Required")
+    response = client.post(
+        f"/api/workspaces/{workspace_id}/sources",
+        json={
+            "files": [
+                {
+                    "title": "Scanned PDF",
+                    "file_name": "scanned.pdf",
+                    "content_type": "application/pdf",
+                    "source_type": "pdf",
+                    "content_base64": base64.b64encode(b"%PDF-1.7 scanned image only").decode("ascii"),
+                    "metadata": {"upload_surface": "browser"},
+                }
+            ]
+        },
+    )
+    assert response.status_code == 200
+    source = response.json()["data"]["sources"][0]
+
+    capabilities = client.get(f"/api/workspaces/{workspace_id}/capabilities").json()["data"]["manifest"]["capabilities"]
+    assert capabilities["ocr"] is False
+    assert capabilities["scanned_pdf_ocr"] is False
+
+    preview = client.get(f"/api/workspaces/{workspace_id}/sources/{source['source_id']}/preview")
+    assert preview.status_code == 200
+    preview_payload = preview.json()["data"]["preview"]
+    assert preview_payload["source_type"] == "pdf"
+    assert preview_payload["preview_available"] is False
+    assert preview_payload["unsupported_reason"] == "ocr_required"
+    _assert_no_internal_paths(preview.json())
+
+    units = client.get(f"/api/workspaces/{workspace_id}/sources/{source['source_id']}/units")
+    assert units.status_code == 200
+    units_payload = units.json()["data"]["units"]
+    assert units_payload["items"] == []
+    assert units_payload["unsupported_reason"] == "ocr_required"
+    _assert_no_internal_paths(units.json())
 
 
 def test_v11be_source_preview_rejects_unknown_artifact_ref_and_slug_source_ids(tmp_path, monkeypatch):

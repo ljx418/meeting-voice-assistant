@@ -56,6 +56,7 @@ def query_session_payload(
     session_id: str,
     query: Any,
     top_k: Any = 8,
+    evidence_resolver: Callable[[str, int], list[dict[str, Any]]] | None = None,
     envelope: Callable[..., dict[str, Any]] = contract_envelope,
     blocked: Callable[..., dict[str, Any]] = contract_blocked,
 ) -> dict[str, Any]:
@@ -126,12 +127,14 @@ def query_session_payload(
             data={"session_id": normalized_session_id, "artifact_ref": _artifact_ref(workspace_id, normalized_session_id)},
         )
 
+    evidence = _resolve_evidence_items(evidence_resolver, normalized_query, normalized_top_k)
     projected = _project_query_payload(
         payload,
         workspace_id=workspace_id,
         session_id=normalized_session_id,
         query=normalized_query,
         top_k=normalized_top_k,
+        evidence=evidence,
     )
     return envelope(
         workspace_id=workspace_id,
@@ -148,14 +151,20 @@ def _project_query_payload(
     session_id: str,
     query: str,
     top_k: int,
+    evidence: list[dict[str, Any]],
 ) -> dict[str, Any]:
     session_payload = payload.get("session_payload") if isinstance(payload.get("session_payload"), dict) else {}
+    graph_only = any(isinstance(session_payload.get(key), list) and session_payload.get(key) for key in ("nodes", "edges", "communities"))
+    evidence_state = "has_evidence_span_ids" if evidence else "graph_only_no_evidence" if graph_only else "no_evidence_accepted"
     return {
         "workspace_id": workspace_id,
         "session_id": session_id,
         "query": query,
         "top_k": top_k,
         "answer": payload.get("answer"),
+        "evidence": [_stable_value(item) for item in evidence[:top_k]],
+        "evidence_refs": [_stable_value(item) for item in evidence[:top_k]],
+        "evidence_state": evidence_state,
         "results": [_stable_value(_project_hit(item)) for item in list(payload.get("hits") or [])[:top_k]],
         "items": [_stable_value(_project_hit(item)) for item in list(payload.get("hits") or [])[:top_k]],
         "nodes": [_stable_value(_project_node(item)) for item in list(session_payload.get("nodes") or [])[:top_k]],
@@ -163,6 +172,22 @@ def _project_query_payload(
         "communities": [_project_community(item) for item in list(session_payload.get("communities") or [])[:top_k]],
         "artifact_ref": _artifact_ref(workspace_id, session_id),
     }
+
+
+def _resolve_evidence_items(evidence_resolver: Callable[[str, int], list[dict[str, Any]]] | None, query: str, top_k: int) -> list[dict[str, Any]]:
+    if evidence_resolver is None:
+        return []
+    try:
+        resolved = evidence_resolver(query, top_k)
+    except Exception:
+        return []
+    return [_stable_value(item) for item in list(resolved or []) if _is_resolvable_evidence_item(item)]
+
+
+def _is_resolvable_evidence_item(item: Any) -> bool:
+    if not isinstance(item, dict):
+        return False
+    return all(isinstance(item.get(key), str) and item.get(key) for key in ("source_id", "unit_id", "evidence_id"))
 
 
 def _project_hit(hit: dict[str, Any]) -> dict[str, Any]:

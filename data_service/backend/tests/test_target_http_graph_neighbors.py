@@ -174,7 +174,7 @@ def test_v16c1_graph_neighbors_target_http_unknown_node_limits_auth_and_trace(tm
     _assert_no_internal_paths(limited.json())
 
     trace = client.get(f"/api/workspaces/{workspace_id}/sources/src_missing/trace")
-    assert trace.status_code == 404
+    assert trace.status_code == 422
 
     monkeypatch.setenv("DATA_SERVICE_REQUIRE_API_KEY", "true")
     monkeypatch.setattr(config.api, "api_key", "target-key")

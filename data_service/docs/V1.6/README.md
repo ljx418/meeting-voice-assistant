@@ -1,12 +1,12 @@
 # Data Service V1.6 文档入口
 
-更新时间：2026-05-15
+更新时间：2026-05-16
 
-V1.6 从 V1.5 accepted baseline 出发。V1.5 已完成 MCP-first local knowledge governance microservice 的收口验收；当前 V1.6 已 accepted 到 F1，current target HTTP route count = 35。后续 V1.6 文档只把 F2 描述为 planned / candidate，不表示该能力已经实现。
+V1.6 从 V1.5 accepted baseline 出发。V1.5 已完成 MCP-first local knowledge governance microservice 的收口验收；当前 V1.6 已 accepted 到 Closure Acceptance，current target HTTP route count = 35。Closure Acceptance 只完成最终公开面冻结审计、文档一致性审计和回归验收，不新增 backend public surface。
 
 V1.6 的核心方向是：在不破坏 V1.5 兼容入口和微服务边界的前提下，按最小能力组继续开放 target HTTP、Graph advanced、Session GraphRAG public contract 和 quality governance 能力。
 
-V1.6-A Public Surface Guard 已完成：本阶段只新增机器可读公开面基线和自动化 guard，不新增 MCP tool、HTTP route、CLI command 或业务能力。后续未完成的 V1.6-F2 仍是 planned / candidate，不能写成 implemented。
+V1.6-A Public Surface Guard 已完成：本阶段只新增机器可读公开面基线和自动化 guard，不新增 MCP tool、HTTP route、CLI command 或业务能力。
 
 V1.6-B1 Workspace Target HTTP 已完成：本阶段只通过 phase overlay 新增 workspace create/list/describe/archive 4 个 target HTTP routes，不修改 V1.5 baseline，不开放 source/build/graph/session/quality target HTTP。
 
@@ -44,7 +44,11 @@ V1.6-E4 Quality Correction Plan Target HTTP Minimal Surface 已完成：本阶�
 
 V1.6-E5 Quality Correction Rules Build Target HTTP Minimal Surface 已完成：本阶段只通过 phase overlay 新增 `POST /api/workspaces/{workspace_id}/quality/correction-rules/build` 1 个 target HTTP route；不新增 MCP tool、CLI command 或 CLI subcommand。E5 只构建 correction-rules artifact，不是 quality build、workspace build、session build、correction plan build 或 correction apply；如果 existing correction plan 可能变旧，只通过 warnings / next_actions 提示，不更新 plan、不激活 read-time governance。target HTTP route count = 35。
 
-V1.6-F1 Console Governance Evidence Baseline Sync 已完成：本阶段不新增公开面，不新增 backend route、MCP tool、CLI command 或 CLI subcommand，不修改 frontend 或 `/knowledge` 行为。F1 新增 console governance evidence matrix、focused documentation guard、drawio 同步和阶段报告。target HTTP route count 仍为 35，MCP tool count 仍为 40，CLI diff = none。F2 Console Governance Polish 仍是 planned / not implemented。
+V1.6-F1 Console Governance Evidence Baseline Sync 已完成：本阶段不新增公开面，不新增 backend route、MCP tool、CLI command 或 CLI subcommand，不修改 frontend 或 `/knowledge` 行为。F1 新增 console governance evidence matrix、focused documentation guard、drawio 同步和阶段报告。target HTTP route count 仍为 35，MCP tool count 仍为 40，CLI diff = none。
+
+V1.6-F2 Console Governance Polish 已完成：本阶段只修改 `/knowledge` governance evidence display 和前端静态 build 产物，不新增 backend public surface，不新增 route、MCP tool、CLI command 或 CLI subcommand。`/knowledge` 展示 V1.5 immutable baseline、accepted overlay summary、MCP 40、CLI diff none、compatibility retained、graph CLI nested additions、F2 no backend public surface 和 Closure Acceptance 边界。target HTTP route count 仍为 35。
+
+V1.6 Closure Acceptance / Final Release Audit 已完成：本阶段只新增 closure focused test、最终验收报告和 V1.6 文档同步；不修改功能代码，不新增 backend route、target HTTP route、compatibility route、MCP tool、CLI command 或 CLI subcommand。target HTTP route count 仍为 35，MCP tool count 仍为 40，CLI diff = none。Correction apply target HTTP 仍未实现，V1.7 capabilities remain planned only。
 
 ## 文档索引
 
@@ -80,6 +84,8 @@ V1.6-F1 Console Governance Evidence Baseline Sync 已完成：本阶段不新增
 - `PHASE-V1.6-E4-QUALITY-CORRECTION-PLAN-TARGET-HTTP-REPORT-2026-05-15.md`：V1.6-E4 Quality correction plan target HTTP 验收报告。
 - `PHASE-V1.6-E5-QUALITY-CORRECTION-RULES-BUILD-TARGET-HTTP-REPORT-2026-05-15.md`：V1.6-E5 Quality correction rules build target HTTP 验收报告。
 - `PHASE-V1.6-F1-CONSOLE-GOVERNANCE-EVIDENCE-BASELINE-REPORT-2026-05-15.md`：V1.6-F1 Console governance evidence baseline 验收报告。
+- `PHASE-V1.6-F2-CONSOLE-GOVERNANCE-POLISH-REPORT-2026-05-16.md`：V1.6-F2 Console governance polish 验收报告。
+- `PHASE-V1.6-CLOSURE-ACCEPTANCE-REPORT-2026-05-16.md`：V1.6 Closure Acceptance / Final Release Audit 验收报告。
 
 ## 基线
 
@@ -182,7 +188,7 @@ V1.6-E5 accepted overlay 新增 1 个 target HTTP route：
 
 压缩计数：A guard +0；B1/B2/B3 overlays +11；C1/C2/C3/C4 overlays +4；D1 planning +0；D2 overlay +5；D3 planning +0；D4/D5/D6 overlays +5；E1/E2/E3/E4/E5 overlays +7；current target HTTP route count = 35。
 
-V1.6-F1 不新增 overlay，不新增 public surface。F2 Console Governance Polish 仍是 planned / not implemented。
+V1.6-F1 不新增 overlay，不新增 public surface。V1.6-F2 不新增 overlay，不新增 backend public surface，只更新 `/knowledge` governance evidence display。Closure Acceptance 不新增 overlay，不新增 public surface，只完成最终公开面冻结审计和回归验收。
 
 V1.6-D1 未新增 overlay。V1.6-D2 只开放 session lifecycle minimal surface；D4/D5/D6 后续已分别开放 session ingest、session query、session build minimal target HTTP。D1-D6 均未开放 quality target HTTP；E1/E2/E3/E4/E5 后续已分别开放 quality feedback、correction rules、correction review、correction plan、correction rules build minimal target HTTP。
 

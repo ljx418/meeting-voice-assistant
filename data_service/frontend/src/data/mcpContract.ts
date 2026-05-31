@@ -1,6 +1,16 @@
 export interface McpToolContract {
   name: string
-  group: 'Core' | 'Distill' | 'Trace' | 'Quality' | 'V2 Envelope' | 'Workspace' | 'Source' | 'Build' | 'Session GraphRAG'
+  group:
+    | 'Core'
+    | 'Distill'
+    | 'Trace'
+    | 'Quality'
+    | 'V2 Envelope'
+    | 'Workspace'
+    | 'Source'
+    | 'Build'
+    | 'Session GraphRAG'
+    | 'Project Intelligence'
   required: string[]
   optional: string[]
   status: 'stable' | 'compat'
@@ -24,13 +34,83 @@ export interface McpErrorPreview {
 }
 
 export interface InterfaceEntryContract {
-  capability: 'workspace' | 'source' | 'build' | 'query' | 'distill' | 'graph' | 'trace' | 'quality' | 'session'
+  capability:
+    | 'workspace'
+    | 'source'
+    | 'build'
+    | 'query'
+    | 'distill'
+    | 'graph'
+    | 'trace'
+    | 'quality'
+    | 'session'
+    | 'codebase'
   mcpTool: string
   httpRoute: string
   cliCommand: string
   status: 'primary' | 'compat' | 'planned'
   target: string
 }
+
+export interface GovernanceEvidenceMetric {
+  label: string
+  value: string
+  detail: string
+}
+
+export interface GovernanceOverlayEvidence {
+  phase: string
+  delta: string
+  detail: string
+}
+
+export interface GovernanceCapabilityEvidence {
+  capability: string
+  status: string
+  evidence: string
+}
+
+export const governanceBaselineEvidence: GovernanceEvidenceMetric[] = [
+  { label: 'V1.5 target baseline', value: '3', detail: 'query / distill / source trace' },
+  { label: 'MCP tool count', value: '45', detail: 'V1.5 baseline 40 + V2 codebase 5' },
+  { label: 'CLI top-level', value: '8', detail: 'build / code / graph / quality / query / source / trace / workspace' },
+  { label: 'Current target HTTP', value: '38', detail: 'V1.5 baseline + accepted overlays + V2 snapshot routes' },
+  { label: 'Compatibility HTTP', value: 'retained', detail: '/api/v1/knowledge/*' },
+  { label: 'Console role', value: 'governance', detail: 'service governance console, not end-user knowledge consumption app' },
+]
+
+export const governanceOverlayEvidence: GovernanceOverlayEvidence[] = [
+  { phase: 'A public surface guard', delta: '+0', detail: 'guard only, not a route overlay' },
+  { phase: 'B lifecycle overlays', delta: '+11', detail: 'workspace / source / build' },
+  { phase: 'C graph advanced overlays', delta: '+4', detail: 'neighbors / community / query / session inspection' },
+  { phase: 'D1 planning', delta: '+0', detail: 'contract hardening, not a route overlay' },
+  { phase: 'D2 lifecycle', delta: '+5', detail: 'session create / list / get / close / delete' },
+  { phase: 'D3 planning', delta: '+0', detail: 'ingest / query / build planning, not a route overlay' },
+  { phase: 'D4/D5/D6 session overlays', delta: '+5', detail: 'session ingest / query / build' },
+  { phase: 'E1-E5 quality overlays', delta: '+7', detail: 'feedback / rules / review / plan / rules-build; no correction apply' },
+  { phase: 'F1 evidence baseline', delta: '+0', detail: 'documentation evidence and guard only' },
+  { phase: 'F2 console polish', delta: '+0', detail: 'display-only governance evidence; no backend public surface' },
+]
+
+export const governanceCapabilityEvidence: GovernanceCapabilityEvidence[] = [
+  { capability: 'V1.5 baseline', status: 'immutable', evidence: 'MCP 40 / CLI top-level 7 / target HTTP 3' },
+  { capability: 'V2 codebase asset', status: 'accepted', evidence: 'MCP +5 / CLI top-level +1 / target HTTP codebase + snapshot routes' },
+  { capability: 'Public surface guard', status: 'accepted', evidence: 'A guard tests' },
+  { capability: 'Workspace/Source/Build', status: 'accepted', evidence: 'B overlays +11' },
+  { capability: 'Graph advanced', status: 'accepted', evidence: 'C overlays +4; graph neighbors / community / query / session CLI nested additions' },
+  { capability: 'Session lifecycle/ingest/query/build', status: 'accepted', evidence: 'D overlays +10, D1/D3 +0' },
+  { capability: 'Quality feedback/rules/review/plan/rules-build', status: 'accepted', evidence: 'E overlays +7; correction apply not opened' },
+  { capability: 'Console governance evidence plan', status: 'F1 accepted', evidence: 'evidence plan exists' },
+  { capability: 'Console polish', status: 'F2 implemented', evidence: 'no backend public surface' },
+  { capability: 'Closure acceptance', status: 'planned', evidence: 'not implemented' },
+]
+
+export const acceptedGraphCliNestedAdditions = [
+  'graph neighbors',
+  'graph community',
+  'graph query',
+  'graph session',
+] as const
 
 export const mcpToolContracts: McpToolContract[] = [
   {
@@ -88,6 +168,11 @@ export const mcpToolContracts: McpToolContract[] = [
   { name: 'knowledge_quality_feedback_v2', group: 'V2 Envelope', required: ['target_type', 'target_id', 'action'], optional: ['workspace', 'workspace_id', 'label', 'suggested_value', 'reason', 'metadata'], status: 'compat', aliasTarget: 'knowledge_quality_feedback' },
   { name: 'knowledge_correction_rules_v2', group: 'V2 Envelope', required: [], optional: ['workspace', 'workspace_id', 'limit', 'status'], status: 'compat', aliasTarget: 'knowledge_correction_rules' },
   { name: 'knowledge_review_correction_rule_v2', group: 'V2 Envelope', required: ['rule_id', 'status'], optional: ['workspace', 'workspace_id', 'reviewer', 'note'], status: 'compat', aliasTarget: 'knowledge_review_correction_rule' },
+  { name: 'knowledge_codebase_import', group: 'Project Intelligence', required: ['workspace_id', 'path'], optional: ['codebase_id', 'name', 'metadata', 'scan_policy'], status: 'stable' },
+  { name: 'knowledge_codebase_list', group: 'Project Intelligence', required: ['workspace_id'], optional: ['include_archived', 'limit'], status: 'stable' },
+  { name: 'knowledge_codebase_snapshot', group: 'Project Intelligence', required: ['workspace_id', 'codebase_id'], optional: ['scan_policy', 'include_git'], status: 'stable' },
+  { name: 'knowledge_codebase_describe', group: 'Project Intelligence', required: ['workspace_id', 'codebase_id'], optional: [], status: 'stable' },
+  { name: 'knowledge_codebase_archive', group: 'Project Intelligence', required: ['workspace_id', 'codebase_id'], optional: ['reason'], status: 'stable' },
   { name: 'knowledge_workspace_create', group: 'Workspace', required: ['name'], optional: ['root', 'owner', 'tags', 'bound_paths'], status: 'stable' },
   { name: 'knowledge_workspace_list', group: 'Workspace', required: [], optional: ['root', 'owner', 'tag', 'limit'], status: 'stable' },
   { name: 'knowledge_workspace_describe', group: 'Workspace', required: [], optional: ['workspace', 'workspace_id'], status: 'stable' },
@@ -141,4 +226,5 @@ export const interfaceEntryContracts: InterfaceEntryContract[] = [
   { capability: 'trace', mcpTool: 'knowledge_source_trace', httpRoute: '/api/v1/knowledge/source/trace', cliCommand: 'knowledge trace source', status: 'primary', target: 'PhaseG29 shared source trace payload contract active across MCP/HTTP/CLI' },
   { capability: 'quality', mcpTool: 'knowledge_quality_* / knowledge_correction_*', httpRoute: '/api/v1/knowledge/quality/*', cliCommand: 'planned: knowledge quality *', status: 'primary', target: 'feedback/rules/plan review contract' },
   { capability: 'session', mcpTool: 'knowledge_session_* / knowledge_actor_summary', httpRoute: 'planned: /api/v1/knowledge/sessions/*', cliCommand: 'planned: knowledge session *', status: 'primary', target: 'session graph lifecycle stays MCP-first' },
+  { capability: 'codebase', mcpTool: 'knowledge_codebase_import/list/snapshot/describe/archive', httpRoute: '/api/workspaces/{workspace_id}/codebases/*', cliCommand: 'knowledge code import/list/snapshot/describe/archive', status: 'primary', target: 'V2 Phase2 codebase registry and repo snapshot foundation' },
 ]

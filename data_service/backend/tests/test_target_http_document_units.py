@@ -4,7 +4,13 @@ from urllib.parse import quote
 from fastapi.testclient import TestClient
 
 from app.main import app
-from test_target_http_source_preview import _assert_no_internal_paths, _create_workspace, _import_text_source, _import_typed_text_source
+from test_target_http_source_preview import (
+    _assert_no_internal_paths,
+    _create_workspace,
+    _import_text_source,
+    _import_typed_text_source,
+    _patch_pdf_extractor,
+)
 
 
 def _setup_client(tmp_path, monkeypatch):
@@ -98,6 +104,47 @@ def test_v11s3_document_units_for_markdown_and_json_sources(tmp_path, monkeypatc
     assert detail.status_code == 200
     assert detail.json()["data"]["unit"]["json_path"] == "$.summary"
     _assert_no_internal_paths(json_response.json())
+    _assert_no_internal_paths(detail.json())
+
+
+def test_v14c_document_units_for_text_pdf_source(tmp_path, monkeypatch):
+    root = tmp_path / "managed"
+    source_root = tmp_path / "sources"
+    source_root.mkdir()
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_SOURCE_ROOTS", str(source_root))
+    _patch_pdf_extractor(
+        monkeypatch,
+        [
+            "AI digital humans use speech synthesis and real-time rendering.",
+            "Enterprise deployments require evidence-backed risk controls.",
+        ],
+    )
+
+    client = TestClient(app)
+    workspace_id = _create_workspace(client, "RN V1.4 PDF Units")
+    pdf = source_root / "digital-human.pdf"
+    pdf.write_bytes(b"%PDF-1.7\nfake text pdf fixture\n")
+    imported = client.post(f"/api/workspaces/{workspace_id}/sources", json={"paths": [str(pdf)]})
+    assert imported.status_code == 200
+    source_id = imported.json()["data"]["sources"][0]["source_id"]
+
+    response = client.get(f"/api/workspaces/{workspace_id}/sources/{source_id}/units")
+    assert response.status_code == 200
+    payload = response.json()
+    units = payload["data"]["units"]["items"]
+    assert len(units) == 2
+    assert [unit["unit_type"] for unit in units] == ["page", "page"]
+    assert [unit["page_no"] for unit in units] == [1, 2]
+    assert all(unit["content_type"] == "text/plain" for unit in units)
+    assert "AI digital humans" in units[0]["text_preview"]
+    assert "risk controls" in units[1]["text_preview"]
+    _assert_no_internal_paths(payload)
+
+    detail = client.get(f"/api/workspaces/{workspace_id}/sources/{source_id}/units/{units[0]['unit_id']}")
+    assert detail.status_code == 200
+    assert detail.json()["data"]["unit"]["page_no"] == 1
     _assert_no_internal_paths(detail.json())
 
 
