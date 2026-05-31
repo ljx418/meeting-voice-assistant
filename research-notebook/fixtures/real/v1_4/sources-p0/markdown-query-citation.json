@@ -1,16 +1,16 @@
 {
   "mode": "hybrid",
   "query": "中国与海外 AI 数字人市场的主要落地场景有何不同？",
-  "answer": "LLMWiki pages: 8 hits\nGraphRAG entities/units: 2 hits\nTop wiki result: src 3271cbd7484110b8\nTop graph result: Unit: src_918ee4610eb8dfcd",
+  "answer": "根据资料梳理，中国与海外 AI 数字人市场的主要落地场景存在以下差异：中国市场的落地场景集中于直播电商、营销短视频、客服、政务/金融服务、品牌数字员工，其中直播电商是高频场景，得益于中国电商直播生态的成熟，为虚拟主播提供了强需求（如24小时在线、规模化内容生产、企业降本等）；海外市场则侧重于企业培训视频、销售/客服数字员工、创作者视频生产、游戏与娱乐，增长驱动主要来自 SaaS 订阅、API、企业视频沟通、合规培训和生成式视频生态。从增长驱动因素看，中国市场依赖电商直播生态成熟与平台流量运营，而海外市场依赖 SaaS 订阅模式和企业级视频沟通需求。",
   "hits": [
     {
       "title": "src 3271cbd7484110b8",
       "snippet": "src 3271cbd7484110b8",
-      "source": "source-src-3271cbd7484110b8-eb887d65",
+      "source": "source-src-3271cbd7484110b8-9af1beea",
       "score": 1.4951873708780032,
       "meta": {
         "kind": "page",
-        "slug": "source-src-3271cbd7484110b8-eb887d65"
+        "slug": "source-src-3271cbd7484110b8-9af1beea"
       }
     },
     {
@@ -26,11 +26,11 @@
     {
       "title": "01 AI 数字人行业概览",
       "snippet": "01 <mark>AI</mark> 数字人行业概览",
-      "source": "source-01-ai-数字人行业概览-eb4e0502",
+      "source": "source-01-ai-数字人行业概览-a909deda",
       "score": 0.000002115823627372076,
       "meta": {
         "kind": "page",
-        "slug": "source-01-ai-数字人行业概览-eb4e0502"
+        "slug": "source-01-ai-数字人行业概览-a909deda"
       }
     },
     {
@@ -46,11 +46,11 @@
     {
       "title": "Page 1",
       "snippet": "Page 1",
-      "source": "source-page-1-0e135fe7",
+      "source": "source-page-1-e0c9f0e3",
       "score": 0.0000019849184189032615,
       "meta": {
         "kind": "page",
-        "slug": "source-page-1-0e135fe7"
+        "slug": "source-page-1-e0c9f0e3"
       }
     },
     {
@@ -64,23 +64,23 @@
       }
     },
     {
-      "title": "Passage 252e6c43",
+      "title": "Passage 9b4b670e",
       "snippet": "适合 后续 续问 问答 答的 的问 问题 中国 国与 与海 海外 数字 字人 人市 市场 场的 的主 主要 要落 落地 地场 场景 景有 有何 何不 不同 为什 什么 么不 不同...",
       "source": "",
       "score": 6.210395891526938,
       "meta": {
         "kind": "passage",
-        "passage_id": "252e6c43-5de6-4eae-b206-defdee6829cd"
+        "passage_id": "9b4b670e-da10-4aa8-be76-8d129314b817"
       }
     },
     {
-      "title": "Passage 69878777",
+      "title": "Passage f8f93cb2",
       "snippet": "等强 强调 调企 企业 业级 侧重 重给 给开 开发 发者 者提 提供 供语 语音 语言 言理 理解 解和 和动 动画 画微 微服 服务 来源 海外 外监 监管 管更 更突 突出...",
       "source": "",
       "score": 3.9348483201565956,
       "meta": {
         "kind": "passage",
-        "passage_id": "69878777-6f63-4bcd-98fd-2c84d3078971"
+        "passage_id": "f8f93cb2-76f9-45ce-9868-bfdaf3877008"
       }
     },
     {
@@ -102,454 +102,91 @@
       }
     }
   ],
-  "engine_payloads": {
-    "llmwiki": {
-      "pages": [
+  "answer_basis": "source_supported",
+  "key_claims": [
+    {
+      "claim": "中国主要落地场景为直播电商、营销短视频、客服、政务/金融服务、品牌数字员工",
+      "evidence_refs": [
         {
-          "result_id": "source-src-3271cbd7484110b8-eb887d65",
-          "result_type": "page",
-          "title": "src 3271cbd7484110b8",
-          "snippet": "src 3271cbd7484110b8",
-          "score": 1.4951873708780032,
-          "meta": {
-            "slug": "source-src-3271cbd7484110b8-eb887d65"
-          }
-        },
-        {
-          "result_id": "src",
-          "result_type": "page",
-          "title": "src",
-          "snippet": "src",
-          "score": 1.385837869793073,
-          "meta": {
-            "slug": "src"
-          }
-        },
-        {
-          "result_id": "source-01-ai-数字人行业概览-eb4e0502",
-          "result_type": "page",
-          "title": "01 AI 数字人行业概览",
-          "snippet": "01 <mark>AI</mark> 数字人行业概览",
-          "score": 0.000002115823627372076,
-          "meta": {
-            "slug": "source-01-ai-数字人行业概览-eb4e0502"
-          }
-        },
-        {
-          "result_id": "ai数字人行业概览",
-          "result_type": "page",
-          "title": "AI数字人行业概览",
-          "snippet": "AI数字人行业概览",
-          "score": 0.000002061411171918592,
-          "meta": {
-            "slug": "ai数字人行业概览"
-          }
-        },
-        {
-          "result_id": "source-page-1-0e135fe7",
-          "result_type": "page",
-          "title": "Page 1",
-          "snippet": "Page 1",
-          "score": 0.0000019849184189032615,
-          "meta": {
-            "slug": "source-page-1-0e135fe7"
-          }
-        },
-        {
-          "result_id": "page",
-          "result_type": "page",
-          "title": "Page",
-          "snippet": "Page",
-          "score": 0.0000019591563441580185,
-          "meta": {
-            "slug": "page"
-          }
+          "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI 数字人技术进展 PDF 派生样本",
+          "unit_id": "unit_10af7b2b65b91f7a",
+          "evidence_id": "ev_b9f2268a8cb5ca6c",
+          "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+          "confidence": 1,
+          "locator": {
+            "page_no": 3
+          },
+          "preview_available": true
         }
-      ],
-      "passages": [
-        {
-          "result_id": "252e6c43-5de6-4eae-b206-defdee6829cd",
-          "result_type": "passage",
-          "title": "Passage 252e6c43",
-          "snippet": "适合 后续 续问 问答 答的 的问 问题 中国 国与 与海 海外 数字 字人 人市 市场 场的 的主 主要 要落 落地 地场 场景 景有 有何 何不 不同 为什 什么 么不 不同...",
-          "score": 6.210395891526938,
-          "meta": {
-            "passage_id": "252e6c43-5de6-4eae-b206-defdee6829cd",
-            "source_id": "eb4e0502a30a1345",
-            "locator": "{\"kind\": \"lines\", \"start\": 49, \"end\": 55, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\", \"5. \\u9002\\u5408 ResearchNotebook \\u540e\\u7eed\\u95ee\\u7b54\\u7684\\u95ee\\u9898\"], \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "69878777-6f63-4bcd-98fd-2c84d3078971",
-          "result_type": "passage",
-          "title": "Passage 69878777",
-          "snippet": "等强 强调 调企 企业 业级 侧重 重给 给开 开发 发者 者提 提供 供语 语音 语言 言理 理解 解和 和动 动画 画微 微服 服务 来源 海外 外监 监管 管更 更突 突出...",
-          "score": 3.9348483201565956,
-          "meta": {
-            "passage_id": "69878777-6f63-4bcd-98fd-2c84d3078971",
-            "source_id": "eb887d653c4530d8",
-            "locator": "{\"kind\": \"lines\", \"start\": 0, \"end\": 53, \"heading_path\": [], \"passage_order\": 2}"
-          }
-        },
-        {
-          "result_id": "53731997-cb76-444d-970e-a30c19dbe03f",
-          "result_type": "passage",
-          "title": "Passage 53731997",
-          "snippet": "海外 外市 市场 海外 外厂 厂商 商更 更偏 偏向 向企 企业 业视 视频 频生 生产 培训 品牌 牌营 营销 实时 和客 客服 等强 强调 调企 企业 业级 侧重 重给 给开...",
-          "score": 0.000002026374986235718,
-          "meta": {
-            "passage_id": "53731997-cb76-444d-970e-a30c19dbe03f",
-            "source_id": "eb4e0502a30a1345",
-            "locator": "{\"kind\": \"lines\", \"start\": 38, \"end\": 42, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\", \"3. \\u56fd\\u5185\\u5916\\u5dee\\u5f02\"], \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "19eb8c49-3221-49da-920f-b87d69986e10",
-          "result_type": "passage",
-          "title": "Passage 19eb8c49",
-          "snippet": "年关 关于 的尝 尝试 试引 引发 发反 反弹 说明 明企 企业 业把 员工 管理 理仍 仍有 有社 社会 会和 和组 组织 织风 风险 来源",
-          "score": 0.000001912011795089997,
-          "meta": {
-            "passage_id": "19eb8c49-3221-49da-920f-b87d69986e10",
-            "source_id": "eb4e0502a30a1345",
-            "locator": "{\"kind\": \"lines\", \"start\": 14, \"end\": 20, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\"], \"passage_order\": 1}"
-          }
-        },
-        {
-          "result_id": "e999e042-d70d-4288-a85e-4b80dff5b78a",
-          "result_type": "passage",
-          "title": "Passage e999e042",
-          "snippet": "代表 表公 公司 司与 与产 产品 品格 格局 公司 产品 定位 核心 心能 能力 商业 业模 模式 客户 边界 数字 字人 人基 基础 础设 设施 施与 微服 服务 渲染 推理...",
-          "score": 0.0000018547273388872262,
-          "meta": {
-            "passage_id": "e999e042-d70d-4288-a85e-4b80dff5b78a",
-            "source_id": "0e135fe728016703",
-            "locator": "{\"kind\": \"pdf_page\", \"page\": 6, \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "c4f65242-e07c-4dfa-8484-f974d67ac81b",
-          "result_type": "passage",
-          "title": "Passage c4f65242",
-          "snippet": "市场 场规 规模 模与 与趋 趋势 势口 口径 来源 日期 口径 关键 键数 数据 备注 预测 亿美 美元 亿美 美元 范围 围较 较宽 覆盖 来源 预测 增量 亿美 美元 可作...",
-          "score": 0.0000018323076193637096,
-          "meta": {
-            "passage_id": "c4f65242-e07c-4dfa-8484-f974d67ac81b",
-            "source_id": "eb4e0502a30a1345",
-            "locator": "{\"kind\": \"lines\", \"start\": 21, \"end\": 30, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\"], \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "34f4c161-236a-4875-89ce-f563bd29dbfc",
-          "result_type": "passage",
-          "title": "Passage 34f4c161",
-          "snippet": "附录 主要 要来 来源 源索 索引 标题 来源 日期 报告 告预 预测 测期 页未 未标 标注 注发 发布 布日",
-          "score": 0.0000018158674369594894,
-          "meta": {
-            "passage_id": "34f4c161-236a-4875-89ce-f563bd29dbfc",
-            "source_id": "0e135fe728016703",
-            "locator": "{\"kind\": \"pdf_page\", \"page\": 9, \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "81528784-f6df-4d79-89d3-cf7599aa699c",
-          "result_type": "passage",
-          "title": "Passage 81528784",
-          "snippet": "来源 数字 字员 员工 概念 念正 正在 在从 从拟 拟人 人化 化界 界面 面扩 扩展 展到 但组 组织 织接 接受 受度 度和 和治 治理 理边 边界 界仍 仍不 不成 成熟...",
-          "score": 0.0000018101962070156745,
-          "meta": {
-            "passage_id": "81528784-f6df-4d79-89d3-cf7599aa699c",
-            "source_id": "eb887d653c4530d8",
-            "locator": "{\"kind\": \"lines\", \"start\": 0, \"end\": 53, \"heading_path\": [], \"passage_order\": 1}"
-          }
-        },
-        {
-          "result_id": "b3c29b67-b24d-4f3e-aeda-1e7849b506c3",
-          "result_type": "passage",
-          "title": "Passage b3c29b67",
-          "snippet": "核心 心结 结论 年以 以来 数字 字人 人行 行业 业从 虚拟 拟主 主播 虚拟 拟偶 偶像 扩展 展为 语音 视频 频生 生成 客服 培训 的综 综合 合市 市场 研究 究机...",
-          "score": 0.0000017999040552939589,
-          "meta": {
-            "passage_id": "b3c29b67-b24d-4f3e-aeda-1e7849b506c3",
-            "source_id": "eb4e0502a30a1345",
-            "locator": "{\"kind\": \"lines\", \"start\": 14, \"end\": 20, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\"], \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "a0d48f27-a59c-4aa8-9c03-39489e93fc4e",
-          "result_type": "passage",
-          "title": "Passage a0d48f27",
-          "snippet": "数字 字人 人行 行业 业概 概览 来源 源名 名称 多来 来源 源资 资料 料汇 汇编 详见 来源 源链 链接 见本 本文 文件 件内 内引 引用 用与 发布 布日 日期 资料...",
-          "score": 0.000001765507789300562,
-          "meta": {
-            "passage_id": "a0d48f27-a59c-4aa8-9c03-39489e93fc4e",
-            "source_id": "eb887d653c4530d8",
-            "locator": "{\"kind\": \"lines\", \"start\": 0, \"end\": 53, \"heading_path\": [], \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "95e05ac5-7cfd-44a0-916f-b36f99074615",
-          "result_type": "passage",
-          "title": "Passage 95e05ac5",
-          "snippet": "未标 标注 当前 前官 方文 文档 数字 字人 人产 产业 业发 发展 展报 报告",
-          "score": 0.000001747094219180188,
-          "meta": {
-            "passage_id": "95e05ac5-7cfd-44a0-916f-b36f99074615",
-            "source_id": "0e135fe728016703",
-            "locator": "{\"kind\": \"pdf_page\", \"page\": 9, \"passage_order\": 2}"
-          }
-        },
-        {
-          "result_id": "9359ee47-b44b-4181-af0a-01ae59508d79",
-          "result_type": "passage",
-          "title": "Passage 9359ee47",
-          "snippet": "执行 行摘 摘要 核心 心判 判断 数字 字人 人产 产业 业正 正在 在从 预制 制形 形象 配音 音视 视频 的内 内容 容工 工具 多模 模态 实时 时交 交互 可验 验证...",
-          "score": 0.000001737905106497251,
-          "meta": {
-            "passage_id": "9359ee47-b44b-4181-af0a-01ae59508d79",
-            "source_id": "0e135fe728016703",
-            "locator": "{\"kind\": \"pdf_page\", \"page\": 2, \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "b8ff3b98-75df-48e2-b6b0-0e8dc3618969",
-          "result_type": "passage",
-          "title": "Passage b8ff3b98",
-          "snippet": "未标 标注 当前 前官 方产 产品 品页 未标 标注 当前 前官 方文 文档 人工 工智 智能 能生 生成 成合 合成 成内 内容 容标 识办 办法 国家 家互 互联 联网 网信...",
-          "score": 0.0000017266388910607971,
-          "meta": {
-            "passage_id": "b8ff3b98-75df-48e2-b6b0-0e8dc3618969",
-            "source_id": "0e135fe728016703",
-            "locator": "{\"kind\": \"pdf_page\", \"page\": 10, \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "ed48a0df-c19f-4c8b-ae52-836d290a5407",
-          "result_type": "passage",
-          "title": "Passage ed48a0df",
-          "snippet": "个月 月重 重要 要变 变化 监管 管从 从泛 泛化 化生 生成 成式 转向 向更 更具 具体 体的 的标 标识 识和 和数 数字 字虚 虚拟 拟人 人治 治理 中国 年发 发布...",
-          "score": 0.0000017034860783877246,
-          "meta": {
-            "passage_id": "ed48a0df-c19f-4c8b-ae52-836d290a5407",
-            "source_id": "eb4e0502a30a1345",
-            "locator": "{\"kind\": \"lines\", \"start\": 43, \"end\": 48, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\"], \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "b9dc01d6-4c3f-4b46-935b-94e361d5f895",
-          "result_type": "passage",
-          "title": "Passage b9dc01d6",
-          "snippet": "数字 字人 人行 行业 业概 概览 来源 源名 名称 多来 来源 源资 资料 料汇 汇编 详见 来源 源链 链接 见本 本文 文件 件内 内引 引用 用与 发布 布日 日期 资料...",
-          "score": 0.0000016776439740573205,
-          "meta": {
-            "passage_id": "b9dc01d6-4c3f-4b46-935b-94e361d5f895",
-            "source_id": "eb4e0502a30a1345",
-            "locator": "{\"kind\": \"lines\", \"start\": 1, \"end\": 13, \"heading_path\": [], \"passage_order\": 0}"
-          }
-        },
-        {
-          "result_id": "4cec6195-318b-450d-bcc8-9d7f6c2c4611",
-          "result_type": "passage",
-          "title": "Passage 4cec6195",
-          "snippet": "定性 性评 评估 估依 依据 当前 前应 应用 用案 案例 技术 术成 成熟 熟度 合规 规难 难度 单位 位经 经济 济性 可重 重复 复交 交付 付能 能力 该图 图为 为分...",
-          "score": 0.0000014993433495960194,
-          "meta": {
-            "passage_id": "4cec6195-318b-450d-bcc8-9d7f6c2c4611",
-            "source_id": "0e135fe728016703",
-            "locator": "{\"kind\": \"pdf_page\", \"page\": 5, \"passage_order\": 0}"
-          }
-        }
-      ],
-      "citations": [
-        {
-          "source_id": "eb4e0502a30a1345",
-          "title": "01 AI 数字人行业概览",
-          "authority": "PRIMARY_DOC",
-          "source_type": "markdown",
-          "locator": "{\"kind\": \"lines\", \"start\": 49, \"end\": 55, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\", \"5. \\u9002\\u5408 ResearchNotebook \\u540e\\u7eed\\u95ee\\u7b54\\u7684\\u95ee\\u9898\"], \"passage_order\": 0}",
-          "excerpt": "适合 后续 续问 问答 答的 的问 问题 中国 国与 与海 海外 数字 字人 人市 市场 场的 的主 主要 要落 落地 地场 场景 景有 有何 何不 不同 为什 什么 么不 不同..."
-        },
-        {
-          "source_id": "eb887d653c4530d8",
-          "title": "src 3271cbd7484110b8",
-          "authority": "PRIMARY_DOC",
-          "source_type": "markdown",
-          "locator": "{\"kind\": \"lines\", \"start\": 0, \"end\": 53, \"heading_path\": [], \"passage_order\": 2}",
-          "excerpt": "等强 强调 调企 企业 业级 侧重 重给 给开 开发 发者 者提 提供 供语 语音 语言 言理 理解 解和 和动 动画 画微 微服 服务 来源 海外 外监 监管 管更 更突 突出..."
-        },
-        {
-          "source_id": "eb4e0502a30a1345",
-          "title": "01 AI 数字人行业概览",
-          "authority": "PRIMARY_DOC",
-          "source_type": "markdown",
-          "locator": "{\"kind\": \"lines\", \"start\": 38, \"end\": 42, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\", \"3. \\u56fd\\u5185\\u5916\\u5dee\\u5f02\"], \"passage_order\": 0}",
-          "excerpt": "海外 外市 市场 海外 外厂 厂商 商更 更偏 偏向 向企 企业 业视 视频 频生 生产 培训 品牌 牌营 营销 实时 和客 客服 等强 强调 调企 企业 业级 侧重 重给 给开..."
-        },
-        {
-          "source_id": "eb4e0502a30a1345",
-          "title": "01 AI 数字人行业概览",
-          "authority": "PRIMARY_DOC",
-          "source_type": "markdown",
-          "locator": "{\"kind\": \"lines\", \"start\": 14, \"end\": 20, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\"], \"passage_order\": 1}",
-          "excerpt": "年关 关于 的尝 尝试 试引 引发 发反 反弹 说明 明企 企业 业把 员工 管理 理仍 仍有 有社 社会 会和 和组 组织 织风 风险 来源"
-        },
-        {
-          "source_id": "0e135fe728016703",
-          "title": "Page 1",
-          "authority": "PRIMARY_DOC",
-          "source_type": "pdf",
-          "locator": "{\"kind\": \"pdf_page\", \"page\": 6, \"passage_order\": 0}",
-          "excerpt": "代表 表公 公司 司与 与产 产品 品格 格局 公司 产品 定位 核心 心能 能力 商业 业模 模式 客户 边界 数字 字人 人基 基础 础设 设施 施与 微服 服务 渲染 推理..."
-        },
-        {
-          "source_id": "eb4e0502a30a1345",
-          "title": "01 AI 数字人行业概览",
-          "authority": "PRIMARY_DOC",
-          "source_type": "markdown",
-          "locator": "{\"kind\": \"lines\", \"start\": 21, \"end\": 30, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\"], \"passage_order\": 0}",
-          "excerpt": "市场 场规 规模 模与 与趋 趋势 势口 口径 来源 日期 口径 关键 键数 数据 备注 预测 亿美 美元 亿美 美元 范围 围较 较宽 覆盖 来源 预测 增量 亿美 美元 可作..."
-        },
-        {
-          "source_id": "0e135fe728016703",
-          "title": "Page 1",
-          "authority": "PRIMARY_DOC",
-          "source_type": "pdf",
-          "locator": "{\"kind\": \"pdf_page\", \"page\": 9, \"passage_order\": 0}",
-          "excerpt": "附录 主要 要来 来源 源索 索引 标题 来源 日期 报告 告预 预测 测期 页未 未标 标注 注发 发布 布日"
-        },
-        {
-          "source_id": "eb887d653c4530d8",
-          "title": "src 3271cbd7484110b8",
-          "authority": "PRIMARY_DOC",
-          "source_type": "markdown",
-          "locator": "{\"kind\": \"lines\", \"start\": 0, \"end\": 53, \"heading_path\": [], \"passage_order\": 1}",
-          "excerpt": "来源 数字 字员 员工 概念 念正 正在 在从 从拟 拟人 人化 化界 界面 面扩 扩展 展到 但组 组织 织接 接受 受度 度和 和治 治理 理边 边界 界仍 仍不 不成 成熟..."
-        },
-        {
-          "source_id": "eb4e0502a30a1345",
-          "title": "01 AI 数字人行业概览",
-          "authority": "PRIMARY_DOC",
-          "source_type": "markdown",
-          "locator": "{\"kind\": \"lines\", \"start\": 14, \"end\": 20, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\"], \"passage_order\": 0}",
-          "excerpt": "核心 心结 结论 年以 以来 数字 字人 人行 行业 业从 虚拟 拟主 主播 虚拟 拟偶 偶像 扩展 展为 语音 视频 频生 生成 客服 培训 的综 综合 合市 市场 研究 究机..."
-        },
-        {
-          "source_id": "eb887d653c4530d8",
-          "title": "src 3271cbd7484110b8",
-          "authority": "PRIMARY_DOC",
-          "source_type": "markdown",
-          "locator": "{\"kind\": \"lines\", \"start\": 0, \"end\": 53, \"heading_path\": [], \"passage_order\": 0}",
-          "excerpt": "数字 字人 人行 行业 业概 概览 来源 源名 名称 多来 来源 源资 资料 料汇 汇编 详见 来源 源链 链接 见本 本文 文件 件内 内引 引用 用与 发布 布日 日期 资料..."
-        },
-        {
-          "source_id": "0e135fe728016703",
-          "title": "Page 1",
-          "authority": "PRIMARY_DOC",
-          "source_type": "pdf",
-          "locator": "{\"kind\": \"pdf_page\", \"page\": 9, \"passage_order\": 2}",
-          "excerpt": "未标 标注 当前 前官 方文 文档 数字 字人 人产 产业 业发 发展 展报 报告"
-        },
-        {
-          "source_id": "0e135fe728016703",
-          "title": "Page 1",
-          "authority": "PRIMARY_DOC",
-          "source_type": "pdf",
-          "locator": "{\"kind\": \"pdf_page\", \"page\": 2, \"passage_order\": 0}",
-          "excerpt": "执行 行摘 摘要 核心 心判 判断 数字 字人 人产 产业 业正 正在 在从 预制 制形 形象 配音 音视 视频 的内 内容 容工 工具 多模 模态 实时 时交 交互 可验 验证..."
-        },
-        {
-          "source_id": "0e135fe728016703",
-          "title": "Page 1",
-          "authority": "PRIMARY_DOC",
-          "source_type": "pdf",
-          "locator": "{\"kind\": \"pdf_page\", \"page\": 10, \"passage_order\": 0}",
-          "excerpt": "未标 标注 当前 前官 方产 产品 品页 未标 标注 当前 前官 方文 文档 人工 工智 智能 能生 生成 成合 合成 成内 内容 容标 识办 办法 国家 家互 互联 联网 网信..."
-        },
-        {
-          "source_id": "eb4e0502a30a1345",
-          "title": "01 AI 数字人行业概览",
-          "authority": "PRIMARY_DOC",
-          "source_type": "markdown",
-          "locator": "{\"kind\": \"lines\", \"start\": 43, \"end\": 48, \"heading_path\": [\"01 AI \\u6570\\u5b57\\u4eba\\u884c\\u4e1a\\u6982\\u89c8\"], \"passage_order\": 0}",
-          "excerpt": "个月 月重 重要 要变 变化 监管 管从 从泛 泛化 化生 生成 成式 转向 向更 更具 具体 体的 的标 标识 识和 和数 数字 字虚 虚拟 拟人 人治 治理 中国 年发 发布..."
-        },
-        {
-          "source_id": "eb4e0502a30a1345",
-          "title": "01 AI 数字人行业概览",
-          "authority": "PRIMARY_DOC",
-          "source_type": "markdown",
-          "locator": "{\"kind\": \"lines\", \"start\": 1, \"end\": 13, \"heading_path\": [], \"passage_order\": 0}",
-          "excerpt": "数字 字人 人行 行业 业概 概览 来源 源名 名称 多来 来源 源资 资料 料汇 汇编 详见 来源 源链 链接 见本 本文 文件 件内 内引 引用 用与 发布 布日 日期 资料..."
-        },
-        {
-          "source_id": "0e135fe728016703",
-          "title": "Page 1",
-          "authority": "PRIMARY_DOC",
-          "source_type": "pdf",
-          "locator": "{\"kind\": \"pdf_page\", \"page\": 5, \"passage_order\": 0}",
-          "excerpt": "定性 性评 评估 估依 依据 当前 前应 应用 用案 案例 技术 术成 成熟 熟度 合规 规难 难度 单位 位经 经济 济性 可重 重复 复交 交付 付能 能力 该图 图为 为分..."
-        }
-      ],
-      "related_pages": [
-        "source-src-3271cbd7484110b8-eb887d65",
-        "src",
-        "source-01-ai-数字人行业概览-eb4e0502",
-        "ai数字人行业概览",
-        "source-page-1-0e135fe7"
       ]
     },
-    "graphrag": {
-      "graph_model_version": "1.0",
-      "entities": [],
-      "relationships": [],
-      "units": [
+    {
+      "claim": "海外主要落地场景为企业培训视频、销售/客服数字员工、创作者视频生产、游戏与娱乐",
+      "evidence_refs": [
         {
-          "unit_id": "src_918ee4610eb8dfcd:question:1",
-          "source_id": "src_918ee4610eb8dfcd",
-          "text": "中国与海外 AI 数字人市场的主要落地场景有何不同？",
-          "score": 12.265390274020383
-        },
-        {
-          "unit_id": "src_3271cbd7484110b8:question:1",
-          "source_id": "src_3271cbd7484110b8",
-          "text": "中国与海外 AI 数字人市场的主要落地场景有何不同？",
-          "score": 12.265390274020383
+          "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI 数字人技术进展 PDF 派生样本",
+          "unit_id": "unit_10af7b2b65b91f7a",
+          "evidence_id": "ev_b9f2268a8cb5ca6c",
+          "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+          "confidence": 1,
+          "locator": {
+            "page_no": 3
+          },
+          "preview_available": true
         }
-      ],
-      "nodes": [],
-      "edges": [],
-      "communities": [],
-      "hits": [
+      ]
+    },
+    {
+      "claim": "中国直播电商因生态成熟、24小时在线需求、规模化内容生产和企业降本需求而成为高频场景",
+      "evidence_refs": [
         {
-          "title": "Unit: src_918ee4610eb8dfcd",
-          "snippet": "中国与海外 AI 数字人市场的主要落地场景有何不同？",
-          "source": "src_918ee4610eb8dfcd:question:1",
-          "score": 12.265390274020383,
-          "kind": "unit",
-          "meta": {
-            "kind": "unit"
-          }
-        },
-        {
-          "title": "Unit: src_3271cbd7484110b8",
-          "snippet": "中国与海外 AI 数字人市场的主要落地场景有何不同？",
-          "source": "src_3271cbd7484110b8:question:1",
-          "score": 12.265390274020383,
-          "kind": "unit",
-          "meta": {
-            "kind": "unit"
-          }
+          "evidence_key": "src_40b57439418988cf:unit_5e4c554cb3b1364d:ev_3525de0c591615ee",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI 数字人技术进展 PDF 派生样本",
+          "unit_id": "unit_5e4c554cb3b1364d",
+          "evidence_id": "ev_3525de0c591615ee",
+          "snippet": "定性评估依据：当前应用案例、技术成熟度、合规难度、单位经济性、可重复交付能力。该图为分析判断，不是市场规模数\n据。\n3.1 企业视频与培训：最稳的 B2B 商业化路径\nSynthesia 2025 年 1 月宣布完成 1.8 亿美元 D 轮融资，累计融资超过 3.3 亿美元，估值达 21 亿美元。\n[S13] 这说明企业视频沟通、培训、销售启用和内部知识传达是数字人商业化的重要方向。相比 C 端娱乐，\n企业视频的优势是需求稳定、版权可控、ROI 可计算。\n3.2 直播电商：高频场景，但强依赖平台和监管\n中国直播电商为虚拟主播提供了强需求：24 小时在线、",
+          "confidence": 1,
+          "locator": {
+            "page_no": 5
+          },
+          "preview_available": true
         }
-      ],
-      "stats": {
-        "entity_count": 0,
-        "theme_count": 0,
-        "relationship_count": 0,
-        "community_count": 0,
-        "document_count": 2
-      },
-      "source": "app.graphrag.bridge"
+      ]
+    },
+    {
+      "claim": "海外市场增长驱动主要来自SaaS订阅、API、企业视频沟通、合规培训和生成式视频生态",
+      "evidence_refs": [
+        {
+          "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+          "source_id": "src_40b57439418988cf",
+          "source_title": "AI 数字人技术进展 PDF 派生样本",
+          "unit_id": "unit_10af7b2b65b91f7a",
+          "evidence_id": "ev_b9f2268a8cb5ca6c",
+          "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+          "confidence": 1,
+          "locator": {
+            "page_no": 3
+          },
+          "preview_available": true
+        }
+      ]
     }
+  ],
+  "inference_notice": "回答基于当前 Notebook sources 的可解析证据生成。",
+  "generation_metadata": {
+    "provider": "openai_compatible",
+    "provider_name": "minimax",
+    "model": "MiniMax-M2.7",
+    "prompt_version": "v1_5_d_source_grounded_qa_2026_05_27",
+    "evidence_ref_count": 8,
+    "fallback_mode": false,
+    "latency_ms": 10590,
+    "response_schema": "openai_chat_completions"
   },
   "evidence": [
     {
@@ -572,41 +209,6 @@
       "snippet": "1. 中国与海外 AI 数字人市场的主要落地场景有何不同？\n2. 为什么不同研究机构的市场规模差异很大？\n3. 数字员工和 AI Avatar 的边界是什么？\n4. 直播电商为什么成为中国数字人落地的重要场景？\n5. 当前行业增长主要来自视频生成、实时交互，还是企业客服？",
       "confidence": 1,
       "locator": {},
-      "preview_available": true
-    },
-    {
-      "evidence_key": "src_918ee4610eb8dfcd:unit_b20c96845f5d1383:ev_f73c69d129c8bca6",
-      "source_id": "src_918ee4610eb8dfcd",
-      "source_title": "AI 数字人行业概览 Markdown",
-      "unit_id": "unit_b20c96845f5d1383",
-      "evidence_id": "ev_f73c69d129c8bca6",
-      "snippet": "# 01 AI 数字人行业概览",
-      "confidence": 1,
-      "locator": {},
-      "preview_available": true
-    },
-    {
-      "evidence_key": "src_3271cbd7484110b8:unit_6572dcff52faac8c:ev_d13fc3c9536cb5c0",
-      "source_id": "src_3271cbd7484110b8",
-      "source_title": "AI 数字人行业概览 TXT 派生样本",
-      "unit_id": "unit_6572dcff52faac8c",
-      "evidence_id": "ev_d13fc3c9536cb5c0",
-      "snippet": "01 AI 数字人行业概览",
-      "confidence": 1,
-      "locator": {},
-      "preview_available": true
-    },
-    {
-      "evidence_key": "src_40b57439418988cf:unit_29c9201d3a3d716a:ev_8ffbf20ef6182276",
-      "source_id": "src_40b57439418988cf",
-      "source_title": "AI 数字人技术进展 PDF 派生样本",
-      "unit_id": "unit_29c9201d3a3d716a",
-      "evidence_id": "ev_8ffbf20ef6182276",
-      "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
-      "confidence": 1,
-      "locator": {
-        "page_no": 1
-      },
       "preview_available": true
     },
     {
@@ -642,6 +244,45 @@
       "snippet": "来源名称：多来源资料汇编（详见 sourcesindex.md）  \n来源链接：见本文件内引用与 sourcesindex.md  \n发布日期：2026-05-26（资料采集日；各来源发布日期见 sourcesindex.md）  \n作者/机构：ChatGPT 汇编；原始作者/机构见各来源  \n资料类型：资料汇编 / 研究报告 / 公司公告 / 产品文档 / 政策文件 / 论文 / 主流媒体报道  \n可信度评级：中高  \n摘要：梳理 2024 年以来 AI 数字人 / 虚拟人 / AI Avatar / 数字员工的市场规模、增长趋势、应用场景和中外差异。",
       "confidence": 1,
       "locator": {},
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_10af7b2b65b91f7a",
+      "evidence_id": "ev_b9f2268a8cb5ca6c",
+      "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+      "confidence": 1,
+      "locator": {
+        "page_no": 3
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_8884ba861fdc2b64:ev_8bd71e8d6ff7f0cd",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_8884ba861fdc2b64",
+      "evidence_id": "ev_8bd71e8d6ff7f0cd",
+      "snippet": "2.1 实时语音驱动人脸\nMicrosoft Research 的 VASA-1 于 2024 年 4 月发布，目标是从单张静态图和语音片段生成具有唇形同步、\n表情细节和头部动作的 talking face；论文摘要称其可在线生成 512x512 视频，最高 40 FPS，并具有很低\n的启动延迟。[S09] 这类技术把“数字人视频生成”从离线生成推向实时交互，为客服、陪伴、远程教育等\n场景降低门槛。\n2.2 全身数字人和多模态驱动\nByteDance Research 的 OmniHuman-1 于 2025 年 2 月发布，提出基于 Diffusion",
+      "confidence": 1,
+      "locator": {
+        "page_no": 4
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_5e4c554cb3b1364d:ev_3525de0c591615ee",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_5e4c554cb3b1364d",
+      "evidence_id": "ev_3525de0c591615ee",
+      "snippet": "定性评估依据：当前应用案例、技术成熟度、合规难度、单位经济性、可重复交付能力。该图为分析判断，不是市场规模数\n据。\n3.1 企业视频与培训：最稳的 B2B 商业化路径\nSynthesia 2025 年 1 月宣布完成 1.8 亿美元 D 轮融资，累计融资超过 3.3 亿美元，估值达 21 亿美元。\n[S13] 这说明企业视频沟通、培训、销售启用和内部知识传达是数字人商业化的重要方向。相比 C 端娱乐，\n企业视频的优势是需求稳定、版权可控、ROI 可计算。\n3.2 直播电商：高频场景，但强依赖平台和监管\n中国直播电商为虚拟主播提供了强需求：24 小时在线、",
+      "confidence": 1,
+      "locator": {
+        "page_no": 5
+      },
       "preview_available": true
     }
   ],
@@ -669,41 +310,6 @@
       "preview_available": true
     },
     {
-      "evidence_key": "src_918ee4610eb8dfcd:unit_b20c96845f5d1383:ev_f73c69d129c8bca6",
-      "source_id": "src_918ee4610eb8dfcd",
-      "source_title": "AI 数字人行业概览 Markdown",
-      "unit_id": "unit_b20c96845f5d1383",
-      "evidence_id": "ev_f73c69d129c8bca6",
-      "snippet": "# 01 AI 数字人行业概览",
-      "confidence": 1,
-      "locator": {},
-      "preview_available": true
-    },
-    {
-      "evidence_key": "src_3271cbd7484110b8:unit_6572dcff52faac8c:ev_d13fc3c9536cb5c0",
-      "source_id": "src_3271cbd7484110b8",
-      "source_title": "AI 数字人行业概览 TXT 派生样本",
-      "unit_id": "unit_6572dcff52faac8c",
-      "evidence_id": "ev_d13fc3c9536cb5c0",
-      "snippet": "01 AI 数字人行业概览",
-      "confidence": 1,
-      "locator": {},
-      "preview_available": true
-    },
-    {
-      "evidence_key": "src_40b57439418988cf:unit_29c9201d3a3d716a:ev_8ffbf20ef6182276",
-      "source_id": "src_40b57439418988cf",
-      "source_title": "AI 数字人技术进展 PDF 派生样本",
-      "unit_id": "unit_29c9201d3a3d716a",
-      "evidence_id": "ev_8ffbf20ef6182276",
-      "snippet": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
-      "confidence": 1,
-      "locator": {
-        "page_no": 1
-      },
-      "preview_available": true
-    },
-    {
       "evidence_key": "src_40b57439418988cf:unit_d828942112bd9872:ev_cd442ab43f9c6eb3",
       "source_id": "src_40b57439418988cf",
       "source_title": "AI 数字人技术进展 PDF 派生样本",
@@ -737,11 +343,48 @@
       "confidence": 1,
       "locator": {},
       "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_10af7b2b65b91f7a:ev_b9f2268a8cb5ca6c",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_10af7b2b65b91f7a",
+      "evidence_id": "ev_b9f2268a8cb5ca6c",
+      "snippet": "说明：图中数据来自不同机构，定义口径不完全一致，仅用于展示行业高增长预期，不应直接相加或横向比较。\n1.2 中外发展路径差异\n维度 中国市场 海外市场\n主要落地\n场景\n直播电商、营销短视频、客服、政务/金融服\n务、品牌数字员工\n企业培训视频、销售/客服数字员工、创作者视频生产、游\n戏与娱乐\n增长驱动 电商直播生态成熟、平台流量运营、企业降本、\n内容规模化\nSaaS 订阅、API、企业视频沟通、合规培训、生成式视频\n生态\n监管重点 AIGC 标识、深度合成治理、数字虚拟人管理、\n未成年人保护\nAI transparency、deepfake disclos",
+      "confidence": 1,
+      "locator": {
+        "page_no": 3
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_8884ba861fdc2b64:ev_8bd71e8d6ff7f0cd",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_8884ba861fdc2b64",
+      "evidence_id": "ev_8bd71e8d6ff7f0cd",
+      "snippet": "2.1 实时语音驱动人脸\nMicrosoft Research 的 VASA-1 于 2024 年 4 月发布，目标是从单张静态图和语音片段生成具有唇形同步、\n表情细节和头部动作的 talking face；论文摘要称其可在线生成 512x512 视频，最高 40 FPS，并具有很低\n的启动延迟。[S09] 这类技术把“数字人视频生成”从离线生成推向实时交互，为客服、陪伴、远程教育等\n场景降低门槛。\n2.2 全身数字人和多模态驱动\nByteDance Research 的 OmniHuman-1 于 2025 年 2 月发布，提出基于 Diffusion",
+      "confidence": 1,
+      "locator": {
+        "page_no": 4
+      },
+      "preview_available": true
+    },
+    {
+      "evidence_key": "src_40b57439418988cf:unit_5e4c554cb3b1364d:ev_3525de0c591615ee",
+      "source_id": "src_40b57439418988cf",
+      "source_title": "AI 数字人技术进展 PDF 派生样本",
+      "unit_id": "unit_5e4c554cb3b1364d",
+      "evidence_id": "ev_3525de0c591615ee",
+      "snippet": "定性评估依据：当前应用案例、技术成熟度、合规难度、单位经济性、可重复交付能力。该图为分析判断，不是市场规模数\n据。\n3.1 企业视频与培训：最稳的 B2B 商业化路径\nSynthesia 2025 年 1 月宣布完成 1.8 亿美元 D 轮融资，累计融资超过 3.3 亿美元，估值达 21 亿美元。\n[S13] 这说明企业视频沟通、培训、销售启用和内部知识传达是数字人商业化的重要方向。相比 C 端娱乐，\n企业视频的优势是需求稳定、版权可控、ROI 可计算。\n3.2 直播电商：高频场景，但强依赖平台和监管\n中国直播电商为虚拟主播提供了强需求：24 小时在线、",
+      "confidence": 1,
+      "locator": {
+        "page_no": 5
+      },
+      "preview_available": true
     }
   ],
   "no_evidence": false,
   "coverage_status": "source_supported",
-  "answer_basis": "source_supported",
-  "inference_notice": "回答基于当前 Notebook sources 的可解析证据生成；如包含解释性表述，应视为基于来源的归纳。",
   "suggested_source_actions": []
 }

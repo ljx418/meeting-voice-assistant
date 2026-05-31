@@ -1,0 +1,200 @@
+{
+  "workspace_id": "rn-v19-conflict-1780197627920",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "research_report",
+      "question": "数字人项目 Alpha 在 2026 年是否已经实现规模化商业化？请列出来源之间的分歧。"
+    }
+  ],
+  "next_actions": [
+    "knowledge_source_list",
+    "knowledge_query"
+  ],
+  "data": {
+    "research": {
+      "research_available": true,
+      "question": "数字人项目 Alpha 在 2026 年是否已经实现规模化商业化？请列出来源之间的分歧。",
+      "coverage_status": "source_supported",
+      "answer_basis": "source_supported",
+      "answer": "已基于当前 Notebook sources 生成受限 Research 输出。",
+      "supported_conclusions": [
+        {
+          "claim": "本资料认为，数字人项目 Alpha 在 2026 年尚未实现规模化商业化。",
+          "evidence_refs": [
+            {
+              "evidence_key": "src_1d8d1c789d5ffd11:unit_871a733bebfc9082:ev_c229b33aaa1b9538",
+              "source_id": "src_1d8d1c789d5ffd11",
+              "source_title": "数字人商业化保守口径",
+              "unit_id": "unit_871a733bebfc9082",
+              "evidence_id": "ev_c229b33aaa1b9538",
+              "snippet": "本资料认为，数字人项目 Alpha 在 2026 年尚未实现规模化商业化。",
+              "confidence": 1,
+              "locator": {},
+              "preview_available": true
+            }
+          ]
+        },
+        {
+          "claim": "本资料认为，数字人项目 Alpha 在 2026 年已经实现规模化商业化。",
+          "evidence_refs": [
+            {
+              "evidence_key": "src_602fe71006424cc9:unit_d118c3bb058881b8:ev_807c7da99d8abfd9",
+              "source_id": "src_602fe71006424cc9",
+              "source_title": "数字人商业化乐观口径",
+              "unit_id": "unit_d118c3bb058881b8",
+              "evidence_id": "ev_807c7da99d8abfd9",
+              "snippet": "本资料认为，数字人项目 Alpha 在 2026 年已经实现规模化商业化。",
+              "confidence": 1,
+              "locator": {},
+              "preview_available": true
+            }
+          ]
+        },
+        {
+          "claim": "# 数字人商业化口径 A",
+          "evidence_refs": [
+            {
+              "evidence_key": "src_602fe71006424cc9:unit_a930067b95af1d60:ev_450c1372e3295f8c",
+              "source_id": "src_602fe71006424cc9",
+              "source_title": "数字人商业化乐观口径",
+              "unit_id": "unit_a930067b95af1d60",
+              "evidence_id": "ev_450c1372e3295f8c",
+              "snippet": "# 数字人商业化口径 A",
+              "confidence": 1,
+              "locator": {},
+              "preview_available": true
+            }
+          ]
+        }
+      ],
+      "inferences": [
+        {
+          "inference": "基于来源的推断：这些证据可以作为后续综合研究的初始依据，但仍需人工审阅来源上下文。",
+          "evidence_refs": [
+            {
+              "evidence_key": "src_1d8d1c789d5ffd11:unit_871a733bebfc9082:ev_c229b33aaa1b9538",
+              "source_id": "src_1d8d1c789d5ffd11",
+              "source_title": "数字人商业化保守口径",
+              "unit_id": "unit_871a733bebfc9082",
+              "evidence_id": "ev_c229b33aaa1b9538",
+              "snippet": "本资料认为，数字人项目 Alpha 在 2026 年尚未实现规模化商业化。",
+              "confidence": 1,
+              "locator": {},
+              "preview_available": true
+            },
+            {
+              "evidence_key": "src_602fe71006424cc9:unit_d118c3bb058881b8:ev_807c7da99d8abfd9",
+              "source_id": "src_602fe71006424cc9",
+              "source_title": "数字人商业化乐观口径",
+              "unit_id": "unit_d118c3bb058881b8",
+              "evidence_id": "ev_807c7da99d8abfd9",
+              "snippet": "本资料认为，数字人项目 Alpha 在 2026 年已经实现规模化商业化。",
+              "confidence": 1,
+              "locator": {},
+              "preview_available": true
+            }
+          ],
+          "inference_notice": "该段为基于来源的推断，不是资料外事实。"
+        }
+      ],
+      "conflicts": [
+        {
+          "topic": "数字人项目 Alpha 2026 年规模化商业化状态",
+          "positions": [
+            {
+              "claim": "本资料认为，数字人项目 Alpha 在 2026 年已经实现规模化商业化。",
+              "evidence_refs": [
+                {
+                  "evidence_key": "src_602fe71006424cc9:unit_d118c3bb058881b8:ev_807c7da99d8abfd9",
+                  "source_id": "src_602fe71006424cc9",
+                  "source_title": "数字人商业化乐观口径",
+                  "unit_id": "unit_d118c3bb058881b8",
+                  "evidence_id": "ev_807c7da99d8abfd9",
+                  "snippet": "本资料认为，数字人项目 Alpha 在 2026 年已经实现规模化商业化。",
+                  "confidence": 1,
+                  "locator": {},
+                  "preview_available": true
+                }
+              ]
+            },
+            {
+              "claim": "本资料认为，数字人项目 Alpha 在 2026 年尚未实现规模化商业化。",
+              "evidence_refs": [
+                {
+                  "evidence_key": "src_1d8d1c789d5ffd11:unit_871a733bebfc9082:ev_c229b33aaa1b9538",
+                  "source_id": "src_1d8d1c789d5ffd11",
+                  "source_title": "数字人商业化保守口径",
+                  "unit_id": "unit_871a733bebfc9082",
+                  "evidence_id": "ev_c229b33aaa1b9538",
+                  "snippet": "本资料认为，数字人项目 Alpha 在 2026 年尚未实现规模化商业化。",
+                  "confidence": 1,
+                  "locator": {},
+                  "preview_available": true
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "missing_evidence": [],
+      "suggested_source_actions": [],
+      "evidence_refs": [
+        {
+          "evidence_key": "src_1d8d1c789d5ffd11:unit_871a733bebfc9082:ev_c229b33aaa1b9538",
+          "source_id": "src_1d8d1c789d5ffd11",
+          "source_title": "数字人商业化保守口径",
+          "unit_id": "unit_871a733bebfc9082",
+          "evidence_id": "ev_c229b33aaa1b9538",
+          "snippet": "本资料认为，数字人项目 Alpha 在 2026 年尚未实现规模化商业化。",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_602fe71006424cc9:unit_d118c3bb058881b8:ev_807c7da99d8abfd9",
+          "source_id": "src_602fe71006424cc9",
+          "source_title": "数字人商业化乐观口径",
+          "unit_id": "unit_d118c3bb058881b8",
+          "evidence_id": "ev_807c7da99d8abfd9",
+          "snippet": "本资料认为，数字人项目 Alpha 在 2026 年已经实现规模化商业化。",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_602fe71006424cc9:unit_a930067b95af1d60:ev_450c1372e3295f8c",
+          "source_id": "src_602fe71006424cc9",
+          "source_title": "数字人商业化乐观口径",
+          "unit_id": "unit_a930067b95af1d60",
+          "evidence_id": "ev_450c1372e3295f8c",
+          "snippet": "# 数字人商业化口径 A",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        },
+        {
+          "evidence_key": "src_1d8d1c789d5ffd11:unit_03c8ad656690fd11:ev_2198b69aba951bea",
+          "source_id": "src_1d8d1c789d5ffd11",
+          "source_title": "数字人商业化保守口径",
+          "unit_id": "unit_03c8ad656690fd11",
+          "evidence_id": "ev_2198b69aba951bea",
+          "snippet": "# 数字人商业化口径 B",
+          "confidence": 1,
+          "locator": {},
+          "preview_available": true
+        }
+      ],
+      "generation_metadata": {
+        "provider": "deterministic",
+        "provider_name": "source-grounded-contract",
+        "model": "evidence-ref-synthesizer",
+        "prompt_version": "v1_6_e_source_grounded_research_2026_05_28",
+        "evidence_ref_count": 4,
+        "fallback_mode": true
+      }
+    }
+  }
+}

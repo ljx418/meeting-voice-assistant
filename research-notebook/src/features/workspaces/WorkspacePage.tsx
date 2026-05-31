@@ -32,7 +32,6 @@ import { EvidenceList } from '../../shared/components/EvidenceList';
 import { SourceTraceDrawer } from '../../shared/components/SourceTraceDrawer';
 import { SourcePreviewDrawer } from '../../shared/components/SourcePreviewDrawer';
 import { LightweightFeedback } from '../../shared/components/LightweightFeedback';
-import { AgentWorkflowPanel } from '../../shared/components/AgentWorkflowPanel';
 import { recordRecentWorkspace } from './recentWorkspaces';
 
 const MAX_IMPORT_FILES = 10;
@@ -332,13 +331,8 @@ function SourceImportForm({ workspaceId, focusSignal }: { workspaceId: string; f
         >
           <option value="text">文本：已验证</option>
           <option value="markdown">Markdown：已验证</option>
-          <option value="json">JSON：已验证</option>
           <option value="pdf">PDF：可抽取文本已验证</option>
           <option value="url">公开 URL：V1.6-A 限定站点</option>
-          <option value="pptx">PPTX：后端合同待就绪</option>
-          <option value="html">HTML：后端合同待就绪</option>
-          <option value="video">视频：后端合同待就绪</option>
-          <option value="audio">音频：后端合同待就绪</option>
         </select>
       </label>
       <label className="wide-field">
@@ -351,8 +345,8 @@ function SourceImportForm({ workspaceId, focusSignal }: { workspaceId: string; f
           placeholder="当前支持最小文本内容。完整文件上传和更多格式支持仍是后续能力。"
         />
       </label>
-      <StateBlock title="格式支持边界">
-        TXT、Markdown、可抽取文本 PDF 与公开网页 URL 会作为受控来源导入。URL 只支持公开 HTML/纯文本站点；扫描版 PDF、OCR、PPT、音视频和图片仍未声明 ready。
+      <StateBlock title="当前支持的来源">
+        可导入 TXT、Markdown、可抽取文本 PDF，也可以添加公开网页 URL。扫描版 PDF、PPT、音视频和图片暂不可用。
       </StateBlock>
       {fileReadError ? (
         <StateBlock title="文件读取失败" tone="error">
@@ -459,10 +453,6 @@ function SourceCard({
         {renameSource.error ? <ApiErrorState title="来源重命名合同不可用" error={renameSource.error} /> : null}
         <dl className="source-meta-grid">
           <div>
-            <dt>来源 ID</dt>
-            <dd>{source.source_id}</dd>
-          </div>
-          <div>
             <dt>类型</dt>
             <dd>{source.source_type || '服务定义'}</dd>
           </div>
@@ -479,10 +469,23 @@ function SourceCard({
             <dd>{source.trace_available ? '可用' : '不可用'}</dd>
           </div>
         </dl>
+        <details className="source-debug-details">
+          <summary>调试信息</summary>
+          <dl className="source-meta-grid">
+            <div>
+              <dt>来源 ID</dt>
+              <dd>{source.source_id}</dd>
+            </div>
+            <div>
+              <dt>工件引用</dt>
+              <dd>{source.artifact_refs?.length ? `${source.artifact_refs.length} 个` : '无'}</dd>
+            </div>
+          </dl>
+        </details>
       </div>
       <div className="source-actions">
         <button className="secondary-button" type="button" onClick={() => onTrace(source)} disabled={!source.trace_available}>
-          溯源
+          查看溯源
         </button>
         <button
           className="secondary-button"
@@ -494,7 +497,7 @@ function SourceCard({
           预览
         </button>
         <button className="secondary-button" type="button" onClick={onAsk}>
-          提问
+          基于此提问
         </button>
         <button className="secondary-button" type="button" onClick={onRebuild}>
           重建知识
@@ -628,18 +631,18 @@ function BuildPanel({ workspaceId, rebuildSignal }: { workspaceId: string; rebui
 
   return (
     <section className="panel" aria-labelledby="build-panel-title">
-      <div className="panel-header">
-        <h2 id="build-panel-title">工作区构建</h2>
+      <div className="panel-header compact-panel-header">
+        <h2 id="build-panel-title">知识构建</h2>
       </div>
       <div className="panel-body page-grid">
         {startBuild.error ? <ApiErrorState title="启动构建失败" error={startBuild.error} /> : null}
         <div className="toolbar-row">
           <div>
             <div className="workspace-meta">当前操作</div>
-            <strong>{activeOperationId ?? '无'}</strong>
+            <strong>{activeOperationId ? '正在跟踪构建任务' : '无进行中的任务'}</strong>
           </div>
           <button className="primary-button" type="button" onClick={start} disabled={startBuild.isPending}>
-            {startBuild.isPending ? '启动中' : '重建工作区知识'}
+            {startBuild.isPending ? '启动中' : '重建知识'}
           </button>
         </div>
         <StateBlock
@@ -653,7 +656,7 @@ function BuildPanel({ workspaceId, rebuildSignal }: { workspaceId: string; rebui
             ) : null
           }
         >
-          {polling.operation?.message || '这里只显示当前工作区操作的构建状态。'}
+          {polling.operation?.message || '这里只显示当前 Notebook 的知识构建状态。'}
         </StateBlock>
       </div>
     </section>
@@ -745,7 +748,7 @@ function WorkspaceQueryPanel({
   return (
     <section className="panel" aria-labelledby="workspace-query-title" ref={panelRef}>
       <div className="panel-header">
-        <h2 id="workspace-query-title">带证据提问</h2>
+        <h2 id="workspace-query-title">问答</h2>
       </div>
       <div className="panel-body page-grid">
         <form className="ask-form" onSubmit={submit}>
@@ -756,16 +759,16 @@ function WorkspaceQueryPanel({
               className="text-area"
               value={question}
               onChange={(event) => onQuestionChange(event.target.value)}
-              placeholder="基于当前工作区提问。"
+              placeholder="基于当前 Notebook 的来源提问。"
             />
           </label>
           <button className="primary-button" type="submit" disabled={queryWorkspace.isPending || !question.trim()}>
-            {queryWorkspace.isPending ? '提问中' : '询问工作区'}
+            {queryWorkspace.isPending ? '提问中' : '发送问题'}
           </button>
         </form>
         {queryWorkspace.isPending ? (
           <StateBlock title="正在基于来源生成回答">
-            已收到问题，正在检索当前 Notebook sources 并生成带引用回答。回答完成前不会清空来源库、资料导读或 Studio 输出。
+            已收到问题，正在检索当前 Notebook 来源并生成带引用回答。回答完成前不会清空来源库、资料导读或输出内容。
           </StateBlock>
         ) : null}
         {queryWorkspace.error ? <ApiErrorState title="工作区提问失败" error={queryWorkspace.error} /> : null}
@@ -921,13 +924,13 @@ function NotebookGuidePanel({ workspaceId, onAskQuestion }: { workspaceId: strin
     <section className="panel notebook-guide-panel" aria-labelledby="notebook-guide-title">
       <div className="panel-header">
         <div>
-          <div className="eyebrow">Notebook Guide</div>
+          <div className="eyebrow">资料导读</div>
           <h2 id="notebook-guide-title">资料导读</h2>
         </div>
       </div>
       <div className="panel-body page-grid">
         {sourceCount === 0 ? (
-          <EmptyState title="请先添加来源">导入 PDF、TXT 或 Markdown 后，Notebook Guide 将展示 Overview、Key Topics 和 Suggested Questions。</EmptyState>
+          <EmptyState title="请先添加来源">导入 PDF、TXT 或 Markdown 后，资料导读将展示概览、关键主题和建议追问。</EmptyState>
         ) : guideQuery.isLoading ? (
           <LoadingState label="正在生成资料导读" />
         ) : guideQuery.error ? (
@@ -1005,12 +1008,12 @@ function safeExportSlug(value: string) {
 
 function evidenceLabel(evidence: AnswerEvidence, index: number) {
   const fields = [
-    `key=${evidence.evidenceKey ?? `evidence-${index + 1}`}`,
-    evidence.sourceId ? `source_id=${evidence.sourceId}` : undefined,
-    evidence.unitId ? `unit_id=${evidence.unitId}` : undefined,
-    evidence.evidenceId ? `evidence_id=${evidence.evidenceId}` : undefined
+    `引用 ${index + 1}`,
+    evidence.sourceTitle ? `来源：${evidence.sourceTitle}` : undefined,
+    evidence.locator?.pageNo ? `页码：${evidence.locator.pageNo}` : undefined,
+    evidence.snippet ? `片段：${evidence.snippet}` : undefined
   ].filter(Boolean);
-  return fields.join(' ');
+  return fields.join('；');
 }
 
 function studioArtifactToMarkdown(artifact: StudioArtifact) {
@@ -1065,13 +1068,13 @@ function StudioPanel({
   onNavigateEvidence: (evidence: AnswerEvidence) => void;
 }) {
   const tools = [
-    { type: 'notes' as StudioArtifactType, title: 'Notes', description: '保存高价值回答、摘录和用户笔记，并保留引用。' },
-    { type: 'study_guide' as StudioArtifactType, title: 'Study Guide', description: '生成学习导读、结构化大纲、要点和建议追问。' },
-    { type: 'briefing_doc' as StudioArtifactType, title: 'Briefing Doc', description: '生成面向复述或汇报的资料简报。' },
-    { type: 'faq' as StudioArtifactType, title: 'FAQ', description: '生成常见问题与答案，每条都需要引用。' }
+    { type: 'notes' as StudioArtifactType, title: '笔记', description: '保存高价值回答、摘录和用户笔记，并保留引用。' },
+    { type: 'study_guide' as StudioArtifactType, title: '学习导读', description: '生成结构化大纲、要点和建议追问。' },
+    { type: 'briefing_doc' as StudioArtifactType, title: '资料简报', description: '生成面向复述或汇报的结构化文档。' },
+    { type: 'faq' as StudioArtifactType, title: '常见问题', description: '生成常见问题与答案，每条都需要引用。' }
   ];
   const phaseTwoTools = [
-    { title: 'Audio Overview', description: '需要语音 provider、音频 artifact schema 和真实播放 smoke。' },
+    { title: '音频概览', description: '需要语音 provider、音频 artifact schema 和真实播放 smoke。' },
     { title: 'PPT 生成', description: '需要 slide schema、导出合同和真实文件验收。' },
     { title: '思维导图', description: '需要节点/边 schema、布局合同和可视化验收。' },
     { title: '文档对比', description: '需要多来源差异 schema、冲突证据和引用定位验收。' }
@@ -1087,7 +1090,7 @@ function StudioPanel({
     if (!artifact) return;
     try {
       await globalThis.navigator.clipboard.writeText(studioArtifactToMarkdown(artifact));
-      setExportStatus('Markdown 已复制，包含 citation metadata。');
+      setExportStatus('Markdown 已复制，包含引用信息。');
     } catch {
       setExportStatus('复制失败，请使用下载导出。');
     }
@@ -1096,25 +1099,25 @@ function StudioPanel({
   const downloadMarkdown = () => {
     if (!artifact) return;
     downloadTextFile(`${exportBaseName}.md`, studioArtifactToMarkdown(artifact), 'text/markdown;charset=utf-8');
-    setExportStatus('Markdown 已下载，包含 citation metadata。');
+    setExportStatus('Markdown 已下载，包含引用信息。');
   };
 
   const downloadJson = () => {
     if (!artifact) return;
     downloadTextFile(`${exportBaseName}.json`, studioArtifactToJson(artifact), 'application/json;charset=utf-8');
-    setExportStatus('JSON 已下载，包含 artifact、sections 和 evidence_refs。');
+    setExportStatus('JSON 已下载，包含输出内容、章节和引用信息。');
   };
 
   return (
     <section className="panel studio-panel" aria-labelledby="studio-title">
       <div className="panel-header">
-        <h2 id="studio-title">Studio</h2>
+        <h2 id="studio-title">输出</h2>
       </div>
       <div className="panel-body page-grid">
         <StateBlock title="轻量输出">
-          Notes、Study Guide、Briefing Doc 和 FAQ 会基于当前来源生成。没有可引用证据时不会生成无来源输出。
+          笔记、学习导读、资料简报和常见问题会基于当前来源生成。没有可引用证据时不会生成无来源输出。
         </StateBlock>
-        {createArtifact.error ? <ApiErrorState title="Studio 输出失败" error={createArtifact.error} /> : null}
+        {createArtifact.error ? <ApiErrorState title="输出生成失败" error={createArtifact.error} /> : null}
         <div className="studio-tool-list">
           {tools.map((tool) => (
             <article className="source-card" key={tool.title}>
@@ -1140,8 +1143,8 @@ function StudioPanel({
         </div>
         <article className="source-card" aria-label="Phase 2/3 输出工具">
           <div>
-            <h3>Phase 2/3 输出工具</h3>
-            <p className="workspace-meta">以下能力仅展示合同发现边界。当前不会生成伪输出，也不会调用后端。</p>
+            <h3>后续输出工具</h3>
+            <p className="workspace-meta">以下能力暂不可用。当前不会生成伪输出，也不会调用后端。</p>
           </div>
           <div className="studio-tool-list">
             {phaseTwoTools.map((tool) => (
@@ -1149,7 +1152,7 @@ function StudioPanel({
                 <div>
                   <div className="source-title-row">
                     <h4>{tool.title}</h4>
-                    <span className="state-pill state-idle">合同未就绪</span>
+                    <span className="state-pill state-idle">暂不可用</span>
                   </div>
                   <p className="workspace-meta">{tool.description}</p>
                 </div>
@@ -1192,7 +1195,7 @@ function StudioPanel({
                 {exportStatus ? <StateBlock title="导出状态">{exportStatus}</StateBlock> : null}
               </>
             ) : (
-              <StateBlock title="Studio 输出暂不可用" tone="warning">
+              <StateBlock title="输出暂不可用" tone="warning">
                 当前没有可引用证据，不能生成无来源输出。
               </StateBlock>
             )}
@@ -1229,14 +1232,14 @@ function WorkspaceTitleEditor({
 
   return (
     <div>
-      <div className="eyebrow">工作区</div>
+      <div className="eyebrow">Notebook</div>
       {isRenaming ? (
-        <form className="inline-edit-form" onSubmit={submit} aria-label="重命名工作区">
+        <form className="inline-edit-form" onSubmit={submit} aria-label="重命名 Notebook">
           <input
             className="text-input"
             value={draftName}
             onChange={(event) => setDraftName(event.target.value)}
-            aria-label="工作区新名称"
+            aria-label="Notebook 新名称"
           />
           <button className="secondary-button" type="submit" disabled={renameWorkspace.isPending || !draftName.trim()}>
             保存
@@ -1268,7 +1271,7 @@ function WorkspaceTitleEditor({
           </button>
         </div>
       )}
-      {renameWorkspace.error ? <ApiErrorState title="工作区重命名合同不可用" error={renameWorkspace.error} /> : null}
+      {renameWorkspace.error ? <ApiErrorState title="Notebook 重命名不可用" error={renameWorkspace.error} /> : null}
     </div>
   );
 }
@@ -1298,7 +1301,7 @@ export function WorkspacePage() {
   }, [workspace]);
 
   if (workspaceQuery.isLoading) {
-    return <LoadingState label="正在加载工作区" />;
+    return <LoadingState label="正在加载 Notebook" />;
   }
 
   if (workspaceQuery.error) {
@@ -1309,9 +1312,9 @@ export function WorkspacePage() {
       if (workspaceQuery.error.code === 'version_or_schema_mismatch') {
         return <VersionMismatchState />;
       }
-      return <StateBlock title="工作区不可用" tone="error">{workspaceQuery.error.message}</StateBlock>;
+      return <StateBlock title="Notebook 不可用" tone="error">{workspaceQuery.error.message}</StateBlock>;
     }
-    return <StateBlock title="工作区不可用" tone="error">工作区无法加载。</StateBlock>;
+    return <StateBlock title="Notebook 不可用" tone="error">Notebook 无法加载。</StateBlock>;
   }
   return (
     <div className="workspace-layout">
@@ -1327,10 +1330,10 @@ export function WorkspacePage() {
             {workspace?.archived ? '已归档' : '归档'}
           </button>
           <Link className="secondary-button" to={`/workspaces/${workspaceId}/workbench`}>
-            会话工作台
+            会话
           </Link>
           <Link className="secondary-button" to={`/workspaces/${workspaceId}/graph`}>
-            知识图谱
+            图谱
           </Link>
         </div>
 
@@ -1338,11 +1341,11 @@ export function WorkspacePage() {
           <StateBlock title="归档失败" tone="error">
             {isNormalizedApiError(archiveWorkspace.error)
               ? archiveWorkspace.error.message
-              : '工作区无法归档。'}
+              : 'Notebook 无法归档。'}
           </StateBlock>
         ) : null}
 
-        <div className="notebook-three-column" aria-label="Notebook 三列工作区">
+        <div className="notebook-three-column" aria-label="Notebook 三列阅读工作区">
           <div className="notebook-column notebook-column-sources">
             <SourceLibrary
               workspaceId={workspaceId}
@@ -1389,19 +1392,6 @@ export function WorkspacePage() {
             <StudioPanel
               workspaceId={workspaceId}
               onTraceSourceId={setTraceSourceId}
-              onNavigateEvidence={(evidence) => {
-                if (!evidence.sourceId) return;
-                setPreviewSource({
-                  source_id: evidence.sourceId,
-                  title: evidence.sourceTitle,
-                  unitId: evidence.unitId,
-                  evidenceId: evidence.evidenceId,
-                  evidenceKey: evidence.evidenceKey
-                });
-              }}
-            />
-            <AgentWorkflowPanel
-              workspaceId={workspaceId}
               onNavigateEvidence={(evidence) => {
                 if (!evidence.sourceId) return;
                 setPreviewSource({

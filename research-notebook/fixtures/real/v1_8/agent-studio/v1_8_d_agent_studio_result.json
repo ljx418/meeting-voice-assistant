@@ -1,0 +1,498 @@
+{
+  "report_id": "report_1780235994968",
+  "task_id": "task_1780235921444",
+  "workspace_id": "rn-v18-agent-studio-1780235921442",
+  "run_id": "run_1780235994968",
+  "workflow_run": {
+    "run_id": "run_1780235994968",
+    "task_id": "task_1780235921444",
+    "workspace_id": "rn-v18-agent-studio-1780235921442",
+    "status": "completed",
+    "started_at": "2026-05-31T13:58:41.443Z",
+    "finished_at": "2026-05-31T13:59:54.968Z",
+    "steps": [
+      {
+        "step_id": "step_001",
+        "name": "agent studio draft",
+        "status": "completed",
+        "output_summary": {
+          "detail": "task_1780235921444",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_002",
+        "name": "material check",
+        "status": "completed",
+        "output_summary": {
+          "detail": "AI digital human Markdown/PDF available",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_003",
+        "name": "target route probe",
+        "status": "completed",
+        "output_summary": {
+          "detail": "http://127.0.0.1:8003",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_004",
+        "name": "workspace create",
+        "status": "completed",
+        "output_summary": {
+          "detail": "rn-v18-agent-studio-1780235921442",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_005",
+        "name": "markdown import",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_918ee4610eb8dfcd",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_006",
+        "name": "markdown import",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_ae153b63c6aa4a7c",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_007",
+        "name": "pdf import",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_40b57439418988cf",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_008",
+        "name": "workspace build",
+        "status": "completed",
+        "output_summary": {
+          "detail": "op_8bd8fe242542",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_009",
+        "name": "studio notes",
+        "status": "completed",
+        "output_summary": {
+          "detail": "artifact/citation/export",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_010",
+        "name": "studio study_guide",
+        "status": "completed",
+        "output_summary": {
+          "detail": "artifact/citation/export",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_011",
+        "name": "studio briefing_doc",
+        "status": "completed",
+        "output_summary": {
+          "detail": "artifact/citation/export",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_012",
+        "name": "studio faq",
+        "status": "completed",
+        "output_summary": {
+          "detail": "artifact/citation/export",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_013",
+        "name": "cleanup",
+        "status": "completed",
+        "output_summary": {
+          "detail": "rn-v18-agent-studio-1780235921442",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      }
+    ],
+    "artifact_refs": [
+      "workspace-create.json",
+      "markdown-import.json",
+      "technology-markdown-import.json",
+      "pdf-import.json",
+      "workspace-build.json",
+      "studio-notes-success.json",
+      "studio-notes-unit-detail.json",
+      "studio-notes-evidence-span.json",
+      "export-notes.md",
+      "export-notes.json",
+      "studio-study_guide-success.json",
+      "studio-study_guide-unit-detail.json",
+      "studio-study_guide-evidence-span.json",
+      "export-study_guide.md",
+      "export-study_guide.json",
+      "studio-briefing_doc-success.json",
+      "studio-briefing_doc-unit-detail.json",
+      "studio-briefing_doc-evidence-span.json",
+      "export-briefing_doc.md",
+      "export-briefing_doc.json",
+      "studio-faq-success.json",
+      "studio-faq-unit-detail.json",
+      "studio-faq-evidence-span.json",
+      "export-faq.md",
+      "export-faq.json",
+      "workspace-archive.json"
+    ],
+    "validation_report_id": "report_1780235994968",
+    "final_decision": "PASS_LIMITED"
+  },
+  "studio_result": {
+    "artifact_types": [
+      "notes",
+      "study_guide",
+      "briefing_doc",
+      "faq"
+    ]
+  },
+  "export_result": {
+    "markdown": true,
+    "json": true
+  },
+  "step_results": [
+    {
+      "step_id": "step_001",
+      "name": "agent studio draft",
+      "status": "completed",
+      "output_summary": {
+        "detail": "task_1780235921444",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_002",
+      "name": "material check",
+      "status": "completed",
+      "output_summary": {
+        "detail": "AI digital human Markdown/PDF available",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_003",
+      "name": "target route probe",
+      "status": "completed",
+      "output_summary": {
+        "detail": "http://127.0.0.1:8003",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_004",
+      "name": "workspace create",
+      "status": "completed",
+      "output_summary": {
+        "detail": "rn-v18-agent-studio-1780235921442",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_005",
+      "name": "markdown import",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_918ee4610eb8dfcd",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_006",
+      "name": "markdown import",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_ae153b63c6aa4a7c",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_007",
+      "name": "pdf import",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_40b57439418988cf",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_008",
+      "name": "workspace build",
+      "status": "completed",
+      "output_summary": {
+        "detail": "op_8bd8fe242542",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_009",
+      "name": "studio notes",
+      "status": "completed",
+      "output_summary": {
+        "detail": "artifact/citation/export",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_010",
+      "name": "studio study_guide",
+      "status": "completed",
+      "output_summary": {
+        "detail": "artifact/citation/export",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_011",
+      "name": "studio briefing_doc",
+      "status": "completed",
+      "output_summary": {
+        "detail": "artifact/citation/export",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_012",
+      "name": "studio faq",
+      "status": "completed",
+      "output_summary": {
+        "detail": "artifact/citation/export",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_013",
+      "name": "cleanup",
+      "status": "completed",
+      "output_summary": {
+        "detail": "rn-v18-agent-studio-1780235921442",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    }
+  ],
+  "assertions": [
+    {
+      "assertion_id": "assert_001",
+      "name": "draft contains no raw local path",
+      "expected": false,
+      "actual": false,
+      "status": "PASS",
+      "evidence_ref": "task_1780235921444"
+    },
+    {
+      "assertion_id": "assert_002",
+      "name": "notes top-level evidence refs",
+      "expected": ">=1",
+      "actual": 3,
+      "status": "PASS",
+      "evidence_ref": "studio-notes-success.json"
+    },
+    {
+      "assertion_id": "assert_003",
+      "name": "notes section evidence refs",
+      "expected": "all sections",
+      "actual": 2,
+      "status": "PASS",
+      "evidence_ref": "studio-notes-success.json"
+    },
+    {
+      "assertion_id": "assert_004",
+      "name": "studio-notes citation resolves",
+      "expected": true,
+      "actual": true,
+      "status": "PASS",
+      "evidence_ref": "studio-notes-evidence-span.json"
+    },
+    {
+      "assertion_id": "assert_005",
+      "name": "study_guide top-level evidence refs",
+      "expected": ">=1",
+      "actual": 3,
+      "status": "PASS",
+      "evidence_ref": "studio-study_guide-success.json"
+    },
+    {
+      "assertion_id": "assert_006",
+      "name": "study_guide section evidence refs",
+      "expected": "all sections",
+      "actual": 3,
+      "status": "PASS",
+      "evidence_ref": "studio-study_guide-success.json"
+    },
+    {
+      "assertion_id": "assert_007",
+      "name": "studio-study_guide citation resolves",
+      "expected": true,
+      "actual": true,
+      "status": "PASS",
+      "evidence_ref": "studio-study_guide-evidence-span.json"
+    },
+    {
+      "assertion_id": "assert_008",
+      "name": "briefing_doc top-level evidence refs",
+      "expected": ">=1",
+      "actual": 3,
+      "status": "PASS",
+      "evidence_ref": "studio-briefing_doc-success.json"
+    },
+    {
+      "assertion_id": "assert_009",
+      "name": "briefing_doc section evidence refs",
+      "expected": "all sections",
+      "actual": 2,
+      "status": "PASS",
+      "evidence_ref": "studio-briefing_doc-success.json"
+    },
+    {
+      "assertion_id": "assert_010",
+      "name": "studio-briefing_doc citation resolves",
+      "expected": true,
+      "actual": true,
+      "status": "PASS",
+      "evidence_ref": "studio-briefing_doc-evidence-span.json"
+    },
+    {
+      "assertion_id": "assert_011",
+      "name": "faq top-level evidence refs",
+      "expected": ">=1",
+      "actual": 3,
+      "status": "PASS",
+      "evidence_ref": "studio-faq-success.json"
+    },
+    {
+      "assertion_id": "assert_012",
+      "name": "faq section evidence refs",
+      "expected": "all sections",
+      "actual": 3,
+      "status": "PASS",
+      "evidence_ref": "studio-faq-success.json"
+    },
+    {
+      "assertion_id": "assert_013",
+      "name": "studio-faq citation resolves",
+      "expected": true,
+      "actual": true,
+      "status": "PASS",
+      "evidence_ref": "studio-faq-evidence-span.json"
+    },
+    {
+      "assertion_id": "assert_014",
+      "name": "report contains no raw path",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    }
+  ],
+  "raw_fixture_refs": [
+    "workspace-create.json",
+    "markdown-import.json",
+    "technology-markdown-import.json",
+    "pdf-import.json",
+    "workspace-build.json",
+    "studio-notes-success.json",
+    "studio-notes-unit-detail.json",
+    "studio-notes-evidence-span.json",
+    "export-notes.md",
+    "export-notes.json",
+    "studio-study_guide-success.json",
+    "studio-study_guide-unit-detail.json",
+    "studio-study_guide-evidence-span.json",
+    "export-study_guide.md",
+    "export-study_guide.json",
+    "studio-briefing_doc-success.json",
+    "studio-briefing_doc-unit-detail.json",
+    "studio-briefing_doc-evidence-span.json",
+    "export-briefing_doc.md",
+    "export-briefing_doc.json",
+    "studio-faq-success.json",
+    "studio-faq-unit-detail.json",
+    "studio-faq-evidence-span.json",
+    "export-faq.md",
+    "export-faq.json",
+    "workspace-archive.json"
+  ],
+  "accepted_debts": [
+    "Agent validation is not a substitute for human Studio content quality review",
+    "ordinary user UX remains accepted debt"
+  ],
+  "still_not_ready": [
+    "Studio human quality ready",
+    "ordinary user UX ready",
+    "Audio/PPT/Mindmap/Compare ready"
+  ],
+  "final_decision": "PASS_LIMITED",
+  "generated_at": "2026-05-31T13:58:41.443Z"
+}

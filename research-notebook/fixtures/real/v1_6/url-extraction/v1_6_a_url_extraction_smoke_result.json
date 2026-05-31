@@ -6,7 +6,7 @@
     "http://example.org/"
   ],
   "blocked_url": "http://127.0.0.1:8003/",
-  "workspace_id": "rn-v16-url-1779956944050",
+  "workspace_id": "rn-v16-url-1780123729352",
   "source_ids": [
     "src_38c28c096b05c01f",
     "src_4b3c5c90b2bfdf40"
@@ -15,7 +15,7 @@
     {
       "name": "workspace create",
       "status": "pass",
-      "detail": "rn-v16-url-1779956944050"
+      "detail": "rn-v16-url-1780123729352"
     },
     {
       "name": "unsafe URL blocked",
@@ -35,7 +35,7 @@
     {
       "name": "workspace build",
       "status": "pass",
-      "detail": "op_70cccdd8371b"
+      "detail": "op_6103acb32e0a"
     },
     {
       "name": "source chain src_38c28c096b05c01f",
@@ -65,7 +65,7 @@
     {
       "name": "workspace cleanup",
       "status": "pass",
-      "detail": "rn-v16-url-1779956944050"
+      "detail": "rn-v16-url-1780123729352"
     }
   ],
   "still_not_ready": [

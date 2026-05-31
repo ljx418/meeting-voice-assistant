@@ -1,0 +1,17 @@
+{
+  "mode": "hybrid",
+  "query": "火星采矿 农业机械 海洋运输的结论是什么？",
+  "answer": "当前资料未覆盖“火星采矿 农业机械 海洋运输的结论是什么？”的可引用依据。已导入来源包括：AI 数字人行业概览 Markdown、AI 数字人技术趋势 Markdown、AI 数字人产业发展报告 PDF。请补充更直接相关的资料，或改问这些来源覆盖的内容。",
+  "hits": [],
+  "coverage_status": "insufficient_evidence",
+  "answer_basis": "source_grounded_refusal",
+  "unsupported_reason": "insufficient_evidence",
+  "suggested_source_actions": [
+    "添加与问题直接相关的 PDF、TXT 或 Markdown",
+    "使用来源标题、关键段落或资料中的术语重新提问",
+    "补充原始报告、论文、公告或白皮书后再综合研究"
+  ],
+  "evidence": [],
+  "evidence_refs": [],
+  "no_evidence": true
+}

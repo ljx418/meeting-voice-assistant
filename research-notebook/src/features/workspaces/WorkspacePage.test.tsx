@@ -20,8 +20,6 @@ const sourcePreviewPath = [sourceDetailPath, 'preview'].join('/');
 const sourceUnitsPath = [sourceDetailPath, 'units'].join('/');
 const sourceUnitPath = (unitId: string) => [sourceUnitsPath, unitId].join('/');
 const sourceEvidenceSpanPath = (unitId: string, evidenceId: string) => [sourceUnitPath(unitId), 'evidence', evidenceId].join('/');
-const folderSummaryRunsPath = [workspaceRoot, 'workflows', 'folder-summary', 'runs'].join('/');
-const agentWorkflowDraftPath = [workspaceRoot, 'agent-workflows', 'draft'].join('/');
 
 function jsonResponse(payload: unknown, init?: ResponseInit) {
   return Promise.resolve(
@@ -70,286 +68,28 @@ describe('Workspace M2 smoke', () => {
     expect(await screen.findByText('暂无来源')).toBeInTheDocument();
   });
 
-  it('shows the folder summary workflow panel without starting local folder access automatically', async () => {
+  it('keeps non-PRD agent workflow controls out of the main Notebook workspace', async () => {
     const fetchMock = createWorkspaceFetch();
     vi.stubGlobal('fetch', fetchMock);
 
     render(<App />);
 
-    expect(await screen.findByRole('heading', { name: '文件夹总结工作流' })).toBeInTheDocument();
-    expect(screen.getByText('把一个资料文件夹整理成可追溯的研究总结')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: '来源库' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '问答' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '输出' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: '文件夹总结工作流' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /生成工作流草案/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /扫描目录/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /确认并生成总结/ })).not.toBeInTheDocument();
     expect(screen.getByLabelText('Phase 2/3 输出工具')).toBeInTheDocument();
-    expect(screen.getByText('Audio Overview')).toBeInTheDocument();
+    expect(screen.getByText('音频概览')).toBeInTheDocument();
     expect(screen.getByText('PPT 生成')).toBeInTheDocument();
     expect(screen.getByText('思维导图')).toBeInTheDocument();
     expect(screen.getByText('文档对比')).toBeInTheDocument();
     expect(screen.getAllByRole('button', { name: '暂不可用' })).toHaveLength(4);
-    expect(screen.getByText(/生成草案不会读取本地目录/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /生成工作流草案/ })).toBeEnabled();
-    expect(screen.getByRole('button', { name: /扫描目录/ })).toBeEnabled();
-    expect(screen.getByRole('button', { name: /确认并生成总结/ })).toBeEnabled();
     expect(fetchMock).toHaveBeenCalledWith(workspaceRoot, expect.objectContaining({ method: 'GET' }));
     expect(fetchMock).not.toHaveBeenCalledWith(expect.stringContaining('agent'), expect.anything());
     expect(fetchMock).not.toHaveBeenCalledWith(expect.stringContaining('folder-summary'), expect.anything());
-  });
-
-  it('creates a folder summary workflow draft without running the workflow automatically', async () => {
-    const fetchMock = createWorkspaceFetch({
-      [agentWorkflowDraftPath]: () =>
-        jsonResponse({
-          status: 'ok',
-          data: {
-            task: {
-              task_id: 'task_1',
-              workspace_id: 'ws_1',
-              user_goal: '递归总结 Desktop/技术分享，每个子文件夹生成一份总结。',
-              status: 'awaiting_approval',
-              workflow_id: 'wf_1'
-            },
-            workflow: {
-              workflow_id: 'wf_1',
-              name: '递归文件夹总结',
-              template_id: 'folder_summary_v1',
-              status: 'draft',
-              required_permissions: ['folder:scan', 'folder:extract:md_txt'],
-              draft_parameters: {
-                authorized_root_hint: 'Desktop/技术分享',
-                include_extensions: ['.md', '.txt'],
-                exclude_globs: ['**/*.tmp'],
-                follow_symlinks: false,
-                requires_user_confirmation: true
-              },
-              steps: [{ step_id: 'step_1', name: 'scan_folder', status: 'pending', retry_count: 0, artifact_refs: [] }]
-            }
-          }
-        })
-    });
-    vi.stubGlobal('fetch', fetchMock);
-
-    render(<App />);
-
-    await screen.findByText('文件夹总结工作流');
-    await userEvent.click(screen.getByRole('button', { name: /生成工作流草案/ }));
-
-    expect(await screen.findByLabelText('工作流草案')).toBeInTheDocument();
-    expect(screen.getByText('等待用户确认')).toBeInTheDocument();
-    expect(screen.getByText(/需要权限/)).toBeInTheDocument();
-    expect(fetchMock).toHaveBeenCalledWith(agentWorkflowDraftPath, expect.objectContaining({ method: 'POST' }));
-    expect(fetchMock).not.toHaveBeenCalledWith(folderSummaryRunsPath, expect.anything());
-  });
-
-  it('previews the workflow scan and renders step timeline', async () => {
-    const fetchMock = createWorkspaceFetch({
-      [folderSummaryRunsPath]: () =>
-        jsonResponse({
-          status: 'ok',
-          data: {
-            workflow: {
-              workflow_id: 'wf_1',
-              name: 'Folder Summary V1',
-              template_id: 'folder_summary_v1',
-              status: 'ready',
-              required_permissions: ['folder:scan'],
-              steps: [
-                { step_id: 'step_1', name: 'scan_folder', status: 'completed', retry_count: 0, artifact_refs: [] },
-                { step_id: 'step_2', name: 'summarize_folder', status: 'skipped', retry_count: 0, artifact_refs: [] }
-              ]
-            },
-            run: {
-              run_id: 'run_1',
-              workflow_id: 'wf_1',
-              status: 'completed',
-              created_at: '2026-05-25T00:00:00Z',
-              dry_run: true,
-              run_report: {
-                scanned_file_count: 2,
-                manifest_file_count: 1,
-                extracted_file_count: 0,
-                skipped_file_count: 1,
-                generated_artifact_count: 0
-              },
-              artifacts: []
-            },
-            collection: {
-              collection_id: 'fc_1',
-              workspace_id: 'ws_1',
-              root_label: '技术分享',
-              folders: [{ folder_id: 'fld_root', relative_path: '.', depth: 0, file_count: 1, child_folder_count: 0 }],
-              files: [{ file_id: 'file_1', relative_path: 'notes.md', extension: '.md', size_bytes: 1, extraction_status: 'skipped' }],
-              skipped_files: [{ relative_path: 'slides.pptx', skipped_reason: 'unsupported_extension' }]
-            },
-            permission_grant: {
-              permission_grant_id: 'grant_1',
-              workspace_id: 'ws_1',
-              root_label: '技术分享',
-              scopes: ['scan'],
-              status: 'active'
-            }
-          }
-        })
-    });
-    vi.stubGlobal('fetch', fetchMock);
-
-    render(<App />);
-
-    await screen.findByText('文件夹总结工作流');
-    await userEvent.click(screen.getByRole('button', { name: /扫描目录/ }));
-
-    expect(await screen.findByText(/文件\s*1.*跳过\s*1.*产物\s*0/)).toBeInTheDocument();
-    expect(screen.getByLabelText('扫描授权目录 已完成')).toBeInTheDocument();
-    expect(screen.getByText('预览扫描只展示文件清单，不生成总结产物。')).toBeInTheDocument();
-  });
-
-  it('opens SummaryArtifact source_unit_span evidence in the source preview drawer', async () => {
-    const fetchMock = createWorkspaceFetch({
-      [capabilitiesPath]: () =>
-        jsonResponse({
-          data: {
-            manifest: {
-              capabilities: {
-                source_preview: true,
-                document_units: true,
-                evidence_spans: true,
-                source_level_preview: true,
-                unit_level_navigation: true,
-                precise_span_highlight: true,
-                citation_backjump: true
-              },
-              supported_source_types: [{ source_type: 'text', preview: 'span', locators: [] }]
-            }
-          }
-        }),
-      [folderSummaryRunsPath]: () =>
-        jsonResponse({
-          data: {
-            workflow: {
-              workflow_id: 'wf_1',
-              name: 'Folder Summary V1',
-              template_id: 'folder_summary_v1',
-              status: 'ready',
-              required_permissions: ['folder:scan'],
-              steps: [{ step_id: 'step_1', name: 'summarize_folder', status: 'completed', retry_count: 0, artifact_refs: [] }]
-            },
-            run: {
-              run_id: 'run_1',
-              workflow_id: 'wf_1',
-              status: 'completed',
-              created_at: '2026-05-25T00:00:00Z',
-              dry_run: false,
-              run_report: {
-                scanned_file_count: 1,
-                manifest_file_count: 1,
-                extracted_file_count: 1,
-                skipped_file_count: 0,
-                generated_artifact_count: 1
-              },
-              artifacts: [
-                {
-                  artifact_id: 'sum_1',
-                  title: '根目录总览',
-                  artifact_type: 'root_summary',
-                  collection_id: 'fc_1',
-                  status: 'ready',
-                  schema_version: 'v1.3-summary-artifact',
-                  coverage: { file_count: 1, extracted_file_count: 1, skipped_file_count: 0, evidence_ref_count: 1 },
-                  markdown: '# 根目录总览',
-                  evidence_refs: [
-                    {
-                      source_id: 'src_1',
-                      source_title: 'Architecture notes',
-                      unit_id: 'unit_62567063869df3b5',
-                      evidence_id: 'ev_2e14b7785f3fbb06',
-                      snippet: 'Queues absorb burst traffic.',
-                      evidence_status: 'source_unit_span'
-                    }
-                  ]
-                }
-              ]
-            },
-            collection: {
-              collection_id: 'fc_1',
-              workspace_id: 'ws_1',
-              root_label: '技术分享',
-              folders: [{ folder_id: 'fld_root', relative_path: '.', depth: 0, file_count: 1, child_folder_count: 0 }],
-              files: [{ file_id: 'file_1', relative_path: 'notes.md', extension: '.md', size_bytes: 1, extraction_status: 'extracted' }],
-              skipped_files: []
-            },
-            permission_grant: {
-              permission_grant_id: 'grant_1',
-              workspace_id: 'ws_1',
-              root_label: '技术分享',
-              scopes: ['scan'],
-              status: 'active'
-            }
-          }
-        }),
-      [sourceDetailPath]: () =>
-        jsonResponse({ data: { source: { source_id: 'src_1', workspace_id: 'ws_1', title: 'Architecture notes', source_type: 'text' } } }),
-      [sourcePreviewPath]: () =>
-        jsonResponse({
-          data: {
-            preview: {
-              source_id: 'src_1',
-              title: 'Architecture notes',
-              source_type: 'text',
-              preview_available: true,
-              content_type: 'text/plain',
-              text_preview: 'Queues absorb burst traffic.'
-            }
-          }
-        }),
-      [`${sourceUnitsPath}?limit=20`]: () =>
-        jsonResponse({
-          data: {
-            units: {
-              source_id: 'src_1',
-              items: [{ unit_id: 'unit_62567063869df3b5', source_id: 'src_1', unit_type: 'section', title: 'Overview' }],
-              limit: 20,
-              has_more: false
-            }
-          }
-        }),
-      [sourceUnitPath('unit_62567063869df3b5')]: () =>
-        jsonResponse({
-          data: {
-            unit: {
-              unit_id: 'unit_62567063869df3b5',
-              source_id: 'src_1',
-              unit_type: 'section',
-              title: 'Overview',
-              content_type: 'text/plain',
-              text_preview: 'Queues absorb burst traffic.'
-            }
-          }
-        }),
-      [sourceEvidenceSpanPath('unit_62567063869df3b5', 'ev_2e14b7785f3fbb06')]: () =>
-        jsonResponse({
-          data: {
-            evidence_span: {
-              evidence_id: 'ev_2e14b7785f3fbb06',
-              source_id: 'src_1',
-              unit_id: 'unit_62567063869df3b5',
-              start_offset: 0,
-              end_offset: 6,
-              offset_basis: 'normalized_text',
-              offset_range: 'half_open',
-              text_basis: 'document_unit_text',
-              snippet: 'Queues'
-            }
-          }
-        })
-    });
-    vi.stubGlobal('fetch', fetchMock);
-
-    render(<App />);
-
-    await screen.findByText('文件夹总结工作流');
-    await userEvent.click(screen.getByRole('button', { name: /确认并生成总结/ }));
-    await userEvent.click(await screen.findByText('根目录总览'));
-    await userEvent.click(await screen.findByTestId('summary-artifact-evidence-citation'));
-
-    expect(await screen.findByTestId('source-preview-drawer')).toBeInTheDocument();
-    expect(await screen.findByTestId('evidence-highlight')).toHaveTextContent('Queues');
   });
 
   it('shows source after mocked import', async () => {
@@ -743,7 +483,7 @@ describe('Workspace M2 smoke', () => {
 
     render(<App />);
 
-    await screen.findByRole('heading', { name: 'Studio' });
+    await screen.findByRole('heading', { name: '输出' });
     await userEvent.click(screen.getAllByRole('button', { name: '生成' })[1]);
 
     expect(await screen.findByText('Study Guide 已基于当前 Notebook sources 生成，并保留可跳转引用。')).toBeInTheDocument();
@@ -751,15 +491,15 @@ describe('Workspace M2 smoke', () => {
     expect(screen.getByText('数字人需要证据治理。')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: '复制 Markdown' }));
     expect(writeText).toHaveBeenCalledWith(expect.stringContaining('## 学习目标'));
-    expect(writeText).toHaveBeenCalledWith(expect.stringContaining('ev_1'));
-    expect(await screen.findByText('Markdown 已复制，包含 citation metadata。')).toBeInTheDocument();
+    expect(writeText).toHaveBeenCalledWith(expect.stringContaining('来源：数字人报告'));
+    expect(await screen.findByText('Markdown 已复制，包含引用信息。')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: '下载 Markdown' }));
     await userEvent.click(screen.getByRole('button', { name: '下载 JSON' }));
     expect(createObjectUrl).toHaveBeenCalledTimes(2);
     expect(revokeObjectUrl).toHaveBeenCalledWith('blob:studio-export');
     await userEvent.click(screen.getByTestId('jumpable-evidence-citation'));
     expect(await screen.findByText('证据治理')).toBeInTheDocument();
-    expect(screen.getByLabelText('已选文档单元')).toHaveTextContent('unit_1');
+    expect(screen.getByLabelText('已选文档单元')).toHaveTextContent('Page 1');
     expect(fetchMock).toHaveBeenCalledWith(
       studioArtifactsPath,
       expect.objectContaining({
@@ -921,7 +661,7 @@ describe('Workspace M2 smoke', () => {
 
     expect(await screen.findByText('已返回单元元数据，但导航未启用')).toBeInTheDocument();
     expect(screen.getByText('Page 1')).toBeInTheDocument();
-    expect(screen.getByText('unit_1')).toBeInTheDocument();
+    expect(screen.getAllByText('调试信息').length).toBeGreaterThan(0);
     expect(screen.getByText('页码 1')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /Page 1/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('link', { name: /Page 1/i })).not.toBeInTheDocument();
@@ -1258,7 +998,7 @@ describe('Workspace M2 smoke', () => {
 
     await screen.findByText('暂无来源');
     await userEvent.type(screen.getByLabelText(/问题/), 'How should we handle traffic spikes?');
-    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
+    await userEvent.click(screen.getByRole('button', { name: /发送问题/ }));
 
     expect(await screen.findByText('Use a queue to absorb spikes.')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /有帮助/ }));
@@ -1385,7 +1125,7 @@ describe('Workspace M2 smoke', () => {
 
     await screen.findByText('暂无来源');
     await userEvent.type(screen.getByLabelText(/问题/), 'How should we handle burst traffic?');
-    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
+    await userEvent.click(screen.getByRole('button', { name: /发送问题/ }));
 
     expect(await screen.findByText('Use queues for burst traffic.')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /Architecture notes/i }));
@@ -1393,7 +1133,7 @@ describe('Workspace M2 smoke', () => {
     expect(await screen.findByText('Source-level preview remains visible.')).toBeInTheDocument();
     expect(await screen.findByText('Queue backpressure')).toBeInTheDocument();
     expect(await screen.findByText('absorb')).toBeInTheDocument();
-    expect(screen.getByText(`证据片段：${evidenceId}`)).toBeInTheDocument();
+    expect(screen.getAllByText('调试信息').length).toBeGreaterThan(0);
   });
 
   it('switches to the cited unit when another same-source citation is clicked', async () => {
@@ -1561,16 +1301,18 @@ describe('Workspace M2 smoke', () => {
 
     await screen.findByText('暂无来源');
     await userEvent.type(screen.getByLabelText(/问题/), 'What should remain visible?');
-    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
+    await userEvent.click(screen.getByRole('button', { name: /发送问题/ }));
 
     expect(await screen.findByText('Use queues and keep answers visible.')).toBeInTheDocument();
     const citations = await screen.findAllByTestId('jumpable-evidence-citation');
     await userEvent.click(citations[0]);
-    expect(await screen.findByText(`证据片段：${firstEvidenceId}`)).toBeInTheDocument();
+    await screen.findByText('absorb');
+    expect(screen.getAllByText('调试信息').length).toBeGreaterThan(0);
     expect(await screen.findByText('absorb')).toBeInTheDocument();
 
     await userEvent.click(citations[1]);
-    expect(await screen.findByText(`证据片段：${secondEvidenceId}`)).toBeInTheDocument();
+    await screen.findByText('answer');
+    expect(screen.getAllByText('调试信息').length).toBeGreaterThan(0);
     expect(await screen.findByText('answer')).toBeInTheDocument();
     expect(screen.getByLabelText('已选文档单元')).toHaveTextContent(secondUnitId);
   });
@@ -1596,7 +1338,7 @@ describe('Workspace M2 smoke', () => {
 
     await screen.findByText('暂无来源');
     await userEvent.type(screen.getByLabelText(/问题/), 'What is known?');
-    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
+    await userEvent.click(screen.getByRole('button', { name: /发送问题/ }));
 
     expect(await screen.findByText('当前资料未覆盖这个问题。')).toBeInTheDocument();
     expect(screen.getByText('当前资料未覆盖')).toBeInTheDocument();
@@ -1689,7 +1431,7 @@ describe('Workspace M2 smoke', () => {
 
     await screen.findByText('暂无来源');
     await userEvent.type(screen.getByLabelText(/问题/), '数字人风险是什么？');
-    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
+    await userEvent.click(screen.getByRole('button', { name: /发送问题/ }));
     expect((await screen.findAllByText('数字人应用需要标注 AI 生成身份。')).length).toBeGreaterThan(0);
     await userEvent.click(screen.getByRole('button', { name: '生成 Research 综合' }));
 
@@ -1730,7 +1472,7 @@ describe('Workspace M2 smoke', () => {
 
     await screen.findByText('暂无来源');
     await userEvent.type(screen.getByLabelText(/问题/), 'Show evidence');
-    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
+    await userEvent.click(screen.getByRole('button', { name: /发送问题/ }));
 
     expect(await screen.findByText('Evidence source exists.')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /Architecture notes/i }));
@@ -1751,7 +1493,7 @@ describe('Workspace M2 smoke', () => {
 
     await screen.findByText('暂无来源');
     await userEvent.type(screen.getByLabelText(/问题/), 'Can I rate this?');
-    await userEvent.click(screen.getByRole('button', { name: /询问工作区/ }));
+    await userEvent.click(screen.getByRole('button', { name: /发送问题/ }));
 
     expect(await screen.findByText('Feedback target remains visible.')).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /需要改进/ }));

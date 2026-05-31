@@ -1,5 +1,5 @@
 {
-  "workspace_id": "rn-v15-ai-guide-1779933293978",
+  "workspace_id": "rn-v15-ai-guide-1780124596790",
   "operation_id": null,
   "status": "ok",
   "warnings": [],
@@ -17,17 +17,18 @@
   "data": {
     "sources": [
       {
-        "workspace_id": "rn-v15-ai-guide-1779933293978",
+        "workspace_id": "rn-v15-ai-guide-1780124596790",
         "source_id": "src_ae153b63c6aa4a7c",
         "title": "AI 数字人技术趋势 Markdown",
         "status": "active",
         "ingest_status": "pending",
+        "source_type": "markdown",
         "metadata": {
           "source_format": "markdown",
           "v1_5_ai_guide": true
         },
-        "created_at": "2026-05-28T01:54:54.130496Z",
-        "updated_at": "2026-05-28T01:54:54.130496Z",
+        "created_at": "2026-05-30T07:03:16.894398Z",
+        "updated_at": "2026-05-30T07:03:16.894398Z",
         "removed_at": null,
         "remove_reason": "",
         "artifact_ref": "source://src_ae153b63c6aa4a7c"

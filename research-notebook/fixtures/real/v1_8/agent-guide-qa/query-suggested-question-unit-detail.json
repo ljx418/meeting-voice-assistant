@@ -1,0 +1,31 @@
+{
+  "workspace_id": "rn-v18-agent-guide-qa-1780231901315",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_40b57439418988cf",
+      "artifact_ref": "source://src_40b57439418988cf"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "unit": {
+      "unit_id": "unit_29c9201d3a3d716a",
+      "source_id": "src_40b57439418988cf",
+      "unit_type": "page",
+      "title": "Page 1",
+      "text_preview": "2024-2026 资料汇编行业现状 商业化潜力 监管风险\nAI 数字人产业发展报告\n从虚拟主播到企业数字员工：技术进展、市场机会、商业化路径与\n合规边界\n生成日期：2026-05-26\n用途：支持 ResearchNotebook 项目开发、资料导入、归纳、问答和引用验收。\n说明：本报告优先引用官方文档、研究报告、政策文件、技术论文、工程博客和主流媒体报道；\n市场数据因机构口径不同，不做简单相加。",
+      "content_type": "text/plain",
+      "order_index": 0,
+      "artifact_ref": "unit://src_40b57439418988cf/unit_29c9201d3a3d716a",
+      "preview_available": true,
+      "preview_truncated": false,
+      "preview_size_bytes": 503,
+      "max_preview_size_bytes": 50000,
+      "page_no": 1
+    }
+  }
+}

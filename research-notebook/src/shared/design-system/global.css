@@ -188,13 +188,14 @@ button {
 
 .notebook-three-column {
   display: grid;
-  grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.25fr) minmax(280px, 0.95fr);
+  grid-template-columns: minmax(280px, 340px) minmax(440px, 1fr) minmax(300px, 360px);
   gap: var(--rn-space-lg);
   align-items: start;
 }
 
 .notebook-column {
   display: grid;
+  align-content: start;
   min-width: 0;
   gap: var(--rn-space-lg);
 }
@@ -251,6 +252,10 @@ button {
 .panel-header {
   padding: var(--rn-space-md) var(--rn-space-lg);
   border-bottom: 1px solid var(--rn-color-outline-variant);
+}
+
+.compact-panel-header {
+  padding-block: var(--rn-space-sm);
 }
 
 .panel-header h2 {
@@ -575,6 +580,17 @@ button {
   font-size: 13px;
 }
 
+.source-debug-details {
+  margin-top: var(--rn-space-sm);
+  color: var(--rn-color-on-surface-variant);
+  font-size: 13px;
+}
+
+.source-debug-details summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+
 .source-actions {
   display: flex;
   flex-wrap: wrap;
@@ -765,7 +781,7 @@ button {
 
 @media (max-width: 1120px) {
   .notebook-three-column {
-    grid-template-columns: minmax(260px, 0.9fr) minmax(360px, 1.1fr);
+    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
   }
 
   .notebook-column-studio {

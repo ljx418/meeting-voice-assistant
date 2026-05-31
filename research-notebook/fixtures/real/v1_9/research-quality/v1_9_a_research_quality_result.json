@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-05-31T03:21:10.580Z",
+  "final_decision": "PASS_LIMITED",
+  "results": [
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v19-research-1780197670428"
+    },
+    {
+      "name": "no-source refusal",
+      "status": "pass",
+      "detail": "no_sources"
+    },
+    {
+      "name": "source import",
+      "status": "pass",
+      "detail": "AI 数字人行业概览: src_918ee4610eb8dfcd"
+    },
+    {
+      "name": "source import",
+      "status": "pass",
+      "detail": "AI 数字人技术趋势: src_ae153b63c6aa4a7c"
+    },
+    {
+      "name": "evidence resolution",
+      "status": "pass",
+      "detail": "supported-conclusion"
+    },
+    {
+      "name": "supported research report",
+      "status": "pass",
+      "detail": "3 conclusions"
+    },
+    {
+      "name": "outside refusal",
+      "status": "pass",
+      "detail": "insufficient_evidence"
+    },
+    {
+      "name": "cleanup",
+      "status": "pass",
+      "detail": "200"
+    }
+  ],
+  "accepted_debts": [
+    "automatic research smoke is not human quality review"
+  ]
+}

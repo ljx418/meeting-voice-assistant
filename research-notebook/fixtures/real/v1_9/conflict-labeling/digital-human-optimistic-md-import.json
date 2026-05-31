@@ -1,0 +1,38 @@
+{
+  "workspace_id": "rn-v19-conflict-1780197627920",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_602fe71006424cc9",
+      "artifact_ref": "source://src_602fe71006424cc9"
+    }
+  ],
+  "next_actions": [
+    "knowledge_source_list",
+    "knowledge_build_start"
+  ],
+  "data": {
+    "sources": [
+      {
+        "workspace_id": "rn-v19-conflict-1780197627920",
+        "source_id": "src_602fe71006424cc9",
+        "title": "数字人商业化乐观口径",
+        "status": "active",
+        "ingest_status": "pending",
+        "source_type": "markdown",
+        "metadata": {
+          "v1_9_conflict": true,
+          "source_format": "markdown"
+        },
+        "created_at": "2026-05-31T03:20:28.028291Z",
+        "updated_at": "2026-05-31T03:20:28.028291Z",
+        "removed_at": null,
+        "remove_reason": "",
+        "artifact_ref": "source://src_602fe71006424cc9"
+      }
+    ]
+  }
+}

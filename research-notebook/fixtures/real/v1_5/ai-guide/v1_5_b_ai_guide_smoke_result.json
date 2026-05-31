@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-28T01:55:16.247Z",
+  "generated_at": "2026-05-30T07:03:37.120Z",
   "base_url": "http://127.0.0.1:8003",
-  "workspace_id": "rn-v15-ai-guide-1779933293978",
+  "workspace_id": "rn-v15-ai-guide-1780124596790",
   "results": [
     {
       "name": "material check",
@@ -16,7 +16,7 @@
     {
       "name": "workspace create",
       "status": "pass",
-      "detail": "rn-v15-ai-guide-1779933293978"
+      "detail": "rn-v15-ai-guide-1780124596790"
     },
     {
       "name": "markdown import",
@@ -36,7 +36,7 @@
     {
       "name": "workspace build",
       "status": "pass",
-      "detail": "op_ea5a6391b2f4"
+      "detail": "op_07ffe1ec7d27"
     },
     {
       "name": "ai guide validation",
@@ -46,7 +46,7 @@
     {
       "name": "cleanup",
       "status": "pass",
-      "detail": "rn-v15-ai-guide-1779933293978"
+      "detail": "rn-v15-ai-guide-1780124596790"
     }
   ],
   "final_decision": "PASS",

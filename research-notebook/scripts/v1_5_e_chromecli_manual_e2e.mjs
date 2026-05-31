@@ -281,7 +281,7 @@ async function setQuestionAndSubmit(question) {
     () =>
       evaluate(`(() => {
         const form = document.querySelector('.ask-form');
-        const button = form && [...form.querySelectorAll('button')].find((el) => el.innerText.includes('询问工作区'));
+        const button = form && [...form.querySelectorAll('button')].find((el) => el.innerText.includes('发送问题') || el.innerText.includes('询问工作区'));
         const textarea = form && form.querySelector('textarea');
         return Boolean(textarea && textarea.value.trim() && button && !button.disabled);
       })()`),
@@ -290,7 +290,7 @@ async function setQuestionAndSubmit(question) {
   );
   await evaluate(`(() => {
     const form = document.querySelector('.ask-form');
-    const button = form && [...form.querySelectorAll('button')].find((el) => el.innerText.includes('询问工作区'));
+    const button = form && [...form.querySelectorAll('button')].find((el) => el.innerText.includes('发送问题') || el.innerText.includes('询问工作区'));
     if (!button || button.disabled) return false;
     button.click();
     return true;
@@ -335,7 +335,7 @@ async function runBrowserPath() {
 
   await setQuestionAndSubmit('数字人 技术 趋势是什么？');
   await waitFor(() => textIncludes('回答'), 'answer visible', 90_000);
-  await waitFor(() => textIncludes('可精确定位证据'), 'jumpable citation visible', 90_000);
+  await waitFor(() => textIncludes('可定位到原文片段'), 'jumpable citation visible', 90_000);
   await screenshot('02-qa-answer');
   mark('browser qa citation visible', 'pass');
 
@@ -344,7 +344,7 @@ async function runBrowserPath() {
   await screenshot('03-citation-highlight');
   mark('browser citation highlight', 'pass');
 
-  const studioTools = ['Notes', 'Study Guide', 'Briefing Doc', 'FAQ'];
+  const studioTools = ['笔记', '学习导读', '资料简报', '常见问题'];
   for (let index = 0; index < studioTools.length; index += 1) {
     await waitFor(
       () =>
@@ -366,7 +366,7 @@ async function runBrowserPath() {
       return true;
     })()`);
     await waitFor(() => textIncludes(studioTools[index]), `Studio ${studioTools[index]} visible`, 90_000);
-    await waitFor(() => textIncludes('可精确定位证据'), `Studio ${studioTools[index]} citation visible`, 90_000);
+    await waitFor(() => textIncludes('可定位到原文片段'), `Studio ${studioTools[index]} citation visible`, 90_000);
     await screenshot(`04-studio-${index + 1}`);
     mark(`browser studio ${studioTools[index]}`, 'pass');
     await delay(providerRetryDelayMs);

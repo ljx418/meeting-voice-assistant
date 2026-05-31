@@ -230,10 +230,6 @@ export function SourcePreviewDrawer({
             <div className="panel-body page-grid">
               <dl className="source-meta-grid">
                 <div>
-                  <dt>来源 ID</dt>
-                  <dd>{preview.source_id}</dd>
-                </div>
-                <div>
                   <dt>类型</dt>
                   <dd>{preview.source_type ?? effectiveSourceType ?? '服务定义'}</dd>
                 </div>
@@ -246,6 +242,15 @@ export function SourcePreviewDrawer({
                   <dd>{preview.artifact_refs?.length ? `${preview.artifact_refs.length} 个` : '无'}</dd>
                 </div>
               </dl>
+              <details className="source-debug-details">
+                <summary>调试信息</summary>
+                <dl className="source-meta-grid">
+                  <div>
+                    <dt>来源 ID</dt>
+                    <dd>{preview.source_id}</dd>
+                  </div>
+                </dl>
+              </details>
               {preview.preview_available ? null : (
                 <UnsupportedFeatureState title="预览不可用">
                   {preview.unsupported_reason ?? '数据服务可以识别该来源，但没有返回预览内容。'}
@@ -315,7 +320,7 @@ export function SourcePreviewDrawer({
                     <span>
                       <strong>{unit.title ?? unit.unit_id}</strong>
                       <span className="workspace-meta">
-                        {unit.unit_type} / 顺序 {unit.order_index ?? '未知'} / {unit.unit_id}
+                        {unit.unit_type} / 顺序 {unit.order_index ?? '未知'}
                       </span>
                     </span>
                   </button>
@@ -389,24 +394,29 @@ export function SourcePreviewDrawer({
                     <>
                       <dl className="source-meta-grid">
                         <div>
-                          <dt>单元 ID</dt>
-                          <dd>{selectedUnitDetail.unit_id}</dd>
-                        </div>
-                        <div>
                           <dt>内容类型</dt>
                           <dd>{selectedContentType}</dd>
                         </div>
-                        <div>
-                          <dt>工件引用</dt>
-                          <dd>{selectedUnitDetail.artifact_ref ?? '无'}</dd>
-                        </div>
-                        {requestedEvidenceId ? (
-                          <div>
-                            <dt>证据片段 ID</dt>
-                            <dd>{requestedEvidenceId}</dd>
-                          </div>
-                        ) : null}
                       </dl>
+                      <details className="source-debug-details">
+                        <summary>调试信息</summary>
+                        <dl className="source-meta-grid">
+                          <div>
+                            <dt>单元 ID</dt>
+                            <dd>{selectedUnitDetail.unit_id}</dd>
+                          </div>
+                          <div>
+                            <dt>工件引用</dt>
+                            <dd>{selectedUnitDetail.artifact_ref ?? '无'}</dd>
+                          </div>
+                          {requestedEvidenceId ? (
+                            <div>
+                              <dt>证据片段 ID</dt>
+                              <dd>{requestedEvidenceId}</dd>
+                            </div>
+                          ) : null}
+                        </dl>
+                      </details>
                       {selectedContentType === 'text/html' || selectedContentType === 'text/markdown' ? (
                         <StateBlock title="内容安全">后端返回 {selectedContentType}，已按转义文本渲染。</StateBlock>
                       ) : null}

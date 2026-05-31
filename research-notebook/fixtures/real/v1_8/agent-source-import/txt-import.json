@@ -1,0 +1,38 @@
+{
+  "workspace_id": "rn-v18-agent-source-import-1780231749814",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_3dfd290fe7ceb700",
+      "artifact_ref": "source://src_3dfd290fe7ceb700"
+    }
+  ],
+  "next_actions": [
+    "knowledge_source_list",
+    "knowledge_build_start"
+  ],
+  "data": {
+    "sources": [
+      {
+        "workspace_id": "rn-v18-agent-source-import-1780231749814",
+        "source_id": "src_3dfd290fe7ceb700",
+        "title": "AI 数字人资料 TXT 样本",
+        "status": "active",
+        "ingest_status": "pending",
+        "source_type": "markdown",
+        "metadata": {
+          "source_format": "txt",
+          "v1_8_agent_source_import": true
+        },
+        "created_at": "2026-05-31T12:49:09.990640Z",
+        "updated_at": "2026-05-31T12:49:09.990640Z",
+        "removed_at": null,
+        "remove_reason": "",
+        "artifact_ref": "source://src_3dfd290fe7ceb700"
+      }
+    ]
+  }
+}

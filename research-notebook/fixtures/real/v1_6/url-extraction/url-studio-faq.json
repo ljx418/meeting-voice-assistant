@@ -1,12 +1,12 @@
 {
-  "workspace_id": "rn-v16-url-1779956944050",
+  "workspace_id": "rn-v16-url-1780123729352",
   "operation_id": null,
   "status": "ok",
   "warnings": [],
   "artifact_refs": [
     {
       "type": "studio_artifact",
-      "artifact_id": "studio_faq_ba1c0e11999c"
+      "artifact_id": "studio_faq_f9933c5ec99d"
     }
   ],
   "next_actions": [
@@ -15,7 +15,7 @@
   ],
   "data": {
     "artifact": {
-      "artifact_id": "studio_faq_ba1c0e11999c",
+      "artifact_id": "studio_faq_f9933c5ec99d",
       "artifact_type": "faq",
       "title": "FAQ",
       "artifact_available": true,

@@ -1,0 +1,395 @@
+{
+  "report_id": "report_1780231786706",
+  "task_id": "task_1780231749816",
+  "workspace_id": "rn-v18-agent-source-import-1780231749814",
+  "run_id": "run_1780231786706",
+  "workflow_run": {
+    "run_id": "run_1780231786706",
+    "task_id": "task_1780231749816",
+    "workspace_id": "rn-v18-agent-source-import-1780231749814",
+    "status": "completed",
+    "started_at": "2026-05-31T12:49:09.815Z",
+    "finished_at": "2026-05-31T12:49:46.706Z",
+    "steps": [
+      {
+        "step_id": "step_001",
+        "name": "agent draft created",
+        "status": "completed",
+        "output_summary": {
+          "detail": "task_1780231749816",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_002",
+        "name": "permission grant recorded",
+        "status": "completed",
+        "output_summary": {
+          "detail": "perm_1780231749824",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_003",
+        "name": "workspace create",
+        "status": "completed",
+        "output_summary": {
+          "detail": "rn-v18-agent-source-import-1780231749814",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_004",
+        "name": "authorized source scan",
+        "status": "completed",
+        "output_summary": {
+          "detail": "2 markdown, 1 txt, 1 pdf, 1 skipped",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_005",
+        "name": "markdown import",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_918ee4610eb8dfcd",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_006",
+        "name": "txt import",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_3dfd290fe7ceb700",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_007",
+        "name": "pdf import",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_40b57439418988cf",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_008",
+        "name": "url import 1",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_38c28c096b05c01f",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_009",
+        "name": "url import 2",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_4b3c5c90b2bfdf40",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_010",
+        "name": "stable failing URL",
+        "status": "completed",
+        "output_summary": {
+          "detail": "HTTP 422",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_011",
+        "name": "workspace build",
+        "status": "completed",
+        "output_summary": {
+          "detail": "op_cc9d048d18af",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_012",
+        "name": "source list registry ids",
+        "status": "completed",
+        "output_summary": {
+          "detail": "5 ids",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_013",
+        "name": "workspace cleanup",
+        "status": "completed",
+        "output_summary": {
+          "detail": "rn-v18-agent-source-import-1780231749814",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      }
+    ],
+    "artifact_refs": [
+      "workspace-create.json",
+      "markdown-import.json",
+      "txt-import.json",
+      "pdf-import.json",
+      "url-import-1.json",
+      "url-import-2.json",
+      "url-stable-failure.json",
+      "workspace-build.json",
+      "source-list.json",
+      "workspace-cleanup.json"
+    ],
+    "validation_report_id": "report_1780231786706",
+    "final_decision": "PASS_LIMITED"
+  },
+  "source_summary": {
+    "imported_source_count": 5,
+    "source_ids": [
+      "src_918ee4610eb8dfcd",
+      "src_3dfd290fe7ceb700",
+      "src_40b57439418988cf",
+      "src_38c28c096b05c01f",
+      "src_4b3c5c90b2bfdf40"
+    ],
+    "skipped_files": [
+      {
+        "relative_path": "2026_Silicon_Workforce_Blueprint.pptx",
+        "skipped_reason": "unsupported_extension"
+      }
+    ],
+    "target_path_labels": [
+      "Desktop/技术分享/11-数字人"
+    ],
+    "target_path_refs": [
+      "perm_1780231749824"
+    ]
+  },
+  "step_results": [
+    {
+      "step_id": "step_001",
+      "name": "agent draft created",
+      "status": "completed",
+      "output_summary": {
+        "detail": "task_1780231749816",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_002",
+      "name": "permission grant recorded",
+      "status": "completed",
+      "output_summary": {
+        "detail": "perm_1780231749824",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_003",
+      "name": "workspace create",
+      "status": "completed",
+      "output_summary": {
+        "detail": "rn-v18-agent-source-import-1780231749814",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_004",
+      "name": "authorized source scan",
+      "status": "completed",
+      "output_summary": {
+        "detail": "2 markdown, 1 txt, 1 pdf, 1 skipped",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_005",
+      "name": "markdown import",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_918ee4610eb8dfcd",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_006",
+      "name": "txt import",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_3dfd290fe7ceb700",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_007",
+      "name": "pdf import",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_40b57439418988cf",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_008",
+      "name": "url import 1",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_38c28c096b05c01f",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_009",
+      "name": "url import 2",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_4b3c5c90b2bfdf40",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_010",
+      "name": "stable failing URL",
+      "status": "completed",
+      "output_summary": {
+        "detail": "HTTP 422",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_011",
+      "name": "workspace build",
+      "status": "completed",
+      "output_summary": {
+        "detail": "op_cc9d048d18af",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_012",
+      "name": "source list registry ids",
+      "status": "completed",
+      "output_summary": {
+        "detail": "5 ids",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_013",
+      "name": "workspace cleanup",
+      "status": "completed",
+      "output_summary": {
+        "detail": "rn-v18-agent-source-import-1780231749814",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    }
+  ],
+  "assertions": [
+    {
+      "assertion_id": "assert_001",
+      "name": "draft does not include raw target paths",
+      "expected": false,
+      "actual": false,
+      "status": "PASS",
+      "evidence_ref": "task_1780231749816"
+    },
+    {
+      "assertion_id": "assert_002",
+      "name": "no local read before permission grant",
+      "expected": "no_scan_before_grant",
+      "actual": "draft_only",
+      "status": "PASS",
+      "evidence_ref": "task_1780231749816"
+    },
+    {
+      "assertion_id": "assert_003",
+      "name": "skipped files have reason",
+      "expected": true,
+      "actual": true,
+      "status": "PASS"
+    },
+    {
+      "assertion_id": "assert_004",
+      "name": "report contains no raw path",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    }
+  ],
+  "raw_fixture_refs": [
+    "workspace-create.json",
+    "markdown-import.json",
+    "txt-import.json",
+    "pdf-import.json",
+    "url-import-1.json",
+    "url-import-2.json",
+    "url-stable-failure.json",
+    "workspace-build.json",
+    "source-list.json",
+    "workspace-cleanup.json"
+  ],
+  "accepted_debts": [
+    "weak frontend UX remains accepted debt",
+    "V1.8-B does not validate Guide/QA/Studio quality"
+  ],
+  "still_not_ready": [
+    "all-source-type ready",
+    "all websites URL ready",
+    "ordinary user UX ready"
+  ],
+  "final_decision": "PASS_LIMITED",
+  "generated_at": "2026-05-31T12:49:09.815Z"
+}

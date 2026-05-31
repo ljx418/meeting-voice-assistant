@@ -1,29 +1,25 @@
 {
-  "workspace_id": "rn-v15-ai-guide-1779933293978",
-  "operation_id": "op_ea5a6391b2f4",
+  "workspace_id": "rn-v15-ai-guide-1780124596790",
+  "operation_id": "op_07ffe1ec7d27",
   "status": "completed",
   "warnings": [],
   "artifact_refs": [
     {
       "type": "operation",
-      "operation_id": "op_ea5a6391b2f4",
-      "artifact_ref": "operation://op_ea5a6391b2f4"
+      "operation_id": "op_07ffe1ec7d27",
+      "artifact_ref": "operation://op_07ffe1ec7d27"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://10b1b4cc1de4bfc8"
+      "artifact_ref": "artifact://3fcc76b759d42d29"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://ee0d507a2770d0d4"
+      "artifact_ref": "artifact://340b35480b9a09de"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://6630fa2c2ba1e8d3"
-    },
-    {
-      "type": "artifact",
-      "artifact_ref": "artifact://3660315a9af3df25"
+      "artifact_ref": "artifact://1b1b160825e5276d"
     },
     {
       "type": "artifact",
@@ -31,62 +27,66 @@
     },
     {
       "type": "artifact",
+      "artifact_ref": "artifact://3660315a9af3df25"
+    },
+    {
+      "type": "artifact",
       "artifact_ref": "artifact://535ba2a34a2f0521"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://a310a878ab94dadf"
+      "artifact_ref": "artifact://b46b1ccbe23914cd"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://9b749695d6be6b5e"
+      "artifact_ref": "artifact://efda4602f4c6862d"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://398bbc6c7056bd3c"
+      "artifact_ref": "artifact://8add2319d74eddc9"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://e9910d0a81b09d79"
+      "artifact_ref": "artifact://4f5a73479f1de20a"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://bbeb2d0356c9164f"
+      "artifact_ref": "artifact://344849c6dee732cf"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://808ff1effe5870cd"
+      "artifact_ref": "artifact://ca69a2e9d567c8cf"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://98f8623e32a6a628"
+      "artifact_ref": "artifact://2ca5a2fc044dd219"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://12154c520919271f"
+      "artifact_ref": "artifact://38ce6e6061222397"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://23992d2df168618f"
+      "artifact_ref": "artifact://c2c0c17ec8380e5f"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://5b3f81f3082cc922"
+      "artifact_ref": "artifact://9174faa420e2d3f5"
     }
   ],
   "next_actions": [
     "knowledge_build_status"
   ],
   "data": {
-    "operation_id": "op_ea5a6391b2f4",
+    "operation_id": "op_07ffe1ec7d27",
     "mode": "full",
     "stage": "completed",
     "progress": 1,
     "status": "completed",
-    "started_at": "2026-05-28T01:54:54.187514Z",
-    "completed_at": "2026-05-28T01:54:57.759376Z",
-    "created_at": "2026-05-28T01:54:54.184397Z",
-    "updated_at": "2026-05-28T01:54:57.759605Z",
+    "started_at": "2026-05-30T07:03:16.942587Z",
+    "completed_at": "2026-05-30T07:03:21.314932Z",
+    "created_at": "2026-05-30T07:03:16.940280Z",
+    "updated_at": "2026-05-30T07:03:21.316228Z",
     "error": {
       "code": "error",
       "message": "error",
@@ -96,24 +96,20 @@
     "artifact_refs": [
       {
         "type": "operation",
-        "operation_id": "op_ea5a6391b2f4",
-        "artifact_ref": "operation://op_ea5a6391b2f4"
+        "operation_id": "op_07ffe1ec7d27",
+        "artifact_ref": "operation://op_07ffe1ec7d27"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://10b1b4cc1de4bfc8"
+        "artifact_ref": "artifact://3fcc76b759d42d29"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://ee0d507a2770d0d4"
+        "artifact_ref": "artifact://340b35480b9a09de"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://6630fa2c2ba1e8d3"
-      },
-      {
-        "type": "artifact",
-        "artifact_ref": "artifact://3660315a9af3df25"
+        "artifact_ref": "artifact://1b1b160825e5276d"
       },
       {
         "type": "artifact",
@@ -121,47 +117,51 @@
       },
       {
         "type": "artifact",
+        "artifact_ref": "artifact://3660315a9af3df25"
+      },
+      {
+        "type": "artifact",
         "artifact_ref": "artifact://535ba2a34a2f0521"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://a310a878ab94dadf"
+        "artifact_ref": "artifact://b46b1ccbe23914cd"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://9b749695d6be6b5e"
+        "artifact_ref": "artifact://efda4602f4c6862d"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://398bbc6c7056bd3c"
+        "artifact_ref": "artifact://8add2319d74eddc9"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://e9910d0a81b09d79"
+        "artifact_ref": "artifact://4f5a73479f1de20a"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://bbeb2d0356c9164f"
+        "artifact_ref": "artifact://344849c6dee732cf"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://808ff1effe5870cd"
+        "artifact_ref": "artifact://ca69a2e9d567c8cf"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://98f8623e32a6a628"
+        "artifact_ref": "artifact://2ca5a2fc044dd219"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://12154c520919271f"
+        "artifact_ref": "artifact://38ce6e6061222397"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://23992d2df168618f"
+        "artifact_ref": "artifact://c2c0c17ec8380e5f"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://5b3f81f3082cc922"
+        "artifact_ref": "artifact://9174faa420e2d3f5"
       }
     ],
     "results": [

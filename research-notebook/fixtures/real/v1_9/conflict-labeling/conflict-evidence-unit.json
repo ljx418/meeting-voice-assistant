@@ -1,0 +1,30 @@
+{
+  "workspace_id": "rn-v19-conflict-1780197627920",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_602fe71006424cc9",
+      "artifact_ref": "source://src_602fe71006424cc9"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "unit": {
+      "unit_id": "unit_d118c3bb058881b8",
+      "source_id": "src_602fe71006424cc9",
+      "unit_type": "section",
+      "title": "数字人商业化乐观口径 / Section 2",
+      "text_preview": "本资料认为，数字人项目 Alpha 在 2026 年已经实现规模化商业化。",
+      "content_type": "text/markdown",
+      "order_index": 1,
+      "artifact_ref": "unit://src_602fe71006424cc9/unit_d118c3bb058881b8",
+      "preview_available": true,
+      "preview_truncated": false,
+      "preview_size_bytes": 85,
+      "max_preview_size_bytes": 50000
+    }
+  }
+}

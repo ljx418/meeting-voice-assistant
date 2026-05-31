@@ -1,0 +1,37 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="v1_7_gap" name="V1.7 Gap">
+    <mxGraphModel dx="980" dy="680" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="prd" value="PRD MVP&#xa;来源 / 问答 / 输出&#xa;Guide-first 三列体验" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8;fontSize=16" vertex="1" parent="1">
+          <mxGeometry x="60" y="60" width="250" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="v16" value="V1.6&#xa;路径可达&#xa;人工截图验收通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="380" y="60" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="v17" value="V1.7&#xa;UX Recomposition&#xa;普通用户可操作" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#188038;fontSize=14" vertex="1" parent="1">
+          <mxGeometry x="700" y="60" width="260" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="sources" value="来源列&#xa;P0 文件 / limited URL&#xa;技术字段隐藏" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef7e0;strokeColor=#f9ab00;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="120" y="250" width="250" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="chat" value="问答列&#xa;资料导读优先&#xa;建议追问可提交" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef7e0;strokeColor=#f9ab00;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="470" y="250" width="250" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="studio" value="输出列&#xa;笔记 / 学习导读 / 简报 / FAQ&#xa;Phase 2/3 暂不可用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef7e0;strokeColor=#f9ab00;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="820" y="250" width="280" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="notready" value="仍不可声明&#xa;OCR / Audio / PPT / Mindmap / Compare&#xa;all websites / all-source-type / cloud sync" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce8e6;strokeColor=#d93025;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="305" y="470" width="560" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="prd" target="v16" style="endArrow=block;html=1;strokeColor=#5f6368">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="v16" target="v17" style="endArrow=block;html=1;strokeColor=#5f6368">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

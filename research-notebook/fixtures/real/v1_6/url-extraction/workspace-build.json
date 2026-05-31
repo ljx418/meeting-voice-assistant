@@ -1,21 +1,21 @@
 {
-  "workspace_id": "rn-v16-url-1779956944050",
-  "operation_id": "op_70cccdd8371b",
+  "workspace_id": "rn-v16-url-1780123729352",
+  "operation_id": "op_6103acb32e0a",
   "status": "completed",
   "warnings": [],
   "artifact_refs": [
     {
       "type": "operation",
-      "operation_id": "op_70cccdd8371b",
-      "artifact_ref": "operation://op_70cccdd8371b"
+      "operation_id": "op_6103acb32e0a",
+      "artifact_ref": "operation://op_6103acb32e0a"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://c6e9f9f118b0d596"
+      "artifact_ref": "artifact://83d4093f8c39b801"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://eedb5b2e57d71e82"
+      "artifact_ref": "artifact://60e57f209914de3e"
     },
     {
       "type": "artifact",
@@ -23,54 +23,54 @@
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://572c3d28e4ff3cd1"
+      "artifact_ref": "artifact://cf5f19dfd1979fca"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://e03e21187669e585"
+      "artifact_ref": "artifact://f30b17088d0ae6b3"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://32c5d4284cacadbe"
+      "artifact_ref": "artifact://ee8945e884486c81"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://95eb755d900c2ef7"
+      "artifact_ref": "artifact://842723f18548d0e0"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://328a506567bdc5e9"
+      "artifact_ref": "artifact://1de56442a7c0fa31"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://6ce63096bc52906b"
+      "artifact_ref": "artifact://22cacb25da0d1739"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://2d979922966f9b32"
+      "artifact_ref": "artifact://8f9818f25230b333"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://3f45c536ef51881a"
+      "artifact_ref": "artifact://35226d0763db62a3"
     },
     {
       "type": "artifact",
-      "artifact_ref": "artifact://309ff0bbdd95331a"
+      "artifact_ref": "artifact://9e2908f6d2d7a357"
     }
   ],
   "next_actions": [
     "knowledge_build_status"
   ],
   "data": {
-    "operation_id": "op_70cccdd8371b",
+    "operation_id": "op_6103acb32e0a",
     "mode": "full",
     "stage": "completed",
     "progress": 1,
     "status": "completed",
-    "started_at": "2026-05-28T08:29:05.287257Z",
-    "completed_at": "2026-05-28T08:29:10.889114Z",
-    "created_at": "2026-05-28T08:29:05.283263Z",
-    "updated_at": "2026-05-28T08:29:10.889461Z",
+    "started_at": "2026-05-30T06:48:50.550370Z",
+    "completed_at": "2026-05-30T06:48:52.277041Z",
+    "created_at": "2026-05-30T06:48:50.547822Z",
+    "updated_at": "2026-05-30T06:48:52.277178Z",
     "error": {
       "code": "error",
       "message": "error",
@@ -80,16 +80,16 @@
     "artifact_refs": [
       {
         "type": "operation",
-        "operation_id": "op_70cccdd8371b",
-        "artifact_ref": "operation://op_70cccdd8371b"
+        "operation_id": "op_6103acb32e0a",
+        "artifact_ref": "operation://op_6103acb32e0a"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://c6e9f9f118b0d596"
+        "artifact_ref": "artifact://83d4093f8c39b801"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://eedb5b2e57d71e82"
+        "artifact_ref": "artifact://60e57f209914de3e"
       },
       {
         "type": "artifact",
@@ -97,39 +97,39 @@
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://572c3d28e4ff3cd1"
+        "artifact_ref": "artifact://cf5f19dfd1979fca"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://e03e21187669e585"
+        "artifact_ref": "artifact://f30b17088d0ae6b3"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://32c5d4284cacadbe"
+        "artifact_ref": "artifact://ee8945e884486c81"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://95eb755d900c2ef7"
+        "artifact_ref": "artifact://842723f18548d0e0"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://328a506567bdc5e9"
+        "artifact_ref": "artifact://1de56442a7c0fa31"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://6ce63096bc52906b"
+        "artifact_ref": "artifact://22cacb25da0d1739"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://2d979922966f9b32"
+        "artifact_ref": "artifact://8f9818f25230b333"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://3f45c536ef51881a"
+        "artifact_ref": "artifact://35226d0763db62a3"
       },
       {
         "type": "artifact",
-        "artifact_ref": "artifact://309ff0bbdd95331a"
+        "artifact_ref": "artifact://9e2908f6d2d7a357"
       }
     ],
     "results": [

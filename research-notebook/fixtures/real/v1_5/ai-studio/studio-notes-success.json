@@ -1,12 +1,12 @@
 {
-  "workspace_id": "rn-v15-ai-studio-1779933325956",
+  "workspace_id": "rn-v15-ai-studio-1780236261781",
   "operation_id": null,
   "status": "ok",
   "warnings": [],
   "artifact_refs": [
     {
       "type": "studio_artifact",
-      "artifact_id": "studio_notes_717141922c84"
+      "artifact_id": "studio_notes_facfbacb60e0"
     }
   ],
   "next_actions": [
@@ -15,15 +15,15 @@
   ],
   "data": {
     "artifact": {
-      "artifact_id": "studio_notes_717141922c84",
+      "artifact_id": "studio_notes_facfbacb60e0",
       "artifact_type": "notes",
       "title": "Notes",
       "artifact_available": true,
-      "summary": "本笔记基于AI数字人行业概览、技术趋势及产业发展报告(2024-2026)整理，涵盖行业现状、技术进展、市场机会、商业化路径与合规边界等内容。",
+      "summary": "AI数字人行业从虚拟主播向企业数字员工扩展，技术以生成式AI驱动，市场处于快速增长期但商业化面临成本与合规挑战。",
       "sections": [
         {
-          "title": "行业概览",
-          "content": "AI数字人行业正处于快速发展阶段，从虚拟主播到企业数字员工，应用场景不断拓展。",
+          "title": "关键摘录",
+          "content": "根据产业报告，2024-2026年AI数字人行业处于快速发展阶段，从虚拟主播扩展到企业数字员工应用场景（证据索引2）。技术进展方面，生成式AI成为核心驱动力，推动数字人在交互能力和拟真度上的提升（证据索引1）。行业概览显示该领域已成为AI应用的重要方向之一（证据索引0）。报告指出市场机会与监管风险并存，需要关注合规边界问题（证据索引2）。",
           "evidence_refs": [
             {
               "source_id": "src_918ee4610eb8dfcd",
@@ -32,13 +32,7 @@
               "evidence_id": "ev_f73c69d129c8bca6",
               "snippet": "# 01 AI 数字人行业概览",
               "locator": {}
-            }
-          ]
-        },
-        {
-          "title": "技术进展",
-          "content": "技术层面持续演进，驱动数字人在外观、交互、智能化等方面的能力提升。",
-          "evidence_refs": [
+            },
             {
               "source_id": "src_ae153b63c6aa4a7c",
               "source_title": "AI 数字人技术趋势 Markdown",
@@ -46,13 +40,7 @@
               "evidence_id": "ev_61aa2d7915da6528",
               "snippet": "# 02 AI 数字人技术进展",
               "locator": {}
-            }
-          ]
-        },
-        {
-          "title": "市场与商业化",
-          "content": "商业化潜力显著，但仍需关注市场拓展路径与商业模式验证。",
-          "evidence_refs": [
+            },
             {
               "source_id": "src_40b57439418988cf",
               "source_title": "AI 数字人产业发展报告 PDF",
@@ -66,8 +54,8 @@
           ]
         },
         {
-          "title": "合规与风险",
-          "content": "行业发展需关注监管风险，合规边界是重要的考量因素。",
+          "title": "后续笔记",
+          "content": "资料中未覆盖具体的市场规模数据、行业年增长率预测、主要厂商市场份额分布、具体技术实现细节（如底层模型架构）、以及不同应用场景的渗透率对比。建议后续补充官方研究报告和行业调研数据以获取更精确的市场分析。",
           "evidence_refs": [
             {
               "source_id": "src_40b57439418988cf",
@@ -114,11 +102,11 @@
         "provider": "openai_compatible",
         "provider_name": "minimax",
         "model": "MiniMax-M2.7",
-        "prompt_version": "v1_5_c_ai_studio_2026_05_27",
+        "prompt_version": "v1_5_c_ai_studio_2026_05_31",
         "artifact_type": "notes",
         "evidence_ref_count": 3,
         "fallback_mode": false,
-        "latency_ms": 4047,
+        "latency_ms": 6903,
         "response_schema": "openai_chat_completions"
       }
     }

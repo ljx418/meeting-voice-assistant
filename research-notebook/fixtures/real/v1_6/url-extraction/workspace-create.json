@@ -1,12 +1,12 @@
 {
-  "workspace_id": "rn-v16-url-1779956944050",
+  "workspace_id": "rn-v16-url-1780123729352",
   "operation_id": null,
   "status": "ok",
   "warnings": [],
   "artifact_refs": [
     {
       "type": "workspace",
-      "artifact_ref": "workspace://rn-v16-url-1779956944050"
+      "artifact_ref": "workspace://rn-v16-url-1780123729352"
     }
   ],
   "next_actions": [
@@ -15,16 +15,16 @@
   ],
   "data": {
     "workspace": {
-      "workspace_id": "rn-v16-url-1779956944050",
-      "name": "rn-v16-url-1779956944050",
+      "workspace_id": "rn-v16-url-1780123729352",
+      "name": "rn-v16-url-1780123729352",
       "owner": "v1.6-url-smoke",
       "tags": [
         "v1.6",
         "url-extraction"
       ],
       "status": "active",
-      "created_at": "2026-05-28T08:29:04.202967Z",
-      "updated_at": "2026-05-28T08:29:04.202967Z",
+      "created_at": "2026-05-30T06:48:49.475659Z",
+      "updated_at": "2026-05-30T06:48:49.475659Z",
       "archived_at": null,
       "archive_reason": ""
     }

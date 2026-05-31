@@ -1,0 +1,39 @@
+{
+  "workspace_id": "rn-v19-research-1780197670428",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "knowledge_source_list",
+    "knowledge_query"
+  ],
+  "data": {
+    "research": {
+      "research_available": false,
+      "question": "数字人行业的商业化结论是什么？",
+      "coverage_status": "no_sources",
+      "answer_basis": "source_grounded_refusal",
+      "answer": "当前 Notebook 还没有可用来源，无法生成 Research 输出。请先添加来源。",
+      "supported_conclusions": [],
+      "inferences": [],
+      "conflicts": [],
+      "missing_evidence": [
+        "数字人行业的商业化结论是什么？"
+      ],
+      "suggested_source_actions": [
+        "添加 PDF、TXT、Markdown 或公开网页 URL 来源",
+        "导入与研究问题直接相关的原始资料后重新生成 Research"
+      ],
+      "evidence_refs": [],
+      "generation_metadata": {
+        "provider": "deterministic",
+        "provider_name": "source-grounded-contract",
+        "model": "evidence-ref-synthesizer",
+        "prompt_version": "v1_6_e_source_grounded_research_2026_05_28",
+        "evidence_ref_count": 0,
+        "fallback_mode": true
+      }
+    }
+  }
+}

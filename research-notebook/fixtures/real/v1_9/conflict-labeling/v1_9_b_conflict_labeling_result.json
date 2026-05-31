@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-05-31T03:20:28.094Z",
+  "final_decision": "PASS_LIMITED",
+  "results": [
+    {
+      "name": "target route probe",
+      "status": "pass",
+      "detail": "http://127.0.0.1:8003"
+    },
+    {
+      "name": "workspace create",
+      "status": "pass",
+      "detail": "rn-v19-conflict-1780197627920"
+    },
+    {
+      "name": "conflict source import",
+      "status": "pass",
+      "detail": "数字人商业化乐观口径: src_602fe71006424cc9"
+    },
+    {
+      "name": "conflict source import",
+      "status": "pass",
+      "detail": "数字人商业化保守口径: src_1d8d1c789d5ffd11"
+    },
+    {
+      "name": "conflict evidence resolution",
+      "status": "pass",
+      "detail": "ev_807c7da99d8abfd9"
+    },
+    {
+      "name": "conflict labeling",
+      "status": "pass",
+      "detail": "2 positions"
+    },
+    {
+      "name": "cleanup",
+      "status": "pass",
+      "detail": "200"
+    }
+  ],
+  "accepted_debts": [
+    "conflict labeling requires human semantic review"
+  ]
+}

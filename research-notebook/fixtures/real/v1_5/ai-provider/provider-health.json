@@ -21,9 +21,9 @@
         "temperature": 0.2,
         "api_key_configured": true
       },
-      "latency_ms": 22884,
+      "latency_ms": 2288,
       "response_schema": "openai_chat_completions",
-      "response_text_chars": 5423,
+      "response_text_chars": 1907,
       "raw_response_keys": [
         "base_resp",
         "choices",

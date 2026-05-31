@@ -1,7 +1,7 @@
 {
   "decision": "PASS_LIMITED",
   "pdf_classification": "PDF_EXTRACTED",
-  "workspace_id": "rn-v14-sources-p0-1779793867844-workspace",
+  "workspace_id": "rn-v14-sources-p0-1780123693366-workspace",
   "source_ids": {
     "markdown": "src_918ee4610eb8dfcd",
     "txt": "src_3271cbd7484110b8",
@@ -22,7 +22,7 @@
     {
       "name": "workspace create",
       "status": "pass",
-      "detail": "rn-v14-sources-p0-1779793867844-workspace"
+      "detail": "rn-v14-sources-p0-1780123693366-workspace"
     },
     {
       "name": "markdown import",
@@ -81,8 +81,8 @@
     },
     {
       "name": "fixture raw path hygiene before sanitization",
-      "status": "degraded",
-      "detail": "raw path-like values redacted in saved fixtures"
+      "status": "pass",
+      "detail": ""
     },
     {
       "name": "workspace cleanup",

@@ -1,14 +1,14 @@
 {
   "status": 200,
   "payload": {
-    "workspace_id": "rn-v14-sources-p0-1779793867844-workspace",
+    "workspace_id": "rn-v14-sources-p0-1780123693366-workspace",
     "operation_id": null,
     "status": "ok",
     "warnings": [],
     "artifact_refs": [
       {
         "type": "workspace",
-        "artifact_ref": "workspace://rn-v14-sources-p0-1779793867844-workspace"
+        "artifact_ref": "workspace://rn-v14-sources-p0-1780123693366-workspace"
       }
     ],
     "next_actions": [
@@ -16,14 +16,14 @@
     ],
     "data": {
       "workspace": {
-        "workspace_id": "rn-v14-sources-p0-1779793867844-workspace",
-        "name": "rn-v14-sources-p0-1779793867844-workspace",
+        "workspace_id": "rn-v14-sources-p0-1780123693366-workspace",
+        "name": "rn-v14-sources-p0-1780123693366-workspace",
         "owner": null,
         "tags": [],
         "status": "archived",
-        "created_at": "2026-05-26T11:11:07.953866Z",
-        "updated_at": "2026-05-26T11:11:16.962541Z",
-        "archived_at": "2026-05-26T11:11:16.962541Z",
+        "created_at": "2026-05-30T06:48:13.458262Z",
+        "updated_at": "2026-05-30T06:48:42.962128Z",
+        "archived_at": "2026-05-30T06:48:42.962128Z",
         "archive_reason": "v1.4 sources p0 smoke cleanup"
       }
     }

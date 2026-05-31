@@ -1,0 +1,85 @@
+{
+  "generated_at": "2026-05-31T08:01:01.888Z",
+  "final_decision": "V1_10_DISABLED_BOUNDARY_ACCEPTED",
+  "environment": {
+    "frontend_url": "http://127.0.0.1:5173",
+    "data_service_url": "http://127.0.0.1:8003",
+    "browser": "chrome-cdp:configured",
+    "tester": "codex"
+  },
+  "results": [
+    {
+      "name": "Phase 2/3 disabled tools visible in Studio source",
+      "status": "pass",
+      "detail": "音频概览, PPT 生成, 思维导图, 文档对比"
+    },
+    {
+      "name": "disabled tools do not expose executable button",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "no Phase 2/3 generation route or artifact mutation",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "P0 Markdown/TXT/extractable PDF real data smoke remains PASS_LIMITED",
+      "status": "pass",
+      "detail": "PDF_EXTRACTED"
+    },
+    {
+      "name": "OCR/scanned PDF remains contract-discovery disabled",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "V1.9 RC prerequisite remains ready for human acceptance",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "V1.10 documentation keeps disabled boundary wording",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "browser workspace create",
+      "status": "pass",
+      "detail": "rn-v10-disabled-1780214458362"
+    },
+    {
+      "name": "browser opened ResearchNotebook workspace",
+      "status": "pass",
+      "detail": "http://127.0.0.1:5173"
+    },
+    {
+      "name": "browser disabled tools visible and disabled",
+      "status": "pass",
+      "detail": "4 disabled buttons"
+    },
+    {
+      "name": "browser disabled tool network result",
+      "status": "pass",
+      "detail": "4 disabled buttons clicked, no generation request"
+    },
+    {
+      "name": "browser artifact list check",
+      "status": "pass",
+      "detail": "no pseudo Phase 2/3 artifact"
+    },
+    {
+      "name": "browser workspace cleanup",
+      "status": "pass",
+      "detail": "rn-v10-disabled-1780214458362"
+    },
+    {
+      "name": "fixture/report hygiene",
+      "status": "pass",
+      "detail": "no sensitive path or API key"
+    }
+  ],
+  "workspace_id": "rn-v10-disabled-1780214458362",
+  "disabled_tool_network_request_count": 0,
+  "console_error_count": 0
+}

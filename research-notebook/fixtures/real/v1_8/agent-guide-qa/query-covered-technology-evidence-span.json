@@ -1,0 +1,31 @@
+{
+  "workspace_id": "rn-v18-agent-guide-qa-1780231901315",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "source",
+      "source_id": "src_40b57439418988cf",
+      "artifact_ref": "source://src_40b57439418988cf"
+    }
+  ],
+  "next_actions": [],
+  "data": {
+    "evidence_span": {
+      "evidence_id": "ev_fec4501dd384f601",
+      "source_id": "src_40b57439418988cf",
+      "unit_id": "unit_bfb679bdfa4a07d4",
+      "snippet": "5.4 内容溯源和水印\nC2PA 技术规范把内容凭证作为可绑定到数字内容的 provenance 结构，包含可见水印、不可见水印和元数\n据等思路。[S23] OpenAI 在 2026 年 5 月宣布将结合 Content Credentials、SynthID 和公开验证工具来帮\n助识别 AI 生成内容来源。[S24] 对数字人企业来说，水印与溯源不只是“合规成本”，未来可能成为客户\n采购的必要条件。\n合规建议：任何面向真实用户的数字人产品，都应默认包含 AI 身份告知、内容生成标识、肖像/声音授\n权记录、日志留痕、输出审核、投诉/撤回机制和高风险行业",
+      "start_offset": 0,
+      "end_offset": 280,
+      "offset_basis": "normalized_text",
+      "offset_range": "half_open",
+      "text_basis": "document_unit_text",
+      "locator": {
+        "page_no": 7
+      },
+      "preview_available": true
+    }
+  }
+}

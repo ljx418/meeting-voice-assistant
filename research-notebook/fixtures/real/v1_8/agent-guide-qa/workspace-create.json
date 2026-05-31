@@ -1,0 +1,32 @@
+{
+  "workspace_id": "rn-v18-agent-guide-qa-1780231901315",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "workspace",
+      "artifact_ref": "workspace://rn-v18-agent-guide-qa-1780231901315"
+    }
+  ],
+  "next_actions": [
+    "knowledge_workspace_describe",
+    "knowledge_source_import"
+  ],
+  "data": {
+    "workspace": {
+      "workspace_id": "rn-v18-agent-guide-qa-1780231901315",
+      "name": "rn-v18-agent-guide-qa-1780231901315",
+      "owner": "v1.8-agent-guide-qa",
+      "tags": [
+        "v1.8",
+        "agent-guide-qa"
+      ],
+      "status": "active",
+      "created_at": "2026-05-31T12:51:41.420989Z",
+      "updated_at": "2026-05-31T12:51:41.420989Z",
+      "archived_at": null,
+      "archive_reason": ""
+    }
+  }
+}

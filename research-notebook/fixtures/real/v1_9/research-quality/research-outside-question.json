@@ -1,0 +1,40 @@
+{
+  "workspace_id": "rn-v19-research-1780197670428",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [
+    "knowledge_source_list",
+    "knowledge_query"
+  ],
+  "data": {
+    "research": {
+      "research_available": false,
+      "question": "火星采矿农业机械的投资结论是什么？",
+      "coverage_status": "insufficient_evidence",
+      "answer_basis": "source_grounded_refusal",
+      "answer": "当前资料未覆盖“火星采矿农业机械的投资结论是什么？”的可引用依据。已导入来源包括：AI 数字人行业概览、AI 数字人技术趋势。",
+      "supported_conclusions": [],
+      "inferences": [],
+      "conflicts": [],
+      "missing_evidence": [
+        "火星采矿农业机械的投资结论是什么？"
+      ],
+      "suggested_source_actions": [
+        "补充与问题直接相关的原始报告、论文、公告或白皮书",
+        "使用当前来源中的关键词重新提问",
+        "添加来源后再生成 Research 综合输出"
+      ],
+      "evidence_refs": [],
+      "generation_metadata": {
+        "provider": "deterministic",
+        "provider_name": "source-grounded-contract",
+        "model": "evidence-ref-synthesizer",
+        "prompt_version": "v1_6_e_source_grounded_research_2026_05_28",
+        "evidence_ref_count": 0,
+        "fallback_mode": true
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "workspace_id": "rn-v15-ai-studio-1779933325956",
+  "workspace_id": "rn-v15-ai-studio-1780236261781",
   "operation_id": null,
   "status": "ok",
   "warnings": [],
@@ -17,17 +17,18 @@
   "data": {
     "sources": [
       {
-        "workspace_id": "rn-v15-ai-studio-1779933325956",
+        "workspace_id": "rn-v15-ai-studio-1780236261781",
         "source_id": "src_918ee4610eb8dfcd",
         "title": "AI 数字人行业概览 Markdown",
         "status": "active",
         "ingest_status": "pending",
+        "source_type": "markdown",
         "metadata": {
           "source_format": "markdown",
           "v1_5_ai_studio": true
         },
-        "created_at": "2026-05-28T01:55:26.063609Z",
-        "updated_at": "2026-05-28T01:55:26.063609Z",
+        "created_at": "2026-05-31T14:04:21.897059Z",
+        "updated_at": "2026-05-31T14:04:21.897059Z",
         "removed_at": null,
         "remove_reason": "",
         "artifact_ref": "source://src_918ee4610eb8dfcd"

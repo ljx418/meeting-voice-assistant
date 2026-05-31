@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ResearchNotebook V1.9 人工 UX 验收包</title>
+  <style>
+    body { margin: 0; font-family: "PingFang SC", "Microsoft YaHei", Arial, sans-serif; background: #f6f8fb; color: #17202a; }
+    main { width: min(1180px, calc(100vw - 32px)); margin: 24px auto 48px; display: grid; gap: 16px; }
+    header, section { background: #fff; border: 1px solid #d9e2ec; border-radius: 8px; padding: 18px; }
+    header { border-radius: 0; border-left: 0; border-right: 0; }
+    h1, h2 { margin: 0 0 10px; }
+    li { margin: 8px 0; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 999px; background: #edf2f7; font-weight: 700; font-size: 12px; }
+    textarea { width: 100%; min-height: 120px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; }
+    @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ResearchNotebook V1.9 人工 UX 验收包</h1>
+    <p>该页面用于人工验收，不自动声明 PASS。请验收者逐项填写 PASS / FAIL / NEEDS_FIX。</p>
+  </header>
+  <main>
+    <section>
+      <h2>验收路径</h2>
+      <ol>
+        <li>创建 Notebook。</li>
+        <li>导入 Markdown / TXT / PDF。</li>
+        <li>查看 Notebook Guide。</li>
+        <li>点击 Suggested Question。</li>
+        <li>查看引用问答并点击 citation。</li>
+        <li>确认 SourcePreview / DocumentUnit / EvidenceSpan 定位。</li>
+        <li>生成 Notes / Study Guide / Briefing Doc / FAQ。</li>
+        <li>下载 Markdown / JSON。</li>
+        <li>执行 Research 补源和冲突标注。</li>
+        <li>确认 Phase 2/3 disabled。</li>
+      </ol>
+    </section>
+    <div class="grid">
+      <section>
+        <h2>自动化证据</h2>
+        <p><span class="badge">V1.8 RC</span></p>
+        <pre># V1.8-RC Agent-Led PRD Smoke Report
+
+日期：2026-05-30
+
+## 当前状态
+
+`AGENT_CAPABILITY_SMOKE_READY`
+
+## 执行结果
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| V1.8-B source import | PASS | PASS_LIMITED |
+| V1.8-C guide qa citation | PASS | PASS_LIMITED |
+| V1.8-D studio validation | PASS | PASS_LIMITED |
+| V1.8-E weak frontend shell | PASS | UX boundary preserved |
+| source import raw_fixture_refs | PASS |  |
+| guide qa raw_fixture_refs | PASS |  |
+| studio raw_fixture_refs | PASS |  |
+| agent prd no sensitive fixtures | PASS |  |
+| covered Agent draft | PASS |  |
+| covered permission boundary | PASS |  |
+| covered Notebook create | PASS |  |
+| covered Markdown/TXT/PDF/limited URL import | PASS |  |
+| covered build/index | PASS |  |
+| covered Notebook Guide | PASS |  |
+| covered Suggested Question QA | PASS |  |
+| covered citation resolution | PASS |  |
+| covered Notes/Study Guide/Briefing Doc/FAQ | PASS |  |
+| covered Markdown/JSON export | PASS |  |
+| covered outside-question refusal | PASS |  |
+| covered validation report | PASS |  |
+| covered weak frontend shell | PASS |  |
+
+## Fixture
+
+- `fixtures/real/v1_8/agent-prd/v1_8_rc_agent_prd_result.json`
+- `docs/design/V1.8/v1_8_e_weak_frontend_shell_report.html`
+
+## 声明边界
+
+如果状态为 `AGENT_CAPABILITY_SMOKE_READY`，最多声明：
+
+ResearchNotebook V1.8 Agent-led PRD MVP capability validation is smoke-ready for validated PDF / TXT / Markdown and limited URL sources on approved datasets.
+
+仍不能声明：
+
+- 普通用户 UX fully ready
+- all websites URL ready
+- all-source-type ready
+- OCR ready
+- Audio Overview ready
+- PPT generation ready
+- Mindmap ready
+- Document comparison</pre>
+        <p><span class="badge">V1.9-A</span></p>
+        <pre>{
+  &quot;generated_at&quot;: &quot;2026-05-30T09:30:14.198Z&quot;,
+  &quot;final_decision&quot;: &quot;PASS_LIMITED&quot;,
+  &quot;results&quot;: [
+    {
+      &quot;name&quot;: &quot;target route probe&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;http://127.0.0.1:8003&quot;
+    },
+    {
+      &quot;name&quot;: &quot;workspace create&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;rn-v19-research-1780133413968&quot;
+    },
+    {
+      &quot;name&quot;: &quot;no-source refusal&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;no_sources&quot;
+    },
+    {
+      &quot;name&quot;: &quot;source import&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;AI 数字人行业概览: src_918ee4610eb8dfcd&quot;
+    },
+    {
+      &quot;name&quot;: &quot;source import&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;AI 数字人技术趋势: src_ae153b63c6aa4a7c&quot;
+    },
+    {
+      &quot;name&quot;: &quot;evidence resolution&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;supported-conclusion&quot;
+    },
+    {
+      &quot;name&quot;: &quot;supported research report&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;3 conclusions&quot;
+    },
+    {
+      &quot;name&quot;: &quot;outside refusal&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;insufficient_evidence&quot;
+    },
+    {
+      &quot;name&quot;: &quot;cleanup&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;200&quot;
+    }
+  ],
+  &quot;accepted_debts&quot;: [
+    &quot;automatic research smoke is not human quality review&quot;
+  ]
+}
+</pre>
+        <p><span class="badge">V1.9-B</span></p>
+        <pre>{
+  &quot;generated_at&quot;: &quot;2026-05-31T03:20:28.094Z&quot;,
+  &quot;final_decision&quot;: &quot;PASS_LIMITED&quot;,
+  &quot;results&quot;: [
+    {
+      &quot;name&quot;: &quot;target route probe&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;http://127.0.0.1:8003&quot;
+    },
+    {
+      &quot;name&quot;: &quot;workspace create&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;rn-v19-conflict-1780197627920&quot;
+    },
+    {
+      &quot;name&quot;: &quot;conflict source import&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;数字人商业化乐观口径: src_602fe71006424cc9&quot;
+    },
+    {
+      &quot;name&quot;: &quot;conflict source import&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;数字人商业化保守口径: src_1d8d1c789d5ffd11&quot;
+    },
+    {
+      &quot;name&quot;: &quot;conflict evidence resolution&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;ev_807c7da99d8abfd9&quot;
+    },
+    {
+      &quot;name&quot;: &quot;conflict labeling&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;2 positions&quot;
+    },
+    {
+      &quot;name&quot;: &quot;cleanup&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;detail&quot;: &quot;200&quot;
+    }
+  ],
+  &quot;accepted_debts&quot;: [
+    &quot;conflict labeling requires human semantic review&quot;
+  ]
+}
+</pre>
+      </section>
+      <section>
+        <h2>人工结论填写</h2>
+        <p>Guide 质量：PASS / FAIL / NEEDS_FIX</p>
+        <p>引用问答质量：PASS / FAIL / NEEDS_FIX</p>
+        <p>Studio 输出质量：PASS / FAIL / NEEDS_FIX</p>
+        <p>Research 质量：PASS / FAIL / NEEDS_FIX</p>
+        <p>冲突标注质量：PASS / FAIL / NEEDS_FIX</p>
+        <p>页面可操作性：PASS / FAIL / NEEDS_FIX</p>
+        <textarea placeholder="人工验收备注"></textarea>
+      </section>
+    </div>
+    <section>
+      <h2>不能声明</h2>
+      <ul>
+        <li>all-domain Research ready</li>
+        <li>all-source-type ready</li>
+        <li>OCR ready</li>
+        <li>Audio / PPT / Mindmap / Document comparison ready</li>
+        <li>cloud sync / collaboration ready</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -85,8 +85,11 @@ export function SourceTraceDrawer({
           <StateBlock title="溯源不可用" tone="warning">
             后端可以识别该来源，但当前来源溯源路由没有返回出处信息。
           </StateBlock>
-          <p className="workspace-meta">来源 ID：{sourceQuery.data.source_id}</p>
           <h3>{sourceQuery.data.title || sourceId}</h3>
+          <details className="source-debug-details">
+            <summary>调试信息</summary>
+            <p className="workspace-meta">来源 ID：{sourceQuery.data.source_id}</p>
+          </details>
           <div className="trace-section">
             <h4>工件引用</h4>
             {sourceQuery.data.artifact_refs?.length ? (
@@ -109,8 +112,11 @@ export function SourceTraceDrawer({
       ) : null}
       {traceQuery.data ? (
         <div className="trace-content">
-          <p className="workspace-meta">来源 ID：{traceQuery.data.source_id}</p>
           <h3>{traceQuery.data.title || sourceId}</h3>
+          <details className="source-debug-details">
+            <summary>调试信息</summary>
+            <p className="workspace-meta">来源 ID：{traceQuery.data.source_id}</p>
+          </details>
           {traceQuery.data.summary ? <p>{traceQuery.data.summary}</p> : null}
           <div className="trace-section">
             <h4>工件引用</h4>

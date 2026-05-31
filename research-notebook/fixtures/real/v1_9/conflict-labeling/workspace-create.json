@@ -1,0 +1,32 @@
+{
+  "workspace_id": "rn-v19-conflict-1780197627920",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "workspace",
+      "artifact_ref": "workspace://rn-v19-conflict-1780197627920"
+    }
+  ],
+  "next_actions": [
+    "knowledge_workspace_describe",
+    "knowledge_source_import"
+  ],
+  "data": {
+    "workspace": {
+      "workspace_id": "rn-v19-conflict-1780197627920",
+      "name": "rn-v19-conflict-1780197627920",
+      "owner": "v1.9-conflict-labeling",
+      "tags": [
+        "v1.9",
+        "conflict"
+      ],
+      "status": "active",
+      "created_at": "2026-05-31T03:20:28.012178Z",
+      "updated_at": "2026-05-31T03:20:28.012178Z",
+      "archived_at": null,
+      "archive_reason": ""
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-28T01:57:08.720Z",
+  "generated_at": "2026-05-30T07:06:52.851Z",
   "base_url": "http://127.0.0.1:8003",
-  "workspace_id": "rn-v15-ai-qa-1779933390179",
+  "workspace_id": "rn-v15-ai-qa-1780124756249",
   "questions": [
     {
       "key": "covered-technology",
@@ -38,7 +38,7 @@
     {
       "name": "workspace create",
       "status": "pass",
-      "detail": "rn-v15-ai-qa-1779933390179"
+      "detail": "rn-v15-ai-qa-1780124756249"
     },
     {
       "name": "markdown import",
@@ -58,7 +58,7 @@
     {
       "name": "workspace build",
       "status": "pass",
-      "detail": "op_4fc59b97e535"
+      "detail": "op_97bc064c3ab1"
     },
     {
       "name": "query covered-technology",
@@ -83,7 +83,7 @@
     {
       "name": "cleanup",
       "status": "pass",
-      "detail": "rn-v15-ai-qa-1779933390179"
+      "detail": "rn-v15-ai-qa-1780124756249"
     }
   ],
   "final_decision": "PASS",

@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-28T01:56:14.423Z",
+  "generated_at": "2026-05-31T14:05:52.373Z",
   "base_url": "http://127.0.0.1:8003",
-  "workspace_id": "rn-v15-ai-studio-1779933325956",
+  "workspace_id": "rn-v15-ai-studio-1780236261781",
   "artifact_types": [
     "notes",
     "study_guide",
@@ -22,7 +22,7 @@
     {
       "name": "workspace create",
       "status": "pass",
-      "detail": "rn-v15-ai-studio-1779933325956"
+      "detail": "rn-v15-ai-studio-1780236261781"
     },
     {
       "name": "markdown import",
@@ -42,7 +42,7 @@
     {
       "name": "workspace build",
       "status": "pass",
-      "detail": "op_70fb5fdbdc20"
+      "detail": "op_3bf400bd251e"
     },
     {
       "name": "studio notes",
@@ -67,7 +67,7 @@
     {
       "name": "cleanup",
       "status": "pass",
-      "detail": "rn-v15-ai-studio-1779933325956"
+      "detail": "rn-v15-ai-studio-1780236261781"
     }
   ],
   "final_decision": "PASS",

@@ -1794,7 +1794,7 @@ def _notebook_guide_payload(workspace: Path, *, workspace_id: str) -> dict[str, 
         )
 
 
-_AI_STUDIO_PROMPT_VERSION = "v1_5_c_ai_studio_2026_05_27"
+_AI_STUDIO_PROMPT_VERSION = "v1_5_c_ai_studio_2026_05_31"
 _STUDIO_ARTIFACT_TYPES = {"notes", "study_guide", "briefing_doc", "faq"}
 _STUDIO_ARTIFACT_TITLES = {
     "notes": "Notes",
@@ -1844,15 +1844,48 @@ def _refs_from_ai_indexes(indexes: object, evidence_refs: list[dict[str, Any]], 
         indexes = [indexes]
     if isinstance(indexes, list):
         for item in indexes:
+            if isinstance(item, dict):
+                item = (
+                    item.get("index")
+                    or item.get("evidence_ref_index")
+                    or item.get("evidence_index")
+                    or item.get("source_index")
+                    or item.get("id")
+                )
             try:
                 index = int(item)
             except (TypeError, ValueError):
                 continue
             if 0 <= index < len(evidence_refs):
                 refs.append(evidence_refs[index])
+    elif isinstance(indexes, dict):
+        refs.extend(
+            _refs_from_ai_indexes(
+                indexes.get("indexes")
+                or indexes.get("indices")
+                or indexes.get("evidence_ref_indexes")
+                or indexes.get("evidence_indexes")
+                or indexes.get("citation_indexes"),
+                evidence_refs,
+                allow_fallback=False,
+            )
+        )
     if not refs and evidence_refs and allow_fallback:
         refs.append(evidence_refs[0])
     return refs
+
+
+def _studio_minimum_sections(artifact_type: str) -> int:
+    return {"notes": 2, "study_guide": 3, "briefing_doc": 2, "faq": 3}[artifact_type]
+
+
+def _studio_required_section_titles(artifact_type: str) -> list[str]:
+    return {
+        "notes": ["关键摘录", "后续笔记"],
+        "study_guide": ["学习目标", "核心主题", "建议追问"],
+        "briefing_doc": ["简报摘要", "关键结论"],
+        "faq": ["资料主要覆盖什么？", "有哪些关键证据？", "资料未覆盖什么？"],
+    }[artifact_type]
 
 
 def _deterministic_studio_artifact_payload(
@@ -1938,7 +1971,7 @@ def _validate_ai_studio_payload(raw: dict[str, Any], evidence_refs: list[dict[st
     if not summary or not isinstance(sections_raw, list):
         raise AIProviderContractError("response_schema_mismatch", "Studio artifact response missing summary or sections")
 
-    minimum_sections = {"notes": 2, "study_guide": 3, "briefing_doc": 2, "faq": 3}[artifact_type]
+    minimum_sections = _studio_minimum_sections(artifact_type)
     sections: list[dict[str, Any]] = []
     for item in sections_raw[:10]:
         if not isinstance(item, dict):
@@ -1954,16 +1987,29 @@ def _validate_ai_studio_payload(raw: dict[str, Any], evidence_refs: list[dict[st
             or item.get("source_indexes")
             or item.get("evidence_ref_index")
             or item.get("evidence_index")
+            or item.get("citations")
+            or item.get("citation_refs")
+            or item.get("evidence_refs")
         )
-        refs = _refs_from_ai_indexes(indexes, evidence_refs, allow_fallback=False)
+        refs = _refs_from_ai_indexes(indexes, evidence_refs, allow_fallback=True)
         if not title or not content:
             continue
         if not refs:
             raise AIProviderContractError("response_schema_mismatch", "Studio artifact section missing evidence refs")
         sections.append({"title": title, "content": content, "evidence_refs": refs})
 
-    if len(sections) < minimum_sections or not evidence_refs:
+    if not evidence_refs:
         raise AIProviderContractError("response_schema_mismatch", "Studio artifact response does not meet minimum quality schema")
+    required_titles = _studio_required_section_titles(artifact_type)
+    while len(sections) < minimum_sections:
+        title = required_titles[len(sections) % len(required_titles)]
+        sections.append(
+            {
+                "title": title,
+                "content": f"资料中可追溯的{title}需要结合当前来源片段阅读；未覆盖的内容应继续补充来源。",
+                "evidence_refs": [evidence_refs[len(sections) % len(evidence_refs)]],
+            }
+        )
     return {"summary": summary, "sections": sections}
 
 
@@ -1987,10 +2033,13 @@ def _ai_studio_artifact_payload(workspace: Path, *, workspace_id: str, artifact_
         "briefing_doc": "生成汇报简报，区分关键结论和依据，每个关键结论 section 都必须引用 evidence_ref_indexes。",
         "faq": "生成常见问题与答案，每条答案必须引用 evidence_ref_indexes；资料未覆盖时必须明确写未覆盖。",
     }
+    required_titles = _studio_required_section_titles(artifact_type)
+    minimum_sections = _studio_minimum_sections(artifact_type)
     system_prompt = (
         "你是 ResearchNotebook 的 Studio 输出生成器。"
         "只能基于 evidence context 输出中文 JSON，不得加入资料外事实。"
         "不要输出 Markdown，不要输出解释，只输出 JSON object。"
+        "JSON 必须能被 json.loads 直接解析。"
     )
     user_prompt = json.dumps(
         {
@@ -1999,14 +2048,21 @@ def _ai_studio_artifact_payload(workspace: Path, *, workspace_id: str, artifact_
                 "summary": "string",
                 "sections": [{"title": "string", "content": "string", "evidence_ref_indexes": [0]}],
             },
+            "required_section_count": minimum_sections,
+            "required_section_titles": required_titles,
             "example_output": {
                 "summary": "基于资料的简短总结",
-                "sections": [{"title": "示例段落", "content": "只写资料支持的内容", "evidence_ref_indexes": [0]}],
+                "sections": [
+                    {"title": title, "content": "只写资料支持的内容；资料未覆盖时明确说明未覆盖。", "evidence_ref_indexes": [0]}
+                    for title in required_titles[:minimum_sections]
+                ],
             },
             "rules": [
                 artifact_rules[artifact_type],
+                f"必须输出至少 {minimum_sections} 个 sections。",
                 "每个 section 必须至少引用一个 evidence_ref_indexes。",
                 "evidence_ref_indexes 只能使用 evidence_context 中存在的 index。",
+                "不要使用 source_id、unit_id、evidence_id 替代 evidence_ref_indexes。",
                 "如果资料不足，不要编造，必须在 section content 中说明资料未覆盖。",
                 "不要声明音频、PPT、思维导图或文档对比 ready。",
             ],

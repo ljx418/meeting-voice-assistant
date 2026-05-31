@@ -1,0 +1,133 @@
+{
+  "generated_at": "2026-05-31T14:00:08.517Z",
+  "final_decision": "AGENT_CAPABILITY_SMOKE_READY",
+  "scope": "Agent-led PRD MVP capability validation for validated PDF / TXT / Markdown and limited URL sources on approved datasets.",
+  "source_import_decision": "PASS_LIMITED",
+  "guide_qa_decision": "PASS_LIMITED",
+  "studio_decision": "PASS_LIMITED",
+  "weak_frontend_decision": "PASS_LIMITED",
+  "checks": [
+    {
+      "name": "V1.8-B source import",
+      "status": "pass",
+      "detail": "PASS_LIMITED"
+    },
+    {
+      "name": "V1.8-C guide qa citation",
+      "status": "pass",
+      "detail": "PASS_LIMITED"
+    },
+    {
+      "name": "V1.8-D studio validation",
+      "status": "pass",
+      "detail": "PASS_LIMITED"
+    },
+    {
+      "name": "V1.8-E weak frontend shell",
+      "status": "pass",
+      "detail": "UX boundary preserved"
+    },
+    {
+      "name": "source import raw_fixture_refs",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "guide qa raw_fixture_refs",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "studio raw_fixture_refs",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "agent prd no sensitive fixtures",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered Agent draft",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered permission boundary",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered Notebook create",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered Markdown/TXT/PDF/limited URL import",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered build/index",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered Notebook Guide",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered Suggested Question QA",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered citation resolution",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered Notes/Study Guide/Briefing Doc/FAQ",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered Markdown/JSON export",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered outside-question refusal",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered validation report",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "covered weak frontend shell",
+      "status": "pass",
+      "detail": ""
+    }
+  ],
+  "still_not_ready": [
+    "ordinary user UX fully ready",
+    "all websites URL ready",
+    "all-source-type ready",
+    "OCR ready",
+    "Audio Overview ready",
+    "PPT generation ready",
+    "Mindmap ready",
+    "Document comparison ready",
+    "arbitrary Agent tool execution ready",
+    "cloud sync / collaboration ready"
+  ],
+  "accepted_debts": [
+    "V1.7 human UX acceptance skipped by strategy",
+    "Agent automated validation is not human content quality review",
+    "weak frontend shell is not a complete workflow editor"
+  ]
+}

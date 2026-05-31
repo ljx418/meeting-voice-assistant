@@ -1,12 +1,12 @@
 {
-  "workspace_id": "rn-v15-e2e-1780106080924",
+  "workspace_id": "rn-v15-e2e-1780113048803",
   "operation_id": null,
   "status": "ok",
   "warnings": [],
   "artifact_refs": [
     {
       "type": "workspace",
-      "artifact_ref": "workspace://rn-v15-e2e-1780106080924"
+      "artifact_ref": "workspace://rn-v15-e2e-1780113048803"
     }
   ],
   "next_actions": [
@@ -15,16 +15,16 @@
   ],
   "data": {
     "workspace": {
-      "workspace_id": "rn-v15-e2e-1780106080924",
-      "name": "rn-v15-e2e-1780106080924",
+      "workspace_id": "rn-v15-e2e-1780113048803",
+      "name": "rn-v15-e2e-1780113048803",
       "owner": "v1.5-e2e",
       "tags": [
         "v1.5",
         "chromecli-e2e"
       ],
       "status": "active",
-      "created_at": "2026-05-30T01:54:41.006191Z",
-      "updated_at": "2026-05-30T01:54:41.006191Z",
+      "created_at": "2026-05-30T03:50:48.880117Z",
+      "updated_at": "2026-05-30T03:50:48.880117Z",
       "archived_at": null,
       "archive_reason": ""
     }

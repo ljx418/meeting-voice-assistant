@@ -1,23 +1,23 @@
 {
   "mode": "hybrid",
   "query": "数字人 风险 监管 政策有哪些？",
-  "answer": "基于来源的推断：基于来源的回答。",
+  "answer": "基于来源的推断：基于来源的回答。数字人的风险与监管政策主要包括以下方面：风险层面，AI数字人面临内容合规风险（如虚假信息生成）、知识产权风险（肖像权、声音授权）、以及直播电商等场景的强监管依赖。监管政策层面，报告提出的合规建议包括：任何面向真实用户的数字人产品都应默认包含AI身份告知、内容生成标识、肖像/声音授权记录、日志留痕、输出审核、投诉/撤回机制。此外，内容溯源和水印技术（如C2PA技术规范）成为重要的合规工具，OpenAI等机构已宣布将结合Content Credentials、SynthID等工具帮助识别AI生成内容来源。报告指出，水印与溯源未来可能成为客户采购的必要条件。",
   "hits": [
     {
       "title": "02 AI 数字人技术进展",
       "snippet": "02 AI 数字人技术进展",
-      "source": "source-02-ai-数字人技术进展-3f786f16",
-      "score": 1.637496339383861,
+      "source": "source-02-ai-数字人技术进展-735b1335",
+      "score": 1.6387497551537942,
       "meta": {
         "kind": "page",
-        "slug": "source-02-ai-数字人技术进展-3f786f16"
+        "slug": "source-02-ai-数字人技术进展-735b1335"
       }
     },
     {
       "title": "AI数字人行业概览",
       "snippet": "AI数字人行业概览",
       "source": "ai数字人行业概览",
-      "score": 0.7205364161020237,
+      "score": 0.7203068314482883,
       "meta": {
         "kind": "page",
         "slug": "ai数字人行业概览"
@@ -26,48 +26,48 @@
     {
       "title": "01 AI 数字人行业概览",
       "snippet": "01 AI 数字人行业概览",
-      "source": "source-01-ai-数字人行业概览-d8a83249",
-      "score": 0.6279238423233563,
+      "source": "source-01-ai-数字人行业概览-c18a3f15",
+      "score": 0.6280498557240699,
       "meta": {
         "kind": "page",
-        "slug": "source-01-ai-数字人行业概览-d8a83249"
+        "slug": "source-01-ai-数字人行业概览-c18a3f15"
       }
     },
     {
-      "title": "Passage c4deac01",
+      "title": "Passage 9efaad0a",
       "snippet": "数字 字人 人行 行业 业概 概览 来源 源名 名称 多来 来源 源资 资料 料汇 汇编 详见 来源 源链 链接 见本 本文 文件 件内 内引 引用 用与 发布 布日 日期 资料...",
       "source": "",
       "score": 2.2282072964329434,
       "meta": {
         "kind": "passage",
-        "passage_id": "c4deac01-59e4-49da-8c01-0f0249988ce0"
+        "passage_id": "9efaad0a-5c4b-4a19-bcb2-14fcd7f7624b"
       }
     },
     {
-      "title": "Passage 1e5d7895",
+      "title": "Passage 66f76378",
       "snippet": "市场 场规 规模 模与 与趋 趋势 势口 口径 来源 日期 口径 关键 键数 数据 备注 预测 亿美 美元 亿美 美元 范围 围较 较宽 覆盖 来源 预测 增量 亿美 美元 可作...",
       "source": "",
       "score": 2.141156042220927,
       "meta": {
         "kind": "passage",
-        "passage_id": "1e5d7895-83c2-481e-a66a-23b93c4d825c"
+        "passage_id": "66f76378-7ad3-4b0a-975d-e4fd174da7dd"
       }
     },
     {
-      "title": "Passage d5968524",
+      "title": "Passage 58bdf474",
       "snippet": "资料 料汇 汇编 编行 行业 业现 现状 商业 业化 化潜 潜力 <mark>监管</mark> 管风 <mark>风险</mark> 数字 字人 人产 产业 业发 发展 展报 报告 从虚 虚拟 拟主 主播 播到 到企 企业 业数...",
       "source": "",
       "score": 2.1400957061859818,
       "meta": {
         "kind": "passage",
-        "passage_id": "d5968524-9ef6-420c-ad7a-823171ed322c"
+        "passage_id": "58bdf474-060d-46a3-8919-af00994facf0"
       }
     }
   ],
   "answer_basis": "source_based_inference",
   "key_claims": [
     {
-      "claim": "AI数字人产业面临的主要监管风险包括内容溯源、水印技术应用以及平台监管要求",
+      "claim": "AI数字人面临内容合规风险、知识产权风险以及直播电商等场景的强监管依赖",
       "evidence_refs": [
         {
           "evidence_key": "src_40b57439418988cf:unit_29c9201d3a3d716a:ev_8ffbf20ef6182276",
@@ -83,19 +83,6 @@
           "preview_available": true
         },
         {
-          "evidence_key": "src_40b57439418988cf:unit_bfb679bdfa4a07d4:ev_fec4501dd384f601",
-          "source_id": "src_40b57439418988cf",
-          "source_title": "AI 数字人产业发展报告 PDF",
-          "unit_id": "unit_bfb679bdfa4a07d4",
-          "evidence_id": "ev_fec4501dd384f601",
-          "snippet": "5.4 内容溯源和水印\nC2PA 技术规范把内容凭证作为可绑定到数字内容的 provenance 结构，包含可见水印、不可见水印和元数\n据等思路。[S23] OpenAI 在 2026 年 5 月宣布将结合 Content Credentials、SynthID 和公开验证工具来帮\n助识别 AI 生成内容来源。[S24] 对数字人企业来说，水印与溯源不只是“合规成本”，未来可能成为客户\n采购的必要条件。\n合规建议：任何面向真实用户的数字人产品，都应默认包含 AI 身份告知、内容生成标识、肖像/声音授\n权记录、日志留痕、输出审核、投诉/撤回机制和高风险行业",
-          "confidence": 1,
-          "locator": {
-            "page_no": 7
-          },
-          "preview_available": true
-        },
-        {
           "evidence_key": "src_40b57439418988cf:unit_5e4c554cb3b1364d:ev_3525de0c591615ee",
           "source_id": "src_40b57439418988cf",
           "source_title": "AI 数字人产业发展报告 PDF",
@@ -111,7 +98,7 @@
       ]
     },
     {
-      "claim": "合规建议要求任何面向真实用户的数字人产品都应默认包含AI身份告知、内容生成标识、肖像/声音授权记录等机制",
+      "claim": "合规建议要求数字人产品包含AI身份告知、内容生成标识、肖像/声音授权记录、日志留痕、输出审核、投诉/撤回机制",
       "evidence_refs": [
         {
           "evidence_key": "src_40b57439418988cf:unit_bfb679bdfa4a07d4:ev_fec4501dd384f601",
@@ -129,36 +116,36 @@
       ]
     },
     {
-      "claim": "直播电商是高频场景，但强依赖平台和监管",
+      "claim": "内容溯源和水印技术（C2PA技术规范）成为重要的合规工具，涵盖可见水印、不可见水印和元数据",
       "evidence_refs": [
         {
-          "evidence_key": "src_40b57439418988cf:unit_5e4c554cb3b1364d:ev_3525de0c591615ee",
+          "evidence_key": "src_40b57439418988cf:unit_bfb679bdfa4a07d4:ev_fec4501dd384f601",
           "source_id": "src_40b57439418988cf",
           "source_title": "AI 数字人产业发展报告 PDF",
-          "unit_id": "unit_5e4c554cb3b1364d",
-          "evidence_id": "ev_3525de0c591615ee",
-          "snippet": "定性评估依据：当前应用案例、技术成熟度、合规难度、单位经济性、可重复交付能力。该图为分析判断，不是市场规模数\n据。\n3.1 企业视频与培训：最稳的 B2B 商业化路径\nSynthesia 2025 年 1 月宣布完成 1.8 亿美元 D 轮融资，累计融资超过 3.3 亿美元，估值达 21 亿美元。\n[S13] 这说明企业视频沟通、培训、销售启用和内部知识传达是数字人商业化的重要方向。相比 C 端娱乐，\n企业视频的优势是需求稳定、版权可控、ROI 可计算。\n3.2 直播电商：高频场景，但强依赖平台和监管\n中国直播电商为虚拟主播提供了强需求：24 小时在线、",
+          "unit_id": "unit_bfb679bdfa4a07d4",
+          "evidence_id": "ev_fec4501dd384f601",
+          "snippet": "5.4 内容溯源和水印\nC2PA 技术规范把内容凭证作为可绑定到数字内容的 provenance 结构，包含可见水印、不可见水印和元数\n据等思路。[S23] OpenAI 在 2026 年 5 月宣布将结合 Content Credentials、SynthID 和公开验证工具来帮\n助识别 AI 生成内容来源。[S24] 对数字人企业来说，水印与溯源不只是“合规成本”，未来可能成为客户\n采购的必要条件。\n合规建议：任何面向真实用户的数字人产品，都应默认包含 AI 身份告知、内容生成标识、肖像/声音授\n权记录、日志留痕、输出审核、投诉/撤回机制和高风险行业",
           "confidence": 1,
           "locator": {
-            "page_no": 5
+            "page_no": 7
           },
           "preview_available": true
         }
       ]
     },
     {
-      "claim": "娱乐/IP角色领域涉及肖像权、版权、未成年人保护等合规边界",
+      "claim": "水印与溯源未来可能成为客户采购数字人产品的必要条件",
       "evidence_refs": [
         {
-          "evidence_key": "src_40b57439418988cf:unit_8863894698ae59a5:ev_fee74288d85c0330",
+          "evidence_key": "src_40b57439418988cf:unit_bfb679bdfa4a07d4:ev_fec4501dd384f601",
           "source_id": "src_40b57439418988cf",
           "source_title": "AI 数字人产业发展报告 PDF",
-          "unit_id": "unit_8863894698ae59a5",
-          "evidence_id": "ev_fee74288d85c0330",
-          "snippet": "娱乐 / IP 角色 中高 IP 授权、虚拟角色互动、粉丝运营 肖像权、版权、未成年人保护\n商业模式\nSaaS 订阅：按账号、模板、视频分钟数、渲染量收费。\nAPI 消耗：按调用、会话、视频生成分钟数、实时流并发收费。\n定制化项目：品牌头像、3D 建模、知识库接入、行业系统集成。\n内容生产流水线：脚本生成、配音、视频生成、审校、发布的一体化服务。\n直播运营：数字人直播间、脚本库、商品知识库、GMV 或服务费。\n八、对 ResearchNotebook / 项目开发的启示\n如果本报告用于 ResearchNotebook 后续项目开发，建议不要只把数字人作",
+          "unit_id": "unit_bfb679bdfa4a07d4",
+          "evidence_id": "ev_fec4501dd384f601",
+          "snippet": "5.4 内容溯源和水印\nC2PA 技术规范把内容凭证作为可绑定到数字内容的 provenance 结构，包含可见水印、不可见水印和元数\n据等思路。[S23] OpenAI 在 2026 年 5 月宣布将结合 Content Credentials、SynthID 和公开验证工具来帮\n助识别 AI 生成内容来源。[S24] 对数字人企业来说，水印与溯源不只是“合规成本”，未来可能成为客户\n采购的必要条件。\n合规建议：任何面向真实用户的数字人产品，都应默认包含 AI 身份告知、内容生成标识、肖像/声音授\n权记录、日志留痕、输出审核、投诉/撤回机制和高风险行业",
           "confidence": 1,
           "locator": {
-            "page_no": 8
+            "page_no": 7
           },
           "preview_available": true
         }
@@ -173,7 +160,7 @@
     "prompt_version": "v1_5_d_source_grounded_qa_2026_05_27",
     "evidence_ref_count": 6,
     "fallback_mode": false,
-    "latency_ms": 2917,
+    "latency_ms": 6169,
     "response_schema": "openai_chat_completions"
   },
   "evidence": [

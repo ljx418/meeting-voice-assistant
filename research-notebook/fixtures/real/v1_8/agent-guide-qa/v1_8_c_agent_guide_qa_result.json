@@ -1,0 +1,427 @@
+{
+  "report_id": "report_1780231979646",
+  "task_id": "task_1780231901317",
+  "workspace_id": "rn-v18-agent-guide-qa-1780231901315",
+  "run_id": "run_1780231979646",
+  "workflow_run": {
+    "run_id": "run_1780231979646",
+    "task_id": "task_1780231901317",
+    "workspace_id": "rn-v18-agent-guide-qa-1780231901315",
+    "status": "completed",
+    "started_at": "2026-05-31T12:51:41.315Z",
+    "finished_at": "2026-05-31T12:52:59.646Z",
+    "steps": [
+      {
+        "step_id": "step_001",
+        "name": "agent guide qa draft",
+        "status": "completed",
+        "output_summary": {
+          "detail": "task_1780231901317",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_002",
+        "name": "material check",
+        "status": "completed",
+        "output_summary": {
+          "detail": "AI digital human Markdown/PDF available",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_003",
+        "name": "target route probe",
+        "status": "completed",
+        "output_summary": {
+          "detail": "http://127.0.0.1:8003",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_004",
+        "name": "workspace create",
+        "status": "completed",
+        "output_summary": {
+          "detail": "rn-v18-agent-guide-qa-1780231901315",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_005",
+        "name": "markdown import",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_918ee4610eb8dfcd",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_006",
+        "name": "markdown import",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_ae153b63c6aa4a7c",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_007",
+        "name": "pdf import",
+        "status": "completed",
+        "output_summary": {
+          "detail": "src_40b57439418988cf",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_008",
+        "name": "workspace build",
+        "status": "completed",
+        "output_summary": {
+          "detail": "op_9ff655173c79",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_009",
+        "name": "guide validation",
+        "status": "completed",
+        "output_summary": {
+          "detail": "overview/topics/questions/evidence",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_010",
+        "name": "query suggested-question",
+        "status": "completed",
+        "output_summary": {
+          "detail": "suggested",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_011",
+        "name": "query covered-technology",
+        "status": "completed",
+        "output_summary": {
+          "detail": "covered",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_012",
+        "name": "query outside",
+        "status": "completed",
+        "output_summary": {
+          "detail": "outside refusal",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      },
+      {
+        "step_id": "step_013",
+        "name": "cleanup",
+        "status": "completed",
+        "output_summary": {
+          "detail": "rn-v18-agent-guide-qa-1780231901315",
+          "smoke_status": "pass"
+        },
+        "retry_count": 0,
+        "artifact_refs": []
+      }
+    ],
+    "artifact_refs": [
+      "workspace-create.json",
+      "markdown-import.json",
+      "technology-markdown-import.json",
+      "pdf-import.json",
+      "workspace-build.json",
+      "ai-guide-success.json",
+      "query-suggested-question.json",
+      "query-suggested-question-unit-detail.json",
+      "query-suggested-question-evidence-span.json",
+      "query-covered-technology.json",
+      "query-covered-technology-unit-detail.json",
+      "query-covered-technology-evidence-span.json",
+      "query-outside.json",
+      "workspace-archive.json"
+    ],
+    "validation_report_id": "report_1780231979646",
+    "final_decision": "PASS_LIMITED"
+  },
+  "guide_result": {
+    "selected_suggested_question": "AI数字人的核心技术构成是什么？"
+  },
+  "qa_result": {
+    "checked_questions": [
+      "suggested-question",
+      "covered-technology",
+      "outside"
+    ]
+  },
+  "citation_result": {
+    "evidence_span_resolution_required": true
+  },
+  "step_results": [
+    {
+      "step_id": "step_001",
+      "name": "agent guide qa draft",
+      "status": "completed",
+      "output_summary": {
+        "detail": "task_1780231901317",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_002",
+      "name": "material check",
+      "status": "completed",
+      "output_summary": {
+        "detail": "AI digital human Markdown/PDF available",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_003",
+      "name": "target route probe",
+      "status": "completed",
+      "output_summary": {
+        "detail": "http://127.0.0.1:8003",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_004",
+      "name": "workspace create",
+      "status": "completed",
+      "output_summary": {
+        "detail": "rn-v18-agent-guide-qa-1780231901315",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_005",
+      "name": "markdown import",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_918ee4610eb8dfcd",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_006",
+      "name": "markdown import",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_ae153b63c6aa4a7c",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_007",
+      "name": "pdf import",
+      "status": "completed",
+      "output_summary": {
+        "detail": "src_40b57439418988cf",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_008",
+      "name": "workspace build",
+      "status": "completed",
+      "output_summary": {
+        "detail": "op_9ff655173c79",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_009",
+      "name": "guide validation",
+      "status": "completed",
+      "output_summary": {
+        "detail": "overview/topics/questions/evidence",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_010",
+      "name": "query suggested-question",
+      "status": "completed",
+      "output_summary": {
+        "detail": "suggested",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_011",
+      "name": "query covered-technology",
+      "status": "completed",
+      "output_summary": {
+        "detail": "covered",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_012",
+      "name": "query outside",
+      "status": "completed",
+      "output_summary": {
+        "detail": "outside refusal",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    },
+    {
+      "step_id": "step_013",
+      "name": "cleanup",
+      "status": "completed",
+      "output_summary": {
+        "detail": "rn-v18-agent-guide-qa-1780231901315",
+        "smoke_status": "pass"
+      },
+      "retry_count": 0,
+      "artifact_refs": []
+    }
+  ],
+  "assertions": [
+    {
+      "assertion_id": "assert_001",
+      "name": "draft contains no raw local path",
+      "expected": false,
+      "actual": false,
+      "status": "PASS",
+      "evidence_ref": "task_1780231901317"
+    },
+    {
+      "assertion_id": "assert_002",
+      "name": "guide key topics count",
+      "expected": ">=3",
+      "actual": 4,
+      "status": "PASS",
+      "evidence_ref": "ai-guide-success.json"
+    },
+    {
+      "assertion_id": "assert_003",
+      "name": "guide suggested questions count",
+      "expected": ">=3",
+      "actual": 4,
+      "status": "PASS",
+      "evidence_ref": "ai-guide-success.json"
+    },
+    {
+      "assertion_id": "assert_004",
+      "name": "guide evidence refs count",
+      "expected": ">=1",
+      "actual": 3,
+      "status": "PASS",
+      "evidence_ref": "ai-guide-success.json"
+    },
+    {
+      "assertion_id": "assert_005",
+      "name": "suggested-question citation resolves",
+      "expected": true,
+      "actual": true,
+      "status": "PASS",
+      "evidence_ref": "query-suggested-question-evidence-span.json"
+    },
+    {
+      "assertion_id": "assert_006",
+      "name": "covered-technology citation resolves",
+      "expected": true,
+      "actual": true,
+      "status": "PASS",
+      "evidence_ref": "query-covered-technology-evidence-span.json"
+    },
+    {
+      "assertion_id": "assert_007",
+      "name": "outside source-grounded refusal",
+      "expected": true,
+      "actual": true,
+      "status": "PASS",
+      "evidence_ref": "query-outside.json"
+    },
+    {
+      "assertion_id": "assert_008",
+      "name": "report contains no raw path",
+      "expected": false,
+      "actual": false,
+      "status": "PASS"
+    }
+  ],
+  "raw_fixture_refs": [
+    "workspace-create.json",
+    "markdown-import.json",
+    "technology-markdown-import.json",
+    "pdf-import.json",
+    "workspace-build.json",
+    "ai-guide-success.json",
+    "query-suggested-question.json",
+    "query-suggested-question-unit-detail.json",
+    "query-suggested-question-evidence-span.json",
+    "query-covered-technology.json",
+    "query-covered-technology-unit-detail.json",
+    "query-covered-technology-evidence-span.json",
+    "query-outside.json",
+    "workspace-archive.json"
+  ],
+  "accepted_debts": [
+    "Agent validation is not a substitute for full human content quality review",
+    "ordinary user UX remains accepted debt"
+  ],
+  "still_not_ready": [
+    "Studio quality ready",
+    "all-domain QA quality ready",
+    "ordinary user UX ready"
+  ],
+  "final_decision": "PASS_LIMITED",
+  "generated_at": "2026-05-31T12:51:41.315Z"
+}

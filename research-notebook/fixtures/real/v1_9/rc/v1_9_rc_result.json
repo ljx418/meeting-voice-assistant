@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-05-31T14:00:08.806Z",
+  "final_decision": "V1_9_READY_FOR_FINAL_HUMAN_ACCEPTANCE",
+  "checks": [
+    {
+      "name": "V1.9-A research quality",
+      "status": "pass",
+      "detail": "PASS_LIMITED"
+    },
+    {
+      "name": "V1.9-B conflict labeling",
+      "status": "pass",
+      "detail": "PASS_LIMITED"
+    },
+    {
+      "name": "V1.9-C human UX package",
+      "status": "pass",
+      "detail": "READY_FOR_HUMAN_ACCEPTANCE"
+    },
+    {
+      "name": "V1.9 hygiene",
+      "status": "pass",
+      "detail": "sanitized"
+    }
+  ]
+}

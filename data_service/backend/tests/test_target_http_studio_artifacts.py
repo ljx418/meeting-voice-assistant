@@ -114,7 +114,7 @@ def test_v15c_studio_artifact_uses_ai_provider_and_section_evidence_refs(tmp_pat
     assert artifact["artifact_available"] is True
     assert artifact["generation_metadata"]["fallback_mode"] is False
     assert artifact["generation_metadata"]["provider_name"] == "minimax"
-    assert artifact["generation_metadata"]["prompt_version"] == "v1_5_c_ai_studio_2026_05_27"
+    assert artifact["generation_metadata"]["prompt_version"] == "v1_5_c_ai_studio_2026_05_31"
     assert artifact["evidence_refs"][0]["source_id"] == source_id
     assert len(artifact["sections"]) >= 3
     assert all(section["evidence_refs"] for section in artifact["sections"])
@@ -146,4 +146,47 @@ def test_v15c_studio_artifact_ai_schema_mismatch_falls_back(tmp_path, monkeypatc
     assert artifact["generation_metadata"]["fallback_mode"] is True
     assert artifact["generation_metadata"]["error_code"] == "response_schema_mismatch"
     assert artifact["sections"][0]["evidence_refs"]
+    _assert_no_internal_paths(payload)
+
+
+def test_v15c_studio_artifact_normalizes_missing_section_evidence_refs(tmp_path, monkeypatch):
+    import app.api.v1.data_service as data_service_api
+
+    def _ai_without_indexes(*_args, **_kwargs):
+        return (
+            {
+                "summary": "AI 数字人资料可以生成 FAQ。",
+                "sections": [
+                    {"title": "数字人是什么？", "content": "数字人资料覆盖行业、技术和治理。"},
+                    {"title": "有什么风险？", "content": "资料提到合规和内容溯源风险。"},
+                    {"title": "资料未覆盖什么？", "content": "资料未覆盖时应继续补源。"},
+                ],
+            },
+            {
+                "provider": "openai_compatible",
+                "provider_name": "minimax",
+                "model": "MiniMax-M2.7",
+                "latency_ms": 12,
+                "response_schema": "openai_chat_completions",
+            },
+        )
+
+    monkeypatch.setattr(data_service_api, "ai_complete_json", _ai_without_indexes)
+    client = _setup_client(tmp_path, monkeypatch)
+    workspace_id = _create_workspace(client, "RN Studio AI Normalize")
+    _import_text_source(
+        client,
+        workspace_id,
+        title="Digital Human FAQ",
+        content="Digital humans require source-grounded FAQ outputs with traceable citations.",
+    )
+
+    response = client.post(f"/api/workspaces/{workspace_id}/studio/artifacts", json={"artifact_type": "faq"})
+
+    assert response.status_code == 200
+    payload = response.json()
+    artifact = payload["data"]["artifact"]
+    assert artifact["generation_metadata"]["fallback_mode"] is False
+    assert len(artifact["sections"]) >= 3
+    assert all(section["evidence_refs"] for section in artifact["sections"])
     _assert_no_internal_paths(payload)

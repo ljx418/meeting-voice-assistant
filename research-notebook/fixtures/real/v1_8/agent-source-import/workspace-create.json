@@ -1,0 +1,32 @@
+{
+  "workspace_id": "rn-v18-agent-source-import-1780231749814",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [
+    {
+      "type": "workspace",
+      "artifact_ref": "workspace://rn-v18-agent-source-import-1780231749814"
+    }
+  ],
+  "next_actions": [
+    "knowledge_workspace_describe",
+    "knowledge_source_import"
+  ],
+  "data": {
+    "workspace": {
+      "workspace_id": "rn-v18-agent-source-import-1780231749814",
+      "name": "rn-v18-agent-source-import-1780231749814",
+      "owner": "v1.8-agent-source-import",
+      "tags": [
+        "v1.8",
+        "agent-source-import"
+      ],
+      "status": "active",
+      "created_at": "2026-05-31T12:49:09.902890Z",
+      "updated_at": "2026-05-31T12:49:09.902890Z",
+      "archived_at": null,
+      "archive_reason": ""
+    }
+  }
+}

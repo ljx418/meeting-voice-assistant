@@ -1,0 +1,111 @@
+{
+  "workspace_id": "rn-v18-agent-source-import-1780231749814",
+  "operation_id": null,
+  "status": "ok",
+  "warnings": [],
+  "artifact_refs": [],
+  "next_actions": [],
+  "data": {
+    "items": [
+      {
+        "workspace_id": "rn-v18-agent-source-import-1780231749814",
+        "source_id": "src_918ee4610eb8dfcd",
+        "title": "AI 数字人行业概览 Markdown",
+        "status": "active",
+        "ingest_status": "built",
+        "source_type": "markdown",
+        "metadata": {
+          "source_format": "markdown",
+          "v1_8_agent_source_import": true
+        },
+        "created_at": "2026-05-31T12:49:09.962511Z",
+        "updated_at": "2026-05-31T12:49:16.507124Z",
+        "removed_at": null,
+        "remove_reason": "",
+        "artifact_ref": "source://src_918ee4610eb8dfcd"
+      },
+      {
+        "workspace_id": "rn-v18-agent-source-import-1780231749814",
+        "source_id": "src_3dfd290fe7ceb700",
+        "title": "AI 数字人资料 TXT 样本",
+        "status": "active",
+        "ingest_status": "built",
+        "source_type": "markdown",
+        "metadata": {
+          "source_format": "txt",
+          "v1_8_agent_source_import": true
+        },
+        "created_at": "2026-05-31T12:49:09.990640Z",
+        "updated_at": "2026-05-31T12:49:16.507134Z",
+        "removed_at": null,
+        "remove_reason": "",
+        "artifact_ref": "source://src_3dfd290fe7ceb700"
+      },
+      {
+        "workspace_id": "rn-v18-agent-source-import-1780231749814",
+        "source_id": "src_40b57439418988cf",
+        "title": "AI 数字人产业发展报告 PDF",
+        "status": "active",
+        "ingest_status": "built",
+        "source_type": "pdf",
+        "metadata": {
+          "file_name": "AI数字人产业发展报告_2026-05-26.pdf",
+          "v1_8_agent_source_import": true,
+          "source_type": "pdf",
+          "browser_file_import": true,
+          "content_type": "application/pdf",
+          "file_upload_contract": "base64_file_content"
+        },
+        "created_at": "2026-05-31T12:49:10.329420Z",
+        "updated_at": "2026-05-31T12:49:16.507137Z",
+        "removed_at": null,
+        "remove_reason": "",
+        "artifact_ref": "source://src_40b57439418988cf"
+      },
+      {
+        "workspace_id": "rn-v18-agent-source-import-1780231749814",
+        "source_id": "src_38c28c096b05c01f",
+        "title": "V1.8 Agent URL Source 1",
+        "status": "active",
+        "ingest_status": "built",
+        "source_type": "url",
+        "metadata": {
+          "v1_8_agent_source_import": true,
+          "source_type": "url",
+          "source_url": "http://example.com/",
+          "original_url": "http://example.com/",
+          "content_type": "text/html",
+          "url_import_contract": "public_url_text_v1",
+          "fetched_at": "2026-05-31T12:49:11Z"
+        },
+        "created_at": "2026-05-31T12:49:11.377491Z",
+        "updated_at": "2026-05-31T12:49:16.507140Z",
+        "removed_at": null,
+        "remove_reason": "",
+        "artifact_ref": "source://src_38c28c096b05c01f"
+      },
+      {
+        "workspace_id": "rn-v18-agent-source-import-1780231749814",
+        "source_id": "src_4b3c5c90b2bfdf40",
+        "title": "V1.8 Agent URL Source 2",
+        "status": "active",
+        "ingest_status": "built",
+        "source_type": "url",
+        "metadata": {
+          "v1_8_agent_source_import": true,
+          "source_type": "url",
+          "source_url": "http://example.org/",
+          "original_url": "http://example.org/",
+          "content_type": "text/html",
+          "url_import_contract": "public_url_text_v1",
+          "fetched_at": "2026-05-31T12:49:11Z"
+        },
+        "created_at": "2026-05-31T12:49:11.844767Z",
+        "updated_at": "2026-05-31T12:49:16.507142Z",
+        "removed_at": null,
+        "remove_reason": "",
+        "artifact_ref": "source://src_4b3c5c90b2bfdf40"
+      }
+    ]
+  }
+}
