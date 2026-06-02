@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useId, useRef, useState
 import { Link, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { isNormalizedApiError, dataServiceClient } from '../../shared/api/dataServiceClient';
+import { createNote, deleteNote, loadNotes, updateNote } from '../../shared/utils/notesLocalStorage';
 import { useArchiveWorkspaceMutation, useRenameWorkspaceMutation, useWorkspaceQuery } from '../../shared/api/workspaceQueries';
 import {
   useCreateSourceMutation,
@@ -14,6 +15,7 @@ import {
   useRemoveSourceMutation,
   useRenameSourceMutation,
   useSourcesQuery,
+  useSourceSearchQuery,
   useStartBuildMutation,
   useWorkspaceQueryMutation
 } from '../../shared/api/workspaceM2Queries';
@@ -36,6 +38,18 @@ import { recordRecentWorkspace } from './recentWorkspaces';
 
 const MAX_IMPORT_FILES = 10;
 const MAX_IMPORT_FILE_BYTES = 25 * 1024 * 1024;
+
+type ImportQueueItemStatus = 'pending' | 'processing' | 'completed' | 'failed';
+
+type ImportQueueItem = {
+  itemId: string;
+  name: string;
+  sourceType: string;
+  size: number;
+  status: ImportQueueItemStatus;
+  file?: globalThis.File;
+  error?: string;
+};
 
 function SourceStateBadge({ source }: { source: SourceSummary }) {
   const state = source.build_state ?? source.import_state ?? 'idle';
@@ -78,6 +92,13 @@ function fileToBase64(file: globalThis.File) {
     };
     reader.readAsDataURL(file);
   });
+}
+
+function formatFileSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`;
+  const kilobytes = bytes / 1024;
+  if (kilobytes < 1024) return `${kilobytes.toFixed(1)} KB`;
+  return `${(kilobytes / 1024).toFixed(1)} MB`;
 }
 
 function validateSelectedFiles(files: globalThis.File[]) {
@@ -134,6 +155,7 @@ function SourceImportForm({ workspaceId, focusSignal }: { workspaceId: string; f
     failed: number;
     currentFile?: string;
     errors: string[];
+    items: ImportQueueItem[];
   } | null>(null);
   const createSource = useCreateSourceMutation(workspaceId);
 
@@ -150,6 +172,103 @@ function SourceImportForm({ workspaceId, focusSignal }: { workspaceId: string; f
     if (lowerName.endsWith('.md') || lowerName.endsWith('.markdown')) return 'markdown';
     if (lowerName.endsWith('.pdf')) return 'pdf';
     return 'text';
+  };
+
+  const sourceTypeLabel = (nextSourceType: string) => {
+    const labels: Record<string, string> = {
+      text: '文本',
+      markdown: 'Markdown',
+      pdf: 'PDF',
+      url: '公开网页'
+    };
+    return labels[nextSourceType] ?? nextSourceType;
+  };
+
+  const statusLabel = (status: ImportQueueItemStatus) => {
+    const labels: Record<ImportQueueItemStatus, string> = {
+      pending: '待导入',
+      processing: '正在导入',
+      completed: '已完成',
+      failed: '失败'
+    };
+    return labels[status];
+  };
+
+  const createQueueItems = (files: globalThis.File[]): ImportQueueItem[] =>
+    files.map((file, index) => ({
+      itemId: `${file.name}-${file.size}-${file.lastModified}-${index}`,
+      name: file.name,
+      sourceType: inferSourceType(file),
+      size: file.size,
+      file,
+      status: 'pending'
+    }));
+
+  const updateBatchItem = (itemId: string, update: Partial<ImportQueueItem>) => {
+    setBatchImport((current) =>
+      current
+        ? {
+            ...current,
+            items: current.items.map((item) => (item.itemId === itemId ? { ...item, ...update } : item))
+          }
+        : current
+    );
+  };
+
+  const importFileItem = async (item: ImportQueueItem, total: number, importTitle?: string) => {
+    if (!item.file) throw new Error('file_not_available');
+    const nextSourceType = total === 1 ? sourceType : item.sourceType;
+    await createSource.mutateAsync({
+      title: total === 1 ? importTitle || item.name : item.name,
+      source_type: nextSourceType,
+      file: {
+        file_name: item.file.name,
+        content_base64: await fileToBase64(item.file),
+        content_type: item.file.type || undefined,
+        source_type: nextSourceType
+      },
+      metadata: {
+        file_name: item.file.name,
+        file_size_bytes: item.file.size,
+        browser_file_import: true,
+        batch_file_import: total > 1,
+        file_upload_contract: 'base64_file_content'
+      }
+    });
+  };
+
+  const retryImportItem = async (item: ImportQueueItem) => {
+    if (!batchImport || createSource.isPending || item.status !== 'failed') return;
+    setFileReadError(null);
+    updateBatchItem(item.itemId, { status: 'processing', error: undefined });
+    setBatchImport((current) => (current ? { ...current, currentFile: item.name } : current));
+    try {
+      await importFileItem(item, batchImport.total);
+      setBatchImport((current) =>
+        current
+          ? {
+              ...current,
+              completed: current.completed + 1,
+              failed: Math.max(0, current.failed - 1),
+              currentFile: undefined,
+              errors: current.errors.filter((error) => !error.startsWith(`${item.name}:`))
+            }
+          : current
+      );
+      updateBatchItem(item.itemId, { status: 'completed', error: undefined });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : '未知错误';
+      setBatchImport((current) =>
+        current
+          ? {
+              ...current,
+              currentFile: undefined,
+              errors: [...current.errors.filter((entry) => !entry.startsWith(`${item.name}:`)), `${item.name}: ${message}`]
+            }
+          : current
+      );
+      updateBatchItem(item.itemId, { status: 'failed', error: message });
+    }
   };
 
   const onFileChange = (event: ChangeEvent) => {
@@ -170,6 +289,13 @@ function SourceImportForm({ workspaceId, focusSignal }: { workspaceId: string; f
     if (!firstFile) return;
     setTitle((current) => current || (files.length === 1 ? firstFile.name : ''));
     setSourceType(inferSourceType(firstFile));
+  };
+
+  const clearSelectedFiles = () => {
+    setSelectedFiles([]);
+    setFileReadError(null);
+    setBatchImport(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -196,52 +322,42 @@ function SourceImportForm({ workspaceId, focusSignal }: { workspaceId: string; f
     if (selectedFiles.length > 0) {
       const total = selectedFiles.length;
       const errors: string[] = [];
-      setBatchImport({ total, completed: 0, failed: 0, errors: [] });
+      const queueItems = createQueueItems(selectedFiles);
+      setBatchImport({ total, completed: 0, failed: 0, errors: [], items: queueItems });
       setFileReadError(null);
-      for (const file of selectedFiles) {
+      for (const item of queueItems) {
         setBatchImport((current) => ({
           total,
           completed: current?.completed ?? 0,
           failed: current?.failed ?? 0,
-          currentFile: file.name,
-          errors: current?.errors ?? []
+          currentFile: item.name,
+          errors: current?.errors ?? [],
+          items: current?.items ?? queueItems
         }));
+        updateBatchItem(item.itemId, { status: 'processing', error: undefined });
         try {
-          const nextSourceType = selectedFiles.length === 1 ? sourceType : inferSourceType(file);
-          await createSource.mutateAsync({
-            title: selectedFiles.length === 1 ? trimmedTitle : file.name,
-            source_type: nextSourceType,
-            file: {
-              file_name: file.name,
-              content_base64: await fileToBase64(file),
-              content_type: file.type || undefined,
-              source_type: nextSourceType
-            },
-            metadata: {
-              file_name: file.name,
-              file_size_bytes: file.size,
-              browser_file_import: true,
-              batch_file_import: total > 1,
-              file_upload_contract: 'base64_file_content'
-            }
-          });
+          await importFileItem(item, total, trimmedTitle);
           setBatchImport((current) => ({
             total,
             completed: (current?.completed ?? 0) + 1,
             failed: current?.failed ?? 0,
-            currentFile: file.name,
-            errors: current?.errors ?? []
+            currentFile: item.name,
+            errors: current?.errors ?? [],
+            items: current?.items ?? queueItems
           }));
+          updateBatchItem(item.itemId, { status: 'completed' });
         } catch (error) {
           const message = error instanceof Error ? error.message : '未知错误';
-          errors.push(`${file.name}: ${message}`);
+          errors.push(`${item.name}: ${message}`);
           setBatchImport((current) => ({
             total,
             completed: current?.completed ?? 0,
             failed: (current?.failed ?? 0) + 1,
-            currentFile: file.name,
-            errors: [...(current?.errors ?? []), `${file.name}: ${message}`]
+            currentFile: item.name,
+            errors: [...(current?.errors ?? []), `${item.name}: ${message}`],
+            items: current?.items ?? queueItems
           }));
+          updateBatchItem(item.itemId, { status: 'failed', error: message });
         }
       }
       setTitle('');
@@ -332,7 +448,7 @@ function SourceImportForm({ workspaceId, focusSignal }: { workspaceId: string; f
           <option value="text">文本：已验证</option>
           <option value="markdown">Markdown：已验证</option>
           <option value="pdf">PDF：可抽取文本已验证</option>
-          <option value="url">公开 URL：V1.6-A 限定站点</option>
+          <option value="url">公开网页：有限支持</option>
         </select>
       </label>
       <label className="wide-field">
@@ -362,15 +478,46 @@ function SourceImportForm({ workspaceId, focusSignal }: { workspaceId: string; f
         {createSource.isPending ? '导入中' : selectedFiles.length > 1 ? `导入 ${selectedFiles.length} 个来源` : '导入来源'}
       </button>
       {selectedFiles.length > 1 ? (
-        <StateBlock title="已选择多个文件">
-          将按顺序导入 {selectedFiles.length} 个文件：{selectedFiles.map((file) => file.name).join('、')}
-        </StateBlock>
+        <section className="file-import-queue" aria-label="待导入文件队列">
+          <div className="file-import-queue-header">
+            <h3>待导入文件</h3>
+            <button className="secondary-button" type="button" onClick={clearSelectedFiles}>
+              清空选择
+            </button>
+          </div>
+          <p className="workspace-meta">将按顺序导入 {selectedFiles.length} 个文件。成功和失败会分别记录，不会阻塞其它文件。</p>
+          <ul>
+            {createQueueItems(selectedFiles).map((item) => (
+              <li key={item.itemId}>
+                <strong>{item.name}</strong>
+                <span>{sourceTypeLabel(item.sourceType)}</span>
+                <span>{formatFileSize(item.size)}</span>
+                <span className={`state-pill state-${item.status}`}>{statusLabel(item.status)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
       ) : null}
       {batchImport ? (
         <StateBlock title="批量导入进度" tone={batchImport.failed ? 'warning' : 'neutral'}>
           已完成 {batchImport.completed}/{batchImport.total}
           {batchImport.failed ? `，失败 ${batchImport.failed}` : ''}{batchImport.currentFile ? `，当前：${batchImport.currentFile}` : ''}
           {batchImport.errors.length ? `。失败文件：${batchImport.errors.join('；')}` : ''}
+          <ul className="file-import-result-list" aria-label="导入结果">
+            {batchImport.items.map((item) => (
+              <li key={item.itemId}>
+                <strong>{item.name}</strong>
+                <span>{sourceTypeLabel(item.sourceType)}</span>
+                <span className={`state-pill state-${item.status}`}>{statusLabel(item.status)}</span>
+                {item.error ? <span>{item.error}</span> : null}
+                {item.status === 'failed' ? (
+                  <button className="secondary-button compact-action" type="button" onClick={() => void retryImportItem(item)} disabled={createSource.isPending}>
+                    重试此文件
+                  </button>
+                ) : null}
+              </li>
+            ))}
+          </ul>
         </StateBlock>
       ) : null}
     </form>
@@ -461,7 +608,7 @@ function SourceCard({
             <dd>{source.updated_at || '未知'}</dd>
           </div>
           <div>
-            <dt>工件引用</dt>
+            <dt>关联记录</dt>
             <dd>{source.artifact_refs?.length ? `${source.artifact_refs.length} 个` : '无'}</dd>
           </div>
           <div>
@@ -477,7 +624,7 @@ function SourceCard({
               <dd>{source.source_id}</dd>
             </div>
             <div>
-              <dt>工件引用</dt>
+              <dt>关联记录</dt>
               <dd>{source.artifact_refs?.length ? `${source.artifact_refs.length} 个` : '无'}</dd>
             </div>
           </dl>
@@ -541,6 +688,33 @@ function SourceLibrary({
   const sourcesQuery = useSourcesQuery(workspaceId);
   const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
   const removeSource = useRemoveSourceMutation(workspaceId);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const searchQueryHook = useSourceSearchQuery(workspaceId, debouncedQuery);
+  const lastTypingRef = useRef(0);
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    const now = Date.now();
+    lastTypingRef.current = now;
+    globalThis.setTimeout(() => {
+      if (lastTypingRef.current === now && value !== debouncedQuery) {
+        setDebouncedQuery(value);
+      }
+    }, 300);
+  };
+
+  const isSearching = Boolean(debouncedQuery) && searchQueryHook.isLoading;
+  const hasResults = searchQueryHook.data && searchQueryHook.data.sources.length > 0;
+  const noResults = debouncedQuery && !searchQueryHook.isLoading && searchQueryHook.data && searchQueryHook.data.sources.length === 0;
+  const searchError = searchQueryHook.error;
+
+  const displaySources = debouncedQuery
+    ? (searchQueryHook.data?.sources ?? [])
+    : (sourcesQuery.data ?? []);
+  const showAllSources = !debouncedQuery && sourcesQuery.data && sourcesQuery.data.length > 0;
+  const showEmptyAll = !debouncedQuery && sourcesQuery.data && sourcesQuery.data.length === 0;
 
   return (
     <section className="panel" aria-labelledby="source-library-title">
@@ -549,17 +723,34 @@ function SourceLibrary({
       </div>
       <div className="panel-body page-grid">
         <SourceImportForm workspaceId={workspaceId} focusSignal={importFocusSignal} />
+        <div className="source-search-bar">
+          <input
+            type="search"
+            className="text-input"
+            placeholder="搜索来源（标题、类型、内容）..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            aria-label="搜索来源"
+          />
+        </div>
         {sourcesQuery.isLoading ? <LoadingState label="正在加载来源" /> : null}
         {sourcesQuery.error ? (
           <ApiErrorState title="来源库不可用" error={sourcesQuery.error} onRetry={() => void sourcesQuery.refetch()} />
         ) : null}
         {removeSource.error ? <ApiErrorState title="移除来源失败" error={removeSource.error} /> : null}
-        {sourcesQuery.data && sourcesQuery.data.length === 0 ? (
+        {showEmptyAll ? (
           <EmptyState title="暂无来源">请先导入来源，再构建工作区知识。</EmptyState>
         ) : null}
-        {sourcesQuery.data && sourcesQuery.data.length > 0 ? (
+        {isSearching ? <LoadingState label="搜索中..." /> : null}
+        {searchError ? (
+          <StateBlock title="搜索失败" tone="warning">搜索服务暂时不可用，显示全部来源。</StateBlock>
+        ) : null}
+        {noResults ? (
+          <EmptyState title="无搜索结果">没有找到匹配的来源，试试其他关键词。</EmptyState>
+        ) : null}
+        {showAllSources || hasResults ? (
           <div className="source-list">
-            {sourcesQuery.data.map((source) => {
+            {displaySources.map((source) => {
               const previewDisabled = Boolean(
                 capabilitiesQuery.data && !isSourceLevelPreviewSupported(capabilitiesQuery.data, source.source_type)
               );
@@ -854,6 +1045,11 @@ function ResearchReportCard({
           {report.coverage_status} · {report.answer_basis}
         </p>
         <p>{report.answer}</p>
+        {report.generation_metadata?.fallback_mode ? (
+          <StateBlock title="AI 基于有限信息回答" tone="warning">
+            Research 回答使用了有限的上下文信息生成，可能不如基于完整来源时准确。
+          </StateBlock>
+        ) : null}
       </div>
       {report.supported_conclusions.length ? (
         <div className="source-list" aria-label="资料明确支持的结论">
@@ -874,19 +1070,38 @@ function ResearchReportCard({
       {report.inferences.length ? (
         <div className="source-list" aria-label="基于来源的推断">
           {report.inferences.map((item, index) => (
-            <StateBlock title="基于来源的推断" key={`${item.inference}-${index}`}>
-              {item.inference_notice ? `${item.inference_notice} ` : ''}
-              {item.inference}
-            </StateBlock>
+            <article className="source-card" key={`${item.inference}-${index}`}>
+              <h4>基于来源的推断</h4>
+              {item.inference_notice ? <p className="workspace-meta">{item.inference_notice}</p> : null}
+              <p>{item.inference}</p>
+              <EvidenceList
+                evidence={item.evidence_refs}
+                onTrace={onTraceSourceId}
+                onNavigateEvidence={onNavigateEvidence}
+                preciseNavigationEnabled={preciseNavigationEnabled}
+              />
+            </article>
           ))}
         </div>
       ) : null}
       {report.conflicts.length ? (
         <div className="source-list" aria-label="来源分歧">
           {report.conflicts.map((conflict, index) => (
-            <StateBlock title="来源分歧" key={`${conflict.topic}-${index}`}>
-              {conflict.topic}
-            </StateBlock>
+            <article className="source-card" key={`${conflict.topic}-${index}`}>
+              <h4>来源分歧</h4>
+              <p>{conflict.topic}</p>
+              {conflict.positions.map((position, positionIndex) => (
+                <div className="research-position" key={`${position.claim}-${positionIndex}`}>
+                  <p>{position.claim}</p>
+                  <EvidenceList
+                    evidence={position.evidence_refs}
+                    onTrace={onTraceSourceId}
+                    onNavigateEvidence={onNavigateEvidence}
+                    preciseNavigationEnabled={preciseNavigationEnabled}
+                  />
+                </div>
+              ))}
+            </article>
           ))}
         </div>
       ) : (
@@ -944,6 +1159,11 @@ function NotebookGuidePanel({ workspaceId, onAskQuestion }: { workspaceId: strin
                 <p className="workspace-meta">
                   基于 {guide.source_count} 个来源生成。回答仍必须基于当前来源并带引用。
                 </p>
+                {guide.generation_metadata?.fallback_mode ? (
+                  <StateBlock title="AI 基于有限信息回答" tone="warning">
+                    导读使用了有限的上下文信息生成，可能不如基于完整来源时准确。
+                  </StateBlock>
+                ) : null}
               </div>
             </article>
             <div className="source-list" aria-label="关键主题">
@@ -1058,6 +1278,120 @@ function downloadTextFile(filename: string, content: string, contentType: string
   URL.revokeObjectURL(url);
 }
 
+function NotesPanel({ workspaceId, onNavigateEvidence }: { workspaceId: string; onNavigateEvidence: (evidence: AnswerEvidence) => void }) {
+  const [notes, setNotes] = useState(() => loadNotes(workspaceId));
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState('');
+  const [showNewNote, setShowNewNote] = useState(false);
+
+  const refresh = () => setNotes(loadNotes(workspaceId));
+
+  const handleCreate = () => {
+    createNote(workspaceId, editContent.trim());
+    setEditContent('');
+    setShowNewNote(false);
+    refresh();
+  };
+
+  const handleSaveEdit = (noteId: string) => {
+    updateNote(workspaceId, noteId, editContent.trim());
+    setEditingId(null);
+    setEditContent('');
+    refresh();
+  };
+
+  const handleDelete = (noteId: string) => {
+    deleteNote(workspaceId, noteId);
+    refresh();
+  };
+
+  return (
+    <div className="notes-panel">
+      <div className="notes-header">
+        <h3>笔记</h3>
+        <button className="secondary-button" type="button" onClick={() => setShowNewNote(true)}>
+          新建笔记
+        </button>
+      </div>
+      {showNewNote ? (
+        <div className="note-editor">
+          <textarea
+            className="text-area"
+            placeholder="输入笔记内容..."
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+            rows={4}
+          />
+          <div className="note-editor-actions">
+            <button className="secondary-button" type="button" onClick={() => { setShowNewNote(false); setEditContent(''); }}>
+              取消
+            </button>
+            <button className="primary-button" type="button" onClick={handleCreate} disabled={!editContent.trim()}>
+              保存
+            </button>
+          </div>
+        </div>
+      ) : null}
+      <div className="note-list">
+        {notes.length === 0 ? (
+          <EmptyState title="暂无笔记">点击"新建笔记"创建第一条笔记。</EmptyState>
+        ) : (
+          notes.map((note) => (
+            <article className="note-card" key={note.note_id}>
+              {editingId === note.note_id ? (
+                <div className="note-editor">
+                  <textarea
+                    className="text-area"
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    rows={4}
+                  />
+                  <div className="note-editor-actions">
+                    <button className="secondary-button" type="button" onClick={() => { setEditingId(null); setEditContent(''); }}>
+                      取消
+                    </button>
+                    <button className="primary-button" type="button" onClick={() => handleSaveEdit(note.note_id)} disabled={!editContent.trim()}>
+                      保存
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <p>{note.content}</p>
+                  {note.evidence_refs.length > 0 ? (
+                    <div className="note-evidence">
+                      <span className="workspace-meta">引用 {note.evidence_refs.length} 条</span>
+                      <button
+                        className="secondary-button"
+                        type="button"
+                        onClick={() => note.evidence_refs.forEach(onNavigateEvidence)}
+                      >
+                        查看引用
+                      </button>
+                    </div>
+                  ) : null}
+                  <div className="note-card-actions">
+                    <button
+                      className="secondary-button"
+                      type="button"
+                      onClick={() => { setEditingId(note.note_id); setEditContent(note.content); }}
+                    >
+                      编辑
+                    </button>
+                    <button className="secondary-button" type="button" onClick={() => handleDelete(note.note_id)}>
+                      删除
+                    </button>
+                  </div>
+                </>
+              )}
+            </article>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
 function StudioPanel({
   workspaceId,
   onTraceSourceId,
@@ -1079,6 +1413,7 @@ function StudioPanel({
     { title: '思维导图', description: '需要节点/边 schema、布局合同和可视化验收。' },
     { title: '文档对比', description: '需要多来源差异 schema、冲突证据和引用定位验收。' }
   ];
+  const [showNotes, setShowNotes] = useState(false);
   const createArtifact = useStudioArtifactMutation(workspaceId);
   const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
   const preciseNavigationEnabled = isEvidenceSpanNavigationSupported(capabilitiesQuery.data);
@@ -1124,23 +1459,30 @@ function StudioPanel({
               <div>
                 <div className="source-title-row">
                   <h3>{tool.title}</h3>
-                  <span className={`state-pill ${artifact?.artifact_type === tool.type ? 'state-ready' : 'state-idle'}`}>
-                    {artifact?.artifact_type === tool.type ? '已生成' : '可生成'}
-                  </span>
+                  <span className="state-pill state-idle">本地存储</span>
                 </div>
                 <p className="workspace-meta">{tool.description}</p>
               </div>
-              <button
-                className="secondary-button"
-                type="button"
-                disabled={createArtifact.isPending}
-                onClick={() => createArtifact.mutate({ artifact_type: tool.type })}
-              >
-                {createArtifact.isPending ? '生成中' : '生成'}
-              </button>
+              {tool.type === 'notes' ? (
+                <button className="secondary-button" type="button" onClick={() => setShowNotes(true)}>
+                  打开笔记
+                </button>
+              ) : (
+                <button
+                  className="secondary-button"
+                  type="button"
+                  disabled={createArtifact.isPending}
+                  onClick={() => createArtifact.mutate({ artifact_type: tool.type })}
+                >
+                  {createArtifact.isPending ? '生成中' : '生成'}
+                </button>
+              )}
             </article>
           ))}
         </div>
+        {showNotes ? (
+          <NotesPanel workspaceId={workspaceId} onNavigateEvidence={onNavigateEvidence} />
+        ) : null}
         <article className="source-card" aria-label="Phase 2/3 输出工具">
           <div>
             <h3>后续输出工具</h3>
@@ -1280,6 +1622,7 @@ export function WorkspacePage() {
   const { workspaceId = '' } = useParams();
   const workspaceQuery = useWorkspaceQuery(workspaceId);
   const archiveWorkspace = useArchiveWorkspaceMutation(workspaceId);
+  const [showArchiveConfirm, setShowArchiveConfirm] = useState(false);
   const [traceSourceId, setTraceSourceId] = useState<string | null>(null);
   const [previewSource, setPreviewSource] = useState<{
     source_id: string;
@@ -1324,7 +1667,7 @@ export function WorkspacePage() {
           <button
             className="secondary-button"
             type="button"
-            onClick={() => archiveWorkspace.mutate()}
+            onClick={() => setShowArchiveConfirm(true)}
             disabled={archiveWorkspace.isPending || workspace?.archived}
           >
             {workspace?.archived ? '已归档' : '归档'}
@@ -1343,6 +1686,36 @@ export function WorkspacePage() {
               ? archiveWorkspace.error.message
               : 'Notebook 无法归档。'}
           </StateBlock>
+        ) : null}
+
+        {showArchiveConfirm ? (
+          <div className="modal-overlay" onClick={() => setShowArchiveConfirm(false)}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <h3>确认归档 Notebook</h3>
+              <p>归档后 Notebook 将从列表隐藏，但不会删除其中的来源和会话。</p>
+              <p>归档可以撤销。</p>
+              <div className="modal-actions">
+                <button
+                  className="secondary-button"
+                  type="button"
+                  onClick={() => setShowArchiveConfirm(false)}
+                >
+                  取消
+                </button>
+                <button
+                  className="primary-button"
+                  type="button"
+                  onClick={() => {
+                    setShowArchiveConfirm(false);
+                    archiveWorkspace.mutate();
+                  }}
+                  disabled={archiveWorkspace.isPending}
+                >
+                  确认归档
+                </button>
+              </div>
+            </div>
+          </div>
         ) : null}
 
         <div className="notebook-three-column" aria-label="Notebook 三列阅读工作区">

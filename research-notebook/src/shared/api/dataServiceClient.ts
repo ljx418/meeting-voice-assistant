@@ -2245,6 +2245,22 @@ export function createDataServiceClient(options: ClientOptions = {}) {
         );
         return extractDocumentUnitList(sourceId, payload);
       },
+      async search(workspaceId: string, query: string, typeFilter?: string, limit = 20): Promise<{ sources: SourceSummary[]; total: number; query: string }> {
+        const params = new globalThis.URLSearchParams({ q: query });
+        if (typeFilter) params.set('type_filter', typeFilter);
+        params.set('limit', String(limit));
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/sources/search?${params.toString()}`
+        );
+        const body = unwrapData(payload);
+        const raw = asRecord(body);
+        const sourcesRaw = Array.isArray(raw?.sources) ? raw.sources : [];
+        return {
+          sources: sourcesRaw.map((s: unknown) => assertSourceSummary(s, workspaceId)).filter((s: SourceSummary) => s.source_id),
+          total: readNumber(raw?.total) ?? sourcesRaw.length,
+          query: readString(raw?.query) ?? query
+        };
+      },
       async getUnit(workspaceId: string, sourceId: string, unitId: string): Promise<DocumentUnit> {
         assertDocumentUnitRouteIds(sourceId, unitId);
         const payload = await request<unknown>(

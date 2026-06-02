@@ -30,13 +30,17 @@ export default [
         DOMException: 'readonly',
         fetch: 'readonly',
         HTMLFormElement: 'readonly',
+        HTMLInputElement: 'readonly',
         HTMLElement: 'readonly',
+        localStorage: 'readonly',
         process: 'readonly',
         RequestInfo: 'readonly',
         RequestInit: 'readonly',
         Response: 'readonly',
         ResponseInit: 'readonly',
+        setTimeout: 'readonly',
         URL: 'readonly',
+        URLSearchParams: 'readonly',
         window: 'readonly'
       },
       parserOptions: {

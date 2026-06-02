@@ -130,6 +130,15 @@ export function useSourceQuery(workspaceId: string, sourceId: string | null) {
   });
 }
 
+export function useSourceSearchQuery(workspaceId: string, query: string | null, typeFilter?: string, limit = 20) {
+  return useQuery({
+    queryKey: queryKeys.sourceSearch(workspaceId, query ?? '', typeFilter ?? ''),
+    queryFn: () => dataServiceClient.sources.search(workspaceId, query ?? '', typeFilter, limit),
+    enabled: Boolean(workspaceId && query && query.length > 0),
+    retry: false
+  });
+}
+
 export function useCreateSourceMutation(workspaceId: string) {
   const queryClient = useQueryClient();
   return useMutation({
