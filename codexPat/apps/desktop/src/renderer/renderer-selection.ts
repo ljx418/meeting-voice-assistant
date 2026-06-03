@@ -20,7 +20,7 @@ export function resolveRuntimeRendererKind(
 ): RuntimeRendererSelection {
   const requestedKind = readStoredKind();
   if (!requestedKind) {
-    return { requestedKind, selectedKind: "css", fallbackUsed: false, reasonCode: "renderer_not_selected" };
+    return { requestedKind, selectedKind: "gltf", fallbackUsed: false, reasonCode: "renderer_not_selected" };
   }
   if (!isRendererKind(requestedKind)) {
     return { requestedKind, selectedKind: "css", fallbackUsed: true, reasonCode: "renderer_kind_invalid" };

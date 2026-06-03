@@ -28,8 +28,9 @@
         "shadow": false,
         "acceptFirstMouse": true,
         "alwaysOnTop": true,
+        "visibleOnAllWorkspaces": true,
         "skipTaskbar": true,
-        "visible": false,
+        "visible": true,
         "center": false
       }
     ],

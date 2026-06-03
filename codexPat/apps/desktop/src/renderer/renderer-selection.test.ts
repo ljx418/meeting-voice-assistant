@@ -3,14 +3,15 @@ import { describe, test } from "node:test";
 import { manifestForRuntimeRenderer, resolveRuntimeRendererKind } from "./renderer-selection";
 
 describe("V5.5 runtime renderer selection", () => {
-  test("defaults to css when no renderer is selected", () => {
+  test("defaults to bundled gltf when no renderer is selected", () => {
     const result = resolveRuntimeRendererKind(() => null);
-    assert.equal(result.selectedKind, "css");
+    assert.equal(result.selectedKind, "gltf");
     assert.equal(result.fallbackUsed, false);
-    assert.equal(manifestForRuntimeRenderer(result.selectedKind).rendererKind, "css");
+    assert.equal(manifestForRuntimeRenderer(result.selectedKind).rendererKind, "gltf");
+    assert.equal(manifestForRuntimeRenderer(result.selectedKind).packId, "gltf-prototype-cat");
   });
 
-  test("selects bundled gltf only when explicitly requested", () => {
+  test("selects bundled gltf when explicitly requested", () => {
     const result = resolveRuntimeRendererKind(() => "gltf");
     assert.equal(result.selectedKind, "gltf");
     assert.equal(result.fallbackUsed, false);

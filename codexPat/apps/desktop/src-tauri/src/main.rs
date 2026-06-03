@@ -171,7 +171,14 @@ fn main() {
             reset_pet_instance_position,
             detach_pet_instance,
             list_personalized_asset_packs,
-            import_personalized_asset_pack
+            import_personalized_asset_pack,
+            activate_personalized_asset_pack,
+            deactivate_personalized_asset_pack,
+            rename_personalized_asset_pack,
+            delete_personalized_asset_pack,
+            runtime_personalized_asset_pack,
+            runtime_personalized_asset_data,
+            capture_glb_preview
         ])
         .run(tauri::generate_context!())
         .expect("failed to run Agent Desktop Pet");
@@ -498,6 +505,90 @@ fn import_personalized_asset_pack(
     app: AppHandle,
 ) -> Result<asset_import::PersonalizedAssetImportResult, String> {
     asset_import::import_personalized_asset_pack(&app, manifest_path, display_name)
+}
+
+#[tauri::command]
+fn activate_personalized_asset_pack(
+    pack_id: String,
+    instance_id: String,
+    app: AppHandle,
+    state: tauri::State<AppState>,
+) -> Result<asset_import::PersonalizedAssetActivationResult, String> {
+    ensure_pet_instance_exists(&state, &instance_id)?;
+    let result = asset_import::activate_personalized_asset_pack(&app, pack_id, instance_id.clone())?;
+    let _ = app.emit("personalized-asset:updated", &result);
+    Ok(result)
+}
+
+#[tauri::command]
+fn deactivate_personalized_asset_pack(
+    instance_id: String,
+    app: AppHandle,
+    state: tauri::State<AppState>,
+) -> Result<(), String> {
+    ensure_pet_instance_exists(&state, &instance_id)?;
+    asset_import::deactivate_personalized_asset_pack(&app, instance_id.clone())?;
+    let _ = app.emit("personalized-asset:updated", serde_json::json!({ "instanceId": instance_id }));
+    Ok(())
+}
+
+#[tauri::command]
+fn delete_personalized_asset_pack(
+    pack_id: String,
+    app: AppHandle,
+) -> Result<Vec<asset_import::PersonalizedAssetPackView>, String> {
+    let result = asset_import::delete_personalized_asset_pack(&app, pack_id)?;
+    let _ = app.emit("personalized-asset:deleted", serde_json::json!({ "deleted": true }));
+    Ok(result)
+}
+
+#[tauri::command]
+fn rename_personalized_asset_pack(
+    pack_id: String,
+    display_name: String,
+    app: AppHandle,
+) -> Result<asset_import::PersonalizedAssetPackView, String> {
+    let result = asset_import::rename_personalized_asset_pack(&app, pack_id, display_name)?;
+    let _ = app.emit("personalized-asset:updated", serde_json::json!({ "packId": result.pack_id }));
+    Ok(result)
+}
+
+#[tauri::command]
+fn runtime_personalized_asset_pack(
+    instance_id: String,
+    app: AppHandle,
+) -> Result<Option<asset_import::RuntimeImportedAssetPack>, String> {
+    asset_import::runtime_personalized_asset_pack(&app, instance_id)
+}
+
+#[tauri::command]
+fn runtime_personalized_asset_data(
+    pack_id: String,
+    action_id: String,
+    app: AppHandle,
+) -> Result<asset_import::RuntimeAssetData, String> {
+    asset_import::runtime_personalized_asset_data(&app, pack_id, action_id)
+}
+
+#[tauri::command]
+fn capture_glb_preview(pack_id: String, action_id: String, app: AppHandle) -> Result<String, String> {
+    asset_import::capture_glb_preview(&app, pack_id, action_id)
+}
+
+fn ensure_pet_instance_exists(state: &AppState, instance_id: &str) -> Result<(), String> {
+    if !is_valid_instance_id(instance_id) {
+        return Err("instance_id_invalid".to_string());
+    }
+    let settings = state.settings.lock().map_err(|error| error.to_string())?;
+    if instance_id == "default"
+        || settings
+            .pet_instances
+            .iter()
+            .any(|instance| instance.instance_id == instance_id)
+    {
+        return Ok(());
+    }
+    Err("instance_not_found".to_string())
 }
 
 pub(crate) fn detach_pet_instance_by_id(
@@ -889,6 +980,7 @@ fn apply_initial_pet_window(
     let position = safe_pet_position(app, settings.pet_x, settings.pet_y);
     window.set_position(position)?;
     window.set_always_on_top(true)?;
+    window.set_visible_on_all_workspaces(true)?;
     window.set_shadow(false)?;
 
     if settings.pet_visible {
@@ -922,6 +1014,8 @@ fn create_or_show_instance_window(
     slot: usize,
 ) -> tauri::Result<()> {
     if let Some(window) = app.get_webview_window(&instance.window_label) {
+        window.set_visible_on_all_workspaces(true)?;
+        window.set_always_on_top(true)?;
         window.show()?;
         window.set_focus()?;
         return Ok(());
@@ -936,6 +1030,7 @@ fn create_or_show_instance_window(
             .transparent(true)
             .shadow(false)
             .always_on_top(true)
+            .visible_on_all_workspaces(true)
             .skip_taskbar(true)
             .visible(false)
             .accept_first_mouse(true)
@@ -949,6 +1044,7 @@ fn create_or_show_instance_window(
     };
     window.set_position(safe)?;
     window.set_always_on_top(true)?;
+    window.set_visible_on_all_workspaces(true)?;
     window.set_shadow(false)?;
     window.show()?;
     install_window_persistence(window, state.clone());
@@ -1086,6 +1182,7 @@ fn setup_tray(app: &AppHandle, state: AppState) -> tauri::Result<()> {
     let settings = MenuItem::with_id(app, "settings", "显示设置", true, None::<&str>)?;
     let mute = MenuItem::with_id(app, "mute", "静音 / 取消静音", true, None::<&str>)?;
     let visibility = MenuItem::with_id(app, "visibility", "显示 / 隐藏猫咪", true, None::<&str>)?;
+    let switch_3d = MenuItem::with_id(app, "switch_3d", "切换到3D渲染", true, None::<&str>)?;
     let reset_position = MenuItem::with_id(app, "reset_position", "重置位置", true, None::<&str>)?;
     let quit = MenuItem::with_id(app, "quit", "退出", true, None::<&str>)?;
     let separator_a = PredefinedMenuItem::separator(app)?;
@@ -1099,6 +1196,7 @@ fn setup_tray(app: &AppHandle, state: AppState) -> tauri::Result<()> {
             &settings,
             &mute,
             &visibility,
+            &switch_3d,
             &reset_position,
             &separator_b,
             &quit,
@@ -1124,6 +1222,11 @@ fn setup_tray(app: &AppHandle, state: AppState) -> tauri::Result<()> {
         }
         "visibility" => {
             let _ = toggle_pet_visibility(app, &state);
+        }
+        "switch_3d" => {
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.eval("localStorage.setItem('agentDesktopPet.rendererKind', 'gltf'); location.reload();");
+            }
         }
         "reset_position" => {
             let _ = reset_pet_position(app, &state);
@@ -1216,6 +1319,12 @@ fn reset_pet_position(app: &AppHandle, state: &AppState) -> Result<(), String> {
     let position = pet_spawn_position_for_slot(app, PhysicalSize::new(PET_WIDTH, PET_HEIGHT), 0);
     window
         .set_position(position)
+        .map_err(|error| error.to_string())?;
+    window
+        .set_visible_on_all_workspaces(true)
+        .map_err(|error| error.to_string())?;
+    window
+        .set_always_on_top(true)
         .map_err(|error| error.to_string())?;
 
     let updated = {
