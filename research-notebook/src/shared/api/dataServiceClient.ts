@@ -100,7 +100,7 @@ type ClientOptions = {
 };
 
 type RequestOptions = {
-  method?: 'GET' | 'POST';
+  method?: 'GET' | 'POST' | 'DELETE';
   body?: unknown;
   signal?: AbortSignal;
   normalizeError?: (status: number, payload: unknown) => NormalizedErrorEnvelope;
@@ -2494,6 +2494,89 @@ export function createDataServiceClient(options: ClientOptions = {}) {
           body: feedbackBody(input)
         });
         return extractQualityFeedback(workspaceId, payload);
+      }
+    },
+    artifacts: {
+      async list(workspaceId: string) {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/artifacts`);
+        const body = unwrapData(payload);
+        const raw = asRecord(body);
+        const itemsRaw = Array.isArray(raw?.items) ? raw.items : [];
+        return itemsRaw.map((item: unknown) => asRecord(item)).filter(Boolean);
+      },
+      async get(workspaceId: string, artifactId: string) {
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/artifacts/${encodeURIComponent(artifactId)}`
+        );
+        return unwrapData(payload);
+      },
+      async status(workspaceId: string, artifactId: string) {
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/artifacts/${encodeURIComponent(artifactId)}/status`
+        );
+        return unwrapData(payload);
+      },
+      async download(workspaceId: string, artifactId: string, format?: string) {
+        const query = format ? `?format=${encodeURIComponent(format)}` : '';
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/artifacts/${encodeURIComponent(artifactId)}/download${query}`
+        );
+        return payload;
+      },
+      async delete(workspaceId: string, artifactId: string) {
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/artifacts/${encodeURIComponent(artifactId)}`,
+          { method: 'DELETE' }
+        );
+        return payload;
+      },
+      async createAudio(workspaceId: string, sourceIds: string[], language?: string, voiceId?: string) {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/artifacts/audio`, {
+          method: 'POST',
+          body: { source_ids: sourceIds, language, voice_id: voiceId }
+        });
+        return unwrapData(payload);
+      },
+      async createSlides(workspaceId: string, sourceIds: string[], topic?: string, slideCount?: number) {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/artifacts/slides`, {
+          method: 'POST',
+          body: { source_ids: sourceIds, topic, slide_count: slideCount }
+        });
+        return unwrapData(payload);
+      },
+      async exportSlides(workspaceId: string, artifactId: string) {
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/artifacts/slides/export`,
+          { method: 'POST', body: { artifact_id: artifactId } }
+        );
+        return unwrapData(payload);
+      },
+      async createMindmap(workspaceId: string, sourceIds: string[], topic?: string, maxDepth?: number) {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/artifacts/mindmap`, {
+          method: 'POST',
+          body: { source_ids: sourceIds, topic, max_depth: maxDepth }
+        });
+        return unwrapData(payload);
+      },
+      async createCompare(workspaceId: string, sourceIds: string[]) {
+        const payload = await request<unknown>(`/api/workspaces/${encodeURIComponent(workspaceId)}/artifacts/compare`, {
+          method: 'POST',
+          body: { source_ids: sourceIds }
+        });
+        return unwrapData(payload);
+      },
+      async ocr(workspaceId: string, sourceId: string) {
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/sources/${encodeURIComponent(sourceId)}/ocr`,
+          { method: 'POST' }
+        );
+        return unwrapData(payload);
+      },
+      async ocrStatus(workspaceId: string, sourceId: string) {
+        const payload = await request<unknown>(
+          `/api/workspaces/${encodeURIComponent(workspaceId)}/sources/${encodeURIComponent(sourceId)}/ocr/status`
+        );
+        return unwrapData(payload);
       }
     }
   };

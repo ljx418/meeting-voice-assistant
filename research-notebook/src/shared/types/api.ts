@@ -532,6 +532,211 @@ export type ResearchReport = {
   };
 };
 
+// Artifact types for V2.3+ features
+export type AudioArtifact = {
+  artifact_id: string;
+  workspace_id: string;
+  type: 'audio_overview';
+  title: string;
+  status: 'generating' | 'ready' | 'error';
+  artifact_available: boolean;
+  summary: string;
+  duration_seconds?: number;
+  script: Array<{
+    text: string;
+    start_time: number;
+    end_time: number;
+    evidence_refs?: AnswerEvidence[];
+  }>;
+  voice_metadata?: {
+    provider: string;
+    voice_id: string;
+    language: string;
+  };
+  evidence_refs: AnswerEvidence[];
+  unsupported_reason?: string;
+  generation_metadata?: {
+    provider?: string;
+    provider_name?: string;
+    model?: string;
+    prompt_version?: string;
+    evidence_ref_count?: number;
+    fallback_mode?: boolean;
+    latency_ms?: number;
+  };
+  error?: {
+    code: string;
+    message: string;
+  };
+  created_at: string;
+};
+
+export type Slide = {
+  slide_num: number;
+  title: string;
+  bullets: string[];
+  speaker_notes?: string;
+  layout_hint?: 'title_only' | 'bullets' | 'two_column' | 'image_left' | 'image_right';
+  evidence_refs: AnswerEvidence[];
+};
+
+export type SlideArtifact = {
+  artifact_id: string;
+  workspace_id: string;
+  type: 'slides';
+  title: string;
+  status: 'generating' | 'ready' | 'error';
+  artifact_available: boolean;
+  summary: string;
+  slides: Slide[];
+  evidence_refs: AnswerEvidence[];
+  unsupported_reason?: string;
+  generation_metadata?: {
+    provider?: string;
+    provider_name?: string;
+    model?: string;
+    prompt_version?: string;
+    evidence_ref_count?: number;
+    fallback_mode?: boolean;
+    latency_ms?: number;
+  };
+  error?: {
+    code: string;
+    message: string;
+  };
+  created_at: string;
+};
+
+export type MindmapNode = {
+  node_id: string;
+  label: string;
+  summary?: string;
+  parent_id?: string;
+  children?: MindmapNode[];
+  evidence_refs?: AnswerEvidence[];
+  position?: {
+    x: number;
+    y: number;
+  };
+};
+
+export type MindmapArtifact = {
+  artifact_id: string;
+  workspace_id: string;
+  type: 'mindmap';
+  title: string;
+  status: 'generating' | 'ready' | 'error';
+  artifact_available: boolean;
+  summary: string;
+  root_node: MindmapNode;
+  evidence_refs: AnswerEvidence[];
+  unsupported_reason?: string;
+  generation_metadata?: {
+    provider?: string;
+    provider_name?: string;
+    model?: string;
+    prompt_version?: string;
+    evidence_ref_count?: number;
+    fallback_mode?: boolean;
+    latency_ms?: number;
+  };
+  error?: {
+    code: string;
+    message: string;
+  };
+  created_at: string;
+};
+
+export type CompareSourcePair = {
+  source_a: string;
+  source_b: string;
+  source_a_title?: string;
+  source_b_title?: string;
+  similarities: Array<{
+    topic: string;
+    description: string;
+    evidence_refs: AnswerEvidence[];
+  }>;
+  differences: Array<{
+    topic: string;
+    source_a_position: string;
+    source_b_position: string;
+    evidence_a: AnswerEvidence[];
+    evidence_b: AnswerEvidence[];
+  }>;
+  conflicts: Array<{
+    topic: string;
+    claim_a: string;
+    claim_b: string;
+    evidence_a: AnswerEvidence[];
+    evidence_b: AnswerEvidence[];
+    resolution?: string;
+  }>;
+};
+
+export type CompareArtifact = {
+  artifact_id: string;
+  workspace_id: string;
+  type: 'compare';
+  title: string;
+  status: 'generating' | 'ready' | 'error';
+  artifact_available: boolean;
+  summary: string;
+  compare_set: string[];
+  result: {
+    summary: string;
+    source_pairs: CompareSourcePair[];
+    all_similarities?: Array<{
+      topic: string;
+      description: string;
+      evidence_refs: AnswerEvidence[];
+    }>;
+    all_differences?: Array<{
+      topic: string;
+      source_a_position: string;
+      source_b_position: string;
+      evidence_a: AnswerEvidence[];
+      evidence_b: AnswerEvidence[];
+    }>;
+  };
+  evidence_refs: AnswerEvidence[];
+  unsupported_reason?: string;
+  generation_metadata?: {
+    provider?: string;
+    provider_name?: string;
+    model?: string;
+    prompt_version?: string;
+    evidence_ref_count?: number;
+    fallback_mode?: boolean;
+    latency_ms?: number;
+  };
+  error?: {
+    code: string;
+    message: string;
+  };
+  created_at: string;
+};
+
+export type OCRPage = {
+  page_num: number;
+  text: string;
+  bbox?: Array<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    text: string;
+    confidence: number;
+  }>;
+  confidence: number;
+  language?: string;
+};
+
+export type OCRError = {
+  code: string;
+  message: string;
+};
+
 export type ResearchResponse = {
   research: ResearchReport;
 };

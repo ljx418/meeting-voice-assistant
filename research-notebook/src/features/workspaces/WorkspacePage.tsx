@@ -17,7 +17,16 @@ import {
   useSourcesQuery,
   useSourceSearchQuery,
   useStartBuildMutation,
-  useWorkspaceQueryMutation
+  useWorkspaceQueryMutation,
+  useArtifactsQuery,
+  useArtifactStatusQuery,
+  useCreateAudioMutation,
+  useCreateSlidesMutation,
+  useCreateMindmapMutation,
+  useCreateCompareMutation,
+  useDeleteArtifactMutation,
+  useOCRMutation,
+  useOCRStatusQuery
 } from '../../shared/api/workspaceM2Queries';
 import { queryKeys } from '../../app/routes/queryKeys';
 import { useOperationPolling } from '../../shared/hooks/useOperationPolling';
@@ -1408,18 +1417,23 @@ function StudioPanel({
     { type: 'faq' as StudioArtifactType, title: '常见问题', description: '生成常见问题与答案，每条都需要引用。' }
   ];
   const phaseTwoTools = [
-    { title: '音频概览', description: '需要语音 provider、音频 artifact schema 和真实播放 smoke。' },
-    { title: 'PPT 生成', description: '需要 slide schema、导出合同和真实文件验收。' },
-    { title: '思维导图', description: '需要节点/边 schema、布局合同和可视化验收。' },
-    { title: '文档对比', description: '需要多来源差异 schema、冲突证据和引用定位验收。' }
+    { type: 'audio', title: '音频概览', description: '将来源内容转换为语音播报。' },
+    { type: 'slides', title: 'PPT 生成', description: '基于来源生成幻灯片大纲，可选导出 PPTX。' },
+    { type: 'mindmap', title: '思维导图', description: '从来源内容构建知识结构图。' },
+    { type: 'compare', title: '文档对比', description: '对比多个来源的异同点和冲突。' }
   ];
   const [showNotes, setShowNotes] = useState(false);
   const createArtifact = useStudioArtifactMutation(workspaceId);
   const capabilitiesQuery = useCapabilitiesQuery(workspaceId);
+  const sourcesQuery = useSourcesQuery(workspaceId);
   const preciseNavigationEnabled = isEvidenceSpanNavigationSupported(capabilitiesQuery.data);
   const artifact = createArtifact.data;
   const [exportStatus, setExportStatus] = useState<string | null>(null);
   const exportBaseName = artifact ? safeExportSlug(`${artifact.artifact_type}-${artifact.title}`) : 'studio-artifact';
+  const createAudio = useCreateAudioMutation(workspaceId);
+  const createSlides = useCreateSlidesMutation(workspaceId);
+  const createMindmap = useCreateMindmapMutation(workspaceId);
+  const createCompare = useCreateCompareMutation(workspaceId);
 
   const copyMarkdown = async () => {
     if (!artifact) return;
@@ -1483,26 +1497,50 @@ function StudioPanel({
         {showNotes ? (
           <NotesPanel workspaceId={workspaceId} onNavigateEvidence={onNavigateEvidence} />
         ) : null}
-        <article className="source-card" aria-label="Phase 2/3 输出工具">
+        <article className="source-card" aria-label="高级输出工具">
           <div>
-            <h3>后续输出工具</h3>
-            <p className="workspace-meta">以下能力暂不可用。当前不会生成伪输出，也不会调用后端。</p>
+            <h3>高级输出工具</h3>
+            <p className="workspace-meta">音频、幻灯片、思维导图和文档对比。</p>
           </div>
           <div className="studio-tool-list">
-            {phaseTwoTools.map((tool) => (
-              <article className="source-card" key={tool.title}>
-                <div>
-                  <div className="source-title-row">
-                    <h4>{tool.title}</h4>
-                    <span className="state-pill state-idle">暂不可用</span>
+            {phaseTwoTools.map((tool) => {
+              const capabilityKey = tool.type === 'audio' ? 'audio_overview' : tool.type === 'slides' ? 'slides' : tool.type;
+              const isAvailable = capabilitiesQuery.data?.capabilities[capabilityKey as keyof typeof capabilitiesQuery.data.capabilities];
+              return (
+                <article className="source-card" key={tool.type}>
+                  <div>
+                    <div className="source-title-row">
+                      <h4>{tool.title}</h4>
+                      <span className={`state-pill ${isAvailable ? 'state-active' : 'state-idle'}`}>
+                        {isAvailable ? '就绪' : '暂不可用'}
+                      </span>
+                    </div>
+                    <p className="workspace-meta">{tool.description}</p>
                   </div>
-                  <p className="workspace-meta">{tool.description}</p>
-                </div>
-                <button className="secondary-button" type="button" disabled>
-                  暂不可用
-                </button>
-              </article>
-            ))}
+                  <button
+                    className="secondary-button"
+                    type="button"
+                    disabled={!isAvailable}
+                    onClick={() => {
+                      const sources = sourcesQuery.data ?? [];
+                      const sourceIds = sources.map((s) => s.source_id);
+                      if (sourceIds.length === 0) return;
+                      if (tool.type === 'audio') {
+                        createAudio.mutate({ source_ids: sourceIds });
+                      } else if (tool.type === 'slides') {
+                        createSlides.mutate({ source_ids: sourceIds });
+                      } else if (tool.type === 'mindmap') {
+                        createMindmap.mutate({ source_ids: sourceIds });
+                      } else if (tool.type === 'compare') {
+                        createCompare.mutate({ source_ids: sourceIds });
+                      }
+                    }}
+                  >
+                    生成
+                  </button>
+                </article>
+              );
+            })}
           </div>
         </article>
         {artifact ? (

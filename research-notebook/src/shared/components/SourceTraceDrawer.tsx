@@ -89,17 +89,20 @@ export function SourceTraceDrawer({
           <details className="source-debug-details">
             <summary>调试信息</summary>
             <p className="workspace-meta">来源 ID：{sourceQuery.data.source_id}</p>
-          </details>
-          <div className="trace-section">
-            <h4>工件引用</h4>
             {sourceQuery.data.artifact_refs?.length ? (
               <ul>
                 {sourceQuery.data.artifact_refs.map((ref) => (
                   <li key={ref}>{ref}</li>
                 ))}
               </ul>
+            ) : null}
+          </details>
+          <div className="trace-section">
+            <h4>关联记录</h4>
+            {sourceQuery.data.artifact_refs?.length ? (
+              <p className="workspace-meta">该来源包含 {sourceQuery.data.artifact_refs.length} 条关联记录。原始引用仅在调试信息中展示。</p>
             ) : (
-              <p className="workspace-meta">未返回工件引用。</p>
+              <p className="workspace-meta">未返回关联记录。</p>
             )}
           </div>
           <button className="secondary-button" type="button" onClick={() => void traceQuery.refetch()}>
@@ -116,18 +119,21 @@ export function SourceTraceDrawer({
           <details className="source-debug-details">
             <summary>调试信息</summary>
             <p className="workspace-meta">来源 ID：{traceQuery.data.source_id}</p>
-          </details>
-          {traceQuery.data.summary ? <p>{traceQuery.data.summary}</p> : null}
-          <div className="trace-section">
-            <h4>工件引用</h4>
             {traceQuery.data.artifact_refs?.length ? (
               <ul>
                 {traceQuery.data.artifact_refs.map((ref) => (
                   <li key={ref}>{ref}</li>
                 ))}
               </ul>
+            ) : null}
+          </details>
+          {traceQuery.data.summary ? <p>{traceQuery.data.summary}</p> : null}
+          <div className="trace-section">
+            <h4>关联记录</h4>
+            {traceQuery.data.artifact_refs?.length ? (
+              <p className="workspace-meta">该来源包含 {traceQuery.data.artifact_refs.length} 条关联记录。原始引用仅在调试信息中展示。</p>
             ) : (
-              <p className="workspace-meta">未返回工件引用。</p>
+              <p className="workspace-meta">未返回关联记录。</p>
             )}
           </div>
           <div className="trace-section">

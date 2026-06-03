@@ -24,5 +24,10 @@ export const queryKeys = {
   graphNeighborsByNode: (workspaceId: string, nodeId: string) => ['graph-neighbors', workspaceId, 'node', nodeId] as const,
   graphNeighborsByEntity: (workspaceId: string, entityId: string) => ['graph-neighbors', workspaceId, 'entity', entityId] as const,
   graphCommunities: (workspaceId: string) => ['graph-communities', workspaceId] as const,
-  sessionGraph: (workspaceId: string, sessionId: string) => ['session-graph', workspaceId, sessionId] as const
+  sessionGraph: (workspaceId: string, sessionId: string) => ['session-graph', workspaceId, sessionId] as const,
+  // Artifacts
+  artifacts: (workspaceId: string) => ['artifacts', workspaceId] as const,
+  artifact: (workspaceId: string, artifactId: string) => ['artifact', workspaceId, artifactId] as const,
+  artifactStatus: (workspaceId: string, artifactId: string) => ['artifact-status', workspaceId, artifactId] as const,
+  ocrStatus: (workspaceId: string, sourceId: string) => ['ocr-status', workspaceId, sourceId] as const
 };

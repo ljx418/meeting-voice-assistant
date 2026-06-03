@@ -238,7 +238,7 @@ export function SourcePreviewDrawer({
                   <dd>{contentType}</dd>
                 </div>
                 <div>
-                  <dt>工件引用</dt>
+                  <dt>关联记录</dt>
                   <dd>{preview.artifact_refs?.length ? `${preview.artifact_refs.length} 个` : '无'}</dd>
                 </div>
               </dl>
@@ -249,6 +249,10 @@ export function SourcePreviewDrawer({
                     <dt>来源 ID</dt>
                     <dd>{preview.source_id}</dd>
                   </div>
+                  <div>
+                    <dt>关联记录</dt>
+                    <dd>{preview.artifact_refs?.length ? preview.artifact_refs.join(', ') : '无'}</dd>
+                  </div>
                 </dl>
               </details>
               {preview.preview_available ? null : (
@@ -257,7 +261,9 @@ export function SourcePreviewDrawer({
                 </UnsupportedFeatureState>
               )}
               {preview.artifact_refs?.length ? (
-                <StateBlock title="工件引用仅作为元数据展示">{preview.artifact_refs.join(', ')}</StateBlock>
+                <StateBlock title="关联记录">
+                  该来源包含 {preview.artifact_refs.length} 条关联记录。原始引用仅在调试信息中展示。
+                </StateBlock>
               ) : null}
               {contentSafetyNotice ? <StateBlock title="内容安全">{contentSafetyNotice}</StateBlock> : null}
               {rawPreviewText.length > MAX_RENDERED_PREVIEW_CHARS || preview.preview_truncated ? (
@@ -373,7 +379,17 @@ export function SourcePreviewDrawer({
                           </dd>
                         </div>
                       </dl>
-                      {unit.artifact_ref ? <p className="workspace-meta">工件引用元数据：{unit.artifact_ref}</p> : null}
+                      {unit.artifact_ref ? (
+                        <details className="source-debug-details">
+                          <summary>调试信息</summary>
+                          <dl className="source-meta-grid">
+                            <div>
+                              <dt>关联记录</dt>
+                              <dd>{unit.artifact_ref}</dd>
+                            </div>
+                          </dl>
+                        </details>
+                      ) : null}
                       {unit.text_preview ? <p>{unit.text_preview}</p> : null}
                     </div>
                   </article>
@@ -406,7 +422,7 @@ export function SourcePreviewDrawer({
                             <dd>{selectedUnitDetail.unit_id}</dd>
                           </div>
                           <div>
-                            <dt>工件引用</dt>
+                            <dt>关联记录</dt>
                             <dd>{selectedUnitDetail.artifact_ref ?? '无'}</dd>
                           </div>
                           {requestedEvidenceId ? (

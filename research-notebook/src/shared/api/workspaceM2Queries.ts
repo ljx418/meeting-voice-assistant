@@ -209,3 +209,98 @@ export function useResearchReportMutation(workspaceId: string) {
     mutationFn: (input: ResearchRequest) => dataServiceClient.research.createReport(workspaceId, input)
   });
 }
+
+// Artifact queries
+export function useArtifactsQuery(workspaceId: string) {
+  return useQuery({
+    queryKey: queryKeys.artifacts(workspaceId),
+    queryFn: () => dataServiceClient.artifacts.list(workspaceId),
+    enabled: Boolean(workspaceId)
+  });
+}
+
+export function useArtifactQuery(workspaceId: string, artifactId: string | null) {
+  return useQuery({
+    queryKey: queryKeys.artifact(workspaceId, artifactId ?? 'none'),
+    queryFn: () => dataServiceClient.artifacts.get(workspaceId, artifactId ?? ''),
+    enabled: Boolean(workspaceId && artifactId)
+  });
+}
+
+export function useArtifactStatusQuery(workspaceId: string, artifactId: string | null) {
+  return useQuery({
+    queryKey: queryKeys.artifactStatus(workspaceId, artifactId ?? 'none'),
+    queryFn: () => dataServiceClient.artifacts.status(workspaceId, artifactId ?? ''),
+    enabled: Boolean(workspaceId && artifactId)
+  });
+}
+
+// Artifact mutations
+export function useCreateAudioMutation(workspaceId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: { source_ids: string[]; language?: string; voice_id?: string }) =>
+      dataServiceClient.artifacts.createAudio(workspaceId, input.source_ids, input.language, input.voice_id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.artifacts(workspaceId) })
+  });
+}
+
+export function useCreateSlidesMutation(workspaceId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: { source_ids: string[]; topic?: string; slide_count?: number }) =>
+      dataServiceClient.artifacts.createSlides(workspaceId, input.source_ids, input.topic, input.slide_count),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.artifacts(workspaceId) })
+  });
+}
+
+export function useExportSlidesMutation(workspaceId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (artifactId: string) => dataServiceClient.artifacts.exportSlides(workspaceId, artifactId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.artifacts(workspaceId) })
+  });
+}
+
+export function useCreateMindmapMutation(workspaceId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: { source_ids: string[]; topic?: string; max_depth?: number }) =>
+      dataServiceClient.artifacts.createMindmap(workspaceId, input.source_ids, input.topic, input.max_depth),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.artifacts(workspaceId) })
+  });
+}
+
+export function useCreateCompareMutation(workspaceId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: { source_ids: string[] }) =>
+      dataServiceClient.artifacts.createCompare(workspaceId, input.source_ids),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.artifacts(workspaceId) })
+  });
+}
+
+export function useDeleteArtifactMutation(workspaceId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (artifactId: string) => dataServiceClient.artifacts.delete(workspaceId, artifactId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.artifacts(workspaceId) })
+  });
+}
+
+// OCR
+export function useOCRMutation(workspaceId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (sourceId: string) => dataServiceClient.artifacts.ocr(workspaceId, sourceId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.artifacts(workspaceId) })
+  });
+}
+
+export function useOCRStatusQuery(workspaceId: string, sourceId: string | null) {
+  return useQuery({
+    queryKey: queryKeys.ocrStatus(workspaceId, sourceId ?? 'none'),
+    queryFn: () => dataServiceClient.artifacts.ocrStatus(workspaceId, sourceId ?? ''),
+    enabled: Boolean(workspaceId && sourceId)
+  });
+}
