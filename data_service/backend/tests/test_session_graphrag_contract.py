@@ -240,19 +240,35 @@ def test_v16d1_session_graph_error_envelope_and_artifact_distinctions(tmp_path, 
 
 def test_v16d1_session_contract_baseline_and_d2_surface_boundaries_remain_explicit():
     current_tools = {spec["name"] for spec in all_tool_specs()}
-    assert len(current_tools) == 45
+    assert len(current_tools) == 61
     assert SESSION_MCP_BASELINE <= current_tools
     assert {
         "knowledge_codebase_import",
         "knowledge_codebase_list",
         "knowledge_codebase_snapshot",
+        "knowledge_project_inventory",
         "knowledge_codebase_describe",
         "knowledge_codebase_archive",
+        "knowledge_code_symbol_search",
+        "knowledge_public_surface_trace",
+        "knowledge_project_overview",
+        "knowledge_agent_context_pack",
+        "knowledge_devwiki_build",
+        "knowledge_devwiki_read",
+        "knowledge_code_graph_build",
+        "knowledge_code_graph_snapshot",
+        "knowledge_code_graph_neighbors",
+        "knowledge_code_graph_mermaid",
+        "knowledge_code_quality_feedback",
+        "knowledge_code_quality_summary",
+        "knowledge_code_quality_rules_build",
+        "knowledge_code_quality_rule_review",
+        "knowledge_code_quality_plan",
     } <= current_tools
 
     inventory = _cli_inventory()
     assert set(inventory) == {"build", "code", "graph", "quality", "query", "source", "trace", "workspace"}
-    assert inventory["code"] == ["archive", "describe", "import", "list", "snapshot"]
+    assert inventory["code"] == ["archive", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "quality", "snapshot", "symbols", "trace"]
     assert inventory["graph"] == ["community", "neighbors", "query", "session", "snapshot"]
 
     data_service_routes = {
@@ -262,7 +278,7 @@ def test_v16d1_session_contract_baseline_and_d2_surface_boundaries_remain_explic
         if getattr(route, "path", "").startswith("/api/workspaces")
     }
     target_paths = {path for _, path in data_service_routes}
-    assert len(data_service_routes) == 55
+    assert len(data_service_routes) == 82
     assert "/api/workspaces/{workspace_id}/graph/session" in target_paths
     assert "/api/workspaces/{workspace_id}/sessions" in target_paths
     assert "/api/workspaces/{workspace_id}/sessions/{session_id}" in target_paths
@@ -276,6 +292,13 @@ def test_v16d1_session_contract_baseline_and_d2_surface_boundaries_remain_explic
     assert "/api/workspaces/{workspace_id}/quality/correction-rules/build" in target_paths
     assert "/api/workspaces/{workspace_id}/quality/correction-rules/{rule_id}/review" in target_paths
     assert "/api/workspaces/{workspace_id}/quality/correction-plan" in target_paths
+    assert "/api/workspaces/{workspace_id}/codebases/{codebase_id}/overview" in target_paths
+    assert "/api/workspaces/{workspace_id}/codebases/{codebase_id}/agent/context-pack" in target_paths
+    assert "/api/workspaces/{workspace_id}/codebases/{codebase_id}/agent/context-packs/{pack_id}" in target_paths
+    assert "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph" in target_paths
+    assert "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/neighbors" in target_paths
+    assert "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/mermaid" in target_paths
+    assert "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/summary" in target_paths
     assert not any(
         "/quality" in path
         and path
@@ -285,6 +308,11 @@ def test_v16d1_session_contract_baseline_and_d2_surface_boundaries_remain_explic
             "/api/workspaces/{workspace_id}/quality/correction-rules/build",
             "/api/workspaces/{workspace_id}/quality/correction-rules/{rule_id}/review",
             "/api/workspaces/{workspace_id}/quality/correction-plan",
+            "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/feedback",
+            "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/summary",
+            "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/rules/build",
+            "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/rules/{rule_id}/review",
+            "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/plan",
         }
         for path in target_paths
     )

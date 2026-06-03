@@ -108,7 +108,7 @@ def test_v11be_capability_manifest_source_preview_contract(tmp_path, monkeypatch
 
     assert manifest["workspace_id"] == workspace_id
     assert manifest["schema_version"] == "v1.1-document-units"
-    assert manifest["capabilities"] == {
+    expected_core = {
         "source_preview": True,
         "document_units": True,
         "evidence_spans": True,
@@ -119,6 +119,12 @@ def test_v11be_capability_manifest_source_preview_contract(tmp_path, monkeypatch
         "ocr": False,
         "scanned_pdf_ocr": False,
     }
+    assert {key: manifest["capabilities"].get(key) for key in expected_core} == expected_core
+    assert manifest["capabilities"]["audio_overview"] is False
+    assert manifest["capabilities"]["slide_outline"] is True
+    assert manifest["capabilities"]["pptx_export"] is False
+    assert manifest["capabilities"]["mindmap"] is True
+    assert manifest["capabilities"]["compare"] is True
     assert manifest["supported_source_types"] == [
         {"source_type": "text", "preview": "unit", "locators": []},
         {"source_type": "markdown", "preview": "unit", "locators": ["offset"]},

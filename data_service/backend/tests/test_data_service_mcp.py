@@ -101,6 +101,22 @@ async def test_data_service_mcp_lists_quality_tools():
         "knowledge_codebase_snapshot",
         "knowledge_codebase_describe",
         "knowledge_codebase_archive",
+        "knowledge_project_inventory",
+        "knowledge_code_symbol_search",
+        "knowledge_public_surface_trace",
+        "knowledge_project_overview",
+        "knowledge_agent_context_pack",
+        "knowledge_devwiki_build",
+        "knowledge_devwiki_read",
+        "knowledge_code_graph_build",
+        "knowledge_code_graph_snapshot",
+        "knowledge_code_graph_neighbors",
+        "knowledge_code_graph_mermaid",
+        "knowledge_code_quality_feedback",
+        "knowledge_code_quality_summary",
+        "knowledge_code_quality_rules_build",
+        "knowledge_code_quality_rule_review",
+        "knowledge_code_quality_plan",
     }
 
 
@@ -112,7 +128,7 @@ async def test_data_service_mcp_tool_registry_contract():
     specs = all_tool_specs()
     names = [spec["name"] for spec in specs]
 
-    assert len(names) == 45
+    assert len(names) == 71
     assert len(names) == len(set(names))
     assert set(V2_TOOL_MAP) <= set(names)
     assert set(V2_TOOL_MAP.values()) <= set(names)
@@ -129,6 +145,21 @@ async def test_data_service_mcp_tool_registry_contract():
         "knowledge_codebase_snapshot",
         "knowledge_codebase_describe",
         "knowledge_codebase_archive",
+        "knowledge_project_inventory",
+        "knowledge_code_symbol_search",
+        "knowledge_project_overview",
+        "knowledge_agent_context_pack",
+        "knowledge_code_graph_snapshot",
+        "knowledge_code_graph_neighbors",
+        "knowledge_code_quality_summary",
+        "knowledge_architecture_model_build",
+        "knowledge_architecture_model_read",
+        "knowledge_architecture_alignment",
+        "knowledge_architecture_findings",
+        "knowledge_code_architecture_build",
+        "knowledge_code_architecture_roles",
+        "knowledge_code_architecture_patterns",
+        "knowledge_code_architecture_view",
     } <= set(names)
 
 
@@ -1431,7 +1462,22 @@ def test_phaseg14_quality_cli_stage3_commands_documented():
     assert set(knowledge_action.choices) == {"quality", "query", "workspace", "source", "build", "graph", "trace", "code"}
     code_parser = knowledge_action.choices["code"]
     code_action = next(action for action in code_parser._actions if getattr(action, "choices", None))
-    assert set(code_action.choices) == {"import", "list", "snapshot", "describe", "archive"}
+    assert set(code_action.choices) == {
+        "import",
+        "list",
+        "snapshot",
+        "inventory",
+        "symbols",
+        "trace",
+        "overview",
+        "context-pack",
+            "devwiki",
+            "graph",
+            "quality",
+            "architecture",
+            "describe",
+            "archive",
+        }
     workspace_parser = knowledge_action.choices["workspace"]
     workspace_action = next(action for action in workspace_parser._actions if getattr(action, "choices", None))
     assert set(workspace_action.choices) == {"create", "list", "describe", "archive"}

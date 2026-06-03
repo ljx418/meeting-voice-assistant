@@ -639,8 +639,8 @@
             <h2>公开面证据</h2>
           </div>
           <div class="head-pills">
-            <span class="pill">target HTTP 38</span>
-            <span class="pill">MCP 45</span>
+            <span class="pill">target HTTP 65</span>
+            <span class="pill">MCP 61</span>
             <span class="pill">CLI top-level 8</span>
           </div>
         </div>

@@ -114,7 +114,7 @@ def test_closure_cli_current_accepted_baseline_is_unchanged():
     inventory = _knowledge_cli_inventory()
 
     assert sorted(inventory) == ["build", "code", "graph", "quality", "query", "source", "trace", "workspace"]
-    assert inventory["code"] == ["archive", "describe", "import", "list", "snapshot"]
+    assert inventory["code"] == ["archive", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "quality", "snapshot", "symbols", "trace"]
     assert inventory["graph"] == ["community", "neighbors", "query", "session", "snapshot"]
     assert set(inventory["graph"]) - {"community", "neighbors", "query", "session", "snapshot"} == set()
 

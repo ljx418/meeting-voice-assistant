@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.api.v1.auth import api_key_header, verify_api_key
@@ -36,6 +37,7 @@ from data_service.mcp_common import bounded_int
 from data_service.mcp_common import envelope as _contract_envelope
 from data_service.mcp_source_tools import handle_source_tool
 from data_service.query_contract import normalize_query_top_k, run_query_contract
+from data_service.research_notebook_artifacts import capability_flags as research_notebook_capability_flags
 from data_service.quality_contract import (
     low_signal_audit_payload,
     quality_correction_plan_payload,
@@ -103,6 +105,15 @@ _SOURCE_TYPE_BY_SUFFIX = {
     ".markdown": "markdown",
     ".json": "json",
     ".pdf": "pdf",
+    ".png": "image",
+    ".jpg": "image",
+    ".jpeg": "image",
+    ".tif": "image",
+    ".tiff": "image",
+    ".bmp": "image",
+    ".pbm": "image",
+    ".pgm": "image",
+    ".ppm": "image",
 }
 _SOURCE_PREVIEW_CONTENT_TYPE = {
     "text": "text/plain",
@@ -110,6 +121,7 @@ _SOURCE_PREVIEW_CONTENT_TYPE = {
     "json": "text/plain",
     "pdf": "text/plain",
     "url": "text/plain",
+    "image": "image/*",
 }
 _SOURCE_PREVIEW_SUPPORTED_TYPES = {"text", "markdown", "json", "pdf", "url"}
 _SOURCE_ID_PATTERN = re.compile(r"^src_[A-Fa-f0-9]{16}$")
@@ -804,20 +816,33 @@ def _target_workspace_or_404(workspace_id: str) -> tuple[Path, dict]:
 
 def _stable_source_item(item: dict[str, Any], *, workspace_id: str) -> dict:
     source_id = str(item.get("source_id") or "")
-    return {
+    metadata = dict(item.get("metadata") or {})
+    payload = {
         "workspace_id": workspace_id,
         "source_id": source_id,
         "title": item.get("title") or source_id,
         "status": item.get("status", "active"),
         "ingest_status": item.get("ingest_status") or "pending",
         "source_type": _infer_source_type(item),
-        "metadata": dict(item.get("metadata") or {}),
+        "metadata": metadata,
         "created_at": item.get("created_at") or item.get("imported_at"),
         "updated_at": item.get("updated_at") or item.get("removed_at") or item.get("ingest_updated_at") or item.get("imported_at"),
         "removed_at": item.get("removed_at"),
         "remove_reason": item.get("remove_reason", ""),
         "artifact_ref": f"source://{source_id}" if source_id else None,
     }
+    if payload["source_type"] == "url":
+        payload.update(
+            {
+                "url": metadata.get("original_url") or metadata.get("url") or metadata.get("source_url"),
+                "final_url": metadata.get("source_url") or metadata.get("final_url"),
+                "content_type": metadata.get("content_type"),
+                "block_reason": metadata.get("block_reason"),
+                "import_state": metadata.get("import_state")
+                or ("blocked" if payload["status"] == "blocked" or metadata.get("block_reason") else "ready"),
+            }
+        )
+    return payload
 
 
 def _target_source_items(workspace: Path, *, workspace_id: str, limit: int = 100, status: str | None = None) -> list[dict]:
@@ -866,22 +891,22 @@ def _infer_source_type(record: dict[str, Any]) -> str:
 
 
 def _source_preview_manifest(*, workspace_id: str) -> dict:
+    capabilities = {
+        "source_preview": True,
+        "document_units": True,
+        "evidence_spans": True,
+        "source_level_preview": True,
+        "unit_level_navigation": True,
+        "precise_span_highlight": True,
+        "citation_backjump": True,
+        **research_notebook_capability_flags(),
+    }
     return {
         "workspace_id": workspace_id,
         "service_version": "0.1.0",
         "schema_version": _SOURCE_PREVIEW_SCHEMA_VERSION,
         "generated_at": _now(),
-        "capabilities": {
-            "source_preview": True,
-            "document_units": True,
-            "evidence_spans": True,
-            "source_level_preview": True,
-            "unit_level_navigation": True,
-            "precise_span_highlight": True,
-            "citation_backjump": True,
-            "ocr": False,
-            "scanned_pdf_ocr": False,
-        },
+        "capabilities": capabilities,
         "supported_source_types": [
             {
                 "source_type": "text",
@@ -2269,7 +2294,7 @@ def _safe_upload_file_name(file_name: str) -> str:
     name = Path(str(file_name or "upload")).name
     stem = _slug(Path(name).stem)[:80] or "upload"
     suffix = Path(name).suffix.lower()
-    if suffix not in {".txt", ".text", ".md", ".markdown", ".json", ".pdf"}:
+    if suffix not in {".txt", ".text", ".md", ".markdown", ".json", ".pdf", ".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".pbm", ".pgm", ".ppm"}:
         suffix = ".txt"
     return f"{stem}{suffix}"
 
@@ -2292,19 +2317,102 @@ def _write_target_uploaded_files(workspace: Path, request: TargetSourceImportReq
     return written
 
 
+def _url_block_warning(block_reason: str) -> str:
+    return {
+        "ssrf": "此 URL 指向内部网络，不允许抓取",
+        "private_ip": "此 URL 指向私有网络地址，不允许抓取",
+        "timeout": "此页面加载超时，请稍后重试",
+        "unsupported_content_type": "此页面内容类型不支持，仅支持文本和 PDF",
+        "robots_blocked": "此页面不允许被抓取（robots.txt 限制）",
+        "permission_denied": "此页面需要登录或无权限访问",
+        "paywall": "此页面需要付费订阅，无法抓取",
+    }.get(block_reason, "此 URL 无法安全抓取")
+
+
+def _register_blocked_url_source(workspace: Path, *, workspace_id: str, url_input: TargetUrlSourceRequest, exc: URLSourceImportError) -> dict[str, Any]:
+    manifest_path = _sources_manifest_path(workspace)
+    manifest = _read_json(manifest_path, {"items": []})
+    block_reason = exc.block_reason
+    digest = hashlib.sha256(f"url-blocked:{url_input.url}:{block_reason}".encode("utf-8")).hexdigest()[:16]
+    source_id = f"src_{digest}"
+    now = _now()
+    metadata = {
+        **dict(url_input.metadata or {}),
+        "source_type": "url",
+        "original_url": url_input.url,
+        "source_url": url_input.url,
+        "final_url": url_input.url,
+        "block_reason": block_reason,
+        "import_state": "blocked",
+        "url_import_contract": "public_url_text_v2_5",
+        "blocked_at": now,
+    }
+    updated = None
+    for item in manifest.setdefault("items", []):
+        if item.get("source_id") == source_id:
+            item.update(
+                {
+                    "title": str(url_input.title or item.get("title") or "Blocked URL"),
+                    "status": "blocked",
+                    "metadata": metadata,
+                    "updated_at": now,
+                    "ingest_status": "blocked",
+                }
+            )
+            updated = item
+            break
+    if updated is None:
+        updated = {
+            "source_id": source_id,
+            "sha256": digest,
+            "title": str(url_input.title or "Blocked URL"),
+            "status": "blocked",
+            "path": None,
+            "original_path": None,
+            "metadata": metadata,
+            "imported_at": now,
+            "updated_at": now,
+            "low_signal": {},
+            "ingest_status": "blocked",
+        }
+        manifest.setdefault("items", []).append(updated)
+    _write_json(manifest_path, manifest)
+    return _stable_source_item(updated, workspace_id=workspace_id)
+
+
+def _blocked_url_source_response(workspace: Path, *, workspace_id: str, url_input: TargetUrlSourceRequest, exc: URLSourceImportError) -> JSONResponse:
+    source = _register_blocked_url_source(workspace, workspace_id=workspace_id, url_input=url_input, exc=exc)
+    payload = _target_envelope(
+        workspace_id=workspace_id,
+        status="blocked",
+        warnings=[_url_block_warning(str(source.get("block_reason") or exc.block_reason))],
+        artifact_refs=[_target_source_artifact_ref(str(source["source_id"]))],
+        next_actions=["review_url", "knowledge_source_import"],
+        data={
+            "source": source,
+            "sources": [source],
+            "block_reason": source.get("block_reason"),
+        },
+    )
+    return JSONResponse(status_code=exc.status_code, content=payload)
+
+
 def _url_source_text_records(request: TargetSourceImportRequest) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     for url_input in request.urls:
         try:
             extracted = fetch_url_source_text(url_input.url, title=url_input.title)
         except URLSourceImportError as exc:
-            raise HTTPException(status_code=422, detail=f"{exc.code}: {exc}") from exc
+            setattr(exc, "url_input", url_input)
+            raise
         metadata = {
             **dict(url_input.metadata or {}),
             "source_type": "url",
             "source_url": extracted.final_url,
             "original_url": extracted.url,
+            "final_url": extracted.final_url,
             "content_type": extracted.content_type,
+            "import_state": "ready",
             "url_import_contract": "public_url_text_v1",
             "fetched_at": extracted.fetched_at,
         }
@@ -3307,8 +3415,12 @@ async def archive_target_workspace(workspace_id: str, request: TargetWorkspaceAr
 @target_router.post("/{workspace_id}/sources")
 async def import_target_sources(workspace_id: str, request: TargetSourceImportRequest) -> dict:
     workspace, meta = _target_workspace_or_404(workspace_id)
+    try:
+        url_records = _url_source_text_records(request)
+    except URLSourceImportError as exc:
+        blocked_input = getattr(exc, "url_input", None) or (request.urls[0] if request.urls else TargetUrlSourceRequest(url=""))
+        return _blocked_url_source_response(workspace, workspace_id=meta["workspace_id"], url_input=blocked_input, exc=exc)
     uploaded = _write_target_uploaded_files(workspace, request)
-    url_records = _url_source_text_records(request)
     result = _run_source_tool(
         "knowledge_source_import",
         {

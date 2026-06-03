@@ -1,0 +1,25 @@
+{
+  "capability": "tts",
+  "phase": "V2.5 Phase 39",
+  "selected_provider": "minimax",
+  "decision": "selected_for_implementation",
+  "explicit_provider_required": "TTS_PROVIDER=minimax",
+  "credential_lookup_order": [
+    "TTS_API_KEY",
+    "MINIMAX_API_KEY",
+    "DATA_SERVICE_AI_API_KEY"
+  ],
+  "endpoint_lookup_order": [
+    "TTS_ENDPOINT",
+    "MINIMAX_TTS_ENDPOINT",
+    "MINIMAX_ENDPOINT",
+    "https://api.minimax.io/v1/t2a_v2"
+  ],
+  "model_lookup_order": [
+    "MINIMAX_TTS_MODEL",
+    "TTS_MODEL",
+    "speech-2.8-hd"
+  ],
+  "acceptance_rule": "accepted only after real provider-enabled audio artifact validation; provider-disabled or local espeak output is not external TTS acceptance",
+  "security_rule": "do not print provider secrets, raw provider responses, or local paths"
+}

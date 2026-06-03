@@ -88,7 +88,7 @@ def test_frontend_governance_evidence_is_static_display_only():
     assert "governanceCapabilityEvidence" in contract
     assert "acceptedGraphCliNestedAdditions" in contract
     assert "Current target HTTP" in contract
-    assert "38" in evidence_source
+    assert "65" in evidence_source
     assert "MCP tool count" in contract
     assert "40" in evidence_source
     assert "B overlays +11" in contract
@@ -118,8 +118,8 @@ def test_frontend_governance_evidence_is_static_display_only():
 
     assert "V1.6 Governance Evidence" in page
     assert "公开面证据" in page
-    assert "target HTTP 38" in page
-    assert "MCP 45" in page
+    assert "target HTTP 65" in page
+    assert "MCP 61" in page
     assert "CLI top-level 8" in page
     assert "F2 is display-only console governance evidence polish" in page
     assert "no backend public surface" in page

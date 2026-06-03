@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net" modified="2026-06-03T00:00:00.000Z" agent="Codex" version="24.7.17" pages="5">
+  <diagram id="v25b-gap" name="01 当前vs全量目标差异">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="V2.5 当前状态 vs 原始 PRD 全量目标&#xa;V2.5A 已闭环：本地 provider MVP&#xa;V2.5B 待闭环：Full ResearchNotebook Backend PRD" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;strokeColor=#374151;fontSize=24;fontStyle=1" vertex="1" parent="1"><mxGeometry x="40" y="30" width="1720" height="90" as="geometry"/></mxCell>
+        <mxCell id="current" value="当前已验收 V2.5A&#xa;&#xa;P0 SSRF + block_reason&#xa;provider-disabled fallback&#xa;Slides / Mindmap / Compare deterministic artifacts&#xa;Tesseract image OCR&#xa;espeak-ng WAV audio&#xa;OpenXML PPTX package&#xa;safe artifact descriptors&#xa;&#xa;明确未声称：cloud OCR/TTS、full scanned PDF success、direct binary stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=15;align=left;spacing=14" vertex="1" parent="1"><mxGeometry x="80" y="170" width="700" height="440" as="geometry"/></mxCell>
+        <mxCell id="target" value="V2.5B 全量 PRD 目标&#xa;&#xa;Phase 37 Pre-Gate provider execution contract freeze&#xa;Phase 37 scanned PDF OCR success&#xa;Phase 38 provider adapter contract&#xa;Phase 39 external TTS real run&#xa;Phase 40 external OCR decision/run&#xa;Phase 41 download contract closure&#xa;Phase 42 full PRD coverage audit&#xa;&#xa;目标：所有原始 PRD 项都有 accepted / provider unavailable / out of scope 明确结论" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;align=left;spacing=14" vertex="1" parent="1"><mxGeometry x="1020" y="170" width="700" height="440" as="geometry"/></mxCell>
+        <mxCell id="gap" value="关键差异&#xa;1. 图片 OCR → 扫描 PDF OCR 成功&#xa;2. Provider health name → executable adapter support&#xa;3. Local TTS → 至少一个 external TTS real run 或明确 unavailable&#xa;4. Tesseract-only OCR → cloud OCR 决策和可选真实运行&#xa;5. Safe descriptor → 明确是否需要直接二进制流下载&#xa;6. Phase 36 local closure → Phase 42 full PRD coverage closure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;align=left;spacing=14" vertex="1" parent="1"><mxGeometry x="320" y="710" width="1160" height="240" as="geometry"/></mxCell>
+        <mxCell id="edge" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=3" edge="1" parent="1" source="current" target="target"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v25b-arch" name="02 V2.5B目标架构">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="V2.5B Full PRD Closure 目标架构" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;strokeColor=#374151;fontSize=24;fontStyle=1" vertex="1" parent="1"><mxGeometry x="40" y="30" width="1720" height="70" as="geometry"/></mxCell>
+        <mxCell id="client" value="ResearchNotebook Client&#xa;HTTP 调用&#xa;不是事实源" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14" vertex="1" parent="1"><mxGeometry x="70" y="210" width="230" height="120" as="geometry"/></mxCell>
+        <mxCell id="api" value="ResearchNotebook HTTP API&#xa;thin handlers&#xa;envelope + structured errors" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=14" vertex="1" parent="1"><mxGeometry x="360" y="210" width="260" height="120" as="geometry"/></mxCell>
+        <mxCell id="service" value="Artifact Service Facade&#xa;source evidence&#xa;artifact lifecycle&#xa;download contract" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#475569;fontSize=14" vertex="1" parent="1"><mxGeometry x="690" y="210" width="280" height="140" as="geometry"/></mxCell>
+        <mxCell id="adapter" value="Provider Execution Adapter Interface&#xa;health != execution&#xa;adapter registry&#xa;ProviderError contract" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14" vertex="1" parent="1"><mxGeometry x="1050" y="190" width="300" height="160" as="geometry"/></mxCell>
+        <mxCell id="localocr" value="Local OCR&#xa;Poppler rasterizer&#xa;Tesseract OCR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14" vertex="1" parent="1"><mxGeometry x="1460" y="110" width="230" height="110" as="geometry"/></mxCell>
+        <mxCell id="cloudocr" value="External OCR Decision&#xa;Azure / Google / other&#xa;accepted only with real fixture" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=14" vertex="1" parent="1"><mxGeometry x="1460" y="260" width="230" height="120" as="geometry"/></mxCell>
+        <mxCell id="tts" value="External TTS Adapter&#xa;Minimax candidate if audio API fits&#xa;or Azure / Google / ElevenLabs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14" vertex="1" parent="1"><mxGeometry x="1460" y="410" width="230" height="130" as="geometry"/></mxCell>
+        <mxCell id="pptx" value="PPTX Exporter&#xa;OpenXML integrity&#xa;visual fidelity only if scoped" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14" vertex="1" parent="1"><mxGeometry x="1460" y="570" width="230" height="120" as="geometry"/></mxCell>
+        <mxCell id="store" value="Artifact JSON + Binary Store&#xa;ocr/audio/pptx descriptors&#xa;mime / size / sha256 / lineage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#475569;fontSize=14" vertex="1" parent="1"><mxGeometry x="650" y="650" width="320" height="140" as="geometry"/></mxCell>
+        <mxCell id="public" value="Public Output Boundary&#xa;artifact:// refs&#xa;safe descriptor or stream&#xa;no path/key/traceback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=14" vertex="1" parent="1"><mxGeometry x="1050" y="650" width="320" height="140" as="geometry"/></mxCell>
+        <mxCell id="e1" style="endArrow=block;html=1;strokeColor=#475569;strokeWidth=2" edge="1" parent="1" source="client" target="api"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" style="endArrow=block;html=1;strokeColor=#475569;strokeWidth=2" edge="1" parent="1" source="api" target="service"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" style="endArrow=block;html=1;strokeColor=#475569;strokeWidth=2" edge="1" parent="1" source="service" target="adapter"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" style="endArrow=block;html=1;strokeColor=#475569;strokeWidth=2" edge="1" parent="1" source="adapter" target="localocr"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" style="endArrow=block;html=1;strokeColor=#475569;strokeWidth=2" edge="1" parent="1" source="adapter" target="cloudocr"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" style="endArrow=block;html=1;strokeColor=#475569;strokeWidth=2" edge="1" parent="1" source="adapter" target="tts"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" style="endArrow=block;html=1;strokeColor=#475569;strokeWidth=2" edge="1" parent="1" source="adapter" target="pptx"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" style="endArrow=block;html=1;strokeColor=#475569;strokeWidth=2" edge="1" parent="1" source="service" target="store"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e9" style="endArrow=block;html=1;strokeColor=#475569;strokeWidth=2" edge="1" parent="1" source="store" target="public"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v25b-plan" name="03 Phase37-42开发验收">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="V2.5B Phase 37-42 开发及验收计划" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;strokeColor=#374151;fontSize=24;fontStyle=1" vertex="1" parent="1"><mxGeometry x="40" y="30" width="1720" height="70" as="geometry"/></mxCell>
+        <mxCell id="p37" value="Phase 37 Pre-Gate + Phase 37&#xa;Scanned PDF OCR Success&#xa;&#xa;开发前：冻结 ProviderExecutionResult / ArtifactWriteResult&#xa;开发：真实扫描 PDF fixture / rasterizer / OCR artifact&#xa;验收：自动证明非 embedded text；四路读回一致；fallback 不回退" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;align=left;spacing=12" vertex="1" parent="1"><mxGeometry x="70" y="160" width="270" height="250" as="geometry"/></mxCell>
+        <mxCell id="p38" value="Phase 38&#xa;Provider Adapter Contract&#xa;&#xa;开发：execution adapter registry；health != execution；failure matrix&#xa;验收：known health + no adapter → PROVIDER_UNSUPPORTED；unsupported 不得 fallback local" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;align=left;spacing=12" vertex="1" parent="1"><mxGeometry x="390" y="160" width="270" height="250" as="geometry"/></mxCell>
+        <mxCell id="p39" value="Phase 39&#xa;External TTS Real Run&#xa;&#xa;开发：Minimax 或 Azure/Google/ElevenLabs adapter&#xa;验收：真实音频 binary；size/sha256/mime/duration；bad key/timeout redacted" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;align=left;spacing=12" vertex="1" parent="1"><mxGeometry x="710" y="160" width="270" height="230" as="geometry"/></mxCell>
+        <mxCell id="p40" value="Phase 40&#xa;External OCR Decision/Run&#xa;&#xa;开发：Azure/Google/Minimax OCR 决策；可用则真实运行&#xa;验收：cloud OCR 无 key 只能 unavailable；有 key 必须 real fixture" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=14;align=left;spacing=12" vertex="1" parent="1"><mxGeometry x="1030" y="160" width="270" height="230" as="geometry"/></mxCell>
+        <mxCell id="p41" value="Phase 41&#xa;Download Contract Closure&#xa;&#xa;开发：descriptor-only vs direct stream 决策；错误形态&#xa;验收：mime/size/sha256/status 一致；missing/unauthorized/unsupported format 结构化" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontSize=14;align=left;spacing=12" vertex="1" parent="1"><mxGeometry x="1350" y="160" width="270" height="230" as="geometry"/></mxCell>
+        <mxCell id="p42" value="Phase 42&#xa;Full PRD Closure Audit&#xa;&#xa;开发：coverage matrix / final provider matrix / false-acceptance review&#xa;验收：每个原始 PRD 项都有状态和 evidence；无 fatal/major" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0e7ff;strokeColor=#4f46e5;fontSize=15;align=left;spacing=12" vertex="1" parent="1"><mxGeometry x="480" y="610" width="850" height="220" as="geometry"/></mxCell>
+        <mxCell id="e1" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="p37" target="p38"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="p38" target="p39"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="p39" target="p40"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="p40" target="p41"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="p41" target="p42"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v25b-milestones" name="04 项目里程碑">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="V2.5B 项目宏观里程碑" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;strokeColor=#374151;fontSize=24;fontStyle=1" vertex="1" parent="1"><mxGeometry x="40" y="30" width="1720" height="70" as="geometry"/></mxCell>
+        <mxCell id="m0" value="M0 V2.5A Accepted&#xa;local provider closure&#xa;Phase 36 report" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=13" vertex="1" parent="1"><mxGeometry x="80" y="300" width="200" height="150" as="geometry"/></mxCell>
+        <mxCell id="m1" value="M1 PDF OCR&#xa;scanned PDF success&#xa;or structured unavailable" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=13" vertex="1" parent="1"><mxGeometry x="340" y="300" width="200" height="150" as="geometry"/></mxCell>
+        <mxCell id="m2" value="M2 Adapter Contract&#xa;provider health != execution&#xa;failure matrix" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=13" vertex="1" parent="1"><mxGeometry x="600" y="300" width="200" height="150" as="geometry"/></mxCell>
+        <mxCell id="m3" value="M3 External TTS&#xa;Minimax/Azure/Google/ElevenLabs&#xa;real audio or unavailable" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=13" vertex="1" parent="1"><mxGeometry x="860" y="300" width="200" height="150" as="geometry"/></mxCell>
+        <mxCell id="m4" value="M4 External OCR&#xa;provider decision&#xa;real fixture if accepted" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=13" vertex="1" parent="1"><mxGeometry x="1120" y="300" width="200" height="150" as="geometry"/></mxCell>
+        <mxCell id="m5" value="M5 Download Closure&#xa;descriptor or stream&#xa;contract frozen" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontSize=13" vertex="1" parent="1"><mxGeometry x="1380" y="300" width="200" height="150" as="geometry"/></mxCell>
+        <mxCell id="m6" value="M6 Full PRD Closure&#xa;coverage matrix&#xa;no fatal/major" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0e7ff;strokeColor=#4f46e5;fontSize=14" vertex="1" parent="1"><mxGeometry x="790" y="650" width="240" height="170" as="geometry"/></mxCell>
+        <mxCell id="e1" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="m0" target="m1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="m1" target="m2"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="m2" target="m3"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="m3" target="m4"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="m4" target="m5"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" style="endArrow=block;html=1;strokeColor=#64748b;strokeWidth=2" edge="1" parent="1" source="m5" target="m6"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v25b-gates" name="05 验收门槛及出门条件">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="V2.5B 验收门槛与出门条件" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;strokeColor=#374151;fontSize=24;fontStyle=1" vertex="1" parent="1"><mxGeometry x="40" y="30" width="1720" height="70" as="geometry"/></mxCell>
+        <mxCell id="gate1" value="真实输入门槛&#xa;scanned PDF 必须是真扫描件并自动证明无 embedded text；external TTS 必须有真实 provider audio；cloud OCR accepted 必须有 real fixture；download contract 必须有真实 artifact inspection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;align=left;spacing=14" vertex="1" parent="1"><mxGeometry x="80" y="160" width="500" height="220" as="geometry"/></mxCell>
+        <mxCell id="gate2" value="Provider 门槛&#xa;health name 不等于 execution support；known health + no adapter 必须负向测试；unsupported/missing key/auth/timeout/quota/bad response 均结构化；provider unavailable 不可写成 accepted" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;align=left;spacing=14" vertex="1" parent="1"><mxGeometry x="650" y="160" width="500" height="220" as="geometry"/></mxCell>
+        <mxCell id="gate3" value="安全门槛&#xa;public payload 不泄露 API key、token、endpoint、raw traceback、absolute path；binary 只暴露 artifact:// 或已批准 stream URL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=15;align=left;spacing=14" vertex="1" parent="1"><mxGeometry x="1220" y="160" width="500" height="220" as="geometry"/></mxCell>
+        <mxCell id="gate4" value="兼容门槛&#xa;V2.5A local provider suite 继续通过；provider-disabled fallback 继续通过；Slides/Mindmap/Compare real-doc artifacts 不回退" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;align=left;spacing=14" vertex="1" parent="1"><mxGeometry x="80" y="460" width="500" height="220" as="geometry"/></mxCell>
+        <mxCell id="gate5" value="虚假验收拒绝&#xa;embedded-text PDF 冒充 scanned OCR；empty audio；JSON 改名 PPTX；mock-only provider success；skipped provider test counted as accepted；descriptor-only claimed as stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontSize=15;align=left;spacing=14" vertex="1" parent="1"><mxGeometry x="650" y="460" width="500" height="220" as="geometry"/></mxCell>
+        <mxCell id="exit" value="Full PRD 出门条件&#xa;1. Phase 37 Pre-Gate + Phase 37-42 reports exist&#xa;2. PRD coverage matrix complete 且字段齐全&#xa;3. accepted rows all have evidence&#xa;4. provider unavailable rows explicit&#xa;5. 每阶段 provider matrix 更新&#xa;6. V2.5A regression 全阶段保留&#xa;7. no fatal/major finding&#xa;8. no accepted claim depends on mock-only evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0e7ff;strokeColor=#4f46e5;fontSize=16;align=left;spacing=16" vertex="1" parent="1"><mxGeometry x="1220" y="460" width="500" height="300" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

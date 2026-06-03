@@ -102,6 +102,8 @@ async def test_v2_codebase_mcp_tool_registered():
         "knowledge_codebase_snapshot",
         "knowledge_codebase_describe",
         "knowledge_codebase_archive",
+        "knowledge_project_overview",
+        "knowledge_agent_context_pack",
     } <= {spec["name"] for spec in specs}
     tools = await mcp_stdio.list_tools()
     assert {
@@ -110,4 +112,6 @@ async def test_v2_codebase_mcp_tool_registered():
         "knowledge_codebase_snapshot",
         "knowledge_codebase_describe",
         "knowledge_codebase_archive",
+        "knowledge_project_overview",
+        "knowledge_agent_context_pack",
     } <= {tool.name for tool in tools}

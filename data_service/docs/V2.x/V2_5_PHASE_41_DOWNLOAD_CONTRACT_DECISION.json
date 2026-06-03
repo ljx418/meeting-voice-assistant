@@ -1,0 +1,23 @@
+{
+  "phase": "V2.5 Phase 41",
+  "contract": "descriptor_only",
+  "recommended_contract": "descriptor_only",
+  "direct_stream_status": "out_of_scope_for_v2_5",
+  "decision_reason": "V2.5 closure selects descriptor-only as the explicit artifact download contract. Existing V2.5 artifacts expose safe artifact descriptors with artifact:// refs and binary metadata. Direct binary streaming is not implemented or accepted in V2.5 unless a later product/API decision reopens it.",
+  "required_descriptor_checks": [
+    "artifact ref uses artifact://",
+    "no local filesystem path",
+    "mime_type matches artifact type",
+    "size_bytes matches stored binary",
+    "sha256 matches stored binary",
+    "status is structured"
+  ],
+  "coverage_matrix_status": {
+    "artifact_download_descriptor": "accepted",
+    "direct_binary_streaming": "out of scope for V2.5"
+  },
+  "open_questions": [
+    "If a later version requires direct stream, what authorization and expiry semantics apply?",
+    "If a later version requires direct stream, should range requests be supported?"
+  ]
+}

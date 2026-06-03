@@ -1,0 +1,33 @@
+{
+  "capability": "ocr",
+  "phase": "V2.5 Phase 40",
+  "candidates": ["minimax", "azure", "google", "none"],
+  "selected_provider": "none",
+  "decision": "provider_unavailable",
+  "reason": "No usable cloud OCR provider, key, endpoint family, and response schema have been selected for V2.5 closure. Minimax is accepted only for TTS in the current configuration and must not be inferred as OCR-capable.",
+  "provider_endpoint_family": null,
+  "auth_mode": null,
+  "expected_response_schema": null,
+  "real_fixture_evidence": [],
+  "unsupported_providers": [
+    {
+      "provider": "minimax",
+      "reason": "Current accepted Minimax evidence is TTS-only. No Minimax OCR endpoint/schema/fixture run has been verified."
+    },
+    {
+      "provider": "azure",
+      "reason": "No configured Azure OCR credential and no provider-enabled fixture run for V2.5 closure."
+    },
+    {
+      "provider": "google",
+      "reason": "No configured Google OCR credential and no provider-enabled fixture run for V2.5 closure."
+    }
+  ],
+  "acceptance_status": "provider_unavailable",
+  "coverage_matrix_status": "provider unavailable",
+  "security_notes": [
+    "Do not infer OCR support from Minimax TTS support.",
+    "Do not mark cloud OCR accepted without real provider-enabled fixture evidence.",
+    "Local Tesseract image/scanned-PDF OCR remains the accepted OCR execution path for V2.5 unless a cloud OCR provider is separately selected and tested."
+  ]
+}

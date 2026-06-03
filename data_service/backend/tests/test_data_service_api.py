@@ -838,7 +838,22 @@ def test_phaseg27_knowledge_entrypoint_exposes_build_write_aliases_only():
 
     code_parser = subparser_action.choices["code"]
     code_action = next(action for action in code_parser._actions if getattr(action, "choices", None))
-    assert set(code_action.choices) == {"import", "list", "snapshot", "describe", "archive"}
+    assert set(code_action.choices) == {
+        "import",
+        "list",
+        "snapshot",
+        "inventory",
+        "symbols",
+        "trace",
+        "overview",
+        "context-pack",
+        "devwiki",
+        "graph",
+        "quality",
+        "describe",
+        "archive",
+        "architecture",
+    }
 
     data_service_parser = cli_module._build_parser()
     data_service_action = next(action for action in data_service_parser._actions if getattr(action, "choices", None))

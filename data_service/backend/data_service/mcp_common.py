@@ -12,6 +12,23 @@ from pathlib import Path
 from typing import Any
 
 
+PUBLIC_PROVIDER_ERROR_CODES = {
+    "PROVIDER_NOT_CONFIGURED",
+    "PROVIDER_UNSUPPORTED",
+    "PROVIDER_MISSING_CREDENTIAL",
+    "PROVIDER_AUTH_FAILED",
+    "PROVIDER_TIMEOUT",
+    "PROVIDER_QUOTA_EXCEEDED",
+    "PROVIDER_UNAVAILABLE",
+    "PROVIDER_BAD_RESPONSE",
+    "PROVIDER_EXECUTION_FAILED",
+    "PROVIDER_OUTPUT_INVALID",
+    "EXPORTER_NOT_CONFIGURED",
+    "EXPORTER_UNSUPPORTED",
+    "PDF_RASTERIZER_UNAVAILABLE",
+}
+
+
 def now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
@@ -155,6 +172,9 @@ def _sanitize_external_payload(value: Any) -> Any:
         if key == "debug_paths":
             debug_paths.update(dict(item or {}))
             continue
+        if key == "v2" and isinstance(item, dict):
+            result[key] = _sanitize_v2_payload(item)
+            continue
         if key == "artifact_refs":
             result[key] = [_artifact_ref(ref) for ref in list(item or [])]
             continue
@@ -182,6 +202,20 @@ def _sanitize_external_payload(value: Any) -> Any:
     return result
 
 
+def _sanitize_v2_payload(value: dict[str, Any]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, item in value.items():
+        if key == "error" and isinstance(item, dict):
+            result[key] = {
+                "code": str(item.get("code") or "ERROR"),
+                "message": str(item.get("message") or ""),
+                "retryable": bool(item.get("retryable", False)),
+            }
+            continue
+        result[key] = _sanitize_external_payload(item)
+    return result
+
+
 def _normalize_error(
     error: Any,
     *,
@@ -197,7 +231,7 @@ def _normalize_error(
         payload = {}
     message = str(payload.get("message") or fallback_message or fallback_code)
     code = str(payload.get("code") or payload.get("type") or _infer_error_code(message, fallback_code=fallback_code))
-    payload["code"] = _slug_code(code)
+    payload["code"] = code if code in PUBLIC_PROVIDER_ERROR_CODES else _slug_code(code)
     payload["message"] = message
     payload["retryable"] = bool(payload.get("retryable", retryable))
     payload.pop("type", None)

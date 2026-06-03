@@ -92,7 +92,7 @@ Updated docs:
 - `docs/V1.6/target-architecture.md`
 - `docs/V1.6/target-http-routes-plan.md`
 - `docs/V1.6/public-surface-baseline.md`
-- `docs/data_service/README.md`
+- `docs/V1.x/data_service/README.md`
 
 V1.5 baseline JSON was not modified. F remains planned, not implemented.
 

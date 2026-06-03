@@ -55,13 +55,62 @@ EXPECTED_TARGET_ROUTES = {
     ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots/{snapshot_id}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/inventory"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/inventory"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/surfaces"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/capabilities"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/symbols"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/symbols"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/symbols/{symbol_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/imports"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/trace/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/trace/surface/{surface_id:path}"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/trace/capability/{capability_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/trace/evidence"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/overview"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/agent/context-pack"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/agent/context-packs/{pack_id}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/devwiki/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/devwiki/pages"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/devwiki/pages/{page_slug}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/neighbors"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/mermaid"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/feedback"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/summary"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/rules/build"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/rules/{rule_id}/review"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/plan"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/sources/scan"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/build"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/roles"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/patterns"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/views/{view_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/model"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/alignment"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/findings"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/views/{view_id}"),
     ("GET", "/api/workspaces/{workspace_id}/guide"),
     ("POST", "/api/workspaces/{workspace_id}/studio/artifacts"),
+    ("GET", "/api/workspaces/{workspace_id}/artifacts"),
+    ("POST", "/api/workspaces/{workspace_id}/artifacts/audio"),
+    ("POST", "/api/workspaces/{workspace_id}/artifacts/slides"),
+    ("POST", "/api/workspaces/{workspace_id}/artifacts/slides/export"),
+    ("POST", "/api/workspaces/{workspace_id}/artifacts/mindmap"),
+    ("POST", "/api/workspaces/{workspace_id}/artifacts/compare"),
+    ("GET", "/api/workspaces/{workspace_id}/artifacts/{artifact_id}"),
+    ("DELETE", "/api/workspaces/{workspace_id}/artifacts/{artifact_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/artifacts/{artifact_id}/status"),
+    ("GET", "/api/workspaces/{workspace_id}/artifacts/{artifact_id}/download"),
     ("POST", "/api/workspaces/{workspace_id}/research"),
     ("POST", "/api/workspaces/{workspace_id}/folder-collections/scan"),
     ("POST", "/api/workspaces/{workspace_id}/workflows/folder-summary/runs"),
     ("POST", "/api/workspaces/{workspace_id}/agent-workflows/draft"),
     ("GET", "/api/workspaces/{workspace_id}/sources/{source_id:path}/trace"),
+    ("POST", "/api/workspaces/{workspace_id}/sources/{source_id}/ocr"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/ocr/status"),
     ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/preview"),
     ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/units"),
     ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/units/{unit_id}"),
@@ -80,6 +129,32 @@ V2_CODEBASE_MCP_TOOLS = {
     "knowledge_codebase_snapshot",
     "knowledge_codebase_describe",
     "knowledge_codebase_archive",
+    "knowledge_project_inventory",
+    "knowledge_code_symbol_search",
+    "knowledge_public_surface_trace",
+    "knowledge_project_overview",
+    "knowledge_agent_context_pack",
+    "knowledge_devwiki_build",
+    "knowledge_devwiki_read",
+    "knowledge_code_graph_build",
+    "knowledge_code_graph_snapshot",
+    "knowledge_code_graph_neighbors",
+    "knowledge_code_graph_mermaid",
+    "knowledge_code_quality_feedback",
+    "knowledge_code_quality_summary",
+    "knowledge_code_quality_rules_build",
+    "knowledge_code_quality_rule_review",
+    "knowledge_code_quality_plan",
+    "knowledge_architecture_sources_scan",
+    "knowledge_architecture_model_build",
+    "knowledge_architecture_model_read",
+    "knowledge_architecture_alignment",
+    "knowledge_architecture_findings",
+    "knowledge_architecture_view",
+    "knowledge_code_architecture_build",
+    "knowledge_code_architecture_roles",
+    "knowledge_code_architecture_patterns",
+    "knowledge_code_architecture_view",
 }
 FORBIDDEN_CONTRACT_KEYS = {
     "workspace_path",
@@ -180,7 +255,7 @@ def _write_session_graph(root: Path, workspace_id: str, session_id: str) -> None
 
 def test_v16d3_d4_d5_d6_surface_accepts_e_quality_minimal_routes_only():
     assert _target_routes() == EXPECTED_TARGET_ROUTES
-    assert len(_target_routes()) == 55
+    assert len(_target_routes()) == 104
 
     paths = {path for _, path in _target_routes()}
     assert "/api/workspaces/{workspace_id}/sessions/{session_id}/ingest" in paths
@@ -197,13 +272,13 @@ def test_v16d3_d4_d5_d6_surface_accepts_e_quality_minimal_routes_only():
     assert not any("/quality/corrections/build" in path for path in paths)
 
     tools = {spec["name"] for spec in all_tool_specs()}
-    assert len(tools) == 45
+    assert len(tools) == 71
     assert SESSION_MCP_TOOLS <= tools
     assert V2_CODEBASE_MCP_TOOLS <= tools
 
     inventory = _cli_inventory()
     assert set(inventory) == {"build", "code", "graph", "quality", "query", "source", "trace", "workspace"}
-    assert inventory["code"] == ["archive", "describe", "import", "list", "snapshot"]
+    assert inventory["code"] == ["architecture", "archive", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "quality", "snapshot", "symbols", "trace"]
     assert inventory["graph"] == ["community", "neighbors", "query", "session", "snapshot"]
 
 

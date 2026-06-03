@@ -97,4 +97,4 @@ python3 -m pytest backend/tests/test_data_service.py backend/tests/test_data_ser
 cd frontend && npm run build
 ```
 
-See [docs/data_service/README.md](docs/data_service/README.md) for the current architecture, roadmap, and acceptance plan.
+See [docs/V1.x/data_service/README.md](docs/V1.x/data_service/README.md) for the V1.x architecture, roadmap, and acceptance plan.

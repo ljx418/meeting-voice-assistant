@@ -31,10 +31,38 @@ V2_CODEBASE_TOOLS = {
     "knowledge_codebase_import",
     "knowledge_codebase_list",
     "knowledge_codebase_snapshot",
+    "knowledge_project_inventory",
     "knowledge_codebase_describe",
     "knowledge_codebase_archive",
+    "knowledge_code_symbol_search",
+    "knowledge_public_surface_trace",
+    "knowledge_project_overview",
+    "knowledge_agent_context_pack",
+    "knowledge_devwiki_build",
+    "knowledge_devwiki_read",
+    "knowledge_code_graph_build",
+    "knowledge_code_graph_snapshot",
+    "knowledge_code_graph_neighbors",
+    "knowledge_code_graph_mermaid",
+    "knowledge_code_quality_feedback",
+    "knowledge_code_quality_summary",
+    "knowledge_code_quality_rules_build",
+    "knowledge_code_quality_rule_review",
+    "knowledge_code_quality_plan",
+    "knowledge_architecture_sources_scan",
+    "knowledge_architecture_model_build",
+    "knowledge_architecture_model_read",
+    "knowledge_architecture_alignment",
+    "knowledge_architecture_findings",
+    "knowledge_architecture_view",
+    "knowledge_code_architecture_build",
+    "knowledge_code_architecture_roles",
+    "knowledge_code_architecture_patterns",
+    "knowledge_code_architecture_view",
 }
 V2_TARGET_ROUTE_ADDITIONS = {
+    ("POST", "/api/ocr/provider/health"),
+    ("POST", "/api/tts/provider/health"),
     ("GET", "/api/workspaces/-/ai-provider/health"),
     ("GET", "/api/workspaces/{workspace_id}/capabilities"),
     ("GET", "/api/workspaces/{workspace_id}/codebases"),
@@ -44,12 +72,61 @@ V2_TARGET_ROUTE_ADDITIONS = {
     ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/snapshots/{snapshot_id}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/inventory"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/inventory"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/surfaces"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/capabilities"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/symbols"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/symbols"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/symbols/{symbol_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/imports"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/trace/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/trace/surface/{surface_id:path}"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/trace/capability/{capability_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/trace/evidence"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/overview"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/agent/context-pack"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/agent/context-packs/{pack_id}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/devwiki/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/devwiki/pages"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/devwiki/pages/{page_slug}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/neighbors"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/mermaid"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/feedback"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/summary"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/rules/build"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/rules/{rule_id}/review"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/quality/plan"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/sources/scan"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/build"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/roles"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/patterns"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/views/{view_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/model"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/alignment"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/findings"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/views/{view_id}"),
     ("GET", "/api/workspaces/{workspace_id}/guide"),
     ("POST", "/api/workspaces/{workspace_id}/studio/artifacts"),
+    ("GET", "/api/workspaces/{workspace_id}/artifacts"),
+    ("POST", "/api/workspaces/{workspace_id}/artifacts/audio"),
+    ("POST", "/api/workspaces/{workspace_id}/artifacts/slides"),
+    ("POST", "/api/workspaces/{workspace_id}/artifacts/slides/export"),
+    ("POST", "/api/workspaces/{workspace_id}/artifacts/mindmap"),
+    ("POST", "/api/workspaces/{workspace_id}/artifacts/compare"),
+    ("GET", "/api/workspaces/{workspace_id}/artifacts/{artifact_id}"),
+    ("DELETE", "/api/workspaces/{workspace_id}/artifacts/{artifact_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/artifacts/{artifact_id}/status"),
+    ("GET", "/api/workspaces/{workspace_id}/artifacts/{artifact_id}/download"),
     ("POST", "/api/workspaces/{workspace_id}/research"),
     ("POST", "/api/workspaces/{workspace_id}/folder-collections/scan"),
     ("POST", "/api/workspaces/{workspace_id}/workflows/folder-summary/runs"),
     ("POST", "/api/workspaces/{workspace_id}/agent-workflows/draft"),
+    ("POST", "/api/workspaces/{workspace_id}/sources/{source_id}/ocr"),
+    ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/ocr/status"),
     ("GET", "/api/workspaces/{workspace_id}/sources/{source_id:path}/trace"),
     ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/preview"),
     ("GET", "/api/workspaces/{workspace_id}/sources/{source_id}/units"),
@@ -94,7 +171,13 @@ def _data_service_http_routes() -> set[tuple[str, str]]:
     routes = set()
     for route in app.routes:
         path = getattr(route, "path", "")
-        if not (path.startswith("/api/v1/knowledge/") or path == "/api/workspaces" or path.startswith("/api/workspaces/")):
+        if not (
+            path.startswith("/api/v1/knowledge/")
+            or path == "/api/workspaces"
+            or path.startswith("/api/workspaces/")
+            or path.startswith("/api/ocr/")
+            or path.startswith("/api/tts/")
+        ):
             continue
         for method in sorted(set(getattr(route, "methods", None) or []) - IGNORED_HTTP_METHODS):
             routes.add((method.upper(), path))
@@ -150,7 +233,7 @@ def test_v16a_knowledge_cli_parser_matches_v15_public_surface_baseline():
             expected_nested[command] = sorted(set(expected_nested[command]) | set(additions or []))
 
     assert set(current_inventory) == set(baseline["top_level_commands"]) | {"code"}
-    expected_nested["code"] = ["archive", "describe", "import", "list", "snapshot"]
+    expected_nested["code"] = ["architecture", "archive", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "quality", "snapshot", "symbols", "trace"]
     assert current_inventory == expected_nested
 
 
@@ -165,7 +248,14 @@ def test_v16_current_http_route_inventory_matches_v15_baseline_plus_accepted_ove
     expected_compat = _as_route_set(baseline["compatibility_http"]["routes"])
     expected_current_target = expected_target | allowed_target_additions | V2_TARGET_ROUTE_ADDITIONS
 
-    current_target = {route for route in current_routes if route[1] == "/api/workspaces" or route[1].startswith("/api/workspaces/")}
+    current_target = {
+        route
+        for route in current_routes
+        if route[1] == "/api/workspaces"
+        or route[1].startswith("/api/workspaces/")
+        or route[1].startswith("/api/ocr/")
+        or route[1].startswith("/api/tts/")
+    }
     current_compat = {route for route in current_routes if route[1].startswith(baseline["compatibility_http"]["required_prefix"])}
 
     assert current_compat
@@ -186,14 +276,20 @@ def test_v16_current_http_route_inventory_matches_v15_baseline_plus_accepted_ove
     allowed_addition_paths = {path for _, path in allowed_additions}
     for method, path in current_target - expected_target:
         assert path in allowed_addition_paths
-        if "/quality" in path:
+        if "/quality" in path and "/codebases" not in path:
             assert path in allowed_quality_target_paths
+        if "/codebases" in path and "/quality" in path:
+            assert (method, path) in V2_TARGET_ROUTE_ADDITIONS
         if "/graph" in path:
             assert path in {
                 "/api/workspaces/{workspace_id}/graph/neighbors",
                 "/api/workspaces/{workspace_id}/graph/community",
                 "/api/workspaces/{workspace_id}/graph/query",
                 "/api/workspaces/{workspace_id}/graph/session",
+                "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/build",
+                "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph",
+                "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/neighbors",
+                "/api/workspaces/{workspace_id}/codebases/{codebase_id}/graph/mermaid",
             }
         if "/codebases" in path:
             assert (method, path) in V2_TARGET_ROUTE_ADDITIONS

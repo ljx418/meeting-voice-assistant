@@ -15,9 +15,11 @@ from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 
 class URLSourceImportError(ValueError):
-    def __init__(self, code: str, message: str):
+    def __init__(self, code: str, message: str, *, block_reason: str | None = None, status_code: int | None = None):
         super().__init__(message)
         self.code = code
+        self.block_reason = block_reason or _default_block_reason(code)
+        self.status_code = status_code or _default_status_code(self.block_reason)
 
 
 @dataclass(frozen=True)
@@ -82,30 +84,51 @@ def _collapse_text(value: str) -> str:
     return "\n".join(lines).strip()
 
 
-def _hostname_is_blocked(hostname: str) -> bool:
+def _default_block_reason(code: str) -> str:
+    return {
+        "url_security_blocked": "ssrf",
+        "private_ip_blocked": "private_ip",
+        "fetch_timeout": "timeout",
+        "unsupported_content_type": "unsupported_content_type",
+        "robots_or_permission_blocked": "permission_denied",
+        "paywall": "paywall",
+    }.get(code, "ssrf")
+
+
+def _default_status_code(block_reason: str) -> int:
+    return {
+        "ssrf": 400,
+        "private_ip": 400,
+        "timeout": 408,
+        "unsupported_content_type": 415,
+        "robots_blocked": 403,
+        "permission_denied": 403,
+        "paywall": 402,
+    }.get(block_reason, 400)
+
+
+def _hostname_block_reason(hostname: str) -> str | None:
     normalized = hostname.strip().lower().rstrip(".")
     if not normalized or normalized == "localhost" or normalized.endswith(".localhost"):
-        return True
+        return "ssrf"
     try:
         address = ipaddress.ip_address(normalized)
     except ValueError:
-        return False
-    return _ip_is_blocked(address)
+        return None
+    return _ip_block_reason(address)
 
 
-def _ip_is_blocked(address: ipaddress._BaseAddress) -> bool:
+def _ip_block_reason(address: ipaddress._BaseAddress) -> str | None:
     if str(address) == "169.254.169.254":
-        return True
-    return any(
-        [
-            address.is_private,
-            address.is_loopback,
-            address.is_link_local,
-            address.is_multicast,
-            address.is_reserved,
-            address.is_unspecified,
-        ]
-    )
+        return "ssrf"
+    if address.is_loopback or address.is_link_local or address.is_multicast or address.is_reserved or address.is_unspecified:
+        return "ssrf"
+    if address.is_private:
+        text = str(address)
+        if text.startswith("10."):
+            return "ssrf"
+        return "private_ip"
+    return None
 
 
 def _resolve_host_ips(hostname: str, port: int | None) -> Iterable[ipaddress._BaseAddress]:
@@ -118,17 +141,31 @@ def _resolve_host_ips(hostname: str, port: int | None) -> Iterable[ipaddress._Ba
 def validate_public_url(url: str) -> str:
     parsed = urlparse(str(url or "").strip())
     if parsed.scheme.lower() not in {"http", "https"}:
-        raise URLSourceImportError("url_security_blocked", "URL must use http or https.")
+        raise URLSourceImportError("url_security_blocked", "URL must use http or https.", block_reason="ssrf")
     hostname = parsed.hostname or ""
-    if _hostname_is_blocked(hostname):
-        raise URLSourceImportError("url_security_blocked", "URL host is not allowed.")
+    host_reason = _hostname_block_reason(hostname)
+    if host_reason:
+        raise URLSourceImportError(_block_code(host_reason), "URL host is not allowed.", block_reason=host_reason)
     try:
         addresses = list(_resolve_host_ips(hostname, parsed.port))
     except (OSError, ValueError) as exc:
-        raise URLSourceImportError("unsupported_site", "URL host could not be resolved.") from exc
-    if not addresses or any(_ip_is_blocked(address) for address in addresses):
-        raise URLSourceImportError("url_security_blocked", "URL resolves to a blocked network address.")
+        raise URLSourceImportError("permission_denied", "URL host could not be resolved.", block_reason="permission_denied") from exc
+    blocked_reasons = [reason for address in addresses if (reason := _ip_block_reason(address))]
+    if not addresses or blocked_reasons:
+        reason = "ssrf" if "ssrf" in blocked_reasons else "private_ip"
+        raise URLSourceImportError(_block_code(reason), "URL resolves to a blocked network address.", block_reason=reason)
     return parsed.geturl()
+
+
+def _block_code(block_reason: str) -> str:
+    return {
+        "private_ip": "private_ip_blocked",
+        "timeout": "timeout",
+        "unsupported_content_type": "unsupported_content_type",
+        "robots_blocked": "robots_blocked",
+        "permission_denied": "permission_denied",
+        "paywall": "paywall",
+    }.get(block_reason, "ssrf_blocked")
 
 
 def _extract_text(raw: bytes, *, content_type: str, fallback_title: str) -> tuple[str, str]:
@@ -182,25 +219,31 @@ def fetch_url_source_text(
                     raise URLSourceImportError("extraction_failed", "URL exceeded redirect limit.") from exc
                 current_url = validate_public_url(urljoin(current_url, location))
                 continue
-            if exc.code in {401, 403, 451}:
-                raise URLSourceImportError("robots_or_permission_blocked", "URL is blocked by permission or policy.") from exc
-            raise URLSourceImportError("extraction_failed", f"URL fetch failed with HTTP {exc.code}.") from exc
+            if exc.code == 402:
+                raise URLSourceImportError("paywall", "URL requires paid access.", block_reason="paywall") from exc
+            if exc.code == 451:
+                raise URLSourceImportError("robots_blocked", "URL is blocked by policy.", block_reason="robots_blocked") from exc
+            if exc.code in {401, 403}:
+                raise URLSourceImportError("permission_denied", "URL is blocked by permission or policy.", block_reason="permission_denied") from exc
+            raise URLSourceImportError("permission_denied", f"URL fetch failed with HTTP {exc.code}.", block_reason="permission_denied") from exc
         except TimeoutError as exc:
-            raise URLSourceImportError("fetch_timeout", "URL fetch timed out.") from exc
+            raise URLSourceImportError("timeout", "URL fetch timed out.", block_reason="timeout") from exc
         except URLError as exc:
             reason = getattr(exc, "reason", None)
             if isinstance(reason, TimeoutError):
-                raise URLSourceImportError("fetch_timeout", "URL fetch timed out.") from exc
-            raise URLSourceImportError("unsupported_site", "URL could not be fetched.") from exc
+                raise URLSourceImportError("timeout", "URL fetch timed out.", block_reason="timeout") from exc
+            raise URLSourceImportError("permission_denied", "URL could not be fetched.", block_reason="permission_denied") from exc
         break
 
     content_type = response.headers.get("Content-Type", "text/html")
     media_type = content_type.split(";", 1)[0].strip().lower()
-    if media_type not in {"text/html", "text/plain", "application/xhtml+xml"}:
-        raise URLSourceImportError("unsupported_site", f"Unsupported content type: {media_type or 'unknown'}.")
+    if not (media_type.startswith("text/") or media_type in {"application/xhtml+xml", "application/pdf"}):
+        raise URLSourceImportError("unsupported_content_type", f"Unsupported content type: {media_type or 'unknown'}.", block_reason="unsupported_content_type")
+    if media_type == "application/pdf":
+        raise URLSourceImportError("ocr_required", "URL PDF extraction requires OCR or PDF ingestion support.", block_reason="unsupported_content_type")
     raw = response.read(max_response_size + 1)
     if len(raw) > max_response_size:
-        raise URLSourceImportError("extraction_failed", "URL response is larger than max_response_size.")
+        raise URLSourceImportError("unsupported_content_type", "URL response is larger than max_response_size.", block_reason="unsupported_content_type")
     extracted_title, extracted_text = _extract_text(raw, content_type=content_type, fallback_title=title or current_url)
     if not extracted_text:
         raise URLSourceImportError("extraction_failed", "No readable text was extracted from URL.")

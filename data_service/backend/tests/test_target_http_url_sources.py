@@ -131,9 +131,17 @@ def test_v16a_url_source_import_rejects_unsafe_url(tmp_path, monkeypatch):
         json={"urls": [{"title": "Localhost", "url": "http://127.0.0.1:8003/"}]},
     )
 
-    assert response.status_code == 422
-    assert "url_security_blocked" in response.text
-    _assert_no_internal_paths(response.json())
+    assert response.status_code == 400
+    payload = response.json()
+    source = payload["data"]["source"]
+    assert source["source_type"] == "url"
+    assert source["import_state"] == "blocked"
+    assert source["block_reason"] == "ssrf"
+    assert payload["data"]["block_reason"] == "ssrf"
+    detail = client.get(f"/api/workspaces/{workspace_id}/sources/{source['source_id']}")
+    assert detail.status_code == 200
+    assert detail.json()["data"]["source"]["block_reason"] == "ssrf"
+    _assert_no_internal_paths(payload)
 
 
 def test_v16a_url_source_import_returns_stable_extraction_error(tmp_path, monkeypatch):
@@ -150,6 +158,9 @@ def test_v16a_url_source_import_returns_stable_extraction_error(tmp_path, monkey
         json={"urls": [{"title": "Blocked", "url": "https://example.com/private"}]},
     )
 
-    assert response.status_code == 422
-    assert "robots_or_permission_blocked" in response.text
-    _assert_no_internal_paths(response.json())
+    assert response.status_code == 403
+    payload = response.json()
+    assert payload["status"] == "blocked"
+    assert payload["data"]["source"]["block_reason"] == "permission_denied"
+    assert payload["data"]["source"]["import_state"] == "blocked"
+    _assert_no_internal_paths(payload)
