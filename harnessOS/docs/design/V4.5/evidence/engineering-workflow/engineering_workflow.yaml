@@ -1,0 +1,30 @@
+metadata:
+  workflow_spec_id: v45_long_running_engineering_workflow
+  stage: V4.5 Long-Running Engineering Workflow MVP
+stages:
+  - stage_id: product_planning
+    quality_gate: false
+  - stage_id: specification
+    quality_gate: false
+  - stage_id: project_blueprint
+    quality_gate: false
+  - stage_id: architecture_review
+    quality_gate: true
+  - stage_id: substage_plan_audit
+    quality_gate: false
+  - stage_id: substage_architecture_review
+    quality_gate: false
+  - stage_id: implementation_run
+    quality_gate: false
+  - stage_id: development_acceptance
+    quality_gate: false
+  - stage_id: code_review
+    quality_gate: true
+  - stage_id: e2e_acceptance
+    quality_gate: true
+  - stage_id: human_confirmation
+    quality_gate: true
+governance:
+  user_confirmed_required: true
+  source_agent_can_mutate: false
+  real_code_modification: false

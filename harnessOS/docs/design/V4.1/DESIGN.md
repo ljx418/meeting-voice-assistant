@@ -1,16 +1,20 @@
 # HarnessOS Workflow Studio Design System
 
-Status: V4.x prototype visual guideline, anchored on the V4.1 Workflow Studio PRD.
+Status: V4.x prototype visual guideline, anchored on the V4.1 Workflow Studio PRD and updated for the Headless-first V4 roadmap.
 
 Purpose: keep all Stitch-generated HarnessOS Workflow Studio prototype screens visually consistent and aligned with `harnessos_v4_1_workflow_studio_prd.md`.
 
 This document is for prototype generation and design review. It is not a runtime implementation contract.
 
+Headless-first product update:
+
+V4.x no longer treats a full Web low-code Studio as the current mainline. The Web surface should be designed as Thin Web Console / Reference UI for observing workflow board state, opening Drawio and HTML reports, reviewing artifacts/quality/evidence, and triggering explicit user-confirmed operations. TUI / Command Palette, Drawio, and HTML reports are first-class product heads.
+
 ## 1. Product Feel
 
-HarnessOS Workflow Studio should feel like a professional low-code AI workflow workbench.
+HarnessOS Workflow Studio / Thin Web Console should feel like a professional AI workflow operating workbench.
 
-The product is not a pure chatbot, not a traditional dashboard, and not a dark hacker console. It combines:
+The product is not a pure chatbot, not a traditional dashboard, not a dark hacker console, and not currently a full low-code Studio mainline. It combines:
 
 - low-code canvas
 - Agent workflow assistant
@@ -18,12 +22,15 @@ The product is not a pure chatbot, not a traditional dashboard, and not a dark h
 - artifact viewer
 - quality panel
 - governance evidence panel
+- Drawio / HTML report launcher
+- TUI transcript and command handoff review
 
 The visual direction should be:
 
 - modern SaaS
 - light theme
-- low-code workbench
+- headless-first workbench
+- thin Web Console
 - ComfyUI-like canvas structure
 - Dify-like clean interface
 - professional, calm, and dense enough for repeated use

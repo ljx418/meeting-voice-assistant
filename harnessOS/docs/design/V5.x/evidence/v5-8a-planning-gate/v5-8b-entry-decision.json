@@ -1,0 +1,15 @@
+{
+  "decision": "GO_FOR_V5_8B_PLANNING_OR_IMPLEMENTATION_PREP",
+  "decision_scope": "v5_8b_minimal_coordination_slice_only",
+  "forbidden_claims": [
+    "distributed multi-Agent runtime ready",
+    "full multi-Agent orchestration ready",
+    "Agent executor ready",
+    "production controlled executor ready",
+    "production-ready external app support"
+  ],
+  "required_before_v5_8b": [],
+  "schema_version": "v5_8b.entry_decision.v1",
+  "v5_8_complete_runtime_may_be_claimed": false,
+  "v5_8b_runtime_implementation_may_start": true
+}

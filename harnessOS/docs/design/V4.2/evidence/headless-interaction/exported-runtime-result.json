@@ -1,0 +1,293 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "v41_artifact_538fa0aaf7fc",
+      "kind": "markdown_summary",
+      "lineage_refs": [
+        "station:per_folder_summary",
+        "workflow:v4_1_local_markdown_summary"
+      ],
+      "name": "AgentOS_总结.md",
+      "producer_station_id": "per_folder_summary",
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v41_artifact_e911ce716fff",
+      "kind": "markdown_summary",
+      "lineage_refs": [
+        "station:per_folder_summary",
+        "workflow:v4_1_local_markdown_summary"
+      ],
+      "name": "前端低代码_总结.md",
+      "producer_station_id": "per_folder_summary",
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v41_artifact_83396f423033",
+      "kind": "markdown_summary",
+      "lineage_refs": [
+        "station:per_folder_summary",
+        "workflow:v4_1_local_markdown_summary"
+      ],
+      "name": "项目复盘_总结.md",
+      "producer_station_id": "per_folder_summary",
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v41_artifact_3bb053d6cb0e",
+      "kind": "overview_summary",
+      "lineage_refs": [
+        "station:overview_summary",
+        "workflow:v4_1_local_markdown_summary"
+      ],
+      "name": "总览总结.md",
+      "producer_station_id": "overview_summary",
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v41_artifact_08e7df51c40c",
+      "kind": "quality_report",
+      "lineage_refs": [
+        "station:quality_check",
+        "workflow:v4_1_local_markdown_summary"
+      ],
+      "name": "quality_report.json",
+      "producer_station_id": "quality_check",
+      "redaction_status": "redacted"
+    }
+  ],
+  "debug_scan": {
+    "child_folder_count": 5,
+    "empty_folders": [
+      "空文件夹"
+    ],
+    "folder_tree": [
+      {
+        "kind": "folder",
+        "path": "AgentOS"
+      },
+      {
+        "kind": "file",
+        "path": "AgentOS/01-架构.md"
+      },
+      {
+        "kind": "file",
+        "path": "AgentOS/02-工作流.md"
+      },
+      {
+        "kind": "folder",
+        "path": "前端低代码"
+      },
+      {
+        "kind": "file",
+        "path": "前端低代码/画布设计.md"
+      },
+      {
+        "kind": "file",
+        "path": "前端低代码/节点库.md"
+      },
+      {
+        "kind": "folder",
+        "path": "未支持"
+      },
+      {
+        "kind": "file",
+        "path": "未支持/test.pdf"
+      },
+      {
+        "kind": "folder",
+        "path": "空文件夹"
+      },
+      {
+        "kind": "file",
+        "path": "空文件夹/.gitkeep"
+      },
+      {
+        "kind": "folder",
+        "path": "项目复盘"
+      },
+      {
+        "kind": "file",
+        "path": "项目复盘/周报.md"
+      }
+    ],
+    "markdown_file_count": 5,
+    "redaction_status": "redacted",
+    "total_file_count": 6,
+    "unsupported_file_count": 1,
+    "unsupported_files": [
+      "未支持/test.pdf"
+    ]
+  },
+  "governance_summary": {
+    "evidence_count": 4,
+    "handoff_count": 3,
+    "operation_counts": {
+      "workflow.folder_summary.agent_debug_fix_proposal": 1,
+      "workflow.folder_summary.apply": 1,
+      "workflow.folder_summary.publish": 1,
+      "workflow.folder_summary.run": 1
+    },
+    "status_counts": {
+      "succeeded": 4
+    }
+  },
+  "nodes": [
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_id": "attempt_folder_input_1",
+          "created_at": "2026-05-29T07:07:30.174872+00:00",
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "name": "文件夹输入",
+      "station_id": "folder_input",
+      "status": "completed",
+      "updated_at": "2026-05-29T07:07:30.174872+00:00"
+    },
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_id": "attempt_folder_scan_1",
+          "created_at": "2026-05-29T07:07:30.174872+00:00",
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "name": "递归扫描",
+      "station_id": "folder_scan",
+      "status": "completed",
+      "updated_at": "2026-05-29T07:07:30.174872+00:00"
+    },
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_id": "attempt_markdown_filter_1",
+          "created_at": "2026-05-29T07:07:30.174872+00:00",
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "name": "Markdown 过滤",
+      "station_id": "markdown_filter",
+      "status": "completed",
+      "updated_at": "2026-05-29T07:07:30.174872+00:00"
+    },
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_id": "attempt_markdown_parse_1",
+          "created_at": "2026-05-29T07:07:30.174872+00:00",
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "name": "Markdown 解析",
+      "station_id": "markdown_parse",
+      "status": "completed",
+      "updated_at": "2026-05-29T07:07:30.174872+00:00"
+    },
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_id": "attempt_folder_group_1",
+          "created_at": "2026-05-29T07:07:30.174872+00:00",
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "name": "子文件夹分组",
+      "station_id": "folder_group",
+      "status": "completed",
+      "updated_at": "2026-05-29T07:07:30.174872+00:00"
+    },
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_id": "attempt_per_folder_summary_1",
+          "created_at": "2026-05-29T07:07:30.174872+00:00",
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "name": "子文件夹总结",
+      "station_id": "per_folder_summary",
+      "status": "completed",
+      "updated_at": "2026-05-29T07:07:30.174872+00:00"
+    },
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_id": "attempt_overview_summary_1",
+          "created_at": "2026-05-29T07:07:30.174872+00:00",
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "name": "总览总结",
+      "station_id": "overview_summary",
+      "status": "completed",
+      "updated_at": "2026-05-29T07:07:30.174872+00:00"
+    },
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_id": "attempt_quality_check_1",
+          "created_at": "2026-05-29T07:07:30.174872+00:00",
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "name": "质量检查",
+      "station_id": "quality_check",
+      "status": "completed",
+      "updated_at": "2026-05-29T07:07:30.174872+00:00"
+    },
+    {
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_id": "attempt_artifact_publish_1",
+          "created_at": "2026-05-29T07:07:30.174872+00:00",
+          "error": null,
+          "status": "completed"
+        }
+      ],
+      "name": "产物发布",
+      "station_id": "artifact_publish",
+      "status": "completed",
+      "updated_at": "2026-05-29T07:07:30.174872+00:00"
+    }
+  ],
+  "proposal_id": "v41_folder_proposal_d48f687fd6cc",
+  "quality_report": {
+    "child_folder_count": 5,
+    "empty_folders": [
+      "空文件夹"
+    ],
+    "markdown_file_count": 5,
+    "redaction_status": "redacted",
+    "status": "passed",
+    "summary_coverage": {
+      "expected_folder_count": 3,
+      "generated_summary_count": 3
+    },
+    "unsupported_files": [
+      "未支持/test.pdf"
+    ]
+  },
+  "redaction_status": "redacted",
+  "source": "v4_1_local_workflow_path",
+  "status": "completed",
+  "workflow_instance_id": "v41_folder_instance_a7dabeaa7ca1"
+}

@@ -1,0 +1,314 @@
+{
+  "allowed_claim": "V4-U9 complete: V4 dev/local final human acceptance and V5 handoff package ready for review.",
+  "entrypoints": {
+    "gap_drawio": "docs/design/V4.x/v4_x_headless_current_gap_analysis.drawio",
+    "reality_check_report": "docs/design/V4.x/evidence/unified-experience/reality-check/index.html",
+    "u8_manual_acceptance_report": "docs/design/V4.x/evidence/manual-acceptance/u8-manual-acceptance-report.html",
+    "v5_handoff_brief": "docs/design/V5.x/v5_0_production_productization_planning_brief.md"
+  },
+  "false_green_audit": {
+    "checks": [
+      {
+        "details": {
+          "violation_count": 0
+        },
+        "name": "claim_guard",
+        "status": "PASS"
+      },
+      {
+        "details": {
+          "redaction_status": "PASS"
+        },
+        "name": "redaction",
+        "status": "PASS"
+      },
+      {
+        "details": {
+          "u8_status": "PASS"
+        },
+        "name": "u8_manual_acceptance_proxy",
+        "status": "PASS"
+      },
+      {
+        "details": {
+          "agent_builder_not_executor": true,
+          "provider_backed_not_production": true,
+          "report_only_not_executable": true,
+          "transcript_only_not_runtime": true
+        },
+        "name": "no_runtime_overclaim",
+        "status": "PASS"
+      }
+    ],
+    "notes": "U9 is a closure audit only and does not upgrade V4 into production readiness.",
+    "status": "PASS"
+  },
+  "generated_at": "2026-05-31T03:37:38.331382+00:00",
+  "prd_spec_review": [
+    {
+      "evidence_ref": "docs/design/V4.x/evidence/unified-experience/mission_console_transcript.txt",
+      "notes": "Matches V4 unified PRD dev/local acceptance path.",
+      "prd_path": "Mission Console 捕获意图",
+      "status": "PASS",
+      "ux_id": "UX-01"
+    },
+    {
+      "evidence_ref": "docs/design/V4.2/evidence/headless-interaction/workflow.json",
+      "notes": "Matches V4 unified PRD dev/local acceptance path.",
+      "prd_path": "生成 WorkflowSpec / Diff",
+      "status": "PASS",
+      "ux_id": "UX-01"
+    },
+    {
+      "evidence_ref": "docs/design/V4.2/evidence/headless-interaction/workflow.drawio",
+      "notes": "Matches V4 unified PRD dev/local acceptance path.",
+      "prd_path": "Workflow Blueprint 理解结构",
+      "status": "PASS",
+      "ux_id": "UX-02"
+    },
+    {
+      "evidence_ref": "docs/design/V4.x/evidence/unified-experience/UX-06/result-summary.md",
+      "notes": "Matches V4 unified PRD dev/local acceptance path.",
+      "prd_path": "用户确认",
+      "status": "PASS",
+      "ux_id": "UX-06"
+    },
+    {
+      "evidence_ref": "docs/design/V4.2/evidence/headless-interaction/workflow_board.html",
+      "notes": "Matches V4 unified PRD dev/local acceptance path.",
+      "prd_path": "Runtime Report 观察运行",
+      "status": "PASS",
+      "ux_id": "UX-03"
+    },
+    {
+      "evidence_ref": "docs/design/V4.x/evidence/unified-experience/UX-06/result-summary.md",
+      "notes": "Matches V4 unified PRD dev/local acceptance path.",
+      "prd_path": "Review Console 做局部重跑 / 修复 / 确认",
+      "status": "PASS",
+      "ux_id": "UX-06"
+    },
+    {
+      "evidence_ref": "docs/design/V4.x/evidence/unified-experience/UX-07/result-summary.md",
+      "notes": "Matches V4 unified PRD dev/local acceptance path.",
+      "prd_path": "Evidence Chain 审计复盘",
+      "status": "PASS",
+      "ux_id": "UX-07"
+    }
+  ],
+  "stage": "V4-U9 Final Human Acceptance And V5 Handoff",
+  "status": "PASS",
+  "summary": {
+    "claim_violations": 0,
+    "redaction_status": "PASS",
+    "u8_status": "PASS",
+    "ux_blocked": 0,
+    "ux_fail": 0,
+    "ux_partial": 0,
+    "ux_pass": 12
+  },
+  "ux_cases": [
+    {
+      "evidence_refs": [
+        "docs/design/V4.x/evidence/unified-experience/mission_console_transcript.txt",
+        "docs/design/V4.2/evidence/headless-interaction/workflow.yaml",
+        "docs/design/V4.2/evidence/headless-interaction/workflow.json",
+        "docs/design/V4.2/evidence/headless-interaction/workflow.schema.json",
+        "docs/design/V4.2/evidence/headless-interaction/result-summary.md"
+      ],
+      "evidence_scope": "transcript_only",
+      "notes": "WorkflowSpec evidence exists, but this path is transcript/spec backed and must not be treated as real runtime mutation.",
+      "runtime_backed": false,
+      "status": "PASS",
+      "title": "自然语言创建工作流",
+      "ux_id": "UX-01"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.2/evidence/headless-interaction/workflow.drawio",
+        "docs/design/V4.2/evidence/headless-interaction/workflow_status.drawio",
+        "docs/design/V4.2/evidence/headless-interaction/artifact_lineage.drawio"
+      ],
+      "evidence_scope": "report_only",
+      "notes": "Drawio files are visualization only and are not runtime truth.",
+      "runtime_backed": false,
+      "status": "PASS",
+      "title": "Workflow Blueprint 可视化",
+      "ux_id": "UX-02"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.2/evidence/headless-interaction/workflow_board.html",
+        "docs/design/V4.2/evidence/headless-interaction/exported-runtime-result.json"
+      ],
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Runtime DTO source=v4_1_local_workflow_path; this is dev/local evidence, not production runtime.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "Runtime Report 运行观察",
+      "ux_id": "UX-03"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.2/evidence/headless-interaction/artifacts.html",
+        "docs/design/V4.2/evidence/headless-interaction/exported-runtime-result.json",
+        "docs/design/V4.2/evidence/headless-interaction/artifact_lineage.drawio"
+      ],
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Artifact list is visible, but strict artifact JSON and producer/lineage refs are required for full PASS.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "Artifact 查看与血缘",
+      "ux_id": "UX-04"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.2/evidence/headless-interaction/quality.html",
+        "docs/design/V4.2/evidence/headless-interaction/exported-runtime-result.json"
+      ],
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Quality HTML exists, but full PASS requires machine-readable quality.json linked to station or artifact.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "Quality 查看",
+      "ux_id": "UX-05"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.2/evidence/controlled-runtime/attempt-history.json",
+        "docs/design/V4.2/evidence/controlled-runtime/downstream-stale.json",
+        "docs/design/V4.2/evidence/controlled-runtime/station-rerun-result.json",
+        "docs/design/V4.2/evidence/controlled-runtime/tui-transcript.txt",
+        "docs/design/V4.2/evidence/controlled-runtime/runtime-evidence.json"
+      ],
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Rerun evidence is dev/local controlled runtime evidence and must not be overclaimed as controlled executor readiness.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "局部失败修复与重跑",
+      "ux_id": "UX-06"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.2/evidence/headless-interaction/evidence.html",
+        "docs/design/V4.2/evidence/headless-interaction/operation-evidence.json"
+      ],
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Evidence Chain must remain read-only; detected execution terms are treated as missing/risks.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "Evidence Chain 审查",
+      "ux_id": "UX-07"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-result.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/operation-evidence.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/attempt-history.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/downstream-stale.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-report.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifacts.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/quality.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/evidence.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/workflow.drawio",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/workflow_status.drawio",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifact_lineage.drawio",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/result-summary.md"
+      ],
+      "evidence_scope": "real_runtime",
+      "notes": "U7 evidence shows dev/local provider-backed serial station execution with rerun and downstream stale records. This still does not prove production or unrestricted orchestration.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "串行多 Agent 视频工作流",
+      "ux_id": "UX-08"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-result.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/operation-evidence.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/attempt-history.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/downstream-stale.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-report.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifacts.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/quality.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/evidence.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/workflow.drawio",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/workflow_status.drawio",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifact_lineage.drawio",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/result-summary.md"
+      ],
+      "evidence_scope": "real_runtime",
+      "notes": "U7 evidence shows dev/local provider-backed persona outputs, synthesis, attribution inputs, and contradiction review. This is not production parallel orchestration.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "并行罗马广场讨论",
+      "ux_id": "UX-09"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/operation-evidence.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/attempt-history.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/downstream-stale.json",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-report.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/quality.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/evidence.html",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/workflow.drawio",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/workflow_status.drawio",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifact_lineage.drawio",
+        "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/result-summary.md"
+      ],
+      "evidence_scope": "real_runtime",
+      "notes": "U7 evidence shows dev/local provider-backed engineering stage execution with code review rerun and stale records. This is not autonomous coding or Agent executor readiness.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "长时工程任务工作流",
+      "ux_id": "UX-10"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.6/evidence/agent-workflow-builder/tui-transcript.txt",
+        "docs/design/V4.6/evidence/agent-workflow-builder/builder-session.json",
+        "docs/design/V4.6/evidence/agent-workflow-builder/workflow-draft-proposal.json",
+        "docs/design/V4.6/evidence/agent-workflow-builder/workflow-plan-explanation.json",
+        "docs/design/V4.6/evidence/agent-workflow-builder/debug-repair-proposal.json",
+        "docs/design/V4.6/evidence/agent-workflow-builder/handoff.json"
+      ],
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Agent builder can propose, explain, handoff, and navigate; it is not Agent executor readiness.",
+      "runtime_backed": false,
+      "status": "PASS",
+      "title": "Agent Workflow Builder",
+      "ux_id": "UX-11"
+    },
+    {
+      "evidence_refs": [
+        "docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_plan.md",
+        "docs/design/V4.x/evidence/unified-experience/UX-12/local-document-workflow-result.json",
+        "docs/design/V4.x/evidence/unified-experience/UX-12/evidence_chain.json",
+        "docs/design/V4.x/evidence/unified-experience/UX-12/quality_report.json"
+      ],
+      "evidence_scope": "real_runtime",
+      "notes": "V4-U5E evidence shows authorized local Markdown reads and MiniMax/OpenAI-compatible provider-backed summaries. This does not prove Agent executor or production readiness.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "真实 LLM 本地技术文档解析",
+      "ux_id": "UX-12"
+    }
+  ],
+  "v5_handoff": {
+    "boundary": "V5 handoff is planning only and does not change V4 closure claims.",
+    "capabilities": [
+      "production auth / tenant isolation",
+      "production token lifecycle",
+      "production credential lifecycle",
+      "production observability and audit export",
+      "production external app onboarding",
+      "real Agent executor safety gate",
+      "production controlled executor",
+      "full Web Studio productization",
+      "distributed multi-Agent runtime"
+    ],
+    "status": "planned_future"
+  }
+}

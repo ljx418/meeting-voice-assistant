@@ -103,6 +103,9 @@
         <mxCell id="summary_final" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;align=left;spacingLeft=18;fontSize=15" value="当前允许声明&lt;br&gt;&lt;br&gt;V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review&lt;br&gt;&lt;br&gt;仍不能声明：&lt;br&gt;production-ready / enterprise auth / OAuth / SSO / multi-tenant control plane / executor" vertex="1">
           <mxGeometry height="170" width="620" x="1480" y="1475" as="geometry" />
         </mxCell>
+        <mxCell id="summary_headless_v4x" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFEFF;strokeColor=#0891B2;align=left;spacingLeft=18;fontSize=14;fontStyle=1" value="V4.x 后续路线修正：V4.1 后主线转为 Headless Core + TUI / Command Palette + Drawio + HTML Report + Thin Web Console。V4.2-A 只做 Headless Interaction Pivot；通用 run / rerun / controlled runtime 延后到 V4.2-B/C。前向 gap source：docs/design/V4.x/v4_x_headless_current_gap_analysis.md" vertex="1">
+          <mxGeometry height="52" width="2000" x="100" y="1660" as="geometry" />
+        </mxCell>
         <mxCell id="section_matrix" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#64748B;fontSize=20;fontStyle=1;align=center" value="V4.0 Capability Matrix 与阶段影响范围" vertex="1">
           <mxGeometry height="52" width="2060" x="70" y="1730" as="geometry" />
         </mxCell>

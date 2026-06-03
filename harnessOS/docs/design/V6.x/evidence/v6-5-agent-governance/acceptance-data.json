@@ -1,0 +1,52 @@
+{
+  "agent_executor_ready": false,
+  "allowed_claim": "V6-5 complete: governed Agent execution intent pilot gate ready for review.",
+  "autonomous_workflow_editing_ready": false,
+  "blocked_reason": null,
+  "claim_violations": [],
+  "production_controlled_executor_ready": false,
+  "provider": {
+    "api_key_configured": true,
+    "base_url_ref": "env://MINIMAX_BASE_URL",
+    "credential_ref": "env://MINIMAX_API_KEY",
+    "model_ref": "MiniMax-M2.1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted"
+  },
+  "redaction_status": "PASS",
+  "scenario_count": 7,
+  "scenarios": [
+    {
+      "scenario_id": "minimax_invocation_evidence",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "agent_intent_generated",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "policy_allows_handoff_only",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "handoff_requires_human_authorization",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "human_confirmed_handoff_executes_v6_4",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "source_agent_direct_mutation_denied",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "no_agent_executor_claim",
+      "status": "PASS"
+    }
+  ],
+  "schema_version": "v6_5.agent_governance.acceptance.v1",
+  "stage": "V6-5",
+  "status": "PASS"
+}

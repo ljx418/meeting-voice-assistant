@@ -1,0 +1,6 @@
+V4.4 Parallel Multi-Agent Deliberation transcript
+step=01 command='harness deliberation workflow create --question tests/fixtures/v4_4/deliberation/project_question.md' result='deliberation_workflow.json generated'
+step=02 command='harness workflow run --spec deliberation_workflow.yaml --user-confirmed' user_confirmed=true source=run_panel result=completed
+step=03 command='harness station rerun --station architecture_agent --user-confirmed' user_confirmed=true source=run_panel downstream_stale=2
+step=04 command='harness workflow continue-downstream --user-confirmed' user_confirmed=true source=run_panel result=completed
+step=05 command='harness evidence show --instance v44_deliberation_instance_3ef8268a6d28' read_only=true result='redacted evidence shown'

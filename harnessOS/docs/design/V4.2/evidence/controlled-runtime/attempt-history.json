@@ -1,0 +1,165 @@
+{
+  "workflow_instance_id": "v41_folder_instance_ad8afcfaa110",
+  "stations": [
+    {
+      "station_id": "folder_input",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_folder_input_1",
+          "attempt": 1,
+          "status": "completed",
+          "created_at": "2026-05-28T08:18:08.931392+00:00",
+          "error": null
+        }
+      ]
+    },
+    {
+      "station_id": "folder_scan",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_folder_scan_1",
+          "attempt": 1,
+          "status": "completed",
+          "created_at": "2026-05-28T08:18:08.931392+00:00",
+          "error": null
+        }
+      ]
+    },
+    {
+      "station_id": "markdown_filter",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_markdown_filter_1",
+          "attempt": 1,
+          "status": "completed",
+          "created_at": "2026-05-28T08:18:08.931392+00:00",
+          "error": null
+        }
+      ]
+    },
+    {
+      "station_id": "markdown_parse",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_markdown_parse_1",
+          "attempt": 1,
+          "status": "failed",
+          "created_at": "2026-05-28T08:18:08.931392+00:00",
+          "error": "Markdown parse failed for 损坏/坏文件.md"
+        },
+        {
+          "attempt_id": "attempt_markdown_parse_2",
+          "attempt": 2,
+          "status": "completed",
+          "created_at": "2026-05-28T08:18:08.935709+00:00",
+          "error": null
+        }
+      ]
+    },
+    {
+      "station_id": "folder_group",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_folder_group_1",
+          "attempt": 1,
+          "status": "pending",
+          "created_at": "2026-05-28T08:18:08.931392+00:00",
+          "error": null
+        },
+        {
+          "attempt_id": "attempt_folder_group_2",
+          "attempt": 2,
+          "status": "completed",
+          "created_at": "2026-05-28T08:18:08.972590+00:00",
+          "error": null
+        }
+      ]
+    },
+    {
+      "station_id": "per_folder_summary",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_per_folder_summary_1",
+          "attempt": 1,
+          "status": "pending",
+          "created_at": "2026-05-28T08:18:08.931392+00:00",
+          "error": null
+        },
+        {
+          "attempt_id": "attempt_per_folder_summary_2",
+          "attempt": 2,
+          "status": "completed",
+          "created_at": "2026-05-28T08:18:08.972590+00:00",
+          "error": null
+        }
+      ]
+    },
+    {
+      "station_id": "overview_summary",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_overview_summary_1",
+          "attempt": 1,
+          "status": "pending",
+          "created_at": "2026-05-28T08:18:08.931392+00:00",
+          "error": null
+        },
+        {
+          "attempt_id": "attempt_overview_summary_2",
+          "attempt": 2,
+          "status": "completed",
+          "created_at": "2026-05-28T08:18:08.972590+00:00",
+          "error": null
+        }
+      ]
+    },
+    {
+      "station_id": "quality_check",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_quality_check_1",
+          "attempt": 1,
+          "status": "pending",
+          "created_at": "2026-05-28T08:18:08.931392+00:00",
+          "error": null
+        },
+        {
+          "attempt_id": "attempt_quality_check_2",
+          "attempt": 2,
+          "status": "completed",
+          "created_at": "2026-05-28T08:18:08.972590+00:00",
+          "error": null
+        }
+      ]
+    },
+    {
+      "station_id": "artifact_publish",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_artifact_publish_1",
+          "attempt": 1,
+          "status": "pending",
+          "created_at": "2026-05-28T08:18:08.931392+00:00",
+          "error": null
+        },
+        {
+          "attempt_id": "attempt_artifact_publish_2",
+          "attempt": 2,
+          "status": "completed",
+          "created_at": "2026-05-28T08:18:08.972590+00:00",
+          "error": null
+        }
+      ]
+    }
+  ],
+  "redaction_status": "redacted"
+}

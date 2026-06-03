@@ -1,0 +1,16 @@
+{
+  "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+  "stale_after_rerun": [
+    {
+      "stage_id": "e2e_acceptance",
+      "reason": "upstream_rerun:code_review",
+      "requires_user_confirmed_continue": true
+    },
+    {
+      "stage_id": "human_confirmation",
+      "reason": "upstream_rerun:code_review",
+      "requires_user_confirmed_continue": true
+    }
+  ],
+  "redaction_status": "redacted"
+}

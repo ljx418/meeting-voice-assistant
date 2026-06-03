@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>V5-8A Planning Gate</title>
+    <style>
+      body { margin: 0; background: #f7f8fb; color: #111827; font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+      header { padding: 32px 40px; background: #fff; border-bottom: 1px solid #d8dee9; }
+      main { max-width: 1120px; margin: 0 auto; padding: 28px; display: grid; gap: 16px; }
+      section { background: #fff; border: 1px solid #d8dee9; border-radius: 10px; padding: 18px; }
+      .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-weight: 700; color: #0f7a3a; background: #e8f7ee; }
+      table { width: 100%; border-collapse: collapse; }
+      td, th { border-bottom: 1px solid #d8dee9; padding: 10px; text-align: left; }
+      pre { background: #172033; color: #f8fafc; padding: 14px; border-radius: 8px; overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>V5-8A Distributed Runtime Planning Gate</h1>
+      <p><span class="badge">PASS</span> planning gate only; runtime implementation is not started.</p>
+    </header>
+    <main>
+      <section>
+        <h2>真实数据 readiness</h2>
+        <table>
+          <tr><th>provider</th><td>minimax</td></tr>
+          <tr><th>model_ref</th><td>MiniMax-M2.1</td></tr>
+          <tr><th>provider_config_source</th><td>.env.local</td></tr>
+          <tr><th>api_key_configured</th><td>True</td></tr>
+          <tr><th>scanner_actual_read_count</th><td>5</td></tr>
+          <tr><th>provider_invocation_count</th><td>4</td></tr>
+        </table>
+      </section>
+      <section>
+        <h2>Missing evidence</h2>
+        <ul><li>none</li></ul>
+      </section>
+      <section>
+        <h2>仍然禁止</h2>
+        <pre>distributed multi-Agent runtime ready
+full multi-Agent orchestration ready
+Agent executor ready
+production controlled executor ready
+production-ready external app support
+V5-8 runtime implementation without V5-8B gate</pre>
+      </section>
+    </main>
+  </body>
+</html>

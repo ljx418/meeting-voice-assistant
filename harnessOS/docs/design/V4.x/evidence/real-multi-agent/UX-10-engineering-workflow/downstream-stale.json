@@ -1,0 +1,12 @@
+[
+  {
+    "requires_user_confirmed_continue": true,
+    "stale_reason": "upstream rerun from code_review",
+    "station_id": "e2e_acceptance"
+  },
+  {
+    "requires_user_confirmed_continue": true,
+    "stale_reason": "upstream rerun from code_review",
+    "station_id": "human_confirmation"
+  }
+]

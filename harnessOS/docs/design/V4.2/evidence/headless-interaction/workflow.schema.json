@@ -1,0 +1,264 @@
+{
+  "$id": "https://harnessos.local/schemas/v4_2/workflow.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "approval_points": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "approval_point_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "operation": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "policy": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "approval_point_id",
+          "operation",
+          "policy"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "artifact_contracts": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "artifact_contract_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "description": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "kind": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "artifact_contract_id",
+          "kind",
+          "description"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "context_refs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "context_ref_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "value_label": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "context_ref_id",
+          "value_label"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "edges": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "artifact_contract_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "edge_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "from_station_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "to_station_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "edge_id",
+          "from_station_id",
+          "to_station_id",
+          "artifact_contract_id"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "evidence_refs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_ref_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "kind": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "resource_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "evidence_ref_id",
+          "kind",
+          "resource_id"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "metadata": {
+      "additionalProperties": false,
+      "properties": {
+        "generated_from": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "runtime_truth_boundary": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "schema_version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_baseline": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "stage": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "workflow_spec_id": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflow_spec_id",
+        "schema_version",
+        "name",
+        "stage",
+        "source_baseline",
+        "runtime_truth_boundary",
+        "generated_from"
+      ],
+      "type": "object"
+    },
+    "quality_rules": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "rule_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "rule_id",
+          "description"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "stations": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "input_artifacts": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "output_artifacts": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "station_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "station_kind": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "station_id",
+          "name",
+          "station_kind",
+          "description",
+          "input_artifacts",
+          "output_artifacts"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "approval_points",
+    "artifact_contracts",
+    "context_refs",
+    "edges",
+    "evidence_refs",
+    "metadata",
+    "quality_rules",
+    "stations"
+  ],
+  "title": "HarnessOS V4.2-A WorkflowSpec",
+  "type": "object"
+}

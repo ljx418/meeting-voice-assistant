@@ -1,0 +1,16 @@
+{
+  "workflow_instance_id": "v44_deliberation_instance_3ef8268a6d28",
+  "stale_after_rerun": [
+    {
+      "station_id": "synthesis",
+      "reason": "persona_rerun:architecture_agent",
+      "requires_user_confirmed_continue": true
+    },
+    {
+      "station_id": "contradiction_review",
+      "reason": "persona_rerun:architecture_agent",
+      "requires_user_confirmed_continue": true
+    }
+  ],
+  "redaction_status": "redacted"
+}

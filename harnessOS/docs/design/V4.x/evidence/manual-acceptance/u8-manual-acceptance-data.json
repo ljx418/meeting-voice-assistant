@@ -1,0 +1,213 @@
+{
+  "allowed_claim": "V4-U8 complete: V4 dev/local closure package ready for human acceptance.",
+  "checks": [
+    {
+      "check_id": "reality_check",
+      "details": {
+        "BLOCKED": 0,
+        "FAIL": 0,
+        "PARTIAL": 0,
+        "PASS": 12
+      },
+      "evidence_ref": "docs/design/V4.x/evidence/unified-experience/reality-check/audit-data.json",
+      "status": "PASS",
+      "title": "UX-01 到 UX-12 全量 reality-check"
+    },
+    {
+      "check_id": "claims_redaction",
+      "details": {
+        "claim_violations": 0,
+        "redaction_status": "PASS"
+      },
+      "evidence_ref": "docs/design/V4.x/evidence/unified-experience/reality-check/audit-data.json",
+      "status": "PASS",
+      "title": "No False Green 与敏感字面量检查"
+    },
+    {
+      "check_id": "gap_drawio_xml",
+      "details": {
+        "xml_valid": true
+      },
+      "evidence_ref": "docs/design/V4.x/v4_x_headless_current_gap_analysis.drawio",
+      "status": "PASS",
+      "title": "V4.x gap drawio XML 可解析"
+    },
+    {
+      "check_id": "ux-08_provider_runtime",
+      "details": {
+        "artifact_count": 7,
+        "model_ref": "MiniMax-M2.1",
+        "node_count": 6,
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "provider_invocation_count": 7
+      },
+      "evidence_ref": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-result.json",
+      "status": "PASS",
+      "title": "UX-08 provider-backed dev/local evidence"
+    },
+    {
+      "check_id": "ux-09_provider_runtime",
+      "details": {
+        "artifact_count": 7,
+        "model_ref": "MiniMax-M2.1",
+        "node_count": 6,
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "provider_invocation_count": 7
+      },
+      "evidence_ref": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-result.json",
+      "status": "PASS",
+      "title": "UX-09 provider-backed dev/local evidence"
+    },
+    {
+      "check_id": "ux-10_provider_runtime",
+      "details": {
+        "artifact_count": 12,
+        "model_ref": "MiniMax-M2.1",
+        "node_count": 11,
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "provider_invocation_count": 12
+      },
+      "evidence_ref": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json",
+      "status": "PASS",
+      "title": "UX-10 provider-backed dev/local evidence"
+    },
+    {
+      "check_id": "ux12_real_llm_local_docs",
+      "details": {
+        "model_ref": "MiniMax-M2.1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "provider_invocation_count": 4,
+        "scanner_actual_read_count": 5
+      },
+      "evidence_ref": "docs/design/V4.x/evidence/unified-experience/UX-12/local-document-workflow-result.json",
+      "status": "PASS",
+      "title": "UX-12 本地 Markdown 读取与 provider 总结"
+    }
+  ],
+  "generated_at": "2026-05-31T03:33:38.931964+00:00",
+  "manual_review_entrypoints": {
+    "gap_drawio": "docs/design/V4.x/v4_x_headless_current_gap_analysis.drawio",
+    "reality_check_html": "docs/design/V4.x/evidence/unified-experience/reality-check/index.html",
+    "ux08_runtime": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-result.json",
+    "ux09_runtime": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-result.json",
+    "ux10_runtime": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json",
+    "ux12_runtime": "docs/design/V4.x/evidence/unified-experience/UX-12/local-document-workflow-result.json"
+  },
+  "no_false_green": {
+    "agent_executor": false,
+    "complete_web_studio": false,
+    "production_runtime": false,
+    "unrestricted_orchestration": false
+  },
+  "stage": "V4-U8 Manual Acceptance Proxy",
+  "status": "PASS",
+  "summary": {
+    "allow_enter_v4_u6": true,
+    "blocked": 0,
+    "fail": 0,
+    "partial": 0,
+    "pass": 12
+  },
+  "ux_cases": [
+    {
+      "evidence_scope": "transcript_only",
+      "notes": "WorkflowSpec evidence exists, but this path is transcript/spec backed and must not be treated as real runtime mutation.",
+      "runtime_backed": false,
+      "status": "PASS",
+      "title": "自然语言创建工作流",
+      "ux_id": "UX-01"
+    },
+    {
+      "evidence_scope": "report_only",
+      "notes": "Drawio files are visualization only and are not runtime truth.",
+      "runtime_backed": false,
+      "status": "PASS",
+      "title": "Workflow Blueprint 可视化",
+      "ux_id": "UX-02"
+    },
+    {
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Runtime DTO source=v4_1_local_workflow_path; this is dev/local evidence, not production runtime.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "Runtime Report 运行观察",
+      "ux_id": "UX-03"
+    },
+    {
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Artifact list is visible, but strict artifact JSON and producer/lineage refs are required for full PASS.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "Artifact 查看与血缘",
+      "ux_id": "UX-04"
+    },
+    {
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Quality HTML exists, but full PASS requires machine-readable quality.json linked to station or artifact.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "Quality 查看",
+      "ux_id": "UX-05"
+    },
+    {
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Rerun evidence is dev/local controlled runtime evidence and must not be overclaimed as controlled executor readiness.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "局部失败修复与重跑",
+      "ux_id": "UX-06"
+    },
+    {
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Evidence Chain must remain read-only; detected execution terms are treated as missing/risks.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "Evidence Chain 审查",
+      "ux_id": "UX-07"
+    },
+    {
+      "evidence_scope": "real_runtime",
+      "notes": "U7 evidence shows dev/local provider-backed serial station execution with rerun and downstream stale records. This still does not prove production or unrestricted orchestration.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "串行多 Agent 视频工作流",
+      "ux_id": "UX-08"
+    },
+    {
+      "evidence_scope": "real_runtime",
+      "notes": "U7 evidence shows dev/local provider-backed persona outputs, synthesis, attribution inputs, and contradiction review. This is not production parallel orchestration.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "并行罗马广场讨论",
+      "ux_id": "UX-09"
+    },
+    {
+      "evidence_scope": "real_runtime",
+      "notes": "U7 evidence shows dev/local provider-backed engineering stage execution with code review rerun and stale records. This is not autonomous coding or Agent executor readiness.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "长时工程任务工作流",
+      "ux_id": "UX-10"
+    },
+    {
+      "evidence_scope": "deterministic_devlocal",
+      "notes": "Agent builder can propose, explain, handoff, and navigate; it is not Agent executor readiness.",
+      "runtime_backed": false,
+      "status": "PASS",
+      "title": "Agent Workflow Builder",
+      "ux_id": "UX-11"
+    },
+    {
+      "evidence_scope": "real_runtime",
+      "notes": "V4-U5E evidence shows authorized local Markdown reads and MiniMax/OpenAI-compatible provider-backed summaries. This does not prove Agent executor or production readiness.",
+      "runtime_backed": true,
+      "status": "PASS",
+      "title": "真实 LLM 本地技术文档解析",
+      "ux_id": "UX-12"
+    }
+  ]
+}

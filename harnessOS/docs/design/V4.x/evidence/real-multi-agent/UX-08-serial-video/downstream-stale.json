@@ -1,0 +1,22 @@
+[
+  {
+    "requires_user_confirmed_continue": true,
+    "stale_reason": "upstream rerun from storyboard_agent",
+    "station_id": "copywriting_agent"
+  },
+  {
+    "requires_user_confirmed_continue": true,
+    "stale_reason": "upstream rerun from storyboard_agent",
+    "station_id": "editing_plan_agent"
+  },
+  {
+    "requires_user_confirmed_continue": true,
+    "stale_reason": "upstream rerun from storyboard_agent",
+    "station_id": "quality_review_agent"
+  },
+  {
+    "requires_user_confirmed_continue": true,
+    "stale_reason": "upstream rerun from storyboard_agent",
+    "station_id": "publish_preparation_agent"
+  }
+]

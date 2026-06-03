@@ -1,12 +1,33 @@
 # V4.x Interaction Experience Revised Development Plan
 
-Status: revised post V4.1 completion baseline.
+Status: revised post V4.1 completion baseline; updated for Headless-first V4 roadmap.
 
 Stage-gate update:
 
 All future stages must follow `docs/design/V4.1/v4_1_stage_gate_development_plan.md`. Stage names are bilingual, and every stage completion note must include Spec Drift Evaluation / 规格漂移评估, False Green Evaluation / 虚假验收评估, Next Stage Audit / 下一阶段审计, and a proceed decision.
 
-This document re-centers the V4.x roadmap around three target interaction experiences:
+Headless-first update:
+
+V4.x no longer treats a complete Web low-code Workflow Studio as the current mainline. The route is now:
+
+```text
+Headless Workflow Core
++ TUI / Command Palette
++ Drawio Workflow Visualization
++ HTML Runtime Reports
++ Thin Web Console
+```
+
+Workflow Studio remains as Reference UI / Thin Web Console, but the main product path is Headless-first. The latest roadmap source is:
+
+```text
+docs/design/V4.x/v4_x_headless_first_roadmap.md
+docs/design/V4.x/v4_x_headless_api_surface_map.md
+docs/design/V4.x/v4_x_tui_drawio_html_report_plan.md
+docs/design/V4.2/v4_2_headless_interaction_pivot_plan.md
+```
+
+This document now re-centers the V4.x roadmap around Headless-first workflow interaction and three later target interaction experiences:
 
 1. Serial multi-Agent workflow orchestration, using a video creation pipeline as the reference scenario.
 2. Parallel multi-Agent deliberation workflow orchestration, using a Roman forum style discussion workflow as the reference scenario.
@@ -48,7 +69,7 @@ Current product status for the local knowledge workflow:
 V4.1 complete: local recursive Markdown summary workflow MVP ready for dev/local validation.
 ```
 
-The project has enough architecture foundation to start V4.2, but multi-Agent and production-facing experiences remain future stages.
+The project has enough architecture foundation to start V4.2-A Headless Interaction Pivot. Multi-Agent and production-facing experiences remain future stages.
 
 ## 2. Revised V4.x Roadmap
 
@@ -90,7 +111,75 @@ controlled executor ready
 production-ready external app support
 ```
 
-### V4.2 Controlled Execution Runtime MVP / 受控执行运行时 MVP
+### V4.2-A Headless Interaction Pivot / Headless 交互转向
+
+Goal:
+
+Extend the V4.1 local knowledge workflow from a browser workbench experience into a Headless-first interaction baseline.
+
+Required heads:
+
+1. WorkflowSpec as portable workflow definition.
+2. TUI / Command Palette as the primary creation, review, report, and governed operation handoff entry.
+3. Drawio renderer for workflow, status, and artifact lineage visualization.
+4. HTML runtime reports for board, artifacts, quality, and evidence review.
+5. Thin Web Console as observation and limited user-confirmed operation surface.
+
+Required planned outputs:
+
+```text
+workflow.yaml / workflow.json
+workflow.schema.json
+workflow.drawio
+workflow_status.drawio
+artifact_lineage.drawio
+workflow_board.html
+station_detail.html
+artifacts.html
+quality.html
+evidence.html
+```
+
+Required V4.2-A read/spec/report commands:
+
+```text
+harness tui
+harness workflow create
+harness workflow diff
+harness workflow status
+harness artifacts list
+harness quality report
+harness evidence show
+```
+
+Deferred mutating command contracts:
+
+```text
+harness workflow apply
+harness workflow publish
+harness workflow run
+harness station rerun
+```
+
+In V4.2-A, apply/publish/run/rerun must be treated as user-confirmed transcript or handoff contracts unless an existing V4.1 local workflow path already backs the operation. Generic controlled execution belongs to V4.2-B/C.
+
+Allowed completion claim:
+
+```text
+V4.2-A complete: headless interaction baseline ready for local workflow validation.
+```
+
+Forbidden scope:
+
+```text
+complete Workflow Studio ready
+Agent executor ready
+controlled executor ready
+production-ready external app support
+full multi-Agent orchestration ready
+```
+
+### V4.2-B Controlled Execution Runtime MVP / 受控执行运行时 MVP
 
 Goal:
 
@@ -342,43 +431,44 @@ V4.6 complete: governed Agent workflow builder UX ready for dev/local validation
 The old V4.0-Z line should stop expanding. V4.x should proceed in this order:
 
 1. V4.1 Local Knowledge Workflow MVP.
-2. V4.2 Controlled Execution Runtime MVP foundation for user-confirmed start/rerun.
-3. V4.3 Serial Multi-Agent Video Workflow MVP.
-4. V4.4 Parallel Multi-Agent Deliberation Workflow MVP.
-5. V4.5 Long-Running Engineering Workflow MVP.
-6. V4.6 Agent Workflow Builder UX hardening across all scenarios.
+2. V4.2-A Headless Interaction Pivot for WorkflowSpec, TUI transcript, Drawio, HTML reports, and Thin Web Console evidence.
+3. V4.2-B/C Controlled Execution Runtime foundation for generic user-confirmed start/rerun.
+4. V4.3 Serial Multi-Agent Video Workflow MVP.
+5. V4.4 Parallel Multi-Agent Deliberation Workflow MVP.
+6. V4.5 Long-Running Engineering Workflow MVP.
+7. V4.6 Agent Workflow Builder UX hardening across all scenarios.
 
 Reason:
 
-V4.1 is the smallest real workflow with local files and artifacts. V4.2 is needed before V4.3 to V4.5 can be more than UI demos. V4.3 and V4.4 then prove serial and parallel workflow semantics. V4.5 proves durability, quality gates, and long-running engineering process visibility. V4.6 consolidates the Agent UX after the runtime semantics are real enough to be useful.
+V4.1 is the smallest real workflow with local files and artifacts. V4.2-A first makes the workflow usable as headless specs, transcripts, diagrams, reports, and reviewable evidence. V4.2-B/C then supplies the generic runtime foundation before V4.3 to V4.5 can be more than demos. V4.3 and V4.4 prove serial and parallel workflow semantics. V4.5 proves durability, quality gates, and long-running engineering process visibility. V4.6 consolidates the Agent UX after the runtime semantics are real enough to be useful.
 
 ## 5. Immediate Next Step
 
 V4.1-A through V4.1-E are complete for dev/local validation. The next planning and audit stage is:
 
 ```text
-V4.2 Controlled Execution Runtime MVP / 受控执行运行时 MVP
+V4.2-A Headless Interaction Pivot / Headless 交互转向
 ```
 
 Pre-implementation audit scope:
 
 1. Confirm V4.1 completion evidence remains PASS.
-2. Re-audit V4.0-Q/Y controlled executor design gates before adding generic execution runtime behavior.
-3. Define exact user-confirmed workflow start and station rerun APIs.
-4. Define downstream stale propagation and recovery semantics.
+2. Confirm Headless-first route has replaced full Web low-code Studio as the current mainline.
+3. Define WorkflowSpec, TUI transcript, Drawio, HTML report, and Thin Web Console evidence package requirements.
+4. Keep apply/publish/run/rerun as deferred mutating command contracts unless backed by the existing V4.1 local workflow path.
 5. Preserve the `source=agent` proposal-only boundary.
-6. Define a V4.2-specific browser acceptance suite for controlled execution runtime behavior.
-7. Stop for user decision if V4.2 requires widening the V4.0 governance boundary.
+6. Define V4.2-A acceptance around generated specs, diagrams, reports, redaction, and no false-green claims.
+7. Stop for user decision if V4.2-A requires generic controlled execution runtime, Agent executor, production auth, or full Web Studio.
 
-This stage should not attempt Agent executor, autonomous workflow editing, production auth, production filesystem access, or production-ready external app support.
+This stage should not attempt generic controlled runtime, generic station rerun, Agent executor, autonomous workflow editing, production auth, production filesystem access, or production-ready external app support.
 
-Allowed V4.2 planning claim before implementation:
+Allowed V4.2-A planning claim before implementation:
 
 ```text
-V4.2 plan audited: controlled execution runtime MVP ready for implementation review.
+V4.2-A plan audited: headless interaction pivot ready for implementation review.
 ```
 
-Forbidden V4.2 planning claims:
+Forbidden V4.2-A planning claims:
 
 ```text
 complete Workflow Studio ready

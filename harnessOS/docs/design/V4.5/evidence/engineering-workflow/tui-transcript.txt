@@ -1,0 +1,6 @@
+V4.5 Long-Running Engineering Workflow transcript
+step=01 command='harness engineering workflow create --task tests/fixtures/v4_5/engineering_task/product_task.md' result='engineering_workflow.json generated'
+step=02 command='harness workflow run --spec engineering_workflow.yaml --user-confirmed' user_confirmed=true source=run_panel result=completed
+step=03 command='harness engineering stage rerun --stage code_review --user-confirmed' user_confirmed=true source=run_panel downstream_stale=2
+step=04 command='harness workflow continue-downstream --user-confirmed' user_confirmed=true source=run_panel result=completed
+step=05 command='harness evidence show --instance v45_engineering_instance_fcff71ec3a8d' read_only=true result='redacted evidence shown'

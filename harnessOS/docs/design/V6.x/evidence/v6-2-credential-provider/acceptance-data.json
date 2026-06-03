@@ -1,0 +1,96 @@
+{
+  "allowed_claim": "V6-2 complete: production credential and provider lifecycle pilot slice ready for review.",
+  "claim_violations": [],
+  "credential_ref": "env://MINIMAX_API_KEY",
+  "evidence_scope": "repo_backed_staging_fixture_with_env_secret_refs",
+  "model_ref": "MiniMax-M2.1",
+  "next_stage": "V6-3 Observability And Audit Export",
+  "next_stage_entry_decision": "V6-3 requires separate PRD spec review and acceptance planning before implementation.",
+  "production_managed_secret_store_ready": false,
+  "production_secret_lifecycle_ready": false,
+  "provider": "minimax",
+  "redaction_status": "PASS",
+  "scenario_count": 7,
+  "scenarios": [
+    {
+      "audience": "llm_provider:minimax",
+      "credential_decision": "allow",
+      "credential_lease_id": "credential_lease_2eaf38e4534742fb874da30dc5cd5e09",
+      "credential_ref_id": "credential_ref_minimax_v6",
+      "lease_decision": "allow",
+      "model_ref": "MiniMax-M2.1",
+      "operation": "provider.invoke",
+      "policy_decision": "allow",
+      "provider": "minimax",
+      "provider_profile_id": "provider_profile_minimax_v6",
+      "redaction_status": "redacted",
+      "runtime_result_ref": "runtime://v6_2/provider-smoke",
+      "scenario_id": "valid_lease_bound_invocation",
+      "status": "PASS"
+    },
+    {
+      "credential_decision": "deny",
+      "denial_code": "CREDENTIAL_LEASE_EXPIRED",
+      "denial_reason": "lease_expired",
+      "lease_decision": "deny",
+      "policy_decision": "deny",
+      "redaction_status": "redacted",
+      "scenario_id": "expired_lease_denied",
+      "status": "PASS"
+    },
+    {
+      "credential_decision": "deny",
+      "denial_code": "CREDENTIAL_LEASE_DENIED",
+      "denial_reason": "audience_mismatch",
+      "lease_decision": "deny",
+      "policy_decision": "deny",
+      "redaction_status": "redacted",
+      "scenario_id": "wrong_audience_denied",
+      "status": "PASS"
+    },
+    {
+      "credential_decision": "deny",
+      "denial_code": "CREDENTIAL_LEASE_DENIED",
+      "denial_reason": "operation_mismatch",
+      "lease_decision": "deny",
+      "policy_decision": "deny",
+      "redaction_status": "redacted",
+      "scenario_id": "wrong_operation_denied",
+      "status": "PASS"
+    },
+    {
+      "credential_decision": "deny",
+      "denial_code": "PROVIDER_EVIDENCE_REDACTION_DENIED",
+      "denial_reason": "redacted_input_summary_ref_raw_ref_denied",
+      "lease_decision": "deny",
+      "policy_decision": "deny",
+      "redaction_status": "redacted",
+      "scenario_id": "raw_prompt_ref_denied",
+      "status": "PASS"
+    },
+    {
+      "credential_decision": "deny",
+      "denial_code": "PROVIDER_CAPABILITY_DENIED",
+      "denial_reason": "credential_not_active",
+      "lease_decision": "deny",
+      "policy_decision": "deny",
+      "redaction_status": "redacted",
+      "scenario_id": "revoked_credential_denied",
+      "status": "PASS"
+    },
+    {
+      "credential_decision": "deny",
+      "denial_code": "PROVIDER_CAPABILITY_DENIED",
+      "denial_reason": "credential_not_active",
+      "lease_decision": "deny",
+      "policy_decision": "deny",
+      "redaction_status": "redacted",
+      "scenario_id": "emergency_revoke_blocks_invocation",
+      "status": "PASS"
+    }
+  ],
+  "schema_version": "v6_2.credential_provider.acceptance.v1",
+  "stage": "V6-2",
+  "stage_name": "Production Credential And Provider Lifecycle",
+  "status": "PASS"
+}

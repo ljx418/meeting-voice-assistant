@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>V6-3 Observability / Audit Acceptance</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; color: #0f172a; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #dcfce7; color: #166534; font-weight: 700; }
+    .warn { background: #fef3c7; border: 1px solid #d97706; padding: 16px; border-radius: 8px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+    th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #f1f5f9; }
+  </style>
+</head>
+<body>
+  <h1>V6-3 Observability / Audit Acceptance</h1>
+  <p><span class="badge">PASS</span></p>
+  <div class="warn">
+    <strong>No False Green:</strong>
+    V6-3 只证明 production observability and audit export pilot slice ready for review。
+    不证明 production audit export ready 或 production observability platform ready。
+  </div>
+  <h2>Summary</h2>
+  <ul>
+    <li>evidence_scope: repo_backed_staging_fixture_read_models</li>
+    <li>event_count: 6</li>
+    <li>export readonly: True</li>
+    <li>export append_only: True</li>
+    <li>timeline entries: 6</li>
+  </ul>
+  <h2>Scenarios</h2>
+  <table>
+    <thead><tr><th>Scenario</th><th>Status</th><th>Data</th></tr></thead>
+    <tbody><tr><td>confirmed_audit_export_package</td><td>PASS</td><td>{&#x27;scenario_id&#x27;: &#x27;confirmed_audit_export_package&#x27;, &#x27;status&#x27;: &#x27;PASS&#x27;, &#x27;readonly&#x27;: True, &#x27;append_only&#x27;: True, &#x27;immutable&#x27;: True, &#x27;event_count&#x27;: 6}</td></tr>
+<tr><td>source_agent_export_denied</td><td>PASS</td><td>{&#x27;scenario_id&#x27;: &#x27;source_agent_export_denied&#x27;, &#x27;status&#x27;: &#x27;PASS&#x27;, &#x27;denial_code&#x27;: &#x27;AUDIT_EXPORT_AGENT_DENIED&#x27;, &#x27;denial_reason&#x27;: &#x27;agent_export_denied&#x27;}</td></tr>
+<tr><td>metric_signal_read_only</td><td>PASS</td><td>{&#x27;scenario_id&#x27;: &#x27;metric_signal_read_only&#x27;, &#x27;status&#x27;: &#x27;PASS&#x27;, &#x27;readonly&#x27;: True, &#x27;metric_name&#x27;: &#x27;audit_export.event_count&#x27;}</td></tr>
+<tr><td>alert_decision_read_only</td><td>PASS</td><td>{&#x27;scenario_id&#x27;: &#x27;alert_decision_read_only&#x27;, &#x27;status&#x27;: &#x27;PASS&#x27;, &#x27;readonly&#x27;: True}</td></tr>
+<tr><td>incident_timeline_read_only</td><td>PASS</td><td>{&#x27;scenario_id&#x27;: &#x27;incident_timeline_read_only&#x27;, &#x27;status&#x27;: &#x27;PASS&#x27;, &#x27;entry_count&#x27;: 6, &#x27;readonly&#x27;: True}</td></tr></tbody>
+  </table>
+  <h2>Raw Data</h2>
+  <ul>
+    <li><a href="acceptance-data.json">acceptance-data.json</a></li>
+    <li><a href="raw/events.json">raw/events.json</a></li>
+    <li><a href="raw/export.json">raw/export.json</a></li>
+    <li><a href="raw/incident-timeline.json">raw/incident-timeline.json</a></li>
+    <li><a href="claims-scan.md">claims-scan.md</a></li>
+  </ul>
+</body>
+</html>

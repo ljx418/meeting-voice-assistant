@@ -16,6 +16,7 @@ import type {
   FolderSummaryQualityReport,
   FolderSummaryRun,
   FolderSummaryScanResult,
+  ControlledRuntimeResult,
   NodeCatalogItem,
   OperationResult,
   OperationEvidenceRecord,
@@ -116,6 +117,32 @@ export class WorkflowConsoleClient {
 
   getFolderSummaryQualityReport(instanceId: string): Promise<FolderSummaryQualityReport> {
     return this.get<FolderSummaryQualityReport>(`/v4_1/folder-summary/instances/${encodeURIComponent(instanceId)}/quality-report`);
+  }
+
+  startControlledRuntimeLocalFolderSummary(payload: {
+    folder_path: string;
+    user_confirmed: true;
+    source: "workflow_console" | "run_panel" | "command_palette" | "tui";
+  }): Promise<ControlledRuntimeResult> {
+    return this.post<ControlledRuntimeResult>("/v4_2/runtime/workflows/local-folder-summary/start", payload);
+  }
+
+  getControlledRuntimeInstance(instanceId: string): Promise<ControlledRuntimeResult> {
+    return this.get<ControlledRuntimeResult>(`/v4_2/runtime/instances/${encodeURIComponent(instanceId)}`);
+  }
+
+  rerunControlledRuntimeStation(
+    instanceId: string,
+    payload: { station_id: "markdown_parse"; user_confirmed: true; source: "workflow_console" | "run_panel" | "command_palette" | "tui" },
+  ): Promise<ControlledRuntimeResult> {
+    return this.post<ControlledRuntimeResult>(`/v4_2/runtime/instances/${encodeURIComponent(instanceId)}/rerun-station`, payload);
+  }
+
+  continueControlledRuntimeDownstream(
+    instanceId: string,
+    payload: { user_confirmed: true; source: "workflow_console" | "run_panel" | "command_palette" | "tui" },
+  ): Promise<ControlledRuntimeResult> {
+    return this.post<ControlledRuntimeResult>(`/v4_2/runtime/instances/${encodeURIComponent(instanceId)}/continue-downstream`, payload);
   }
 
   getWorkflow(templateId: string): Promise<WorkflowSummary> {

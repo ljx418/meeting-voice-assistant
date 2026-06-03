@@ -1,0 +1,6 @@
+{
+  "browser_internal_routes_absent": true,
+  "direct_rpc_calls": [],
+  "direct_event_subscription_calls": [],
+  "static_console_only": true
+}

@@ -107,7 +107,7 @@ export function GovernanceEvidencePanel() {
   return (
     <Panel title="治理审计">
       <p className="hos-muted">治理审计只读，不执行操作。</p>
-      <EvidenceCard handoffId="handoff_folder_001" operationType="workflow.patch.apply" policyDecision="user_confirmed_only" proposalId="proposal_folder_001" redactionStatus="redacted" />
+      <EvidenceCard handoffId="handoff_folder_001" operationType="workflow.folder_summary.apply" policyDecision="user_confirmed_only" proposalId="proposal_folder_001" redactionStatus="redacted" />
       <div className="panel-actions">
         <Button>查看详情</Button>
         <Button variant="ghost">复制证据 ID</Button>

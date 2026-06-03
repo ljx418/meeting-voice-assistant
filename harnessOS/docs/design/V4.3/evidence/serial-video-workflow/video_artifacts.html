@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>V4.3 视频工位产物</title>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:32px;color:#0f172a}table{border-collapse:collapse;width:100%}td{border:1px solid #cbd5e1;padding:8px}section{border:1px solid #cbd5e1;border-radius:8px;padding:16px;margin:12px 0}pre{white-space:pre-wrap;background:#f8fafc;padding:12px}</style></head>
+<body><h1>V4.3 视频工位产物</h1><p>只读报告，不包含任何隐藏变更表单。</p><section><h2>script_outline.md</h2><pre># 编剧 Agent产物
+
+## 角色
+Writer Agent
+
+## 目标
+把创作 brief 转成视频脚本大纲。
+
+## 输入引用
+video_brief，主题：HarnessOS Headless 发布视频 Brief
+
+## 输出内容
+- 工位序号：1
+- 产物契约：script_outline
+- 使用工具：brief_reader
+- 使用技能：script_outline
+
+## 说明
+这是 dev/local 确定性文本产物，用于验证串行多 Agent 工作流语义，不代表真实视频渲染。
+</pre></section><section><h2>storyboard.md</h2><pre># 分镜 Agent产物
+
+## 角色
+Storyboard Agent
+
+## 目标
+把脚本大纲转成镜头分镜。
+
+## 输入引用
+script_outline，主题：重跑后的 brief 上下文
+
+## 输出内容
+- 工位序号：2
+- 产物契约：storyboard
+- 使用工具：scene_planner
+- 使用技能：storyboard_planning
+
+## 说明
+这是 dev/local 确定性文本产物，用于验证串行多 Agent 工作流语义，不代表真实视频渲染。
+</pre></section><section><h2>short_copy.md</h2><pre># 文案 Agent产物
+
+## 角色
+Copywriting Agent
+
+## 目标
+生成口播文案、标题和短文案。
+
+## 输入引用
+storyboard，主题：续跑后的 brief 上下文
+
+## 输出内容
+- 工位序号：3
+- 产物契约：short_copy
+- 使用工具：copy_template
+- 使用技能：short_copy
+
+## 说明
+这是 dev/local 确定性文本产物，用于验证串行多 Agent 工作流语义，不代表真实视频渲染。
+</pre></section><section><h2>editing_plan.md</h2><pre># 剪辑计划 Agent产物
+
+## 角色
+Editing Plan Agent
+
+## 目标
+输出剪辑节奏、素材需求和转场计划。
+
+## 输入引用
+short_copy，主题：续跑后的 brief 上下文
+
+## 输出内容
+- 工位序号：4
+- 产物契约：editing_plan
+- 使用工具：timeline_planner
+- 使用技能：editing_plan
+
+## 说明
+这是 dev/local 确定性文本产物，用于验证串行多 Agent 工作流语义，不代表真实视频渲染。
+</pre></section><section><h2>quality_review.json</h2><pre>{
+  &quot;status&quot;: &quot;passed&quot;,
+  &quot;coverage&quot;: &quot;complete&quot;,
+  &quot;checked_artifacts&quot;: [
+    &quot;script_outline.md&quot;,
+    &quot;storyboard.md&quot;,
+    &quot;short_copy.md&quot;,
+    &quot;editing_plan.md&quot;
+  ],
+  &quot;risks&quot;: [
+    &quot;dev_local_text_only&quot;,
+    &quot;no_real_video_rendering&quot;
+  ],
+  &quot;redaction_status&quot;: &quot;redacted&quot;
+}</pre></section><section><h2>publish_package.md</h2><pre># 发布准备 Agent产物
+
+## 角色
+Publish Preparation Agent
+
+## 目标
+生成发布清单、封面建议和上线前检查表。
+
+## 输入引用
+quality_review，主题：续跑后的 brief 上下文
+
+## 输出内容
+- 工位序号：6
+- 产物契约：publish_package
+- 使用工具：publish_checklist
+- 使用技能：publish_package
+
+## 说明
+这是 dev/local 确定性文本产物，用于验证串行多 Agent 工作流语义，不代表真实视频渲染。
+</pre></section></body></html>

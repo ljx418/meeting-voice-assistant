@@ -1,0 +1,20 @@
+{
+  "explanation_id": "v46_explanation_79c443fb1a94",
+  "agent_builder_session_id": "v46_builder_session_a480f826387e",
+  "proposal_id": "v46_workflow_proposal_13be0d978a3a",
+  "read_only": true,
+  "summary": "该计划会先生成工作流草案，再等待用户确认应用、发布和运行。",
+  "steps": [
+    "folder_input",
+    "folder_scan",
+    "markdown_filter",
+    "markdown_parse",
+    "folder_group",
+    "per_folder_summary",
+    "overview_summary",
+    "quality_check",
+    "artifact_publish"
+  ],
+  "agent_mutation_allowed": false,
+  "redaction_status": "redacted"
+}

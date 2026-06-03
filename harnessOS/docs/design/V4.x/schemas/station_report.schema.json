@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/station_report.schema.json",
+  "title": "V4.x Station Report DTO",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "station_id",
+    "station_run_id",
+    "state",
+    "attempt_count",
+    "latest_attempt_id",
+    "input_artifact_refs",
+    "output_artifact_refs",
+    "quality_status",
+    "error_summary",
+    "available_actions",
+    "stale_reasons",
+    "downstream_stale_refs"
+  ],
+  "properties": {
+    "station_id": { "type": "string", "minLength": 1 },
+    "station_run_id": { "type": "string" },
+    "state": {
+      "type": "string",
+      "enum": ["Pending", "Ready", "Running", "Completed", "Failed", "WaitingApproval", "NeedsInput", "Stale", "Recoverable", "RerunRequested", "Rerunning", "Skipped"]
+    },
+    "attempt_count": { "type": "integer", "minimum": 0 },
+    "latest_attempt_id": { "type": ["string", "null"] },
+    "input_artifact_refs": { "type": "array", "items": { "type": "string" } },
+    "output_artifact_refs": { "type": "array", "items": { "type": "string" } },
+    "quality_status": { "type": "string" },
+    "error_summary": { "type": ["string", "null"] },
+    "available_actions": { "type": "array", "items": { "$ref": "available_actions.schema.json" } },
+    "stale_reasons": { "type": "array", "items": { "type": "string" } },
+    "downstream_stale_refs": { "type": "array", "items": { "type": "string" } }
+  }
+}

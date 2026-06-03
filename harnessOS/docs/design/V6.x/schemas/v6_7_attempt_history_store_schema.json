@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v6_7_attempt_history_store_schema.json",
+  "title": "AttemptHistoryRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "attempt_id",
+    "tenant_id",
+    "workspace_id",
+    "station_id",
+    "station_run_id",
+    "attempt_number",
+    "status",
+    "old_attempt_retained",
+    "previous_attempt_id",
+    "error_ref",
+    "created_at",
+    "audit_ref"
+  ],
+  "properties": {
+    "attempt_id": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "station_id": { "type": "string", "minLength": 1 },
+    "station_run_id": { "type": "string", "minLength": 1 },
+    "attempt_number": { "type": "integer", "minimum": 1 },
+    "status": { "enum": ["running", "failed", "recovered", "completed"] },
+    "old_attempt_retained": { "type": "boolean", "const": true },
+    "previous_attempt_id": { "type": ["string", "null"], "minLength": 1 },
+    "error_ref": { "type": ["string", "null"], "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "audit_ref": { "type": "string", "minLength": 1 }
+  }
+}

@@ -1,0 +1,506 @@
+{
+  "workflow_instance_id": "v43_video_instance_635d52af894b",
+  "workflow_template_id": "v43_serial_video_template",
+  "workflow_version_id": "v43_serial_video_version_1",
+  "status": "completed",
+  "backed_by": "v4_3_serial_video_runtime",
+  "runtime_mode": "dev_local_deterministic_runner",
+  "user_confirmed_required": true,
+  "agent_mutation_allowed": false,
+  "nodes": [
+    {
+      "station_id": "writer_agent",
+      "name": "编剧 Agent",
+      "status": "completed",
+      "agent_descriptor": {
+        "role": "Writer Agent",
+        "goal": "把创作 brief 转成视频脚本大纲。",
+        "model_ref": "dev_local_text_model",
+        "tool_refs": [
+          "brief_reader"
+        ],
+        "skill_refs": [
+          "script_outline"
+        ],
+        "input_artifact_contract": "video_brief",
+        "output_artifact_contract": "script_outline"
+      },
+      "input_artifact": "video_brief",
+      "output_artifact": "script_outline",
+      "attempts": [
+        {
+          "attempt_id": "attempt_writer_agent_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.005229+00:00"
+        }
+      ],
+      "error": null,
+      "updated_at": "2026-05-28T08:58:35.005229+00:00"
+    },
+    {
+      "station_id": "storyboard_agent",
+      "name": "分镜 Agent",
+      "status": "completed",
+      "agent_descriptor": {
+        "role": "Storyboard Agent",
+        "goal": "把脚本大纲转成镜头分镜。",
+        "model_ref": "dev_local_text_model",
+        "tool_refs": [
+          "scene_planner"
+        ],
+        "skill_refs": [
+          "storyboard_planning"
+        ],
+        "input_artifact_contract": "script_outline",
+        "output_artifact_contract": "storyboard"
+      },
+      "input_artifact": "script_outline",
+      "output_artifact": "storyboard",
+      "attempts": [
+        {
+          "attempt_id": "attempt_storyboard_agent_1",
+          "attempt": 1,
+          "status": "failed",
+          "error": "Deterministic video station failed: storyboard_agent",
+          "created_at": "2026-05-28T08:58:35.005229+00:00"
+        },
+        {
+          "attempt_id": "attempt_storyboard_agent_2",
+          "attempt": 2,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.011890+00:00"
+        }
+      ],
+      "error": null,
+      "updated_at": "2026-05-28T08:58:35.011890+00:00"
+    },
+    {
+      "station_id": "copywriting_agent",
+      "name": "文案 Agent",
+      "status": "completed",
+      "agent_descriptor": {
+        "role": "Copywriting Agent",
+        "goal": "生成口播文案、标题和短文案。",
+        "model_ref": "dev_local_text_model",
+        "tool_refs": [
+          "copy_template"
+        ],
+        "skill_refs": [
+          "short_copy"
+        ],
+        "input_artifact_contract": "storyboard",
+        "output_artifact_contract": "short_copy"
+      },
+      "input_artifact": "storyboard",
+      "output_artifact": "short_copy",
+      "attempts": [
+        {
+          "attempt_id": "attempt_copywriting_agent_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.021762+00:00"
+        }
+      ],
+      "error": null,
+      "updated_at": "2026-05-28T08:58:35.021762+00:00"
+    },
+    {
+      "station_id": "editing_plan_agent",
+      "name": "剪辑计划 Agent",
+      "status": "completed",
+      "agent_descriptor": {
+        "role": "Editing Plan Agent",
+        "goal": "输出剪辑节奏、素材需求和转场计划。",
+        "model_ref": "dev_local_text_model",
+        "tool_refs": [
+          "timeline_planner"
+        ],
+        "skill_refs": [
+          "editing_plan"
+        ],
+        "input_artifact_contract": "short_copy",
+        "output_artifact_contract": "editing_plan"
+      },
+      "input_artifact": "short_copy",
+      "output_artifact": "editing_plan",
+      "attempts": [
+        {
+          "attempt_id": "attempt_editing_plan_agent_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.021762+00:00"
+        }
+      ],
+      "error": null,
+      "updated_at": "2026-05-28T08:58:35.021762+00:00"
+    },
+    {
+      "station_id": "quality_review_agent",
+      "name": "质量审查 Agent",
+      "status": "completed",
+      "agent_descriptor": {
+        "role": "Quality Review Agent",
+        "goal": "检查脚本、分镜、文案和剪辑计划是否覆盖 brief。",
+        "model_ref": "dev_local_rule_model",
+        "tool_refs": [
+          "quality_rules"
+        ],
+        "skill_refs": [
+          "video_quality_review"
+        ],
+        "input_artifact_contract": "editing_plan",
+        "output_artifact_contract": "quality_review"
+      },
+      "input_artifact": "editing_plan",
+      "output_artifact": "quality_review",
+      "attempts": [
+        {
+          "attempt_id": "attempt_quality_review_agent_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.021762+00:00"
+        }
+      ],
+      "error": null,
+      "updated_at": "2026-05-28T08:58:35.021762+00:00"
+    },
+    {
+      "station_id": "publish_preparation_agent",
+      "name": "发布准备 Agent",
+      "status": "completed",
+      "agent_descriptor": {
+        "role": "Publish Preparation Agent",
+        "goal": "生成发布清单、封面建议和上线前检查表。",
+        "model_ref": "dev_local_text_model",
+        "tool_refs": [
+          "publish_checklist"
+        ],
+        "skill_refs": [
+          "publish_package"
+        ],
+        "input_artifact_contract": "quality_review",
+        "output_artifact_contract": "publish_package"
+      },
+      "input_artifact": "quality_review",
+      "output_artifact": "publish_package",
+      "attempts": [
+        {
+          "attempt_id": "attempt_publish_preparation_agent_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.021762+00:00"
+        }
+      ],
+      "error": null,
+      "updated_at": "2026-05-28T08:58:35.021762+00:00"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "v43_artifact_4a19dfa3bea4",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "station_id": "writer_agent",
+      "name": "script_outline.md",
+      "kind": "markdown",
+      "content": "# 编剧 Agent产物\n\n## 角色\nWriter Agent\n\n## 目标\n把创作 brief 转成视频脚本大纲。\n\n## 输入引用\nvideo_brief，主题：HarnessOS Headless 发布视频 Brief\n\n## 输出内容\n- 工位序号：1\n- 产物契约：script_outline\n- 使用工具：brief_reader\n- 使用技能：script_outline\n\n## 说明\n这是 dev/local 确定性文本产物，用于验证串行多 Agent 工作流语义，不代表真实视频渲染。\n",
+      "metadata": {
+        "redaction_status": "redacted",
+        "agent_role": "Writer Agent"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v43_artifact_5e9d9b7b5425",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "station_id": "storyboard_agent",
+      "name": "storyboard.md",
+      "kind": "markdown",
+      "content": "# 分镜 Agent产物\n\n## 角色\nStoryboard Agent\n\n## 目标\n把脚本大纲转成镜头分镜。\n\n## 输入引用\nscript_outline，主题：重跑后的 brief 上下文\n\n## 输出内容\n- 工位序号：2\n- 产物契约：storyboard\n- 使用工具：scene_planner\n- 使用技能：storyboard_planning\n\n## 说明\n这是 dev/local 确定性文本产物，用于验证串行多 Agent 工作流语义，不代表真实视频渲染。\n",
+      "metadata": {
+        "redaction_status": "redacted",
+        "agent_role": "Storyboard Agent"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v43_artifact_5f828a8b99a5",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "station_id": "copywriting_agent",
+      "name": "short_copy.md",
+      "kind": "markdown",
+      "content": "# 文案 Agent产物\n\n## 角色\nCopywriting Agent\n\n## 目标\n生成口播文案、标题和短文案。\n\n## 输入引用\nstoryboard，主题：续跑后的 brief 上下文\n\n## 输出内容\n- 工位序号：3\n- 产物契约：short_copy\n- 使用工具：copy_template\n- 使用技能：short_copy\n\n## 说明\n这是 dev/local 确定性文本产物，用于验证串行多 Agent 工作流语义，不代表真实视频渲染。\n",
+      "metadata": {
+        "redaction_status": "redacted",
+        "agent_role": "Copywriting Agent"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v43_artifact_38e61c28faf4",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "station_id": "editing_plan_agent",
+      "name": "editing_plan.md",
+      "kind": "markdown",
+      "content": "# 剪辑计划 Agent产物\n\n## 角色\nEditing Plan Agent\n\n## 目标\n输出剪辑节奏、素材需求和转场计划。\n\n## 输入引用\nshort_copy，主题：续跑后的 brief 上下文\n\n## 输出内容\n- 工位序号：4\n- 产物契约：editing_plan\n- 使用工具：timeline_planner\n- 使用技能：editing_plan\n\n## 说明\n这是 dev/local 确定性文本产物，用于验证串行多 Agent 工作流语义，不代表真实视频渲染。\n",
+      "metadata": {
+        "redaction_status": "redacted",
+        "agent_role": "Editing Plan Agent"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v43_artifact_7c0151733636",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "station_id": "quality_review_agent",
+      "name": "quality_review.json",
+      "kind": "quality_report",
+      "content": "{\n  \"status\": \"passed\",\n  \"coverage\": \"complete\",\n  \"checked_artifacts\": [\n    \"script_outline.md\",\n    \"storyboard.md\",\n    \"short_copy.md\",\n    \"editing_plan.md\"\n  ],\n  \"risks\": [\n    \"dev_local_text_only\",\n    \"no_real_video_rendering\"\n  ],\n  \"redaction_status\": \"redacted\"\n}",
+      "metadata": {
+        "redaction_status": "redacted",
+        "agent_role": "Quality Review Agent"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v43_artifact_093edfebf57c",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "station_id": "publish_preparation_agent",
+      "name": "publish_package.md",
+      "kind": "markdown",
+      "content": "# 发布准备 Agent产物\n\n## 角色\nPublish Preparation Agent\n\n## 目标\n生成发布清单、封面建议和上线前检查表。\n\n## 输入引用\nquality_review，主题：续跑后的 brief 上下文\n\n## 输出内容\n- 工位序号：6\n- 产物契约：publish_package\n- 使用工具：publish_checklist\n- 使用技能：publish_package\n\n## 说明\n这是 dev/local 确定性文本产物，用于验证串行多 Agent 工作流语义，不代表真实视频渲染。\n",
+      "metadata": {
+        "redaction_status": "redacted",
+        "agent_role": "Publish Preparation Agent"
+      },
+      "redaction_status": "redacted"
+    }
+  ],
+  "quality_report": {
+    "status": "passed",
+    "brief_title": "续跑后的 brief 上下文",
+    "artifact_coverage": {
+      "expected": [
+        "editing_plan.md",
+        "publish_package.md",
+        "quality_review.json",
+        "script_outline.md",
+        "short_copy.md",
+        "storyboard.md"
+      ],
+      "generated": [
+        "editing_plan.md",
+        "publish_package.md",
+        "quality_review.json",
+        "script_outline.md",
+        "short_copy.md",
+        "storyboard.md"
+      ],
+      "missing": []
+    },
+    "risk_flags": [
+      "dev_local_text_only",
+      "no_external_model_call",
+      "no_real_video_rendering"
+    ],
+    "redaction_status": "redacted"
+  },
+  "attempt_history": {
+    "workflow_instance_id": "v43_video_instance_635d52af894b",
+    "stations": [
+      {
+        "station_id": "writer_agent",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_writer_agent_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-28T08:58:35.005229+00:00"
+          }
+        ]
+      },
+      {
+        "station_id": "storyboard_agent",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_storyboard_agent_1",
+            "attempt": 1,
+            "status": "failed",
+            "error": "Deterministic video station failed: storyboard_agent",
+            "created_at": "2026-05-28T08:58:35.005229+00:00"
+          },
+          {
+            "attempt_id": "attempt_storyboard_agent_2",
+            "attempt": 2,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-28T08:58:35.011890+00:00"
+          }
+        ]
+      },
+      {
+        "station_id": "copywriting_agent",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_copywriting_agent_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-28T08:58:35.021762+00:00"
+          }
+        ]
+      },
+      {
+        "station_id": "editing_plan_agent",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_editing_plan_agent_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-28T08:58:35.021762+00:00"
+          }
+        ]
+      },
+      {
+        "station_id": "quality_review_agent",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_quality_review_agent_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-28T08:58:35.021762+00:00"
+          }
+        ]
+      },
+      {
+        "station_id": "publish_preparation_agent",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_publish_preparation_agent_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-28T08:58:35.021762+00:00"
+          }
+        ]
+      }
+    ],
+    "redaction_status": "redacted"
+  },
+  "downstream_stale": [],
+  "operation_evidence": [
+    {
+      "evidence_id": "v43_evidence_76c3ecae731c",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "workflow_template_id": "v43_serial_video_template",
+      "operation": "workflow.instance.start",
+      "operation_type": "workflow.instance.start",
+      "status": "failed",
+      "correlation_id": "corr_259ea8a0cb3b",
+      "operation_id": "op_afcbeeab014c",
+      "idempotency_key": "idem_3f76418da231",
+      "proposal_id": null,
+      "handoff_id": null,
+      "user_confirmed": true,
+      "source": "run_panel",
+      "risk_flags": [
+        "dev_local_video_workflow",
+        "deterministic_text_artifacts"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "capability_decision": "bff_serial_video_runtime_allowed",
+      "runtime_result_ref": {
+        "type": "workflow_instance",
+        "resource_id": "v43_video_instance_635d52af894b",
+        "operation": "workflow.instance.start",
+        "status": "failed",
+        "workflow_instance_id": "v43_video_instance_635d52af894b",
+        "trace_id": "trace_24a66081"
+      },
+      "created_at": "2026-05-28T08:58:35.005458+00:00",
+      "created_by": "run_panel",
+      "redaction_status": "redacted"
+    },
+    {
+      "evidence_id": "v43_evidence_5d3931b426eb",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "workflow_template_id": "v43_serial_video_template",
+      "operation": "station.rerun",
+      "operation_type": "station.rerun",
+      "status": "succeeded",
+      "correlation_id": "corr_c33730f682ad",
+      "operation_id": "op_d37ea3dd06a6",
+      "idempotency_key": "idem_c3ce57726256",
+      "proposal_id": null,
+      "handoff_id": null,
+      "user_confirmed": true,
+      "source": "run_panel",
+      "risk_flags": [
+        "station_rerun",
+        "downstream_stale",
+        "dev_local_video_workflow"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "capability_decision": "bff_serial_video_runtime_allowed",
+      "runtime_result_ref": {
+        "type": "station_run_attempt",
+        "resource_id": "attempt_storyboard_agent_2",
+        "workflow_instance_id": "v43_video_instance_635d52af894b",
+        "operation": "station.rerun",
+        "status": "completed",
+        "trace_id": "trace_3d67f0e2"
+      },
+      "created_at": "2026-05-28T08:58:35.012744+00:00",
+      "created_by": "run_panel",
+      "redaction_status": "redacted"
+    },
+    {
+      "evidence_id": "v43_evidence_8ebd132fbb48",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "workflow_template_id": "v43_serial_video_template",
+      "operation": "workflow.instance.continue_downstream",
+      "operation_type": "workflow.instance.continue_downstream",
+      "status": "succeeded",
+      "correlation_id": "corr_2e91df98504d",
+      "operation_id": "op_0fb35532f6f2",
+      "idempotency_key": "idem_a7641448d860",
+      "proposal_id": null,
+      "handoff_id": null,
+      "user_confirmed": true,
+      "source": "run_panel",
+      "risk_flags": [
+        "downstream_continue",
+        "dev_local_video_workflow"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "capability_decision": "bff_serial_video_runtime_allowed",
+      "runtime_result_ref": {
+        "type": "workflow_instance",
+        "resource_id": "v43_video_instance_635d52af894b",
+        "operation": "workflow.instance.continue_downstream",
+        "status": "completed",
+        "workflow_instance_id": "v43_video_instance_635d52af894b",
+        "trace_id": "trace_efd13b4a"
+      },
+      "created_at": "2026-05-28T08:58:35.022465+00:00",
+      "created_by": "run_panel",
+      "redaction_status": "redacted"
+    }
+  ],
+  "redaction_status": "redacted"
+}

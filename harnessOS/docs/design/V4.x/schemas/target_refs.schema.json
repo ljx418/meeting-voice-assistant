@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/target_refs.schema.json",
+  "title": "V4.x Target Refs",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "workflow_spec_id": { "type": "string" },
+    "workflow_instance_id": { "type": "string" },
+    "station_id": { "type": "string" },
+    "station_run_id": { "type": "string" },
+    "artifact_id": { "type": "string" },
+    "evidence_id": { "type": "string" },
+    "handoff_id": { "type": "string" },
+    "report_id": { "type": "string" }
+  }
+}

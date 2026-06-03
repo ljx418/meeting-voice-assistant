@@ -1,0 +1,284 @@
+{
+  "metadata": {
+    "workflow_spec_id": "v43_serial_video_creation",
+    "schema_version": "v4.3",
+    "name": "串行多 Agent 视频创作流水线",
+    "stage": "V4.3 Serial Multi-Agent Video Workflow MVP",
+    "source_baseline": "V4.2-C controlled runtime MVP",
+    "runtime_truth_boundary": "WorkflowSpec is a review artifact and does not replace WorkflowDraft or WorkflowVersion runtime truth.",
+    "generated_from": "v4_3_dev_local_video_fixture"
+  },
+  "stations": [
+    {
+      "station_id": "writer_agent",
+      "name": "编剧 Agent",
+      "station_kind": "agent_station",
+      "agent_descriptor": {
+        "role": "Writer Agent",
+        "goal": "把创作 brief 转成视频脚本大纲。",
+        "model_ref": "dev_local_text_model",
+        "tool_refs": [
+          "brief_reader"
+        ],
+        "skill_refs": [
+          "script_outline"
+        ],
+        "input_artifact_contract": "video_brief",
+        "output_artifact_contract": "script_outline"
+      },
+      "input_artifacts": [
+        "video_brief"
+      ],
+      "output_artifacts": [
+        "script_outline"
+      ]
+    },
+    {
+      "station_id": "storyboard_agent",
+      "name": "分镜 Agent",
+      "station_kind": "agent_station",
+      "agent_descriptor": {
+        "role": "Storyboard Agent",
+        "goal": "把脚本大纲转成镜头分镜。",
+        "model_ref": "dev_local_text_model",
+        "tool_refs": [
+          "scene_planner"
+        ],
+        "skill_refs": [
+          "storyboard_planning"
+        ],
+        "input_artifact_contract": "script_outline",
+        "output_artifact_contract": "storyboard"
+      },
+      "input_artifacts": [
+        "script_outline"
+      ],
+      "output_artifacts": [
+        "storyboard"
+      ]
+    },
+    {
+      "station_id": "copywriting_agent",
+      "name": "文案 Agent",
+      "station_kind": "agent_station",
+      "agent_descriptor": {
+        "role": "Copywriting Agent",
+        "goal": "生成口播文案、标题和短文案。",
+        "model_ref": "dev_local_text_model",
+        "tool_refs": [
+          "copy_template"
+        ],
+        "skill_refs": [
+          "short_copy"
+        ],
+        "input_artifact_contract": "storyboard",
+        "output_artifact_contract": "short_copy"
+      },
+      "input_artifacts": [
+        "storyboard"
+      ],
+      "output_artifacts": [
+        "short_copy"
+      ]
+    },
+    {
+      "station_id": "editing_plan_agent",
+      "name": "剪辑计划 Agent",
+      "station_kind": "agent_station",
+      "agent_descriptor": {
+        "role": "Editing Plan Agent",
+        "goal": "输出剪辑节奏、素材需求和转场计划。",
+        "model_ref": "dev_local_text_model",
+        "tool_refs": [
+          "timeline_planner"
+        ],
+        "skill_refs": [
+          "editing_plan"
+        ],
+        "input_artifact_contract": "short_copy",
+        "output_artifact_contract": "editing_plan"
+      },
+      "input_artifacts": [
+        "short_copy"
+      ],
+      "output_artifacts": [
+        "editing_plan"
+      ]
+    },
+    {
+      "station_id": "quality_review_agent",
+      "name": "质量审查 Agent",
+      "station_kind": "quality_station",
+      "agent_descriptor": {
+        "role": "Quality Review Agent",
+        "goal": "检查脚本、分镜、文案和剪辑计划是否覆盖 brief。",
+        "model_ref": "dev_local_rule_model",
+        "tool_refs": [
+          "quality_rules"
+        ],
+        "skill_refs": [
+          "video_quality_review"
+        ],
+        "input_artifact_contract": "editing_plan",
+        "output_artifact_contract": "quality_review"
+      },
+      "input_artifacts": [
+        "editing_plan"
+      ],
+      "output_artifacts": [
+        "quality_review"
+      ]
+    },
+    {
+      "station_id": "publish_preparation_agent",
+      "name": "发布准备 Agent",
+      "station_kind": "agent_station",
+      "agent_descriptor": {
+        "role": "Publish Preparation Agent",
+        "goal": "生成发布清单、封面建议和上线前检查表。",
+        "model_ref": "dev_local_text_model",
+        "tool_refs": [
+          "publish_checklist"
+        ],
+        "skill_refs": [
+          "publish_package"
+        ],
+        "input_artifact_contract": "quality_review",
+        "output_artifact_contract": "publish_package"
+      },
+      "input_artifacts": [
+        "quality_review"
+      ],
+      "output_artifacts": [
+        "publish_package"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "edge_writer_agent_storyboard_agent",
+      "from_station_id": "writer_agent",
+      "to_station_id": "storyboard_agent",
+      "artifact_contract_id": "script_outline"
+    },
+    {
+      "edge_id": "edge_storyboard_agent_copywriting_agent",
+      "from_station_id": "storyboard_agent",
+      "to_station_id": "copywriting_agent",
+      "artifact_contract_id": "storyboard"
+    },
+    {
+      "edge_id": "edge_copywriting_agent_editing_plan_agent",
+      "from_station_id": "copywriting_agent",
+      "to_station_id": "editing_plan_agent",
+      "artifact_contract_id": "short_copy"
+    },
+    {
+      "edge_id": "edge_editing_plan_agent_quality_review_agent",
+      "from_station_id": "editing_plan_agent",
+      "to_station_id": "quality_review_agent",
+      "artifact_contract_id": "editing_plan"
+    },
+    {
+      "edge_id": "edge_quality_review_agent_publish_preparation_agent",
+      "from_station_id": "quality_review_agent",
+      "to_station_id": "publish_preparation_agent",
+      "artifact_contract_id": "quality_review"
+    }
+  ],
+  "artifact_contracts": [
+    {
+      "artifact_contract_id": "video_brief",
+      "kind": "brief_markdown",
+      "description": "视频创作 brief 引用。"
+    },
+    {
+      "artifact_contract_id": "script_outline",
+      "kind": "markdown",
+      "description": "脚本大纲。"
+    },
+    {
+      "artifact_contract_id": "storyboard",
+      "kind": "markdown",
+      "description": "分镜文档。"
+    },
+    {
+      "artifact_contract_id": "short_copy",
+      "kind": "markdown",
+      "description": "口播与短文案。"
+    },
+    {
+      "artifact_contract_id": "editing_plan",
+      "kind": "markdown",
+      "description": "剪辑计划。"
+    },
+    {
+      "artifact_contract_id": "quality_review",
+      "kind": "quality_report",
+      "description": "质量审查报告。"
+    },
+    {
+      "artifact_contract_id": "publish_package",
+      "kind": "markdown",
+      "description": "发布准备包。"
+    }
+  ],
+  "quality_rules": [
+    {
+      "rule_id": "brief_coverage",
+      "description": "每个工位产物都必须引用输入 brief 的主题。"
+    },
+    {
+      "rule_id": "station_output_present",
+      "description": "每个串行工位都必须有可查看产物。"
+    },
+    {
+      "rule_id": "quality_review_passed",
+      "description": "质量审查必须记录覆盖率和风险。"
+    }
+  ],
+  "approval_points": [
+    {
+      "approval_point_id": "start_video_workflow",
+      "operation": "workflow.instance.start",
+      "policy": "user_confirmed_only"
+    },
+    {
+      "approval_point_id": "rerun_video_station",
+      "operation": "station.rerun",
+      "policy": "user_confirmed_only"
+    },
+    {
+      "approval_point_id": "continue_video_downstream",
+      "operation": "workflow.instance.continue_downstream",
+      "policy": "user_confirmed_only"
+    }
+  ],
+  "context_refs": [
+    {
+      "context_ref_id": "video_brief_path",
+      "value_label": "tests/fixtures/v4_3/video_brief/launch_brief.md"
+    },
+    {
+      "context_ref_id": "runtime_mode",
+      "value_label": "dev_local_deterministic_runner"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_ref_id": "v4_3_runtime",
+      "kind": "runtime_result",
+      "resource_id": "runtime-result.json"
+    },
+    {
+      "evidence_ref_id": "v4_3_attempt_history",
+      "kind": "attempt_history",
+      "resource_id": "attempt-history.json"
+    },
+    {
+      "evidence_ref_id": "v4_3_operation_evidence",
+      "kind": "operation_evidence",
+      "resource_id": "operation-evidence.json"
+    }
+  ]
+}

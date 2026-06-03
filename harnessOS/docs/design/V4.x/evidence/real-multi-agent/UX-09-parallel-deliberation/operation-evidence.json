@@ -1,0 +1,204 @@
+[
+  {
+    "correlation_id": "corr_89a52511d7af",
+    "created_at": "2026-05-30T09:10:51.547018+00:00",
+    "evidence_id": "u7_evidence_e10747b9d4b0",
+    "operation_type": "workflow.instance.start",
+    "policy_decision": "allowed_with_user_confirmation",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_runtime"
+    ],
+    "runtime_result_ref": "runtime_670452492644",
+    "source": "mission_console",
+    "source_agent_can_mutate": false,
+    "station_id": null,
+    "user_confirmed": true,
+    "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+  },
+  {
+    "correlation_id": "corr_2a408728a39a",
+    "created_at": "2026-05-30T09:11:14.134802+00:00",
+    "evidence_id": "u7_evidence_bd346cdeddc6",
+    "input_artifact_refs": [
+      "input:tests/fixtures/v4_4/deliberation/project_question.md"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_4755c2bba232"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.deliberation.orchestrator.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_df1ec5effef7",
+    "station_id": "orchestrator",
+    "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+  },
+  {
+    "correlation_id": "corr_ce8d9573d2c4",
+    "created_at": "2026-05-30T09:11:22.601195+00:00",
+    "evidence_id": "u7_evidence_2976fdebcd41",
+    "input_artifact_refs": [
+      "u7_artifact_4755c2bba232"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_b52f455d933e"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.deliberation.product.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_ac2738e3e4fe",
+    "station_id": "product_persona",
+    "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+  },
+  {
+    "correlation_id": "corr_9b6702e35a58",
+    "created_at": "2026-05-30T09:11:34.664369+00:00",
+    "evidence_id": "u7_evidence_d2554d0760de",
+    "input_artifact_refs": [
+      "u7_artifact_b52f455d933e"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_fad77d55e931"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.deliberation.architecture.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_c666c8f4ece6",
+    "station_id": "architecture_persona",
+    "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+  },
+  {
+    "correlation_id": "corr_8e295c94a924",
+    "created_at": "2026-05-30T09:11:43.060187+00:00",
+    "evidence_id": "u7_evidence_82a94339e17c",
+    "input_artifact_refs": [
+      "u7_artifact_fad77d55e931"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_9d9a352e8f44"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.deliberation.risk.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_f87b6a2e7da1",
+    "station_id": "risk_persona",
+    "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+  },
+  {
+    "correlation_id": "corr_89d2ce277d7d",
+    "created_at": "2026-05-30T09:11:53.382396+00:00",
+    "evidence_id": "u7_evidence_15cb7bb576e0",
+    "input_artifact_refs": [
+      "u7_artifact_9d9a352e8f44"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_e7881a79ea42"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.deliberation.synthesis.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_623cbd5556ea",
+    "station_id": "synthesis_node",
+    "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+  },
+  {
+    "correlation_id": "corr_0998e3b95d9f",
+    "created_at": "2026-05-30T09:12:07.975922+00:00",
+    "evidence_id": "u7_evidence_a7f84f1257f7",
+    "input_artifact_refs": [
+      "u7_artifact_e7881a79ea42"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_796315b48eff"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.deliberation.contradiction.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_2584b9ec0e12",
+    "station_id": "contradiction_review",
+    "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+  },
+  {
+    "correlation_id": "corr_416841745cf0",
+    "created_at": "2026-05-30T09:12:18.836580+00:00",
+    "evidence_id": "u7_evidence_96b4baf5d42f",
+    "operation_type": "station.rerun",
+    "policy_decision": "allowed_with_user_confirmation",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_runtime"
+    ],
+    "runtime_result_ref": "runtime_20a759c5bef6",
+    "source": "review_console",
+    "source_agent_can_mutate": false,
+    "station_id": "architecture_persona",
+    "user_confirmed": true,
+    "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+  },
+  {
+    "correlation_id": "corr_9b25c230f25e",
+    "created_at": "2026-05-30T09:12:18.836526+00:00",
+    "evidence_id": "u7_evidence_73d42a82264c",
+    "input_artifact_refs": [
+      "rerun_input:architecture_persona:user_confirmed"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_537e159efb21"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.deliberation.architecture.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_24c4d33f31eb",
+    "station_id": "architecture_persona",
+    "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+  }
+]

@@ -1,9 +1,52 @@
 # V4.0 Current Gap Analysis
 
-文档状态：V4.0-Z complete；V4.0 final audit package ready for review。当前基于 V4.0-G governed editing hardening、V4.0-H canvas-to-runtime patch bridge、V4.0-I stateful Agent assistant baseline、V4.0-J AgentTalk governance baseline、V4.0-K Agent action handoff baseline、V4.0-L handoff lifecycle baseline、V4.0-M operation evidence baseline、V4.0-N canvas editing readiness baseline、V4.0-O governed canvas proposal workflow baseline、V4.0-P AgentTalkWindow interaction E2E baseline、V4.0-Q Controlled Executor Design Gate、V4.0-R Production Readiness Preflight、V4.0-S Production Auth / Tenant Boundary Follow-up Design、V4.0-T Production Token Lifecycle Follow-up Design、V4.0-U Production Secret Management Follow-up Design、V4.0-V Production Observability / Audit Retention Follow-up Design、V4.0-W External App Production Onboarding Follow-up Design、V4.0-X Production Readiness Consolidation Gate、V4.0-Y Controlled Executor Implementation Gate 和 V4.0-Z Final Audit / Release Gate。V3.6 complete baseline 与 V3.6/V4.0 preflight hardening 已完成，Workflow Console read-only MVP、AgentTalkWindow preparation shell、低代码 Workflow Studio Shell、真实 BFF read/event data bridge、Quality / Approval / Context operation panels、Reference Workflow Console component-level + BFF integration E2E、Playwright browser smoke baseline、governed patch apply/reject/publish editing hardening、canvas / Inspector intent 到 WorkflowPatch proposal 的桥接、BFF/UI 层 stateful Agent assistant baseline、Agent action proposal governance、Agent action handoff to user-confirmed operation panels、Agent handoff lifecycle / audit / recovery hardening、user-confirmed operation evidence / governance review baseline、canvas editing readiness baseline、governed canvas proposal workflow baseline、AgentTalkWindow interaction E2E baseline、Controlled Executor Design Gate、Production Readiness Preflight、Auth / Tenant Boundary Design、Token Lifecycle Design、Secret Management Design、Observability / Audit Retention Design、External App Onboarding Design、Production Readiness Consolidation Gate、Controlled Executor Implementation Gate 和 Final Audit / Release Gate 均已完成。最终允许声明为 `V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.`。当前仍不能声明 executor、完整 AgentTalkWindow、完整低代码编辑器、enterprise auth、OAuth/SSO、多租户控制台或 production-ready external app support。
+文档状态：V4.0-Z complete；V4.0 final audit package ready for review。当前基于 V4.0-G governed editing hardening、V4.0-H canvas-to-runtime patch bridge、V4.0-I stateful Agent assistant baseline、V4.0-J AgentTalk governance baseline、V4.0-K Agent action handoff baseline、V4.0-L handoff lifecycle baseline、V4.0-M operation evidence baseline、V4.0-N canvas editing readiness baseline、V4.0-O governed canvas proposal workflow baseline、V4.0-P AgentTalkWindow interaction E2E baseline、V4.0-Q Controlled Executor Design Gate、V4.0-R Production Readiness Preflight、V4.0-S Production Auth / Tenant Boundary Follow-up Design、V4.0-T Production Token Lifecycle Follow-up Design、V4.0-U Production Secret Management Follow-up Design、V4.0-V Production Observability / Audit Retention Follow-up Design、V4.0-W External App Production Onboarding Follow-up Design、V4.0-X Production Readiness Consolidation Gate、V4.0-Y Controlled Executor Implementation Gate 和 V4.0-Z Final Audit / Release Gate。V3.6 complete baseline 与 V3.6/V4.0 preflight hardening 已完成，Workflow Console read-only MVP、AgentTalkWindow preparation shell、低代码 Workflow Studio Shell、真实 BFF read/event data bridge、Quality / Approval / Context operation panels、Reference Workflow Console component-level + BFF integration E2E、Playwright browser smoke baseline、governed patch apply/reject/publish editing hardening、canvas / Inspector intent 到 WorkflowPatch proposal 的桥接、BFF/UI 层 stateful Agent assistant baseline、Agent action proposal governance、Agent action handoff to user-confirmed operation panels、Agent handoff lifecycle / audit / recovery hardening、user-confirmed operation evidence / governance review baseline、canvas editing readiness baseline、governed canvas proposal workflow baseline、AgentTalkWindow interaction E2E baseline、Controlled Executor Design Gate、Production Readiness Preflight、Auth / Tenant Boundary Design、Token Lifecycle Design、Secret Management Design、Observability / Audit Retention Design、External App Onboarding Design、Production Readiness Consolidation Gate、Controlled Executor Implementation Gate 和 Final Audit / Release Gate 均已完成。最终允许声明为 `V4.0 complete: governed dev/local Workflow Console and production readiness design gates ready for implementation review.`。
+
+当前仍不能声明：
+
+```text
+不能声明 executor
+不能声明完整 AgentTalkWindow
+不能声明完整低代码编辑器
+不能声明 enterprise auth
+不能声明 OAuth/SSO
+不能声明多租户控制台
+不能声明 production-ready external app support
+```
 配套图：`v4_0_current_gap_analysis.drawio`。
 
-本文与 `v4_0_current_gap_analysis.drawio` 是 V4.0 后续规划、验收和与用户交互时的核心维护文件。两者必须同步更新：本文承载文字合同，drawio 承载同一套架构演进、差距矩阵、阶段路线图和 V4.0 gate。
+本文与 `v4_0_current_gap_analysis.drawio` 是 V4.0 历史规划、验收和与用户交互时的核心维护文件。两者承载 V4.0 架构演进、差距矩阵、阶段路线图和 V4.0 gate。V4.1 之后的前向 V4.x gap 不再以本文为主，应改用 `docs/design/V4.x/v4_x_headless_current_gap_analysis.md` 和 `docs/design/V4.x/v4_x_headless_current_gap_analysis.drawio`。
+
+## 0. V4.x Headless-first 后续路线审计补充
+
+V4.0 gap 文档仍是 V4.0 Workflow Console / Workflow Studio / AgentTalkWindow 前置产品层的历史事实记录。V4.1 完成后，后续 V4.x 主线已从完整 Web 低代码 Studio first 调整为：
+
+```text
+Headless Workflow Core
++ TUI / Command Palette
++ Drawio Workflow Visualization
++ HTML Runtime Reports
++ Thin Web Console
+```
+
+新的前向 gap source 是：
+
+```text
+docs/design/V4.x/v4_x_headless_current_gap_analysis.md
+```
+
+当前前向差距：
+
+- 尚未实现 canonical `WorkflowSpec` schema / validator。
+- 尚未实现真实 TUI / Command Palette。
+- 尚未实现 Drawio renderer。
+- 尚未实现 HTML report generator。
+- 尚未实现通用 user-confirmed workflow start。
+- 尚未实现通用 user-confirmed station rerun、attempt history 或 downstream stale propagation。
+- 尚未实现 controlled execution runtime、Agent executor、真实串行/并行多 Agent runtime 或长时工程任务看板。
+- Thin Web Console 只能作为 BFF-only 观察与受限用户确认入口，不再承担完整 Web 低代码 Studio 主线。
+
+因此，本文中的 V4.0 Web Studio / AgentTalkWindow / controlled executor design gate 结论不能声明为 V4.x 已具备完整 Web Studio、Agent executor、controlled executor 或 production-ready external app support。V4.2-A 只允许推进 Headless Interaction Pivot；通用执行能力必须延后到 V4.2-B/C 单独审计和实现。
 
 ## 1. 文档定位
 

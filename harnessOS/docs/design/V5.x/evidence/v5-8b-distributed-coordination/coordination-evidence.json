@@ -1,0 +1,932 @@
+{
+  "allowed_claim": "V5-8B complete: minimal distributed run coordination slice ready for review.",
+  "distributed_runtime_complete": false,
+  "evidence_scope": "real_provider_backed_source_evidence_plus_in_memory_coordination",
+  "forbidden_claims": [
+    "distributed multi-Agent runtime ready",
+    "full multi-Agent orchestration ready",
+    "Agent executor ready",
+    "production controlled executor ready",
+    "production-ready external app support"
+  ],
+  "production_ready": false,
+  "production_routes_added": false,
+  "production_workers_started": false,
+  "real_provider_backed_source_count": 3,
+  "runtime_backed": true,
+  "scenarios": [
+    {
+      "restart_recovery": {
+        "app_id": "app_v5",
+        "artifact_lineage": {
+          "artifact://v5-8b/copywriting_agent/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_d84929c7b2e9",
+            "station_id": "copywriting_agent"
+          },
+          "artifact://v5-8b/storyboard_agent/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_6385dc87b53a",
+            "station_id": "storyboard_agent"
+          },
+          "artifact://v5-8b/writer_agent/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_e94596080e89",
+            "station_id": "writer_agent"
+          }
+        },
+        "assignments": {
+          "copywriting_agent": "worker_copywriting_agent",
+          "storyboard_agent": "worker_storyboard_agent",
+          "writer_agent": "worker_writer_agent"
+        },
+        "distributed_run_id": "v5_8b_run_f14a56eba2d1",
+        "downstream_stale": [],
+        "evidence_source_refs": [
+          "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-result.json",
+          "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/result-summary.md"
+        ],
+        "incident_timeline": [
+          {
+            "created_at": "2026-06-02T02:51:05.401464+00:00",
+            "event_type": "distributed.run.started"
+          },
+          {
+            "created_at": "2026-06-02T02:51:05.401961+00:00",
+            "event_type": "coordinator.restart.recovered"
+          }
+        ],
+        "production_ready": false,
+        "project_id": "project_v5",
+        "recovered_after_restart": true,
+        "source": "product_console",
+        "staging_only": true,
+        "station_attempts": {
+          "copywriting_agent": [
+            {
+              "attempt_id": "v5_8b_attempt_d84929c7b2e9",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.401460+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/copywriting_agent/attempt-1",
+              "station_id": "copywriting_agent",
+              "status": "assigned",
+              "worker_id": "worker_copywriting_agent"
+            }
+          ],
+          "storyboard_agent": [
+            {
+              "attempt_id": "v5_8b_attempt_6385dc87b53a",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.401448+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/storyboard_agent/attempt-1",
+              "station_id": "storyboard_agent",
+              "status": "assigned",
+              "worker_id": "worker_storyboard_agent"
+            }
+          ],
+          "writer_agent": [
+            {
+              "attempt_id": "v5_8b_attempt_e94596080e89",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.401400+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/writer_agent/attempt-1",
+              "station_id": "writer_agent",
+              "status": "assigned",
+              "worker_id": "worker_writer_agent"
+            }
+          ]
+        },
+        "status": "running_recovered",
+        "tenant_id": "tenant_v5",
+        "updated_at": "2026-06-02T02:51:05.401955+00:00",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_serial_video_95973a5604b7",
+        "workspace_id": "workspace_v5"
+      },
+      "scenario": "UX-08-serial-video",
+      "source_evidence": {
+        "model_ref": "MiniMax-M2.1",
+        "provider": "minimax",
+        "provider_invocation_count": 7,
+        "real_provider_backed": true,
+        "result_path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-result.json",
+        "summary_path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/result-summary.md"
+      },
+      "start_evidence": {
+        "actor_type": "human_user",
+        "app_id": "app_v5",
+        "audit_export_ref": "audit-export://v5-8b/default",
+        "correlation_id": "correlation_v5_3",
+        "created_at": "2026-06-02T02:51:05.401496+00:00",
+        "credential_boundary_decision": "worker_credential_decision_refs_required",
+        "distributed_run_id": "v5_8b_run_f14a56eba2d1",
+        "evidence_id": "v5_8b_evidence_149440222ae7",
+        "human_authorization_ref": "human-auth://v5-7b/authorization",
+        "incident_timeline_ref": "incident-timeline://v5-8b/default",
+        "operation": "distributed.run.start",
+        "policy_decision": "allow_minimal_coordination_slice",
+        "project_id": "project_v5",
+        "redaction_status": "redacted",
+        "request_id": "request_v5_3",
+        "source": "product_console",
+        "tenant_id": "tenant_v5",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_serial_video_95973a5604b7",
+        "workspace_id": "workspace_v5"
+      },
+      "started": {
+        "app_id": "app_v5",
+        "artifact_lineage": {
+          "artifact://v5-8b/copywriting_agent/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_d84929c7b2e9",
+            "station_id": "copywriting_agent"
+          },
+          "artifact://v5-8b/storyboard_agent/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_6385dc87b53a",
+            "station_id": "storyboard_agent"
+          },
+          "artifact://v5-8b/writer_agent/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_e94596080e89",
+            "station_id": "writer_agent"
+          }
+        },
+        "assignments": {
+          "copywriting_agent": "worker_copywriting_agent",
+          "storyboard_agent": "worker_storyboard_agent",
+          "writer_agent": "worker_writer_agent"
+        },
+        "distributed_run_id": "v5_8b_run_f14a56eba2d1",
+        "downstream_stale": [],
+        "evidence_source_refs": [
+          "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-result.json",
+          "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/result-summary.md"
+        ],
+        "incident_timeline": [
+          {
+            "created_at": "2026-06-02T02:51:05.401464+00:00",
+            "event_type": "distributed.run.started"
+          }
+        ],
+        "production_ready": false,
+        "project_id": "project_v5",
+        "recovered_after_restart": false,
+        "source": "product_console",
+        "staging_only": true,
+        "station_attempts": {
+          "copywriting_agent": [
+            {
+              "attempt_id": "v5_8b_attempt_d84929c7b2e9",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.401460+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/copywriting_agent/attempt-1",
+              "station_id": "copywriting_agent",
+              "status": "assigned",
+              "worker_id": "worker_copywriting_agent"
+            }
+          ],
+          "storyboard_agent": [
+            {
+              "attempt_id": "v5_8b_attempt_6385dc87b53a",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.401448+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/storyboard_agent/attempt-1",
+              "station_id": "storyboard_agent",
+              "status": "assigned",
+              "worker_id": "worker_storyboard_agent"
+            }
+          ],
+          "writer_agent": [
+            {
+              "attempt_id": "v5_8b_attempt_e94596080e89",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.401400+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/writer_agent/attempt-1",
+              "station_id": "writer_agent",
+              "status": "assigned",
+              "worker_id": "worker_writer_agent"
+            }
+          ]
+        },
+        "status": "running",
+        "tenant_id": "tenant_v5",
+        "updated_at": "2026-06-02T02:51:05.401474+00:00",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_serial_video_95973a5604b7",
+        "workspace_id": "workspace_v5"
+      },
+      "status": "PASS",
+      "worker_recovery": {
+        "app_id": "app_v5",
+        "artifact_lineage": {
+          "artifact://v5-8b/copywriting_agent/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_d84929c7b2e9",
+            "station_id": "copywriting_agent"
+          },
+          "artifact://v5-8b/storyboard_agent/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_6385dc87b53a",
+            "station_id": "storyboard_agent"
+          },
+          "artifact://v5-8b/storyboard_agent/attempt-2": {
+            "previous_attempt_id": "v5_8b_attempt_6385dc87b53a",
+            "producer_attempt_id": "v5_8b_attempt_38b091bae14f",
+            "station_id": "storyboard_agent"
+          },
+          "artifact://v5-8b/writer_agent/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_e94596080e89",
+            "station_id": "writer_agent"
+          }
+        },
+        "assignments": {
+          "copywriting_agent": "worker_copywriting_agent",
+          "storyboard_agent": "worker_storyboard_agent_replacement",
+          "writer_agent": "worker_writer_agent"
+        },
+        "distributed_run_id": "v5_8b_run_f14a56eba2d1",
+        "downstream_stale": [
+          "downstream-of:storyboard_agent"
+        ],
+        "evidence_source_refs": [
+          "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-result.json",
+          "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/result-summary.md"
+        ],
+        "incident_timeline": [
+          {
+            "created_at": "2026-06-02T02:51:05.401464+00:00",
+            "event_type": "distributed.run.started"
+          },
+          {
+            "created_at": "2026-06-02T02:51:05.401961+00:00",
+            "event_type": "coordinator.restart.recovered"
+          },
+          {
+            "created_at": "2026-06-02T02:51:05.402308+00:00",
+            "event_type": "worker.lost.recovered",
+            "station_id": "storyboard_agent"
+          }
+        ],
+        "production_ready": false,
+        "project_id": "project_v5",
+        "recovered_after_restart": true,
+        "source": "product_console",
+        "staging_only": true,
+        "station_attempts": {
+          "copywriting_agent": [
+            {
+              "attempt_id": "v5_8b_attempt_d84929c7b2e9",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.401460+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/copywriting_agent/attempt-1",
+              "station_id": "copywriting_agent",
+              "status": "assigned",
+              "worker_id": "worker_copywriting_agent"
+            }
+          ],
+          "storyboard_agent": [
+            {
+              "attempt_id": "v5_8b_attempt_6385dc87b53a",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.401448+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/storyboard_agent/attempt-1",
+              "station_id": "storyboard_agent",
+              "status": "assigned",
+              "worker_id": "worker_storyboard_agent"
+            },
+            {
+              "attempt_id": "v5_8b_attempt_38b091bae14f",
+              "attempt_number": 2,
+              "created_at": "2026-06-02T02:51:05.402295+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/storyboard_agent/attempt-2",
+              "station_id": "storyboard_agent",
+              "status": "completed_after_worker_recovery",
+              "worker_id": "worker_storyboard_agent_replacement"
+            }
+          ],
+          "writer_agent": [
+            {
+              "attempt_id": "v5_8b_attempt_e94596080e89",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.401400+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/writer_agent/attempt-1",
+              "station_id": "writer_agent",
+              "status": "assigned",
+              "worker_id": "worker_writer_agent"
+            }
+          ]
+        },
+        "status": "running_recovered",
+        "tenant_id": "tenant_v5",
+        "updated_at": "2026-06-02T02:51:05.402312+00:00",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_serial_video_95973a5604b7",
+        "workspace_id": "workspace_v5"
+      }
+    },
+    {
+      "restart_recovery": {
+        "app_id": "app_v5",
+        "artifact_lineage": {
+          "artifact://v5-8b/architecture_persona/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_17df26aaf04f",
+            "station_id": "architecture_persona"
+          },
+          "artifact://v5-8b/orchestrator/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_4220e85e0a77",
+            "station_id": "orchestrator"
+          },
+          "artifact://v5-8b/product_persona/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_cd91dd2e7aa2",
+            "station_id": "product_persona"
+          }
+        },
+        "assignments": {
+          "architecture_persona": "worker_architecture_persona",
+          "orchestrator": "worker_orchestrator",
+          "product_persona": "worker_product_persona"
+        },
+        "distributed_run_id": "v5_8b_run_95823402e75c",
+        "downstream_stale": [],
+        "evidence_source_refs": [
+          "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-result.json",
+          "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/result-summary.md"
+        ],
+        "incident_timeline": [
+          {
+            "created_at": "2026-06-02T02:51:05.403024+00:00",
+            "event_type": "distributed.run.started"
+          },
+          {
+            "created_at": "2026-06-02T02:51:05.403521+00:00",
+            "event_type": "coordinator.restart.recovered"
+          }
+        ],
+        "production_ready": false,
+        "project_id": "project_v5",
+        "recovered_after_restart": true,
+        "source": "product_console",
+        "staging_only": true,
+        "station_attempts": {
+          "architecture_persona": [
+            {
+              "attempt_id": "v5_8b_attempt_17df26aaf04f",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.403020+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/architecture_persona/attempt-1",
+              "station_id": "architecture_persona",
+              "status": "assigned",
+              "worker_id": "worker_architecture_persona"
+            }
+          ],
+          "orchestrator": [
+            {
+              "attempt_id": "v5_8b_attempt_4220e85e0a77",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.402998+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/orchestrator/attempt-1",
+              "station_id": "orchestrator",
+              "status": "assigned",
+              "worker_id": "worker_orchestrator"
+            }
+          ],
+          "product_persona": [
+            {
+              "attempt_id": "v5_8b_attempt_cd91dd2e7aa2",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.403010+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/product_persona/attempt-1",
+              "station_id": "product_persona",
+              "status": "assigned",
+              "worker_id": "worker_product_persona"
+            }
+          ]
+        },
+        "status": "running_recovered",
+        "tenant_id": "tenant_v5",
+        "updated_at": "2026-06-02T02:51:05.403516+00:00",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196",
+        "workspace_id": "workspace_v5"
+      },
+      "scenario": "UX-09-parallel-deliberation",
+      "source_evidence": {
+        "model_ref": "MiniMax-M2.1",
+        "provider": "minimax",
+        "provider_invocation_count": 7,
+        "real_provider_backed": true,
+        "result_path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-result.json",
+        "summary_path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/result-summary.md"
+      },
+      "start_evidence": {
+        "actor_type": "human_user",
+        "app_id": "app_v5",
+        "audit_export_ref": "audit-export://v5-8b/default",
+        "correlation_id": "correlation_v5_3",
+        "created_at": "2026-06-02T02:51:05.403046+00:00",
+        "credential_boundary_decision": "worker_credential_decision_refs_required",
+        "distributed_run_id": "v5_8b_run_95823402e75c",
+        "evidence_id": "v5_8b_evidence_72390e33629f",
+        "human_authorization_ref": "human-auth://v5-7b/authorization",
+        "incident_timeline_ref": "incident-timeline://v5-8b/default",
+        "operation": "distributed.run.start",
+        "policy_decision": "allow_minimal_coordination_slice",
+        "project_id": "project_v5",
+        "redaction_status": "redacted",
+        "request_id": "request_v5_3",
+        "source": "product_console",
+        "tenant_id": "tenant_v5",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196",
+        "workspace_id": "workspace_v5"
+      },
+      "started": {
+        "app_id": "app_v5",
+        "artifact_lineage": {
+          "artifact://v5-8b/architecture_persona/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_17df26aaf04f",
+            "station_id": "architecture_persona"
+          },
+          "artifact://v5-8b/orchestrator/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_4220e85e0a77",
+            "station_id": "orchestrator"
+          },
+          "artifact://v5-8b/product_persona/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_cd91dd2e7aa2",
+            "station_id": "product_persona"
+          }
+        },
+        "assignments": {
+          "architecture_persona": "worker_architecture_persona",
+          "orchestrator": "worker_orchestrator",
+          "product_persona": "worker_product_persona"
+        },
+        "distributed_run_id": "v5_8b_run_95823402e75c",
+        "downstream_stale": [],
+        "evidence_source_refs": [
+          "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-result.json",
+          "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/result-summary.md"
+        ],
+        "incident_timeline": [
+          {
+            "created_at": "2026-06-02T02:51:05.403024+00:00",
+            "event_type": "distributed.run.started"
+          }
+        ],
+        "production_ready": false,
+        "project_id": "project_v5",
+        "recovered_after_restart": false,
+        "source": "product_console",
+        "staging_only": true,
+        "station_attempts": {
+          "architecture_persona": [
+            {
+              "attempt_id": "v5_8b_attempt_17df26aaf04f",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.403020+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/architecture_persona/attempt-1",
+              "station_id": "architecture_persona",
+              "status": "assigned",
+              "worker_id": "worker_architecture_persona"
+            }
+          ],
+          "orchestrator": [
+            {
+              "attempt_id": "v5_8b_attempt_4220e85e0a77",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.402998+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/orchestrator/attempt-1",
+              "station_id": "orchestrator",
+              "status": "assigned",
+              "worker_id": "worker_orchestrator"
+            }
+          ],
+          "product_persona": [
+            {
+              "attempt_id": "v5_8b_attempt_cd91dd2e7aa2",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.403010+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/product_persona/attempt-1",
+              "station_id": "product_persona",
+              "status": "assigned",
+              "worker_id": "worker_product_persona"
+            }
+          ]
+        },
+        "status": "running",
+        "tenant_id": "tenant_v5",
+        "updated_at": "2026-06-02T02:51:05.403030+00:00",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196",
+        "workspace_id": "workspace_v5"
+      },
+      "status": "PASS",
+      "worker_recovery": {
+        "app_id": "app_v5",
+        "artifact_lineage": {
+          "artifact://v5-8b/architecture_persona/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_17df26aaf04f",
+            "station_id": "architecture_persona"
+          },
+          "artifact://v5-8b/orchestrator/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_4220e85e0a77",
+            "station_id": "orchestrator"
+          },
+          "artifact://v5-8b/product_persona/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_cd91dd2e7aa2",
+            "station_id": "product_persona"
+          },
+          "artifact://v5-8b/product_persona/attempt-2": {
+            "previous_attempt_id": "v5_8b_attempt_cd91dd2e7aa2",
+            "producer_attempt_id": "v5_8b_attempt_7f6e62919842",
+            "station_id": "product_persona"
+          }
+        },
+        "assignments": {
+          "architecture_persona": "worker_architecture_persona",
+          "orchestrator": "worker_orchestrator",
+          "product_persona": "worker_product_persona_replacement"
+        },
+        "distributed_run_id": "v5_8b_run_95823402e75c",
+        "downstream_stale": [
+          "downstream-of:product_persona"
+        ],
+        "evidence_source_refs": [
+          "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-result.json",
+          "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/result-summary.md"
+        ],
+        "incident_timeline": [
+          {
+            "created_at": "2026-06-02T02:51:05.403024+00:00",
+            "event_type": "distributed.run.started"
+          },
+          {
+            "created_at": "2026-06-02T02:51:05.403521+00:00",
+            "event_type": "coordinator.restart.recovered"
+          },
+          {
+            "created_at": "2026-06-02T02:51:05.403877+00:00",
+            "event_type": "worker.lost.recovered",
+            "station_id": "product_persona"
+          }
+        ],
+        "production_ready": false,
+        "project_id": "project_v5",
+        "recovered_after_restart": true,
+        "source": "product_console",
+        "staging_only": true,
+        "station_attempts": {
+          "architecture_persona": [
+            {
+              "attempt_id": "v5_8b_attempt_17df26aaf04f",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.403020+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/architecture_persona/attempt-1",
+              "station_id": "architecture_persona",
+              "status": "assigned",
+              "worker_id": "worker_architecture_persona"
+            }
+          ],
+          "orchestrator": [
+            {
+              "attempt_id": "v5_8b_attempt_4220e85e0a77",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.402998+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/orchestrator/attempt-1",
+              "station_id": "orchestrator",
+              "status": "assigned",
+              "worker_id": "worker_orchestrator"
+            }
+          ],
+          "product_persona": [
+            {
+              "attempt_id": "v5_8b_attempt_cd91dd2e7aa2",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.403010+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/product_persona/attempt-1",
+              "station_id": "product_persona",
+              "status": "assigned",
+              "worker_id": "worker_product_persona"
+            },
+            {
+              "attempt_id": "v5_8b_attempt_7f6e62919842",
+              "attempt_number": 2,
+              "created_at": "2026-06-02T02:51:05.403868+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/product_persona/attempt-2",
+              "station_id": "product_persona",
+              "status": "completed_after_worker_recovery",
+              "worker_id": "worker_product_persona_replacement"
+            }
+          ]
+        },
+        "status": "running_recovered",
+        "tenant_id": "tenant_v5",
+        "updated_at": "2026-06-02T02:51:05.403880+00:00",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196",
+        "workspace_id": "workspace_v5"
+      }
+    },
+    {
+      "restart_recovery": {
+        "app_id": "app_v5",
+        "artifact_lineage": {
+          "artifact://v5-8b/product_planning/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_897a72f210ef",
+            "station_id": "product_planning"
+          },
+          "artifact://v5-8b/project_blueprint/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_737f9b41ce1d",
+            "station_id": "project_blueprint"
+          },
+          "artifact://v5-8b/specification/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_60367da68030",
+            "station_id": "specification"
+          }
+        },
+        "assignments": {
+          "product_planning": "worker_product_planning",
+          "project_blueprint": "worker_project_blueprint",
+          "specification": "worker_specification"
+        },
+        "distributed_run_id": "v5_8b_run_2a610bbdc0ac",
+        "downstream_stale": [],
+        "evidence_source_refs": [
+          "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json",
+          "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/result-summary.md"
+        ],
+        "incident_timeline": [
+          {
+            "created_at": "2026-06-02T02:51:05.404570+00:00",
+            "event_type": "distributed.run.started"
+          },
+          {
+            "created_at": "2026-06-02T02:51:05.405039+00:00",
+            "event_type": "coordinator.restart.recovered"
+          }
+        ],
+        "production_ready": false,
+        "project_id": "project_v5",
+        "recovered_after_restart": true,
+        "source": "product_console",
+        "staging_only": true,
+        "station_attempts": {
+          "product_planning": [
+            {
+              "attempt_id": "v5_8b_attempt_897a72f210ef",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.404545+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/product_planning/attempt-1",
+              "station_id": "product_planning",
+              "status": "assigned",
+              "worker_id": "worker_product_planning"
+            }
+          ],
+          "project_blueprint": [
+            {
+              "attempt_id": "v5_8b_attempt_737f9b41ce1d",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.404566+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/project_blueprint/attempt-1",
+              "station_id": "project_blueprint",
+              "status": "assigned",
+              "worker_id": "worker_project_blueprint"
+            }
+          ],
+          "specification": [
+            {
+              "attempt_id": "v5_8b_attempt_60367da68030",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.404557+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/specification/attempt-1",
+              "station_id": "specification",
+              "status": "assigned",
+              "worker_id": "worker_specification"
+            }
+          ]
+        },
+        "status": "running_recovered",
+        "tenant_id": "tenant_v5",
+        "updated_at": "2026-06-02T02:51:05.405035+00:00",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7",
+        "workspace_id": "workspace_v5"
+      },
+      "scenario": "UX-10-engineering-workflow",
+      "source_evidence": {
+        "model_ref": "MiniMax-M2.1",
+        "provider": "minimax",
+        "provider_invocation_count": 12,
+        "real_provider_backed": true,
+        "result_path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json",
+        "summary_path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/result-summary.md"
+      },
+      "start_evidence": {
+        "actor_type": "human_user",
+        "app_id": "app_v5",
+        "audit_export_ref": "audit-export://v5-8b/default",
+        "correlation_id": "correlation_v5_3",
+        "created_at": "2026-06-02T02:51:05.404588+00:00",
+        "credential_boundary_decision": "worker_credential_decision_refs_required",
+        "distributed_run_id": "v5_8b_run_2a610bbdc0ac",
+        "evidence_id": "v5_8b_evidence_c8a500d1d49f",
+        "human_authorization_ref": "human-auth://v5-7b/authorization",
+        "incident_timeline_ref": "incident-timeline://v5-8b/default",
+        "operation": "distributed.run.start",
+        "policy_decision": "allow_minimal_coordination_slice",
+        "project_id": "project_v5",
+        "redaction_status": "redacted",
+        "request_id": "request_v5_3",
+        "source": "product_console",
+        "tenant_id": "tenant_v5",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7",
+        "workspace_id": "workspace_v5"
+      },
+      "started": {
+        "app_id": "app_v5",
+        "artifact_lineage": {
+          "artifact://v5-8b/product_planning/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_897a72f210ef",
+            "station_id": "product_planning"
+          },
+          "artifact://v5-8b/project_blueprint/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_737f9b41ce1d",
+            "station_id": "project_blueprint"
+          },
+          "artifact://v5-8b/specification/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_60367da68030",
+            "station_id": "specification"
+          }
+        },
+        "assignments": {
+          "product_planning": "worker_product_planning",
+          "project_blueprint": "worker_project_blueprint",
+          "specification": "worker_specification"
+        },
+        "distributed_run_id": "v5_8b_run_2a610bbdc0ac",
+        "downstream_stale": [],
+        "evidence_source_refs": [
+          "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json",
+          "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/result-summary.md"
+        ],
+        "incident_timeline": [
+          {
+            "created_at": "2026-06-02T02:51:05.404570+00:00",
+            "event_type": "distributed.run.started"
+          }
+        ],
+        "production_ready": false,
+        "project_id": "project_v5",
+        "recovered_after_restart": false,
+        "source": "product_console",
+        "staging_only": true,
+        "station_attempts": {
+          "product_planning": [
+            {
+              "attempt_id": "v5_8b_attempt_897a72f210ef",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.404545+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/product_planning/attempt-1",
+              "station_id": "product_planning",
+              "status": "assigned",
+              "worker_id": "worker_product_planning"
+            }
+          ],
+          "project_blueprint": [
+            {
+              "attempt_id": "v5_8b_attempt_737f9b41ce1d",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.404566+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/project_blueprint/attempt-1",
+              "station_id": "project_blueprint",
+              "status": "assigned",
+              "worker_id": "worker_project_blueprint"
+            }
+          ],
+          "specification": [
+            {
+              "attempt_id": "v5_8b_attempt_60367da68030",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.404557+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/specification/attempt-1",
+              "station_id": "specification",
+              "status": "assigned",
+              "worker_id": "worker_specification"
+            }
+          ]
+        },
+        "status": "running",
+        "tenant_id": "tenant_v5",
+        "updated_at": "2026-06-02T02:51:05.404575+00:00",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7",
+        "workspace_id": "workspace_v5"
+      },
+      "status": "PASS",
+      "worker_recovery": {
+        "app_id": "app_v5",
+        "artifact_lineage": {
+          "artifact://v5-8b/product_planning/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_897a72f210ef",
+            "station_id": "product_planning"
+          },
+          "artifact://v5-8b/project_blueprint/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_737f9b41ce1d",
+            "station_id": "project_blueprint"
+          },
+          "artifact://v5-8b/specification/attempt-1": {
+            "producer_attempt_id": "v5_8b_attempt_60367da68030",
+            "station_id": "specification"
+          },
+          "artifact://v5-8b/specification/attempt-2": {
+            "previous_attempt_id": "v5_8b_attempt_60367da68030",
+            "producer_attempt_id": "v5_8b_attempt_15f5cd0de6aa",
+            "station_id": "specification"
+          }
+        },
+        "assignments": {
+          "product_planning": "worker_product_planning",
+          "project_blueprint": "worker_project_blueprint",
+          "specification": "worker_specification_replacement"
+        },
+        "distributed_run_id": "v5_8b_run_2a610bbdc0ac",
+        "downstream_stale": [
+          "downstream-of:specification"
+        ],
+        "evidence_source_refs": [
+          "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json",
+          "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/result-summary.md"
+        ],
+        "incident_timeline": [
+          {
+            "created_at": "2026-06-02T02:51:05.404570+00:00",
+            "event_type": "distributed.run.started"
+          },
+          {
+            "created_at": "2026-06-02T02:51:05.405039+00:00",
+            "event_type": "coordinator.restart.recovered"
+          },
+          {
+            "created_at": "2026-06-02T02:51:05.405429+00:00",
+            "event_type": "worker.lost.recovered",
+            "station_id": "specification"
+          }
+        ],
+        "production_ready": false,
+        "project_id": "project_v5",
+        "recovered_after_restart": true,
+        "source": "product_console",
+        "staging_only": true,
+        "station_attempts": {
+          "product_planning": [
+            {
+              "attempt_id": "v5_8b_attempt_897a72f210ef",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.404545+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/product_planning/attempt-1",
+              "station_id": "product_planning",
+              "status": "assigned",
+              "worker_id": "worker_product_planning"
+            }
+          ],
+          "project_blueprint": [
+            {
+              "attempt_id": "v5_8b_attempt_737f9b41ce1d",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.404566+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/project_blueprint/attempt-1",
+              "station_id": "project_blueprint",
+              "status": "assigned",
+              "worker_id": "worker_project_blueprint"
+            }
+          ],
+          "specification": [
+            {
+              "attempt_id": "v5_8b_attempt_60367da68030",
+              "attempt_number": 1,
+              "created_at": "2026-06-02T02:51:05.404557+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/specification/attempt-1",
+              "station_id": "specification",
+              "status": "assigned",
+              "worker_id": "worker_specification"
+            },
+            {
+              "attempt_id": "v5_8b_attempt_15f5cd0de6aa",
+              "attempt_number": 2,
+              "created_at": "2026-06-02T02:51:05.405394+00:00",
+              "producer_artifact_ref": "artifact://v5-8b/specification/attempt-2",
+              "station_id": "specification",
+              "status": "completed_after_worker_recovery",
+              "worker_id": "worker_specification_replacement"
+            }
+          ]
+        },
+        "status": "running_recovered",
+        "tenant_id": "tenant_v5",
+        "updated_at": "2026-06-02T02:51:05.405432+00:00",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7",
+        "workspace_id": "workspace_v5"
+      }
+    }
+  ],
+  "schema_version": "v5_8b.distributed_coordination_evidence.v1",
+  "source_agent_can_mutate": false,
+  "stage": "V5-8B Minimal Distributed Run Coordination Slice",
+  "status": "PASS"
+}

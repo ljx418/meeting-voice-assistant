@@ -1,0 +1,54 @@
+{
+  "agent_executor_ready": false,
+  "allowed_claim": "V6-4 complete: limited production controlled executor pilot slice ready for review.",
+  "claim_violations": [],
+  "evidence_scope": "repo_backed_pilot_runtime_slice",
+  "next_stage": "V6-5 Governed Agent Execution Intent Pilot",
+  "next_stage_entry_decision": "V6-5 is high-risk and requires a separate human proceed decision before implementation.",
+  "production_controlled_executor_ready": false,
+  "production_executor_route_created": false,
+  "production_runtime_worker_created": false,
+  "redaction_status": "PASS",
+  "scenario_count": 9,
+  "scenarios": [
+    {
+      "scenario_id": "workflow_instance_start",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "idempotency_replay",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "station_rerun_attempt_history",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "artifact_write_append_only",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "quality_evaluation_append_only",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "source_agent_denied",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "kill_switch_denied",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "approved_api_allowed_with_human_authorization",
+      "status": "PASS"
+    },
+    {
+      "scenario_id": "connector_call_denied",
+      "status": "PASS"
+    }
+  ],
+  "schema_version": "v6_4.controlled_executor.acceptance.v1",
+  "stage": "V6-4",
+  "status": "PASS"
+}

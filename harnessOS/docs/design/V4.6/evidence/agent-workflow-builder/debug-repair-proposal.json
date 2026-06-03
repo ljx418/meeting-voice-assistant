@@ -1,0 +1,16 @@
+{
+  "repair_proposal_id": "v46_repair_proposal_a059633ab28a",
+  "agent_builder_session_id": "v46_builder_session_a480f826387e",
+  "failed_station_id": "markdown_parse",
+  "read_only_diagnosis": "Markdown parse failure can be repaired by adding stricter Markdown-only filtering and unsupported file recording.",
+  "patch_operations": [
+    {
+      "operation": "update_quality_rule",
+      "target": "unsupported_file_recorded",
+      "requires_user_confirmed_apply": true
+    }
+  ],
+  "status": "proposed",
+  "agent_mutation_allowed": false,
+  "redaction_status": "redacted"
+}

@@ -1,0 +1,693 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "u7_artifact_4755c2bba232",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_2a408728a39a",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "input:tests/fixtures/v4_4/deliberation/project_question.md"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.deliberation.orchestrator.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_df1ec5effef7"
+      },
+      "name": "deliberation_orchestrator_attempt_1.md",
+      "station_id": "orchestrator"
+    },
+    {
+      "artifact_id": "u7_artifact_b52f455d933e",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_ce8d9573d2c4",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_4755c2bba232"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.deliberation.product.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_ac2738e3e4fe"
+      },
+      "name": "deliberation_product_persona_attempt_1.md",
+      "station_id": "product_persona"
+    },
+    {
+      "artifact_id": "u7_artifact_fad77d55e931",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_9b6702e35a58",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_b52f455d933e"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.deliberation.architecture.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_c666c8f4ece6"
+      },
+      "name": "deliberation_architecture_persona_attempt_1.md",
+      "station_id": "architecture_persona"
+    },
+    {
+      "artifact_id": "u7_artifact_9d9a352e8f44",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_8e295c94a924",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_fad77d55e931"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.deliberation.risk.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_f87b6a2e7da1"
+      },
+      "name": "deliberation_risk_persona_attempt_1.md",
+      "station_id": "risk_persona"
+    },
+    {
+      "artifact_id": "u7_artifact_e7881a79ea42",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_89d2ce277d7d",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_9d9a352e8f44"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.deliberation.synthesis.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_623cbd5556ea"
+      },
+      "name": "deliberation_synthesis_node_attempt_1.md",
+      "station_id": "synthesis_node"
+    },
+    {
+      "artifact_id": "u7_artifact_796315b48eff",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_0998e3b95d9f",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_e7881a79ea42"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.deliberation.contradiction.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_2584b9ec0e12"
+      },
+      "name": "deliberation_contradiction_review_attempt_1.md",
+      "station_id": "contradiction_review"
+    },
+    {
+      "artifact_id": "u7_artifact_537e159efb21",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_9b25c230f25e",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "rerun_input:architecture_persona:user_confirmed"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.deliberation.architecture.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_24c4d33f31eb"
+      },
+      "name": "deliberation_architecture_persona_attempt_2.md",
+      "station_id": "architecture_persona"
+    }
+  ],
+  "attempt_history": {
+    "architecture_persona": [
+      {
+        "attempt_id": "u7_attempt_3de572d44cf6",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:11:34.664314+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_fad77d55e931"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_c666c8f4ece6",
+        "status": "completed"
+      },
+      {
+        "attempt_id": "u7_attempt_0fe28f0b946d",
+        "attempt_number": 2,
+        "created_at": "2026-05-30T09:12:18.836487+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_537e159efb21"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_24c4d33f31eb",
+        "status": "completed"
+      }
+    ],
+    "contradiction_review": [
+      {
+        "attempt_id": "u7_attempt_0cd726edfa8f",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:12:07.975878+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_796315b48eff"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_2584b9ec0e12",
+        "status": "completed"
+      }
+    ],
+    "orchestrator": [
+      {
+        "attempt_id": "u7_attempt_98c9f7c8a4fc",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:11:14.134761+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_4755c2bba232"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_df1ec5effef7",
+        "status": "completed"
+      }
+    ],
+    "product_persona": [
+      {
+        "attempt_id": "u7_attempt_0c51c666af4d",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:11:22.601147+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_b52f455d933e"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_ac2738e3e4fe",
+        "status": "completed"
+      }
+    ],
+    "risk_persona": [
+      {
+        "attempt_id": "u7_attempt_262c285dde0e",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:11:43.060132+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_9d9a352e8f44"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_f87b6a2e7da1",
+        "status": "completed"
+      }
+    ],
+    "synthesis_node": [
+      {
+        "attempt_id": "u7_attempt_5d3615dded3d",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:11:53.382349+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_e7881a79ea42"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_623cbd5556ea",
+        "status": "completed"
+      }
+    ]
+  },
+  "deterministic_only": false,
+  "downstream_stale": [
+    {
+      "requires_user_confirmed_continue": true,
+      "stale_reason": "upstream rerun from architecture_persona",
+      "station_id": "risk_persona"
+    },
+    {
+      "requires_user_confirmed_continue": true,
+      "stale_reason": "upstream rerun from architecture_persona",
+      "station_id": "synthesis_node"
+    },
+    {
+      "requires_user_confirmed_continue": true,
+      "stale_reason": "upstream rerun from architecture_persona",
+      "station_id": "contradiction_review"
+    }
+  ],
+  "evidence_chain": [
+    {
+      "correlation_id": "corr_89a52511d7af",
+      "created_at": "2026-05-30T09:10:51.547018+00:00",
+      "evidence_id": "u7_evidence_e10747b9d4b0",
+      "operation_type": "workflow.instance.start",
+      "policy_decision": "allowed_with_user_confirmation",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_runtime"
+      ],
+      "runtime_result_ref": "runtime_670452492644",
+      "source": "mission_console",
+      "source_agent_can_mutate": false,
+      "station_id": null,
+      "user_confirmed": true,
+      "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+    },
+    {
+      "correlation_id": "corr_2a408728a39a",
+      "created_at": "2026-05-30T09:11:14.134802+00:00",
+      "evidence_id": "u7_evidence_bd346cdeddc6",
+      "input_artifact_refs": [
+        "input:tests/fixtures/v4_4/deliberation/project_question.md"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_4755c2bba232"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.deliberation.orchestrator.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_df1ec5effef7",
+      "station_id": "orchestrator",
+      "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+    },
+    {
+      "correlation_id": "corr_ce8d9573d2c4",
+      "created_at": "2026-05-30T09:11:22.601195+00:00",
+      "evidence_id": "u7_evidence_2976fdebcd41",
+      "input_artifact_refs": [
+        "u7_artifact_4755c2bba232"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_b52f455d933e"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.deliberation.product.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_ac2738e3e4fe",
+      "station_id": "product_persona",
+      "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+    },
+    {
+      "correlation_id": "corr_9b6702e35a58",
+      "created_at": "2026-05-30T09:11:34.664369+00:00",
+      "evidence_id": "u7_evidence_d2554d0760de",
+      "input_artifact_refs": [
+        "u7_artifact_b52f455d933e"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_fad77d55e931"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.deliberation.architecture.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_c666c8f4ece6",
+      "station_id": "architecture_persona",
+      "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+    },
+    {
+      "correlation_id": "corr_8e295c94a924",
+      "created_at": "2026-05-30T09:11:43.060187+00:00",
+      "evidence_id": "u7_evidence_82a94339e17c",
+      "input_artifact_refs": [
+        "u7_artifact_fad77d55e931"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_9d9a352e8f44"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.deliberation.risk.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_f87b6a2e7da1",
+      "station_id": "risk_persona",
+      "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+    },
+    {
+      "correlation_id": "corr_89d2ce277d7d",
+      "created_at": "2026-05-30T09:11:53.382396+00:00",
+      "evidence_id": "u7_evidence_15cb7bb576e0",
+      "input_artifact_refs": [
+        "u7_artifact_9d9a352e8f44"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_e7881a79ea42"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.deliberation.synthesis.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_623cbd5556ea",
+      "station_id": "synthesis_node",
+      "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+    },
+    {
+      "correlation_id": "corr_0998e3b95d9f",
+      "created_at": "2026-05-30T09:12:07.975922+00:00",
+      "evidence_id": "u7_evidence_a7f84f1257f7",
+      "input_artifact_refs": [
+        "u7_artifact_e7881a79ea42"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_796315b48eff"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.deliberation.contradiction.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_2584b9ec0e12",
+      "station_id": "contradiction_review",
+      "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+    },
+    {
+      "correlation_id": "corr_416841745cf0",
+      "created_at": "2026-05-30T09:12:18.836580+00:00",
+      "evidence_id": "u7_evidence_96b4baf5d42f",
+      "operation_type": "station.rerun",
+      "policy_decision": "allowed_with_user_confirmation",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_runtime"
+      ],
+      "runtime_result_ref": "runtime_20a759c5bef6",
+      "source": "review_console",
+      "source_agent_can_mutate": false,
+      "station_id": "architecture_persona",
+      "user_confirmed": true,
+      "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+    },
+    {
+      "correlation_id": "corr_9b25c230f25e",
+      "created_at": "2026-05-30T09:12:18.836526+00:00",
+      "evidence_id": "u7_evidence_73d42a82264c",
+      "input_artifact_refs": [
+        "rerun_input:architecture_persona:user_confirmed"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_537e159efb21"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.deliberation.architecture.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_24c4d33f31eb",
+      "station_id": "architecture_persona",
+      "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+    }
+  ],
+  "evidence_scope": "real_runtime",
+  "generated_at": "2026-05-30T09:12:18.836631+00:00",
+  "nodes": [
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_98c9f7c8a4fc",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:11:14.134761+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_4755c2bba232"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_df1ec5effef7",
+          "status": "completed"
+        }
+      ],
+      "goal": "界定问题和讨论规则。",
+      "input_artifact_refs": [
+        "input:tests/fixtures/v4_4/deliberation/project_question.md"
+      ],
+      "name": "主持编排节点",
+      "output_artifact_refs": [
+        "u7_artifact_4755c2bba232"
+      ],
+      "role": "主持人",
+      "station_id": "orchestrator",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_0c51c666af4d",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:11:22.601147+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_b52f455d933e"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_ac2738e3e4fe",
+          "status": "completed"
+        }
+      ],
+      "goal": "从用户价值和路线图角度提出观点。",
+      "input_artifact_refs": [
+        "u7_artifact_4755c2bba232"
+      ],
+      "name": "产品策略 Persona",
+      "output_artifact_refs": [
+        "u7_artifact_b52f455d933e"
+      ],
+      "role": "产品策略",
+      "station_id": "product_persona",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_3de572d44cf6",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:11:34.664314+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_fad77d55e931"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_c666c8f4ece6",
+          "status": "completed"
+        },
+        {
+          "attempt_id": "u7_attempt_0fe28f0b946d",
+          "attempt_number": 2,
+          "created_at": "2026-05-30T09:12:18.836487+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_537e159efb21"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_24c4d33f31eb",
+          "status": "completed"
+        }
+      ],
+      "goal": "从系统边界和演进风险角度提出观点。",
+      "input_artifact_refs": [
+        "u7_artifact_b52f455d933e"
+      ],
+      "name": "架构审查 Persona",
+      "output_artifact_refs": [
+        "u7_artifact_fad77d55e931",
+        "u7_artifact_537e159efb21"
+      ],
+      "role": "架构审查",
+      "station_id": "architecture_persona",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_262c285dde0e",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:11:43.060132+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_9d9a352e8f44"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_f87b6a2e7da1",
+          "status": "completed"
+        }
+      ],
+      "goal": "从治理和验收风险角度提出观点。",
+      "input_artifact_refs": [
+        "u7_artifact_fad77d55e931"
+      ],
+      "name": "风险审计 Persona",
+      "output_artifact_refs": [
+        "u7_artifact_9d9a352e8f44"
+      ],
+      "role": "风险审计",
+      "station_id": "risk_persona",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_5d3615dded3d",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:11:53.382349+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_e7881a79ea42"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_623cbd5556ea",
+          "status": "completed"
+        }
+      ],
+      "goal": "带引用地综合多个 Persona 观点。",
+      "input_artifact_refs": [
+        "u7_artifact_9d9a352e8f44"
+      ],
+      "name": "汇总节点",
+      "output_artifact_refs": [
+        "u7_artifact_e7881a79ea42"
+      ],
+      "role": "汇总",
+      "station_id": "synthesis_node",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_0cd726edfa8f",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:12:07.975878+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_796315b48eff"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_2584b9ec0e12",
+          "status": "completed"
+        }
+      ],
+      "goal": "提炼冲突、共识和下一步决策。",
+      "input_artifact_refs": [
+        "u7_artifact_e7881a79ea42"
+      ],
+      "name": "矛盾审查节点",
+      "output_artifact_refs": [
+        "u7_artifact_796315b48eff"
+      ],
+      "role": "矛盾审查",
+      "station_id": "contradiction_review",
+      "status": "completed"
+    }
+  ],
+  "parallel_semantics": {
+    "cross_inspiration_edges": [
+      {
+        "from_station_id": "product_persona",
+        "to_station_id": "synthesis_node"
+      },
+      {
+        "from_station_id": "architecture_persona",
+        "to_station_id": "synthesis_node"
+      },
+      {
+        "from_station_id": "risk_persona",
+        "to_station_id": "synthesis_node"
+      }
+    ],
+    "execution_strategy": "dev_local_provider_backed_round_execution",
+    "persona_station_ids": [
+      "product_persona",
+      "architecture_persona",
+      "risk_persona"
+    ]
+  },
+  "provider": {
+    "api_key_configured": true,
+    "model_ref": "MiniMax-M2.1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local"
+  },
+  "provider_invocation_count": 7,
+  "quality_report": {
+    "agent_can_mutate": false,
+    "downstream_stale_count": 3,
+    "generated_artifact_count": 7,
+    "provider_invocation_count": 7,
+    "quality_focus": "persona_attribution_and_contradiction_review",
+    "redaction_status": "redacted",
+    "rerun_station_id": "architecture_persona",
+    "station_count": 6,
+    "status": "passed",
+    "user_confirmation_required": true
+  },
+  "real_provider_backed": true,
+  "redaction_status": "redacted",
+  "rerun": {
+    "source": "review_console",
+    "source_agent_can_rerun": false,
+    "station_id": "architecture_persona",
+    "user_confirmed": true
+  },
+  "runtime_backed": true,
+  "runtime_mode": "dev_local_provider_backed_parallel_semantics_runtime",
+  "scenario_id": "parallel_deliberation",
+  "source_ref": "tests/fixtures/v4_4/deliberation/project_question.md",
+  "status": "completed",
+  "title": "并行罗马广场讨论工作流",
+  "ux_id": "UX-09",
+  "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196"
+}

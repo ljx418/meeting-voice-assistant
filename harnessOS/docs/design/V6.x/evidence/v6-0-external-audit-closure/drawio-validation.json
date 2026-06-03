@@ -1,0 +1,37 @@
+{
+  "schema_version": "v6_0_external_audit_closure.drawio_validation.v1",
+  "generated_at": "2026-06-03",
+  "stage": "V6-0",
+  "status": "PASS",
+  "drawio_path": "docs/design/V6.x/v6_current_gap_analysis.drawio",
+  "exists": true,
+  "xml_validation": {
+    "status": "PASS",
+    "command": "xmllint --noout docs/design/V6.x/v6_current_gap_analysis.drawio"
+  },
+  "page_names": [
+    "01 阅读指南",
+    "02 当前架构与目标架构差异",
+    "03 V6 目标架构平面",
+    "04 功能规格矩阵",
+    "05 开发及验收流程",
+    "06 项目里程碑",
+    "07 验收门槛",
+    "08 出门条件与停止条件"
+  ],
+  "matches_gap_markdown": true,
+  "matches_development_plan_stage_order": true,
+  "stage_order": [
+    "V6-0 Production Pilot Planning Gate",
+    "V6-1 Identity And Tenant Control Plane",
+    "V6-2 Credential And Provider Lifecycle",
+    "V6-3 Observability And Audit Export",
+    "V6-4 Production Controlled Executor Runtime",
+    "V6-5 Governed Agent Execution Intent Pilot",
+    "V6-6 Production External App Onboarding",
+    "V6-7 Distributed Runtime Productization",
+    "V6-8 Product Console And Studio Gate",
+    "V6-9 Final Production Pilot Acceptance"
+  ],
+  "notes": "Drawio is a planning and audit visualization only. It does not construct runtime truth."
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/interaction_state_projection.schema.json",
+  "title": "V4.x Interaction State Projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "workflow_state",
+    "station_states",
+    "evidence_state",
+    "available_actions",
+    "blocked_actions",
+    "source_refs",
+    "refresh_generation",
+    "stale_reasons",
+    "read_model_only",
+    "runtime_truth_boundary"
+  ],
+  "properties": {
+    "workflow_state": { "type": "string", "minLength": 1 },
+    "station_states": { "type": "array", "items": { "$ref": "station_state.schema.json" } },
+    "evidence_state": { "type": "string", "minLength": 1 },
+    "available_actions": { "type": "array", "items": { "$ref": "available_actions.schema.json" } },
+    "blocked_actions": { "type": "array", "items": { "type": "string" } },
+    "source_refs": { "type": "array", "items": { "type": "string" } },
+    "refresh_generation": { "type": "integer", "minimum": 1 },
+    "stale_reasons": { "type": "array", "items": { "type": "string" } },
+    "read_model_only": { "type": "boolean", "const": true },
+    "runtime_truth_boundary": { "type": "string", "minLength": 1 }
+  }
+}

@@ -1,0 +1,18 @@
+metadata:
+  workflow_id: v42_controlled_local_folder_summary
+  stage: V4.2-C
+  backed_by: generic_controlled_runtime
+stations:
+  - folder_input
+  - folder_scan
+  - markdown_filter
+  - markdown_parse
+  - folder_group
+  - per_folder_summary
+  - overview_summary
+  - quality_check
+  - artifact_publish
+governance:
+  start_requires_user_confirmed: true
+  rerun_requires_user_confirmed: true
+  source_agent_can_mutate: false

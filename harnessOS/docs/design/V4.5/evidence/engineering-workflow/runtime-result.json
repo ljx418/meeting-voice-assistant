@@ -1,0 +1,635 @@
+{
+  "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+  "workflow_template_id": "v45_engineering_template",
+  "workflow_version_id": "v45_engineering_version_1",
+  "status": "completed",
+  "backed_by": "v4_5_engineering_workflow_runtime",
+  "runtime_mode": "dev_local_deterministic_engineering_runner",
+  "scope": {
+    "app_id": "reference_app",
+    "project_id": "demo_a",
+    "workspace_id": "local"
+  },
+  "task_path": "tests/fixtures/v4_5/engineering_task/product_task.md",
+  "nodes": [
+    {
+      "stage_id": "product_planning",
+      "name": "产品规划",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_product_planning_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    },
+    {
+      "stage_id": "specification",
+      "name": "规格梳理",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_specification_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    },
+    {
+      "stage_id": "project_blueprint",
+      "name": "项目计划蓝图",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_project_blueprint_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    },
+    {
+      "stage_id": "architecture_review",
+      "name": "总架构评审",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_architecture_review_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    },
+    {
+      "stage_id": "substage_plan_audit",
+      "name": "子阶段计划审计",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_substage_plan_audit_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    },
+    {
+      "stage_id": "substage_architecture_review",
+      "name": "子阶段架构评审",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_substage_architecture_review_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    },
+    {
+      "stage_id": "implementation_run",
+      "name": "开发实施",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_implementation_run_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    },
+    {
+      "stage_id": "development_acceptance",
+      "name": "开发验收",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_development_acceptance_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    },
+    {
+      "stage_id": "code_review",
+      "name": "代码检视",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_code_review_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        },
+        {
+          "attempt_id": "attempt_code_review_2",
+          "attempt": 2,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.330591+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    },
+    {
+      "stage_id": "e2e_acceptance",
+      "name": "E2E 验收",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_e2e_acceptance_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        },
+        {
+          "attempt_id": "attempt_e2e_acceptance_2",
+          "attempt": 2,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.335145+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    },
+    {
+      "stage_id": "human_confirmation",
+      "name": "人工确认",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_human_confirmation_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        },
+        {
+          "attempt_id": "attempt_human_confirmation_2",
+          "attempt": 2,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.335145+00:00"
+        }
+      ],
+      "updated_at": "2026-05-29T07:07:43.324205+00:00"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "v45_artifact_47ee8933b9f1",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "product_planning",
+      "name": "product_plan.md",
+      "kind": "markdown",
+      "content": "# 产品规划\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：1\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v45_artifact_fb5def626080",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "specification",
+      "name": "specification.md",
+      "kind": "markdown",
+      "content": "# 规格梳理\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：2\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v45_artifact_9da09aca6198",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "project_blueprint",
+      "name": "project_blueprint.md",
+      "kind": "markdown",
+      "content": "# 项目计划蓝图\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：3\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v45_artifact_26e4b3e636fe",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "architecture_review",
+      "name": "architecture_review.md",
+      "kind": "markdown",
+      "content": "# 总架构评审\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：4\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v45_artifact_b949ff36ade6",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "substage_plan_audit",
+      "name": "substage_plan_audit.md",
+      "kind": "markdown",
+      "content": "# 子阶段计划审计\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：5\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v45_artifact_2bceda731c0b",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "substage_architecture_review",
+      "name": "substage_architecture_review.md",
+      "kind": "markdown",
+      "content": "# 子阶段架构评审\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：6\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v45_artifact_dc457e8c026c",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "implementation_run",
+      "name": "implementation_run.md",
+      "kind": "markdown",
+      "content": "# 开发实施\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：7\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v45_artifact_42e270419e15",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "development_acceptance",
+      "name": "development_acceptance.md",
+      "kind": "markdown",
+      "content": "# 开发验收\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：8\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v45_artifact_8187023433e3",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "code_review",
+      "name": "code_review.md",
+      "kind": "markdown",
+      "content": "# 代码检视\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：9\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v45_artifact_ef91a70bd302",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "e2e_acceptance",
+      "name": "e2e_acceptance.md",
+      "kind": "markdown",
+      "content": "# E2E 验收\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：10\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v45_artifact_53f5badb0ed0",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "stage_id": "human_confirmation",
+      "name": "human_confirmation.md",
+      "kind": "markdown",
+      "content": "# 人工确认\n\n## 输入任务\n长时工程任务\n\n## 阶段产物\n- 阶段序号：11\n- 状态：completed\n- 说明：deterministic dev/local engineering artifact，不执行真实代码修改。\n",
+      "metadata": {
+        "redaction_status": "redacted"
+      },
+      "redaction_status": "redacted"
+    }
+  ],
+  "quality_report": {
+    "status": "passed",
+    "stage_count": 11,
+    "artifact_coverage": {
+      "expected": [
+        "architecture_review.md",
+        "code_review.md",
+        "development_acceptance.md",
+        "e2e_acceptance.md",
+        "human_confirmation.md",
+        "implementation_run.md",
+        "product_plan.md",
+        "project_blueprint.md",
+        "specification.md",
+        "substage_architecture_review.md",
+        "substage_plan_audit.md"
+      ],
+      "generated": [
+        "architecture_review.md",
+        "code_review.md",
+        "development_acceptance.md",
+        "e2e_acceptance.md",
+        "human_confirmation.md",
+        "implementation_run.md",
+        "product_plan.md",
+        "project_blueprint.md",
+        "specification.md",
+        "substage_architecture_review.md",
+        "substage_plan_audit.md"
+      ],
+      "missing": []
+    },
+    "risk_flags": [
+      "dev_local_only",
+      "no_real_code_mutation"
+    ],
+    "redaction_status": "redacted"
+  },
+  "downstream_stale": [],
+  "agent_mutation_allowed": false,
+  "user_confirmed_required": true,
+  "redaction_status": "redacted",
+  "attempt_history": {
+    "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+    "stages": [
+      {
+        "stage_id": "product_planning",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_product_planning_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          }
+        ]
+      },
+      {
+        "stage_id": "specification",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_specification_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          }
+        ]
+      },
+      {
+        "stage_id": "project_blueprint",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_project_blueprint_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          }
+        ]
+      },
+      {
+        "stage_id": "architecture_review",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_architecture_review_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          }
+        ]
+      },
+      {
+        "stage_id": "substage_plan_audit",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_substage_plan_audit_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          }
+        ]
+      },
+      {
+        "stage_id": "substage_architecture_review",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_substage_architecture_review_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          }
+        ]
+      },
+      {
+        "stage_id": "implementation_run",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_implementation_run_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          }
+        ]
+      },
+      {
+        "stage_id": "development_acceptance",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_development_acceptance_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          }
+        ]
+      },
+      {
+        "stage_id": "code_review",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_code_review_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          },
+          {
+            "attempt_id": "attempt_code_review_2",
+            "attempt": 2,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.330591+00:00"
+          }
+        ]
+      },
+      {
+        "stage_id": "e2e_acceptance",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_e2e_acceptance_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          },
+          {
+            "attempt_id": "attempt_e2e_acceptance_2",
+            "attempt": 2,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.335145+00:00"
+          }
+        ]
+      },
+      {
+        "stage_id": "human_confirmation",
+        "status": "completed",
+        "attempts": [
+          {
+            "attempt_id": "attempt_human_confirmation_1",
+            "attempt": 1,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.324205+00:00"
+          },
+          {
+            "attempt_id": "attempt_human_confirmation_2",
+            "attempt": 2,
+            "status": "completed",
+            "error": null,
+            "created_at": "2026-05-29T07:07:43.335145+00:00"
+          }
+        ]
+      }
+    ],
+    "redaction_status": "redacted"
+  },
+  "operation_evidence": [
+    {
+      "evidence_id": "v45_evidence_34d21a499af4",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "workflow_template_id": "v45_engineering_template",
+      "operation": "workflow.instance.start",
+      "operation_type": "workflow.instance.start",
+      "status": "succeeded",
+      "correlation_id": "corr_fd6a94c7757c",
+      "operation_id": "op_21b8a4c9092e",
+      "idempotency_key": "idem_159c0a0eb5de",
+      "user_confirmed": true,
+      "source": "run_panel",
+      "risk_flags": [
+        "dev_local_engineering_workflow"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "capability_decision": "bff_engineering_workflow_runtime_allowed",
+      "runtime_result_ref": {
+        "type": "workflow_instance",
+        "resource_id": "v45_engineering_instance_fcff71ec3a8d",
+        "status": "completed",
+        "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+        "trace_id": "trace_9bce8b29"
+      },
+      "created_at": "2026-05-29T07:07:43.324648+00:00",
+      "created_by": "run_panel",
+      "redaction_status": "redacted"
+    },
+    {
+      "evidence_id": "v45_evidence_d6066931f8d2",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "workflow_template_id": "v45_engineering_template",
+      "operation": "station.rerun",
+      "operation_type": "station.rerun",
+      "status": "succeeded",
+      "correlation_id": "corr_68ad6d100308",
+      "operation_id": "op_28252d769b2d",
+      "idempotency_key": "idem_0a7eb24c4752",
+      "user_confirmed": true,
+      "source": "run_panel",
+      "risk_flags": [
+        "stage_rerun",
+        "downstream_stale"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "capability_decision": "bff_engineering_workflow_runtime_allowed",
+      "runtime_result_ref": {
+        "type": "stage_attempt",
+        "resource_id": "attempt_code_review_2",
+        "status": "completed",
+        "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+        "trace_id": "trace_d36f3b88"
+      },
+      "created_at": "2026-05-29T07:07:43.330665+00:00",
+      "created_by": "run_panel",
+      "redaction_status": "redacted"
+    },
+    {
+      "evidence_id": "v45_evidence_4c6d36e67f7a",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "workflow_template_id": "v45_engineering_template",
+      "operation": "workflow.instance.continue_downstream",
+      "operation_type": "workflow.instance.continue_downstream",
+      "status": "succeeded",
+      "correlation_id": "corr_73046fe4cc11",
+      "operation_id": "op_5e5bce8115a5",
+      "idempotency_key": "idem_12d452a5c84f",
+      "user_confirmed": true,
+      "source": "run_panel",
+      "risk_flags": [
+        "engineering_continue"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "capability_decision": "bff_engineering_workflow_runtime_allowed",
+      "runtime_result_ref": {
+        "type": "workflow_instance",
+        "resource_id": "v45_engineering_instance_fcff71ec3a8d",
+        "status": "completed",
+        "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+        "trace_id": "trace_369a81ff"
+      },
+      "created_at": "2026-05-29T07:07:43.335222+00:00",
+      "created_by": "run_panel",
+      "redaction_status": "redacted"
+    }
+  ]
+}

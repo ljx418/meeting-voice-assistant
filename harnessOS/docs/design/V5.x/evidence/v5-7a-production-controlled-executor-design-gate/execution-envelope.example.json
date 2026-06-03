@@ -1,0 +1,26 @@
+{
+  "execution_envelope_id": "exec_env_v5_7a_example",
+  "operation": "station.rerun",
+  "actor_type": "human_user",
+  "actor_id": "user_v5_7a",
+  "source": "product_console",
+  "tenant_id": "tenant_v5",
+  "workspace_id": "workspace_v5",
+  "project_id": "project_v5",
+  "app_id": "app_v5",
+  "target_refs": {
+    "workflow_instance_id": "v41_folder_instance_5867af5245e3",
+    "station_id": "markdown_parse",
+    "station_run_id": "attempt_markdown_parse_2"
+  },
+  "user_confirmed": true,
+  "approval_gate_decision_ref": "approval_gate://v5-7a/example",
+  "credential_access_decision_ref": "credential_decision://v5-7a/example",
+  "sandbox_input_descriptor_ref": "sandbox_input://v5-7a/example",
+  "idempotency_key": "idem_v5_7a_example",
+  "rollback_descriptor_ref": "rollback://v5-7a/example",
+  "kill_switch_decision_ref": "kill_switch://v5-7a/example",
+  "audit_export_ref": "audit_export://v5-7a/example",
+  "incident_timeline_ref": "incident://v5-7a/example",
+  "created_at": "2026-06-03T09:39:26.743222+00:00"
+}

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>V5-8B Distributed Coordination Evidence</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; color: #0f172a; background: #f8fafc; }
+    .card { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; margin-bottom: 18px; }
+    .pass { color: #15803d; font-weight: 700; }
+    .warn { color: #b45309; font-weight: 700; }
+    table { border-collapse: collapse; width: 100%; background: white; }
+    th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+    th { background: #f1f5f9; }
+    code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>V5-8B 最小分布式协调切片证据</h1>
+    <p>Status: <span class="pass">PASS</span></p>
+    <p>Evidence scope: <code>real_provider_backed_source_evidence_plus_in_memory_coordination</code></p>
+    <p class="warn">No False Green: 本证据不证明完整分布式多 Agent 运行时，不证明 Agent executor 或 production controlled executor ready。</p>
+  </div>
+  <div class="card">
+    <h2>Scenario Evidence</h2>
+    <table>
+      <thead><tr><th>Scenario</th><th>Status</th><th>Provider</th><th>Model</th><th>Provider Calls</th><th>Assignments</th><th>Stale Markers</th></tr></thead>
+      <tbody><tr><td>UX-08-serial-video</td><td>PASS</td><td>minimax</td><td>MiniMax-M2.1</td><td>7</td><td>3</td><td>1</td></tr><tr><td>UX-09-parallel-deliberation</td><td>PASS</td><td>minimax</td><td>MiniMax-M2.1</td><td>7</td><td>3</td><td>1</td></tr><tr><td>UX-10-engineering-workflow</td><td>PASS</td><td>minimax</td><td>MiniMax-M2.1</td><td>12</td><td>3</td><td>1</td></tr></tbody>
+    </table>
+  </div>
+  <div class="card">
+    <h2>Boundary</h2>
+    <ul>
+      <li>production_routes_added=false</li>
+      <li>production_workers_started=false</li>
+      <li>source_agent_can_mutate=false</li>
+      <li>distributed_runtime_complete=false</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>Raw Data</h2>
+    <p><a href="coordination-evidence.json">coordination-evidence.json</a></p>
+    <p><a href="result-summary.md">result-summary.md</a></p>
+  </div>
+</body>
+</html>

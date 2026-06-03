@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v5_7a_sandbox_input_descriptor.schema.json",
+  "title": "V5-7A SandboxInputDescriptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sandbox_input_descriptor_id",
+    "operation",
+    "allowed_input_refs",
+    "redaction_status",
+    "raw_payload_allowed",
+    "credential_ref_required",
+    "created_at"
+  ],
+  "properties": {
+    "sandbox_input_descriptor_id": { "type": "string", "minLength": 1 },
+    "operation": {
+      "type": "string",
+      "enum": ["workflow.instance.start", "station.rerun", "artifact.write", "quality.evaluation.create"]
+    },
+    "allowed_input_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "redaction_status": {
+      "type": "string",
+      "enum": ["redacted", "blocked"]
+    },
+    "raw_payload_allowed": { "const": false },
+    "credential_ref_required": { "type": "boolean" },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

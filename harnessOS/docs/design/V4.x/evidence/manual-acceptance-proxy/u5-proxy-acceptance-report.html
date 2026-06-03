@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>V4-U5 人工验收代理报告</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --pass: #16a34a;
+      --partial: #d97706;
+      --fail: #dc2626;
+      --info: #2563eb;
+      --warn-bg: #fffbeb;
+      --fail-bg: #fef2f2;
+      --pass-bg: #f0fdf4;
+      --info-bg: #eff6ff;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    main { max-width: 1180px; margin: 0 auto; padding: 32px 24px 56px; }
+    h1 { margin: 0 0 8px; font-size: 30px; }
+    h2 { margin: 28px 0 12px; font-size: 20px; }
+    h3 { margin: 18px 0 8px; font-size: 16px; }
+    p { margin: 6px 0; }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+    }
+    pre {
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 14px;
+    }
+    a { color: var(--info); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .grid { display: grid; gap: 14px; }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .metric {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+    .muted { color: var(--muted); }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+    .pass { color: var(--pass); background: var(--pass-bg); border-color: #86efac; }
+    .partial { color: var(--partial); background: var(--warn-bg); border-color: #facc15; }
+    .fail { color: var(--fail); background: var(--fail-bg); border-color: #fca5a5; }
+    .info { color: var(--info); background: var(--info-bg); border-color: #bfdbfe; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th { background: #f1f5f9; font-weight: 700; }
+    tr:last-child td { border-bottom: 0; }
+    .callout {
+      border-left: 4px solid var(--partial);
+      background: var(--warn-bg);
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin: 12px 0;
+    }
+    .ok-callout { border-left-color: var(--pass); background: var(--pass-bg); }
+    .danger-callout { border-left-color: var(--fail); background: var(--fail-bg); }
+  </style>
+</head>
+<body>
+<main>
+  <h1>V4-U5 人工验收代理报告</h1>
+  <p class="muted">生成时间：2026-05-30。验收对象：V4-U5 Scenario Path Acceptance Package。执行方式：Codex 代理用户进行命令级验收、证据复核和 PRD 口径检查。</p>
+
+  <section class="grid grid-4">
+    <div class="card"><div class="muted">PASS</div><div class="metric" style="color: var(--pass)">9</div></div>
+    <div class="card"><div class="muted">PARTIAL</div><div class="metric" style="color: var(--partial)">3</div></div>
+    <div class="card"><div class="muted">FAIL</div><div class="metric" style="color: var(--fail)">0</div></div>
+    <div class="card"><div class="muted">BLOCKED</div><div class="metric">0</div></div>
+  </section>
+
+  <div class="callout">
+    <strong>门禁结论：</strong>V4-U5 可以作为 U6 gate review 输入包，但不能自动进入 V4-U6。UX-08、UX-09、UX-10 仍是 deterministic_devlocal PARTIAL，false-green risk=HIGH，需要人工确认或补真实运行证据。
+  </div>
+
+  <h2>一、当前需要人工验收的内容和标准</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>验收项</th>
+        <th>验收标准</th>
+        <th>当前代理结果</th>
+        <th>是否还需你人工判断</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>UX-01 自然语言创建工作流</td>
+        <td>存在 Mission Console transcript、WorkflowSpec / Diff；用户确认前不写 runtime。</td>
+        <td><span class="badge pass">PASS</span> transcript_only。不能视为真实 runtime mutation。</td>
+        <td>低风险复核：确认 transcript 口径可接受。</td>
+      </tr>
+      <tr>
+        <td>UX-02 Workflow Blueprint 可视化</td>
+        <td>workflow.drawio、workflow_status.drawio、artifact_lineage.drawio 存在且 XML valid；仅作为可视化。</td>
+        <td><span class="badge pass">PASS</span> report_only。</td>
+        <td>可抽查 drawio 是否能打开。</td>
+      </tr>
+      <tr>
+        <td>UX-03 Runtime Report</td>
+        <td>workflow_board.html 可展示 station 状态；数据源明确；无 hidden mutation form。</td>
+        <td><span class="badge pass">PASS</span> deterministic_devlocal。</td>
+        <td>可人工打开 HTML 检查可读性。</td>
+      </tr>
+      <tr>
+        <td>UX-04 Artifact 与血缘</td>
+        <td>Artifact 列表可见，能追踪 producer / lineage，不泄露原始工件内容。</td>
+        <td><span class="badge pass">PASS</span> deterministic_devlocal。</td>
+        <td>可抽查 artifacts.html 与 lineage drawio。</td>
+      </tr>
+      <tr>
+        <td>UX-05 Quality 查看</td>
+        <td>Quality 状态可见，failed/warning/passed 可定位到 station 或 artifact。</td>
+        <td><span class="badge pass">PASS</span> deterministic_devlocal。</td>
+        <td>可人工检查 quality.html。</td>
+      </tr>
+      <tr>
+        <td>UX-06 局部失败修复与重跑</td>
+        <td>rerun 必须 user_confirmed=true；source 不能是 agent；old attempt、新 attempt、downstream stale 可见。</td>
+        <td><span class="badge pass">PASS</span> deterministic_devlocal。不能声明 controlled executor ready。</td>
+        <td>中风险复核：确认 dev/local rerun 证据足够 U5。</td>
+      </tr>
+      <tr>
+        <td>UX-07 Evidence Chain</td>
+        <td>Evidence Chain 只读；不出现 Apply / Publish / Approve / Reject / Execute / Run 执行按钮。</td>
+        <td><span class="badge pass">PASS</span> deterministic_devlocal。</td>
+        <td>建议人工打开 evidence.html 抽查只读性。</td>
+      </tr>
+      <tr>
+        <td>UX-08 串行多 Agent 视频工作流</td>
+        <td>若仅 deterministic dev/local，只能 PARTIAL；不能声明 full multi-Agent orchestration。</td>
+        <td><span class="badge partial">PARTIAL</span> false-green risk=HIGH。</td>
+        <td><strong>必须人工决定：</strong>接受 PARTIAL 进入 U6，或要求补真实多 Agent 运行。</td>
+      </tr>
+      <tr>
+        <td>UX-09 并行罗马广场讨论</td>
+        <td>persona artifacts、synthesis、attribution 可见；若非真实并行 runtime，只能 PARTIAL。</td>
+        <td><span class="badge partial">PARTIAL</span> false-green risk=HIGH。</td>
+        <td><strong>必须人工决定：</strong>接受 PARTIAL 或补真实并行运行。</td>
+      </tr>
+      <tr>
+        <td>UX-10 长时工程任务工作流</td>
+        <td>durable board、阶段 artifact、质量门禁和人工确认可见；不能声明 autonomous coding。</td>
+        <td><span class="badge partial">PARTIAL</span> false-green risk=HIGH。</td>
+        <td><strong>必须人工决定：</strong>接受 PARTIAL 或补真实长时工程 runtime。</td>
+      </tr>
+      <tr>
+        <td>UX-11 Agent Workflow Builder</td>
+        <td>Agent 可 propose / explain / handoff / navigate；不能 auto apply / run / rerun / publish。</td>
+        <td><span class="badge pass">PASS</span> deterministic_devlocal。</td>
+        <td>中风险复核：确认没有被误读为 Agent executor。</td>
+      </tr>
+      <tr>
+        <td>UX-12 真实 LLM 本地技术文档解析</td>
+        <td>实际读取本地 Markdown；调用真实 LLM provider；生成子文件夹总结、总览总结、quality_report；不泄露密钥、原始提示词或原始文件内容。</td>
+        <td><span class="badge pass">PASS</span> real_runtime。MiniMax provider，5 个 Markdown 读取，4 次 LLM 调用。</td>
+        <td>建议人工打开总结 artifact，判断输出质量是否满足业务预期。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>二、我替你执行的验收操作</h2>
+  <table>
+    <thead>
+      <tr><th>操作</th><th>命令</th><th>结果</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>重新生成 unified reality check</td>
+        <td><code>./.venv/bin/python scripts/v4_unified_reality_check_audit.py</code></td>
+        <td><span class="badge pass">PASS</span> 生成最新 HTML / JSON 审计包。</td>
+      </tr>
+      <tr>
+        <td>运行 V4 全量测试</td>
+        <td><code>./.venv/bin/python -m pytest tests/test_v4_*.py -q</code></td>
+        <td><span class="badge pass">PASS</span> 377 passed, 5 warnings。</td>
+      </tr>
+      <tr>
+        <td>校验 V4.x gap drawio XML</td>
+        <td><code>xmllint --noout docs/design/V4.x/v4_x_headless_current_gap_analysis.drawio</code></td>
+        <td><span class="badge pass">PASS</span> XML valid。</td>
+      </tr>
+      <tr>
+        <td>复跑 UX-12 真实 LLM 本地文档工作流</td>
+        <td><code>./.venv/bin/python scripts/v4_u5e_real_llm_local_document_workflow.py</code></td>
+        <td><span class="badge pass">PASS</span> status=completed, real_llm_backed=true, scanner_actual_read_count=5, provider_invocation_count=4。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>三、UX-12 真实数据验收结果</h2>
+  <section class="grid grid-3">
+    <div class="card">
+      <h3>Provider</h3>
+      <p><strong>provider:</strong> minimax</p>
+      <p><strong>model_ref:</strong> MiniMax-M2.1</p>
+      <p><strong>provider_config_source:</strong> .env.local</p>
+      <p><strong>fallback_demo_only:</strong> false</p>
+    </div>
+    <div class="card">
+      <h3>Local Read</h3>
+      <p><strong>markdown_file_count:</strong> 5</p>
+      <p><strong>scanner_actual_read_count:</strong> 5</p>
+      <p><strong>child_folder_count:</strong> 5</p>
+      <p><strong>unsupported:</strong> 未支持/test.pdf</p>
+      <p><strong>empty_folders:</strong> 空文件夹</p>
+    </div>
+    <div class="card">
+      <h3>LLM Evidence</h3>
+      <p><strong>provider_invocation_count:</strong> 4</p>
+      <p><strong>real_llm_backed:</strong> true</p>
+      <p><strong>quality_report:</strong> <a href="../unified-experience/UX-12/quality_report.json">quality_report.json</a></p>
+      <p><strong>evidence:</strong> <a href="../unified-experience/UX-12/evidence_chain.json">evidence_chain.json</a></p>
+    </div>
+  </section>
+
+  <h2>四、人工还需要打开检查的文件</h2>
+  <table>
+    <thead><tr><th>文件</th><th>检查目标</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="../unified-experience/reality-check/index.html">reality-check/index.html</a></td>
+        <td>查看 UX-01 到 UX-12 的总览卡片、红色风险区、全局断言。</td>
+      </tr>
+      <tr>
+        <td><a href="../unified-experience/UX-12/artifacts/AgentOS_总结.md">AgentOS_总结.md</a></td>
+        <td>检查 LLM 总结是否有内容概览、核心主题、关键知识点、引用文件。</td>
+      </tr>
+      <tr>
+        <td><a href="../unified-experience/UX-12/artifacts/前端低代码_总结.md">前端低代码_总结.md</a></td>
+        <td>检查中文技术总结质量和是否引用正确文件。</td>
+      </tr>
+      <tr>
+        <td><a href="../unified-experience/UX-12/artifacts/项目复盘_总结.md">项目复盘_总结.md</a></td>
+        <td>检查子文件夹总结是否独立生成。</td>
+      </tr>
+      <tr>
+        <td><a href="../unified-experience/UX-12/artifacts/总览总结.md">总览总结.md</a></td>
+        <td>检查是否覆盖所有子文件夹，并不是模板假输出。</td>
+      </tr>
+      <tr>
+        <td><a href="../unified-experience/UX-12/evidence_chain.json">UX-12 evidence_chain.json</a></td>
+        <td>检查 provider/model/prompt_template_ref/input_artifact_refs/output_artifact_refs 是否存在且不泄露密钥或原始提示词。</td>
+      </tr>
+      <tr>
+        <td><a href="../../v4_x_headless_current_gap_analysis.drawio">v4_x_headless_current_gap_analysis.drawio</a></td>
+        <td>检查当前架构图是否准确表达七平面、Unified Experience 中间层和 U6 暂停状态。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>五、最终代理验收结论</h2>
+  <div class="callout ok-callout">
+    <strong>可接受：</strong>V4-U5 场景路径验收包已具备进入 U6 gate review 的输入材料。UX-12 已经通过真实 LLM、本地 Markdown 读取和 artifact/evidence 输出验证。
+  </div>
+  <div class="callout danger-callout">
+    <strong>不可自动进入 U6：</strong>UX-08 / UX-09 / UX-10 仍是高虚假验收风险 PARTIAL。除非你明确接受这些 PARTIAL 作为 U6 前置风险，或者后续补真实多 Agent / 长时工程 runtime 证据，否则不能声明 V4 unified baseline complete。
+  </div>
+
+  <h2>六、禁止声明</h2>
+  <pre>complete Workflow Studio ready
+complete AgentTalkWindow ready
+Agent executor ready
+controlled executor ready
+production-ready external app support
+full multi-Agent orchestration ready
+autonomous workflow editing ready
+V4-U6 complete</pre>
+
+  <h2>七、证据入口</h2>
+  <ul>
+    <li><a href="../unified-experience/reality-check/audit-data.json">audit-data.json</a></li>
+    <li><a href="../unified-experience/reality-check/result-summary.md">reality-check result-summary.md</a></li>
+    <li><a href="../../v4_u5_scenario_path_acceptance_completion_note.md">V4-U5 completion note</a></li>
+    <li><a href="../../v4_x_headless_current_gap_analysis.md">V4.x gap markdown</a></li>
+  </ul>
+</main>
+</body>
+</html>

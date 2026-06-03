@@ -1,0 +1,168 @@
+{
+  "architecture_review": [
+    {
+      "attempt_id": "u7_attempt_288abebfff1b",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:17:01.080582+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_10e92568d264"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_da7a44934839",
+      "status": "completed"
+    }
+  ],
+  "code_review": [
+    {
+      "attempt_id": "u7_attempt_dac4b0c276d9",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:17:46.007771+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_a8e83bb1338c"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_6c3ca410fdc4",
+      "status": "completed"
+    },
+    {
+      "attempt_id": "u7_attempt_8453cbba218a",
+      "attempt_number": 2,
+      "created_at": "2026-05-30T09:18:05.246507+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_1acf68882f83"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_44d9b03ae168",
+      "status": "completed"
+    }
+  ],
+  "development_acceptance": [
+    {
+      "attempt_id": "u7_attempt_149da9abf596",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:17:37.388403+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_783a1ee473a8"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_8830a3a117ab",
+      "status": "completed"
+    }
+  ],
+  "e2e_acceptance": [
+    {
+      "attempt_id": "u7_attempt_3960d052585f",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:17:51.907626+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_b8a86340b466"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_b5d121efa0f4",
+      "status": "completed"
+    }
+  ],
+  "human_confirmation": [
+    {
+      "attempt_id": "u7_attempt_ce9db7879ca7",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:17:58.070100+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_dbe6afe27321"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_da41c130895a",
+      "status": "completed"
+    }
+  ],
+  "implementation_run": [
+    {
+      "attempt_id": "u7_attempt_7a615dc2046b",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:17:24.245506+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_18325661edbb"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_6acc5524ee34",
+      "status": "completed"
+    }
+  ],
+  "product_planning": [
+    {
+      "attempt_id": "u7_attempt_7751c286b947",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:16:38.374810+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_abb877e78950"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_7035a42325c9",
+      "status": "completed"
+    }
+  ],
+  "project_blueprint": [
+    {
+      "attempt_id": "u7_attempt_7ae1beed02d2",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:16:52.274554+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_8cf1ce4595c0"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_868467b9c3c5",
+      "status": "completed"
+    }
+  ],
+  "specification": [
+    {
+      "attempt_id": "u7_attempt_6d138e4e3745",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:16:45.346993+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_a939ce036d23"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_423c37ae811f",
+      "status": "completed"
+    }
+  ],
+  "substage_architecture_review": [
+    {
+      "attempt_id": "u7_attempt_77d088a4dbed",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:17:18.215132+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_20468131f8f5"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_101ddeabf64c",
+      "status": "completed"
+    }
+  ],
+  "substage_plan_audit": [
+    {
+      "attempt_id": "u7_attempt_7048a9514f38",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:17:08.454616+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_ea5a16def022"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_c42ad2b3d438",
+      "status": "completed"
+    }
+  ]
+}

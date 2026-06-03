@@ -1,0 +1,37 @@
+{
+  "schema_version": "v5_7b.staging_fixture_design.v1",
+  "design_only": true,
+  "fixture_created": false,
+  "runtime_worker_created": false,
+  "production_executor_route_created": false,
+  "source_agent_durable_mutation_allowed": false,
+  "required_fields": [
+    "tenant_id",
+    "workspace_id",
+    "app_id",
+    "human_actor_id",
+    "service_account_id",
+    "human_authorization_ref",
+    "workflow_instance_id",
+    "station_id",
+    "station_run_id",
+    "artifact_id",
+    "credential_ref",
+    "audit_export_package_id",
+    "incident_timeline_id",
+    "idempotency_key",
+    "correlation_id",
+    "request_id"
+  ],
+  "negative_cases": [
+    "cross_tenant_denied",
+    "wrong_workspace_denied",
+    "wrong_app_denied",
+    "wrong_workflow_instance_denied",
+    "unknown_credential_ref_denied",
+    "raw_secret_absent",
+    "source_agent_denied"
+  ],
+  "status": "NOT_CREATED",
+  "notes": "Fixture design only; no runtime worker or production executor route is created."
+}

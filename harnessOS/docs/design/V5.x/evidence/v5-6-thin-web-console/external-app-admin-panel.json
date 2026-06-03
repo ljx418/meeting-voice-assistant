@@ -1,0 +1,85 @@
+{
+  "panel_id": "external_app_admin",
+  "title": "外部应用",
+  "readonly": true,
+  "allowed_actions": [
+    "view",
+    "open_evidence"
+  ],
+  "source_refs": {
+    "external_app_ref": "generated:v5-6-thin-web-console/external-apps.json"
+  },
+  "data": {
+    "apps": [
+      {
+        "registration": {
+          "app_registration_id": "app_registration_v5_6_console",
+          "tenant_id": "tenant_v5",
+          "workspace_id": "workspace_v5",
+          "app_id": "app_v5",
+          "owner_actor_id": "user_v5_6",
+          "display_name": "技术文档总结控制台",
+          "allowed_capabilities": [
+            "workflow.report.view",
+            "evidence.view"
+          ],
+          "status": "active",
+          "created_at": "2026-06-03T09:39:26.697080+00:00",
+          "redaction_status": "redacted"
+        },
+        "domain_verification": {
+          "domain_verification_id": "domain_verification_7a00c315acf14b6ca80e8540ff8e16ab",
+          "tenant_id": "tenant_v5",
+          "app_registration_id": "app_registration_v5_6_console",
+          "domain": "console.example.test",
+          "verification_method": "dns_txt",
+          "verification_status": "verified",
+          "evidence_ref": "evidence://v5-6/domain-verification",
+          "verified_at": "2026-06-03T09:39:26.697135+00:00",
+          "created_at": "2026-06-03T09:39:26.697122+00:00",
+          "redaction_status": "redacted"
+        },
+        "origin": {
+          "origin_entry_id": "origin_entry_edaeaa10a5e740808de5f8c1acd7e28d",
+          "tenant_id": "tenant_v5",
+          "app_registration_id": "app_registration_v5_6_console",
+          "origin": "https://console.example.test",
+          "verified_domain_ref": "domain_verification_7a00c315acf14b6ca80e8540ff8e16ab",
+          "status": "allowed",
+          "policy_decision": "allow",
+          "created_at": "2026-06-03T09:39:26.697188+00:00",
+          "redaction_status": "redacted"
+        },
+        "quota_decision": {
+          "quota_decision_id": "quota_decision_f2d90169b1f841ecae367b74a8d59853",
+          "tenant_id": "tenant_v5",
+          "app_registration_id": "app_registration_v5_6_console",
+          "quota_policy_id": "quota_policy_89618005e74440ffa204d655cc2cb630",
+          "usage_count": 10,
+          "allowed": true,
+          "policy_decision": "allow",
+          "evidence_ref": "evidence://correlation_v5_6/quota/350421cf322946dbbae5ec73dfd0e8dc",
+          "request_id": "request_v5_6",
+          "correlation_id": "correlation_v5_6",
+          "redaction_status": "redacted",
+          "created_at": "2026-06-03T09:39:26.697218+00:00"
+        },
+        "sdk": {
+          "sdk_name": "harnessos-web",
+          "sdk_version": "5.6.0",
+          "api_version": "v5",
+          "compatibility_status": "supported",
+          "deprecated_at": null,
+          "sunset_at": null,
+          "migration_guide_ref": null,
+          "browser_allowed_paths": [
+            "/bff/v5/console",
+            "/assets/"
+          ],
+          "redaction_status": "redacted"
+        }
+      }
+    ]
+  },
+  "redaction_status": "redacted"
+}

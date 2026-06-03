@@ -773,7 +773,7 @@ function WorkflowCanvas({
     const stationNodes = stations.map((station, index) => ({
       id: station.station.station_id,
       type: "workflowNode",
-      position: nodePositions[station.station.station_id] || { x: 292 + (index % 3) * 194, y: 190 + Math.floor(index / 3) * 146 },
+      position: nodePositions[station.station.station_id] || { x: 292 + (index % 3) * 194, y: 118 + Math.floor(index / 3) * 116 },
       data: {
         label: station.station.name || station.station.station_id,
         role: station.station.role || "station",
@@ -791,7 +791,7 @@ function WorkflowCanvas({
     const pendingNodes = ghostNodes.map((ghost, index) => ({
       id: ghost.id,
       type: "workflowNode",
-      position: nodePositions[ghost.id] || ghost.uiPosition || { x: 292 + (index % 3) * 194, y: 190 + Math.floor(index / 3) * 146 },
+      position: nodePositions[ghost.id] || ghost.uiPosition || { x: 292 + (index % 3) * 194, y: 118 + Math.floor(index / 3) * 116 },
       data: {
         label: ghost.label,
         role: "pending",
@@ -856,7 +856,7 @@ function WorkflowCanvas({
         </div>
       </header>
       <div className="canvas-surface">
-        {scenarioEmpty ? (
+        {scenarioEmpty && flowNodes.length === 0 ? (
           <div className="canvas-empty-guide" data-testid="v41-scenario-empty">
             <span className="canvas-empty-icon">流</span>
             <h3>从一句话创建本地知识总结工作流</h3>
@@ -926,6 +926,14 @@ function WorkflowFlow({
 }) {
   const flow = useReactFlow<Node<CanvasNodeData>, Edge<CanvasEdgeData>>();
   useOnViewportChange({ onChange: ({ zoom }) => onZoomChange(zoom) });
+  const nodeSignature = nodes.map((node) => node.id).join("|");
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void flow.fitView({ padding: 0.22, duration: 0, maxZoom: 1.05 });
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, [flow, nodeSignature]);
 
   function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();

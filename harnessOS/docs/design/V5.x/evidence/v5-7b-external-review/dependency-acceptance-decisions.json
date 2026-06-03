@@ -1,0 +1,77 @@
+{
+  "schema_version": "v5_7b.external_dependency_acceptance.v1",
+  "stage": "V5-7B External Review And Dependency Closure",
+  "current_decision": "ACCEPTED_FOR_V5_8_PLANNING_ENTRY",
+  "decision_scope": "planning_entry_only",
+  "does_not_prove": [
+    "production_controlled_executor_ready",
+    "distributed_multi_agent_runtime_ready",
+    "agent_executor_ready",
+    "production_ready_external_app_support"
+  ],
+  "external_app_source_enabled": false,
+  "dependencies": [
+    {
+      "dependency_id": "v5_1_tenant_boundary",
+      "label": "V5-1 tenant boundary",
+      "status": "ACCEPTED_FOR_V5_8_PLANNING_ENTRY",
+      "evidence_ref": "docs/design/V5.x/v5_1_production_auth_tenant_boundary_completion_note.md",
+      "accepted_scope": "tenant/workspace/project/app boundary evidence for V5-8 planning",
+      "not_accepted_as": "enterprise_auth_ready"
+    },
+    {
+      "dependency_id": "v5_2_credential_boundary",
+      "label": "V5-2 credential boundary",
+      "status": "ACCEPTED_FOR_V5_8_PLANNING_ENTRY",
+      "evidence_ref": "docs/design/V5.x/v5_2_credential_provider_lifecycle_completion_note.md",
+      "accepted_scope": "credential/provider boundary evidence for V5-8 planning",
+      "not_accepted_as": "production_secret_lifecycle_ready"
+    },
+    {
+      "dependency_id": "v5_3_audit_export",
+      "label": "V5-3 audit export",
+      "status": "ACCEPTED_FOR_V5_8_PLANNING_ENTRY",
+      "evidence_ref": "docs/design/V5.x/v5_3_observability_audit_export_completion_note.md",
+      "accepted_scope": "observability/audit export baseline evidence for V5-8 planning",
+      "not_accepted_as": "production_audit_export_ready"
+    },
+    {
+      "dependency_id": "v5_4a_safety_gate",
+      "label": "V5-4A safety gate",
+      "status": "ACCEPTED_FOR_V5_8_PLANNING_ENTRY",
+      "evidence_ref": "docs/design/V5.x/v5_4a_agent_executor_safety_gate_completion_note.md",
+      "accepted_scope": "agent executor safety gate evidence for V5-8 planning",
+      "not_accepted_as": "agent_executor_ready"
+    },
+    {
+      "dependency_id": "v5_4c_devlocal_bridge",
+      "label": "V5-4C dev/local bridge",
+      "status": "ACCEPTED_FOR_V5_8_PLANNING_ENTRY",
+      "evidence_ref": "docs/design/V5.x/v5_4c_existing_v4_runtime_trial_completion_note.md",
+      "accepted_scope": "existing V4 dev/local runtime bridge evidence for V5-8 planning",
+      "not_accepted_as": "production_controlled_executor_ready"
+    },
+    {
+      "dependency_id": "v5_6_product_console_manual_confirmation",
+      "label": "V5-6 product console / manual confirmation UX",
+      "status": "ACCEPTED_FOR_V5_8_PLANNING_ENTRY",
+      "evidence_ref": "docs/design/V5.x/v5_6_thin_web_console_productization_completion_note.md",
+      "accepted_scope": "manual confirmation and thin console baseline for V5-8 planning",
+      "not_accepted_as": "complete_workflow_studio_ready"
+    },
+    {
+      "dependency_id": "v5_5_external_app_onboarding_boundary",
+      "label": "V5-5 external app onboarding boundary",
+      "status": "DEFERRED_EXTERNAL_APP_SOURCE_DISABLED",
+      "evidence_ref": "docs/design/V5.x/v5_5_external_app_onboarding_completion_note.md",
+      "accepted_scope": "not required for V5-8 planning because external app source is disabled",
+      "not_accepted_as": "production_ready_external_app_support"
+    }
+  ],
+  "entry_result": {
+    "v5_8_planning_may_start": true,
+    "v5_8_runtime_implementation_may_start": false,
+    "requires_v5_8_pre_implementation_audit": true,
+    "requires_v5_8_test_matrix": true
+  }
+}

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>V4-U6 统一体验收口门禁报告</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #fff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --green: #16a34a;
+      --amber: #d97706;
+      --red: #dc2626;
+      --blue: #2563eb;
+    }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.5; }
+    main { max-width: 1180px; margin: 0 auto; padding: 32px 24px 56px; }
+    h1 { margin: 0 0 8px; font-size: 30px; }
+    h2 { margin: 28px 0 12px; font-size: 20px; }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    th, td { border-bottom: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; font-size: 14px; }
+    th { background: #f1f5f9; }
+    tr:last-child td { border-bottom: 0; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 18px 0; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+    .metric { font-size: 28px; font-weight: 800; }
+    .muted { color: var(--muted); }
+    .badge { display: inline-block; border-radius: 999px; padding: 3px 8px; font-size: 12px; font-weight: 700; }
+    .pass { color: var(--green); background: #f0fdf4; border: 1px solid #86efac; }
+    .partial { color: var(--amber); background: #fffbeb; border: 1px solid #facc15; }
+    .info { color: var(--blue); background: #eff6ff; border: 1px solid #bfdbfe; }
+    .danger { color: var(--red); background: #fef2f2; border: 1px solid #fca5a5; }
+    .callout { border-left: 4px solid var(--blue); background: #eff6ff; padding: 12px 14px; border-radius: 10px; margin: 14px 0; }
+    .warn { border-left-color: var(--amber); background: #fffbeb; }
+    pre { white-space: pre-wrap; background: #0f172a; color: #e2e8f0; padding: 14px; border-radius: 10px; overflow: auto; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>V4-U6 统一体验收口门禁报告</h1>
+  <p class="muted">生成时间：2026-05-30。结论：V4-U6 complete with accepted PARTIAL risk；不证明完整 Workflow Studio、Agent executor、controlled executor production readiness、production external app support 或 full multi-Agent orchestration。</p>
+
+  <section class="grid">
+    <div class="card"><div class="muted">PASS</div><div class="metric" style="color: var(--green)">9</div></div>
+    <div class="card"><div class="muted">PARTIAL</div><div class="metric" style="color: var(--amber)">3</div></div>
+    <div class="card"><div class="muted">FAIL</div><div class="metric">0</div></div>
+    <div class="card"><div class="muted">BLOCKED</div><div class="metric">0</div></div>
+  </section>
+
+  <div class="callout warn">
+    <strong>人工 proceed decision：</strong>用户已接受 UX-08 / UX-09 / UX-10 以 PARTIAL deterministic_devlocal 风险进入 U6 gate review。这不是把三者改成 PASS。
+  </div>
+
+  <h2>Gate Result</h2>
+  <table>
+    <thead><tr><th>项目</th><th>结果</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>UX-01 到 UX-12 evidence summary</td><td><span class="badge pass">PASS</span></td><td>全部存在。</td></tr>
+      <tr><td>FAIL / BLOCKED</td><td><span class="badge pass">PASS</span></td><td>0 FAIL, 0 BLOCKED。</td></tr>
+      <tr><td>PARTIAL proceed decision</td><td><span class="badge pass">PASS</span></td><td>UX-08 / UX-09 / UX-10 已记录人工接受。</td></tr>
+      <tr><td>Runtime Capability Matrix</td><td><span class="badge pass">PASS</span></td><td>区分 supported / partial / planned / unsupported。</td></tr>
+      <tr><td>WorkflowSpec Registry truth boundary</td><td><span class="badge pass">PASS</span></td><td>声明不替代 WorkflowDraft / WorkflowVersion。</td></tr>
+      <tr><td>UX-12 real LLM workflow</td><td><span class="badge pass">PASS</span></td><td>MiniMax provider，5 个 Markdown 读取，4 次 LLM 调用。</td></tr>
+      <tr><td>No False Green</td><td><span class="badge pass">PASS</span></td><td>无 active forbidden claim violations。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Accepted PARTIAL Cases</h2>
+  <table>
+    <thead><tr><th>UX</th><th>Status</th><th>Evidence Scope</th><th>仍然不证明</th></tr></thead>
+    <tbody>
+      <tr><td>UX-08 串行多 Agent 视频工作流</td><td><span class="badge partial">PARTIAL</span></td><td>deterministic_devlocal</td><td>完整多 Agent 编排能力</td></tr>
+      <tr><td>UX-09 并行罗马广场讨论</td><td><span class="badge partial">PARTIAL</span></td><td>deterministic_devlocal</td><td>真实并行 multi-Agent runtime</td></tr>
+      <tr><td>UX-10 长时工程任务工作流</td><td><span class="badge partial">PARTIAL</span></td><td>deterministic_devlocal</td><td>autonomous coding workflow / Agent executor 能力</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Real Data UX-12</h2>
+  <table>
+    <thead><tr><th>字段</th><th>值</th></tr></thead>
+    <tbody>
+      <tr><td>provider</td><td>minimax</td></tr>
+      <tr><td>model_ref</td><td>MiniMax-M2.1</td></tr>
+      <tr><td>provider_config_source</td><td>.env.local</td></tr>
+      <tr><td>scanner_actual_read_count</td><td>5</td></tr>
+      <tr><td>provider_invocation_count</td><td>4</td></tr>
+      <tr><td>real_llm_backed</td><td>true</td></tr>
+      <tr><td>fallback_demo_only</td><td>false</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Validation Commands</h2>
+  <pre>./.venv/bin/python scripts/v4_unified_reality_check_audit.py -> PASS
+./.venv/bin/python scripts/v4_u5e_real_llm_local_document_workflow.py -> PASS
+./.venv/bin/python -m pytest tests/test_v4_*.py -q -> PASS, 377 passed, 5 warnings
+xmllint --noout docs/design/V4.x/v4_x_headless_current_gap_analysis.drawio -> PASS</pre>
+
+  <h2>Evidence Links</h2>
+  <ul>
+    <li><a href="reality-check/index.html">Reality Check Dashboard</a></li>
+    <li><a href="UX-12/local-document-workflow-result.json">UX-12 Local Document Workflow Result</a></li>
+    <li><a href="UX-12/evidence_chain.json">UX-12 Evidence Chain</a></li>
+    <li><a href="../../v4_u6_unified_experience_gate_completion_note.md">V4-U6 Completion Note</a></li>
+    <li><a href="../../v4_x_headless_current_gap_analysis.drawio">V4.x Gap Drawio</a></li>
+  </ul>
+
+  <h2>Forbidden Claims</h2>
+  <pre>complete Workflow Studio ready
+complete AgentTalkWindow ready
+Agent executor ready
+controlled executor ready
+production-ready external app support
+full multi-Agent orchestration ready
+autonomous workflow editing ready</pre>
+</main>
+</body>
+</html>

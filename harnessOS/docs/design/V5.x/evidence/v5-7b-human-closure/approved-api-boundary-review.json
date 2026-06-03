@@ -1,0 +1,27 @@
+{
+  "schema_version": "v5_7b.approved_api_boundary_review.v1",
+  "current_status": "NEEDS_MORE_EVIDENCE",
+  "runtime_enabled": false,
+  "requirements": {
+    "tenant_bound_api_client_identity": true,
+    "service_account_binding": true,
+    "human_authorization_ref": true,
+    "capability_scope_restricted_to_initial_action_set": true,
+    "rate_limit_and_quota_policy_checked": true,
+    "audit_evidence_records_api_client_service_account_and_human_authorization_refs": true
+  },
+  "required_tests": [
+    "approved_api_without_human_authorization_denied",
+    "approved_api_with_expired_human_authorization_denied",
+    "approved_api_wrong_tenant_denied",
+    "approved_api_wrong_workspace_denied",
+    "approved_api_source_agent_denied",
+    "approved_api_records_api_client_service_account_and_human_authorization_refs"
+  ],
+  "stop_conditions": [
+    "approved_api_can_execute_without_human_authorization",
+    "approved_api_accepts_source_agent",
+    "approved_api_accepts_raw_credential",
+    "approved_api_bypasses_tenant_app_workspace_scope"
+  ]
+}

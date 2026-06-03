@@ -1,0 +1,204 @@
+[
+  {
+    "correlation_id": "corr_f3832117d9cd",
+    "created_at": "2026-05-30T09:09:38.263810+00:00",
+    "evidence_id": "u7_evidence_f8b4b289198c",
+    "operation_type": "workflow.instance.start",
+    "policy_decision": "allowed_with_user_confirmation",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_runtime"
+    ],
+    "runtime_result_ref": "runtime_ed1ccd161590",
+    "source": "mission_console",
+    "source_agent_can_mutate": false,
+    "station_id": null,
+    "user_confirmed": true,
+    "workflow_instance_id": "u7_serial_video_95973a5604b7"
+  },
+  {
+    "correlation_id": "corr_de982e2b7771",
+    "created_at": "2026-05-30T09:09:45.849247+00:00",
+    "evidence_id": "u7_evidence_29f50d20fec2",
+    "input_artifact_refs": [
+      "input:tests/fixtures/v4_3/video_brief/launch_brief.md"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_8072707b7301"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.serial_video.writer.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_966b6eedf0ce",
+    "station_id": "writer_agent",
+    "workflow_instance_id": "u7_serial_video_95973a5604b7"
+  },
+  {
+    "correlation_id": "corr_17a9ffec1742",
+    "created_at": "2026-05-30T09:09:54.353008+00:00",
+    "evidence_id": "u7_evidence_1677d686c3b8",
+    "input_artifact_refs": [
+      "u7_artifact_8072707b7301"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_a8c17a26845b"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.serial_video.storyboard.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_e06ceefd794e",
+    "station_id": "storyboard_agent",
+    "workflow_instance_id": "u7_serial_video_95973a5604b7"
+  },
+  {
+    "correlation_id": "corr_52b75e229424",
+    "created_at": "2026-05-30T09:10:03.683773+00:00",
+    "evidence_id": "u7_evidence_a1c899d3b851",
+    "input_artifact_refs": [
+      "u7_artifact_a8c17a26845b"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_0e5bb84ec31b"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.serial_video.copywriting.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_43b6f69f291e",
+    "station_id": "copywriting_agent",
+    "workflow_instance_id": "u7_serial_video_95973a5604b7"
+  },
+  {
+    "correlation_id": "corr_c31c78c90871",
+    "created_at": "2026-05-30T09:10:10.909081+00:00",
+    "evidence_id": "u7_evidence_fb89723f9560",
+    "input_artifact_refs": [
+      "u7_artifact_0e5bb84ec31b"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_ec3a12051d6b"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.serial_video.editing_plan.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_07046bda760a",
+    "station_id": "editing_plan_agent",
+    "workflow_instance_id": "u7_serial_video_95973a5604b7"
+  },
+  {
+    "correlation_id": "corr_ac24676fe935",
+    "created_at": "2026-05-30T09:10:20.491030+00:00",
+    "evidence_id": "u7_evidence_650ee33072d3",
+    "input_artifact_refs": [
+      "u7_artifact_ec3a12051d6b"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_2f0a8165e962"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.serial_video.quality_review.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_42ed638d6e92",
+    "station_id": "quality_review_agent",
+    "workflow_instance_id": "u7_serial_video_95973a5604b7"
+  },
+  {
+    "correlation_id": "corr_765724bf02e6",
+    "created_at": "2026-05-30T09:10:28.364476+00:00",
+    "evidence_id": "u7_evidence_a0e9c3d9de71",
+    "input_artifact_refs": [
+      "u7_artifact_2f0a8165e962"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_bca1dbe1e2c3"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.serial_video.publish_preparation.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_3b4019c5df50",
+    "station_id": "publish_preparation_agent",
+    "workflow_instance_id": "u7_serial_video_95973a5604b7"
+  },
+  {
+    "correlation_id": "corr_679b461e196a",
+    "created_at": "2026-05-30T09:10:35.397997+00:00",
+    "evidence_id": "u7_evidence_76c7bd6edb18",
+    "operation_type": "station.rerun",
+    "policy_decision": "allowed_with_user_confirmation",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_runtime"
+    ],
+    "runtime_result_ref": "runtime_0525d24a5bfd",
+    "source": "review_console",
+    "source_agent_can_mutate": false,
+    "station_id": "storyboard_agent",
+    "user_confirmed": true,
+    "workflow_instance_id": "u7_serial_video_95973a5604b7"
+  },
+  {
+    "correlation_id": "corr_37ea4ab28bca",
+    "created_at": "2026-05-30T09:10:35.397936+00:00",
+    "evidence_id": "u7_evidence_4071820ebf9f",
+    "input_artifact_refs": [
+      "rerun_input:storyboard_agent:user_confirmed"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_f9fdc86373e6"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.serial_video.storyboard.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_7c03454a8fcb",
+    "station_id": "storyboard_agent",
+    "workflow_instance_id": "u7_serial_video_95973a5604b7"
+  }
+]

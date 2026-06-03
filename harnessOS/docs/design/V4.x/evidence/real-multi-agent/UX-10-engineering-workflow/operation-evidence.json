@@ -1,0 +1,324 @@
+[
+  {
+    "correlation_id": "corr_c632c50910ff",
+    "created_at": "2026-05-30T09:16:25.020755+00:00",
+    "evidence_id": "u7_evidence_6aebe3a37598",
+    "operation_type": "workflow.instance.start",
+    "policy_decision": "allowed_with_user_confirmation",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_runtime"
+    ],
+    "runtime_result_ref": "runtime_6ca68479ee11",
+    "source": "mission_console",
+    "source_agent_can_mutate": false,
+    "station_id": null,
+    "user_confirmed": true,
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_f2371fd5a9c0",
+    "created_at": "2026-05-30T09:16:38.374851+00:00",
+    "evidence_id": "u7_evidence_548ceab33468",
+    "input_artifact_refs": [
+      "input:tests/fixtures/v4_5/engineering_task/product_task.md"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_abb877e78950"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.product_planning.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_7035a42325c9",
+    "station_id": "product_planning",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_474e6d68bcc6",
+    "created_at": "2026-05-30T09:16:45.347051+00:00",
+    "evidence_id": "u7_evidence_76ba695241b4",
+    "input_artifact_refs": [
+      "u7_artifact_abb877e78950"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_a939ce036d23"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.specification.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_423c37ae811f",
+    "station_id": "specification",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_cf5fba77a5a3",
+    "created_at": "2026-05-30T09:16:52.274599+00:00",
+    "evidence_id": "u7_evidence_1ff35b4eba43",
+    "input_artifact_refs": [
+      "u7_artifact_a939ce036d23"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_8cf1ce4595c0"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.project_blueprint.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_868467b9c3c5",
+    "station_id": "project_blueprint",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_ad29d52db508",
+    "created_at": "2026-05-30T09:17:01.080609+00:00",
+    "evidence_id": "u7_evidence_480d53d88eb9",
+    "input_artifact_refs": [
+      "u7_artifact_8cf1ce4595c0"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_10e92568d264"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.architecture_review.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_da7a44934839",
+    "station_id": "architecture_review",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_bf430bc7a589",
+    "created_at": "2026-05-30T09:17:08.454648+00:00",
+    "evidence_id": "u7_evidence_be37c43b2665",
+    "input_artifact_refs": [
+      "u7_artifact_10e92568d264"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_ea5a16def022"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.substage_plan_audit.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_c42ad2b3d438",
+    "station_id": "substage_plan_audit",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_1fd6c7e389af",
+    "created_at": "2026-05-30T09:17:18.215157+00:00",
+    "evidence_id": "u7_evidence_7871925a39fc",
+    "input_artifact_refs": [
+      "u7_artifact_ea5a16def022"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_20468131f8f5"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.substage_architecture_review.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_101ddeabf64c",
+    "station_id": "substage_architecture_review",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_f7be1d02abc3",
+    "created_at": "2026-05-30T09:17:24.245532+00:00",
+    "evidence_id": "u7_evidence_efaed41a7cb1",
+    "input_artifact_refs": [
+      "u7_artifact_20468131f8f5"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_18325661edbb"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.implementation_run.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_6acc5524ee34",
+    "station_id": "implementation_run",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_598ffed8012c",
+    "created_at": "2026-05-30T09:17:37.388436+00:00",
+    "evidence_id": "u7_evidence_3f0033b79930",
+    "input_artifact_refs": [
+      "u7_artifact_18325661edbb"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_783a1ee473a8"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.development_acceptance.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_8830a3a117ab",
+    "station_id": "development_acceptance",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_57e34bff3894",
+    "created_at": "2026-05-30T09:17:46.007810+00:00",
+    "evidence_id": "u7_evidence_aa53e1b5c7d5",
+    "input_artifact_refs": [
+      "u7_artifact_783a1ee473a8"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_a8e83bb1338c"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.code_review.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_6c3ca410fdc4",
+    "station_id": "code_review",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_9a0ca8d0c44d",
+    "created_at": "2026-05-30T09:17:51.907650+00:00",
+    "evidence_id": "u7_evidence_2dbe0c9f487d",
+    "input_artifact_refs": [
+      "u7_artifact_a8e83bb1338c"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_b8a86340b466"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.e2e_acceptance.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_b5d121efa0f4",
+    "station_id": "e2e_acceptance",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_46801f7f0637",
+    "created_at": "2026-05-30T09:17:58.070155+00:00",
+    "evidence_id": "u7_evidence_34523d4f0a03",
+    "input_artifact_refs": [
+      "u7_artifact_b8a86340b466"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_dbe6afe27321"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.human_confirmation.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_da41c130895a",
+    "station_id": "human_confirmation",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_b64fe300496d",
+    "created_at": "2026-05-30T09:18:05.246569+00:00",
+    "evidence_id": "u7_evidence_36700e498728",
+    "operation_type": "station.rerun",
+    "policy_decision": "allowed_with_user_confirmation",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_runtime"
+    ],
+    "runtime_result_ref": "runtime_2140268c1bd6",
+    "source": "review_console",
+    "source_agent_can_mutate": false,
+    "station_id": "code_review",
+    "user_confirmed": true,
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  {
+    "correlation_id": "corr_66002508b487",
+    "created_at": "2026-05-30T09:18:05.246540+00:00",
+    "evidence_id": "u7_evidence_a98cd6a63739",
+    "input_artifact_refs": [
+      "rerun_input:code_review:user_confirmed"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation_type": "station.provider_invoke",
+    "output_artifact_refs": [
+      "u7_artifact_1acf68882f83"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "prompt_template_ref": "v4_u7.engineering.code_review.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "risk_flags": [
+      "dev_local_provider_runtime"
+    ],
+    "runtime_result_ref": "llm_result_44d9b03ae168",
+    "station_id": "code_review",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  }
+]

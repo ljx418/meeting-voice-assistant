@@ -1,0 +1,8 @@
+V4.3 Serial Multi-Agent Video Workflow transcript
+step=01 command='harness workflow create --template serial-video --brief tests/fixtures/v4_3/video_brief/launch_brief.md' read_only=false user_confirmed=false result='workflow spec generated'
+step=02 command='harness workflow run --spec video_workflow.yaml --user-confirmed' user_confirmed=true source=run_panel backed_by=v4_3_serial_video_runtime result=completed
+step=03 command='harness workflow run --spec video_workflow.yaml --simulate-failure storyboard_agent --user-confirmed' user_confirmed=true source=run_panel backed_by=v4_3_serial_video_runtime result=failed
+step=04 command='harness station rerun --station storyboard_agent --user-confirmed' user_confirmed=true source=run_panel downstream_stale=4
+step=05 command='harness workflow continue-downstream --user-confirmed' user_confirmed=true source=run_panel result=completed
+step=06 command='harness artifacts list --instance v43_video_instance_635d52af894b' read_only=true result='6 artifacts'
+step=07 command='harness evidence show --instance v43_video_instance_635d52af894b' read_only=true result='operation evidence redacted'

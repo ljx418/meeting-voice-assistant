@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v6_7_worker_recovery_decision_schema.json",
+  "title": "WorkerRecoveryDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "recovery_decision_id",
+    "tenant_id",
+    "workspace_id",
+    "worker_id",
+    "station_id",
+    "station_run_id",
+    "attempt_id",
+    "failure_type",
+    "decision",
+    "old_attempt_retained",
+    "created_at",
+    "correlation_id",
+    "audit_ref"
+  ],
+  "properties": {
+    "recovery_decision_id": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "worker_id": { "type": "string", "minLength": 1 },
+    "station_id": { "type": "string", "minLength": 1 },
+    "station_run_id": { "type": "string", "minLength": 1 },
+    "attempt_id": { "type": "string", "minLength": 1 },
+    "failure_type": { "enum": ["worker_lost", "timeout", "policy_denied", "credential_denied"] },
+    "decision": { "enum": ["retry", "recover", "mark_failed"] },
+    "old_attempt_retained": { "type": "boolean", "const": true },
+    "created_at": { "type": "string", "format": "date-time" },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "audit_ref": { "type": "string", "minLength": 1 }
+  }
+}

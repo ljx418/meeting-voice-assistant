@@ -1,0 +1,87 @@
+[
+  {
+    "evidence_id": "v44_evidence_c4e0d5993d47",
+    "workflow_instance_id": "v44_deliberation_instance_3ef8268a6d28",
+    "workflow_template_id": "v44_parallel_deliberation_template",
+    "operation": "workflow.instance.start",
+    "operation_type": "workflow.instance.start",
+    "status": "succeeded",
+    "correlation_id": "corr_34c086a674f1",
+    "operation_id": "op_d6c021c84af7",
+    "idempotency_key": "idem_b5379833fa9c",
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "dev_local_deliberation"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_parallel_deliberation_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "workflow_instance",
+      "resource_id": "v44_deliberation_instance_3ef8268a6d28",
+      "status": "completed",
+      "workflow_instance_id": "v44_deliberation_instance_3ef8268a6d28",
+      "trace_id": "trace_c37a99c9"
+    },
+    "created_at": "2026-05-29T07:11:49.015681+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  },
+  {
+    "evidence_id": "v44_evidence_e8d07421fbaa",
+    "workflow_instance_id": "v44_deliberation_instance_3ef8268a6d28",
+    "workflow_template_id": "v44_parallel_deliberation_template",
+    "operation": "station.rerun",
+    "operation_type": "station.rerun",
+    "status": "succeeded",
+    "correlation_id": "corr_0d8e2748491b",
+    "operation_id": "op_b2cc91999d23",
+    "idempotency_key": "idem_3b0f538cd26e",
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "persona_rerun",
+      "downstream_stale"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_parallel_deliberation_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "station_run_attempt",
+      "resource_id": "attempt_architecture_agent_2",
+      "status": "completed",
+      "workflow_instance_id": "v44_deliberation_instance_3ef8268a6d28",
+      "trace_id": "trace_506af56e"
+    },
+    "created_at": "2026-05-29T07:11:49.020849+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  },
+  {
+    "evidence_id": "v44_evidence_2bb92a9035ce",
+    "workflow_instance_id": "v44_deliberation_instance_3ef8268a6d28",
+    "workflow_template_id": "v44_parallel_deliberation_template",
+    "operation": "workflow.instance.continue_downstream",
+    "operation_type": "workflow.instance.continue_downstream",
+    "status": "succeeded",
+    "correlation_id": "corr_ca09c30b8dbc",
+    "operation_id": "op_00e8036ee5d8",
+    "idempotency_key": "idem_08c11ce26ba0",
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "deliberation_continue"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_parallel_deliberation_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "workflow_instance",
+      "resource_id": "v44_deliberation_instance_3ef8268a6d28",
+      "status": "completed",
+      "workflow_instance_id": "v44_deliberation_instance_3ef8268a6d28",
+      "trace_id": "trace_31fa7417"
+    },
+    "created_at": "2026-05-29T07:11:49.026375+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  }
+]

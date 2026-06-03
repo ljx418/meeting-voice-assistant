@@ -1,0 +1,10 @@
+{
+  "handoff_id": "v46_handoff_dc6ca20934f9",
+  "agent_builder_session_id": "v46_builder_session_a480f826387e",
+  "proposal_id": "v46_workflow_proposal_13be0d978a3a",
+  "target_panel": "editing_panel",
+  "operation_executed": false,
+  "requires_user_confirmation": true,
+  "agent_mutation_allowed": false,
+  "redaction_status": "redacted"
+}

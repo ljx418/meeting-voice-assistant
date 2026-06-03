@@ -206,41 +206,71 @@ False-green checks:
 2. BLOCKED items must remain visible.
 3. Focused smoke must not replace the V4.1 consolidation gate.
 
-## 4. V4.2 Controlled Execution Runtime MVP / 受控执行运行时 MVP
+## 4. V4.2 Headless Interaction And Controlled Runtime / Headless 交互与受控运行时
 
-### V4.2-A Execution Policy Runtime Baseline / 执行策略运行时基线
+V4.2 is split into a Headless Interaction Pivot first and a controlled runtime implementation second. This prevents the project from continuing as full Web low-code Studio first.
 
-Goal: implement runtime policy enforcement from the V4.0 controlled executor design gates while keeping Agent non-executable.
+### V4.2-A Headless Interaction Pivot / Headless 交互转向
+
+Goal: prove the V4.1 local workflow can be represented and reviewed through WorkflowSpec, TUI / Command Palette, Drawio visualization, HTML reports, and Thin Web Console.
+
+Required evidence plan:
+
+```text
+tui-transcript.txt
+workflow.yaml
+workflow.drawio
+workflow_status.drawio
+artifact_lineage.drawio
+workflow_board.html
+artifacts.html
+quality.html
+evidence.html
+result-summary.md
+```
 
 Allowed claim:
 
 ```text
-V4.2-A complete: execution policy runtime baseline ready for dev/local validation.
+V4.2-A complete: headless interaction baseline ready for local workflow validation.
 ```
 
-### V4.2-B User-Confirmed Start And Rerun / 用户确认启动与重跑
+Spec drift checks:
 
-Goal: implement generic user-confirmed workflow start and station rerun with attempt history.
+1. Do not implement controlled execution runtime in V4.2-A.
+2. Do not make full Web Studio a prerequisite.
+3. Do not treat Drawio or HTML reports as runtime truth.
+4. Do not allow Agent to execute mutation.
+
+False-green checks:
+
+1. TUI transcript must not replace real runtime evidence in later implementation.
+2. Drawio and HTML reports must be generated from source DTOs/specs, not hand-waved as runtime completion.
+3. V4.2-A must not claim controlled executor ready.
+
+### V4.2-B Controlled Runtime Design Gate / 受控运行时设计门禁
+
+Goal: define the runtime implementation gate, acceptance standard, and audit requirements before any generic controlled runtime implementation.
 
 Allowed claim:
 
 ```text
-V4.2-B complete: user-confirmed start and rerun baseline ready for dev/local validation.
+V4.2-B complete: controlled runtime design gate ready for implementation review.
 ```
 
-### V4.2-C Downstream Stale Propagation And Recovery / 下游失效传播与恢复
+### V4.2-C Controlled Runtime MVP / 受控运行时 MVP
 
-Goal: implement downstream stale state, continuation after confirmation, and refresh recovery.
+Goal: implement generic user-confirmed workflow start, station rerun, attempt history, downstream stale propagation, runtime evidence, timeout baseline, and kill switch baseline.
 
 Allowed claim:
 
 ```text
-V4.2-C complete: downstream stale propagation and recovery baseline ready for dev/local validation.
+V4.2-C complete: controlled runtime MVP ready for dev/local validation.
 ```
 
-### V4.2-D Controlled Execution Runtime Consolidation Gate / 受控执行运行时收口门禁
+### V4.2-D Controlled Runtime Consolidation Gate / 受控运行时收口门禁
 
-Goal: prove V4.2 is sufficient for V4.3, V4.4, and V4.5 runtime needs.
+Goal: prove V4.2 is sufficient for V4.3, V4.4, and V4.5 runtime needs after V4.2-C implementation evidence passes.
 
 Allowed claim:
 
@@ -417,15 +447,15 @@ Next Stage Audit / 下一阶段审计
 Current baseline stage:
 
 ```text
-V4.1-A Local Folder Summary Runtime Slice / 本地文件夹总结运行时切片
+V4.1-E Local Knowledge Workflow MVP Consolidation Gate / 本地知识工作流 MVP 收口门禁
 ```
 
 Current recommendation:
 
 ```text
-proceed_with_caution
+proceed
 ```
 
 Reason:
 
-V4.1-A has focused backend, frontend, build, V4.0 regression, and browser smoke evidence. However, the full 10-case browser evidence package, failure rerun, refresh recovery depth, and V4.1-specific governance evidence chain are not complete yet. The next stage should be V4.1-B Browser Evidence Hardening / 浏览器验收证据加固.
+V4.1-E has consolidated V4.1-A through V4.1-D into the local recursive Markdown summary workflow MVP baseline. The current baseline is V4.1 complete: local recursive Markdown summary workflow MVP ready for dev/local validation. The next stage should proceed to V4.2-A Headless Interaction Pivot / Headless 交互转向, with WorkflowSpec, TUI transcript, Drawio, HTML reports, Thin Web Console observation, and evidence package outputs. V4.2-A must not implement generic controlled execution runtime, Agent executor, production-ready external app support, or full multi-Agent orchestration.

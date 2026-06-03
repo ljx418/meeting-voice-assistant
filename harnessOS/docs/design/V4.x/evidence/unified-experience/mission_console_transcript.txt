@@ -1,0 +1,17 @@
+User: 帮我创建一个工作流，递归总结 Desktop/技术分享 下的 Markdown 文件。
+Mission Console: 已捕获目标。state=IntentCaptured。
+Mission Console: 已生成 WorkflowSpec。state=SpecDrafted。
+Mission Console: Schema 验证通过。state=SchemaValidated。
+Mission Console: Diff 已生成。state=DiffReady。应用草稿需要用户确认。
+Mission Console: 等待用户确认。state=AwaitingConfirmation。
+User: /confirm apply
+Mission Console: user_confirmed=true。source=mission_console。handoff=governed_bff。
+Mission Console: Workflow Blueprint 已生成。output=workflow.drawio。
+User: /publish
+Mission Console: 发布版本需要用户确认。user_confirmed=true。
+User: /run
+Mission Console: 运行工作流需要用户确认。user_confirmed=true。
+Mission Console: Runtime Report 已生成。outputs=workflow_board.html, artifacts.html, quality.html, evidence.html。
+User: /show evidence
+Mission Console: Evidence Chain 只读展示 proposal, handoff, user_confirmed, runtime_result, policy_decision。
+Boundary: Agent 只能 propose / explain / handoff / navigate，不能 auto apply / publish / run / rerun。

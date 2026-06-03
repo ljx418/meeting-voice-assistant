@@ -1,0 +1,42 @@
+{
+  "allowed_actions": [
+    "view",
+    "export",
+    "open_evidence"
+  ],
+  "append_only": true,
+  "checksum": "a7ed144358d86db5f280ee563cda11ba4ae4d7f7f56e714f73f3d832319de51c",
+  "correlation_id": "corr_v6_3_e2e",
+  "created_at": "2026-06-02T08:16:30.085745+00:00",
+  "event_count": 6,
+  "export_id": "audit_export_7bcd6083aba24144b12b134b4c36414f",
+  "immutable": true,
+  "included_event_refs": [
+    "obs_event_f2986dea989d4f1ea50d4d82da254bd7",
+    "obs_event_50bf3dc94192492ebb73d7e05b769b76",
+    "obs_event_e9a3a2d09e2e40c19b40da8b2df9ecca",
+    "obs_event_75699d316b6f4c2e8477e37252197b64",
+    "obs_event_d57a2800ee7845f0b00b69c6c06c6ce1",
+    "obs_event_71c2b79d5a134650b89ef993e466ccdc"
+  ],
+  "included_evidence_refs": [
+    "evidence://v6-1/identity",
+    "evidence://v6-2/provider",
+    "evidence://v6-3/failure",
+    "evidence://v6-3/retry",
+    "evidence://v6-3/kill-switch",
+    "evidence://v6-3/rollback"
+  ],
+  "readonly": true,
+  "redaction_status": "redacted",
+  "request_id": "req_v6_3_e2e",
+  "requested_by": "actor_v6",
+  "retention_policy_id": "retention_v6_3",
+  "runtime_truth_constructed": false,
+  "tenant_id": "tenant_alpha",
+  "time_range": {
+    "from": "2026-06-01T00:00:00Z",
+    "to": "2026-06-02T00:00:00Z"
+  },
+  "workspace_id": "workspace_docs"
+}

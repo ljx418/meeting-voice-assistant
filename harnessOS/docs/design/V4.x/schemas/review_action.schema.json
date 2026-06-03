@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/review_action.schema.json",
+  "title": "V4.x Review Action DTO",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "operation",
+    "source",
+    "actor_type",
+    "requires_user_confirmation",
+    "policy_decision",
+    "risk_flags"
+  ],
+  "properties": {
+    "operation": { "$ref": "operation.schema.json" },
+    "source": { "type": "string", "enum": ["mission_console", "review_console", "thin_web_console", "tui", "agent"] },
+    "actor_type": { "type": "string", "enum": ["human", "agent", "service_account"] },
+    "requires_user_confirmation": { "type": "boolean" },
+    "policy_decision": {
+      "type": "string",
+      "enum": ["read_only", "proposal_only", "handoff_only", "user_confirmed_only", "approval_gated_future", "blocked"]
+    },
+    "risk_flags": { "type": "array", "items": { "type": "string" } }
+  }
+}

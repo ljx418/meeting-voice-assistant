@@ -1,0 +1,953 @@
+{
+  "file_count": 188,
+  "files": [
+    {
+      "path": "docs/design/V4.x/evidence/final-human-acceptance/u9-false-green-audit.md",
+      "size_bytes": 466,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/final-human-acceptance/u9-final-acceptance-data.json",
+      "size_bytes": 14576,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/final-human-acceptance/u9-final-acceptance-report.html",
+      "size_bytes": 6820,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/final-human-acceptance/u9-prd-spec-review.md",
+      "size_bytes": 921,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/manual-acceptance/u8-manual-acceptance-data.json",
+      "size_bytes": 7922,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/manual-acceptance/u8-manual-acceptance-report.html",
+      "size_bytes": 9950,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/manual-acceptance-proxy/u5-proxy-acceptance-report.html",
+      "size_bytes": 14306,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifact_lineage.drawio",
+      "size_bytes": 2985,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifacts/video_copywriting_agent_attempt_1.md",
+      "size_bytes": 3985,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifacts/video_editing_plan_agent_attempt_1.md",
+      "size_bytes": 301,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifacts/video_publish_preparation_agent_attempt_1.md",
+      "size_bytes": 3389,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifacts/video_quality_review_agent_attempt_1.md",
+      "size_bytes": 4050,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifacts/video_storyboard_agent_attempt_1.md",
+      "size_bytes": 2424,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifacts/video_storyboard_agent_attempt_2.md",
+      "size_bytes": 2866,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifacts/video_writer_agent_attempt_1.md",
+      "size_bytes": 4390,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifacts.html",
+      "size_bytes": 23038,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/attempt-history.json",
+      "size_bytes": 2744,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/downstream-stale.json",
+      "size_bytes": 626,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/evidence.html",
+      "size_bytes": 1518,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/operation-evidence.json",
+      "size_bytes": 6851,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/quality.html",
+      "size_bytes": 1021,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/result-summary.md",
+      "size_bytes": 886,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-report.html",
+      "size_bytes": 1062,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-result.json",
+      "size_bytes": 22221,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/workflow.drawio",
+      "size_bytes": 2515,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/workflow_status.drawio",
+      "size_bytes": 2613,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifact_lineage.drawio",
+      "size_bytes": 3032,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifacts/deliberation_architecture_persona_attempt_1.md",
+      "size_bytes": 4595,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifacts/deliberation_architecture_persona_attempt_2.md",
+      "size_bytes": 5093,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifacts/deliberation_contradiction_review_attempt_1.md",
+      "size_bytes": 3150,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifacts/deliberation_orchestrator_attempt_1.md",
+      "size_bytes": 3888,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifacts/deliberation_product_persona_attempt_1.md",
+      "size_bytes": 4269,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifacts/deliberation_risk_persona_attempt_1.md",
+      "size_bytes": 4190,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifacts/deliberation_synthesis_node_attempt_1.md",
+      "size_bytes": 3701,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifacts.html",
+      "size_bytes": 30391,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/attempt-history.json",
+      "size_bytes": 2729,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/downstream-stale.json",
+      "size_bytes": 468,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/evidence.html",
+      "size_bytes": 1518,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/operation-evidence.json",
+      "size_bytes": 6921,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/quality.html",
+      "size_bytes": 1046,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/result-summary.md",
+      "size_bytes": 892,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-report.html",
+      "size_bytes": 1107,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-result.json",
+      "size_bytes": 22819,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/workflow.drawio",
+      "size_bytes": 2569,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/workflow_status.drawio",
+      "size_bytes": 2640,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifact_lineage.drawio",
+      "size_bytes": 5013,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_architecture_review_attempt_1.md",
+      "size_bytes": 33,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_code_review_attempt_1.md",
+      "size_bytes": 3447,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_code_review_attempt_2.md",
+      "size_bytes": 2721,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_development_acceptance_attempt_1.md",
+      "size_bytes": 0,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_e2e_acceptance_attempt_1.md",
+      "size_bytes": 2286,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_human_confirmation_attempt_1.md",
+      "size_bytes": 2294,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_implementation_run_attempt_1.md",
+      "size_bytes": 3577,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_product_planning_attempt_1.md",
+      "size_bytes": 1441,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_project_blueprint_attempt_1.md",
+      "size_bytes": 3466,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_specification_attempt_1.md",
+      "size_bytes": 2776,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_substage_architecture_review_attempt_1.md",
+      "size_bytes": 3503,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts/engineering_substage_plan_audit_attempt_1.md",
+      "size_bytes": 1287,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts.html",
+      "size_bytes": 28751,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/attempt-history.json",
+      "size_bytes": 4721,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/downstream-stale.json",
+      "size_bytes": 296,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/evidence.html",
+      "size_bytes": 2008,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/operation-evidence.json",
+      "size_bytes": 11032,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/quality.html",
+      "size_bytes": 1032,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/result-summary.md",
+      "size_bytes": 880,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-report.html",
+      "size_bytes": 1442,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json",
+      "size_bytes": 35772,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/workflow.drawio",
+      "size_bytes": 4405,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/workflow_status.drawio",
+      "size_bytes": 4585,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-01/result-summary.md",
+      "size_bytes": 754,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-02/result-summary.md",
+      "size_bytes": 556,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-03/result-summary.md",
+      "size_bytes": 543,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-04/result-summary.md",
+      "size_bytes": 616,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-05/result-summary.md",
+      "size_bytes": 531,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-06/result-summary.md",
+      "size_bytes": 762,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-07/result-summary.md",
+      "size_bytes": 522,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-08/result-summary.md",
+      "size_bytes": 1071,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-09/result-summary.md",
+      "size_bytes": 1106,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-10/result-summary.md",
+      "size_bytes": 1135,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-11/result-summary.md",
+      "size_bytes": 834,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-12/artifacts/AgentOS_总结.md",
+      "size_bytes": 1710,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-12/artifacts/前端低代码_总结.md",
+      "size_bytes": 1380,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-12/artifacts/总览总结.md",
+      "size_bytes": 677,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-12/artifacts/项目复盘_总结.md",
+      "size_bytes": 820,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-12/evidence_chain.json",
+      "size_bytes": 2802,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-12/local-document-workflow-result.json",
+      "size_bytes": 7582,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-12/quality_report.json",
+      "size_bytes": 375,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/UX-12/result-summary.md",
+      "size_bytes": 682,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/mission_console_transcript.txt",
+      "size_bytes": 1159,
+      "suffix": ".txt"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/reality-check/audit-data.json",
+      "size_bytes": 1632362,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/reality-check/claims-audit.md",
+      "size_bytes": 39994,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/reality-check/evidence-inventory.json",
+      "size_bytes": 30396,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/reality-check/index.html",
+      "size_bytes": 23796,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/reality-check/logs/commands.json",
+      "size_bytes": 15093,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/reality-check/logs/pytest-v4.log",
+      "size_bytes": 8392,
+      "suffix": ".log"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/reality-check/logs/xmllint.log",
+      "size_bytes": 2009,
+      "suffix": ".log"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/reality-check/result-summary.md",
+      "size_bytes": 2837,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/result-summary.md",
+      "size_bytes": 2693,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.x/evidence/unified-experience/u6-gate-review.html",
+      "size_bytes": 6852,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/.gateway-state/sessions/core.sqlite3",
+      "size_bytes": 258048,
+      "suffix": ".sqlite3"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/attempt-history.json",
+      "size_bytes": 4328,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/downstream-stale.json",
+      "size_bytes": 855,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/evidence.html",
+      "size_bytes": 563,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/rerun_history.drawio",
+      "size_bytes": 1741,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/result-summary.md",
+      "size_bytes": 531,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/runtime-evidence.json",
+      "size_bytes": 4278,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/runtime-start-result.json",
+      "size_bytes": 13173,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/runtime_report.html",
+      "size_bytes": 813,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/station-rerun-result.json",
+      "size_bytes": 12269,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/tui-transcript.txt",
+      "size_bytes": 855,
+      "suffix": ".txt"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/workflow.yaml",
+      "size_bytes": 420,
+      "suffix": ".yaml"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/controlled-runtime/workflow_status.drawio",
+      "size_bytes": 3587,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/artifact_lineage.drawio",
+      "size_bytes": 1907,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/artifacts.html",
+      "size_bytes": 1251,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/artifacts.json",
+      "size_bytes": 1964,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/evidence.html",
+      "size_bytes": 1501,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/exported-runtime-result.json",
+      "size_bytes": 7600,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/operation-evidence.json",
+      "size_bytes": 5210,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/quality.html",
+      "size_bytes": 994,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/quality.json",
+      "size_bytes": 1042,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/result-summary.md",
+      "size_bytes": 1797,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/thin_web_console.html",
+      "size_bytes": 1477,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/tui-transcript.txt",
+      "size_bytes": 2387,
+      "suffix": ".txt"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/workflow.drawio",
+      "size_bytes": 4492,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/workflow.json",
+      "size_bytes": 8166,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/workflow.schema.json",
+      "size_bytes": 5894,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/workflow.yaml",
+      "size_bytes": 6461,
+      "suffix": ".yaml"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/workflow_board.html",
+      "size_bytes": 1837,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.2/evidence/headless-interaction/workflow_status.drawio",
+      "size_bytes": 2843,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/.gateway-state/sessions/core.sqlite3",
+      "size_bytes": 258048,
+      "suffix": ".sqlite3"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/attempt-history.json",
+      "size_bytes": 2354,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/downstream-stale.json",
+      "size_bytes": 112,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/operation-evidence.json",
+      "size_bytes": 3472,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/result-summary.md",
+      "size_bytes": 587,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/runtime-result.json",
+      "size_bytes": 18322,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/tui-transcript.txt",
+      "size_bytes": 1141,
+      "suffix": ".txt"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/video_artifact_lineage.drawio",
+      "size_bytes": 2488,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/video_artifacts.html",
+      "size_bytes": 3506,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/video_evidence.html",
+      "size_bytes": 979,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/video_quality.html",
+      "size_bytes": 1445,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/video_run_report.html",
+      "size_bytes": 1199,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/video_workflow.drawio",
+      "size_bytes": 3056,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/video_workflow.json",
+      "size_bytes": 8056,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/video_workflow.schema.json",
+      "size_bytes": 5317,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/video_workflow.yaml",
+      "size_bytes": 1365,
+      "suffix": ".yaml"
+    },
+    {
+      "path": "docs/design/V4.3/evidence/serial-video-workflow/video_workflow_status.drawio",
+      "size_bytes": 2548,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/.gateway-state/sessions/core.sqlite3",
+      "size_bytes": 258048,
+      "suffix": ".sqlite3"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/attempt-history.json",
+      "size_bytes": 2733,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/deliberation_artifact_lineage.drawio",
+      "size_bytes": 2563,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/deliberation_report.html",
+      "size_bytes": 616,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/deliberation_status.drawio",
+      "size_bytes": 2575,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/deliberation_workflow.drawio",
+      "size_bytes": 2511,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/deliberation_workflow.json",
+      "size_bytes": 7260,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/deliberation_workflow.yaml",
+      "size_bytes": 1646,
+      "suffix": ".yaml"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/downstream-stale.json",
+      "size_bytes": 434,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/evidence.html",
+      "size_bytes": 458,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/operation-evidence.json",
+      "size_bytes": 3195,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/persona_artifacts.html",
+      "size_bytes": 1880,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/result-summary.md",
+      "size_bytes": 441,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/runtime-result.json",
+      "size_bytes": 14541,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/synthesis.html",
+      "size_bytes": 462,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.4/evidence/parallel-deliberation/tui-transcript.txt",
+      "size_bytes": 764,
+      "suffix": ".txt"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/.gateway-state/sessions/core.sqlite3",
+      "size_bytes": 258048,
+      "suffix": ".sqlite3"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/attempt-history.json",
+      "size_bytes": 4355,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/downstream-stale.json",
+      "size_bytes": 420,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/durable_task_board.html",
+      "size_bytes": 1225,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/engineering_artifact_lineage.drawio",
+      "size_bytes": 4387,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/engineering_board.drawio",
+      "size_bytes": 4347,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/engineering_status.drawio",
+      "size_bytes": 4469,
+      "suffix": ".drawio"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/engineering_workflow.json",
+      "size_bytes": 4252,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/engineering_workflow.yaml",
+      "size_bytes": 857,
+      "suffix": ".yaml"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/evidence_chain.html",
+      "size_bytes": 488,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/operation-evidence.json",
+      "size_bytes": 3146,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/quality_gate_report.html",
+      "size_bytes": 1509,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/rerun_history.html",
+      "size_bytes": 945,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/result-summary.md",
+      "size_bytes": 492,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/runtime-result.json",
+      "size_bytes": 21238,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/stage_artifacts.html",
+      "size_bytes": 3076,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.5/evidence/engineering-workflow/tui-transcript.txt",
+      "size_bytes": 757,
+      "suffix": ".txt"
+    },
+    {
+      "path": "docs/design/V4.6/evidence/agent-workflow-builder/.gateway-state/sessions/core.sqlite3",
+      "size_bytes": 258048,
+      "suffix": ".sqlite3"
+    },
+    {
+      "path": "docs/design/V4.6/evidence/agent-workflow-builder/builder-session.json",
+      "size_bytes": 983,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.6/evidence/agent-workflow-builder/builder_report.html",
+      "size_bytes": 5142,
+      "suffix": ".html"
+    },
+    {
+      "path": "docs/design/V4.6/evidence/agent-workflow-builder/debug-repair-proposal.json",
+      "size_bytes": 576,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.6/evidence/agent-workflow-builder/handoff.json",
+      "size_bytes": 340,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.6/evidence/agent-workflow-builder/result-summary.md",
+      "size_bytes": 467,
+      "suffix": ".md"
+    },
+    {
+      "path": "docs/design/V4.6/evidence/agent-workflow-builder/tui-transcript.txt",
+      "size_bytes": 597,
+      "suffix": ".txt"
+    },
+    {
+      "path": "docs/design/V4.6/evidence/agent-workflow-builder/workflow-draft-proposal.json",
+      "size_bytes": 856,
+      "suffix": ".json"
+    },
+    {
+      "path": "docs/design/V4.6/evidence/agent-workflow-builder/workflow-plan-explanation.json",
+      "size_bytes": 585,
+      "suffix": ".json"
+    }
+  ],
+  "roots": [
+    "docs/design/V4.x/evidence",
+    "docs/design/V4.2/evidence",
+    "docs/design/V4.3/evidence",
+    "docs/design/V4.4/evidence",
+    "docs/design/V4.5/evidence",
+    "docs/design/V4.6/evidence"
+  ]
+}

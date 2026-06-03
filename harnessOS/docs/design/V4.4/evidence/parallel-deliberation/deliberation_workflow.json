@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "workflow_spec_id": "v44_parallel_deliberation",
+    "schema_version": "v4.4",
+    "name": "罗马广场并行多 Agent 讨论工作流",
+    "stage": "V4.4 Parallel Multi-Agent Deliberation Workflow MVP",
+    "runtime_truth_boundary": "WorkflowSpec is a review artifact and does not replace WorkflowDraft or WorkflowVersion runtime truth.",
+    "generated_from": "v4_4_dev_local_deliberation_fixture"
+  },
+  "stations": [
+    {
+      "station_id": "orchestrator",
+      "name": "Orchestrator",
+      "station_kind": "orchestrator",
+      "persona_descriptor": {
+        "persona": "orchestrator",
+        "goal": "从指定视角讨论项目问题并输出可归因观点。",
+        "model_ref": "dev_local_persona_model",
+        "tool_refs": [
+          "question_reader",
+          "opinion_template"
+        ],
+        "skill_refs": [
+          "deliberation_opinion"
+        ]
+      }
+    },
+    {
+      "station_id": "product_strategist_agent",
+      "name": "产品策略 Persona",
+      "station_kind": "persona_agent",
+      "persona_descriptor": {
+        "persona": "persona_agent",
+        "goal": "从指定视角讨论项目问题并输出可归因观点。",
+        "model_ref": "dev_local_persona_model",
+        "tool_refs": [
+          "question_reader",
+          "opinion_template"
+        ],
+        "skill_refs": [
+          "deliberation_opinion"
+        ]
+      }
+    },
+    {
+      "station_id": "architecture_agent",
+      "name": "架构 Persona",
+      "station_kind": "persona_agent",
+      "persona_descriptor": {
+        "persona": "persona_agent",
+        "goal": "从指定视角讨论项目问题并输出可归因观点。",
+        "model_ref": "dev_local_persona_model",
+        "tool_refs": [
+          "question_reader",
+          "opinion_template"
+        ],
+        "skill_refs": [
+          "deliberation_opinion"
+        ]
+      }
+    },
+    {
+      "station_id": "risk_reviewer_agent",
+      "name": "风险 Persona",
+      "station_kind": "persona_agent",
+      "persona_descriptor": {
+        "persona": "persona_agent",
+        "goal": "从指定视角讨论项目问题并输出可归因观点。",
+        "model_ref": "dev_local_persona_model",
+        "tool_refs": [
+          "question_reader",
+          "opinion_template"
+        ],
+        "skill_refs": [
+          "deliberation_opinion"
+        ]
+      }
+    },
+    {
+      "station_id": "synthesis",
+      "name": "观点汇总节点",
+      "station_kind": "synthesis",
+      "persona_descriptor": {
+        "persona": "synthesis",
+        "goal": "从指定视角讨论项目问题并输出可归因观点。",
+        "model_ref": "dev_local_persona_model",
+        "tool_refs": [
+          "question_reader",
+          "opinion_template"
+        ],
+        "skill_refs": [
+          "deliberation_opinion"
+        ]
+      }
+    },
+    {
+      "station_id": "contradiction_review",
+      "name": "矛盾审查节点",
+      "station_kind": "quality_station",
+      "persona_descriptor": {
+        "persona": "quality_station",
+        "goal": "从指定视角讨论项目问题并输出可归因观点。",
+        "model_ref": "dev_local_persona_model",
+        "tool_refs": [
+          "question_reader",
+          "opinion_template"
+        ],
+        "skill_refs": [
+          "deliberation_opinion"
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "edge_orchestrator_product",
+      "from_station_id": "orchestrator",
+      "to_station_id": "product_strategist_agent",
+      "artifact_contract_id": "deliberation_plan"
+    },
+    {
+      "edge_id": "edge_orchestrator_architecture",
+      "from_station_id": "orchestrator",
+      "to_station_id": "architecture_agent",
+      "artifact_contract_id": "deliberation_plan"
+    },
+    {
+      "edge_id": "edge_orchestrator_risk",
+      "from_station_id": "orchestrator",
+      "to_station_id": "risk_reviewer_agent",
+      "artifact_contract_id": "deliberation_plan"
+    },
+    {
+      "edge_id": "edge_product_architecture_inspiration",
+      "from_station_id": "product_strategist_agent",
+      "to_station_id": "architecture_agent",
+      "artifact_contract_id": "opinion_artifact"
+    },
+    {
+      "edge_id": "edge_architecture_risk_inspiration",
+      "from_station_id": "architecture_agent",
+      "to_station_id": "risk_reviewer_agent",
+      "artifact_contract_id": "opinion_artifact"
+    },
+    {
+      "edge_id": "edge_product_strategist_agent_synthesis",
+      "from_station_id": "product_strategist_agent",
+      "to_station_id": "synthesis",
+      "artifact_contract_id": "opinion_artifact"
+    },
+    {
+      "edge_id": "edge_architecture_agent_synthesis",
+      "from_station_id": "architecture_agent",
+      "to_station_id": "synthesis",
+      "artifact_contract_id": "opinion_artifact"
+    },
+    {
+      "edge_id": "edge_risk_reviewer_agent_synthesis",
+      "from_station_id": "risk_reviewer_agent",
+      "to_station_id": "synthesis",
+      "artifact_contract_id": "opinion_artifact"
+    },
+    {
+      "edge_id": "edge_synthesis_contradiction_review",
+      "from_station_id": "synthesis",
+      "to_station_id": "contradiction_review",
+      "artifact_contract_id": "synthesis_artifact"
+    }
+  ],
+  "artifact_contracts": [
+    {
+      "artifact_contract_id": "project_question",
+      "kind": "markdown",
+      "description": "真实 dev/local 讨论问题。"
+    },
+    {
+      "artifact_contract_id": "deliberation_plan",
+      "kind": "markdown",
+      "description": "Orchestrator 讨论计划。"
+    },
+    {
+      "artifact_contract_id": "opinion_artifact",
+      "kind": "markdown",
+      "description": "persona 独立观点。"
+    },
+    {
+      "artifact_contract_id": "synthesis_artifact",
+      "kind": "markdown",
+      "description": "带归因的汇总观点。"
+    },
+    {
+      "artifact_contract_id": "contradiction_report",
+      "kind": "quality_report",
+      "description": "矛盾和未决风险审查。"
+    }
+  ],
+  "quality_rules": [
+    {
+      "rule_id": "all_personas_present",
+      "description": "所有 persona 必须产出观点。"
+    },
+    {
+      "rule_id": "attribution_required",
+      "description": "汇总必须标注观点来源。"
+    },
+    {
+      "rule_id": "contradictions_recorded",
+      "description": "矛盾和风险必须记录。"
+    }
+  ],
+  "approval_points": [
+    {
+      "approval_point_id": "start_deliberation",
+      "operation": "workflow.instance.start",
+      "policy": "user_confirmed_only"
+    },
+    {
+      "approval_point_id": "rerun_persona",
+      "operation": "station.rerun",
+      "policy": "user_confirmed_only"
+    },
+    {
+      "approval_point_id": "continue_synthesis",
+      "operation": "workflow.instance.continue_downstream",
+      "policy": "user_confirmed_only"
+    }
+  ],
+  "context_refs": [
+    {
+      "context_ref_id": "project_question_path",
+      "value_label": "tests/fixtures/v4_4/deliberation/project_question.md"
+    }
+  ],
+  "evidence_refs": [
+    {
+      "evidence_ref_id": "runtime_result",
+      "kind": "runtime_result",
+      "resource_id": "runtime-result.json"
+    },
+    {
+      "evidence_ref_id": "operation_evidence",
+      "kind": "operation_evidence",
+      "resource_id": "operation-evidence.json"
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+[
+  {
+    "actor_id": "user_v6_4",
+    "actor_type": "human_user",
+    "app_id": "app_v6",
+    "correlation_id": "correlation_v6_4_e2e",
+    "created_at": "2026-06-03T06:25:46.633594+00:00",
+    "event_id": "obs_event_d0b3036ac71e45fa8d23b4bf632ed171",
+    "event_type": "controlled_executor.action.allowed",
+    "metadata": {
+      "source": "product_console",
+      "stage": "V6-4"
+    },
+    "operation": "workflow.instance.start",
+    "policy_decision": "allow",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "request_v6_4_e2e",
+    "source_refs": {
+      "audit_export_ref": "audit-export://v6-4/default",
+      "runtime_result_ref": "runtime://v6-4/workflow-instance-v6-4/start"
+    },
+    "target_refs": {
+      "workflow_instance_id": "workflow-instance-v6-4"
+    },
+    "tenant_id": "tenant_v6",
+    "user_confirmed": true,
+    "workspace_id": "workspace_v6"
+  },
+  {
+    "actor_id": "user_v6_4",
+    "actor_type": "human_user",
+    "app_id": "app_v6",
+    "correlation_id": "correlation_v6_4_e2e",
+    "created_at": "2026-06-03T06:25:46.634897+00:00",
+    "event_id": "obs_event_83bc737735cb428a9b8c0c07ca239538",
+    "event_type": "controlled_executor.action.allowed",
+    "metadata": {
+      "source": "product_console",
+      "stage": "V6-4"
+    },
+    "operation": "station.rerun",
+    "policy_decision": "allow",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "request_v6_4_e2e",
+    "source_refs": {
+      "audit_export_ref": "audit-export://v6-4/default",
+      "runtime_result_ref": "runtime://v6-4/workflow-instance-v6-4/rerun/markdown_parse"
+    },
+    "target_refs": {
+      "station_id": "markdown_parse",
+      "station_run_id": "station-run-v6-4-1",
+      "workflow_instance_id": "workflow-instance-v6-4"
+    },
+    "tenant_id": "tenant_v6",
+    "user_confirmed": true,
+    "workspace_id": "workspace_v6"
+  },
+  {
+    "actor_id": "user_v6_4",
+    "actor_type": "human_user",
+    "app_id": "app_v6",
+    "correlation_id": "correlation_v6_4_e2e",
+    "created_at": "2026-06-03T06:25:46.636096+00:00",
+    "event_id": "obs_event_b982ef60bc4a42a5af71ee4a788a85b2",
+    "event_type": "controlled_executor.action.allowed",
+    "metadata": {
+      "source": "product_console",
+      "stage": "V6-4"
+    },
+    "operation": "artifact.write",
+    "policy_decision": "allow",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "request_v6_4_e2e",
+    "source_refs": {
+      "audit_export_ref": "audit-export://v6-4/default",
+      "runtime_result_ref": "runtime://v6-4/workflow-instance-v6-4/artifact/artifact-summary-v1"
+    },
+    "target_refs": {
+      "artifact_id": "artifact-summary-v1",
+      "station_id": "markdown_parse",
+      "workflow_instance_id": "workflow-instance-v6-4"
+    },
+    "tenant_id": "tenant_v6",
+    "user_confirmed": true,
+    "workspace_id": "workspace_v6"
+  },
+  {
+    "actor_id": "user_v6_4",
+    "actor_type": "human_user",
+    "app_id": "app_v6",
+    "correlation_id": "correlation_v6_4_e2e",
+    "created_at": "2026-06-03T06:25:46.637523+00:00",
+    "event_id": "obs_event_351b6626003e4bb78529484a747b8343",
+    "event_type": "controlled_executor.action.allowed",
+    "metadata": {
+      "source": "product_console",
+      "stage": "V6-4"
+    },
+    "operation": "quality.evaluation.create",
+    "policy_decision": "allow",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "request_v6_4_e2e",
+    "source_refs": {
+      "audit_export_ref": "audit-export://v6-4/default",
+      "runtime_result_ref": "runtime://v6-4/workflow-instance-v6-4/quality/quality-eval-v1"
+    },
+    "target_refs": {
+      "artifact_id": "artifact-summary-v1",
+      "quality_evaluation_id": "quality-eval-v1",
+      "workflow_instance_id": "workflow-instance-v6-4"
+    },
+    "tenant_id": "tenant_v6",
+    "user_confirmed": true,
+    "workspace_id": "workspace_v6"
+  },
+  {
+    "actor_id": "agent_v6_4",
+    "actor_type": "agent",
+    "app_id": "app_v6",
+    "correlation_id": "correlation_v6_4_e2e",
+    "created_at": "2026-06-03T06:25:46.638827+00:00",
+    "event_id": "obs_event_7c3de76403544fc880d59eb741920e36",
+    "event_type": "controlled_executor.action.denied",
+    "metadata": {
+      "source": "agent",
+      "stage": "V6-4"
+    },
+    "operation": "workflow.instance.start",
+    "policy_decision": "deny",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "request_v6_4_e2e",
+    "source_refs": {
+      "blocked_reason": "source_agent_durable_mutation_denied"
+    },
+    "target_refs": {
+      "workflow_instance_id": "workflow-instance-v6-4"
+    },
+    "tenant_id": "tenant_v6",
+    "user_confirmed": true,
+    "workspace_id": "workspace_v6"
+  },
+  {
+    "actor_id": "user_v6_4",
+    "actor_type": "human_user",
+    "app_id": "app_v6",
+    "correlation_id": "correlation_v6_4_e2e",
+    "created_at": "2026-06-03T06:25:46.640530+00:00",
+    "event_id": "obs_event_f56af077d511464386aa37c268979c25",
+    "event_type": "controlled_executor.action.denied",
+    "metadata": {
+      "source": "product_console",
+      "stage": "V6-4"
+    },
+    "operation": "connector.call",
+    "policy_decision": "deny",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "request_v6_4_e2e",
+    "source_refs": {
+      "blocked_reason": "operation_not_allowed"
+    },
+    "target_refs": {
+      "workflow_instance_id": "workflow-instance-v6-4"
+    },
+    "tenant_id": "tenant_v6",
+    "user_confirmed": true,
+    "workspace_id": "workspace_v6"
+  }
+]

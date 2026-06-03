@@ -1,0 +1,77 @@
+{
+  "schema_version": "v5_7a.runtime_action_allowlist.v1",
+  "stage": "V5-7A",
+  "design_only": true,
+  "runtime_execution_enabled": false,
+  "candidate_actions": [
+    {
+      "operation": "workflow.instance.start",
+      "risk_level": "medium",
+      "requires_user_confirmation": true,
+      "requires_approval_gate": "conditional",
+      "rollback_strategy": "cancel_or_mark_failed_before_external_effect",
+      "idempotency_required": true,
+      "audit_required": true,
+      "incident_timeline_required": true
+    },
+    {
+      "operation": "station.rerun",
+      "risk_level": "medium",
+      "requires_user_confirmation": true,
+      "requires_approval_gate": "conditional",
+      "rollback_strategy": "preserve_old_attempt_and_mark_downstream_stale",
+      "idempotency_required": true,
+      "audit_required": true,
+      "incident_timeline_required": true
+    },
+    {
+      "operation": "artifact.write",
+      "risk_level": "medium",
+      "requires_user_confirmation": true,
+      "requires_approval_gate": true,
+      "rollback_strategy": "append_new_version_or_retract_artifact_ref",
+      "idempotency_required": true,
+      "audit_required": true,
+      "incident_timeline_required": true
+    },
+    {
+      "operation": "quality.evaluation.create",
+      "risk_level": "medium",
+      "requires_user_confirmation": true,
+      "requires_approval_gate": true,
+      "rollback_strategy": "append_correction_evaluation_and_keep_prior_score",
+      "idempotency_required": true,
+      "audit_required": true,
+      "incident_timeline_required": true
+    }
+  ],
+  "excluded_actions": [
+    {
+      "operation": "connector.call",
+      "required_future_review": "separate approval policy, credential boundary, incident response review"
+    },
+    {
+      "operation": "external_llm.call",
+      "required_future_review": "separate approval policy, credential boundary, prompt redaction review"
+    },
+    {
+      "operation": "business.event.emit",
+      "required_future_review": "business side-effect rollback and incident response review"
+    },
+    {
+      "operation": "context.update",
+      "required_future_review": "context governance review"
+    },
+    {
+      "operation": "workflow.template.publish",
+      "required_future_review": "publish approval and version rollback review"
+    },
+    {
+      "operation": "approval.respond",
+      "required_future_review": "approval actor policy review"
+    }
+  ],
+  "forbidden_sources": ["agent"],
+  "allowed_initial_sources_for_v5_7b_planning": ["product_console", "approved_api"],
+  "allowed_initial_actor_types_for_v5_7b_planning": ["human_user", "service_account_with_human_authorization"]
+}

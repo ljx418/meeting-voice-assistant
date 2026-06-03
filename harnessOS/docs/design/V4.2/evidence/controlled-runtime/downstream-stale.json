@@ -1,0 +1,31 @@
+{
+  "workflow_instance_id": "v41_folder_instance_ad8afcfaa110",
+  "stale": [
+    {
+      "station_id": "folder_group",
+      "reason": "upstream_rerun:markdown_parse",
+      "requires_user_confirmed_continue": true
+    },
+    {
+      "station_id": "per_folder_summary",
+      "reason": "upstream_rerun:markdown_parse",
+      "requires_user_confirmed_continue": true
+    },
+    {
+      "station_id": "overview_summary",
+      "reason": "upstream_rerun:markdown_parse",
+      "requires_user_confirmed_continue": true
+    },
+    {
+      "station_id": "quality_check",
+      "reason": "upstream_rerun:markdown_parse",
+      "requires_user_confirmed_continue": true
+    },
+    {
+      "station_id": "artifact_publish",
+      "reason": "upstream_rerun:markdown_parse",
+      "requires_user_confirmed_continue": true
+    }
+  ],
+  "redaction_status": "redacted"
+}

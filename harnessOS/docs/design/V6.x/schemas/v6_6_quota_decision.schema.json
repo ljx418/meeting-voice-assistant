@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v6_6_quota_decision.schema.json",
+  "title": "QuotaDecisionDTO",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tenant_id",
+    "workspace_id",
+    "app_id",
+    "service_account_id",
+    "actor_id",
+    "request_id",
+    "correlation_id",
+    "audit_ref",
+    "policy_decision",
+    "created_at",
+    "quota_policy_ref",
+    "rate_limit_policy_ref",
+    "current_usage",
+    "limit",
+    "decision"
+  ],
+  "properties": {
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "app_id": { "type": "string", "minLength": 1 },
+    "service_account_id": { "type": "string", "minLength": 1 },
+    "actor_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "policy_decision": { "enum": ["allow", "deny", "needs_review"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "quota_policy_ref": { "type": "string", "minLength": 1 },
+    "rate_limit_policy_ref": { "type": "string", "minLength": 1 },
+    "current_usage": { "type": "integer", "minimum": 0 },
+    "limit": { "type": "integer", "minimum": 0 },
+    "decision": { "enum": ["allow", "deny_quota", "deny_rate_limit"] },
+    "denial_reason": { "type": ["string", "null"] }
+  }
+}

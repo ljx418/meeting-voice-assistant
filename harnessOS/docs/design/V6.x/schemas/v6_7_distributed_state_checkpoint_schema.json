@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v6_7_distributed_state_checkpoint_schema.json",
+  "title": "DistributedStateCheckpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "checkpoint_id",
+    "tenant_id",
+    "workspace_id",
+    "run_id",
+    "workflow_instance_id",
+    "station_id",
+    "station_run_id",
+    "attempt_id",
+    "checkpoint_state",
+    "created_at",
+    "correlation_id",
+    "audit_ref"
+  ],
+  "properties": {
+    "checkpoint_id": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "workflow_instance_id": { "type": "string", "minLength": 1 },
+    "station_id": { "type": "string", "minLength": 1 },
+    "station_run_id": { "type": "string", "minLength": 1 },
+    "attempt_id": { "type": "string", "minLength": 1 },
+    "checkpoint_state": { "enum": ["assigned", "running", "timeout", "retry_scheduled", "recovered", "failed", "completed"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "audit_ref": { "type": "string", "minLength": 1 }
+  }
+}

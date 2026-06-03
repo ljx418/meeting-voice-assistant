@@ -1,0 +1,1086 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "u7_artifact_abb877e78950",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_f2371fd5a9c0",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "input:tests/fixtures/v4_5/engineering_task/product_task.md"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.product_planning.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_7035a42325c9"
+      },
+      "name": "engineering_product_planning_attempt_1.md",
+      "station_id": "product_planning"
+    },
+    {
+      "artifact_id": "u7_artifact_a939ce036d23",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_474e6d68bcc6",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_abb877e78950"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.specification.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_423c37ae811f"
+      },
+      "name": "engineering_specification_attempt_1.md",
+      "station_id": "specification"
+    },
+    {
+      "artifact_id": "u7_artifact_8cf1ce4595c0",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_cf5fba77a5a3",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_a939ce036d23"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.project_blueprint.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_868467b9c3c5"
+      },
+      "name": "engineering_project_blueprint_attempt_1.md",
+      "station_id": "project_blueprint"
+    },
+    {
+      "artifact_id": "u7_artifact_10e92568d264",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_ad29d52db508",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_8cf1ce4595c0"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.architecture_review.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_da7a44934839"
+      },
+      "name": "engineering_architecture_review_attempt_1.md",
+      "station_id": "architecture_review"
+    },
+    {
+      "artifact_id": "u7_artifact_ea5a16def022",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_bf430bc7a589",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_10e92568d264"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.substage_plan_audit.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_c42ad2b3d438"
+      },
+      "name": "engineering_substage_plan_audit_attempt_1.md",
+      "station_id": "substage_plan_audit"
+    },
+    {
+      "artifact_id": "u7_artifact_20468131f8f5",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_1fd6c7e389af",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_ea5a16def022"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.substage_architecture_review.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_101ddeabf64c"
+      },
+      "name": "engineering_substage_architecture_review_attempt_1.md",
+      "station_id": "substage_architecture_review"
+    },
+    {
+      "artifact_id": "u7_artifact_18325661edbb",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_f7be1d02abc3",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_20468131f8f5"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.implementation_run.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_6acc5524ee34"
+      },
+      "name": "engineering_implementation_run_attempt_1.md",
+      "station_id": "implementation_run"
+    },
+    {
+      "artifact_id": "u7_artifact_783a1ee473a8",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_598ffed8012c",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_18325661edbb"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.development_acceptance.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_8830a3a117ab"
+      },
+      "name": "engineering_development_acceptance_attempt_1.md",
+      "station_id": "development_acceptance"
+    },
+    {
+      "artifact_id": "u7_artifact_a8e83bb1338c",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_57e34bff3894",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_783a1ee473a8"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.code_review.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_6c3ca410fdc4"
+      },
+      "name": "engineering_code_review_attempt_1.md",
+      "station_id": "code_review"
+    },
+    {
+      "artifact_id": "u7_artifact_b8a86340b466",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_9a0ca8d0c44d",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_a8e83bb1338c"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.e2e_acceptance.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_b5d121efa0f4"
+      },
+      "name": "engineering_e2e_acceptance_attempt_1.md",
+      "station_id": "e2e_acceptance"
+    },
+    {
+      "artifact_id": "u7_artifact_dbe6afe27321",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_46801f7f0637",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "u7_artifact_b8a86340b466"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.human_confirmation.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_da41c130895a"
+      },
+      "name": "engineering_human_confirmation_attempt_1.md",
+      "station_id": "human_confirmation"
+    },
+    {
+      "artifact_id": "u7_artifact_1acf68882f83",
+      "kind": "station_output_markdown",
+      "metadata": {
+        "correlation_id": "corr_66002508b487",
+        "generated_by": "llm_provider",
+        "input_artifact_refs": [
+          "rerun_input:code_review:user_confirmed"
+        ],
+        "model_ref": "MiniMax-M2.1",
+        "prompt_template_ref": "v4_u7.engineering.code_review.v1",
+        "provider": "minimax",
+        "provider_config_source": ".env.local",
+        "redaction_status": "redacted",
+        "runtime_result_ref": "llm_result_44d9b03ae168"
+      },
+      "name": "engineering_code_review_attempt_2.md",
+      "station_id": "code_review"
+    }
+  ],
+  "attempt_history": {
+    "architecture_review": [
+      {
+        "attempt_id": "u7_attempt_288abebfff1b",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:17:01.080582+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_10e92568d264"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_da7a44934839",
+        "status": "completed"
+      }
+    ],
+    "code_review": [
+      {
+        "attempt_id": "u7_attempt_dac4b0c276d9",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:17:46.007771+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_a8e83bb1338c"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_6c3ca410fdc4",
+        "status": "completed"
+      },
+      {
+        "attempt_id": "u7_attempt_8453cbba218a",
+        "attempt_number": 2,
+        "created_at": "2026-05-30T09:18:05.246507+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_1acf68882f83"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_44d9b03ae168",
+        "status": "completed"
+      }
+    ],
+    "development_acceptance": [
+      {
+        "attempt_id": "u7_attempt_149da9abf596",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:17:37.388403+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_783a1ee473a8"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_8830a3a117ab",
+        "status": "completed"
+      }
+    ],
+    "e2e_acceptance": [
+      {
+        "attempt_id": "u7_attempt_3960d052585f",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:17:51.907626+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_b8a86340b466"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_b5d121efa0f4",
+        "status": "completed"
+      }
+    ],
+    "human_confirmation": [
+      {
+        "attempt_id": "u7_attempt_ce9db7879ca7",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:17:58.070100+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_dbe6afe27321"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_da41c130895a",
+        "status": "completed"
+      }
+    ],
+    "implementation_run": [
+      {
+        "attempt_id": "u7_attempt_7a615dc2046b",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:17:24.245506+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_18325661edbb"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_6acc5524ee34",
+        "status": "completed"
+      }
+    ],
+    "product_planning": [
+      {
+        "attempt_id": "u7_attempt_7751c286b947",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:16:38.374810+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_abb877e78950"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_7035a42325c9",
+        "status": "completed"
+      }
+    ],
+    "project_blueprint": [
+      {
+        "attempt_id": "u7_attempt_7ae1beed02d2",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:16:52.274554+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_8cf1ce4595c0"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_868467b9c3c5",
+        "status": "completed"
+      }
+    ],
+    "specification": [
+      {
+        "attempt_id": "u7_attempt_6d138e4e3745",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:16:45.346993+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_a939ce036d23"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_423c37ae811f",
+        "status": "completed"
+      }
+    ],
+    "substage_architecture_review": [
+      {
+        "attempt_id": "u7_attempt_77d088a4dbed",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:17:18.215132+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_20468131f8f5"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_101ddeabf64c",
+        "status": "completed"
+      }
+    ],
+    "substage_plan_audit": [
+      {
+        "attempt_id": "u7_attempt_7048a9514f38",
+        "attempt_number": 1,
+        "created_at": "2026-05-30T09:17:08.454616+00:00",
+        "model_ref": "MiniMax-M2.1",
+        "output_artifact_refs": [
+          "u7_artifact_ea5a16def022"
+        ],
+        "provider": "minimax",
+        "runtime_result_ref": "llm_result_c42ad2b3d438",
+        "status": "completed"
+      }
+    ]
+  },
+  "deterministic_only": false,
+  "downstream_stale": [
+    {
+      "requires_user_confirmed_continue": true,
+      "stale_reason": "upstream rerun from code_review",
+      "station_id": "e2e_acceptance"
+    },
+    {
+      "requires_user_confirmed_continue": true,
+      "stale_reason": "upstream rerun from code_review",
+      "station_id": "human_confirmation"
+    }
+  ],
+  "evidence_chain": [
+    {
+      "correlation_id": "corr_c632c50910ff",
+      "created_at": "2026-05-30T09:16:25.020755+00:00",
+      "evidence_id": "u7_evidence_6aebe3a37598",
+      "operation_type": "workflow.instance.start",
+      "policy_decision": "allowed_with_user_confirmation",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_runtime"
+      ],
+      "runtime_result_ref": "runtime_6ca68479ee11",
+      "source": "mission_console",
+      "source_agent_can_mutate": false,
+      "station_id": null,
+      "user_confirmed": true,
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_f2371fd5a9c0",
+      "created_at": "2026-05-30T09:16:38.374851+00:00",
+      "evidence_id": "u7_evidence_548ceab33468",
+      "input_artifact_refs": [
+        "input:tests/fixtures/v4_5/engineering_task/product_task.md"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_abb877e78950"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.product_planning.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_7035a42325c9",
+      "station_id": "product_planning",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_474e6d68bcc6",
+      "created_at": "2026-05-30T09:16:45.347051+00:00",
+      "evidence_id": "u7_evidence_76ba695241b4",
+      "input_artifact_refs": [
+        "u7_artifact_abb877e78950"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_a939ce036d23"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.specification.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_423c37ae811f",
+      "station_id": "specification",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_cf5fba77a5a3",
+      "created_at": "2026-05-30T09:16:52.274599+00:00",
+      "evidence_id": "u7_evidence_1ff35b4eba43",
+      "input_artifact_refs": [
+        "u7_artifact_a939ce036d23"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_8cf1ce4595c0"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.project_blueprint.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_868467b9c3c5",
+      "station_id": "project_blueprint",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_ad29d52db508",
+      "created_at": "2026-05-30T09:17:01.080609+00:00",
+      "evidence_id": "u7_evidence_480d53d88eb9",
+      "input_artifact_refs": [
+        "u7_artifact_8cf1ce4595c0"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_10e92568d264"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.architecture_review.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_da7a44934839",
+      "station_id": "architecture_review",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_bf430bc7a589",
+      "created_at": "2026-05-30T09:17:08.454648+00:00",
+      "evidence_id": "u7_evidence_be37c43b2665",
+      "input_artifact_refs": [
+        "u7_artifact_10e92568d264"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_ea5a16def022"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.substage_plan_audit.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_c42ad2b3d438",
+      "station_id": "substage_plan_audit",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_1fd6c7e389af",
+      "created_at": "2026-05-30T09:17:18.215157+00:00",
+      "evidence_id": "u7_evidence_7871925a39fc",
+      "input_artifact_refs": [
+        "u7_artifact_ea5a16def022"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_20468131f8f5"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.substage_architecture_review.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_101ddeabf64c",
+      "station_id": "substage_architecture_review",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_f7be1d02abc3",
+      "created_at": "2026-05-30T09:17:24.245532+00:00",
+      "evidence_id": "u7_evidence_efaed41a7cb1",
+      "input_artifact_refs": [
+        "u7_artifact_20468131f8f5"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_18325661edbb"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.implementation_run.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_6acc5524ee34",
+      "station_id": "implementation_run",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_598ffed8012c",
+      "created_at": "2026-05-30T09:17:37.388436+00:00",
+      "evidence_id": "u7_evidence_3f0033b79930",
+      "input_artifact_refs": [
+        "u7_artifact_18325661edbb"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_783a1ee473a8"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.development_acceptance.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_8830a3a117ab",
+      "station_id": "development_acceptance",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_57e34bff3894",
+      "created_at": "2026-05-30T09:17:46.007810+00:00",
+      "evidence_id": "u7_evidence_aa53e1b5c7d5",
+      "input_artifact_refs": [
+        "u7_artifact_783a1ee473a8"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_a8e83bb1338c"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.code_review.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_6c3ca410fdc4",
+      "station_id": "code_review",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_9a0ca8d0c44d",
+      "created_at": "2026-05-30T09:17:51.907650+00:00",
+      "evidence_id": "u7_evidence_2dbe0c9f487d",
+      "input_artifact_refs": [
+        "u7_artifact_a8e83bb1338c"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_b8a86340b466"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.e2e_acceptance.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_b5d121efa0f4",
+      "station_id": "e2e_acceptance",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_46801f7f0637",
+      "created_at": "2026-05-30T09:17:58.070155+00:00",
+      "evidence_id": "u7_evidence_34523d4f0a03",
+      "input_artifact_refs": [
+        "u7_artifact_b8a86340b466"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_dbe6afe27321"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.human_confirmation.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_da41c130895a",
+      "station_id": "human_confirmation",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_b64fe300496d",
+      "created_at": "2026-05-30T09:18:05.246569+00:00",
+      "evidence_id": "u7_evidence_36700e498728",
+      "operation_type": "station.rerun",
+      "policy_decision": "allowed_with_user_confirmation",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_runtime"
+      ],
+      "runtime_result_ref": "runtime_2140268c1bd6",
+      "source": "review_console",
+      "source_agent_can_mutate": false,
+      "station_id": "code_review",
+      "user_confirmed": true,
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    },
+    {
+      "correlation_id": "corr_66002508b487",
+      "created_at": "2026-05-30T09:18:05.246540+00:00",
+      "evidence_id": "u7_evidence_a98cd6a63739",
+      "input_artifact_refs": [
+        "rerun_input:code_review:user_confirmed"
+      ],
+      "model_ref": "MiniMax-M2.1",
+      "operation_type": "station.provider_invoke",
+      "output_artifact_refs": [
+        "u7_artifact_1acf68882f83"
+      ],
+      "policy_decision": "user_confirmed_only",
+      "prompt_template_ref": "v4_u7.engineering.code_review.v1",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "risk_flags": [
+        "dev_local_provider_runtime"
+      ],
+      "runtime_result_ref": "llm_result_44d9b03ae168",
+      "station_id": "code_review",
+      "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+    }
+  ],
+  "evidence_scope": "real_runtime",
+  "generated_at": "2026-05-30T09:18:05.246603+00:00",
+  "nodes": [
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_7751c286b947",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:16:38.374810+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_abb877e78950"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_7035a42325c9",
+          "status": "completed"
+        }
+      ],
+      "goal": "明确目标、用户和约束。",
+      "input_artifact_refs": [
+        "input:tests/fixtures/v4_5/engineering_task/product_task.md"
+      ],
+      "name": "产品规划",
+      "output_artifact_refs": [
+        "u7_artifact_abb877e78950"
+      ],
+      "role": "产品",
+      "station_id": "product_planning",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_6d138e4e3745",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:16:45.346993+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_a939ce036d23"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_423c37ae811f",
+          "status": "completed"
+        }
+      ],
+      "goal": "输出可验收规格。",
+      "input_artifact_refs": [
+        "u7_artifact_abb877e78950"
+      ],
+      "name": "规格梳理",
+      "output_artifact_refs": [
+        "u7_artifact_a939ce036d23"
+      ],
+      "role": "规格",
+      "station_id": "specification",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_7ae1beed02d2",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:16:52.274554+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_8cf1ce4595c0"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_868467b9c3c5",
+          "status": "completed"
+        }
+      ],
+      "goal": "拆分阶段和交付物。",
+      "input_artifact_refs": [
+        "u7_artifact_a939ce036d23"
+      ],
+      "name": "项目计划蓝图",
+      "output_artifact_refs": [
+        "u7_artifact_8cf1ce4595c0"
+      ],
+      "role": "计划",
+      "station_id": "project_blueprint",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_288abebfff1b",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:17:01.080582+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_10e92568d264"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_da7a44934839",
+          "status": "completed"
+        }
+      ],
+      "goal": "审查系统边界和风险。",
+      "input_artifact_refs": [
+        "u7_artifact_8cf1ce4595c0"
+      ],
+      "name": "总架构评审",
+      "output_artifact_refs": [
+        "u7_artifact_10e92568d264"
+      ],
+      "role": "架构",
+      "station_id": "architecture_review",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_7048a9514f38",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:17:08.454616+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_ea5a16def022"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_c42ad2b3d438",
+          "status": "completed"
+        }
+      ],
+      "goal": "审查阶段计划完整性。",
+      "input_artifact_refs": [
+        "u7_artifact_10e92568d264"
+      ],
+      "name": "子阶段计划审计",
+      "output_artifact_refs": [
+        "u7_artifact_ea5a16def022"
+      ],
+      "role": "审计",
+      "station_id": "substage_plan_audit",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_77d088a4dbed",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:17:18.215132+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_20468131f8f5"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_101ddeabf64c",
+          "status": "completed"
+        }
+      ],
+      "goal": "审查子阶段架构影响。",
+      "input_artifact_refs": [
+        "u7_artifact_ea5a16def022"
+      ],
+      "name": "子阶段架构评审",
+      "output_artifact_refs": [
+        "u7_artifact_20468131f8f5"
+      ],
+      "role": "架构",
+      "station_id": "substage_architecture_review",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_7a615dc2046b",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:17:24.245506+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_18325661edbb"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_6acc5524ee34",
+          "status": "completed"
+        }
+      ],
+      "goal": "生成实施步骤和变更摘要。",
+      "input_artifact_refs": [
+        "u7_artifact_20468131f8f5"
+      ],
+      "name": "开发实施",
+      "output_artifact_refs": [
+        "u7_artifact_18325661edbb"
+      ],
+      "role": "实施",
+      "station_id": "implementation_run",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_149da9abf596",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:17:37.388403+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_783a1ee473a8"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_8830a3a117ab",
+          "status": "completed"
+        }
+      ],
+      "goal": "输出验收检查。",
+      "input_artifact_refs": [
+        "u7_artifact_18325661edbb"
+      ],
+      "name": "开发验收",
+      "output_artifact_refs": [
+        "u7_artifact_783a1ee473a8"
+      ],
+      "role": "验收",
+      "station_id": "development_acceptance",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_dac4b0c276d9",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:17:46.007771+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_a8e83bb1338c"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_6c3ca410fdc4",
+          "status": "completed"
+        },
+        {
+          "attempt_id": "u7_attempt_8453cbba218a",
+          "attempt_number": 2,
+          "created_at": "2026-05-30T09:18:05.246507+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_1acf68882f83"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_44d9b03ae168",
+          "status": "completed"
+        }
+      ],
+      "goal": "输出代码检视结论。",
+      "input_artifact_refs": [
+        "u7_artifact_783a1ee473a8"
+      ],
+      "name": "代码检视",
+      "output_artifact_refs": [
+        "u7_artifact_a8e83bb1338c",
+        "u7_artifact_1acf68882f83"
+      ],
+      "role": "检视",
+      "station_id": "code_review",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_3960d052585f",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:17:51.907626+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_b8a86340b466"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_b5d121efa0f4",
+          "status": "completed"
+        }
+      ],
+      "goal": "输出端到端验收结论。",
+      "input_artifact_refs": [
+        "u7_artifact_a8e83bb1338c"
+      ],
+      "name": "端到端验收",
+      "output_artifact_refs": [
+        "u7_artifact_b8a86340b466"
+      ],
+      "role": "E2E",
+      "station_id": "e2e_acceptance",
+      "status": "completed"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_id": "u7_attempt_ce9db7879ca7",
+          "attempt_number": 1,
+          "created_at": "2026-05-30T09:17:58.070100+00:00",
+          "model_ref": "MiniMax-M2.1",
+          "output_artifact_refs": [
+            "u7_artifact_dbe6afe27321"
+          ],
+          "provider": "minimax",
+          "runtime_result_ref": "llm_result_da41c130895a",
+          "status": "completed"
+        }
+      ],
+      "goal": "生成用户确认清单。",
+      "input_artifact_refs": [
+        "u7_artifact_b8a86340b466"
+      ],
+      "name": "人工确认",
+      "output_artifact_refs": [
+        "u7_artifact_dbe6afe27321"
+      ],
+      "role": "人工确认",
+      "station_id": "human_confirmation",
+      "status": "completed"
+    }
+  ],
+  "provider": {
+    "api_key_configured": true,
+    "model_ref": "MiniMax-M2.1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local"
+  },
+  "provider_invocation_count": 12,
+  "quality_report": {
+    "agent_can_mutate": false,
+    "downstream_stale_count": 2,
+    "generated_artifact_count": 12,
+    "provider_invocation_count": 12,
+    "quality_focus": "quality_gate_and_manual_confirmation",
+    "redaction_status": "redacted",
+    "rerun_station_id": "code_review",
+    "station_count": 11,
+    "status": "passed",
+    "user_confirmation_required": true
+  },
+  "real_provider_backed": true,
+  "redaction_status": "redacted",
+  "rerun": {
+    "source": "review_console",
+    "source_agent_can_rerun": false,
+    "station_id": "code_review",
+    "user_confirmed": true
+  },
+  "runtime_backed": true,
+  "runtime_mode": "dev_local_provider_backed_engineering_workflow_runtime",
+  "scenario_id": "engineering_workflow",
+  "source_ref": "tests/fixtures/v4_5/engineering_task/product_task.md",
+  "status": "completed",
+  "title": "长时工程任务工作流",
+  "ux_id": "UX-10",
+  "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+}

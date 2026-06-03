@@ -1,0 +1,417 @@
+# V4 Unified Experience Claims Audit
+
+violation_count: 0
+guarded_count: 775
+historical_count: 782
+
+## Violations
+
+No unguarded forbidden completion claims detected.
+
+## Guarded Mentions
+
+- production-ready external app support at docs/design/V4.x/00_README.md:102
+- complete Workflow Studio ready at docs/design/V4.x/00_README.md:112
+- complete AgentTalkWindow ready at docs/design/V4.x/00_README.md:113
+- Agent executor ready at docs/design/V4.x/00_README.md:114
+- controlled executor ready at docs/design/V4.x/00_README.md:115
+- production-ready external app support at docs/design/V4.x/00_README.md:116
+- full multi-Agent orchestration ready at docs/design/V4.x/00_README.md:117
+- autonomous workflow editing ready at docs/design/V4.x/00_README.md:118
+- controlled executor ready at docs/design/V4.x/evidence/manual-acceptance-proxy/u5-proxy-acceptance-report.html:164
+- complete Workflow Studio ready at docs/design/V4.x/evidence/manual-acceptance-proxy/u5-proxy-acceptance-report.html:305
+- complete AgentTalkWindow ready at docs/design/V4.x/evidence/manual-acceptance-proxy/u5-proxy-acceptance-report.html:306
+- Agent executor ready at docs/design/V4.x/evidence/manual-acceptance-proxy/u5-proxy-acceptance-report.html:307
+- controlled executor ready at docs/design/V4.x/evidence/manual-acceptance-proxy/u5-proxy-acceptance-report.html:308
+- production-ready external app support at docs/design/V4.x/evidence/manual-acceptance-proxy/u5-proxy-acceptance-report.html:309
+- full multi-Agent orchestration ready at docs/design/V4.x/evidence/manual-acceptance-proxy/u5-proxy-acceptance-report.html:310
+- autonomous workflow editing ready at docs/design/V4.x/evidence/manual-acceptance-proxy/u5-proxy-acceptance-report.html:311
+- production-ready external app support at docs/design/V4.x/evidence/unified-experience/result-summary.md:52
+- complete Workflow Studio ready at docs/design/V4.x/evidence/unified-experience/u6-gate-review.html:113
+- complete AgentTalkWindow ready at docs/design/V4.x/evidence/unified-experience/u6-gate-review.html:114
+- Agent executor ready at docs/design/V4.x/evidence/unified-experience/u6-gate-review.html:115
+- controlled executor ready at docs/design/V4.x/evidence/unified-experience/u6-gate-review.html:116
+- production-ready external app support at docs/design/V4.x/evidence/unified-experience/u6-gate-review.html:117
+- full multi-Agent orchestration ready at docs/design/V4.x/evidence/unified-experience/u6-gate-review.html:118
+- autonomous workflow editing ready at docs/design/V4.x/evidence/unified-experience/u6-gate-review.html:119
+- complete Workflow Studio ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:31
+- complete AgentTalkWindow ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:32
+- Agent executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:33
+- controlled executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:34
+- production-ready external app support at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:35
+- full multi-Agent orchestration ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:36
+- autonomous workflow editing ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:37
+- complete Workflow Studio ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:341
+- complete AgentTalkWindow ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:342
+- Agent executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:343
+- controlled executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:344
+- production-ready external app support at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:345
+- full multi-Agent orchestration ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:346
+- autonomous workflow editing ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:347
+- controlled executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/01_v4_reframed_development_plan.md:397
+- production-ready external app support at docs/design/V4.x/harnessos_v4_unified_reframe_pack/02_v4_reframed_prd.md:428
+- complete Workflow Studio ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/04_acceptance_matrix.md:78
+- complete AgentTalkWindow ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/04_acceptance_matrix.md:79
+- Agent executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/04_acceptance_matrix.md:80
+- controlled executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/04_acceptance_matrix.md:81
+- production-ready external app support at docs/design/V4.x/harnessos_v4_unified_reframe_pack/04_acceptance_matrix.md:82
+- full multi-Agent orchestration ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/04_acceptance_matrix.md:83
+- autonomous workflow editing ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/04_acceptance_matrix.md:84
+- Agent executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/05_repo_document_update_plan.md:89
+- controlled executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/05_repo_document_update_plan.md:90
+- production-ready external app support at docs/design/V4.x/harnessos_v4_unified_reframe_pack/05_repo_document_update_plan.md:91
+- complete Workflow Studio ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/05_repo_document_update_plan.md:92
+- full multi-Agent orchestration ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/05_repo_document_update_plan.md:93
+- Agent executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:25
+- controlled executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:26
+- production-ready external app support at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:27
+- complete Workflow Studio ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:28
+- full multi-Agent orchestration ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:29
+- complete AgentTalkWindow ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:30
+- autonomous workflow editing ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:31
+- complete Workflow Studio ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:314
+- complete AgentTalkWindow ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:315
+- Agent executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:316
+- controlled executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:317
+- production-ready external app support at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:318
+- full multi-Agent orchestration ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:319
+- autonomous workflow editing ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/06_codex_plan_prompt.md:320
+- Agent executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/README.md:25
+- controlled executor ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/README.md:26
+- production-ready external app support at docs/design/V4.x/harnessos_v4_unified_reframe_pack/README.md:27
+- complete Workflow Studio ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/README.md:28
+- full multi-Agent orchestration ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/README.md:29
+- complete AgentTalkWindow ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/README.md:30
+- autonomous workflow editing ready at docs/design/V4.x/harnessos_v4_unified_reframe_pack/README.md:31
+- complete Workflow Studio ready at docs/design/V4.x/v4_document_review_for_chatgpt_after_u9.md:69
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_document_review_for_chatgpt_after_u9.md:70
+- Agent executor ready at docs/design/V4.x/v4_document_review_for_chatgpt_after_u9.md:71
+- controlled executor ready at docs/design/V4.x/v4_document_review_for_chatgpt_after_u9.md:72
+- production-ready external app support at docs/design/V4.x/v4_document_review_for_chatgpt_after_u9.md:73
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_document_review_for_chatgpt_after_u9.md:74
+- autonomous workflow editing ready at docs/design/V4.x/v4_document_review_for_chatgpt_after_u9.md:75
+- complete Workflow Studio ready at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:88
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:89
+- Agent executor ready at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:90
+- controlled executor ready at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:91
+- production-ready external app support at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:92
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:93
+- autonomous workflow editing ready at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:94
+- Agent executor ready at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:125
+- controlled executor ready at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:126
+- production controlled executor ready at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:126
+- production-ready external app support at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:129
+- production-ready external app support at docs/design/V4.x/v4_final_human_acceptance_confirmation.md:143
+- Agent executor ready at docs/design/V4.x/v4_r3_v5_entry_gate_completion_note.md:34
+- controlled executor ready at docs/design/V4.x/v4_r3_v5_entry_gate_completion_note.md:35
+- production controlled executor ready at docs/design/V4.x/v4_r3_v5_entry_gate_completion_note.md:35
+- production-ready external app support at docs/design/V4.x/v4_r3_v5_entry_gate_completion_note.md:38
+- production-ready external app support at docs/design/V4.x/v4_r3_v5_entry_gate_completion_note.md:89
+- complete Workflow Studio ready at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:45
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:46
+- Agent executor ready at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:47
+- controlled executor ready at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:48
+- production-ready external app support at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:49
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:50
+- autonomous workflow editing ready at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:51
+- Agent executor ready at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:312
+- controlled executor ready at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:313
+- production controlled executor ready at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:313
+- production-ready external app support at docs/design/V4.x/v4_remaining_development_and_acceptance_plan.md:316
+- complete Workflow Studio ready at docs/design/V4.x/v4_remaining_development_audit_for_chatgpt.md:25
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_remaining_development_audit_for_chatgpt.md:26
+- Agent executor ready at docs/design/V4.x/v4_remaining_development_audit_for_chatgpt.md:27
+- controlled executor ready at docs/design/V4.x/v4_remaining_development_audit_for_chatgpt.md:28
+- production-ready external app support at docs/design/V4.x/v4_remaining_development_audit_for_chatgpt.md:29
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_remaining_development_audit_for_chatgpt.md:30
+- autonomous workflow editing ready at docs/design/V4.x/v4_remaining_development_audit_for_chatgpt.md:31
+- complete Workflow Studio ready at docs/design/V4.x/v4_target_acceptance_plan_after_u9.md:106
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_target_acceptance_plan_after_u9.md:107
+- Agent executor ready at docs/design/V4.x/v4_target_acceptance_plan_after_u9.md:108
+- controlled executor ready at docs/design/V4.x/v4_target_acceptance_plan_after_u9.md:109
+- production-ready external app support at docs/design/V4.x/v4_target_acceptance_plan_after_u9.md:110
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_target_acceptance_plan_after_u9.md:111
+- autonomous workflow editing ready at docs/design/V4.x/v4_target_acceptance_plan_after_u9.md:112
+- complete Workflow Studio ready at docs/design/V4.x/v4_target_architecture_after_u9.md:16
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_target_architecture_after_u9.md:17
+- Agent executor ready at docs/design/V4.x/v4_target_architecture_after_u9.md:18
+- controlled executor ready at docs/design/V4.x/v4_target_architecture_after_u9.md:19
+- production-ready external app support at docs/design/V4.x/v4_target_architecture_after_u9.md:20
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_target_architecture_after_u9.md:21
+- autonomous workflow editing ready at docs/design/V4.x/v4_target_architecture_after_u9.md:22
+- complete Workflow Studio ready at docs/design/V4.x/v4_target_spec_prd_after_u9.md:87
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_target_spec_prd_after_u9.md:88
+- Agent executor ready at docs/design/V4.x/v4_target_spec_prd_after_u9.md:89
+- controlled executor ready at docs/design/V4.x/v4_target_spec_prd_after_u9.md:90
+- production-ready external app support at docs/design/V4.x/v4_target_spec_prd_after_u9.md:91
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_target_spec_prd_after_u9.md:92
+- autonomous workflow editing ready at docs/design/V4.x/v4_target_spec_prd_after_u9.md:93
+- complete Workflow Studio ready at docs/design/V4.x/v4_u5_scenario_path_acceptance_completion_note.md:14
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_u5_scenario_path_acceptance_completion_note.md:15
+- Agent executor ready at docs/design/V4.x/v4_u5_scenario_path_acceptance_completion_note.md:16
+- controlled executor ready at docs/design/V4.x/v4_u5_scenario_path_acceptance_completion_note.md:17
+- production-ready external app support at docs/design/V4.x/v4_u5_scenario_path_acceptance_completion_note.md:18
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_u5_scenario_path_acceptance_completion_note.md:19
+- autonomous workflow editing ready at docs/design/V4.x/v4_u5_scenario_path_acceptance_completion_note.md:20
+- production-ready external app support at docs/design/V4.x/v4_u5_scenario_path_acceptance_completion_note.md:99
+- complete Workflow Studio ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_completion_note.md:12
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_completion_note.md:13
+- Agent executor ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_completion_note.md:14
+- controlled executor ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_completion_note.md:15
+- production-ready external app support at docs/design/V4.x/v4_u5c_mission_console_closed_loop_completion_note.md:16
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_completion_note.md:17
+- autonomous workflow editing ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_completion_note.md:18
+- complete Workflow Studio ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_plan.md:14
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_plan.md:15
+- Agent executor ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_plan.md:16
+- controlled executor ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_plan.md:17
+- production-ready external app support at docs/design/V4.x/v4_u5c_mission_console_closed_loop_plan.md:18
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_plan.md:19
+- autonomous workflow editing ready at docs/design/V4.x/v4_u5c_mission_console_closed_loop_plan.md:20
+- complete Workflow Studio ready at docs/design/V4.x/v4_u5d_review_console_evidence_chain_completion_note.md:12
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_u5d_review_console_evidence_chain_completion_note.md:13
+- Agent executor ready at docs/design/V4.x/v4_u5d_review_console_evidence_chain_completion_note.md:14
+- controlled executor ready at docs/design/V4.x/v4_u5d_review_console_evidence_chain_completion_note.md:15
+- production-ready external app support at docs/design/V4.x/v4_u5d_review_console_evidence_chain_completion_note.md:16
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_u5d_review_console_evidence_chain_completion_note.md:17
+- autonomous workflow editing ready at docs/design/V4.x/v4_u5d_review_console_evidence_chain_completion_note.md:18
+- complete Workflow Studio ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_completion_note.md:12
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_completion_note.md:13
+- Agent executor ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_completion_note.md:14
+- controlled executor ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_completion_note.md:15
+- production-ready external app support at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_completion_note.md:16
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_completion_note.md:17
+- autonomous workflow editing ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_completion_note.md:18
+- complete Workflow Studio ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_plan.md:14
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_plan.md:15
+- Agent executor ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_plan.md:16
+- controlled executor ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_plan.md:17
+- production-ready external app support at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_plan.md:18
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_plan.md:19
+- autonomous workflow editing ready at docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_plan.md:20
+- complete Workflow Studio ready at docs/design/V4.x/v4_u6_unified_experience_gate_completion_note.md:21
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_u6_unified_experience_gate_completion_note.md:22
+- Agent executor ready at docs/design/V4.x/v4_u6_unified_experience_gate_completion_note.md:23
+- controlled executor ready at docs/design/V4.x/v4_u6_unified_experience_gate_completion_note.md:24
+- production-ready external app support at docs/design/V4.x/v4_u6_unified_experience_gate_completion_note.md:25
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_u6_unified_experience_gate_completion_note.md:26
+- autonomous workflow editing ready at docs/design/V4.x/v4_u6_unified_experience_gate_completion_note.md:27
+- production-ready external app support at docs/design/V4.x/v4_u6_unified_experience_gate_completion_note.md:28
+- production-ready external app support at docs/design/V4.x/v4_u6_unified_experience_gate_completion_note.md:129
+- production-ready external app support at docs/design/V4.x/v4_u6_unified_experience_gate_completion_note.md:134
+- complete Workflow Studio ready at docs/design/V4.x/v4_u6_unified_experience_gate_plan.md:71
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_u6_unified_experience_gate_plan.md:72
+- Agent executor ready at docs/design/V4.x/v4_u6_unified_experience_gate_plan.md:73
+- controlled executor ready at docs/design/V4.x/v4_u6_unified_experience_gate_plan.md:74
+- production-ready external app support at docs/design/V4.x/v4_u6_unified_experience_gate_plan.md:75
+- full multi-Agent orchestration ready at docs/design/V4.x/v4_u6_unified_experience_gate_plan.md:76
+- autonomous workflow editing ready at docs/design/V4.x/v4_u6_unified_experience_gate_plan.md:77
+- complete Workflow Studio ready at docs/design/V4.x/v4_u7_real_multi_agent_runtime_evidence_completion_note.md:14
+- complete AgentTalkWindow ready at docs/design/V4.x/v4_u7_real_multi_agent_runtime_evidence_completion_note.md:15
+- Agent executor ready at docs/design/V4.x/v4_u7_real_multi_agent_runtime_evidence_completion_note.md:16
+- controlled executor ready at docs/design/V4.x/v4_u7_real_multi_agent_runtime_evidence_completion_note.md:17
+- ... 575 more guarded mentions omitted
+
+## Historical Mentions
+
+- production-ready external app support at docs/design/V3.5/00_README.md:66
+- production-ready external app support at docs/design/V3.5/00_README.md:102
+- production-ready external app support at docs/design/V3.5/00_README.md:108
+- production-ready external app support at docs/design/V3.5/00_README.md:110
+- production-ready external app support at docs/design/V3.5/00_README.md:114
+- production-ready external app support at docs/design/V3.5/v3_5_acceptance_plan.md:104
+- production-ready external app support at docs/design/V3.5/v3_5_acceptance_plan.md:118
+- production-ready external app support at docs/design/V3.5/v3_5_acceptance_plan.md:130
+- production-ready external app support at docs/design/V3.5/v3_5_acceptance_plan.md:149
+- production-ready external app support at docs/design/V3.5/v3_5_acceptance_plan.md:184
+- production-ready external app support at docs/design/V3.5/v3_5_acceptance_plan.md:242
+- production-ready external app support at docs/design/V3.5/v3_5_acceptance_plan.md:254
+- production-ready external app support at docs/design/V3.5/v3_5_completion_evidence_bundle.md:13
+- production-ready external app support at docs/design/V3.5/v3_5_current_gap_analysis.md:30
+- production-ready external app support at docs/design/V3.5/v3_5_current_gap_analysis.md:43
+- production-ready external app support at docs/design/V3.5/v3_5_current_gap_analysis.md:329
+- production-ready external app support at docs/design/V3.5/v3_5_current_gap_analysis.md:358
+- production-ready external app support at docs/design/V3.5/v3_5_current_gap_analysis.md:394
+- production-ready external app support at docs/design/V3.5/v3_5_current_gap_analysis.md:480
+- production-ready external app support at docs/design/V3.5/v3_5_development_plan_application_adaptation_layer.md:386
+- production-ready external app support at docs/design/V3.5/v3_5_reference_app_plan.md:73
+- production-ready external app support at docs/design/V3.6/v3_6_current_gap_analysis.md:39
+- production-ready external app support at docs/design/V3.6/v3_6_preflight_hardening_note.md:70
+- production-ready external app support at docs/design/V4.0/.$v4_0_current_gap_analysis.drawio.bkp:61
+- production-ready external app support at docs/design/V4.0/.$v4_0_current_gap_analysis.drawio.bkp:79
+- production-ready external app support at docs/design/V4.0/.$v4_0_current_gap_analysis.drawio.bkp:103
+- production-ready external app support at docs/design/V4.0/.$v4_0_current_gap_analysis.drawio.bkp:145
+- production-ready external app support at docs/design/V4.0/00_README.md:3
+- production-ready external app support at docs/design/V4.0/00_README.md:160
+- production-ready external app support at docs/design/V4.0/00_README.md:161
+- controlled executor ready at docs/design/V4.0/00_README.md:187
+- controlled executor ready at docs/design/V4.0/usage-guide-prompts/03-user-confirmed-editing.md:9
+- controlled executor ready at docs/design/V4.0/usage-guide-prompts/06-production-readiness-gates.md:7
+- complete Workflow Studio ready at docs/design/V4.0/usage-guide-prompts/06-production-readiness-gates.md:9
+- complete AgentTalkWindow ready at docs/design/V4.0/usage-guide-prompts/06-production-readiness-gates.md:9
+- Agent executor ready at docs/design/V4.0/usage-guide-prompts/06-production-readiness-gates.md:9
+- controlled executor ready at docs/design/V4.0/usage-guide-prompts/06-production-readiness-gates.md:9
+- production-ready external app support at docs/design/V4.0/usage-guide-prompts/06-production-readiness-gates.md:9
+- production-ready external app support at docs/design/V4.0/v4_0_completion_audit_report.md:5
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_completion_audit_report.md:23
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_completion_audit_report.md:24
+- production-ready external app support at docs/design/V4.0/v4_0_completion_audit_report.md:25
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_completion_audit_report.md:33
+- controlled executor ready at docs/design/V4.0/v4_0_completion_audit_report.md:34
+- Agent executor ready at docs/design/V4.0/v4_0_completion_audit_report.md:35
+- production-ready external app support at docs/design/V4.0/v4_0_completion_audit_report.md:65
+- production-ready external app support at docs/design/V4.0/v4_0_completion_audit_report.md:382
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_completion_audit_report.md:401
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_completion_audit_report.md:402
+- production-ready external app support at docs/design/V4.0/v4_0_completion_audit_report.md:403
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_completion_audit_report.md:405
+- controlled executor ready at docs/design/V4.0/v4_0_completion_audit_report.md:406
+- Agent executor ready at docs/design/V4.0/v4_0_completion_audit_report.md:407
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_completion_audit_report.md:414
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_completion_audit_report.md:414
+- production-ready external app support at docs/design/V4.0/v4_0_completion_audit_report.md:414
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:14
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:49
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:116
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:196
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:291
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_current_gap_analysis.md:344
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_current_gap_analysis.md:371
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:426
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_current_gap_analysis.md:460
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_current_gap_analysis.md:461
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:462
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_current_gap_analysis.md:491
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_current_gap_analysis.md:492
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:493
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_current_gap_analysis.md:520
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_current_gap_analysis.md:521
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:522
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_current_gap_analysis.md:550
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_current_gap_analysis.md:551
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:552
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_current_gap_analysis.md:553
+- controlled executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:559
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_current_gap_analysis.md:578
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_current_gap_analysis.md:579
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_current_gap_analysis.md:580
+- controlled executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:581
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:582
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_current_gap_analysis.md:607
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_current_gap_analysis.md:608
+- controlled executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:609
+- Agent executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:610
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_current_gap_analysis.md:611
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:612
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_current_gap_analysis.md:639
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_current_gap_analysis.md:640
+- controlled executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:641
+- Agent executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:642
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_current_gap_analysis.md:643
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:644
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_current_gap_analysis.md:670
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_current_gap_analysis.md:671
+- controlled executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:672
+- Agent executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:673
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_current_gap_analysis.md:674
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:675
+- Agent executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:685
+- controlled executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:690
+- Agent executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:700
+- controlled executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:700
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:701
+- Agent executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:704
+- controlled executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:704
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:712
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:983
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:1051
+- controlled executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:1054
+- Agent executor ready at docs/design/V4.0/v4_0_current_gap_analysis.md:1055
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_current_gap_analysis.md:1056
+- production-ready external app support at docs/design/V4.0/v4_0_current_gap_analysis.md:1057
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_e_reference_console_completion_note.md:113
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_e_reference_console_completion_note.md:114
+- production-ready external app support at docs/design/V4.0/v4_0_e_reference_console_completion_note.md:115
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_e_reference_console_completion_note.md:134
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_e_reference_console_completion_note.md:134
+- production-ready external app support at docs/design/V4.0/v4_0_e_reference_console_completion_note.md:134
+- controlled executor ready at docs/design/V4.0/v4_0_event_contract_map.md:37
+- Agent executor ready at docs/design/V4.0/v4_0_event_contract_map.md:112
+- controlled executor ready at docs/design/V4.0/v4_0_event_contract_map.md:112
+- production-ready external app support at docs/design/V4.0/v4_0_event_contract_map.md:112
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_f_browser_smoke_completion_note.md:22
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_f_browser_smoke_completion_note.md:23
+- production-ready external app support at docs/design/V4.0/v4_0_f_browser_smoke_completion_note.md:24
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_f_browser_smoke_completion_note.md:164
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_f_browser_smoke_completion_note.md:165
+- production-ready external app support at docs/design/V4.0/v4_0_f_browser_smoke_completion_note.md:166
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_f_browser_smoke_plan.md:20
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_f_browser_smoke_plan.md:21
+- production-ready external app support at docs/design/V4.0/v4_0_f_browser_smoke_plan.md:22
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_g_editing_hardening_completion_note.md:15
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_g_editing_hardening_completion_note.md:16
+- production-ready external app support at docs/design/V4.0/v4_0_g_editing_hardening_completion_note.md:17
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_g_editing_hardening_plan.md:28
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_g_editing_hardening_plan.md:29
+- production-ready external app support at docs/design/V4.0/v4_0_g_editing_hardening_plan.md:30
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_h_canvas_runtime_bridge_completion_note.md:14
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_h_canvas_runtime_bridge_completion_note.md:15
+- production-ready external app support at docs/design/V4.0/v4_0_h_canvas_runtime_bridge_completion_note.md:16
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_h_canvas_runtime_bridge_completion_note.md:60
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_h_canvas_runtime_bridge_completion_note.md:61
+- production-ready external app support at docs/design/V4.0/v4_0_h_canvas_runtime_bridge_completion_note.md:62
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_h_canvas_runtime_bridge_plan.md:40
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_h_canvas_runtime_bridge_plan.md:41
+- production-ready external app support at docs/design/V4.0/v4_0_h_canvas_runtime_bridge_plan.md:42
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_i_agent_talk_window_completion_note.md:14
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_i_agent_talk_window_completion_note.md:15
+- production-ready external app support at docs/design/V4.0/v4_0_i_agent_talk_window_completion_note.md:16
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_i_agent_talk_window_completion_note.md:17
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_i_agent_talk_window_completion_note.md:71
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_i_agent_talk_window_completion_note.md:72
+- production-ready external app support at docs/design/V4.0/v4_0_i_agent_talk_window_completion_note.md:73
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_i_agent_talk_window_completion_note.md:74
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_i_agent_talk_window_stateful_plan.md:172
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_i_agent_talk_window_stateful_plan.md:173
+- production-ready external app support at docs/design/V4.0/v4_0_i_agent_talk_window_stateful_plan.md:174
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_i_agent_talk_window_stateful_plan.md:175
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_j_agent_talk_governance_completion_note.md:14
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_j_agent_talk_governance_completion_note.md:15
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_j_agent_talk_governance_completion_note.md:16
+- controlled executor ready at docs/design/V4.0/v4_0_j_agent_talk_governance_completion_note.md:17
+- production-ready external app support at docs/design/V4.0/v4_0_j_agent_talk_governance_completion_note.md:18
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_j_agent_talk_governance_completion_note.md:73
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_j_agent_talk_governance_completion_note.md:74
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_j_agent_talk_governance_completion_note.md:75
+- controlled executor ready at docs/design/V4.0/v4_0_j_agent_talk_governance_completion_note.md:76
+- production-ready external app support at docs/design/V4.0/v4_0_j_agent_talk_governance_completion_note.md:77
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_j_agent_talk_governance_plan.md:147
+- complete Workflow Studio ready at docs/design/V4.0/v4_0_j_agent_talk_governance_plan.md:148
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_j_agent_talk_governance_plan.md:149
+- controlled executor ready at docs/design/V4.0/v4_0_j_agent_talk_governance_plan.md:150
+- production-ready external app support at docs/design/V4.0/v4_0_j_agent_talk_governance_plan.md:151
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_k_agent_action_handoff_completion_note.md:14
+- controlled executor ready at docs/design/V4.0/v4_0_k_agent_action_handoff_completion_note.md:15
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_k_agent_action_handoff_completion_note.md:16
+- Agent executor ready at docs/design/V4.0/v4_0_k_agent_action_handoff_completion_note.md:17
+- production-ready external app support at docs/design/V4.0/v4_0_k_agent_action_handoff_completion_note.md:18
+- production-ready external app support at docs/design/V4.0/v4_0_k_agent_action_handoff_completion_note.md:60
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_k_agent_action_handoff_plan.md:18
+- controlled executor ready at docs/design/V4.0/v4_0_k_agent_action_handoff_plan.md:19
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_k_agent_action_handoff_plan.md:20
+- Agent executor ready at docs/design/V4.0/v4_0_k_agent_action_handoff_plan.md:21
+- production-ready external app support at docs/design/V4.0/v4_0_k_agent_action_handoff_plan.md:22
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_completion_note.md:14
+- controlled executor ready at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_completion_note.md:15
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_completion_note.md:16
+- Agent executor ready at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_completion_note.md:17
+- production-ready external app support at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_completion_note.md:18
+- production-ready external app support at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_completion_note.md:58
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_plan.md:18
+- controlled executor ready at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_plan.md:19
+- autonomous workflow editing ready at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_plan.md:20
+- Agent executor ready at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_plan.md:21
+- production-ready external app support at docs/design/V4.0/v4_0_l_agent_handoff_lifecycle_plan.md:22
+- complete AgentTalkWindow ready at docs/design/V4.0/v4_0_m_operation_evidence_completion_note.md:14
+- controlled executor ready at docs/design/V4.0/v4_0_m_operation_evidence_completion_note.md:15
+- ... 582 more historical mentions omitted

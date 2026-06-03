@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>V4-U9 Final Human Acceptance</title>
+  <style>
+    body { margin: 32px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #172033; background: #f8fafc; }
+    .card { background: #fff; border: 1px solid #d8dee9; border-radius: 10px; padding: 18px; margin: 14px 0; }
+    .PASS { color: #047857; font-weight: 700; }
+    .FAIL { color: #b42318; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { border: 1px solid #d8dee9; padding: 8px; text-align: left; vertical-align: top; }
+    pre { white-space: pre-wrap; margin: 0; font-size: 12px; }
+    code { background: #eef2f6; padding: 2px 5px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>V4-U9 最终人工验收与 V5 移交报告</h1>
+  <section class="card">
+    <p><strong>Status:</strong> <span class="PASS">PASS</span></p>
+    <p><strong>Allowed claim:</strong> V4-U9 complete: V4 dev/local final human acceptance and V5 handoff package ready for review.</p>
+    <p>本报告只做最终验收和 V5 移交，不新增运行时能力。</p>
+  </section>
+  <section class="card"><h2>Manual Entrypoints</h2><ul><li><code>docs/design/V4.x/evidence/manual-acceptance/u8-manual-acceptance-report.html</code></li>
+<li><code>docs/design/V4.x/evidence/unified-experience/reality-check/index.html</code></li>
+<li><code>docs/design/V4.x/v4_x_headless_current_gap_analysis.drawio</code></li>
+<li><code>docs/design/V5.x/v5_0_production_productization_planning_brief.md</code></li></ul></section>
+  <section class="card"><h2>UX-01 到 UX-12</h2><table><tbody><tr><td>UX-01</td><td class='PASS'>PASS</td><td>transcript_only</td><td>自然语言创建工作流</td><td>WorkflowSpec evidence exists, but this path is transcript/spec backed and must not be treated as real runtime mutation.</td></tr>
+<tr><td>UX-02</td><td class='PASS'>PASS</td><td>report_only</td><td>Workflow Blueprint 可视化</td><td>Drawio files are visualization only and are not runtime truth.</td></tr>
+<tr><td>UX-03</td><td class='PASS'>PASS</td><td>deterministic_devlocal</td><td>Runtime Report 运行观察</td><td>Runtime DTO source=v4_1_local_workflow_path; this is dev/local evidence, not production runtime.</td></tr>
+<tr><td>UX-04</td><td class='PASS'>PASS</td><td>deterministic_devlocal</td><td>Artifact 查看与血缘</td><td>Artifact list is visible, but strict artifact JSON and producer/lineage refs are required for full PASS.</td></tr>
+<tr><td>UX-05</td><td class='PASS'>PASS</td><td>deterministic_devlocal</td><td>Quality 查看</td><td>Quality HTML exists, but full PASS requires machine-readable quality.json linked to station or artifact.</td></tr>
+<tr><td>UX-06</td><td class='PASS'>PASS</td><td>deterministic_devlocal</td><td>局部失败修复与重跑</td><td>Rerun evidence is dev/local controlled runtime evidence and must not be overclaimed as controlled executor readiness.</td></tr>
+<tr><td>UX-07</td><td class='PASS'>PASS</td><td>deterministic_devlocal</td><td>Evidence Chain 审查</td><td>Evidence Chain must remain read-only; detected execution terms are treated as missing/risks.</td></tr>
+<tr><td>UX-08</td><td class='PASS'>PASS</td><td>real_runtime</td><td>串行多 Agent 视频工作流</td><td>U7 evidence shows dev/local provider-backed serial station execution with rerun and downstream stale records. This still does not prove production or unrestricted orchestration.</td></tr>
+<tr><td>UX-09</td><td class='PASS'>PASS</td><td>real_runtime</td><td>并行罗马广场讨论</td><td>U7 evidence shows dev/local provider-backed persona outputs, synthesis, attribution inputs, and contradiction review. This is not production parallel orchestration.</td></tr>
+<tr><td>UX-10</td><td class='PASS'>PASS</td><td>real_runtime</td><td>长时工程任务工作流</td><td>U7 evidence shows dev/local provider-backed engineering stage execution with code review rerun and stale records. This is not autonomous coding or Agent executor readiness.</td></tr>
+<tr><td>UX-11</td><td class='PASS'>PASS</td><td>deterministic_devlocal</td><td>Agent Workflow Builder</td><td>Agent builder can propose, explain, handoff, and navigate; it is not Agent executor readiness.</td></tr>
+<tr><td>UX-12</td><td class='PASS'>PASS</td><td>real_runtime</td><td>真实 LLM 本地技术文档解析</td><td>V4-U5E evidence shows authorized local Markdown reads and MiniMax/OpenAI-compatible provider-backed summaries. This does not prove Agent executor or production readiness.</td></tr></tbody></table></section>
+  <section class="card"><h2>PRD Spec Review</h2><table><tbody><tr><td>Mission Console 捕获意图</td><td class='PASS'>PASS</td><td>UX-01</td><td><code>docs/design/V4.x/evidence/unified-experience/mission_console_transcript.txt</code></td></tr>
+<tr><td>生成 WorkflowSpec / Diff</td><td class='PASS'>PASS</td><td>UX-01</td><td><code>docs/design/V4.2/evidence/headless-interaction/workflow.json</code></td></tr>
+<tr><td>Workflow Blueprint 理解结构</td><td class='PASS'>PASS</td><td>UX-02</td><td><code>docs/design/V4.2/evidence/headless-interaction/workflow.drawio</code></td></tr>
+<tr><td>用户确认</td><td class='PASS'>PASS</td><td>UX-06</td><td><code>docs/design/V4.x/evidence/unified-experience/UX-06/result-summary.md</code></td></tr>
+<tr><td>Runtime Report 观察运行</td><td class='PASS'>PASS</td><td>UX-03</td><td><code>docs/design/V4.2/evidence/headless-interaction/workflow_board.html</code></td></tr>
+<tr><td>Review Console 做局部重跑 / 修复 / 确认</td><td class='PASS'>PASS</td><td>UX-06</td><td><code>docs/design/V4.x/evidence/unified-experience/UX-06/result-summary.md</code></td></tr>
+<tr><td>Evidence Chain 审计复盘</td><td class='PASS'>PASS</td><td>UX-07</td><td><code>docs/design/V4.x/evidence/unified-experience/UX-07/result-summary.md</code></td></tr></tbody></table></section>
+  <section class="card"><h2>False Green Audit</h2><table><tbody><tr><td>claim_guard</td><td class='PASS'>PASS</td><td><pre>{
+  &quot;violation_count&quot;: 0
+}</pre></td></tr>
+<tr><td>redaction</td><td class='PASS'>PASS</td><td><pre>{
+  &quot;redaction_status&quot;: &quot;PASS&quot;
+}</pre></td></tr>
+<tr><td>u8_manual_acceptance_proxy</td><td class='PASS'>PASS</td><td><pre>{
+  &quot;u8_status&quot;: &quot;PASS&quot;
+}</pre></td></tr>
+<tr><td>no_runtime_overclaim</td><td class='PASS'>PASS</td><td><pre>{
+  &quot;transcript_only_not_runtime&quot;: true,
+  &quot;report_only_not_executable&quot;: true,
+  &quot;agent_builder_not_executor&quot;: true,
+  &quot;provider_backed_not_production&quot;: true
+}</pre></td></tr></tbody></table></section>
+  <section class="card"><h2>V5 Handoff</h2><p>V5 handoff 只做 future planning，不改变 V4 dev/local closure claim。</p></section>
+</body>
+</html>

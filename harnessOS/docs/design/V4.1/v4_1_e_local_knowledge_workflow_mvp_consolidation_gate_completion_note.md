@@ -82,10 +82,10 @@ Result: passed, 1 test.
 
 ## Next Stage Audit / 下一阶段审计
 
-- next_stage_name: V4.2 Controlled Execution Runtime MVP / 受控执行运行时 MVP
+- next_stage_name: V4.2-A Headless Interaction Pivot / Headless 交互转向
 - prerequisites_met: V4.1 local workflow MVP evidence is present and final regression passed.
-- blocked_items: none for V4.1 completion. V4.2 still requires separate pre-implementation audit.
-- plan_revision_required: yes. V4.2 must be audited before implementation because it introduces generic controlled execution runtime risks.
+- blocked_items: none for V4.1 completion. V4.2-A still requires separate pre-implementation audit.
+- plan_revision_required: yes. V4.2-A must be audited before implementation because the Headless-first route must avoid implying generic controlled runtime, Agent executor, or full Web Studio readiness.
 - proceed_decision: proceed
 
 ## No False Green

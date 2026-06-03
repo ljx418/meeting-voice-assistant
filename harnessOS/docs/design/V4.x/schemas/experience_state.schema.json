@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/experience_state.schema.json",
+  "title": "V4.x Experience State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "state_id",
+    "label",
+    "description",
+    "available_actions",
+    "blocked_actions",
+    "requires_user_confirmation",
+    "risk_level",
+    "evidence_required",
+    "visible_in",
+    "state_scope",
+    "source_refs"
+  ],
+  "properties": {
+    "state_id": { "type": "string", "minLength": 1 },
+    "label": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "available_actions": { "type": "array", "items": { "$ref": "available_actions.schema.json" } },
+    "blocked_actions": { "type": "array", "items": { "$ref": "operation.schema.json" } },
+    "requires_user_confirmation": { "type": "boolean" },
+    "risk_level": { "type": "string", "enum": ["low", "medium", "high"] },
+    "evidence_required": { "type": "boolean" },
+    "visible_in": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "mission_console",
+          "workflow_blueprint",
+          "runtime_report",
+          "review_console",
+          "evidence_chain",
+          "tui",
+          "drawio",
+          "html_report",
+          "thin_web_console"
+        ]
+      },
+      "minItems": 1
+    },
+    "state_scope": { "type": "string", "enum": ["workflow", "station", "evidence"] },
+    "source_refs": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,5 @@
+step=01 command='harness workflow run --bridge v5-4c --folder tests/fixtures/desktop/技术分享 --user-confirmed' source=run_panel user_confirmed=true runtime_backed=true devlocal_only=true result=completed
+step=02 command='harness workflow run --bridge v5-4c --folder tests/fixtures/desktop/技术分享_损坏 --user-confirmed' source=run_panel user_confirmed=true runtime_backed=true devlocal_only=true result=failed
+step=03 command='harness station rerun --bridge v5-4c --station markdown_parse --user-confirmed' source=run_panel user_confirmed=true runtime_backed=true downstream_stale=5
+step=04 command='harness workflow continue-downstream --bridge v5-4c --user-confirmed' source=run_panel user_confirmed=true runtime_backed=true result=completed
+step=05 command='agent attempts workflow run' source=agent blocked_reason=source_agent_cannot_execute_mutation

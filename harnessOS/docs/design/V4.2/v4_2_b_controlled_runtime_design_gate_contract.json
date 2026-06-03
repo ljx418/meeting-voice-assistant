@@ -1,0 +1,161 @@
+{
+  "stage": "V4.2-B",
+  "stage_name": "Controlled Runtime Design Gate / 受控运行时设计门禁",
+  "status": "design_gate_complete",
+  "allowed_claim": "V4.2-B complete: controlled runtime design gate ready for implementation review.",
+  "forbidden_claims": [
+    "forbidden controlled executor ready",
+    "forbidden Agent executor ready",
+    "forbidden autonomous workflow editing ready",
+    "forbidden complete Workflow Studio ready",
+    "forbidden complete AgentTalkWindow ready",
+    "forbidden production-ready external app support",
+    "forbidden full multi-Agent orchestration ready"
+  ],
+  "implementation_enabled": false,
+  "generic_runtime_mutation_enabled": false,
+  "agent_mutation_enabled": false,
+  "next_implementation_stage": "V4.2-C Controlled Runtime MVP / 受控运行时 MVP",
+  "boundary": {
+    "workflow_spec_runtime_truth": false,
+    "drawio_runtime_truth": false,
+    "html_report_mutation_surface": false,
+    "event_payload_truth": false,
+    "source_agent_can_execute_mutation": false,
+    "user_confirmed_required_for_durable_mutation": true,
+    "high_risk_action_approval_gated": true,
+    "executor_reads_only_redacted_or_approved_inputs": true
+  },
+  "runtime_contract": {
+    "generic_workflow_start": {
+      "stage": "V4.2-C",
+      "requires_user_confirmed": true,
+      "allowed_sources": [
+        "tui",
+        "thin_web_console",
+        "run_panel"
+      ],
+      "forbidden_sources": [
+        "agent"
+      ],
+      "must_record_evidence": true
+    },
+    "generic_station_rerun": {
+      "stage": "V4.2-C",
+      "requires_user_confirmed": true,
+      "allowed_sources": [
+        "tui",
+        "thin_web_console",
+        "run_panel"
+      ],
+      "forbidden_sources": [
+        "agent"
+      ],
+      "must_create_new_attempt": true,
+      "must_preserve_previous_attempts": true,
+      "must_record_evidence": true
+    },
+    "attempt_history": {
+      "stage": "V4.2-C",
+      "required_fields": [
+        "station_run_id",
+        "station_id",
+        "attempt",
+        "status",
+        "started_at",
+        "completed_at",
+        "input_artifact_refs",
+        "output_artifact_refs",
+        "error_summary",
+        "redaction_status"
+      ]
+    },
+    "downstream_stale": {
+      "stage": "V4.2-C",
+      "rule": "Rerunning a station marks downstream stations stale until user-confirmed continuation refreshes them from runtime truth."
+    },
+    "artifact_sandbox": {
+      "stage": "V4.2-C",
+      "forbidden_fields": [
+        "capability_token",
+        "subscription_token",
+        "Authorization",
+        "Bearer",
+        "secret",
+        "raw_trace_payload",
+        "raw_artifact_content",
+        "raw_connector_payload",
+        "raw prompt",
+        "upstream signed URL"
+      ]
+    },
+    "timeout_and_kill_switch": {
+      "stage": "V4.2-C",
+      "scope": "dev/local baseline only",
+      "requires_user_visible_evidence": true
+    }
+  },
+  "evidence_contract": {
+    "required_fields": [
+      "operation_type",
+      "workflow_instance_id",
+      "station_id",
+      "station_run_id",
+      "attempt",
+      "user_confirmed",
+      "source",
+      "policy_decision",
+      "risk_flags",
+      "runtime_result_ref",
+      "correlation_id",
+      "idempotency_key",
+      "redaction_status",
+      "created_at"
+    ],
+    "forbidden_fields": [
+      "capability_token",
+      "subscription_token",
+      "Authorization",
+      "Bearer",
+      "secret",
+      "raw_trace_payload",
+      "raw_artifact_content",
+      "raw_connector_payload",
+      "raw prompt",
+      "upstream signed URL"
+    ]
+  },
+  "acceptance_requirements": [
+    "Use real V4.1 local Markdown workflow data as the first runtime validation fixture.",
+    "Generic workflow start must require user_confirmed=true.",
+    "Generic station rerun must require user_confirmed=true.",
+    "source=agent must be rejected for start and rerun.",
+    "Rerun must create a new attempt and preserve old attempts.",
+    "Downstream stale state must be visible and recovered only through runtime truth refresh.",
+    "Runtime evidence must be generated from real operation results, not static fixture claims.",
+    "Generated reports must remain read-only and redacted.",
+    "Browser must not directly call /v1/rpc or /v1/events/subscribe.",
+    "No false-green completion claims may appear outside forbidden/non-goal context."
+  ],
+  "route_guard": {
+    "v4_2_b_new_runtime_routes_allowed": false,
+    "forbidden_new_route_patterns": [
+      "/execute",
+      "/agent/execute",
+      "/kill-switch",
+      "/rollback",
+      "/admin-override",
+      "/connector/call",
+      "/external-llm/call"
+    ]
+  },
+  "spec_drift_evaluation": {
+    "risk": "LOW",
+    "reason": "V4.2-B is a design gate only and explicitly defers runtime implementation to V4.2-C."
+  },
+  "false_green_evaluation": {
+    "risk": "LOW",
+    "reason": "The contract marks implementation_enabled=false and generic_runtime_mutation_enabled=false."
+  },
+  "proceed_decision": "proceed_to_v4_2_c_audit_before_implementation"
+}

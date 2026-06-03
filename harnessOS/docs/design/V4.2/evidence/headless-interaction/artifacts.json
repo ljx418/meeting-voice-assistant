@@ -1,0 +1,67 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "v41_artifact_538fa0aaf7fc",
+      "kind": "markdown_summary",
+      "lineage_refs": [
+        "station:per_folder_summary",
+        "workflow:v4_1_local_markdown_summary"
+      ],
+      "name": "AgentOS_总结.md",
+      "producer_station_id": "per_folder_summary",
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v41_artifact_e911ce716fff",
+      "kind": "markdown_summary",
+      "lineage_refs": [
+        "station:per_folder_summary",
+        "workflow:v4_1_local_markdown_summary"
+      ],
+      "name": "前端低代码_总结.md",
+      "producer_station_id": "per_folder_summary",
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v41_artifact_83396f423033",
+      "kind": "markdown_summary",
+      "lineage_refs": [
+        "station:per_folder_summary",
+        "workflow:v4_1_local_markdown_summary"
+      ],
+      "name": "项目复盘_总结.md",
+      "producer_station_id": "per_folder_summary",
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v41_artifact_3bb053d6cb0e",
+      "kind": "overview_summary",
+      "lineage_refs": [
+        "station:overview_summary",
+        "workflow:v4_1_local_markdown_summary"
+      ],
+      "name": "总览总结.md",
+      "producer_station_id": "overview_summary",
+      "redaction_status": "redacted"
+    },
+    {
+      "artifact_id": "v41_artifact_08e7df51c40c",
+      "kind": "quality_report",
+      "lineage_refs": [
+        "station:quality_check",
+        "workflow:v4_1_local_markdown_summary"
+      ],
+      "name": "quality_report.json",
+      "producer_station_id": "quality_check",
+      "redaction_status": "redacted"
+    }
+  ],
+  "readonly": true,
+  "redaction_status": "redacted",
+  "report_id": "v42_headless_artifact_report",
+  "source_refs": [
+    "exported-runtime-result.json",
+    "artifact_lineage.drawio"
+  ],
+  "workflow_instance_id": "v41_folder_instance_a7dabeaa7ca1"
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/station_state.schema.json",
+  "title": "V4.x Station State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "station_id",
+    "state",
+    "available_actions",
+    "blocked_actions",
+    "stale_reasons",
+    "source_refs"
+  ],
+  "properties": {
+    "station_id": { "type": "string", "minLength": 1 },
+    "state": {
+      "type": "string",
+      "enum": ["Pending", "Ready", "Running", "Completed", "Failed", "WaitingApproval", "NeedsInput", "Stale", "Recoverable", "RerunRequested", "Rerunning", "Skipped"]
+    },
+    "available_actions": { "type": "array", "items": { "$ref": "available_actions.schema.json" } },
+    "blocked_actions": { "type": "array", "items": { "$ref": "operation.schema.json" } },
+    "stale_reasons": { "type": "array", "items": { "type": "string" } },
+    "source_refs": { "type": "array", "items": { "type": "string" } }
+  }
+}

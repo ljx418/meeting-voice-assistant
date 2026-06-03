@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/operation.schema.json",
+  "title": "V4.x Operation",
+  "type": "string",
+  "enum": [
+    "workflow.spec.generate",
+    "workflow.patch.propose",
+    "workflow.patch.apply",
+    "workflow.template.publish",
+    "workflow.instance.start",
+    "station.rerun",
+    "approval.respond",
+    "context.update",
+    "evidence.show",
+    "report.open",
+    "drawio.open",
+    "handoff.open"
+  ]
+}

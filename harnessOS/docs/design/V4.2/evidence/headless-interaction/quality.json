@@ -1,0 +1,44 @@
+{
+  "checks": [
+    {
+      "artifact_id": "quality_report.json",
+      "check_id": "summary_coverage",
+      "details": {
+        "expected_folder_count": 3,
+        "generated_summary_count": 3
+      },
+      "station_id": "quality_check",
+      "status": "passed"
+    },
+    {
+      "artifact_id": "quality_report.json",
+      "check_id": "unsupported_file_recorded",
+      "details": {
+        "unsupported_files": [
+          "未支持/test.pdf"
+        ]
+      },
+      "station_id": "quality_check",
+      "status": "warning"
+    },
+    {
+      "artifact_id": "quality_report.json",
+      "check_id": "empty_folder_recorded",
+      "details": {
+        "empty_folders": [
+          "空文件夹"
+        ]
+      },
+      "station_id": "quality_check",
+      "status": "warning"
+    }
+  ],
+  "readonly": true,
+  "redaction_status": "redacted",
+  "report_id": "v42_headless_quality_report",
+  "source_refs": [
+    "exported-runtime-result.json"
+  ],
+  "status": "passed",
+  "workflow_instance_id": "v41_folder_instance_a7dabeaa7ca1"
+}

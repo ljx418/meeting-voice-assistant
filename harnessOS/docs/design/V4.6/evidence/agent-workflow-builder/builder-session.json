@@ -1,0 +1,25 @@
+{
+  "agent_builder_session_id": "v46_builder_session_a480f826387e",
+  "status": "drafting",
+  "scope": {
+    "app_id": "reference_app",
+    "project_id": "demo_a",
+    "workspace_id": "local"
+  },
+  "user_request_summary": "# Agent Builder 用户请求 帮我创建一个工作流，读取 Desktop/技术分享 文件夹，递归解析里面的 md 文件，并为每个子文件夹生成单独总结，最后生成总览总结。请先生成草案并解释计划，不要自动执行应用、发布或运行。",
+  "clarifying_questions": [
+    "是否只处理 Markdown 文件？",
+    "是否需要为每个子文件夹生成独立总结？",
+    "是否在用户确认后再应用、发布和运行？"
+  ],
+  "selected_workflow_template": "v41_local_folder_summary",
+  "agent_capabilities": [
+    "propose",
+    "explain",
+    "handoff",
+    "navigate"
+  ],
+  "agent_mutation_allowed": false,
+  "created_at": "2026-05-28T09:43:59.558010+00:00",
+  "redaction_status": "redacted"
+}

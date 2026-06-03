@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v5_7a_execution_envelope.schema.json",
+  "title": "V5-7A ProductionExecutionEnvelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "execution_envelope_id",
+    "operation",
+    "actor_type",
+    "actor_id",
+    "source",
+    "tenant_id",
+    "workspace_id",
+    "project_id",
+    "app_id",
+    "target_refs",
+    "user_confirmed",
+    "approval_gate_decision_ref",
+    "credential_access_decision_ref",
+    "sandbox_input_descriptor_ref",
+    "idempotency_key",
+    "rollback_descriptor_ref",
+    "kill_switch_decision_ref",
+    "audit_export_ref",
+    "incident_timeline_ref",
+    "created_at"
+  ],
+  "properties": {
+    "execution_envelope_id": { "type": "string", "minLength": 1 },
+    "operation": {
+      "type": "string",
+      "enum": ["workflow.instance.start", "station.rerun", "artifact.write", "quality.evaluation.create"]
+    },
+    "actor_type": {
+      "type": "string",
+      "enum": ["human_user", "service_account_with_human_authorization"]
+    },
+    "actor_id": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "string",
+      "enum": ["product_console", "approved_api"]
+    },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "project_id": { "type": "string", "minLength": 1 },
+    "app_id": { "type": "string", "minLength": 1 },
+    "target_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "workflow_instance_id": { "type": "string", "minLength": 1 },
+        "station_id": { "type": "string", "minLength": 1 },
+        "station_run_id": { "type": "string", "minLength": 1 },
+        "artifact_id": { "type": "string", "minLength": 1 },
+        "output_artifact_target_id": { "type": "string", "minLength": 1 },
+        "quality_evaluation_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "user_confirmed": { "const": true },
+    "approval_gate_decision_ref": { "type": "string", "minLength": 1 },
+    "credential_access_decision_ref": { "type": "string", "minLength": 1 },
+    "sandbox_input_descriptor_ref": { "type": "string", "minLength": 1 },
+    "idempotency_key": { "type": "string", "minLength": 1 },
+    "rollback_descriptor_ref": { "type": "string", "minLength": 1 },
+    "kill_switch_decision_ref": { "type": "string", "minLength": 1 },
+    "audit_export_ref": { "type": "string", "minLength": 1 },
+    "incident_timeline_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "operation": { "const": "workflow.instance.start" } } },
+      "then": { "properties": { "target_refs": { "required": ["workflow_instance_id"] } } }
+    },
+    {
+      "if": { "properties": { "operation": { "const": "station.rerun" } } },
+      "then": { "properties": { "target_refs": { "required": ["station_id", "station_run_id"] } } }
+    },
+    {
+      "if": { "properties": { "operation": { "const": "artifact.write" } } },
+      "then": {
+        "properties": {
+          "target_refs": {
+            "anyOf": [
+              { "required": ["artifact_id"] },
+              { "required": ["output_artifact_target_id"] }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "operation": { "const": "quality.evaluation.create" } } },
+      "then": {
+        "properties": {
+          "target_refs": {
+            "anyOf": [
+              { "required": ["quality_evaluation_id"] },
+              { "required": ["station_id"] },
+              { "required": ["artifact_id"] }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

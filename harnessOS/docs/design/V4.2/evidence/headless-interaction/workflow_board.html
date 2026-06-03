@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>V4.2-A Workflow Board</title>
+  <style>
+    body { font-family: Inter, Arial, sans-serif; background: #f8fafc; color: #0f172a; margin: 32px; }
+    main { max-width: 960px; margin: 0 auto; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    th, td { border-bottom: 1px solid #e2e8f0; text-align: left; padding: 10px; }
+    .source { color: #475569; }
+    .readonly { color: #166534; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>V4.2-A Workflow Board</h1>
+    <p class="source">Data source: spec / draft-version / runtime</p>
+    <p class="readonly">只读报告，无隐藏 mutation form。</p>
+    <p>WorkflowSpec 不是运行时事实源；本报告只读。</p><table><thead><tr><th>Station</th><th>Name</th><th>Status</th><th>Attempts</th></tr></thead><tbody><tr><td>folder_input</td><td>文件夹输入</td><td>completed</td><td>1</td></tr>
+<tr><td>folder_scan</td><td>递归扫描</td><td>completed</td><td>1</td></tr>
+<tr><td>markdown_filter</td><td>Markdown 过滤</td><td>completed</td><td>1</td></tr>
+<tr><td>markdown_parse</td><td>Markdown 解析</td><td>completed</td><td>1</td></tr>
+<tr><td>folder_group</td><td>子文件夹分组</td><td>completed</td><td>1</td></tr>
+<tr><td>per_folder_summary</td><td>子文件夹总结</td><td>completed</td><td>1</td></tr>
+<tr><td>overview_summary</td><td>总览总结</td><td>completed</td><td>1</td></tr>
+<tr><td>quality_check</td><td>质量检查</td><td>completed</td><td>1</td></tr>
+<tr><td>artifact_publish</td><td>产物发布</td><td>completed</td><td>1</td></tr></tbody></table>
+  </main>
+</body>
+</html>

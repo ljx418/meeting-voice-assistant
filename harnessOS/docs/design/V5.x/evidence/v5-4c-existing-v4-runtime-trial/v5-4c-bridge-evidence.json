@@ -1,0 +1,118 @@
+[
+  {
+    "evidence_id": "v5_4c_evidence_8129bf2fae8c",
+    "operation": "workflow.instance.start",
+    "source": "run_panel",
+    "actor_type": "human_user",
+    "user_confirmed": true,
+    "policy_decision": "allow",
+    "capability_decision": "allow_for_handoff_only",
+    "bridge_policy_decision": "v5_4c_devlocal_runtime_bridge_allowed",
+    "runtime_result_ref": {
+      "type": "existing_v4_local_runtime_result",
+      "workflow_instance_id": "v41_folder_instance_5867af5245e3",
+      "operation": "workflow.instance.start",
+      "status": "completed",
+      "backed_by": "generic_controlled_runtime"
+    },
+    "v4_runtime_entrypoint": "bff:/bff/v4_2/runtime",
+    "correlation_id": "correlation_v5_3",
+    "request_id": "request_v5_3",
+    "risk_flags": [
+      "devlocal_only",
+      "existing_v4_runtime",
+      "local_file_read"
+    ],
+    "devlocal_only": true,
+    "runtime_backed": true,
+    "redaction_status": "redacted",
+    "created_at": "2026-06-01T06:19:39.428479+00:00"
+  },
+  {
+    "evidence_id": "v5_4c_evidence_4d64f8fb96f9",
+    "operation": "workflow.instance.start",
+    "source": "run_panel",
+    "actor_type": "human_user",
+    "user_confirmed": true,
+    "policy_decision": "allow",
+    "capability_decision": "allow_for_handoff_only",
+    "bridge_policy_decision": "v5_4c_devlocal_runtime_bridge_allowed",
+    "runtime_result_ref": {
+      "type": "existing_v4_local_runtime_result",
+      "workflow_instance_id": "v41_folder_instance_479bdd5af320",
+      "operation": "workflow.instance.start",
+      "status": "failed",
+      "backed_by": "generic_controlled_runtime"
+    },
+    "v4_runtime_entrypoint": "bff:/bff/v4_2/runtime",
+    "correlation_id": "correlation_v5_3",
+    "request_id": "request_v5_3",
+    "risk_flags": [
+      "devlocal_only",
+      "existing_v4_runtime",
+      "local_file_read"
+    ],
+    "devlocal_only": true,
+    "runtime_backed": true,
+    "redaction_status": "redacted",
+    "created_at": "2026-06-01T06:19:39.436571+00:00"
+  },
+  {
+    "evidence_id": "v5_4c_evidence_90363a957243",
+    "operation": "station.rerun",
+    "source": "run_panel",
+    "actor_type": "human_user",
+    "user_confirmed": true,
+    "policy_decision": "allow",
+    "capability_decision": "allow_for_handoff_only",
+    "bridge_policy_decision": "v5_4c_devlocal_runtime_bridge_allowed",
+    "runtime_result_ref": {
+      "type": "existing_v4_local_runtime_result",
+      "workflow_instance_id": "v41_folder_instance_479bdd5af320",
+      "operation": "station.rerun",
+      "status": "waiting_user_confirmation",
+      "backed_by": "generic_controlled_runtime"
+    },
+    "v4_runtime_entrypoint": "bff:/bff/v4_2/runtime",
+    "correlation_id": "correlation_v5_3",
+    "request_id": "request_v5_3",
+    "risk_flags": [
+      "devlocal_only",
+      "existing_v4_runtime",
+      "station_rerun"
+    ],
+    "devlocal_only": true,
+    "runtime_backed": true,
+    "redaction_status": "redacted",
+    "created_at": "2026-06-01T06:19:39.442334+00:00"
+  },
+  {
+    "evidence_id": "v5_4c_evidence_39e9f2331311",
+    "operation": "workflow.instance.continue_downstream",
+    "source": "run_panel",
+    "actor_type": "human_user",
+    "user_confirmed": true,
+    "policy_decision": "allow",
+    "capability_decision": "allow_for_handoff_only",
+    "bridge_policy_decision": "v5_4c_devlocal_runtime_bridge_allowed",
+    "runtime_result_ref": {
+      "type": "existing_v4_local_runtime_result",
+      "workflow_instance_id": "v41_folder_instance_479bdd5af320",
+      "operation": "workflow.instance.continue_downstream",
+      "status": "completed",
+      "backed_by": "generic_controlled_runtime"
+    },
+    "v4_runtime_entrypoint": "bff:/bff/v4_2/runtime",
+    "correlation_id": "correlation_v5_3",
+    "request_id": "request_v5_3",
+    "risk_flags": [
+      "devlocal_only",
+      "downstream_continue",
+      "existing_v4_runtime"
+    ],
+    "devlocal_only": true,
+    "runtime_backed": true,
+    "redaction_status": "redacted",
+    "created_at": "2026-06-01T06:19:39.447960+00:00"
+  }
+]

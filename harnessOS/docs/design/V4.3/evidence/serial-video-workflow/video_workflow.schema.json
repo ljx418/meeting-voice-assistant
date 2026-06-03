@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "V4.3 Serial Video WorkflowSpec",
+  "type": "object",
+  "required": [
+    "approval_points",
+    "artifact_contracts",
+    "context_refs",
+    "edges",
+    "evidence_refs",
+    "metadata",
+    "quality_rules",
+    "stations"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "stations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "station_id",
+          "name",
+          "station_kind",
+          "agent_descriptor",
+          "input_artifacts",
+          "output_artifacts"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "station_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "station_kind": {
+            "type": "string"
+          },
+          "agent_descriptor": {
+            "type": "object",
+            "required": [
+              "goal",
+              "input_artifact_contract",
+              "model_ref",
+              "output_artifact_contract",
+              "role",
+              "skill_refs",
+              "tool_refs"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "role": {
+                "type": "string"
+              },
+              "goal": {
+                "type": "string"
+              },
+              "model_ref": {
+                "type": "string"
+              },
+              "tool_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "skill_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "input_artifact_contract": {
+                "type": "string"
+              },
+              "output_artifact_contract": {
+                "type": "string"
+              }
+            }
+          },
+          "input_artifacts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "output_artifacts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "edge_id",
+          "from_station_id",
+          "to_station_id",
+          "artifact_contract_id"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "edge_id": {
+            "type": "string"
+          },
+          "from_station_id": {
+            "type": "string"
+          },
+          "to_station_id": {
+            "type": "string"
+          },
+          "artifact_contract_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "artifact_contracts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "artifact_contract_id",
+          "kind",
+          "description"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "artifact_contract_id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "quality_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "rule_id",
+          "description"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "approval_points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "approval_point_id",
+          "operation",
+          "policy"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "approval_point_id": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string"
+          },
+          "policy": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "context_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "context_ref_id": {
+            "type": "string"
+          },
+          "value_label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "context_ref_id",
+          "value_label"
+        ]
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "evidence_ref_id",
+          "kind",
+          "resource_id"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "evidence_ref_id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "resource_id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

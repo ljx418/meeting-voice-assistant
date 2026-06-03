@@ -1,0 +1,11 @@
+{
+  "sandbox_input_descriptor_id": "sandbox_input_v5_7a_example",
+  "operation": "station.rerun",
+  "allowed_input_refs": [
+    "artifact://v5-4c/markdown_parse/input"
+  ],
+  "redaction_status": "redacted",
+  "raw_payload_allowed": false,
+  "credential_ref_required": false,
+  "created_at": "2026-06-03T09:39:26.743222+00:00"
+}

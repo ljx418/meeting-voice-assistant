@@ -1,0 +1,206 @@
+<mxfile host="Electron" agent="harnessOS-doc-audit" version="29.6.6">
+  <diagram id="v4-x-headless-current-gap-analysis" name="V4.x Headless Current Gap Analysis">
+    <mxGraphModel dx="2100" dy="1300" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="harnessOS V4.x 当前 Gap：七平面组件架构 + Unified Headless Experience" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=26;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="100" y="20" width="2000" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="当前基线：V4-U9 最终人工验收与 V5 移交包完成；UX-01 到 UX-12 全部 PASS。阶段串：V4-U5C / U5D / U5E / U5 / U6 / U7 / U8 / U9。V4.0 gap 图仅作历史参考。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=14;align=center;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="180" y="82" width="1840" height="46" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legend_existing" value="旧有不用改" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=14;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="220" y="148" width="220" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_change" value="旧有需改，标题下标阶段" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;fontSize=14;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="470" y="148" width="260" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_new" value="新增，标题下标阶段" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=14;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="760" y="148" width="240" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_forbidden" value="禁止误报 / 禁止路径" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=14;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="1030" y="148" width="240" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_deprecated" value="废弃主线 / 历史资产" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#64748B;fontSize=14;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="1300" y="148" width="240" height="36" as="geometry" />
+        </mxCell>
+
+        <mxCell id="plane0_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="80" y="220" width="2040" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="plane0_label" value="Plane-0&lt;br&gt;Product UI / Heads" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#64748B;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="245" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p0_thin_web" value="Thin Web Console&lt;br&gt;【V4.2-A】&lt;br&gt;BFF-only 观察与受限 handoff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="310" y="245" width="250" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p0_tui" value="Mission Console / TUI&lt;br&gt;【V4-U5C complete】&lt;br&gt;目标捕获 / diff / confirm / evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="590" y="245" width="250" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p0_drawio" value="Workflow Blueprint&lt;br&gt;【V4-U3】&lt;br&gt;Drawio / status / lineage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="870" y="245" width="240" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p0_html" value="Runtime Report / Evidence Chain&lt;br&gt;【V4-U5D complete】&lt;br&gt;board / artifacts / quality / evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1140" y="245" width="250" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p0_studio" value="Full Web Low-code Studio first&lt;br&gt;历史资产&lt;br&gt;不再作为当前主线" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1420" y="245" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p0_agent_guard" value="Agent auto execute UI&lt;br&gt;禁止误报&lt;br&gt;不能 auto apply / run" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1750" y="245" width="250" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="plane1_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="80" y="400" width="2040" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="plane1_label" value="Plane-1&lt;br&gt;Application Adaptation Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#64748B;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="425" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_bff" value="BFF / SDK / Hooks&lt;br&gt;已存在&lt;br&gt;/bff/* structured routes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="310" y="425" width="250" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_event" value="EventBridge&lt;br&gt;已存在&lt;br&gt;refresh-only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="590" y="425" width="250" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_spec_adapter" value="WorkflowSpec Adapter&lt;br&gt;【V4.2-A】&lt;br&gt;validate / diff / proposal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="870" y="425" width="250" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_export" value="Report / Drawio Export Package&lt;br&gt;【V4.2-A complete】&lt;br&gt;redacted DTO -&gt; outputs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1150" y="425" width="270" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_no_direct" value="Browser direct runtime access&lt;br&gt;禁止路径&lt;br&gt;no /v1/rpc, no raw payload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1450" y="425" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p1_orchestrator" value="Interaction Orchestrator&lt;br&gt;【V4-U5C/D complete】&lt;br&gt;intent / actions / handoff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1780" y="425" width="300" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="plane2_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="80" y="580" width="2040" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="plane2_label" value="Plane-2&lt;br&gt;Workflow Runtime Layer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#64748B;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="605" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_spec" value="WorkflowSpec&lt;br&gt;【V4.2-A】&lt;br&gt;yaml / json / schema" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="310" y="605" width="230" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_patch" value="WorkflowPatch&lt;br&gt;已存在&lt;br&gt;proposal / diff / apply path" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="570" y="605" width="230" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_draft" value="WorkflowDraft / Version&lt;br&gt;已存在&lt;br&gt;design truth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="830" y="605" width="250" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_instance" value="WorkflowInstance&lt;br&gt;【V4.2-C】&lt;br&gt;controlled start MVP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1110" y="605" width="230" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_stationrun" value="StationRun&lt;br&gt;【V4.2-C】&lt;br&gt;rerun / attempt history / stale" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1370" y="605" width="270" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_quality" value="Artifact / Quality / Evidence DTO&lt;br&gt;【V4.2-A】&lt;br&gt;export package source" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1670" y="605" width="290" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p2_state_machine" value="ExperienceStateProjection&lt;br&gt;【V4-U5B】&lt;br&gt;TUI state line, not truth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1980" y="605" width="120" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="plane3_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="80" y="760" width="2040" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="plane3_label" value="Plane-3&lt;br&gt;Harness Core" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#64748B;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="785" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_job" value="Job / Artifact / Approval / Trace&lt;br&gt;已存在&lt;br&gt;core evidence source" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="310" y="785" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_policy" value="Policy / Scope / Redaction&lt;br&gt;已存在&lt;br&gt;governance boundary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="670" y="785" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_export" value="Evidence Export Package&lt;br&gt;【V4.2-A complete】&lt;br&gt;tui transcript / operation evidence / summary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1010" y="785" width="360" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_agent_executor" value="Agent executor&lt;br&gt;禁止误报&lt;br&gt;Agent 仍不能执行 mutation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1410" y="785" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p3_report_schema" value="Report Schema&lt;br&gt;【V4-U3】&lt;br&gt;shared read-only projection" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1740" y="785" width="300" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="plane4_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="80" y="940" width="2040" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="plane4_label" value="Plane-4&lt;br&gt;Runtime Adapter &amp; Governance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#64748B;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="965" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_gate" value="Governance Gates&lt;br&gt;已存在&lt;br&gt;user_confirmed / approval gated" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="310" y="965" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_runtime" value="Controlled Runtime Baseline&lt;br&gt;【V4.2-C】&lt;br&gt;start / rerun / stale complete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="650" y="965" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_sandbox" value="Runtime Sandbox Boundary&lt;br&gt;【V4-U5E complete】&lt;br&gt;approved folder input / artifact sandbox" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="990" y="965" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_executor_ready" value="controlled executor ready&lt;br&gt;禁止误报&lt;br&gt;V4.2-A 不声明" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1350" y="965" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p4_capability_matrix" value="Runtime Capability Matrix&lt;br&gt;【V4-U3】&lt;br&gt;supported / partial / planned / unsupported" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1680" y="965" width="330" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="plane5_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="80" y="1120" width="2040" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="plane5_label" value="Plane-5&lt;br&gt;Domain Pack / Descriptor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#64748B;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="1145" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_local" value="Local Knowledge Descriptor&lt;br&gt;已存在&lt;br&gt;V4.1 Markdown workflow" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="310" y="1145" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_agent" value="AgentDescriptor&lt;br&gt;【V4.3】&lt;br&gt;role / goal / model / tools / skills" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="650" y="1145" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_persona" value="Persona / Deliberation Descriptor&lt;br&gt;【V4.4】&lt;br&gt;persona / rounds / attribution" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="990" y="1145" width="330" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_engineering" value="Engineering Stage Descriptor&lt;br&gt;【V4.5】&lt;br&gt;plan / spec / review / E2E / gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1360" y="1145" width="330" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p5_multiagent_ready" value="full multi-Agent orchestration ready&lt;br&gt;禁止误报" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1730" y="1145" width="260" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="plane6_bg" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CBD5E1;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="80" y="1300" width="2040" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="plane6_label" value="Plane-6&lt;br&gt;Connector / Tool / Store / Asset" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#64748B;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="100" y="1325" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_secret" value="Secret / Token Hygiene&lt;br&gt;已存在&lt;br&gt;no token / no raw payload leakage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="310" y="1325" width="310" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_artifact" value="Artifact Sandbox&lt;br&gt;【V4.2-C】&lt;br&gt;dev/local read/write boundary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="660" y="1325" width="280" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_connector" value="Real LLM Provider Invocation&lt;br&gt;【V4-U5E complete】&lt;br&gt;provider/model evidence, no raw prompt leak" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="980" y="1325" width="300" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="p6_prod" value="production-ready external app support&lt;br&gt;禁止误报&lt;br&gt;Post V4 gap" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=13;align=center" vertex="1" parent="1">
+          <mxGeometry x="1320" y="1325" width="330" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="roadmap_title" value="开发路线恢复" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEF2FF;strokeColor=#4F46E5;fontSize=18;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="150" y="1500" width="1900" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="roadmap" value="V4.1 complete -&gt; V4.2-A/B/C complete -&gt; V4.3/V4.4/V4.5 deterministic dev/local -&gt; V4.6 complete -&gt; V4-U5/U6 complete -&gt; V4-U7 provider-backed evidence complete -&gt; V4-U8 manual acceptance package complete -&gt; V4-U9 final acceptance + V5 handoff complete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#94A3B8;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="150" y="1565" width="1900" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="gate" value="No False Green：当前 reality-check 为 12 PASS / 0 PARTIAL / 0 BLOCKED；U8 人工验收代理 PASS；U9 最终人工验收 PASS，V5 handoff brief 已生成。仍不等于 full multi-Agent orchestration / Agent executor / production-ready。下一步建议进入 V5 planning。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#DC2626;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="150" y="1680" width="1900" height="64" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

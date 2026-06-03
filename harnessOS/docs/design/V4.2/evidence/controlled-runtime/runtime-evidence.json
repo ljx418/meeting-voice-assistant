@@ -1,0 +1,129 @@
+[
+  {
+    "evidence_id": "v42_evidence_e3ea5cecf5af",
+    "workflow_instance_id": "v41_folder_instance_ad8afcfaa110",
+    "workflow_template_id": "v41_local_folder_summary_template",
+    "operation": "workflow.instance.start",
+    "operation_type": "workflow.instance.start",
+    "status": "failed",
+    "correlation_id": "corr_19f544de4bb4",
+    "operation_id": "op_225ea076da94",
+    "idempotency_key": "idem_b0c45b107e7a",
+    "handoff_id": null,
+    "proposal_id": "v42_controlled_proposal_7fbbc6721cb1",
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "local_file_read",
+      "controlled_runtime_start"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_controlled_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "workflow_instance",
+      "resource_id": "v41_folder_instance_ad8afcfaa110",
+      "operation": "workflow.instance.start",
+      "status": "failed",
+      "workflow_instance_id": "v41_folder_instance_ad8afcfaa110",
+      "trace_id": "trace_6748fced"
+    },
+    "timeout_baseline": {
+      "enabled": true,
+      "timeout_seconds": 300,
+      "status": "observed"
+    },
+    "kill_switch_baseline": {
+      "enabled": true,
+      "scope": "workflow_instance",
+      "status": "available"
+    },
+    "created_at": "2026-05-28T08:18:08.931586+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  },
+  {
+    "evidence_id": "v42_evidence_ef53c10214b8",
+    "workflow_instance_id": "v41_folder_instance_ad8afcfaa110",
+    "workflow_template_id": "v41_local_folder_summary_template",
+    "operation": "station.rerun",
+    "operation_type": "station.rerun",
+    "status": "succeeded",
+    "correlation_id": "corr_65700d8eda67",
+    "operation_id": "op_b95fad78412d",
+    "idempotency_key": "idem_e6f972fb93cb",
+    "handoff_id": null,
+    "proposal_id": "v42_controlled_proposal_7fbbc6721cb1",
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "local_file_read",
+      "station_rerun",
+      "downstream_stale"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_controlled_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "station_run_attempt",
+      "resource_id": "attempt_markdown_parse_2",
+      "workflow_instance_id": "v41_folder_instance_ad8afcfaa110",
+      "operation": "station.rerun",
+      "status": "completed",
+      "trace_id": "trace_ba64f232"
+    },
+    "timeout_baseline": {
+      "enabled": true,
+      "timeout_seconds": 300,
+      "status": "observed"
+    },
+    "kill_switch_baseline": {
+      "enabled": true,
+      "scope": "workflow_instance",
+      "status": "available"
+    },
+    "created_at": "2026-05-28T08:18:08.935785+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  },
+  {
+    "evidence_id": "v42_evidence_39c899a41689",
+    "workflow_instance_id": "v41_folder_instance_ad8afcfaa110",
+    "workflow_template_id": "v41_local_folder_summary_template",
+    "operation": "workflow.instance.continue_downstream",
+    "operation_type": "workflow.instance.continue_downstream",
+    "status": "succeeded",
+    "correlation_id": "corr_06fa55c034ed",
+    "operation_id": "op_f46c98fc3367",
+    "idempotency_key": "idem_6a0433e3631a",
+    "handoff_id": null,
+    "proposal_id": "v42_controlled_proposal_7fbbc6721cb1",
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "local_file_read",
+      "downstream_continue"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_controlled_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "workflow_instance",
+      "resource_id": "v41_folder_instance_ad8afcfaa110",
+      "operation": "workflow.instance.continue_downstream",
+      "status": "completed",
+      "workflow_instance_id": "v41_folder_instance_ad8afcfaa110",
+      "trace_id": "trace_7b9f3123"
+    },
+    "timeout_baseline": {
+      "enabled": true,
+      "timeout_seconds": 300,
+      "status": "observed"
+    },
+    "kill_switch_baseline": {
+      "enabled": true,
+      "scope": "workflow_instance",
+      "status": "available"
+    },
+    "created_at": "2026-05-28T08:18:08.972720+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  }
+]

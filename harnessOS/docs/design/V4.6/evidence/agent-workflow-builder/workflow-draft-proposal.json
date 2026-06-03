@@ -1,0 +1,32 @@
+{
+  "proposal_id": "v46_workflow_proposal_13be0d978a3a",
+  "agent_builder_session_id": "v46_builder_session_a480f826387e",
+  "proposal_type": "workflow_spec_draft",
+  "status": "proposed",
+  "workflow_spec_ref": "v41_local_recursive_markdown_summary",
+  "patch_operations": [
+    {
+      "operation": "create_workflow_draft",
+      "target": "local_folder_summary",
+      "requires_user_confirmed_apply": true
+    },
+    {
+      "operation": "configure_folder_input",
+      "target": "Desktop/技术分享",
+      "requires_user_confirmed_apply": true
+    }
+  ],
+  "preview_nodes": [
+    "folder_input",
+    "folder_scan",
+    "markdown_filter",
+    "markdown_parse",
+    "folder_group",
+    "per_folder_summary",
+    "overview_summary",
+    "quality_check",
+    "artifact_publish"
+  ],
+  "agent_mutation_allowed": false,
+  "redaction_status": "redacted"
+}

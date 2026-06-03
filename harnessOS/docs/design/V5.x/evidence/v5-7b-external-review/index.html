@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>V5-7B 外部审计与依赖评审闭环</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --ink: #111827;
+        --muted: #5f6b7a;
+        --line: #d8dee9;
+        --green: #0f7a3a;
+        --green-bg: #e8f7ee;
+        --amber: #a65f00;
+        --amber-bg: #fff4d8;
+        --red: #b42318;
+        --red-bg: #fff0ed;
+        --blue: #1d4ed8;
+        --blue-bg: #edf4ff;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        line-height: 1.55;
+      }
+      header {
+        padding: 32px 40px 22px;
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(180deg, #fff 0%, #f6f8fc 100%);
+      }
+      main {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 28px;
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.25;
+      }
+      h1 {
+        font-size: 28px;
+      }
+      h2 {
+        margin-bottom: 12px;
+        font-size: 20px;
+      }
+      h3 {
+        font-size: 15px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      code,
+      pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      pre {
+        margin: 10px 0 0;
+        padding: 14px;
+        overflow: auto;
+        border-radius: 8px;
+        background: #172033;
+        color: #f8fafc;
+        font-size: 13px;
+      }
+      .subtitle {
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 18px;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+      }
+      .span-12 {
+        grid-column: span 12;
+      }
+      .span-8 {
+        grid-column: span 8;
+      }
+      .span-6 {
+        grid-column: span 6;
+      }
+      .span-4 {
+        grid-column: span 4;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        height: 26px;
+        padding: 0 10px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .pass {
+        color: var(--green);
+        background: var(--green-bg);
+      }
+      .warn {
+        color: var(--amber);
+        background: var(--amber-bg);
+      }
+      .stop {
+        color: var(--red);
+        background: var(--red-bg);
+      }
+      .info {
+        color: var(--blue);
+        background: var(--blue-bg);
+      }
+      .metric {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .metric:last-child {
+        border-bottom: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f8fafc;
+        color: #374151;
+      }
+      .links {
+        display: grid;
+        gap: 8px;
+      }
+      @media (max-width: 900px) {
+        .span-8,
+        .span-6,
+        .span-4 {
+          grid-column: span 12;
+        }
+        header,
+        main {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>V5-7B 外部审计与依赖评审闭环</h1>
+      <p class="subtitle">本页用于确认 V5-7B 只被接受为 V5-8 planning entry，不代表生产受控执行器或分布式多 Agent runtime 已完成。</p>
+    </header>
+    <main class="grid">
+      <section class="card span-8">
+        <h2>闭环结论</h2>
+        <p><span class="badge pass">V5-8 planning entry ready for review</span></p>
+        <pre>V5-7B external review and dependency closure complete.
+Allowed next work: V5-8 planning and pre-implementation audit.
+Still blocked: V5-8 runtime implementation until V5-8 gate passes.</pre>
+      </section>
+      <section class="card span-4">
+        <h2>验证结果</h2>
+        <div class="metric"><span>V5-7B focused</span><span class="badge pass">21 passed</span></div>
+        <div class="metric"><span>V5 focused</span><span class="badge pass">120 passed</span></div>
+        <div class="metric"><span>V4-U9 regression</span><span class="badge pass">4 passed</span></div>
+        <div class="metric"><span>Drawio XML</span><span class="badge pass">PASS</span></div>
+      </section>
+      <section class="card span-12">
+        <h2>依赖接受状态</h2>
+        <table>
+          <thead>
+            <tr><th>依赖</th><th>状态</th><th>接受范围</th><th>不接受为</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>V5-1 tenant boundary</td><td><span class="badge pass">ACCEPTED</span></td><td>V5-8 planning entry</td><td>enterprise auth ready</td></tr>
+            <tr><td>V5-2 credential boundary</td><td><span class="badge pass">ACCEPTED</span></td><td>V5-8 planning entry</td><td>production secret lifecycle ready</td></tr>
+            <tr><td>V5-3 audit export</td><td><span class="badge pass">ACCEPTED</span></td><td>V5-8 planning entry</td><td>production audit export ready</td></tr>
+            <tr><td>V5-4A safety gate</td><td><span class="badge pass">ACCEPTED</span></td><td>V5-8 planning entry</td><td>Agent executor ready</td></tr>
+            <tr><td>V5-4C dev/local bridge</td><td><span class="badge pass">ACCEPTED</span></td><td>V5-8 planning entry</td><td>production controlled executor ready</td></tr>
+            <tr><td>V5-6 product console/manual confirmation</td><td><span class="badge pass">ACCEPTED</span></td><td>V5-8 planning entry</td><td>complete Workflow Studio ready</td></tr>
+            <tr><td>V5-5 external app onboarding</td><td><span class="badge warn">DEFERRED</span></td><td>external app source disabled</td><td>production-ready external app support</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section class="card span-6">
+        <h2>V5-8 下一步</h2>
+        <pre>V5-8 planning
+V5-8 pre-implementation audit
+V5-8 PRD review
+V5-8 architecture delta review
+V5-8 test matrix review</pre>
+      </section>
+      <section class="card span-6">
+        <h2>仍然禁止</h2>
+        <pre>V5-8 runtime implementation without V5-8 gate
+production executor route
+production runtime worker
+source=agent durable mutation
+unrestricted connector.call
+unrestricted external_llm.call</pre>
+      </section>
+      <section class="card span-6">
+        <h2>审计文件</h2>
+        <div class="links">
+          <a href="external-review-summary.md">external-review-summary.md</a>
+          <a href="dependency-acceptance-decisions.md">dependency-acceptance-decisions.md</a>
+          <a href="dependency-acceptance-decisions.json">dependency-acceptance-decisions.json</a>
+          <a href="v5-7b-runtime-slice-review.md">v5-7b-runtime-slice-review.md</a>
+          <a href="v5-7b-runtime-slice-review.json">v5-7b-runtime-slice-review.json</a>
+          <a href="v5-8-entry-decision.json">v5-8-entry-decision.json</a>
+        </div>
+      </section>
+      <section class="card span-6">
+        <h2>V5-8 入口文件</h2>
+        <div class="links">
+          <a href="../../v5_8_entry_gate_plan.md">v5_8_entry_gate_plan.md</a>
+          <a href="../../v5_8_pre_implementation_audit.md">v5_8_pre_implementation_audit.md</a>
+          <a href="../../v5_8_development_and_acceptance_plan.md">v5_8_development_and_acceptance_plan.md</a>
+          <a href="../../v5_current_gap_analysis.md">v5_current_gap_analysis.md</a>
+          <a href="../../v5_current_gap_analysis.drawio">v5_current_gap_analysis.drawio</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

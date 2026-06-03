@@ -1,0 +1,29 @@
+{
+  "panel_id": "evidence_review",
+  "title": "证据链审查",
+  "readonly": true,
+  "allowed_actions": [
+    "view",
+    "open_evidence"
+  ],
+  "source_refs": {
+    "evidence_ref": "docs/design/V5.x/evidence/v5-4c-existing-v4-runtime-trial/existing-runtime-evidence.json"
+  },
+  "data": {
+    "proposal_id": "v42_controlled_proposal_19b73e398853",
+    "handoff_id": null,
+    "operation_type": "workflow.instance.start",
+    "policy_decision": "user_confirmed_only",
+    "runtime_result_ref": {
+      "type": "workflow_instance",
+      "resource_id": "v41_folder_instance_479bdd5af320",
+      "operation": "workflow.instance.start",
+      "status": "failed",
+      "workflow_instance_id": "v41_folder_instance_479bdd5af320",
+      "trace_id": "trace_c864915e"
+    },
+    "redaction_status": "redacted",
+    "readonly": true
+  },
+  "redaction_status": "redacted"
+}

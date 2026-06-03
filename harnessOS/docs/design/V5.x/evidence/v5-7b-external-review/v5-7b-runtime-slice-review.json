@@ -1,0 +1,63 @@
+{
+  "schema_version": "v5_7b.runtime_slice_review.v1",
+  "stage": "V5-7B Limited Runtime Slice",
+  "status": "ACCEPTED_FOR_V5_8_PLANNING_ENTRY",
+  "review_scope": "isolated_staging_runtime_slice",
+  "implementation_refs": [
+    "core/policies/production_controlled_executor_runtime.py",
+    "tests/test_v5_7b_entry_gate_and_source_policy.py",
+    "tests/test_v5_7b_four_action_acceptance_matrix.py",
+    "tests/test_v5_7b_evidence_redaction_and_operational_guards.py"
+  ],
+  "verified_controls": {
+    "no_production_executor_route": true,
+    "no_production_runtime_worker": true,
+    "source_agent_durable_mutation_denied": true,
+    "unrestricted_connector_call_denied": true,
+    "unrestricted_external_llm_call_denied": true,
+    "approved_api_requires_human_authorization": true,
+    "service_account_not_agent_executor": true,
+    "artifact_write_approval_gated_append_only": true,
+    "quality_evaluation_create_approval_gated_append_only": true,
+    "kill_switch_blocks_before_evidence": true,
+    "redaction_passed": true
+  },
+  "allowed_action_set": [
+    "workflow.instance.start",
+    "station.rerun",
+    "artifact.write",
+    "quality.evaluation.create"
+  ],
+  "excluded_actions": [
+    "connector.call",
+    "external_llm.call",
+    "business.event.emit",
+    "context.update",
+    "workflow.template.publish",
+    "approval.respond"
+  ],
+  "validation_results": [
+    {
+      "command": "./.venv/bin/python -m pytest tests/test_v5_7b_*.py -q",
+      "result": "21 passed, 5 warnings"
+    },
+    {
+      "command": "./.venv/bin/python -m pytest tests/test_v5_*.py -q",
+      "result": "120 passed, 5 warnings"
+    },
+    {
+      "command": "./.venv/bin/python -m pytest tests/test_v4_u9_final_acceptance.py -q",
+      "result": "4 passed"
+    },
+    {
+      "command": "xmllint --noout docs/design/V5.x/v5_current_gap_analysis.drawio",
+      "result": "PASS"
+    }
+  ],
+  "entry_result": {
+    "accepted_for_v5_8_planning_entry": true,
+    "production_route_approved": false,
+    "production_worker_approved": false,
+    "v5_8_runtime_implementation_approved": false
+  }
+}

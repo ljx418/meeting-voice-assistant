@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v6_7_artifact_lineage_service_schema.json",
+  "title": "ArtifactLineageRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "lineage_id",
+    "tenant_id",
+    "workspace_id",
+    "artifact_id",
+    "producer_station_id",
+    "producer_station_run_id",
+    "producer_attempt_id",
+    "input_artifact_refs",
+    "output_artifact_ref",
+    "created_at",
+    "audit_ref"
+  ],
+  "properties": {
+    "lineage_id": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "artifact_id": { "type": "string", "minLength": 1 },
+    "producer_station_id": { "type": "string", "minLength": 1 },
+    "producer_station_run_id": { "type": "string", "minLength": 1 },
+    "producer_attempt_id": { "type": "string", "minLength": 1 },
+    "input_artifact_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "output_artifact_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "audit_ref": { "type": "string", "minLength": 1 }
+  }
+}

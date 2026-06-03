@@ -1,0 +1,147 @@
+{
+  "metadata": {
+    "workflow_spec_id": "v45_long_running_engineering_workflow",
+    "schema_version": "v4.5",
+    "name": "长时工程任务工作流",
+    "stage": "V4.5 Long-Running Engineering Workflow MVP",
+    "runtime_truth_boundary": "WorkflowSpec is a review artifact and does not replace WorkflowDraft or WorkflowVersion runtime truth.",
+    "generated_from": "v4_5_dev_local_engineering_fixture"
+  },
+  "stages": [
+    {
+      "stage_id": "product_planning",
+      "name": "产品规划",
+      "artifact_name": "product_plan.md",
+      "quality_gate": false
+    },
+    {
+      "stage_id": "specification",
+      "name": "规格梳理",
+      "artifact_name": "specification.md",
+      "quality_gate": false
+    },
+    {
+      "stage_id": "project_blueprint",
+      "name": "项目计划蓝图",
+      "artifact_name": "project_blueprint.md",
+      "quality_gate": false
+    },
+    {
+      "stage_id": "architecture_review",
+      "name": "总架构评审",
+      "artifact_name": "architecture_review.md",
+      "quality_gate": true
+    },
+    {
+      "stage_id": "substage_plan_audit",
+      "name": "子阶段计划审计",
+      "artifact_name": "substage_plan_audit.md",
+      "quality_gate": false
+    },
+    {
+      "stage_id": "substage_architecture_review",
+      "name": "子阶段架构评审",
+      "artifact_name": "substage_architecture_review.md",
+      "quality_gate": false
+    },
+    {
+      "stage_id": "implementation_run",
+      "name": "开发实施",
+      "artifact_name": "implementation_run.md",
+      "quality_gate": false
+    },
+    {
+      "stage_id": "development_acceptance",
+      "name": "开发验收",
+      "artifact_name": "development_acceptance.md",
+      "quality_gate": false
+    },
+    {
+      "stage_id": "code_review",
+      "name": "代码检视",
+      "artifact_name": "code_review.md",
+      "quality_gate": true
+    },
+    {
+      "stage_id": "e2e_acceptance",
+      "name": "E2E 验收",
+      "artifact_name": "e2e_acceptance.md",
+      "quality_gate": true
+    },
+    {
+      "stage_id": "human_confirmation",
+      "name": "人工确认",
+      "artifact_name": "human_confirmation.md",
+      "quality_gate": true
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "edge_product_planning_specification",
+      "from_stage_id": "product_planning",
+      "to_stage_id": "specification"
+    },
+    {
+      "edge_id": "edge_specification_project_blueprint",
+      "from_stage_id": "specification",
+      "to_stage_id": "project_blueprint"
+    },
+    {
+      "edge_id": "edge_project_blueprint_architecture_review",
+      "from_stage_id": "project_blueprint",
+      "to_stage_id": "architecture_review"
+    },
+    {
+      "edge_id": "edge_architecture_review_substage_plan_audit",
+      "from_stage_id": "architecture_review",
+      "to_stage_id": "substage_plan_audit"
+    },
+    {
+      "edge_id": "edge_substage_plan_audit_substage_architecture_review",
+      "from_stage_id": "substage_plan_audit",
+      "to_stage_id": "substage_architecture_review"
+    },
+    {
+      "edge_id": "edge_substage_architecture_review_implementation_run",
+      "from_stage_id": "substage_architecture_review",
+      "to_stage_id": "implementation_run"
+    },
+    {
+      "edge_id": "edge_implementation_run_development_acceptance",
+      "from_stage_id": "implementation_run",
+      "to_stage_id": "development_acceptance"
+    },
+    {
+      "edge_id": "edge_development_acceptance_code_review",
+      "from_stage_id": "development_acceptance",
+      "to_stage_id": "code_review"
+    },
+    {
+      "edge_id": "edge_code_review_e2e_acceptance",
+      "from_stage_id": "code_review",
+      "to_stage_id": "e2e_acceptance"
+    },
+    {
+      "edge_id": "edge_e2e_acceptance_human_confirmation",
+      "from_stage_id": "e2e_acceptance",
+      "to_stage_id": "human_confirmation"
+    }
+  ],
+  "context_refs": [
+    {
+      "context_ref_id": "engineering_task_path",
+      "value_label": "tests/fixtures/v4_5/engineering_task/product_task.md"
+    }
+  ],
+  "governance": {
+    "user_confirmed_required": true,
+    "source_agent_can_mutate": false,
+    "real_code_modification": false
+  },
+  "evidence_refs": [
+    {
+      "evidence_ref_id": "runtime_result",
+      "resource_id": "runtime-result.json"
+    }
+  ]
+}

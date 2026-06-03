@@ -1,10 +1,14 @@
 # V4.x Stitch Prototype Generation Plan
 
-Status: prototype planning document.
+Status: prototype planning document, updated for Headless-first V4 roadmap.
 
 Purpose: define the Stitch prototype screens required to guide V4.x frontend development while keeping visual style consistent with `docs/design/V4.1/DESIGN.md`.
 
 This document is for prototype generation and design review. It is not a runtime implementation contract and does not claim completion of Workflow Studio, Agent executor, controlled executor, production readiness, or full multi-Agent orchestration.
+
+Headless-first update:
+
+V4.x no longer uses full Web low-code Workflow Studio as the current mainline. Stitch prototypes should support Thin Web Console and report-viewer design, while TUI, Drawio, and HTML reports become primary V4.2-A outputs.
 
 ## 1. Source Documents
 
@@ -21,9 +25,10 @@ Use `docs/design/V4.1/DESIGN.md` as the visual style source of truth for every V
 The current prototype set has these boundaries:
 
 1. V4.1 screens fully support the Local Knowledge Workflow MVP frontend design.
-2. V4.2 screens are a controlled execution runtime design preview only; they do not mean controlled executor ready.
-3. V4.3, V4.4, V4.5, and V4.6 require stage-specific prototypes; V4.1 screens cannot replace those stage-specific designs.
-4. Every prototype group must include this boundary copy:
+2. V4.2-A screens should focus on Thin Web Console views for generated WorkflowSpec, Drawio previews, HTML report links, TUI transcript review, and evidence package navigation.
+3. V4.2-B screens are controlled execution runtime design previews only; they do not mean controlled executor ready.
+4. V4.3, V4.4, V4.5, and V4.6 require stage-specific prototypes; V4.1 screens cannot replace those stage-specific designs.
+5. Every prototype group must include this boundary copy:
 
 ```text
 本原型用于指导前端交互，不代表该阶段运行时能力已经完成。
@@ -31,7 +36,7 @@ The current prototype set has these boundaries:
 
 ## 3. Global Prototype Screens
 
-These screens define the shared Workflow Studio visual and interaction system used by all V4.x stages.
+These screens define the shared Thin Web Console / Reference UI visual and interaction system used by all V4.x stages.
 
 1. `V4.x-00-Scenario-Hub`
    - Show cross-stage entries for 本地知识总结, 视频创作流水线, 罗马广场讨论, 长时工程任务, and Agent 工作流构建器.
@@ -53,6 +58,12 @@ These screens define the shared Workflow Studio visual and interaction system us
 
 7. `05-Governance-Evidence-ReadOnly`
    - Show read-only evidence chain without Apply, Publish, Approve, Reject, Execute, or Run controls.
+
+8. `06-Headless-Outputs-Hub`
+   - Show links or cards for workflow.yaml, workflow.drawio, workflow_status.drawio, artifact_lineage.drawio, workflow_board.html, artifacts.html, quality.html, and evidence.html.
+
+9. `07-TUI-Transcript-Review`
+   - Show a read-only transcript of the TUI workflow creation and user-confirmed operation path.
 
 ## 4. V4.1 Local Knowledge Workflow MVP Screens
 
@@ -84,7 +95,34 @@ V4.1 screens fully support the Local Knowledge Workflow MVP frontend design.
 6. `V4.1-06-Rerun-And-Governance-Evidence`
    - Show failed node, rerun attempt history, old error retention, and governance evidence chain.
 
-## 5. V4.2 Controlled Execution Runtime MVP Screens
+## 5. V4.2-A Headless Interaction Pivot Screens
+
+Goal: define the Thin Web Console reference views for Headless-first outputs before implementation.
+
+Boundary copy:
+
+```text
+本原型用于指导前端交互，不代表该阶段运行时能力已经完成。
+```
+
+V4.2-A screens are Headless interaction previews only. They do not mean controlled executor ready.
+
+1. `V4.2-A-01-Headless-Workflow-Spec-Review`
+   - Show workflow.yaml / workflow.json summary and validation state.
+
+2. `V4.2-A-02-TUI-Command-Palette-Transcript`
+   - Show TUI creation, diff, user confirmation, publish, run, and status transcript.
+
+3. `V4.2-A-03-Drawio-Visualization-Hub`
+   - Show workflow.drawio, workflow_status.drawio, and artifact_lineage.drawio preview cards.
+
+4. `V4.2-A-04-HTML-Report-Hub`
+   - Show workflow_board.html, artifacts.html, quality.html, and evidence.html report links.
+
+5. `V4.2-A-05-Headless-Evidence-Package`
+   - Show generated evidence files and No False Green status.
+
+## 6. V4.2-B Controlled Execution Runtime MVP Screens
 
 Goal: define the frontend interaction model for governed execution runtime before implementation.
 
@@ -94,7 +132,7 @@ Boundary copy:
 本原型用于指导前端交互，不代表该阶段运行时能力已经完成。
 ```
 
-V4.2 screens are only a design preview for controlled execution runtime interactions. They do not mean controlled executor ready.
+V4.2-B screens are only a design preview for controlled execution runtime interactions. They do not mean controlled executor ready.
 
 1. `V4.2-01-Execution-Policy-Dashboard`
    - Show action policy categories, user_confirmed_only, approval_gated, forbidden, never_executor.

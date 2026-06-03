@@ -1,0 +1,13 @@
+{
+  "kill_switch_decision_id": "kill_switch_v5_7a_example",
+  "scope": "workflow_instance",
+  "scope_ref": "v41_folder_instance_5867af5245e3",
+  "decision": "allow",
+  "reason": "design_gate_example_only",
+  "checked_before_runtime_action": true,
+  "checked_at": "2026-06-03T09:39:26.743222+00:00",
+  "checked_by": "policy_engine_v5_7a",
+  "policy_ref": "policy://v5-7a/kill-switch",
+  "correlation_id": "correlation_v5_7a",
+  "created_at": "2026-06-03T09:39:26.743222+00:00"
+}

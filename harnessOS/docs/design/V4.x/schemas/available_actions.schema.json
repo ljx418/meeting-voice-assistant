@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/available_actions.schema.json",
+  "title": "V4.x Available Action DTO",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action_id",
+    "operation",
+    "requires_user_confirmation",
+    "agent_executable",
+    "risk_flags",
+    "policy_decision"
+  ],
+  "properties": {
+    "action_id": { "type": "string", "minLength": 1 },
+    "operation": { "$ref": "operation.schema.json" },
+    "requires_user_confirmation": { "type": "boolean" },
+    "agent_executable": { "type": "boolean" },
+    "risk_flags": { "type": "array", "items": { "type": "string" } },
+    "policy_decision": {
+      "type": "string",
+      "enum": ["read_only", "proposal_only", "handoff_only", "user_confirmed_only", "approval_gated_future", "blocked"]
+    },
+    "source_agent_mutation_guard": {
+      "type": "string",
+      "const": "source=agent cannot execute apply/publish/run/rerun/approval.respond/context.update"
+    }
+  }
+}

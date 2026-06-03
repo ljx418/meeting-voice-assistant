@@ -1,0 +1,16 @@
+V4.2-A Headless Interaction Pivot transcript
+boundary=WorkflowSpec/Drawio/HTML reports are not runtime truth
+browser_direct_v1_rpc=false
+browser_direct_v1_events_subscribe=false
+
+step=01 command='harness tui' read_only=true transcript_only=false result='打开 Headless Command Palette'
+step=02 command='harness workflow create "递归总结 Desktop/技术分享 下的 Markdown 文件"' read_only=false transcript_only=false backed_by=v4_1_local_workflow_path user_confirmed=false result='生成 workflow spec 和 patch proposal' proposal_id=v41_folder_proposal_d48f687fd6cc
+step=03 command='harness workflow diff --spec workflow.yaml' read_only=true transcript_only=false result='展示 proposal diff'
+step=04 command='harness workflow apply --proposal v41_folder_proposal_d48f687fd6cc --user-confirmed' read_only=false transcript_only=false backed_by=v4_1_local_workflow_path user_confirmed=true source=editing_panel result='V4.1 local draft applied'
+step=05 command='harness workflow publish --proposal v41_folder_proposal_d48f687fd6cc --user-confirmed' read_only=false transcript_only=false backed_by=v4_1_local_workflow_path user_confirmed=true source=editing_panel result='V4.1 local workflow published'
+step=06 command='harness workflow run --proposal v41_folder_proposal_d48f687fd6cc --user-confirmed' read_only=false transcript_only=false backed_by=v4_1_local_workflow_path user_confirmed=true source=run_panel result='V4.1 local workflow completed' workflow_instance_id=v41_folder_instance_a7dabeaa7ca1
+step=07 command='harness workflow status --instance v41_folder_instance_a7dabeaa7ca1' read_only=true transcript_only=false result='9 stations completed'
+step=08 command='harness artifacts list --instance v41_folder_instance_a7dabeaa7ca1' read_only=true transcript_only=false result='5 artifacts listed'
+step=09 command='harness quality report --instance v41_folder_instance_a7dabeaa7ca1' read_only=true transcript_only=false result='quality passed with unsupported and empty folders recorded'
+step=10 command='harness evidence show --instance v41_folder_instance_a7dabeaa7ca1' read_only=true transcript_only=false result='operation evidence exported'
+step=11 command='harness station rerun --station markdown_parse --user-confirmed' read_only=false transcript_only=true generic_runtime=false result='deferred to V4.2-B/C unless V4.1 local rerun path is explicitly invoked'

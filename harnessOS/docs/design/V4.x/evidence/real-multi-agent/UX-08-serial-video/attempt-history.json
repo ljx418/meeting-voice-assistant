@@ -1,0 +1,98 @@
+{
+  "copywriting_agent": [
+    {
+      "attempt_id": "u7_attempt_df4bc0a2a5a0",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:10:03.683731+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_0e5bb84ec31b"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_43b6f69f291e",
+      "status": "completed"
+    }
+  ],
+  "editing_plan_agent": [
+    {
+      "attempt_id": "u7_attempt_4a885de6b5ea",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:10:10.909024+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_ec3a12051d6b"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_07046bda760a",
+      "status": "completed"
+    }
+  ],
+  "publish_preparation_agent": [
+    {
+      "attempt_id": "u7_attempt_1a59187657c0",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:10:28.364427+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_bca1dbe1e2c3"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_3b4019c5df50",
+      "status": "completed"
+    }
+  ],
+  "quality_review_agent": [
+    {
+      "attempt_id": "u7_attempt_92ca1b204548",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:10:20.490995+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_2f0a8165e962"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_42ed638d6e92",
+      "status": "completed"
+    }
+  ],
+  "storyboard_agent": [
+    {
+      "attempt_id": "u7_attempt_d2bd8f71210f",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:09:54.352956+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_a8c17a26845b"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_e06ceefd794e",
+      "status": "completed"
+    },
+    {
+      "attempt_id": "u7_attempt_50519cb882d9",
+      "attempt_number": 2,
+      "created_at": "2026-05-30T09:10:35.397892+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_f9fdc86373e6"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_7c03454a8fcb",
+      "status": "completed"
+    }
+  ],
+  "writer_agent": [
+    {
+      "attempt_id": "u7_attempt_b5771de7054b",
+      "attempt_number": 1,
+      "created_at": "2026-05-30T09:09:45.849200+00:00",
+      "model_ref": "MiniMax-M2.1",
+      "output_artifact_refs": [
+        "u7_artifact_8072707b7301"
+      ],
+      "provider": "minimax",
+      "runtime_result_ref": "llm_result_966b6eedf0ce",
+      "status": "completed"
+    }
+  ]
+}

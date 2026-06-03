@@ -1,0 +1,107 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>V4.6 Agent Workflow Builder</title></head>
+<body><h1>Agent 工作流搭建证据</h1><p>只读报告。Agent 只生成建议、解释和 handoff；应用、发布或运行都必须由用户在操作面板确认。</p>
+<pre>{
+  &quot;session&quot;: {
+    &quot;agent_builder_session_id&quot;: &quot;v46_builder_session_a480f826387e&quot;,
+    &quot;status&quot;: &quot;drafting&quot;,
+    &quot;scope&quot;: {
+      &quot;app_id&quot;: &quot;reference_app&quot;,
+      &quot;project_id&quot;: &quot;demo_a&quot;,
+      &quot;workspace_id&quot;: &quot;local&quot;
+    },
+    &quot;user_request_summary&quot;: &quot;# Agent Builder 用户请求 帮我创建一个工作流，读取 Desktop/技术分享 文件夹，递归解析里面的 md 文件，并为每个子文件夹生成单独总结，最后生成总览总结。请先生成草案并解释计划，不要自动执行应用、发布或运行。&quot;,
+    &quot;clarifying_questions&quot;: [
+      &quot;是否只处理 Markdown 文件？&quot;,
+      &quot;是否需要为每个子文件夹生成独立总结？&quot;,
+      &quot;是否在用户确认后再应用、发布和运行？&quot;
+    ],
+    &quot;selected_workflow_template&quot;: &quot;v41_local_folder_summary&quot;,
+    &quot;agent_capabilities&quot;: [
+      &quot;propose&quot;,
+      &quot;explain&quot;,
+      &quot;handoff&quot;,
+      &quot;navigate&quot;
+    ],
+    &quot;agent_mutation_allowed&quot;: false,
+    &quot;created_at&quot;: &quot;2026-05-28T09:43:59.558010+00:00&quot;,
+    &quot;redaction_status&quot;: &quot;redacted&quot;
+  },
+  &quot;draft&quot;: {
+    &quot;proposal_id&quot;: &quot;v46_workflow_proposal_13be0d978a3a&quot;,
+    &quot;agent_builder_session_id&quot;: &quot;v46_builder_session_a480f826387e&quot;,
+    &quot;proposal_type&quot;: &quot;workflow_spec_draft&quot;,
+    &quot;status&quot;: &quot;proposed&quot;,
+    &quot;workflow_spec_ref&quot;: &quot;v41_local_recursive_markdown_summary&quot;,
+    &quot;patch_operations&quot;: [
+      {
+        &quot;operation&quot;: &quot;create_workflow_draft&quot;,
+        &quot;target&quot;: &quot;local_folder_summary&quot;,
+        &quot;requires_user_confirmed_apply&quot;: true
+      },
+      {
+        &quot;operation&quot;: &quot;configure_folder_input&quot;,
+        &quot;target&quot;: &quot;Desktop/技术分享&quot;,
+        &quot;requires_user_confirmed_apply&quot;: true
+      }
+    ],
+    &quot;preview_nodes&quot;: [
+      &quot;folder_input&quot;,
+      &quot;folder_scan&quot;,
+      &quot;markdown_filter&quot;,
+      &quot;markdown_parse&quot;,
+      &quot;folder_group&quot;,
+      &quot;per_folder_summary&quot;,
+      &quot;overview_summary&quot;,
+      &quot;quality_check&quot;,
+      &quot;artifact_publish&quot;
+    ],
+    &quot;agent_mutation_allowed&quot;: false,
+    &quot;redaction_status&quot;: &quot;redacted&quot;
+  },
+  &quot;explain&quot;: {
+    &quot;explanation_id&quot;: &quot;v46_explanation_79c443fb1a94&quot;,
+    &quot;agent_builder_session_id&quot;: &quot;v46_builder_session_a480f826387e&quot;,
+    &quot;proposal_id&quot;: &quot;v46_workflow_proposal_13be0d978a3a&quot;,
+    &quot;read_only&quot;: true,
+    &quot;summary&quot;: &quot;该计划会先生成工作流草案，再等待用户确认应用、发布和运行。&quot;,
+    &quot;steps&quot;: [
+      &quot;folder_input&quot;,
+      &quot;folder_scan&quot;,
+      &quot;markdown_filter&quot;,
+      &quot;markdown_parse&quot;,
+      &quot;folder_group&quot;,
+      &quot;per_folder_summary&quot;,
+      &quot;overview_summary&quot;,
+      &quot;quality_check&quot;,
+      &quot;artifact_publish&quot;
+    ],
+    &quot;agent_mutation_allowed&quot;: false,
+    &quot;redaction_status&quot;: &quot;redacted&quot;
+  },
+  &quot;repair&quot;: {
+    &quot;repair_proposal_id&quot;: &quot;v46_repair_proposal_a059633ab28a&quot;,
+    &quot;agent_builder_session_id&quot;: &quot;v46_builder_session_a480f826387e&quot;,
+    &quot;failed_station_id&quot;: &quot;markdown_parse&quot;,
+    &quot;read_only_diagnosis&quot;: &quot;Markdown parse failure can be repaired by adding stricter Markdown-only filtering and unsupported file recording.&quot;,
+    &quot;patch_operations&quot;: [
+      {
+        &quot;operation&quot;: &quot;update_quality_rule&quot;,
+        &quot;target&quot;: &quot;unsupported_file_recorded&quot;,
+        &quot;requires_user_confirmed_apply&quot;: true
+      }
+    ],
+    &quot;status&quot;: &quot;proposed&quot;,
+    &quot;agent_mutation_allowed&quot;: false,
+    &quot;redaction_status&quot;: &quot;redacted&quot;
+  },
+  &quot;handoff&quot;: {
+    &quot;handoff_id&quot;: &quot;v46_handoff_dc6ca20934f9&quot;,
+    &quot;agent_builder_session_id&quot;: &quot;v46_builder_session_a480f826387e&quot;,
+    &quot;proposal_id&quot;: &quot;v46_workflow_proposal_13be0d978a3a&quot;,
+    &quot;target_panel&quot;: &quot;editing_panel&quot;,
+    &quot;operation_executed&quot;: false,
+    &quot;requires_user_confirmation&quot;: true,
+    &quot;agent_mutation_allowed&quot;: false,
+    &quot;redaction_status&quot;: &quot;redacted&quot;
+  }
+}</pre></body></html>

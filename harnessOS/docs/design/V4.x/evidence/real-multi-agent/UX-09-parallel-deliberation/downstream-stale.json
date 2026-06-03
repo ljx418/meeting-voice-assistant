@@ -1,0 +1,17 @@
+[
+  {
+    "requires_user_confirmed_continue": true,
+    "stale_reason": "upstream rerun from architecture_persona",
+    "station_id": "risk_persona"
+  },
+  {
+    "requires_user_confirmed_continue": true,
+    "stale_reason": "upstream rerun from architecture_persona",
+    "station_id": "synthesis_node"
+  },
+  {
+    "requires_user_confirmed_continue": true,
+    "stale_reason": "upstream rerun from architecture_persona",
+    "station_id": "contradiction_review"
+  }
+]

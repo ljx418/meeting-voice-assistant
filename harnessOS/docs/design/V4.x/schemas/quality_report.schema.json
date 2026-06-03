@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/quality_report.schema.json",
+  "title": "V4.x Quality Report DTO",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["quality_id", "target_ref", "status", "findings", "redaction_status", "rule_id", "severity", "evidence_ref"],
+  "properties": {
+    "quality_id": { "type": "string", "minLength": 1 },
+    "target_ref": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["passed", "warning", "failed", "unknown"] },
+    "findings": { "type": "array", "items": { "type": "string" } },
+    "redaction_status": { "type": "string", "enum": ["redacted"] },
+    "rule_id": { "type": "string" },
+    "severity": { "type": "string", "enum": ["low", "medium", "high"] },
+    "evidence_ref": { "type": "string" }
+  }
+}

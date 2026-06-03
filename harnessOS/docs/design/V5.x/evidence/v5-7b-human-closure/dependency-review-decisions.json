@@ -1,0 +1,63 @@
+{
+  "schema_version": "v5_7b.dependency_review_decisions.v1",
+  "current_decision": "NO_GO_FOR_IMPLEMENTATION",
+  "allowed_statuses": ["ACCEPTED", "REJECTED", "DEFERRED", "NEEDS_MORE_EVIDENCE"],
+  "dependencies": [
+    {
+      "dependency_id": "v5_1_tenant_boundary",
+      "label": "V5-1 tenant boundary",
+      "required_status_before_v5_7b": "ACCEPTED",
+      "status": "DEFERRED",
+      "evidence_ref": "docs/design/V5.x/v5_1_production_auth_tenant_boundary_completion_note.md",
+      "notes": "External review acceptance decision is not recorded."
+    },
+    {
+      "dependency_id": "v5_2_credential_boundary",
+      "label": "V5-2 credential boundary",
+      "required_status_before_v5_7b": "ACCEPTED",
+      "status": "DEFERRED",
+      "evidence_ref": "docs/design/V5.x/v5_2_credential_provider_lifecycle_completion_note.md",
+      "notes": "External review acceptance decision is not recorded."
+    },
+    {
+      "dependency_id": "v5_3_audit_export",
+      "label": "V5-3 audit export",
+      "required_status_before_v5_7b": "ACCEPTED",
+      "status": "DEFERRED",
+      "evidence_ref": "docs/design/V5.x/v5_3_observability_audit_export_completion_note.md",
+      "notes": "External review acceptance decision is not recorded."
+    },
+    {
+      "dependency_id": "v5_4a_safety_gate",
+      "label": "V5-4A safety gate",
+      "required_status_before_v5_7b": "ACCEPTED",
+      "status": "DEFERRED",
+      "evidence_ref": "docs/design/V5.x/v5_4a_agent_executor_safety_gate_completion_note.md",
+      "notes": "External review acceptance decision is not recorded."
+    },
+    {
+      "dependency_id": "v5_4c_devlocal_bridge",
+      "label": "V5-4C dev/local bridge",
+      "required_status_before_v5_7b": "ACCEPTED",
+      "status": "DEFERRED",
+      "evidence_ref": "docs/design/V5.x/v5_4c_existing_v4_runtime_trial_completion_note.md",
+      "notes": "External review acceptance decision is not recorded."
+    },
+    {
+      "dependency_id": "v5_6_product_console_manual_confirmation",
+      "label": "V5-6 product console / manual confirmation UX",
+      "required_status_before_v5_7b": "ACCEPTED",
+      "status": "DEFERRED",
+      "evidence_ref": "docs/design/V5.x/v5_6_thin_web_console_productization_completion_note.md",
+      "notes": "External review acceptance decision is not recorded."
+    },
+    {
+      "dependency_id": "v5_5_external_app_onboarding_boundary",
+      "label": "V5-5 external app onboarding boundary",
+      "required_status_before_v5_7b": "ACCEPTED_IF_EXTERNAL_APP_SOURCE_ENABLED",
+      "status": "DEFERRED",
+      "evidence_ref": "docs/design/V5.x/v5_5_external_app_onboarding_completion_note.md",
+      "notes": "Required only if production action comes from external app source."
+    }
+  ]
+}

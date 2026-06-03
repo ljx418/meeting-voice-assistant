@@ -1,0 +1,162 @@
+# Generated V4.2-A WorkflowSpec. This file is not runtime truth.
+metadata:
+  workflow_spec_id: "v42_headless_local_markdown_summary"
+  schema_version: "v4.2-a"
+  name: "本地 Markdown 文件夹递归总结"
+  stage: "V4.2-A Headless Interaction Pivot"
+  source_baseline: "V4.1 local recursive Markdown summary workflow"
+  runtime_truth_boundary: "WorkflowSpec is a portable definition and review artifact, not WorkflowDraft or WorkflowVersion runtime truth."
+  generated_from: "v4_1_local_workflow_path"
+stations:
+  - station_id: folder_input
+    name: "文件夹输入"
+    station_kind: input
+    description: "用户确认本地文件夹读取授权。"
+    input_artifacts: [folder_ref]
+    output_artifacts: [folder_ref]
+  - station_id: folder_scan
+    name: "递归扫描"
+    station_kind: scan
+    description: "递归扫描文件夹并返回只读文件树和统计。"
+    input_artifacts: [folder_ref]
+    output_artifacts: [file_tree]
+  - station_id: markdown_filter
+    name: "Markdown 过滤"
+    station_kind: filter
+    description: "筛选 Markdown 文件并记录 unsupported 文件。"
+    input_artifacts: [file_tree]
+    output_artifacts: [md_file_list]
+  - station_id: markdown_parse
+    name: "Markdown 解析"
+    station_kind: parse
+    description: "解析 Markdown 元数据。"
+    input_artifacts: [md_file_list]
+    output_artifacts: [parsed_docs]
+  - station_id: folder_group
+    name: "子文件夹分组"
+    station_kind: group
+    description: "按子文件夹对文档分组。"
+    input_artifacts: [parsed_docs]
+    output_artifacts: [grouped_docs]
+  - station_id: per_folder_summary
+    name: "子文件夹总结"
+    station_kind: summarize
+    description: "为每个含 Markdown 的子文件夹生成总结。"
+    input_artifacts: [grouped_docs]
+    output_artifacts: [folder_summaries]
+  - station_id: overview_summary
+    name: "总览总结"
+    station_kind: summarize
+    description: "生成跨子文件夹总览总结。"
+    input_artifacts: [folder_summaries]
+    output_artifacts: [overview_summary]
+  - station_id: quality_check
+    name: "质量检查"
+    station_kind: quality
+    description: "检查总结覆盖率、unsupported 文件和空文件夹。"
+    input_artifacts: [folder_summaries, overview_summary]
+    output_artifacts: [quality_report]
+  - station_id: artifact_publish
+    name: "产物发布"
+    station_kind: publish_artifacts
+    description: "发布只读总结与质量报告 artifacts。"
+    input_artifacts: [folder_summaries, overview_summary, quality_report]
+    output_artifacts: [output_package]
+edges:
+  - edge_id: edge_folder_input_folder_scan
+    from_station_id: folder_input
+    to_station_id: folder_scan
+    artifact_contract_id: folder_ref
+  - edge_id: edge_folder_scan_markdown_filter
+    from_station_id: folder_scan
+    to_station_id: markdown_filter
+    artifact_contract_id: file_tree
+  - edge_id: edge_markdown_filter_markdown_parse
+    from_station_id: markdown_filter
+    to_station_id: markdown_parse
+    artifact_contract_id: md_file_list
+  - edge_id: edge_markdown_parse_folder_group
+    from_station_id: markdown_parse
+    to_station_id: folder_group
+    artifact_contract_id: parsed_docs
+  - edge_id: edge_folder_group_per_folder_summary
+    from_station_id: folder_group
+    to_station_id: per_folder_summary
+    artifact_contract_id: grouped_docs
+  - edge_id: edge_per_folder_summary_overview_summary
+    from_station_id: per_folder_summary
+    to_station_id: overview_summary
+    artifact_contract_id: folder_summaries
+  - edge_id: edge_overview_summary_quality_check
+    from_station_id: overview_summary
+    to_station_id: quality_check
+    artifact_contract_id: overview_summary
+  - edge_id: edge_quality_check_artifact_publish
+    from_station_id: quality_check
+    to_station_id: artifact_publish
+    artifact_contract_id: quality_report
+artifact_contracts:
+  - artifact_contract_id: "folder_ref"
+    kind: "folder_reference"
+    description: "用户确认授权后的本地文件夹引用。"
+  - artifact_contract_id: "file_tree"
+    kind: "folder_tree"
+    description: "只读调试扫描树。"
+  - artifact_contract_id: "md_file_list"
+    kind: "markdown_file_list"
+    description: "Markdown 文件列表。"
+  - artifact_contract_id: "parsed_docs"
+    kind: "parsed_markdown_documents"
+    description: "解析后的 Markdown 元数据。"
+  - artifact_contract_id: "grouped_docs"
+    kind: "folder_grouped_documents"
+    description: "按子文件夹分组后的文档引用。"
+  - artifact_contract_id: "folder_summaries"
+    kind: "markdown_summary"
+    description: "每个子文件夹的总结 artifact。"
+  - artifact_contract_id: "overview_summary"
+    kind: "overview_summary"
+    description: "跨文件夹总览总结。"
+  - artifact_contract_id: "quality_report"
+    kind: "quality_report"
+    description: "unsupported 文件、空文件夹和覆盖率。"
+  - artifact_contract_id: "output_package"
+    kind: "artifact_package"
+    description: "发布后的只读 artifact 集。"
+quality_rules:
+  - rule_id: "summary_coverage"
+    description: "每个含 Markdown 的子文件夹都必须有总结。"
+  - rule_id: "unsupported_file_recorded"
+    description: "unsupported 文件必须进入质量报告。"
+  - rule_id: "empty_folder_recorded"
+    description: "空文件夹必须进入质量报告。"
+approval_points:
+  - approval_point_id: "apply_draft"
+    operation: "workflow.folder_summary.apply"
+    policy: "user_confirmed_only"
+  - approval_point_id: "publish_version"
+    operation: "workflow.folder_summary.publish"
+    policy: "user_confirmed_only"
+  - approval_point_id: "run_local_workflow"
+    operation: "workflow.folder_summary.run"
+    policy: "user_confirmed_only"
+context_refs:
+  - context_ref_id: "folder_path"
+    value_label: "Desktop/技术分享"
+  - context_ref_id: "fixture_root"
+    value_label: "tests/fixtures/desktop/技术分享"
+  - context_ref_id: "scope"
+    value_label: "reference_app/demo_a/local"
+evidence_refs:
+  - evidence_ref_id: "v4_1_runtime"
+    kind: "runtime_result"
+    resource_id: "v41_folder_instance_a7dabeaa7ca1"
+  - evidence_ref_id: "v4_1_operation_evidence"
+    kind: "operation_evidence"
+    resource_id: "operation-evidence.json"
+  - evidence_ref_id: "v4_2_reports"
+    kind: "headless_evidence_package"
+    resource_id: "docs/design/V4.2/evidence/headless-interaction"
+  - evidence_ref_id: "artifact_count"
+    kind: "artifact_summary"
+    resource_id: "5"

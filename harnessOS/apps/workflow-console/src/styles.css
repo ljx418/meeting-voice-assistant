@@ -616,6 +616,10 @@ pre {
   background: #fbfcfe;
 }
 
+.studio-canvas .react-flow__node {
+  visibility: visible !important;
+}
+
 .canvas-empty-guide {
   position: absolute;
   z-index: 6;
@@ -868,6 +872,7 @@ pre {
 
 .canvas-node-overview {
   display: flex;
+  align-items: center;
   gap: 6px;
   max-width: calc(100vw - 680px);
   padding: 0 14px 10px;

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v5_7a_rollback_descriptor.schema.json",
+  "title": "V5-7A RollbackDescriptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "rollback_descriptor_id",
+    "operation",
+    "rollback_strategy",
+    "manual_recovery_required",
+    "old_attempt_retained",
+    "correction_ref_allowed",
+    "created_at"
+  ],
+  "properties": {
+    "rollback_descriptor_id": { "type": "string", "minLength": 1 },
+    "operation": {
+      "type": "string",
+      "enum": ["workflow.instance.start", "station.rerun", "artifact.write", "quality.evaluation.create"]
+    },
+    "rollback_strategy": {
+      "type": "string",
+      "enum": [
+        "cancel_or_mark_failed_before_external_effect",
+        "preserve_old_attempt_and_mark_downstream_stale",
+        "append_new_version_or_retract_artifact_ref",
+        "append_correction_evaluation_and_keep_prior_score"
+      ]
+    },
+    "manual_recovery_required": { "type": "boolean" },
+    "old_attempt_retained": { "type": "boolean" },
+    "correction_ref_allowed": { "type": "boolean" },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

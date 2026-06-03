@@ -1,0 +1,102 @@
+{
+  "distributed_runtime_complete": false,
+  "evidence_scope": "real_provider_backed_source_evidence_plus_in_memory_policy_observability_projection",
+  "observability_package": {
+    "audit_events": [
+      {
+        "distributed_run_id": "v5_8b_run_f88c475412b8",
+        "event_id": "audit-event://v5-8d/v5_8b_run_f88c475412b8/start",
+        "event_type": "distributed.run.coordinated",
+        "policy_decision_ref": "policy-credential://v5-8d/v5_8b_run_f88c475412b8",
+        "redaction_status": "redacted",
+        "source": "product_console",
+        "tenant_id": "tenant_v5",
+        "user_confirmed": true,
+        "workflow_instance_id": "u7_parallel_deliberation_5f9cceb94196",
+        "workspace_id": "workspace_v5"
+      },
+      {
+        "artifact_lineage_count": "4",
+        "attempt_station_count": "4",
+        "distributed_run_id": "v5_8b_run_f88c475412b8",
+        "event_id": "audit-event://v5-8d/v5_8b_run_f88c475412b8/lineage",
+        "event_type": "artifact.lineage.projected",
+        "redaction_status": "redacted"
+      }
+    ],
+    "audit_export_package_id": "audit-export://v5-8d/v5_8b_run_f88c475412b8",
+    "distributed_run_id": "v5_8b_run_f88c475412b8",
+    "incident_timeline": [
+      {
+        "created_at": "2026-06-02T03:00:33.199163+00:00",
+        "event_type": "distributed.run.started"
+      }
+    ],
+    "metrics": {
+      "artifact_lineage_count": 4,
+      "assigned_worker_count": 4,
+      "downstream_stale_count": 0
+    },
+    "policy_credential_decision": {
+      "credential_boundary_decision": "all_assigned_workers_have_credential_decision_refs",
+      "decision_id": "policy-credential://v5-8d/v5_8b_run_f88c475412b8",
+      "distributed_run_id": "v5_8b_run_f88c475412b8",
+      "policy_decision": "allow_distributed_projection_only",
+      "redaction_status": "redacted",
+      "source_agent_can_mutate": false,
+      "tenant_id": "tenant_v5",
+      "unrestricted_connector_call_allowed": false,
+      "unrestricted_external_llm_call_allowed": false,
+      "worker_credential_refs": {
+        "worker_architecture_persona": "credential-decision://v5-8b/architecture_persona",
+        "worker_orchestrator": "credential-decision://v5-8b/orchestrator",
+        "worker_product_persona": "credential-decision://v5-8b/product_persona",
+        "worker_risk_persona": "credential-decision://v5-8b/risk_persona"
+      },
+      "workspace_id": "workspace_v5"
+    },
+    "production_ready": false,
+    "readonly": true,
+    "redaction_status": "redacted",
+    "report_actions": [
+      "view",
+      "export"
+    ],
+    "staging_only": true,
+    "tenant_id": "tenant_v5",
+    "workspace_id": "workspace_v5"
+  },
+  "policy_credential_decision": {
+    "credential_boundary_decision": "all_assigned_workers_have_credential_decision_refs",
+    "decision_id": "policy-credential://v5-8d/v5_8b_run_f88c475412b8",
+    "distributed_run_id": "v5_8b_run_f88c475412b8",
+    "policy_decision": "allow_distributed_projection_only",
+    "redaction_status": "redacted",
+    "source_agent_can_mutate": false,
+    "tenant_id": "tenant_v5",
+    "unrestricted_connector_call_allowed": false,
+    "unrestricted_external_llm_call_allowed": false,
+    "worker_credential_refs": {
+      "worker_architecture_persona": "credential-decision://v5-8b/architecture_persona",
+      "worker_orchestrator": "credential-decision://v5-8b/orchestrator",
+      "worker_product_persona": "credential-decision://v5-8b/product_persona",
+      "worker_risk_persona": "credential-decision://v5-8b/risk_persona"
+    },
+    "workspace_id": "workspace_v5"
+  },
+  "production_ready": false,
+  "redaction_status": "redacted",
+  "schema_version": "v5_8d.policy_observability_evidence.v1",
+  "source_agent_can_mutate": false,
+  "source_evidence": {
+    "model_ref": "MiniMax-M2.1",
+    "provider": "minimax",
+    "provider_invocation_count": 7,
+    "real_provider_backed": true,
+    "result_path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-result.json",
+    "scenario": "UX-09-parallel-deliberation",
+    "summary_path": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/result-summary.md"
+  },
+  "stage": "V5-8D Policy Credential Observability Slice",
+  "status": "PASS"
+}

@@ -1,0 +1,20 @@
+{
+  "panel_id": "runtime_report",
+  "title": "运行报告",
+  "readonly": true,
+  "allowed_actions": [
+    "view",
+    "open_report"
+  ],
+  "source_refs": {
+    "runtime_result_ref": "docs/design/V5.x/evidence/v5-4c-existing-v4-runtime-trial/runtime-start-result.json"
+  },
+  "data": {
+    "workflow_instance_id": "v41_folder_instance_5867af5245e3",
+    "status": "completed",
+    "station_count": null,
+    "artifact_count": 5,
+    "source": "v5_4c_existing_v4_runtime_trial"
+  },
+  "redaction_status": "redacted"
+}

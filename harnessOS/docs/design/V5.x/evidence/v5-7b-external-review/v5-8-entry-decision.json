@@ -1,0 +1,33 @@
+{
+  "schema_version": "v5_8.entry_decision.v1",
+  "decision": "GO_FOR_V5_8_PLANNING_AND_PRE_IMPLEMENTATION_AUDIT",
+  "decision_scope": "planning_only",
+  "v5_8_runtime_implementation_allowed": false,
+  "required_before_v5_8_runtime_implementation": [
+    "v5_8_prd_review",
+    "v5_8_architecture_delta_review",
+    "v5_8_distributed_state_recovery_design_review",
+    "v5_8_attempt_history_lineage_review",
+    "v5_8_tenant_policy_credential_boundary_review",
+    "v5_8_test_matrix_acceptance",
+    "v5_8_no_false_green_claim_scan"
+  ],
+  "accepted_inputs": [
+    "v5_7b_dependency_acceptance_for_planning_entry",
+    "v5_7b_limited_runtime_slice_review",
+    "v5_no_false_green_regression",
+    "v5_gap_drawio_xml_validation"
+  ],
+  "not_accepted_as_complete": [
+    "production_controlled_executor_ready",
+    "distributed_multi_agent_runtime_ready",
+    "full_multi_agent_orchestration_ready",
+    "agent_executor_ready",
+    "production_ready_external_app_support"
+  ],
+  "next_documents": [
+    "docs/design/V5.x/v5_8_entry_gate_plan.md",
+    "docs/design/V5.x/v5_8_pre_implementation_audit.md",
+    "docs/design/V5.x/v5_8_development_and_acceptance_plan.md"
+  ]
+}

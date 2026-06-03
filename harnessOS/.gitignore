@@ -1,4 +1,5 @@
 .env
+.env.local
 tui_error.log
 tui_debug.log
 __pycache__/

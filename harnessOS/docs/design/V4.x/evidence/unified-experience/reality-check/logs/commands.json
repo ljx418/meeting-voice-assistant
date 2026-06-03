@@ -1,0 +1,171 @@
+{
+  "drawio": [
+    {
+      "command": "xmllint --noout docs/design/V4.2/evidence/controlled-runtime/rerun_history.drawio",
+      "file": "docs/design/V4.2/evidence/controlled-runtime/rerun_history.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.2/evidence/controlled-runtime/workflow_status.drawio",
+      "file": "docs/design/V4.2/evidence/controlled-runtime/workflow_status.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.2/evidence/headless-interaction/artifact_lineage.drawio",
+      "file": "docs/design/V4.2/evidence/headless-interaction/artifact_lineage.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.2/evidence/headless-interaction/workflow.drawio",
+      "file": "docs/design/V4.2/evidence/headless-interaction/workflow.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.2/evidence/headless-interaction/workflow_status.drawio",
+      "file": "docs/design/V4.2/evidence/headless-interaction/workflow_status.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.3/evidence/serial-video-workflow/video_artifact_lineage.drawio",
+      "file": "docs/design/V4.3/evidence/serial-video-workflow/video_artifact_lineage.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.3/evidence/serial-video-workflow/video_workflow.drawio",
+      "file": "docs/design/V4.3/evidence/serial-video-workflow/video_workflow.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.3/evidence/serial-video-workflow/video_workflow_status.drawio",
+      "file": "docs/design/V4.3/evidence/serial-video-workflow/video_workflow_status.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.4/evidence/parallel-deliberation/deliberation_artifact_lineage.drawio",
+      "file": "docs/design/V4.4/evidence/parallel-deliberation/deliberation_artifact_lineage.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.4/evidence/parallel-deliberation/deliberation_status.drawio",
+      "file": "docs/design/V4.4/evidence/parallel-deliberation/deliberation_status.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.4/evidence/parallel-deliberation/deliberation_workflow.drawio",
+      "file": "docs/design/V4.4/evidence/parallel-deliberation/deliberation_workflow.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.5/evidence/engineering-workflow/engineering_artifact_lineage.drawio",
+      "file": "docs/design/V4.5/evidence/engineering-workflow/engineering_artifact_lineage.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.5/evidence/engineering-workflow/engineering_board.drawio",
+      "file": "docs/design/V4.5/evidence/engineering-workflow/engineering_board.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.5/evidence/engineering-workflow/engineering_status.drawio",
+      "file": "docs/design/V4.5/evidence/engineering-workflow/engineering_status.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifact_lineage.drawio",
+      "file": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifact_lineage.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/workflow.drawio",
+      "file": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/workflow.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/workflow_status.drawio",
+      "file": "docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/workflow_status.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifact_lineage.drawio",
+      "file": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifact_lineage.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/workflow.drawio",
+      "file": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/workflow.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/workflow_status.drawio",
+      "file": "docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/workflow_status.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifact_lineage.drawio",
+      "file": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifact_lineage.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/workflow.drawio",
+      "file": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/workflow.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": "xmllint --noout docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/workflow_status.drawio",
+      "file": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/workflow_status.drawio",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "pytest_v4": {
+    "command": "./.venv/bin/python -m pytest tests/test_v4_0_agent_action_handoff_bff.py tests/test_v4_0_agent_action_handoff_redaction.py tests/test_v4_0_agent_action_handoff_scope.py tests/test_v4_0_agent_action_handoff_user_confirmation.py tests/test_v4_0_agent_action_policy_guard.py tests/test_v4_0_agent_action_proposals_bff.py tests/test_v4_0_agent_action_redaction.py tests/test_v4_0_agent_action_scope.py tests/test_v4_0_agent_handoff_audit.py tests/test_v4_0_agent_handoff_lifecycle.py tests/test_v4_0_agent_handoff_recovery.py tests/test_v4_0_agent_handoff_repository.py tests/test_v4_0_agent_handoff_stale_guards.py tests/test_v4_0_agent_talk_patch_governance.py tests/test_v4_0_agent_talk_stateful_bff.py tests/test_v4_0_agent_talk_stateful_redaction.py tests/test_v4_0_agent_talk_stateful_scope.py tests/test_v4_0_agent_talk_window_preparation.py tests/test_v4_0_agenttalk_interaction_claim_guard.py tests/test_v4_0_agenttalk_interaction_e2e_bff.py tests/test_v4_0_agenttalk_interaction_event_truth.py tests/test_v4_0_agenttalk_interaction_redaction.py tests/test_v4_0_agenttalk_interaction_scope.py tests/test_v4_0_approval_panel_e2e.py tests/test_v4_0_canvas_edge_contracts.py tests/test_v4_0_canvas_editing_readiness_bff.py tests/test_v4_0_canvas_editing_readiness_contract.py tests/test_v4_0_canvas_editing_readiness_redaction.py tests/test_v4_0_canvas_editing_readiness_scope.py tests/test_v4_0_canvas_patch_queue_bff.py tests/test_v4_0_canvas_projection_freshness.py tests/test_v4_0_canvas_proposal_scope_redaction.py tests/test_v4_0_canvas_runtime_bridge_bff.py tests/test_v4_0_canvas_runtime_bridge_contract.py tests/test_v4_0_canvas_runtime_bridge_redaction.py tests/test_v4_0_claim_guard.py tests/test_v4_0_context_panel_e2e.py tests/test_v4_0_contract_doc_alignment.py tests/test_v4_0_controlled_executor_design_gate.py tests/test_v4_0_controlled_executor_implementation_gate.py tests/test_v4_0_editing_hardening_bff_routes.py tests/test_v4_0_executor_approval_gate.py tests/test_v4_0_executor_capability_profile.py tests/test_v4_0_executor_claim_guard.py tests/test_v4_0_executor_evidence_contract.py tests/test_v4_0_executor_policy_matrix.py tests/test_v4_0_executor_sandbox_boundary.py tests/test_v4_0_final_audit_release_gate.py tests/test_v4_0_frontend_no_direct_core_calls.py tests/test_v4_0_governance_review_panel.py tests/test_v4_0_inspector_mapping_v2.py tests/test_v4_0_node_catalog_versioning.py tests/test_v4_0_operation_evidence_bff.py tests/test_v4_0_operation_evidence_correlation.py tests/test_v4_0_operation_evidence_idempotency.py tests/test_v4_0_operation_evidence_redaction.py tests/test_v4_0_operation_evidence_scope.py tests/test_v4_0_operation_panels_bff_routes.py tests/test_v4_0_operation_panels_eventbridge.py tests/test_v4_0_production_auth_claim_guard.py tests/test_v4_0_production_auth_gap.py tests/test_v4_0_production_auth_tenant_boundary_design.py tests/test_v4_0_production_capability_token_binding_design.py tests/test_v4_0_production_claim_guard.py tests/test_v4_0_production_external_app_boundary.py tests/test_v4_0_production_external_app_onboarding_design.py tests/test_v4_0_production_identity_matrix.py tests/test_v4_0_production_oauth_sso_gap_contract.py tests/test_v4_0_production_observability_audit_retention_design.py tests/test_v4_0_production_observability_gap.py tests/test_v4_0_production_readiness_consolidation_gate.py tests/test_v4_0_production_readiness_preflight.py tests/test_v4_0_production_secret_hygiene.py tests/test_v4_0_production_secret_management_design.py tests/test_v4_0_production_tenant_isolation_design.py tests/test_v4_0_production_token_lifecycle_design.py tests/test_v4_0_quality_panel_readonly.py tests/test_v4_0_reference_console_eventbridge_e2e.py tests/test_v4_0_reference_console_operation_panels_e2e.py tests/test_v4_0_reference_console_redaction.py tests/test_v4_0_reference_console_scope_isolation.py tests/test_v4_0_reference_workflow_console_e2e.py tests/test_v4_0_workflow_console_bff_routes.py tests/test_v4_0_workflow_console_eventbridge.py tests/test_v4_0_workflow_console_readonly.py tests/test_v4_0_workflow_console_real_data_bridge.py tests/test_v4_0_workflow_editing_mvp.py tests/test_v4_1_folder_summary_bff.py tests/test_v4_2_controlled_runtime_bff.py tests/test_v4_2_controlled_runtime_design_gate.py tests/test_v4_2_controlled_runtime_evidence.py tests/test_v4_2_drawio_renderer.py tests/test_v4_2_headless_evidence_package.py tests/test_v4_2_headless_false_green.py tests/test_v4_2_html_report_generator.py tests/test_v4_2_thin_web_console.py tests/test_v4_2_tui_transcript_contract.py tests/test_v4_2_workflow_spec_schema.py tests/test_v4_3_video_evidence_package.py tests/test_v4_3_video_false_green.py tests/test_v4_3_video_reports.py tests/test_v4_3_video_rerun_stale.py tests/test_v4_3_video_runtime_runner.py tests/test_v4_3_video_workflow_spec.py tests/test_v4_4_parallel_deliberation.py tests/test_v4_5_engineering_workflow.py tests/test_v4_6_agent_builder.py tests/test_v4_experience_state_projection.py tests/test_v4_interaction_orchestrator_contract.py tests/test_v4_mission_console_closed_loop.py tests/test_v4_mission_console_transcripts.py tests/test_v4_no_false_green_claims.py tests/test_v4_report_schema_projection.py tests/test_v4_review_console_evidence_chain.py tests/test_v4_runtime_capability_matrix.py tests/test_v4_schema_strictness.py tests/test_v4_u5_stage_plan_readiness.py tests/test_v4_u5e_dotenv_secret_hygiene.py tests/test_v4_u5e_evidence_redaction.py tests/test_v4_u5e_llm_provider_invocation.py tests/test_v4_u5e_llm_summary_artifacts.py tests/test_v4_u5e_local_folder_authorization.py tests/test_v4_u5e_markdown_scanner_parser.py tests/test_v4_u5e_minimax_dotenv_plan.py tests/test_v4_u5e_path_guard.py tests/test_v4_u5e_provider_config.py tests/test_v4_u5e_quality_report.py tests/test_v4_u5e_reality_check_update.py tests/test_v4_u7_real_multi_agent_runtime.py tests/test_v4_u7_reality_check_update.py tests/test_v4_u8_manual_acceptance_proxy.py tests/test_v4_u9_final_acceptance.py tests/test_v4_unified_experience_acceptance.py tests/test_v4_unified_experience_state_machine.py tests/test_v4_unified_no_false_green.py tests/test_v4_unified_reality_check_audit.py tests/test_v4_unified_scenario_evidence.py tests/test_v4_workflow_spec_registry.py -q",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "........................................................................ [ 18%]\n........................................................................ [ 36%]\n........................................................................ [ 55%]\n........................................................................ [ 73%]\n........................................................................ [ 92%]\n..............................                                           [100%]\n=============================== warnings summary ===============================\ncore/schemas/__init__.py:54\n  /Users/Zhuanz/Desktop/workspace/harnessOS/core/schemas/__init__.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/\n    class Message(BaseModel):\n\n.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325\n.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325\n.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325\n  /Users/Zhuanz/Desktop/workspace/harnessOS/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325: PydanticDeprecatedSince20: `json_encoders` is deprecated. See https://docs.pydantic.dev/2.13/concepts/serialization/#custom-serializers for alternatives. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/\n    warnings.warn(\n\ncore/schemas/__init__.py:100\n  /Users/Zhuanz/Desktop/workspace/harnessOS/core/schemas/__init__.py:100: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/\n    class WorkflowTask(BaseModel):\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n390 passed, 5 warnings in 70.09s (0:01:10)\n"
+  }
+}

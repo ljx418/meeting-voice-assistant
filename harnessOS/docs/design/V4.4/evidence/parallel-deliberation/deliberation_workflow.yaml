@@ -1,0 +1,47 @@
+metadata:
+  workflow_spec_id: v44_parallel_deliberation
+  stage: V4.4 Parallel Multi-Agent Deliberation Workflow MVP
+stations:
+  - station_id: orchestrator
+    kind: orchestrator
+  - station_id: product_strategist_agent
+    kind: persona_agent
+  - station_id: architecture_agent
+    kind: persona_agent
+  - station_id: risk_reviewer_agent
+    kind: persona_agent
+  - station_id: synthesis
+    kind: synthesis
+  - station_id: contradiction_review
+    kind: quality_station
+edges:
+  - edge_id: edge_orchestrator_product
+    from_station_id: orchestrator
+    to_station_id: product_strategist_agent
+  - edge_id: edge_orchestrator_architecture
+    from_station_id: orchestrator
+    to_station_id: architecture_agent
+  - edge_id: edge_orchestrator_risk
+    from_station_id: orchestrator
+    to_station_id: risk_reviewer_agent
+  - edge_id: edge_product_architecture_inspiration
+    from_station_id: product_strategist_agent
+    to_station_id: architecture_agent
+  - edge_id: edge_architecture_risk_inspiration
+    from_station_id: architecture_agent
+    to_station_id: risk_reviewer_agent
+  - edge_id: edge_product_strategist_agent_synthesis
+    from_station_id: product_strategist_agent
+    to_station_id: synthesis
+  - edge_id: edge_architecture_agent_synthesis
+    from_station_id: architecture_agent
+    to_station_id: synthesis
+  - edge_id: edge_risk_reviewer_agent_synthesis
+    from_station_id: risk_reviewer_agent
+    to_station_id: synthesis
+  - edge_id: edge_synthesis_contradiction_review
+    from_station_id: synthesis
+    to_station_id: contradiction_review
+governance:
+  run_requires_user_confirmed: true
+  source_agent_can_mutate: false

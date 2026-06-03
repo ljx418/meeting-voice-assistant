@@ -1,0 +1,110 @@
+{
+  "allowed_claim": "V6-6 complete: production external app onboarding pilot slice ready for review.",
+  "claim_violations": [],
+  "complete_developer_platform_ready": false,
+  "evidence_scope": "repo_backed_pilot_runtime_slice",
+  "next_stage": "V6-7 Distributed Runtime Productization",
+  "next_stage_entry_decision": "NO-GO for implementation until a separate human high-risk proceed decision and detailed contract audit pass.",
+  "production_customer_onboarding_ready": false,
+  "production_ready_external_app_support": false,
+  "redaction_status": "PASS",
+  "scenario_count": 13,
+  "scenarios": [
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/external_app.register/378df796f00d44c8a8042af3122c060e",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "allow",
+      "scenario_id": "tenant_bound_app_registration",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/origin.evaluate/0e999fb6b4874400ac79a1f31a54d309",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "deny",
+      "scenario_id": "unverified_domain_origin_allowlist_denied",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/origin.allowlist/51de3456589b467d9121fa2e382bf047",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "allow",
+      "scenario_id": "verified_domain_origin_allowlist_allowed",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/origin.evaluate/fcf4a8eea70f413a9b1a9cf6d556dd14",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "deny",
+      "scenario_id": "unknown_origin_denied",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_other/v6-6/origin.evaluate/c320391870994e0582221291e7b4526d",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "deny",
+      "scenario_id": "wrong_tenant_app_access_denied",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/quota.evaluate/81d46b89c81c4f78851e51282bb2464f",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "deny",
+      "scenario_id": "quota_denial_auditable",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/quota.evaluate/12db14adaed84368b97e2143cf9db3ee",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "deny",
+      "scenario_id": "rate_limit_denial_auditable",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/sdk.compatibility.evaluate/4a998be747a448929b45714e2ca1cd52",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "deny",
+      "scenario_id": "browser_sdk_no_direct_internal_runtime_route",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/sdk.compatibility.evaluate/5a53396309664bc39847a177368dbb05",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "allow",
+      "scenario_id": "browser_sdk_bff_route_allowlist_only",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/external_app.offboard/17dc28ee3bd94143945f331e0f2cf3ed",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "allow",
+      "scenario_id": "offboarding_revokes_credentials",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/external_app.offboard/17dc28ee3bd94143945f331e0f2cf3ed",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "allow",
+      "scenario_id": "offboarding_revokes_origins",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/external_app.offboard/17dc28ee3bd94143945f331e0f2cf3ed",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "allow",
+      "scenario_id": "offboarding_revokes_sessions",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://correlation_tenant_v6_6/v6-6/external_app.offboard/17dc28ee3bd94143945f331e0f2cf3ed",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "policy_decision": "allow",
+      "scenario_id": "offboarding_revokes_pending_grants",
+      "status": "PASS"
+    }
+  ],
+  "schema_version": "v6_6.external_app_onboarding.acceptance.v1",
+  "stage": "V6-6",
+  "status": "PASS",
+  "v6_7_implementation_started": false,
+  "v6_9_final_acceptance_executed": false
+}

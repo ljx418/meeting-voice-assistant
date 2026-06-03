@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/runtime_capability_matrix.schema.json",
+  "title": "V4.x Runtime Capability Matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "capability_id",
+    "target_type",
+    "status",
+    "evidence_ref",
+    "stage_owner",
+    "runtime_backed",
+    "deterministic_only",
+    "false_green_risk",
+    "agent_executable",
+    "requires_user_confirmation"
+  ],
+  "properties": {
+    "capability_id": { "type": "string", "minLength": 1 },
+    "target_type": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["supported", "partial", "planned", "unsupported"] },
+    "evidence_ref": { "type": "string" },
+    "stage_owner": { "type": "string", "minLength": 1 },
+    "runtime_backed": { "type": "boolean" },
+    "deterministic_only": { "type": "boolean" },
+    "false_green_risk": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+    "agent_executable": { "type": "boolean" },
+    "requires_user_confirmation": { "type": "boolean" }
+  }
+}

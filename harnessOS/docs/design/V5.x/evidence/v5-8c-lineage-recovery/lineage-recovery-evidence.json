@@ -1,0 +1,266 @@
+{
+  "artifact_lineage": {
+    "artifact://v5-8b/architecture_review/attempt-1": {
+      "artifact_ref": "artifact://v5-8b/architecture_review/attempt-1",
+      "lineage_status": "active",
+      "previous_attempt_id": null,
+      "producer_attempt_id": "v5_8b_attempt_ff9ecc324897",
+      "producer_worker_id": "worker_architecture_review",
+      "station_id": "architecture_review"
+    },
+    "artifact://v5-8b/product_planning/attempt-1": {
+      "artifact_ref": "artifact://v5-8b/product_planning/attempt-1",
+      "lineage_status": "active",
+      "previous_attempt_id": null,
+      "producer_attempt_id": "v5_8b_attempt_1801dc39456b",
+      "producer_worker_id": "worker_product_planning",
+      "station_id": "product_planning"
+    },
+    "artifact://v5-8b/project_blueprint/attempt-1": {
+      "artifact_ref": "artifact://v5-8b/project_blueprint/attempt-1",
+      "lineage_status": "active",
+      "previous_attempt_id": null,
+      "producer_attempt_id": "v5_8b_attempt_70edd49466f6",
+      "producer_worker_id": "worker_project_blueprint",
+      "station_id": "project_blueprint"
+    },
+    "artifact://v5-8b/project_blueprint/attempt-2": {
+      "artifact_ref": "artifact://v5-8b/project_blueprint/attempt-2",
+      "lineage_status": "recovered",
+      "previous_attempt_id": "v5_8b_attempt_70edd49466f6",
+      "producer_attempt_id": "v5_8b_attempt_a2e125d499e7",
+      "producer_worker_id": "worker_project_blueprint_replacement",
+      "station_id": "project_blueprint"
+    },
+    "artifact://v5-8b/specification/attempt-1": {
+      "artifact_ref": "artifact://v5-8b/specification/attempt-1",
+      "lineage_status": "active",
+      "previous_attempt_id": null,
+      "producer_attempt_id": "v5_8b_attempt_30ea79ad50bb",
+      "producer_worker_id": "worker_specification",
+      "station_id": "specification"
+    }
+  },
+  "attempt_history": {
+    "architecture_review": [
+      {
+        "attempt_id": "v5_8b_attempt_ff9ecc324897",
+        "attempt_number": 1,
+        "created_at": "2026-06-02T02:57:50.545258+00:00",
+        "previous_attempt_id": null,
+        "producer_artifact_ref": "artifact://v5-8b/architecture_review/attempt-1",
+        "recovery_reason": null,
+        "station_id": "architecture_review",
+        "status": "assigned",
+        "worker_id": "worker_architecture_review"
+      }
+    ],
+    "product_planning": [
+      {
+        "attempt_id": "v5_8b_attempt_1801dc39456b",
+        "attempt_number": 1,
+        "created_at": "2026-06-02T02:57:50.545187+00:00",
+        "previous_attempt_id": null,
+        "producer_artifact_ref": "artifact://v5-8b/product_planning/attempt-1",
+        "recovery_reason": null,
+        "station_id": "product_planning",
+        "status": "assigned",
+        "worker_id": "worker_product_planning"
+      }
+    ],
+    "project_blueprint": [
+      {
+        "attempt_id": "v5_8b_attempt_70edd49466f6",
+        "attempt_number": 1,
+        "created_at": "2026-06-02T02:57:50.545240+00:00",
+        "previous_attempt_id": null,
+        "producer_artifact_ref": "artifact://v5-8b/project_blueprint/attempt-1",
+        "recovery_reason": null,
+        "station_id": "project_blueprint",
+        "status": "assigned",
+        "worker_id": "worker_project_blueprint"
+      },
+      {
+        "attempt_id": "v5_8b_attempt_a2e125d499e7",
+        "attempt_number": 2,
+        "created_at": "2026-06-02T02:57:50.546361+00:00",
+        "previous_attempt_id": "v5_8b_attempt_70edd49466f6",
+        "producer_artifact_ref": "artifact://v5-8b/project_blueprint/attempt-2",
+        "recovery_reason": "worker_recovery",
+        "station_id": "project_blueprint",
+        "status": "completed_after_worker_recovery",
+        "worker_id": "worker_project_blueprint_replacement"
+      }
+    ],
+    "specification": [
+      {
+        "attempt_id": "v5_8b_attempt_30ea79ad50bb",
+        "attempt_number": 1,
+        "created_at": "2026-06-02T02:57:50.545220+00:00",
+        "previous_attempt_id": null,
+        "producer_artifact_ref": "artifact://v5-8b/specification/attempt-1",
+        "recovery_reason": null,
+        "station_id": "specification",
+        "status": "assigned",
+        "worker_id": "worker_specification"
+      }
+    ]
+  },
+  "distributed_runtime_complete": false,
+  "evidence_scope": "real_provider_backed_source_evidence_plus_in_memory_lineage_recovery",
+  "production_ready": false,
+  "recovery_station": "project_blueprint",
+  "redaction_status": "redacted",
+  "runtime_report": {
+    "artifact_lineage": {
+      "artifact://v5-8b/architecture_review/attempt-1": {
+        "artifact_ref": "artifact://v5-8b/architecture_review/attempt-1",
+        "lineage_status": "active",
+        "previous_attempt_id": null,
+        "producer_attempt_id": "v5_8b_attempt_ff9ecc324897",
+        "producer_worker_id": "worker_architecture_review",
+        "station_id": "architecture_review"
+      },
+      "artifact://v5-8b/product_planning/attempt-1": {
+        "artifact_ref": "artifact://v5-8b/product_planning/attempt-1",
+        "lineage_status": "active",
+        "previous_attempt_id": null,
+        "producer_attempt_id": "v5_8b_attempt_1801dc39456b",
+        "producer_worker_id": "worker_product_planning",
+        "station_id": "product_planning"
+      },
+      "artifact://v5-8b/project_blueprint/attempt-1": {
+        "artifact_ref": "artifact://v5-8b/project_blueprint/attempt-1",
+        "lineage_status": "active",
+        "previous_attempt_id": null,
+        "producer_attempt_id": "v5_8b_attempt_70edd49466f6",
+        "producer_worker_id": "worker_project_blueprint",
+        "station_id": "project_blueprint"
+      },
+      "artifact://v5-8b/project_blueprint/attempt-2": {
+        "artifact_ref": "artifact://v5-8b/project_blueprint/attempt-2",
+        "lineage_status": "recovered",
+        "previous_attempt_id": "v5_8b_attempt_70edd49466f6",
+        "producer_attempt_id": "v5_8b_attempt_a2e125d499e7",
+        "producer_worker_id": "worker_project_blueprint_replacement",
+        "station_id": "project_blueprint"
+      },
+      "artifact://v5-8b/specification/attempt-1": {
+        "artifact_ref": "artifact://v5-8b/specification/attempt-1",
+        "lineage_status": "active",
+        "previous_attempt_id": null,
+        "producer_attempt_id": "v5_8b_attempt_30ea79ad50bb",
+        "producer_worker_id": "worker_specification",
+        "station_id": "specification"
+      }
+    },
+    "attempt_history": {
+      "architecture_review": [
+        {
+          "attempt_id": "v5_8b_attempt_ff9ecc324897",
+          "attempt_number": 1,
+          "created_at": "2026-06-02T02:57:50.545258+00:00",
+          "previous_attempt_id": null,
+          "producer_artifact_ref": "artifact://v5-8b/architecture_review/attempt-1",
+          "recovery_reason": null,
+          "station_id": "architecture_review",
+          "status": "assigned",
+          "worker_id": "worker_architecture_review"
+        }
+      ],
+      "product_planning": [
+        {
+          "attempt_id": "v5_8b_attempt_1801dc39456b",
+          "attempt_number": 1,
+          "created_at": "2026-06-02T02:57:50.545187+00:00",
+          "previous_attempt_id": null,
+          "producer_artifact_ref": "artifact://v5-8b/product_planning/attempt-1",
+          "recovery_reason": null,
+          "station_id": "product_planning",
+          "status": "assigned",
+          "worker_id": "worker_product_planning"
+        }
+      ],
+      "project_blueprint": [
+        {
+          "attempt_id": "v5_8b_attempt_70edd49466f6",
+          "attempt_number": 1,
+          "created_at": "2026-06-02T02:57:50.545240+00:00",
+          "previous_attempt_id": null,
+          "producer_artifact_ref": "artifact://v5-8b/project_blueprint/attempt-1",
+          "recovery_reason": null,
+          "station_id": "project_blueprint",
+          "status": "assigned",
+          "worker_id": "worker_project_blueprint"
+        },
+        {
+          "attempt_id": "v5_8b_attempt_a2e125d499e7",
+          "attempt_number": 2,
+          "created_at": "2026-06-02T02:57:50.546361+00:00",
+          "previous_attempt_id": "v5_8b_attempt_70edd49466f6",
+          "producer_artifact_ref": "artifact://v5-8b/project_blueprint/attempt-2",
+          "recovery_reason": "worker_recovery",
+          "station_id": "project_blueprint",
+          "status": "completed_after_worker_recovery",
+          "worker_id": "worker_project_blueprint_replacement"
+        }
+      ],
+      "specification": [
+        {
+          "attempt_id": "v5_8b_attempt_30ea79ad50bb",
+          "attempt_number": 1,
+          "created_at": "2026-06-02T02:57:50.545220+00:00",
+          "previous_attempt_id": null,
+          "producer_artifact_ref": "artifact://v5-8b/specification/attempt-1",
+          "recovery_reason": null,
+          "station_id": "specification",
+          "status": "assigned",
+          "worker_id": "worker_specification"
+        }
+      ]
+    },
+    "distributed_run_id": "v5_8b_run_397419e77f65",
+    "downstream_stale": [
+      "downstream-of:project_blueprint"
+    ],
+    "incident_timeline": [
+      {
+        "created_at": "2026-06-02T02:57:50.545266+00:00",
+        "event_type": "distributed.run.started"
+      },
+      {
+        "created_at": "2026-06-02T02:57:50.546383+00:00",
+        "event_type": "worker.lost.recovered",
+        "station_id": "project_blueprint"
+      }
+    ],
+    "production_ready": false,
+    "readonly": true,
+    "redaction_status": "redacted",
+    "report_actions": [
+      "view",
+      "export"
+    ],
+    "report_id": "runtime-report://v5-8c/v5_8b_run_397419e77f65",
+    "source_refs": [
+      "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json",
+      "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/result-summary.md"
+    ],
+    "staging_only": true,
+    "status": "running",
+    "workflow_instance_id": "u7_engineering_workflow_91f94f96edd7"
+  },
+  "schema_version": "v5_8c.lineage_recovery_evidence.v1",
+  "source_agent_can_mutate": false,
+  "source_evidence": {
+    "model_ref": "MiniMax-M2.1",
+    "provider": "minimax",
+    "provider_invocation_count": 12,
+    "real_provider_backed": true,
+    "result_path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json",
+    "scenario": "UX-10-engineering-workflow",
+    "summary_path": "docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/result-summary.md"
+  },
+  "stage": "V5-8C Artifact Lineage And Attempt Recovery Slice",
+  "status": "PASS"
+}

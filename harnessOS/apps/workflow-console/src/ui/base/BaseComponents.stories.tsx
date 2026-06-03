@@ -31,7 +31,7 @@ function ComponentGallery() {
           </div>
           <div style={{ display: "grid", gap: "var(--hos-space-3)", gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }}>
             <ArtifactCard kind="Markdown" name="AgentOS_总结.md" summary="包含内容概览、核心主题、关键知识点和引用文件。" />
-            <EvidenceCard handoffId="handoff_001" operationType="workflow.patch.apply" policyDecision="user_confirmed_only" proposalId="proposal_001" redactionStatus="redacted" />
+            <EvidenceCard handoffId="handoff_001" operationType="workflow.folder_summary.apply" policyDecision="user_confirmed_only" proposalId="proposal_001" redactionStatus="redacted" />
             <EmptyState title="暂无运行数据" message="运行工作流后，这里会显示节点状态和产物。" />
             <ErrorState title="连接失败" message="请检查本地 BFF 服务是否启动。" />
           </div>

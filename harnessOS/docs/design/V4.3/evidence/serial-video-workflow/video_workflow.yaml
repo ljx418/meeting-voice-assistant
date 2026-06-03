@@ -1,0 +1,44 @@
+metadata:
+  workflow_spec_id: v43_serial_video_creation
+  stage: V4.3 Serial Multi-Agent Video Workflow MVP
+stations:
+  - station_id: writer_agent
+    name: 编剧 Agent
+    role: Writer Agent
+    model_ref: dev_local_text_model
+    tool_refs: brief_reader
+    skill_refs: script_outline
+  - station_id: storyboard_agent
+    name: 分镜 Agent
+    role: Storyboard Agent
+    model_ref: dev_local_text_model
+    tool_refs: scene_planner
+    skill_refs: storyboard_planning
+  - station_id: copywriting_agent
+    name: 文案 Agent
+    role: Copywriting Agent
+    model_ref: dev_local_text_model
+    tool_refs: copy_template
+    skill_refs: short_copy
+  - station_id: editing_plan_agent
+    name: 剪辑计划 Agent
+    role: Editing Plan Agent
+    model_ref: dev_local_text_model
+    tool_refs: timeline_planner
+    skill_refs: editing_plan
+  - station_id: quality_review_agent
+    name: 质量审查 Agent
+    role: Quality Review Agent
+    model_ref: dev_local_rule_model
+    tool_refs: quality_rules
+    skill_refs: video_quality_review
+  - station_id: publish_preparation_agent
+    name: 发布准备 Agent
+    role: Publish Preparation Agent
+    model_ref: dev_local_text_model
+    tool_refs: publish_checklist
+    skill_refs: publish_package
+governance:
+  source_agent_can_mutate: false
+  run_requires_user_confirmed: true
+  rerun_requires_user_confirmed: true

@@ -1,0 +1,87 @@
+[
+  {
+    "evidence_id": "v45_evidence_34d21a499af4",
+    "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+    "workflow_template_id": "v45_engineering_template",
+    "operation": "workflow.instance.start",
+    "operation_type": "workflow.instance.start",
+    "status": "succeeded",
+    "correlation_id": "corr_fd6a94c7757c",
+    "operation_id": "op_21b8a4c9092e",
+    "idempotency_key": "idem_159c0a0eb5de",
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "dev_local_engineering_workflow"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_engineering_workflow_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "workflow_instance",
+      "resource_id": "v45_engineering_instance_fcff71ec3a8d",
+      "status": "completed",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "trace_id": "trace_9bce8b29"
+    },
+    "created_at": "2026-05-29T07:07:43.324648+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  },
+  {
+    "evidence_id": "v45_evidence_d6066931f8d2",
+    "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+    "workflow_template_id": "v45_engineering_template",
+    "operation": "station.rerun",
+    "operation_type": "station.rerun",
+    "status": "succeeded",
+    "correlation_id": "corr_68ad6d100308",
+    "operation_id": "op_28252d769b2d",
+    "idempotency_key": "idem_0a7eb24c4752",
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "stage_rerun",
+      "downstream_stale"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_engineering_workflow_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "stage_attempt",
+      "resource_id": "attempt_code_review_2",
+      "status": "completed",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "trace_id": "trace_d36f3b88"
+    },
+    "created_at": "2026-05-29T07:07:43.330665+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  },
+  {
+    "evidence_id": "v45_evidence_4c6d36e67f7a",
+    "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+    "workflow_template_id": "v45_engineering_template",
+    "operation": "workflow.instance.continue_downstream",
+    "operation_type": "workflow.instance.continue_downstream",
+    "status": "succeeded",
+    "correlation_id": "corr_73046fe4cc11",
+    "operation_id": "op_5e5bce8115a5",
+    "idempotency_key": "idem_12d452a5c84f",
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "engineering_continue"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_engineering_workflow_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "workflow_instance",
+      "resource_id": "v45_engineering_instance_fcff71ec3a8d",
+      "status": "completed",
+      "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+      "trace_id": "trace_369a81ff"
+    },
+    "created_at": "2026-05-29T07:07:43.335222+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "blocking_findings": [],
+  "candidate_action_count": 4,
+  "excluded_action_count": 6,
+  "design_only": true,
+  "runtime_execution_enabled": false,
+  "source_agent_forbidden": true,
+  "artifact_write_risk": "medium",
+  "quality_evaluation_create_risk": "medium"
+}

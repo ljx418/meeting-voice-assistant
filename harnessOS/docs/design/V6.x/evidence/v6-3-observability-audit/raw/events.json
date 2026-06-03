@@ -1,0 +1,163 @@
+[
+  {
+    "actor_id": "actor_v6",
+    "actor_type": "human_user",
+    "app_id": "app_workflow",
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.083234+00:00",
+    "event_id": "obs_event_f2986dea989d4f1ea50d4d82da254bd7",
+    "event_type": "identity.scope.allowed",
+    "metadata": {
+      "stage": "V6-1"
+    },
+    "operation": "report.open",
+    "policy_decision": "allow",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "req_v6_3_e2e",
+    "source_refs": {
+      "evidence_ref": "evidence://v6-1/identity"
+    },
+    "target_refs": {
+      "workflow_instance_id": "wfi_v6_1"
+    },
+    "tenant_id": "tenant_alpha",
+    "user_confirmed": false,
+    "workspace_id": "workspace_docs"
+  },
+  {
+    "actor_id": "actor_v6",
+    "actor_type": "human_user",
+    "app_id": "app_workflow",
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.083601+00:00",
+    "event_id": "obs_event_50bf3dc94192492ebb73d7e05b769b76",
+    "event_type": "provider.invocation.recorded",
+    "metadata": {
+      "model_ref": "MiniMax-M2.1",
+      "provider": "minimax",
+      "stage": "V6-2"
+    },
+    "operation": "provider.invoke",
+    "policy_decision": "allow",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "req_v6_3_e2e",
+    "source_refs": {
+      "evidence_ref": "evidence://v6-2/provider",
+      "runtime_result_ref": "runtime://v6-2/provider-smoke"
+    },
+    "target_refs": {
+      "credential_lease_id": "lease_v6_2",
+      "provider_profile_id": "provider_profile_minimax_v6"
+    },
+    "tenant_id": "tenant_alpha",
+    "user_confirmed": false,
+    "workspace_id": "workspace_docs"
+  },
+  {
+    "actor_id": "actor_v6",
+    "actor_type": "human_user",
+    "app_id": "app_workflow",
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.083750+00:00",
+    "event_id": "obs_event_e9a3a2d09e2e40c19b40da8b2df9ecca",
+    "event_type": "runtime.failure.recorded",
+    "metadata": {
+      "reason": "fixture_failure",
+      "stage": "V6-3"
+    },
+    "operation": "station.rerun",
+    "policy_decision": "deny",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "req_v6_3_e2e",
+    "source_refs": {
+      "evidence_ref": "evidence://v6-3/failure"
+    },
+    "target_refs": {
+      "station_run_id": "station_run_failed_v6"
+    },
+    "tenant_id": "tenant_alpha",
+    "user_confirmed": false,
+    "workspace_id": "workspace_docs"
+  },
+  {
+    "actor_id": "actor_v6",
+    "actor_type": "human_user",
+    "app_id": "app_workflow",
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.083869+00:00",
+    "event_id": "obs_event_75699d316b6f4c2e8477e37252197b64",
+    "event_type": "runtime.retry.recorded",
+    "metadata": {
+      "stage": "V6-3"
+    },
+    "operation": "station.rerun",
+    "policy_decision": "allow",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "req_v6_3_e2e",
+    "source_refs": {
+      "evidence_ref": "evidence://v6-3/retry"
+    },
+    "target_refs": {
+      "station_run_id": "station_run_retry_v6"
+    },
+    "tenant_id": "tenant_alpha",
+    "user_confirmed": true,
+    "workspace_id": "workspace_docs"
+  },
+  {
+    "actor_id": "actor_v6",
+    "actor_type": "human_user",
+    "app_id": "app_workflow",
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.083980+00:00",
+    "event_id": "obs_event_d57a2800ee7845f0b00b69c6c06c6ce1",
+    "event_type": "kill_switch.checked",
+    "metadata": {
+      "stage": "V6-3"
+    },
+    "operation": "kill_switch.check",
+    "policy_decision": "allow",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "req_v6_3_e2e",
+    "source_refs": {
+      "evidence_ref": "evidence://v6-3/kill-switch"
+    },
+    "target_refs": {
+      "runtime_result_ref": "runtime://v6-3/kill-switch"
+    },
+    "tenant_id": "tenant_alpha",
+    "user_confirmed": false,
+    "workspace_id": "workspace_docs"
+  },
+  {
+    "actor_id": "actor_v6",
+    "actor_type": "human_user",
+    "app_id": "app_workflow",
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.084086+00:00",
+    "event_id": "obs_event_71c2b79d5a134650b89ef993e466ccdc",
+    "event_type": "rollback.recorded",
+    "metadata": {
+      "stage": "V6-3"
+    },
+    "operation": "rollback.record",
+    "policy_decision": "allow",
+    "project_id": "project_v6",
+    "redaction_status": "redacted",
+    "request_id": "req_v6_3_e2e",
+    "source_refs": {
+      "evidence_ref": "evidence://v6-3/rollback"
+    },
+    "target_refs": {
+      "rollback_ref": "rollback://v6-3/recorded"
+    },
+    "tenant_id": "tenant_alpha",
+    "user_confirmed": false,
+    "workspace_id": "workspace_docs"
+  }
+]

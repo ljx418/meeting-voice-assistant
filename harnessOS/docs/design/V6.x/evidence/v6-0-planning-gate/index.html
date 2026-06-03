@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>V6-0 Production Pilot Planning Gate</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #0f172a;
+        background: #f8fafc;
+      }
+      main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 32px;
+      }
+      section {
+        margin: 18px 0;
+        padding: 20px;
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+      }
+      h1,
+      h2 {
+        margin: 0 0 12px;
+      }
+      .status {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #dcfce7;
+        color: #166534;
+        font-weight: 700;
+      }
+      .warning {
+        background: #fee2e2;
+        border-color: #dc2626;
+      }
+      code {
+        background: #f1f5f9;
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+      li {
+        margin: 7px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>V6-0 Production Pilot Planning Gate</h1>
+        <p><span class="status">PASS</span></p>
+        <p>Allowed claim: <code>V6-0 complete: production pilot planning gate ready for review.</code></p>
+        <p>Scope: planning gate only. No V6 runtime implementation started.</p>
+      </section>
+
+      <section>
+        <h2>Evidence Summary</h2>
+        <ul>
+          <li>Canonical V6 docs exist.</li>
+          <li>Drawio atlas uses Chinese pages and covers architecture delta, target architecture, specifications, development flow, milestones, acceptance gates, and exit conditions.</li>
+          <li>V6-0 external audit P0 closure evidence exists.</li>
+          <li>PRD spec review: PASS.</li>
+          <li>False Green evaluation: PASS / LOW.</li>
+          <li>Next stage: V6-1 only after V6-0 external audit P0 closure.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Drawio Pages</h2>
+        <ol>
+          <li>01 阅读指南</li>
+          <li>02 当前架构与目标架构差异</li>
+          <li>03 V6 目标架构平面</li>
+          <li>04 功能规格矩阵</li>
+          <li>05 开发及验收流程</li>
+          <li>06 项目里程碑</li>
+          <li>07 验收门槛</li>
+          <li>08 出门条件与停止条件</li>
+        </ol>
+      </section>
+
+      <section class="warning">
+        <h2>No False Green Boundary</h2>
+        <p>V6-0 does not prove complete Workflow Studio, Agent executor, production controlled executor, production-ready external app support, full multi-Agent orchestration, distributed multi-Agent runtime, autonomous workflow editing, enterprise auth, or multi-tenant control plane readiness.</p>
+      </section>
+
+      <section>
+        <h2>Raw Data</h2>
+        <ul>
+          <li><a href="acceptance-data.json">acceptance-data.json</a></li>
+          <li><a href="result-summary.md">result-summary.md</a></li>
+          <li><a href="claims-scan.md">claims-scan.md</a></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

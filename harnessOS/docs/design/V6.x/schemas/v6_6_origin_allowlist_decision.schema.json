@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v6_6_origin_allowlist_decision.schema.json",
+  "title": "OriginAllowlistDecisionDTO",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tenant_id",
+    "workspace_id",
+    "app_id",
+    "service_account_id",
+    "actor_id",
+    "request_id",
+    "correlation_id",
+    "audit_ref",
+    "policy_decision",
+    "created_at",
+    "origin",
+    "domain_verification_ref",
+    "decision"
+  ],
+  "properties": {
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "app_id": { "type": "string", "minLength": 1 },
+    "service_account_id": { "type": "string", "minLength": 1 },
+    "actor_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "policy_decision": { "enum": ["allow", "deny", "needs_review"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "origin": { "type": "string", "minLength": 1 },
+    "domain_verification_ref": { "type": "string", "minLength": 1 },
+    "decision": { "enum": ["allow", "deny"] },
+    "denial_reason": { "type": ["string", "null"] }
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "workflow_instance_id": "v45_engineering_instance_fcff71ec3a8d",
+  "stages": [
+    {
+      "stage_id": "product_planning",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_product_planning_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ]
+    },
+    {
+      "stage_id": "specification",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_specification_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ]
+    },
+    {
+      "stage_id": "project_blueprint",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_project_blueprint_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ]
+    },
+    {
+      "stage_id": "architecture_review",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_architecture_review_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ]
+    },
+    {
+      "stage_id": "substage_plan_audit",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_substage_plan_audit_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ]
+    },
+    {
+      "stage_id": "substage_architecture_review",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_substage_architecture_review_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ]
+    },
+    {
+      "stage_id": "implementation_run",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_implementation_run_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ]
+    },
+    {
+      "stage_id": "development_acceptance",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_development_acceptance_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        }
+      ]
+    },
+    {
+      "stage_id": "code_review",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_code_review_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        },
+        {
+          "attempt_id": "attempt_code_review_2",
+          "attempt": 2,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.330591+00:00"
+        }
+      ]
+    },
+    {
+      "stage_id": "e2e_acceptance",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_e2e_acceptance_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        },
+        {
+          "attempt_id": "attempt_e2e_acceptance_2",
+          "attempt": 2,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.335145+00:00"
+        }
+      ]
+    },
+    {
+      "stage_id": "human_confirmation",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_human_confirmation_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.324205+00:00"
+        },
+        {
+          "attempt_id": "attempt_human_confirmation_2",
+          "attempt": 2,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-29T07:07:43.335145+00:00"
+        }
+      ]
+    }
+  ],
+  "redaction_status": "redacted"
+}

@@ -278,6 +278,35 @@ export interface FolderSummaryRun {
   redaction_status: "redacted";
 }
 
+export interface ControlledRuntimeEvidenceRecord extends OperationEvidenceRecord {
+  operation_type?: string;
+  capability_decision?: string;
+  timeout_baseline?: { enabled: boolean; timeout_seconds?: number; status: string };
+  kill_switch_baseline?: { enabled: boolean; scope?: string; status: string };
+}
+
+export interface ControlledRuntimeResult {
+  workflow_instance_id: string;
+  workflow_template_id: string;
+  status: string;
+  backed_by: "generic_controlled_runtime";
+  user_confirmed_required: true;
+  agent_mutation_allowed: false;
+  nodes: FolderSummaryRun["nodes"];
+  artifacts: FolderSummaryArtifact[];
+  quality_report: FolderSummaryQualityReport;
+  attempt_history: {
+    workflow_instance_id: string;
+    stations: Array<{ station_id: string; status: string; attempts: FolderSummaryNodeAttempt[] }>;
+    redaction_status: "redacted";
+  };
+  downstream_stale: Array<{ station_id: string; reason: string; requires_user_confirmed_continue: true }>;
+  operation_evidence: ControlledRuntimeEvidenceRecord[];
+  timeout_baseline: { enabled: boolean; timeout_seconds?: number; status: string };
+  kill_switch_baseline: { enabled: boolean; scope?: string; status: string };
+  redaction_status: "redacted";
+}
+
 export interface NodeAddIntent {
   source: "canvas";
   intent_type: "node_add";

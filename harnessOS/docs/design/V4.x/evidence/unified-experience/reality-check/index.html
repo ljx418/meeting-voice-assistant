@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>V4 Unified Experience Reality Check Audit</title>
+  <style>
+    :root { color-scheme: light; --bg:#f6f8fb; --card:#fff; --ink:#152033; --muted:#667085; --line:#d8dee9; --pass:#047857; --partial:#b45309; --fail:#b42318; --blocked:#6941c6; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg); color:var(--ink); }
+    header { padding:28px 36px; background:#ffffff; border-bottom:1px solid var(--line); }
+    h1 { margin:0 0 8px; font-size:28px; }
+    h2 { margin:0 0 14px; font-size:20px; }
+    .muted { color:var(--muted); }
+    .grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-top:18px; }
+    .metric,.card,.section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+    .metric strong { display:block; font-size:30px; }
+    main { padding:24px 36px 40px; }
+    .warning { border:1px solid #fda29b; background:#fff1f0; color:#7a271a; padding:16px; border-radius:10px; margin-bottom:18px; }
+    .cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .badge { display:inline-flex; padding:3px 9px; border-radius:999px; font-size:12px; font-weight:700; border:1px solid currentColor; }
+    .PASS { color:var(--pass); }
+    .PARTIAL { color:var(--partial); }
+    .FAIL { color:var(--fail); }
+    .BLOCKED { color:var(--blocked); }
+    ul { padding-left:20px; }
+    a { color:#175cd3; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .kv { display:grid; grid-template-columns:170px 1fr; gap:6px 10px; font-size:14px; margin:10px 0; }
+    .links { display:flex; flex-wrap:wrap; gap:8px; }
+    .links a { border:1px solid var(--line); border-radius:8px; padding:6px 8px; background:#f8fafc; }
+    code { background:#eef2f6; padding:2px 5px; border-radius:5px; }
+    @media (max-width: 980px) { .grid,.cards { grid-template-columns:1fr; } main,header { padding-left:18px; padding-right:18px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>V4 Unified Experience Reality Check Audit / V4 统一体验实证审计</h1>
+    <div class="muted">Generated at 2026-06-01T07:25:38.255495+00:00. Baseline: V4.6 complete: governed Agent workflow builder UX ready for dev/local validation.</div>
+    <div class="grid">
+      <div class="metric"><span>PASS</span><strong class="PASS">12</strong></div>
+      <div class="metric"><span>PARTIAL</span><strong class="PARTIAL">0</strong></div>
+      <div class="metric"><span>FAIL</span><strong class="FAIL">0</strong></div>
+      <div class="metric"><span>BLOCKED</span><strong class="BLOCKED">0</strong></div>
+    </div>
+  </header>
+  <main>
+    
+    <section class="section">
+      <h2>U6 Recommendation</h2>
+      <p><strong>allow_enter_v4_u6:</strong> True</p>
+      <p><strong>requires_human_proceed_decision:</strong> False</p>
+      <p>All UX cases and global assertions passed.</p>
+    </section>
+    <section class="section">
+      <h2>Red Warning Section</h2>
+      <p><strong>Forbidden claim violations:</strong> None. Guarded mentions are recorded in claims-audit.md.</p>
+      <p><strong>High false-green risk UX:</strong> None</p>
+      <p><strong>Sensitive leakage status:</strong> PASS</p>
+    </section>
+    <section class="cards">
+      <article class="card">
+        <h2>UX-01 自然语言创建工作流 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>transcript_only</code></div>
+          <div>runtime_backed</div><div>False</div>
+          <div>deterministic_only</div><div>False</div>
+          <div>transcript_only</div><div>True</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>MEDIUM</div>
+          <div>claim_risk</div><div>MEDIUM</div>
+        </div>
+        <p>WorkflowSpec evidence exists, but this path is transcript/spec backed and must not be treated as real runtime mutation.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.x/evidence/unified-experience/mission_console_transcript.txt'>mission_console_transcript.txt</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/workflow.yaml'>workflow.yaml</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/workflow.json'>workflow.json</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/workflow.schema.json'>workflow.schema.json</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/result-summary.md'>result-summary.md</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-02 Workflow Blueprint 可视化 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>report_only</code></div>
+          <div>runtime_backed</div><div>False</div>
+          <div>deterministic_only</div><div>True</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>True</div>
+          <div>false_green_risk</div><div>LOW</div>
+          <div>claim_risk</div><div>LOW</div>
+        </div>
+        <p>Drawio files are visualization only and are not runtime truth.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/workflow.drawio'>workflow.drawio</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/workflow_status.drawio'>workflow_status.drawio</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/artifact_lineage.drawio'>artifact_lineage.drawio</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-03 Runtime Report 运行观察 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>deterministic_devlocal</code></div>
+          <div>runtime_backed</div><div>True</div>
+          <div>deterministic_only</div><div>True</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>MEDIUM</div>
+          <div>claim_risk</div><div>MEDIUM</div>
+        </div>
+        <p>Runtime DTO source=v4_1_local_workflow_path; this is dev/local evidence, not production runtime.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/workflow_board.html'>workflow_board.html</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/exported-runtime-result.json'>exported-runtime-result.json</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-04 Artifact 查看与血缘 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>deterministic_devlocal</code></div>
+          <div>runtime_backed</div><div>True</div>
+          <div>deterministic_only</div><div>True</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>MEDIUM</div>
+          <div>claim_risk</div><div>MEDIUM</div>
+        </div>
+        <p>Artifact list is visible, but strict artifact JSON and producer/lineage refs are required for full PASS.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/artifacts.html'>artifacts.html</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/exported-runtime-result.json'>exported-runtime-result.json</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/artifact_lineage.drawio'>artifact_lineage.drawio</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-05 Quality 查看 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>deterministic_devlocal</code></div>
+          <div>runtime_backed</div><div>True</div>
+          <div>deterministic_only</div><div>True</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>MEDIUM</div>
+          <div>claim_risk</div><div>MEDIUM</div>
+        </div>
+        <p>Quality HTML exists, but full PASS requires machine-readable quality.json linked to station or artifact.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/quality.html'>quality.html</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/exported-runtime-result.json'>exported-runtime-result.json</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-06 局部失败修复与重跑 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>deterministic_devlocal</code></div>
+          <div>runtime_backed</div><div>True</div>
+          <div>deterministic_only</div><div>True</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>MEDIUM</div>
+          <div>claim_risk</div><div>MEDIUM</div>
+        </div>
+        <p>Rerun evidence is dev/local controlled runtime evidence and must not be overclaimed as controlled executor readiness.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.2/evidence/controlled-runtime/attempt-history.json'>attempt-history.json</a> <a href='../../../../../../docs/design/V4.2/evidence/controlled-runtime/downstream-stale.json'>downstream-stale.json</a> <a href='../../../../../../docs/design/V4.2/evidence/controlled-runtime/station-rerun-result.json'>station-rerun-result.json</a> <a href='../../../../../../docs/design/V4.2/evidence/controlled-runtime/tui-transcript.txt'>tui-transcript.txt</a> <a href='../../../../../../docs/design/V4.2/evidence/controlled-runtime/runtime-evidence.json'>runtime-evidence.json</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-07 Evidence Chain 审查 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>deterministic_devlocal</code></div>
+          <div>runtime_backed</div><div>True</div>
+          <div>deterministic_only</div><div>True</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>MEDIUM</div>
+          <div>claim_risk</div><div>MEDIUM</div>
+        </div>
+        <p>Evidence Chain must remain read-only; detected execution terms are treated as missing/risks.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/evidence.html'>evidence.html</a> <a href='../../../../../../docs/design/V4.2/evidence/headless-interaction/operation-evidence.json'>operation-evidence.json</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-08 串行多 Agent 视频工作流 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>real_runtime</code></div>
+          <div>runtime_backed</div><div>True</div>
+          <div>deterministic_only</div><div>False</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>MEDIUM</div>
+          <div>claim_risk</div><div>MEDIUM</div>
+        </div>
+        <p>U7 evidence shows dev/local provider-backed serial station execution with rerun and downstream stale records. This still does not prove production or unrestricted orchestration.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-result.json'>runtime-result.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/operation-evidence.json'>operation-evidence.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/attempt-history.json'>attempt-history.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/downstream-stale.json'>downstream-stale.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/runtime-report.html'>runtime-report.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifacts.html'>artifacts.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/quality.html'>quality.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/evidence.html'>evidence.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/workflow.drawio'>workflow.drawio</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/workflow_status.drawio'>workflow_status.drawio</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/artifact_lineage.drawio'>artifact_lineage.drawio</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-08-serial-video/result-summary.md'>result-summary.md</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-09 并行罗马广场讨论 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>real_runtime</code></div>
+          <div>runtime_backed</div><div>True</div>
+          <div>deterministic_only</div><div>False</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>MEDIUM</div>
+          <div>claim_risk</div><div>MEDIUM</div>
+        </div>
+        <p>U7 evidence shows dev/local provider-backed persona outputs, synthesis, attribution inputs, and contradiction review. This is not production parallel orchestration.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-result.json'>runtime-result.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/operation-evidence.json'>operation-evidence.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/attempt-history.json'>attempt-history.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/downstream-stale.json'>downstream-stale.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/runtime-report.html'>runtime-report.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifacts.html'>artifacts.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/quality.html'>quality.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/evidence.html'>evidence.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/workflow.drawio'>workflow.drawio</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/workflow_status.drawio'>workflow_status.drawio</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/artifact_lineage.drawio'>artifact_lineage.drawio</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-09-parallel-deliberation/result-summary.md'>result-summary.md</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-10 长时工程任务工作流 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>real_runtime</code></div>
+          <div>runtime_backed</div><div>True</div>
+          <div>deterministic_only</div><div>False</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>MEDIUM</div>
+          <div>claim_risk</div><div>MEDIUM</div>
+        </div>
+        <p>U7 evidence shows dev/local provider-backed engineering stage execution with code review rerun and stale records. This is not autonomous coding or Agent executor readiness.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-result.json'>runtime-result.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/operation-evidence.json'>operation-evidence.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/attempt-history.json'>attempt-history.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/downstream-stale.json'>downstream-stale.json</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/runtime-report.html'>runtime-report.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifacts.html'>artifacts.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/quality.html'>quality.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/evidence.html'>evidence.html</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/workflow.drawio'>workflow.drawio</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/workflow_status.drawio'>workflow_status.drawio</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/artifact_lineage.drawio'>artifact_lineage.drawio</a> <a href='../../../../../../docs/design/V4.x/evidence/real-multi-agent/UX-10-engineering-workflow/result-summary.md'>result-summary.md</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-11 Agent Workflow Builder <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>deterministic_devlocal</code></div>
+          <div>runtime_backed</div><div>False</div>
+          <div>deterministic_only</div><div>True</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>MEDIUM</div>
+          <div>claim_risk</div><div>HIGH</div>
+        </div>
+        <p>Agent builder can propose, explain, handoff, and navigate; it is not Agent executor readiness.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.6/evidence/agent-workflow-builder/tui-transcript.txt'>tui-transcript.txt</a> <a href='../../../../../../docs/design/V4.6/evidence/agent-workflow-builder/builder-session.json'>builder-session.json</a> <a href='../../../../../../docs/design/V4.6/evidence/agent-workflow-builder/workflow-draft-proposal.json'>workflow-draft-proposal.json</a> <a href='../../../../../../docs/design/V4.6/evidence/agent-workflow-builder/workflow-plan-explanation.json'>workflow-plan-explanation.json</a> <a href='../../../../../../docs/design/V4.6/evidence/agent-workflow-builder/debug-repair-proposal.json'>debug-repair-proposal.json</a> <a href='../../../../../../docs/design/V4.6/evidence/agent-workflow-builder/handoff.json'>handoff.json</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    
+
+      <article class="card">
+        <h2>UX-12 真实 LLM 本地技术文档解析 <span class="badge PASS">PASS</span></h2>
+        <div class="kv">
+          <div>evidence_scope</div><div><code>real_runtime</code></div>
+          <div>runtime_backed</div><div>True</div>
+          <div>deterministic_only</div><div>False</div>
+          <div>transcript_only</div><div>False</div>
+          <div>report_only</div><div>False</div>
+          <div>false_green_risk</div><div>LOW</div>
+          <div>claim_risk</div><div>LOW</div>
+        </div>
+        <p>V4-U5E evidence shows authorized local Markdown reads and MiniMax/OpenAI-compatible provider-backed summaries. This does not prove Agent executor or production readiness.</p>
+        <h3>Evidence Links</h3>
+        <div class="links"><a href='../../../../../../docs/design/V4.x/v4_u5e_real_llm_local_document_workflow_plan.md'>v4_u5e_real_llm_local_document_workflow_plan.md</a> <a href='../../../../../../docs/design/V4.x/evidence/unified-experience/UX-12/local-document-workflow-result.json'>local-document-workflow-result.json</a> <a href='../../../../../../docs/design/V4.x/evidence/unified-experience/UX-12/evidence_chain.json'>evidence_chain.json</a> <a href='../../../../../../docs/design/V4.x/evidence/unified-experience/UX-12/quality_report.json'>quality_report.json</a></div>
+        <h3>Missing Evidence</h3>
+        <ul><li>None</li></ul>
+      </article>
+    </section>
+    <section class="section">
+      <h2>Global Assertions</h2>
+      <ul><li class='PASS'><strong>PASS</strong> source=agent cannot execute mutation</li>
+<li class='PASS'><strong>PASS</strong> durable mutation requires user_confirmed=true</li>
+<li class='PASS'><strong>PASS</strong> EventBridge only triggers refresh</li>
+<li class='PASS'><strong>PASS</strong> WorkflowSpec cannot mutate runtime truth</li>
+<li class='PASS'><strong>PASS</strong> Drawio is visualization only</li>
+<li class='PASS'><strong>PASS</strong> HTML Report is read-only</li>
+<li class='PASS'><strong>PASS</strong> Browser does not call /v1/rpc</li>
+<li class='PASS'><strong>PASS</strong> Browser does not call /v1/events/subscribe</li>
+<li class='PASS'><strong>PASS</strong> No token/raw payload leakage</li>
+<li class='PASS'><strong>PASS</strong> No false-green claims</li>
+<li class='PASS'><strong>PASS</strong> Reality-check audit package generated</li></ul>
+    </section>
+    <section class="section">
+      <h2>Raw Data</h2>
+      <div class="links">
+      <a href="audit-data.json">audit-data.json</a>
+      <a href="claims-audit.md">claims-audit.md</a>
+      <a href="evidence-inventory.json">evidence-inventory.json</a>
+      <a href="result-summary.md">result-summary.md</a>
+      <a href="logs/commands.json">logs/commands.json</a>
+    </div>
+    </section>
+  </main>
+</body>
+</html>

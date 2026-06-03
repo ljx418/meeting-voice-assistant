@@ -1,0 +1,460 @@
+{
+  "result_id": "v5_4c_result_38f7849e89ca",
+  "operation": "workflow.instance.start",
+  "status": "applied_existing_v4_runtime",
+  "decision": {
+    "decision_id": "capability_decision_6c07489e61bc48d59adad65965430ecf",
+    "operation": "workflow.instance.start",
+    "classification": "user_confirmed_only",
+    "source": "run_panel",
+    "actor_type": "human_user",
+    "policy_decision": "allow",
+    "capability_decision": "allow_for_handoff_only",
+    "allowed": true,
+    "agent_executable": false,
+    "requires_user_confirmation": true,
+    "requires_approval": false,
+    "runtime_execution_allowed": false,
+    "reason": "user_confirmed_handoff_allowed_no_runtime_execution",
+    "risk_flags": [
+      "existing_v4_runtime",
+      "local_file_read"
+    ],
+    "target_refs": {
+      "folder_path_ref": "folder://技术分享"
+    },
+    "request_id": "request_v5_3",
+    "correlation_id": "correlation_v5_3",
+    "redaction_status": "redacted",
+    "created_at": "2026-06-01T06:19:39.402769+00:00",
+    "allowed_actions": [
+      "open_handoff",
+      "record_evidence"
+    ],
+    "approval_gate": null
+  },
+  "runtime_result": {
+    "workflow_instance_id": "v41_folder_instance_5867af5245e3",
+    "workflow_template_id": "v41_local_folder_summary_template",
+    "status": "completed",
+    "backed_by": "generic_controlled_runtime",
+    "user_confirmed_required": true,
+    "agent_mutation_allowed": false,
+    "nodes": [
+      {
+        "station_id": "folder_input",
+        "name": "文件夹输入",
+        "status": "completed",
+        "updated_at": "2026-06-01T06:19:39.423938+00:00",
+        "attempts": [
+          {
+            "attempt_id": "attempt_folder_input_1",
+            "attempt": 1,
+            "status": "completed",
+            "created_at": "2026-06-01T06:19:39.423938+00:00",
+            "error": null
+          }
+        ]
+      },
+      {
+        "station_id": "folder_scan",
+        "name": "递归扫描",
+        "status": "completed",
+        "updated_at": "2026-06-01T06:19:39.423938+00:00",
+        "attempts": [
+          {
+            "attempt_id": "attempt_folder_scan_1",
+            "attempt": 1,
+            "status": "completed",
+            "created_at": "2026-06-01T06:19:39.423938+00:00",
+            "error": null
+          }
+        ]
+      },
+      {
+        "station_id": "markdown_filter",
+        "name": "Markdown 过滤",
+        "status": "completed",
+        "updated_at": "2026-06-01T06:19:39.423938+00:00",
+        "attempts": [
+          {
+            "attempt_id": "attempt_markdown_filter_1",
+            "attempt": 1,
+            "status": "completed",
+            "created_at": "2026-06-01T06:19:39.423938+00:00",
+            "error": null
+          }
+        ]
+      },
+      {
+        "station_id": "markdown_parse",
+        "name": "Markdown 解析",
+        "status": "completed",
+        "updated_at": "2026-06-01T06:19:39.423938+00:00",
+        "attempts": [
+          {
+            "attempt_id": "attempt_markdown_parse_1",
+            "attempt": 1,
+            "status": "completed",
+            "created_at": "2026-06-01T06:19:39.423938+00:00",
+            "error": null
+          }
+        ]
+      },
+      {
+        "station_id": "folder_group",
+        "name": "子文件夹分组",
+        "status": "completed",
+        "updated_at": "2026-06-01T06:19:39.423938+00:00",
+        "attempts": [
+          {
+            "attempt_id": "attempt_folder_group_1",
+            "attempt": 1,
+            "status": "completed",
+            "created_at": "2026-06-01T06:19:39.423938+00:00",
+            "error": null
+          }
+        ]
+      },
+      {
+        "station_id": "per_folder_summary",
+        "name": "子文件夹总结",
+        "status": "completed",
+        "updated_at": "2026-06-01T06:19:39.423938+00:00",
+        "attempts": [
+          {
+            "attempt_id": "attempt_per_folder_summary_1",
+            "attempt": 1,
+            "status": "completed",
+            "created_at": "2026-06-01T06:19:39.423938+00:00",
+            "error": null
+          }
+        ]
+      },
+      {
+        "station_id": "overview_summary",
+        "name": "总览总结",
+        "status": "completed",
+        "updated_at": "2026-06-01T06:19:39.423938+00:00",
+        "attempts": [
+          {
+            "attempt_id": "attempt_overview_summary_1",
+            "attempt": 1,
+            "status": "completed",
+            "created_at": "2026-06-01T06:19:39.423938+00:00",
+            "error": null
+          }
+        ]
+      },
+      {
+        "station_id": "quality_check",
+        "name": "质量检查",
+        "status": "completed",
+        "updated_at": "2026-06-01T06:19:39.423938+00:00",
+        "attempts": [
+          {
+            "attempt_id": "attempt_quality_check_1",
+            "attempt": 1,
+            "status": "completed",
+            "created_at": "2026-06-01T06:19:39.423938+00:00",
+            "error": null
+          }
+        ]
+      },
+      {
+        "station_id": "artifact_publish",
+        "name": "产物发布",
+        "status": "completed",
+        "updated_at": "2026-06-01T06:19:39.423938+00:00",
+        "attempts": [
+          {
+            "attempt_id": "attempt_artifact_publish_1",
+            "attempt": 1,
+            "status": "completed",
+            "created_at": "2026-06-01T06:19:39.423938+00:00",
+            "error": null
+          }
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_id": "v41_artifact_0e236f9e31dc",
+        "name": "AgentOS_总结.md",
+        "kind": "markdown_summary",
+        "content": "# AgentOS 总结\n\n## 内容概览\nAgentOS 文件夹包含 2 份 Markdown 文档，主题覆盖 AgentOS 架构、AgentOS 工作流。\n\n## 核心主题\n- AgentOS 架构、AgentOS 工作流\n\n## 关键知识点\n- 工作流需要保持用户确认和可审计边界。\n- 产物应以 Markdown artifact 形式发布。\n\n## 重要文件列表\n- AgentOS/01-架构.md\n- AgentOS/02-工作流.md\n\n## 引用文件\n- AgentOS/01-架构.md\n- AgentOS/02-工作流.md\n",
+        "metadata": {
+          "redaction_status": "redacted"
+        },
+        "redaction_status": "redacted"
+      },
+      {
+        "artifact_id": "v41_artifact_640c12018d38",
+        "name": "前端低代码_总结.md",
+        "kind": "markdown_summary",
+        "content": "# 前端低代码 总结\n\n## 内容概览\n前端低代码 文件夹包含 2 份 Markdown 文档，主题覆盖 画布设计、节点库。\n\n## 核心主题\n- 画布设计、节点库\n\n## 关键知识点\n- 工作流需要保持用户确认和可审计边界。\n- 产物应以 Markdown artifact 形式发布。\n\n## 重要文件列表\n- 前端低代码/画布设计.md\n- 前端低代码/节点库.md\n\n## 引用文件\n- 前端低代码/画布设计.md\n- 前端低代码/节点库.md\n",
+        "metadata": {
+          "redaction_status": "redacted"
+        },
+        "redaction_status": "redacted"
+      },
+      {
+        "artifact_id": "v41_artifact_663d002dfbec",
+        "name": "项目复盘_总结.md",
+        "kind": "markdown_summary",
+        "content": "# 项目复盘 总结\n\n## 内容概览\n项目复盘 文件夹包含 1 份 Markdown 文档，主题覆盖 项目周报。\n\n## 核心主题\n- 项目周报\n\n## 关键知识点\n- 工作流需要保持用户确认和可审计边界。\n- 产物应以 Markdown artifact 形式发布。\n\n## 重要文件列表\n- 项目复盘/周报.md\n\n## 引用文件\n- 项目复盘/周报.md\n",
+        "metadata": {
+          "redaction_status": "redacted"
+        },
+        "redaction_status": "redacted"
+      },
+      {
+        "artifact_id": "v41_artifact_67bf09e72ae7",
+        "name": "总览总结.md",
+        "kind": "overview_summary",
+        "content": "# 总览总结\n\n## 内容概览\n本次扫描覆盖 3 个子文件夹，生成对应的子文件夹总结。\n\n## 核心主题\n- AgentOS: 2 个 Markdown 文件\n- 前端低代码: 2 个 Markdown 文件\n- 项目复盘: 1 个 Markdown 文件\n\n## 关键知识点\n- 本地知识工作流需要先授权、再扫描、再运行。\n- unsupported 文件和空文件夹必须进入质量报告。\n\n## 重要文件列表\n- AgentOS/01-架构.md\n- AgentOS/02-工作流.md\n- 前端低代码/画布设计.md\n- 前端低代码/节点库.md\n- 项目复盘/周报.md\n\n## 引用文件\n- AgentOS/01-架构.md\n- AgentOS/02-工作流.md\n- 前端低代码/画布设计.md\n- 前端低代码/节点库.md\n- 项目复盘/周报.md\n",
+        "metadata": {
+          "redaction_status": "redacted"
+        },
+        "redaction_status": "redacted"
+      },
+      {
+        "artifact_id": "v41_artifact_ce138d1e21e7",
+        "name": "quality_report.json",
+        "kind": "quality_report",
+        "content": "{\n  \"status\": \"passed\",\n  \"summary_coverage\": {\n    \"expected_folder_count\": 3,\n    \"generated_summary_count\": 3\n  },\n  \"unsupported_files\": [\n    \"未支持/test.pdf\"\n  ],\n  \"empty_folders\": [\n    \"空文件夹\"\n  ],\n  \"markdown_file_count\": 5,\n  \"child_folder_count\": 5,\n  \"redaction_status\": \"redacted\"\n}",
+        "metadata": {
+          "redaction_status": "redacted"
+        },
+        "redaction_status": "redacted"
+      }
+    ],
+    "quality_report": {
+      "status": "passed",
+      "summary_coverage": {
+        "expected_folder_count": 3,
+        "generated_summary_count": 3
+      },
+      "unsupported_files": [
+        "未支持/test.pdf"
+      ],
+      "empty_folders": [
+        "空文件夹"
+      ],
+      "markdown_file_count": 5,
+      "child_folder_count": 5,
+      "redaction_status": "redacted"
+    },
+    "attempt_history": {
+      "workflow_instance_id": "v41_folder_instance_5867af5245e3",
+      "stations": [
+        {
+          "station_id": "folder_input",
+          "status": "completed",
+          "attempts": [
+            {
+              "attempt_id": "attempt_folder_input_1",
+              "attempt": 1,
+              "status": "completed",
+              "created_at": "2026-06-01T06:19:39.423938+00:00",
+              "error": null
+            }
+          ]
+        },
+        {
+          "station_id": "folder_scan",
+          "status": "completed",
+          "attempts": [
+            {
+              "attempt_id": "attempt_folder_scan_1",
+              "attempt": 1,
+              "status": "completed",
+              "created_at": "2026-06-01T06:19:39.423938+00:00",
+              "error": null
+            }
+          ]
+        },
+        {
+          "station_id": "markdown_filter",
+          "status": "completed",
+          "attempts": [
+            {
+              "attempt_id": "attempt_markdown_filter_1",
+              "attempt": 1,
+              "status": "completed",
+              "created_at": "2026-06-01T06:19:39.423938+00:00",
+              "error": null
+            }
+          ]
+        },
+        {
+          "station_id": "markdown_parse",
+          "status": "completed",
+          "attempts": [
+            {
+              "attempt_id": "attempt_markdown_parse_1",
+              "attempt": 1,
+              "status": "completed",
+              "created_at": "2026-06-01T06:19:39.423938+00:00",
+              "error": null
+            }
+          ]
+        },
+        {
+          "station_id": "folder_group",
+          "status": "completed",
+          "attempts": [
+            {
+              "attempt_id": "attempt_folder_group_1",
+              "attempt": 1,
+              "status": "completed",
+              "created_at": "2026-06-01T06:19:39.423938+00:00",
+              "error": null
+            }
+          ]
+        },
+        {
+          "station_id": "per_folder_summary",
+          "status": "completed",
+          "attempts": [
+            {
+              "attempt_id": "attempt_per_folder_summary_1",
+              "attempt": 1,
+              "status": "completed",
+              "created_at": "2026-06-01T06:19:39.423938+00:00",
+              "error": null
+            }
+          ]
+        },
+        {
+          "station_id": "overview_summary",
+          "status": "completed",
+          "attempts": [
+            {
+              "attempt_id": "attempt_overview_summary_1",
+              "attempt": 1,
+              "status": "completed",
+              "created_at": "2026-06-01T06:19:39.423938+00:00",
+              "error": null
+            }
+          ]
+        },
+        {
+          "station_id": "quality_check",
+          "status": "completed",
+          "attempts": [
+            {
+              "attempt_id": "attempt_quality_check_1",
+              "attempt": 1,
+              "status": "completed",
+              "created_at": "2026-06-01T06:19:39.423938+00:00",
+              "error": null
+            }
+          ]
+        },
+        {
+          "station_id": "artifact_publish",
+          "status": "completed",
+          "attempts": [
+            {
+              "attempt_id": "attempt_artifact_publish_1",
+              "attempt": 1,
+              "status": "completed",
+              "created_at": "2026-06-01T06:19:39.423938+00:00",
+              "error": null
+            }
+          ]
+        }
+      ],
+      "redaction_status": "redacted"
+    },
+    "downstream_stale": [],
+    "operation_evidence": [
+      {
+        "evidence_id": "v42_evidence_9a5a826f59e5",
+        "workflow_instance_id": "v41_folder_instance_5867af5245e3",
+        "workflow_template_id": "v41_local_folder_summary_template",
+        "operation": "workflow.instance.start",
+        "operation_type": "workflow.instance.start",
+        "status": "succeeded",
+        "correlation_id": "corr_81e9815b3a74",
+        "operation_id": "op_3af94eac28bf",
+        "idempotency_key": "idem_5d96adf3012e",
+        "handoff_id": null,
+        "proposal_id": "v42_controlled_proposal_14e5aba6d479",
+        "user_confirmed": true,
+        "source": "run_panel",
+        "risk_flags": [
+          "local_file_read",
+          "controlled_runtime_start"
+        ],
+        "policy_decision": "user_confirmed_only",
+        "capability_decision": "bff_controlled_runtime_allowed",
+        "runtime_result_ref": {
+          "type": "workflow_instance",
+          "resource_id": "v41_folder_instance_5867af5245e3",
+          "operation": "workflow.instance.start",
+          "status": "completed",
+          "workflow_instance_id": "v41_folder_instance_5867af5245e3",
+          "trace_id": "trace_4e1bb7ae"
+        },
+        "timeout_baseline": {
+          "enabled": true,
+          "timeout_seconds": 300,
+          "status": "observed"
+        },
+        "kill_switch_baseline": {
+          "enabled": true,
+          "scope": "workflow_instance",
+          "status": "available"
+        },
+        "created_at": "2026-06-01T06:19:39.426053+00:00",
+        "created_by": "run_panel",
+        "redaction_status": "redacted"
+      }
+    ],
+    "timeout_baseline": {
+      "enabled": true,
+      "timeout_seconds": 300,
+      "status": "observed"
+    },
+    "kill_switch_baseline": {
+      "enabled": true,
+      "scope": "workflow_instance",
+      "status": "available"
+    },
+    "redaction_status": "redacted"
+  },
+  "bridge_evidence": {
+    "evidence_id": "v5_4c_evidence_8129bf2fae8c",
+    "operation": "workflow.instance.start",
+    "source": "run_panel",
+    "actor_type": "human_user",
+    "user_confirmed": true,
+    "policy_decision": "allow",
+    "capability_decision": "allow_for_handoff_only",
+    "bridge_policy_decision": "v5_4c_devlocal_runtime_bridge_allowed",
+    "runtime_result_ref": {
+      "type": "existing_v4_local_runtime_result",
+      "workflow_instance_id": "v41_folder_instance_5867af5245e3",
+      "operation": "workflow.instance.start",
+      "status": "completed",
+      "backed_by": "generic_controlled_runtime"
+    },
+    "v4_runtime_entrypoint": "bff:/bff/v4_2/runtime",
+    "correlation_id": "correlation_v5_3",
+    "request_id": "request_v5_3",
+    "risk_flags": [
+      "devlocal_only",
+      "existing_v4_runtime",
+      "local_file_read"
+    ],
+    "devlocal_only": true,
+    "runtime_backed": true,
+    "redaction_status": "redacted",
+    "created_at": "2026-06-01T06:19:39.428479+00:00"
+  },
+  "blocked_reason": null,
+  "devlocal_only": true,
+  "production_ready": false
+}

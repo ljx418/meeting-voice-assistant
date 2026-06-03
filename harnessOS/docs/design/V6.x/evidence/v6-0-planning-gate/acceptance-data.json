@@ -1,0 +1,54 @@
+{
+  "stage": "V6-0",
+  "stage_name": "Production Pilot Planning Gate",
+  "status": "PASS",
+  "allowed_claim": "V6-0 complete: production pilot planning gate ready for review.",
+  "implementation_started": false,
+  "v6_1_implementation_started": false,
+  "evidence_scope": "planning_gate",
+  "drawio_pages": [
+    "01 阅读指南",
+    "02 当前架构与目标架构差异",
+    "03 V6 目标架构平面",
+    "04 功能规格矩阵",
+    "05 开发及验收流程",
+    "06 项目里程碑",
+    "07 验收门槛",
+    "08 出门条件与停止条件"
+  ],
+  "canonical_docs": [
+    "docs/design/V6.x/00_README.md",
+    "docs/design/V6.x/v6_target_prd.md",
+    "docs/design/V6.x/v6_target_architecture.md",
+    "docs/design/V6.x/v6_current_gap_analysis.md",
+    "docs/design/V6.x/v6_current_gap_analysis.drawio",
+    "docs/design/V6.x/v6_development_and_acceptance_plan.md",
+    "docs/design/V6.x/v6_acceptance_gate_matrix.md",
+    "docs/design/V6.x/v6_milestone_roadmap.md",
+    "docs/design/V6.x/v6_no_false_green_claim_guard.md",
+    "docs/design/V6.x/v6_planning_audit_for_chatgpt.md"
+  ],
+  "prd_spec_review": {
+    "status": "PASS",
+    "notes": "V6 target PRD preserves production pilot readiness scope and does not claim production GA."
+  },
+  "architecture_review": {
+    "status": "PASS",
+    "notes": "V6 target architecture defines production pilot planes and preserves runtime truth boundaries."
+  },
+  "false_green_evaluation": {
+    "status": "PASS",
+    "risk": "LOW",
+    "notes": "Forbidden claims are documented as forbidden / non-goal / not-proven contexts only."
+  },
+  "human_risk_decision_required": false,
+  "next_stage": "V6-1 Production Identity And Tenant Control Plane",
+  "next_stage_entry_decision": "PROCEED_AFTER_V6_0_P0_EXTERNAL_AUDIT_CLOSURE",
+  "stop_conditions": [
+    "critical PRD drift",
+    "critical false-green finding",
+    "drawio XML invalid",
+    "V6 docs upgrade V5 evidence to production-ready",
+    "source=agent direct durable mutation introduced"
+  ]
+}

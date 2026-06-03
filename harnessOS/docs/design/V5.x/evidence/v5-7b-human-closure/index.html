@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>V5-7B 人工闭环审核页</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f8fb;
+        --surface: #ffffff;
+        --ink: #111827;
+        --muted: #5b6472;
+        --line: #d9dee8;
+        --green: #0f7a3a;
+        --green-bg: #e8f7ee;
+        --amber: #a65f00;
+        --amber-bg: #fff5db;
+        --red: #b42318;
+        --red-bg: #fff0ed;
+        --blue: #1d4ed8;
+        --blue-bg: #edf4ff;
+        --code: #172033;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "PingFang SC", "Microsoft YaHei", sans-serif;
+        line-height: 1.6;
+      }
+      header {
+        padding: 32px 40px 22px;
+        background: linear-gradient(180deg, #ffffff 0%, #f6f8fc 100%);
+        border-bottom: 1px solid var(--line);
+      }
+      main {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 28px 28px 56px;
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.25;
+      }
+      h1 {
+        font-size: 28px;
+        letter-spacing: 0;
+      }
+      h2 {
+        font-size: 20px;
+        margin-bottom: 14px;
+      }
+      h3 {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      code,
+      pre {
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      pre {
+        margin: 10px 0 0;
+        padding: 14px;
+        overflow: auto;
+        border-radius: 8px;
+        background: var(--code);
+        color: #f8fafc;
+        font-size: 13px;
+      }
+      .subtitle {
+        margin-top: 8px;
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 18px;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+      }
+      .span-12 {
+        grid-column: span 12;
+      }
+      .span-8 {
+        grid-column: span 8;
+      }
+      .span-6 {
+        grid-column: span 6;
+      }
+      .span-4 {
+        grid-column: span 4;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        height: 26px;
+        padding: 0 10px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .pass {
+        color: var(--green);
+        background: var(--green-bg);
+      }
+      .warn {
+        color: var(--amber);
+        background: var(--amber-bg);
+      }
+      .stop {
+        color: var(--red);
+        background: var(--red-bg);
+      }
+      .info {
+        color: var(--blue);
+        background: var(--blue-bg);
+      }
+      .metric {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid var(--line);
+        padding: 10px 0;
+      }
+      .metric:last-child {
+        border-bottom: 0;
+      }
+      .checklist {
+        display: grid;
+        gap: 10px;
+      }
+      .item {
+        display: grid;
+        grid-template-columns: 28px 1fr auto;
+        gap: 10px;
+        align-items: start;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcff;
+      }
+      .box {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #94a3b8;
+        border-radius: 5px;
+        background: #fff;
+        margin-top: 2px;
+      }
+      .small {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        color: #374151;
+        background: #f8fafc;
+      }
+      .links {
+        display: grid;
+        gap: 8px;
+      }
+      .decision {
+        border: 2px solid var(--red);
+        background: var(--red-bg);
+      }
+      .signature {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 14px;
+      }
+      .line {
+        height: 44px;
+        border-bottom: 1px solid #94a3b8;
+      }
+      @media (max-width: 900px) {
+        .span-8,
+        .span-6,
+        .span-4 {
+          grid-column: span 12;
+        }
+        header {
+          padding: 24px;
+        }
+        main {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>V5-7B 人工闭环审核页</h1>
+      <p class="subtitle">
+        目的：集中展示当前自动化验证结果、已记录的高风险人工决定、仍未闭环的依赖评审，以及
+        V5-7B limited staging runtime slice 的边界。
+      </p>
+    </header>
+    <main class="grid">
+      <section class="card span-8">
+        <h2>当前结论</h2>
+        <p>
+          当前为 <span class="badge warn">CONDITIONAL GO for limited staging runtime slice</span>。
+          仍然 <span class="badge stop">NO-GO</span> 于 production executor route、production runtime worker、
+          source=agent durable mutation 和 V5-8 implementation。本页不代表 production controlled executor 已完成。
+        </p>
+        <pre>V5-7A complete: production controlled executor design gate ready for review.
+V5-7B current decision: CONDITIONAL GO for limited staging runtime slice.
+Human decision recorded: 我接受你继续碰运行时代码.
+Still required before production readiness: dependency external review accepted + full production acceptance.</pre>
+      </section>
+
+      <section class="card span-4">
+        <h2>自动验证</h2>
+        <div class="metric"><span>V5-7B focused tests</span><span class="badge pass">21 passed</span></div>
+        <div class="metric"><span>V5-7A focused tests</span><span class="badge pass">10 passed</span></div>
+        <div class="metric"><span>V5 focused tests</span><span class="badge pass">99 passed</span></div>
+        <div class="metric"><span>V4-U9 regression</span><span class="badge pass">4 passed</span></div>
+        <div class="metric"><span>Drawio XML</span><span class="badge pass">PASS</span></div>
+        <div class="metric"><span>V5-7A evidence script</span><span class="badge pass">PASS</span></div>
+      </section>
+
+      <section class="card span-12">
+        <h2>当前阻断状态</h2>
+        <div class="metric"><span>human high-risk proceed decision recorded</span><span class="badge pass">RECORDED</span></div>
+        <div class="metric"><span>dependency external review not accepted</span><span class="badge stop">BLOCKING</span></div>
+        <div class="metric"><span>approved_api boundary covered by focused tests</span><span class="badge pass">FOCUSED PASS</span></div>
+        <div class="metric"><span>service_account boundary covered by focused tests</span><span class="badge pass">FOCUSED PASS</span></div>
+        <div class="metric"><span>staging runtime fixture implemented in isolated Python module</span><span class="badge pass">FOCUSED PASS</span></div>
+      </section>
+
+      <section class="card span-12 decision">
+        <h2>需要你人工闭环的事项</h2>
+        <div class="checklist">
+          <div class="item">
+            <div class="box"></div>
+            <div>
+              <h3>1. V5-7B high-risk proceed decision</h3>
+              <p class="small">已记录：我接受你继续碰运行时代码。范围仅限 isolated staging runtime slice。</p>
+            </div>
+            <span class="badge pass">已闭环</span>
+          </div>
+          <div class="item">
+            <div class="box"></div>
+            <div>
+              <h3>2. 是否接受依赖阶段为 external review accepted</h3>
+              <p class="small">V5-1 / V5-2 / V5-3 / V5-4A / V5-4C / V5-6 仍需从 present_for_review 进入 external review accepted。</p>
+            </div>
+            <span class="badge stop">未闭环</span>
+          </div>
+          <div class="item">
+            <div class="box"></div>
+            <div>
+              <h3>3. 是否接受 approved_api 高风险边界</h3>
+              <p class="small">focused tests 已覆盖 human_authorization_ref、wrong tenant/workspace、source=agent denial 和审计引用。</p>
+            </div>
+            <span class="badge pass">自动验证通过</span>
+          </div>
+          <div class="item">
+            <div class="box"></div>
+            <div>
+              <h3>4. 是否接受 service_account_with_human_authorization 边界</h3>
+              <p class="small">focused tests 已覆盖缺失/过期授权、错误 operation、Agent executor denial 和 human_authorization_ref 记录。</p>
+            </div>
+            <span class="badge pass">自动验证通过</span>
+          </div>
+          <div class="item">
+            <div class="box"></div>
+            <div>
+              <h3>5. 是否接受真实或 staging fixture 方案</h3>
+              <p class="small">已实现 isolated staging runtime state，包含 workflow、station attempt、artifact version、quality evaluation、evidence refs。</p>
+            </div>
+            <span class="badge pass">自动验证通过</span>
+          </div>
+          <div class="item">
+            <div class="box"></div>
+            <div>
+              <h3>6. 是否确认 V5-7B 不开放 connector.call / external_llm.call</h3>
+              <p class="small">这两个 action 仍需单独 approval policy、credential boundary 和 incident response review。</p>
+            </div>
+            <span class="badge stop">未闭环</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-6">
+        <h2>候选 action 验收要求</h2>
+        <table>
+          <thead>
+            <tr><th>Action</th><th>关键验收</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>workflow.instance.start</code></td>
+              <td>user_confirmed=true，scope guard，idempotency duplicate 返回 prior execution，incident timeline start event。</td>
+            </tr>
+            <tr>
+              <td><code>station.rerun</code></td>
+              <td>old attempt retained，new attempt created，downstream stale，source=agent denied。</td>
+            </tr>
+            <tr>
+              <td><code>artifact.write</code></td>
+              <td>medium risk，approval gate required，append version，不静默覆盖，不泄露 raw artifact content。</td>
+            </tr>
+            <tr>
+              <td><code>quality.evaluation.create</code></td>
+              <td>medium risk，approval gate required，append evaluation，保留旧 score，记录 quality_rule_ref / target_ref / evaluation_ref。</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card span-6">
+        <h2>必须继续禁止</h2>
+        <pre>source=agent direct durable mutation
+autonomous workflow editing
+unrestricted Agent execution
+business.event.emit
+context.update
+workflow.template.publish
+approval.respond
+unrestricted connector.call
+unrestricted external_llm.call</pre>
+      </section>
+
+      <section class="card span-6">
+        <h2>需要审计的文档</h2>
+        <div class="links">
+          <a href="../../v5_7b_no_go_closure_summary.md">v5_7b_no_go_closure_summary.md</a>
+          <a href="../../v5_7b_pre_implementation_audit.md">v5_7b_pre_implementation_audit.md</a>
+          <a href="../../v5_7b_production_controlled_executor_runtime_plan.md">v5_7b_production_controlled_executor_runtime_plan.md</a>
+          <a href="../../v5_7b_planning_audit_for_chatgpt.md">v5_7b_planning_audit_for_chatgpt.md</a>
+          <a href="closure-decision.json">closure-decision.json</a>
+          <a href="dependency-review-decisions.md">dependency-review-decisions.md</a>
+          <a href="approved-api-boundary-review.md">approved-api-boundary-review.md</a>
+          <a href="service-account-boundary-review.md">service-account-boundary-review.md</a>
+          <a href="../../v5_7b_staging_fixture_design.md">v5_7b_staging_fixture_design.md</a>
+          <a href="../../v5_7a_execution_evidence.schema.json">v5_7a_execution_evidence.schema.json</a>
+          <a href="../../v5_7a_execution_envelope.schema.json">v5_7a_execution_envelope.schema.json</a>
+          <a href="../../v5_7a_kill_switch_decision.schema.json">v5_7a_kill_switch_decision.schema.json</a>
+          <a href="../../v5_current_gap_analysis.md">v5_current_gap_analysis.md</a>
+          <a href="../../v5_current_gap_analysis.drawio">v5_current_gap_analysis.drawio</a>
+        </div>
+      </section>
+
+      <section class="card span-6">
+        <h2>人工签署建议</h2>
+        <p>如果你决定继续，建议在对话中明确写成下面这段文本；本页不提供执行按钮。</p>
+        <pre>已记录：我接受你继续碰运行时代码。
+仅允许进入 V5-7B limited staging runtime slice。
+不得开放 source=agent mutation、connector.call、external_llm.call。</pre>
+        <div class="signature">
+          <div>
+            <p class="small">确认人</p>
+            <div class="line"></div>
+          </div>
+          <div>
+            <p class="small">日期</p>
+            <div class="line"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-12">
+        <h2>截图证据</h2>
+        <p class="small">
+          本 HTML 页面截图会保存到 <code>screenshots/v5-7b-human-closure-overview.png</code>。如果截图不存在，请重新运行截图命令或直接打开本页人工确认。
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

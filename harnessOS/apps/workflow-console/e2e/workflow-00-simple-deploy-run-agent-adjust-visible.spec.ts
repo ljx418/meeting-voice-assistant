@@ -16,19 +16,28 @@ const SENSITIVE_TEXT = [
 test("visible user journey deploys, runs, and adjusts a workflow through Agent proposal", async ({ page }) => {
   const browserRequests: Array<{ path: string; method: string; body?: string }> = [];
   const bffResponses: string[] = [];
+  const bffResponseReads: Array<Promise<void>> = [];
   page.on("request", (request) => {
     const url = new URL(request.url());
     browserRequests.push({ path: url.pathname, method: request.method(), body: request.postData() || undefined });
   });
-  page.on("response", async (response) => {
-    const url = new URL(response.url());
-    if (!url.pathname.startsWith("/bff/")) {
-      return;
-    }
-    const contentType = response.headers()["content-type"] || "";
-    if (contentType.includes("application/json")) {
-      bffResponses.push(await response.text());
-    }
+  page.on("response", (response) => {
+    const readResponse = (async () => {
+      const url = new URL(response.url());
+      if (!url.pathname.startsWith("/bff/")) {
+        return;
+      }
+      const contentType = response.headers()["content-type"] || "";
+      if (!contentType.includes("application/json")) {
+        return;
+      }
+      try {
+        bffResponses.push(await response.text());
+      } catch {
+        // Ignore responses that finish after Playwright starts test teardown.
+      }
+    })();
+    bffResponseReads.push(readResponse);
   });
   page.on("dialog", async (dialog) => {
     await dialog.accept();
@@ -96,6 +105,7 @@ test("visible user journey deploys, runs, and adjusts a workflow through Agent p
 
   const bodyText = (await page.locator("body").textContent()) || "";
   const html = await page.content();
+  await Promise.allSettled(bffResponseReads);
   for (const value of SENSITIVE_TEXT) {
     expect(bodyText).not.toContain(value);
     expect(html).not.toContain(value);

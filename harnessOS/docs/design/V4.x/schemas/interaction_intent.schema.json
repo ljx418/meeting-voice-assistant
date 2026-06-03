@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/interaction_intent.schema.json",
+  "title": "V4.x Interaction Intent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "intent_id",
+    "source",
+    "actor_type",
+    "operation",
+    "requested_action",
+    "target_refs"
+  ],
+  "properties": {
+    "intent_id": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "string",
+      "enum": ["mission_console", "tui", "thin_web_console", "html_report", "agent", "future_business_app"]
+    },
+    "actor_type": { "type": "string", "enum": ["human", "agent", "service_account"] },
+    "operation": { "$ref": "operation.schema.json" },
+    "natural_language_goal": { "type": "string" },
+    "requested_action": { "type": "string", "minLength": 1 },
+    "target_refs": { "$ref": "target_refs.schema.json" },
+    "user_confirmed": { "type": "boolean" },
+    "source_agent_mutation_guard": {
+      "type": "string",
+      "const": "source=agent cannot execute apply/publish/run/rerun/approval.respond/context.update"
+    }
+  }
+}

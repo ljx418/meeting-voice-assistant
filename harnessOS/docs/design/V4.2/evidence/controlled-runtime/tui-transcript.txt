@@ -1,0 +1,4 @@
+step=01 command='harness workflow run --spec workflow.yaml --folder tests/fixtures/desktop/技术分享 --user-confirmed' user_confirmed=true source=run_panel backed_by=generic_controlled_runtime result=completed
+step=02 command='harness workflow run --spec workflow.yaml --folder tests/fixtures/desktop/技术分享_损坏 --user-confirmed' user_confirmed=true source=run_panel backed_by=generic_controlled_runtime result=failed
+step=03 command='harness station rerun --instance v41_folder_instance_ad8afcfaa110 --station markdown_parse --user-confirmed' user_confirmed=true source=run_panel backed_by=generic_controlled_runtime downstream_stale=5
+step=04 command='harness workflow continue-downstream --instance v41_folder_instance_ad8afcfaa110 --user-confirmed' user_confirmed=true source=run_panel backed_by=generic_controlled_runtime result=completed

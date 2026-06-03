@@ -1,0 +1,91 @@
+{
+  "workflow_instance_id": "v43_video_instance_635d52af894b",
+  "stations": [
+    {
+      "station_id": "writer_agent",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_writer_agent_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.005229+00:00"
+        }
+      ]
+    },
+    {
+      "station_id": "storyboard_agent",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_storyboard_agent_1",
+          "attempt": 1,
+          "status": "failed",
+          "error": "Deterministic video station failed: storyboard_agent",
+          "created_at": "2026-05-28T08:58:35.005229+00:00"
+        },
+        {
+          "attempt_id": "attempt_storyboard_agent_2",
+          "attempt": 2,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.011890+00:00"
+        }
+      ]
+    },
+    {
+      "station_id": "copywriting_agent",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_copywriting_agent_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.021762+00:00"
+        }
+      ]
+    },
+    {
+      "station_id": "editing_plan_agent",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_editing_plan_agent_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.021762+00:00"
+        }
+      ]
+    },
+    {
+      "station_id": "quality_review_agent",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_quality_review_agent_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.021762+00:00"
+        }
+      ]
+    },
+    {
+      "station_id": "publish_preparation_agent",
+      "status": "completed",
+      "attempts": [
+        {
+          "attempt_id": "attempt_publish_preparation_agent_1",
+          "attempt": 1,
+          "status": "completed",
+          "error": null,
+          "created_at": "2026-05-28T08:58:35.021762+00:00"
+        }
+      ]
+    }
+  ],
+  "redaction_status": "redacted"
+}

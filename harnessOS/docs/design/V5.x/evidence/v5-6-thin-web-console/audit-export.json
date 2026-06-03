@@ -1,0 +1,29 @@
+{
+  "export_id": "audit_export_6e8ca2383a0e464089b6a780ea310b9b",
+  "tenant_id": "tenant_v5",
+  "workspace_id": "workspace_v5",
+  "requested_by": "user_v5_6",
+  "request_id": "request_v5_6",
+  "correlation_id": "correlation_v5_6",
+  "time_range": {
+    "from": "2026-06-01T00:00:00Z",
+    "to": "2026-06-01T23:59:59Z"
+  },
+  "retention_policy_id": "retention_v5_6",
+  "included_event_refs": [
+    "obs_event_30fea891e67e439a930693f1c55f3681"
+  ],
+  "included_evidence_refs": [
+    "evidence://correlation_v5_6/obs_event_30fea891e67e439a930693f1c55f3681"
+  ],
+  "event_count": 1,
+  "redaction_status": "redacted",
+  "checksum": "b39363e157054af0ba8441dff523267b7cad27e5bf84c395f1869e8c9adf5bb1",
+  "created_at": "2026-06-03T09:39:26.697690+00:00",
+  "readonly": true,
+  "allowed_actions": [
+    "view",
+    "export",
+    "open_evidence"
+  ]
+}

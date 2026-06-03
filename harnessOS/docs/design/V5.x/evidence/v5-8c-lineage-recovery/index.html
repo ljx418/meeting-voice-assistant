@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>V5-8C Lineage Recovery Evidence</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; color: #0f172a; background: #f8fafc; }
+    .card { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; margin-bottom: 18px; }
+    .pass { color: #15803d; font-weight: 700; }
+    .warn { color: #b45309; font-weight: 700; }
+    table { border-collapse: collapse; width: 100%; background: white; }
+    th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+    th { background: #f1f5f9; }
+    code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>V5-8C 产物血缘与尝试恢复证据</h1>
+    <p>Status: <span class="pass">PASS</span></p>
+    <p>Source evidence: <code>UX-10-engineering-workflow</code>, provider <code>minimax</code>, model <code>MiniMax-M2.1</code></p>
+    <p class="warn">No False Green: 本证据不证明完整分布式多 Agent 运行时。</p>
+  </div>
+  <div class="card">
+    <h2>Artifact Lineage</h2>
+    <table>
+      <thead><tr><th>Artifact</th><th>Station</th><th>Producer Attempt</th><th>Previous Attempt</th><th>Status</th></tr></thead>
+      <tbody><tr><td>artifact://v5-8b/product_planning/attempt-1</td><td>product_planning</td><td>v5_8b_attempt_1801dc39456b</td><td></td><td>active</td></tr><tr><td>artifact://v5-8b/specification/attempt-1</td><td>specification</td><td>v5_8b_attempt_30ea79ad50bb</td><td></td><td>active</td></tr><tr><td>artifact://v5-8b/project_blueprint/attempt-1</td><td>project_blueprint</td><td>v5_8b_attempt_70edd49466f6</td><td></td><td>active</td></tr><tr><td>artifact://v5-8b/project_blueprint/attempt-2</td><td>project_blueprint</td><td>v5_8b_attempt_a2e125d499e7</td><td>v5_8b_attempt_70edd49466f6</td><td>recovered</td></tr><tr><td>artifact://v5-8b/architecture_review/attempt-1</td><td>architecture_review</td><td>v5_8b_attempt_ff9ecc324897</td><td></td><td>active</td></tr></tbody>
+    </table>
+  </div>
+  <div class="card">
+    <h2>Runtime Report Boundary</h2>
+    <ul>
+      <li>readonly=true</li>
+      <li>report_actions=view/export</li>
+      <li>production_ready=false</li>
+      <li>source_agent_can_mutate=false</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>Raw Data</h2>
+    <p><a href="lineage-recovery-evidence.json">lineage-recovery-evidence.json</a></p>
+    <p><a href="runtime-report-projection.json">runtime-report-projection.json</a></p>
+    <p><a href="result-summary.md">result-summary.md</a></p>
+  </div>
+</body>
+</html>

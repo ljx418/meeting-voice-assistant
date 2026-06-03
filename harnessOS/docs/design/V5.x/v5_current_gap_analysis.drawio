@@ -1,0 +1,53 @@
+<mxfile host="app.diagrams.net" modified="2026-05-31T00:00:00.000Z" agent="harnessOS" version="24.7.17">
+  <diagram id="v5-gap" name="V5 Current Gap Analysis">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="V5 Production Productization Gap&#xa;Baseline: V5-8 bounded distributed runtime slice ready for review; no full orchestration / Agent executor claim" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=18;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="260" y="30" width="1080" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="v4" value="Inherited From V4 Dev/Local&#xa;Mission Console&#xa;Workflow Blueprint&#xa;Runtime Report&#xa;Review Console&#xa;Evidence Chain&#xa;UX-01 to UX-12 evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontSize=14;align=left;spacing=12" vertex="1" parent="1">
+          <mxGeometry x="60" y="150" width="310" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="auth" value="V5-1 Production Auth / Tenant&#xa;core guard slice ready for review&#xa;server-bound identity context&#xa;tenant / workspace / app ownership&#xa;No False Green: not enterprise auth ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=left;spacing=12" vertex="1" parent="1">
+          <mxGeometry x="430" y="150" width="320" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="cred" value="V5-2 Credential / Provider Lifecycle&#xa;core lifecycle slice ready for review&#xa;provider profile + credential reference&#xa;redacted provider smoke evidence&#xa;No False Green: not production secret management" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=left;spacing=12" vertex="1" parent="1">
+          <mxGeometry x="810" y="150" width="320" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="audit" value="V5-3 Observability / Audit Export&#xa;core slice ready for review&#xa;redacted event log / audit export package&#xa;metrics / alerts / incident timeline read models&#xa;No False Green: not production audit export ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=left;spacing=12" vertex="1" parent="1">
+          <mxGeometry x="1190" y="150" width="320" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="executor" value="V5-4A/B/C Executor Safety And Trial&#xa;4A safety gate core slice ready for review&#xa;4B synthetic trial ready for review&#xa;4C existing V4 runtime bridge ready for review&#xa;No False Green: not controlled executor ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontSize=14;align=left;spacing=12" vertex="1" parent="1">
+          <mxGeometry x="430" y="420" width="320" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="prod_executor" value="V5-7A/B Production Controlled Executor&#xa;7A design gate ready for review: policy matrix / execution envelope / allowlist / evidence schemas&#xa;7B limited staging runtime slice: no route / no worker / no Agent mutation&#xa;Requires tenant / credential / audit / rollback / incident boundary&#xa;No False Green: not production controlled executor ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FECACA;strokeColor=#B91C1C;fontSize=14;align=left;spacing=12" vertex="1" parent="1">
+          <mxGeometry x="60" y="700" width="460" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="external" value="V5-5 External App Onboarding&#xa;boundary core slice ready for review&#xa;tenant-bound registration / domain verification&#xa;origin allowlist / quota / offboarding / SDK guard&#xa;No False Green: not production-ready external app support" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=14;align=left;spacing=12" vertex="1" parent="1">
+          <mxGeometry x="810" y="420" width="320" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="studio" value="V5-6 Thin Web Console Productization&#xa;core slice ready for review&#xa;Full Studio requires separate PRD&#xa;Evidence / Report Review read-only&#xa;No False Green: not complete Workflow Studio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontSize=14;align=left;spacing=12" vertex="1" parent="1">
+          <mxGeometry x="1190" y="420" width="320" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="distributed" value="V5-8 Distributed Runtime Slice&#xa;8A planning gate PASS&#xa;8B coordination PASS&#xa;8C lineage / recovery PASS&#xa;8D policy / credential / observability PASS&#xa;8E final acceptance PASS&#xa;No False Green: not full orchestration / not Agent executor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontSize=14;align=left;spacing=12" vertex="1" parent="1">
+          <mxGeometry x="1090" y="700" width="420" height="180" as="geometry"/>
+        </mxCell>
+        <mxCell id="guard" value="V5-0 Planning Gate&#xa;PRD + architecture + gap + acceptance + claim guard&#xa;No implementation in V5-0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#475569;fontSize=15;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="60" y="450" width="310" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B" edge="1" parent="1" source="v4" target="guard"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B" edge="1" parent="1" source="guard" target="auth"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B" edge="1" parent="1" source="guard" target="executor"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B" edge="1" parent="1" source="auth" target="cred"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B" edge="1" parent="1" source="cred" target="audit"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B" edge="1" parent="1" source="executor" target="external"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B" edge="1" parent="1" source="external" target="studio"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748B" edge="1" parent="1" source="studio" target="prod_executor"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#B91C1C" edge="1" parent="1" source="executor" target="prod_executor"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#B91C1C" edge="1" parent="1" source="prod_executor" target="distributed"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

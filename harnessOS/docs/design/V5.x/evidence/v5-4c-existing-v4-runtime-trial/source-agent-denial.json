@@ -1,0 +1,41 @@
+{
+  "result_id": "v5_4c_result_93e870922a5a",
+  "operation": "workflow.instance.start",
+  "status": "blocked",
+  "decision": {
+    "decision_id": "capability_decision_19a4715a47034808accadac321494b2f",
+    "operation": "workflow.instance.start",
+    "classification": "user_confirmed_only",
+    "source": "agent",
+    "actor_type": "agent",
+    "policy_decision": "deny",
+    "capability_decision": "deny",
+    "allowed": false,
+    "agent_executable": false,
+    "requires_user_confirmation": true,
+    "requires_approval": false,
+    "runtime_execution_allowed": false,
+    "reason": "source_agent_cannot_execute_mutation",
+    "risk_flags": [
+      "existing_v4_runtime",
+      "local_file_read"
+    ],
+    "target_refs": {
+      "folder_path_ref": "folder://技术分享"
+    },
+    "request_id": "request_v5_3",
+    "correlation_id": "correlation_v5_3",
+    "redaction_status": "redacted",
+    "created_at": "2026-06-01T06:19:39.450198+00:00",
+    "allowed_actions": [
+      "open_handoff",
+      "record_evidence"
+    ],
+    "approval_gate": null
+  },
+  "runtime_result": null,
+  "bridge_evidence": null,
+  "blocked_reason": "source_agent_cannot_execute_mutation",
+  "devlocal_only": true,
+  "production_ready": false
+}

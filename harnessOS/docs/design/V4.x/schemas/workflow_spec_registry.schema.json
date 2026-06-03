@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/workflow_spec_registry.schema.json",
+  "title": "V4.x WorkflowSpec Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spec_id",
+    "spec_hash",
+    "schema_version",
+    "source",
+    "created_by",
+    "validated_at",
+    "linked_workflow_draft_id",
+    "linked_workflow_version_id",
+    "linked_workflow_instance_id",
+    "runtime_truth_boundary"
+  ],
+  "properties": {
+    "spec_id": { "type": "string", "minLength": 1 },
+    "spec_hash": { "type": "string", "minLength": 1 },
+    "schema_version": { "type": "string", "minLength": 1 },
+    "source": { "type": "string", "enum": ["mission_console", "tui", "agent_builder", "imported_file", "test_fixture"] },
+    "created_by": { "type": "string", "minLength": 1 },
+    "validated_at": { "type": "string", "minLength": 1 },
+    "linked_workflow_draft_id": { "type": ["string", "null"] },
+    "linked_workflow_version_id": { "type": ["string", "null"] },
+    "linked_workflow_instance_id": { "type": ["string", "null"] },
+    "runtime_truth_boundary": {
+      "type": "string",
+      "const": "WorkflowSpec Registry does not replace WorkflowDraft or WorkflowVersion runtime truth."
+    }
+  }
+}

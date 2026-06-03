@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.dev/schemas/v4.x/evidence_report.schema.json",
+  "title": "V4.x Evidence Report DTO",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "proposal_id",
+    "handoff_id",
+    "user_confirmed",
+    "operation_type",
+    "runtime_result_ref",
+    "risk_flags",
+    "policy_decision",
+    "correlation_id",
+    "redaction_status",
+    "review_status",
+    "created_at",
+    "created_by",
+    "source_refs",
+    "readonly",
+    "report_actions"
+  ],
+  "properties": {
+    "proposal_id": { "type": "string" },
+    "handoff_id": { "type": "string" },
+    "user_confirmed": { "type": "boolean" },
+    "operation_type": { "type": "string", "minLength": 1 },
+    "runtime_result_ref": { "type": "string" },
+    "risk_flags": { "type": "array", "items": { "type": "string" } },
+    "policy_decision": {
+      "type": "string",
+      "enum": ["read_only", "proposal_only", "handoff_only", "user_confirmed_only", "approval_gated_future", "blocked"]
+    },
+    "correlation_id": { "type": "string" },
+    "redaction_status": { "type": "string", "enum": ["redacted"] },
+    "review_status": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "minLength": 1 },
+    "created_by": { "type": "string", "minLength": 1 },
+    "source_refs": { "type": "array", "items": { "type": "string" } },
+    "readonly": { "type": "boolean", "const": true },
+    "report_actions": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["view", "export", "open_handoff"] }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "rollback_descriptor_id": "rollback_v5_7a_example",
+  "operation": "station.rerun",
+  "rollback_strategy": "preserve_old_attempt_and_mark_downstream_stale",
+  "manual_recovery_required": true,
+  "old_attempt_retained": true,
+  "correction_ref_allowed": true,
+  "created_at": "2026-06-03T09:39:26.743222+00:00"
+}

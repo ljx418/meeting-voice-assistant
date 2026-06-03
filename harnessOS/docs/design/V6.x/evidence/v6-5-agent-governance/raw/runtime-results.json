@@ -1,0 +1,179 @@
+{
+  "human_confirmed_controlled_execution": {
+    "audit_event_ref": "audit-event://obs_event_4175fd86c054415d806a5f8b1d69056a",
+    "blocked_reason": null,
+    "capability_decision": "allow_limited_production_pilot_slice",
+    "evidence": {
+      "actor_id": "user_v6_5",
+      "actor_type": "human_user",
+      "app_id": "app_v6",
+      "approval_gate_decision_ref": null,
+      "audit_export_ref": "audit-export://v6-4/default",
+      "capability_decision": "allow_limited_production_pilot_slice",
+      "correlation_id": "correlation_v6_5_e2e",
+      "created_at": "2026-06-03T07:41:18.235131+00:00",
+      "credential_decision_ref": "credential-decision://v6-4/not-required",
+      "execution_evidence_id": "v6_4_evidence_28bf95adfb77",
+      "human_authorization_ref": "human-auth://v6-5/confirmed",
+      "idempotency_key": "v6-5-confirmed-rerun",
+      "incident_timeline_ref": "incident-timeline://v6-4/default",
+      "kill_switch_decision_ref": "kill-switch://v6-4/checked",
+      "operation": "station.rerun",
+      "policy_decision": "allow",
+      "project_id": "project_v6",
+      "redaction_status": "redacted",
+      "request_id": "request_v6_5_human",
+      "rollback_descriptor_ref": "rollback://v6-4/station.rerun/v6-5-confirmed-rerun",
+      "runtime_result_ref": "runtime://v6-4/workflow-instance-v6-5/rerun/markdown_parse",
+      "source": "product_console",
+      "target_refs": {
+        "station_id": "markdown_parse",
+        "station_run_id": "station-run-v6-5-1",
+        "workflow_instance_id": "workflow-instance-v6-5"
+      },
+      "tenant_id": "tenant_v6",
+      "timeout_policy_ref": "timeout-policy://v6-4/default",
+      "user_confirmed": true,
+      "workspace_id": "workspace_v6"
+    },
+    "idempotent_replay": false,
+    "operation": "station.rerun",
+    "pilot_slice_ready_for_review": true,
+    "policy_decision": "allow",
+    "production_ready": false,
+    "result_id": "v6_4_result_d649f083d62a",
+    "runtime_result_ref": "runtime://v6-4/workflow-instance-v6-5/rerun/markdown_parse",
+    "status": "applied_limited_runtime_slice",
+    "workflow_state": {
+      "app_id": "app_v6",
+      "artifact_versions": {},
+      "audit_event_refs": [
+        "audit-event://obs_event_4175fd86c054415d806a5f8b1d69056a"
+      ],
+      "downstream_stale": [
+        "downstream-of:markdown_parse"
+      ],
+      "incident_timeline_refs": [
+        "incident-timeline://v6-4/default"
+      ],
+      "pilot_slice_ready_for_review": true,
+      "production_ready": false,
+      "project_id": "project_v6",
+      "quality_evaluations": [],
+      "revision": 1,
+      "runtime_result_refs": [
+        "runtime://v6-4/workflow-instance-v6-5/rerun/markdown_parse"
+      ],
+      "station_attempts": {
+        "markdown_parse": [
+          {
+            "attempt_id": "attempt_da753e3d6379",
+            "attempt_number": 1,
+            "created_at": "2026-06-03T07:41:18.234635+00:00",
+            "error_ref": "error://v6-4/seeded-failure",
+            "producer_runtime_result_ref": null,
+            "station_id": "markdown_parse",
+            "station_run_id": "station-run-v6-5-1",
+            "status": "failed"
+          },
+          {
+            "attempt_id": "attempt_c081a118efc4",
+            "attempt_number": 2,
+            "created_at": "2026-06-03T07:41:18.234785+00:00",
+            "error_ref": null,
+            "producer_runtime_result_ref": "runtime://v6-4/workflow-instance-v6-5/rerun/markdown_parse",
+            "station_id": "markdown_parse",
+            "station_run_id": "station-run-v6-5-1_retry_2",
+            "status": "completed"
+          }
+        ]
+      },
+      "status": "running",
+      "tenant_id": "tenant_v6",
+      "updated_at": "2026-06-03T07:41:18.235105+00:00",
+      "workflow_instance_id": "workflow-instance-v6-5",
+      "workspace_id": "workspace_v6"
+    }
+  },
+  "proposal": {
+    "agent_executor_ready": false,
+    "autonomous_workflow_editing_ready": false,
+    "blocked_reason": null,
+    "decision": {
+      "capability_decision": "allow_governed_handoff",
+      "created_at": "2026-06-03T07:41:18.234159+00:00",
+      "decision_id": "agent-decision-ec40961de06b",
+      "denial_reason": null,
+      "intent_id": "agent-intent-9cc3a6afbf2c",
+      "policy_decision": "allow_handoff",
+      "requires_approval_gate": false,
+      "requires_user_confirmation": true,
+      "risk_flags": []
+    },
+    "handoff": {
+      "approval_gate_decision_ref": null,
+      "created_at": "2026-06-03T07:41:18.234177+00:00",
+      "handoff_id": "agent-handoff-181a2d76c453",
+      "human_authorization_ref": null,
+      "intent_id": "agent-intent-9cc3a6afbf2c",
+      "operation": "station.rerun",
+      "requires_human_authorization": true,
+      "status": "awaiting_human_confirmation",
+      "target_refs": {
+        "station_id": "markdown_parse",
+        "station_run_id": "station-run-v6-5-1",
+        "workflow_instance_id": "workflow-instance-v6-5"
+      }
+    },
+    "intent": {
+      "agent_id": "agent_v6_5",
+      "correlation_id": "correlation_v6_5_e2e",
+      "created_at": "2026-06-03T07:41:18.234081+00:00",
+      "intent_id": "agent-intent-9cc3a6afbf2c",
+      "operation": "station.rerun",
+      "prompt_template_ref": "prompt-template://v6-5/agent-intent",
+      "provider_invocation_ref": "minimax-intent-9df1cbaf7fc9",
+      "rationale_ref": "rationale:v6-5/minimax/redacted",
+      "redaction_status": "redacted",
+      "requested_action_summary": "Rerun the failed Markdown parsing station using governed handoff only.",
+      "session_id": "agent_session_v6_5",
+      "source": "agent",
+      "target_refs": {
+        "station_id": "markdown_parse",
+        "station_run_id": "station-run-v6-5-1",
+        "workflow_instance_id": "workflow-instance-v6-5"
+      }
+    },
+    "minimax_evidence": {
+      "correlation_id": "correlation_v6_5_e2e",
+      "created_at": "2026-06-03T07:41:18.232975+00:00",
+      "credential_ref": "env://MINIMAX_API_KEY",
+      "input_runtime_snapshot_ref": "runtime-status://v6-5/redacted",
+      "invocation_id": "minimax-intent-9df1cbaf7fc9",
+      "model_ref": "MiniMax-M2.1",
+      "output_intent_ref": "agent-intent-output://920167ac93a4",
+      "prompt_template_ref": "prompt-template://v6-5/agent-intent",
+      "provider": "minimax",
+      "provider_config_source": ".env.local",
+      "redaction_status": "redacted",
+      "token_usage_ref": "token-usage://v6-5/redacted"
+    },
+    "production_controlled_executor_ready": false,
+    "status": "handoff_ready"
+  },
+  "source_agent_denial": {
+    "audit_event_ref": "audit-event://obs_event_bc55d71461004dd7bb966398aa22fe0c",
+    "blocked_reason": "source_agent_durable_mutation_denied",
+    "capability_decision": "deny",
+    "evidence": null,
+    "idempotent_replay": false,
+    "operation": "station.rerun",
+    "pilot_slice_ready_for_review": true,
+    "policy_decision": "deny",
+    "production_ready": false,
+    "result_id": "v6_4_result_c8ff87f3f653",
+    "runtime_result_ref": null,
+    "status": "blocked",
+    "workflow_state": null
+  }
+}

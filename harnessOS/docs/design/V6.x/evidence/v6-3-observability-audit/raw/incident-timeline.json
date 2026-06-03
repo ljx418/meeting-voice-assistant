@@ -1,0 +1,122 @@
+[
+  {
+    "allowed_actions": [
+      "view",
+      "export",
+      "open_evidence"
+    ],
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.083234+00:00",
+    "event_ref": "obs_event_f2986dea989d4f1ea50d4d82da254bd7",
+    "evidence_ref": "evidence://v6-1/identity",
+    "incident_id": "incident_v6_3",
+    "operation": "report.open",
+    "readonly": true,
+    "redaction_status": "redacted",
+    "severity": "warning",
+    "summary": "identity.scope.allowed: report.open",
+    "tenant_id": "tenant_alpha",
+    "timeline_entry_id": "timeline_3fd990f394f74b57a4efc20c12aa3790",
+    "workspace_id": "workspace_docs"
+  },
+  {
+    "allowed_actions": [
+      "view",
+      "export",
+      "open_evidence"
+    ],
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.083601+00:00",
+    "event_ref": "obs_event_50bf3dc94192492ebb73d7e05b769b76",
+    "evidence_ref": "evidence://v6-2/provider",
+    "incident_id": "incident_v6_3",
+    "operation": "provider.invoke",
+    "readonly": true,
+    "redaction_status": "redacted",
+    "severity": "warning",
+    "summary": "provider.invocation.recorded: provider.invoke",
+    "tenant_id": "tenant_alpha",
+    "timeline_entry_id": "timeline_08db9b0dd6874f22be1ef4ba096aaa35",
+    "workspace_id": "workspace_docs"
+  },
+  {
+    "allowed_actions": [
+      "view",
+      "export",
+      "open_evidence"
+    ],
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.083750+00:00",
+    "event_ref": "obs_event_e9a3a2d09e2e40c19b40da8b2df9ecca",
+    "evidence_ref": "evidence://v6-3/failure",
+    "incident_id": "incident_v6_3",
+    "operation": "station.rerun",
+    "readonly": true,
+    "redaction_status": "redacted",
+    "severity": "warning",
+    "summary": "runtime.failure.recorded: station.rerun",
+    "tenant_id": "tenant_alpha",
+    "timeline_entry_id": "timeline_665ab930a1254130b65f13238560be3a",
+    "workspace_id": "workspace_docs"
+  },
+  {
+    "allowed_actions": [
+      "view",
+      "export",
+      "open_evidence"
+    ],
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.083869+00:00",
+    "event_ref": "obs_event_75699d316b6f4c2e8477e37252197b64",
+    "evidence_ref": "evidence://v6-3/retry",
+    "incident_id": "incident_v6_3",
+    "operation": "station.rerun",
+    "readonly": true,
+    "redaction_status": "redacted",
+    "severity": "warning",
+    "summary": "runtime.retry.recorded: station.rerun",
+    "tenant_id": "tenant_alpha",
+    "timeline_entry_id": "timeline_f1ac90e6218448f0843475d62b9a346f",
+    "workspace_id": "workspace_docs"
+  },
+  {
+    "allowed_actions": [
+      "view",
+      "export",
+      "open_evidence"
+    ],
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.083980+00:00",
+    "event_ref": "obs_event_d57a2800ee7845f0b00b69c6c06c6ce1",
+    "evidence_ref": "evidence://v6-3/kill-switch",
+    "incident_id": "incident_v6_3",
+    "operation": "kill_switch.check",
+    "readonly": true,
+    "redaction_status": "redacted",
+    "severity": "warning",
+    "summary": "kill_switch.checked: kill_switch.check",
+    "tenant_id": "tenant_alpha",
+    "timeline_entry_id": "timeline_8930bc92f9604abfa999de009a0d89a0",
+    "workspace_id": "workspace_docs"
+  },
+  {
+    "allowed_actions": [
+      "view",
+      "export",
+      "open_evidence"
+    ],
+    "correlation_id": "corr_v6_3_e2e",
+    "created_at": "2026-06-02T08:16:30.084086+00:00",
+    "event_ref": "obs_event_71c2b79d5a134650b89ef993e466ccdc",
+    "evidence_ref": "evidence://v6-3/rollback",
+    "incident_id": "incident_v6_3",
+    "operation": "rollback.record",
+    "readonly": true,
+    "redaction_status": "redacted",
+    "severity": "warning",
+    "summary": "rollback.recorded: rollback.record",
+    "tenant_id": "tenant_alpha",
+    "timeline_entry_id": "timeline_8eb28ea05db54cbcb6638fb9c4ebae99",
+    "workspace_id": "workspace_docs"
+  }
+]

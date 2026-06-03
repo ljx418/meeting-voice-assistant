@@ -1,0 +1,99 @@
+[
+  {
+    "evidence_id": "v43_evidence_76c3ecae731c",
+    "workflow_instance_id": "v43_video_instance_635d52af894b",
+    "workflow_template_id": "v43_serial_video_template",
+    "operation": "workflow.instance.start",
+    "operation_type": "workflow.instance.start",
+    "status": "failed",
+    "correlation_id": "corr_259ea8a0cb3b",
+    "operation_id": "op_afcbeeab014c",
+    "idempotency_key": "idem_3f76418da231",
+    "proposal_id": null,
+    "handoff_id": null,
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "dev_local_video_workflow",
+      "deterministic_text_artifacts"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_serial_video_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "workflow_instance",
+      "resource_id": "v43_video_instance_635d52af894b",
+      "operation": "workflow.instance.start",
+      "status": "failed",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "trace_id": "trace_24a66081"
+    },
+    "created_at": "2026-05-28T08:58:35.005458+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  },
+  {
+    "evidence_id": "v43_evidence_5d3931b426eb",
+    "workflow_instance_id": "v43_video_instance_635d52af894b",
+    "workflow_template_id": "v43_serial_video_template",
+    "operation": "station.rerun",
+    "operation_type": "station.rerun",
+    "status": "succeeded",
+    "correlation_id": "corr_c33730f682ad",
+    "operation_id": "op_d37ea3dd06a6",
+    "idempotency_key": "idem_c3ce57726256",
+    "proposal_id": null,
+    "handoff_id": null,
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "station_rerun",
+      "downstream_stale",
+      "dev_local_video_workflow"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_serial_video_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "station_run_attempt",
+      "resource_id": "attempt_storyboard_agent_2",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "operation": "station.rerun",
+      "status": "completed",
+      "trace_id": "trace_3d67f0e2"
+    },
+    "created_at": "2026-05-28T08:58:35.012744+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  },
+  {
+    "evidence_id": "v43_evidence_8ebd132fbb48",
+    "workflow_instance_id": "v43_video_instance_635d52af894b",
+    "workflow_template_id": "v43_serial_video_template",
+    "operation": "workflow.instance.continue_downstream",
+    "operation_type": "workflow.instance.continue_downstream",
+    "status": "succeeded",
+    "correlation_id": "corr_2e91df98504d",
+    "operation_id": "op_0fb35532f6f2",
+    "idempotency_key": "idem_a7641448d860",
+    "proposal_id": null,
+    "handoff_id": null,
+    "user_confirmed": true,
+    "source": "run_panel",
+    "risk_flags": [
+      "downstream_continue",
+      "dev_local_video_workflow"
+    ],
+    "policy_decision": "user_confirmed_only",
+    "capability_decision": "bff_serial_video_runtime_allowed",
+    "runtime_result_ref": {
+      "type": "workflow_instance",
+      "resource_id": "v43_video_instance_635d52af894b",
+      "operation": "workflow.instance.continue_downstream",
+      "status": "completed",
+      "workflow_instance_id": "v43_video_instance_635d52af894b",
+      "trace_id": "trace_efd13b4a"
+    },
+    "created_at": "2026-05-28T08:58:35.022465+00:00",
+    "created_by": "run_panel",
+    "redaction_status": "redacted"
+  }
+]
