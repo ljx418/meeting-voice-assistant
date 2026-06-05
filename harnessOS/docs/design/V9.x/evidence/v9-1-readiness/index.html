@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>V9-1 Readiness Dashboard</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f8fafc; color: #111827; }
+    header { background: #111827; color: white; padding: 28px 40px; }
+    main { padding: 28px 40px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .card { background: white; border: 1px solid #d1d5db; border-radius: 8px; padding: 18px; }
+    .status { display: inline-block; padding: 4px 10px; border-radius: 999px; font-weight: 700; }
+    .pass { background: #dcfce7; color: #166534; }
+    .fail { background: #fee2e2; color: #991b1b; }
+    .path { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #4b5563; overflow-wrap: anywhere; }
+    .warning { border-left: 6px solid #dc2626; background: #fef2f2; padding: 16px 18px; margin: 20px 0; }
+    ul { line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>V9-1 Readiness Dashboard</h1>
+    <p>status: PASS / limited_safety_gate_implementation_complete: true / v9_2_limited_runtime_slice_complete: true / runtime_implementation_allowed: false</p>
+  </header>
+  <main>
+    <section class="warning">
+      <strong>边界：</strong>本看板证明 V9-1 readiness tooling 与 V9-2 有限 runtime slice 证据通过，不批准 runtime executor route、runtime worker、V9-3 编排运行时、V9-4 代码工作流运行时或 source=agent durable mutation。
+    </section>
+    <h2>Reports</h2>
+    <div class="grid">
+            <section class="card">
+              <h2>contract_validation</h2>
+              <p class="status pass">PASS</p>
+              <p>runtime_evidence: False</p>
+              <p class="path">/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_contract_validation_report.json</p>
+            </section>
+            
+            <section class="card">
+              <h2>negative_tests</h2>
+              <p class="status pass">PASS</p>
+              <p>runtime_evidence: False</p>
+              <p class="path">/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_negative_test_results.json</p>
+            </section>
+            
+            <section class="card">
+              <h2>no_false_green</h2>
+              <p class="status pass">PASS</p>
+              <p>runtime_evidence: False</p>
+              <p class="path">/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_no_false_green_scan.json</p>
+            </section>
+            
+            <section class="card">
+              <h2>redaction</h2>
+              <p class="status pass">PASS</p>
+              <p>runtime_evidence: False</p>
+              <p class="path">/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_redaction_scan.json</p>
+            </section>
+            
+            <section class="card">
+              <h2>safety_gate_implementation</h2>
+              <p class="status pass">PASS</p>
+              <p>runtime_evidence: None</p>
+              <p class="path">/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-1-safety-gate-implementation/acceptance-data.json</p>
+            </section>
+            
+            <section class="card">
+              <h2>v9_2_pre_implementation</h2>
+              <p class="status pass">PASS</p>
+              <p>runtime_evidence: None</p>
+              <p class="path">/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-2-controlled-executor-pre-implementation/pre-implementation-data.json</p>
+            </section>
+            
+            <section class="card">
+              <h2>v9_2_limited_runtime_slice</h2>
+              <p class="status pass">PASS</p>
+              <p>runtime_evidence: None</p>
+              <p class="path">/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-2-controlled-executor-runtime/acceptance-data.json</p>
+            </section>
+            </div>
+    <h2>Allowed Next Work</h2>
+    <ul><li>V9 front-stage readiness audit</li><li>V9-1 external implementation-readiness audit</li><li>V9-1 limited safety gate implementation review</li><li>V9-2 implementation-readiness closure review</li><li>V9-2 limited controlled runtime slice review</li><li>readiness validator tooling review</li></ul>
+    <h2>Blocked Work</h2>
+    <ul><li>V9-1 runtime executor route</li><li>V9-1 runtime worker</li><li>source=agent durable mutation</li><li>V9-3 runtime implementation</li><li>V9-4 runtime implementation</li><li>V9-8 final acceptance</li></ul>
+    <h2>Decision Files</h2>
+    <ul>
+      <li>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/decisions/v9_1_external_audit_decision.md</li>
+      <li>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/decisions/v9_1_high_risk_human_decision.json</li>
+    </ul>
+  </main>
+</body>
+</html>

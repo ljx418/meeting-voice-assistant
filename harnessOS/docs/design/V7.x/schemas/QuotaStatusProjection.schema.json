@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/QuotaStatusProjection.schema.json",
+  "title": "QuotaStatusProjection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["quota_status_id", "tenant_id", "workspace_id", "app_id", "limit_ref", "remaining", "policy_decision", "audit_ref", "created_at"],
+  "properties": {
+    "quota_status_id": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "app_id": { "type": "string", "minLength": 1 },
+    "limit_ref": { "type": "string", "minLength": 1 },
+    "remaining": { "type": "integer", "minimum": 0 },
+    "policy_decision": { "enum": ["allow", "deny", "needs_review"] },
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

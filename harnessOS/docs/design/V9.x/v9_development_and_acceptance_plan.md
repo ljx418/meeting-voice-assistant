@@ -1,0 +1,172 @@
+# V9 Development And Acceptance Plan
+
+文档状态：V9 development and acceptance control plan / planning baseline。
+
+## 1. Stage Status Table
+
+| Stage | Purpose | Current Status | Allowed Claim | Boundary |
+| --- | --- | --- | --- | --- |
+| V9-0 | Planning And High-Risk Boundary Gate | planning | V9-0 complete: high-risk execution planning gate ready for review. | documentation only |
+| V9-1 | Agent Executor Safety Gate | planned | V9-1 complete: Agent executor safety gate ready for review. | design / safety gate |
+| V9-2 | Controlled Agent Executor Runtime | planned | V9-2 complete: controlled Agent execution runtime slice ready for review. | controlled runtime slice only |
+| V9-3 | Multi-Agent Orchestration Runtime | planned | V9-3 complete: multi-Agent orchestration runtime slice ready for review. | not full orchestration GA |
+| V9-4 | Autonomous Coding Workflow Pilot | planned | V9-4 complete: autonomous coding workflow pilot ready for review. | no auto commit / auto push / auto deploy |
+| V9-5 | Governed Terminal Worker Expansion | planned | V9-5 complete: governed terminal worker expansion ready for review. | not unrestricted shell |
+| V9-6 | Workflow Studio Productization | planned | V9-6 complete: Workflow Studio productization slice ready for review. | not complete Studio GA |
+| V9-7 | Production Governance / Evidence Hardening and Terminal Automation Gate | planned | V9-7 complete: production governance and terminal automation gate ready for review. | design/high-risk gate first |
+| V9-8 | Final Acceptance | planned | V9 complete: high-risk Agent execution and workflow productization baseline ready for review. | not production ready |
+
+## 2. Development Order
+
+```text
+V9-0 -> V9-1 -> V9-2 -> V9-3 -> V9-4 -> V9-5 -> V9-6 -> V9-7 -> V9-8
+```
+
+V9-1、V9-2、V9-4、V9-5、V9-7 是高风险阶段。每个阶段实现前必须有独立审计和人工 high-risk proceed decision。
+
+## 3. Implementation Readiness Requirements
+
+Before V9-1:
+
+```text
+V9-0 accepted.
+AgentExecutionPolicy contract accepted.
+AgentExecutionEnvelope contract accepted.
+CapabilityResolver safety matrix accepted.
+Approval / kill switch / timeout / rollback contract accepted.
+No False Green guard accepted.
+P0 schema files parse.
+P0 negative fixtures parse.
+V9 front-stage readiness audit accepted.
+```
+
+Before V9-2:
+
+```text
+V9-1 accepted.
+Controlled executor action allowlist accepted.
+Durable mutation user confirmation policy accepted.
+Durable mutation invariant accepted: user_confirmed=true OR valid human_authorization_ref.
+HumanAuthorizationRef contract accepted.
+source=agent default durable mutation denial accepted.
+Execution evidence schema accepted.
+Redaction and secret boundary accepted.
+V9-1 runtime evidence PASS.
+```
+
+Before V9-3:
+
+```text
+V9-2 evidence PASS.
+Agent message protocol accepted.
+Attempt history and artifact lineage contracts accepted.
+Serial, parallel, fan-in and fan-out contracts accepted.
+Failure recovery and lost worker recovery matrix accepted.
+producer_agent_id and producer_attempt_id lineage requirements accepted.
+V9-2 runtime evidence PASS.
+```
+
+Before V9-4:
+
+```text
+V9-2 and V9-3 evidence PASS.
+Coding workflow sandbox contract accepted.
+Diff / test / review / fix loop accepted.
+No auto commit / push / deploy policy accepted.
+No unreviewed patch apply policy accepted.
+V9-2 and V9-3 runtime evidence packages accepted.
+```
+
+## 3.1 Front-Stage PR Slices
+
+```text
+V9-1A schema and contract validator
+V9-1B CapabilityResolver deny-by-default validator
+V9-1C HumanAuthorizationRef validation hook
+V9-1D negative fixture runner and evidence package
+V9-2A controlled executor action allowlist
+V9-2B idempotency / timeout / rollback chain
+V9-2C append-only execution evidence
+V9-3A orchestration message protocol
+V9-3B branch state and fan-in/fan-out coordinator
+V9-3C attempt history and artifact lineage
+V9-4A coding workflow sandbox and git deny policy
+V9-4B diff / test / review / fix-loop evidence
+```
+
+Before V9-5:
+
+```text
+V8-6 / V8-7 evidence accepted.
+Workspace write sandbox accepted.
+Command tier allowlist accepted.
+File write policy accepted.
+Terminal transcript / diff capture accepted.
+```
+
+Before V9-6:
+
+```text
+Studio PRD accepted.
+BFF route allowlist accepted.
+Browser denylist accepted.
+Runtime truth boundary accepted.
+UI false-green copy scan accepted.
+```
+
+Before V9-7:
+
+```text
+Tenant / credential / approval / audit / incident / evidence hardening contracts accepted.
+Production governance / terminal automation scope accepted.
+Browser account automation separate PRD accepted if enabled.
+```
+
+## 4. Test Matrix
+
+```text
+agent_execution_requires_policy_decision
+durable_mutation_requires_user_confirmation
+durable_mutation_allows_human_authorization_ref
+source_agent_direct_mutation_denied_by_default
+agent_execution_evidence_redacted
+kill_switch_checked_before_action
+timeout_marks_attempt_failed
+rollback_descriptor_required_for_mutation
+multi_agent_parallel_branch_states_independent
+multi_agent_fan_in_fan_out_evidence_exists
+lost_agent_recovery_retains_old_attempt
+artifact_lineage_preserves_producer_agent_and_attempt
+coding_workflow_diff_requires_review
+coding_workflow_no_auto_commit
+coding_workflow_no_auto_push
+coding_workflow_no_auto_deploy
+terminal_worker_workspace_escape_denied
+terminal_worker_secret_read_denied
+studio_browser_no_direct_runtime_truth
+studio_hidden_mutation_form_absent
+production_terminal_automation_requires_high_risk_gate
+v9_no_false_green_scan_pass
+v9_redaction_scan_pass
+```
+
+## 5. Validation Commands
+
+```text
+xmllint --noout docs/design/V9.x/v9_current_gap_analysis.drawio
+rg -in "production[- ]?ready|full production GA|GA ready|Agent executor ready|controlled executor ready|production controlled executor ready|full multi-Agent orchestration ready|distributed multi-Agent runtime ready|autonomous coding workflow ready|autonomous workflow editing ready|complete Workflow Studio ready|unrestricted terminal worker ready|production terminal automation ready|production browser automation ready|production automation ready|生产可用|全面生产可用|生产就绪|可投产|正式发布|生产级可用|Agent执行器已完成|Agent Executor 已完成|受控执行器已完成|生产级受控执行器已完成|完整多Agent编排已完成|多智能体编排已完成|自主代码工作流已完成|自主工作流编辑已完成|完整工作流工作台已完成|无限制终端worker已完成|生产终端自动化已完成|生产浏览器自动化已完成|生产自动化已完成" docs/design/V9.x
+```
+
+The claim scan may find forbidden terms only inside explicit forbidden/no-false-green contexts.
+
+## 6. Stop Conditions
+
+```text
+V9 docs retroactively upgrade V8 to production ready.
+Any V9 document claims Agent executor ready outside forbidden/no-false-green context.
+Any stage allows source=agent default durable mutation.
+Terminal worker is designed as unrestricted arbitrary shell.
+Studio directly writes runtime truth.
+Credential raw secret appears in evidence.
+V9-8 final claim emitted before V9-0..V9-7 evidence exists.
+```

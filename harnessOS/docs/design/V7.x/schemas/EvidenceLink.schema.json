@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/EvidenceLink.schema.json",
+  "title": "EvidenceLink",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["link_id", "mission_id", "evidence_id", "href", "readonly", "redaction_status", "created_at"],
+  "properties": {
+    "link_id": { "type": "string", "minLength": 1 },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "evidence_id": { "type": "string", "minLength": 1 },
+    "href": { "type": "string", "minLength": 1 },
+    "readonly": { "const": true },
+    "redaction_status": { "enum": ["redacted", "not_sensitive"] },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

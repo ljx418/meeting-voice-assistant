@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/AuditSourceRefProjection.schema.json",
+  "title": "AuditSourceRefProjection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["audit_ref", "tenant_id", "workspace_id", "source_type", "source_id", "correlation_id", "request_id", "created_at"],
+  "properties": {
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "source_type": { "enum": ["mission_tui", "product_console", "approved_api", "runtime_report", "evidence_chain"] },
+    "source_id": { "type": "string", "minLength": 1 },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

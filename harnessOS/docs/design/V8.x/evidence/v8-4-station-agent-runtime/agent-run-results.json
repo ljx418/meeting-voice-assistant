@@ -1,0 +1,201 @@
+[
+  {
+    "agent_id": "v8_mission_agent",
+    "attempt_id": "attempt-v8-folder_authorization-1",
+    "capability_decision_refs": [
+      "agent_capability_33a72fab4a4c"
+    ],
+    "created_at": "2026-06-04T14:03:28.631558+00:00",
+    "evidence_refs": [
+      "evidence://v8/folder_authorization"
+    ],
+    "llm_invocation_refs": [
+      "agent_invocation_v8_93518f0db05f"
+    ],
+    "mcp_call_refs": [],
+    "output_artifact_refs": [
+      "artifact-contract://authorized_folder_ref"
+    ],
+    "quality_refs": [],
+    "redaction_status": "redacted",
+    "run_result_id": "agent_run_result_v8_d52ab2fd8270",
+    "station_id": "folder_authorization",
+    "station_run_id": "station-run-v8-folder_authorization",
+    "status": "PASS",
+    "tool_call_refs": [
+      "tool-call://v8/folder_authorization"
+    ]
+  },
+  {
+    "agent_id": "v8_scanner_agent",
+    "attempt_id": "attempt-v8-markdown_scan-1",
+    "capability_decision_refs": [
+      "agent_capability_f00882d73588"
+    ],
+    "created_at": "2026-06-04T14:03:28.631578+00:00",
+    "evidence_refs": [
+      "evidence://v8/markdown_scan"
+    ],
+    "llm_invocation_refs": [
+      "agent_invocation_v8_47bd38224044"
+    ],
+    "mcp_call_refs": [
+      "mcp-call://v8/markdown_scan"
+    ],
+    "output_artifact_refs": [
+      "artifact-contract://parsed_markdown_documents"
+    ],
+    "quality_refs": [],
+    "redaction_status": "redacted",
+    "run_result_id": "agent_run_result_v8_126047083ad6",
+    "station_id": "markdown_scan",
+    "station_run_id": "station-run-v8-markdown_scan",
+    "status": "PASS",
+    "tool_call_refs": [
+      "tool-call://v8/markdown_scan"
+    ]
+  },
+  {
+    "agent_id": "v8_folder_summary_agent",
+    "attempt_id": "attempt-v8-per_folder_summary-1",
+    "capability_decision_refs": [
+      "agent_capability_93c40503a9c1"
+    ],
+    "created_at": "2026-06-04T14:03:28.631593+00:00",
+    "evidence_refs": [
+      "evidence://v8/per_folder_summary"
+    ],
+    "llm_invocation_refs": [
+      "agent_invocation_v8_1c4f15ee342b"
+    ],
+    "mcp_call_refs": [],
+    "output_artifact_refs": [
+      "artifact-contract://folder_summary_artifacts"
+    ],
+    "quality_refs": [],
+    "redaction_status": "redacted",
+    "run_result_id": "agent_run_result_v8_daeaf3a0bb2d",
+    "station_id": "per_folder_summary",
+    "station_run_id": "station-run-v8-per_folder_summary",
+    "status": "PASS",
+    "tool_call_refs": [
+      "tool-call://v8/per_folder_summary"
+    ]
+  },
+  {
+    "agent_id": "v8_overview_agent",
+    "attempt_id": "attempt-v8-overview_summary-1",
+    "capability_decision_refs": [
+      "agent_capability_1acf978d17fc"
+    ],
+    "created_at": "2026-06-04T14:03:28.631606+00:00",
+    "evidence_refs": [
+      "evidence://v8/overview_summary"
+    ],
+    "llm_invocation_refs": [
+      "agent_invocation_v8_d5ab1f7f1dd6"
+    ],
+    "mcp_call_refs": [],
+    "output_artifact_refs": [
+      "artifact-contract://overview_summary_artifact"
+    ],
+    "quality_refs": [],
+    "redaction_status": "redacted",
+    "run_result_id": "agent_run_result_v8_bd9705c281c2",
+    "station_id": "overview_summary",
+    "station_run_id": "station-run-v8-overview_summary",
+    "status": "PASS",
+    "tool_call_refs": [
+      "tool-call://v8/overview_summary"
+    ]
+  },
+  {
+    "agent_id": "v8_quality_agent",
+    "attempt_id": "attempt-v8-quality_check-1",
+    "capability_decision_refs": [
+      "agent_capability_c130b66903f7"
+    ],
+    "created_at": "2026-06-04T14:03:28.631621+00:00",
+    "evidence_refs": [
+      "evidence://v8/quality_check"
+    ],
+    "llm_invocation_refs": [
+      "agent_invocation_v8_325123a4da7d"
+    ],
+    "mcp_call_refs": [
+      "mcp-call://v8/quality_check"
+    ],
+    "output_artifact_refs": [
+      "artifact-contract://quality_report"
+    ],
+    "quality_refs": [
+      "quality-report://v8/local-document"
+    ],
+    "redaction_status": "redacted",
+    "run_result_id": "agent_run_result_v8_ca07c5465e70",
+    "station_id": "quality_check",
+    "station_run_id": "station-run-v8-quality_check",
+    "status": "PASS",
+    "tool_call_refs": [
+      "tool-call://v8/quality_check"
+    ]
+  },
+  {
+    "agent_id": "v8_report_agent",
+    "attempt_id": "attempt-v8-runtime_report-1",
+    "capability_decision_refs": [
+      "agent_capability_e8b8f29ef4b9"
+    ],
+    "created_at": "2026-06-04T14:03:28.631639+00:00",
+    "evidence_refs": [
+      "evidence://v8/runtime_report"
+    ],
+    "llm_invocation_refs": [
+      "agent_invocation_v8_922f1fd6e9ae"
+    ],
+    "mcp_call_refs": [
+      "mcp-call://v8/runtime_report"
+    ],
+    "output_artifact_refs": [
+      "artifact-contract://workflow_board_html"
+    ],
+    "quality_refs": [],
+    "redaction_status": "redacted",
+    "run_result_id": "agent_run_result_v8_ff9efdda4443",
+    "station_id": "runtime_report",
+    "station_run_id": "station-run-v8-runtime_report",
+    "status": "PASS",
+    "tool_call_refs": [
+      "tool-call://v8/runtime_report"
+    ]
+  },
+  {
+    "agent_id": "v8_workflow_explainer_agent",
+    "attempt_id": "attempt-v8-evidence_record-1",
+    "capability_decision_refs": [
+      "agent_capability_a0448f6e86d7"
+    ],
+    "created_at": "2026-06-04T14:03:28.631653+00:00",
+    "evidence_refs": [
+      "evidence://v8/evidence_record"
+    ],
+    "llm_invocation_refs": [
+      "agent_invocation_v8_f0d14a433ca5"
+    ],
+    "mcp_call_refs": [
+      "mcp-call://v8/evidence_record"
+    ],
+    "output_artifact_refs": [
+      "artifact-contract://evidence_chain_json"
+    ],
+    "quality_refs": [],
+    "redaction_status": "redacted",
+    "run_result_id": "agent_run_result_v8_893de1ffcaf9",
+    "station_id": "evidence_record",
+    "station_run_id": "station-run-v8-evidence_record",
+    "status": "PASS",
+    "tool_call_refs": [
+      "tool-call://v8/evidence_record"
+    ]
+  }
+]

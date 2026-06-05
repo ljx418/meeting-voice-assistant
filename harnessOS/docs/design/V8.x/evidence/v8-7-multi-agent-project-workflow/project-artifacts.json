@@ -1,0 +1,133 @@
+[
+  {
+    "agent_id": "v8_7_product_agent",
+    "artifact_id": "artifact-v8-7-product_station-9866fc3b",
+    "created_at": "2026-06-05T01:23:38.556264+00:00",
+    "kind": "product_station_artifact",
+    "path": "artifacts/product_station.md",
+    "producer_attempt_id": "attempt-v8-7-product_station-1",
+    "redaction_status": "redacted",
+    "station_id": "product_station",
+    "title": "ProductAgent",
+    "upstream_artifact_refs": []
+  },
+  {
+    "agent_id": "v8_7_architecture_agent",
+    "artifact_id": "artifact-v8-7-architecture_station-bb87ccee",
+    "created_at": "2026-06-05T01:23:38.556293+00:00",
+    "kind": "architecture_station_artifact",
+    "path": "artifacts/architecture_station.md",
+    "producer_attempt_id": "attempt-v8-7-architecture_station-1",
+    "redaction_status": "redacted",
+    "station_id": "architecture_station",
+    "title": "ArchitectureAgent",
+    "upstream_artifact_refs": [
+      "artifact-v8-7-product_station-9866fc3b"
+    ]
+  },
+  {
+    "agent_id": "v8_7_planning_agent",
+    "artifact_id": "artifact-v8-7-planning_station-f218c850",
+    "created_at": "2026-06-05T01:23:38.556307+00:00",
+    "kind": "planning_station_artifact",
+    "path": "artifacts/planning_station.md",
+    "producer_attempt_id": "attempt-v8-7-planning_station-1",
+    "redaction_status": "redacted",
+    "station_id": "planning_station",
+    "title": "PlanningAgent",
+    "upstream_artifact_refs": [
+      "artifact-v8-7-product_station-9866fc3b",
+      "artifact-v8-7-architecture_station-bb87ccee"
+    ]
+  },
+  {
+    "agent_id": "v8_7_implementation_agent",
+    "artifact_id": "artifact-v8-7-implementation_station-ec83a2ef",
+    "created_at": "2026-06-05T01:23:38.556318+00:00",
+    "kind": "implementation_station_artifact",
+    "path": "artifacts/implementation_station.md",
+    "producer_attempt_id": "attempt-v8-7-implementation_station-1",
+    "redaction_status": "redacted",
+    "station_id": "implementation_station",
+    "title": "ImplementationAgent",
+    "upstream_artifact_refs": [
+      "artifact-v8-7-product_station-9866fc3b",
+      "artifact-v8-7-architecture_station-bb87ccee",
+      "artifact-v8-7-planning_station-f218c850"
+    ]
+  },
+  {
+    "agent_id": "v8_7_test_agent",
+    "artifact_id": "artifact-v8-7-test_station-52bae153",
+    "created_at": "2026-06-05T01:23:38.556334+00:00",
+    "kind": "test_station_artifact",
+    "path": "artifacts/test_station.md",
+    "producer_attempt_id": "attempt-v8-7-test_station-1",
+    "redaction_status": "redacted",
+    "station_id": "test_station",
+    "title": "TestAgent",
+    "upstream_artifact_refs": [
+      "artifact-v8-7-product_station-9866fc3b",
+      "artifact-v8-7-architecture_station-bb87ccee",
+      "artifact-v8-7-planning_station-f218c850",
+      "artifact-v8-7-implementation_station-ec83a2ef"
+    ]
+  },
+  {
+    "agent_id": "v8_7_review_agent",
+    "artifact_id": "artifact-v8-7-review_station-e164ecad",
+    "created_at": "2026-06-05T01:23:38.556346+00:00",
+    "kind": "review_station_artifact",
+    "path": "artifacts/review_station.md",
+    "producer_attempt_id": "attempt-v8-7-review_station-1",
+    "redaction_status": "redacted",
+    "station_id": "review_station",
+    "title": "ReviewAgent",
+    "upstream_artifact_refs": [
+      "artifact-v8-7-product_station-9866fc3b",
+      "artifact-v8-7-architecture_station-bb87ccee",
+      "artifact-v8-7-planning_station-f218c850",
+      "artifact-v8-7-implementation_station-ec83a2ef",
+      "artifact-v8-7-test_station-52bae153"
+    ]
+  },
+  {
+    "agent_id": "v8_7_evidence_agent",
+    "artifact_id": "artifact-v8-7-evidence_station-7323cccd",
+    "created_at": "2026-06-05T01:23:38.556357+00:00",
+    "kind": "evidence_station_artifact",
+    "path": "artifacts/evidence_station.md",
+    "producer_attempt_id": "attempt-v8-7-evidence_station-1",
+    "redaction_status": "redacted",
+    "station_id": "evidence_station",
+    "title": "EvidenceAgent",
+    "upstream_artifact_refs": [
+      "artifact-v8-7-product_station-9866fc3b",
+      "artifact-v8-7-architecture_station-bb87ccee",
+      "artifact-v8-7-planning_station-f218c850",
+      "artifact-v8-7-implementation_station-ec83a2ef",
+      "artifact-v8-7-test_station-52bae153",
+      "artifact-v8-7-review_station-e164ecad"
+    ]
+  },
+  {
+    "agent_id": "v8_7_workflow_explainer",
+    "artifact_id": "artifact-v8-7-explainer_station-c9f5bd57",
+    "created_at": "2026-06-05T01:23:38.556368+00:00",
+    "kind": "explainer_station_artifact",
+    "path": "artifacts/explainer_station.md",
+    "producer_attempt_id": "attempt-v8-7-explainer_station-1",
+    "redaction_status": "redacted",
+    "station_id": "explainer_station",
+    "title": "ExplainerAgent",
+    "upstream_artifact_refs": [
+      "artifact-v8-7-product_station-9866fc3b",
+      "artifact-v8-7-architecture_station-bb87ccee",
+      "artifact-v8-7-planning_station-f218c850",
+      "artifact-v8-7-implementation_station-ec83a2ef",
+      "artifact-v8-7-test_station-52bae153",
+      "artifact-v8-7-review_station-e164ecad",
+      "artifact-v8-7-evidence_station-7323cccd"
+    ]
+  }
+]

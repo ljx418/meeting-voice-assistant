@@ -1,0 +1,90 @@
+[
+  {
+    "correlation_id": "corr_4996ad358622",
+    "evidence_id": "u5e_evidence_141e24c7aea5",
+    "input_artifact_refs": [
+      "markdown:AgentOS/01-架构.md",
+      "markdown:AgentOS/02-工作流.md"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation": "per_folder_summary",
+    "output_artifact_refs": [
+      "artifact_3239b9f4851c"
+    ],
+    "prompt_template_ref": "v4_u5e.per_folder_summary.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "raw_file_content_exposed": false,
+    "raw_prompt_exposed": false,
+    "redaction_status": "redacted",
+    "runtime_result_ref": "llm_result_d5de32e5d682",
+    "status": "completed",
+    "token_exposed": false
+  },
+  {
+    "correlation_id": "corr_622c7c09dbb7",
+    "evidence_id": "u5e_evidence_7917eb14070e",
+    "input_artifact_refs": [
+      "markdown:前端低代码/画布设计.md",
+      "markdown:前端低代码/节点库.md"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation": "per_folder_summary",
+    "output_artifact_refs": [
+      "artifact_8d899696d4ca"
+    ],
+    "prompt_template_ref": "v4_u5e.per_folder_summary.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "raw_file_content_exposed": false,
+    "raw_prompt_exposed": false,
+    "redaction_status": "redacted",
+    "runtime_result_ref": "llm_result_d325aa7904d3",
+    "status": "completed",
+    "token_exposed": false
+  },
+  {
+    "correlation_id": "corr_c5bd0122b457",
+    "evidence_id": "u5e_evidence_fb04a5fd80a5",
+    "input_artifact_refs": [
+      "markdown:项目复盘/周报.md"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation": "per_folder_summary",
+    "output_artifact_refs": [
+      "artifact_a5dac0e406e9"
+    ],
+    "prompt_template_ref": "v4_u5e.per_folder_summary.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "raw_file_content_exposed": false,
+    "raw_prompt_exposed": false,
+    "redaction_status": "redacted",
+    "runtime_result_ref": "llm_result_1f1817f37042",
+    "status": "completed",
+    "token_exposed": false
+  },
+  {
+    "correlation_id": "corr_c222036b0fde",
+    "evidence_id": "u5e_evidence_65fc7942a82d",
+    "input_artifact_refs": [
+      "folder_summary:AgentOS",
+      "folder_summary:前端低代码",
+      "folder_summary:项目复盘"
+    ],
+    "model_ref": "MiniMax-M2.1",
+    "operation": "overview_summary",
+    "output_artifact_refs": [
+      "artifact_f74ce0c9c81c"
+    ],
+    "prompt_template_ref": "v4_u5e.overview_summary.v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "raw_file_content_exposed": false,
+    "raw_prompt_exposed": false,
+    "redaction_status": "redacted",
+    "runtime_result_ref": "llm_result_db1d38018300",
+    "status": "completed",
+    "token_exposed": false
+  }
+]

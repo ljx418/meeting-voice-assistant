@@ -1,0 +1,50 @@
+HarnessOS Mission TUI
+============================
+任务: 递归总结 tests/fixtures/desktop/技术分享 下的 Markdown 文件
+当前状态: AwaitingConfirmation
+证据范围: transcript_only=True runtime_backed=False
+
+状态线:
+- IntentCaptured: complete
+- SpecDrafted: complete
+- SchemaValidated: complete
+- DiffReady: complete
+- AwaitingConfirmation: active
+
+可用动作:
+- workflow.patch.propose | confirmation=False | policy=allow | capability=allow
+- workflow.instance.start | confirmation=True | policy=needs_review | capability=needs_user_confirmation
+
+禁止原因:
+- workflow.instance.start / source_agent_denied: Agent 来源不能直接执行持久化运行，必须等待人工确认。
+- workflow.instance.start / requires_user_confirmation: 运行工作流属于持久化动作，必须先获得 user_confirmed=true。
+
+证据链接:
+- workflow_spec: workflow-spec://v7-2/mission_v7_2_e331afc50124
+- workflow_diff: workflow-diff://v7-2/mission_v7_2_e331afc50124
+- blueprint: drawio://v7-2/mission_v7_2_e331afc50124/workflow.drawio
+- runtime_report: runtime-report://not-started/transcript-only
+- evidence_chain: evidence://v7-2/mission_v7_2_e331afc50124/transcript
+
+边界: TUI 是 workflow head，不是 runtime truth；用户确认前不会执行持久化动作。
+
+V8 Station Agent Extension
+================================
+- IntentCaptured: complete
+- SpecDrafted: complete
+- StationAgentsAssigned: complete
+- AgentContextsPrepared: complete
+- CapabilityResolved: complete
+- UserConfirmed: complete
+- StationAgentsRun: complete
+- RuntimeReported: complete
+- EvidenceRecorded: complete
+- WorkflowExplained: complete
+
+station_count: 7
+agent_descriptor_count: 7
+workflow_explainer_agent_exists: true
+source_agent_mutation_denied: PASS
+runtime_backed: true
+evidence_scope: real_runtime_fixture
+边界: V8 是 station-agent workflow pilot，不代表 Agent 执行器、完整多 Agent 编排或自主编辑已完成。

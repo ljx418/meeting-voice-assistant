@@ -48,8 +48,9 @@ Product Console Plane
 | Production Controlled Execution Plane | V6-4 | complete / ready for review for limited action set | not production controlled executor ready |
 | Agent Governance Plane | V6-5 | complete / ready for review | not Agent executor ready |
 | External App Onboarding Plane | V6-6 | complete / ready for review | not production-ready external app support |
-| Distributed Runtime Plane | V6-7 | planned_high_risk | not full multi-Agent orchestration ready |
-| Product Console Plane | V6-8 | planned | not complete Workflow Studio ready |
+| Distributed Runtime Plane | V6-7 | complete / ready for review | not full multi-Agent orchestration ready |
+| Product Console Plane | V6-8 | complete / ready for review | not complete Workflow Studio ready |
+| Final Acceptance Boundary | V6-9 | complete / ready for review | not full production GA |
 
 ## 3. Plane Responsibilities
 

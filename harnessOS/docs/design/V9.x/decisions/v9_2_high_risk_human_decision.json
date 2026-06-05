@@ -1,0 +1,61 @@
+{
+  "schema_version": "v9.0",
+  "decision_ref": "v9-2-limited-controlled-runtime-implementation-approved",
+  "stage_id": "V9-2",
+  "decision": "GO_FOR_IMPLEMENTATION",
+  "decision_owner": "human_required",
+  "required_reviewers": [
+    "human_high_risk_owner"
+  ],
+  "risk_class": "high",
+  "scope": "V9-2 limited controlled Agent executor runtime implementation is approved only for workflow.instance.start, station.rerun, artifact.write, quality.evaluation.create, policy/capability/HumanAuthorizationRef/approval/kill switch/idempotency/timeout/rollback/evidence chain. Runtime executor routes, workers, source=agent durable mutation, excluded actions, V9-3/V9-4 runtime implementation, and readiness claims remain blocked.",
+  "allowed_work": [
+    "controlled_executor_runtime_slice_implementation",
+    "workflow_instance_start",
+    "station_rerun",
+    "artifact_write_append_only",
+    "quality_evaluation_create_append_only",
+    "policy_capability_resolution",
+    "human_authorization_ref_validation",
+    "approval_gate_check",
+    "kill_switch_check",
+    "idempotency_check",
+    "timeout_policy_check",
+    "rollback_descriptor_check",
+    "execution_evidence_chain"
+  ],
+  "blocked_work": [
+    "runtime_executor_route",
+    "runtime_worker",
+    "connector_call",
+    "external_llm_call",
+    "business_event_emit",
+    "context_update",
+    "workflow_template_publish",
+    "approval_respond",
+    "git_commit",
+    "git_push",
+    "production_deploy",
+    "workflow_store_write",
+    "station_run_write",
+    "source_agent_durable_mutation",
+    "v9_3_runtime_implementation",
+    "v9_4_runtime_implementation",
+    "v9_8_final_acceptance",
+    "agent_executor_ready_claim",
+    "controlled_executor_ready_claim",
+    "production_controlled_executor_ready_claim"
+  ],
+  "created_at": "2026-06-05T00:00:00Z",
+  "expires_at": "2026-12-31T23:59:59Z",
+  "revoked": false,
+  "revoked_at": null,
+  "revocation_reason": null,
+  "evidence_refs": [
+    "docs/design/V9.x/evidence/v9-1-safety-gate-implementation/acceptance-data.json",
+    "docs/design/V9.x/evidence/v9-1-internal-independent-audit/internal-audit-data.json",
+    "docs/design/V9.x/v9_2_pre_implementation_development_and_acceptance_plan.md"
+  ],
+  "audit_ref": "audit://v9-2/limited-controlled-runtime-implementation-approved",
+  "correlation_id": "corr-v9-2-limited-controlled-runtime-implementation-approved"
+}

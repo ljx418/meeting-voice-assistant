@@ -1,0 +1,11 @@
+{
+  "app_count": 1,
+  "audit_ref": "audit://v7-1/small-studio",
+  "created_at": "2026-06-05T01:30:11.901792+00:00",
+  "credential_ref_count": 1,
+  "project_count": 1,
+  "provider_profile_count": 1,
+  "studio_id": "studio_tenant_v7_1",
+  "tenant_id": "tenant_v7_1",
+  "workspace_count": 1
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/WorkflowExperienceLinkContract.schema.json",
+  "title": "WorkflowExperienceLinkContract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_id", "mission_id", "workflow_spec_ref", "workflow_diff_ref", "blueprint_ref", "runtime_report_ref", "evidence_chain_ref", "quality_report_ref", "artifact_lineage_ref", "runtime_truth_boundary"],
+  "properties": {
+    "contract_id": { "type": "string", "minLength": 1 },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "workflow_spec_ref": { "type": "string", "minLength": 1 },
+    "workflow_diff_ref": { "type": "string", "minLength": 1 },
+    "blueprint_ref": { "type": "string", "minLength": 1 },
+    "runtime_report_ref": { "type": "string", "minLength": 1 },
+    "evidence_chain_ref": { "type": "string", "minLength": 1 },
+    "quality_report_ref": { "type": "string", "minLength": 1 },
+    "artifact_lineage_ref": { "type": "string", "minLength": 1 },
+    "runtime_truth_boundary": { "const": "links_are_read_model_refs_not_runtime_truth" }
+  }
+}

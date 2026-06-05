@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>V9-1 Internal Independent Audit Closure</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f8fafc; color: #111827; }
+    header { background: #111827; color: white; padding: 28px 40px; }
+    main { padding: 28px 40px; }
+    .notice { border-left: 6px solid #2563eb; background: #eff6ff; padding: 16px 18px; margin: 20px 0; }
+    table { border-collapse: collapse; width: 100%; background: white; }
+    th, td { border: 1px solid #d1d5db; padding: 10px; text-align: left; vertical-align: top; }
+    th { background: #f3f4f6; }
+    .pass { color: #166534; font-weight: 700; }
+    .fail { color: #991b1b; font-weight: 700; }
+    li { line-height: 1.7; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>V9-1 内部独立审计闭环</h1>
+    <p>status: PASS / runtime_implementation_allowed: false / external_audit_deferred: true</p>
+  </header>
+  <main>
+    <section class="notice">
+      <strong>结论：</strong>V9-1 limited Safety Gate implementation remains internally closed; V9-2 limited runtime slice evidence is now tracked separately and external audit is deferred until later V9 development packages are available.
+    </section>
+    <h2>审计检查</h2>
+    <table>
+      <thead><tr><th>check_id</th><th>status</th><th>details</th></tr></thead>
+      <tbody><tr><td>safety_gate_acceptance_pass</td><td class='pass'>PASS</td><td>V9-1 Safety Gate implementation evidence status is PASS.</td></tr><tr><td>all_scenarios_pass</td><td class='pass'>PASS</td><td>All real-code policy validation scenarios pass.</td></tr><tr><td>runtime_execution_still_blocked</td><td class='pass'>PASS</td><td>Safety Gate never allows runtime execution.</td></tr><tr><td>runtime_route_not_created</td><td class='pass'>PASS</td><td>No runtime executor route was created.</td></tr><tr><td>runtime_worker_not_created</td><td class='pass'>PASS</td><td>No runtime worker was created.</td></tr><tr><td>source_agent_mutation_denied</td><td class='pass'>PASS</td><td>source=agent durable mutation remains denied.</td></tr><tr><td>controlled_action_execution_blocked</td><td class='pass'>PASS</td><td>Controlled executor action execution remains out of scope.</td></tr><tr><td>capability_claim_flags_false</td><td class='pass'>PASS</td><td>Blocked capability claim flags remain false.</td></tr><tr><td>readiness_status_pass</td><td class='pass'>PASS</td><td>Readiness dashboard status is PASS.</td></tr><tr><td>readiness_runtime_implementation_blocked</td><td class='pass'>PASS</td><td>Readiness dashboard keeps runtime implementation blocked.</td></tr><tr><td>readiness_v9_2_limited_runtime_slice_complete</td><td class='pass'>PASS</td><td>Readiness dashboard includes V9-2 limited runtime slice evidence.</td></tr><tr><td>human_decision_limited_scope</td><td class='pass'>PASS</td><td>Human decision approves only limited V9-1 Safety Gate implementation.</td></tr><tr><td>human_decision_blocks_runtime_work</td><td class='pass'>PASS</td><td>Human decision explicitly blocks runtime work.</td></tr><tr><td>reports_pass</td><td class='pass'>PASS</td><td>Contract, negative fixture, No False Green and redaction reports pass.</td></tr><tr><td>safety_module_has_no_route_or_worker_constructs</td><td class='pass'>PASS</td><td>Safety module has no route, server, subprocess, worker, or runtime dispatch constructs.</td></tr><tr><td>no_false_green_violations_zero</td><td class='pass'>PASS</td><td>No False Green scan has zero violations.</td></tr><tr><td>redaction_violations_zero</td><td class='pass'>PASS</td><td>Redaction scan has zero violations.</td></tr></tbody>
+    </table>
+    <h2>剩余阻断项</h2>
+    <ul><li>V9-3 orchestration runtime remains blocked until V9-2 runtime evidence exists.</li><li>V9-4 autonomous coding workflow remains blocked until V9-2/V9-3 evidence exists.</li><li>V9-8 final acceptance remains blocked until V9-0 through V9-7 evidence packages exist.</li></ul>
+    <h2>证据引用</h2>
+    <ul><li>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-1-safety-gate-implementation/acceptance-data.json</li><li>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-1-readiness/readiness-dashboard-data.json</li><li>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/decisions/v9_1_high_risk_human_decision.json</li><li>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_contract_validation_report.json</li><li>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_negative_test_results.json</li><li>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_no_false_green_scan.json</li><li>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_redaction_scan.json</li><li>/Users/Zhuanz/Desktop/workspace/harnessOS/core/policies/v9_agent_executor_safety.py</li></ul>
+  </main>
+</body>
+</html>

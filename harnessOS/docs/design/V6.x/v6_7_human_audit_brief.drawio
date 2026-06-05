@@ -1,0 +1,46 @@
+<mxfile host="app.diagrams.net" modified="2026-06-03T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="v6-7-human-audit-brief" name="V6-7 人工审计简图">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="HarnessOS V6-7 分布式运行时产品化：人工审计简图&#xa;当前状态：V6-7 complete / ready for review；仅证明 pilot slice，不证明完整分布式多 Agent ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=22;fontStyle=1;align=center;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="40" width="1420" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="baseline" value="当前基线&#xa;V6-7 complete / ready for review&#xa;evidence package PASS&#xa;claim scan PASS&#xa;redaction PASS&#xa;V5-8 仍只作为 bounded evidence 输入，不反向升级" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=16;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="170" width="430" height="210" as="geometry"/>
+        </mxCell>
+        <mxCell id="v67a" value="V6-7A：已闭环&#xa;PRD / 架构增量 / Runtime I/O / 状态机 / worker 生命周期 / 失败恢复验收矩阵 / No False Green 已作为实现前合同输入。&#xa;&#xa;状态：ready for review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=16;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="560" y="170" width="430" height="290" as="geometry"/>
+        </mxCell>
+        <mxCell id="v67b" value="V6-7B：已实现 pilot slice&#xa;实现内容：&#xa;DistributedRunCoordinator&#xa;AgentWorkerRegistry&#xa;DistributedStateCheckpoint&#xa;AttemptHistory append-only&#xa;ArtifactLineage producer_attempt_id&#xa;WorkerRecoveryDecision&#xa;IncidentTimeline&#xa;&#xa;允许声明仅限：&#xa;pilot slice ready for review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=16;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="170" width="430" height="290" as="geometry"/>
+        </mxCell>
+        <mxCell id="arch" value="目标运行时组件&#xa;&#xa;DistributedRunCoordinator&#xa;协调串行 / 并行 station&#xa;&#xa;AgentWorkerRegistry&#xa;登记 tenant-bound worker&#xa;&#xa;DistributedStateCheckpoint&#xa;保存可恢复状态&#xa;&#xa;AttemptHistoryStore&#xa;保留 old / new / failed attempt&#xa;&#xa;ArtifactLineageService&#xa;记录 producer_attempt_id&#xa;&#xa;WorkerRecoveryDecision + IncidentTimeline&#xa;处理 lost worker / timeout / retry / recovery" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#475569;fontSize=15;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="520" width="470" height="420" as="geometry"/>
+        </mxCell>
+        <mxCell id="experience" value="开发完成后的用户体验&#xa;&#xa;用户启动多工位工作流&#xa;系统按 station 拆分串行 / 并行任务&#xa;worker 被分配到各 station&#xa;Runtime Report 展示运行状态&#xa;失败 station 可看到 old attempt / new attempt&#xa;重试不覆盖旧错误&#xa;Artifact lineage 能追踪产物来源&#xa;Incident timeline 展示恢复过程&#xa;Evidence Chain 保持只读审计" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=16;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="610" y="520" width="430" height="420" as="geometry"/>
+        </mxCell>
+        <mxCell id="guard" value="必须保持的治理边界&#xa;&#xa;worker identity 必须 tenant-bound&#xa;worker 不得跨 tenant 复用，除非显式绑定&#xa;每个 worker 都要做 credential / policy / capability decision&#xa;source=agent 不能直接 durable mutation&#xa;Runtime Report 只读&#xa;Evidence Chain 只读&#xa;attempt history 不得覆盖旧 attempt&#xa;artifact lineage 必须保留 producer_attempt_id" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=16;align=left;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="520" width="430" height="420" as="geometry"/>
+        </mxCell>
+        <mxCell id="forbidden" value="仍禁止声明&#xa;distributed multi-Agent runtime ready&#xa;full multi-Agent orchestration ready&#xa;Agent executor ready&#xa;production controlled executor ready&#xa;complete Workflow Studio ready&#xa;autonomous workflow editing ready&#xa;production-ready external app support" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1;align=center;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="190" y="970" width="1220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563eb;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="baseline" target="v67a">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge2" value="外部审计 + 人工高风险确认后才可进入" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#dc2626;strokeWidth=2;endArrow=block;fontSize=13;fontStyle=1;" edge="1" parent="1" source="v67a" target="v67b">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=2;endArrow=block;" edge="1" parent="1" source="arch" target="experience">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge4" value="全部运行能力都受治理边界约束" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#64748b;strokeWidth=2;endArrow=block;fontSize=13;fontStyle=1;" edge="1" parent="1" source="experience" target="guard">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -84,7 +84,7 @@ entry_decision: NO-GO for implementation
 required_before_implementation: separate human high-risk proceed decision, detailed contract audit, V6-7 evidence package plan acceptance
 ```
 
-V6-8 may continue planning refinement only. V6-9 final acceptance must not execute until V6-6 / V6-7 / V6-8 evidence packages exist.
+Historical next-stage note superseded by V6-8 completion evidence. Current state: V6-8 complete / ready for review, and V6-9 final acceptance may execute only after V6-0 through V6-8 evidence packages, claim scan, redaction scan and drawio validation pass.
 
 ## Proceed Decision
 

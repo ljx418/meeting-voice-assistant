@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v9/approval_gate_decision.schema.json",
+  "title": "V9 ApprovalGateDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "approval_gate_ref",
+    "operation",
+    "risk_level",
+    "requires_human_approval",
+    "approved",
+    "approved_by",
+    "approved_at",
+    "denial_reason",
+    "correlation_id",
+    "audit_ref"
+  ],
+  "properties": {
+    "schema_version": { "const": "v9.0" },
+    "approval_gate_ref": { "type": "string", "minLength": 1 },
+    "operation": { "type": "string", "minLength": 1 },
+    "risk_level": { "enum": ["medium", "high", "critical"] },
+    "requires_human_approval": { "type": "boolean" },
+    "approved": { "type": "boolean" },
+    "approved_by": { "type": ["string", "null"], "minLength": 1 },
+    "approved_at": { "type": ["string", "null"], "format": "date-time" },
+    "denial_reason": { "type": ["string", "null"] },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "audit_ref": { "type": "string", "minLength": 1 }
+  }
+}

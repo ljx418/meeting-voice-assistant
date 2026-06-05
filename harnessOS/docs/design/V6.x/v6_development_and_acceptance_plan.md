@@ -1,6 +1,6 @@
 # V6 Development And Acceptance Plan
 
-文档状态：V6-6 complete / ready for review；V6-7 implementation NO-GO / planning refinement only。本文定义 V6 后续开发和验收门禁。
+文档状态：V6 complete / ready for review。本文定义 V6 开发和验收门禁。
 
 ## 1. Stage Status Table
 
@@ -13,9 +13,9 @@
 | V6-4 | Production Controlled Executor Runtime | complete / ready for review | V6-4 complete: limited production controlled executor pilot slice ready for review. | not production controlled executor ready |
 | V6-5 | Governed Agent Execution Intent Pilot | complete / ready for review | V6-5 complete: governed Agent execution intent pilot gate ready for review. | not Agent executor ready |
 | V6-6 | Production External App Onboarding | complete / ready for review | V6-6 complete: production external app onboarding pilot slice ready for review. | not production-ready external app support |
-| V6-7 | Distributed Runtime Productization | NO-GO for implementation; planning refinement only | V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review. | not full multi-Agent orchestration ready |
-| V6-8 | Product Console And Studio Gate | conditional GO for planning refinement | V6-8 complete: product console pilot slice ready for review. | not complete Workflow Studio ready |
-| V6-9 | Final Production Pilot Acceptance | framework only | V6 complete: production pilot baseline ready for review. | not full production GA |
+| V6-7 | Distributed Runtime Productization | complete / ready for review | V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review. | not full multi-Agent orchestration ready |
+| V6-8 | Product Console And Studio Gate | complete / ready for review | V6-8 complete: product console pilot slice ready for review. | not complete Workflow Studio ready |
+| V6-9 | Final Production Pilot Acceptance | complete / ready for review | V6 complete: production pilot baseline ready for review. | not full production GA |
 
 ## 2. Development Order
 
@@ -23,15 +23,15 @@
 V6-0 -> V6-1 -> V6-2 -> V6-3 -> V6-4 -> V6-5 -> V6-6 -> V6-7 -> V6-8 -> V6-9
 ```
 
-V6-5 已在人工 high-risk proceed decision 后完成。V6-6 已完成外部应用接入 pilot slice。V6-7 是后续高风险阶段，开始前必须有单独人工 proceed decision。
+V6-5 已在人工 high-risk proceed decision 后完成。V6-6 已完成外部应用接入 pilot slice。V6-7 已在单独人工 high-risk proceed decision 后完成分布式运行时产品化 pilot slice。V6-8 已完成 Product Console / Thin Web Console pilot slice。
 
 当前文档开发结论：
 
 ```text
-V6 canonical PRD / architecture / milestone / acceptance / gap drawio must reflect V6-6 complete and V6-7 implementation NO-GO.
-V6-7 implementation remains blocked until separate detailed planning audit and human high-risk proceed decision.
+V6 canonical PRD / architecture / milestone / acceptance / gap drawio must reflect V6 complete / ready for review.
+V6-8 remains Product Console / Thin Web Console scope unless separate Full Workflow Studio PRD passes.
 Document updates may refine wording, evidence links, diagrams, milestones and acceptance gates.
-Document updates must not add V6-7 runtime behavior or execute V6-9 final acceptance.
+V6-9 final acceptance has passed with V6-0 through V6-8 evidence packages present and No False Green / redaction / drawio validation pass.
 ```
 
 ## 2.1 Stage Detail Plans
@@ -49,10 +49,11 @@ V6-5: v6_5_agent_governance_development_and_acceptance_plan.md
 V6-6: v6_6_external_app_onboarding_development_and_acceptance_plan.md
   detail docs: v6_6_external_app_onboarding_dto_contract.md, v6_6_external_app_onboarding_completion_note.md, schemas/v6_6_*.schema.json, evidence/v6-6-external-app-onboarding/
 V6-7: v6_7_distributed_runtime_development_and_acceptance_plan.md
-  detail docs: v6_7_distributed_runtime_prd.md, v6_7_target_architecture_delta.md, v6_7_distributed_run_coordinator_contract.md, v6_7_worker_assignment_policy.md, v6_7_incident_timeline_contract.md, v6_7_no_false_green_guard.md, schemas/v6_7_*.schema.json
+  detail docs: v6_7_distributed_runtime_prd.md, v6_7_target_architecture_delta.md, v6_7_pre_implementation_closure_plan.md, v6_7_distributed_run_coordinator_contract.md, v6_7_runtime_io_contract.md, v6_7_distributed_runtime_state_machine.md, v6_7_worker_lifecycle_model.md, v6_7_worker_assignment_policy.md, v6_7_failure_recovery_acceptance_matrix.md, v6_7_incident_timeline_contract.md, v6_7_no_false_green_guard.md, v6_7_distributed_runtime_completion_note.md, schemas/v6_7_*.json, evidence/v6-7-distributed-runtime/
 V6-8: v6_8_product_console_development_and_acceptance_plan.md
-  detail docs: v6_8_ui_bff_browser_safety_plan.md
+  detail docs: v6_8_ui_bff_browser_safety_plan.md, v6_8_product_console_bff_contract.md, v6_8_browser_safety_test_matrix.md, v6_8_manual_confirmation_ux_contract.md, v6_8_product_console_completion_note.md, evidence/v6-8-product-console/
 V6-9: v6_9_final_acceptance_development_and_acceptance_plan.md
+  detail docs: v6_9_final_acceptance_evidence_inventory_plan.md, v6_9_no_false_green_and_redaction_scan_plan.md, v6_final_completion_note.md, evidence/v6-9-final-acceptance/
 ```
 
 V6-5 到 V6-9 的统一剩余开发控制计划：

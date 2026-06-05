@@ -1,0 +1,31 @@
+{
+  "allowed_claim": "V8 complete: station-agent workflow pilot ready for review.",
+  "blockers": [],
+  "claim_scan": "PASS",
+  "drawio_xml": "PASS",
+  "evidence_scope": "final_acceptance_framework",
+  "final_claim_allowed": true,
+  "forbidden_claim_guard": "PASS",
+  "generated_at": "2026-06-05T01:23:49.530158+00:00",
+  "redaction_scan": "PASS",
+  "stage_evidence": {
+    "V8-4": {
+      "evidence_scope": "real_runtime_fixture",
+      "status": "PASS"
+    },
+    "V8-6": {
+      "evidence_scope": "controlled_runtime_fixture",
+      "status": "PASS"
+    },
+    "V8-7": {
+      "evidence_scope": "bounded_runtime_fixture",
+      "status": "PASS"
+    },
+    "V8-8": {
+      "evidence_scope": "read_model_from_v8_4_v8_6_evidence",
+      "status": "PASS"
+    }
+  },
+  "stage_id": "V8-9",
+  "status": "PASS"
+}

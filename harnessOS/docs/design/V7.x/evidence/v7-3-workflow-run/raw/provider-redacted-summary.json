@@ -1,0 +1,8 @@
+{
+  "api_key_configured": true,
+  "base_url": "https://api.minimax.chat/v1",
+  "model_ref": "MiniMax-M2.1",
+  "provider": "minimax",
+  "provider_config_source": ".env.local",
+  "real_llm_required": false
+}

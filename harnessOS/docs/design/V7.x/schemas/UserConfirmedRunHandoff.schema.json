@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/UserConfirmedRunHandoff.schema.json",
+  "title": "UserConfirmedRunHandoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "handoff_id",
+    "workflow_spec_id",
+    "workflow_diff_id",
+    "source",
+    "actor_type",
+    "user_confirmed",
+    "human_authorization_ref",
+    "operation",
+    "target_refs",
+    "policy_decision",
+    "capability_decision",
+    "risk_flags",
+    "created_at",
+    "correlation_id"
+  ],
+  "properties": {
+    "handoff_id": { "type": "string", "minLength": 1 },
+    "workflow_spec_id": { "type": "string", "minLength": 1 },
+    "workflow_diff_id": { "type": "string", "minLength": 1 },
+    "source": { "const": "mission_tui" },
+    "actor_type": { "const": "human_user" },
+    "user_confirmed": { "const": true },
+    "human_authorization_ref": { "type": "string", "minLength": 1 },
+    "operation": { "const": "workflow.instance.start" },
+    "target_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requested_path_ref",
+        "authorized_folder_ref",
+        "workflow_instance_target_ref"
+      ],
+      "properties": {
+        "requested_path_ref": { "type": "string", "minLength": 1 },
+        "authorized_folder_ref": { "type": "string", "minLength": 1 },
+        "workflow_instance_target_ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "policy_decision": { "enum": ["allow", "deny"] },
+    "capability_decision": { "enum": ["allow", "deny"] },
+    "risk_flags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "correlation_id": { "type": "string", "minLength": 1 }
+  }
+}

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>V7-2 Explainable Mission TUI</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; background: #f8fafc; color: #111827; }
+      section { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 16px 0; }
+      pre { white-space: pre-wrap; background: #f1f5f9; padding: 12px; border-radius: 6px; }
+    </style>
+  </head>
+  <body>
+    <h1>V7-2 Explainable Mission TUI</h1>
+    <section><h2>Transcript</h2><pre>HarnessOS Mission TUI
+============================
+任务: 递归总结 Desktop/技术分享 下的 Markdown 技术文档
+当前状态: AwaitingConfirmation
+证据范围: transcript_only=True runtime_backed=False
+
+状态线:
+- IntentCaptured: complete
+- SpecDrafted: complete
+- SchemaValidated: complete
+- DiffReady: complete
+- AwaitingConfirmation: active
+
+可用动作:
+- workflow.patch.propose | confirmation=False | policy=allow | capability=allow
+- workflow.instance.start | confirmation=True | policy=needs_review | capability=needs_user_confirmation
+
+禁止原因:
+- workflow.instance.start / source_agent_denied: Agent 来源不能直接执行持久化运行，必须等待人工确认。
+- workflow.instance.start / requires_user_confirmation: 运行工作流属于持久化动作，必须先获得 user_confirmed=true。
+
+证据链接:
+- workflow_spec: workflow-spec://v7-2/mission_v7_2_75fd7dc5e701
+- workflow_diff: workflow-diff://v7-2/mission_v7_2_75fd7dc5e701
+- blueprint: drawio://v7-2/mission_v7_2_75fd7dc5e701/workflow.drawio
+- runtime_report: runtime-report://not-started/transcript-only
+- evidence_chain: evidence://v7-2/mission_v7_2_75fd7dc5e701/transcript
+
+边界: TUI 是 workflow head，不是 runtime truth；用户确认前不会执行持久化动作。
+</pre></section>
+    <section><h2>State DTO</h2><pre>{
+  &quot;available_actions&quot;: [
+    {
+      &quot;action_id&quot;: &quot;action_d8da5a6d26&quot;,
+      &quot;actor_type&quot;: &quot;human_user&quot;,
+      &quot;agent_executable&quot;: false,
+      &quot;capability_decision&quot;: &quot;allow&quot;,
+      &quot;mission_id&quot;: &quot;mission_v7_2_75fd7dc5e701&quot;,
+      &quot;operation&quot;: &quot;workflow.patch.propose&quot;,
+      &quot;policy_decision&quot;: &quot;allow&quot;,
+      &quot;requires_user_confirmation&quot;: false,
+      &quot;risk_flags&quot;: [
+        &quot;proposal_only&quot;,
+        &quot;transcript_only&quot;
+      ],
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;target_refs&quot;: {
+        &quot;workflow_spec_id&quot;: &quot;workflow-spec://v7-2/mission_v7_2_75fd7dc5e701&quot;
+      }
+    },
+    {
+      &quot;action_id&quot;: &quot;action_1174e3235c&quot;,
+      &quot;actor_type&quot;: &quot;human_user&quot;,
+      &quot;agent_executable&quot;: false,
+      &quot;capability_decision&quot;: &quot;needs_user_confirmation&quot;,
+      &quot;mission_id&quot;: &quot;mission_v7_2_75fd7dc5e701&quot;,
+      &quot;operation&quot;: &quot;workflow.instance.start&quot;,
+      &quot;policy_decision&quot;: &quot;needs_review&quot;,
+      &quot;requires_user_confirmation&quot;: true,
+      &quot;risk_flags&quot;: [
+        &quot;durable_mutation&quot;,
+        &quot;user_confirmation_required&quot;
+      ],
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;target_refs&quot;: {
+        &quot;workflow_spec_id&quot;: &quot;workflow-spec://v7-2/mission_v7_2_75fd7dc5e701&quot;
+      }
+    }
+  ],
+  &quot;current_state&quot;: &quot;AwaitingConfirmation&quot;,
+  &quot;forbidden_reasons&quot;: [
+    {
+      &quot;human_readable_summary&quot;: &quot;Agent 来源不能直接执行持久化运行，必须等待人工确认。&quot;,
+      &quot;mission_id&quot;: &quot;mission_v7_2_75fd7dc5e701&quot;,
+      &quot;operation&quot;: &quot;workflow.instance.start&quot;,
+      &quot;policy_ref&quot;: &quot;policy://v7-2/source-agent-denied&quot;,
+      &quot;reason_code&quot;: &quot;source_agent_denied&quot;,
+      &quot;reason_id&quot;: &quot;reason_d70995e9d8&quot;,
+      &quot;source&quot;: &quot;agent&quot;
+    },
+    {
+      &quot;human_readable_summary&quot;: &quot;运行工作流属于持久化动作，必须先获得 user_confirmed=true。&quot;,
+      &quot;mission_id&quot;: &quot;mission_v7_2_75fd7dc5e701&quot;,
+      &quot;operation&quot;: &quot;workflow.instance.start&quot;,
+      &quot;policy_ref&quot;: &quot;policy://v7-2/user-confirmation-required&quot;,
+      &quot;reason_code&quot;: &quot;requires_user_confirmation&quot;,
+      &quot;reason_id&quot;: &quot;reason_03baa6d7da&quot;,
+      &quot;source&quot;: &quot;mission_tui&quot;
+    }
+  ],
+  &quot;generated_at&quot;: &quot;2026-06-05T01:30:14.908772+00:00&quot;,
+  &quot;links&quot;: {
+    &quot;blueprint&quot;: &quot;drawio://v7-2/mission_v7_2_75fd7dc5e701/workflow.drawio&quot;,
+    &quot;evidence_chain&quot;: &quot;evidence://v7-2/mission_v7_2_75fd7dc5e701/transcript&quot;,
+    &quot;runtime_report&quot;: &quot;runtime-report://not-started/transcript-only&quot;,
+    &quot;workflow_diff&quot;: &quot;workflow-diff://v7-2/mission_v7_2_75fd7dc5e701&quot;,
+    &quot;workflow_spec&quot;: &quot;workflow-spec://v7-2/mission_v7_2_75fd7dc5e701&quot;
+  },
+  &quot;mission_id&quot;: &quot;mission_v7_2_75fd7dc5e701&quot;,
+  &quot;natural_language_goal&quot;: &quot;递归总结 Desktop/技术分享 下的 Markdown 技术文档&quot;,
+  &quot;runtime_backed&quot;: false,
+  &quot;runtime_truth_boundary&quot;: &quot;tui_is_workflow_head_not_runtime_truth&quot;,
+  &quot;timeline&quot;: [
+    {
+      &quot;occurred_at&quot;: &quot;2026-06-05T01:30:14.908772+00:00&quot;,
+      &quot;source_ref&quot;: &quot;mission://v7-2/mission_v7_2_75fd7dc5e701/IntentCaptured&quot;,
+      &quot;state&quot;: &quot;IntentCaptured&quot;,
+      &quot;status&quot;: &quot;complete&quot;
+    },
+    {
+      &quot;occurred_at&quot;: &quot;2026-06-05T01:30:14.908772+00:00&quot;,
+      &quot;source_ref&quot;: &quot;mission://v7-2/mission_v7_2_75fd7dc5e701/SpecDrafted&quot;,
+      &quot;state&quot;: &quot;SpecDrafted&quot;,
+      &quot;status&quot;: &quot;complete&quot;
+    },
+    {
+      &quot;occurred_at&quot;: &quot;2026-06-05T01:30:14.908772+00:00&quot;,
+      &quot;source_ref&quot;: &quot;mission://v7-2/mission_v7_2_75fd7dc5e701/SchemaValidated&quot;,
+      &quot;state&quot;: &quot;SchemaValidated&quot;,
+      &quot;status&quot;: &quot;complete&quot;
+    },
+    {
+      &quot;occurred_at&quot;: &quot;2026-06-05T01:30:14.908772+00:00&quot;,
+      &quot;source_ref&quot;: &quot;mission://v7-2/mission_v7_2_75fd7dc5e701/DiffReady&quot;,
+      &quot;state&quot;: &quot;DiffReady&quot;,
+      &quot;status&quot;: &quot;complete&quot;
+    },
+    {
+      &quot;occurred_at&quot;: &quot;2026-06-05T01:30:14.908772+00:00&quot;,
+      &quot;source_ref&quot;: &quot;mission://v7-2/mission_v7_2_75fd7dc5e701/AwaitingConfirmation&quot;,
+      &quot;state&quot;: &quot;AwaitingConfirmation&quot;,
+      &quot;status&quot;: &quot;active&quot;
+    }
+  ],
+  &quot;transcript_only&quot;: true
+}</pre></section>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/StudioRoleBinding.schema.json",
+  "title": "StudioRoleBinding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["binding_id", "tenant_id", "workspace_id", "actor_id", "role", "scope_refs", "policy_decision", "audit_ref", "created_at"],
+  "properties": {
+    "binding_id": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "actor_id": { "type": "string", "minLength": 1 },
+    "role": { "enum": ["studio_admin", "workflow_operator", "reviewer", "external_app_developer"] },
+    "scope_refs": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+    "policy_decision": { "enum": ["allow", "deny", "needs_review"] },
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

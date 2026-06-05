@@ -1,6 +1,6 @@
 # V6 Current Gap Analysis
 
-文档状态：V6-6 complete / ready for review；V6-7 implementation NO-GO / planning refinement only。本文用于 V6 gap 审计。
+文档状态：V6 complete / ready for review。本文用于 V6 gap 审计。
 
 ## 1. Current Baseline
 
@@ -15,6 +15,9 @@ V6-3 complete: production observability and audit export pilot slice ready for r
 V6-4 complete: limited production controlled executor pilot slice ready for review.
 V6-5 complete: governed Agent execution intent pilot gate ready for review.
 V6-6 complete: production external app onboarding pilot slice ready for review.
+V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review.
+V6-8 complete: product console pilot slice ready for review.
+V6 complete: production pilot baseline ready for review.
 ```
 
 ## 2. Gap Table
@@ -34,10 +37,11 @@ V6-6 complete: production external app onboarding pilot slice ready for review.
 | Production Controlled Executor | staging slice ready for review | limited production controlled executor pilot | completed_for_review | V6-4 | yes |
 | Agent Execution | safety gate ready for review | governed Agent execution intent pilot gate | completed_for_review | V6-5 | yes |
 | External App Onboarding | boundary core slice ready for review | production external app onboarding pilot | completed_for_review | V6-6 | yes |
-| Distributed Multi-Agent Runtime | bounded slice ready for review | distributed runtime productization pilot | no_go_implementation_planning_only | V6-7 | yes |
-| Thin Web Console | productization slice ready for review | product console pilot | conditional_go_planning_refinement | V6-8 | no |
+| Distributed Runtime Pre-Implementation Closure | bounded slice ready for review | detailed contracts, state machine, I/O, lifecycle and recovery matrix externally audited | completed_for_review | V6-7A | yes |
+| Distributed Multi-Agent Runtime Implementation | bounded slice ready for review | distributed runtime productization pilot slice ready for review | completed_for_review | V6-7B | yes |
+| Thin Web Console | productization slice ready for review | product console pilot | completed_for_review | V6-8 | no |
 | Complete Workflow Studio | separate PRD required | separate post-pilot decision | planned_future | post V6-8 decision | no |
-| Final Production Pilot Acceptance | not started | V6 evidence package and HTML dashboard | planned | V6-9 | yes |
+| Final Production Pilot Acceptance | V6-0 through V6-8 evidence exists | final HTML dashboard and final acceptance data | completed_for_review | V6-9 | yes |
 
 ## 3. Gap Classification
 
@@ -45,6 +49,8 @@ V6-6 complete: production external app onboarding pilot slice ready for review.
 inherited_from_v5: V5 evidence can be reused as input only.
 planned: V6 implementation / validation is required.
 planned_high_risk: V6 implementation requires human proceed decision.
+planning_refinement_only: documentation / contract closure only; no runtime implementation.
+no_go_implementation_blocked: implementation is blocked until external audit and human high-risk proceed decision pass.
 planned_future: outside default V6 pilot scope.
 ```
 

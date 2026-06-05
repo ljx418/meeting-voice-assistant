@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>V7-0 Planning Hardening Evidence</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; color: #111827; background: #f8fafc; }
+      h1 { font-size: 28px; }
+      .card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 18px; margin: 16px 0; }
+      .pass { color: #047857; font-weight: 700; }
+      .blocked { color: #b45309; font-weight: 700; }
+      code { background: #f1f5f9; padding: 2px 5px; border-radius: 4px; }
+      li { margin: 6px 0; }
+    </style>
+  </head>
+  <body>
+    <h1>V7-0 Planning Hardening Evidence</h1>
+    <div class="card">
+      <p>Status: <span class="pass">PASS</span></p>
+      <p>Evidence scope: <code>planning_gate</code></p>
+      <p>Allowed claim: <code>V7-0 complete: V7 small studio and explainable TUI planning gate ready for review.</code></p>
+    </div>
+    <div class="card">
+      <h2>Implementation Gates</h2>
+      <ul>
+        <li>V7-1 implementation: <span class="blocked">blocked until external V7-0 audit acceptance</span></li>
+        <li>V7-2 implementation: <span class="blocked">blocked until external V7-0 audit acceptance</span></li>
+        <li>V7-3 implementation: <span class="blocked">blocked until V7-1 and V7-2 acceptance</span></li>
+        <li>V7-4 final acceptance: <span class="blocked">blocked until V7-0 to V7-3 evidence exists</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Evidence Links</h2>
+      <ul>
+        <li><a href="../../v7_0_contracts_and_test_matrix.md">V7-0 contracts and test matrix</a></li>
+        <li><a href="acceptance-data.json">acceptance-data.json</a></li>
+        <li><a href="result-summary.md">result-summary.md</a></li>
+        <li><a href="claims-scan.md">claims-scan.md</a></li>
+        <li><a href="redaction-scan.md">redaction-scan.md</a></li>
+      </ul>
+    </div>
+  </body>
+</html>

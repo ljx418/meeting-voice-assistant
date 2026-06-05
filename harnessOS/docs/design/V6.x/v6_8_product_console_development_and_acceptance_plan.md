@@ -1,6 +1,6 @@
 # V6-8 Product Console And Workflow Studio Gate Development And Acceptance Plan
 
-文档状态：V6-8 pre-implementation planning。本文只定义开发与验收门槛，不实现功能。
+文档状态：V6-8 complete / ready for review。本文定义开发与验收门槛，并链接实现证据。
 
 ## Allowed Claim
 
@@ -34,6 +34,9 @@ Expanded UI / BFF / browser safety plan:
 
 ```text
 v6_8_ui_bff_browser_safety_plan.md
+v6_8_product_console_bff_contract.md
+v6_8_browser_safety_test_matrix.md
+v6_8_manual_confirmation_ux_contract.md
 ```
 
 ## PR Slices
@@ -105,6 +108,25 @@ docs/design/V6.x/evidence/v6-8-product-console/
   claims-scan.md
   screenshots/
   raw/
+```
+
+## Completion Evidence
+
+```text
+core/product_console/v6_8_product_console.py
+tests/test_v6_8_product_console.py
+scripts/v6_8_product_console_evidence.py
+docs/design/V6.x/v6_8_product_console_completion_note.md
+docs/design/V6.x/evidence/v6-8-product-console/acceptance-data.json
+```
+
+Current result:
+
+```text
+status: PASS
+evidence_scope: repo_backed_product_console_projection
+claim_violations: 0
+redaction_status: PASS
 ```
 
 ## Stop Conditions

@@ -1,12 +1,12 @@
 # V6-8 UI / BFF / Browser Safety Plan
 
-文档状态：V6-8 planning refinement。本文定义 Product Console / Thin Web Console 的 UI、BFF、browser safety 和 read-only 验收矩阵。
+文档状态：V6-8 complete / ready for review。本文定义 Product Console / Thin Web Console 的 UI、BFF、browser safety 和 read-only 验收矩阵，并由 V6-8 evidence package 验证。
 
 ## Current Decision
 
 ```text
-V6-8 status: conditional GO for planning refinement.
-Implementation requires expanded UI/BFF/browser test matrix acceptance.
+V6-8 status: complete / ready for review.
+Implementation evidence exists under docs/design/V6.x/evidence/v6-8-product-console/.
 ```
 
 ## Default Scope
@@ -110,4 +110,3 @@ Agent 已发布
 生产可用
 完整工作流工作台已完成
 ```
-

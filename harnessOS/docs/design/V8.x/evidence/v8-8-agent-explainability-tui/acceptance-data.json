@@ -1,0 +1,19 @@
+{
+  "allowed_claim": "V8-8 complete: agent explainability TUI baseline ready for review.",
+  "claim_scan": "PASS",
+  "evidence_scope": "read_model_from_v8_4_v8_6_evidence",
+  "panel_count": 8,
+  "readonly": true,
+  "redaction_scan": "PASS",
+  "runtime_backed": false,
+  "stage_id": "V8-8",
+  "status": "PASS",
+  "tui_does_not_construct_runtime_truth": "PASS",
+  "tui_links_runtime_report_evidence_blueprint": "PASS",
+  "tui_no_auto_apply_auto_run_copy": "PASS",
+  "tui_no_hidden_mutation_form": "PASS",
+  "tui_shows_agent_for_each_station": "PASS",
+  "tui_shows_forbidden_action_reason": "PASS",
+  "tui_shows_terminal_handoff_status": "PASS",
+  "tui_shows_workflow_explainer_agent": "PASS"
+}

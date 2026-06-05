@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>V7-3 Acceptance</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; color: #111827; background: #f8fafc; }
+      section, table, pre { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; }
+      table { border-collapse: collapse; width: 100%; }
+      td, th { border-bottom: 1px solid #e5e7eb; padding: 8px; text-align: left; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+    </style>
+  </head>
+  <body>
+    <h1>V7-3 Workflow Creation And Controlled Run Experience</h1>
+    <section><h2>Acceptance</h2><pre>{
+  &quot;stage_id&quot;: &quot;V7-3&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+  &quot;runtime_backed&quot;: true,
+  &quot;transcript_only&quot;: false,
+  &quot;report_only&quot;: false,
+  &quot;fallback_demo_only&quot;: false,
+  &quot;user_confirmed&quot;: true,
+  &quot;source_agent_denied&quot;: true,
+  &quot;workflow_spec_schema_valid&quot;: true,
+  &quot;drawio_xml_valid&quot;: true,
+  &quot;scanner_actual_read_count&quot;: 5,
+  &quot;provider_invocation_count&quot;: 4,
+  &quot;folder_summaries_generated&quot;: &quot;PASS&quot;,
+  &quot;overview_summary_generated&quot;: &quot;PASS&quot;,
+  &quot;quality_report_generated&quot;: &quot;PASS&quot;,
+  &quot;runtime_report_generated&quot;: &quot;PASS&quot;,
+  &quot;evidence_chain_generated&quot;: &quot;PASS&quot;,
+  &quot;claim_scan&quot;: &quot;PASS&quot;,
+  &quot;redaction_scan&quot;: &quot;PASS&quot;,
+  &quot;missing_evidence&quot;: [],
+  &quot;evidence_refs&quot;: [
+    &quot;tui-transcript.txt&quot;,
+    &quot;workflow.json&quot;,
+    &quot;workflow.yaml&quot;,
+    &quot;workflow.drawio&quot;,
+    &quot;workflow_board.html&quot;,
+    &quot;quality.html&quot;,
+    &quot;evidence.html&quot;,
+    &quot;local-document-workflow-result.json&quot;,
+    &quot;evidence_chain.json&quot;,
+    &quot;quality_report.json&quot;
+  ]
+}</pre></section>
+    <section><h2>Links</h2>
+      <ul>
+        <li><a href="workflow.drawio">workflow.drawio</a></li>
+        <li><a href="workflow_board.html">workflow_board.html</a></li>
+        <li><a href="quality.html">quality.html</a></li>
+        <li><a href="evidence.html">evidence.html</a></li>
+      </ul>
+    </section>
+    <section><h2>Boundary</h2><p>V7-3 只支持本地 Markdown 技术文档总结工作流；不是完整 Workflow Studio、Agent executor 或生产完成态。</p></section>
+    </body>
+</html>

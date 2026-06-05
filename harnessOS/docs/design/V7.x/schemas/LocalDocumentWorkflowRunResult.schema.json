@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/LocalDocumentWorkflowRunResult.schema.json",
+  "title": "LocalDocumentWorkflowRunResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "workflow_instance_id",
+    "status",
+    "evidence_scope",
+    "runtime_backed",
+    "real_llm_backed",
+    "fallback_demo_only",
+    "scanner_actual_read_count",
+    "provider_invocation_count",
+    "provider",
+    "model_ref",
+    "provider_config_source",
+    "artifact_refs",
+    "quality_report_ref",
+    "evidence_chain_ref",
+    "redaction_status"
+  ],
+  "properties": {
+    "workflow_instance_id": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED"] },
+    "evidence_scope": {
+      "enum": [
+        "real_runtime",
+        "real_runtime_fixture",
+        "fallback_demo_only",
+        "transcript_only",
+        "report_only",
+        "blocked"
+      ]
+    },
+    "runtime_backed": { "type": "boolean" },
+    "real_llm_backed": { "type": "boolean" },
+    "fallback_demo_only": { "type": "boolean" },
+    "scanner_actual_read_count": { "type": "integer", "minimum": 0 },
+    "provider_invocation_count": { "type": "integer", "minimum": 0 },
+    "provider": { "type": "string", "minLength": 1 },
+    "model_ref": { "type": "string", "minLength": 1 },
+    "provider_config_source": { "type": "string", "minLength": 1 },
+    "artifact_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "quality_report_ref": { "type": "string", "minLength": 1 },
+    "evidence_chain_ref": { "type": "string", "minLength": 1 },
+    "redaction_status": { "enum": ["PASS", "FAIL"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "PASS" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "evidence_scope": { "enum": ["real_runtime", "real_runtime_fixture"] },
+          "runtime_backed": { "const": true },
+          "real_llm_backed": { "const": true },
+          "fallback_demo_only": { "const": false },
+          "scanner_actual_read_count": { "type": "integer", "minimum": 1 },
+          "provider_invocation_count": { "type": "integer", "minimum": 1 },
+          "redaction_status": { "const": "PASS" }
+        }
+      }
+    }
+  ]
+}

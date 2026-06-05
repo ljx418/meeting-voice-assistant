@@ -67,6 +67,7 @@ def test_v6_0_status_does_not_start_v6_1() -> None:
     assert "| V6-1 | Identity And Tenant Control Plane | complete / ready for review |" in plan
     assert "| V6-5 | Governed Agent Execution Intent Pilot | complete / ready for review |" in plan
     assert "| V6-6 | Production External App Onboarding | complete / ready for review |" in plan
+    assert "| V6-7 | Distributed Runtime Productization | complete / ready for review |" in plan
     readme = (V6_DIR / "00_README.md").read_text(encoding="utf-8")
     assert "V6-1 complete: production identity and tenant boundary pilot slice ready for review." in readme
     assert "V6-2 complete: production credential and provider lifecycle pilot slice ready for review." in readme
@@ -74,7 +75,9 @@ def test_v6_0_status_does_not_start_v6_1() -> None:
     assert "V6-4 complete: limited production controlled executor pilot slice ready for review." in readme
     assert "V6-5 complete: governed Agent execution intent pilot gate ready for review." in readme
     assert "V6-6 complete: production external app onboarding pilot slice ready for review." in readme
-    assert "V6-7 remains NO-GO for implementation" in readme
+    assert "V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review." in readme
+    assert "V6-8 complete: product console pilot slice ready for review." in readme
+    assert "V6 complete: production pilot baseline ready for review." in readme
 
 
 def test_v6_0_forbidden_claims_are_guarded() -> None:
@@ -102,6 +105,8 @@ def test_v6_0_forbidden_claims_are_guarded() -> None:
         "not ",
         "Still Forbidden",
         "forbidden",
+        "不允许",
+        "不能",
     ]
 
     for path in V6_DIR.glob("*.md"):

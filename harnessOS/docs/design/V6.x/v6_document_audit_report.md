@@ -1,6 +1,6 @@
 # V6 Document Audit Report
 
-文档状态：V6 documentation audit updated after V6-6 completion / ready for review；V6-7 implementation NO-GO / planning refinement only。
+文档状态：V6 documentation audit updated after V6 final acceptance / ready for review。
 
 ## Audit Scope
 
@@ -238,9 +238,9 @@ PASS. V6-6 到 V6-9 已按外部审计意见修订：
 
 ```text
 V6-6: complete / ready for review; DTO/schema contract, implementation, tests and evidence package added.
-V6-7: NO-GO for implementation; detailed PRD, architecture delta, coordinator contract, worker policy, incident timeline, schema contracts and No False Green guard added.
-V6-8: conditional GO for planning refinement; UI/BFF/browser safety plan added.
-V6-9: final acceptance framework only; cannot execute until V6-6 / V6-7 / V6-8 evidence packages exist.
+V6-7: complete / ready for review; detailed PRD, architecture delta, coordinator contract, worker policy, incident timeline, schema contracts, runtime implementation, evidence package and No False Green guard completed.
+V6-8: complete / ready for review; Product Console evidence package added.
+V6-9: complete / ready for review; final acceptance evidence package added.
 ```
 
 新增合同和 schema：
@@ -252,12 +252,24 @@ docs/design/V6.x/schemas/v6_6_*.schema.json
 docs/design/V6.x/evidence/v6-6-external-app-onboarding/
 docs/design/V6.x/v6_7_distributed_runtime_prd.md
 docs/design/V6.x/v6_7_target_architecture_delta.md
+docs/design/V6.x/v6_7_pre_implementation_closure_plan.md
 docs/design/V6.x/v6_7_distributed_run_coordinator_contract.md
+docs/design/V6.x/v6_7_runtime_io_contract.md
+docs/design/V6.x/v6_7_distributed_runtime_state_machine.md
+docs/design/V6.x/v6_7_worker_lifecycle_model.md
 docs/design/V6.x/v6_7_worker_assignment_policy.md
+docs/design/V6.x/v6_7_failure_recovery_acceptance_matrix.md
 docs/design/V6.x/v6_7_incident_timeline_contract.md
 docs/design/V6.x/v6_7_no_false_green_guard.md
 docs/design/V6.x/schemas/v6_7_*.schema.json
+docs/design/V6.x/v6_7_distributed_runtime_completion_note.md
+docs/design/V6.x/evidence/v6-7-distributed-runtime/
 docs/design/V6.x/v6_8_ui_bff_browser_safety_plan.md
+docs/design/V6.x/v6_8_product_console_bff_contract.md
+docs/design/V6.x/v6_8_browser_safety_test_matrix.md
+docs/design/V6.x/v6_8_manual_confirmation_ux_contract.md
+docs/design/V6.x/v6_9_final_acceptance_evidence_inventory_plan.md
+docs/design/V6.x/v6_9_no_false_green_and_redaction_scan_plan.md
 ```
 
 No False Green status remains PASS if the forbidden claims stay in Non-Goals / No False Green / framework-only contexts.
@@ -274,15 +286,16 @@ docs/design/V6.x/v6_3_observability_audit_completion_note.md
 Current canonical baseline remains:
 
 ```text
-V6-6 complete / ready for review.
-V6-7 implementation NO-GO / planning refinement only.
+V6-7 complete / ready for review.
+V6-8 Product Console is complete / ready for review.
+V6-9 Final Acceptance is complete / ready for review.
+V6 complete: production pilot baseline ready for review.
 ```
 
 ## Audit Decision
 
 ```text
-V6 documentation package ready for external audit.
-Continue V6-7 planning refinement only.
-Do not enter V6-7 runtime implementation until a separate human high-risk proceed decision is recorded.
-Do not execute V6-9 final acceptance until V6-6 / V6-7 / V6-8 evidence packages exist.
+V6 documentation package ready for external audit after V6-7 completion.
+Review V6 final acceptance evidence package.
+Do not rewrite V6 complete as production ready or full production GA.
 ```

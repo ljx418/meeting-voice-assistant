@@ -1,0 +1,32 @@
+{
+  "allowed_claim": "V8-6 complete: controlled terminal worker pilot ready for review.",
+  "auto_commit_enabled": false,
+  "auto_push_enabled": false,
+  "claim_scan": "PASS",
+  "command_allowlist": "PASS",
+  "diff_proposal_captured": "PASS",
+  "evidence_scope": "controlled_runtime_fixture",
+  "forbidden_claims": [
+    "Agent executor ready",
+    "ChromeCLI production automation ready",
+    "Claude terminal executor production ready",
+    "Codex terminal executor production ready",
+    "autonomous coding workflow ready",
+    "complete Workflow Studio ready",
+    "full multi-Agent orchestration ready",
+    "production Agent executor ready",
+    "unrestricted terminal worker ready"
+  ],
+  "human_review_handoff_exists": "PASS",
+  "production_browser_automation_enabled": false,
+  "redaction_scan": "PASS",
+  "runtime_backed": true,
+  "source_agent_mutation_denied": "PASS",
+  "stage_id": "V8-6",
+  "status": "PASS",
+  "terminal_worker_runtime_enabled": true,
+  "terminal_worker_scope": "workspace_scoped_readonly_shell_and_handoff_proposal_only",
+  "transcript_captured": "PASS",
+  "worker_type": "codex_cli",
+  "workspace_scope_guard": "PASS"
+}

@@ -1,0 +1,78 @@
+{
+  "allowed_claim": "V7-1 complete: small studio production pilot control plane ready for review.",
+  "claim_violations": [],
+  "evidence_scope": "repo_backed_fixture",
+  "next_stage_audit": "V7-2 pre-implementation review must close before Mission TUI coding.",
+  "proceed_decision": "proceed_to_v7_2_pre_implementation_review",
+  "provider_backed": false,
+  "real_data_used": true,
+  "redaction_status": "PASS",
+  "runtime_backed": false,
+  "runtime_truth_hits": [],
+  "scenario_count": 11,
+  "scenarios": [
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "studio_context_contains_tenant_workspace_project_app_refs",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "studio_inventory_contains_counts",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "workspace_project_app_inventory_refs_exist",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "provider_profile_projection_redacts_secret",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "credential_ref_projection_no_raw_secret",
+      "status": "FAIL"
+    },
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "role_binding_projection_auditable",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "quota_denial_explainable",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "cross_workspace_access_denied",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "studio_control_plane_does_not_construct_runtime_truth",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "no_false_green_claim_scan_passes",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_fixture",
+      "scenario_id": "redaction_scan_passes",
+      "status": "PASS"
+    }
+  ],
+  "source_refs": {
+    "v6_2_credential_provider": "docs/design/V6.x/evidence/v6-2-credential-provider/acceptance-data.json",
+    "v6_3_observability_audit": "docs/design/V6.x/evidence/v6-3-observability-audit/acceptance-data.json",
+    "v6_6_external_app_onboarding": "docs/design/V6.x/evidence/v6-6-external-app-onboarding/acceptance-data.json",
+    "v6_final_acceptance": "docs/design/V6.x/evidence/v6-9-final-acceptance/final-acceptance-data.json"
+  },
+  "stage_id": "V7-1",
+  "status": "PASS"
+}

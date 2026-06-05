@@ -1,0 +1,47 @@
+[
+  {
+    "actor_id": "user-v7-1-admin",
+    "audit_ref": "audit://v7-1/role-binding/studio_admin",
+    "binding_id": "role-binding://v7-1/studio_admin",
+    "created_at": "2026-06-05T01:30:11.901792+00:00",
+    "policy_decision": "allow",
+    "role": "studio_admin",
+    "scope_refs": [
+      "workspace_v7_1",
+      "project_v7_1",
+      "app_v7_1"
+    ],
+    "tenant_id": "tenant_v7_1",
+    "workspace_id": "workspace_v7_1"
+  },
+  {
+    "actor_id": "user-v7-1-operator",
+    "audit_ref": "audit://v7-1/role-binding/workflow_operator",
+    "binding_id": "role-binding://v7-1/workflow_operator",
+    "created_at": "2026-06-05T01:30:11.901792+00:00",
+    "policy_decision": "allow",
+    "role": "workflow_operator",
+    "scope_refs": [
+      "workspace_v7_1",
+      "project_v7_1",
+      "app_v7_1"
+    ],
+    "tenant_id": "tenant_v7_1",
+    "workspace_id": "workspace_v7_1"
+  },
+  {
+    "actor_id": "user-v7-1-reviewer",
+    "audit_ref": "audit://v7-1/role-binding/reviewer",
+    "binding_id": "role-binding://v7-1/reviewer",
+    "created_at": "2026-06-05T01:30:11.901792+00:00",
+    "policy_decision": "allow",
+    "role": "reviewer",
+    "scope_refs": [
+      "workspace_v7_1",
+      "project_v7_1",
+      "app_v7_1"
+    ],
+    "tenant_id": "tenant_v7_1",
+    "workspace_id": "workspace_v7_1"
+  }
+]

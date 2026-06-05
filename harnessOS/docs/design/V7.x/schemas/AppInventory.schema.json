@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/AppInventory.schema.json",
+  "title": "AppInventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenant_id", "workspace_id", "project_id", "app_id", "app_status", "service_account_id", "audit_ref", "created_at"],
+  "properties": {
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "project_id": { "type": "string", "minLength": 1 },
+    "app_id": { "type": "string", "minLength": 1 },
+    "app_status": { "enum": ["active", "pending_review", "suspended", "offboarded"] },
+    "service_account_id": { "type": "string", "minLength": 1 },
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

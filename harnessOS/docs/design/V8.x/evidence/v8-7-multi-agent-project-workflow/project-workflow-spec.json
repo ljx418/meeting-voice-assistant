@@ -1,0 +1,121 @@
+{
+  "allowed_sources": [
+    "product_console",
+    "approved_api"
+  ],
+  "denied_sources": [
+    "agent"
+  ],
+  "edges": [
+    {
+      "from_station_id": "product_station",
+      "to_station_id": "architecture_station"
+    },
+    {
+      "from_station_id": "architecture_station",
+      "to_station_id": "planning_station"
+    },
+    {
+      "from_station_id": "planning_station",
+      "to_station_id": "implementation_station"
+    },
+    {
+      "from_station_id": "implementation_station",
+      "to_station_id": "test_station"
+    },
+    {
+      "from_station_id": "test_station",
+      "to_station_id": "review_station"
+    },
+    {
+      "from_station_id": "review_station",
+      "to_station_id": "evidence_station"
+    },
+    {
+      "from_station_id": "evidence_station",
+      "to_station_id": "explainer_station"
+    }
+  ],
+  "metadata": {
+    "created_at": "2026-06-05T01:23:38.314849+00:00",
+    "goal": "V8-7 bounded multi-agent project workflow pilot",
+    "schema_version": "v8.7",
+    "title": "V8-7 Bounded Multi-Agent Project Workflow",
+    "workflow_spec_id": "workflow_spec_v8_7_073b76e5ceab"
+  },
+  "runtime_truth_boundary": "workflow_spec_is_not_runtime_truth",
+  "stations": [
+    {
+      "agent_name": "ProductAgent",
+      "goal": "Convert the user goal into a bounded project brief.",
+      "output_refs": [
+        "artifact://v8-7/product_station/primary"
+      ],
+      "role": "product_agent",
+      "station_id": "product_station"
+    },
+    {
+      "agent_name": "ArchitectureAgent",
+      "goal": "Describe the architecture delta and runtime boundaries.",
+      "output_refs": [
+        "artifact://v8-7/architecture_station/primary"
+      ],
+      "role": "architecture_agent",
+      "station_id": "architecture_station"
+    },
+    {
+      "agent_name": "PlanningAgent",
+      "goal": "Create the implementation and validation sequence.",
+      "output_refs": [
+        "artifact://v8-7/planning_station/primary"
+      ],
+      "role": "planning_agent",
+      "station_id": "planning_station"
+    },
+    {
+      "agent_name": "ImplementationAgent",
+      "goal": "Request controlled terminal handoff evidence without direct shell authority.",
+      "output_refs": [
+        "artifact://v8-7/implementation_station/primary"
+      ],
+      "role": "implementation_agent",
+      "station_id": "implementation_station"
+    },
+    {
+      "agent_name": "TestAgent",
+      "goal": "Validate read-only terminal outputs and acceptance conditions.",
+      "output_refs": [
+        "artifact://v8-7/test_station/primary"
+      ],
+      "role": "test_agent",
+      "station_id": "test_station"
+    },
+    {
+      "agent_name": "ReviewAgent",
+      "goal": "Review result quality, boundaries, and residual risks.",
+      "output_refs": [
+        "artifact://v8-7/review_station/primary"
+      ],
+      "role": "review_agent",
+      "station_id": "review_station"
+    },
+    {
+      "agent_name": "EvidenceAgent",
+      "goal": "Package traceable evidence links for audit.",
+      "output_refs": [
+        "artifact://v8-7/evidence_station/primary"
+      ],
+      "role": "evidence_agent",
+      "station_id": "evidence_station"
+    },
+    {
+      "agent_name": "ExplainerAgent",
+      "goal": "Explain the workflow path, Agent responsibilities, and forbidden actions.",
+      "output_refs": [
+        "artifact://v8-7/explainer_station/primary"
+      ],
+      "role": "workflow_explainer",
+      "station_id": "explainer_station"
+    }
+  ]
+}

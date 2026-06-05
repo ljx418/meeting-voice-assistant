@@ -1,0 +1,15 @@
+{
+  "agent_id": "agent_v8_code_review",
+  "created_at": "2026-06-04T14:21:44.702214+00:00",
+  "diff_ref": "diff-proposal.patch",
+  "handoff_id": "handoff-v8-6-ddafdde100a5",
+  "human_authorization_ref": "human-auth://v8-6/user-accepted-controlled-terminal-worker-pilot",
+  "policy_decision_ref": "policy-decision://v8-6/allow-readonly-proposal",
+  "proposed_action": "review_diff_proposal_only_no_apply",
+  "requires_user_confirmation": true,
+  "risk_level": "high",
+  "source_agent_direct_mutation_denied": true,
+  "station_id": "code_review_station",
+  "transcript_ref": "terminal-transcript.txt",
+  "worker_id": "terminal-worker-v8-6-ad62c1ba8f9f"
+}

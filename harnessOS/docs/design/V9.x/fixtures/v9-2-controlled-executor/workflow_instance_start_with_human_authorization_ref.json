@@ -1,0 +1,22 @@
+{
+  "fixture_id": "v9-2-workflow-instance-start-with-human-authorization-ref",
+  "stage_id": "V9-2",
+  "expected_runtime_status": "planned_only_not_executed",
+  "operation": "workflow.instance.start",
+  "source": "product_console",
+  "actor_type": "human_user",
+  "tenant_id": "tenant-v9",
+  "workspace_id": "workspace-v9",
+  "project_id": "project-v9",
+  "app_id": "app-v9",
+  "target_refs": {
+    "workflow_instance_id": "workflow-v9-2"
+  },
+  "user_confirmed": false,
+  "human_authorization_ref": "har-v9-2-workflow-start",
+  "human_authorization_valid": true,
+  "expected_decision": "allow_after_runtime_approval",
+  "runtime_execution_allowed_now": false,
+  "requires_human_high_risk_decision": true,
+  "redaction_status": "PASS"
+}

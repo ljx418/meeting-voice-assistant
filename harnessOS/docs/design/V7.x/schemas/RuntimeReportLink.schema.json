@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/RuntimeReportLink.schema.json",
+  "title": "RuntimeReportLink",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["link_id", "mission_id", "workflow_instance_id", "report_id", "href", "readonly", "created_at"],
+  "properties": {
+    "link_id": { "type": "string", "minLength": 1 },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "workflow_instance_id": { "type": "string", "minLength": 1 },
+    "report_id": { "type": "string", "minLength": 1 },
+    "source_ref": { "type": "string", "minLength": 1 },
+    "href": { "type": "string", "minLength": 1 },
+    "readonly": { "const": true },
+    "redaction_status": { "enum": ["PASS", "FAIL"] },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

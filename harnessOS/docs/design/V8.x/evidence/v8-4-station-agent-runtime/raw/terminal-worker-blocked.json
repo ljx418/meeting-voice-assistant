@@ -1,0 +1,18 @@
+{
+  "blocked_work": [
+    "controlled_terminal_worker_runtime",
+    "codex_cli_worker_execution",
+    "claude_cli_worker_execution",
+    "chromecli_webchat_worker_execution",
+    "multi_agent_project_workflow_runtime"
+  ],
+  "current_decision": "NO_GO_FOR_RUNTIME_IMPLEMENTATION",
+  "redaction_status": "redacted",
+  "required_before_implementation": [
+    "V8-5 terminal worker design gate accepted",
+    "human high-risk proceed decision recorded",
+    "workspace scope guard accepted",
+    "command allowlist accepted",
+    "transcript and diff capture accepted"
+  ]
+}

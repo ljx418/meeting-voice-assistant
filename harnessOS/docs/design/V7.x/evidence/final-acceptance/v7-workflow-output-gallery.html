@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>HarnessOS V7 小工作室工作流产物总览</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f7f9;
+        --panel: #ffffff;
+        --line: #d9dee7;
+        --text: #17202f;
+        --muted: #5f6b7a;
+        --green: #15803d;
+        --amber: #b45309;
+        --blue: #1d4ed8;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      }
+      header {
+        padding: 28px 32px 18px;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 26px;
+        letter-spacing: 0;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      h3 {
+        margin: 0 0 8px;
+        font-size: 15px;
+      }
+      p {
+        margin: 0 0 10px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      main {
+        padding: 24px 32px 40px;
+        display: grid;
+        gap: 18px;
+      }
+      section {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(160px, 1fr));
+        gap: 12px;
+      }
+      .stat {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px;
+        background: #fbfcfe;
+      }
+      .stat strong {
+        display: block;
+        font-size: 24px;
+        color: var(--green);
+        margin-bottom: 4px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        padding: 14px;
+        min-height: 120px;
+      }
+      .card a,
+      .links a {
+        color: var(--blue);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .card a:hover,
+      .links a:hover {
+        text-decoration: underline;
+      }
+      .badge {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 3px 9px;
+        font-size: 12px;
+        border: 1px solid #bbf7d0;
+        color: var(--green);
+        background: #f0fdf4;
+        margin-right: 6px;
+      }
+      .badge.warn {
+        border-color: #fde68a;
+        color: var(--amber);
+        background: #fffbeb;
+      }
+      iframe {
+        width: 100%;
+        min-height: 360px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      th {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 600;
+      }
+      code {
+        background: #eef2f7;
+        border-radius: 4px;
+        padding: 2px 5px;
+      }
+      .links {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .links a {
+        display: block;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 10px;
+        background: #fbfcfe;
+      }
+      @media (max-width: 900px) {
+        .stats,
+        .grid,
+        .links {
+          grid-template-columns: 1fr;
+        }
+        header,
+        main {
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>HarnessOS V7 小工作室工作流产物总览</h1>
+      <p>
+        这个页面把 V7-3 工作流运行产物和 V7-4 最终验收产物集中展示。所有面板都是只读 evidence，不包含执行按钮、隐藏 mutation 表单或 runtime truth 写入入口。
+      </p>
+      <span class="badge">V7-3 PASS</span>
+      <span class="badge">V7-4 PASS</span>
+      <span class="badge">claim scan PASS</span>
+      <span class="badge">redaction PASS</span>
+      <span class="badge warn">不是 production ready</span>
+    </header>
+
+    <main>
+      <section>
+        <h2>验收指标</h2>
+        <div class="stats">
+          <div class="stat"><strong>5</strong><span>Markdown 文件实际读取</span></div>
+          <div class="stat"><strong>4</strong><span>MiniMax / provider 调用</span></div>
+          <div class="stat"><strong>PASS</strong><span>V7-3 真实运行证据</span></div>
+          <div class="stat"><strong>PASS</strong><span>V7-4 最终验收</span></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>用户主链路</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>步骤</th>
+              <th>产物</th>
+              <th>审计重点</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>自然语言目标</td>
+              <td><a href="../v7-3-workflow-run/tui-transcript.txt">tui-transcript.txt</a></td>
+              <td>确认状态线包含 IntentCaptured、SpecDrafted、UserConfirmed、RuntimeReported、EvidenceRecorded。</td>
+            </tr>
+            <tr>
+              <td>工作流规格与差异</td>
+              <td><a href="../v7-3-workflow-run/workflow.json">workflow.json</a> / <a href="../v7-3-workflow-run/workflow.yaml">workflow.yaml</a></td>
+              <td>确认 workflow_kind 仅为 <code>local_markdown_technical_document_summary</code>。</td>
+            </tr>
+            <tr>
+              <td>工作流蓝图</td>
+              <td><a href="../v7-3-workflow-run/workflow.drawio">workflow.drawio</a> / <a href="../v7-3-workflow-run/workflow_status.drawio">workflow_status.drawio</a></td>
+              <td>确认 Drawio 是只读可视化，不构造 runtime truth。</td>
+            </tr>
+            <tr>
+              <td>运行和质量</td>
+              <td><a href="../v7-3-workflow-run/workflow_board.html">workflow_board.html</a> / <a href="../v7-3-workflow-run/quality.html">quality.html</a></td>
+              <td>确认 scanner_actual_read_count &gt; 0 且 provider_invocation_count &gt; 0。</td>
+            </tr>
+            <tr>
+              <td>证据链</td>
+              <td><a href="../v7-3-workflow-run/evidence.html">evidence.html</a> / <a href="../v7-3-workflow-run/evidence_chain.json">evidence_chain.json</a></td>
+              <td>确认 provider/model/prompt_template/input/output refs 存在，且没有原始提示词、原始文件内容或密钥。</td>
+            </tr>
+            <tr>
+              <td>最终验收</td>
+              <td><a href="index.html">final acceptance index.html</a> / <a href="acceptance-data.json">acceptance-data.json</a></td>
+              <td>确认 V7 allowed claim 只到 ready for review，不升级为 production ready。</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>核心产物入口</h2>
+        <div class="links">
+          <a href="../v7-3-workflow-run/index.html">V7-3 工作流运行看板</a>
+          <a href="../v7-3-workflow-run/workflow_board.html">Runtime Report</a>
+          <a href="../v7-3-workflow-run/artifacts.html">Artifacts</a>
+          <a href="../v7-3-workflow-run/quality.html">Quality Report</a>
+          <a href="../v7-3-workflow-run/evidence.html">Evidence Chain</a>
+          <a href="index.html">V7-4 最终验收看板</a>
+          <a href="../v7-3-workflow-run/quality_report.json">quality_report.json</a>
+          <a href="../v7-3-workflow-run/local-document-workflow-result.json">local-document-workflow-result.json</a>
+          <a href="result-summary.md">final result-summary.md</a>
+        </div>
+      </section>
+
+      <section>
+        <h2>嵌入预览</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>V7-3 工作流运行验收</h3>
+            <iframe src="../v7-3-workflow-run/index.html" title="V7-3 workflow run acceptance"></iframe>
+          </div>
+          <div class="card">
+            <h3>Runtime Report</h3>
+            <iframe src="../v7-3-workflow-run/workflow_board.html" title="Runtime Report"></iframe>
+          </div>
+          <div class="card">
+            <h3>Quality Report</h3>
+            <iframe src="../v7-3-workflow-run/quality.html" title="Quality Report"></iframe>
+          </div>
+          <div class="card">
+            <h3>Evidence Chain</h3>
+            <iframe src="../v7-3-workflow-run/evidence.html" title="Evidence Chain"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>审计边界</h2>
+        <p>
+          V7 当前证明的是：小工作室生产试点 + 可解释 TUI baseline ready for review。它不证明生产就绪、完整工作流工作台、Agent 执行器、生产级受控执行器或生产级外部应用接入。
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 # V6-7 No False Green Guard
 
-文档状态：V6-7 planning refinement / implementation NO-GO。
+文档状态：V6-7 complete / ready for review guard。
 
 ## Allowed Claim If Future Acceptance Passes
 
@@ -26,4 +26,3 @@ V5-8 bounded distributed runtime slice remains input evidence only.
 ready for review must not be shortened to ready.
 No implementation can start without separate human high-risk proceed decision.
 ```
-

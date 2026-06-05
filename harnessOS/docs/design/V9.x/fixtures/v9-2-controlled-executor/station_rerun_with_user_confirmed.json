@@ -1,0 +1,24 @@
+{
+  "fixture_id": "v9-2-station-rerun-with-user-confirmed",
+  "stage_id": "V9-2",
+  "expected_runtime_status": "planned_only_not_executed",
+  "operation": "station.rerun",
+  "source": "product_console",
+  "actor_type": "human_user",
+  "tenant_id": "tenant-v9",
+  "workspace_id": "workspace-v9",
+  "project_id": "project-v9",
+  "app_id": "app-v9",
+  "target_refs": {
+    "station_id": "station-v9-2",
+    "station_run_id": "station-run-v9-2-old"
+  },
+  "user_confirmed": true,
+  "human_authorization_ref": null,
+  "old_attempt_retained": true,
+  "downstream_stale_required": true,
+  "expected_decision": "allow_after_runtime_approval",
+  "runtime_execution_allowed_now": false,
+  "requires_human_high_risk_decision": true,
+  "redaction_status": "PASS"
+}

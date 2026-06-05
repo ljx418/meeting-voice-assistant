@@ -1,0 +1,155 @@
+[
+  {
+    "allowed_claim": "V6-0 complete: production pilot planning gate ready for review.",
+    "claim_violations": [],
+    "evidence_refs": {
+      "acceptance_data": "docs/design/V6.x/evidence/v6-0-planning-gate/acceptance-data.json",
+      "claims_scan": "docs/design/V6.x/evidence/v6-0-planning-gate/claims-scan.md",
+      "index_html": "docs/design/V6.x/evidence/v6-0-planning-gate/index.html",
+      "redaction_scan": "",
+      "result_summary": "docs/design/V6.x/evidence/v6-0-planning-gate/result-summary.md"
+    },
+    "evidence_scope": "planning_gate",
+    "missing_evidence": [],
+    "redaction_status": "PASS",
+    "scenario_count": 0,
+    "stage": "V6-0",
+    "status": "PASS"
+  },
+  {
+    "allowed_claim": "V6-1 complete: production identity and tenant boundary pilot slice ready for review.",
+    "claim_violations": [],
+    "evidence_refs": {
+      "acceptance_data": "docs/design/V6.x/evidence/v6-1-identity-tenant/acceptance-data.json",
+      "claims_scan": "docs/design/V6.x/evidence/v6-1-identity-tenant/claims-scan.md",
+      "index_html": "docs/design/V6.x/evidence/v6-1-identity-tenant/index.html",
+      "redaction_scan": "",
+      "result_summary": "docs/design/V6.x/evidence/v6-1-identity-tenant/result-summary.md"
+    },
+    "evidence_scope": "repo_backed_staging_fixture",
+    "missing_evidence": [],
+    "redaction_status": "PASS",
+    "scenario_count": 9,
+    "stage": "V6-1",
+    "status": "PASS"
+  },
+  {
+    "allowed_claim": "V6-2 complete: production credential and provider lifecycle pilot slice ready for review.",
+    "claim_violations": [],
+    "evidence_refs": {
+      "acceptance_data": "docs/design/V6.x/evidence/v6-2-credential-provider/acceptance-data.json",
+      "claims_scan": "docs/design/V6.x/evidence/v6-2-credential-provider/claims-scan.md",
+      "index_html": "docs/design/V6.x/evidence/v6-2-credential-provider/index.html",
+      "redaction_scan": "",
+      "result_summary": "docs/design/V6.x/evidence/v6-2-credential-provider/result-summary.md"
+    },
+    "evidence_scope": "repo_backed_staging_fixture_with_env_secret_refs",
+    "missing_evidence": [],
+    "redaction_status": "PASS",
+    "scenario_count": 7,
+    "stage": "V6-2",
+    "status": "PASS"
+  },
+  {
+    "allowed_claim": "V6-3 complete: production observability and audit export pilot slice ready for review.",
+    "claim_violations": [],
+    "evidence_refs": {
+      "acceptance_data": "docs/design/V6.x/evidence/v6-3-observability-audit/acceptance-data.json",
+      "claims_scan": "docs/design/V6.x/evidence/v6-3-observability-audit/claims-scan.md",
+      "index_html": "docs/design/V6.x/evidence/v6-3-observability-audit/index.html",
+      "redaction_scan": "",
+      "result_summary": "docs/design/V6.x/evidence/v6-3-observability-audit/result-summary.md"
+    },
+    "evidence_scope": "repo_backed_staging_fixture_read_models",
+    "missing_evidence": [],
+    "redaction_status": "PASS",
+    "scenario_count": 5,
+    "stage": "V6-3",
+    "status": "PASS"
+  },
+  {
+    "allowed_claim": "V6-4 complete: limited production controlled executor pilot slice ready for review.",
+    "claim_violations": [],
+    "evidence_refs": {
+      "acceptance_data": "docs/design/V6.x/evidence/v6-4-controlled-executor/acceptance-data.json",
+      "claims_scan": "docs/design/V6.x/evidence/v6-4-controlled-executor/claims-scan.md",
+      "index_html": "docs/design/V6.x/evidence/v6-4-controlled-executor/index.html",
+      "redaction_scan": "",
+      "result_summary": "docs/design/V6.x/evidence/v6-4-controlled-executor/result-summary.md"
+    },
+    "evidence_scope": "repo_backed_pilot_runtime_slice",
+    "missing_evidence": [],
+    "redaction_status": "PASS",
+    "scenario_count": 9,
+    "stage": "V6-4",
+    "status": "PASS"
+  },
+  {
+    "allowed_claim": "V6-5 complete: governed Agent execution intent pilot gate ready for review.",
+    "claim_violations": [],
+    "evidence_refs": {
+      "acceptance_data": "docs/design/V6.x/evidence/v6-5-agent-governance/acceptance-data.json",
+      "claims_scan": "docs/design/V6.x/evidence/v6-5-agent-governance/claims-scan.md",
+      "index_html": "docs/design/V6.x/evidence/v6-5-agent-governance/index.html",
+      "redaction_scan": "docs/design/V6.x/evidence/v6-5-agent-governance/redaction-scan.md",
+      "result_summary": "docs/design/V6.x/evidence/v6-5-agent-governance/result-summary.md"
+    },
+    "evidence_scope": "repo_backed_agent_governance_pilot",
+    "missing_evidence": [],
+    "redaction_status": "PASS",
+    "scenario_count": 7,
+    "stage": "V6-5",
+    "status": "PASS"
+  },
+  {
+    "allowed_claim": "V6-6 complete: production external app onboarding pilot slice ready for review.",
+    "claim_violations": [],
+    "evidence_refs": {
+      "acceptance_data": "docs/design/V6.x/evidence/v6-6-external-app-onboarding/acceptance-data.json",
+      "claims_scan": "docs/design/V6.x/evidence/v6-6-external-app-onboarding/claims-scan.md",
+      "index_html": "docs/design/V6.x/evidence/v6-6-external-app-onboarding/index.html",
+      "redaction_scan": "",
+      "result_summary": "docs/design/V6.x/evidence/v6-6-external-app-onboarding/result-summary.md"
+    },
+    "evidence_scope": "repo_backed_pilot_runtime_slice",
+    "missing_evidence": [],
+    "redaction_status": "PASS",
+    "scenario_count": 13,
+    "stage": "V6-6",
+    "status": "PASS"
+  },
+  {
+    "allowed_claim": "V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review.",
+    "claim_violations": [],
+    "evidence_refs": {
+      "acceptance_data": "docs/design/V6.x/evidence/v6-7-distributed-runtime/acceptance-data.json",
+      "claims_scan": "docs/design/V6.x/evidence/v6-7-distributed-runtime/claims-scan.md",
+      "index_html": "docs/design/V6.x/evidence/v6-7-distributed-runtime/index.html",
+      "redaction_scan": "docs/design/V6.x/evidence/v6-7-distributed-runtime/redaction-scan.md",
+      "result_summary": "docs/design/V6.x/evidence/v6-7-distributed-runtime/result-summary.md"
+    },
+    "evidence_scope": "repo_backed_pilot_runtime_slice",
+    "missing_evidence": [],
+    "redaction_status": "PASS",
+    "scenario_count": 10,
+    "stage": "V6-7",
+    "status": "PASS"
+  },
+  {
+    "allowed_claim": "V6-8 complete: product console pilot slice ready for review.",
+    "claim_violations": [],
+    "evidence_refs": {
+      "acceptance_data": "docs/design/V6.x/evidence/v6-8-product-console/acceptance-data.json",
+      "claims_scan": "docs/design/V6.x/evidence/v6-8-product-console/claims-scan.md",
+      "index_html": "docs/design/V6.x/evidence/v6-8-product-console/index.html",
+      "redaction_scan": "docs/design/V6.x/evidence/v6-8-product-console/redaction-scan.md",
+      "result_summary": "docs/design/V6.x/evidence/v6-8-product-console/result-summary.md"
+    },
+    "evidence_scope": "repo_backed_product_console_projection",
+    "missing_evidence": [],
+    "redaction_status": "PASS",
+    "scenario_count": 9,
+    "stage": "V6-8",
+    "status": "PASS"
+  }
+]

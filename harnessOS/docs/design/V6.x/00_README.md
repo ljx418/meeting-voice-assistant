@@ -1,6 +1,6 @@
 # V6.x Design Index
 
-文档状态：V6-6 complete / ready for review；V6-7 implementation NO-GO / planning refinement only。本文是 V6.x canonical index。
+文档状态：V6 complete / ready for review。本文是 V6.x canonical index。
 
 ## Current V6 Baseline
 
@@ -15,7 +15,9 @@ V6-3 complete: production observability and audit export pilot slice ready for r
 V6-4 complete: limited production controlled executor pilot slice ready for review.
 V6-5 complete: governed Agent execution intent pilot gate ready for review.
 V6-6 complete: production external app onboarding pilot slice ready for review.
-V6-7 remains NO-GO for implementation until separate human high-risk proceed decision and detailed contract audit pass.
+V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review.
+V6-8 complete: product console pilot slice ready for review.
+V6 complete: production pilot baseline ready for review.
 ```
 
 V6 不反向升级 V5 证据。V5-8 只证明 bounded distributed runtime slice ready for review，不证明完整生产级分布式多 Agent 运行时、Agent executor、production controlled executor、production-ready external app support 或 complete Workflow Studio。
@@ -102,13 +104,28 @@ Final production pilot acceptance
 | `v6_7_distributed_runtime_development_and_acceptance_plan.md` | V6-7 分布式多 Agent 运行时产品化开发及验收计划。 |
 | `v6_7_distributed_runtime_prd.md` | V6-7 分布式运行时详细 PRD；当前 implementation NO-GO。 |
 | `v6_7_target_architecture_delta.md` | V6-7 架构增量设计。 |
+| `v6_7_pre_implementation_closure_plan.md` | V6-7 实现前闭环计划；不授权 runtime implementation。 |
 | `v6_7_distributed_run_coordinator_contract.md` | V6-7 DistributedRunCoordinator 合同。 |
+| `v6_7_runtime_io_contract.md` | V6-7 runtime I/O 合同；不创建 route。 |
+| `v6_7_distributed_runtime_state_machine.md` | V6-7 分布式运行时状态机合同。 |
+| `v6_7_worker_lifecycle_model.md` | V6-7 worker 生命周期模型。 |
 | `v6_7_worker_assignment_policy.md` | V6-7 worker assignment policy。 |
+| `v6_7_failure_recovery_acceptance_matrix.md` | V6-7 失败恢复验收矩阵。 |
 | `v6_7_incident_timeline_contract.md` | V6-7 incident timeline 合同。 |
 | `v6_7_no_false_green_guard.md` | V6-7 No False Green guard。 |
+| `v6_7_distributed_runtime_completion_note.md` | V6-7 completion note；只允许 pilot slice ready for review 声明。 |
 | `v6_8_product_console_development_and_acceptance_plan.md` | V6-8 产品控制台开发及验收计划。 |
 | `v6_8_ui_bff_browser_safety_plan.md` | V6-8 UI / BFF / browser safety 计划。 |
+| `v6_8_product_console_bff_contract.md` | V6-8 Product Console BFF allowlist / denylist 合同。 |
+| `v6_8_browser_safety_test_matrix.md` | V6-8 browser safety 验收矩阵。 |
+| `v6_8_manual_confirmation_ux_contract.md` | V6-8 manual confirmation UX 合同。 |
+| `v6_8_product_console_completion_note.md` | V6-8 completion note；只允许 Product Console pilot slice ready for review 声明。 |
+| `evidence/v6-8-product-console/` | V6-8 端到端验收证据包。 |
 | `v6_9_final_acceptance_development_and_acceptance_plan.md` | V6-9 最终生产试点验收计划。 |
+| `v6_9_final_acceptance_evidence_inventory_plan.md` | V6-9 evidence inventory 计划；不执行最终验收。 |
+| `v6_9_no_false_green_and_redaction_scan_plan.md` | V6-9 No False Green 和 redaction scan 计划。 |
+| `v6_final_completion_note.md` | V6 final completion note；只允许 production pilot baseline ready for review 声明。 |
+| `evidence/v6-9-final-acceptance/` | V6-9 最终验收证据包。 |
 | `v6_document_audit_report.md` | V6 文档审计报告。 |
 
 ## Historical Stage Notes
@@ -162,6 +179,24 @@ V6-5 complete: governed Agent execution intent pilot gate ready for review.
 V6-6 complete: production external app onboarding pilot slice ready for review.
 ```
 
+## Allowed V6-7 Claim
+
+```text
+V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review.
+```
+
+## Allowed V6-8 Claim
+
+```text
+V6-8 complete: product console pilot slice ready for review.
+```
+
+## Allowed V6 Claim
+
+```text
+V6 complete: production pilot baseline ready for review.
+```
+
 ## Forbidden Claims
 
 ```text
@@ -182,8 +217,10 @@ autonomous workflow editing ready
 
 ```text
 Review V6-6 completion package and evidence package.
-Continue V6-7 planning refinement only.
-Do not enter V6-7 runtime implementation until a separate human high-risk proceed decision is recorded.
+Review V6-7 completion package and evidence package.
+Review V6 final acceptance package.
+Proceed to V7 planning only after external review accepts V6 final acceptance.
+Do not rewrite V6 complete as production ready or full production GA.
 ```
 
 ## Top 19 External Audit Paths
@@ -196,16 +233,16 @@ docs/design/V6.x/v6_current_gap_analysis.md
 docs/design/V6.x/v6_current_gap_analysis.drawio
 docs/design/V6.x/v6_development_and_acceptance_plan.md
 docs/design/V6.x/v6_remaining_development_and_acceptance_plan.md
+docs/design/V6.x/v6_acceptance_gate_matrix.md
 docs/design/V6.x/v6_no_false_green_claim_guard.md
-docs/design/V6.x/v6_planning_audit_for_chatgpt.md
-docs/design/V6.x/v6_6_external_app_onboarding_development_and_acceptance_plan.md
-docs/design/V6.x/v6_6_external_app_onboarding_dto_contract.md
 docs/design/V6.x/v6_7_distributed_runtime_development_and_acceptance_plan.md
-docs/design/V6.x/v6_7_distributed_runtime_prd.md
-docs/design/V6.x/v6_7_distributed_run_coordinator_contract.md
-docs/design/V6.x/v6_7_no_false_green_guard.md
-docs/design/V6.x/v6_8_product_console_development_and_acceptance_plan.md
-docs/design/V6.x/v6_8_ui_bff_browser_safety_plan.md
-docs/design/V6.x/v6_9_final_acceptance_development_and_acceptance_plan.md
-docs/design/V6.x/evidence/v6-5-agent-governance/acceptance-data.json
+docs/design/V6.x/v6_7_distributed_runtime_completion_note.md
+docs/design/V6.x/v6_7_runtime_io_contract.md
+docs/design/V6.x/v6_7_failure_recovery_acceptance_matrix.md
+docs/design/V6.x/v6_8_product_console_bff_contract.md
+docs/design/V6.x/v6_8_browser_safety_test_matrix.md
+docs/design/V6.x/v6_8_manual_confirmation_ux_contract.md
+docs/design/V6.x/v6_8_product_console_completion_note.md
+docs/design/V6.x/v6_9_final_acceptance_evidence_inventory_plan.md
+docs/design/V6.x/v6_final_completion_note.md
 ```

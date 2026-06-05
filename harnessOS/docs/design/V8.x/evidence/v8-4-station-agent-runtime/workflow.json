@@ -1,0 +1,134 @@
+{
+  "approval_points": [
+    "user_confirmed_before_workflow_instance_start"
+  ],
+  "artifact_contracts": [
+    "parsed_markdown_documents",
+    "folder_summary_artifacts",
+    "overview_summary_artifact",
+    "quality_report",
+    "evidence_chain_json"
+  ],
+  "context_refs": [
+    "studio_context://v7"
+  ],
+  "edges": [
+    {
+      "from_station_id": "folder_authorization",
+      "to_station_id": "markdown_scan"
+    },
+    {
+      "from_station_id": "markdown_scan",
+      "to_station_id": "per_folder_summary"
+    },
+    {
+      "from_station_id": "per_folder_summary",
+      "to_station_id": "overview_summary"
+    },
+    {
+      "from_station_id": "overview_summary",
+      "to_station_id": "quality_check"
+    },
+    {
+      "from_station_id": "quality_check",
+      "to_station_id": "runtime_report"
+    },
+    {
+      "from_station_id": "runtime_report",
+      "to_station_id": "evidence_record"
+    }
+  ],
+  "evidence_refs": [
+    "evidence://v8/station-agent-runtime"
+  ],
+  "metadata": {
+    "created_at": "2026-06-04T14:03:03.363841+00:00",
+    "created_by": "mission_tui",
+    "goal_id": "goal_mission_v7_2_9f3efdacaf50",
+    "schema_version": "v8.0",
+    "source_refs": [
+      "mission://v8/mission_v7_2_9f3efdacaf50"
+    ],
+    "workflow_kind": "local_markdown_technical_document_summary",
+    "workflow_spec_id": "workflow_spec_v7_3_101d6c113a9b"
+  },
+  "natural_language_goal": "递归总结 tests/fixtures/desktop/技术分享 下的 Markdown 文件",
+  "quality_rules": [
+    "scanner_actual_read_count_gt_zero",
+    "provider_invocation_count_gt_zero",
+    "redaction_scan_pass"
+  ],
+  "runtime_truth_boundary": "workflow_spec_and_station_agent_registry_are_not_runtime_truth",
+  "stations": [
+    {
+      "input_refs": [],
+      "output_refs": [
+        "authorized_folder_ref"
+      ],
+      "station_id": "folder_authorization",
+      "station_kind": "folder_authorization"
+    },
+    {
+      "input_refs": [
+        "authorized_folder_ref"
+      ],
+      "output_refs": [
+        "parsed_markdown_documents"
+      ],
+      "station_id": "markdown_scan",
+      "station_kind": "markdown_scan"
+    },
+    {
+      "input_refs": [
+        "parsed_markdown_documents"
+      ],
+      "output_refs": [
+        "folder_summary_artifacts"
+      ],
+      "station_id": "per_folder_summary",
+      "station_kind": "per_folder_summary"
+    },
+    {
+      "input_refs": [
+        "folder_summary_artifacts"
+      ],
+      "output_refs": [
+        "overview_summary_artifact"
+      ],
+      "station_id": "overview_summary",
+      "station_kind": "overview_summary"
+    },
+    {
+      "input_refs": [
+        "parsed_markdown_documents",
+        "folder_summary_artifacts"
+      ],
+      "output_refs": [
+        "quality_report"
+      ],
+      "station_id": "quality_check",
+      "station_kind": "quality_check"
+    },
+    {
+      "input_refs": [
+        "quality_report"
+      ],
+      "output_refs": [
+        "workflow_board_html"
+      ],
+      "station_id": "runtime_report",
+      "station_kind": "runtime_report"
+    },
+    {
+      "input_refs": [
+        "folder_summary_artifacts",
+        "quality_report"
+      ],
+      "output_refs": [
+        "evidence_chain_json"
+      ],
+      "station_id": "evidence_record",
+      "station_kind": "evidence_record"
+    }
+  ]
+}

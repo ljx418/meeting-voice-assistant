@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>V6-8 Product Console Acceptance</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; color: #111827; }
+    header { padding: 24px 32px; background: #f0fdf4; border-bottom: 1px solid #bbf7d0; }
+    main { padding: 24px 32px; display: grid; gap: 18px; }
+    .card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; }
+    .pass { color: #166534; font-weight: 700; }
+    iframe { width: 100%; height: 720px; border: 1px solid #d1d5db; border-radius: 8px; background: white; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>V6-8 Product Console 验收报告</h1>
+    <p class="pass">status: PASS</p>
+    <p>Allowed claim: V6-8 complete: product console pilot slice ready for review.</p>
+  </header>
+  <main>
+    <section class="card">
+      <h2>场景结果</h2>
+      <ul><li><strong>runtime_report_readonly_no_hidden_form</strong>: PASS</li>
+<li><strong>evidence_review_readonly_no_execute_buttons</strong>: PASS</li>
+<li><strong>audit_export_access_requires_authorized_view</strong>: PASS</li>
+<li><strong>external_app_admin_does_not_construct_runtime_truth</strong>: PASS</li>
+<li><strong>manual_confirmation_records_human_authorization_ref</strong>: PASS</li>
+<li><strong>browser_no_direct_internal_runtime_routes</strong>: PASS</li>
+<li><strong>browser_no_direct_v1_rpc</strong>: PASS</li>
+<li><strong>browser_no_direct_v1_events_subscribe</strong>: PASS</li>
+<li><strong>ui_no_auto_apply_auto_publish_agent_executed_copy</strong>: PASS</li></ul>
+      <p>claim violations: 0; redaction: PASS</p>
+    </section>
+    <section class="card">
+      <h2>只读控制台视图</h2>
+      <iframe srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;title&gt;V6-8 Product Console 验收看板&lt;/title&gt;
+  &lt;style&gt;
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, sans-serif; background: #f8fafc; color: #111827; }
+    header { padding: 24px 32px; background: #ecfeff; border-bottom: 1px solid #a5f3fc; }
+    main { padding: 24px 32px; display: grid; gap: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; }
+    .pill { display: inline-block; padding: 3px 8px; border-radius: 999px; background: #dcfce7; color: #166534; font-size: 12px; font-weight: 700; }
+    .muted { color: #64748b; font-size: 13px; }
+    pre { white-space: pre-wrap; word-break: break-word; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; font-size: 12px; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;V6-8 Product Console 验收看板&lt;/h1&gt;
+    &lt;p&gt;只读产品控制台 pilot slice；不证明完整 Workflow Studio。&lt;/p&gt;
+    &lt;span class=&quot;pill&quot;&gt;ready for review&lt;/span&gt;
+  &lt;/header&gt;
+  &lt;main&gt;
+    &lt;section class=&quot;card&quot;&gt;
+      &lt;h2&gt;BFF 路由白名单&lt;/h2&gt;
+      &lt;ul&gt;&lt;li&gt;GET /bff/v6/audit-export&lt;/li&gt;
+&lt;li&gt;GET /bff/v6/evidence-review&lt;/li&gt;
+&lt;li&gt;GET /bff/v6/external-app-admin&lt;/li&gt;
+&lt;li&gt;GET /bff/v6/runtime-report&lt;/li&gt;
+&lt;li&gt;POST /bff/v6/manual-confirmation&lt;/li&gt;&lt;/ul&gt;
+      &lt;p class=&quot;muted&quot;&gt;浏览器网络日志只允许访问上述 BFF 路由。&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section class=&quot;card&quot;&gt;
+      &lt;h2&gt;人工确认记录&lt;/h2&gt;
+      &lt;p&gt;&lt;strong&gt;human_authorization_ref:&lt;/strong&gt; human-auth://v6-8/bd7d7553f6d4&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;operation:&lt;/strong&gt; station.rerun&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;audit_ref:&lt;/strong&gt; audit://v6-8/manual-confirmation/cfc2f00066c6&lt;/p&gt;
+      &lt;p class=&quot;muted&quot;&gt;人工确认只生成授权引用，不直接执行运行时动作。&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section class=&quot;grid&quot;&gt;&lt;article class=&quot;card&quot; data-panel=&quot;runtime_report&quot; data-readonly=&quot;true&quot;&gt;
+      &lt;h2&gt;运行报告&lt;/h2&gt;
+      &lt;p class=&quot;muted&quot;&gt;Allowed actions: view, open_report&lt;/p&gt;
+      &lt;pre&gt;{
+  &amp;quot;allowed_actions&amp;quot;: [
+    &amp;quot;view&amp;quot;,
+    &amp;quot;open_report&amp;quot;
+  ],
+  &amp;quot;constructs_runtime_truth&amp;quot;: false,
+  &amp;quot;data&amp;quot;: {
+    &amp;quot;attempt_count&amp;quot;: 0,
+    &amp;quot;incident_count&amp;quot;: 0,
+    &amp;quot;lineage_count&amp;quot;: 0,
+    &amp;quot;source&amp;quot;: &amp;quot;runtime_read_model&amp;quot;,
+    &amp;quot;status&amp;quot;: &amp;quot;completed&amp;quot;,
+    &amp;quot;workflow_instance_id&amp;quot;: &amp;quot;workflow-instance-v6-7&amp;quot;
+  },
+  &amp;quot;hidden_mutation_form_present&amp;quot;: false,
+  &amp;quot;panel_id&amp;quot;: &amp;quot;runtime_report&amp;quot;,
+  &amp;quot;readonly&amp;quot;: true,
+  &amp;quot;redaction_status&amp;quot;: &amp;quot;redacted&amp;quot;,
+  &amp;quot;source_refs&amp;quot;: {
+    &amp;quot;runtime_report_ref&amp;quot;: &amp;quot;docs/design/V6.x/evidence/v6-7-distributed-runtime/acceptance-data.json&amp;quot;
+  },
+  &amp;quot;title&amp;quot;: &amp;quot;运行报告&amp;quot;
+}&lt;/pre&gt;
+    &lt;/article&gt;
+&lt;article class=&quot;card&quot; data-panel=&quot;evidence_review&quot; data-readonly=&quot;true&quot;&gt;
+      &lt;h2&gt;证据链审查&lt;/h2&gt;
+      &lt;p class=&quot;muted&quot;&gt;Allowed actions: view, export, open_handoff&lt;/p&gt;
+      &lt;pre&gt;{
+  &amp;quot;allowed_actions&amp;quot;: [
+    &amp;quot;view&amp;quot;,
+    &amp;quot;export&amp;quot;,
+    &amp;quot;open_handoff&amp;quot;
+  ],
+  &amp;quot;constructs_runtime_truth&amp;quot;: false,
+  &amp;quot;data&amp;quot;: {
+    &amp;quot;allowed_actions&amp;quot;: [
+      &amp;quot;view&amp;quot;,
+      &amp;quot;export&amp;quot;,
+      &amp;quot;open_handoff&amp;quot;
+    ],
+    &amp;quot;claim_violations&amp;quot;: [],
+    &amp;quot;evidence_scope&amp;quot;: &amp;quot;repo_backed_pilot_runtime_slice&amp;quot;,
+    &amp;quot;redaction_status&amp;quot;: &amp;quot;PASS&amp;quot;,
+    &amp;quot;scenario_count&amp;quot;: 10
+  },
+  &amp;quot;hidden_mutation_form_present&amp;quot;: false,
+  &amp;quot;panel_id&amp;quot;: &amp;quot;evidence_review&amp;quot;,
+  &amp;quot;readonly&amp;quot;: true,
+  &amp;quot;redaction_status&amp;quot;: &amp;quot;redacted&amp;quot;,
+  &amp;quot;source_refs&amp;quot;: {
+    &amp;quot;evidence_ref&amp;quot;: &amp;quot;docs/design/V6.x/evidence/v6-7-distributed-runtime/result-summary.md&amp;quot;
+  },
+  &amp;quot;title&amp;quot;: &amp;quot;证据链审查&amp;quot;
+}&lt;/pre&gt;
+    &lt;/article&gt;
+&lt;article class=&quot;card&quot; data-panel=&quot;audit_export&quot; data-readonly=&quot;true&quot;&gt;
+      &lt;h2&gt;审计导出&lt;/h2&gt;
+      &lt;p class=&quot;muted&quot;&gt;Allowed actions: view, export&lt;/p&gt;
+      &lt;pre&gt;{
+  &amp;quot;allowed_actions&amp;quot;: [
+    &amp;quot;view&amp;quot;,
+    &amp;quot;export&amp;quot;
+  ],
+  &amp;quot;constructs_runtime_truth&amp;quot;: false,
+  &amp;quot;data&amp;quot;: {
+    &amp;quot;audit_export_ref&amp;quot;: &amp;quot;audit-export://v6-3/acceptance&amp;quot;,
+    &amp;quot;authorized_view&amp;quot;: true,
+    &amp;quot;immutable_or_append_only&amp;quot;: true,
+    &amp;quot;source&amp;quot;: &amp;quot;audit_export_read_model&amp;quot;
+  },
+  &amp;quot;hidden_mutation_form_present&amp;quot;: false,
+  &amp;quot;panel_id&amp;quot;: &amp;quot;audit_export&amp;quot;,
+  &amp;quot;readonly&amp;quot;: true,
+  &amp;quot;redaction_status&amp;quot;: &amp;quot;redacted&amp;quot;,
+  &amp;quot;source_refs&amp;quot;: {
+    &amp;quot;audit_export_ref&amp;quot;: &amp;quot;docs/design/V6.x/evidence/v6-3-observability-audit/acceptance-data.json&amp;quot;
+  },
+  &amp;quot;title&amp;quot;: &amp;quot;审计导出&amp;quot;
+}&lt;/pre&gt;
+    &lt;/article&gt;
+&lt;article class=&quot;card&quot; data-panel=&quot;external_app_admin&quot; data-readonly=&quot;true&quot;&gt;
+      &lt;h2&gt;外部应用管理&lt;/h2&gt;
+      &lt;p class=&quot;muted&quot;&gt;Allowed actions: view, open_evidence&lt;/p&gt;
+      &lt;pre&gt;{
+  &amp;quot;allowed_actions&amp;quot;: [
+    &amp;quot;view&amp;quot;,
+    &amp;quot;open_evidence&amp;quot;
+  ],
+  &amp;quot;constructs_runtime_truth&amp;quot;: false,
+  &amp;quot;data&amp;quot;: {
+    &amp;quot;app_id&amp;quot;: &amp;quot;app_v6_6&amp;quot;,
+    &amp;quot;constructs_runtime_truth&amp;quot;: false,
+    &amp;quot;offboarding_revoked_credentials&amp;quot;: true,
+    &amp;quot;registration_status&amp;quot;: &amp;quot;PASS&amp;quot;,
+    &amp;quot;source&amp;quot;: &amp;quot;external_app_admin_read_model&amp;quot;
+  },
+  &amp;quot;hidden_mutation_form_present&amp;quot;: false,
+  &amp;quot;panel_id&amp;quot;: &amp;quot;external_app_admin&amp;quot;,
+  &amp;quot;readonly&amp;quot;: true,
+  &amp;quot;redaction_status&amp;quot;: &amp;quot;redacted&amp;quot;,
+  &amp;quot;source_refs&amp;quot;: {
+    &amp;quot;external_app_ref&amp;quot;: &amp;quot;docs/design/V6.x/evidence/v6-6-external-app-onboarding/acceptance-data.json&amp;quot;
+  },
+  &amp;quot;title&amp;quot;: &amp;quot;外部应用管理&amp;quot;
+}&lt;/pre&gt;
+    &lt;/article&gt;&lt;/section&gt;
+    &lt;section class=&quot;card&quot;&gt;
+      &lt;h2&gt;Full Workflow Studio Gate&lt;/h2&gt;
+      &lt;pre&gt;{
+  &amp;quot;complete_workflow_studio_ready&amp;quot;: false,
+  &amp;quot;separate_acceptance_matrix_required&amp;quot;: true,
+  &amp;quot;separate_architecture_required&amp;quot;: true,
+  &amp;quot;separate_no_false_green_gate_required&amp;quot;: true,
+  &amp;quot;separate_prd_required&amp;quot;: true
+}&lt;/pre&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+    </section>
+  </main>
+</body>
+</html>

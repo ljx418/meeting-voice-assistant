@@ -1,6 +1,6 @@
 # V6-7 Worker Assignment Policy
 
-文档状态：V6-7 planning refinement / implementation NO-GO。
+文档状态：V6-7 complete / ready for review policy contract。
 
 ## Required Policy
 
@@ -22,4 +22,3 @@ worker_missing_credential_decision_denied
 worker_missing_policy_decision_denied
 source_agent_worker_assignment_denied
 ```
-

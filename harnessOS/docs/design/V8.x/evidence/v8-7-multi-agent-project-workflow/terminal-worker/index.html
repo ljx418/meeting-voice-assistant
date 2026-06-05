@@ -1,0 +1,45 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>V8-6 Controlled Terminal Worker</title><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:32px;background:#f8fafc;color:#111827}section{background:white;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin:16px 0}pre{white-space:pre-wrap;background:#f3f4f6;padding:12px;border-radius:6px}a{color:#2563eb}</style></head><body>
+    <h1>V8-6 Controlled Terminal Worker Pilot</h1>
+    <section><h2>Acceptance</h2><pre>{
+  &quot;stage_id&quot;: &quot;V8-6&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;evidence_scope&quot;: &quot;controlled_runtime_fixture&quot;,
+  &quot;runtime_backed&quot;: true,
+  &quot;worker_type&quot;: &quot;codex_cli&quot;,
+  &quot;workspace_scope_guard&quot;: &quot;PASS&quot;,
+  &quot;command_allowlist&quot;: &quot;PASS&quot;,
+  &quot;transcript_captured&quot;: &quot;PASS&quot;,
+  &quot;diff_proposal_captured&quot;: &quot;PASS&quot;,
+  &quot;human_review_handoff_exists&quot;: &quot;PASS&quot;,
+  &quot;source_agent_mutation_denied&quot;: &quot;PASS&quot;,
+  &quot;auto_commit_enabled&quot;: false,
+  &quot;auto_push_enabled&quot;: false,
+  &quot;production_browser_automation_enabled&quot;: false,
+  &quot;terminal_worker_runtime_enabled&quot;: true,
+  &quot;terminal_worker_scope&quot;: &quot;workspace_scoped_readonly_shell_and_handoff_proposal_only&quot;,
+  &quot;claim_scan&quot;: &quot;PASS&quot;,
+  &quot;redaction_scan&quot;: &quot;PASS&quot;,
+  &quot;allowed_claim&quot;: &quot;V8-6 complete: controlled terminal worker pilot ready for review.&quot;,
+  &quot;forbidden_claims&quot;: [
+    &quot;Agent executor ready&quot;,
+    &quot;ChromeCLI production automation ready&quot;,
+    &quot;Claude terminal executor production ready&quot;,
+    &quot;Codex terminal executor production ready&quot;,
+    &quot;autonomous coding workflow ready&quot;,
+    &quot;complete Workflow Studio ready&quot;,
+    &quot;full multi-Agent orchestration ready&quot;,
+    &quot;production Agent executor ready&quot;,
+    &quot;unrestricted terminal worker ready&quot;
+  ]
+}</pre></section>
+    <section><h2>Evidence Links</h2>
+      <ul>
+        <li><a href="terminal-transcript.txt">terminal-transcript.txt</a></li>
+        <li><a href="diff-proposal.patch">diff-proposal.patch</a></li>
+        <li><a href="human-review-handoff.json">human-review-handoff.json</a></li>
+        <li><a href="command-results.json">command-results.json</a></li>
+        <li><a href="worker-result.json">worker-result.json</a></li>
+      </ul>
+    </section>
+    <section><h2>Boundary</h2><p>仅限 workspace-scoped readonly shell 与 Codex / Claude handoff proposal；不自动 commit、不自动 push、不做生产浏览器账号自动化。</p></section>
+    </body></html>

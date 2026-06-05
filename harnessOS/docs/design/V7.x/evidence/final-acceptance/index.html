@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>V7 Final Acceptance</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; background: #f8fafc; color: #111827; }
+      section { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; margin: 16px 0; padding: 16px; }
+      table { border-collapse: collapse; width: 100%; }
+      td, th { border-bottom: 1px solid #e5e7eb; padding: 8px; text-align: left; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+    </style>
+  </head>
+  <body>
+    <h1>V7 Final Small Studio Acceptance</h1>
+    <section><h2>Overall</h2><p>Status: PASS</p><p>Allowed claim: V7 complete: small studio production pilot and explainable TUI baseline ready for review.</p></section>
+    <section><h2>Stage Results</h2><table><thead><tr><th>Stage</th><th>Status</th><th>Evidence Scope</th><th>Evidence</th></tr></thead><tbody><tr><td>V7-0</td><td>PASS</td><td>planning_gate</td><td>docs/design/V7.x/evidence/v7-0-planning-hardening</td></tr><tr><td>V7-1</td><td>PASS</td><td>repo_backed_fixture</td><td>docs/design/V7.x/evidence/v7-1-small-studio</td></tr><tr><td>V7-2</td><td>PASS</td><td>transcript_only</td><td>docs/design/V7.x/evidence/v7-2-explainable-tui</td></tr><tr><td>V7-3</td><td>PASS</td><td>real_runtime_fixture</td><td>docs/design/V7.x/evidence/v7-3-workflow-run</td></tr></tbody></table></section>
+    <section><h2>Main Path</h2><ol><li>自然语言目标</li><li>WorkflowSpec / Diff</li><li>Workflow Blueprint</li><li>用户确认</li><li>Runtime Report</li><li>Quality</li><li>Evidence Chain</li></ol></section>
+    <section><h2>Runtime Truth Assertions</h2><pre>{
+  &quot;workflow_spec_not_runtime_truth&quot;: &quot;PASS&quot;,
+  &quot;drawio_visualization_only&quot;: &quot;PASS&quot;,
+  &quot;runtime_report_readonly&quot;: &quot;PASS&quot;,
+  &quot;evidence_chain_readonly&quot;: &quot;PASS&quot;,
+  &quot;source_agent_direct_mutation_denied&quot;: &quot;PASS&quot;,
+  &quot;user_confirmation_required&quot;: &quot;PASS&quot;
+}</pre></section>
+    <section><h2>Links</h2><ul>
+      <li><a href="../v7-2-explainable-tui/tui-transcript.txt">Mission TUI transcript</a></li>
+      <li><a href="../v7-3-workflow-run/workflow.drawio">Workflow Blueprint</a></li>
+      <li><a href="../v7-3-workflow-run/workflow_board.html">Runtime Report</a></li>
+      <li><a href="../v7-3-workflow-run/quality.html">Quality Report</a></li>
+      <li><a href="../v7-3-workflow-run/evidence.html">Evidence Chain</a></li>
+    </ul></section>
+    <section><h2>Missing Evidence</h2><pre>[]</pre></section>
+    </body>
+</html>

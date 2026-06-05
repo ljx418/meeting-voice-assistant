@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>V9-1 Safety Gate Implementation Evidence</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f8fafc; color: #111827; }
+    header { background: #111827; color: #fff; padding: 28px 40px; }
+    main { padding: 28px 40px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+    .card { background: #fff; border: 1px solid #d1d5db; border-radius: 8px; padding: 16px; }
+    .status { display: inline-block; padding: 4px 10px; border-radius: 999px; font-weight: 700; }
+    .pass { background: #dcfce7; color: #166534; }
+    .fail { background: #fee2e2; color: #991b1b; }
+    .warning { border-left: 6px solid #dc2626; background: #fef2f2; padding: 16px 18px; margin: 20px 0; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f3f4f6; padding: 10px; border-radius: 6px; font-size: 12px; }
+    ul { line-height: 1.7; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>V9-1 Agent Executor Safety Gate 实现证据</h1>
+    <p>status: PASS / evidence_scope: real_code_policy_validation / runtime_execution_allowed: false</p>
+  </header>
+  <main>
+    <section class="warning">
+      <strong>关键边界：</strong>本页只证明 Safety Gate validator / CapabilityResolver deny-by-default / contract checks 可运行；没有 runtime executor route、没有 runtime worker、没有 source=agent durable mutation。
+    </section>
+    <h2>全局运行时边界</h2>
+    <ul>
+      <li>runtime_executor_route_created: False</li>
+      <li>runtime_worker_created: False</li>
+      <li>controlled_executor_action_execution: False</li>
+      <li>source_agent_durable_mutation_allowed: False</li>
+      <li>agent_executor_ready: False</li>
+    </ul>
+    <h2>阻断能力标志</h2>
+    <ul><li>agent_executor_ready: False</li><li>controlled_executor_ready: False</li><li>production_controlled_executor_ready: False</li><li>full_multi_agent_orchestration_ready: False</li><li>autonomous_coding_workflow_ready: False</li><li>complete_workflow_studio_ready: False</li></ul>
+    <h2>场景证据</h2>
+    <div class="grid">
+            <section class="card">
+              <h2>workflow_start_safety_gate_allow_no_runtime_execution</h2>
+              <p class="status pass">PASS</p>
+              <p>workflow.instance.start with user confirmation is accepted for safety-gate handoff only.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;workflow_start_safety_gate_allow_no_runtime_execution&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_decision&quot;: &quot;allow&quot;,
+  &quot;observed_denial_reason&quot;: null,
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;capability_decision_ref&quot;: &quot;capability-decision://v9-1/4627ab8ae9214e35b52b9673fa3e50cf&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            
+            <section class="card">
+              <h2>source_agent_durable_mutation_denied</h2>
+              <p class="status pass">PASS</p>
+              <p>source=agent durable mutation is denied even with user confirmation.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;source_agent_durable_mutation_denied&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_decision&quot;: &quot;deny&quot;,
+  &quot;observed_denial_reason&quot;: &quot;source_agent_durable_mutation_denied&quot;,
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;capability_decision_ref&quot;: &quot;capability-decision://v9-1/ed0f85c0e3cc465cbdebcee326ce054e&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            
+            <section class="card">
+              <h2>missing_confirmation_or_authorization_denied</h2>
+              <p class="status pass">PASS</p>
+              <p>Durable mutation without user confirmation or valid HumanAuthorizationRef is denied.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;missing_confirmation_or_authorization_denied&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_decision&quot;: &quot;deny&quot;,
+  &quot;observed_denial_reason&quot;: &quot;missing_user_confirmation_or_valid_human_authorization_ref&quot;,
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;capability_decision_ref&quot;: &quot;capability-decision://v9-1/0b1f8a491ad64a3482d55c640e42ccd9&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            
+            <section class="card">
+              <h2>valid_human_authorization_ref_allows_safety_gate</h2>
+              <p class="status pass">PASS</p>
+              <p>Valid HumanAuthorizationRef can satisfy the safety-gate authorization contract.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;valid_human_authorization_ref_allows_safety_gate&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_decision&quot;: &quot;allow&quot;,
+  &quot;observed_denial_reason&quot;: null,
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;capability_decision_ref&quot;: &quot;capability-decision://v9-1/79f42ee989f647449a03cb8064fd66f2&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            
+            <section class="card">
+              <h2>expired_human_authorization_ref_denied</h2>
+              <p class="status pass">PASS</p>
+              <p>Expired HumanAuthorizationRef is rejected.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;expired_human_authorization_ref_denied&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_decision&quot;: &quot;deny&quot;,
+  &quot;observed_denial_reason&quot;: &quot;missing_user_confirmation_or_valid_human_authorization_ref&quot;,
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;capability_decision_ref&quot;: &quot;capability-decision://v9-1/3de225c63ff54c5c9addb4b48d850f86&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            
+            <section class="card">
+              <h2>wrong_tenant_human_authorization_ref_denied</h2>
+              <p class="status pass">PASS</p>
+              <p>Cross-tenant HumanAuthorizationRef is rejected.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;wrong_tenant_human_authorization_ref_denied&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_decision&quot;: &quot;deny&quot;,
+  &quot;observed_denial_reason&quot;: &quot;missing_user_confirmation_or_valid_human_authorization_ref&quot;,
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;capability_decision_ref&quot;: &quot;capability-decision://v9-1/1bb6ac236c1044b4810b475dd9fa606e&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            
+            <section class="card">
+              <h2>artifact_write_requires_approval_gate</h2>
+              <p class="status pass">PASS</p>
+              <p>artifact.write requires approval gate and remains runtime_execution_allowed=false.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;artifact_write_requires_approval_gate&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_decisions&quot;: [
+    &quot;deny&quot;,
+    &quot;allow&quot;
+  ],
+  &quot;observed_denial_reasons&quot;: [
+    &quot;approval_gate_required&quot;,
+    null
+  ],
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            
+            <section class="card">
+              <h2>kill_switch_denied</h2>
+              <p class="status pass">PASS</p>
+              <p>Kill switch denial blocks safety-gate handoff.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;kill_switch_denied&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_decision&quot;: &quot;deny&quot;,
+  &quot;observed_denial_reason&quot;: &quot;kill_switch_denied&quot;,
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;capability_decision_ref&quot;: &quot;capability-decision://v9-1/06987543897141d8817c788a25ce29c6&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            
+            <section class="card">
+              <h2>timeout_policy_required</h2>
+              <p class="status pass">PASS</p>
+              <p>Timeout policy is required for candidate actions.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;timeout_policy_required&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_decision&quot;: &quot;deny&quot;,
+  &quot;observed_denial_reason&quot;: &quot;missing_timeout_policy&quot;,
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;capability_decision_ref&quot;: &quot;capability-decision://v9-1/a96ed4fe542646348bedd27068aa8ce5&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            
+            <section class="card">
+              <h2>rollback_descriptor_required</h2>
+              <p class="status pass">PASS</p>
+              <p>Rollback descriptor is required for candidate actions.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;rollback_descriptor_required&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_decision&quot;: &quot;deny&quot;,
+  &quot;observed_denial_reason&quot;: &quot;missing_rollback_descriptor&quot;,
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;capability_decision_ref&quot;: &quot;capability-decision://v9-1/38bacf1e9d304a3ea6f0c42162be696f&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            
+            <section class="card">
+              <h2>raw_content_rejected</h2>
+              <p class="status pass">PASS</p>
+              <p>Raw prompt/content markers are rejected before a decision is returned.</p>
+              <p>runtime_execution_allowed: False</p>
+              <p>redaction_status: PASS</p>
+              <pre>{
+  &quot;scenario_id&quot;: &quot;raw_content_rejected&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;observed_error_code&quot;: &quot;V9_REDACTION_DENIED&quot;,
+  &quot;observed_reason&quot;: &quot;forbidden_raw_content&quot;,
+  &quot;runtime_execution_allowed&quot;: false,
+  &quot;redaction_status&quot;: &quot;PASS&quot;,
+  &quot;passed&quot;: true
+}</pre>
+            </section>
+            </div>
+    <h2>扫描与合同报告</h2>
+    <ul><li>contract_validation: PASS (/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_contract_validation_report.json)</li><li>negative_tests: PASS (/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_negative_test_results.json)</li><li>no_false_green: PASS (/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_no_false_green_scan.json)</li><li>redaction: PASS (/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_redaction_scan.json)</li></ul>
+  </main>
+</body>
+</html>

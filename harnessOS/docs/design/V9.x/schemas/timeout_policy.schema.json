@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v9/timeout_policy.schema.json",
+  "title": "V9 TimeoutPolicy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "timeout_policy_ref",
+    "operation",
+    "max_runtime_seconds",
+    "on_timeout",
+    "incident_timeline_required"
+  ],
+  "properties": {
+    "schema_version": { "const": "v9.0" },
+    "timeout_policy_ref": { "type": "string", "minLength": 1 },
+    "operation": { "type": "string", "minLength": 1 },
+    "max_runtime_seconds": { "type": "integer", "minimum": 1, "maximum": 86400 },
+    "on_timeout": { "enum": ["mark_failed", "cancel_or_mark_failed", "rollback_required"] },
+    "incident_timeline_required": { "type": "boolean", "const": true }
+  }
+}

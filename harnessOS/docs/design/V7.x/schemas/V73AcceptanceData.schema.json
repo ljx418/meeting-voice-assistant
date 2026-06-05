@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/V73AcceptanceData.schema.json",
+  "title": "V73AcceptanceData",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "stage_id",
+    "status",
+    "evidence_scope",
+    "runtime_backed",
+    "transcript_only",
+    "report_only",
+    "fallback_demo_only",
+    "user_confirmed",
+    "source_agent_denied",
+    "workflow_spec_schema_valid",
+    "drawio_xml_valid",
+    "scanner_actual_read_count",
+    "provider_invocation_count",
+    "folder_summaries_generated",
+    "overview_summary_generated",
+    "quality_report_generated",
+    "runtime_report_generated",
+    "evidence_chain_generated",
+    "claim_scan",
+    "redaction_scan",
+    "missing_evidence",
+    "evidence_refs"
+  ],
+  "properties": {
+    "stage_id": { "const": "V7-3" },
+    "status": { "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED"] },
+    "evidence_scope": {
+      "enum": [
+        "real_runtime",
+        "real_runtime_fixture",
+        "fallback_demo_only",
+        "transcript_only",
+        "report_only",
+        "blocked"
+      ]
+    },
+    "runtime_backed": { "type": "boolean" },
+    "transcript_only": { "type": "boolean" },
+    "report_only": { "type": "boolean" },
+    "fallback_demo_only": { "type": "boolean" },
+    "user_confirmed": { "type": "boolean" },
+    "source_agent_denied": { "type": "boolean" },
+    "workflow_spec_schema_valid": { "type": "boolean" },
+    "drawio_xml_valid": { "type": "boolean" },
+    "scanner_actual_read_count": { "type": "integer", "minimum": 0 },
+    "provider_invocation_count": { "type": "integer", "minimum": 0 },
+    "folder_summaries_generated": { "enum": ["PASS", "FAIL", "BLOCKED"] },
+    "overview_summary_generated": { "enum": ["PASS", "FAIL", "BLOCKED"] },
+    "quality_report_generated": { "enum": ["PASS", "FAIL", "BLOCKED"] },
+    "runtime_report_generated": { "enum": ["PASS", "FAIL", "BLOCKED"] },
+    "evidence_chain_generated": { "enum": ["PASS", "FAIL", "BLOCKED"] },
+    "claim_scan": { "enum": ["PASS", "FAIL"] },
+    "redaction_scan": { "enum": ["PASS", "FAIL"] },
+    "missing_evidence": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "PASS" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "evidence_scope": { "enum": ["real_runtime", "real_runtime_fixture"] },
+          "runtime_backed": { "const": true },
+          "transcript_only": { "const": false },
+          "report_only": { "const": false },
+          "fallback_demo_only": { "const": false },
+          "user_confirmed": { "const": true },
+          "source_agent_denied": { "const": true },
+          "workflow_spec_schema_valid": { "const": true },
+          "drawio_xml_valid": { "const": true },
+          "scanner_actual_read_count": { "type": "integer", "minimum": 1 },
+          "provider_invocation_count": { "type": "integer", "minimum": 1 },
+          "folder_summaries_generated": { "const": "PASS" },
+          "overview_summary_generated": { "const": "PASS" },
+          "quality_report_generated": { "const": "PASS" },
+          "runtime_report_generated": { "const": "PASS" },
+          "evidence_chain_generated": { "const": "PASS" },
+          "claim_scan": { "const": "PASS" },
+          "redaction_scan": { "const": "PASS" }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/BlueprintLink.schema.json",
+  "title": "BlueprintLink",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["link_id", "mission_id", "workflow_spec_id", "drawio_ref", "href", "visualization_only", "created_at"],
+  "properties": {
+    "link_id": { "type": "string", "minLength": 1 },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "workflow_spec_id": { "type": "string", "minLength": 1 },
+    "blueprint_id": { "type": "string", "minLength": 1 },
+    "drawio_ref": { "type": "string", "minLength": 1 },
+    "href": { "type": "string", "minLength": 1 },
+    "visualization_only": { "const": true },
+    "xml_validated": { "type": "boolean" },
+    "redaction_status": { "enum": ["PASS", "FAIL"] },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

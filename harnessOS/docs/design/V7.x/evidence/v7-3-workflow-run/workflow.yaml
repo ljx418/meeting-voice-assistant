@@ -1,0 +1,33 @@
+metadata:
+  workflow_spec_id: workflow_spec_v7_3_874f855b75a8
+  schema_version: v7.3
+  workflow_kind: local_markdown_technical_document_summary
+stations:
+  - station_id: folder_authorization
+    station_kind: folder_authorization
+  - station_id: markdown_scan
+    station_kind: markdown_scan
+  - station_id: per_folder_summary
+    station_kind: per_folder_summary
+  - station_id: overview_summary
+    station_kind: overview_summary
+  - station_id: quality_check
+    station_kind: quality_check
+  - station_id: runtime_report
+    station_kind: runtime_report
+  - station_id: evidence_record
+    station_kind: evidence_record
+edges:
+  - from_station_id: folder_authorization
+    to_station_id: markdown_scan
+  - from_station_id: markdown_scan
+    to_station_id: per_folder_summary
+  - from_station_id: per_folder_summary
+    to_station_id: overview_summary
+  - from_station_id: overview_summary
+    to_station_id: quality_check
+  - from_station_id: quality_check
+    to_station_id: runtime_report
+  - from_station_id: runtime_report
+    to_station_id: evidence_record
+runtime_truth_boundary: workflow_spec_draft_is_not_runtime_truth

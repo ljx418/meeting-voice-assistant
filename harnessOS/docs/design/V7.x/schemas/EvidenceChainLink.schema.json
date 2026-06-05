@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/EvidenceChainLink.schema.json",
+  "title": "EvidenceChainLink",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "link_id",
+    "workflow_instance_id",
+    "evidence_chain_ref",
+    "source_ref",
+    "readonly",
+    "provider",
+    "model_ref",
+    "prompt_template_refs",
+    "input_artifact_refs",
+    "output_artifact_refs",
+    "runtime_result_refs",
+    "redaction_status",
+    "created_at"
+  ],
+  "properties": {
+    "link_id": { "type": "string", "minLength": 1 },
+    "workflow_instance_id": { "type": "string", "minLength": 1 },
+    "evidence_chain_ref": { "type": "string", "minLength": 1 },
+    "source_ref": { "type": "string", "minLength": 1 },
+    "readonly": { "const": true },
+    "provider": { "type": "string", "minLength": 1 },
+    "model_ref": { "type": "string", "minLength": 1 },
+    "prompt_template_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "input_artifact_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "output_artifact_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "runtime_result_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "redaction_status": { "enum": ["PASS", "FAIL"] },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

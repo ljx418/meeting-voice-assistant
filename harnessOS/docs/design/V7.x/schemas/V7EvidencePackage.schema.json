@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/V7EvidencePackage.schema.json",
+  "title": "V7EvidencePackage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["stage_id", "status", "evidence_scope", "runtime_backed", "transcript_only", "report_only", "provider_backed", "real_data_used", "evidence_refs", "commands_run", "claim_scan_result", "redaction_scan_result", "prd_drift_evaluation", "false_green_evaluation", "next_stage_audit", "proceed_decision"],
+  "properties": {
+    "stage_id": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED"] },
+    "evidence_scope": { "enum": ["planning_gate", "contract_only", "transcript_only", "report_only", "repo_backed_fixture", "repo_backed_runtime", "provider_backed_runtime"] },
+    "runtime_backed": { "type": "boolean" },
+    "transcript_only": { "type": "boolean" },
+    "report_only": { "type": "boolean" },
+    "provider_backed": { "type": "boolean" },
+    "real_data_used": { "type": "boolean" },
+    "evidence_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "commands_run": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "claim_scan_result": { "enum": ["PASS", "FAIL", "NOT_RUN"] },
+    "redaction_scan_result": { "enum": ["PASS", "FAIL", "NOT_RUN"] },
+    "prd_drift_evaluation": { "enum": ["LOW", "MEDIUM", "HIGH"] },
+    "false_green_evaluation": { "enum": ["LOW", "MEDIUM", "HIGH"] },
+    "next_stage_audit": { "type": "string", "minLength": 1 },
+    "proceed_decision": { "enum": ["proceed_to_external_audit", "proceed_to_implementation", "blocked", "needs_human_review"] }
+  }
+}

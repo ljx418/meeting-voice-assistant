@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v7_common_defs.schema.json",
+  "title": "V7CommonDefinitions",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "non_empty_string": { "type": "string", "minLength": 1 },
+    "date_time": { "type": "string", "format": "date-time" },
+    "policy_decision": { "enum": ["allow", "deny", "needs_review"] },
+    "evidence_scope": {
+      "enum": [
+        "planning_gate",
+        "contract_only",
+        "transcript_only",
+        "report_only",
+        "repo_backed_fixture",
+        "repo_backed_runtime",
+        "provider_backed_runtime"
+      ]
+    },
+    "redacted_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref_id", "ref_type", "redaction_status"],
+      "properties": {
+        "ref_id": { "type": "string", "minLength": 1 },
+        "ref_type": {
+          "enum": [
+            "workflow_spec",
+            "workflow_diff",
+            "blueprint",
+            "runtime_report",
+            "evidence_chain",
+            "quality_report",
+            "artifact_lineage",
+            "audit_export",
+            "credential_ref",
+            "provider_profile",
+            "quota_decision"
+          ]
+        },
+        "redaction_status": { "enum": ["redacted", "not_sensitive", "blocked"] }
+      }
+    }
+  }
+}

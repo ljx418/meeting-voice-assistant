@@ -1,0 +1,63 @@
+{
+  "allowed_claim": "V7-2 complete: explainable Mission TUI pilot ready for review.",
+  "claim_violations": [],
+  "evidence_scope": "transcript_only",
+  "next_stage_audit": "V7-3 pre-implementation review must close before natural-language controlled run coding.",
+  "proceed_decision": "proceed_to_v7_3_pre_implementation_review",
+  "provider_backed": false,
+  "real_data_used": false,
+  "redaction_status": "PASS",
+  "runtime_backed": false,
+  "scenario_count": 9,
+  "scenarios": [
+    {
+      "evidence_scope": "transcript_only",
+      "scenario_id": "harness_tui_command_exists",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "transcript_only",
+      "scenario_id": "tui_accepts_natural_language_goal",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "transcript_only",
+      "scenario_id": "tui_renders_state_timeline",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "transcript_only",
+      "scenario_id": "tui_renders_available_actions",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "transcript_only",
+      "scenario_id": "tui_renders_forbidden_reasons",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "transcript_only",
+      "scenario_id": "tui_links_blueprint_report_evidence",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "transcript_only",
+      "scenario_id": "tui_blocks_mutation_before_user_confirmation",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "transcript_only",
+      "scenario_id": "tui_blocks_source_agent_direct_mutation",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "transcript_only",
+      "scenario_id": "tui_no_false_green_copy",
+      "status": "PASS"
+    }
+  ],
+  "sensitive_hits": [],
+  "stage_id": "V7-2",
+  "status": "PASS",
+  "transcript_only": true
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "audit_ref": "audit://v6-8/browser-route/a7ebf0b19067",
+    "denial_reason": null,
+    "policy_decision": "allow",
+    "route": "GET /bff/v6/runtime-report"
+  },
+  {
+    "audit_ref": "audit://v6-8/browser-route/d9538db20979",
+    "denial_reason": null,
+    "policy_decision": "allow",
+    "route": "GET /bff/v6/evidence-review"
+  },
+  {
+    "audit_ref": "audit://v6-8/browser-route/090d6fe3c7f4",
+    "denial_reason": null,
+    "policy_decision": "allow",
+    "route": "GET /bff/v6/audit-export"
+  },
+  {
+    "audit_ref": "audit://v6-8/browser-route/918791e87670",
+    "denial_reason": null,
+    "policy_decision": "allow",
+    "route": "GET /bff/v6/external-app-admin"
+  },
+  {
+    "audit_ref": "audit://v6-8/browser-route/a48de74196bd",
+    "denial_reason": null,
+    "policy_decision": "allow",
+    "route": "POST /bff/v6/manual-confirmation"
+  },
+  {
+    "audit_ref": "audit://v6-8/browser-route/3826c1eabc78",
+    "denial_reason": "internal_route_denied",
+    "policy_decision": "deny",
+    "route": "/v1/rpc"
+  },
+  {
+    "audit_ref": "audit://v6-8/browser-route/856cbed4cfb3",
+    "denial_reason": "internal_route_denied",
+    "policy_decision": "deny",
+    "route": "/v1/events/subscribe"
+  },
+  {
+    "audit_ref": "audit://v6-8/browser-route/579f7d039aee",
+    "denial_reason": "internal_route_denied",
+    "policy_decision": "deny",
+    "route": "/v1/internal/runtime"
+  }
+]

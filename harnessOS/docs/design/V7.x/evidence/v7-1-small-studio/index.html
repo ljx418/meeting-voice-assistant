@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>V7-1 Small Studio Evidence</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; color: #111827; background: #f8fafc; }
+      h1 { font-size: 28px; }
+      section { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 16px 0; }
+      pre { white-space: pre-wrap; background: #f1f5f9; padding: 12px; border-radius: 6px; }
+    </style>
+  </head>
+  <body>
+    <h1>V7-1 Small Studio Evidence</h1>
+    <p>只读小型工作室控制面投影；不构造运行时 truth，不暴露原始凭证。</p>
+    <section><h2>Studio Context</h2><pre>{
+  &quot;app_ids&quot;: [
+    &quot;app_v7_1&quot;
+  ],
+  &quot;audit_ref&quot;: &quot;audit://v7-1/small-studio&quot;,
+  &quot;created_at&quot;: &quot;2026-06-05T01:30:11.901792+00:00&quot;,
+  &quot;project_ids&quot;: [
+    &quot;project_v7_1&quot;
+  ],
+  &quot;runtime_truth_boundary&quot;: &quot;product_aggregation_only_no_runtime_truth_write&quot;,
+  &quot;studio_id&quot;: &quot;studio_tenant_v7_1&quot;,
+  &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;,
+  &quot;workspace_id&quot;: &quot;workspace_v7_1&quot;
+}</pre></section>
+<section><h2>Studio Inventory</h2><pre>{
+  &quot;app_count&quot;: 1,
+  &quot;audit_ref&quot;: &quot;audit://v7-1/small-studio&quot;,
+  &quot;created_at&quot;: &quot;2026-06-05T01:30:11.901792+00:00&quot;,
+  &quot;credential_ref_count&quot;: 1,
+  &quot;project_count&quot;: 1,
+  &quot;provider_profile_count&quot;: 1,
+  &quot;studio_id&quot;: &quot;studio_tenant_v7_1&quot;,
+  &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;,
+  &quot;workspace_count&quot;: 1
+}</pre></section>
+<section><h2>Provider Profiles</h2><pre>[
+  {
+    &quot;app_id&quot;: &quot;app_v7_1&quot;,
+    &quot;audit_ref&quot;: &quot;audit://v7-1/small-studio&quot;,
+    &quot;created_at&quot;: &quot;2026-06-05T01:30:11.901792+00:00&quot;,
+    &quot;model_refs&quot;: [
+      &quot;model-ref://v7-1/minimax/default&quot;
+    ],
+    &quot;provider&quot;: &quot;minimax&quot;,
+    &quot;provider_profile_id&quot;: &quot;provider-profile://v7-1/minimax-redacted&quot;,
+    &quot;redaction_status&quot;: &quot;redacted_refs_only&quot;,
+    &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;,
+    &quot;workspace_id&quot;: &quot;workspace_v7_1&quot;
+  }
+]</pre></section>
+<section><h2>Credential Refs</h2><pre>[
+  {
+    &quot;app_id&quot;: &quot;app_v7_1&quot;,
+    &quot;audit_ref&quot;: &quot;audit://v7-1/small-studio&quot;,
+    &quot;created_at&quot;: &quot;2026-06-05T01:30:11.901792+00:00&quot;,
+    &quot;credential_ref&quot;: &quot;credential-ref://v7-1/minimax-redacted&quot;,
+    &quot;provider_profile_id&quot;: &quot;provider-profile://v7-1/minimax-redacted&quot;,
+    &quot;redaction_status&quot;: &quot;no_raw_credential_material&quot;,
+    &quot;status&quot;: &quot;available&quot;,
+    &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;,
+    &quot;workspace_id&quot;: &quot;workspace_v7_1&quot;
+  }
+]</pre></section>
+<section><h2>Quota Decisions</h2><pre>[
+  {
+    &quot;app_id&quot;: &quot;app_v7_1&quot;,
+    &quot;audit_ref&quot;: &quot;audit://v7-1/small-studio&quot;,
+    &quot;created_at&quot;: &quot;2026-06-05T01:30:11.901792+00:00&quot;,
+    &quot;limit_ref&quot;: &quot;quota-policy://v7-1/default&quot;,
+    &quot;policy_decision&quot;: &quot;allow&quot;,
+    &quot;quota_status_id&quot;: &quot;quota-status://v7-1/default&quot;,
+    &quot;remaining&quot;: 42,
+    &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;,
+    &quot;workspace_id&quot;: &quot;workspace_v7_1&quot;
+  },
+  {
+    &quot;app_id&quot;: &quot;app_v7_1&quot;,
+    &quot;audit_ref&quot;: &quot;audit://v7-1/quota-denial&quot;,
+    &quot;created_at&quot;: &quot;2026-06-05T01:30:11.901792+00:00&quot;,
+    &quot;limit_ref&quot;: &quot;quota-policy://v7-1/monthly-provider-calls&quot;,
+    &quot;policy_decision&quot;: &quot;deny&quot;,
+    &quot;quota_status_id&quot;: &quot;quota-status://v7-1/denial-example&quot;,
+    &quot;remaining&quot;: 0,
+    &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;,
+    &quot;workspace_id&quot;: &quot;workspace_v7_1&quot;
+  }
+]</pre></section>
+<section><h2>Audit Source Refs</h2><pre>[
+  {
+    &quot;audit_ref&quot;: &quot;audit://v7-1/mission_tui/e4db64e97bf6&quot;,
+    &quot;correlation_id&quot;: &quot;correlation_v7_1_evidence&quot;,
+    &quot;created_at&quot;: &quot;2026-06-05T01:30:11.901792+00:00&quot;,
+    &quot;request_id&quot;: &quot;request_v7_1_evidence&quot;,
+    &quot;source_id&quot;: &quot;mission://v7-1/local-document-summary&quot;,
+    &quot;source_type&quot;: &quot;mission_tui&quot;,
+    &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;,
+    &quot;workspace_id&quot;: &quot;workspace_v7_1&quot;
+  },
+  {
+    &quot;audit_ref&quot;: &quot;audit://v7-1/product_console/74f4956d0321&quot;,
+    &quot;correlation_id&quot;: &quot;correlation_v7_1_evidence&quot;,
+    &quot;created_at&quot;: &quot;2026-06-05T01:30:11.901792+00:00&quot;,
+    &quot;request_id&quot;: &quot;request_v7_1_evidence&quot;,
+    &quot;source_id&quot;: &quot;console://v7-1/small-studio&quot;,
+    &quot;source_type&quot;: &quot;product_console&quot;,
+    &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;,
+    &quot;workspace_id&quot;: &quot;workspace_v7_1&quot;
+  },
+  {
+    &quot;audit_ref&quot;: &quot;audit://v7-1/runtime_report/e0a28389bb49&quot;,
+    &quot;correlation_id&quot;: &quot;correlation_v7_1_evidence&quot;,
+    &quot;created_at&quot;: &quot;2026-06-05T01:30:11.901792+00:00&quot;,
+    &quot;request_id&quot;: &quot;request_v7_1_evidence&quot;,
+    &quot;source_id&quot;: &quot;runtime-report://v6-9/final-acceptance&quot;,
+    &quot;source_type&quot;: &quot;runtime_report&quot;,
+    &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;,
+    &quot;workspace_id&quot;: &quot;workspace_v7_1&quot;
+  },
+  {
+    &quot;audit_ref&quot;: &quot;audit://v7-1/evidence_chain/d3aef44b3141&quot;,
+    &quot;correlation_id&quot;: &quot;correlation_v7_1_evidence&quot;,
+    &quot;created_at&quot;: &quot;2026-06-05T01:30:11.901792+00:00&quot;,
+    &quot;request_id&quot;: &quot;request_v7_1_evidence&quot;,
+    &quot;source_id&quot;: &quot;evidence://v6-9/final-acceptance&quot;,
+    &quot;source_type&quot;: &quot;evidence_chain&quot;,
+    &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;,
+    &quot;workspace_id&quot;: &quot;workspace_v7_1&quot;
+  }
+]</pre></section>
+<section><h2>Cross Workspace Denial</h2><pre>{
+  &quot;actor_workspace_id&quot;: &quot;workspace_v7_1&quot;,
+  &quot;audit_ref&quot;: &quot;audit://v7-1/cross-workspace-denial/d83ef9e256f3&quot;,
+  &quot;created_at&quot;: &quot;2026-06-05T01:30:11.902234+00:00&quot;,
+  &quot;denial_id&quot;: &quot;denial_0c9d4e246d80&quot;,
+  &quot;denial_reason&quot;: &quot;workspace_mismatch&quot;,
+  &quot;policy_decision&quot;: &quot;deny&quot;,
+  &quot;target_workspace_id&quot;: &quot;other-workspace&quot;,
+  &quot;tenant_id&quot;: &quot;tenant_v7_1&quot;
+}</pre></section>
+<section><h2>Global Assertions</h2><pre>{
+  &quot;credential_refs_redacted&quot;: true,
+  &quot;cross_workspace_access_denied&quot;: true,
+  &quot;does_not_write_runtime_truth&quot;: true,
+  &quot;provider_profiles_redacted&quot;: true,
+  &quot;quota_denial_explainable&quot;: true,
+  &quot;small_studio_is_product_aggregation_only&quot;: true,
+  &quot;v6_baseline_not_upgraded_to_production_ready&quot;: true
+}</pre></section>
+  </body>
+</html>

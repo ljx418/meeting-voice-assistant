@@ -1,0 +1,25 @@
+[
+  {
+    "applied": false,
+    "diff_ref": "terminal-worker/diff-proposal.patch",
+    "from_agent_id": "v8_7_planning_agent",
+    "handoff_id": "handoff-v8-7-implementation-3ceb27cc",
+    "handoff_kind": "controlled_terminal_worker_proposal",
+    "human_authorization_ref": "human-auth://v8-7/user-accepted-multi-agent-project-workflow-pilot",
+    "redaction_status": "redacted",
+    "requires_user_confirmation": true,
+    "terminal_worker_handoff_ref": "terminal-worker/human-review-handoff.json",
+    "to_agent_id": "v8_7_implementation_agent",
+    "transcript_ref": "terminal-worker/terminal-transcript.txt"
+  },
+  {
+    "command_results_ref": "terminal-worker/command-results.json",
+    "from_agent_id": "v8_7_implementation_agent",
+    "handoff_id": "handoff-v8-7-test-dce69452",
+    "handoff_kind": "readonly_test_evidence_review",
+    "redaction_status": "redacted",
+    "requires_user_confirmation": false,
+    "terminal_worker_status": "PASS",
+    "to_agent_id": "v8_7_test_agent"
+  }
+]

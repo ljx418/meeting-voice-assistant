@@ -1,0 +1,47 @@
+HarnessOS Mission TUI
+============================
+任务: 递归总结 tests/fixtures/desktop/技术分享 下的 Markdown 技术文档
+当前状态: AwaitingConfirmation
+证据范围: transcript_only=True runtime_backed=False
+
+状态线:
+- IntentCaptured: complete
+- SpecDrafted: complete
+- SchemaValidated: complete
+- DiffReady: complete
+- AwaitingConfirmation: active
+
+可用动作:
+- workflow.patch.propose | confirmation=False | policy=allow | capability=allow
+- workflow.instance.start | confirmation=True | policy=needs_review | capability=needs_user_confirmation
+
+禁止原因:
+- workflow.instance.start / source_agent_denied: Agent 来源不能直接执行持久化运行，必须等待人工确认。
+- workflow.instance.start / requires_user_confirmation: 运行工作流属于持久化动作，必须先获得 user_confirmed=true。
+
+证据链接:
+- workflow_spec: workflow-spec://v7-2/mission_v7_2_573f3e20e230
+- workflow_diff: workflow-diff://v7-2/mission_v7_2_573f3e20e230
+- blueprint: drawio://v7-2/mission_v7_2_573f3e20e230/workflow.drawio
+- runtime_report: runtime-report://not-started/transcript-only
+- evidence_chain: evidence://v7-2/mission_v7_2_573f3e20e230/transcript
+
+边界: TUI 是 workflow head，不是 runtime truth；用户确认前不会执行持久化动作。
+
+V7-3 Runtime Extension
+============================
+- IntentCaptured: complete
+- SpecDrafted: complete
+- SchemaValidated: complete
+- DiffReady: complete
+- AwaitingConfirmation: complete
+- UserConfirmed: complete
+- RuntimeStarted: complete
+- RuntimeReported: complete
+- EvidenceRecorded: complete
+
+UserConfirmed: true
+source_agent_denied: true
+runtime_backed: true
+evidence_scope: real_runtime_fixture
+边界: V7-3 只支持本地 Markdown 技术文档总结工作流，不是通用 Agent executor。

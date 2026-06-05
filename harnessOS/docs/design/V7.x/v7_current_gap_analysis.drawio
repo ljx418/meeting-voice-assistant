@@ -1,0 +1,281 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="6">
+  <diagram id="v7-overview" name="V7 总览">
+    <mxGraphModel dx="1755" dy="958" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1f2937;fontColor=#ffffff;fontStyle=1;fontSize=24;strokeColor=#111827;" value="HarnessOS V7：小型工作室生产试点 + 可解释 Mission TUI" vertex="1">
+          <mxGeometry height="70" width="1320" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="baseline" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e5e7eb;strokeColor=#6b7280;fontSize=15;fontStyle=1;" value="当前基线&#xa;V6 complete: production pilot baseline ready for review&#xa;含义：生产试点基线可审查，不是 production ready / full GA" vertex="1">
+          <mxGeometry height="120" width="420" x="40" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="done" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" value="已完成 / 可审查&#xa;V7-0 规划合同闭环&#xa;V7-1 Small Studio 投影&#xa;V7-2 Mission TUI transcript-only pilot" vertex="1">
+          <mxGeometry height="120" width="420" x="500" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="next" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" value="V7 已完成待复核&#xa;V7-3 自然语言 -&gt; WorkflowSpec/Diff -&gt; Blueprint -&gt; user-confirmed run -&gt; Evidence&#xa;V7-4 最终验收 PASS，声明仅限 ready for review" vertex="1">
+          <mxGeometry height="120" width="360" x="960" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="flow1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;fontStyle=1;" value="用户说目标" vertex="1">
+          <mxGeometry height="70" width="150" x="80" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="flow2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" value="Mission TUI&#xa;状态线 / 动作 / 禁止原因" vertex="1">
+          <mxGeometry height="70" width="180" x="270" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="flow3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1;" value="WorkflowSpec / Diff" vertex="1">
+          <mxGeometry height="70" width="170" x="490" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="flow4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1;" value="Blueprint / Drawio&#xa;只读可视化" vertex="1">
+          <mxGeometry height="70" width="170" x="700" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="flow5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1;" value="用户确认" vertex="1">
+          <mxGeometry height="70" width="130" x="910" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="flow6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" value="受控运行&#xa;V7-3 PASS / real_runtime_fixture" vertex="1">
+          <mxGeometry height="70" width="160" x="1080" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="flow7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1;" value="Report / Quality / Evidence" vertex="1">
+          <mxGeometry height="70" width="250" x="520" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="a12" edge="1" parent="1" source="flow1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#374151;" target="flow2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a23" edge="1" parent="1" source="flow2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#374151;" target="flow3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a34" edge="1" parent="1" source="flow3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#374151;" target="flow4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a45" edge="1" parent="1" source="flow4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#374151;" target="flow5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a56" edge="1" parent="1" source="flow5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#374151;" target="flow6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a67" edge="1" parent="1" source="flow6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#374151;" target="flow7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1160" y="535" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="guard" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1;" value="全局边界&#xa;WorkflowSpec 不是 runtime truth&#xa;Drawio / Report / Evidence 只读&#xa;source=agent 不能 durable mutation&#xa;durable mutation 必须 user_confirmed=true" vertex="1">
+          <mxGeometry height="130" width="500" x="110" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="exit" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#7e22ce;fontSize=15;fontStyle=1;" value="V7 出门条件&#xa;V7-0 到 V7-3 证据齐全&#xa;真实创建/运行/复核链路通过&#xa;No False Green 与 redaction PASS&#xa;最终声明只能是 ready for review" vertex="1">
+          <mxGeometry height="130" width="500" x="700" y="650" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v7-architecture-delta" name="目标架构与当前差异">
+    <mxGraphModel dx="1478" dy="806" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1f2937;fontColor=#ffffff;fontStyle=1;fontSize=24;strokeColor=#111827;" value="目标架构与当前架构差异" vertex="1">
+          <mxGeometry height="70" width="1320" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="v6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e5e7eb;strokeColor=#6b7280;fontSize=15;fontStyle=1;" value="V6 已有基础&#xa;Identity / Credential / Policy&#xa;Controlled Runtime Pilot&#xa;Distributed Runtime Slice&#xa;Product Console / Evidence Chain" vertex="1">
+          <mxGeometry height="180" width="310" x="60" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="v71" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" value="V7 已新增&#xa;Small Studio Control Plane&#xa;workspace / project / app / provider / credential / quota / audit 投影&#xa;状态：V7-1 complete" vertex="1">
+          <mxGeometry height="180" width="350" x="430" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="v72" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" value="V7 已新增&#xa;Explainable Mission TUI&#xa;自然语言输入、状态线、可用动作、禁止原因、证据链接&#xa;状态：V7-2 complete / transcript-only" vertex="1">
+          <mxGeometry height="180" width="350" x="840" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="v73" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" value="V7-3 已完成&#xa;Workflow Creation And Run&#xa;自然语言 -&gt; Spec/Diff -&gt; Blueprint -&gt; 用户确认 -&gt; 受控运行 -&gt; Evidence&#xa;状态：PASS / real_runtime_fixture / provider_invocation_count=4" vertex="1">
+          <mxGeometry height="190" width="400" x="250" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="v74" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" value="V7-4 已完成&#xa;Final Small Studio Acceptance&#xa;最终 HTML 看板、claim scan、redaction scan、drawio XML、人工验收摘要&#xa;状态：PASS / V7 complete ready for review" vertex="1">
+          <mxGeometry height="190" width="400" x="760" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="v6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" target="v71">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="v71" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" target="v72">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="v72" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" target="v73">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1015" y="380" />
+              <mxPoint x="450" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="v73" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" target="v74">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="truth" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=16;fontStyle=1;" value="Runtime Truth 边界&#xa;Small Studio / TUI / Blueprint / Report / Evidence 都是 head 或 read model。&#xa;真正 durable mutation 只能通过 user_confirmed + policy/capability/credential boundary + controlled runtime。" vertex="1">
+          <mxGeometry height="100" width="980" x="210" y="700" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v7-dev-acceptance" name="开发及验收计划">
+    <mxGraphModel dx="1600" dy="980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" value="V7 开发及验收计划" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1f2937;fontColor=#ffffff;fontStyle=1;fontSize=24;strokeColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1320" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="s0" value="V7-0&#xa;Planning Hardening Gate&#xa;状态：complete / ready for review&#xa;验收：schema、合同、test matrix、claim/redaction procedure" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="150" width="240" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" value="V7-1&#xa;Small Studio Control Plane&#xa;状态：complete / ready for review&#xa;验收：studio context、inventory、provider/credential redaction" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="150" width="240" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" value="V7-2&#xa;Explainable Mission TUI&#xa;状态：complete / ready for review&#xa;验收：harness tui、状态线、动作、禁止原因、链接" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="150" width="240" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="V7-3&#xa;Workflow Creation And Run&#xa;状态：complete / ready for review&#xa;验收：真实数据、Spec/Diff/Blueprint、user-confirmed run、Evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="870" y="150" width="250" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" value="V7-4&#xa;Final Small Studio Acceptance&#xa;状态：complete / ready for review&#xa;验收：V7-3 PASS 且 real_runtime_fixture，最终 HTML、claim/redaction、人工验收" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="150" width="250" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="e01" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="s0" target="s1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="s1" target="s2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e23" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="s2" target="s3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e34" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="s3" target="s4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tests" value="统一验证命令&#xa;pytest tests/test_v7_*.py -q&#xa;pytest tests/test_v6_*.py -q&#xa;pytest tests/test_v5_*.py -q&#xa;pytest tests/test_v4_u9_final_acceptance.py -q&#xa;xmllint --noout docs/design/V7.x/v7_current_gap_analysis.drawio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="90" y="430" width="560" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="stop" value="停止条件&#xa;V6 证据被升级成 production-ready&#xa;TUI 被写成 complete Workflow Studio&#xa;transcript-only/report-only 被写成 real runtime&#xa;source=agent durable mutation&#xa;raw secret / raw prompt / raw content 泄露" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="430" width="560" height="180" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v7-milestones" name="项目里程碑">
+    <mxGraphModel dx="1600" dy="980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" value="V7 项目里程碑" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1f2937;fontColor=#ffffff;fontStyle=1;fontSize=24;strokeColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1320" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="m0" value="M0：规划冻结&#xa;V7-0 complete&#xa;证据范围：planning contracts / schemas / test matrix" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="150" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" value="M1：小型工作室投影&#xa;V7-1 complete&#xa;证据范围：repo-backed fixture / read model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="150" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" value="M2：可解释 TUI&#xa;V7-2 complete&#xa;证据范围：transcript-only pilot / CLI smoke" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="740" y="150" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" value="M3：创建并运行工作流&#xa;V7-3 PASS / real_runtime_fixture&#xa;scanner=5，provider_invocation=4，fallback=false" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="150" width="240" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="m4" value="M4：最终验收&#xa;V7-4 PASS&#xa;最终 HTML、claim scan、redaction scan、drawio XML 均通过" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="410" width="280" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="em0" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="m0" target="m1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="em1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="m1" target="m2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="em2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="m2" target="m3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="em3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="m3" target="m4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="audit" value="审计重点&#xa;1. evidence_scope 不得抹平&#xa;2. V7-3 不能用 transcript/fallback 代替 runtime-backed&#xa;3. V7-4 不能绕过 V7-3 real_runtime PASS&#xa;4. 最终声明仍是 ready for review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="650" width="820" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v7-user-journey" name="用户体验主链路">
+    <mxGraphModel dx="1600" dy="980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" value="用户如何创建、运行、复核工作流" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1f2937;fontColor=#ffffff;fontStyle=1;fontSize=24;strokeColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1320" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="u1" value="1. 输入自然语言目标&#xa;例：递归总结 Desktop/技术分享 下的 Markdown 技术文档&#xa;状态：V7-2 已有 transcript-only TUI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="150" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="u2" value="2. 解释状态&#xa;IntentCaptured / SpecDrafted / SchemaValidated / DiffReady / AwaitingConfirmation&#xa;状态：V7-2 已展示状态线" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="150" width="300" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="u3" value="3. 生成蓝图&#xa;WorkflowSpec / Diff / Drawio Blueprint&#xa;状态：V7-3 PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="150" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="u4" value="4. 人工确认运行&#xa;user_confirmed=true&#xa;source=agent direct mutation denied&#xa;状态：V7-3 PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="150" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="u5" value="5. 读取真实文档&#xa;授权路径内递归扫描 Markdown&#xa;scanner_actual_read_count=5&#xa;状态：V7-3 PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="390" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="u6" value="6. 调用 provider 总结&#xa;MiniMax / OpenAI-compatible&#xa;provider/model refs 记录，raw prompt/content/token 不泄露&#xa;状态：V7-3 PASS，provider_invocation=4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="390" width="300" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="u7" value="7. 查看结果和证据&#xa;Runtime Report / Quality / Evidence Chain / Review Console&#xa;状态：V7-3 PASS，V7-4 PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="950" y="390" width="300" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="eu1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="u1" target="u2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eu2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="u2" target="u3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eu3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="u3" target="u4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eu4" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="u4" target="u5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eu5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="u5" target="u6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eu6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#374151;" edge="1" parent="1" source="u6" target="u7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="note" value="体验完成度判断&#xa;V7 已证明小型工作室生产试点 + 可解释 TUI baseline ready for review。&#xa;范围限定：本地 Markdown 技术文档总结工作流；不代表生产 GA、完整 Studio 或 Agent executor。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="660" width="900" height="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v7-gates" name="验收门槛与出门条件">
+    <mxGraphModel dx="1600" dy="980" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t" value="V7 验收门槛与出门条件" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1f2937;fontColor=#ffffff;fontStyle=1;fontSize=24;strokeColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1320" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="entry" value="V7-3 进入门槛&#xa;V7-1 / V7-2 evidence exists&#xa;V7-3 pre-implementation review accepted&#xa;I/O 合同、schema files、真实数据验收计划接受&#xa;外部审计无 P0/P1 问题" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="150" width="360" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="pass3" value="V7-3 通过门槛&#xa;workflow spec/schema valid&#xa;drawio XML valid&#xa;user_confirmed before run&#xa;scanner_actual_read_count &gt; 0&#xa;provider_invocation_count &gt; 0&#xa;report/quality/evidence cross-linked" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="150" width="360" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="pass4" value="V7-4 通过门槛&#xa;V7-3 PASS 且 real_runtime / fixture&#xa;scanner 和 provider 调用均 &gt; 0&#xa;final dashboard opens&#xa;No False Green / redaction PASS&#xa;drawio XML valid" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="150" width="360" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="stop" value="停止条件&#xa;任一 FAIL / BLOCKED 且无人类 proceed decision&#xa;transcript-only 被写成 runtime-backed&#xa;report-only 被写成 execution&#xa;raw secret / raw prompt / raw content 泄露&#xa;source=agent durable mutation&#xa;V7 被写成 production ready / complete Workflow Studio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="440" width="520" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="claim" value="最终允许声明&#xa;V7 complete: small studio production pilot and explainable TUI baseline ready for review.&#xa;&#xa;仍禁止：production ready / full production GA / Agent executor ready / production controlled executor ready / production-ready external app support / full multi-Agent orchestration ready / autonomous workflow editing ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#7e22ce;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="440" width="520" height="190" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

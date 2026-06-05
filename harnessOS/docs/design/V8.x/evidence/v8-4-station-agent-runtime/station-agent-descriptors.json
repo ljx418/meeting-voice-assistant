@@ -1,0 +1,242 @@
+[
+  {
+    "agent_id": "v8_mission_agent",
+    "agent_name": "MissionAgent",
+    "agent_runtime_profile_ref": "agent-runtime-profile://v8/v8_mission_agent",
+    "allowed_operations": [
+      "workflow.explain"
+    ],
+    "context_policy_ref": "agent-context-policy://v8/v8_mission_agent/station-scoped",
+    "created_at": "2026-06-04T14:03:28.631045+00:00",
+    "evidence_policy_ref": "agent-evidence-policy://v8/v8_mission_agent/redacted",
+    "forbidden_operations": [
+      "approval.respond",
+      "business.event.emit",
+      "connector.call",
+      "context.update",
+      "external_llm.call",
+      "git.commit",
+      "git.push",
+      "production.deploy",
+      "workflow.template.publish"
+    ],
+    "goal": "Capture and explain the authorized local document workflow goal.",
+    "mcp_binding_refs": [],
+    "memory_policy_ref": "agent-memory-policy://v8/v8_mission_agent/station-scoped",
+    "model_profile_ref": "agent-model-profile://v8/v8_mission_agent",
+    "role": "mission_intake",
+    "skill_binding_refs": [
+      "agent-skill-binding://v8/v8_mission_agent/mission_intake"
+    ],
+    "source_policy": "source_agent_durable_mutation_denied",
+    "station_id": "folder_authorization",
+    "tool_policy_ref": "agent-tool-policy://v8/v8_mission_agent/allowlist"
+  },
+  {
+    "agent_id": "v8_scanner_agent",
+    "agent_name": "ScannerAgent",
+    "agent_runtime_profile_ref": "agent-runtime-profile://v8/v8_scanner_agent",
+    "allowed_operations": [
+      "local_folder.read",
+      "markdown.scan"
+    ],
+    "context_policy_ref": "agent-context-policy://v8/v8_scanner_agent/station-scoped",
+    "created_at": "2026-06-04T14:03:28.631076+00:00",
+    "evidence_policy_ref": "agent-evidence-policy://v8/v8_scanner_agent/redacted",
+    "forbidden_operations": [
+      "approval.respond",
+      "business.event.emit",
+      "connector.call",
+      "context.update",
+      "external_llm.call",
+      "git.commit",
+      "git.push",
+      "production.deploy",
+      "workflow.template.publish"
+    ],
+    "goal": "Read authorized Markdown files through scoped read-only capability.",
+    "mcp_binding_refs": [
+      "agent-mcp-binding://v8/v8_scanner_agent/filesystem_readonly"
+    ],
+    "memory_policy_ref": "agent-memory-policy://v8/v8_scanner_agent/station-scoped",
+    "model_profile_ref": "agent-model-profile://v8/v8_scanner_agent",
+    "role": "markdown_scanner",
+    "skill_binding_refs": [
+      "agent-skill-binding://v8/v8_scanner_agent/markdown_scanner"
+    ],
+    "source_policy": "source_agent_durable_mutation_denied",
+    "station_id": "markdown_scan",
+    "tool_policy_ref": "agent-tool-policy://v8/v8_scanner_agent/allowlist"
+  },
+  {
+    "agent_id": "v8_folder_summary_agent",
+    "agent_name": "FolderSummaryAgent",
+    "agent_runtime_profile_ref": "agent-runtime-profile://v8/v8_folder_summary_agent",
+    "allowed_operations": [
+      "llm.summarize"
+    ],
+    "context_policy_ref": "agent-context-policy://v8/v8_folder_summary_agent/station-scoped",
+    "created_at": "2026-06-04T14:03:28.631088+00:00",
+    "evidence_policy_ref": "agent-evidence-policy://v8/v8_folder_summary_agent/redacted",
+    "forbidden_operations": [
+      "approval.respond",
+      "business.event.emit",
+      "connector.call",
+      "context.update",
+      "external_llm.call",
+      "git.commit",
+      "git.push",
+      "production.deploy",
+      "workflow.template.publish"
+    ],
+    "goal": "Generate per-folder technical summaries.",
+    "mcp_binding_refs": [],
+    "memory_policy_ref": "agent-memory-policy://v8/v8_folder_summary_agent/station-scoped",
+    "model_profile_ref": "agent-model-profile://v8/v8_folder_summary_agent",
+    "role": "folder_summarizer",
+    "skill_binding_refs": [
+      "agent-skill-binding://v8/v8_folder_summary_agent/folder_summarizer"
+    ],
+    "source_policy": "source_agent_durable_mutation_denied",
+    "station_id": "per_folder_summary",
+    "tool_policy_ref": "agent-tool-policy://v8/v8_folder_summary_agent/allowlist"
+  },
+  {
+    "agent_id": "v8_overview_agent",
+    "agent_name": "OverviewAgent",
+    "agent_runtime_profile_ref": "agent-runtime-profile://v8/v8_overview_agent",
+    "allowed_operations": [
+      "llm.summarize"
+    ],
+    "context_policy_ref": "agent-context-policy://v8/v8_overview_agent/station-scoped",
+    "created_at": "2026-06-04T14:03:28.631098+00:00",
+    "evidence_policy_ref": "agent-evidence-policy://v8/v8_overview_agent/redacted",
+    "forbidden_operations": [
+      "approval.respond",
+      "business.event.emit",
+      "connector.call",
+      "context.update",
+      "external_llm.call",
+      "git.commit",
+      "git.push",
+      "production.deploy",
+      "workflow.template.publish"
+    ],
+    "goal": "Generate the overall technical document summary.",
+    "mcp_binding_refs": [],
+    "memory_policy_ref": "agent-memory-policy://v8/v8_overview_agent/station-scoped",
+    "model_profile_ref": "agent-model-profile://v8/v8_overview_agent",
+    "role": "overview_summarizer",
+    "skill_binding_refs": [
+      "agent-skill-binding://v8/v8_overview_agent/overview_summarizer"
+    ],
+    "source_policy": "source_agent_durable_mutation_denied",
+    "station_id": "overview_summary",
+    "tool_policy_ref": "agent-tool-policy://v8/v8_overview_agent/allowlist"
+  },
+  {
+    "agent_id": "v8_quality_agent",
+    "agent_name": "QualityAgent",
+    "agent_runtime_profile_ref": "agent-runtime-profile://v8/v8_quality_agent",
+    "allowed_operations": [
+      "quality.evaluation.create"
+    ],
+    "context_policy_ref": "agent-context-policy://v8/v8_quality_agent/station-scoped",
+    "created_at": "2026-06-04T14:03:28.631107+00:00",
+    "evidence_policy_ref": "agent-evidence-policy://v8/v8_quality_agent/redacted",
+    "forbidden_operations": [
+      "approval.respond",
+      "business.event.emit",
+      "connector.call",
+      "context.update",
+      "external_llm.call",
+      "git.commit",
+      "git.push",
+      "production.deploy",
+      "workflow.template.publish"
+    ],
+    "goal": "Evaluate coverage, unsupported files and summary quality.",
+    "mcp_binding_refs": [
+      "agent-mcp-binding://v8/v8_quality_agent/artifact_registry_readonly"
+    ],
+    "memory_policy_ref": "agent-memory-policy://v8/v8_quality_agent/station-scoped",
+    "model_profile_ref": "agent-model-profile://v8/v8_quality_agent",
+    "role": "quality_reviewer",
+    "skill_binding_refs": [
+      "agent-skill-binding://v8/v8_quality_agent/quality_reviewer"
+    ],
+    "source_policy": "source_agent_durable_mutation_denied",
+    "station_id": "quality_check",
+    "tool_policy_ref": "agent-tool-policy://v8/v8_quality_agent/allowlist"
+  },
+  {
+    "agent_id": "v8_report_agent",
+    "agent_name": "ReportAgent",
+    "agent_runtime_profile_ref": "agent-runtime-profile://v8/v8_report_agent",
+    "allowed_operations": [
+      "report.open"
+    ],
+    "context_policy_ref": "agent-context-policy://v8/v8_report_agent/station-scoped",
+    "created_at": "2026-06-04T14:03:28.631116+00:00",
+    "evidence_policy_ref": "agent-evidence-policy://v8/v8_report_agent/redacted",
+    "forbidden_operations": [
+      "approval.respond",
+      "business.event.emit",
+      "connector.call",
+      "context.update",
+      "external_llm.call",
+      "git.commit",
+      "git.push",
+      "production.deploy",
+      "workflow.template.publish"
+    ],
+    "goal": "Render read-only Runtime Report and artifact links.",
+    "mcp_binding_refs": [
+      "agent-mcp-binding://v8/v8_report_agent/artifact_registry_readonly"
+    ],
+    "memory_policy_ref": "agent-memory-policy://v8/v8_report_agent/station-scoped",
+    "model_profile_ref": "agent-model-profile://v8/v8_report_agent",
+    "role": "runtime_reporter",
+    "skill_binding_refs": [
+      "agent-skill-binding://v8/v8_report_agent/runtime_reporter"
+    ],
+    "source_policy": "source_agent_durable_mutation_denied",
+    "station_id": "runtime_report",
+    "tool_policy_ref": "agent-tool-policy://v8/v8_report_agent/allowlist"
+  },
+  {
+    "agent_id": "v8_workflow_explainer_agent",
+    "agent_name": "WorkflowExplainerAgent",
+    "agent_runtime_profile_ref": "agent-runtime-profile://v8/v8_workflow_explainer_agent",
+    "allowed_operations": [
+      "evidence.show"
+    ],
+    "context_policy_ref": "agent-context-policy://v8/v8_workflow_explainer_agent/station-scoped",
+    "created_at": "2026-06-04T14:03:28.631132+00:00",
+    "evidence_policy_ref": "agent-evidence-policy://v8/v8_workflow_explainer_agent/redacted",
+    "forbidden_operations": [
+      "approval.respond",
+      "business.event.emit",
+      "connector.call",
+      "context.update",
+      "external_llm.call",
+      "git.commit",
+      "git.push",
+      "production.deploy",
+      "workflow.template.publish"
+    ],
+    "goal": "Explain the workflow result, boundaries, risk and evidence.",
+    "mcp_binding_refs": [
+      "agent-mcp-binding://v8/v8_workflow_explainer_agent/artifact_registry_readonly"
+    ],
+    "memory_policy_ref": "agent-memory-policy://v8/v8_workflow_explainer_agent/station-scoped",
+    "model_profile_ref": "agent-model-profile://v8/v8_workflow_explainer_agent",
+    "role": "workflow_explainer",
+    "skill_binding_refs": [
+      "agent-skill-binding://v8/v8_workflow_explainer_agent/workflow_explainer"
+    ],
+    "source_policy": "source_agent_durable_mutation_denied",
+    "station_id": "evidence_record",
+    "tool_policy_ref": "agent-tool-policy://v8/v8_workflow_explainer_agent/allowlist"
+  }
+]

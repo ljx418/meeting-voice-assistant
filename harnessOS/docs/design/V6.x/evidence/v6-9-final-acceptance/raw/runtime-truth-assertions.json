@@ -1,0 +1,13 @@
+{
+  "assertions": {
+    "Blueprint / Drawio is visualization only": true,
+    "EventBridge refresh-only": true,
+    "Evidence Chain is read-only": true,
+    "Product Console admin ops cannot construct runtime truth": true,
+    "Runtime Report is read-only": true,
+    "V5 evidence not upgraded to production-ready": true,
+    "WorkflowSpec cannot replace runtime truth": true,
+    "source=agent cannot directly execute durable mutation": true
+  },
+  "status": "PASS"
+}

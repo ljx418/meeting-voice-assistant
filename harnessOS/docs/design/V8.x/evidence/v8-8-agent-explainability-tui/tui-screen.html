@@ -1,0 +1,647 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>V8-8 TUI Screen</title><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:32px;background:#f8fafc;color:#111827}section,.panel{background:white;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px}pre{white-space:pre-wrap;background:#f3f4f6;padding:12px;border-radius:6px;max-height:420px;overflow:auto}.meta{color:#4b5563}a{color:#2563eb}</style></head><body>
+    <h1>V8-8 可解释 Agent TUI</h1>
+    <p>只读视图：展示每个 station 的 Agent 身份、能力、上下文、调用证据和禁止原因。</p>
+    <section><h2>Global Assertions</h2><pre>{
+  &quot;readonly&quot;: true,
+  &quot;station_agent_visible_for_each_station&quot;: true,
+  &quot;workflow_explainer_visible&quot;: true,
+  &quot;forbidden_reasons_visible&quot;: true,
+  &quot;terminal_handoff_visible&quot;: true,
+  &quot;runtime_report_linked&quot;: true,
+  &quot;evidence_chain_linked&quot;: true,
+  &quot;blueprint_linked&quot;: true,
+  &quot;no_hidden_mutation_form&quot;: true,
+  &quot;does_not_construct_runtime_truth&quot;: true,
+  &quot;no_auto_apply_auto_run_copy&quot;: true,
+  &quot;redaction_scan&quot;: true,
+  &quot;claim_scan&quot;: true
+}</pre></section>
+    <main class="grid">
+            <article class="panel" data-panel="workflow_agent_map" data-readonly="true">
+              <h2>Workflow Agent Map</h2>
+              <p class="meta">actions: view, open_evidence, open_report, open_blueprint, open_handoff</p>
+              <pre>{
+  &quot;station_count&quot;: 7,
+  &quot;agent_descriptor_count&quot;: 7,
+  &quot;agents&quot;: [
+    {
+      &quot;station_id&quot;: &quot;folder_authorization&quot;,
+      &quot;agent_id&quot;: &quot;v8_mission_agent&quot;,
+      &quot;agent_name&quot;: &quot;MissionAgent&quot;,
+      &quot;role&quot;: &quot;mission_intake&quot;,
+      &quot;goal&quot;: &quot;Capture and explain the authorized local document workflow goal.&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;markdown_scan&quot;,
+      &quot;agent_id&quot;: &quot;v8_scanner_agent&quot;,
+      &quot;agent_name&quot;: &quot;ScannerAgent&quot;,
+      &quot;role&quot;: &quot;markdown_scanner&quot;,
+      &quot;goal&quot;: &quot;Read authorized Markdown files through scoped read-only capability.&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;per_folder_summary&quot;,
+      &quot;agent_id&quot;: &quot;v8_folder_summary_agent&quot;,
+      &quot;agent_name&quot;: &quot;FolderSummaryAgent&quot;,
+      &quot;role&quot;: &quot;folder_summarizer&quot;,
+      &quot;goal&quot;: &quot;Generate per-folder technical summaries.&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;overview_summary&quot;,
+      &quot;agent_id&quot;: &quot;v8_overview_agent&quot;,
+      &quot;agent_name&quot;: &quot;OverviewAgent&quot;,
+      &quot;role&quot;: &quot;overview_summarizer&quot;,
+      &quot;goal&quot;: &quot;Generate the overall technical document summary.&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;quality_check&quot;,
+      &quot;agent_id&quot;: &quot;v8_quality_agent&quot;,
+      &quot;agent_name&quot;: &quot;QualityAgent&quot;,
+      &quot;role&quot;: &quot;quality_reviewer&quot;,
+      &quot;goal&quot;: &quot;Evaluate coverage, unsupported files and summary quality.&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;runtime_report&quot;,
+      &quot;agent_id&quot;: &quot;v8_report_agent&quot;,
+      &quot;agent_name&quot;: &quot;ReportAgent&quot;,
+      &quot;role&quot;: &quot;runtime_reporter&quot;,
+      &quot;goal&quot;: &quot;Render read-only Runtime Report and artifact links.&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;evidence_record&quot;,
+      &quot;agent_id&quot;: &quot;v8_workflow_explainer_agent&quot;,
+      &quot;agent_name&quot;: &quot;WorkflowExplainerAgent&quot;,
+      &quot;role&quot;: &quot;workflow_explainer&quot;,
+      &quot;goal&quot;: &quot;Explain the workflow result, boundaries, risk and evidence.&quot;
+    }
+  ]
+}</pre>
+            </article>
+            
+            <article class="panel" data-panel="station_agent_detail" data-readonly="true">
+              <h2>Station Agent Detail</h2>
+              <p class="meta">actions: view, open_evidence, open_report, open_blueprint, open_handoff</p>
+              <pre>{
+  &quot;details&quot;: [
+    {
+      &quot;station_id&quot;: &quot;folder_authorization&quot;,
+      &quot;agent_id&quot;: &quot;v8_mission_agent&quot;,
+      &quot;role&quot;: &quot;mission_intake&quot;,
+      &quot;goal&quot;: &quot;Capture and explain the authorized local document workflow goal.&quot;,
+      &quot;model_profile_ref&quot;: &quot;agent-model-profile://v8/v8_mission_agent&quot;,
+      &quot;memory_policy_ref&quot;: &quot;agent-memory-policy://v8/v8_mission_agent/station-scoped&quot;,
+      &quot;skill_binding_refs&quot;: [
+        &quot;agent-skill-binding://v8/v8_mission_agent/mission_intake&quot;
+      ],
+      &quot;mcp_binding_refs&quot;: [],
+      &quot;tool_policy_ref&quot;: &quot;agent-tool-policy://v8/v8_mission_agent/allowlist&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;markdown_scan&quot;,
+      &quot;agent_id&quot;: &quot;v8_scanner_agent&quot;,
+      &quot;role&quot;: &quot;markdown_scanner&quot;,
+      &quot;goal&quot;: &quot;Read authorized Markdown files through scoped read-only capability.&quot;,
+      &quot;model_profile_ref&quot;: &quot;agent-model-profile://v8/v8_scanner_agent&quot;,
+      &quot;memory_policy_ref&quot;: &quot;agent-memory-policy://v8/v8_scanner_agent/station-scoped&quot;,
+      &quot;skill_binding_refs&quot;: [
+        &quot;agent-skill-binding://v8/v8_scanner_agent/markdown_scanner&quot;
+      ],
+      &quot;mcp_binding_refs&quot;: [
+        &quot;agent-mcp-binding://v8/v8_scanner_agent/filesystem_readonly&quot;
+      ],
+      &quot;tool_policy_ref&quot;: &quot;agent-tool-policy://v8/v8_scanner_agent/allowlist&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;per_folder_summary&quot;,
+      &quot;agent_id&quot;: &quot;v8_folder_summary_agent&quot;,
+      &quot;role&quot;: &quot;folder_summarizer&quot;,
+      &quot;goal&quot;: &quot;Generate per-folder technical summaries.&quot;,
+      &quot;model_profile_ref&quot;: &quot;agent-model-profile://v8/v8_folder_summary_agent&quot;,
+      &quot;memory_policy_ref&quot;: &quot;agent-memory-policy://v8/v8_folder_summary_agent/station-scoped&quot;,
+      &quot;skill_binding_refs&quot;: [
+        &quot;agent-skill-binding://v8/v8_folder_summary_agent/folder_summarizer&quot;
+      ],
+      &quot;mcp_binding_refs&quot;: [],
+      &quot;tool_policy_ref&quot;: &quot;agent-tool-policy://v8/v8_folder_summary_agent/allowlist&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;overview_summary&quot;,
+      &quot;agent_id&quot;: &quot;v8_overview_agent&quot;,
+      &quot;role&quot;: &quot;overview_summarizer&quot;,
+      &quot;goal&quot;: &quot;Generate the overall technical document summary.&quot;,
+      &quot;model_profile_ref&quot;: &quot;agent-model-profile://v8/v8_overview_agent&quot;,
+      &quot;memory_policy_ref&quot;: &quot;agent-memory-policy://v8/v8_overview_agent/station-scoped&quot;,
+      &quot;skill_binding_refs&quot;: [
+        &quot;agent-skill-binding://v8/v8_overview_agent/overview_summarizer&quot;
+      ],
+      &quot;mcp_binding_refs&quot;: [],
+      &quot;tool_policy_ref&quot;: &quot;agent-tool-policy://v8/v8_overview_agent/allowlist&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;quality_check&quot;,
+      &quot;agent_id&quot;: &quot;v8_quality_agent&quot;,
+      &quot;role&quot;: &quot;quality_reviewer&quot;,
+      &quot;goal&quot;: &quot;Evaluate coverage, unsupported files and summary quality.&quot;,
+      &quot;model_profile_ref&quot;: &quot;agent-model-profile://v8/v8_quality_agent&quot;,
+      &quot;memory_policy_ref&quot;: &quot;agent-memory-policy://v8/v8_quality_agent/station-scoped&quot;,
+      &quot;skill_binding_refs&quot;: [
+        &quot;agent-skill-binding://v8/v8_quality_agent/quality_reviewer&quot;
+      ],
+      &quot;mcp_binding_refs&quot;: [
+        &quot;agent-mcp-binding://v8/v8_quality_agent/artifact_registry_readonly&quot;
+      ],
+      &quot;tool_policy_ref&quot;: &quot;agent-tool-policy://v8/v8_quality_agent/allowlist&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;runtime_report&quot;,
+      &quot;agent_id&quot;: &quot;v8_report_agent&quot;,
+      &quot;role&quot;: &quot;runtime_reporter&quot;,
+      &quot;goal&quot;: &quot;Render read-only Runtime Report and artifact links.&quot;,
+      &quot;model_profile_ref&quot;: &quot;agent-model-profile://v8/v8_report_agent&quot;,
+      &quot;memory_policy_ref&quot;: &quot;agent-memory-policy://v8/v8_report_agent/station-scoped&quot;,
+      &quot;skill_binding_refs&quot;: [
+        &quot;agent-skill-binding://v8/v8_report_agent/runtime_reporter&quot;
+      ],
+      &quot;mcp_binding_refs&quot;: [
+        &quot;agent-mcp-binding://v8/v8_report_agent/artifact_registry_readonly&quot;
+      ],
+      &quot;tool_policy_ref&quot;: &quot;agent-tool-policy://v8/v8_report_agent/allowlist&quot;
+    },
+    {
+      &quot;station_id&quot;: &quot;evidence_record&quot;,
+      &quot;agent_id&quot;: &quot;v8_workflow_explainer_agent&quot;,
+      &quot;role&quot;: &quot;workflow_explainer&quot;,
+      &quot;goal&quot;: &quot;Explain the workflow result, boundaries, risk and evidence.&quot;,
+      &quot;model_profile_ref&quot;: &quot;agent-model-profile://v8/v8_workflow_explainer_agent&quot;,
+      &quot;memory_policy_ref&quot;: &quot;agent-memory-policy://v8/v8_workflow_explainer_agent/station-scoped&quot;,
+      &quot;skill_binding_refs&quot;: [
+        &quot;agent-skill-binding://v8/v8_workflow_explainer_agent/workflow_explainer&quot;
+      ],
+      &quot;mcp_binding_refs&quot;: [
+        &quot;agent-mcp-binding://v8/v8_workflow_explainer_agent/artifact_registry_readonly&quot;
+      ],
+      &quot;tool_policy_ref&quot;: &quot;agent-tool-policy://v8/v8_workflow_explainer_agent/allowlist&quot;
+    }
+  ]
+}</pre>
+            </article>
+            
+            <article class="panel" data-panel="agent_capability" data-readonly="true">
+              <h2>Agent Capability Panel</h2>
+              <p class="meta">actions: view, open_evidence, open_report, open_blueprint, open_handoff</p>
+              <pre>{
+  &quot;decisions&quot;: [
+    {
+      &quot;agent_id&quot;: &quot;v8_mission_agent&quot;,
+      &quot;station_id&quot;: &quot;folder_authorization&quot;,
+      &quot;operation&quot;: &quot;workflow.explain&quot;,
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;allowed&quot;: true,
+      &quot;forbidden_reason&quot;: null,
+      &quot;requires_user_confirmation&quot;: false,
+      &quot;requires_handoff&quot;: false,
+      &quot;risk_level&quot;: &quot;low&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_scanner_agent&quot;,
+      &quot;station_id&quot;: &quot;markdown_scan&quot;,
+      &quot;operation&quot;: &quot;local_folder.read&quot;,
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;allowed&quot;: true,
+      &quot;forbidden_reason&quot;: null,
+      &quot;requires_user_confirmation&quot;: false,
+      &quot;requires_handoff&quot;: false,
+      &quot;risk_level&quot;: &quot;low&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_folder_summary_agent&quot;,
+      &quot;station_id&quot;: &quot;per_folder_summary&quot;,
+      &quot;operation&quot;: &quot;llm.summarize&quot;,
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;allowed&quot;: true,
+      &quot;forbidden_reason&quot;: null,
+      &quot;requires_user_confirmation&quot;: false,
+      &quot;requires_handoff&quot;: false,
+      &quot;risk_level&quot;: &quot;low&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_overview_agent&quot;,
+      &quot;station_id&quot;: &quot;overview_summary&quot;,
+      &quot;operation&quot;: &quot;llm.summarize&quot;,
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;allowed&quot;: true,
+      &quot;forbidden_reason&quot;: null,
+      &quot;requires_user_confirmation&quot;: false,
+      &quot;requires_handoff&quot;: false,
+      &quot;risk_level&quot;: &quot;low&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_quality_agent&quot;,
+      &quot;station_id&quot;: &quot;quality_check&quot;,
+      &quot;operation&quot;: &quot;quality.evaluation.create&quot;,
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;allowed&quot;: true,
+      &quot;forbidden_reason&quot;: null,
+      &quot;requires_user_confirmation&quot;: true,
+      &quot;requires_handoff&quot;: true,
+      &quot;risk_level&quot;: &quot;high&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_report_agent&quot;,
+      &quot;station_id&quot;: &quot;runtime_report&quot;,
+      &quot;operation&quot;: &quot;report.open&quot;,
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;allowed&quot;: true,
+      &quot;forbidden_reason&quot;: null,
+      &quot;requires_user_confirmation&quot;: false,
+      &quot;requires_handoff&quot;: false,
+      &quot;risk_level&quot;: &quot;low&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_workflow_explainer_agent&quot;,
+      &quot;station_id&quot;: &quot;evidence_record&quot;,
+      &quot;operation&quot;: &quot;evidence.show&quot;,
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;allowed&quot;: true,
+      &quot;forbidden_reason&quot;: null,
+      &quot;requires_user_confirmation&quot;: false,
+      &quot;requires_handoff&quot;: false,
+      &quot;risk_level&quot;: &quot;low&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_source_agent_guard&quot;,
+      &quot;station_id&quot;: &quot;workflow_guard&quot;,
+      &quot;operation&quot;: &quot;workflow.instance.start&quot;,
+      &quot;source&quot;: &quot;agent&quot;,
+      &quot;allowed&quot;: false,
+      &quot;forbidden_reason&quot;: &quot;source_agent_durable_mutation_denied&quot;,
+      &quot;requires_user_confirmation&quot;: true,
+      &quot;requires_handoff&quot;: true,
+      &quot;risk_level&quot;: &quot;high&quot;
+    }
+  ]
+}</pre>
+            </article>
+            
+            <article class="panel" data-panel="agent_context" data-readonly="true">
+              <h2>Agent Context Panel</h2>
+              <p class="meta">actions: view, open_evidence, open_report, open_blueprint, open_handoff</p>
+              <pre>{
+  &quot;contexts&quot;: [
+    {
+      &quot;agent_id&quot;: &quot;v8_mission_agent&quot;,
+      &quot;context_envelope_id&quot;: &quot;context_envelope_v8_b9040404dc19&quot;,
+      &quot;context_scope&quot;: &quot;station_scoped&quot;,
+      &quot;created_at&quot;: &quot;2026-06-04T14:03:28.631196+00:00&quot;,
+      &quot;evidence_refs&quot;: [
+        &quot;evidence://v8/folder_authorization&quot;
+      ],
+      &quot;memory_refs&quot;: [
+        &quot;memory://v8/v8_mission_agent/station-summary&quot;
+      ],
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/mission_intake/v1&quot;,
+      &quot;redaction_status&quot;: &quot;redacted&quot;,
+      &quot;station_id&quot;: &quot;folder_authorization&quot;,
+      &quot;upstream_artifact_refs&quot;: [],
+      &quot;workflow_context_refs&quot;: [
+        &quot;workflow-spec://workflow_spec_v7_3_101d6c113a9b&quot;,
+        &quot;provider://minimax&quot;
+      ]
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_scanner_agent&quot;,
+      &quot;context_envelope_id&quot;: &quot;context_envelope_v8_86655624d16d&quot;,
+      &quot;context_scope&quot;: &quot;station_scoped&quot;,
+      &quot;created_at&quot;: &quot;2026-06-04T14:03:28.631214+00:00&quot;,
+      &quot;evidence_refs&quot;: [
+        &quot;evidence://v8/markdown_scan&quot;
+      ],
+      &quot;memory_refs&quot;: [
+        &quot;memory://v8/v8_scanner_agent/station-summary&quot;
+      ],
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/markdown_scanner/v1&quot;,
+      &quot;redaction_status&quot;: &quot;redacted&quot;,
+      &quot;station_id&quot;: &quot;markdown_scan&quot;,
+      &quot;upstream_artifact_refs&quot;: [
+        &quot;artifact-contract://authorized_folder_ref&quot;
+      ],
+      &quot;workflow_context_refs&quot;: [
+        &quot;workflow-spec://workflow_spec_v7_3_101d6c113a9b&quot;,
+        &quot;provider://minimax&quot;
+      ]
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_folder_summary_agent&quot;,
+      &quot;context_envelope_id&quot;: &quot;context_envelope_v8_500a70abf0d8&quot;,
+      &quot;context_scope&quot;: &quot;station_scoped&quot;,
+      &quot;created_at&quot;: &quot;2026-06-04T14:03:28.631229+00:00&quot;,
+      &quot;evidence_refs&quot;: [
+        &quot;evidence://v8/per_folder_summary&quot;
+      ],
+      &quot;memory_refs&quot;: [
+        &quot;memory://v8/v8_folder_summary_agent/station-summary&quot;
+      ],
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/folder_summarizer/v1&quot;,
+      &quot;redaction_status&quot;: &quot;redacted&quot;,
+      &quot;station_id&quot;: &quot;per_folder_summary&quot;,
+      &quot;upstream_artifact_refs&quot;: [
+        &quot;artifact-contract://parsed_markdown_documents&quot;
+      ],
+      &quot;workflow_context_refs&quot;: [
+        &quot;workflow-spec://workflow_spec_v7_3_101d6c113a9b&quot;,
+        &quot;provider://minimax&quot;
+      ]
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_overview_agent&quot;,
+      &quot;context_envelope_id&quot;: &quot;context_envelope_v8_2dba86e99614&quot;,
+      &quot;context_scope&quot;: &quot;station_scoped&quot;,
+      &quot;created_at&quot;: &quot;2026-06-04T14:03:28.631240+00:00&quot;,
+      &quot;evidence_refs&quot;: [
+        &quot;evidence://v8/overview_summary&quot;
+      ],
+      &quot;memory_refs&quot;: [
+        &quot;memory://v8/v8_overview_agent/station-summary&quot;
+      ],
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/overview_summarizer/v1&quot;,
+      &quot;redaction_status&quot;: &quot;redacted&quot;,
+      &quot;station_id&quot;: &quot;overview_summary&quot;,
+      &quot;upstream_artifact_refs&quot;: [
+        &quot;artifact-contract://folder_summary_artifacts&quot;
+      ],
+      &quot;workflow_context_refs&quot;: [
+        &quot;workflow-spec://workflow_spec_v7_3_101d6c113a9b&quot;,
+        &quot;provider://minimax&quot;
+      ]
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_quality_agent&quot;,
+      &quot;context_envelope_id&quot;: &quot;context_envelope_v8_c235d5d7c47c&quot;,
+      &quot;context_scope&quot;: &quot;station_scoped&quot;,
+      &quot;created_at&quot;: &quot;2026-06-04T14:03:28.631251+00:00&quot;,
+      &quot;evidence_refs&quot;: [
+        &quot;evidence://v8/quality_check&quot;
+      ],
+      &quot;memory_refs&quot;: [
+        &quot;memory://v8/v8_quality_agent/station-summary&quot;
+      ],
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/quality_reviewer/v1&quot;,
+      &quot;redaction_status&quot;: &quot;redacted&quot;,
+      &quot;station_id&quot;: &quot;quality_check&quot;,
+      &quot;upstream_artifact_refs&quot;: [
+        &quot;artifact-contract://parsed_markdown_documents&quot;,
+        &quot;artifact-contract://folder_summary_artifacts&quot;
+      ],
+      &quot;workflow_context_refs&quot;: [
+        &quot;workflow-spec://workflow_spec_v7_3_101d6c113a9b&quot;,
+        &quot;provider://minimax&quot;
+      ]
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_report_agent&quot;,
+      &quot;context_envelope_id&quot;: &quot;context_envelope_v8_bfe65af9c88d&quot;,
+      &quot;context_scope&quot;: &quot;station_scoped&quot;,
+      &quot;created_at&quot;: &quot;2026-06-04T14:03:28.631262+00:00&quot;,
+      &quot;evidence_refs&quot;: [
+        &quot;evidence://v8/runtime_report&quot;
+      ],
+      &quot;memory_refs&quot;: [
+        &quot;memory://v8/v8_report_agent/station-summary&quot;
+      ],
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/runtime_reporter/v1&quot;,
+      &quot;redaction_status&quot;: &quot;redacted&quot;,
+      &quot;station_id&quot;: &quot;runtime_report&quot;,
+      &quot;upstream_artifact_refs&quot;: [
+        &quot;artifact-contract://quality_report&quot;
+      ],
+      &quot;workflow_context_refs&quot;: [
+        &quot;workflow-spec://workflow_spec_v7_3_101d6c113a9b&quot;,
+        &quot;provider://minimax&quot;
+      ]
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_workflow_explainer_agent&quot;,
+      &quot;context_envelope_id&quot;: &quot;context_envelope_v8_770acf76d4e3&quot;,
+      &quot;context_scope&quot;: &quot;station_scoped&quot;,
+      &quot;created_at&quot;: &quot;2026-06-04T14:03:28.631273+00:00&quot;,
+      &quot;evidence_refs&quot;: [
+        &quot;evidence://v8/evidence_record&quot;
+      ],
+      &quot;memory_refs&quot;: [
+        &quot;memory://v8/v8_workflow_explainer_agent/station-summary&quot;
+      ],
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/workflow_explainer/v1&quot;,
+      &quot;redaction_status&quot;: &quot;redacted&quot;,
+      &quot;station_id&quot;: &quot;evidence_record&quot;,
+      &quot;upstream_artifact_refs&quot;: [
+        &quot;artifact-contract://folder_summary_artifacts&quot;,
+        &quot;artifact-contract://quality_report&quot;
+      ],
+      &quot;workflow_context_refs&quot;: [
+        &quot;workflow-spec://workflow_spec_v7_3_101d6c113a9b&quot;,
+        &quot;provider://minimax&quot;
+      ]
+    }
+  ]
+}</pre>
+            </article>
+            
+            <article class="panel" data-panel="agent_invocation" data-readonly="true">
+              <h2>Agent Invocation Panel</h2>
+              <p class="meta">actions: view, open_evidence, open_report, open_blueprint, open_handoff</p>
+              <pre>{
+  &quot;invocations&quot;: [
+    {
+      &quot;agent_id&quot;: &quot;v8_mission_agent&quot;,
+      &quot;station_id&quot;: &quot;folder_authorization&quot;,
+      &quot;provider&quot;: &quot;minimax&quot;,
+      &quot;model_ref&quot;: &quot;MiniMax-M2.1&quot;,
+      &quot;provider_config_source&quot;: &quot;.env.local&quot;,
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/mission_intake/v1&quot;,
+      &quot;input_artifact_refs&quot;: [],
+      &quot;output_artifact_refs&quot;: [
+        &quot;artifact-contract://authorized_folder_ref&quot;
+      ],
+      &quot;redaction_status&quot;: &quot;redacted&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_scanner_agent&quot;,
+      &quot;station_id&quot;: &quot;markdown_scan&quot;,
+      &quot;provider&quot;: &quot;minimax&quot;,
+      &quot;model_ref&quot;: &quot;MiniMax-M2.1&quot;,
+      &quot;provider_config_source&quot;: &quot;.env.local&quot;,
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/markdown_scanner/v1&quot;,
+      &quot;input_artifact_refs&quot;: [
+        &quot;artifact-contract://authorized_folder_ref&quot;
+      ],
+      &quot;output_artifact_refs&quot;: [
+        &quot;artifact-contract://parsed_markdown_documents&quot;
+      ],
+      &quot;redaction_status&quot;: &quot;redacted&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_folder_summary_agent&quot;,
+      &quot;station_id&quot;: &quot;per_folder_summary&quot;,
+      &quot;provider&quot;: &quot;minimax&quot;,
+      &quot;model_ref&quot;: &quot;MiniMax-M2.1&quot;,
+      &quot;provider_config_source&quot;: &quot;.env.local&quot;,
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/folder_summarizer/v1&quot;,
+      &quot;input_artifact_refs&quot;: [
+        &quot;artifact-contract://parsed_markdown_documents&quot;
+      ],
+      &quot;output_artifact_refs&quot;: [
+        &quot;artifact-contract://folder_summary_artifacts&quot;
+      ],
+      &quot;redaction_status&quot;: &quot;redacted&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_overview_agent&quot;,
+      &quot;station_id&quot;: &quot;overview_summary&quot;,
+      &quot;provider&quot;: &quot;minimax&quot;,
+      &quot;model_ref&quot;: &quot;MiniMax-M2.1&quot;,
+      &quot;provider_config_source&quot;: &quot;.env.local&quot;,
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/overview_summarizer/v1&quot;,
+      &quot;input_artifact_refs&quot;: [
+        &quot;artifact-contract://folder_summary_artifacts&quot;
+      ],
+      &quot;output_artifact_refs&quot;: [
+        &quot;artifact-contract://overview_summary_artifact&quot;
+      ],
+      &quot;redaction_status&quot;: &quot;redacted&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_quality_agent&quot;,
+      &quot;station_id&quot;: &quot;quality_check&quot;,
+      &quot;provider&quot;: &quot;minimax&quot;,
+      &quot;model_ref&quot;: &quot;MiniMax-M2.1&quot;,
+      &quot;provider_config_source&quot;: &quot;.env.local&quot;,
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/quality_reviewer/v1&quot;,
+      &quot;input_artifact_refs&quot;: [
+        &quot;artifact-contract://parsed_markdown_documents&quot;,
+        &quot;artifact-contract://folder_summary_artifacts&quot;
+      ],
+      &quot;output_artifact_refs&quot;: [
+        &quot;artifact-contract://quality_report&quot;
+      ],
+      &quot;redaction_status&quot;: &quot;redacted&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_report_agent&quot;,
+      &quot;station_id&quot;: &quot;runtime_report&quot;,
+      &quot;provider&quot;: &quot;minimax&quot;,
+      &quot;model_ref&quot;: &quot;MiniMax-M2.1&quot;,
+      &quot;provider_config_source&quot;: &quot;.env.local&quot;,
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/runtime_reporter/v1&quot;,
+      &quot;input_artifact_refs&quot;: [
+        &quot;artifact-contract://quality_report&quot;
+      ],
+      &quot;output_artifact_refs&quot;: [
+        &quot;artifact-contract://workflow_board_html&quot;
+      ],
+      &quot;redaction_status&quot;: &quot;redacted&quot;
+    },
+    {
+      &quot;agent_id&quot;: &quot;v8_workflow_explainer_agent&quot;,
+      &quot;station_id&quot;: &quot;evidence_record&quot;,
+      &quot;provider&quot;: &quot;minimax&quot;,
+      &quot;model_ref&quot;: &quot;MiniMax-M2.1&quot;,
+      &quot;provider_config_source&quot;: &quot;.env.local&quot;,
+      &quot;prompt_template_ref&quot;: &quot;prompt-template://v8/workflow_explainer/v1&quot;,
+      &quot;input_artifact_refs&quot;: [
+        &quot;artifact-contract://folder_summary_artifacts&quot;,
+        &quot;artifact-contract://quality_report&quot;
+      ],
+      &quot;output_artifact_refs&quot;: [
+        &quot;artifact-contract://evidence_chain_json&quot;
+      ],
+      &quot;redaction_status&quot;: &quot;redacted&quot;
+    }
+  ]
+}</pre>
+            </article>
+            
+            <article class="panel" data-panel="terminal_worker_handoff" data-readonly="true">
+              <h2>Terminal Worker Handoff Panel</h2>
+              <p class="meta">actions: view, open_evidence, open_report, open_blueprint, open_handoff</p>
+              <pre>{
+  &quot;acceptance&quot;: {
+    &quot;allowed_claim&quot;: &quot;V8-6 complete: controlled terminal worker pilot ready for review.&quot;,
+    &quot;auto_commit_enabled&quot;: false,
+    &quot;auto_push_enabled&quot;: false,
+    &quot;claim_scan&quot;: &quot;PASS&quot;,
+    &quot;command_allowlist&quot;: &quot;PASS&quot;,
+    &quot;diff_proposal_captured&quot;: &quot;PASS&quot;,
+    &quot;evidence_scope&quot;: &quot;controlled_runtime_fixture&quot;,
+    &quot;human_review_handoff_exists&quot;: &quot;PASS&quot;,
+    &quot;production_browser_automation_enabled&quot;: false,
+    &quot;redaction_scan&quot;: &quot;PASS&quot;,
+    &quot;runtime_backed&quot;: true,
+    &quot;source_agent_mutation_denied&quot;: &quot;PASS&quot;,
+    &quot;stage_id&quot;: &quot;V8-6&quot;,
+    &quot;status&quot;: &quot;PASS&quot;,
+    &quot;terminal_worker_runtime_enabled&quot;: true,
+    &quot;terminal_worker_scope&quot;: &quot;workspace_scoped_readonly_shell_and_handoff_proposal_only&quot;,
+    &quot;transcript_captured&quot;: &quot;PASS&quot;,
+    &quot;worker_type&quot;: &quot;codex_cli&quot;,
+    &quot;workspace_scope_guard&quot;: &quot;PASS&quot;
+  },
+  &quot;handoff&quot;: {
+    &quot;agent_id&quot;: &quot;agent_v8_code_review&quot;,
+    &quot;created_at&quot;: &quot;2026-06-04T14:21:44.702214+00:00&quot;,
+    &quot;diff_ref&quot;: &quot;diff-proposal.patch&quot;,
+    &quot;handoff_id&quot;: &quot;handoff-v8-6-ddafdde100a5&quot;,
+    &quot;human_authorization_ref&quot;: &quot;human-auth://v8-6/user-accepted-controlled-terminal-worker-pilot&quot;,
+    &quot;policy_decision_ref&quot;: &quot;policy-decision://v8-6/allow-readonly-proposal&quot;,
+    &quot;proposed_action&quot;: &quot;review_diff_proposal_only_no_apply&quot;,
+    &quot;requires_user_confirmation&quot;: true,
+    &quot;risk_level&quot;: &quot;high&quot;,
+    &quot;source_agent_direct_mutation_denied&quot;: true,
+    &quot;station_id&quot;: &quot;code_review_station&quot;,
+    &quot;transcript_ref&quot;: &quot;terminal-transcript.txt&quot;,
+    &quot;worker_id&quot;: &quot;terminal-worker-v8-6-ad62c1ba8f9f&quot;
+  },
+  &quot;worker&quot;: {
+    &quot;agent_id&quot;: &quot;agent_v8_code_review&quot;,
+    &quot;command_allowlist_ref&quot;: &quot;policy://v8-6/readonly-command-allowlist&quot;,
+    &quot;created_at&quot;: &quot;2026-06-04T14:21:44.479577+00:00&quot;,
+    &quot;diff_capture_ref&quot;: &quot;capture://v8-6/diff-proposal&quot;,
+    &quot;handoff_policy_ref&quot;: &quot;policy://v8-6/human-review-handoff&quot;,
+    &quot;kill_switch_policy_ref&quot;: &quot;policy://v8-6/kill-switch&quot;,
+    &quot;session_policy_ref&quot;: &quot;policy://v8-6/terminal-session&quot;,
+    &quot;station_id&quot;: &quot;code_review_station&quot;,
+    &quot;timeout_policy_ref&quot;: &quot;policy://v8-6/timeout&quot;,
+    &quot;transcript_capture_ref&quot;: &quot;capture://v8-6/terminal-transcript&quot;,
+    &quot;worker_id&quot;: &quot;terminal-worker-v8-6-ad62c1ba8f9f&quot;,
+    &quot;worker_type&quot;: &quot;codex_cli&quot;,
+    &quot;workspace_scope_ref&quot;: &quot;workspace://harnessOS&quot;
+  },
+  &quot;policy&quot;: {
+    &quot;readonly&quot;: true,
+    &quot;requires_human_review&quot;: true,
+    &quot;production_browser_automation_allowed&quot;: false
+  }
+}</pre>
+            </article>
+            
+            <article class="panel" data-panel="agent_evidence_links" data-readonly="true">
+              <h2>Agent Evidence Links</h2>
+              <p class="meta">actions: view, open_evidence, open_report, open_blueprint, open_handoff</p>
+              <pre>{
+  &quot;runtime_report&quot;: &quot;../v8-4-station-agent-runtime/workflow_board.html&quot;,
+  &quot;agent_evidence&quot;: &quot;../v8-4-station-agent-runtime/agent-evidence.html&quot;,
+  &quot;blueprint&quot;: &quot;../v8-4-station-agent-runtime/workflow.drawio&quot;,
+  &quot;terminal_transcript&quot;: &quot;../v8-6-controlled-terminal-worker/terminal-transcript.txt&quot;,
+  &quot;terminal_diff_proposal&quot;: &quot;../v8-6-controlled-terminal-worker/diff-proposal.patch&quot;
+}</pre>
+            </article>
+            
+            <article class="panel" data-panel="workflow_explainer_agent_summary" data-readonly="true">
+              <h2>WorkflowExplainerAgent Summary Panel</h2>
+              <p class="meta">actions: view, open_evidence, open_report, open_blueprint, open_handoff</p>
+              <pre>{
+  &quot;workflow_explainer_agent_id&quot;: &quot;v8_workflow_explainer_agent&quot;,
+  &quot;summary&quot;: &quot;WorkflowExplainerAgent explains station identity, capabilities, forbidden reasons, evidence links, and terminal handoff boundaries.&quot;,
+  &quot;source_agent_mutation_denied&quot;: &quot;PASS&quot;
+}</pre>
+            </article>
+            </main>
+    </body></html>

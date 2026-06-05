@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/ProviderProfileProjection.schema.json",
+  "title": "ProviderProfileProjection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["provider_profile_id", "tenant_id", "workspace_id", "app_id", "provider", "model_refs", "redaction_status", "audit_ref", "created_at"],
+  "properties": {
+    "provider_profile_id": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "app_id": { "type": "string", "minLength": 1 },
+    "provider": { "enum": ["minimax", "openai_compatible", "local_stub"] },
+    "model_refs": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+    "redaction_status": { "const": "redacted_refs_only" },
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

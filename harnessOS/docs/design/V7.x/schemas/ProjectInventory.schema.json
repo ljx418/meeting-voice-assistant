@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/ProjectInventory.schema.json",
+  "title": "ProjectInventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenant_id", "workspace_id", "project_id", "workflow_spec_refs", "runtime_report_refs", "audit_ref", "created_at"],
+  "properties": {
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "project_id": { "type": "string", "minLength": 1 },
+    "workflow_spec_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "runtime_report_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

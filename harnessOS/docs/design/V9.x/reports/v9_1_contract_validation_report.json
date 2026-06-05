@@ -1,0 +1,221 @@
+{
+  "created_at": "2026-06-05T09:17:12Z",
+  "fixture_parse_results": [
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/evidence/v9_1_contract_freeze_sample.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/evidence/v9_8_reject_planning_only_sample.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/schema-negative/artifact_lineage_missing_producer_attempt.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/schema-negative/expired_human_authorization_ref.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/schema-negative/raw_secret_in_evidence.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/schema-negative/source_agent_durable_mutation.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/v9-2-controlled-executor/artifact_write_append_only_with_approval_gate.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/v9-2-controlled-executor/expired_human_authorization_ref_denied.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/v9-2-controlled-executor/idempotency_duplicate_returns_prior_ref.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/v9-2-controlled-executor/kill_switch_denied_blocks_action.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/v9-2-controlled-executor/quality_evaluation_append_only_with_approval_gate.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/v9-2-controlled-executor/source_agent_durable_mutation_denied.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/v9-2-controlled-executor/station_rerun_with_user_confirmed.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/fixtures/v9-2-controlled-executor/workflow_instance_start_with_human_authorization_ref.json",
+      "status": "PASS"
+    }
+  ],
+  "invariant_results": [
+    {
+      "check_id": "durable_mutation_authorization_required_for_artifact.write",
+      "details": "operation appears in AgentExecutionEnvelope authorization invariant",
+      "status": "PASS"
+    },
+    {
+      "check_id": "durable_mutation_authorization_required_for_quality.evaluation.create",
+      "details": "operation appears in AgentExecutionEnvelope authorization invariant",
+      "status": "PASS"
+    },
+    {
+      "check_id": "durable_mutation_authorization_required_for_station.rerun",
+      "details": "operation appears in AgentExecutionEnvelope authorization invariant",
+      "status": "PASS"
+    },
+    {
+      "check_id": "durable_mutation_authorization_required_for_workflow.instance.start",
+      "details": "operation appears in AgentExecutionEnvelope authorization invariant",
+      "status": "PASS"
+    },
+    {
+      "check_id": "source_agent_durable_mutation_denied",
+      "details": "AgentExecutionEnvelope contains source=agent denial branch",
+      "status": "PASS"
+    },
+    {
+      "check_id": "agent_execution_envelope.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "agent_execution_policy.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "approval_gate_decision.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "artifact_lineage_record.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "capability_resolver_decision.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "evidence_package.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "execution_evidence.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "final_acceptance_dashboard.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "high_risk_human_decision.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "human_authorization_ref.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "kill_switch_decision.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "orchestration_message.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "rollback_descriptor.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    },
+    {
+      "check_id": "timeout_policy.schema.json_additional_properties_false",
+      "details": "schema must be strict",
+      "status": "PASS"
+    }
+  ],
+  "notes": "Readiness validation only. This report does not approve runtime implementation.",
+  "runtime_evidence": false,
+  "schema_parse_results": [
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/agent_execution_envelope.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/agent_execution_policy.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/approval_gate_decision.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/artifact_lineage_record.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/capability_resolver_decision.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/evidence_package.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/execution_evidence.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/final_acceptance_dashboard.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/high_risk_human_decision.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/human_authorization_ref.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/kill_switch_decision.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/orchestration_message.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/rollback_descriptor.schema.json",
+      "status": "PASS"
+    },
+    {
+      "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/schemas/timeout_policy.schema.json",
+      "status": "PASS"
+    }
+  ],
+  "schema_version": "v9_1.contract_validation_report.v1",
+  "stage_id": "V9-1",
+  "status": "PASS"
+}

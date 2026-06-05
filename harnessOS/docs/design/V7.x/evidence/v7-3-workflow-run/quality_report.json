@@ -1,0 +1,18 @@
+{
+  "child_folder_count": 5,
+  "empty_folders": [
+    "空文件夹"
+  ],
+  "markdown_file_count": 5,
+  "provider_invocation_count": 4,
+  "redaction_status": "redacted",
+  "scanner_actual_read_count": 5,
+  "status": "passed",
+  "summary_coverage": {
+    "expected_folder_count": 3,
+    "generated_summary_count": 3
+  },
+  "unsupported_files": [
+    "未支持/test.pdf"
+  ]
+}

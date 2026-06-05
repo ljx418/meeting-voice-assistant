@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v6_7_incident_timeline_event_schema.json",
+  "title": "IncidentTimelineEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tenant_id",
+    "workspace_id",
+    "run_id",
+    "workflow_instance_id",
+    "station_id",
+    "station_run_id",
+    "attempt_id",
+    "worker_id",
+    "event_type",
+    "correlation_id",
+    "request_id",
+    "audit_ref",
+    "created_at"
+  ],
+  "properties": {
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "workflow_instance_id": { "type": "string", "minLength": 1 },
+    "station_id": { "type": "string", "minLength": 1 },
+    "station_run_id": { "type": "string", "minLength": 1 },
+    "attempt_id": { "type": "string", "minLength": 1 },
+    "worker_id": { "type": "string", "minLength": 1 },
+    "event_type": {
+      "enum": [
+        "distributed_run_created",
+        "worker_assignment_created",
+        "worker_started",
+        "checkpoint_written",
+        "worker_timeout",
+        "worker_lost",
+        "retry_scheduled",
+        "attempt_created",
+        "attempt_failed",
+        "attempt_recovered",
+        "artifact_lineage_recorded",
+        "distributed_run_completed",
+        "distributed_run_marked_failed"
+      ]
+    },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

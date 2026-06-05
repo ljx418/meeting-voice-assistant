@@ -1,0 +1,66 @@
+{
+  "allowed_claim": "V6-8 complete: product console pilot slice ready for review.",
+  "browser_direct_internal_routes": false,
+  "claim_violations": [],
+  "complete_agent_talk_window_ready": false,
+  "complete_workflow_studio_ready": false,
+  "evidence_review_readonly": true,
+  "evidence_scope": "repo_backed_product_console_projection",
+  "external_app_admin_constructs_runtime_truth": false,
+  "manual_confirmation_executes_runtime_action": false,
+  "next_stage": "V6-9 Final Production Pilot Acceptance",
+  "next_stage_entry_decision": "V6-9 may execute only after V6-0 to V6-8 evidence summaries exist and No False Green scan passes.",
+  "redaction_status": "PASS",
+  "runtime_report_readonly": true,
+  "scenario_count": 9,
+  "scenarios": [
+    {
+      "evidence_scope": "repo_backed_product_console_projection",
+      "scenario_id": "runtime_report_readonly_no_hidden_form",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_product_console_projection",
+      "scenario_id": "evidence_review_readonly_no_execute_buttons",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_product_console_projection",
+      "scenario_id": "audit_export_access_requires_authorized_view",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_product_console_projection",
+      "scenario_id": "external_app_admin_does_not_construct_runtime_truth",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_product_console_projection",
+      "scenario_id": "manual_confirmation_records_human_authorization_ref",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_product_console_projection",
+      "scenario_id": "browser_no_direct_internal_runtime_routes",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_product_console_projection",
+      "scenario_id": "browser_no_direct_v1_rpc",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_product_console_projection",
+      "scenario_id": "browser_no_direct_v1_events_subscribe",
+      "status": "PASS"
+    },
+    {
+      "evidence_scope": "repo_backed_product_console_projection",
+      "scenario_id": "ui_no_auto_apply_auto_publish_agent_executed_copy",
+      "status": "PASS"
+    }
+  ],
+  "schema_version": "v6_8.product_console.acceptance.v1",
+  "stage": "V6-8",
+  "status": "PASS"
+}

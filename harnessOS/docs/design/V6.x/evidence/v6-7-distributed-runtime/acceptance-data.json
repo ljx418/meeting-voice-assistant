@@ -1,0 +1,79 @@
+{
+  "agent_executor_ready": false,
+  "allowed_claim": "V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review.",
+  "autonomous_workflow_editing_ready": false,
+  "claim_violations": [],
+  "distributed_multi_agent_runtime_ready": false,
+  "evidence_scope": "repo_backed_pilot_runtime_slice",
+  "full_multi_agent_orchestration_ready": false,
+  "next_stage": "V6-8 Product Console And Studio Gate",
+  "next_stage_entry_decision": "V6-8 may proceed only as Product Console / Thin Web Console scope; Full Workflow Studio still requires a separate PRD.",
+  "production_controlled_executor_ready": false,
+  "redaction_status": "PASS",
+  "scenario_count": 10,
+  "scenarios": [
+    {
+      "audit_ref": "audit://v6-7/distributed-run/start",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "scenario_id": "distributed_run_start",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": null,
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "scenario_id": "serial_station_dependency_blocks_downstream",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": null,
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "scenario_id": "source_agent_worker_assignment_denied",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": null,
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "scenario_id": "worker_wrong_tenant_denied",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://v6-7/recovery/86c033958e39",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "scenario_id": "timeout_retry_keeps_old_error",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": "audit://v6-7/recovery/86c033958e39",
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "scenario_id": "idempotent_retry_returns_prior_recovery_ref",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": null,
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "scenario_id": "artifact_lineage_preserves_producer_attempt_id",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": null,
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "scenario_id": "incident_timeline_records_assignment_timeout_retry_recovery",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": null,
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "scenario_id": "runtime_report_readonly",
+      "status": "PASS"
+    },
+    {
+      "audit_ref": null,
+      "evidence_scope": "repo_backed_pilot_runtime_slice",
+      "scenario_id": "distributed_runtime_no_false_green",
+      "status": "PASS"
+    }
+  ],
+  "schema_version": "v6_7.distributed_runtime.acceptance.v1",
+  "stage": "V6-7",
+  "status": "PASS"
+}

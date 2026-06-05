@@ -1,6 +1,6 @@
 # V6-7 Incident Timeline Contract
 
-文档状态：V6-7 planning refinement / implementation NO-GO。
+文档状态：V6-7 complete / ready for review contract。
 
 ## Required Timeline Events
 
@@ -39,4 +39,3 @@ created_at
 ```
 
 Incident timeline is a read model and must not construct runtime truth.
-

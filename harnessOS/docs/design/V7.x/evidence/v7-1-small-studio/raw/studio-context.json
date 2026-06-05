@@ -1,0 +1,14 @@
+{
+  "app_ids": [
+    "app_v7_1"
+  ],
+  "audit_ref": "audit://v7-1/small-studio",
+  "created_at": "2026-06-05T01:30:11.901792+00:00",
+  "project_ids": [
+    "project_v7_1"
+  ],
+  "runtime_truth_boundary": "product_aggregation_only_no_runtime_truth_write",
+  "studio_id": "studio_tenant_v7_1",
+  "tenant_id": "tenant_v7_1",
+  "workspace_id": "workspace_v7_1"
+}

@@ -1,0 +1,35 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>V8-9 Final Acceptance Framework</title><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:32px;background:#f8fafc;color:#111827}section{background:white;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin:16px 0}pre{white-space:pre-wrap;background:#f3f4f6;padding:12px;border-radius:6px}</style></head><body>
+    <h1>V8-9 Final Acceptance Framework</h1>
+    <section><h2>Status</h2><pre>{
+  &quot;stage_id&quot;: &quot;V8-9&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;evidence_scope&quot;: &quot;final_acceptance_framework&quot;,
+  &quot;final_claim_allowed&quot;: true,
+  &quot;allowed_claim&quot;: &quot;V8 complete: station-agent workflow pilot ready for review.&quot;,
+  &quot;blockers&quot;: [],
+  &quot;stage_evidence&quot;: {
+    &quot;V8-4&quot;: {
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;
+    },
+    &quot;V8-6&quot;: {
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;evidence_scope&quot;: &quot;controlled_runtime_fixture&quot;
+    },
+    &quot;V8-7&quot;: {
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;evidence_scope&quot;: &quot;bounded_runtime_fixture&quot;
+    },
+    &quot;V8-8&quot;: {
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;evidence_scope&quot;: &quot;read_model_from_v8_4_v8_6_evidence&quot;
+    }
+  },
+  &quot;claim_scan&quot;: &quot;PASS&quot;,
+  &quot;redaction_scan&quot;: &quot;PASS&quot;,
+  &quot;drawio_xml&quot;: &quot;PASS&quot;,
+  &quot;forbidden_claim_guard&quot;: &quot;PASS&quot;,
+  &quot;generated_at&quot;: &quot;2026-06-05T01:23:49.530158+00:00&quot;
+}</pre></section>
+    <section><h2>Decision</h2><p>V8-9 只汇总 V8-4、V8-6、V8-7、V8-8 的受限 evidence。通过时也只允许声明 station-agent workflow pilot ready for review，不代表完整执行器或生产级编排完成。</p></section>
+    </body></html>

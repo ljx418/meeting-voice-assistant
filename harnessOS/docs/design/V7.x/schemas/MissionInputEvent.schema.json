@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/MissionInputEvent.schema.json",
+  "title": "MissionInputEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "mission_id", "actor_id", "source", "natural_language_goal", "captured_state", "user_confirmed", "created_at"],
+  "properties": {
+    "event_id": { "type": "string", "minLength": 1 },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "actor_id": { "type": "string", "minLength": 1 },
+    "source": { "enum": ["mission_tui", "product_console"] },
+    "natural_language_goal": { "type": "string", "minLength": 1 },
+    "captured_state": { "const": "IntentCaptured" },
+    "user_confirmed": { "type": "boolean" },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

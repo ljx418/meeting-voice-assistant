@@ -31,37 +31,37 @@
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/status",
+    "pathname": "/bff/instances/wfi_da8d60004334/status",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/board",
+    "pathname": "/bff/instances/wfi_da8d60004334/board",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/canvas-projection",
+    "pathname": "/bff/instances/wfi_da8d60004334/canvas-projection",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/stations/sr_0ea9d24a88a2/outputs",
+    "pathname": "/bff/instances/wfi_da8d60004334/stations/sr_49615ed9b762/outputs",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/approvals",
+    "pathname": "/bff/instances/wfi_da8d60004334/approvals",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/quality",
+    "pathname": "/bff/instances/wfi_da8d60004334/quality",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/context",
+    "pathname": "/bff/instances/wfi_da8d60004334/context",
     "postData": null
   },
   {
@@ -76,37 +76,37 @@
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/session",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/session",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/interaction-state",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/interaction-state",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/suggestions",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/suggestions",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/action-proposals",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/action-proposals",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/operation-evidence",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/operation-evidence",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/governance-review",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/governance-review",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_590a691dbc4c/diff",
+    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_80538b5a6567/diff",
     "postData": null
   },
   {
@@ -116,32 +116,32 @@
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/status",
+    "pathname": "/bff/instances/wfi_da8d60004334/status",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/board",
+    "pathname": "/bff/instances/wfi_da8d60004334/board",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/canvas-projection",
+    "pathname": "/bff/instances/wfi_da8d60004334/canvas-projection",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/approvals",
+    "pathname": "/bff/instances/wfi_da8d60004334/approvals",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/quality",
+    "pathname": "/bff/instances/wfi_da8d60004334/quality",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/context",
+    "pathname": "/bff/instances/wfi_da8d60004334/context",
     "postData": null
   },
   {
@@ -156,48 +156,48 @@
   },
   {
     "method": "GET",
-    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_590a691dbc4c/diff",
+    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_80538b5a6567/diff",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/session",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/session",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/interaction-state",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/interaction-state",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/suggestions",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/suggestions",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/action-proposals",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/action-proposals",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/operation-evidence",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/operation-evidence",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/governance-review",
-    "postData": null
-  },
-  {
-    "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/stations/sr_0ea9d24a88a2/outputs",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/governance-review",
     "postData": null
   },
   {
     "method": "POST",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/messages",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/messages",
     "postData": "{\"content\":\"帮我创建一个工作流，读取 Desktop/技术分享 文件夹，递归解析里面的 md 文件，并为每个子文件夹生成单独总结，最后生成总览总结。\",\"created_by\":\"workflow_console\",\"selected_station_id\":\"station_a\",\"selected_station_name\":\"文件夹输入\"}"
+  },
+  {
+    "method": "GET",
+    "pathname": "/bff/instances/wfi_da8d60004334/stations/sr_49615ed9b762/outputs",
+    "postData": null
   },
   {
     "method": "POST",
@@ -206,32 +206,32 @@
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/status",
+    "pathname": "/bff/instances/wfi_da8d60004334/status",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/board",
+    "pathname": "/bff/instances/wfi_da8d60004334/board",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/canvas-projection",
+    "pathname": "/bff/instances/wfi_da8d60004334/canvas-projection",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/approvals",
+    "pathname": "/bff/instances/wfi_da8d60004334/approvals",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/quality",
+    "pathname": "/bff/instances/wfi_da8d60004334/quality",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/context",
+    "pathname": "/bff/instances/wfi_da8d60004334/context",
     "postData": null
   },
   {
@@ -246,47 +246,47 @@
   },
   {
     "method": "GET",
-    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_590a691dbc4c/diff",
+    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_80538b5a6567/diff",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/session",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/session",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/interaction-state",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/interaction-state",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/suggestions",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/suggestions",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/action-proposals",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/action-proposals",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/operation-evidence",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/operation-evidence",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/governance-review",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/governance-review",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/stations/sr_0ea9d24a88a2/outputs",
+    "pathname": "/bff/instances/wfi_da8d60004334/stations/sr_49615ed9b762/outputs",
     "postData": null
   },
   {
     "method": "POST",
-    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_b8bb7b7ace27/apply",
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_039ac86f1ece/apply",
     "postData": "{\"user_confirmed\":true,\"source\":\"editing_panel\"}"
   },
   {
@@ -297,17 +297,17 @@
   {
     "method": "POST",
     "pathname": "/bff/v4_1/folder-summary/debug-scan",
-    "postData": "{\"authorization_id\":\"folder_auth_96901c6a80b5\"}"
+    "postData": "{\"authorization_id\":\"folder_auth_67f098c46099\"}"
   },
   {
     "method": "POST",
-    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_b8bb7b7ace27/publish",
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_039ac86f1ece/publish",
     "postData": "{\"user_confirmed\":true,\"source\":\"editing_panel\"}"
   },
   {
     "method": "POST",
-    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_b8bb7b7ace27/start-local-workflow",
-    "postData": "{\"authorization_id\":\"folder_auth_96901c6a80b5\",\"user_confirmed\":true,\"source\":\"run_panel\"}"
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_039ac86f1ece/start-local-workflow",
+    "postData": "{\"authorization_id\":\"folder_auth_67f098c46099\",\"user_confirmed\":true,\"source\":\"run_panel\"}"
   },
   {
     "method": "GET",
@@ -341,37 +341,37 @@
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/status",
+    "pathname": "/bff/instances/wfi_da8d60004334/status",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/board",
+    "pathname": "/bff/instances/wfi_da8d60004334/board",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/canvas-projection",
+    "pathname": "/bff/instances/wfi_da8d60004334/canvas-projection",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/stations/sr_0ea9d24a88a2/outputs",
+    "pathname": "/bff/instances/wfi_da8d60004334/stations/sr_49615ed9b762/outputs",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/approvals",
+    "pathname": "/bff/instances/wfi_da8d60004334/approvals",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/quality",
+    "pathname": "/bff/instances/wfi_da8d60004334/quality",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/context",
+    "pathname": "/bff/instances/wfi_da8d60004334/context",
     "postData": null
   },
   {
@@ -386,42 +386,42 @@
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/session",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/session",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/interaction-state",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/interaction-state",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/suggestions",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/suggestions",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/action-proposals",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/action-proposals",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/operation-evidence",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/operation-evidence",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/governance-review",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/governance-review",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_590a691dbc4c/diff",
+    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_80538b5a6567/diff",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_e9e7db43f6af",
+    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_310ce17e10ad",
     "postData": null
   },
   {
@@ -431,33 +431,38 @@
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/status",
+    "pathname": "/bff/instances/wfi_da8d60004334/status",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/board",
+    "pathname": "/bff/instances/wfi_da8d60004334/board",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/canvas-projection",
+    "pathname": "/bff/instances/wfi_da8d60004334/canvas-projection",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/approvals",
+    "pathname": "/bff/instances/wfi_da8d60004334/approvals",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/quality",
+    "pathname": "/bff/instances/wfi_da8d60004334/quality",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/context",
+    "pathname": "/bff/instances/wfi_da8d60004334/context",
     "postData": null
+  },
+  {
+    "method": "POST",
+    "pathname": "/bff/v4_1/folder-summary/proposals",
+    "postData": "{\"folder_path\":\"tests/fixtures/desktop/技术分享_损坏\",\"source\":\"workflow_console\"}"
   },
   {
     "method": "GET",
@@ -471,48 +476,43 @@
   },
   {
     "method": "GET",
-    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_590a691dbc4c/diff",
+    "pathname": "/bff/workflows/browser_smoke_console/patches/wfp_80538b5a6567/diff",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/session",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/session",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/interaction-state",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/interaction-state",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/suggestions",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/suggestions",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/action-proposals",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/action-proposals",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/operation-evidence",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/operation-evidence",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/agent/governance-review",
+    "pathname": "/bff/instances/wfi_da8d60004334/agent/governance-review",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/instances/wfi_2a7d9ebed89e/stations/sr_0ea9d24a88a2/outputs",
+    "pathname": "/bff/instances/wfi_da8d60004334/stations/sr_49615ed9b762/outputs",
     "postData": null
-  },
-  {
-    "method": "POST",
-    "pathname": "/bff/v4_1/folder-summary/proposals",
-    "postData": "{\"folder_path\":\"tests/fixtures/desktop/技术分享_损坏\",\"source\":\"workflow_console\"}"
   },
   {
     "method": "POST",
@@ -521,37 +521,37 @@
   },
   {
     "method": "POST",
-    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_45746c70dade/apply",
-    "postData": "{\"authorization_id\":\"folder_auth_3a219d6720e8\",\"user_confirmed\":true,\"source\":\"editing_panel\"}"
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_80687f26746b/apply",
+    "postData": "{\"authorization_id\":\"folder_auth_3065516166e2\",\"user_confirmed\":true,\"source\":\"editing_panel\"}"
   },
   {
     "method": "POST",
-    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_45746c70dade/publish",
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_80687f26746b/publish",
     "postData": "{\"user_confirmed\":true,\"source\":\"editing_panel\"}"
   },
   {
     "method": "POST",
-    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_45746c70dade/start-local-workflow",
-    "postData": "{\"authorization_id\":\"folder_auth_3a219d6720e8\",\"user_confirmed\":true,\"source\":\"run_panel\"}"
+    "pathname": "/bff/v4_1/folder-summary/proposals/v41_folder_proposal_80687f26746b/start-local-workflow",
+    "postData": "{\"authorization_id\":\"folder_auth_3065516166e2\",\"user_confirmed\":true,\"source\":\"run_panel\"}"
   },
   {
     "method": "POST",
-    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_9cf966f382b3/rerun-node",
+    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_08ea393667fc/rerun-node",
     "postData": "{\"station_id\":\"markdown_parse\",\"user_confirmed\":true,\"source\":\"run_panel\"}"
   },
   {
     "method": "POST",
-    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_9cf966f382b3/agent-debug-proposal",
+    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_08ea393667fc/agent-debug-proposal",
     "postData": "{\"requested_change\":\"empty_folder_placeholder_summary\"}"
   },
   {
     "method": "GET",
-    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_9cf966f382b3/operation-evidence",
+    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_08ea393667fc/operation-evidence",
     "postData": null
   },
   {
     "method": "GET",
-    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_9cf966f382b3/governance-review",
+    "pathname": "/bff/v4_1/folder-summary/instances/v41_folder_instance_08ea393667fc/governance-review",
     "postData": null
   }
 ]

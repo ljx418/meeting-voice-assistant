@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v9/human_authorization_ref.schema.json",
+  "title": "V9 HumanAuthorizationRef",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "human_authorization_ref",
+    "issuer_type",
+    "issuer_id",
+    "authorization_subject_actor_id",
+    "tenant_id",
+    "workspace_id",
+    "project_id",
+    "app_id",
+    "operation",
+    "operation_hash",
+    "target_refs",
+    "allowed_sources",
+    "allowed_actor_types",
+    "scope",
+    "created_at",
+    "expires_at",
+    "revoked",
+    "revoked_at",
+    "revocation_reason",
+    "correlation_id",
+    "request_id",
+    "audit_ref"
+  ],
+  "properties": {
+    "schema_version": { "const": "v9.0" },
+    "human_authorization_ref": { "type": "string", "minLength": 1 },
+    "issuer_type": { "enum": ["human_user", "product_console", "approved_api_with_human_authorization"] },
+    "issuer_id": { "type": "string", "minLength": 1 },
+    "authorization_subject_actor_id": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "project_id": { "type": "string", "minLength": 1 },
+    "app_id": { "type": "string", "minLength": 1 },
+    "operation": {
+      "enum": ["workflow.instance.start", "station.rerun", "artifact.write", "quality.evaluation.create"]
+    },
+    "operation_hash": { "type": "string", "minLength": 16 },
+    "target_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "workflow_instance_id": { "type": "string", "minLength": 1 },
+        "station_id": { "type": "string", "minLength": 1 },
+        "station_run_id": { "type": "string", "minLength": 1 },
+        "artifact_id": { "type": "string", "minLength": 1 },
+        "quality_evaluation_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "allowed_sources": {
+      "type": "array",
+      "items": { "enum": ["product_console", "approved_api", "mission_tui"] },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "allowed_actor_types": {
+      "type": "array",
+      "items": { "enum": ["human_user", "service_account_with_human_authorization"] },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "scope": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "revoked": { "type": "boolean" },
+    "revoked_at": { "type": ["string", "null"], "format": "date-time" },
+    "revocation_reason": { "type": ["string", "null"] },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "audit_ref": { "type": "string", "minLength": 1 }
+  },
+  "not": {
+    "properties": {
+      "issuer_type": { "const": "agent" }
+    }
+  }
+}

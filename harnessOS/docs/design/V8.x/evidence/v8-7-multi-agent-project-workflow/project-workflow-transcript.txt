@@ -1,0 +1,30 @@
+V8-7 Bounded Multi-Agent Project Workflow Transcript
+==========================================================
+goal: V8-7 bounded multi-agent project workflow pilot
+status: PASS
+evidence_scope: bounded_runtime_fixture
+
+State Line:
+- GoalCaptured
+- ProjectSpecDrafted
+- AgentRegistryBuilt
+- UserConfirmed
+- TerminalHandoffCaptured
+- ReadonlyTestEvidenceReviewed
+- ReviewCompleted
+- EvidencePackaged
+- WorkflowExplained
+
+Stations:
+- product_station: ProductAgent / product_agent
+- architecture_station: ArchitectureAgent / architecture_agent
+- planning_station: PlanningAgent / planning_agent
+- implementation_station: ImplementationAgent / implementation_agent
+- test_station: TestAgent / test_agent
+- review_station: ReviewAgent / review_agent
+- evidence_station: EvidenceAgent / evidence_agent
+- explainer_station: ExplainerAgent / workflow_explainer
+
+Boundary:
+source=agent durable mutation remains denied.
+Implementation/Test stations use controlled terminal handoff refs; no auto commit, push, publish, deploy, or browser account automation.

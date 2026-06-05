@@ -1,0 +1,156 @@
+[
+  {
+    "agent_id": "v8_mission_agent",
+    "context_envelope_id": "context_envelope_v8_b9040404dc19",
+    "context_scope": "station_scoped",
+    "created_at": "2026-06-04T14:03:28.631196+00:00",
+    "evidence_refs": [
+      "evidence://v8/folder_authorization"
+    ],
+    "memory_refs": [
+      "memory://v8/v8_mission_agent/station-summary"
+    ],
+    "prompt_template_ref": "prompt-template://v8/mission_intake/v1",
+    "redaction_status": "redacted",
+    "station_id": "folder_authorization",
+    "upstream_artifact_refs": [],
+    "workflow_context_refs": [
+      "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+      "provider://minimax"
+    ]
+  },
+  {
+    "agent_id": "v8_scanner_agent",
+    "context_envelope_id": "context_envelope_v8_86655624d16d",
+    "context_scope": "station_scoped",
+    "created_at": "2026-06-04T14:03:28.631214+00:00",
+    "evidence_refs": [
+      "evidence://v8/markdown_scan"
+    ],
+    "memory_refs": [
+      "memory://v8/v8_scanner_agent/station-summary"
+    ],
+    "prompt_template_ref": "prompt-template://v8/markdown_scanner/v1",
+    "redaction_status": "redacted",
+    "station_id": "markdown_scan",
+    "upstream_artifact_refs": [
+      "artifact-contract://authorized_folder_ref"
+    ],
+    "workflow_context_refs": [
+      "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+      "provider://minimax"
+    ]
+  },
+  {
+    "agent_id": "v8_folder_summary_agent",
+    "context_envelope_id": "context_envelope_v8_500a70abf0d8",
+    "context_scope": "station_scoped",
+    "created_at": "2026-06-04T14:03:28.631229+00:00",
+    "evidence_refs": [
+      "evidence://v8/per_folder_summary"
+    ],
+    "memory_refs": [
+      "memory://v8/v8_folder_summary_agent/station-summary"
+    ],
+    "prompt_template_ref": "prompt-template://v8/folder_summarizer/v1",
+    "redaction_status": "redacted",
+    "station_id": "per_folder_summary",
+    "upstream_artifact_refs": [
+      "artifact-contract://parsed_markdown_documents"
+    ],
+    "workflow_context_refs": [
+      "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+      "provider://minimax"
+    ]
+  },
+  {
+    "agent_id": "v8_overview_agent",
+    "context_envelope_id": "context_envelope_v8_2dba86e99614",
+    "context_scope": "station_scoped",
+    "created_at": "2026-06-04T14:03:28.631240+00:00",
+    "evidence_refs": [
+      "evidence://v8/overview_summary"
+    ],
+    "memory_refs": [
+      "memory://v8/v8_overview_agent/station-summary"
+    ],
+    "prompt_template_ref": "prompt-template://v8/overview_summarizer/v1",
+    "redaction_status": "redacted",
+    "station_id": "overview_summary",
+    "upstream_artifact_refs": [
+      "artifact-contract://folder_summary_artifacts"
+    ],
+    "workflow_context_refs": [
+      "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+      "provider://minimax"
+    ]
+  },
+  {
+    "agent_id": "v8_quality_agent",
+    "context_envelope_id": "context_envelope_v8_c235d5d7c47c",
+    "context_scope": "station_scoped",
+    "created_at": "2026-06-04T14:03:28.631251+00:00",
+    "evidence_refs": [
+      "evidence://v8/quality_check"
+    ],
+    "memory_refs": [
+      "memory://v8/v8_quality_agent/station-summary"
+    ],
+    "prompt_template_ref": "prompt-template://v8/quality_reviewer/v1",
+    "redaction_status": "redacted",
+    "station_id": "quality_check",
+    "upstream_artifact_refs": [
+      "artifact-contract://parsed_markdown_documents",
+      "artifact-contract://folder_summary_artifacts"
+    ],
+    "workflow_context_refs": [
+      "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+      "provider://minimax"
+    ]
+  },
+  {
+    "agent_id": "v8_report_agent",
+    "context_envelope_id": "context_envelope_v8_bfe65af9c88d",
+    "context_scope": "station_scoped",
+    "created_at": "2026-06-04T14:03:28.631262+00:00",
+    "evidence_refs": [
+      "evidence://v8/runtime_report"
+    ],
+    "memory_refs": [
+      "memory://v8/v8_report_agent/station-summary"
+    ],
+    "prompt_template_ref": "prompt-template://v8/runtime_reporter/v1",
+    "redaction_status": "redacted",
+    "station_id": "runtime_report",
+    "upstream_artifact_refs": [
+      "artifact-contract://quality_report"
+    ],
+    "workflow_context_refs": [
+      "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+      "provider://minimax"
+    ]
+  },
+  {
+    "agent_id": "v8_workflow_explainer_agent",
+    "context_envelope_id": "context_envelope_v8_770acf76d4e3",
+    "context_scope": "station_scoped",
+    "created_at": "2026-06-04T14:03:28.631273+00:00",
+    "evidence_refs": [
+      "evidence://v8/evidence_record"
+    ],
+    "memory_refs": [
+      "memory://v8/v8_workflow_explainer_agent/station-summary"
+    ],
+    "prompt_template_ref": "prompt-template://v8/workflow_explainer/v1",
+    "redaction_status": "redacted",
+    "station_id": "evidence_record",
+    "upstream_artifact_refs": [
+      "artifact-contract://folder_summary_artifacts",
+      "artifact-contract://quality_report"
+    ],
+    "workflow_context_refs": [
+      "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+      "provider://minimax"
+    ]
+  }
+]

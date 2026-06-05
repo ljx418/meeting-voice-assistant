@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/QualityReportLink.schema.json",
+  "title": "QualityReportLink",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "link_id",
+    "workflow_instance_id",
+    "quality_report_ref",
+    "source_ref",
+    "readonly",
+    "redaction_status",
+    "created_at"
+  ],
+  "properties": {
+    "link_id": { "type": "string", "minLength": 1 },
+    "workflow_instance_id": { "type": "string", "minLength": 1 },
+    "quality_report_ref": { "type": "string", "minLength": 1 },
+    "source_ref": { "type": "string", "minLength": 1 },
+    "readonly": { "const": true },
+    "redaction_status": { "enum": ["PASS", "FAIL"] },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

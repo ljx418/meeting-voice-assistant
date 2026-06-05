@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>V6-7 Distributed Runtime Acceptance</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; background: #f8fafc; color: #0f172a; }
+    header { background: #dbeafe; border: 1px solid #2563eb; border-radius: 8px; padding: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 24px; }
+    .card { background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 16px; }
+    .pass { color: #15803d; font-weight: 700; }
+    .fail { color: #b91c1c; font-weight: 700; }
+    .warn { background: #fef3c7; border: 1px solid #d97706; border-radius: 8px; padding: 16px; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>V6-7 分布式运行时产品化验收</h1>
+    <p>状态：PASS</p>
+    <p>Allowed claim: V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review.</p>
+  </header>
+  <section class="warn">
+    <strong>No False Green:</strong>
+    本报告只证明 pilot slice ready for review，不证明 distributed runtime ready、full multi-Agent orchestration ready、Agent executor ready 或 production controlled executor ready。
+  </section>
+  <main class="grid"><section class='card'><h2>distributed_run_start</h2><p class='pass'>PASS</p><p>repo_backed_pilot_runtime_slice</p></section>
+<section class='card'><h2>serial_station_dependency_blocks_downstream</h2><p class='pass'>PASS</p><p>repo_backed_pilot_runtime_slice</p></section>
+<section class='card'><h2>source_agent_worker_assignment_denied</h2><p class='pass'>PASS</p><p>repo_backed_pilot_runtime_slice</p></section>
+<section class='card'><h2>worker_wrong_tenant_denied</h2><p class='pass'>PASS</p><p>repo_backed_pilot_runtime_slice</p></section>
+<section class='card'><h2>timeout_retry_keeps_old_error</h2><p class='pass'>PASS</p><p>repo_backed_pilot_runtime_slice</p></section>
+<section class='card'><h2>idempotent_retry_returns_prior_recovery_ref</h2><p class='pass'>PASS</p><p>repo_backed_pilot_runtime_slice</p></section>
+<section class='card'><h2>artifact_lineage_preserves_producer_attempt_id</h2><p class='pass'>PASS</p><p>repo_backed_pilot_runtime_slice</p></section>
+<section class='card'><h2>incident_timeline_records_assignment_timeout_retry_recovery</h2><p class='pass'>PASS</p><p>repo_backed_pilot_runtime_slice</p></section>
+<section class='card'><h2>runtime_report_readonly</h2><p class='pass'>PASS</p><p>repo_backed_pilot_runtime_slice</p></section>
+<section class='card'><h2>distributed_runtime_no_false_green</h2><p class='pass'>PASS</p><p>repo_backed_pilot_runtime_slice</p></section></main>
+  <section class="card">
+    <h2>Raw Data</h2>
+    <ul>
+      <li><a href="acceptance-data.json">acceptance-data.json</a></li>
+      <li><a href="raw/runtime-results.json">raw/runtime-results.json</a></li>
+      <li><a href="claims-scan.md">claims-scan.md</a></li>
+      <li><a href="redaction-scan.md">redaction-scan.md</a></li>
+    </ul>
+  </section>
+</body>
+</html>

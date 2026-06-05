@@ -1,0 +1,7 @@
+[
+  "GET /bff/v6/runtime-report",
+  "GET /bff/v6/evidence-review",
+  "GET /bff/v6/audit-export",
+  "GET /bff/v6/external-app-admin",
+  "POST /bff/v6/manual-confirmation"
+]

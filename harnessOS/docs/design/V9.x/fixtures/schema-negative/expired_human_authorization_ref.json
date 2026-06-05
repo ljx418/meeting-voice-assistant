@@ -1,0 +1,27 @@
+{
+  "schema_version": "v9.0",
+  "human_authorization_ref": "har-expired",
+  "issuer_type": "human_user",
+  "issuer_id": "user-1",
+  "authorization_subject_actor_id": "user-1",
+  "tenant_id": "tenant-1",
+  "workspace_id": "workspace-1",
+  "project_id": "project-1",
+  "app_id": "app-1",
+  "operation": "artifact.write",
+  "operation_hash": "0123456789abcdef",
+  "target_refs": {
+    "artifact_id": "artifact-1"
+  },
+  "allowed_sources": ["product_console"],
+  "allowed_actor_types": ["human_user"],
+  "scope": "single-artifact-write",
+  "created_at": "2026-06-05T00:00:00Z",
+  "expires_at": "2026-06-05T00:00:01Z",
+  "revoked": false,
+  "revoked_at": null,
+  "revocation_reason": null,
+  "correlation_id": "corr-expired",
+  "request_id": "req-expired",
+  "audit_ref": "audit-expired"
+}

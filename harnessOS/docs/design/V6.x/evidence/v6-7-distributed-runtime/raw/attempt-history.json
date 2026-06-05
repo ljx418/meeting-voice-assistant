@@ -1,0 +1,95 @@
+{
+  "publisher": [
+    {
+      "attempt_id": "v6_7_attempt_57763c16a13a",
+      "attempt_number": 1,
+      "audit_ref": "audit://v6-7/attempt/175be3f51deb",
+      "branch_id": "branch-b",
+      "created_at": "2026-06-03T13:20:00.927125+00:00",
+      "error_ref": null,
+      "old_attempt_retained": true,
+      "previous_attempt_id": null,
+      "producer_artifact_ref": "artifact://v6-7/publisher/attempt-1",
+      "station_id": "publisher",
+      "station_run_id": "station-run://v6-7/publisher",
+      "status": "running",
+      "tenant_id": "tenant_v6_7",
+      "worker_id": "worker_v6_7_4",
+      "workspace_id": "workspace_v6_7"
+    }
+  ],
+  "reviewer": [
+    {
+      "attempt_id": "v6_7_attempt_e338814eb665",
+      "attempt_number": 1,
+      "audit_ref": "audit://v6-7/attempt/5384a42977b6",
+      "branch_id": "branch-b",
+      "created_at": "2026-06-03T13:20:00.926923+00:00",
+      "error_ref": null,
+      "old_attempt_retained": true,
+      "previous_attempt_id": null,
+      "producer_artifact_ref": "artifact://v6-7/reviewer/attempt-1",
+      "station_id": "reviewer",
+      "station_run_id": "station-run://v6-7/reviewer",
+      "status": "running",
+      "tenant_id": "tenant_v6_7",
+      "worker_id": "worker_v6_7_3",
+      "workspace_id": "workspace_v6_7"
+    }
+  ],
+  "storyboard": [
+    {
+      "attempt_id": "v6_7_attempt_5d17d6426985",
+      "attempt_number": 1,
+      "audit_ref": "audit://v6-7/attempt/3141c71e00a5",
+      "branch_id": "branch-a",
+      "created_at": "2026-06-03T13:20:00.926749+00:00",
+      "error_ref": null,
+      "old_attempt_retained": true,
+      "previous_attempt_id": null,
+      "producer_artifact_ref": "artifact://v6-7/storyboard/attempt-1",
+      "station_id": "storyboard",
+      "station_run_id": "station-run://v6-7/storyboard",
+      "status": "running",
+      "tenant_id": "tenant_v6_7",
+      "worker_id": "worker_v6_7_2",
+      "workspace_id": "workspace_v6_7"
+    }
+  ],
+  "writer": [
+    {
+      "attempt_id": "v6_7_attempt_e4abe4cd2848",
+      "attempt_number": 1,
+      "audit_ref": "audit://v6-7/attempt/98c9463e532e",
+      "branch_id": "branch-a",
+      "created_at": "2026-06-03T13:20:00.926603+00:00",
+      "error_ref": "error-ref://v6-7/timeout/v6_7_attempt_e4abe4cd2848",
+      "old_attempt_retained": true,
+      "previous_attempt_id": null,
+      "producer_artifact_ref": "artifact://v6-7/writer/attempt-1",
+      "station_id": "writer",
+      "station_run_id": "station-run://v6-7/writer",
+      "status": "failed",
+      "tenant_id": "tenant_v6_7",
+      "worker_id": "worker_v6_7_1",
+      "workspace_id": "workspace_v6_7"
+    },
+    {
+      "attempt_id": "v6_7_attempt_58450ed82b2b",
+      "attempt_number": 2,
+      "audit_ref": "audit://v6-7/attempt/aba9b7ce61db",
+      "branch_id": "branch-a",
+      "created_at": "2026-06-03T13:20:00.936228+00:00",
+      "error_ref": null,
+      "old_attempt_retained": true,
+      "previous_attempt_id": "v6_7_attempt_e4abe4cd2848",
+      "producer_artifact_ref": "artifact://v6-7/writer/attempt-2",
+      "station_id": "writer",
+      "station_run_id": "station-run://v6-7/writer",
+      "status": "recovered",
+      "tenant_id": "tenant_v6_7",
+      "worker_id": "worker_v6_7_5",
+      "workspace_id": "workspace_v6_7"
+    }
+  ]
+}

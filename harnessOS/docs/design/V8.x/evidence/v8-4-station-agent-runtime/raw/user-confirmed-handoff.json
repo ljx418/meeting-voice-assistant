@@ -1,0 +1,24 @@
+{
+  "actor_type": "human_user",
+  "capability_decision": "allow",
+  "correlation_id": "corr_b619328c2675",
+  "created_at": "2026-06-04T14:03:03.363918+00:00",
+  "handoff_id": "handoff_v7_3_1e0ae6904d6a",
+  "human_authorization_ref": "human_auth_v7_3_22ca95f87bd1",
+  "operation": "workflow.instance.start",
+  "policy_decision": "allow",
+  "risk_flags": [
+    "local_folder_read",
+    "provider_invocation",
+    "user_confirmed"
+  ],
+  "source": "mission_tui",
+  "target_refs": {
+    "authorized_folder_ref": "pending_authorization_resolution",
+    "requested_path_ref": "path_ref:tests/fixtures/desktop/技术分享",
+    "workflow_instance_target_ref": "workflow_instance_target_v7_3_dca2f5f1c5b7"
+  },
+  "user_confirmed": true,
+  "workflow_diff_id": "workflow_diff_v7_3_6f7279beeb7d",
+  "workflow_spec_id": "workflow_spec_v7_3_101d6c113a9b"
+}

@@ -1,0 +1,23 @@
+{
+  "fixture_id": "v9-2-expired-human-authorization-ref-denied",
+  "stage_id": "V9-2",
+  "expected_runtime_status": "denied",
+  "operation": "workflow.instance.start",
+  "source": "product_console",
+  "actor_type": "human_user",
+  "tenant_id": "tenant-v9",
+  "workspace_id": "workspace-v9",
+  "project_id": "project-v9",
+  "app_id": "app-v9",
+  "target_refs": {
+    "workflow_instance_id": "workflow-v9-2"
+  },
+  "user_confirmed": false,
+  "human_authorization_ref": "har-v9-2-expired",
+  "human_authorization_valid": false,
+  "human_authorization_expired": true,
+  "expected_decision": "deny",
+  "expected_denial_reason": "missing_user_confirmation_or_valid_human_authorization_ref",
+  "runtime_execution_allowed_now": false,
+  "redaction_status": "PASS"
+}

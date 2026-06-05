@@ -1,0 +1,281 @@
+{
+  "created_at": "2026-06-05T01:23:38.557553+00:00",
+  "registry_id": "v8_7_project_agent_registry_fc1f1046b0f3",
+  "runtime_truth_boundary": "project_agent_registry_is_not_runtime_truth",
+  "station_agent_descriptors": [
+    {
+      "agent_id": "v8_7_product_agent",
+      "agent_name": "ProductAgent",
+      "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_product_agent/bounded-project-workflow",
+      "allowed_operations": [
+        "workflow.explain",
+        "artifact.write"
+      ],
+      "context_policy_ref": "agent-context-policy://v8-7/v8_7_product_agent/project-slice-scoped",
+      "created_at": "2026-06-05T01:23:38.314886+00:00",
+      "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_product_agent/redacted",
+      "forbidden_operations": [
+        "connector.call",
+        "external_llm.call",
+        "git.commit",
+        "git.push",
+        "production.deploy",
+        "workflow.template.publish",
+        "approval.respond"
+      ],
+      "goal": "Convert the user goal into a bounded project brief.",
+      "mcp_binding_refs": [],
+      "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_product_agent/station-scoped",
+      "model_profile_ref": "agent-model-profile://v8-7/v8_7_product_agent/configured-provider",
+      "role": "product_agent",
+      "skill_binding_refs": [
+        "agent-skill-binding://v8-7/v8_7_product_agent/product_agent"
+      ],
+      "source_policy": "source_agent_durable_mutation_denied",
+      "station_id": "product_station",
+      "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_product_agent/allowlist"
+    },
+    {
+      "agent_id": "v8_7_architecture_agent",
+      "agent_name": "ArchitectureAgent",
+      "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_architecture_agent/bounded-project-workflow",
+      "allowed_operations": [
+        "workflow.explain",
+        "artifact.write"
+      ],
+      "context_policy_ref": "agent-context-policy://v8-7/v8_7_architecture_agent/project-slice-scoped",
+      "created_at": "2026-06-05T01:23:38.314918+00:00",
+      "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_architecture_agent/redacted",
+      "forbidden_operations": [
+        "connector.call",
+        "external_llm.call",
+        "git.commit",
+        "git.push",
+        "production.deploy",
+        "workflow.template.publish",
+        "approval.respond"
+      ],
+      "goal": "Describe the architecture delta and runtime boundaries.",
+      "mcp_binding_refs": [],
+      "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_architecture_agent/station-scoped",
+      "model_profile_ref": "agent-model-profile://v8-7/v8_7_architecture_agent/configured-provider",
+      "role": "architecture_agent",
+      "skill_binding_refs": [
+        "agent-skill-binding://v8-7/v8_7_architecture_agent/architecture_agent"
+      ],
+      "source_policy": "source_agent_durable_mutation_denied",
+      "station_id": "architecture_station",
+      "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_architecture_agent/allowlist"
+    },
+    {
+      "agent_id": "v8_7_planning_agent",
+      "agent_name": "PlanningAgent",
+      "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_planning_agent/bounded-project-workflow",
+      "allowed_operations": [
+        "workflow.explain",
+        "artifact.write"
+      ],
+      "context_policy_ref": "agent-context-policy://v8-7/v8_7_planning_agent/project-slice-scoped",
+      "created_at": "2026-06-05T01:23:38.314927+00:00",
+      "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_planning_agent/redacted",
+      "forbidden_operations": [
+        "connector.call",
+        "external_llm.call",
+        "git.commit",
+        "git.push",
+        "production.deploy",
+        "workflow.template.publish",
+        "approval.respond"
+      ],
+      "goal": "Create the implementation and validation sequence.",
+      "mcp_binding_refs": [],
+      "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_planning_agent/station-scoped",
+      "model_profile_ref": "agent-model-profile://v8-7/v8_7_planning_agent/configured-provider",
+      "role": "planning_agent",
+      "skill_binding_refs": [
+        "agent-skill-binding://v8-7/v8_7_planning_agent/planning_agent"
+      ],
+      "source_policy": "source_agent_durable_mutation_denied",
+      "station_id": "planning_station",
+      "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_planning_agent/allowlist"
+    },
+    {
+      "agent_id": "v8_7_implementation_agent",
+      "agent_name": "ImplementationAgent",
+      "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_implementation_agent/bounded-project-workflow",
+      "allowed_operations": [
+        "terminal_worker.handoff.propose",
+        "evidence.show"
+      ],
+      "context_policy_ref": "agent-context-policy://v8-7/v8_7_implementation_agent/project-slice-scoped",
+      "created_at": "2026-06-05T01:23:38.314939+00:00",
+      "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_implementation_agent/redacted",
+      "forbidden_operations": [
+        "connector.call",
+        "external_llm.call",
+        "git.commit",
+        "git.push",
+        "production.deploy",
+        "workflow.template.publish",
+        "approval.respond"
+      ],
+      "goal": "Request controlled terminal handoff evidence without direct shell authority.",
+      "mcp_binding_refs": [
+        "agent-mcp-binding://v8-7/v8_7_implementation_agent/terminal_worker_readonly_handoff"
+      ],
+      "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_implementation_agent/station-scoped",
+      "model_profile_ref": "agent-model-profile://v8-7/v8_7_implementation_agent/configured-provider",
+      "role": "implementation_agent",
+      "skill_binding_refs": [
+        "agent-skill-binding://v8-7/v8_7_implementation_agent/implementation_agent"
+      ],
+      "source_policy": "source_agent_durable_mutation_denied",
+      "station_id": "implementation_station",
+      "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_implementation_agent/allowlist"
+    },
+    {
+      "agent_id": "v8_7_test_agent",
+      "agent_name": "TestAgent",
+      "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_test_agent/bounded-project-workflow",
+      "allowed_operations": [
+        "terminal_worker.readonly_result.review",
+        "quality.evaluation.create"
+      ],
+      "context_policy_ref": "agent-context-policy://v8-7/v8_7_test_agent/project-slice-scoped",
+      "created_at": "2026-06-05T01:23:38.314949+00:00",
+      "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_test_agent/redacted",
+      "forbidden_operations": [
+        "connector.call",
+        "external_llm.call",
+        "git.commit",
+        "git.push",
+        "production.deploy",
+        "workflow.template.publish",
+        "approval.respond"
+      ],
+      "goal": "Validate read-only terminal outputs and acceptance conditions.",
+      "mcp_binding_refs": [
+        "agent-mcp-binding://v8-7/v8_7_test_agent/terminal_worker_readonly_handoff"
+      ],
+      "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_test_agent/station-scoped",
+      "model_profile_ref": "agent-model-profile://v8-7/v8_7_test_agent/configured-provider",
+      "role": "test_agent",
+      "skill_binding_refs": [
+        "agent-skill-binding://v8-7/v8_7_test_agent/test_agent"
+      ],
+      "source_policy": "source_agent_durable_mutation_denied",
+      "station_id": "test_station",
+      "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_test_agent/allowlist"
+    },
+    {
+      "agent_id": "v8_7_review_agent",
+      "agent_name": "ReviewAgent",
+      "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_review_agent/bounded-project-workflow",
+      "allowed_operations": [
+        "workflow.explain",
+        "artifact.write"
+      ],
+      "context_policy_ref": "agent-context-policy://v8-7/v8_7_review_agent/project-slice-scoped",
+      "created_at": "2026-06-05T01:23:38.314957+00:00",
+      "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_review_agent/redacted",
+      "forbidden_operations": [
+        "connector.call",
+        "external_llm.call",
+        "git.commit",
+        "git.push",
+        "production.deploy",
+        "workflow.template.publish",
+        "approval.respond"
+      ],
+      "goal": "Review result quality, boundaries, and residual risks.",
+      "mcp_binding_refs": [
+        "agent-mcp-binding://v8-7/v8_7_review_agent/evidence_registry_readonly"
+      ],
+      "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_review_agent/station-scoped",
+      "model_profile_ref": "agent-model-profile://v8-7/v8_7_review_agent/configured-provider",
+      "role": "review_agent",
+      "skill_binding_refs": [
+        "agent-skill-binding://v8-7/v8_7_review_agent/review_agent"
+      ],
+      "source_policy": "source_agent_durable_mutation_denied",
+      "station_id": "review_station",
+      "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_review_agent/allowlist"
+    },
+    {
+      "agent_id": "v8_7_evidence_agent",
+      "agent_name": "EvidenceAgent",
+      "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_evidence_agent/bounded-project-workflow",
+      "allowed_operations": [
+        "evidence.show",
+        "report.open"
+      ],
+      "context_policy_ref": "agent-context-policy://v8-7/v8_7_evidence_agent/project-slice-scoped",
+      "created_at": "2026-06-05T01:23:38.314965+00:00",
+      "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_evidence_agent/redacted",
+      "forbidden_operations": [
+        "connector.call",
+        "external_llm.call",
+        "git.commit",
+        "git.push",
+        "production.deploy",
+        "workflow.template.publish",
+        "approval.respond"
+      ],
+      "goal": "Package traceable evidence links for audit.",
+      "mcp_binding_refs": [
+        "agent-mcp-binding://v8-7/v8_7_evidence_agent/evidence_registry_readonly"
+      ],
+      "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_evidence_agent/station-scoped",
+      "model_profile_ref": "agent-model-profile://v8-7/v8_7_evidence_agent/configured-provider",
+      "role": "evidence_agent",
+      "skill_binding_refs": [
+        "agent-skill-binding://v8-7/v8_7_evidence_agent/evidence_agent"
+      ],
+      "source_policy": "source_agent_durable_mutation_denied",
+      "station_id": "evidence_station",
+      "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_evidence_agent/allowlist"
+    },
+    {
+      "agent_id": "v8_7_workflow_explainer",
+      "agent_name": "ExplainerAgent",
+      "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_workflow_explainer/bounded-project-workflow",
+      "allowed_operations": [
+        "workflow.explain",
+        "artifact.write"
+      ],
+      "context_policy_ref": "agent-context-policy://v8-7/v8_7_workflow_explainer/project-slice-scoped",
+      "created_at": "2026-06-05T01:23:38.314975+00:00",
+      "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_workflow_explainer/redacted",
+      "forbidden_operations": [
+        "connector.call",
+        "external_llm.call",
+        "git.commit",
+        "git.push",
+        "production.deploy",
+        "workflow.template.publish",
+        "approval.respond"
+      ],
+      "goal": "Explain the workflow path, Agent responsibilities, and forbidden actions.",
+      "mcp_binding_refs": [
+        "agent-mcp-binding://v8-7/v8_7_workflow_explainer/evidence_registry_readonly"
+      ],
+      "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_workflow_explainer/station-scoped",
+      "model_profile_ref": "agent-model-profile://v8-7/v8_7_workflow_explainer/configured-provider",
+      "role": "workflow_explainer",
+      "skill_binding_refs": [
+        "agent-skill-binding://v8-7/v8_7_workflow_explainer/workflow_explainer"
+      ],
+      "source_policy": "source_agent_durable_mutation_denied",
+      "station_id": "explainer_station",
+      "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_workflow_explainer/allowlist"
+    }
+  ],
+  "validation_result": {
+    "agent_descriptor_count": 8,
+    "station_count": 8,
+    "status": "PASS",
+    "workflow_explainer_agent_exists": true
+  },
+  "workflow_explainer_agent_id": "v8_7_explainer_agent",
+  "workflow_spec_id": "workflow_spec_v8_7_073b76e5ceab"
+}

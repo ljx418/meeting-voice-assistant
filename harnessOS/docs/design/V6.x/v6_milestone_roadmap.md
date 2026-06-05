@@ -1,6 +1,6 @@
 # V6 Milestone Roadmap
 
-文档状态：V6-6 complete / ready for review；V6-7 implementation NO-GO / planning refinement only。本文定义 V6 里程碑。
+文档状态：V6 complete / ready for review。本文定义 V6 里程碑。
 
 ## Milestone 1: Planning Freeze
 
@@ -82,7 +82,7 @@ Current milestone status:
 
 ```text
 V6-6 complete / ready for review.
-V6-8 planning refinement only until UI/BFF/browser safety test matrix is accepted.
+V6-8 complete / ready for review with Product Console evidence package.
 ```
 
 ## Milestone 5: Distributed Runtime Productization
@@ -90,13 +90,16 @@ V6-8 planning refinement only until UI/BFF/browser safety test matrix is accepte
 Stages:
 
 ```text
-V6-7 Distributed Multi-Agent Runtime Productization
+V6-7A Distributed Runtime Pre-Implementation Closure
+V6-7B Distributed Multi-Agent Runtime Productization
 ```
 
 Outcome:
 
 ```text
-Distributed runtime productization pilot ready for review.
+V6-7A produced externally auditable contracts.
+V6-7B produced distributed runtime productization pilot evidence after separate human high-risk proceed decision.
+V6-7B complete / ready for review.
 ```
 
 ## Milestone 6: Final Acceptance
@@ -111,6 +114,13 @@ Outcome:
 
 ```text
 V6 complete: production pilot baseline ready for review.
+```
+
+Current milestone status:
+
+```text
+V6-9 complete / ready for review.
+V6 final acceptance passed with V6-0 through V6-8 evidence summaries, claim scan, redaction scan and drawio validation.
 ```
 
 ## No False Green Boundary

@@ -1,0 +1,177 @@
+V8-6 Controlled Terminal Worker Transcript
+============================================
+worker_id: terminal-worker-v8-6-e9359f093670
+worker_type: codex_cli
+agent_id: v8_7_implementation_agent
+station_id: implementation_station
+source: product_console
+actor_type: human_user
+workspace_scope: /Users/Zhuanz/Desktop/workspace/harnessOS
+readonly: true
+auto_commit_enabled: false
+auto_push_enabled: false
+production_browser_automation_enabled: false
+
+Commands:
+$ git status --short
+returncode: 0
+stdout:
+ M ../.DS_Store
+ D ../claude.md
+ M ../codexPat/.gitignore
+ M ../codexPat/apps/desktop/package.json
+ M ../codexPat/apps/desktop/src-tauri/src/asset_import.rs
+ M ../codexPat/apps/desktop/src-tauri/src/main.rs
+ M ../codexPat/apps/desktop/src/assets/asset-manifest.ts
+ M ../codexPat/apps/desktop/src/assets/asset-pack-validator.test.ts
+ M ../codexPat/apps/desktop/src/assets/asset-pack-validator.ts
+ M ../codexPat/apps/desktop/src/main.ts
+ M ../codexPat/apps/desktop/src/renderer/gltf-renderer.ts
+ M ../codexPat/apps/desktop/src/renderer/renderer-selection.test.ts
+ M ../codexPat/apps/desktop/src/renderer/renderer-selection.ts
+ M ../codexPat/apps/desktop/src/renderer/sprite-renderer.ts
+ M ../codexPat/apps/desktop/src/state-machine.ts
+ M ../codexPat/apps/desktop/src/styles.css
+ M ../codexPat/docs/V5.x/evidence/v5_3-performance-baseline-2026-05-28.md
+ M ../codexPat/docs/V5.x/v5_12-runtime-imported-pack-rendering-acceptance-plan.md
+ M ../codexPat/docs/V5.x/v5_12-runtime-imported-pack-rendering-development-plan.md
+ M ../codexPat/docs/V5.x/v5_13-photo-to-asset-guided-workflow-development-plan.md
+ M ../codexPat/docs/V5.x/v5_14-provider-adapter-feasibility-and-consent-plan.md
+ M ../codexPat/docs/V5.x/v5_15-visual-quality-action-qa-plan.md
+ M ../codexPat/docs/V5.x/v5_3-final-acceptance-report.md
+ M ../codexPat/docs/V5.x/v5_x-acceptance-plan.md
+ M ../codexPat/docs/V5.x/v5_x-claim-matrix.md
+ M ../codexPat/docs/V5.x/v5_x-current-gap-analysis.md
+ M ../codexPat/docs/V5.x/v5_x-detailed-design.md
+ M ../codexPat/docs/V5.x/v5_x-development-plan.md
+ M ../codexPat/docs/V5.x/v5_x-development-scope.md
+ M ../codexPat/docs/V5.x/v5_x-final-acceptance-report.md
+ M ../codexPat/docs/V5.x/v5_x-plan-audit.md
+ M ../codexPat/docs/V5.x/v5_x-productization-gate-plan.md
+ M ../codexPat/docs/active/acceptance-plan.md
+ M ../codexPat/docs/active/agent_desktop_pet_prd_v3x.md
+ M ../codexPat/docs/active/current-vs-target-gap.drawio
+ M ../codexPat/docs/active/current-vs-target-gap.md
+ M ../codexPat/docs/active/development-plan.md
+ M ../codexPat/packages/petctl/src/assets.ts
+ M ../codexPat/packages/petctl/src/petctl.test.ts
+ M ../data_service/backend/app/api/v1/code_assets_architecture.py
+ M ../data_service/backend/data_service/cli_code_architecture.py
+ M ../data_service/backend/data_service/code_assets/architecture/persistence.py
+ M ../data_service/backend/data_service/code_assets/architecture/service.py
+ M ../data_service/backend/data_service/code_assets/artifacts.py
+ M ../data_service/backend/data_service/code_assets/context/renderer_markdown.py
+ M ../data_service/backend/data_service/code_assets/context/service.py
+ M ../data_service/backend/data_service/code_assets/context/token_budget.py
+ M ../data_service/backend/data_service/code_assets/quality/model.py
+ M ../data_service/backend/data_service/code_assets/quality/service.py
+ M ../data_service/backend/data_service/code_assets/snapshot.py
+ M ../data_service/backend/data_service/mcp_code_architecture_tools.py
+ M ../data_service/backend/tests/test_data_service_mcp.py
+ M ../data_service/backend/tests/test_public_surface_guard.py
+ M ../data_service/backend/tests/test_session_ingest_query_build_contract_plan.py
+ M ../data_service/docs/V2.x/README.md
+ M ../data_service/docs/V2.x/V2_6_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md
+ M ../data_service/docs/V2.x/V2_6_DOCUMENT_AUDIT_REPORT.md
+ M ../data_service/docs/V2.x/V2_6_GAP_ANALYSIS.md
+ M ../data_service/docs/active/README.md
+ M ../data_service/frontend/src/data/mcpContract.ts
+ M cli/main.py
+ M docs/design/V4.1/acceptance-evidence/desktop-folder-summary/network-log.json
+ M docs/design/V4.1/acceptance-evidence/desktop-folder-summary/screenshots/01-open-console.png
+ M docs/design/V4.1/acceptance-evidence/desktop-folder-summary/screenshots/02-agent-request-entered.png
+ M docs/design/V4.1/acceptance-evidence/desktop-folder-summary/screenshots/03-agent-workflow-draft-proposal.png
+ M docs/design/V4.1/acceptance-evidence/desktop-folder-summary/screenshots/04-canvas-ghost-nodes.png
+ M docs/design/V4.
+stderr:
+<empty>
+
+$ git diff -- docs/design/V8.x core tests
+returncode: 0
+stdout:
+diff --git a/harnessOS/tests/test_v6_0_planning_gate.py b/harnessOS/tests/test_v6_0_planning_gate.py
+index c9d1c1a1..b7a56733 100644
+--- a/harnessOS/tests/test_v6_0_planning_gate.py
++++ b/harnessOS/tests/test_v6_0_planning_gate.py
+@@ -67,6 +67,7 @@ def test_v6_0_status_does_not_start_v6_1() -> None:
+     assert "| V6-1 | Identity And Tenant Control Plane | complete / ready for review |" in plan
+     assert "| V6-5 | Governed Agent Execution Intent Pilot | complete / ready for review |" in plan
+     assert "| V6-6 | Production External App Onboarding | complete / ready for review |" in plan
++    assert "| V6-7 | Distributed Runtime Productization | complete / ready for review |" in plan
+     readme = (V6_DIR / "00_README.md").read_text(encoding="utf-8")
+     assert "V6-1 complete: production identity and tenant boundary pilot slice ready for review." in readme
+     assert "V6-2 complete: production credential and provider lifecycle pilot slice ready for review." in readme
+@@ -74,7 +75,9 @@ def test_v6_0_status_does_not_start_v6_1() -> None:
+     assert "V6-4 complete: limited production controlled executor pilot slice ready for review." in readme
+     assert "V6-5 complete: governed Agent execution intent pilot gate ready for review." in readme
+     assert "V6-6 complete: production external app onboarding pilot slice ready for review." in readme
+-    assert "V6-7 remains NO-GO for implementation" in readme
++    assert "V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review." in readme
++    assert "V6-8 complete: product console pilot slice ready for review." in readme
++    assert "V6 complete: production pilot baseline ready for review." in readme
+ 
+ 
+ def test_v6_0_forbidden_claims_are_guarded() -> None:
+@@ -102,6 +105,8 @@ def test_v6_0_forbidden_claims_are_guarded() -> None:
+         "not ",
+         "Still Forbidden",
+         "forbidden",
++        "不允许",
++        "不能",
+     ]
+ 
+     for path in V6_DIR.glob("*.md"):
+
+stderr:
+<empty>
+
+$ rg -n V8-6|Terminal Worker|source=agent docs/design/V8.x core tests
+returncode: 0
+stdout:
+tests/test_v4_unified_experience_acceptance.py:18:        "source=agent cannot execute mutation",
+tests/test_v8_9_final_acceptance_framework.py:16:    assert data["stage_evidence"]["V8-6"]["status"] == "PASS"
+docs/design/V8.x/v8_current_gap_analysis.md:3:文档状态：V8 gap analysis，当前 V8-4 real runtime fixture PASS，V8-6 controlled terminal worker fixture PASS，V8-8 read-model TUI PASS。
+docs/design/V8.x/v8_current_gap_analysis.md:25:| Terminal Worker | Codex / Claude / connector traces exist historically | Governed terminal worker design and pilot | PASS / controlled_runtime_fixture | V8-5 / V8-6 | no |
+docs/design/V8.x/v8_current_gap_analysis.md:32:当前 V8 已完成 V8-1 到 V8-4 的 bounded station-agent local document workflow pilot，完成 V8-5 高风险设计门禁，并在用户明确授权范围内完成 V8-6 controlled terminal worker fixture。V8-7 仍不能自动声明完整多 Agent 项目开发工作流。
+docs/design/V8.x/v8_current_gap_analysis.md:45:V8-6 evidence package: docs/design/V8.x/evidence/v8-6-controlled-terminal-worker/
+docs/design/V8.x/v8_target_prd.md:12:+ Governed Terminal Worker Design
+docs/design/V8.x/v8_target_prd.md:87:### Terminal Worker Connectors
+docs/design/V8.x/v8_target_prd.md:114:source=agent durable mutation 被拒绝。
+docs/design/V8.x/v8_8_agent_explainability_tui_completion_note.md:19:V8-8 基于 V8-4 station-agent runtime evidence 和 V8-6 controlled terminal worker evidence 生成只读解释视图，不构造 runtime truth，不执行 mutation。
+docs/design/V8.x/v8_terminal_worker_high_risk_contract.md:1:# V8 Terminal Worker High-Risk Contract
+docs/design/V8.x/v8_terminal_worker_high_risk_contract.md:100:source=agent cannot be the authorizing actor.
+docs/design/V8.x/v8_terminal_worker_high_risk_contract.md:103:## 7. V8-6 PASS Conditions
+docs/design/V8.x/v8_terminal_worker_high_risk_contract.md:111:source=agent durable mutation denied PASS.
+tests/test_v5_7a_no_false_green.py:19:    assert "source=agent direct durable mutation" in plan
+docs/design/V8.x/v8_9_final_acceptance_plan.md:35:source=agent durable mutation denied。
+docs/design/V8.x/v8_6_controlled_terminal_worker_pilot_plan.md:1:# V8-6 Controlled Terminal Worker Pilot Plan
+docs/design/V8.x/v8_6_controlled_terminal_worker_pilot_plan.md:3:文档状态：V8-6 high-risk pilot plan / completed for review。
+docs/design/V8.x/v8_6_controlled_terminal_worker_pilot_plan.md:16:source=agent 不能直接 durable mutation。
+docs/design/V8.x/v8_6_controlled_terminal_worker_pilot_plan.md:51:V8-6 不证明 Agent executor ready。
+docs/design/V8.x/v8_6_controlled_terminal_worker_pilot_plan.md:52:V8-6 不证明 Codex / Claude 生产级终端执行器 ready。
+docs/design/V8.x/v8_6_controlled_terminal_worker_pilot_plan.md:53:V8-6 不证明完整多 Agent 项目开发工作流 ready。
+docs/design/V8.x/v8_target_architecture.md:30:Terminal Worker Connector Plane
+docs/design/V8.x/v8_target_architecture.md:49: -> Controlled Runtime or Terminal Worker Handoff
+docs/design/V8.x/v8_target_architecture.md:90:source=agent cannot bypass user confirmation.
+tests/test_v8_8_agent_explainability_tui.py:48:    assert "Terminal Worker Handoff Panel" in html
+docs/design/V8.x/v8_development_and_acceptance_plan.md:3:文档状态：V8 development and acceptance control plan，当前 V8-4 real runtime fixture PASS，V8-6 controlled runtime fixture PASS，V8-8 read-model TUI PASS，V8-7 runtime 仍需独立高风险授权。
+docs/design/V8.x/v8_development_and_acceptance_plan.md:14:| V8-5 | Terminal Worker Design Gate | complete_for_review / high-risk | V8-5 complete: terminal worker design gate ready for review. | design only |
+docs/design/V8.x/v8_development_and_acceptance_plan.md:15:| V8-6 | Controlled Terminal Worker Pilot | PASS / controlled_runtime_fixture | V8-6 complete: controlled terminal worker pilot ready for review. | no autonomous terminal executor |
+docs/design/V8.x/v8_development_and_acceptance_plan.md:23:V8-0 -> V8-1 -> V8-2 -> V8-3 -> V8-4 -> V8-5 -> V8-6 -> V8-7 -> V8-8 -> V8-9
+docs/design/V8.x/v8_development_and_acceptance_plan.md:26:V8-5 / V8-6 / V8-7 are high-risk stages. They require separate human proceed decisions before implementation.
+docs/design/V8.x/v8_development_and_acceptance_plan.md:51:source=agent durab
+stderr:
+<empty>
+
+Diff Proposal:
+diff --git a/docs/design/V8.x/v8_6_controlled_terminal_worker_pilot_plan.md b/docs/design/V8.x/v8_6_controlled_terminal_worker_pilot_plan.md
+proposal_only=true
+applied=false
+worker_id=terminal-worker-v8-6-e9359f093670
+@@ V8-6 controlled terminal worker evidence proposal @@
++ readonly_command_success_count=3
++ capture terminal transcript and command results
++ keep auto_commit_enabled=false
++ keep auto_push_enabled=false
++ keep production_browser_automation_enabled=false
++ keep source_agent_direct_durable_mutation_denied=true

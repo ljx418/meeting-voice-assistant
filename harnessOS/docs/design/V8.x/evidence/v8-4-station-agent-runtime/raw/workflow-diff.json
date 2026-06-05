@@ -1,0 +1,36 @@
+{
+  "approval_points_added": [
+    "user_confirmed_before_workflow_instance_start"
+  ],
+  "artifact_contracts_added": [
+    "parsed_markdown_documents",
+    "folder_summary_artifacts",
+    "overview_summary_artifact",
+    "quality_report",
+    "evidence_chain_json"
+  ],
+  "change_summary": "Create supported local Markdown summary workflow for: 递归总结 tests/fixtures/desktop/技术分享 下的 Markdown 文件",
+  "created_at": "2026-06-04T14:03:03.363901+00:00",
+  "durable_mutation_before_confirmation": false,
+  "edges_added": [
+    "folder_authorization->markdown_scan",
+    "markdown_scan->per_folder_summary",
+    "per_folder_summary->overview_summary",
+    "overview_summary->quality_check",
+    "quality_check->runtime_report",
+    "runtime_report->evidence_record"
+  ],
+  "goal_id": "goal_mission_v7_2_9f3efdacaf50",
+  "requires_user_confirmation": true,
+  "stations_added": [
+    "folder_authorization",
+    "markdown_scan",
+    "per_folder_summary",
+    "overview_summary",
+    "quality_check",
+    "runtime_report",
+    "evidence_record"
+  ],
+  "workflow_diff_id": "workflow_diff_v7_3_6f7279beeb7d",
+  "workflow_spec_id": "workflow_spec_v7_3_101d6c113a9b"
+}

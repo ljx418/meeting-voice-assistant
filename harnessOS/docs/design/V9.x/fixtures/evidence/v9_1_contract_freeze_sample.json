@@ -1,0 +1,23 @@
+{
+  "evidence_package_id": "v9-1-contract-freeze-sample",
+  "stage_id": "V9-1",
+  "status": "PASS",
+  "evidence_scope": "contract_freeze",
+  "runtime_backed": false,
+  "source_document_refs": [
+    "docs/design/V9.x/v9_1_agent_executor_contract_package.md",
+    "docs/design/V9.x/v9_human_authorization_ref_contract.md"
+  ],
+  "runtime_artifact_refs": [],
+  "test_run_refs": ["test_ref:v9_1_contract_validation"],
+  "human_decision_refs": ["decision_ref:v9_1_contract_audit"],
+  "claim_scan_result": "PASS",
+  "redaction_scan_result": "PASS",
+  "forbidden_raw_content_scan_result": "PASS",
+  "drawio_validation_result": "PASS",
+  "evidence_hash": "sample-not-runtime",
+  "created_by": "documentation",
+  "created_at": "2026-06-05T00:00:00Z",
+  "auditor_decision": "READY_FOR_EXTERNAL_AUDIT",
+  "notes": "Sample only. This is not runtime evidence."
+}

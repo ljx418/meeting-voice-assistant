@@ -1,6 +1,6 @@
 # V6 Acceptance Gate Matrix
 
-文档状态：V6-6 complete / ready for review；V6-7 implementation NO-GO / planning refinement only。本文定义 V6 阶段验收门槛。
+文档状态：V6 complete / ready for review。本文定义 V6 阶段验收门槛。
 
 | Stage | Required Evidence | Must Pass | Human Decision |
 | --- | --- | --- | --- |
@@ -11,9 +11,10 @@
 | V6-4 | execution envelope, runtime evidence, pre-implementation closure, human proceed evidence | confirmation, approval, kill switch, idempotency, source=agent denial, no connector/external_llm call | recorded |
 | V6-5 | MiniMax intent evidence, Agent execution intent, handoff, denial evidence | no source=agent direct mutation; Agent can only produce intent / handoff | recorded |
 | V6-6 | app onboarding DTO/schema, domain/origin/quota/offboarding/SDK evidence package | domain before origin, wrong tenant denied, quota/rate denial auditable, offboarding revoke, browser SDK no direct runtime routes | optional / completed |
-| V6-7 | detailed contracts, distributed runtime and recovery evidence after human proceed | recovery, lineage, tenant/policy boundary, old attempts retained | required |
-| V6-8 | UI/BFF/browser safety evidence | read-only reports, no hidden mutation form, manual confirmation UX | optional |
-| V6-9 | final HTML dashboard | V6-6/7/8 evidence exists, no FAIL / BLOCKED, claim scan PASS | yes if PARTIAL |
+| V6-7A | pre-implementation closure docs, state machine, I/O, lifecycle, recovery matrix | contracts externally auditable; human high-risk decision required before V6-7B | recorded before V6-7B |
+| V6-7B | distributed runtime and recovery evidence after human proceed | recovery, lineage, tenant/policy boundary, old attempts retained, claim scan PASS | recorded |
+| V6-8 | UI/BFF/browser safety evidence and product console evidence package | read-only reports, no hidden mutation form, manual confirmation UX, claim scan PASS | optional / completed |
+| V6-9 | final HTML dashboard and final-acceptance-data.json | V6-0 through V6-8 evidence exists, no FAIL / BLOCKED, claim scan PASS, redaction PASS, drawio XML PASS | completed |
 
 ## Required Global Assertions
 
@@ -27,7 +28,7 @@ durable mutation requires user confirmation or human authorization
 source=agent cannot directly execute durable mutation
 browser does not call internal runtime routes directly
 raw secret / raw prompt / raw artifact content does not leak
-V6-5 / V6-7 high-risk implementation requires separate human proceed decision
+V6-5 / V6-7B high-risk implementation requires separate human proceed decision
 ```
 
 ## No False Green Boundary

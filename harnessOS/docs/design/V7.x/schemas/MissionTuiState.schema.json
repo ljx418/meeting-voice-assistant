@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/MissionTuiState.schema.json",
+  "title": "MissionTuiState",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["mission_id", "tenant_id", "workspace_id", "project_id", "app_id", "current_state", "timeline_ref", "available_action_refs", "forbidden_reason_refs", "link_refs", "created_at"],
+  "properties": {
+    "mission_id": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_id": { "type": "string", "minLength": 1 },
+    "project_id": { "type": "string", "minLength": 1 },
+    "app_id": { "type": "string", "minLength": 1 },
+    "current_state": { "enum": ["IntentCaptured", "SpecDrafted", "SchemaValidated", "DiffReady", "AwaitingConfirmation", "UserConfirmed", "RuntimeStarted", "RuntimeObserved", "EvidenceRecorded", "ReviewReady"] },
+    "timeline_ref": { "type": "string", "minLength": 1 },
+    "available_action_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "forbidden_reason_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "link_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

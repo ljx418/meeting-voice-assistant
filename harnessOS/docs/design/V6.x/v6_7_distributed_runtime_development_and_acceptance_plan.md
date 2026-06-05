@@ -1,6 +1,6 @@
 # V6-7 Distributed Multi-Agent Runtime Productization Development And Acceptance Plan
 
-文档状态：V6-7 planning refinement / NO-GO for implementation。本文只定义开发与验收门槛，不实现功能。
+文档状态：V6-7 complete / ready for review。本文记录 V6-7 开发与验收门槛，当前已由 completion note 和 evidence package 闭环。
 
 ## Allowed Claim
 
@@ -17,9 +17,9 @@ Worker identity must be tenant-bound. Worker identity must not be reused across 
 Current implementation decision:
 
 ```text
-NO-GO for implementation.
-Allowed: planning refinement and detailed architecture contract.
-Forbidden: runtime implementation, distributed worker runtime, V6-9 final acceptance execution.
+V6-7 implementation completed after human high-risk proceed decision.
+Allowed claim remains pilot slice ready for review only.
+Forbidden: V6-9 final acceptance execution before V6-8 evidence package exists.
 ```
 
 ## Goal
@@ -49,15 +49,22 @@ Detailed contract package:
 ```text
 v6_7_distributed_runtime_prd.md
 v6_7_target_architecture_delta.md
+v6_7_pre_implementation_closure_plan.md
 v6_7_distributed_run_coordinator_contract.md
+v6_7_runtime_io_contract.md
+v6_7_distributed_runtime_state_machine.md
+v6_7_worker_lifecycle_model.md
 v6_7_worker_assignment_policy.md
+v6_7_failure_recovery_acceptance_matrix.md
 v6_7_incident_timeline_contract.md
 v6_7_no_false_green_guard.md
 schemas/v6_7_agent_worker_registry_schema.json
+schemas/v6_7_worker_assignment_schema.json
 schemas/v6_7_distributed_state_checkpoint_schema.json
 schemas/v6_7_attempt_history_store_schema.json
 schemas/v6_7_artifact_lineage_service_schema.json
 schemas/v6_7_worker_recovery_decision_schema.json
+schemas/v6_7_incident_timeline_event_schema.json
 ```
 
 ## PR Slices
@@ -69,6 +76,13 @@ PR3 DistributedStateCheckpoint and retry / recovery state
 PR4 AttemptHistoryStore and old attempt preservation
 PR5 ArtifactLineageService with producer_attempt_id
 PR6 incident timeline, evidence package, claim scan
+```
+
+Pre-implementation documentation closure:
+
+```text
+V6-7A document-only closure must pass before implementation.
+V6-7B runtime implementation remains blocked until a separate human high-risk proceed decision is recorded.
 ```
 
 ## Architecture Delta
@@ -100,9 +114,11 @@ Every worker action must pass tenant, credential, policy and capability checks i
 ```text
 tests/test_v6_7_distributed_run_coordinator.py
 tests/test_v6_7_worker_registry_scope.py
+tests/test_v6_7_worker_assignment_boundary.py
 tests/test_v6_7_state_checkpoint_recovery.py
 tests/test_v6_7_attempt_history.py
 tests/test_v6_7_artifact_lineage.py
+tests/test_v6_7_incident_timeline.py
 tests/test_v6_7_no_false_green.py
 ```
 

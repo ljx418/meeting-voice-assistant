@@ -1,0 +1,762 @@
+{
+  "evidence_scope": "read_model_from_v8_4_v8_6_evidence",
+  "generated_at": "2026-06-04T14:46:20.058748+00:00",
+  "global_assertions": {
+    "blueprint_linked": true,
+    "claim_scan": true,
+    "does_not_construct_runtime_truth": true,
+    "evidence_chain_linked": true,
+    "forbidden_reasons_visible": true,
+    "no_auto_apply_auto_run_copy": true,
+    "no_hidden_mutation_form": true,
+    "readonly": true,
+    "redaction_scan": true,
+    "runtime_report_linked": true,
+    "station_agent_visible_for_each_station": true,
+    "terminal_handoff_visible": true,
+    "workflow_explainer_visible": true
+  },
+  "panels": [
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence",
+        "open_report",
+        "open_blueprint",
+        "open_handoff"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "agent_descriptor_count": 7,
+        "agents": [
+          {
+            "agent_id": "v8_mission_agent",
+            "agent_name": "MissionAgent",
+            "goal": "Capture and explain the authorized local document workflow goal.",
+            "role": "mission_intake",
+            "station_id": "folder_authorization"
+          },
+          {
+            "agent_id": "v8_scanner_agent",
+            "agent_name": "ScannerAgent",
+            "goal": "Read authorized Markdown files through scoped read-only capability.",
+            "role": "markdown_scanner",
+            "station_id": "markdown_scan"
+          },
+          {
+            "agent_id": "v8_folder_summary_agent",
+            "agent_name": "FolderSummaryAgent",
+            "goal": "Generate per-folder technical summaries.",
+            "role": "folder_summarizer",
+            "station_id": "per_folder_summary"
+          },
+          {
+            "agent_id": "v8_overview_agent",
+            "agent_name": "OverviewAgent",
+            "goal": "Generate the overall technical document summary.",
+            "role": "overview_summarizer",
+            "station_id": "overview_summary"
+          },
+          {
+            "agent_id": "v8_quality_agent",
+            "agent_name": "QualityAgent",
+            "goal": "Evaluate coverage, unsupported files and summary quality.",
+            "role": "quality_reviewer",
+            "station_id": "quality_check"
+          },
+          {
+            "agent_id": "v8_report_agent",
+            "agent_name": "ReportAgent",
+            "goal": "Render read-only Runtime Report and artifact links.",
+            "role": "runtime_reporter",
+            "station_id": "runtime_report"
+          },
+          {
+            "agent_id": "v8_workflow_explainer_agent",
+            "agent_name": "WorkflowExplainerAgent",
+            "goal": "Explain the workflow result, boundaries, risk and evidence.",
+            "role": "workflow_explainer",
+            "station_id": "evidence_record"
+          }
+        ],
+        "station_count": 7
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "workflow_agent_map",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": [
+        "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-4-station-agent-runtime/station-agent-descriptors.json"
+      ],
+      "title": "Workflow Agent Map"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence",
+        "open_report",
+        "open_blueprint",
+        "open_handoff"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "details": [
+          {
+            "agent_id": "v8_mission_agent",
+            "goal": "Capture and explain the authorized local document workflow goal.",
+            "mcp_binding_refs": [],
+            "memory_policy_ref": "agent-memory-policy://v8/v8_mission_agent/station-scoped",
+            "model_profile_ref": "agent-model-profile://v8/v8_mission_agent",
+            "role": "mission_intake",
+            "skill_binding_refs": [
+              "agent-skill-binding://v8/v8_mission_agent/mission_intake"
+            ],
+            "station_id": "folder_authorization",
+            "tool_policy_ref": "agent-tool-policy://v8/v8_mission_agent/allowlist"
+          },
+          {
+            "agent_id": "v8_scanner_agent",
+            "goal": "Read authorized Markdown files through scoped read-only capability.",
+            "mcp_binding_refs": [
+              "agent-mcp-binding://v8/v8_scanner_agent/filesystem_readonly"
+            ],
+            "memory_policy_ref": "agent-memory-policy://v8/v8_scanner_agent/station-scoped",
+            "model_profile_ref": "agent-model-profile://v8/v8_scanner_agent",
+            "role": "markdown_scanner",
+            "skill_binding_refs": [
+              "agent-skill-binding://v8/v8_scanner_agent/markdown_scanner"
+            ],
+            "station_id": "markdown_scan",
+            "tool_policy_ref": "agent-tool-policy://v8/v8_scanner_agent/allowlist"
+          },
+          {
+            "agent_id": "v8_folder_summary_agent",
+            "goal": "Generate per-folder technical summaries.",
+            "mcp_binding_refs": [],
+            "memory_policy_ref": "agent-memory-policy://v8/v8_folder_summary_agent/station-scoped",
+            "model_profile_ref": "agent-model-profile://v8/v8_folder_summary_agent",
+            "role": "folder_summarizer",
+            "skill_binding_refs": [
+              "agent-skill-binding://v8/v8_folder_summary_agent/folder_summarizer"
+            ],
+            "station_id": "per_folder_summary",
+            "tool_policy_ref": "agent-tool-policy://v8/v8_folder_summary_agent/allowlist"
+          },
+          {
+            "agent_id": "v8_overview_agent",
+            "goal": "Generate the overall technical document summary.",
+            "mcp_binding_refs": [],
+            "memory_policy_ref": "agent-memory-policy://v8/v8_overview_agent/station-scoped",
+            "model_profile_ref": "agent-model-profile://v8/v8_overview_agent",
+            "role": "overview_summarizer",
+            "skill_binding_refs": [
+              "agent-skill-binding://v8/v8_overview_agent/overview_summarizer"
+            ],
+            "station_id": "overview_summary",
+            "tool_policy_ref": "agent-tool-policy://v8/v8_overview_agent/allowlist"
+          },
+          {
+            "agent_id": "v8_quality_agent",
+            "goal": "Evaluate coverage, unsupported files and summary quality.",
+            "mcp_binding_refs": [
+              "agent-mcp-binding://v8/v8_quality_agent/artifact_registry_readonly"
+            ],
+            "memory_policy_ref": "agent-memory-policy://v8/v8_quality_agent/station-scoped",
+            "model_profile_ref": "agent-model-profile://v8/v8_quality_agent",
+            "role": "quality_reviewer",
+            "skill_binding_refs": [
+              "agent-skill-binding://v8/v8_quality_agent/quality_reviewer"
+            ],
+            "station_id": "quality_check",
+            "tool_policy_ref": "agent-tool-policy://v8/v8_quality_agent/allowlist"
+          },
+          {
+            "agent_id": "v8_report_agent",
+            "goal": "Render read-only Runtime Report and artifact links.",
+            "mcp_binding_refs": [
+              "agent-mcp-binding://v8/v8_report_agent/artifact_registry_readonly"
+            ],
+            "memory_policy_ref": "agent-memory-policy://v8/v8_report_agent/station-scoped",
+            "model_profile_ref": "agent-model-profile://v8/v8_report_agent",
+            "role": "runtime_reporter",
+            "skill_binding_refs": [
+              "agent-skill-binding://v8/v8_report_agent/runtime_reporter"
+            ],
+            "station_id": "runtime_report",
+            "tool_policy_ref": "agent-tool-policy://v8/v8_report_agent/allowlist"
+          },
+          {
+            "agent_id": "v8_workflow_explainer_agent",
+            "goal": "Explain the workflow result, boundaries, risk and evidence.",
+            "mcp_binding_refs": [
+              "agent-mcp-binding://v8/v8_workflow_explainer_agent/artifact_registry_readonly"
+            ],
+            "memory_policy_ref": "agent-memory-policy://v8/v8_workflow_explainer_agent/station-scoped",
+            "model_profile_ref": "agent-model-profile://v8/v8_workflow_explainer_agent",
+            "role": "workflow_explainer",
+            "skill_binding_refs": [
+              "agent-skill-binding://v8/v8_workflow_explainer_agent/workflow_explainer"
+            ],
+            "station_id": "evidence_record",
+            "tool_policy_ref": "agent-tool-policy://v8/v8_workflow_explainer_agent/allowlist"
+          }
+        ]
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "station_agent_detail",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": [
+        "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-4-station-agent-runtime/station-agent-descriptors.json"
+      ],
+      "title": "Station Agent Detail"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence",
+        "open_report",
+        "open_blueprint",
+        "open_handoff"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "decisions": [
+          {
+            "agent_id": "v8_mission_agent",
+            "allowed": true,
+            "forbidden_reason": null,
+            "operation": "workflow.explain",
+            "requires_handoff": false,
+            "requires_user_confirmation": false,
+            "risk_level": "low",
+            "source": "mission_tui",
+            "station_id": "folder_authorization"
+          },
+          {
+            "agent_id": "v8_scanner_agent",
+            "allowed": true,
+            "forbidden_reason": null,
+            "operation": "local_folder.read",
+            "requires_handoff": false,
+            "requires_user_confirmation": false,
+            "risk_level": "low",
+            "source": "mission_tui",
+            "station_id": "markdown_scan"
+          },
+          {
+            "agent_id": "v8_folder_summary_agent",
+            "allowed": true,
+            "forbidden_reason": null,
+            "operation": "llm.summarize",
+            "requires_handoff": false,
+            "requires_user_confirmation": false,
+            "risk_level": "low",
+            "source": "mission_tui",
+            "station_id": "per_folder_summary"
+          },
+          {
+            "agent_id": "v8_overview_agent",
+            "allowed": true,
+            "forbidden_reason": null,
+            "operation": "llm.summarize",
+            "requires_handoff": false,
+            "requires_user_confirmation": false,
+            "risk_level": "low",
+            "source": "mission_tui",
+            "station_id": "overview_summary"
+          },
+          {
+            "agent_id": "v8_quality_agent",
+            "allowed": true,
+            "forbidden_reason": null,
+            "operation": "quality.evaluation.create",
+            "requires_handoff": true,
+            "requires_user_confirmation": true,
+            "risk_level": "high",
+            "source": "mission_tui",
+            "station_id": "quality_check"
+          },
+          {
+            "agent_id": "v8_report_agent",
+            "allowed": true,
+            "forbidden_reason": null,
+            "operation": "report.open",
+            "requires_handoff": false,
+            "requires_user_confirmation": false,
+            "risk_level": "low",
+            "source": "mission_tui",
+            "station_id": "runtime_report"
+          },
+          {
+            "agent_id": "v8_workflow_explainer_agent",
+            "allowed": true,
+            "forbidden_reason": null,
+            "operation": "evidence.show",
+            "requires_handoff": false,
+            "requires_user_confirmation": false,
+            "risk_level": "low",
+            "source": "mission_tui",
+            "station_id": "evidence_record"
+          },
+          {
+            "agent_id": "v8_source_agent_guard",
+            "allowed": false,
+            "forbidden_reason": "source_agent_durable_mutation_denied",
+            "operation": "workflow.instance.start",
+            "requires_handoff": true,
+            "requires_user_confirmation": true,
+            "risk_level": "high",
+            "source": "agent",
+            "station_id": "workflow_guard"
+          }
+        ]
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "agent_capability",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": [
+        "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-4-station-agent-runtime/agent-capability-decisions.json"
+      ],
+      "title": "Agent Capability Panel"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence",
+        "open_report",
+        "open_blueprint",
+        "open_handoff"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "contexts": [
+          {
+            "agent_id": "v8_mission_agent",
+            "context_envelope_id": "context_envelope_v8_b9040404dc19",
+            "context_scope": "station_scoped",
+            "created_at": "2026-06-04T14:03:28.631196+00:00",
+            "evidence_refs": [
+              "evidence://v8/folder_authorization"
+            ],
+            "memory_refs": [
+              "memory://v8/v8_mission_agent/station-summary"
+            ],
+            "prompt_template_ref": "prompt-template://v8/mission_intake/v1",
+            "redaction_status": "redacted",
+            "station_id": "folder_authorization",
+            "upstream_artifact_refs": [],
+            "workflow_context_refs": [
+              "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+              "provider://minimax"
+            ]
+          },
+          {
+            "agent_id": "v8_scanner_agent",
+            "context_envelope_id": "context_envelope_v8_86655624d16d",
+            "context_scope": "station_scoped",
+            "created_at": "2026-06-04T14:03:28.631214+00:00",
+            "evidence_refs": [
+              "evidence://v8/markdown_scan"
+            ],
+            "memory_refs": [
+              "memory://v8/v8_scanner_agent/station-summary"
+            ],
+            "prompt_template_ref": "prompt-template://v8/markdown_scanner/v1",
+            "redaction_status": "redacted",
+            "station_id": "markdown_scan",
+            "upstream_artifact_refs": [
+              "artifact-contract://authorized_folder_ref"
+            ],
+            "workflow_context_refs": [
+              "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+              "provider://minimax"
+            ]
+          },
+          {
+            "agent_id": "v8_folder_summary_agent",
+            "context_envelope_id": "context_envelope_v8_500a70abf0d8",
+            "context_scope": "station_scoped",
+            "created_at": "2026-06-04T14:03:28.631229+00:00",
+            "evidence_refs": [
+              "evidence://v8/per_folder_summary"
+            ],
+            "memory_refs": [
+              "memory://v8/v8_folder_summary_agent/station-summary"
+            ],
+            "prompt_template_ref": "prompt-template://v8/folder_summarizer/v1",
+            "redaction_status": "redacted",
+            "station_id": "per_folder_summary",
+            "upstream_artifact_refs": [
+              "artifact-contract://parsed_markdown_documents"
+            ],
+            "workflow_context_refs": [
+              "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+              "provider://minimax"
+            ]
+          },
+          {
+            "agent_id": "v8_overview_agent",
+            "context_envelope_id": "context_envelope_v8_2dba86e99614",
+            "context_scope": "station_scoped",
+            "created_at": "2026-06-04T14:03:28.631240+00:00",
+            "evidence_refs": [
+              "evidence://v8/overview_summary"
+            ],
+            "memory_refs": [
+              "memory://v8/v8_overview_agent/station-summary"
+            ],
+            "prompt_template_ref": "prompt-template://v8/overview_summarizer/v1",
+            "redaction_status": "redacted",
+            "station_id": "overview_summary",
+            "upstream_artifact_refs": [
+              "artifact-contract://folder_summary_artifacts"
+            ],
+            "workflow_context_refs": [
+              "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+              "provider://minimax"
+            ]
+          },
+          {
+            "agent_id": "v8_quality_agent",
+            "context_envelope_id": "context_envelope_v8_c235d5d7c47c",
+            "context_scope": "station_scoped",
+            "created_at": "2026-06-04T14:03:28.631251+00:00",
+            "evidence_refs": [
+              "evidence://v8/quality_check"
+            ],
+            "memory_refs": [
+              "memory://v8/v8_quality_agent/station-summary"
+            ],
+            "prompt_template_ref": "prompt-template://v8/quality_reviewer/v1",
+            "redaction_status": "redacted",
+            "station_id": "quality_check",
+            "upstream_artifact_refs": [
+              "artifact-contract://parsed_markdown_documents",
+              "artifact-contract://folder_summary_artifacts"
+            ],
+            "workflow_context_refs": [
+              "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+              "provider://minimax"
+            ]
+          },
+          {
+            "agent_id": "v8_report_agent",
+            "context_envelope_id": "context_envelope_v8_bfe65af9c88d",
+            "context_scope": "station_scoped",
+            "created_at": "2026-06-04T14:03:28.631262+00:00",
+            "evidence_refs": [
+              "evidence://v8/runtime_report"
+            ],
+            "memory_refs": [
+              "memory://v8/v8_report_agent/station-summary"
+            ],
+            "prompt_template_ref": "prompt-template://v8/runtime_reporter/v1",
+            "redaction_status": "redacted",
+            "station_id": "runtime_report",
+            "upstream_artifact_refs": [
+              "artifact-contract://quality_report"
+            ],
+            "workflow_context_refs": [
+              "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+              "provider://minimax"
+            ]
+          },
+          {
+            "agent_id": "v8_workflow_explainer_agent",
+            "context_envelope_id": "context_envelope_v8_770acf76d4e3",
+            "context_scope": "station_scoped",
+            "created_at": "2026-06-04T14:03:28.631273+00:00",
+            "evidence_refs": [
+              "evidence://v8/evidence_record"
+            ],
+            "memory_refs": [
+              "memory://v8/v8_workflow_explainer_agent/station-summary"
+            ],
+            "prompt_template_ref": "prompt-template://v8/workflow_explainer/v1",
+            "redaction_status": "redacted",
+            "station_id": "evidence_record",
+            "upstream_artifact_refs": [
+              "artifact-contract://folder_summary_artifacts",
+              "artifact-contract://quality_report"
+            ],
+            "workflow_context_refs": [
+              "workflow-spec://workflow_spec_v7_3_101d6c113a9b",
+              "provider://minimax"
+            ]
+          }
+        ]
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "agent_context",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": [
+        "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-4-station-agent-runtime/agent-context-envelopes.json"
+      ],
+      "title": "Agent Context Panel"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence",
+        "open_report",
+        "open_blueprint",
+        "open_handoff"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "invocations": [
+          {
+            "agent_id": "v8_mission_agent",
+            "input_artifact_refs": [],
+            "model_ref": "MiniMax-M2.1",
+            "output_artifact_refs": [
+              "artifact-contract://authorized_folder_ref"
+            ],
+            "prompt_template_ref": "prompt-template://v8/mission_intake/v1",
+            "provider": "minimax",
+            "provider_config_source": ".env.local",
+            "redaction_status": "redacted",
+            "station_id": "folder_authorization"
+          },
+          {
+            "agent_id": "v8_scanner_agent",
+            "input_artifact_refs": [
+              "artifact-contract://authorized_folder_ref"
+            ],
+            "model_ref": "MiniMax-M2.1",
+            "output_artifact_refs": [
+              "artifact-contract://parsed_markdown_documents"
+            ],
+            "prompt_template_ref": "prompt-template://v8/markdown_scanner/v1",
+            "provider": "minimax",
+            "provider_config_source": ".env.local",
+            "redaction_status": "redacted",
+            "station_id": "markdown_scan"
+          },
+          {
+            "agent_id": "v8_folder_summary_agent",
+            "input_artifact_refs": [
+              "artifact-contract://parsed_markdown_documents"
+            ],
+            "model_ref": "MiniMax-M2.1",
+            "output_artifact_refs": [
+              "artifact-contract://folder_summary_artifacts"
+            ],
+            "prompt_template_ref": "prompt-template://v8/folder_summarizer/v1",
+            "provider": "minimax",
+            "provider_config_source": ".env.local",
+            "redaction_status": "redacted",
+            "station_id": "per_folder_summary"
+          },
+          {
+            "agent_id": "v8_overview_agent",
+            "input_artifact_refs": [
+              "artifact-contract://folder_summary_artifacts"
+            ],
+            "model_ref": "MiniMax-M2.1",
+            "output_artifact_refs": [
+              "artifact-contract://overview_summary_artifact"
+            ],
+            "prompt_template_ref": "prompt-template://v8/overview_summarizer/v1",
+            "provider": "minimax",
+            "provider_config_source": ".env.local",
+            "redaction_status": "redacted",
+            "station_id": "overview_summary"
+          },
+          {
+            "agent_id": "v8_quality_agent",
+            "input_artifact_refs": [
+              "artifact-contract://parsed_markdown_documents",
+              "artifact-contract://folder_summary_artifacts"
+            ],
+            "model_ref": "MiniMax-M2.1",
+            "output_artifact_refs": [
+              "artifact-contract://quality_report"
+            ],
+            "prompt_template_ref": "prompt-template://v8/quality_reviewer/v1",
+            "provider": "minimax",
+            "provider_config_source": ".env.local",
+            "redaction_status": "redacted",
+            "station_id": "quality_check"
+          },
+          {
+            "agent_id": "v8_report_agent",
+            "input_artifact_refs": [
+              "artifact-contract://quality_report"
+            ],
+            "model_ref": "MiniMax-M2.1",
+            "output_artifact_refs": [
+              "artifact-contract://workflow_board_html"
+            ],
+            "prompt_template_ref": "prompt-template://v8/runtime_reporter/v1",
+            "provider": "minimax",
+            "provider_config_source": ".env.local",
+            "redaction_status": "redacted",
+            "station_id": "runtime_report"
+          },
+          {
+            "agent_id": "v8_workflow_explainer_agent",
+            "input_artifact_refs": [
+              "artifact-contract://folder_summary_artifacts",
+              "artifact-contract://quality_report"
+            ],
+            "model_ref": "MiniMax-M2.1",
+            "output_artifact_refs": [
+              "artifact-contract://evidence_chain_json"
+            ],
+            "prompt_template_ref": "prompt-template://v8/workflow_explainer/v1",
+            "provider": "minimax",
+            "provider_config_source": ".env.local",
+            "redaction_status": "redacted",
+            "station_id": "evidence_record"
+          }
+        ]
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "agent_invocation",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": [
+        "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-4-station-agent-runtime/agent-invocation-evidence.json"
+      ],
+      "title": "Agent Invocation Panel"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence",
+        "open_report",
+        "open_blueprint",
+        "open_handoff"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "acceptance": {
+          "allowed_claim": "V8-6 complete: controlled terminal worker pilot ready for review.",
+          "auto_commit_enabled": false,
+          "auto_push_enabled": false,
+          "claim_scan": "PASS",
+          "command_allowlist": "PASS",
+          "diff_proposal_captured": "PASS",
+          "evidence_scope": "controlled_runtime_fixture",
+          "human_review_handoff_exists": "PASS",
+          "production_browser_automation_enabled": false,
+          "redaction_scan": "PASS",
+          "runtime_backed": true,
+          "source_agent_mutation_denied": "PASS",
+          "stage_id": "V8-6",
+          "status": "PASS",
+          "terminal_worker_runtime_enabled": true,
+          "terminal_worker_scope": "workspace_scoped_readonly_shell_and_handoff_proposal_only",
+          "transcript_captured": "PASS",
+          "worker_type": "codex_cli",
+          "workspace_scope_guard": "PASS"
+        },
+        "handoff": {
+          "agent_id": "agent_v8_code_review",
+          "created_at": "2026-06-04T14:21:44.702214+00:00",
+          "diff_ref": "diff-proposal.patch",
+          "handoff_id": "handoff-v8-6-ddafdde100a5",
+          "human_authorization_ref": "human-auth://v8-6/user-accepted-controlled-terminal-worker-pilot",
+          "policy_decision_ref": "policy-decision://v8-6/allow-readonly-proposal",
+          "proposed_action": "review_diff_proposal_only_no_apply",
+          "requires_user_confirmation": true,
+          "risk_level": "high",
+          "source_agent_direct_mutation_denied": true,
+          "station_id": "code_review_station",
+          "transcript_ref": "terminal-transcript.txt",
+          "worker_id": "terminal-worker-v8-6-ad62c1ba8f9f"
+        },
+        "policy": {
+          "production_browser_automation_allowed": false,
+          "readonly": true,
+          "requires_human_review": true
+        },
+        "worker": {
+          "agent_id": "agent_v8_code_review",
+          "command_allowlist_ref": "policy://v8-6/readonly-command-allowlist",
+          "created_at": "2026-06-04T14:21:44.479577+00:00",
+          "diff_capture_ref": "capture://v8-6/diff-proposal",
+          "handoff_policy_ref": "policy://v8-6/human-review-handoff",
+          "kill_switch_policy_ref": "policy://v8-6/kill-switch",
+          "session_policy_ref": "policy://v8-6/terminal-session",
+          "station_id": "code_review_station",
+          "timeout_policy_ref": "policy://v8-6/timeout",
+          "transcript_capture_ref": "capture://v8-6/terminal-transcript",
+          "worker_id": "terminal-worker-v8-6-ad62c1ba8f9f",
+          "worker_type": "codex_cli",
+          "workspace_scope_ref": "workspace://harnessOS"
+        }
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "terminal_worker_handoff",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": [
+        "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-6-controlled-terminal-worker/human-review-handoff.json",
+        "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-6-controlled-terminal-worker/terminal-worker-descriptor.json"
+      ],
+      "title": "Terminal Worker Handoff Panel"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence",
+        "open_report",
+        "open_blueprint",
+        "open_handoff"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "agent_evidence": "../v8-4-station-agent-runtime/agent-evidence.html",
+        "blueprint": "../v8-4-station-agent-runtime/workflow.drawio",
+        "runtime_report": "../v8-4-station-agent-runtime/workflow_board.html",
+        "terminal_diff_proposal": "../v8-6-controlled-terminal-worker/diff-proposal.patch",
+        "terminal_transcript": "../v8-6-controlled-terminal-worker/terminal-transcript.txt"
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "agent_evidence_links",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": [
+        "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-4-station-agent-runtime",
+        "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-6-controlled-terminal-worker"
+      ],
+      "title": "Agent Evidence Links"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence",
+        "open_report",
+        "open_blueprint",
+        "open_handoff"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "source_agent_mutation_denied": "PASS",
+        "summary": "WorkflowExplainerAgent explains station identity, capabilities, forbidden reasons, evidence links, and terminal handoff boundaries.",
+        "workflow_explainer_agent_id": "v8_workflow_explainer_agent"
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "workflow_explainer_agent_summary",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": [
+        "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-4-station-agent-runtime/station-agent-registry.json"
+      ],
+      "title": "WorkflowExplainerAgent Summary Panel"
+    }
+  ],
+  "readonly": true,
+  "source_refs": {
+    "runtime_truth_boundary": "v8_8_is_read_model_not_runtime_truth",
+    "v8_4_evidence": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-4-station-agent-runtime",
+    "v8_6_evidence": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V8.x/evidence/v8-6-controlled-terminal-worker"
+  },
+  "status": "PASS",
+  "tui_state_id": "v8-8-agent-explainability-a4ee777f9a5c"
+}

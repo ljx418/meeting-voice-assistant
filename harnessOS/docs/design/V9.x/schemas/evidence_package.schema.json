@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v9/evidence_package.schema.json",
+  "title": "V9 EvidencePackage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "evidence_package_id",
+    "stage_id",
+    "status",
+    "evidence_scope",
+    "runtime_backed",
+    "source_document_refs",
+    "runtime_artifact_refs",
+    "test_run_refs",
+    "human_decision_refs",
+    "claim_scan_result",
+    "redaction_scan_result",
+    "forbidden_raw_content_scan_result",
+    "drawio_validation_result",
+    "evidence_hash",
+    "created_by",
+    "created_at",
+    "auditor_decision",
+    "notes"
+  ],
+  "properties": {
+    "evidence_package_id": { "type": "string", "minLength": 1 },
+    "stage_id": { "enum": ["V9-0", "V9-1", "V9-2", "V9-3", "V9-4", "V9-5", "V9-6", "V9-7", "V9-8"] },
+    "status": { "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED"] },
+    "evidence_scope": {
+      "enum": ["planning_only", "contract_freeze", "implementation_readiness", "deterministic_fixture", "real_runtime_fixture", "real_runtime", "manual_review"]
+    },
+    "runtime_backed": { "type": "boolean" },
+    "source_document_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "runtime_artifact_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "test_run_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "human_decision_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "claim_scan_result": { "enum": ["PASS", "FAIL"] },
+    "redaction_scan_result": { "enum": ["PASS", "FAIL"] },
+    "forbidden_raw_content_scan_result": { "enum": ["PASS", "FAIL"] },
+    "drawio_validation_result": { "enum": ["PASS", "FAIL"] },
+    "evidence_hash": { "type": "string", "minLength": 1 },
+    "created_by": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" },
+    "auditor_decision": { "type": "string", "minLength": 1 },
+    "notes": { "type": "string" }
+  }
+}

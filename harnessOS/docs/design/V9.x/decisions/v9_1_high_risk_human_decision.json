@@ -1,0 +1,50 @@
+{
+  "schema_version": "v9.0",
+  "decision_ref": "v9-1-limited-safety-gate-implementation-approved",
+  "stage_id": "V9-1",
+  "decision": "GO_FOR_IMPLEMENTATION",
+  "decision_owner": "human_required",
+  "required_reviewers": [
+    "human_high_risk_owner"
+  ],
+  "risk_class": "high",
+  "scope": "V9-1 Agent Executor Safety Gate implementation only. Runtime executor route, runtime worker, source=agent durable mutation, controlled executor action execution, V9-2/V9-3/V9-4 runtime implementation, and Agent executor ready claim remain blocked.",
+  "allowed_work": [
+    "external_implementation_readiness_audit",
+    "implementation_planning",
+    "schema_validator",
+    "fixture_validator",
+    "no_false_green_scanner",
+    "redaction_scanner",
+    "evidence_package_validator"
+    ,
+    "agent_execution_envelope_validator",
+    "agent_execution_policy_validator",
+    "human_authorization_ref_validator",
+    "capability_resolver_deny_by_default_engine",
+    "approval_kill_switch_timeout_rollback_contract_checks"
+  ],
+  "blocked_work": [
+    "runtime_executor_route",
+    "runtime_worker",
+    "source_agent_durable_mutation",
+    "controlled_executor_action_execution",
+    "multi_agent_orchestration_runtime",
+    "autonomous_coding_workflow_runtime",
+    "v9_8_final_acceptance"
+  ],
+  "expires_at": "2026-12-31T23:59:59Z",
+  "revoked": false,
+  "revoked_at": null,
+  "revocation_reason": null,
+  "evidence_refs": [
+    "docs/design/V9.x/reports/v9_1_contract_validation_report.json",
+    "docs/design/V9.x/reports/v9_1_negative_test_results.json",
+    "docs/design/V9.x/reports/v9_1_no_false_green_scan.json",
+    "docs/design/V9.x/reports/v9_1_redaction_scan.json"
+  ],
+  "audit_ref": "audit://v9-1/limited-safety-gate-implementation-approved",
+  "correlation_id": "corr-v9-1-limited-safety-gate-implementation-approved",
+  "created_at": "2026-06-05T00:00:00Z",
+  "notes": "Human approval is recorded for limited V9-1 safety gate implementation only. Runtime implementation remains blocked."
+}

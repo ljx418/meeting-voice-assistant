@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/StudioInventory.schema.json",
+  "title": "StudioInventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["studio_id", "tenant_id", "workspace_count", "project_count", "app_count", "provider_profile_count", "credential_ref_count", "audit_ref", "created_at"],
+  "properties": {
+    "studio_id": { "type": "string", "minLength": 1 },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "workspace_count": { "type": "integer", "minimum": 0 },
+    "project_count": { "type": "integer", "minimum": 0 },
+    "app_count": { "type": "integer", "minimum": 0 },
+    "provider_profile_count": { "type": "integer", "minimum": 0 },
+    "credential_ref_count": { "type": "integer", "minimum": 0 },
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

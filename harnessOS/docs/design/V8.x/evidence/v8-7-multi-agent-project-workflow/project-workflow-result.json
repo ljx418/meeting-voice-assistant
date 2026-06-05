@@ -1,0 +1,949 @@
+{
+  "acceptance": {
+    "agent_descriptor_count": 8,
+    "allowed_claim": "V8-7 complete: multi-agent project workflow pilot ready for review.",
+    "artifact_count": 8,
+    "attempt_history_count": 8,
+    "attempt_history_retained": "PASS",
+    "auto_commit_enabled": false,
+    "auto_publish_enabled": false,
+    "auto_push_enabled": false,
+    "blockers": [],
+    "claim_scan": "PASS",
+    "evidence_agent_links_transcript_diff_test_output": "PASS",
+    "evidence_scope": "bounded_runtime_fixture",
+    "implementation_agent_uses_handoff_not_direct_shell": "PASS",
+    "production_browser_automation_enabled": false,
+    "project_explainer_links_agent_evidence": "PASS",
+    "project_workflow_requires_explainer_agent": "PASS",
+    "redaction_scan": "PASS",
+    "review_artifact_exists": "PASS",
+    "runtime_backed": true,
+    "source_agent_mutation_denied": "PASS",
+    "stage_id": "V8-7",
+    "station_count": 8,
+    "status": "PASS",
+    "terminal_worker_status": "PASS",
+    "test_agent_uses_allowlisted_readonly_command": "PASS"
+  },
+  "agent_capability_decisions": [
+    {
+      "actor_type": "human_user",
+      "agent_id": "v8_7_product_agent",
+      "allowed": true,
+      "created_at": "2026-06-05T01:23:38.315002+00:00",
+      "decision_id": "agent_capability_8250b0a93bee",
+      "forbidden_reason": null,
+      "operation": "artifact.write",
+      "policy_decision_ref": "policy://v8/allow/artifact.write",
+      "requires_handoff": true,
+      "requires_user_confirmation": true,
+      "risk_level": "high",
+      "source": "product_console",
+      "station_id": "product_station"
+    },
+    {
+      "actor_type": "human_user",
+      "agent_id": "v8_7_architecture_agent",
+      "allowed": true,
+      "created_at": "2026-06-05T01:23:38.315103+00:00",
+      "decision_id": "agent_capability_000bb3d501f7",
+      "forbidden_reason": null,
+      "operation": "artifact.write",
+      "policy_decision_ref": "policy://v8/allow/artifact.write",
+      "requires_handoff": true,
+      "requires_user_confirmation": true,
+      "risk_level": "high",
+      "source": "product_console",
+      "station_id": "architecture_station"
+    },
+    {
+      "actor_type": "human_user",
+      "agent_id": "v8_7_planning_agent",
+      "allowed": true,
+      "created_at": "2026-06-05T01:23:38.315164+00:00",
+      "decision_id": "agent_capability_addf316df3ed",
+      "forbidden_reason": null,
+      "operation": "artifact.write",
+      "policy_decision_ref": "policy://v8/allow/artifact.write",
+      "requires_handoff": true,
+      "requires_user_confirmation": true,
+      "risk_level": "high",
+      "source": "product_console",
+      "station_id": "planning_station"
+    },
+    {
+      "actor_type": "human_user",
+      "agent_id": "v8_7_implementation_agent",
+      "allowed": true,
+      "created_at": "2026-06-05T01:23:38.315218+00:00",
+      "decision_id": "agent_capability_915a6e7d54d6",
+      "forbidden_reason": null,
+      "operation": "evidence.show",
+      "policy_decision_ref": "policy://v8/allow/evidence.show",
+      "requires_handoff": false,
+      "requires_user_confirmation": false,
+      "risk_level": "low",
+      "source": "product_console",
+      "station_id": "implementation_station"
+    },
+    {
+      "actor_type": "human_user",
+      "agent_id": "v8_7_test_agent",
+      "allowed": true,
+      "created_at": "2026-06-05T01:23:38.315274+00:00",
+      "decision_id": "agent_capability_49d9a1429c06",
+      "forbidden_reason": null,
+      "operation": "quality.evaluation.create",
+      "policy_decision_ref": "policy://v8/allow/quality.evaluation.create",
+      "requires_handoff": true,
+      "requires_user_confirmation": true,
+      "risk_level": "high",
+      "source": "product_console",
+      "station_id": "test_station"
+    },
+    {
+      "actor_type": "human_user",
+      "agent_id": "v8_7_review_agent",
+      "allowed": true,
+      "created_at": "2026-06-05T01:23:38.315333+00:00",
+      "decision_id": "agent_capability_62a5819d5277",
+      "forbidden_reason": null,
+      "operation": "artifact.write",
+      "policy_decision_ref": "policy://v8/allow/artifact.write",
+      "requires_handoff": true,
+      "requires_user_confirmation": true,
+      "risk_level": "high",
+      "source": "product_console",
+      "station_id": "review_station"
+    },
+    {
+      "actor_type": "human_user",
+      "agent_id": "v8_7_evidence_agent",
+      "allowed": true,
+      "created_at": "2026-06-05T01:23:38.315403+00:00",
+      "decision_id": "agent_capability_c5423df35433",
+      "forbidden_reason": null,
+      "operation": "evidence.show",
+      "policy_decision_ref": "policy://v8/allow/evidence.show",
+      "requires_handoff": false,
+      "requires_user_confirmation": false,
+      "risk_level": "low",
+      "source": "product_console",
+      "station_id": "evidence_station"
+    },
+    {
+      "actor_type": "human_user",
+      "agent_id": "v8_7_workflow_explainer",
+      "allowed": true,
+      "created_at": "2026-06-05T01:23:38.315524+00:00",
+      "decision_id": "agent_capability_ee299ff2d1c9",
+      "forbidden_reason": null,
+      "operation": "artifact.write",
+      "policy_decision_ref": "policy://v8/allow/artifact.write",
+      "requires_handoff": true,
+      "requires_user_confirmation": true,
+      "risk_level": "high",
+      "source": "product_console",
+      "station_id": "explainer_station"
+    },
+    {
+      "actor_type": "agent",
+      "agent_id": "v8_7_source_agent_guard",
+      "allowed": false,
+      "created_at": "2026-06-05T01:23:38.315627+00:00",
+      "decision_id": "agent_capability_9451c4f460f5",
+      "forbidden_reason": "source_agent_durable_mutation_denied",
+      "operation": "workflow.instance.start",
+      "policy_decision_ref": "policy://v8/deny/workflow.instance.start",
+      "requires_handoff": true,
+      "requires_user_confirmation": true,
+      "risk_level": "high",
+      "source": "agent",
+      "station_id": "project_workflow_guard"
+    }
+  ],
+  "generated_at": "2026-06-05T01:23:38.558802+00:00",
+  "goal": "V8-7 bounded multi-agent project workflow pilot",
+  "project_agent_registry": {
+    "created_at": "2026-06-05T01:23:38.557553+00:00",
+    "registry_id": "v8_7_project_agent_registry_fc1f1046b0f3",
+    "runtime_truth_boundary": "project_agent_registry_is_not_runtime_truth",
+    "station_agent_descriptors": [
+      {
+        "agent_id": "v8_7_product_agent",
+        "agent_name": "ProductAgent",
+        "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_product_agent/bounded-project-workflow",
+        "allowed_operations": [
+          "workflow.explain",
+          "artifact.write"
+        ],
+        "context_policy_ref": "agent-context-policy://v8-7/v8_7_product_agent/project-slice-scoped",
+        "created_at": "2026-06-05T01:23:38.314886+00:00",
+        "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_product_agent/redacted",
+        "forbidden_operations": [
+          "connector.call",
+          "external_llm.call",
+          "git.commit",
+          "git.push",
+          "production.deploy",
+          "workflow.template.publish",
+          "approval.respond"
+        ],
+        "goal": "Convert the user goal into a bounded project brief.",
+        "mcp_binding_refs": [],
+        "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_product_agent/station-scoped",
+        "model_profile_ref": "agent-model-profile://v8-7/v8_7_product_agent/configured-provider",
+        "role": "product_agent",
+        "skill_binding_refs": [
+          "agent-skill-binding://v8-7/v8_7_product_agent/product_agent"
+        ],
+        "source_policy": "source_agent_durable_mutation_denied",
+        "station_id": "product_station",
+        "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_product_agent/allowlist"
+      },
+      {
+        "agent_id": "v8_7_architecture_agent",
+        "agent_name": "ArchitectureAgent",
+        "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_architecture_agent/bounded-project-workflow",
+        "allowed_operations": [
+          "workflow.explain",
+          "artifact.write"
+        ],
+        "context_policy_ref": "agent-context-policy://v8-7/v8_7_architecture_agent/project-slice-scoped",
+        "created_at": "2026-06-05T01:23:38.314918+00:00",
+        "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_architecture_agent/redacted",
+        "forbidden_operations": [
+          "connector.call",
+          "external_llm.call",
+          "git.commit",
+          "git.push",
+          "production.deploy",
+          "workflow.template.publish",
+          "approval.respond"
+        ],
+        "goal": "Describe the architecture delta and runtime boundaries.",
+        "mcp_binding_refs": [],
+        "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_architecture_agent/station-scoped",
+        "model_profile_ref": "agent-model-profile://v8-7/v8_7_architecture_agent/configured-provider",
+        "role": "architecture_agent",
+        "skill_binding_refs": [
+          "agent-skill-binding://v8-7/v8_7_architecture_agent/architecture_agent"
+        ],
+        "source_policy": "source_agent_durable_mutation_denied",
+        "station_id": "architecture_station",
+        "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_architecture_agent/allowlist"
+      },
+      {
+        "agent_id": "v8_7_planning_agent",
+        "agent_name": "PlanningAgent",
+        "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_planning_agent/bounded-project-workflow",
+        "allowed_operations": [
+          "workflow.explain",
+          "artifact.write"
+        ],
+        "context_policy_ref": "agent-context-policy://v8-7/v8_7_planning_agent/project-slice-scoped",
+        "created_at": "2026-06-05T01:23:38.314927+00:00",
+        "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_planning_agent/redacted",
+        "forbidden_operations": [
+          "connector.call",
+          "external_llm.call",
+          "git.commit",
+          "git.push",
+          "production.deploy",
+          "workflow.template.publish",
+          "approval.respond"
+        ],
+        "goal": "Create the implementation and validation sequence.",
+        "mcp_binding_refs": [],
+        "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_planning_agent/station-scoped",
+        "model_profile_ref": "agent-model-profile://v8-7/v8_7_planning_agent/configured-provider",
+        "role": "planning_agent",
+        "skill_binding_refs": [
+          "agent-skill-binding://v8-7/v8_7_planning_agent/planning_agent"
+        ],
+        "source_policy": "source_agent_durable_mutation_denied",
+        "station_id": "planning_station",
+        "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_planning_agent/allowlist"
+      },
+      {
+        "agent_id": "v8_7_implementation_agent",
+        "agent_name": "ImplementationAgent",
+        "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_implementation_agent/bounded-project-workflow",
+        "allowed_operations": [
+          "terminal_worker.handoff.propose",
+          "evidence.show"
+        ],
+        "context_policy_ref": "agent-context-policy://v8-7/v8_7_implementation_agent/project-slice-scoped",
+        "created_at": "2026-06-05T01:23:38.314939+00:00",
+        "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_implementation_agent/redacted",
+        "forbidden_operations": [
+          "connector.call",
+          "external_llm.call",
+          "git.commit",
+          "git.push",
+          "production.deploy",
+          "workflow.template.publish",
+          "approval.respond"
+        ],
+        "goal": "Request controlled terminal handoff evidence without direct shell authority.",
+        "mcp_binding_refs": [
+          "agent-mcp-binding://v8-7/v8_7_implementation_agent/terminal_worker_readonly_handoff"
+        ],
+        "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_implementation_agent/station-scoped",
+        "model_profile_ref": "agent-model-profile://v8-7/v8_7_implementation_agent/configured-provider",
+        "role": "implementation_agent",
+        "skill_binding_refs": [
+          "agent-skill-binding://v8-7/v8_7_implementation_agent/implementation_agent"
+        ],
+        "source_policy": "source_agent_durable_mutation_denied",
+        "station_id": "implementation_station",
+        "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_implementation_agent/allowlist"
+      },
+      {
+        "agent_id": "v8_7_test_agent",
+        "agent_name": "TestAgent",
+        "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_test_agent/bounded-project-workflow",
+        "allowed_operations": [
+          "terminal_worker.readonly_result.review",
+          "quality.evaluation.create"
+        ],
+        "context_policy_ref": "agent-context-policy://v8-7/v8_7_test_agent/project-slice-scoped",
+        "created_at": "2026-06-05T01:23:38.314949+00:00",
+        "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_test_agent/redacted",
+        "forbidden_operations": [
+          "connector.call",
+          "external_llm.call",
+          "git.commit",
+          "git.push",
+          "production.deploy",
+          "workflow.template.publish",
+          "approval.respond"
+        ],
+        "goal": "Validate read-only terminal outputs and acceptance conditions.",
+        "mcp_binding_refs": [
+          "agent-mcp-binding://v8-7/v8_7_test_agent/terminal_worker_readonly_handoff"
+        ],
+        "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_test_agent/station-scoped",
+        "model_profile_ref": "agent-model-profile://v8-7/v8_7_test_agent/configured-provider",
+        "role": "test_agent",
+        "skill_binding_refs": [
+          "agent-skill-binding://v8-7/v8_7_test_agent/test_agent"
+        ],
+        "source_policy": "source_agent_durable_mutation_denied",
+        "station_id": "test_station",
+        "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_test_agent/allowlist"
+      },
+      {
+        "agent_id": "v8_7_review_agent",
+        "agent_name": "ReviewAgent",
+        "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_review_agent/bounded-project-workflow",
+        "allowed_operations": [
+          "workflow.explain",
+          "artifact.write"
+        ],
+        "context_policy_ref": "agent-context-policy://v8-7/v8_7_review_agent/project-slice-scoped",
+        "created_at": "2026-06-05T01:23:38.314957+00:00",
+        "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_review_agent/redacted",
+        "forbidden_operations": [
+          "connector.call",
+          "external_llm.call",
+          "git.commit",
+          "git.push",
+          "production.deploy",
+          "workflow.template.publish",
+          "approval.respond"
+        ],
+        "goal": "Review result quality, boundaries, and residual risks.",
+        "mcp_binding_refs": [
+          "agent-mcp-binding://v8-7/v8_7_review_agent/evidence_registry_readonly"
+        ],
+        "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_review_agent/station-scoped",
+        "model_profile_ref": "agent-model-profile://v8-7/v8_7_review_agent/configured-provider",
+        "role": "review_agent",
+        "skill_binding_refs": [
+          "agent-skill-binding://v8-7/v8_7_review_agent/review_agent"
+        ],
+        "source_policy": "source_agent_durable_mutation_denied",
+        "station_id": "review_station",
+        "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_review_agent/allowlist"
+      },
+      {
+        "agent_id": "v8_7_evidence_agent",
+        "agent_name": "EvidenceAgent",
+        "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_evidence_agent/bounded-project-workflow",
+        "allowed_operations": [
+          "evidence.show",
+          "report.open"
+        ],
+        "context_policy_ref": "agent-context-policy://v8-7/v8_7_evidence_agent/project-slice-scoped",
+        "created_at": "2026-06-05T01:23:38.314965+00:00",
+        "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_evidence_agent/redacted",
+        "forbidden_operations": [
+          "connector.call",
+          "external_llm.call",
+          "git.commit",
+          "git.push",
+          "production.deploy",
+          "workflow.template.publish",
+          "approval.respond"
+        ],
+        "goal": "Package traceable evidence links for audit.",
+        "mcp_binding_refs": [
+          "agent-mcp-binding://v8-7/v8_7_evidence_agent/evidence_registry_readonly"
+        ],
+        "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_evidence_agent/station-scoped",
+        "model_profile_ref": "agent-model-profile://v8-7/v8_7_evidence_agent/configured-provider",
+        "role": "evidence_agent",
+        "skill_binding_refs": [
+          "agent-skill-binding://v8-7/v8_7_evidence_agent/evidence_agent"
+        ],
+        "source_policy": "source_agent_durable_mutation_denied",
+        "station_id": "evidence_station",
+        "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_evidence_agent/allowlist"
+      },
+      {
+        "agent_id": "v8_7_workflow_explainer",
+        "agent_name": "ExplainerAgent",
+        "agent_runtime_profile_ref": "agent-runtime-profile://v8-7/v8_7_workflow_explainer/bounded-project-workflow",
+        "allowed_operations": [
+          "workflow.explain",
+          "artifact.write"
+        ],
+        "context_policy_ref": "agent-context-policy://v8-7/v8_7_workflow_explainer/project-slice-scoped",
+        "created_at": "2026-06-05T01:23:38.314975+00:00",
+        "evidence_policy_ref": "agent-evidence-policy://v8-7/v8_7_workflow_explainer/redacted",
+        "forbidden_operations": [
+          "connector.call",
+          "external_llm.call",
+          "git.commit",
+          "git.push",
+          "production.deploy",
+          "workflow.template.publish",
+          "approval.respond"
+        ],
+        "goal": "Explain the workflow path, Agent responsibilities, and forbidden actions.",
+        "mcp_binding_refs": [
+          "agent-mcp-binding://v8-7/v8_7_workflow_explainer/evidence_registry_readonly"
+        ],
+        "memory_policy_ref": "agent-memory-policy://v8-7/v8_7_workflow_explainer/station-scoped",
+        "model_profile_ref": "agent-model-profile://v8-7/v8_7_workflow_explainer/configured-provider",
+        "role": "workflow_explainer",
+        "skill_binding_refs": [
+          "agent-skill-binding://v8-7/v8_7_workflow_explainer/workflow_explainer"
+        ],
+        "source_policy": "source_agent_durable_mutation_denied",
+        "station_id": "explainer_station",
+        "tool_policy_ref": "agent-tool-policy://v8-7/v8_7_workflow_explainer/allowlist"
+      }
+    ],
+    "validation_result": {
+      "agent_descriptor_count": 8,
+      "station_count": 8,
+      "status": "PASS",
+      "workflow_explainer_agent_exists": true
+    },
+    "workflow_explainer_agent_id": "v8_7_explainer_agent",
+    "workflow_spec_id": "workflow_spec_v8_7_073b76e5ceab"
+  },
+  "project_artifacts": [
+    {
+      "agent_id": "v8_7_product_agent",
+      "artifact_id": "artifact-v8-7-product_station-9866fc3b",
+      "created_at": "2026-06-05T01:23:38.556264+00:00",
+      "kind": "product_station_artifact",
+      "path": "artifacts/product_station.md",
+      "producer_attempt_id": "attempt-v8-7-product_station-1",
+      "redaction_status": "redacted",
+      "station_id": "product_station",
+      "title": "ProductAgent",
+      "upstream_artifact_refs": []
+    },
+    {
+      "agent_id": "v8_7_architecture_agent",
+      "artifact_id": "artifact-v8-7-architecture_station-bb87ccee",
+      "created_at": "2026-06-05T01:23:38.556293+00:00",
+      "kind": "architecture_station_artifact",
+      "path": "artifacts/architecture_station.md",
+      "producer_attempt_id": "attempt-v8-7-architecture_station-1",
+      "redaction_status": "redacted",
+      "station_id": "architecture_station",
+      "title": "ArchitectureAgent",
+      "upstream_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b"
+      ]
+    },
+    {
+      "agent_id": "v8_7_planning_agent",
+      "artifact_id": "artifact-v8-7-planning_station-f218c850",
+      "created_at": "2026-06-05T01:23:38.556307+00:00",
+      "kind": "planning_station_artifact",
+      "path": "artifacts/planning_station.md",
+      "producer_attempt_id": "attempt-v8-7-planning_station-1",
+      "redaction_status": "redacted",
+      "station_id": "planning_station",
+      "title": "PlanningAgent",
+      "upstream_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee"
+      ]
+    },
+    {
+      "agent_id": "v8_7_implementation_agent",
+      "artifact_id": "artifact-v8-7-implementation_station-ec83a2ef",
+      "created_at": "2026-06-05T01:23:38.556318+00:00",
+      "kind": "implementation_station_artifact",
+      "path": "artifacts/implementation_station.md",
+      "producer_attempt_id": "attempt-v8-7-implementation_station-1",
+      "redaction_status": "redacted",
+      "station_id": "implementation_station",
+      "title": "ImplementationAgent",
+      "upstream_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee",
+        "artifact-v8-7-planning_station-f218c850"
+      ]
+    },
+    {
+      "agent_id": "v8_7_test_agent",
+      "artifact_id": "artifact-v8-7-test_station-52bae153",
+      "created_at": "2026-06-05T01:23:38.556334+00:00",
+      "kind": "test_station_artifact",
+      "path": "artifacts/test_station.md",
+      "producer_attempt_id": "attempt-v8-7-test_station-1",
+      "redaction_status": "redacted",
+      "station_id": "test_station",
+      "title": "TestAgent",
+      "upstream_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee",
+        "artifact-v8-7-planning_station-f218c850",
+        "artifact-v8-7-implementation_station-ec83a2ef"
+      ]
+    },
+    {
+      "agent_id": "v8_7_review_agent",
+      "artifact_id": "artifact-v8-7-review_station-e164ecad",
+      "created_at": "2026-06-05T01:23:38.556346+00:00",
+      "kind": "review_station_artifact",
+      "path": "artifacts/review_station.md",
+      "producer_attempt_id": "attempt-v8-7-review_station-1",
+      "redaction_status": "redacted",
+      "station_id": "review_station",
+      "title": "ReviewAgent",
+      "upstream_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee",
+        "artifact-v8-7-planning_station-f218c850",
+        "artifact-v8-7-implementation_station-ec83a2ef",
+        "artifact-v8-7-test_station-52bae153"
+      ]
+    },
+    {
+      "agent_id": "v8_7_evidence_agent",
+      "artifact_id": "artifact-v8-7-evidence_station-7323cccd",
+      "created_at": "2026-06-05T01:23:38.556357+00:00",
+      "kind": "evidence_station_artifact",
+      "path": "artifacts/evidence_station.md",
+      "producer_attempt_id": "attempt-v8-7-evidence_station-1",
+      "redaction_status": "redacted",
+      "station_id": "evidence_station",
+      "title": "EvidenceAgent",
+      "upstream_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee",
+        "artifact-v8-7-planning_station-f218c850",
+        "artifact-v8-7-implementation_station-ec83a2ef",
+        "artifact-v8-7-test_station-52bae153",
+        "artifact-v8-7-review_station-e164ecad"
+      ]
+    },
+    {
+      "agent_id": "v8_7_workflow_explainer",
+      "artifact_id": "artifact-v8-7-explainer_station-c9f5bd57",
+      "created_at": "2026-06-05T01:23:38.556368+00:00",
+      "kind": "explainer_station_artifact",
+      "path": "artifacts/explainer_station.md",
+      "producer_attempt_id": "attempt-v8-7-explainer_station-1",
+      "redaction_status": "redacted",
+      "station_id": "explainer_station",
+      "title": "ExplainerAgent",
+      "upstream_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee",
+        "artifact-v8-7-planning_station-f218c850",
+        "artifact-v8-7-implementation_station-ec83a2ef",
+        "artifact-v8-7-test_station-52bae153",
+        "artifact-v8-7-review_station-e164ecad",
+        "artifact-v8-7-evidence_station-7323cccd"
+      ]
+    }
+  ],
+  "project_attempt_history": [
+    {
+      "agent_id": "v8_7_product_agent",
+      "attempt_id": "attempt-v8-7-product_station-1",
+      "attempt_number": 1,
+      "created_at": "2026-06-05T01:23:38.556388+00:00",
+      "error_ref": null,
+      "input_artifact_refs": [],
+      "output_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b"
+      ],
+      "previous_attempt_id": null,
+      "station_id": "product_station",
+      "status": "completed",
+      "terminal_handoff_ref": null
+    },
+    {
+      "agent_id": "v8_7_architecture_agent",
+      "attempt_id": "attempt-v8-7-architecture_station-1",
+      "attempt_number": 1,
+      "created_at": "2026-06-05T01:23:38.556396+00:00",
+      "error_ref": null,
+      "input_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b"
+      ],
+      "output_artifact_refs": [
+        "artifact-v8-7-architecture_station-bb87ccee"
+      ],
+      "previous_attempt_id": null,
+      "station_id": "architecture_station",
+      "status": "completed",
+      "terminal_handoff_ref": null
+    },
+    {
+      "agent_id": "v8_7_planning_agent",
+      "attempt_id": "attempt-v8-7-planning_station-1",
+      "attempt_number": 1,
+      "created_at": "2026-06-05T01:23:38.556401+00:00",
+      "error_ref": null,
+      "input_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee"
+      ],
+      "output_artifact_refs": [
+        "artifact-v8-7-planning_station-f218c850"
+      ],
+      "previous_attempt_id": null,
+      "station_id": "planning_station",
+      "status": "completed",
+      "terminal_handoff_ref": null
+    },
+    {
+      "agent_id": "v8_7_implementation_agent",
+      "attempt_id": "attempt-v8-7-implementation_station-1",
+      "attempt_number": 1,
+      "created_at": "2026-06-05T01:23:38.556406+00:00",
+      "error_ref": null,
+      "input_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee",
+        "artifact-v8-7-planning_station-f218c850"
+      ],
+      "output_artifact_refs": [
+        "artifact-v8-7-implementation_station-ec83a2ef"
+      ],
+      "previous_attempt_id": null,
+      "station_id": "implementation_station",
+      "status": "completed",
+      "terminal_handoff_ref": "terminal-worker/human-review-handoff.json"
+    },
+    {
+      "agent_id": "v8_7_test_agent",
+      "attempt_id": "attempt-v8-7-test_station-1",
+      "attempt_number": 1,
+      "created_at": "2026-06-05T01:23:38.556412+00:00",
+      "error_ref": null,
+      "input_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee",
+        "artifact-v8-7-planning_station-f218c850",
+        "artifact-v8-7-implementation_station-ec83a2ef"
+      ],
+      "output_artifact_refs": [
+        "artifact-v8-7-test_station-52bae153"
+      ],
+      "previous_attempt_id": null,
+      "station_id": "test_station",
+      "status": "completed",
+      "terminal_handoff_ref": "terminal-worker/human-review-handoff.json"
+    },
+    {
+      "agent_id": "v8_7_review_agent",
+      "attempt_id": "attempt-v8-7-review_station-1",
+      "attempt_number": 1,
+      "created_at": "2026-06-05T01:23:38.556416+00:00",
+      "error_ref": null,
+      "input_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee",
+        "artifact-v8-7-planning_station-f218c850",
+        "artifact-v8-7-implementation_station-ec83a2ef",
+        "artifact-v8-7-test_station-52bae153"
+      ],
+      "output_artifact_refs": [
+        "artifact-v8-7-review_station-e164ecad"
+      ],
+      "previous_attempt_id": null,
+      "station_id": "review_station",
+      "status": "completed",
+      "terminal_handoff_ref": null
+    },
+    {
+      "agent_id": "v8_7_evidence_agent",
+      "attempt_id": "attempt-v8-7-evidence_station-1",
+      "attempt_number": 1,
+      "created_at": "2026-06-05T01:23:38.556421+00:00",
+      "error_ref": null,
+      "input_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee",
+        "artifact-v8-7-planning_station-f218c850",
+        "artifact-v8-7-implementation_station-ec83a2ef",
+        "artifact-v8-7-test_station-52bae153",
+        "artifact-v8-7-review_station-e164ecad"
+      ],
+      "output_artifact_refs": [
+        "artifact-v8-7-evidence_station-7323cccd"
+      ],
+      "previous_attempt_id": null,
+      "station_id": "evidence_station",
+      "status": "completed",
+      "terminal_handoff_ref": null
+    },
+    {
+      "agent_id": "v8_7_workflow_explainer",
+      "attempt_id": "attempt-v8-7-explainer_station-1",
+      "attempt_number": 1,
+      "created_at": "2026-06-05T01:23:38.556426+00:00",
+      "error_ref": null,
+      "input_artifact_refs": [
+        "artifact-v8-7-product_station-9866fc3b",
+        "artifact-v8-7-architecture_station-bb87ccee",
+        "artifact-v8-7-planning_station-f218c850",
+        "artifact-v8-7-implementation_station-ec83a2ef",
+        "artifact-v8-7-test_station-52bae153",
+        "artifact-v8-7-review_station-e164ecad",
+        "artifact-v8-7-evidence_station-7323cccd"
+      ],
+      "output_artifact_refs": [
+        "artifact-v8-7-explainer_station-c9f5bd57"
+      ],
+      "previous_attempt_id": null,
+      "station_id": "explainer_station",
+      "status": "completed",
+      "terminal_handoff_ref": null
+    }
+  ],
+  "project_evidence_bundle": {
+    "agent_descriptor_count": 8,
+    "agent_registry_ref": "project-agent-registry.json",
+    "artifact_count": 8,
+    "artifact_index_ref": "project-artifacts.json",
+    "attempt_count": 8,
+    "attempt_history_ref": "project-attempt-history.json",
+    "bundle_id": "evidence-bundle-v8-7-9824c8a1bd86",
+    "created_at": "2026-06-05T01:23:38.556453+00:00",
+    "goal": "V8-7 bounded multi-agent project workflow pilot",
+    "handoff_refs": [
+      "handoff-v8-7-implementation-3ceb27cc",
+      "handoff-v8-7-test-dce69452"
+    ],
+    "redaction_status": "redacted",
+    "station_count": 8,
+    "terminal_worker_refs": {
+      "acceptance": "PASS",
+      "command_results": "terminal-worker/command-results.json",
+      "diff_proposal": "terminal-worker/diff-proposal.patch",
+      "transcript": "terminal-worker/terminal-transcript.txt"
+    },
+    "workflow_spec_ref": "project-workflow-spec.json"
+  },
+  "project_handoffs": [
+    {
+      "applied": false,
+      "diff_ref": "terminal-worker/diff-proposal.patch",
+      "from_agent_id": "v8_7_planning_agent",
+      "handoff_id": "handoff-v8-7-implementation-3ceb27cc",
+      "handoff_kind": "controlled_terminal_worker_proposal",
+      "human_authorization_ref": "human-auth://v8-7/user-accepted-multi-agent-project-workflow-pilot",
+      "redaction_status": "redacted",
+      "requires_user_confirmation": true,
+      "terminal_worker_handoff_ref": "terminal-worker/human-review-handoff.json",
+      "to_agent_id": "v8_7_implementation_agent",
+      "transcript_ref": "terminal-worker/terminal-transcript.txt"
+    },
+    {
+      "command_results_ref": "terminal-worker/command-results.json",
+      "from_agent_id": "v8_7_implementation_agent",
+      "handoff_id": "handoff-v8-7-test-dce69452",
+      "handoff_kind": "readonly_test_evidence_review",
+      "redaction_status": "redacted",
+      "requires_user_confirmation": false,
+      "terminal_worker_status": "PASS",
+      "to_agent_id": "v8_7_test_agent"
+    }
+  ],
+  "stage_id": "V8-7",
+  "terminal_worker_acceptance": {
+    "allowed_claim": "V8-6 complete: controlled terminal worker pilot ready for review.",
+    "auto_commit_enabled": false,
+    "auto_push_enabled": false,
+    "claim_scan": "PASS",
+    "command_allowlist": "PASS",
+    "diff_proposal_captured": "PASS",
+    "evidence_scope": "controlled_runtime_fixture",
+    "forbidden_claims": [
+      "Agent executor ready",
+      "ChromeCLI production automation ready",
+      "Claude terminal executor production ready",
+      "Codex terminal executor production ready",
+      "autonomous coding workflow ready",
+      "complete Workflow Studio ready",
+      "full multi-Agent orchestration ready",
+      "production Agent executor ready",
+      "unrestricted terminal worker ready"
+    ],
+    "human_review_handoff_exists": "PASS",
+    "production_browser_automation_enabled": false,
+    "redaction_scan": "PASS",
+    "runtime_backed": true,
+    "source_agent_mutation_denied": "PASS",
+    "stage_id": "V8-6",
+    "status": "PASS",
+    "terminal_worker_runtime_enabled": true,
+    "terminal_worker_scope": "workspace_scoped_readonly_shell_and_handoff_proposal_only",
+    "transcript_captured": "PASS",
+    "worker_type": "codex_cli",
+    "workspace_scope_guard": "PASS"
+  },
+  "terminal_worker_evidence_refs": {
+    "command_results": "terminal-worker/command-results.json",
+    "diff_proposal": "terminal-worker/diff-proposal.patch",
+    "handoff": "terminal-worker/human-review-handoff.json",
+    "index": "terminal-worker/index.html",
+    "transcript": "terminal-worker/terminal-transcript.txt"
+  },
+  "workflow_spec": {
+    "allowed_sources": [
+      "product_console",
+      "approved_api"
+    ],
+    "denied_sources": [
+      "agent"
+    ],
+    "edges": [
+      {
+        "from_station_id": "product_station",
+        "to_station_id": "architecture_station"
+      },
+      {
+        "from_station_id": "architecture_station",
+        "to_station_id": "planning_station"
+      },
+      {
+        "from_station_id": "planning_station",
+        "to_station_id": "implementation_station"
+      },
+      {
+        "from_station_id": "implementation_station",
+        "to_station_id": "test_station"
+      },
+      {
+        "from_station_id": "test_station",
+        "to_station_id": "review_station"
+      },
+      {
+        "from_station_id": "review_station",
+        "to_station_id": "evidence_station"
+      },
+      {
+        "from_station_id": "evidence_station",
+        "to_station_id": "explainer_station"
+      }
+    ],
+    "metadata": {
+      "created_at": "2026-06-05T01:23:38.314849+00:00",
+      "goal": "V8-7 bounded multi-agent project workflow pilot",
+      "schema_version": "v8.7",
+      "title": "V8-7 Bounded Multi-Agent Project Workflow",
+      "workflow_spec_id": "workflow_spec_v8_7_073b76e5ceab"
+    },
+    "runtime_truth_boundary": "workflow_spec_is_not_runtime_truth",
+    "stations": [
+      {
+        "agent_name": "ProductAgent",
+        "goal": "Convert the user goal into a bounded project brief.",
+        "output_refs": [
+          "artifact://v8-7/product_station/primary"
+        ],
+        "role": "product_agent",
+        "station_id": "product_station"
+      },
+      {
+        "agent_name": "ArchitectureAgent",
+        "goal": "Describe the architecture delta and runtime boundaries.",
+        "output_refs": [
+          "artifact://v8-7/architecture_station/primary"
+        ],
+        "role": "architecture_agent",
+        "station_id": "architecture_station"
+      },
+      {
+        "agent_name": "PlanningAgent",
+        "goal": "Create the implementation and validation sequence.",
+        "output_refs": [
+          "artifact://v8-7/planning_station/primary"
+        ],
+        "role": "planning_agent",
+        "station_id": "planning_station"
+      },
+      {
+        "agent_name": "ImplementationAgent",
+        "goal": "Request controlled terminal handoff evidence without direct shell authority.",
+        "output_refs": [
+          "artifact://v8-7/implementation_station/primary"
+        ],
+        "role": "implementation_agent",
+        "station_id": "implementation_station"
+      },
+      {
+        "agent_name": "TestAgent",
+        "goal": "Validate read-only terminal outputs and acceptance conditions.",
+        "output_refs": [
+          "artifact://v8-7/test_station/primary"
+        ],
+        "role": "test_agent",
+        "station_id": "test_station"
+      },
+      {
+        "agent_name": "ReviewAgent",
+        "goal": "Review result quality, boundaries, and residual risks.",
+        "output_refs": [
+          "artifact://v8-7/review_station/primary"
+        ],
+        "role": "review_agent",
+        "station_id": "review_station"
+      },
+      {
+        "agent_name": "EvidenceAgent",
+        "goal": "Package traceable evidence links for audit.",
+        "output_refs": [
+          "artifact://v8-7/evidence_station/primary"
+        ],
+        "role": "evidence_agent",
+        "station_id": "evidence_station"
+      },
+      {
+        "agent_name": "ExplainerAgent",
+        "goal": "Explain the workflow path, Agent responsibilities, and forbidden actions.",
+        "output_refs": [
+          "artifact://v8-7/explainer_station/primary"
+        ],
+        "role": "workflow_explainer",
+        "station_id": "explainer_station"
+      }
+    ]
+  }
+}

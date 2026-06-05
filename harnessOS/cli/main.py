@@ -84,6 +84,9 @@ def main():
     if argv and argv[0] == "run":
         raise SystemExit(_run_headless(argv[1:]))
 
+    if argv and argv[0] == "tui":
+        raise SystemExit(_run_mission_tui(argv[1:]))
+
     print("harnessOS Phase 0 Shell")
     print("=" * 40)
 
@@ -193,6 +196,174 @@ def _run_headless(argv: list[str]) -> int:
     else:
         print(output, file=sys.stderr)
     return code
+
+
+def _run_mission_tui(argv: list[str]) -> int:
+    """Render the Mission TUI or run explicit V7/V8 local Markdown workflow paths."""
+    import argparse
+    import json
+    from pathlib import Path
+
+    parser = argparse.ArgumentParser(
+        prog="harness tui",
+        description="Render an explainable Mission TUI state or run explicit V7-3/V8 local Markdown workflow paths.",
+    )
+    parser.add_argument("goal", nargs="*", help="Natural-language mission goal")
+    parser.add_argument("--json", action="store_true", help="Print the Mission TUI state as JSON")
+    parser.add_argument("--run", action="store_true", help="Run the V7-3 supported local Markdown workflow")
+    parser.add_argument("--v8-station-agent", action="store_true", help="Run the V8 station-agent local Markdown workflow pilot")
+    parser.add_argument("--v8-terminal-worker", action="store_true", help="Run the V8-6 controlled terminal worker pilot")
+    parser.add_argument("--v8-project-workflow", action="store_true", help="Run the V8-7 bounded multi-Agent project workflow pilot")
+    parser.add_argument("--v8-agent-tui", action="store_true", help="Render the V8-8 read-only Agent explainability TUI evidence")
+    parser.add_argument("--v8-final-framework", action="store_true", help="Render the V8-9 final acceptance framework without issuing final claim")
+    parser.add_argument("--user-confirmed", action="store_true", help="Confirm the durable workflow or high-risk controlled worker run")
+    parser.add_argument("--path", default="tests/fixtures/desktop/技术分享", help="Authorized local Markdown folder path")
+    parser.add_argument("--evidence-dir", help="Output directory for V7-3 evidence package")
+    args = parser.parse_args(argv)
+
+    goal = " ".join(args.goal).strip()
+    if not goal and not sys.stdin.isatty():
+        goal = sys.stdin.read().strip()
+    if not goal:
+        parser.error("goal is required")
+
+    try:
+        if args.v8_agent_tui:
+            from core.product_console.v8_agent_explainability_tui import write_v8_8_agent_explainability_evidence
+
+            output_dir = Path(args.evidence_dir) if args.evidence_dir else None
+            kwargs = {}
+            if output_dir is not None:
+                kwargs["output_dir"] = output_dir
+            state = write_v8_8_agent_explainability_evidence(**kwargs)
+            acceptance = {
+                "status": state.status,
+                "evidence_scope": state.evidence_scope,
+                "panel_count": len(state.panels),
+                "readonly": state.readonly,
+            }
+            if args.json:
+                print(json.dumps(acceptance, ensure_ascii=False, indent=2, sort_keys=True))
+            else:
+                print(f"V8-8 status: {acceptance['status']}")
+                print(f"evidence_scope: {acceptance['evidence_scope']}")
+                print(f"panel_count: {acceptance['panel_count']}")
+                print(f"readonly: {str(acceptance['readonly']).lower()}")
+            return 0 if state.status == "PASS" else 2
+
+        if args.v8_final_framework:
+            from core.product_console.v8_final_acceptance import write_v8_9_final_acceptance_framework
+
+            output_dir = Path(args.evidence_dir) if args.evidence_dir else None
+            result = write_v8_9_final_acceptance_framework(output_dir) if output_dir is not None else write_v8_9_final_acceptance_framework()
+            if args.json:
+                print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
+            else:
+                print(f"V8-9 status: {result['status']}")
+                print(f"final_claim_allowed: {str(result['final_claim_allowed']).lower()}")
+                print(f"blockers: {len(result['blockers'])}")
+            return 0 if result["status"] == "PASS" else 2
+
+        if args.run or args.v8_station_agent or args.v8_terminal_worker or args.v8_project_workflow:
+            if not args.user_confirmed:
+                parser.error("--run requires --user-confirmed")
+            if args.v8_project_workflow:
+                from core.product_console.v8_7_multi_agent_project_workflow import (
+                    V87ProjectWorkflowConfig,
+                    run_v8_7_multi_agent_project_workflow,
+                )
+
+                output_dir = Path(args.evidence_dir) if args.evidence_dir else None
+                config_kwargs = {
+                    "goal": goal,
+                    "user_confirmed": True,
+                }
+                if output_dir is not None:
+                    config_kwargs["evidence_dir"] = output_dir
+                result = run_v8_7_multi_agent_project_workflow(V87ProjectWorkflowConfig(**config_kwargs))
+                if args.json:
+                    print(json.dumps(result["acceptance"], ensure_ascii=False, indent=2, sort_keys=True))
+                else:
+                    print(f"V8-7 status: {result['acceptance']['status']}")
+                    print(f"evidence_scope: {result['acceptance']['evidence_scope']}")
+                    print(f"station_count: {result['acceptance']['station_count']}")
+                    print(f"agent_descriptor_count: {result['acceptance']['agent_descriptor_count']}")
+                    print(f"implementation_agent_uses_handoff_not_direct_shell: {result['acceptance']['implementation_agent_uses_handoff_not_direct_shell']}")
+                    print(f"source_agent_mutation_denied: {result['acceptance']['source_agent_mutation_denied']}")
+                return 0 if result["acceptance"]["status"] == "PASS" else 2
+
+            if args.v8_terminal_worker:
+                from core.terminal_workers import V86ControlledTerminalWorkerConfig, run_v8_6_controlled_terminal_worker_pilot
+
+                output_dir = Path(args.evidence_dir) if args.evidence_dir else None
+                config_kwargs = {"user_confirmed": True}
+                if output_dir is not None:
+                    config_kwargs["evidence_dir"] = output_dir
+                result = run_v8_6_controlled_terminal_worker_pilot(V86ControlledTerminalWorkerConfig(**config_kwargs))
+                if args.json:
+                    print(json.dumps(result["acceptance"], ensure_ascii=False, indent=2, sort_keys=True))
+                else:
+                    print(f"V8-6 status: {result['acceptance']['status']}")
+                    print(f"evidence_scope: {result['acceptance']['evidence_scope']}")
+                    print(f"worker_type: {result['acceptance']['worker_type']}")
+                    print(f"workspace_scope_guard: {result['acceptance']['workspace_scope_guard']}")
+                    print(f"command_allowlist: {result['acceptance']['command_allowlist']}")
+                    print(f"source_agent_mutation_denied: {result['acceptance']['source_agent_mutation_denied']}")
+                return 0 if result["acceptance"]["status"] == "PASS" else 2
+
+            if args.v8_station_agent:
+                from core.product_console.v8_station_agent_workflow import V8StationAgentRunConfig, run_v8_station_agent_workflow
+
+                output_dir = Path(args.evidence_dir) if args.evidence_dir else None
+                config_kwargs = {
+                    "goal": goal,
+                    "requested_path": args.path,
+                    "user_confirmed": True,
+                }
+                if output_dir is not None:
+                    config_kwargs["output_dir"] = output_dir
+                result = run_v8_station_agent_workflow(V8StationAgentRunConfig(**config_kwargs))
+                if args.json:
+                    print(json.dumps(result["acceptance"], ensure_ascii=False, indent=2, sort_keys=True))
+                else:
+                    print(f"V8 status: {result['acceptance']['status']}")
+                    print(f"evidence_scope: {result['acceptance']['evidence_scope']}")
+                    print(f"station_count: {result['acceptance']['station_count']}")
+                    print(f"agent_descriptor_count: {result['acceptance']['agent_descriptor_count']}")
+                    print(f"source_agent_mutation_denied: {result['acceptance']['source_agent_mutation_denied']}")
+                return 0 if result["acceptance"]["status"] == "PASS" else 2
+
+            from core.product_console.v7_3_workflow_run import V73RunConfig, run_v7_3_workflow
+
+            output_dir = Path(args.evidence_dir) if args.evidence_dir else None
+            config_kwargs = {
+                "goal": goal,
+                "requested_path": args.path,
+                "user_confirmed": True,
+            }
+            if output_dir is not None:
+                config_kwargs["output_dir"] = output_dir
+            result = run_v7_3_workflow(V73RunConfig(**config_kwargs))
+            if args.json:
+                print(json.dumps(result["acceptance"], ensure_ascii=False, indent=2, sort_keys=True))
+            else:
+                print(f"V7-3 status: {result['acceptance']['status']}")
+                print(f"evidence_scope: {result['acceptance']['evidence_scope']}")
+                print(f"scanner_actual_read_count: {result['acceptance']['scanner_actual_read_count']}")
+                print(f"provider_invocation_count: {result['acceptance']['provider_invocation_count']}")
+            return 0 if result["acceptance"]["status"] == "PASS" else 2
+
+        from core.product_console.v7_2_mission_tui import build_mission_tui_state, render_mission_tui_text
+
+        state = build_mission_tui_state(goal)
+        if args.json:
+            print(json.dumps(state.to_dict(), ensure_ascii=False, indent=2, sort_keys=True))
+        else:
+            print(render_mission_tui_text(state), end="")
+    except Exception as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    return 0
 
 
 def _run_openharness_tui():

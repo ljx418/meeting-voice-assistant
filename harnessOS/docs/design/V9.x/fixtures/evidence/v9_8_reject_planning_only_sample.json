@@ -1,0 +1,22 @@
+{
+  "evidence_package_id": "v9-8-reject-planning-only-sample",
+  "stage_id": "V9-8",
+  "status": "BLOCKED",
+  "evidence_scope": "planning_only",
+  "runtime_backed": false,
+  "source_document_refs": [
+    "docs/design/V9.x/v9_8_final_acceptance_framework.md"
+  ],
+  "runtime_artifact_refs": [],
+  "test_run_refs": [],
+  "human_decision_refs": [],
+  "claim_scan_result": "PASS",
+  "redaction_scan_result": "PASS",
+  "forbidden_raw_content_scan_result": "PASS",
+  "drawio_validation_result": "PASS",
+  "evidence_hash": "sample-blocked",
+  "created_by": "documentation",
+  "created_at": "2026-06-05T00:00:00Z",
+  "auditor_decision": "BLOCKED_PLANNING_DOCS_ONLY",
+  "notes": "V9-8 must reject planning docs only."
+}

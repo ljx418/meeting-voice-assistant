@@ -1,0 +1,15 @@
+{
+  "agent_id": "agent_v8_code_review",
+  "command_allowlist_ref": "policy://v8-6/readonly-command-allowlist",
+  "created_at": "2026-06-04T14:21:44.479577+00:00",
+  "diff_capture_ref": "capture://v8-6/diff-proposal",
+  "handoff_policy_ref": "policy://v8-6/human-review-handoff",
+  "kill_switch_policy_ref": "policy://v8-6/kill-switch",
+  "session_policy_ref": "policy://v8-6/terminal-session",
+  "station_id": "code_review_station",
+  "timeout_policy_ref": "policy://v8-6/timeout",
+  "transcript_capture_ref": "capture://v8-6/terminal-transcript",
+  "worker_id": "terminal-worker-v8-6-ad62c1ba8f9f",
+  "worker_type": "codex_cli",
+  "workspace_scope_ref": "workspace://harnessOS"
+}

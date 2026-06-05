@@ -1,0 +1,11 @@
+diff --git a/docs/design/V8.x/v8_6_controlled_terminal_worker_pilot_plan.md b/docs/design/V8.x/v8_6_controlled_terminal_worker_pilot_plan.md
+proposal_only=true
+applied=false
+worker_id=terminal-worker-v8-6-e9359f093670
+@@ V8-6 controlled terminal worker evidence proposal @@
++ readonly_command_success_count=3
++ capture terminal transcript and command results
++ keep auto_commit_enabled=false
++ keep auto_push_enabled=false
++ keep production_browser_automation_enabled=false
++ keep source_agent_direct_durable_mutation_denied=true

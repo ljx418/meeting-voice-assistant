@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>V8-7 Multi-Agent Project Workflow</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; color: #111827; background: #f8fafc; }
+      section, table, pre { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; margin: 16px 0; }
+      table { border-collapse: collapse; width: 100%; }
+      td, th { border-bottom: 1px solid #e5e7eb; padding: 8px; text-align: left; vertical-align: top; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+      a { color: #2563eb; }
+    </style>
+  </head>
+  <body>
+    <h1>V8-7 多 Agent 项目工作流试点</h1>
+    <section><h2>验收状态</h2><pre>{
+  &quot;stage_id&quot;: &quot;V8-7&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;evidence_scope&quot;: &quot;bounded_runtime_fixture&quot;,
+  &quot;runtime_backed&quot;: true,
+  &quot;station_count&quot;: 8,
+  &quot;agent_descriptor_count&quot;: 8,
+  &quot;attempt_history_count&quot;: 8,
+  &quot;artifact_count&quot;: 8,
+  &quot;project_workflow_requires_explainer_agent&quot;: &quot;PASS&quot;,
+  &quot;implementation_agent_uses_handoff_not_direct_shell&quot;: &quot;PASS&quot;,
+  &quot;test_agent_uses_allowlisted_readonly_command&quot;: &quot;PASS&quot;,
+  &quot;source_agent_mutation_denied&quot;: &quot;PASS&quot;,
+  &quot;terminal_worker_status&quot;: &quot;PASS&quot;,
+  &quot;auto_commit_enabled&quot;: false,
+  &quot;auto_push_enabled&quot;: false,
+  &quot;auto_publish_enabled&quot;: false,
+  &quot;production_browser_automation_enabled&quot;: false,
+  &quot;attempt_history_retained&quot;: &quot;PASS&quot;,
+  &quot;review_artifact_exists&quot;: &quot;PASS&quot;,
+  &quot;evidence_agent_links_transcript_diff_test_output&quot;: &quot;PASS&quot;,
+  &quot;project_explainer_links_agent_evidence&quot;: &quot;PASS&quot;,
+  &quot;claim_scan&quot;: &quot;PASS&quot;,
+  &quot;redaction_scan&quot;: &quot;PASS&quot;,
+  &quot;allowed_claim&quot;: &quot;V8-7 complete: multi-agent project workflow pilot ready for review.&quot;,
+  &quot;blockers&quot;: []
+}</pre></section>
+    <section><h2>Agent 工位</h2><table><thead><tr><th>Station</th><th>Agent</th><th>Role</th><th>Goal</th></tr></thead><tbody><tr><td>product_station</td><td>ProductAgent</td><td>product_agent</td><td>Convert the user goal into a bounded project brief.</td></tr><tr><td>architecture_station</td><td>ArchitectureAgent</td><td>architecture_agent</td><td>Describe the architecture delta and runtime boundaries.</td></tr><tr><td>planning_station</td><td>PlanningAgent</td><td>planning_agent</td><td>Create the implementation and validation sequence.</td></tr><tr><td>implementation_station</td><td>ImplementationAgent</td><td>implementation_agent</td><td>Request controlled terminal handoff evidence without direct shell authority.</td></tr><tr><td>test_station</td><td>TestAgent</td><td>test_agent</td><td>Validate read-only terminal outputs and acceptance conditions.</td></tr><tr><td>review_station</td><td>ReviewAgent</td><td>review_agent</td><td>Review result quality, boundaries, and residual risks.</td></tr><tr><td>evidence_station</td><td>EvidenceAgent</td><td>evidence_agent</td><td>Package traceable evidence links for audit.</td></tr><tr><td>explainer_station</td><td>ExplainerAgent</td><td>workflow_explainer</td><td>Explain the workflow path, Agent responsibilities, and forbidden actions.</td></tr></tbody></table></section>
+    <section><h2>证据链接</h2><ul><li><a href="project-workflow-spec.json">project-workflow-spec.json</a></li><li><a href="project-agent-registry.json">project-agent-registry.json</a></li><li><a href="project-attempt-history.json">project-attempt-history.json</a></li><li><a href="project-artifacts.json">project-artifacts.json</a></li><li><a href="project-handoffs.json">project-handoffs.json</a></li><li><a href="project-evidence-bundle.json">project-evidence-bundle.json</a></li><li><a href="project-workflow-transcript.txt">project-workflow-transcript.txt</a></li><li><a href="terminal-worker/index.html">terminal-worker/index.html</a></li><li><a href="terminal-worker/terminal-transcript.txt">terminal-worker/terminal-transcript.txt</a></li><li><a href="terminal-worker/diff-proposal.patch">terminal-worker/diff-proposal.patch</a></li><li><a href="terminal-worker/command-results.json">terminal-worker/command-results.json</a></li></ul></section>
+    <section><h2>边界</h2><p>该页面只证明 bounded multi-Agent project workflow pilot ready for review；实现和测试工位通过受控只读 terminal handoff 获取证据，不自动提交、不自动推送、不自动发布。</p></section>
+    </body>
+</html>

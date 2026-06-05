@@ -1,13 +1,14 @@
 # V6-7 Distributed Runtime Productization PRD
 
-文档状态：V6-7 planning refinement / NO-GO for implementation。本文定义 V6-7 产品目标，不授权 runtime implementation。
+文档状态：V6-7 complete / ready for review。本文定义 V6-7 产品目标，当前已由 completion note 和 evidence package 闭环。
 
 ## Current Decision
 
 ```text
-current_decision=NO_GO_FOR_IMPLEMENTATION
-allowed_work=planning_refinement,detailed_architecture_contract
-blocked_work=runtime_implementation,distributed_worker_runtime,production_distributed_runtime_claim
+historical_decision=NO_GO_FOR_IMPLEMENTATION
+current_decision=V6-7 complete / ready for review
+allowed_claim=V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review.
+blocked_work=production_distributed_runtime_claim,full_multi_agent_orchestration_ready_claim,agent_executor_ready_claim
 ```
 
 ## Goal

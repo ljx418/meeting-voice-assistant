@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v9/final_acceptance_dashboard.schema.json",
+  "title": "V9 FinalAcceptanceDashboard",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dashboard_id",
+    "status",
+    "stage_results",
+    "claim_scan_status",
+    "redaction_scan_status",
+    "drawio_xml_status",
+    "final_allowed_claim",
+    "forbidden_claims_present",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "v9.0" },
+    "dashboard_id": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED"] },
+    "stage_results": {
+      "type": "array",
+      "minItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stage_id", "status", "evidence_scope", "runtime_backed", "evidence_package_ref"],
+        "properties": {
+          "stage_id": { "enum": ["V9-0", "V9-1", "V9-2", "V9-3", "V9-4", "V9-5", "V9-6", "V9-7", "V9-8"] },
+          "status": { "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED"] },
+          "evidence_scope": { "enum": ["planning_only", "contract_freeze", "implementation_readiness", "real_runtime_fixture", "real_runtime", "manual_review"] },
+          "runtime_backed": { "type": "boolean" },
+          "evidence_package_ref": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "claim_scan_status": { "enum": ["PASS", "FAIL"] },
+    "redaction_scan_status": { "enum": ["PASS", "FAIL"] },
+    "drawio_xml_status": { "enum": ["PASS", "FAIL"] },
+    "final_allowed_claim": {
+      "const": "V9 complete: high-risk Agent execution and workflow productization baseline ready for review."
+    },
+    "forbidden_claims_present": { "type": "boolean", "const": false },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

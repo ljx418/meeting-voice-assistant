@@ -1,0 +1,177 @@
+{
+  "bff_route_allowlist": [
+    "GET /bff/v6/audit-export",
+    "GET /bff/v6/evidence-review",
+    "GET /bff/v6/external-app-admin",
+    "GET /bff/v6/runtime-report",
+    "POST /bff/v6/manual-confirmation"
+  ],
+  "browser_network_log": [
+    "GET /bff/v6/runtime-report",
+    "GET /bff/v6/evidence-review",
+    "GET /bff/v6/audit-export",
+    "GET /bff/v6/external-app-admin",
+    "POST /bff/v6/manual-confirmation"
+  ],
+  "console_id": "product-console-v6-8-3a1e667866ff",
+  "full_workflow_studio_gate": {
+    "complete_workflow_studio_ready": false,
+    "separate_acceptance_matrix_required": true,
+    "separate_architecture_required": true,
+    "separate_no_false_green_gate_required": true,
+    "separate_prd_required": true
+  },
+  "generated_at": "2026-06-03T14:09:56.151904+00:00",
+  "global_assertions": {
+    "audit_export_readonly": true,
+    "browser_no_direct_internal_runtime_routes": true,
+    "browser_no_direct_v1_events_subscribe": true,
+    "browser_no_direct_v1_rpc": true,
+    "evidence_review_readonly": true,
+    "external_app_admin_does_not_construct_runtime_truth": true,
+    "full_workflow_studio_requires_separate_gate": true,
+    "manual_confirmation_records_human_authorization_ref": true,
+    "redaction_passed": true,
+    "runtime_report_readonly": true
+  },
+  "manual_confirmation": {
+    "actor_id": "user_v6_8",
+    "actor_type": "human_user",
+    "app_id": "app_v6_8",
+    "audit_ref": "audit://v6-8/manual-confirmation/cfc2f00066c6",
+    "correlation_id": "correlation_v6_8_evidence",
+    "created_at": "2026-06-03T14:09:56.150995+00:00",
+    "executes_runtime_action": false,
+    "expires_at": "2999-01-01T00:00:00+00:00",
+    "human_authorization_ref": "human-auth://v6-8/bd7d7553f6d4",
+    "operation": "station.rerun",
+    "policy_decision": "allow",
+    "policy_decision_ref": "policy-decision://v6-8/manual-confirmation",
+    "project_id": "project_v6_8",
+    "redaction_status": "redacted",
+    "request_id": "request_v6_8_evidence",
+    "risk_flags": [
+      "medium_risk",
+      "user_confirmation_required",
+      "controlled_executor_handoff_required"
+    ],
+    "source": "product_console",
+    "target_refs": {
+      "station_id": "station-v6-8",
+      "station_run_id": "station-run-v6-8",
+      "workflow_instance_id": "workflow-instance-v6-8"
+    },
+    "tenant_id": "tenant_v6_8",
+    "workspace_id": "workspace_v6_8"
+  },
+  "panels": [
+    {
+      "allowed_actions": [
+        "view",
+        "open_report"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "attempt_count": 0,
+        "incident_count": 0,
+        "lineage_count": 0,
+        "source": "runtime_read_model",
+        "status": "completed",
+        "workflow_instance_id": "workflow-instance-v6-7"
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "runtime_report",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": {
+        "runtime_report_ref": "docs/design/V6.x/evidence/v6-7-distributed-runtime/acceptance-data.json"
+      },
+      "title": "运行报告"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "export",
+        "open_handoff"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "allowed_actions": [
+          "view",
+          "export",
+          "open_handoff"
+        ],
+        "claim_violations": [],
+        "evidence_scope": "repo_backed_pilot_runtime_slice",
+        "redaction_status": "PASS",
+        "scenario_count": 10
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "evidence_review",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": {
+        "evidence_ref": "docs/design/V6.x/evidence/v6-7-distributed-runtime/result-summary.md"
+      },
+      "title": "证据链审查"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "export"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "audit_export_ref": "audit-export://v6-3/acceptance",
+        "authorized_view": true,
+        "immutable_or_append_only": true,
+        "source": "audit_export_read_model"
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "audit_export",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": {
+        "audit_export_ref": "docs/design/V6.x/evidence/v6-3-observability-audit/acceptance-data.json"
+      },
+      "title": "审计导出"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "app_id": "app_v6_6",
+        "constructs_runtime_truth": false,
+        "offboarding_revoked_credentials": true,
+        "registration_status": "PASS",
+        "source": "external_app_admin_read_model"
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "external_app_admin",
+      "readonly": true,
+      "redaction_status": "redacted",
+      "source_refs": {
+        "external_app_ref": "docs/design/V6.x/evidence/v6-6-external-app-onboarding/acceptance-data.json"
+      },
+      "title": "外部应用管理"
+    }
+  ],
+  "readonly": true,
+  "source_refs": {
+    "audit_export": "docs/design/V6.x/evidence/v6-3-observability-audit/acceptance-data.json",
+    "evidence_review": "docs/design/V6.x/evidence/v6-7-distributed-runtime/result-summary.md",
+    "external_app_admin": "docs/design/V6.x/evidence/v6-6-external-app-onboarding/acceptance-data.json",
+    "runtime_report": "docs/design/V6.x/evidence/v6-7-distributed-runtime/acceptance-data.json"
+  },
+  "tenant_context": {
+    "actor_id": "user_v6_8",
+    "actor_type": "human_user",
+    "app_id": "app_v6_8",
+    "project_id": "project_v6_8",
+    "tenant_id": "tenant_v6_8",
+    "workspace_id": "workspace_v6_8"
+  }
+}

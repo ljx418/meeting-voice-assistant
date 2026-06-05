@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/WorkflowDiff.schema.json",
+  "title": "WorkflowDiff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "workflow_diff_id",
+    "goal_id",
+    "workflow_spec_id",
+    "change_summary",
+    "stations_added",
+    "edges_added",
+    "artifact_contracts_added",
+    "approval_points_added",
+    "requires_user_confirmation",
+    "durable_mutation_before_confirmation",
+    "created_at"
+  ],
+  "properties": {
+    "workflow_diff_id": { "type": "string", "minLength": 1 },
+    "goal_id": { "type": "string", "minLength": 1 },
+    "workflow_spec_id": { "type": "string", "minLength": 1 },
+    "change_summary": { "type": "string", "minLength": 1 },
+    "stations_added": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "edges_added": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "artifact_contracts_added": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "approval_points_added": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "requires_user_confirmation": { "const": true },
+    "durable_mutation_before_confirmation": { "const": false },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

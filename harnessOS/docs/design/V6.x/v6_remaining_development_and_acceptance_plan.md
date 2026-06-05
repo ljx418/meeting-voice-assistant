@@ -1,6 +1,6 @@
 # V6 Remaining Development And Acceptance Plan
 
-文档状态：V6-6 complete / ready for review；V6-7 implementation NO-GO / planning refinement only。本文是 V6-7 到 V6-9 的剩余开发与验收控制计划。
+文档状态：V6 complete / ready for review。本文记录 V6-9 完成后的 V6 收口状态。
 
 ## 1. Current Baseline
 
@@ -12,6 +12,9 @@ V6-3 complete: production observability and audit export pilot slice ready for r
 V6-4 complete: limited production controlled executor pilot slice ready for review.
 V6-5 complete: governed Agent execution intent pilot gate ready for review.
 V6-6 complete: production external app onboarding pilot slice ready for review.
+V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review.
+V6-8 complete: product console pilot slice ready for review.
+V6 complete: production pilot baseline ready for review.
 ```
 
 当前不得声明：
@@ -33,9 +36,10 @@ full production GA
 | --- | --- | --- | --- | --- |
 | V6-5 | Governed Agent Execution Intent Pilot | complete / ready for review | completed | V6-5 complete: governed Agent execution intent pilot gate ready for review. |
 | V6-6 | Production External App Onboarding | complete / ready for review | completed | V6-6 complete: production external app onboarding pilot slice ready for review. |
-| V6-7 | Distributed Runtime Productization | NO-GO for implementation; planning refinement only | separate human high-risk proceed decision + detailed contracts accepted | V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review. |
-| V6-8 | Product Console And Studio Gate | conditional GO for planning refinement | expanded UI/BFF/browser test matrix accepted | V6-8 complete: product console pilot slice ready for review. |
-| V6-9 | Final Production Pilot Acceptance | framework only | V6-6 / V6-7 / V6-8 evidence packages exist | V6 complete: production pilot baseline ready for review. |
+| V6-7A | Distributed Runtime Pre-Implementation Closure | complete / ready for review | detailed contracts accepted + external audit PASS | readiness audit complete |
+| V6-7B | Distributed Runtime Productization | complete / ready for review | evidence package PASS + claim scan PASS | V6-7 complete: distributed multi-Agent runtime productization pilot slice ready for review. |
+| V6-8 | Product Console And Studio Gate | complete / ready for review | evidence package PASS + claim scan PASS | V6-8 complete: product console pilot slice ready for review. |
+| V6-9 | Final Production Pilot Acceptance | complete / ready for review | V6-0 through V6-8 evidence packages exist + final acceptance PASS | V6 complete: production pilot baseline ready for review. |
 
 ## 3. V6-5 Development And Acceptance Outline
 
@@ -60,7 +64,7 @@ source=agent direct durable mutation denied
 Evidence Chain records agent_id / session_id / policy_decision / capability_decision / handoff_ref
 ```
 
-Stop conditions:
+No False Green stop conditions:
 
 ```text
 Agent execution intent is described as Agent executor
@@ -92,7 +96,7 @@ offboarding revokes app credentials, origin allowlist, active sessions, pending 
 browser SDK cannot call internal runtime routes directly
 ```
 
-Stop conditions:
+No False Green stop conditions:
 
 ```text
 external app bypasses tenant / credential / quota / origin boundary
@@ -101,7 +105,38 @@ offboarding only updates UI state
 production-ready external app support is claimed
 ```
 
-## 5. V6-7 Development And Acceptance Outline
+## 5. V6-7A Pre-Implementation Closure Outcome
+
+Documentation slices:
+
+```text
+V6-7A-DOC1 pre-implementation closure plan
+V6-7A-DOC2 distributed runtime state machine
+V6-7A-DOC3 worker lifecycle model
+V6-7A-DOC4 runtime I/O contract
+V6-7A-DOC5 failure recovery acceptance matrix
+V6-7A-DOC6 drawio / canonical docs alignment
+```
+
+Acceptance:
+
+```text
+V6-7A accepted for implementation after external audit and human high-risk decision
+human high-risk proceed decision recorded in conversation before V6-7B implementation
+worker lifecycle and assignment denial cases are specified
+serial / parallel branch state model is specified
+retry, recovery, attempt history and lineage acceptance matrix is specified
+```
+
+Stop conditions:
+
+```text
+V6-7 documentation authorizes runtime implementation without human decision
+V5-8 bounded evidence is upgraded to production distributed runtime complete
+source=agent worker assignment is allowed
+```
+
+## 6. V6-7B Development And Acceptance Outcome
 
 Development slices:
 
@@ -112,6 +147,15 @@ V6-7-PR3 DistributedStateCheckpoint and retry / recovery state
 V6-7-PR4 AttemptHistoryStore and old attempt preservation
 V6-7-PR5 ArtifactLineageService with producer_attempt_id
 V6-7-PR6 incident timeline, evidence package, claim scan
+```
+
+Result:
+
+```text
+status: PASS
+evidence_scope: repo_backed_pilot_runtime_slice
+claim_violations: 0
+redaction_status: PASS
 ```
 
 Acceptance:
@@ -134,22 +178,34 @@ attempt history overwrites old attempts
 distributed multi-Agent runtime ready is claimed
 ```
 
-## 6. V6-8 Development And Acceptance Outline
+## 7. V6-8 Development And Acceptance Outcome
 
 Development slices:
 
 ```text
-V6-8-PR1 Runtime Report read-only product console view
-V6-8-PR2 Evidence Review read-only view
-V6-8-PR3 Audit Export access view
-V6-8-PR4 External App Admin view without runtime truth writes
-V6-8-PR5 Manual Confirmation UX with human_authorization_ref
-V6-8-PR6 Full Workflow Studio separate PRD gate notice
+V6-8-PR1 Runtime Report read-only product console view - complete
+V6-8-PR2 Evidence Review read-only view - complete
+V6-8-PR3 Audit Export access view - complete
+V6-8-PR4 External App Admin view without runtime truth writes - complete
+V6-8-PR5 Manual Confirmation UX with human_authorization_ref - complete
+V6-8-PR6 Full Workflow Studio separate PRD gate notice - complete
+```
+
+Required planning contracts:
+
+```text
+v6_8_product_console_bff_contract.md
+v6_8_browser_safety_test_matrix.md
+v6_8_manual_confirmation_ux_contract.md
 ```
 
 Acceptance:
 
 ```text
+status: PASS
+evidence_scope: repo_backed_product_console_projection
+claim_violations: 0
+redaction_status: PASS
 Runtime Report has no hidden mutation form
 Evidence Review has no Apply / Publish / Approve / Reject / Execute / Run execution buttons
 Manual confirmation records actor / operation / target_refs / human_authorization_ref
@@ -157,7 +213,14 @@ browser does not call internal runtime routes directly
 Product Console admin ops cannot construct runtime truth
 ```
 
-Stop conditions:
+Evidence:
+
+```text
+docs/design/V6.x/evidence/v6-8-product-console/
+docs/design/V6.x/v6_8_product_console_completion_note.md
+```
+
+No False Green stop conditions:
 
 ```text
 Evidence Review becomes execution panel
@@ -166,7 +229,7 @@ Full Web Studio becomes V6 default route
 complete Workflow Studio ready is claimed
 ```
 
-## 7. V6-9 Final Acceptance Outline
+## 8. V6-9 Final Acceptance Outline
 
 Development slices:
 
@@ -176,6 +239,13 @@ V6-9-PR2 generate final acceptance dashboard
 V6-9-PR3 run No False Green and redaction scans
 V6-9-PR4 validate drawio XML and canonical docs
 V6-9-PR5 produce final completion note
+```
+
+Required planning contracts:
+
+```text
+v6_9_final_acceptance_evidence_inventory_plan.md
+v6_9_no_false_green_and_redaction_scan_plan.md
 ```
 
 Acceptance:
@@ -190,7 +260,7 @@ drawio XML valid
 runtime truth boundary preserved
 ```
 
-## 8. Required Validation Commands
+## 9. Required Validation Commands
 
 ```text
 ./.venv/bin/python -m pytest tests/test_v6_*.py -q
@@ -207,7 +277,7 @@ cd apps/workflow-console && npm run build
 cd apps/workflow-console && npm run test:e2e
 ```
 
-## 9. Completion Evidence Format
+## 10. Completion Evidence Format
 
 Each remaining stage must produce:
 

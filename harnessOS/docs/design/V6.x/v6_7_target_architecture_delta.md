@@ -1,6 +1,6 @@
 # V6-7 Target Architecture Delta
 
-文档状态：V6-7 planning refinement / NO-GO for implementation。
+文档状态：V6-7 complete / ready for review architecture delta。
 
 ## Architecture Delta
 
@@ -33,4 +33,3 @@ lost worker recovery must be auditable
 ## Runtime Truth Boundary
 
 V6-7 read models and dashboards do not construct runtime truth. Runtime truth remains in workflow instance, station run, attempt history and artifact lineage stores.
-

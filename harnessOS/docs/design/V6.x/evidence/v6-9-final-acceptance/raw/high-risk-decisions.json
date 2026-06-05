@@ -1,0 +1,23 @@
+{
+  "decisions": [
+    {
+      "decision_ref": "docs/design/V6.x/evidence/v6-4-controlled-executor/pre-implementation-closure.json",
+      "recorded": true,
+      "scope": "limited production controlled executor pilot slice",
+      "stage": "V6-4"
+    },
+    {
+      "decision_ref": "docs/design/V6.x/v6_5_agent_governance_prd.md",
+      "recorded": true,
+      "scope": "governed Agent execution intent pilot gate",
+      "stage": "V6-5"
+    },
+    {
+      "decision_ref": "docs/design/V6.x/v6_7_pre_implementation_closure_plan.md",
+      "recorded": true,
+      "scope": "distributed runtime productization pilot slice",
+      "stage": "V6-7"
+    }
+  ],
+  "status": "PASS"
+}

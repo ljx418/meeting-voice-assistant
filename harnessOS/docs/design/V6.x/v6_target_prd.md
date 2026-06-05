@@ -85,13 +85,19 @@ Agent 只能进入受治理 execution intent / handoff，不得绕过 policy、a
 
 分布式 run coordination、worker assignment、attempt recovery、artifact lineage at scale、tenant/policy/credential boundary。
 
+当前状态：complete / ready for review。V6-7 证明 repo-backed distributed runtime pilot slice，仍不证明 full multi-Agent orchestration ready 或 distributed multi-Agent runtime ready。
+
 ### V6-8 Product Console And Workflow Studio Gate
 
 Thin Web Console 产品化优先。Full Workflow Studio 需要单独 PRD、架构和验收矩阵。
 
+当前状态：complete / ready for review。V6-8 证明 Product Console / Thin Web Console read-only projection、BFF/browser route guard 和 manual confirmation UX，仍不证明 complete Workflow Studio ready。
+
 ### V6-9 Final Production Pilot Acceptance
 
 汇总 V6-0 到 V6-8 证据，生成 HTML 验收看板，判断是否达到 production pilot baseline ready for review。
+
+当前状态：complete / ready for review。V6-9 汇总 V6-0 到 V6-8 evidence package，claim scan、redaction scan 和 drawio XML validation 均通过。V6 complete 仍只代表 production pilot baseline ready for review，不代表 production ready 或 full production GA。
 
 ## 4. Non-Goals
 

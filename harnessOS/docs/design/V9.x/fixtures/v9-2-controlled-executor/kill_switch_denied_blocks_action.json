@@ -1,0 +1,23 @@
+{
+  "fixture_id": "v9-2-kill-switch-denied-blocks-action",
+  "stage_id": "V9-2",
+  "expected_runtime_status": "denied",
+  "operation": "station.rerun",
+  "source": "product_console",
+  "actor_type": "human_user",
+  "tenant_id": "tenant-v9",
+  "workspace_id": "workspace-v9",
+  "project_id": "project-v9",
+  "app_id": "app-v9",
+  "target_refs": {
+    "station_id": "station-v9-2",
+    "station_run_id": "station-run-v9-2-old"
+  },
+  "user_confirmed": true,
+  "kill_switch_allowed": false,
+  "expected_decision": "deny",
+  "expected_denial_reason": "kill_switch_denied",
+  "runtime_execution_allowed_now": false,
+  "incident_timeline_required": true,
+  "redaction_status": "PASS"
+}

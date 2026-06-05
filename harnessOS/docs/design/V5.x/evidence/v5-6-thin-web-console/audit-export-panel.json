@@ -10,7 +10,7 @@
     "audit_export_ref": "generated:v5-6-thin-web-console/audit-export.json"
   },
   "data": {
-    "export_id": "audit_export_6e8ca2383a0e464089b6a780ea310b9b",
+    "export_id": "audit_export_d1b61b10e7d948d5ab273bc31d0db844",
     "tenant_id": "tenant_v5",
     "workspace_id": "workspace_v5",
     "requested_by": "user_v5_6",
@@ -22,15 +22,15 @@
     },
     "retention_policy_id": "retention_v5_6",
     "included_event_refs": [
-      "obs_event_30fea891e67e439a930693f1c55f3681"
+      "obs_event_aa218424f7144d09875802b83a84c528"
     ],
     "included_evidence_refs": [
-      "evidence://correlation_v5_6/obs_event_30fea891e67e439a930693f1c55f3681"
+      "evidence://correlation_v5_6/obs_event_aa218424f7144d09875802b83a84c528"
     ],
     "event_count": 1,
     "redaction_status": "redacted",
-    "checksum": "b39363e157054af0ba8441dff523267b7cad27e5bf84c395f1869e8c9adf5bb1",
-    "created_at": "2026-06-03T09:39:26.697690+00:00",
+    "checksum": "884270c7a49022f15cc2e6424e7da13d172d51d322b74767378b3e773df2a124",
+    "created_at": "2026-06-05T01:30:10.782111+00:00",
     "readonly": true,
     "allowed_actions": [
       "view",

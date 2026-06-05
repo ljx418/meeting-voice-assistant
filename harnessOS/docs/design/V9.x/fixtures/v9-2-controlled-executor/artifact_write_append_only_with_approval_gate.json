@@ -1,0 +1,25 @@
+{
+  "fixture_id": "v9-2-artifact-write-append-only-with-approval-gate",
+  "stage_id": "V9-2",
+  "expected_runtime_status": "planned_only_not_executed",
+  "operation": "artifact.write",
+  "source": "product_console",
+  "actor_type": "human_user",
+  "tenant_id": "tenant-v9",
+  "workspace_id": "workspace-v9",
+  "project_id": "project-v9",
+  "app_id": "app-v9",
+  "target_refs": {
+    "artifact_id": "artifact-v9-2"
+  },
+  "user_confirmed": true,
+  "human_authorization_ref": null,
+  "approval_gate_ref": "approval://v9-2/artifact-write",
+  "approval_gate_required": true,
+  "append_only_required": true,
+  "overwrite_prior_artifact_allowed": false,
+  "expected_decision": "allow_after_runtime_approval",
+  "runtime_execution_allowed_now": false,
+  "requires_human_high_risk_decision": true,
+  "redaction_status": "PASS"
+}

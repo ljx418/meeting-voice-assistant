@@ -1,6 +1,6 @@
 # V6-7 Distributed Run Coordinator Contract
 
-文档状态：V6-7 contract draft / implementation NO-GO。
+文档状态：V6-7 complete / ready for review contract。
 
 ## Coordinator Responsibilities
 
@@ -48,4 +48,3 @@ wrong_tenant_worker -> deny_assignment
 credential_decision_missing -> deny_assignment
 policy_decision_missing -> deny_assignment
 ```
-

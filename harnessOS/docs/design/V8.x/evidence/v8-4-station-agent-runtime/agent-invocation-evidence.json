@@ -1,0 +1,142 @@
+[
+  {
+    "agent_id": "v8_mission_agent",
+    "correlation_id": "corr_v8_271c452aefda",
+    "created_at": "2026-06-04T14:03:28.631403+00:00",
+    "input_artifact_refs": [],
+    "invocation_id": "agent_invocation_v8_93518f0db05f",
+    "invocation_kind": "tool_or_read_model",
+    "model_ref": "MiniMax-M2.1",
+    "output_artifact_refs": [
+      "artifact-contract://authorized_folder_ref"
+    ],
+    "prompt_template_ref": "prompt-template://v8/mission_intake/v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "request_id": "req_v8_b7ea3092a84f",
+    "station_id": "folder_authorization"
+  },
+  {
+    "agent_id": "v8_scanner_agent",
+    "correlation_id": "corr_v8_0a9e33d9eb3f",
+    "created_at": "2026-06-04T14:03:28.631431+00:00",
+    "input_artifact_refs": [
+      "artifact-contract://authorized_folder_ref"
+    ],
+    "invocation_id": "agent_invocation_v8_47bd38224044",
+    "invocation_kind": "tool_or_read_model",
+    "model_ref": "MiniMax-M2.1",
+    "output_artifact_refs": [
+      "artifact-contract://parsed_markdown_documents"
+    ],
+    "prompt_template_ref": "prompt-template://v8/markdown_scanner/v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "request_id": "req_v8_4b3248f232bf",
+    "station_id": "markdown_scan"
+  },
+  {
+    "agent_id": "v8_folder_summary_agent",
+    "correlation_id": "corr_v8_b4bb03b1cb60",
+    "created_at": "2026-06-04T14:03:28.631453+00:00",
+    "input_artifact_refs": [
+      "artifact-contract://parsed_markdown_documents"
+    ],
+    "invocation_id": "agent_invocation_v8_1c4f15ee342b",
+    "invocation_kind": "llm",
+    "model_ref": "MiniMax-M2.1",
+    "output_artifact_refs": [
+      "artifact-contract://folder_summary_artifacts"
+    ],
+    "prompt_template_ref": "prompt-template://v8/folder_summarizer/v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "request_id": "req_v8_72e198be7929",
+    "station_id": "per_folder_summary"
+  },
+  {
+    "agent_id": "v8_overview_agent",
+    "correlation_id": "corr_v8_99119fccef30",
+    "created_at": "2026-06-04T14:03:28.631474+00:00",
+    "input_artifact_refs": [
+      "artifact-contract://folder_summary_artifacts"
+    ],
+    "invocation_id": "agent_invocation_v8_d5ab1f7f1dd6",
+    "invocation_kind": "llm",
+    "model_ref": "MiniMax-M2.1",
+    "output_artifact_refs": [
+      "artifact-contract://overview_summary_artifact"
+    ],
+    "prompt_template_ref": "prompt-template://v8/overview_summarizer/v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "request_id": "req_v8_274643b1a6d9",
+    "station_id": "overview_summary"
+  },
+  {
+    "agent_id": "v8_quality_agent",
+    "correlation_id": "corr_v8_cc772c56d2a6",
+    "created_at": "2026-06-04T14:03:28.631495+00:00",
+    "input_artifact_refs": [
+      "artifact-contract://parsed_markdown_documents",
+      "artifact-contract://folder_summary_artifacts"
+    ],
+    "invocation_id": "agent_invocation_v8_325123a4da7d",
+    "invocation_kind": "tool_or_read_model",
+    "model_ref": "MiniMax-M2.1",
+    "output_artifact_refs": [
+      "artifact-contract://quality_report"
+    ],
+    "prompt_template_ref": "prompt-template://v8/quality_reviewer/v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "request_id": "req_v8_ccfe2c28a18b",
+    "station_id": "quality_check"
+  },
+  {
+    "agent_id": "v8_report_agent",
+    "correlation_id": "corr_v8_d7d05f8840b4",
+    "created_at": "2026-06-04T14:03:28.631514+00:00",
+    "input_artifact_refs": [
+      "artifact-contract://quality_report"
+    ],
+    "invocation_id": "agent_invocation_v8_922f1fd6e9ae",
+    "invocation_kind": "tool_or_read_model",
+    "model_ref": "MiniMax-M2.1",
+    "output_artifact_refs": [
+      "artifact-contract://workflow_board_html"
+    ],
+    "prompt_template_ref": "prompt-template://v8/runtime_reporter/v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "request_id": "req_v8_f1e980cc0241",
+    "station_id": "runtime_report"
+  },
+  {
+    "agent_id": "v8_workflow_explainer_agent",
+    "correlation_id": "corr_v8_dfb079e4d3b7",
+    "created_at": "2026-06-04T14:03:28.631536+00:00",
+    "input_artifact_refs": [
+      "artifact-contract://folder_summary_artifacts",
+      "artifact-contract://quality_report"
+    ],
+    "invocation_id": "agent_invocation_v8_f0d14a433ca5",
+    "invocation_kind": "tool_or_read_model",
+    "model_ref": "MiniMax-M2.1",
+    "output_artifact_refs": [
+      "artifact-contract://evidence_chain_json"
+    ],
+    "prompt_template_ref": "prompt-template://v8/workflow_explainer/v1",
+    "provider": "minimax",
+    "provider_config_source": ".env.local",
+    "redaction_status": "redacted",
+    "request_id": "req_v8_4c51f81c03c6",
+    "station_id": "evidence_record"
+  }
+]
