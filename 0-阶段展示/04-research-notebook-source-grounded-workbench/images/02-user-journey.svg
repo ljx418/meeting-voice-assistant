@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="ResearchNotebook · 用户交互路径">
+  <rect width="1600" height="900" fill="#FFFBEB"/>
+  <rect x="48" y="44" width="1504" height="812" rx="28" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="3"/>
+  <rect x="48" y="44" width="1504" height="116" rx="28" fill="#1F2937"/>
+  <text x="92" y="104" font-size="40" font-weight="800" fill="#FFFFFF">ResearchNotebook · 用户交互路径</text>
+  <text x="92" y="140" font-size="22" font-weight="500" fill="#E5E7EB">把多来源资料变成可信引用问答、Studio 输出和补源研究报告的笔记工作台。</text>
+  <circle cx="1478" cy="98" r="26" fill="#059669"/>
+  <circle cx="1414" cy="98" r="18" fill="#D97706"/>
+  
+  <text x="92" y="216" font-size="34" font-weight="800" fill="#1F2937">用户交互路径</text>
+  <text x="92" y="254" font-size="22" fill="#4B5563">按 PPT 讲解时，可把这张图作为“用户怎么走完核心闭环”的主图。</text>
+  
+      <rect x="118" y="325" width="160" height="176" rx="18" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+      <circle cx="158" cy="367" r="24" fill="#059669"/>
+      <text x="158" y="376" font-size="24" font-weight="900" fill="#FFFFFF" text-anchor="middle">1</text>
+      <text x="138" y="421" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">创建</text>
+<text x="138" y="447" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">Notebook</text>
+      <path d="M276 413 L308 413" stroke="#059669" stroke-width="5" stroke-linecap="round"/><path d="M302 403 L316 413 L302 423" fill="none" stroke="#059669" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+
+      <rect x="323" y="325" width="160" height="176" rx="18" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+      <circle cx="363" cy="367" r="24" fill="#D97706"/>
+      <text x="363" y="376" font-size="24" font-weight="900" fill="#FFFFFF" text-anchor="middle">2</text>
+      <text x="343" y="421" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">批量导入</text>
+<text x="343" y="447" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">PDF/TXT/Markdown</text>
+<text x="343" y="473" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">与</text>
+      <path d="M481 413 L513 413" stroke="#059669" stroke-width="5" stroke-linecap="round"/><path d="M507 403 L521 413 L507 423" fill="none" stroke="#059669" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+
+      <rect x="528" y="325" width="160" height="176" rx="18" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+      <circle cx="568" cy="367" r="24" fill="#059669"/>
+      <text x="568" y="376" font-size="24" font-weight="900" fill="#FFFFFF" text-anchor="middle">3</text>
+      <text x="548" y="421" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">生成</text>
+<text x="548" y="447" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">Notebook</text>
+<text x="548" y="473" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">Guide</text>
+      <path d="M686 413 L718 413" stroke="#059669" stroke-width="5" stroke-linecap="round"/><path d="M712 403 L726 413 L712 423" fill="none" stroke="#059669" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+
+      <rect x="733" y="325" width="160" height="176" rx="18" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+      <circle cx="773" cy="367" r="24" fill="#D97706"/>
+      <text x="773" y="376" font-size="24" font-weight="900" fill="#FFFFFF" text-anchor="middle">4</text>
+      <text x="753" y="421" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">点击</text>
+<text x="753" y="447" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">Suggested</text>
+<text x="753" y="473" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">Question</text>
+      <path d="M891 413 L923 413" stroke="#059669" stroke-width="5" stroke-linecap="round"/><path d="M917 403 L931 413 L917 423" fill="none" stroke="#059669" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+
+      <rect x="938" y="325" width="160" height="176" rx="18" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+      <circle cx="978" cy="367" r="24" fill="#059669"/>
+      <text x="978" y="376" font-size="24" font-weight="900" fill="#FFFFFF" text-anchor="middle">5</text>
+      <text x="958" y="421" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">citation</text>
+<text x="958" y="447" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">跳转证据片段</text>
+      <path d="M1096 413 L1128 413" stroke="#059669" stroke-width="5" stroke-linecap="round"/><path d="M1122 403 L1136 413 L1122 423" fill="none" stroke="#059669" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+
+      <rect x="1143" y="325" width="160" height="176" rx="18" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+      <circle cx="1183" cy="367" r="24" fill="#D97706"/>
+      <text x="1183" y="376" font-size="24" font-weight="900" fill="#FFFFFF" text-anchor="middle">6</text>
+      <text x="1163" y="421" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">生成</text>
+<text x="1163" y="447" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">Notes/Study</text>
+<text x="1163" y="473" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">Guide/FAQ</text>
+      <path d="M1301 413 L1333 413" stroke="#059669" stroke-width="5" stroke-linecap="round"/><path d="M1327 403 L1341 413 L1327 423" fill="none" stroke="#059669" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+
+      <rect x="1348" y="325" width="160" height="176" rx="18" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+      <circle cx="1388" cy="367" r="24" fill="#059669"/>
+      <text x="1388" y="376" font-size="24" font-weight="900" fill="#FFFFFF" text-anchor="middle">7</text>
+      <text x="1368" y="421" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">补源后输出</text>
+<text x="1368" y="447" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">Research</text>
+<text x="1368" y="473" font-size="22" font-weight="800" fill="#1F2937" text-anchor="start">report</text>
+      
+    
+  <rect x="112" y="602" width="1328" height="148" rx="22" fill="#F9FAFB" stroke="#D6D3D1" stroke-width="2"/>
+  <text x="148" y="656" font-size="28" font-weight="800" fill="#1F2937">路径讲解要点</text>
+  <text x="148" y="704" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 三列 Notebook 体验：Sources、Chat、Studio，围绕导入、导读、问答和输出组织。</text>
+<text x="148" y="756.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 回答、Studio artifact 和 Research report 都必须绑定</text>
+<text x="148" y="781.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">evidence_refs，资料不足时拒答并建议补源。</text>
+<text x="148" y="809" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• OCR、Audio、PPT、Mindmap、Document comparison 默认保持</text>
+<text x="148" y="834" font-size="21" font-weight="500" fill="#374151" text-anchor="start">provider/decision gate，不能伪装成已 ready。</text>
+  
+</svg>

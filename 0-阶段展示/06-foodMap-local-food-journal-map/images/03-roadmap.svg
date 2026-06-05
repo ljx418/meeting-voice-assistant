@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="FoodMap · 发展路线">
+  <rect width="1600" height="900" fill="#FFF8EA"/>
+  <rect x="48" y="44" width="1504" height="812" rx="28" fill="#FFFFFF" stroke="#D8C5A5" stroke-width="3"/>
+  <rect x="48" y="44" width="1504" height="116" rx="28" fill="#3B2B1F"/>
+  <text x="92" y="104" font-size="40" font-weight="800" fill="#FFFFFF">FoodMap · 发展路线</text>
+  <text x="92" y="140" font-size="22" font-weight="500" fill="#E5E7EB">V1.0 accepted; V1.2 recommendation layer implemented, 2026-06-04</text>
+  <circle cx="1478" cy="98" r="26" fill="#C76A32"/>
+  <circle cx="1414" cy="98" r="18" fill="#6F7F47"/>
+  
+  <text x="92" y="216" font-size="34" font-weight="800" fill="#3B2B1F">后续可能的发展</text>
+  <text x="92" y="254" font-size="22" fill="#4B5563">这张图适合放在每个项目介绍的结尾：先讲现状，再讲下一步，最后讲不该过度承诺的边界。</text>
+  
+      <rect x="112" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#D8C5A5" stroke-width="2"/>
+      <rect x="112" y="306" width="400" height="68" rx="22" fill="#C76A32"/>
+      <text x="140" y="350" font-size="27" font-weight="900" fill="#FFFFFF">当前可讲</text>
+      <text x="142" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V1.0 accepted; V1.2</text>
+<text x="142" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">recommendation layer</text>
+<text x="142" y="482" font-size="21" font-weight="500" fill="#374151" text-anchor="start">implemented, 2026-06-04</text>
+<text x="142" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• active README</text>
+<text x="142" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">仍保留早期“无源码”表述，但最新实现/验收报告已证明</text>
+<text x="142" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">V1.0/V1.2 有完成项。</text>
+    
+
+      <rect x="568" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#D8C5A5" stroke-width="2"/>
+      <rect x="568" y="306" width="400" height="68" rx="22" fill="#6F7F47"/>
+      <text x="596" y="350" font-size="27" font-weight="900" fill="#FFFFFF">下一阶段</text>
+      <text x="598" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 用 AMap Open Platform key</text>
+<text x="598" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">获取更精确 POI 坐标。</text>
+<text x="598" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">•</text>
+<text x="598" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">如果公共页面稳定，扩展更完整的扫街榜提取管线和推荐点图例。</text>
+    
+
+      <rect x="1024" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#D8C5A5" stroke-width="2"/>
+      <rect x="1024" y="306" width="400" height="68" rx="22" fill="#3B2B1F"/>
+      <text x="1052" y="350" font-size="27" font-weight="900" fill="#FFFFFF">发展边界</text>
+      <text x="1054" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 如需账号、同步、协作或公网分享，应作为 V2</text>
+<text x="1054" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">另起后端范围。</text>
+<text x="1054" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V1.0</text>
+<text x="1054" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">的核心不是社交榜单，而是本地优先、低干扰的私人地图手账。</text>
+    
+  <rect x="112" y="744" width="1328" height="72" rx="16" fill="#C76A32" opacity="0.12"/>
+  <text x="148" y="789" font-size="24" font-weight="900" fill="#3B2B1F">建议结尾：</text>
+  <text x="282" y="789" font-size="23" font-weight="500" fill="#3B2B1F" text-anchor="start">用 AMap Open Platform key 获取更精确 POI 坐标。</text>
+  
+</svg>

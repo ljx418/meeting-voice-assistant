@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="harnessOS · 发展路线">
+  <rect width="1600" height="900" fill="#F9FAFB"/>
+  <rect x="48" y="44" width="1504" height="812" rx="28" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="3"/>
+  <rect x="48" y="44" width="1504" height="116" rx="28" fill="#111827"/>
+  <text x="92" y="104" font-size="40" font-weight="800" fill="#FFFFFF">harnessOS · 发展路线</text>
+  <text x="92" y="140" font-size="22" font-weight="500" fill="#E5E7EB">V9 planning baseline after V8 station-agent workflow pilot</text>
+  <circle cx="1478" cy="98" r="26" fill="#7C3AED"/>
+  <circle cx="1414" cy="98" r="18" fill="#F97316"/>
+  
+  <text x="92" y="216" font-size="34" font-weight="800" fill="#111827">后续可能的发展</text>
+  <text x="92" y="254" font-size="22" fill="#4B5563">这张图适合放在每个项目介绍的结尾：先讲现状，再讲下一步，最后讲不该过度承诺的边界。</text>
+  
+      <rect x="112" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="2"/>
+      <rect x="112" y="306" width="400" height="68" rx="22" fill="#7C3AED"/>
+      <text x="140" y="350" font-size="27" font-weight="900" fill="#FFFFFF">当前可讲</text>
+      <text x="142" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V9 planning baseline after</text>
+<text x="142" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">V8 station-agent workflow</text>
+<text x="142" y="482" font-size="21" font-weight="500" fill="#374151" text-anchor="start">pilot</text>
+<text x="142" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V9 不能宣称 production</text>
+<text x="142" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">ready、unrestricted executor</text>
+<text x="142" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">或 terminal automation ready。</text>
+    
+
+      <rect x="568" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="2"/>
+      <rect x="568" y="306" width="400" height="68" rx="22" fill="#F97316"/>
+      <text x="596" y="350" font-size="27" font-weight="900" fill="#FFFFFF">下一阶段</text>
+      <text x="598" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V9-1/2：Agent executor</text>
+<text x="598" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">safety gate 与 controlled</text>
+<text x="598" y="482" font-size="21" font-weight="500" fill="#374151" text-anchor="start">executor runtime。</text>
+<text x="598" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V9-3/4/5：多 Agent</text>
+<text x="598" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">编排、自主编码试点、受限 terminal</text>
+<text x="598" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">worker。</text>
+    
+
+      <rect x="1024" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="2"/>
+      <rect x="1024" y="306" width="400" height="68" rx="22" fill="#111827"/>
+      <text x="1052" y="350" font-size="27" font-weight="900" fill="#FFFFFF">发展边界</text>
+      <text x="1054" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V9-6/7/8：Workflow Studio</text>
+<text x="1054" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">产品化、生产治理门禁、最终验收。</text>
+<text x="1054" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 可以讲清楚它是在 V7/V8</text>
+<text x="1054" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">已验收试点上设计高风险执行基线。</text>
+    
+  <rect x="112" y="744" width="1328" height="72" rx="16" fill="#7C3AED" opacity="0.12"/>
+  <text x="148" y="789" font-size="24" font-weight="900" fill="#111827">建议结尾：</text>
+  <text x="282" y="789" font-size="23" font-weight="500" fill="#111827" text-anchor="start">V9-1/2：Agent executor safety gate 与 controlled</text>
+  
+</svg>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="ResearchNotebook · 体验呈现">
+  <rect width="1600" height="900" fill="#FFFBEB"/>
+  <rect x="48" y="44" width="1504" height="812" rx="28" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="3"/>
+  <rect x="48" y="44" width="1504" height="116" rx="28" fill="#1F2937"/>
+  <text x="92" y="104" font-size="40" font-weight="800" fill="#FFFFFF">ResearchNotebook · 体验呈现</text>
+  <text x="92" y="140" font-size="22" font-weight="500" fill="#E5E7EB">V2.x PRD expanded RC ready with limitations, 2026-06-02</text>
+  <circle cx="1478" cy="98" r="26" fill="#059669"/>
+  <circle cx="1414" cy="98" r="18" fill="#D97706"/>
+  
+  <text x="92" y="216" font-size="34" font-weight="800" fill="#1F2937">体验呈现</text>
+  <text x="92" y="254" font-size="22" fill="#4B5563">把多来源资料变成可信引用问答、Studio 输出和补源研究报告的笔记工作台。</text>
+
+  <rect x="92" y="305" width="500" height="390" rx="22" fill="#F9FAFB" stroke="#D6D3D1" stroke-width="2"/>
+  <rect x="126" y="340" width="432" height="210" rx="18" fill="#1F2937" opacity="0.92"/>
+  <rect x="154" y="370" width="150" height="26" rx="13" fill="#059669"/>
+  <rect x="154" y="414" width="350" height="16" rx="8" fill="#E5E7EB"/>
+  <rect x="154" y="446" width="290" height="16" rx="8" fill="#E5E7EB"/>
+  <circle cx="480" cy="472" r="44" fill="#D97706"/>
+  <rect x="126" y="585" width="180" height="44" rx="10" fill="#059669"/>
+  <rect x="326" y="585" width="132" height="44" rx="10" fill="#FFFFFF" stroke="#D6D3D1"/>
+  <text x="126" y="665" font-size="24" font-weight="800" fill="#1F2937">用户第一眼看到什么</text>
+  <text x="126" y="700" font-size="21" font-weight="500" fill="#374151" text-anchor="start">三列 Notebook</text>
+<text x="126" y="728" font-size="21" font-weight="500" fill="#374151" text-anchor="start">体验：Sources、Chat、Studio，围绕导入、导读、问答和输出组织。</text>
+
+  <rect x="632" y="305" width="394" height="390" rx="22" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+  <text x="668" y="360" font-size="28" font-weight="800" fill="#1F2937">核心价值</text>
+  <text x="668" y="412" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 三列 Notebook</text>
+<text x="668" y="437" font-size="21" font-weight="500" fill="#374151" text-anchor="start">体验：Sources、Chat、Studio，围绕导入、导读、问答和输出组织。</text>
+<text x="668" y="464.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 回答、Studio artifact 和</text>
+<text x="668" y="489.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">Research report 都必须绑定</text>
+<text x="668" y="514.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">evidence_refs，资料不足时拒答并建议补源。</text>
+<text x="668" y="517" font-size="21" font-weight="500" fill="#374151" text-anchor="start">•</text>
+<text x="668" y="542" font-size="21" font-weight="500" fill="#374151" text-anchor="start">OCR、Audio、PPT、Mindmap、Document</text>
+<text x="668" y="567" font-size="21" font-weight="500" fill="#374151" text-anchor="start">comparison 默认保持</text>
+
+  <rect x="1066" y="305" width="402" height="390" rx="22" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+  <text x="1102" y="360" font-size="28" font-weight="800" fill="#1F2937">当前阶段</text>
+  <text x="1102" y="410" font-size="22" font-weight="500" fill="#374151" text-anchor="start">V2.x PRD expanded RC</text>
+<text x="1102" y="439" font-size="22" font-weight="500" fill="#374151" text-anchor="start">ready with limitations,</text>
+<text x="1102" y="468" font-size="22" font-weight="500" fill="#374151" text-anchor="start">2026-06-02</text>
+  <text x="1102" y="560" font-size="24" font-weight="800" fill="#1F2937">面向谁讲</text>
+  <text x="1102" y="604" font-size="20" font-weight="500" fill="#374151" text-anchor="start">• 知识工作者</text>
+<text x="1102" y="652.3" font-size="20" font-weight="500" fill="#374151" text-anchor="start">• 研究者</text>
+<text x="1102" y="700.6" font-size="20" font-weight="500" fill="#374151" text-anchor="start">• 需要带来源证据输出的人</text>
+
+  <rect x="92" y="742" width="1376" height="72" rx="16" fill="#059669" opacity="0.12"/>
+  <text x="126" y="788" font-size="25" font-weight="800" fill="#1F2937">宣讲主句：</text>
+  <text x="270" y="788" font-size="24" font-weight="500" fill="#1F2937" text-anchor="start">把多来源资料变成可信引用问答、Studio 输出和补源研究报告的笔记工作台。</text>
+  
+</svg>

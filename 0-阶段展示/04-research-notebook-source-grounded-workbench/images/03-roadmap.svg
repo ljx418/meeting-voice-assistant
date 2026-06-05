@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="ResearchNotebook · 发展路线">
+  <rect width="1600" height="900" fill="#FFFBEB"/>
+  <rect x="48" y="44" width="1504" height="812" rx="28" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="3"/>
+  <rect x="48" y="44" width="1504" height="116" rx="28" fill="#1F2937"/>
+  <text x="92" y="104" font-size="40" font-weight="800" fill="#FFFFFF">ResearchNotebook · 发展路线</text>
+  <text x="92" y="140" font-size="22" font-weight="500" fill="#E5E7EB">V2.x PRD expanded RC ready with limitations, 2026-06-02</text>
+  <circle cx="1478" cy="98" r="26" fill="#059669"/>
+  <circle cx="1414" cy="98" r="18" fill="#D97706"/>
+  
+  <text x="92" y="216" font-size="34" font-weight="800" fill="#1F2937">后续可能的发展</text>
+  <text x="92" y="254" font-size="22" fill="#4B5563">这张图适合放在每个项目介绍的结尾：先讲现状，再讲下一步，最后讲不该过度承诺的边界。</text>
+  
+      <rect x="112" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+      <rect x="112" y="306" width="400" height="68" rx="22" fill="#059669"/>
+      <text x="140" y="350" font-size="27" font-weight="900" fill="#FFFFFF">当前可讲</text>
+      <text x="142" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V2.x PRD expanded RC ready</text>
+<text x="142" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">with limitations, 2026-06-02</text>
+<text x="142" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 根 README 与最新 V2.x</text>
+<text x="142" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">文档口径存在版本差异，宣讲时以 V2.8/V2.x</text>
+<text x="142" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">最新扩展 RC 报告为准。</text>
+    
+
+      <rect x="568" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+      <rect x="568" y="306" width="400" height="68" rx="22" fill="#D97706"/>
+      <text x="596" y="350" font-size="27" font-weight="900" fill="#FFFFFF">下一阶段</text>
+      <text x="598" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 继续提升 P0/P1 sources 稳定性、URL</text>
+<text x="598" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">安全抽取和多数据集 AI 质量人工验收。</text>
+<text x="598" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 为</text>
+<text x="598" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">OCR、Audio、PPT、Mindmap、Compare</text>
+<text x="598" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">分别建立</text>
+<text x="598" y="562.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">provider、schema、preview、export、manual</text>
+    
+
+      <rect x="1024" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#D6D3D1" stroke-width="2"/>
+      <rect x="1024" y="306" width="400" height="68" rx="22" fill="#1F2937"/>
+      <text x="1052" y="350" font-size="27" font-weight="900" fill="#FFFFFF">发展边界</text>
+      <text x="1054" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 后续可开 V3 或 V2.x</text>
+<text x="1054" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">子计划推进高风险后置能力。</text>
+<text x="1054" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 重点说明 ready with</text>
+<text x="1054" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">limitations，避免声明</text>
+<text x="1054" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">all-source-type、full AI</text>
+<text x="1054" y="562.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">quality 或 cloud</text>
+    
+  <rect x="112" y="744" width="1328" height="72" rx="16" fill="#059669" opacity="0.12"/>
+  <text x="148" y="789" font-size="24" font-weight="900" fill="#1F2937">建议结尾：</text>
+  <text x="282" y="789" font-size="23" font-weight="500" fill="#1F2937" text-anchor="start">继续提升 P0/P1 sources 稳定性、URL 安全抽取和多数据集 AI 质量人工验收。</text>
+  
+</svg>

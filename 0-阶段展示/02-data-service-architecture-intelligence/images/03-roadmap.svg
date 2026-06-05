@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="data_service · 发展路线">
+  <rect width="1600" height="900" fill="#F8FAFC"/>
+  <rect x="48" y="44" width="1504" height="812" rx="28" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+  <rect x="48" y="44" width="1504" height="116" rx="28" fill="#0F172A"/>
+  <text x="92" y="104" font-size="40" font-weight="800" fill="#FFFFFF">data_service · 发展路线</text>
+  <text x="92" y="140" font-size="22" font-weight="500" fill="#E5E7EB">V2.9 documentation-only planning; V2.8 accepted with caveats</text>
+  <circle cx="1478" cy="98" r="26" fill="#2563EB"/>
+  <circle cx="1414" cy="98" r="18" fill="#14B8A6"/>
+  
+  <text x="92" y="216" font-size="34" font-weight="800" fill="#0F172A">后续可能的发展</text>
+  <text x="92" y="254" font-size="22" fill="#4B5563">这张图适合放在每个项目介绍的结尾：先讲现状，再讲下一步，最后讲不该过度承诺的边界。</text>
+  
+      <rect x="112" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+      <rect x="112" y="306" width="400" height="68" rx="22" fill="#2563EB"/>
+      <text x="140" y="350" font-size="27" font-weight="900" fill="#FFFFFF">当前可讲</text>
+      <text x="142" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V2.9 documentation-only</text>
+<text x="142" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">planning; V2.8 accepted with</text>
+<text x="142" y="482" font-size="21" font-weight="500" fill="#374151" text-anchor="start">caveats</text>
+<text x="142" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V2.9 当前是文档开发规划线，业务代码实现需要从</text>
+<text x="142" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">Phase 63 pre-implementation</text>
+<text x="142" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">audit 后开始。</text>
+    
+
+      <rect x="568" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+      <rect x="568" y="306" width="400" height="68" rx="22" fill="#14B8A6"/>
+      <text x="596" y="350" font-size="27" font-weight="900" fill="#FFFFFF">下一阶段</text>
+      <text x="598" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 推进 V2.9 Phase</text>
+<text x="598" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">63-68：line-level</text>
+<text x="598" y="482" font-size="21" font-weight="500" fill="#374151" text-anchor="start">evidence、relationship</text>
+<text x="598" y="508" font-size="21" font-weight="500" fill="#374151" text-anchor="start">v2、ranking</text>
+<text x="598" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 完成 data_service 与</text>
+<text x="598" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">HarnessOS 双 real-repo</text>
+<text x="598" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">E2E、HTTP/MCP/CLI</text>
+<text x="598" y="562.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">parity、redaction 与</text>
+    
+
+      <rect x="1024" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+      <rect x="1024" y="306" width="400" height="68" rx="22" fill="#0F172A"/>
+      <text x="1052" y="350" font-size="27" font-weight="900" fill="#FFFFFF">发展边界</text>
+      <text x="1054" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 把架构审查从文档规划推进到可运行的证据硬化实现。</text>
+<text x="1054" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 宣讲时可把 V2.8 当作已验收基线，把 V2.9</text>
+<text x="1054" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">当作下一阶段证据硬化目标。</text>
+    
+  <rect x="112" y="744" width="1328" height="72" rx="16" fill="#2563EB" opacity="0.12"/>
+  <text x="148" y="789" font-size="24" font-weight="900" fill="#0F172A">建议结尾：</text>
+  <text x="282" y="789" font-size="23" font-weight="500" fill="#0F172A" text-anchor="start">推进 V2.9 Phase 63-68：line-level evidence、relationship</text>
+  
+</svg>

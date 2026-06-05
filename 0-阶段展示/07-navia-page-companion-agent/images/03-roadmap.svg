@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Navia · 发展路线">
+  <rect width="1600" height="900" fill="#F8FAFC"/>
+  <rect x="48" y="44" width="1504" height="812" rx="28" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="3"/>
+  <rect x="48" y="44" width="1504" height="116" rx="28" fill="#172554"/>
+  <text x="92" y="104" font-size="40" font-weight="800" fill="#FFFFFF">Navia · 发展路线</text>
+  <text x="92" y="140" font-size="22" font-weight="500" fill="#E5E7EB">V1.2 readiness/stage-gate line; mock-first development after audit and gates</text>
+  <circle cx="1478" cy="98" r="26" fill="#38BDF8"/>
+  <circle cx="1414" cy="98" r="18" fill="#FACC15"/>
+  
+  <text x="92" y="216" font-size="34" font-weight="800" fill="#172554">后续可能的发展</text>
+  <text x="92" y="254" font-size="22" fill="#4B5563">这张图适合放在每个项目介绍的结尾：先讲现状，再讲下一步，最后讲不该过度承诺的边界。</text>
+  
+      <rect x="112" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="2"/>
+      <rect x="112" y="306" width="400" height="68" rx="22" fill="#38BDF8"/>
+      <text x="140" y="350" font-size="27" font-weight="900" fill="#FFFFFF">当前可讲</text>
+      <text x="142" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V1.2 readiness/stage-gate</text>
+<text x="142" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">line; mock-first development</text>
+<text x="142" y="482" font-size="21" font-weight="500" fill="#374151" text-anchor="start">after audit and gates</text>
+<text x="142" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V1.2 文档强调 Go for</text>
+<text x="142" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">audit，不等同于真实 piAgentProvider</text>
+<text x="142" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">ready。</text>
+    
+
+      <rect x="568" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="2"/>
+      <rect x="568" y="306" width="400" height="68" rx="22" fill="#FACC15"/>
+      <text x="596" y="350" font-size="27" font-weight="900" fill="#FFFFFF">下一阶段</text>
+      <text x="598" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 按 V1.2-A/B/C/D/E 分模块</text>
+<text x="598" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">mock-first、fixture-first</text>
+<text x="598" y="482" font-size="21" font-weight="500" fill="#374151" text-anchor="start">开发和真实 Chrome E2E。</text>
+<text x="598" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 真实 piAgentProvider</text>
+<text x="598" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">需先完成依赖锁定、license、runtime</text>
+<text x="598" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">与工具调用模型审计。</text>
+    
+
+      <rect x="1024" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="2"/>
+      <rect x="1024" y="306" width="400" height="68" rx="22" fill="#172554"/>
+      <text x="1052" y="350" font-size="27" font-weight="900" fill="#FFFFFF">发展边界</text>
+      <text x="1054" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 长期记忆、RAG、多</text>
+<text x="1054" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">Agent、浏览器自动操作、OCR/视频/直播理解留待后续版本。</text>
+<text x="1054" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 宣讲重点应是 Headless runtime +</text>
+<text x="1054" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">页面内 Companion</text>
+<text x="1054" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">体验，而不是把它讲成通用浏览器自动化 Agent。</text>
+    
+  <rect x="112" y="744" width="1328" height="72" rx="16" fill="#38BDF8" opacity="0.12"/>
+  <text x="148" y="789" font-size="24" font-weight="900" fill="#172554">建议结尾：</text>
+  <text x="282" y="789" font-size="23" font-weight="500" fill="#172554" text-anchor="start">按 V1.2-A/B/C/D/E 分模块 mock-first、fixture-first 开发和真实</text>
+  
+</svg>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Navia · 体验呈现">
+  <rect width="1600" height="900" fill="#F8FAFC"/>
+  <rect x="48" y="44" width="1504" height="812" rx="28" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="3"/>
+  <rect x="48" y="44" width="1504" height="116" rx="28" fill="#172554"/>
+  <text x="92" y="104" font-size="40" font-weight="800" fill="#FFFFFF">Navia · 体验呈现</text>
+  <text x="92" y="140" font-size="22" font-weight="500" fill="#E5E7EB">V1.2 readiness/stage-gate line; mock-first development after audit and gates</text>
+  <circle cx="1478" cy="98" r="26" fill="#38BDF8"/>
+  <circle cx="1414" cy="98" r="18" fill="#FACC15"/>
+  
+  <text x="92" y="216" font-size="34" font-weight="800" fill="#172554">体验呈现</text>
+  <text x="92" y="254" font-size="22" fill="#4B5563">常驻网页边缘的本地伴随式 AI 助手与 Headless AgentCore。</text>
+
+  <rect x="92" y="305" width="500" height="390" rx="22" fill="#F9FAFB" stroke="#BFDBFE" stroke-width="2"/>
+  <rect x="126" y="340" width="432" height="210" rx="18" fill="#172554" opacity="0.92"/>
+  <rect x="154" y="370" width="150" height="26" rx="13" fill="#38BDF8"/>
+  <rect x="154" y="414" width="350" height="16" rx="8" fill="#E5E7EB"/>
+  <rect x="154" y="446" width="290" height="16" rx="8" fill="#E5E7EB"/>
+  <circle cx="480" cy="472" r="44" fill="#FACC15"/>
+  <rect x="126" y="585" width="180" height="44" rx="10" fill="#38BDF8"/>
+  <rect x="326" y="585" width="132" height="44" rx="10" fill="#FFFFFF" stroke="#BFDBFE"/>
+  <text x="126" y="665" font-size="24" font-weight="800" fill="#172554">用户第一眼看到什么</text>
+  <text x="126" y="700" font-size="21" font-weight="500" fill="#374151" text-anchor="start">Chrome 页面内悬浮球作为入口，hover</text>
+<text x="126" y="728" font-size="21" font-weight="500" fill="#374151" text-anchor="start">小长条，点击展开双轨聊天面板，并支持挤压/覆盖/收起。</text>
+
+  <rect x="632" y="305" width="394" height="390" rx="22" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="2"/>
+  <text x="668" y="360" font-size="28" font-weight="800" fill="#172554">核心价值</text>
+  <text x="668" y="412" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• Chrome 页面内悬浮球作为入口，hover</text>
+<text x="668" y="437" font-size="21" font-weight="500" fill="#374151" text-anchor="start">小长条，点击展开双轨聊天面板，并支持挤压/覆盖/收起。</text>
+<text x="668" y="464.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 当前网页上下文进入 Local</text>
+<text x="668" y="489.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">Runtime，提供摘要、问答、Mermaid</text>
+<text x="668" y="514.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">mindmap、session restore 和</text>
+<text x="668" y="517" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V1.2 将 ChatBox 拆成 A</text>
+<text x="668" y="542" font-size="21" font-weight="500" fill="#374151" text-anchor="start">Page Perception、B</text>
+<text x="668" y="567" font-size="21" font-weight="500" fill="#374151" text-anchor="start">Renderer、C Mindmap、D</text>
+
+  <rect x="1066" y="305" width="402" height="390" rx="22" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="2"/>
+  <text x="1102" y="360" font-size="28" font-weight="800" fill="#172554">当前阶段</text>
+  <text x="1102" y="410" font-size="22" font-weight="500" fill="#374151" text-anchor="start">V1.2</text>
+<text x="1102" y="439" font-size="22" font-weight="500" fill="#374151" text-anchor="start">readiness/stage-gate</text>
+<text x="1102" y="468" font-size="22" font-weight="500" fill="#374151" text-anchor="start">line; mock-first</text>
+<text x="1102" y="497" font-size="22" font-weight="500" fill="#374151" text-anchor="start">development after audit</text>
+  <text x="1102" y="560" font-size="24" font-weight="800" fill="#172554">面向谁讲</text>
+  <text x="1102" y="604" font-size="20" font-weight="500" fill="#374151" text-anchor="start">• 网页阅读者</text>
+<text x="1102" y="652.3" font-size="20" font-weight="500" fill="#374151" text-anchor="start">• 资料整理用户</text>
+<text x="1102" y="700.6" font-size="20" font-weight="500" fill="#374151" text-anchor="start">• 需要页面内摘要/追问/导图的人</text>
+<text x="1102" y="748.9" font-size="20" font-weight="500" fill="#374151" text-anchor="start">• 后续模块化开发团队</text>
+
+  <rect x="92" y="742" width="1376" height="72" rx="16" fill="#38BDF8" opacity="0.12"/>
+  <text x="126" y="788" font-size="25" font-weight="800" fill="#172554">宣讲主句：</text>
+  <text x="270" y="788" font-size="24" font-weight="500" fill="#172554" text-anchor="start">常驻网页边缘的本地伴随式 AI 助手与 Headless AgentCore。</text>
+  
+</svg>

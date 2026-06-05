@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Meeting Voice · 发展路线">
+  <rect width="1600" height="900" fill="#F8FAFC"/>
+  <rect x="48" y="44" width="1504" height="812" rx="28" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="3"/>
+  <rect x="48" y="44" width="1504" height="116" rx="28" fill="#0F172A"/>
+  <text x="92" y="104" font-size="40" font-weight="800" fill="#FFFFFF">Meeting Voice · 发展路线</text>
+  <text x="92" y="140" font-size="22" font-weight="500" fill="#E5E7EB">Meeting capability retained; Data Service session GraphRAG integration is current direction</text>
+  <circle cx="1478" cy="98" r="26" fill="#0EA5E9"/>
+  <circle cx="1414" cy="98" r="18" fill="#A855F7"/>
+  
+  <text x="92" y="216" font-size="34" font-weight="800" fill="#0F172A">后续可能的发展</text>
+  <text x="92" y="254" font-size="22" fill="#4B5563">这张图适合放在每个项目介绍的结尾：先讲现状，再讲下一步，最后讲不该过度承诺的边界。</text>
+  
+      <rect x="112" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+      <rect x="112" y="306" width="400" height="68" rx="22" fill="#0EA5E9"/>
+      <text x="140" y="350" font-size="27" font-weight="900" fill="#FFFFFF">当前可讲</text>
+      <text x="142" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• Meeting capability</text>
+<text x="142" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">retained; Data Service</text>
+<text x="142" y="482" font-size="21" font-weight="500" fill="#374151" text-anchor="start">session GraphRAG integration</text>
+<text x="142" y="508" font-size="21" font-weight="500" fill="#374151" text-anchor="start">is current direction</text>
+<text x="142" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• docs/README 指向的部分 Data</text>
+<text x="142" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">Service 文件在该仓库中可能缺失，宣讲时应以架构</text>
+<text x="142" y="536.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">overview、roadmap 与 session</text>
+<text x="142" y="562.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">GraphRAG requirements 交叉说明。</text>
+    
+
+      <rect x="568" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+      <rect x="568" y="306" width="400" height="68" rx="22" fill="#A855F7"/>
+      <text x="596" y="350" font-size="27" font-weight="900" fill="#FFFFFF">下一阶段</text>
+      <text x="598" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V2 roadmap：JWT</text>
+<text x="598" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">认证、多用户数据模型、会议/面试双场景。</text>
+<text x="598" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">•</text>
+<text x="598" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">面试助手：进度管理、模拟面试、实时答案提示、复盘与学习计划。</text>
+    
+
+      <rect x="1024" y="306" width="400" height="386" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+      <rect x="1024" y="306" width="400" height="68" rx="22" fill="#0F172A"/>
+      <text x="1052" y="350" font-size="27" font-weight="900" fill="#FFFFFF">发展边界</text>
+      <text x="1054" y="430" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 增强跨会议知识关联、GraphRAG</text>
+<text x="1054" y="456" font-size="21" font-weight="500" fill="#374151" text-anchor="start">检索、团队协作与移动端。</text>
+<text x="1054" y="484.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 当前最好讲成“会议应用作为 Data Service</text>
+<text x="1054" y="510.6" font-size="21" font-weight="500" fill="#374151" text-anchor="start">的首个会话型消费场景”。</text>
+    
+  <rect x="112" y="744" width="1328" height="72" rx="16" fill="#0EA5E9" opacity="0.12"/>
+  <text x="148" y="789" font-size="24" font-weight="900" fill="#0F172A">建议结尾：</text>
+  <text x="282" y="789" font-size="23" font-weight="500" fill="#0F172A" text-anchor="start">V2 roadmap：JWT 认证、多用户数据模型、会议/面试双场景。</text>
+  
+</svg>

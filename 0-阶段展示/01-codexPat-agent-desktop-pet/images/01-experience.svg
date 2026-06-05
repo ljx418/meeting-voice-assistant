@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="codexPat · 体验呈现">
+  <rect width="1600" height="900" fill="#F8FAFC"/>
+  <rect x="48" y="44" width="1504" height="812" rx="28" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="3"/>
+  <rect x="48" y="44" width="1504" height="116" rx="28" fill="#1F2937"/>
+  <text x="92" y="104" font-size="40" font-weight="800" fill="#FFFFFF">codexPat · 体验呈现</text>
+  <text x="92" y="140" font-size="22" font-weight="500" fill="#E5E7EB">V10.11 product experience rebaseline passed-scoped, 2026-06-05</text>
+  <circle cx="1478" cy="98" r="26" fill="#F59E0B"/>
+  <circle cx="1414" cy="98" r="18" fill="#10B981"/>
+  
+  <text x="92" y="216" font-size="34" font-weight="800" fill="#1F2937">体验呈现</text>
+  <text x="92" y="254" font-size="22" fill="#4B5563">把本地 Agent 工作状态转成可见、可互动、可审计的桌面工作猫。</text>
+
+  <rect x="92" y="305" width="500" height="390" rx="22" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="2"/>
+  <rect x="126" y="340" width="432" height="210" rx="18" fill="#1F2937" opacity="0.92"/>
+  <rect x="154" y="370" width="150" height="26" rx="13" fill="#F59E0B"/>
+  <rect x="154" y="414" width="350" height="16" rx="8" fill="#E5E7EB"/>
+  <rect x="154" y="446" width="290" height="16" rx="8" fill="#E5E7EB"/>
+  <circle cx="480" cy="472" r="44" fill="#10B981"/>
+  <rect x="126" y="585" width="180" height="44" rx="10" fill="#F59E0B"/>
+  <rect x="326" y="585" width="132" height="44" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <text x="126" y="665" font-size="24" font-weight="800" fill="#1F2937">用户第一眼看到什么</text>
+  <text x="126" y="700" font-size="21" font-weight="500" fill="#374151" text-anchor="start">桌面 work-cat-v1 通过 idle /</text>
+<text x="126" y="728" font-size="21" font-weight="500" fill="#374151" text-anchor="start">thinking / running /</text>
+<text x="126" y="756" font-size="21" font-weight="500" fill="#374151" text-anchor="start">success / warning / error</text>
+
+  <rect x="632" y="305" width="394" height="390" rx="22" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="668" y="360" font-size="28" font-weight="800" fill="#1F2937">核心价值</text>
+  <text x="668" y="412" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• 桌面 work-cat-v1 通过 idle</text>
+<text x="668" y="437" font-size="21" font-weight="500" fill="#374151" text-anchor="start">/ thinking / running /</text>
+<text x="668" y="462" font-size="21" font-weight="500" fill="#374151" text-anchor="start">success / warning / error</text>
+<text x="668" y="464.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• Manager/Settings</text>
+<text x="668" y="489.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">可预览动作、恢复默认</text>
+<text x="668" y="514.5" font-size="21" font-weight="500" fill="#374151" text-anchor="start">pack，并通过真实桌面截图留证。</text>
+<text x="668" y="517" font-size="21" font-weight="500" fill="#374151" text-anchor="start">• V10 明确 2D-first，不把</text>
+<text x="668" y="542" font-size="21" font-weight="500" fill="#374151" text-anchor="start">provider、3D、签名发布或跨平台能力提前宣称为</text>
+<text x="668" y="567" font-size="21" font-weight="500" fill="#374151" text-anchor="start">ready。</text>
+
+  <rect x="1066" y="305" width="402" height="390" rx="22" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="1102" y="360" font-size="28" font-weight="800" fill="#1F2937">当前阶段</text>
+  <text x="1102" y="410" font-size="22" font-weight="500" fill="#374151" text-anchor="start">V10.11 product</text>
+<text x="1102" y="439" font-size="22" font-weight="500" fill="#374151" text-anchor="start">experience rebaseline</text>
+<text x="1102" y="468" font-size="22" font-weight="500" fill="#374151" text-anchor="start">passed-scoped,</text>
+<text x="1102" y="497" font-size="22" font-weight="500" fill="#374151" text-anchor="start">2026-06-05</text>
+  <text x="1102" y="560" font-size="24" font-weight="800" fill="#1F2937">面向谁讲</text>
+  <text x="1102" y="604" font-size="20" font-weight="500" fill="#374151" text-anchor="start">• 本地开发者</text>
+<text x="1102" y="652.3" font-size="20" font-weight="500" fill="#374151" text-anchor="start">• Codex/Agent 工作流用户</text>
+<text x="1102" y="700.6" font-size="20" font-weight="500" fill="#374151" text-anchor="start">• 需要低干扰状态反馈的人</text>
+
+  <rect x="92" y="742" width="1376" height="72" rx="16" fill="#F59E0B" opacity="0.12"/>
+  <text x="126" y="788" font-size="25" font-weight="800" fill="#1F2937">宣讲主句：</text>
+  <text x="270" y="788" font-size="24" font-weight="500" fill="#1F2937" text-anchor="start">把本地 Agent 工作状态转成可见、可互动、可审计的桌面工作猫。</text>
+  
+</svg>
