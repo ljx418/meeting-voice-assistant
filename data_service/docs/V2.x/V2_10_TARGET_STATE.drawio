@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net" modified="2026-06-05T00:00:00.000Z" agent="codex" version="24.7.17">
+  <diagram id="v2_10_01" name="01 当前vs目标架构差异">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="V2.10 当前 vs 目标：从 structured blocker 到泛用 pattern evidence adapter" style="text;html=1;fontSize=22;fontStyle=1" vertex="1" parent="1"><mxGeometry x="40" y="30" width="1040" height="40" as="geometry"/></mxCell>
+        <mxCell id="cur" value="当前 V2.9&#xa;- data_service: 374 accepted evidence&#xa;- HarnessOS: 120 candidates, LINE_RANGE_INVALID&#xa;- 可以拒绝假通过，但不能解析大型项目特定架构模式" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e6;strokeColor=#d79b00" vertex="1" parent="1"><mxGeometry x="70" y="120" width="420" height="190" as="geometry"/></mxCell>
+        <mxCell id="target" value="目标 V2.10&#xa;- Pattern Adapter Registry&#xa;- AST Registry/Decorator/Class Binding&#xa;- Definition Lookup&#xa;- Manifest Candidate Resolver&#xa;- Controlled Runtime Candidate Importer&#xa;- Evidence Acceptance Gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32" vertex="1" parent="1"><mxGeometry x="660" y="120" width="440" height="220" as="geometry"/></mxCell>
+        <mxCell id="gap" value="差异：大型项目架构入口不一定是 HTTP/MCP/argparse；需要泛用 pattern 层把 registry/workflow/adapter/agent/manifest 绑定到真实源码行号" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8" vertex="1" parent="1"><mxGeometry x="240" y="430" width="700" height="100" as="geometry"/></mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="cur" target="gap" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="gap" target="target" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v2_10_02" name="02 V2.10目标架构">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" page="1" pageWidth="1200" pageHeight="800">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title2" value="V2.10 目标架构：泛用 Architecture Pattern Adapter Layer" style="text;html=1;fontSize=22;fontStyle=1" vertex="1" parent="1"><mxGeometry x="40" y="30" width="900" height="40" as="geometry"/></mxCell>
+        <mxCell id="input" value="V2.0-V2.9 Artifacts&#xa;surfaces / symbols / docs / graph / report" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#5f6368" vertex="1" parent="1"><mxGeometry x="60" y="120" width="220" height="90" as="geometry"/></mxCell>
+        <mxCell id="registry" value="Pattern Adapter Registry&#xa;generic taxonomy + optional configs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8" vertex="1" parent="1"><mxGeometry x="350" y="110" width="250" height="90" as="geometry"/></mxCell>
+        <mxCell id="ast" value="AST Binding Engine&#xa;registry / decorator / inheritance / factory / imports" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32" vertex="1" parent="1"><mxGeometry x="690" y="100" width="300" height="110" as="geometry"/></mxCell>
+        <mxCell id="lookup" value="Definition Lookup&#xa;AST default / optional Jedi / optional tree-sitter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32" vertex="1" parent="1"><mxGeometry x="690" y="250" width="300" height="95" as="geometry"/></mxCell>
+        <mxCell id="manifest" value="Manifest Resolver&#xa;candidate only until bound to code" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e6;strokeColor=#d79b00" vertex="1" parent="1"><mxGeometry x="350" y="270" width="250" height="90" as="geometry"/></mxCell>
+        <mxCell id="runtime" value="Runtime Introspection Candidate Importer&#xa;off by default / allowlisted only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce8e6;strokeColor=#c5221f" vertex="1" parent="1"><mxGeometry x="60" y="280" width="240" height="100" as="geometry"/></mxCell>
+        <mxCell id="gate" value="Evidence Acceptance Gate&#xa;repo-relative path + line_range + truth_check + confidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32" vertex="1" parent="1"><mxGeometry x="420" y="470" width="350" height="100" as="geometry"/></mxCell>
+        <mxCell id="output" value="V2.10 Pattern Evidence Report&#xa;accepted evidence / blockers / adapter map / context" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8" vertex="1" parent="1"><mxGeometry x="420" y="640" width="350" height="90" as="geometry"/></mxCell>
+        <mxCell id="a1" edge="1" parent="1" source="input" target="registry" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a2" edge="1" parent="1" source="registry" target="ast" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a3" edge="1" parent="1" source="ast" target="lookup" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a4" edge="1" parent="1" source="lookup" target="gate" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a5" edge="1" parent="1" source="manifest" target="gate" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a6" edge="1" parent="1" source="runtime" target="gate" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="a7" edge="1" parent="1" source="gate" target="output" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v2_10_03" name="03 Phase69-75开发验收">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" page="1" pageWidth="1200" pageHeight="800">
+      <root><mxCell id="0"/><mxCell id="1" parent="0"/>
+        <mxCell id="title3" value="V2.10 Phase 69-75 开发及验收计划" style="text;html=1;fontSize=22;fontStyle=1" vertex="1" parent="1"><mxGeometry x="40" y="30" width="700" height="40" as="geometry"/></mxCell>
+        <mxCell id="p69" value="69 Adapter Registry&#xa;验收：attempts persisted, no HarnessOS-only core logic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8" vertex="1" parent="1"><mxGeometry x="60" y="120" width="250" height="90" as="geometry"/></mxCell>
+        <mxCell id="p70" value="70 AST Binding&#xa;验收：registry/decorator/class/factory line truth checks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32" vertex="1" parent="1"><mxGeometry x="360" y="120" width="250" height="90" as="geometry"/></mxCell>
+        <mxCell id="p71" value="71 Definition Lookup&#xa;验收：cross-file symbol resolution or structured unavailable" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32" vertex="1" parent="1"><mxGeometry x="660" y="120" width="300" height="90" as="geometry"/></mxCell>
+        <mxCell id="p72" value="72 Doc-Code Evidence v3&#xa;验收：document claim != code evidence; weak never accepted" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e6;strokeColor=#d79b00" vertex="1" parent="1"><mxGeometry x="60" y="280" width="300" height="95" as="geometry"/></mxCell>
+        <mxCell id="p73" value="73 Manifest + Runtime Contract&#xa;验收：runtime off by default; manifest candidate-only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce8e6;strokeColor=#c5221f" vertex="1" parent="1"><mxGeometry x="410" y="280" width="310" height="95" as="geometry"/></mxCell>
+        <mxCell id="p74" value="74 Multi-project Report&#xa;验收：data_service + HarnessOS + generic fixture, readable report" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8" vertex="1" parent="1"><mxGeometry x="770" y="280" width="330" height="95" as="geometry"/></mxCell>
+        <mxCell id="p75" value="75 Closure&#xa;验收：no fatal/major, HarnessOS improves or precise blockers, false-green scan passed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32" vertex="1" parent="1"><mxGeometry x="360" y="500" width="430" height="100" as="geometry"/></mxCell>
+        <mxCell id="e69" edge="1" parent="1" source="p69" target="p70" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e70" edge="1" parent="1" source="p70" target="p71" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e71" edge="1" parent="1" source="p71" target="p72" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e72" edge="1" parent="1" source="p72" target="p73" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e73" edge="1" parent="1" source="p73" target="p74" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e74" edge="1" parent="1" source="p74" target="p75" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v2_10_04" name="04 项目里程碑">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" page="1" pageWidth="1200" pageHeight="800"><root><mxCell id="0"/><mxCell id="1" parent="0"/>
+      <mxCell id="title4" value="V2.10 项目宏观里程碑" style="text;html=1;fontSize=22;fontStyle=1" vertex="1" parent="1"><mxGeometry x="40" y="30" width="700" height="40" as="geometry"/></mxCell>
+      <mxCell id="m0" value="M0 文档审计通过&#xa;PRD/架构/验收/drawio ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#5f6368" vertex="1" parent="1"><mxGeometry x="60" y="130" width="210" height="90" as="geometry"/></mxCell>
+      <mxCell id="m1" value="M1 泛用 Adapter 层&#xa;registry + attempts + config" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8" vertex="1" parent="1"><mxGeometry x="310" y="130" width="210" height="90" as="geometry"/></mxCell>
+      <mxCell id="m2" value="M2 行级绑定能力&#xa;AST + definition lookup" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32" vertex="1" parent="1"><mxGeometry x="560" y="130" width="210" height="90" as="geometry"/></mxCell>
+      <mxCell id="m3" value="M3 安全候选输入&#xa;manifest + runtime contract" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e6;strokeColor=#d79b00" vertex="1" parent="1"><mxGeometry x="810" y="130" width="230" height="90" as="geometry"/></mxCell>
+      <mxCell id="m4" value="M4 多项目验收&#xa;data_service + HarnessOS + generic fixture" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8" vertex="1" parent="1"><mxGeometry x="250" y="330" width="300" height="90" as="geometry"/></mxCell>
+      <mxCell id="m5" value="M5 Closure&#xa;false-green scan + coverage matrix + audit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32" vertex="1" parent="1"><mxGeometry x="650" y="330" width="300" height="90" as="geometry"/></mxCell>
+      <mxCell id="me1" edge="1" parent="1" source="m0" target="m1" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      <mxCell id="me2" edge="1" parent="1" source="m1" target="m2" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      <mxCell id="me3" edge="1" parent="1" source="m2" target="m3" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      <mxCell id="me4" edge="1" parent="1" source="m3" target="m4" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      <mxCell id="me5" edge="1" parent="1" source="m4" target="m5" style="endArrow=block;html=1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    </root></mxGraphModel>
+  </diagram>
+  <diagram id="v2_10_05" name="05 验收门槛及出门条件">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" page="1" pageWidth="1200" pageHeight="800"><root><mxCell id="0"/><mxCell id="1" parent="0"/>
+      <mxCell id="title5" value="V2.10 验收门槛及出门条件" style="text;html=1;fontSize=22;fontStyle=1" vertex="1" parent="1"><mxGeometry x="40" y="30" width="700" height="40" as="geometry"/></mxCell>
+      <mxCell id="g1" value="硬门槛 1&#xa;accepted evidence 必须有真实 source_file + line_range + truth_check" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#2e7d32" vertex="1" parent="1"><mxGeometry x="70" y="120" width="300" height="90" as="geometry"/></mxCell>
+      <mxCell id="g2" value="硬门槛 2&#xa;manifest/runtime/document output 只能是 candidate，不能绕过代码证据" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff4e6;strokeColor=#d79b00" vertex="1" parent="1"><mxGeometry x="440" y="120" width="330" height="90" as="geometry"/></mxCell>
+      <mxCell id="g3" value="硬门槛 3&#xa;runtime introspection 默认关闭，只允许 allowlisted command" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce8e6;strokeColor=#c5221f" vertex="1" parent="1"><mxGeometry x="830" y="120" width="300" height="90" as="geometry"/></mxCell>
+      <mxCell id="g4" value="出门条件&#xa;- data_service 无回归&#xa;- HarnessOS accepted evidence 改善或 blocker 更精确&#xa;- 泛用 fixture 证明非 HarnessOS 专用&#xa;- no false-green audit passed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f0fe;strokeColor=#1a73e8" vertex="1" parent="1"><mxGeometry x="270" y="320" width="650" height="150" as="geometry"/></mxCell>
+    </root></mxGraphModel>
+  </diagram>
+</mxfile>

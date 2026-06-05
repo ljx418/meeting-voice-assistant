@@ -77,6 +77,132 @@ V2.6 does not reopen V2.5 ResearchNotebook backend closure and does not claim fu
 - `V2_6_GAP_ANALYSIS.md`
 - `V2_6_DOCUMENT_AUDIT_REPORT.md`
 - `V2_6_TARGET_STATE.drawio`
+- `V2_6_PHASE_44_48_DETAILED_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_6_ARTIFACT_SCHEMA_AND_PUBLIC_CONTRACT.md`
+- `V2_6_REAL_REPO_E2E_ACCEPTANCE_MATRIX.md`
+- `V2_6_FULL_PRD_COVERAGE_MATRIX.md`
+- `V2_6_PHASE_44_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_6_PHASE_44_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_6_PHASE_45_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_6_PHASE_45_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_6_PHASE_46_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_6_PHASE_46_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_6_CLOSURE_AUDIT_REPORT.md`
+
+## Primary V2.7 Documents
+
+V2.7 is the documentation-code architecture governance planning line. It adds document quality evaluation, architecture claim extraction, document-code comparison, and target/current/diff architecture reconstruction planning on top of V2.6.
+
+V2.7 is complete for the accepted current-worktree scope. Phase 49 Document Asset Registry, Phase 50 Architecture Claim Extractor, Phase 51 Document Quality Evaluation, Phase 52 Doc-Code Alignment v2, Phase 53 Architecture Reconstruction Report, Phase 54 Governance Integration, and Phase 55 Closure Acceptance are accepted.
+
+- `V2_7_TARGET_PRD.md`
+- `V2_7_TARGET_ARCHITECTURE.md`
+- `V2_7_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_7_PHASE_49_55_DETAILED_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_7_ARTIFACT_SCHEMA_AND_PUBLIC_CONTRACT.md`
+- `V2_7_GAP_ANALYSIS.md`
+- `V2_7_REAL_REPO_E2E_ACCEPTANCE_MATRIX.md`
+- `V2_7_FULL_PRD_COVERAGE_MATRIX.md`
+- `V2_7_DOCUMENT_AUDIT_REPORT.md`
+- `V2_7_TARGET_STATE.drawio`
+- `V2_7_PHASE_49_DEVELOPMENT_PLAN.md`
+- `V2_7_PHASE_49_ACCEPTANCE_PLAN.md`
+- `V2_7_PHASE_49_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_7_PHASE_49_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_7_PHASE_50_DEVELOPMENT_PLAN.md`
+- `V2_7_PHASE_50_ACCEPTANCE_PLAN.md`
+- `V2_7_PHASE_50_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_7_PHASE_50_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_7_PHASE_51_DEVELOPMENT_PLAN.md`
+- `V2_7_PHASE_51_ACCEPTANCE_PLAN.md`
+- `V2_7_PHASE_51_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_7_PHASE_51_QUALITY_EVALUATOR_RULE_SPEC.md`
+- `V2_7_PHASE_51_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_7_PHASE_52_DEVELOPMENT_PLAN.md`
+- `V2_7_PHASE_52_ACCEPTANCE_PLAN.md`
+- `V2_7_PHASE_52_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_7_PHASE_52_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_7_PHASE_52_ALIGNMENT_STRATEGY_SPEC.md`
+- `V2_7_PHASE_53_DEVELOPMENT_PLAN.md`
+- `V2_7_PHASE_53_ACCEPTANCE_PLAN.md`
+- `V2_7_PHASE_53_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_7_PHASE_53_RECONSTRUCTED_VIEW_SPEC.md`
+- `V2_7_PHASE_53_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_7_PHASE_54_DEVELOPMENT_PLAN.md`
+- `V2_7_PHASE_54_ACCEPTANCE_PLAN.md`
+- `V2_7_PHASE_54_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_7_PHASE_54_GOVERNANCE_OVERLAY_SPEC.md`
+- `V2_7_PHASE_54_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_7_PHASE_55_DEVELOPMENT_PLAN.md`
+- `V2_7_PHASE_55_ACCEPTANCE_PLAN.md`
+- `V2_7_PHASE_55_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_7_PHASE_55_CLOSURE_EVIDENCE_TABLE_SPEC.md`
+
+## Primary V2.8 Documents
+
+V2.8 is the architecture reading UX and deep project intelligence planning line. It addresses V2.7's readability, graph usability, code fact depth, large-project noise, and design-intent evidence gaps.
+
+V2.8 is accepted for the current worktree scope with documented caveats. Phase 56-62 closure accepted the readable dashboard, graph aggregation, code fact chain, ranking, intent, context pack, and closure artifacts. The accepted caveats are that HarnessOS still has unresolved line-level accepted fact chains and ranking still carries noise from upstream V2.7 findings.
+
+- `V2_8_TARGET_PRD.md`
+- `V2_8_TARGET_ARCHITECTURE.md`
+- `V2_8_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_8_PHASE_56_62_DETAILED_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_8_ARTIFACT_SCHEMA_AND_PUBLIC_CONTRACT.md`
+- `V2_8_VIEW_AND_GRAPH_SPEC.md`
+- `V2_8_CODE_FACT_RANKING_INTENT_SPEC.md`
+- `V2_8_CONTEXT_PACK_AND_PUBLIC_CONTRACT_SPEC.md`
+- `V2_8_PHASE_56_VISUAL_UX_SPEC.md`
+- `V2_8_PHASE_57_GRAPH_AGGREGATION_SPEC.md`
+- `V2_8_PHASE_58_CODE_FACT_CHAIN_SPEC.md`
+- `V2_8_PHASE_59_60_RANKING_INTENT_SPEC.md`
+- `V2_8_PHASE_61_62_CONTEXT_CLOSURE_SPEC.md`
+- `V2_8_GAP_ANALYSIS.md`
+- `V2_8_REAL_REPO_E2E_ACCEPTANCE_MATRIX.md`
+- `V2_8_FULL_PRD_COVERAGE_MATRIX.md`
+- `V2_8_DOCUMENT_AUDIT_REPORT.md`
+- `V2_8_TARGET_STATE.drawio`
+- `V2_8_PHASE_62_CLOSURE_AUDIT_REPORT.md`
+
+## Primary V2.9 Documents
+
+V2.9 is the architecture evidence hardening and human review UX line. It does not reopen V2.8; it targets the accepted caveats around HarnessOS line-level evidence, relationship depth, ranking noise, human-readable report quality, and architecture context pack usefulness.
+
+V2.9 is conditionally accepted for the implemented current-worktree scope. `data_service` has accepted line-level evidence. HarnessOS is accepted as structured-blocker behavior, not as improved line-level accepted evidence.
+
+- `V2_9_TARGET_PRD.md`
+- `V2_9_TARGET_ARCHITECTURE.md`
+- `V2_9_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_9_PHASE_63_68_DETAILED_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_9_ARTIFACT_SCHEMA_AND_PUBLIC_CONTRACT.md`
+- `V2_9_REAL_REPO_E2E_ACCEPTANCE_MATRIX.md`
+- `V2_9_FULL_PRD_COVERAGE_MATRIX.md`
+- `V2_9_GAP_ANALYSIS.md`
+- `V2_9_DOCUMENT_AUDIT_REPORT.md`
+- `V2_9_TARGET_STATE.drawio`
+- `V2_9_PHASE_63_PUBLIC_SURFACE_EVIDENCE_PACKAGE.md`
+- `V2_9_PHASE_64_CODE_RELATIONSHIP_LAYER_PACKAGE.md`
+- `V2_9_PHASE_65_RANKING_CALIBRATION_PACKAGE.md`
+- `V2_9_PHASE_66_HUMAN_REVIEW_REPORT_PACKAGE.md`
+- `V2_9_PHASE_67_CONTEXT_PACK_V3_PACKAGE.md`
+- `V2_9_PHASE_68_CLOSURE_PACKAGE.md`
+- `V2_9_PHASE_63_67_IMPLEMENTATION_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_9_PHASE_68_CLOSURE_AUDIT_REPORT.md`
+
+## Primary V2.10 Documents
+
+V2.10 is the planned generic architecture pattern evidence adapter line. It addresses V2.9's HarnessOS structured blocker by adding a generic, configurable layer for registry/decorator/class/manifest/runtime-candidate patterns. It must remain broadly applicable and must not become a HarnessOS-only extractor.
+
+V2.10 is document-planned, not implemented.
+
+- `V2_10_TARGET_PRD.md`
+- `V2_10_TARGET_ARCHITECTURE.md`
+- `V2_10_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_10_ARTIFACT_SCHEMA_AND_PUBLIC_CONTRACT.md`
+- `V2_10_REAL_REPO_E2E_ACCEPTANCE_MATRIX.md`
+- `V2_10_GAP_ANALYSIS.md`
+- `V2_10_DOCUMENT_AUDIT_REPORT.md`
+- `V2_10_TARGET_STATE.drawio`
 
 ## Phase Documents
 
@@ -133,6 +259,51 @@ V2.6 planning authority:
 - Product authority: `V2_6_TARGET_PRD.md`
 - Architecture authority: `V2_6_TARGET_ARCHITECTURE.md`
 - Execution and acceptance authority: `V2_6_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- Detailed Phase 44-48 execution authority: `V2_6_PHASE_44_48_DETAILED_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- Artifact and public contract authority: `V2_6_ARTIFACT_SCHEMA_AND_PUBLIC_CONTRACT.md`
+- Real-repo E2E authority: `V2_6_REAL_REPO_E2E_ACCEPTANCE_MATRIX.md`
+- Closure coverage authority: `V2_6_FULL_PRD_COVERAGE_MATRIX.md`
 - Gap analysis: `V2_6_GAP_ANALYSIS.md`
 - Document audit: `V2_6_DOCUMENT_AUDIT_REPORT.md`
 - Target state diagram: `V2_6_TARGET_STATE.drawio`
+
+V2.7 planning authority:
+
+- Product authority: `V2_7_TARGET_PRD.md`
+- Architecture authority: `V2_7_TARGET_ARCHITECTURE.md`
+- Execution and acceptance authority: `V2_7_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- Detailed Phase 49-55 execution authority: `V2_7_PHASE_49_55_DETAILED_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- Artifact and public contract authority: `V2_7_ARTIFACT_SCHEMA_AND_PUBLIC_CONTRACT.md`
+- Real-repo E2E authority: `V2_7_REAL_REPO_E2E_ACCEPTANCE_MATRIX.md`
+- Closure coverage authority: `V2_7_FULL_PRD_COVERAGE_MATRIX.md`
+- Gap analysis: `V2_7_GAP_ANALYSIS.md`
+- Document audit: `V2_7_DOCUMENT_AUDIT_REPORT.md`
+- Target state diagram: `V2_7_TARGET_STATE.drawio`
+- Phase 49 accepted implementation: `V2_7_PHASE_49_ACCEPTANCE_AUDIT_REPORT.md`
+- Phase 50 accepted implementation: `V2_7_PHASE_50_ACCEPTANCE_AUDIT_REPORT.md`
+- Phase 51 accepted implementation: `V2_7_PHASE_51_ACCEPTANCE_AUDIT_REPORT.md`
+- Phase 52 accepted implementation: `V2_7_PHASE_52_ACCEPTANCE_AUDIT_REPORT.md`
+- Phase 53 accepted implementation: `V2_7_PHASE_53_ACCEPTANCE_AUDIT_REPORT.md`
+- Phase 54 accepted implementation: `V2_7_PHASE_54_ACCEPTANCE_AUDIT_REPORT.md`
+- Phase 55 accepted closure: `V2_7_CLOSURE_AUDIT_REPORT.md`
+
+V2.8 planning authority:
+
+- Product authority: `V2_8_TARGET_PRD.md`
+- Architecture authority: `V2_8_TARGET_ARCHITECTURE.md`
+- Execution and acceptance authority: `V2_8_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- Detailed Phase 56-62 execution authority: `V2_8_PHASE_56_62_DETAILED_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- Artifact and public contract authority: `V2_8_ARTIFACT_SCHEMA_AND_PUBLIC_CONTRACT.md`
+- View and graph specification: `V2_8_VIEW_AND_GRAPH_SPEC.md`
+- Code fact, ranking and intent specification: `V2_8_CODE_FACT_RANKING_INTENT_SPEC.md`
+- Context pack and public contract specification: `V2_8_CONTEXT_PACK_AND_PUBLIC_CONTRACT_SPEC.md`
+- Phase 56 specification: `V2_8_PHASE_56_VISUAL_UX_SPEC.md`
+- Phase 57 specification: `V2_8_PHASE_57_GRAPH_AGGREGATION_SPEC.md`
+- Phase 58 specification: `V2_8_PHASE_58_CODE_FACT_CHAIN_SPEC.md`
+- Phase 59-60 specification: `V2_8_PHASE_59_60_RANKING_INTENT_SPEC.md`
+- Phase 61-62 specification: `V2_8_PHASE_61_62_CONTEXT_CLOSURE_SPEC.md`
+- Real-repo E2E authority: `V2_8_REAL_REPO_E2E_ACCEPTANCE_MATRIX.md`
+- Closure coverage scaffold: `V2_8_FULL_PRD_COVERAGE_MATRIX.md`
+- Gap analysis: `V2_8_GAP_ANALYSIS.md`
+- Document audit: `V2_8_DOCUMENT_AUDIT_REPORT.md`
+- Target state diagram: `V2_8_TARGET_STATE.drawio`

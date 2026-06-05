@@ -9,11 +9,17 @@ from data_service.mcp_common import read_json
 
 from ..artifacts import (
     agent_context_dir,
+    architecture_doc_claims_path,
+    architecture_doc_code_alignment_path,
+    architecture_doc_quality_findings_path,
+    architecture_doc_relations_path,
+    architecture_docs_path,
     architecture_code_boundaries_path,
     architecture_code_layers_path,
     architecture_code_roles_path,
     architecture_design_code_drift_path,
     architecture_pattern_candidates_path,
+    architecture_reconstructed_model_path,
     devwiki_page_json_path,
     inventory_capabilities_path,
     inventory_surfaces_path,
@@ -198,6 +204,20 @@ class CodeQualityService:
             return self._resolve_architecture_jsonl_target(codebase_id, target_id, architecture_pattern_candidates_path(self.workspace, codebase_id), "pattern_id", "pattern_type")
         if target_type == "architecture_drift_finding":
             return self._resolve_architecture_jsonl_target(codebase_id, target_id, architecture_design_code_drift_path(self.workspace, codebase_id), "finding_id", "finding_type")
+        if target_type == "architecture_doc":
+            return self._resolve_architecture_jsonl_target(codebase_id, target_id, architecture_docs_path(self.workspace, codebase_id), "doc_id", "doc_type")
+        if target_type == "architecture_doc_claim":
+            return self._resolve_architecture_jsonl_target(codebase_id, target_id, architecture_doc_claims_path(self.workspace, codebase_id), "claim_id", "claim_type")
+        if target_type == "architecture_doc_relation":
+            return self._resolve_architecture_jsonl_target(codebase_id, target_id, architecture_doc_relations_path(self.workspace, codebase_id), "relation_id", "relation_type")
+        if target_type == "architecture_doc_quality_finding":
+            return self._resolve_architecture_jsonl_target(codebase_id, target_id, architecture_doc_quality_findings_path(self.workspace, codebase_id), "finding_id", "finding_type")
+        if target_type == "architecture_doc_code_alignment":
+            return self._resolve_architecture_jsonl_target(codebase_id, target_id, architecture_doc_code_alignment_path(self.workspace, codebase_id), "alignment_id", "status")
+        if target_type == "architecture_reconstructed_node":
+            return self._resolve_reconstructed_node(codebase_id, target_id)
+        if target_type == "architecture_reconstructed_edge":
+            return self._resolve_reconstructed_edge(codebase_id, target_id)
         raise FileNotFoundError("QUALITY_TARGET_NOT_FOUND")
 
     def _write_summary(self, codebase_id: str) -> dict[str, Any]:
@@ -306,6 +326,25 @@ class CodeQualityService:
                     "snapshot_id": row.get("snapshot_id"),
                     "evidence_count": len(row.get("evidence") or []),
                 }
+        raise FileNotFoundError("QUALITY_TARGET_NOT_FOUND")
+
+    def _resolve_reconstructed_node(self, codebase_id: str, target_id: str) -> dict[str, Any]:
+        model = read_json(architecture_reconstructed_model_path(self.workspace, codebase_id), None)
+        if not model:
+            raise FileNotFoundError("QUALITY_TARGET_NOT_FOUND")
+        for collection_name in ("target_nodes", "current_nodes", "diff_nodes"):
+            for row in model.get(collection_name, []) or []:
+                if row.get("node_id") == target_id:
+                    return {"target_type": "architecture_reconstructed_node", "target_id": target_id, "node_type": row.get("node_type"), "section": row.get("section")}
+        raise FileNotFoundError("QUALITY_TARGET_NOT_FOUND")
+
+    def _resolve_reconstructed_edge(self, codebase_id: str, target_id: str) -> dict[str, Any]:
+        model = read_json(architecture_reconstructed_model_path(self.workspace, codebase_id), None)
+        if not model:
+            raise FileNotFoundError("QUALITY_TARGET_NOT_FOUND")
+        for row in model.get("edges", []) or []:
+            if row.get("edge_id") == target_id:
+                return {"target_type": "architecture_reconstructed_edge", "target_id": target_id, "edge_type": row.get("edge_type")}
         raise FileNotFoundError("QUALITY_TARGET_NOT_FOUND")
 
 

@@ -64,8 +64,22 @@ V2.6 must answer:
 | Context pack drops evidence under token pressure | high | Omit advice or mark `needs_review` when evidence is trimmed |
 | Prior artifacts are mutated | medium | Hash gate V2.0-V2.5 artifacts |
 
-## 6. Open Human Review Questions
+## 6. Locked Product Decisions
 
-- Should HarnessOS be the only large external validation target, or should another repo be added?
-- Should V2.6 taxonomy overrides be edited by users, or remain generated artifacts only?
-- Should V2.6 low-confidence architecture facts be visible in default Agent Context Pack output?
+These decisions are locked for V2.6 implementation. They should not be reopened during Phase 44-48 unless a fatal implementation blocker is found.
+
+| Decision | V2.6 Default | Reason |
+| --- | --- | --- |
+| External large-repo validation target | HarnessOS is the only required external large project | Keeps V2.6 scope bounded while still testing a materially larger, non-self repo |
+| Taxonomy override channel | Persisted artifact only | Avoids UI-only or request-only rules that cannot be audited |
+| Low-confidence Agent Context Pack behavior | Exclude from actionable guidance by default; include only under `needs_review` | Prevents false architecture advice while preserving review visibility |
+| Full static analysis semantics | Explicit non-claim | V2.6 is architecture abstraction hardening, not compiler/static-analysis replacement |
+| HarnessOS unavailable | Stop for human review | Mock substitution would invalidate the large-project acceptance claim |
+
+## 7. Remaining Questions for Implementation Time
+
+These are operational checks, not product decisions:
+
+- Confirm HarnessOS path is readable before Phase 44 implementation acceptance.
+- Lock the exact hash-gate file list in the implementation PR.
+- Record actual artifact ids and test commands in Phase 48 closure evidence.

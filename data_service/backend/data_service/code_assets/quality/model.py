@@ -30,6 +30,13 @@ SUPPORTED_TARGET_TYPES = {
     "architecture_boundary",
     "architecture_pattern",
     "architecture_drift_finding",
+    "architecture_doc",
+    "architecture_doc_claim",
+    "architecture_doc_relation",
+    "architecture_doc_quality_finding",
+    "architecture_doc_code_alignment",
+    "architecture_reconstructed_node",
+    "architecture_reconstructed_edge",
 }
 
 SUPPORTED_RULE_TYPES = {
@@ -41,6 +48,12 @@ SUPPORTED_RULE_TYPES = {
     "missing_public_surface",
     "doc_code_mismatch",
     "low_confidence_inference",
+    "overbroad_architecture_claim",
+    "missing_acceptance_gate",
+    "wrong_target_current_split",
+    "unsafe_rendered_output",
+    "broken_cross_link",
+    "stale_document",
     "overbroad_agent_context",
     "unsafe_path_exposure",
 }

@@ -212,6 +212,38 @@ def architecture_summary_path(workspace: Path, codebase_id: str) -> Path:
     return architecture_dir(workspace, codebase_id) / "summary.json"
 
 
+def architecture_scale_profile_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "architecture_scale_profile.json"
+
+
+def architecture_language_facts_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "language_facts.jsonl"
+
+
+def architecture_config_inventory_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "config_inventory.jsonl"
+
+
+def architecture_deployment_inventory_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "deployment_inventory.jsonl"
+
+
+def architecture_schema_inventory_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "schema_inventory.jsonl"
+
+
+def architecture_taxonomy_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "architecture_taxonomy.json"
+
+
+def architecture_taxonomy_override_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "architecture_taxonomy_override.json"
+
+
+def architecture_review_queue_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "architecture_review_queue.jsonl"
+
+
 def architecture_code_roles_path(workspace: Path, codebase_id: str) -> Path:
     return architecture_dir(workspace, codebase_id) / "code_roles.jsonl"
 
@@ -244,6 +276,226 @@ def architecture_view_path(workspace: Path, codebase_id: str, view_id: str) -> P
     suffix = "html" if view_id.endswith(".html") else "mmd"
     name = view_id.rsplit(".", 1)[0]
     return architecture_views_dir(workspace, codebase_id) / f"{name}.{suffix}"
+
+
+def architecture_docs_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "docs"
+
+
+def architecture_docs_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_docs_dir(workspace, codebase_id) / "architecture_docs.jsonl"
+
+
+def architecture_doc_sources_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_docs_dir(workspace, codebase_id) / "architecture_doc_sources.jsonl"
+
+
+def architecture_doc_claims_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_docs_dir(workspace, codebase_id) / "architecture_doc_claims.jsonl"
+
+
+def architecture_doc_relations_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_docs_dir(workspace, codebase_id) / "architecture_doc_relations.jsonl"
+
+
+def architecture_doc_quality_findings_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_docs_dir(workspace, codebase_id) / "architecture_doc_quality_findings.jsonl"
+
+
+def architecture_doc_quality_summary_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_docs_dir(workspace, codebase_id) / "architecture_doc_quality_summary.json"
+
+
+def architecture_doc_code_alignment_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_docs_dir(workspace, codebase_id) / "architecture_doc_code_alignment.jsonl"
+
+
+def architecture_doc_code_drift_v2_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_docs_dir(workspace, codebase_id) / "architecture_doc_code_drift_v2.jsonl"
+
+
+def architecture_reconstructed_model_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_docs_dir(workspace, codebase_id) / "architecture_reconstructed_model.json"
+
+
+def architecture_doc_views_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_docs_dir(workspace, codebase_id) / "views"
+
+
+def architecture_doc_view_path(workspace: Path, codebase_id: str, view_id: str) -> Path:
+    suffix = "html" if view_id.endswith(".html") else "mmd"
+    name = view_id.rsplit(".", 1)[0]
+    return architecture_doc_views_dir(workspace, codebase_id) / f"{name}.{suffix}"
+
+
+def architecture_v28_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "v2_8"
+
+
+def architecture_reading_dashboard_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "architecture_reading_dashboard.json"
+
+
+def architecture_v28_views_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "views"
+
+
+def architecture_v28_view_path(workspace: Path, codebase_id: str, view_id: str) -> Path:
+    suffix = "html" if view_id.endswith(".html") else "mmd"
+    name = view_id.rsplit(".", 1)[0]
+    return architecture_v28_views_dir(workspace, codebase_id) / f"{name}.{suffix}"
+
+
+def architecture_graph_summary_v28_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "architecture_graph_summary.json"
+
+
+def architecture_graph_clusters_v28_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "architecture_graph_clusters.json"
+
+
+def architecture_graph_views_v28_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "architecture_graph_views"
+
+
+def architecture_graph_view_v28_path(workspace: Path, codebase_id: str, view_id: str) -> Path:
+    safe = view_id.strip().replace("/", "_") or "system_overview"
+    return architecture_graph_views_v28_dir(workspace, codebase_id) / f"{safe}.json"
+
+
+def architecture_code_fact_chains_v28_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "architecture_code_fact_chains.jsonl"
+
+
+def architecture_runtime_boundaries_v28_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "architecture_runtime_boundaries.jsonl"
+
+
+def architecture_signal_ranking_v28_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "architecture_signal_ranking.json"
+
+
+def architecture_review_queue_v2_v28_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "architecture_review_queue_v2.json"
+
+
+def architecture_intent_evidence_v28_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "architecture_intent_evidence.jsonl"
+
+
+def architecture_context_pack_v28_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v28_dir(workspace, codebase_id) / "architecture_context_pack_v2"
+
+
+def architecture_context_pack_v28_path(workspace: Path, codebase_id: str, pack_id: str) -> Path:
+    safe = pack_id.strip().replace("/", "_") or "architecture_context_pack"
+    return architecture_context_pack_v28_dir(workspace, codebase_id) / f"{safe}.json"
+
+
+def architecture_v29_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "v2_9"
+
+
+def architecture_public_surface_evidence_v29_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v29_dir(workspace, codebase_id) / "architecture_public_surface_evidence_v2.jsonl"
+
+
+def architecture_code_relationships_v29_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v29_dir(workspace, codebase_id) / "architecture_code_relationships_v2.jsonl"
+
+
+def architecture_module_clusters_v29_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v29_dir(workspace, codebase_id) / "architecture_module_clusters_v2.json"
+
+
+def architecture_signal_ranking_v29_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v29_dir(workspace, codebase_id) / "architecture_signal_ranking_v2.json"
+
+
+def architecture_review_queue_v29_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v29_dir(workspace, codebase_id) / "architecture_review_queue_v3.json"
+
+
+def architecture_human_review_report_v29_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v29_dir(workspace, codebase_id) / "architecture_human_review_report_v2.json"
+
+
+def architecture_v29_views_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v29_dir(workspace, codebase_id) / "views"
+
+
+def architecture_v29_view_path(workspace: Path, codebase_id: str, view_id: str) -> Path:
+    suffix = "html" if view_id.endswith(".html") else "mmd"
+    name = view_id.rsplit(".", 1)[0].strip().replace("/", "_") or "architecture_human_review_report_v2"
+    return architecture_v29_views_dir(workspace, codebase_id) / f"{name}.{suffix}"
+
+
+def architecture_context_pack_v29_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v29_dir(workspace, codebase_id) / "architecture_context_pack_v3"
+
+
+def architecture_context_pack_v29_path(workspace: Path, codebase_id: str, pack_id: str) -> Path:
+    safe = pack_id.strip().replace("/", "_") or "architecture_context_pack"
+    return architecture_context_pack_v29_dir(workspace, codebase_id) / f"{safe}.json"
+
+
+def architecture_v210_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "v2_10"
+
+
+def architecture_pattern_adapter_registry_v210_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "pattern_adapter_registry.json"
+
+
+def architecture_adapter_attempts_v210_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "adapter_attempts.jsonl"
+
+
+def architecture_ast_bindings_v210_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "adapter_matches.jsonl"
+
+
+def architecture_definition_lookups_v210_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "definition_lookup_results.jsonl"
+
+
+def architecture_doc_code_evidence_v3_v210_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "doc_code_evidence_v3.jsonl"
+
+
+def architecture_manifest_candidates_v210_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "manifest_candidates.jsonl"
+
+
+def architecture_runtime_candidates_v210_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "runtime_introspection_candidates.jsonl"
+
+
+def architecture_accepted_pattern_evidence_v210_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "accepted_pattern_evidence.jsonl"
+
+
+def architecture_pattern_blockers_v210_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "pattern_blockers.jsonl"
+
+
+def architecture_pattern_evidence_summary_v210_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "pattern_evidence_summary.json"
+
+
+def architecture_v210_views_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v210_dir(workspace, codebase_id) / "views"
+
+
+def architecture_v210_view_path(workspace: Path, codebase_id: str, view_id: str) -> Path:
+    suffix = "html" if view_id.endswith(".html") else "mmd"
+    aliases = {
+        "pattern_evidence_report.html": "architecture_pattern_evidence_report.html",
+        "pattern_evidence_map.mmd": "architecture_pattern_adapter_map.mmd",
+    }
+    view_id = aliases.get(view_id, view_id)
+    name = view_id.rsplit(".", 1)[0].strip().replace("/", "_") or "architecture_pattern_evidence_report"
+    return architecture_v210_views_dir(workspace, codebase_id) / f"{name}.{suffix}"
 
 
 def root_path_hash(root_path: Path | str) -> str:

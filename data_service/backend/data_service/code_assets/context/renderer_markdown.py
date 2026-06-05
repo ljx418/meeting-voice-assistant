@@ -15,35 +15,38 @@ def render_markdown(pack: dict[str, Any]) -> str:
         "## 2. Project Summary",
         str((pack.get("project_summary") or {}).get("project_one_liner") or ""),
         "",
-        "## 3. Relevant Capabilities",
+        "## 3. Architecture Summary",
+        *_architecture_summary(pack.get("architecture_summary")),
+        "",
+        "## 4. Relevant Capabilities",
         *_bullets(pack.get("relevant_capabilities"), "capability_id"),
         "",
-        "## 4. Relevant Public Surface",
+        "## 5. Relevant Public Surface",
         *_bullets(pack.get("relevant_public_surface"), "surface_id"),
         "",
-        "## 5. Relevant Files",
+        "## 6. Relevant Files",
         *_bullets(pack.get("relevant_files"), "path"),
         "",
-        "## 6. Relevant Symbols",
+        "## 7. Relevant Symbols",
         *_bullets(pack.get("relevant_symbols"), "qualified_name"),
         "",
-        "## 7. Implementation Guidance",
+        "## 8. Implementation Guidance",
         *_claim_bullets(pack.get("implementation_guidance")),
         "",
-        "## 8. Risks and Compatibility Notes",
+        "## 9. Risks and Compatibility Notes",
         *_claim_bullets(pack.get("risks")),
         "",
-        "## 9. Suggested Tests",
+        "## 10. Suggested Tests",
         *_claim_bullets(pack.get("suggested_tests")),
         "",
-        "## 10. Recommended Next Steps",
+        "## 11. Recommended Next Steps",
         *_claim_bullets(pack.get("recommended_next_steps")),
         "",
-        "## 11. Evidence",
+        "## 12. Evidence",
         *_evidence_bullets(pack.get("evidence")),
     ]
     if pack.get("omitted_items"):
-        lines.extend(["", "## 12. Omitted Items", *_claim_bullets(pack.get("omitted_items"))])
+        lines.extend(["", "## 13. Omitted Items", *_claim_bullets(pack.get("omitted_items"))])
     return "\n".join(lines).strip() + "\n"
 
 
@@ -63,6 +66,20 @@ def _claim_bullets(items: Any) -> list[str]:
         suffix = " (needs_review)" if item.get("needs_review") else ""
         result.append(f"- {item.get('summary') or item.get('risk_id') or item}{suffix}")
     return result
+
+
+def _architecture_summary(value: Any) -> list[str]:
+    if not isinstance(value, dict):
+        return ["- needs_review"]
+    summary = value.get("summary") if isinstance(value.get("summary"), dict) else {}
+    rows = [
+        f"- files={summary.get('file_count', 0)}, loc={summary.get('loc_total', 0)}, summary_mode={summary.get('summary_mode_required', False)}",
+        f"- language_facts={summary.get('language_fact_count', 0)}, config={summary.get('config_count', 0)}, deployment={summary.get('deployment_count', 0)}, schema={summary.get('schema_count', 0)}",
+        f"- review_queue={summary.get('review_queue_count', 0)}",
+    ]
+    if value.get("needs_review"):
+        rows.append("- review queue requires human review before treating low-confidence facts as accepted")
+    return rows
 
 
 def _evidence_bullets(items: Any) -> list[str]:

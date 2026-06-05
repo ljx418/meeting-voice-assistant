@@ -128,7 +128,7 @@ async def test_data_service_mcp_tool_registry_contract():
     specs = all_tool_specs()
     names = [spec["name"] for spec in specs]
 
-    assert len(names) == 71
+    assert len(names) == 103
     assert len(names) == len(set(names))
     assert set(V2_TOOL_MAP) <= set(names)
     assert set(V2_TOOL_MAP.values()) <= set(names)
@@ -160,6 +160,38 @@ async def test_data_service_mcp_tool_registry_contract():
         "knowledge_code_architecture_roles",
         "knowledge_code_architecture_patterns",
         "knowledge_code_architecture_view",
+        "knowledge_code_architecture_scale_build",
+        "knowledge_code_architecture_scale_profile",
+        "knowledge_code_architecture_inventory_build",
+        "knowledge_code_architecture_language_facts",
+        "knowledge_code_architecture_config_inventory",
+        "knowledge_code_architecture_deployment_inventory",
+        "knowledge_code_architecture_schema_inventory",
+        "knowledge_code_architecture_taxonomy_build",
+        "knowledge_code_architecture_taxonomy",
+        "knowledge_code_architecture_review_queue_build",
+        "knowledge_code_architecture_review_queue",
+        "knowledge_code_architecture_large_project_views_build",
+        "knowledge_code_architecture_large_project_view",
+        "knowledge_code_architecture_docs_build",
+        "knowledge_code_architecture_docs_list",
+        "knowledge_code_architecture_doc_claims_build",
+        "knowledge_code_architecture_doc_claims",
+        "knowledge_code_architecture_doc_quality_build",
+        "knowledge_code_architecture_doc_quality",
+        "knowledge_code_architecture_doc_code_alignment_build",
+        "knowledge_code_architecture_doc_code_alignment",
+        "knowledge_code_architecture_reconstructed_build",
+        "knowledge_code_architecture_reconstructed",
+        "knowledge_code_architecture_doc_view",
+        "knowledge_code_architecture_views_build",
+        "knowledge_code_architecture_views",
+        "knowledge_code_architecture_view_v2_8",
+        "knowledge_code_architecture_graph_summary_build",
+        "knowledge_code_architecture_graph_summary",
+        "knowledge_code_architecture_graph_view",
+        "knowledge_code_architecture_code_fact_chains_build",
+        "knowledge_code_architecture_code_fact_chains",
     } <= set(names)
 
 

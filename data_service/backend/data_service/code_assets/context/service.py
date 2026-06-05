@@ -7,6 +7,7 @@ from typing import Any
 
 from data_service.mcp_common import now
 
+from ..architecture.service import ArchitectureService
 from ..inventory import CodebaseInventoryService
 from ..overview import CodebaseOverviewService, public_overview_payload
 from ..registry import CodebaseRegistry
@@ -29,6 +30,7 @@ class CodebaseAgentContextService:
         self.inventory = CodebaseInventoryService(workspace, workspace_id=workspace_id)
         self.symbols = CodebaseSymbolIndexService(workspace, workspace_id=workspace_id)
         self.trace = CodebaseTraceService(workspace, workspace_id=workspace_id)
+        self.architecture = ArchitectureService(workspace, workspace_id=workspace_id)
 
     def create_pack(
         self,
@@ -95,6 +97,10 @@ class CodebaseAgentContextService:
             "source_artifact_refs": overview.get("source_artifact_refs", []),
             "omitted_items": [],
         }
+        architecture_summary = self.architecture.build_context_architecture_summary(codebase_id)
+        if architecture_summary:
+            base["architecture_summary"] = architecture_summary
+            base["source_artifact_refs"] = [*base["source_artifact_refs"], *architecture_summary.get("artifact_refs", [])]
         pack = render_json_pack(base, selected)
         pack = apply_token_budget(pack, max_tokens=max_tokens)
         if normalized_format == "markdown":

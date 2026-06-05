@@ -85,9 +85,40 @@ EXPECTED_TARGET_ROUTES = {
     ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/sources/scan"),
     ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/build"),
     ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/build"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/scale/build"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/inventory/build"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/roles"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/patterns"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/views/{view_id}"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/scale/profile"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/language-facts"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/config"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/deployment"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/schema"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/taxonomy/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/taxonomy"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/review-queue/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/review-queue"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/views/build"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs/claims/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs/claims"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs/quality/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs/quality"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs/alignment/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs/alignment"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs/reconstructed/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs/reconstructed"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/docs/views/{view_id}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_8/views/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_8/views"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_8/views/{view_id}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_8/graph/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_8/graph"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_8/graph/views/{view_id}"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_8/code-fact-chains/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_8/code-fact-chains"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/model"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/alignment"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/findings"),
@@ -155,6 +186,38 @@ V2_CODEBASE_MCP_TOOLS = {
     "knowledge_code_architecture_roles",
     "knowledge_code_architecture_patterns",
     "knowledge_code_architecture_view",
+    "knowledge_code_architecture_scale_build",
+    "knowledge_code_architecture_scale_profile",
+    "knowledge_code_architecture_inventory_build",
+    "knowledge_code_architecture_language_facts",
+    "knowledge_code_architecture_config_inventory",
+    "knowledge_code_architecture_deployment_inventory",
+    "knowledge_code_architecture_schema_inventory",
+    "knowledge_code_architecture_taxonomy_build",
+    "knowledge_code_architecture_taxonomy",
+    "knowledge_code_architecture_review_queue_build",
+    "knowledge_code_architecture_review_queue",
+    "knowledge_code_architecture_large_project_views_build",
+    "knowledge_code_architecture_large_project_view",
+    "knowledge_code_architecture_docs_build",
+    "knowledge_code_architecture_docs_list",
+    "knowledge_code_architecture_doc_claims_build",
+    "knowledge_code_architecture_doc_claims",
+    "knowledge_code_architecture_doc_quality_build",
+    "knowledge_code_architecture_doc_quality",
+    "knowledge_code_architecture_doc_code_alignment_build",
+    "knowledge_code_architecture_doc_code_alignment",
+    "knowledge_code_architecture_reconstructed_build",
+    "knowledge_code_architecture_reconstructed",
+    "knowledge_code_architecture_doc_view",
+    "knowledge_code_architecture_views_build",
+    "knowledge_code_architecture_views",
+    "knowledge_code_architecture_view_v2_8",
+    "knowledge_code_architecture_graph_summary_build",
+    "knowledge_code_architecture_graph_summary",
+    "knowledge_code_architecture_graph_view",
+    "knowledge_code_architecture_code_fact_chains_build",
+    "knowledge_code_architecture_code_fact_chains",
 }
 FORBIDDEN_CONTRACT_KEYS = {
     "workspace_path",
@@ -255,7 +318,7 @@ def _write_session_graph(root: Path, workspace_id: str, session_id: str) -> None
 
 def test_v16d3_d4_d5_d6_surface_accepts_e_quality_minimal_routes_only():
     assert _target_routes() == EXPECTED_TARGET_ROUTES
-    assert len(_target_routes()) == 104
+    assert len(_target_routes()) == 135
 
     paths = {path for _, path in _target_routes()}
     assert "/api/workspaces/{workspace_id}/sessions/{session_id}/ingest" in paths
@@ -272,7 +335,7 @@ def test_v16d3_d4_d5_d6_surface_accepts_e_quality_minimal_routes_only():
     assert not any("/quality/corrections/build" in path for path in paths)
 
     tools = {spec["name"] for spec in all_tool_specs()}
-    assert len(tools) == 71
+    assert len(tools) == 103
     assert SESSION_MCP_TOOLS <= tools
     assert V2_CODEBASE_MCP_TOOLS <= tools
 

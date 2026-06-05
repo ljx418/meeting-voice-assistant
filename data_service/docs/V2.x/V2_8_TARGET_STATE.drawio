@@ -1,0 +1,224 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="5">
+  <diagram id="v28-01" name="01 当前vs目标架构差异">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="V2.8 当前 vs 目标架构差异" style="text;html=1;fontSize=28;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="430" y="30" width="740" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cur" value="当前 V2.7&#xa;文档-代码治理已闭环&#xa;但展示仍偏 artifact/report" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="90" y="150" width="330" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" value="HTML 可读性不足&#xa;图表少，快速理解弱" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#7dd3fc;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="120" y="310" width="270" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" value="图布局/聚合/筛选弱&#xa;大项目节点噪声高" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#7dd3fc;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="120" y="390" width="270" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" value="代码事实粒度不够深&#xa;缺少 entry chain / runtime hint" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#7dd3fc;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="120" y="470" width="270" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" value="设计意图仍主要依赖文档&#xa;缺少 intent evidence 分层" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0f9ff;strokeColor=#7dd3fc;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="120" y="550" width="270" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gap" value="V2.8 改进目标&#xa;让人类和 Agent 能快速阅读、聚合、筛选、追踪证据，并降低大型项目噪声" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#f97316;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="520" y="350" width="560" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="target" value="V2.8 目标&#xa;Readable Architecture Intelligence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1190" y="150" width="330" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" value="多图表 HTML Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="1220" y="310" width="270" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" value="Graph 聚合 / 布局 / 筛选" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="1220" y="385" width="270" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" value="Deeper Code Fact Chains" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="1220" y="460" width="270" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="t4" value="Ranking + Intent Evidence + Context Pack v2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=13" vertex="1" parent="1">
+          <mxGeometry x="1220" y="535" width="270" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" edge="1" parent="1" source="cur" target="gap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" edge="1" parent="1" source="gap" target="target">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v28-02" name="02 V2.8目标架构">
+    <mxGraphModel dx="1478" dy="647" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title2" parent="1" style="text;html=1;fontSize=28;fontStyle=1;align=center" value="V2.8 目标架构" vertex="1">
+          <mxGeometry height="50" width="480" x="560" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="inputs" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=14;fontStyle=1" value="V2.0-V2.7 Artifacts&#xa;surfaces / symbols / graph / docs / claims / alignment / reconstruction" vertex="1">
+          <mxGeometry height="100" width="310" x="80" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="chains" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1" value="Code Fact Chain Extractor&#xa;route/tool/CLI -&gt; handler -&gt; service" vertex="1">
+          <mxGeometry height="80" width="280" x="500" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="graph" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1" value="Graph Aggregator&#xa;clusters / views / filters" vertex="1">
+          <mxGeometry height="80" width="280" x="500" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="rank" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1" value="Signal Ranking Engine&#xa;importance / evidence / drift / centrality" vertex="1">
+          <mxGeometry height="80" width="280" x="500" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="intent" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontSize=14;fontStyle=1" value="Design Intent Evidence&#xa;documented / code-observed / audit-accepted / mismatch" vertex="1">
+          <mxGeometry height="90" width="280" x="95" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="dash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=15;fontStyle=1" value="Architecture Reading Dashboard&#xa;HTML + SVG + Mermaid + charts" vertex="1">
+          <mxGeometry height="100" width="310" x="910" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="pack" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfccb;strokeColor=#65a30d;fontSize=15;fontStyle=1" value="Architecture Context Pack v2&#xa;project brief / task context / evidence" vertex="1">
+          <mxGeometry height="100" width="310" x="1060" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=15;fontStyle=1" value="HTTP / MCP / CLI" vertex="1">
+          <mxGeometry height="80" width="190" x="1320" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" edge="1" parent="1" source="inputs" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" target="chains">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" edge="1" parent="1" source="inputs" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" target="graph">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" edge="1" parent="1" source="inputs" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" target="rank">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="240" />
+              <mxPoint x="430" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a4" edge="1" parent="1" source="inputs" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" target="intent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" edge="1" parent="1" source="chains" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" target="dash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" edge="1" parent="1" source="graph" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" target="dash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a7" edge="1" parent="1" source="rank" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" target="dash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a8" edge="1" parent="1" source="intent" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" target="dash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a9" edge="1" parent="1" source="dash" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" target="pack">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a10" edge="1" parent="1" source="pack" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;strokeColor=#64748b" target="api">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v28-03" name="03 Phase56-62开发验收">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title3" value="V2.8 Phase 56-62 开发及验收计划" style="text;html=1;fontSize=28;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="430" y="30" width="740" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="p56" value="Phase 56&#xa;Visual Architecture Reading UX&#xa;多图表 HTML Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="170" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p57" value="Phase 57&#xa;Graph Aggregation&#xa;聚合 / 布局 / 筛选" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="170" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p58" value="Phase 58&#xa;Deeper Code Facts&#xa;entry chain / boundary hints" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="520" y="170" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p59" value="Phase 59&#xa;Signal Ranking&#xa;review queue v2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="740" y="170" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p60" value="Phase 60&#xa;Intent Evidence&#xa;document/code/audit/mismatch" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="960" y="170" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p61" value="Phase 61&#xa;Context Pack v2&#xa;Agent-ready architecture context" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfccb;strokeColor=#65a30d;fontSize=13;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1180" y="170" width="200" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="p62" value="Phase 62&#xa;Closure Acceptance&#xa;coverage + real E2E + false-green audit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="430" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="g" value="每阶段：专项开发计划 + 验收计划 + 预审计；真实 data_service/HarnessOS E2E；无 fatal/major 才进入下一阶段" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#f97316;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="250" y="700" width="1100" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v28-04" name="04 项目里程碑">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title4" value="V2.8 项目宏观里程碑" style="text;html=1;fontSize=28;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="520" y="30" width="560" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="m0" value="M0&#xa;文档开发完成&#xa;ChatGPT 审计包可用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="180" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" value="M1&#xa;人类可读报告" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="290" y="180" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" value="M2&#xa;可聚合架构图" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="180" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" value="M3&#xa;更深代码事实" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="710" y="180" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="m4" value="M4&#xa;排序降噪" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="920" y="180" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="m5" value="M5&#xa;意图证据模型" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1130" y="180" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="m6" value="M6&#xa;Agent Context Pack v2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfccb;strokeColor=#65a30d;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1340" y="180" width="180" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="m7" value="M7&#xa;V2.8 Closure&#xa;data_service + HarnessOS accepted" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="610" y="470" width="380" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v28-05" name="05 验收门槛及出门条件">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title5" value="V2.8 验收门槛及出门条件" style="text;html=1;fontSize=28;fontStyle=1;align=center" vertex="1" parent="1">
+          <mxGeometry x="500" y="30" width="600" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="gate1" value="真实数据门槛&#xa;data_service + HarnessOS 必跑；mock-only 拒绝" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=15;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="110" y="150" width="360" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="gate2" value="图表证据门槛&#xa;每个 chart node / edge 必须解析到 persisted artifact" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="150" width="360" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="gate3" value="代码事实门槛&#xa;accepted chain 必须有 source file + line range" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1130" y="150" width="360" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="gate4" value="降噪门槛&#xa;major/fatal finding 不能被 ranking 或 summary 隐藏" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="110" y="340" width="360" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="gate5" value="意图门槛&#xa;只能输出 documented/code-observed/audit-accepted/mismatch；不得纯代码恢复人类意图" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontSize=15;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="620" y="340" width="360" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="gate6" value="出门条件&#xa;Phase 56-62 accepted；coverage 无 pending；无 fatal/major；公共契约一致" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfccb;strokeColor=#65a30d;fontSize=15;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1130" y="340" width="360" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="stop" value="False-green Reject&#xa;复制 drawio 冒充代码事实 / token-only accepted / runtime hint 当真实调用 / 图表无证据 / context pack 无 evidence / local path leak / 静默改写旧 artifacts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#991b1b;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="260" y="620" width="1080" height="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
