@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>V2.17 HarnessOS MCP 工作流接入验收报告</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #64748b;
+      --line: #d8e0eb;
+      --blue: #2563eb;
+      --cyan: #0891b2;
+      --green: #16a34a;
+      --amber: #d97706;
+      --red: #dc2626;
+      --slate: #334155;
+      --soft-blue: #eaf1ff;
+      --soft-green: #eaf7ee;
+      --soft-amber: #fff5dc;
+      --soft-red: #feecec;
+      --radius: 8px;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.6;
+    }
+    header {
+      background: #101827;
+      color: #fff;
+      padding: 42px 48px 34px;
+    }
+    .eyebrow { color: #93c5fd; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+    h1 { margin: 10px 0 12px; font-size: 34px; line-height: 1.18; letter-spacing: 0; }
+    h2 { margin: 0 0 18px; font-size: 24px; letter-spacing: 0; }
+    h3 { margin: 0 0 10px; font-size: 17px; letter-spacing: 0; }
+    p { margin: 0 0 12px; }
+    .lead { max-width: 980px; color: #dbeafe; font-size: 17px; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 28px 28px 60px; }
+    .grid { display: grid; gap: 18px; }
+    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .metric {
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .metric strong { font-size: 34px; line-height: 1; color: var(--blue); }
+    .metric span { color: var(--muted); font-size: 14px; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .status.ready { color: #166534; background: var(--soft-green); }
+    .status.gated { color: #92400e; background: var(--soft-amber); }
+    .status.blocked { color: #991b1b; background: var(--soft-red); }
+    .section { margin-top: 24px; }
+    .arch {
+      display: grid;
+      grid-template-columns: 1fr 180px 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .layer {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 18px;
+    }
+    .layer.dark { background: #172033; color: #fff; border-color: #172033; }
+    .layer ul { margin: 10px 0 0 18px; padding: 0; }
+    .arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue);
+      font-weight: 800;
+      text-align: center;
+    }
+    .arrow::before, .arrow::after {
+      content: "";
+      height: 2px;
+      background: var(--blue);
+      flex: 1;
+      margin: 0 8px;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .table th, .table td {
+      border-bottom: 1px solid var(--line);
+      padding: 11px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .table th { color: #334155; background: #f8fafc; }
+    .lane {
+      display: grid;
+      grid-template-columns: 180px repeat(5, 1fr);
+      gap: 8px;
+      align-items: stretch;
+      font-size: 13px;
+    }
+    .lane > div {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      padding: 12px;
+      min-height: 74px;
+    }
+    .lane .head { background: #1e293b; color: #fff; font-weight: 700; }
+    .flow-step { border-left: 4px solid var(--blue); }
+    .risk-step { border-left: 4px solid var(--amber); }
+    .gate-step { border-left: 4px solid var(--red); }
+    .svgbox { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; overflow-x: auto; }
+    svg text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; }
+    .legend { display: flex; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin-top: 10px; }
+    .dot { width: 10px; height: 10px; border-radius: 999px; display: inline-block; }
+    .dot.green { background: var(--green); }
+    .dot.amber { background: var(--amber); }
+    .dot.red { background: var(--red); }
+    .dot.blue { background: var(--blue); }
+    .callout {
+      border: 1px solid #bfdbfe;
+      background: #eff6ff;
+      color: #1e3a8a;
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+    }
+    .pillrow { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .pill {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 13px;
+      color: #334155;
+    }
+    .footer {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 28px;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+    @media (max-width: 920px) {
+      header { padding: 30px 24px; }
+      .wrap { padding: 20px; }
+      .grid.cols-4, .grid.cols-3, .grid.cols-2, .arch, .split { grid-template-columns: 1fr; }
+      .lane { grid-template-columns: 1fr; }
+      .arrow { min-height: 60px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">V2.17 SPECIAL ACCEPTANCE REPORT</div>
+    <h1>HarnessOS MCP 工作流接入验收报告</h1>
+    <p class="lead">本报告审计 `data_service` 是否可以作为 HarnessOS 多 Agent 联合开发工作流中的项目智能 MCP 工具层。结论：可以进入真实接入前试运行，但不替代 HarnessOS 的编排、审批、执行和状态机。</p>
+  </header>
+
+  <main class="wrap">
+    <section class="grid cols-4">
+      <div class="card metric">
+        <span>MCP 工具总数</span>
+        <strong>156</strong>
+        <span>来自当前 `all_tool_specs()`</span>
+      </div>
+      <div class="card metric">
+        <span>`knowledge_code_*`</span>
+        <strong>99</strong>
+        <span>项目理解、任务计划、runtime、patch</span>
+      </div>
+      <div class="card metric">
+        <span>架构工具</span>
+        <strong>57</strong>
+        <span>`knowledge_code_architecture_*`</span>
+      </div>
+      <div class="card metric">
+        <span>验收结论</span>
+        <strong style="color:var(--green)">Ready</strong>
+        <span>项目智能工具层 ready，编排闭环 gated</span>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2>1. 目标架构：谁负责什么</h2>
+      <div class="arch">
+        <div class="layer dark">
+          <h3>HarnessOS</h3>
+          <p>多 Agent 工作流主体</p>
+          <ul>
+            <li>Agent 编排与调度</li>
+            <li>Workflow state</li>
+            <li>Human approval</li>
+            <li>执行队列与权限</li>
+            <li>真实修改与提交策略</li>
+          </ul>
+        </div>
+        <div class="arrow">MCP 调用</div>
+        <div class="layer">
+          <h3>data_service</h3>
+          <p>项目智能 MCP 工具层</p>
+          <ul>
+            <li>项目事实与证据</li>
+            <li>架构/文档/代码对齐</li>
+            <li>任务上下文与 impact analysis</li>
+            <li>patch preview 与 rollback artifact</li>
+            <li>allowlist runtime profile</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:16px;">
+        核心边界：data_service 提供 evidence-backed context，不接管 HarnessOS 的 agent orchestration；高风险动作必须由 HarnessOS 或人类审批。
+      </div>
+    </section>
+
+    <section class="section split">
+      <div class="card">
+        <h2>2. 接入工作流</h2>
+        <div class="lane">
+          <div class="head">角色</div>
+          <div class="head">项目读取</div>
+          <div class="head">任务准备</div>
+          <div class="head">审查</div>
+          <div class="head">验证</div>
+          <div class="head">决策</div>
+
+          <div class="head">Workflow Agent</div>
+          <div class="flow-step">调用 import / snapshot / architecture build</div>
+          <div class="flow-step">请求 context pack</div>
+          <div class="risk-step">分派给 Review Agent</div>
+          <div class="risk-step">读取 runtime result</div>
+          <div class="gate-step">推进或等待审批</div>
+
+          <div class="head">Coding Agent</div>
+          <div class="flow-step">读取 project facts</div>
+          <div class="flow-step">读取 task plan / impact</div>
+          <div class="risk-step">提交 patch plan</div>
+          <div class="risk-step">参考 allowlist profile</div>
+          <div class="gate-step">不直接 apply</div>
+
+          <div class="head">Review Agent</div>
+          <div class="flow-step">读取 evidence</div>
+          <div class="flow-step">检查 task context</div>
+          <div class="risk-step">审查 blocker / risk lane</div>
+          <div class="risk-step">验证测试建议</div>
+          <div class="gate-step">给人类审批建议</div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>3. 验收雷达</h2>
+        <div class="svgbox">
+          <svg width="480" height="360" viewBox="0 0 480 360" role="img" aria-label="验收能力雷达图">
+            <circle cx="240" cy="180" r="130" fill="#f8fafc" stroke="#d8e0eb"/>
+            <circle cx="240" cy="180" r="90" fill="none" stroke="#d8e0eb"/>
+            <circle cx="240" cy="180" r="50" fill="none" stroke="#d8e0eb"/>
+            <g stroke="#cbd5e1">
+              <line x1="240" y1="180" x2="240" y2="40"/>
+              <line x1="240" y1="180" x2="370" y2="110"/>
+              <line x1="240" y1="180" x2="370" y2="250"/>
+              <line x1="240" y1="180" x2="240" y2="320"/>
+              <line x1="240" y1="180" x2="110" y2="250"/>
+              <line x1="240" y1="180" x2="110" y2="110"/>
+            </g>
+            <polygon points="240,55 350,120 338,238 240,295 130,238 128,118" fill="rgba(37,99,235,.18)" stroke="#2563eb" stroke-width="3"/>
+            <text x="240" y="28" text-anchor="middle" font-size="13" fill="#334155">MCP 工具</text>
+            <text x="410" y="105" text-anchor="middle" font-size="13" fill="#334155">上下文</text>
+            <text x="418" y="265" text-anchor="middle" font-size="13" fill="#334155">审查</text>
+            <text x="240" y="344" text-anchor="middle" font-size="13" fill="#334155">安全门禁</text>
+            <text x="64" y="265" text-anchor="middle" font-size="13" fill="#334155">runtime</text>
+            <text x="58" y="105" text-anchor="middle" font-size="13" fill="#334155">patch preview</text>
+          </svg>
+        </div>
+        <div class="legend">
+          <span><i class="dot blue"></i> 已具备工具层能力</span>
+          <span><i class="dot amber"></i> 生产接入需 HarnessOS E2E</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2>4. 能力矩阵</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>能力</th>
+            <th>data_service 当前状态</th>
+            <th>HarnessOS 接入状态</th>
+            <th>验收判断</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>项目导入 / Snapshot</td><td>已实现 MCP / HTTP / CLI</td><td>可作为工作流前置步骤</td><td><span class="status ready">ready</span></td></tr>
+          <tr><td>架构文档扫描</td><td>已实现 docs / drawio / claims</td><td>可读取 HarnessOS docs/design</td><td><span class="status ready">ready</span></td></tr>
+          <tr><td>任务上下文</td><td>Context Pack v3</td><td>可分发给 Coding Agent</td><td><span class="status ready">ready</span></td></tr>
+          <tr><td>Impact / Task Plan</td><td>已实现</td><td>可用于任务拆解</td><td><span class="status ready">ready</span></td></tr>
+          <tr><td>Patch Preview</td><td>只读 diff / rollback</td><td>需 HarnessOS 审批后进入下一步</td><td><span class="status gated">gated</span></td></tr>
+          <tr><td>Runtime Profile</td><td>allowlist-only</td><td>需和 HarnessOS 权限策略映射</td><td><span class="status gated">gated</span></td></tr>
+          <tr><td>Patch Apply</td><td>默认 blocked</td><td>不应自动执行</td><td><span class="status blocked">blocked</span></td></tr>
+          <tr><td>Agent 编排</td><td>不负责</td><td>HarnessOS 自身职责</td><td><span class="status blocked">not data_service</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section grid cols-3">
+      <div class="card">
+        <h2>5. 用户场景 A</h2>
+        <h3>陌生项目理解</h3>
+        <p>用户让 HarnessOS Workflow Agent 调用 data_service，读取 HarnessOS 代码和文档。</p>
+        <div class="pillrow">
+          <span class="pill">docs/design 地图</span>
+          <span class="pill">架构声明</span>
+          <span class="pill">代码事实</span>
+          <span class="pill">needs_review</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>6. 用户场景 B</h2>
+        <h3>Coding Agent 改动准备</h3>
+        <p>输入开发任务，系统输出 impact analysis、task plan、相关文件、测试建议和 context pack。</p>
+        <div class="pillrow">
+          <span class="pill">impact</span>
+          <span class="pill">task plan</span>
+          <span class="pill">context pack</span>
+          <span class="pill">evidence</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>7. 用户场景 C</h2>
+        <h3>Review 与安全门禁</h3>
+        <p>Review Agent 检查 patch preview、runtime profile、risk lane 和 blocker，人类决定是否批准高风险动作。</p>
+        <div class="pillrow">
+          <span class="pill">patch preview</span>
+          <span class="pill">rollback</span>
+          <span class="pill">runtime</span>
+          <span class="pill">human gate</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2>8. 风险门禁图</h2>
+      <div class="svgbox">
+        <svg width="1120" height="340" viewBox="0 0 1120 340" role="img" aria-label="风险门禁图">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+            </marker>
+          </defs>
+          <rect x="24" y="42" width="190" height="72" rx="8" fill="#eaf1ff" stroke="#93c5fd"/>
+          <text x="119" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#1e3a8a">项目事实</text>
+          <text x="119" y="94" text-anchor="middle" font-size="12" fill="#334155">snapshot / evidence</text>
+
+          <rect x="264" y="42" width="190" height="72" rx="8" fill="#eaf7ee" stroke="#86efac"/>
+          <text x="359" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#166534">任务上下文</text>
+          <text x="359" y="94" text-anchor="middle" font-size="12" fill="#334155">impact / task plan</text>
+
+          <rect x="504" y="42" width="190" height="72" rx="8" fill="#fff5dc" stroke="#fbbf24"/>
+          <text x="599" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">审查门禁</text>
+          <text x="599" y="94" text-anchor="middle" font-size="12" fill="#334155">risk / blocker</text>
+
+          <rect x="744" y="42" width="190" height="72" rx="8" fill="#fff5dc" stroke="#fbbf24"/>
+          <text x="839" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#92400e">受控验证</text>
+          <text x="839" y="94" text-anchor="middle" font-size="12" fill="#334155">allowlist runtime</text>
+
+          <rect x="504" y="202" width="190" height="72" rx="8" fill="#feecec" stroke="#fca5a5"/>
+          <text x="599" y="232" text-anchor="middle" font-size="15" font-weight="700" fill="#991b1b">禁止自动动作</text>
+          <text x="599" y="254" text-anchor="middle" font-size="12" fill="#334155">apply / git / 任意命令</text>
+
+          <rect x="904" y="202" width="190" height="72" rx="8" fill="#eaf1ff" stroke="#93c5fd"/>
+          <text x="999" y="232" text-anchor="middle" font-size="15" font-weight="700" fill="#1e3a8a">HarnessOS 决策</text>
+          <text x="999" y="254" text-anchor="middle" font-size="12" fill="#334155">审批 / 状态机 / 执行</text>
+
+          <line x1="214" y1="78" x2="264" y2="78" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="454" y1="78" x2="504" y2="78" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="694" y1="78" x2="744" y2="78" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="839" y1="114" x2="999" y2="202" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+          <line x1="599" y1="114" x2="599" y2="202" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow)"/>
+          <text x="704" y="172" font-size="12" fill="#64748b">通过门禁后交给 HarnessOS</text>
+          <text x="612" y="165" font-size="12" fill="#991b1b">未审批必须 blocked</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2>9. 最终审计结论</h2>
+      <p><strong>有条件通过。</strong> data_service 当前可以作为 HarnessOS 多 Agent 联合开发工作流的项目智能 MCP 工具层进入真实接入前试运行。</p>
+      <p>它适合承担项目理解、证据追踪、上下文生成、任务影响分析、Review 输入、patch preview 和受控 runtime profile。它不应承担 HarnessOS 工作流编排、真实执行、自动修改、自动提交或审批绕过。</p>
+      <div class="grid cols-3" style="margin-top:14px;">
+        <div class="callout"><strong>Ready</strong><br/>项目智能 MCP 工具层、上下文、审查、证据链。</div>
+        <div class="callout" style="background:var(--soft-amber); border-color:#fbbf24; color:#78350f;"><strong>Gated</strong><br/>runtime profile、patch preview 进入 HarnessOS 审批策略。</div>
+        <div class="callout" style="background:var(--soft-red); border-color:#fca5a5; color:#7f1d1d;"><strong>Blocked</strong><br/>自动 apply、任意命令、自动 git 操作、替代编排核心。</div>
+      </div>
+    </section>
+
+    <div class="footer">
+      生成依据：V2.16 closure 文档、当前 MCP registry、HarnessOS 本地仓库文档发现结果、V2.17 特殊验收 PRD/架构/验收计划/审计报告。公共结论必须以后续 HarnessOS MCP client 真实 E2E 为生产接入最终依据。
+    </div>
+  </main>
+</body>
+</html>

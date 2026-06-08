@@ -258,7 +258,7 @@ V2.11-V2.15 is accepted for the implemented current-worktree scope. Closure evid
 
 V2.16 是 Coding Agent 能力补全与自动化安全边界阶段。它接续已验收的 V2.11-V2.15 actionability、patch planning、runtime evidence、incremental intelligence 和 review workbench，在此基础上补齐 provider 能力治理、可选语义 provider、runtime profile、Workbench v2、大项目架构抽象增强，以及人工门禁 patch sandbox。
 
-当前 V2.16 是中文规划基线，不是实现完成证明。涉及外部 provider 接收代码内容、非默认 runtime 执行、源码修改、patch apply 和 git 操作时，仍必须人工审批。
+当前 V2.16 已完成并通过 Phase 82 closure。V2.16 的实现证明范围是 Coding Agent 工具层、安全门禁和审查台闭环；涉及外部 provider 接收代码内容、非默认 runtime 执行、源码修改、patch apply 和 git 操作时，仍必须人工审批。
 
 审计时建议按以下顺序阅读：
 
@@ -280,6 +280,16 @@ V2.16 是 Coding Agent 能力补全与自动化安全边界阶段。它接续已
 - `V2_16_MILESTONES_AND_EXIT_GATES.md`
 - `V2_16_DOCUMENT_AUDIT_REPORT.md`
 - `V2_16_TARGET_STATE.drawio`
+
+## Primary V2.17 Special Acceptance Documents
+
+V2.17 is a special HarnessOS MCP workflow integration acceptance line. It audits whether `data_service` can be used as the project-intelligence MCP tool layer for HarnessOS multi-agent development workflows. The accepted conclusion is tool-layer readiness, not HarnessOS orchestration replacement.
+
+- `V2_17_HARNESSOS_MCP_WORKFLOW_ACCEPTANCE_PRD.md`
+- `V2_17_HARNESSOS_MCP_WORKFLOW_TARGET_ARCHITECTURE.md`
+- `V2_17_HARNESSOS_MCP_WORKFLOW_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_17_HARNESSOS_MCP_WORKFLOW_AUDIT_REPORT.md`
+- `V2_17_HARNESSOS_MCP_WORKFLOW_ACCEPTANCE_REPORT.html`
 
 ## Phase Documents
 
