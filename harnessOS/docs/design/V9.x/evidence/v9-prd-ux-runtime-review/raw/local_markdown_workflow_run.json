@@ -1,0 +1,22 @@
+{
+  "command": [
+    "./.venv/bin/python",
+    "-m",
+    "cli.main",
+    "tui",
+    "递归总结 tests/fixtures/desktop/技术分享 下的 Markdown 技术文档",
+    "--run",
+    "--user-confirmed",
+    "--path",
+    "tests/fixtures/desktop/技术分享",
+    "--evidence-dir",
+    "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-prd-ux-runtime-review/v7-3-local-markdown-run",
+    "--json"
+  ],
+  "created_at": "2026-06-08T06:39:18Z",
+  "name": "local_markdown_workflow_run",
+  "returncode": 0,
+  "status": "PASS",
+  "stderr": "",
+  "stdout": "{\n  \"claim_scan\": \"PASS\",\n  \"drawio_xml_valid\": true,\n  \"evidence_chain_generated\": \"PASS\",\n  \"evidence_refs\": [\n    \"tui-transcript.txt\",\n    \"workflow.json\",\n    \"workflow.yaml\",\n    \"workflow.drawio\",\n    \"workflow_board.html\",\n    \"quality.html\",\n    \"evidence.html\",\n    \"local-document-workflow-result.json\",\n    \"evidence_chain.json\",\n    \"quality_report.json\"\n  ],\n  \"evidence_scope\": \"real_runtime_fixture\",\n  \"fallback_demo_only\": false,\n  \"folder_summaries_generated\": \"PASS\",\n  \"missing_evidence\": [],\n  \"overview_summary_generated\": \"PASS\",\n  \"provider_invocation_count\": 4,\n  \"quality_report_generated\": \"PASS\",\n  \"redaction_scan\": \"PASS\",\n  \"report_only\": false,\n  \"runtime_backed\": true,\n  \"runtime_report_generated\": \"PASS\",\n  \"scanner_actual_read_count\": 5,\n  \"source_agent_denied\": true,\n  \"stage_id\": \"V7-3\",\n  \"status\": \"PASS\",\n  \"transcript_only\": false,\n  \"user_confirmed\": true,\n  \"workflow_spec_schema_valid\": true\n}\n"
+}

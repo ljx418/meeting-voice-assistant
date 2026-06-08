@@ -1,0 +1,15 @@
+{
+  "schema_version": "v9_3.fixture.negative.v1",
+  "fixture_id": "v9_3_retry_overwrites_old_attempt",
+  "expected_status": "DENIED",
+  "expected_reason": "old_attempt_must_be_retained",
+  "attempt_history": [
+    {
+      "attempt_id": "attempt-1",
+      "attempt_number": 1,
+      "status": "recovered",
+      "error_ref": null
+    }
+  ],
+  "old_attempt_retained": false
+}

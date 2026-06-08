@@ -1,0 +1,10 @@
+{
+  "schema_version": "v9_4.fixture.negative.v1",
+  "fixture_id": "v9_4_review_summary_as_approval_attempt",
+  "expected_status": "DENIED",
+  "expected_reason": "review_summary_is_not_approval",
+  "operation": "approval.resolve",
+  "review_summary_ref": "review-summary-ref://v9-4/not-an-approval",
+  "approval_decision_ref": null,
+  "must_not_execute": true
+}

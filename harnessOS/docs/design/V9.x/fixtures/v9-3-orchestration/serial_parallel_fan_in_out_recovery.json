@@ -1,0 +1,130 @@
+{
+  "schema_version": "v9_3.fixture.orchestration.v1",
+  "fixture_id": "v9_3_serial_parallel_fan_in_out_recovery",
+  "orchestration_run": {
+    "orchestration_run_id": "orch-v9-3-fixture",
+    "workflow_instance_id": "workflow-v9-3-fixture",
+    "status": "succeeded",
+    "evidence_scope": "real_runtime_fixture",
+    "runtime_backed": true
+  },
+  "agents": [
+    {
+      "agent_id": "agent-research",
+      "station_id": "station-research",
+      "role": "research_agent",
+      "goal": "Collect source-grounded technical evidence.",
+      "model_ref": "provider-model-ref://v9-3/research"
+    },
+    {
+      "agent_id": "agent-implementation",
+      "station_id": "station-implementation",
+      "role": "implementation_agent",
+      "goal": "Produce implementation proposal artifacts.",
+      "model_ref": "provider-model-ref://v9-3/implementation"
+    },
+    {
+      "agent_id": "agent-review",
+      "station_id": "station-review",
+      "role": "review_agent",
+      "goal": "Review outputs and synthesize findings.",
+      "model_ref": "provider-model-ref://v9-3/review"
+    }
+  ],
+  "branch_states": [
+    {
+      "branch_id": "branch-serial-research",
+      "station_id": "station-research",
+      "state": "succeeded",
+      "attempt_id": "attempt-research-1",
+      "upstream_branch_ids": [],
+      "downstream_branch_ids": ["branch-parallel-implementation", "branch-parallel-review"]
+    },
+    {
+      "branch_id": "branch-parallel-implementation",
+      "station_id": "station-implementation",
+      "state": "recovered",
+      "attempt_id": "attempt-implementation-2",
+      "upstream_branch_ids": ["branch-serial-research"],
+      "downstream_branch_ids": ["branch-fan-in"]
+    },
+    {
+      "branch_id": "branch-parallel-review",
+      "station_id": "station-review",
+      "state": "succeeded",
+      "attempt_id": "attempt-review-1",
+      "upstream_branch_ids": ["branch-serial-research"],
+      "downstream_branch_ids": ["branch-fan-in"]
+    },
+    {
+      "branch_id": "branch-fan-in",
+      "station_id": "station-synthesis",
+      "state": "succeeded",
+      "attempt_id": "attempt-synthesis-1",
+      "upstream_branch_ids": ["branch-parallel-implementation", "branch-parallel-review"],
+      "downstream_branch_ids": []
+    }
+  ],
+  "fan_out_dispatches": [
+    {
+      "dispatch_id": "dispatch-research-to-parallel",
+      "source_branch_id": "branch-serial-research",
+      "target_branch_ids": ["branch-parallel-implementation", "branch-parallel-review"],
+      "input_artifact_refs": ["artifact-ref://v9-3/research-brief"]
+    }
+  ],
+  "fan_in_join_decisions": [
+    {
+      "join_decision_id": "join-v9-3-synthesis",
+      "target_branch_id": "branch-fan-in",
+      "input_branch_ids": ["branch-parallel-implementation", "branch-parallel-review"],
+      "input_artifact_refs": ["artifact-ref://v9-3/implementation-proposal", "artifact-ref://v9-3/review-notes"],
+      "attribution_refs": ["lineage-ref://v9-3/implementation", "lineage-ref://v9-3/review"],
+      "decision": "ready_to_synthesize",
+      "synthesis_artifact_ref": "artifact-ref://v9-3/synthesis"
+    }
+  ],
+  "attempt_history": [
+    {
+      "attempt_id": "attempt-implementation-1",
+      "attempt_number": 1,
+      "previous_attempt_id": null,
+      "status": "failed",
+      "error_ref": "error-ref://v9-3/worker-timeout",
+      "checkpoint_ref": "checkpoint-ref://v9-3/implementation-1"
+    },
+    {
+      "attempt_id": "attempt-implementation-2",
+      "attempt_number": 2,
+      "previous_attempt_id": "attempt-implementation-1",
+      "status": "recovered",
+      "error_ref": null,
+      "checkpoint_ref": "checkpoint-ref://v9-3/implementation-2"
+    }
+  ],
+  "lost_worker_recovery": {
+    "recovery_decision_id": "recovery-v9-3-implementation",
+    "failed_attempt_id": "attempt-implementation-1",
+    "replacement_attempt_id": "attempt-implementation-2",
+    "old_attempt_retained": true,
+    "old_error_ref": "error-ref://v9-3/worker-timeout"
+  },
+  "artifact_lineage": [
+    {
+      "artifact_ref": "artifact-ref://v9-3/implementation-proposal",
+      "producer_agent_id": "agent-implementation",
+      "producer_attempt_id": "attempt-implementation-2"
+    },
+    {
+      "artifact_ref": "artifact-ref://v9-3/review-notes",
+      "producer_agent_id": "agent-review",
+      "producer_attempt_id": "attempt-review-1"
+    }
+  ],
+  "forbidden": {
+    "source_agent_direct_mutation": false,
+    "prompt_content_present": false,
+    "raw_model_response_present": false,
+    "artifact_content_present": false
+  }
+}

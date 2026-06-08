@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "git",
+    "push"
+  ],
+  "expected_denial_reason": "command_not_allowlisted",
+  "fixture_id": "terminal_git_push_attempt",
+  "owner_stage": "V9-5"
+}

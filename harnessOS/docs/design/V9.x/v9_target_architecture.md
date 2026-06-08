@@ -1,6 +1,6 @@
 # V9 Target Architecture
 
-文档状态：V9 target architecture / planning baseline。
+文档状态：V9 target architecture / V9-2 evidence-aligned baseline。
 
 ## 1. Architecture Goal
 
@@ -16,6 +16,34 @@ Production Governance / Evidence Hardening and Terminal Automation Gate
 ```
 
 目标是让 Agent 可以在受控、可审计、可回滚的边界内执行，而不是成为无限制 executor。
+
+## 1.1 Current Architecture Delta After V9-2
+
+当前已落地并可审计的架构切片：
+
+```text
+Agent Executor Safety Gate validators
+HumanAuthorizationRef validator
+CapabilityResolver deny-by-default engine
+V9-2 limited controlled runtime fixture for four operations
+Append-only execution evidence for V9-2 fixture
+No False Green / redaction validation reports
+```
+
+当前仍未落地的目标架构切片：
+
+```text
+OrchestrationCoordinator runtime with serial / parallel / fan-in / fan-out.
+CodingWorkflowRuntime with diff / test / review / fix-loop.
+TerminalWorkerSandbox write expansion.
+WorkflowStudioBFF product UI.
+ProductionGovernanceAutomationGate runtime evidence.
+V9 final evidence aggregation dashboard.
+Creative workflow scenario adapters for Roman Forum debate and video storyboard generation.
+Natural-language workflow optimization proposal path.
+```
+
+V9-2 的 ControlledAgentExecutor 仍是 limited runtime fixture，不是 production executor route，也不是 runtime worker。
 
 ## 2. Target Planes
 
@@ -63,9 +91,12 @@ User Goal
 | --- | --- | --- |
 | AgentExecutionPolicy | Defines allowed Agent actions by role, stage, tenant and risk | policy only |
 | AgentExecutionEnvelope | Carries actor, source, scope, target refs, approval refs and idempotency key | no raw secret or raw payload |
-| ControlledAgentExecutor | Executes only approved actions | not unrestricted executor |
-| OrchestrationCoordinator | Coordinates serial, parallel and fan-in/fan-out runs | keeps attempt history |
+| ControlledAgentExecutor | Executes only the V9-2 allowlisted fixture actions today; target is approved actions only | not unrestricted executor; no production route / worker |
+| OrchestrationCoordinator | Coordinates serial, parallel and fan-in/fan-out runs | next implementation candidate; keeps attempt history |
 | CodingWorkflowRuntime | Runs planning, implementation, test, review and fix loops | no auto commit / auto push / auto deploy by default |
+| DebateWorkflowAdapter | Maps a discussion goal into role-specific Agents, multi-round messages and attributed synthesis | V9-3 user scenario fixture; not full orchestration GA |
+| StoryboardWorkflowAdapter | Maps a video idea into brief, script, shot list, storyboard prompts and image artifact refs | provider-backed or explicitly fallback; no raw prompt leakage |
+| WorkflowOptimizationPlanner | Converts natural-language optimization requests into WorkflowDiff proposals | no durable mutation before confirmation |
 | TerminalWorkerSandbox | Runs scoped commands and captures transcript/diff | no arbitrary shell by default |
 | WorkflowStudioBFF | Product UI boundary for Studio operations | no direct runtime truth writes |
 | ProductionGovernanceAutomationGate | High-risk gate for production governance, evidence hardening and terminal/browser automation | separate approval, credential, evidence and incident review |
@@ -87,6 +118,8 @@ source=agent default durable mutation remains denied even when an Agent proposes
 HumanAuthorizationRef binds issuer, operation hash, target refs, expiry, revocation and audit linkage.
 Terminal worker cannot escape workspace sandbox.
 Credential leases cannot expose raw secret.
+Image generation providers expose redacted invocation refs only.
+Workflow optimization from natural language produces proposal / diff / handoff first.
 ```
 
 ## 6. High-Risk Boundaries

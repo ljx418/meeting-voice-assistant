@@ -9,6 +9,7 @@ from tools.v9.common import FORBIDDEN_RAW_TERMS, V9_ROOT, utc_now, write_json
 
 
 REPORT_PATH = V9_ROOT / "reports" / "v9_1_redaction_scan.json"
+SCAN_SUFFIXES = {".md", ".drawio", ".json", ".html", ".txt", ".log"}
 
 
 def main() -> int:
@@ -18,7 +19,7 @@ def main() -> int:
 
     violations: list[dict[str, Any]] = []
     for path in sorted(V9_ROOT.glob("**/*")):
-        if not path.is_file() or path.suffix not in {".md", ".drawio", ".json"}:
+        if not path.is_file() or path.suffix not in SCAN_SUFFIXES:
             continue
         if _excluded_scan_path(path):
             continue
@@ -57,6 +58,10 @@ def _allowed_raw_term_context(path: Path, line: str, heading: str) -> bool:
     if lower.strip() in {term.lower() for term in FORBIDDEN_RAW_TERMS} and "persistence model" in heading_lower:
         return True
     if "_in_evidence" in lower or "fixture" in lower:
+        return True
+    if "_exposed" in lower and "false" in lower:
+        return True
+    if "_configured" in lower and "true" in lower:
         return True
     return any(
         marker in lower

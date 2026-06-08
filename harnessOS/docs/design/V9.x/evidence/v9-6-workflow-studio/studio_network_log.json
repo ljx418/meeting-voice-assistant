@@ -1,0 +1,80 @@
+{
+  "browser_network_log": [
+    "GET /bff/v9/studio-state",
+    "GET /bff/v9/runtime-report",
+    "GET /bff/v9/evidence-chain",
+    "GET /bff/v9/workflow-blueprint",
+    "POST /bff/v9/workflow-diff-proposal",
+    "POST /bff/v9/manual-confirmation",
+    "POST /bff/v9/review-handoff"
+  ],
+  "route_decisions": [
+    {
+      "audit_ref": "audit://v9-6/browser-route/4759df22d8d1",
+      "denial_reason": null,
+      "policy_decision": "allow",
+      "route": "GET /bff/v9/studio-state"
+    },
+    {
+      "audit_ref": "audit://v9-6/browser-route/f8cdf99d9dba",
+      "denial_reason": null,
+      "policy_decision": "allow",
+      "route": "GET /bff/v9/runtime-report"
+    },
+    {
+      "audit_ref": "audit://v9-6/browser-route/8d34f1d5b477",
+      "denial_reason": null,
+      "policy_decision": "allow",
+      "route": "GET /bff/v9/evidence-chain"
+    },
+    {
+      "audit_ref": "audit://v9-6/browser-route/dc938ef55d81",
+      "denial_reason": null,
+      "policy_decision": "allow",
+      "route": "GET /bff/v9/workflow-blueprint"
+    },
+    {
+      "audit_ref": "audit://v9-6/browser-route/50cddda31815",
+      "denial_reason": null,
+      "policy_decision": "allow",
+      "route": "POST /bff/v9/workflow-diff-proposal"
+    },
+    {
+      "audit_ref": "audit://v9-6/browser-route/b4ffaed29f7b",
+      "denial_reason": null,
+      "policy_decision": "allow",
+      "route": "POST /bff/v9/manual-confirmation"
+    },
+    {
+      "audit_ref": "audit://v9-6/browser-route/083a67d6d06f",
+      "denial_reason": null,
+      "policy_decision": "allow",
+      "route": "POST /bff/v9/review-handoff"
+    },
+    {
+      "audit_ref": "audit://v9-6/browser-route/d2e986f6a239",
+      "denial_reason": "internal_route_denied",
+      "policy_decision": "deny",
+      "route": "/v1/rpc"
+    },
+    {
+      "audit_ref": "audit://v9-6/browser-route/cb3697d1c76d",
+      "denial_reason": "internal_route_denied",
+      "policy_decision": "deny",
+      "route": "/v1/events/subscribe"
+    },
+    {
+      "audit_ref": "audit://v9-6/browser-route/0d6e8895f9ad",
+      "denial_reason": "internal_route_denied",
+      "policy_decision": "deny",
+      "route": "/v1/internal/runtime"
+    },
+    {
+      "audit_ref": "audit://v9-6/browser-route/e755496084ac",
+      "denial_reason": "internal_route_denied",
+      "policy_decision": "deny",
+      "route": "/v1/internal/workflow-store"
+    }
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": "v9_3.fixture.negative.v1",
+  "fixture_id": "v9_3_source_agent_direct_mutation_attempt",
+  "expected_status": "DENIED",
+  "expected_reason": "source_agent_direct_mutation_denied",
+  "message": {
+    "source": "agent",
+    "message_kind": "runtime_mutation_request",
+    "operation": "station.rerun",
+    "target_refs": {
+      "station_id": "station-v9-3",
+      "station_run_id": "station-run-v9-3"
+    }
+  }
+}

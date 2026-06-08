@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TUI 窗口运行截图源</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f6f7f9; color: #172033; }
+    section, article { background: #fff; border: 1px solid #d8dee8; border-radius: 8px; margin: 18px auto; padding: 18px; max-width: 1180px; }
+    .hero { background: #111827; color: #f9fafb; border-color: #111827; }
+    code { background: #eef2f7; color: #16233a; padding: 2px 5px; border-radius: 4px; }
+    .hero code { background: #263244; color: #e5e7eb; }
+    pre { white-space: pre-wrap; word-break: break-word; background: #0f172a; color: #dbeafe; border-radius: 8px; padding: 14px; overflow: auto; max-height: 680px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #d8dee8; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #eef2f7; }
+    .pass { color: #166534; font-weight: 700; }
+    .fail { color: #b91c1c; font-weight: 700; }
+    .screens, .storyboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .architecture { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+    .architecture article { margin: 0; max-width: none; background: #f8fafc; }
+    h3 { margin-top: 0; }
+    figure { margin: 0; border: 1px solid #d8dee8; border-radius: 8px; background: #f8fafc; padding: 10px; }
+    img { width: 100%; display: block; border-radius: 6px; border: 1px solid #cbd5e1; }
+    figcaption { color: #475569; font-size: 13px; margin-top: 8px; }
+    .terminal { background: #0b1020; color: #dbeafe; max-width: 1180px; }
+    .titlebar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: #e5e7eb; }
+    .titlebar span { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #ef4444; }
+    .titlebar span:nth-child(2) { background: #f59e0b; }
+    .titlebar span:nth-child(3) { background: #22c55e; }
+  </style>
+</head>
+<body>
+        <section class="hero">
+          <h1>HarnessOS TUI 窗口已拉起</h1>
+          <p>实际命令：<code>./.venv/bin/python -m cli.main tui 用多个 Agent 讨论一个视频创作工作流，并给出可审计的分镜与运行证据</code></p>
+          <p>返回码：<strong>0</strong></p>
+        </section>
+        <section class="terminal">
+          <div class="titlebar"><span></span><span></span><span></span><b>Mission TUI</b></div>
+          <pre>HarnessOS Mission TUI
+============================
+任务: 用多个 Agent 讨论一个视频创作工作流，并给出可审计的分镜与运行证据
+当前状态: AwaitingConfirmation
+证据范围: transcript_only=True runtime_backed=False
+
+状态线:
+- IntentCaptured: complete
+- SpecDrafted: complete
+- SchemaValidated: complete
+- DiffReady: complete
+- AwaitingConfirmation: active
+
+可用动作:
+- workflow.patch.propose | confirmation=False | policy=allow | capability=allow
+- workflow.instance.start | confirmation=True | policy=needs_review | capability=needs_user_confirmation
+
+禁止原因:
+- workflow.instance.start / source_agent_denied: Agent 来源不能直接执行持久化运行，必须等待人工确认。
+- workflow.instance.start / requires_user_confirmation: 运行工作流属于持久化动作，必须先获得 user_confirmed=true。
+
+证据链接:
+- workflow_spec: workflow-spec://v7-2/mission_v7_2_40fd07e4cf52
+- workflow_diff: workflow-diff://v7-2/mission_v7_2_40fd07e4cf52
+- blueprint: drawio://v7-2/mission_v7_2_40fd07e4cf52/workflow.drawio
+- runtime_report: runtime-report://not-started/transcript-only
+- evidence_chain: evidence://v7-2/mission_v7_2_40fd07e4cf52/transcript
+
+边界: TUI 是 workflow head，不是 runtime truth；用户确认前不会执行持久化动作。
+</pre>
+        </section>
+        </body>
+</html>

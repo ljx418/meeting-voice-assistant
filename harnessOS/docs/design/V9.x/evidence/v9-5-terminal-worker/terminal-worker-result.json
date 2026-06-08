@@ -1,0 +1,361 @@
+{
+  "acceptance": {
+    "allowed_claim": "V9-5 complete: governed terminal worker expansion ready for review.",
+    "auto_commit_enabled": false,
+    "auto_push_enabled": false,
+    "browser_account_automation_enabled": false,
+    "build_or_test_command_result": "PASS",
+    "claim_scan": "PASS",
+    "command_tier_policy": "PASS",
+    "diff_capture": "PASS",
+    "evidence_scope": "real_runtime_fixture",
+    "git_push_denied": "PASS",
+    "network_without_policy_denied": "PASS",
+    "production_deploy_denied": "PASS",
+    "production_deploy_enabled": false,
+    "production_terminal_automation_ready": false,
+    "readonly_command_transcript": "PASS",
+    "redaction_scan": "PASS",
+    "runtime_backed": true,
+    "schema_version": "v9_5.terminal_worker_acceptance.v1",
+    "sensitive_read_denied": "PASS",
+    "source_agent_direct_mutation_denied": "PASS",
+    "stage_id": "V9-5",
+    "status": "PASS",
+    "symlink_escape_denied": "PASS",
+    "unrestricted_shell_enabled": false,
+    "unrestricted_terminal_worker_ready": false,
+    "workspace_escape_denied": "PASS",
+    "workspace_scope_guard": "PASS",
+    "write_action_requires_human_authorization": "PASS"
+  },
+  "command_decisions": [
+    {
+      "argv": [
+        "pwd"
+      ],
+      "audit_ref": "audit://v9-5/command/tier0_readonly",
+      "command_decision_id": "terminal-command-decision-v9-5-935d66f33278",
+      "command_tier": "tier0_readonly",
+      "created_at": "2026-06-08T08:18:03Z",
+      "denial_reason": null,
+      "diff_capture_ref": null,
+      "policy_decision": "allow",
+      "requires_human_authorization_ref": false,
+      "transcript_ref": "terminal-transcript.txt"
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        "core",
+        "tools/v9",
+        "tests",
+        "docs/design/V9.x"
+      ],
+      "audit_ref": "audit://v9-5/command/tier0_readonly",
+      "command_decision_id": "terminal-command-decision-v9-5-d81e116e7c09",
+      "command_tier": "tier0_readonly",
+      "created_at": "2026-06-08T08:18:03Z",
+      "denial_reason": null,
+      "diff_capture_ref": null,
+      "policy_decision": "allow",
+      "requires_human_authorization_ref": false,
+      "transcript_ref": "terminal-transcript.txt"
+    },
+    {
+      "argv": [
+        "rg",
+        "-n",
+        "V9-5",
+        "docs/design/V9.x/v9_5_development_and_acceptance_plan.md"
+      ],
+      "audit_ref": "audit://v9-5/command/tier0_readonly",
+      "command_decision_id": "terminal-command-decision-v9-5-08dd96e42ad1",
+      "command_tier": "tier0_readonly",
+      "created_at": "2026-06-08T08:18:03Z",
+      "denial_reason": null,
+      "diff_capture_ref": null,
+      "policy_decision": "allow",
+      "requires_human_authorization_ref": false,
+      "transcript_ref": "terminal-transcript.txt"
+    },
+    {
+      "argv": [
+        "./.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_v9_4_readiness_closure.py",
+        "-q"
+      ],
+      "audit_ref": "audit://v9-5/command/tier1_build_test",
+      "command_decision_id": "terminal-command-decision-v9-5-df8ccb74c8af",
+      "command_tier": "tier1_build_test",
+      "created_at": "2026-06-08T08:18:03Z",
+      "denial_reason": null,
+      "diff_capture_ref": null,
+      "policy_decision": "allow",
+      "requires_human_authorization_ref": false,
+      "transcript_ref": "terminal-transcript.txt"
+    },
+    {
+      "argv": [
+        "diff.proposal",
+        "docs/design/V9.x/v9_5_development_and_acceptance_plan.md"
+      ],
+      "audit_ref": "audit://v9-5/diff-proposal",
+      "command_decision_id": "terminal-command-decision-v9-5-fda6b964011e",
+      "command_tier": "tier2_diff_proposal",
+      "created_at": "2026-06-08T08:18:05Z",
+      "denial_reason": null,
+      "diff_capture_ref": "diff-capture.patch",
+      "policy_decision": "allow_proposal_only",
+      "requires_human_authorization_ref": true,
+      "transcript_ref": "terminal-transcript.txt"
+    }
+  ],
+  "command_results": [
+    {
+      "argv": [
+        "pwd"
+      ],
+      "audit_ref": "audit://v9-5/command-result/tier0_readonly",
+      "command_result_id": "terminal-command-result-v9-5-c2119039c1bb",
+      "command_tier": "tier0_readonly",
+      "completed_at": "2026-06-08T08:18:03Z",
+      "cwd_ref": "workspace://harnessOS",
+      "returncode": 0,
+      "started_at": "2026-06-08T08:18:03Z",
+      "stderr_preview": "",
+      "stdout_preview": "/Users/Zhuanz/Desktop/workspace/harnessOS\n",
+      "transcript_ref": "terminal-transcript.txt"
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        "core",
+        "tools/v9",
+        "tests",
+        "docs/design/V9.x"
+      ],
+      "audit_ref": "audit://v9-5/command-result/tier0_readonly",
+      "command_result_id": "terminal-command-result-v9-5-38e1b32ba8fd",
+      "command_tier": "tier0_readonly",
+      "completed_at": "2026-06-08T08:18:03Z",
+      "cwd_ref": "workspace://harnessOS",
+      "returncode": 0,
+      "started_at": "2026-06-08T08:18:03Z",
+      "stderr_preview": "",
+      "stdout_preview": " M core/product_console/__init__.py\n M core/terminal_workers/__init__.py\n M docs/design/V9.x/00_README.md\n M docs/design/V9.x/evidence/v9-1-internal-independent-audit/internal-audit-data.json\n M docs/design/V9.x/evidence/v9-1-readiness/readiness-dashboard-data.json\n M docs/design/V9.x/evidence/v9-1-safety-gate-implementation/acceptance-data.json\n M docs/design/V9.x/evidence/v9-1-safety-gate-implementation/index.html\n M docs/design/V9.x/evidence/v9-2-controlled-executor-pre-implementation/pre-implementation-data.json\n M docs/design/V9.x/evidence/v9-2-controlled-executor-runtime/acceptance-data.json\n M docs/design/V9.x/reports/v9_1_contract_validation_report.json\n M docs/design/V9.x/reports/v9_1_negative_test_results.json\n M docs/design/V9.x/reports/v9_1_no_false_green_scan.json\n M docs/design/V9.x/reports/v9_1_redaction_scan.json\n M docs/design/V9.x/v9_6_workflow_studio_engineering_design.md\n M docs/design/V9.x/v9_7_production_governance_engineering_design.md\n M docs/design/V9.x/v9_8_final_acceptance_validator_engineering_design.md\n M docs/design/V9.x/v9_acceptance_gate_matrix.md\n M docs/design/V9.x/v9_chatgpt_external_audit_single_file_pack.md\n M docs/design/V9.x/v9_current_gap_analysis.drawio\n M docs/design/V9.x/v9_current_gap_analysis.md\n M docs/design/V9.x/v9_development_and_acceptance_plan.md\n M docs/design/V9.x/v9_document_audit_report.md\n M docs/design/V9.x/v9_front_stage_development_readiness_audit.md\n M docs/design/V9.x/v9_milestone_roadmap.md\n M docs/design/V9.x/v9_planning_audit_for_chatgpt.md\n M docs/design/V9.x/v9_target_architecture.md\n M docs/design/V9.x/v9_target_prd.md\n M docs/design/V9.x/v9_test_fixture_and_ci_matrix.md\n M tools/v9/common.py\n M tools/v9/generate_chatgpt_audit_pack.py\n M tools/v9/scan_no_false_green.py\n M tools/v9/scan_redaction_forbidden_content.py\n?? core/governance/\n?? core/product_console/v9_6_workflow_studio.py\n?? core/terminal_workers/v9_5_governed_terminal_worker.py\n?? core/workflows/v9_3_multi_agent_orchestration_runtime.py\n?? core/workflows/v9_4_coding_workflow_pilot.py\n?? docs/design/V9.x/decisions/v9_4_high_risk_human_decision.json\n?? docs/design/V9.x/decisions/v9_5_high_risk_human_decision.json\n?? docs/design/V9.x/decisions/v9_7_high_risk_human_decision.json\n?? docs/design/V9.x/evidence/v9-3-orchestration-runtime/\n?? docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/\n?? docs/design/V9.x/evidence/v9-4-readiness-closure/\n?? docs/design/V9.x/evidence/v9-5-terminal-worker/\n?? docs/design/V9.x/evidence/v9-6-workflow-studio/\n?? docs/design/V9.x/evidence/v9-7-production-governance/\n?? docs/design/V9.x/evidence/v9-8-final-acceptance/\n?? docs/design/V9.x/evidence/v9-prd-ux-runtime-review/\n?? docs/design/V9.x/evidence/v9-user-scenario-video-workflow-e2e/\n?? docs/design/V9.x/fixtures/coding/\n?? docs/design/V9.x/fixtures/terminal/\n?? docs/design/V9.x/fixtures/user-scenarios/\n?? docs/design/V9.x/fixtures/v9-3-orchestration/\n?? docs/design/V9.x/fixtures/v9-4-coding-workflow/\n?? docs/design/V9.x/reports/v9_test_run_summary.json\n?? docs/design/V9.x/schemas/v9_3_agent_descriptor.schema.json\n?? docs/design/V9.x/schemas/v9_3_attempt_history_record.schema.json\n?? docs/design/V9.x/schemas/v9_3_branch_state.schema.json\n?? docs/design/V9.x/schemas/v9_3_conflict_review_record.schema.json\n?? docs/design/V9.x/schemas/v9_3_fan_in_join_decision.schema.json\n?? docs/design/V9.x/schemas/v9_3_fan_out_dispatch.schema.json\n?? docs/design/V9.x/schemas/v9_3_lost_worker_recovery_decision.schema.json\n?? docs/design/V9.x/schemas/v9_3_orchestration_run.schema.json\n?? docs/design/V9.x/schemas/v9_3_station_agent_binding.schema.json\n?? docs/design/V9.x/v9_3_development_and_acceptance_plan.md\n?? docs/design/V9.x/v9_3_runtime_acceptance_closure.md\n?? docs/design/V9.x/v9_4_development_and_acceptance_plan.md\n?? docs/design/V9.x/v9_4_pre_implementation_readiness_closure.md\n?? docs/design/V9.x/v9_4_runtime_acceptance_closure.md\n?? docs/design/V9.x/v9_5_development_and_acceptance_plan.md\n?? docs/design/V9.x/v9_6_development_an",
+      "transcript_ref": "terminal-transcript.txt"
+    },
+    {
+      "argv": [
+        "rg",
+        "-n",
+        "V9-5",
+        "docs/design/V9.x/v9_5_development_and_acceptance_plan.md"
+      ],
+      "audit_ref": "audit://v9-5/command-result/tier0_readonly",
+      "command_result_id": "terminal-command-result-v9-5-0487ae71ff78",
+      "command_tier": "tier0_readonly",
+      "completed_at": "2026-06-08T08:18:03Z",
+      "cwd_ref": "workspace://harnessOS",
+      "returncode": 0,
+      "started_at": "2026-06-08T08:18:03Z",
+      "stderr_preview": "",
+      "stdout_preview": "1:# V9-5 Development And Acceptance Plan\n3:文档状态：V9-5 detailed development and acceptance plan / implementation complete for review.\n5:This document records the V9-5 stage plan and completed governed terminal worker evidence package. It does not authorize unrestricted shell, production terminal automation or browser account automation.\n9:V9-5 entered implementation after:\n12:V9-4 evidence PASS or a documented proceed decision scopes V9-5 independently as a narrow sandbox readiness slice only.\n21:V9-5 completion evidence:\n39:V9-5 expands terminal worker behavior inside a governed workspace sandbox:\n51:V9-5 must not:\n65:| V9-5A Workspace boundary guard | path decision records | canonical path, symlink target and denied prefixes recorded |\n66:| V9-5B Command tier resolver | terminal_command_decision records | tier, policy decision and human authorization requirement visible |\n67:| V9-5C Transcript capture | transcript_ref records | command, status and redacted output refs visible |\n68:| V9-5D Diff capture | diff_capture records | write attempts create proposal / diff refs |\n69:| V9-5E Denial evidence | denied action records | escape, sensitive access, git push and deployment attempts denied |\n70:| V9-5F Dashboard | HTML and acceptance data | auditor can inspect command tiers and denial evidence |\n110:V9-5 completion evidence must include:\n136:V9-5 evidence is reused to claim unrestricted terminal worker ready.\n137:V9-5 evidence is reused to authorize V9-7 production automation.\n",
+      "transcript_ref": "terminal-transcript.txt"
+    },
+    {
+      "argv": [
+        "./.venv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_v9_4_readiness_closure.py",
+        "-q"
+      ],
+      "audit_ref": "audit://v9-5/command-result/tier1_build_test",
+      "command_result_id": "terminal-command-result-v9-5-0a9728b84750",
+      "command_tier": "tier1_build_test",
+      "completed_at": "2026-06-08T08:18:05Z",
+      "cwd_ref": "workspace://harnessOS",
+      "returncode": 0,
+      "started_at": "2026-06-08T08:18:03Z",
+      "stderr_preview": "",
+      "stdout_preview": "...                                                                      [100%]\n3 passed in 1.39s\n",
+      "transcript_ref": "terminal-transcript.txt"
+    }
+  ],
+  "current_decision": "PASS_TERMINAL_WORKER_EXPANSION_READY_FOR_REVIEW",
+  "decision": {
+    "allowed_work": [
+      "workspace_scope_guard",
+      "readonly_terminal_command",
+      "workspace_scoped_test_command",
+      "command_tier_policy",
+      "transcript_capture",
+      "diff_proposal_capture",
+      "workspace_escape_denial_evidence",
+      "symlink_escape_denial_evidence",
+      "sensitive_read_denial_evidence",
+      "git_push_denial_evidence",
+      "production_deploy_denial_evidence"
+    ],
+    "audit_ref": "audit://v9-5/governed-terminal-worker-expansion-approved",
+    "blocked_work": [
+      "unrestricted_shell",
+      "git_push",
+      "git_commit",
+      "production_deploy",
+      "browser_account_automation",
+      "secret_read",
+      "credential_export",
+      "workspace_escape",
+      "source_agent_durable_mutation",
+      "v9_7_runtime_implementation",
+      "v9_8_final_acceptance",
+      "unrestricted_terminal_worker_ready_claim",
+      "production_terminal_automation_ready_claim"
+    ],
+    "correlation_id": "corr-v9-5-governed-terminal-worker-expansion-approved",
+    "created_at": "2026-06-07T10:35:00Z",
+    "decision": "GO_FOR_IMPLEMENTATION",
+    "decision_owner": "human_required",
+    "decision_ref": "v9-5-governed-terminal-worker-expansion-approved",
+    "evidence_refs": [
+      "docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/acceptance-data.json",
+      "docs/design/V9.x/v9_5_development_and_acceptance_plan.md",
+      "docs/design/V9.x/v9_5_terminal_sandbox_engineering_design.md"
+    ],
+    "expires_at": "2026-12-31T23:59:59Z",
+    "required_reviewers": [
+      "human_high_risk_owner"
+    ],
+    "revocation_reason": null,
+    "revoked": false,
+    "revoked_at": null,
+    "risk_class": "high",
+    "schema_version": "v9.0",
+    "scope": "V9-5 governed terminal worker expansion is approved only for workspace-scoped readonly/build-test commands, command tier policy, transcript capture, diff proposal capture, and denial evidence. It does not authorize unrestricted shell, git push, production deploy, browser account automation, secret reads, workspace escape, V9-7 runtime implementation, V9-8 final acceptance, or readiness overclaims.",
+    "stage_id": "V9-5"
+  },
+  "denied_actions": [
+    {
+      "audit_ref": "audit://v9-5/deny/symlink_escape",
+      "check_id": "symlink_escape_denied",
+      "expected_denial_reason": "symlink_escape_denied",
+      "observed_denial_reason": "symlink_escape_denied",
+      "status": "PASS"
+    },
+    {
+      "argv": [
+        "cat",
+        "../CLAUDE.md"
+      ],
+      "audit_ref": "audit://v9-5/deny/workspace_escape_denied",
+      "check_id": "workspace_escape_denied",
+      "expected_denial_reason": "workspace_escape_denied",
+      "observed_denial_reason": "workspace_escape_denied",
+      "status": "PASS"
+    },
+    {
+      "argv": [
+        "cat",
+        "/etc/passwd"
+      ],
+      "audit_ref": "audit://v9-5/deny/absolute_workspace_escape_denied",
+      "check_id": "absolute_workspace_escape_denied",
+      "expected_denial_reason": "workspace_escape_denied",
+      "observed_denial_reason": "workspace_escape_denied",
+      "status": "PASS"
+    },
+    {
+      "argv": [
+        "cat",
+        ".env"
+      ],
+      "audit_ref": "audit://v9-5/deny/sensitive_read_denied",
+      "check_id": "sensitive_read_denied",
+      "expected_denial_reason": "sensitive_path_denied",
+      "observed_denial_reason": "sensitive_path_denied",
+      "status": "PASS"
+    },
+    {
+      "argv": [
+        "git",
+        "push"
+      ],
+      "audit_ref": "audit://v9-5/deny/git_push_denied",
+      "check_id": "git_push_denied",
+      "expected_denial_reason": "command_not_allowlisted",
+      "observed_denial_reason": "command_not_allowlisted",
+      "status": "PASS"
+    },
+    {
+      "argv": [
+        "production.deploy"
+      ],
+      "audit_ref": "audit://v9-5/deny/production_deploy_denied",
+      "check_id": "production_deploy_denied",
+      "expected_denial_reason": "command_not_allowlisted",
+      "observed_denial_reason": "command_not_allowlisted",
+      "status": "PASS"
+    },
+    {
+      "argv": [
+        "curl",
+        "https://example.com"
+      ],
+      "audit_ref": "audit://v9-5/deny/network_without_policy_denied",
+      "check_id": "network_without_policy_denied",
+      "expected_denial_reason": "command_not_allowlisted",
+      "observed_denial_reason": "command_not_allowlisted",
+      "status": "PASS"
+    }
+  ],
+  "diff_capture": {
+    "applied": false,
+    "audit_ref": "audit://v9-5/diff-capture",
+    "diff_capture_id": "diff-capture-v9-5-5ecdfdc296fb",
+    "diff_ref": "diff-capture.patch",
+    "human_authorization_ref": "human-auth://v9-5/workspace-terminal-worker-sandbox",
+    "patch": "diff --git a/docs/design/V9.x/v9_5_development_and_acceptance_plan.md b/docs/design/V9.x/v9_5_development_and_acceptance_plan.md\nproposal_only=true\napplied=false\nauto_commit=false\nauto_push=false\nproduction_deploy=false\n@@ V9-5 governed terminal worker proposal @@\n+ terminal worker transcript capture PASS\n+ command tier decisions captured\n+ workspace escape / symlink escape / git push / production deploy denial evidence captured\n",
+    "path_decision": {
+      "audit_ref": "audit://v9-5/path-decision",
+      "candidate": "docs/design/V9.x/v9_5_development_and_acceptance_plan.md",
+      "decision": "allow",
+      "denial_reason": null,
+      "resolved_path_ref": "workspace://docs/design/V9.x/v9_5_development_and_acceptance_plan.md",
+      "workspace_ref": "workspace://harnessOS"
+    },
+    "proposal_only": true,
+    "schema_version": "v9_5.diff_capture.v1",
+    "target_path": "docs/design/V9.x/v9_5_development_and_acceptance_plan.md"
+  },
+  "generated_at": "2026-06-08T08:18:05Z",
+  "schema_version": "v9_5.terminal_worker_result.v1",
+  "stage_id": "V9-5",
+  "terminal_session": {
+    "actor_id": "human://v9-5/user",
+    "actor_type": "human_user",
+    "agent_id": "agent_v9_terminal_operator",
+    "audit_ref": "audit://v9-5/terminal-session",
+    "diff_capture_ref": "diff-capture.patch",
+    "human_authorization_ref": "human-auth://v9-5/workspace-terminal-worker-sandbox",
+    "network_policy_ref": "network://v9-5/no-network-without-policy",
+    "secret_read_policy_ref": "credential://v9-5/secret-read-denied",
+    "source": "product_console",
+    "station_id": "terminal_worker_station",
+    "terminal_session_id": "terminal-session-v9-5-2f62de571eb2",
+    "transcript_ref": "terminal-transcript.txt",
+    "worker_type": "codex_cli",
+    "workspace_root_ref": "workspace://harnessOS"
+  },
+  "terminal_transcript": "V9-5 Governed Terminal Worker Transcript\n============================================\nworker_type: codex_cli\nagent_id: agent_v9_terminal_operator\nstation_id: terminal_worker_station\nsource: product_console\nactor_type: human_user\nworkspace_scope: workspace://harnessOS\nunrestricted_shell_enabled: false\nauto_commit_enabled: false\nauto_push_enabled: false\nproduction_deploy_enabled: false\nbrowser_account_automation_enabled: false\n\n$ pwd\ntier: tier0_readonly\nreturncode: 0\nstdout:\n/Users/Zhuanz/Desktop/workspace/harnessOS\n\nstderr:\n<empty>\n\n$ git status --short -- core tools/v9 tests docs/design/V9.x\ntier: tier0_readonly\nreturncode: 0\nstdout:\n M core/product_console/__init__.py\n M core/terminal_workers/__init__.py\n M docs/design/V9.x/00_README.md\n M docs/design/V9.x/evidence/v9-1-internal-independent-audit/internal-audit-data.json\n M docs/design/V9.x/evidence/v9-1-readiness/readiness-dashboard-data.json\n M docs/design/V9.x/evidence/v9-1-safety-gate-implementation/acceptance-data.json\n M docs/design/V9.x/evidence/v9-1-safety-gate-implementation/index.html\n M docs/design/V9.x/evidence/v9-2-controlled-executor-pre-implementation/pre-implementation-data.json\n M docs/design/V9.x/evidence/v9-2-controlled-executor-runtime/acceptance-data.json\n M docs/design/V9.x/reports/v9_1_contract_validation_report.json\n M docs/design/V9.x/reports/v9_1_negative_test_results.json\n M docs/design/V9.x/reports/v9_1_no_false_green_scan.json\n M docs/design/V9.x/reports/v9_1_redaction_scan.json\n M docs/design/V9.x/v9_6_workflow_studio_engineering_design.md\n M docs/design/V9.x/v9_7_production_governance_engineering_design.md\n M docs/design/V9.x/v9_8_final_acceptance_validator_engineering_design.md\n M docs/design/V9.x/v9_acceptance_gate_matrix.md\n M docs/design/V9.x/v9_chatgpt_external_audit_single_file_pack.md\n M docs/design/V9.x/v9_current_gap_analysis.drawio\n M docs/design/V9.x/v9_current_gap_analysis.md\n M docs/design/V9.x/v9_development_and_acceptance_plan.md\n M docs/design/V9.x/v9_document_audit_report.md\n M docs/design/V9.x/v9_front_stage_development_readiness_audit.md\n M docs/design/V9.x/v9_milestone_roadmap.md\n M docs/design/V9.x/v9_planning_audit_for_chatgpt.md\n M docs/design/V9.x/v9_target_architecture.md\n M docs/design/V9.x/v9_target_prd.md\n M docs/design/V9.x/v9_test_fixture_and_ci_matrix.md\n M tools/v9/common.py\n M tools/v9/generate_chatgpt_audit_pack.py\n M tools/v9/scan_no_false_green.py\n M tools/v9/scan_redaction_forbidden_content.py\n?? core/governance/\n?? core/product_console/v9_6_workflow_studio.py\n?? core/terminal_workers/v9_5_governed_terminal_worker.py\n?? core/workflows/v9_3_multi_agent_orchestration_runtime.py\n?? core/workflows/v9_4_coding_workflow_pilot.py\n?? docs/design/V9.x/decisions/v9_4_high_risk_human_decision.json\n?? docs/design/V9.x/decisions/v9_5_high_risk_human_decision.json\n?? docs/design/V9.x/decisions/v9_7_high_risk_human_decision.json\n?? docs/design/V9.x/evidence/v9-3-orchestration-runtime/\n?? docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/\n?? docs/design/V9.x/evidence/v9-4-readiness-closure/\n?? docs/design/V9.x/evidence/v9-5-terminal-worker/\n?? docs/design/V9.x/evidence/v9-6-workflow-studio/\n?? docs/design/V9.x/evidence/v9-7-production-governance/\n?? docs/design/V9.x/evidence/v9-8-final-acceptance/\n?? docs/design/V9.x/evidence/v9-prd-ux-runtime-review/\n?? docs/design/V9.x/evidence/v9-user-scenario-video-workflow-e2e/\n?? docs/design/V9.x/fixtures/coding/\n?? docs/design/V9.x/fixtures/terminal/\n?? docs/design/V9.x/fixtures/user-scenarios/\n?? docs/design/V9.x/fixtures/v9-3-orchestration/\n?? docs/design/V9.x/fixtures/v9-4-coding-workflow/\n?? docs/design/V9.x/reports/v9_test_run_summary.json\n?? docs/design/V9.x/schemas/v9_3_agent_descriptor.schema.json\n?? docs/design/V9.x/schemas/v9_3_attempt_history_record.schema.json\n?? docs/design/V9.x/schemas/v9_3_branch_state.schema.json\n?? docs/design/V9.x/schemas/v9_3_conflict_review_record.schema.json\n?? docs/design/V9.x/schemas/v9_3_fan_in_join_decision.schema.json\n?? docs/design/V9.x/schemas/v9_3_fan_out_dispatch.schema.json\n?? docs/design/V9.x/schemas/v9_3_lost_worker_recovery_decision.schema.json\n?? docs/design/V9.x/schemas/v9_3_orchestration_run.schema.json\n?? docs/design/V9.x/schemas/v9_3_station_agent_binding.schema.json\n?? docs/design/V9.x/v9_3_development_and_acceptance_plan.md\n?? docs/design/V9.x/v9_3_runtime_acceptance_closure.md\n?? docs/design/V9.x/v9_4_development_and_acceptance_plan.md\n?? docs/design/V9.x/v9_4_pre_implementation_readiness_closure.md\n?? docs/design/V9.x/v9_4_runtime_acceptance_closure.md\n?? docs/design/V9.x/v9_5_development_and_acceptance_plan.md\n?? docs/design/V9.x/v9_6_development_an\nstderr:\n<empty>\n\n$ rg -n V9-5 docs/design/V9.x/v9_5_development_and_acceptance_plan.md\ntier: tier0_readonly\nreturncode: 0\nstdout:\n1:# V9-5 Development And Acceptance Plan\n3:文档状态：V9-5 detailed development and acceptance plan / implementation complete for review.\n5:This document records the V9-5 stage plan and completed governed terminal worker evidence package. It does not authorize unrestricted shell, production terminal automation or browser account automation.\n9:V9-5 entered implementation after:\n12:V9-4 evidence PASS or a documented proceed decision scopes V9-5 independently as a narrow sandbox readiness slice only.\n21:V9-5 completion evidence:\n39:V9-5 expands terminal worker behavior inside a governed workspace sandbox:\n51:V9-5 must not:\n65:| V9-5A Workspace boundary guard | path decision records | canonical path, symlink target and denied prefixes recorded |\n66:| V9-5B Command tier resolver | terminal_command_decision records | tier, policy decision and human authorization requirement visible |\n67:| V9-5C Transcript capture | transcript_ref records | command, status and redacted output refs visible |\n68:| V9-5D Diff capture | diff_capture records | write attempts create proposal / diff refs |\n69:| V9-5E Denial evidence | denied action records | escape, sensitive access, git push and deployment attempts denied |\n70:| V9-5F Dashboard | HTML and acceptance data | auditor can inspect command tiers and denial evidence |\n110:V9-5 completion evidence must include:\n136:V9-5 evidence is reused to claim unrestricted terminal worker ready.\n137:V9-5 evidence is reused to authorize V9-7 production automation.\n\nstderr:\n<empty>\n\n$ ./.venv/bin/python -m pytest tests/test_v9_4_readiness_closure.py -q\ntier: tier1_build_test\nreturncode: 0\nstdout:\n...                                                                      [100%]\n3 passed in 1.39s\n\nstderr:\n<empty>\n\n$ diff.proposal docs/design/V9.x/v9_5_development_and_acceptance_plan.md\nproposal_only: true\napplied: false\n"
+}

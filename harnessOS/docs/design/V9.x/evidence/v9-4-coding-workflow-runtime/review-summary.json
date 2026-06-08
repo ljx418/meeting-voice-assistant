@@ -1,0 +1,8 @@
+{
+  "created_at": "2026-06-08T08:17:58Z",
+  "requires_human_review": true,
+  "review_summary_is_approval": false,
+  "review_summary_ref": "review-summary-ref://v9-4/coding-run-v9-4-d261da380ba3",
+  "schema_version": "v9_4.review_summary.v1",
+  "summary_ref": "summary-ref://v9-4/review-only"
+}

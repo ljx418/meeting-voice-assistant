@@ -3,7 +3,7 @@
     "actor_id": "user-v7-1-admin",
     "audit_ref": "audit://v7-1/role-binding/studio_admin",
     "binding_id": "role-binding://v7-1/studio_admin",
-    "created_at": "2026-06-05T01:30:11.901792+00:00",
+    "created_at": "2026-06-08T08:17:19.742079+00:00",
     "policy_decision": "allow",
     "role": "studio_admin",
     "scope_refs": [
@@ -18,7 +18,7 @@
     "actor_id": "user-v7-1-operator",
     "audit_ref": "audit://v7-1/role-binding/workflow_operator",
     "binding_id": "role-binding://v7-1/workflow_operator",
-    "created_at": "2026-06-05T01:30:11.901792+00:00",
+    "created_at": "2026-06-08T08:17:19.742079+00:00",
     "policy_decision": "allow",
     "role": "workflow_operator",
     "scope_refs": [
@@ -33,7 +33,7 @@
     "actor_id": "user-v7-1-reviewer",
     "audit_ref": "audit://v7-1/role-binding/reviewer",
     "binding_id": "role-binding://v7-1/reviewer",
-    "created_at": "2026-06-05T01:30:11.901792+00:00",
+    "created_at": "2026-06-08T08:17:19.742079+00:00",
     "policy_decision": "allow",
     "role": "reviewer",
     "scope_refs": [

@@ -1,0 +1,18 @@
+{
+  "applied": false,
+  "audit_ref": "audit://v9-4/human-review-handoff",
+  "coding_workflow_run_id": "coding-run-v9-4-d261da380ba3",
+  "committed": false,
+  "correlation_id": "corr-v9-4-4198a557e5",
+  "created_at": "2026-06-08T08:17:58Z",
+  "deployed": false,
+  "diff_proposal_ref": "diff-proposal-ref://v9-4/bounded-coding-workflow",
+  "handoff_id": "handoff-v9-4-a9ed4b391576",
+  "human_authorization_ref": "human-auth://v9-4/autonomous-coding-workflow-pilot",
+  "pushed": false,
+  "request_id": "req-v9-4-3061ac3795",
+  "requires_human_review": true,
+  "review_summary_ref": "review-summary-ref://v9-4/bounded-coding-workflow",
+  "schema_version": "v9_4.human_review_handoff.v1",
+  "test_result_ref": "test-result-ref://v9-4/bounded-coding-workflow"
+}

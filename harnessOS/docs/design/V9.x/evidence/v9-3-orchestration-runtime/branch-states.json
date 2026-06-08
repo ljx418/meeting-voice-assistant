@@ -1,0 +1,80 @@
+[
+  {
+    "attempt_id": "attempt-research-1",
+    "audit_ref": "audit://v9-3/branch/research",
+    "branch_id": "branch-serial-research",
+    "checkpoint_ref": "checkpoint-ref://v9-3/research-1",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "downstream_branch_ids": [
+      "branch-parallel-implementation",
+      "branch-parallel-review"
+    ],
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.branch_state.v1",
+    "state": "succeeded",
+    "station_id": "station-research",
+    "station_run_id": "station-run-research",
+    "upstream_branch_ids": []
+  },
+  {
+    "attempt_id": "attempt-implementation-2",
+    "audit_ref": "audit://v9-3/branch/implementation",
+    "branch_id": "branch-parallel-implementation",
+    "checkpoint_ref": "checkpoint-ref://v9-3/implementation-2",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "downstream_branch_ids": [
+      "branch-fan-in"
+    ],
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.branch_state.v1",
+    "state": "recovered",
+    "station_id": "station-implementation",
+    "station_run_id": "station-run-implementation-retry",
+    "upstream_branch_ids": [
+      "branch-serial-research"
+    ]
+  },
+  {
+    "attempt_id": "attempt-review-1",
+    "audit_ref": "audit://v9-3/branch/review",
+    "branch_id": "branch-parallel-review",
+    "checkpoint_ref": "checkpoint-ref://v9-3/review-1",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "downstream_branch_ids": [
+      "branch-fan-in"
+    ],
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.branch_state.v1",
+    "state": "succeeded",
+    "station_id": "station-review",
+    "station_run_id": "station-run-review",
+    "upstream_branch_ids": [
+      "branch-serial-research"
+    ]
+  },
+  {
+    "attempt_id": "attempt-synthesis-1",
+    "audit_ref": "audit://v9-3/branch/synthesis",
+    "branch_id": "branch-fan-in",
+    "checkpoint_ref": "checkpoint-ref://v9-3/synthesis-1",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "downstream_branch_ids": [],
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.branch_state.v1",
+    "state": "succeeded",
+    "station_id": "station-synthesis",
+    "station_run_id": "station-run-synthesis",
+    "upstream_branch_ids": [
+      "branch-parallel-implementation",
+      "branch-parallel-review"
+    ]
+  }
+]

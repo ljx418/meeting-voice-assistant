@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harnessos.local/schemas/v9_3_branch_state.schema.json",
+  "title": "V9-3 BranchState",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "branch_id",
+    "orchestration_run_id",
+    "station_id",
+    "station_run_id",
+    "attempt_id",
+    "state",
+    "upstream_branch_ids",
+    "downstream_branch_ids",
+    "checkpoint_ref",
+    "correlation_id",
+    "request_id",
+    "audit_ref",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "v9_3.branch_state.v1" },
+    "branch_id": { "type": "string", "minLength": 1 },
+    "orchestration_run_id": { "type": "string", "minLength": 1 },
+    "station_id": { "type": "string", "minLength": 1 },
+    "station_run_id": { "type": "string", "minLength": 1 },
+    "attempt_id": { "type": "string", "minLength": 1 },
+    "state": { "enum": ["created", "ready", "running", "succeeded", "failed", "recovered", "accepted_partial", "blocked"] },
+    "upstream_branch_ids": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "downstream_branch_ids": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "checkpoint_ref": { "type": "string", "minLength": 1 },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "audit_ref": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}

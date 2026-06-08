@@ -1,0 +1,28 @@
+[
+  {
+    "attribution_refs": [
+      "lineage-v9-3-implementation",
+      "lineage-v9-3-review"
+    ],
+    "audit_ref": "audit://v9-3/fan-in/synthesis",
+    "conflict_review_ref": "conflict-review://v9-3/synthesis",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "decision": "ready_to_synthesize",
+    "input_artifact_refs": [
+      "artifact-ref://v9-3/implementation-proposal",
+      "artifact-ref://v9-3/review-notes"
+    ],
+    "input_branch_ids": [
+      "branch-parallel-implementation",
+      "branch-parallel-review"
+    ],
+    "join_decision_id": "join-v9-3-synthesis",
+    "missing_input_refs": [],
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.fan_in_join_decision.v1",
+    "synthesis_artifact_ref": "artifact-ref://v9-3/synthesis",
+    "target_branch_id": "branch-fan-in"
+  }
+]

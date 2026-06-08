@@ -1,0 +1,16 @@
+{
+  "actor_id": "human://v9-5/user",
+  "actor_type": "human_user",
+  "agent_id": "agent_v9_terminal_operator",
+  "audit_ref": "audit://v9-5/terminal-session",
+  "diff_capture_ref": "diff-capture.patch",
+  "human_authorization_ref": "human-auth://v9-5/workspace-terminal-worker-sandbox",
+  "network_policy_ref": "network://v9-5/no-network-without-policy",
+  "secret_read_policy_ref": "credential://v9-5/secret-read-denied",
+  "source": "product_console",
+  "station_id": "terminal_worker_station",
+  "terminal_session_id": "terminal-session-v9-5-2f62de571eb2",
+  "transcript_ref": "terminal-transcript.txt",
+  "worker_type": "codex_cli",
+  "workspace_root_ref": "workspace://harnessOS"
+}

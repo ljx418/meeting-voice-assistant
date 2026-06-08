@@ -1,0 +1,29 @@
+{
+  "schema_version": "v9.user_scenario_fixture.v1",
+  "scenario_id": "US-V9-03",
+  "owner_stage": "V9-4",
+  "title": "Developer reviews controlled coding workflow proposal",
+  "status": "BLOCKED",
+  "evidence_scope": "missing",
+  "runtime_backed": false,
+  "user_goal": "As a developer, ask the system to analyze a small coding task and produce a plan, diff proposal, test result and review summary without applying, committing, pushing or deploying changes.",
+  "expected_user_visible_outputs": [
+    "PlanningAgent output",
+    "ImplementationAgent diff proposal",
+    "TestAgent sandboxed test result",
+    "ReviewAgent summary",
+    "FixAgent follow-up proposal",
+    "no auto commit / push / deploy evidence"
+  ],
+  "dashboard_or_report_ref": null,
+  "evidence_refs": [],
+  "missing_evidence": [
+    "coding workflow dashboard",
+    "diff proposal evidence",
+    "sandboxed test evidence",
+    "review summary evidence",
+    "fix-loop evidence"
+  ],
+  "claim_guard_notes": "This scenario must not be counted as autonomous coding workflow readiness.",
+  "redaction_guard_notes": "Future evidence must store redacted refs only."
+}

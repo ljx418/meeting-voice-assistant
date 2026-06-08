@@ -1,0 +1,19 @@
+{
+  "applied": false,
+  "audit_ref": "audit://v9-5/diff-capture",
+  "diff_capture_id": "diff-capture-v9-5-5ecdfdc296fb",
+  "diff_ref": "diff-capture.patch",
+  "human_authorization_ref": "human-auth://v9-5/workspace-terminal-worker-sandbox",
+  "patch": "diff --git a/docs/design/V9.x/v9_5_development_and_acceptance_plan.md b/docs/design/V9.x/v9_5_development_and_acceptance_plan.md\nproposal_only=true\napplied=false\nauto_commit=false\nauto_push=false\nproduction_deploy=false\n@@ V9-5 governed terminal worker proposal @@\n+ terminal worker transcript capture PASS\n+ command tier decisions captured\n+ workspace escape / symlink escape / git push / production deploy denial evidence captured\n",
+  "path_decision": {
+    "audit_ref": "audit://v9-5/path-decision",
+    "candidate": "docs/design/V9.x/v9_5_development_and_acceptance_plan.md",
+    "decision": "allow",
+    "denial_reason": null,
+    "resolved_path_ref": "workspace://docs/design/V9.x/v9_5_development_and_acceptance_plan.md",
+    "workspace_ref": "workspace://harnessOS"
+  },
+  "proposal_only": true,
+  "schema_version": "v9_5.diff_capture.v1",
+  "target_path": "docs/design/V9.x/v9_5_development_and_acceptance_plan.md"
+}

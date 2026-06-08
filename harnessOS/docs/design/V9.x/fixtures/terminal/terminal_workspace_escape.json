@@ -1,0 +1,7 @@
+{
+  "expected_denial_reason": "workspace_escape_denied",
+  "fixture_id": "terminal_workspace_escape",
+  "owner_stage": "V9-5",
+  "path": "../CLAUDE.md",
+  "scenario": "Reject path traversal outside workspace."
+}

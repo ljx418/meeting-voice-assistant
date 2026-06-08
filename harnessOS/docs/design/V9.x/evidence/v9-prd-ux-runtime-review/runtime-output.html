@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>实际运行输出</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f6f7f9; color: #172033; }
+    section, article { background: #fff; border: 1px solid #d8dee8; border-radius: 8px; margin: 18px auto; padding: 18px; max-width: 1180px; }
+    .hero { background: #111827; color: #f9fafb; border-color: #111827; }
+    code { background: #eef2f7; color: #16233a; padding: 2px 5px; border-radius: 4px; }
+    .hero code { background: #263244; color: #e5e7eb; }
+    pre { white-space: pre-wrap; word-break: break-word; background: #0f172a; color: #dbeafe; border-radius: 8px; padding: 14px; overflow: auto; max-height: 680px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #d8dee8; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #eef2f7; }
+    .pass { color: #166534; font-weight: 700; }
+    .fail { color: #b91c1c; font-weight: 700; }
+    .screens, .storyboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .architecture { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+    .architecture article { margin: 0; max-width: none; background: #f8fafc; }
+    h3 { margin-top: 0; }
+    figure { margin: 0; border: 1px solid #d8dee8; border-radius: 8px; background: #f8fafc; padding: 10px; }
+    img { width: 100%; display: block; border-radius: 6px; border: 1px solid #cbd5e1; }
+    figcaption { color: #475569; font-size: 13px; margin-top: 8px; }
+    .terminal { background: #0b1020; color: #dbeafe; max-width: 1180px; }
+    .titlebar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: #e5e7eb; }
+    .titlebar span { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #ef4444; }
+    .titlebar span:nth-child(2) { background: #f59e0b; }
+    .titlebar span:nth-child(3) { background: #22c55e; }
+  </style>
+</head>
+<body><h1>实际运行输出</h1>
+            <article>
+              <h2>mission_tui_text</h2>
+              <p><code>./.venv/bin/python -m cli.main tui 用多个 Agent 讨论一个视频创作工作流，并给出可审计的分镜与运行证据</code></p>
+              <p>status: <strong class="pass">PASS</strong>; returncode=0</p>
+              <pre>HarnessOS Mission TUI
+============================
+任务: 用多个 Agent 讨论一个视频创作工作流，并给出可审计的分镜与运行证据
+当前状态: AwaitingConfirmation
+证据范围: transcript_only=True runtime_backed=False
+
+状态线:
+- IntentCaptured: complete
+- SpecDrafted: complete
+- SchemaValidated: complete
+- DiffReady: complete
+- AwaitingConfirmation: active
+
+可用动作:
+- workflow.patch.propose | confirmation=False | policy=allow | capability=allow
+- workflow.instance.start | confirmation=True | policy=needs_review | capability=needs_user_confirmation
+
+禁止原因:
+- workflow.instance.start / source_agent_denied: Agent 来源不能直接执行持久化运行，必须等待人工确认。
+- workflow.instance.start / requires_user_confirmation: 运行工作流属于持久化动作，必须先获得 user_confirmed=true。
+
+证据链接:
+- workflow_spec: workflow-spec://v7-2/mission_v7_2_40fd07e4cf52
+- workflow_diff: workflow-diff://v7-2/mission_v7_2_40fd07e4cf52
+- blueprint: drawio://v7-2/mission_v7_2_40fd07e4cf52/workflow.drawio
+- runtime_report: runtime-report://not-started/transcript-only
+- evidence_chain: evidence://v7-2/mission_v7_2_40fd07e4cf52/transcript
+
+边界: TUI 是 workflow head，不是 runtime truth；用户确认前不会执行持久化动作。
+</pre>
+            </article>
+            
+
+            <article>
+              <h2>mission_tui_json</h2>
+              <p><code>./.venv/bin/python -m cli.main tui 用多个 Agent 讨论一个视频创作工作流，并给出可审计的分镜与运行证据 --json</code></p>
+              <p>status: <strong class="pass">PASS</strong>; returncode=0</p>
+              <pre>{
+  &quot;available_actions&quot;: [
+    {
+      &quot;action_id&quot;: &quot;action_fe27bdc593&quot;,
+      &quot;actor_type&quot;: &quot;human_user&quot;,
+      &quot;agent_executable&quot;: false,
+      &quot;capability_decision&quot;: &quot;allow&quot;,
+      &quot;mission_id&quot;: &quot;mission_v7_2_420f38e21a13&quot;,
+      &quot;operation&quot;: &quot;workflow.patch.propose&quot;,
+      &quot;policy_decision&quot;: &quot;allow&quot;,
+      &quot;requires_user_confirmation&quot;: false,
+      &quot;risk_flags&quot;: [
+        &quot;proposal_only&quot;,
+        &quot;transcript_only&quot;
+      ],
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;target_refs&quot;: {
+        &quot;workflow_spec_id&quot;: &quot;workflow-spec://v7-2/mission_v7_2_420f38e21a13&quot;
+      }
+    },
+    {
+      &quot;action_id&quot;: &quot;action_43d8813511&quot;,
+      &quot;actor_type&quot;: &quot;human_user&quot;,
+      &quot;agent_executable&quot;: false,
+      &quot;capability_decision&quot;: &quot;needs_user_confirmation&quot;,
+      &quot;mission_id&quot;: &quot;mission_v7_2_420f38e21a13&quot;,
+      &quot;operation&quot;: &quot;workflow.instance.start&quot;,
+      &quot;policy_decision&quot;: &quot;needs_review&quot;,
+      &quot;requires_user_confirmation&quot;: true,
+      &quot;risk_flags&quot;: [
+        &quot;durable_mutation&quot;,
+        &quot;user_confirmation_required&quot;
+      ],
+      &quot;source&quot;: &quot;mission_tui&quot;,
+      &quot;target_refs&quot;: {
+        &quot;workflow_spec_id&quot;: &quot;workflow-spec://v7-2/mission_v7_2_420f38e21a13&quot;
+      }
+    }
+  ],
+  &quot;current_state&quot;: &quot;AwaitingConfirmation&quot;,
+  &quot;forbidden_reasons&quot;: [
+    {
+      &quot;human_readable_summary&quot;: &quot;Agent 来源不能直接执行持久化运行，必须等待人工确认。&quot;,
+      &quot;mission_id&quot;: &quot;mission_v7_2_420f38e21a13&quot;,
+      &quot;operation&quot;: &quot;workflow.instance.start&quot;,
+      &quot;policy_ref&quot;: &quot;policy://v7-2/source-agent-denied&quot;,
+      &quot;reason_code&quot;: &quot;source_agent_denied&quot;,
+      &quot;reason_id&quot;: &quot;reason_30f65f2f7a&quot;,
+      &quot;source&quot;: &quot;agent&quot;
+    },
+    {
+      &quot;human_readable_summary&quot;: &quot;运行工作流属于持久化动作，必须先获得 user_confirmed=true。&quot;,
+      &quot;mission_id&quot;: &quot;mission_v7_2_420f38e21a13&quot;,
+      &quot;operation&quot;: &quot;workflow.instance.start&quot;,
+      &quot;policy_ref&quot;: &quot;policy://v7-2/user-confirmation-required&quot;,
+      &quot;reason_code&quot;: &quot;requires_user_confirmation&quot;,
+      &quot;reason_id&quot;: &quot;reason_bbded60527&quot;,
+      &quot;source&quot;: &quot;mission_tui&quot;
+    }
+  ],
+  &quot;generated_at&quot;: &quot;2026-06-08T06:38:58.797642+00:00&quot;,
+  &quot;links&quot;: {
+    &quot;blueprint&quot;: &quot;drawio://v7-2/mission_v7_2_420f38e21a13/workflow.drawio&quot;,
+    &quot;evidence_chain&quot;: &quot;evidence://v7-2/mission_v7_2_420f38e21a13/transcript&quot;,
+    &quot;runtime_report&quot;: &quot;runtime-report://not-started/transcript-only&quot;,
+    &quot;workflow_diff&quot;: &quot;workflow-diff://v7-2/mission_v7_2_420f38e21a13&quot;,
+    &quot;workflow_spec&quot;: &quot;workflow-spec://v7-2/mission_v7_2_420f38e21a13&quot;
+  },
+  &quot;mission_id&quot;: &quot;mission_v7_2_420f38e21a13&quot;,
+  &quot;natural_language_goal&quot;: &quot;用多个 Agent 讨论一个视频创作工作流，并给出可审计的分镜与运行证据&quot;,
+  &quot;runtime_backed&quot;: false,
+  &quot;runtime_truth_boundary&quot;: &quot;tui_is_workflow_head_not_runtime_truth&quot;,
+  &quot;timeline&quot;: [
+    {
+      &quot;occurred_at&quot;: &quot;2026-06-08T06:38:58.797642+00:00&quot;,
+      &quot;source_ref&quot;: &quot;mission://v7-2/mission_v7_2_420f38e21a13/IntentCaptured&quot;,
+      &quot;state&quot;: &quot;IntentCaptured&quot;,
+      &quot;status&quot;: &quot;complete&quot;
+    },
+    {
+      &quot;occurred_at&quot;: &quot;2026-06-08T06:38:58.797642+00:00&quot;,
+      &quot;source_ref&quot;: &quot;mission://v7-2/mission_v7_2_420f38e21a13/SpecDrafted&quot;,
+      &quot;state&quot;: &quot;SpecDrafted&quot;,
+      &quot;status&quot;: &quot;complete&quot;
+    },
+    {
+      &quot;occurred_at&quot;: &quot;2026-06-08T06:38:58.797642+00:00&quot;,
+      &quot;source_ref&quot;: &quot;mission://v7-2/mission_v7_2_420f38e21a13/SchemaValidated&quot;,
+      &quot;state&quot;: &quot;SchemaValidated&quot;,
+      &quot;status&quot;: &quot;complete&quot;
+    },
+    {
+      &quot;occurred_at&quot;: &quot;2026-06-08T06:38:58.797642+00:00&quot;,
+      &quot;source_ref&quot;: &quot;mission://v7-2/mission_v7_2_420f38e21a13/DiffReady&quot;,
+      &quot;state&quot;: &quot;DiffReady&quot;,
+      &quot;status&quot;: &quot;complete&quot;
+    },
+    {
+      &quot;occurred_at&quot;: &quot;2026-06-08T06:38:58.797642+00:00&quot;,
+      &quot;source_ref&quot;: &quot;mission://v7-2/mission_v7_2_420f38e21a13/AwaitingConfirmation&quot;,
+      &quot;state&quot;: &quot;AwaitingConfirmation&quot;,
+      &quot;status&quot;: &quot;active&quot;
+    }
+  ],
+  &quot;transcript_only&quot;: true
+}
+</pre>
+            </article>
+            
+
+            <article>
+              <h2>local_markdown_workflow_run</h2>
+              <p><code>./.venv/bin/python -m cli.main tui 递归总结 tests/fixtures/desktop/技术分享 下的 Markdown 技术文档 --run --user-confirmed --path tests/fixtures/desktop/技术分享 --evidence-dir /Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-prd-ux-runtime-review/v7-3-local-markdown-run --json</code></p>
+              <p>status: <strong class="pass">PASS</strong>; returncode=0</p>
+              <pre>{
+  &quot;claim_scan&quot;: &quot;PASS&quot;,
+  &quot;drawio_xml_valid&quot;: true,
+  &quot;evidence_chain_generated&quot;: &quot;PASS&quot;,
+  &quot;evidence_refs&quot;: [
+    &quot;tui-transcript.txt&quot;,
+    &quot;workflow.json&quot;,
+    &quot;workflow.yaml&quot;,
+    &quot;workflow.drawio&quot;,
+    &quot;workflow_board.html&quot;,
+    &quot;quality.html&quot;,
+    &quot;evidence.html&quot;,
+    &quot;local-document-workflow-result.json&quot;,
+    &quot;evidence_chain.json&quot;,
+    &quot;quality_report.json&quot;
+  ],
+  &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+  &quot;fallback_demo_only&quot;: false,
+  &quot;folder_summaries_generated&quot;: &quot;PASS&quot;,
+  &quot;missing_evidence&quot;: [],
+  &quot;overview_summary_generated&quot;: &quot;PASS&quot;,
+  &quot;provider_invocation_count&quot;: 4,
+  &quot;quality_report_generated&quot;: &quot;PASS&quot;,
+  &quot;redaction_scan&quot;: &quot;PASS&quot;,
+  &quot;report_only&quot;: false,
+  &quot;runtime_backed&quot;: true,
+  &quot;runtime_report_generated&quot;: &quot;PASS&quot;,
+  &quot;scanner_actual_read_count&quot;: 5,
+  &quot;source_agent_denied&quot;: true,
+  &quot;stage_id&quot;: &quot;V7-3&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;transcript_only&quot;: false,
+  &quot;user_confirmed&quot;: true,
+  &quot;workflow_spec_schema_valid&quot;: true
+}
+</pre>
+            </article>
+            
+
+            <article>
+              <h2>v9_1_safety_gate_evidence</h2>
+              <p><code>./.venv/bin/python -m tools.v9.generate_safety_gate_evidence</code></p>
+              <p>status: <strong class="pass">PASS</strong>; returncode=0</p>
+              <pre>{
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;output&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-1-safety-gate-implementation/index.html&quot;
+}
+</pre>
+            </article>
+            
+
+            <article>
+              <h2>v9_1_internal_audit_closure</h2>
+              <p><code>./.venv/bin/python -m tools.v9.generate_internal_audit_closure</code></p>
+              <p>status: <strong class="pass">PASS</strong>; returncode=0</p>
+              <pre>{
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;output&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-1-internal-independent-audit/index.html&quot;
+}
+</pre>
+            </article>
+            
+
+            <article>
+              <h2>v9_2_pre_implementation_closure</h2>
+              <p><code>./.venv/bin/python -m tools.v9.generate_v9_2_pre_implementation_closure</code></p>
+              <p>status: <strong class="pass">PASS</strong>; returncode=0</p>
+              <pre>{
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;output&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-2-controlled-executor-pre-implementation/index.html&quot;
+}
+</pre>
+            </article>
+            
+
+            <article>
+              <h2>v9_3_orchestration_runtime</h2>
+              <p><code>./.venv/bin/python -m tools.v9.generate_v9_3_orchestration_evidence</code></p>
+              <p>status: <strong class="pass">PASS</strong>; returncode=0</p>
+              <pre>{
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;output&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-3-orchestration-runtime/index.html&quot;
+}
+</pre>
+            </article>
+            
+
+            <article>
+              <h2>v9_8_final_acceptance</h2>
+              <p><code>./.venv/bin/python -m tools.v9.generate_v9_8_final_acceptance</code></p>
+              <p>status: <strong class="pass">PASS</strong>; returncode=0</p>
+              <pre>{
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;blockers&quot;: [],
+  &quot;output&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-8-final-acceptance/v9-final-acceptance-dashboard.html&quot;
+}
+</pre>
+            </article>
+            
+
+            <article>
+              <h2>v9_tests</h2>
+              <p><code>./.venv/bin/python -m pytest tests/test_v9_1_agent_executor_safety_gate.py tests/test_v9_1_internal_audit_closure.py tests/test_v9_1_readiness_tooling.py tests/test_v9_1_safety_gate_evidence.py tests/test_v9_2_controlled_executor_runtime.py tests/test_v9_2_pre_implementation_closure.py tests/test_v9_2_runtime_evidence.py tests/test_v9_3_multi_agent_orchestration_runtime.py tests/test_v9_4_coding_workflow_pilot.py tests/test_v9_4_readiness_closure.py tests/test_v9_5_governed_terminal_worker.py tests/test_v9_6_workflow_studio.py tests/test_v9_7_production_governance.py tests/test_v9_8_final_acceptance.py -q</code></p>
+              <p>status: <strong class="pass">PASS</strong>; returncode=0</p>
+              <pre>........................................................................ [ 98%]
+.                                                                        [100%]
+=============================== warnings summary ===============================
+core/schemas/__init__.py:54
+  /Users/Zhuanz/Desktop/workspace/harnessOS/core/schemas/__init__.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class Message(BaseModel):
+
+.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325
+.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325
+.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325
+  /Users/Zhuanz/Desktop/workspace/harnessOS/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325: PydanticDeprecatedSince20: `json_encoders` is deprecated. See https://docs.pydantic.dev/2.13/concepts/serialization/#custom-serializers for alternatives. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    warnings.warn(
+
+core/schemas/__init__.py:100
+  /Users/Zhuanz/Desktop/workspace/harnessOS/core/schemas/__init__.py:100: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class WorkflowTask(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+73 passed, 5 warnings in 41.02s
+</pre>
+            </article>
+            </body>
+</html>

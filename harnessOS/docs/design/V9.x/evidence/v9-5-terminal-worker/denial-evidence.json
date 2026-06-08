@@ -1,0 +1,74 @@
+[
+  {
+    "audit_ref": "audit://v9-5/deny/symlink_escape",
+    "check_id": "symlink_escape_denied",
+    "expected_denial_reason": "symlink_escape_denied",
+    "observed_denial_reason": "symlink_escape_denied",
+    "status": "PASS"
+  },
+  {
+    "argv": [
+      "cat",
+      "../CLAUDE.md"
+    ],
+    "audit_ref": "audit://v9-5/deny/workspace_escape_denied",
+    "check_id": "workspace_escape_denied",
+    "expected_denial_reason": "workspace_escape_denied",
+    "observed_denial_reason": "workspace_escape_denied",
+    "status": "PASS"
+  },
+  {
+    "argv": [
+      "cat",
+      "/etc/passwd"
+    ],
+    "audit_ref": "audit://v9-5/deny/absolute_workspace_escape_denied",
+    "check_id": "absolute_workspace_escape_denied",
+    "expected_denial_reason": "workspace_escape_denied",
+    "observed_denial_reason": "workspace_escape_denied",
+    "status": "PASS"
+  },
+  {
+    "argv": [
+      "cat",
+      ".env"
+    ],
+    "audit_ref": "audit://v9-5/deny/sensitive_read_denied",
+    "check_id": "sensitive_read_denied",
+    "expected_denial_reason": "sensitive_path_denied",
+    "observed_denial_reason": "sensitive_path_denied",
+    "status": "PASS"
+  },
+  {
+    "argv": [
+      "git",
+      "push"
+    ],
+    "audit_ref": "audit://v9-5/deny/git_push_denied",
+    "check_id": "git_push_denied",
+    "expected_denial_reason": "command_not_allowlisted",
+    "observed_denial_reason": "command_not_allowlisted",
+    "status": "PASS"
+  },
+  {
+    "argv": [
+      "production.deploy"
+    ],
+    "audit_ref": "audit://v9-5/deny/production_deploy_denied",
+    "check_id": "production_deploy_denied",
+    "expected_denial_reason": "command_not_allowlisted",
+    "observed_denial_reason": "command_not_allowlisted",
+    "status": "PASS"
+  },
+  {
+    "argv": [
+      "curl",
+      "https://example.com"
+    ],
+    "audit_ref": "audit://v9-5/deny/network_without_policy_denied",
+    "check_id": "network_without_policy_denied",
+    "expected_denial_reason": "command_not_allowlisted",
+    "observed_denial_reason": "command_not_allowlisted",
+    "status": "PASS"
+  }
+]

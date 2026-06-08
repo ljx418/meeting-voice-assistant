@@ -1,0 +1,32 @@
+{
+  "schema_version": "v9.user_scenario_fixture.v1",
+  "scenario_id": "US-V9-08",
+  "owner_stage": "V9-3/V9-6",
+  "title": "Video idea to storyboard workflow",
+  "status": "BLOCKED",
+  "evidence_scope": "missing",
+  "runtime_backed": false,
+  "user_goal": "As a creator, provide a short video idea and receive a creative brief, script, shot list, storyboard prompts, image artifact refs and review report.",
+  "expected_user_visible_outputs": [
+    "creative brief",
+    "script",
+    "shot list",
+    "storyboard prompts",
+    "at least four storyboard shot artifact refs",
+    "provider and model refs",
+    "visual consistency report",
+    "runtime report and Evidence Chain"
+  ],
+  "dashboard_or_report_ref": null,
+  "evidence_refs": [],
+  "missing_evidence": [
+    "video creation workflow runtime dashboard",
+    "storyboard shot artifacts",
+    "provider-backed image generation evidence",
+    "provider/model redacted invocation refs",
+    "visual consistency report",
+    "redaction scan for raw prompt and token leakage"
+  ],
+  "claim_guard_notes": "This scenario must not be counted as a generic video production platform or unrestricted external provider execution.",
+  "redaction_guard_notes": "Future evidence must not include raw prompt, API key, Bearer token, raw provider payload or raw artifact content."
+}

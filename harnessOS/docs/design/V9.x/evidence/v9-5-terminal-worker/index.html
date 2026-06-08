@@ -1,0 +1,44 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>V9-5 Governed Terminal Worker</title><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:32px;background:#f8fafc;color:#111827}section{background:white;border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin:16px 0}pre{white-space:pre-wrap;background:#f3f4f6;padding:12px;border-radius:6px}a{color:#2563eb}</style></head><body>
+    <h1>V9-5 Governed Terminal Worker Expansion</h1>
+    <section><h2>验收结论</h2><pre>{
+  &quot;schema_version&quot;: &quot;v9_5.terminal_worker_acceptance.v1&quot;,
+  &quot;stage_id&quot;: &quot;V9-5&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+  &quot;runtime_backed&quot;: true,
+  &quot;workspace_scope_guard&quot;: &quot;PASS&quot;,
+  &quot;command_tier_policy&quot;: &quot;PASS&quot;,
+  &quot;readonly_command_transcript&quot;: &quot;PASS&quot;,
+  &quot;build_or_test_command_result&quot;: &quot;PASS&quot;,
+  &quot;diff_capture&quot;: &quot;PASS&quot;,
+  &quot;write_action_requires_human_authorization&quot;: &quot;PASS&quot;,
+  &quot;workspace_escape_denied&quot;: &quot;PASS&quot;,
+  &quot;symlink_escape_denied&quot;: &quot;PASS&quot;,
+  &quot;sensitive_read_denied&quot;: &quot;PASS&quot;,
+  &quot;git_push_denied&quot;: &quot;PASS&quot;,
+  &quot;production_deploy_denied&quot;: &quot;PASS&quot;,
+  &quot;network_without_policy_denied&quot;: &quot;PASS&quot;,
+  &quot;source_agent_direct_mutation_denied&quot;: &quot;PASS&quot;,
+  &quot;unrestricted_shell_enabled&quot;: false,
+  &quot;auto_commit_enabled&quot;: false,
+  &quot;auto_push_enabled&quot;: false,
+  &quot;production_deploy_enabled&quot;: false,
+  &quot;browser_account_automation_enabled&quot;: false,
+  &quot;unrestricted_terminal_worker_ready&quot;: false,
+  &quot;production_terminal_automation_ready&quot;: false,
+  &quot;claim_scan&quot;: &quot;PASS&quot;,
+  &quot;redaction_scan&quot;: &quot;PASS&quot;,
+  &quot;allowed_claim&quot;: &quot;V9-5 complete: governed terminal worker expansion ready for review.&quot;
+}</pre></section>
+    <section><h2>证据链接</h2>
+      <ul>
+        <li><a href="terminal-transcript.txt">terminal-transcript.txt</a></li>
+        <li><a href="diff-capture.patch">diff-capture.patch</a></li>
+        <li><a href="command-decisions.json">command-decisions.json</a></li>
+        <li><a href="command-results.json">command-results.json</a></li>
+        <li><a href="denial-evidence.json">denial-evidence.json</a></li>
+        <li><a href="terminal-worker-result.json">terminal-worker-result.json</a></li>
+      </ul>
+    </section>
+    <section><h2>边界</h2><p>仅限 workspace-scoped terminal worker expansion：命令分层、transcript、diff proposal 和拒绝证据；不开放 unrestricted shell、git push、production deploy 或浏览器账号自动化。</p></section>
+    </body></html>

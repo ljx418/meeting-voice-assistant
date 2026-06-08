@@ -1,5 +1,5 @@
 {
-  "console_id": "thin_console_4e559d5700dc490aac4a753dbfea9593",
+  "console_id": "thin_console_c4855f9d2ef44b82b67ee71a6ad48e70",
   "tenant_context": {
     "tenant_id": "tenant_v5",
     "workspace_id": "workspace_v5",
@@ -77,7 +77,7 @@
         "audit_export_ref": "generated:v5-6-thin-web-console/audit-export.json"
       },
       "data": {
-        "export_id": "audit_export_d1b61b10e7d948d5ab273bc31d0db844",
+        "export_id": "audit_export_a7d6a9806d45439584b396004e4da5c4",
         "tenant_id": "tenant_v5",
         "workspace_id": "workspace_v5",
         "requested_by": "user_v5_6",
@@ -89,15 +89,15 @@
         },
         "retention_policy_id": "retention_v5_6",
         "included_event_refs": [
-          "obs_event_aa218424f7144d09875802b83a84c528"
+          "obs_event_82db8084a79b464698ec22007e3bb129"
         ],
         "included_evidence_refs": [
-          "evidence://correlation_v5_6/obs_event_aa218424f7144d09875802b83a84c528"
+          "evidence://correlation_v5_6/obs_event_82db8084a79b464698ec22007e3bb129"
         ],
         "event_count": 1,
         "redaction_status": "redacted",
-        "checksum": "884270c7a49022f15cc2e6424e7da13d172d51d322b74767378b3e773df2a124",
-        "created_at": "2026-06-05T01:30:10.782111+00:00",
+        "checksum": "b184f7f718ede4e2e7ba6ba40c5a019d95122862bb0e814a08698e2b6baa318b",
+        "created_at": "2026-06-08T08:17:18.786589+00:00",
         "readonly": true,
         "allowed_actions": [
           "view",
@@ -133,45 +133,45 @@
                 "evidence.view"
               ],
               "status": "active",
-              "created_at": "2026-06-05T01:30:10.781431+00:00",
+              "created_at": "2026-06-08T08:17:18.785926+00:00",
               "redaction_status": "redacted"
             },
             "domain_verification": {
-              "domain_verification_id": "domain_verification_cda3938999d04203a3bf997792b61e35",
+              "domain_verification_id": "domain_verification_8e304e571ead43b1b86e22c6c4caa3be",
               "tenant_id": "tenant_v5",
               "app_registration_id": "app_registration_v5_6_console",
               "domain": "console.example.test",
               "verification_method": "dns_txt",
               "verification_status": "verified",
               "evidence_ref": "evidence://v5-6/domain-verification",
-              "verified_at": "2026-06-05T01:30:10.781486+00:00",
-              "created_at": "2026-06-05T01:30:10.781472+00:00",
+              "verified_at": "2026-06-08T08:17:18.786030+00:00",
+              "created_at": "2026-06-08T08:17:18.786017+00:00",
               "redaction_status": "redacted"
             },
             "origin": {
-              "origin_entry_id": "origin_entry_0eb48fe21f524c868a7032fb978b5a01",
+              "origin_entry_id": "origin_entry_0e40e92abb93460bb8c2821716e56173",
               "tenant_id": "tenant_v5",
               "app_registration_id": "app_registration_v5_6_console",
               "origin": "https://console.example.test",
-              "verified_domain_ref": "domain_verification_cda3938999d04203a3bf997792b61e35",
+              "verified_domain_ref": "domain_verification_8e304e571ead43b1b86e22c6c4caa3be",
               "status": "allowed",
               "policy_decision": "allow",
-              "created_at": "2026-06-05T01:30:10.781542+00:00",
+              "created_at": "2026-06-08T08:17:18.786082+00:00",
               "redaction_status": "redacted"
             },
             "quota_decision": {
-              "quota_decision_id": "quota_decision_35258eb52ff34df19e17dc1716b6b5eb",
+              "quota_decision_id": "quota_decision_dff396353b3948b7b3598c42464962c1",
               "tenant_id": "tenant_v5",
               "app_registration_id": "app_registration_v5_6_console",
-              "quota_policy_id": "quota_policy_3cdfa3bc108144509f71a77e3f36c1f9",
+              "quota_policy_id": "quota_policy_62f4dd90b2c3420f9904bdce1c65a614",
               "usage_count": 10,
               "allowed": true,
               "policy_decision": "allow",
-              "evidence_ref": "evidence://correlation_v5_6/quota/026fa4a090814479a438d94be424cc79",
+              "evidence_ref": "evidence://correlation_v5_6/quota/3aa33b5c490e40918d096aee6391f9df",
               "request_id": "request_v5_6",
               "correlation_id": "correlation_v5_6",
               "redaction_status": "redacted",
-              "created_at": "2026-06-05T01:30:10.781574+00:00"
+              "created_at": "2026-06-08T08:17:18.786114+00:00"
             },
             "sdk": {
               "sdk_name": "harnessos-web",
@@ -194,7 +194,7 @@
     }
   ],
   "manual_confirmation": {
-    "confirmation_id": "console_confirmation_9291465cb76f4e5982fec1b93b210d59",
+    "confirmation_id": "console_confirmation_9beac95ad27140e5b571344d3746ea01",
     "operation": "context.update",
     "source": "user",
     "actor_type": "human_user",
@@ -207,11 +207,11 @@
       "project_id": "project_v5",
       "app_id": "app_v5",
       "resource_type": "audit_export",
-      "resource_id": "audit_export_d1b61b10e7d948d5ab273bc31d0db844",
+      "resource_id": "audit_export_a7d6a9806d45439584b396004e4da5c4",
       "workflow_instance_id": "v41_folder_instance_5867af5245e3"
     },
-    "evidence_ref": "evidence://correlation_v5_6/audit_export/audit_export_d1b61b10e7d948d5ab273bc31d0db844",
-    "created_at": "2026-06-05T01:30:10.782304+00:00",
+    "evidence_ref": "evidence://correlation_v5_6/audit_export/audit_export_a7d6a9806d45439584b396004e4da5c4",
+    "created_at": "2026-06-08T08:17:18.786719+00:00",
     "redaction_status": "redacted"
   },
   "global_assertions": {
@@ -228,6 +228,6 @@
     "audit_export": "generated:v5-6-thin-web-console/audit-export.json",
     "external_app": "generated:v5-6-thin-web-console/external-apps.json"
   },
-  "generated_at": "2026-06-05T01:30:10.782570+00:00",
+  "generated_at": "2026-06-08T08:17:18.787007+00:00",
   "readonly": true
 }

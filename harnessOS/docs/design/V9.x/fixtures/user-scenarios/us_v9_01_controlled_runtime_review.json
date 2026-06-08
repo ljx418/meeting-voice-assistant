@@ -1,0 +1,22 @@
+{
+  "schema_version": "v9.user_scenario_fixture.v1",
+  "scenario_id": "US-V9-01",
+  "owner_stage": "V9-2",
+  "title": "Technical lead reviews controlled runtime evidence",
+  "status": "PASS",
+  "evidence_scope": "real_runtime_fixture",
+  "runtime_backed": true,
+  "user_goal": "As a technical lead, open the V9-2 evidence dashboard and verify that the controlled runtime only executes workflow.instance.start, station.rerun, artifact.write and quality.evaluation.create.",
+  "dashboard_or_report_ref": "docs/design/V9.x/evidence/v9-2-controlled-executor-runtime/index.html",
+  "evidence_refs": [
+    "docs/design/V9.x/evidence/v9-2-controlled-executor-runtime/acceptance-data.json"
+  ],
+  "expected_user_visible_outputs": [
+    "allowed operations list",
+    "excluded operations list",
+    "source=agent direct durable mutation denial",
+    "human authorization / approval / evidence chain refs"
+  ],
+  "claim_guard_notes": "This proves only a limited controlled runtime slice ready for review.",
+  "redaction_guard_notes": "Evidence stores redacted refs only."
+}

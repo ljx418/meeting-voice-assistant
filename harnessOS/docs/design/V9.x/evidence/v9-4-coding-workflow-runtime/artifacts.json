@@ -1,0 +1,72 @@
+[
+  {
+    "applied": false,
+    "artifact_id": "artifact-v9-4-intent-719e2a00",
+    "artifact_type": "intent",
+    "created_at": "2026-06-08T08:17:56Z",
+    "path": "artifacts/intent.md",
+    "producer_stage": "IntentCapture",
+    "proposal_only": true,
+    "title": "Intent Capture"
+  },
+  {
+    "applied": false,
+    "artifact_id": "artifact-v9-4-spec-c68d7eb9",
+    "artifact_type": "spec",
+    "created_at": "2026-06-08T08:17:56Z",
+    "path": "artifacts/spec.md",
+    "producer_stage": "SpecDraft",
+    "proposal_only": true,
+    "title": "Spec Draft"
+  },
+  {
+    "applied": false,
+    "artifact_id": "artifact-v9-4-plan-330ebfff",
+    "artifact_type": "plan",
+    "created_at": "2026-06-08T08:17:56Z",
+    "path": "artifacts/plan.md",
+    "producer_stage": "PlanDraft",
+    "proposal_only": true,
+    "title": "Plan Draft"
+  },
+  {
+    "applied": false,
+    "artifact_id": "artifact-v9-4-diff_proposal-03311ce1",
+    "artifact_type": "diff_proposal",
+    "created_at": "2026-06-08T08:17:56Z",
+    "path": "artifacts/diff-proposal.patch",
+    "producer_stage": "DiffProposal",
+    "proposal_only": true,
+    "title": "Diff Proposal"
+  },
+  {
+    "applied": false,
+    "artifact_id": "artifact-v9-4-test_plan-a0537728",
+    "artifact_type": "test_plan",
+    "created_at": "2026-06-08T08:17:56Z",
+    "path": "artifacts/test-plan.md",
+    "producer_stage": "TestPlanProposal",
+    "proposal_only": true,
+    "title": "Test Plan Proposal"
+  },
+  {
+    "applied": false,
+    "artifact_id": "artifact-v9-4-review_summary-2cc8a3bc",
+    "artifact_type": "review_summary",
+    "created_at": "2026-06-08T08:17:56Z",
+    "path": "artifacts/review-summary.md",
+    "producer_stage": "ReviewSummary",
+    "proposal_only": true,
+    "title": "Review Summary"
+  },
+  {
+    "applied": false,
+    "artifact_id": "artifact-v9-4-fix_loop-1a628305",
+    "artifact_type": "fix_loop",
+    "created_at": "2026-06-08T08:17:56Z",
+    "path": "artifacts/fix-loop-proposal.md",
+    "producer_stage": "FixLoopProposal",
+    "proposal_only": true,
+    "title": "Fix Loop Proposal"
+  }
+]

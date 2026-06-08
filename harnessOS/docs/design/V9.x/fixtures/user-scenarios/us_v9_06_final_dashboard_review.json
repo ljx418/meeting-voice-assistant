@@ -1,0 +1,33 @@
+{
+  "schema_version": "v9.user_scenario_fixture.v1",
+  "scenario_id": "US-V9-06",
+  "owner_stage": "V9-8",
+  "title": "Final acceptor reviews V9 readiness dashboard",
+  "status": "BLOCKED",
+  "evidence_scope": "missing",
+  "runtime_backed": false,
+  "user_goal": "As the final acceptor, open the V9 final dashboard and confirm each stage and each user scenario is PASS, accepted PARTIAL, FAIL or BLOCKED, with claim scan, redaction scan and drawio validation visible.",
+  "expected_user_visible_outputs": [
+    "V9-0 through V9-7 evidence summaries",
+    "US-V9-01 through US-V9-09 scenario statuses",
+    "claim scan result",
+    "redaction scan result",
+    "drawio XML validation result",
+    "remaining blocked capabilities"
+  ],
+  "dashboard_or_report_ref": null,
+  "evidence_refs": [],
+  "missing_evidence": [
+    "V9-3 user scenario PASS",
+    "V9-4 user scenario PASS",
+    "V9-5 user scenario PASS or accepted exclusion",
+    "V9-6 user scenario PASS",
+    "Roman Forum debate scenario PASS or accepted PARTIAL",
+    "video storyboard workflow scenario PASS or accepted PARTIAL",
+    "natural-language workflow optimization scenario PASS or accepted PARTIAL",
+    "V9-7 evidence package",
+    "final dashboard"
+  ],
+  "claim_guard_notes": "This scenario must not be counted as V9 final completion while required scenarios are blocked.",
+  "redaction_guard_notes": "Future final evidence must store redacted refs only."
+}

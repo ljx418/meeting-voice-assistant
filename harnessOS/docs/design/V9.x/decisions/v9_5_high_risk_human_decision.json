@@ -1,0 +1,52 @@
+{
+  "allowed_work": [
+    "workspace_scope_guard",
+    "readonly_terminal_command",
+    "workspace_scoped_test_command",
+    "command_tier_policy",
+    "transcript_capture",
+    "diff_proposal_capture",
+    "workspace_escape_denial_evidence",
+    "symlink_escape_denial_evidence",
+    "sensitive_read_denial_evidence",
+    "git_push_denial_evidence",
+    "production_deploy_denial_evidence"
+  ],
+  "audit_ref": "audit://v9-5/governed-terminal-worker-expansion-approved",
+  "blocked_work": [
+    "unrestricted_shell",
+    "git_push",
+    "git_commit",
+    "production_deploy",
+    "browser_account_automation",
+    "secret_read",
+    "credential_export",
+    "workspace_escape",
+    "source_agent_durable_mutation",
+    "v9_7_runtime_implementation",
+    "v9_8_final_acceptance",
+    "unrestricted_terminal_worker_ready_claim",
+    "production_terminal_automation_ready_claim"
+  ],
+  "correlation_id": "corr-v9-5-governed-terminal-worker-expansion-approved",
+  "created_at": "2026-06-07T10:35:00Z",
+  "decision": "GO_FOR_IMPLEMENTATION",
+  "decision_owner": "human_required",
+  "decision_ref": "v9-5-governed-terminal-worker-expansion-approved",
+  "evidence_refs": [
+    "docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/acceptance-data.json",
+    "docs/design/V9.x/v9_5_development_and_acceptance_plan.md",
+    "docs/design/V9.x/v9_5_terminal_sandbox_engineering_design.md"
+  ],
+  "expires_at": "2026-12-31T23:59:59Z",
+  "required_reviewers": [
+    "human_high_risk_owner"
+  ],
+  "revocation_reason": null,
+  "revoked": false,
+  "revoked_at": null,
+  "risk_class": "high",
+  "scope": "V9-5 governed terminal worker expansion is approved only for workspace-scoped readonly/build-test commands, command tier policy, transcript capture, diff proposal capture, and denial evidence. It does not authorize unrestricted shell, git push, production deploy, browser account automation, secret reads, workspace escape, V9-7 runtime implementation, V9-8 final acceptance, or readiness overclaims.",
+  "schema_version": "v9.0",
+  "stage_id": "V9-5"
+}

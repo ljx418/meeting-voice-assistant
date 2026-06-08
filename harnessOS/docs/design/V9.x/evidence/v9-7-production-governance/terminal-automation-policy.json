@@ -1,0 +1,14 @@
+{
+  "allowed_mode": "governance_gate_only",
+  "app_id": "app_v9_7",
+  "audit_ref": "audit://v9-7/terminal-automation-policy/d9622a486128",
+  "browser_account_automation_allowed": false,
+  "policy_decision": "deny_production_automation_enablement",
+  "policy_id": "terminal-automation-policy-v9-7-e6c9d98546a8",
+  "production_terminal_automation_ready": false,
+  "requires_credential_lease_decision": true,
+  "requires_human_authorization_ref": true,
+  "requires_incident_timeline": true,
+  "tenant_id": "tenant_v9_7",
+  "workspace_id": "workspace_v9_7"
+}

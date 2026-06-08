@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>V9-4 Coding Workflow Pilot</title>
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 32px; background: #f8fafc; color: #111827; }
+      section, pre { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; margin: 16px 0; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+      a { color: #2563eb; }
+    </style>
+  </head>
+  <body>
+    <h1>V9-4 编码工作流试点</h1>
+    <section><h2>验收状态</h2><pre>{
+  &quot;schema_version&quot;: &quot;v9_4.runtime_acceptance.v1&quot;,
+  &quot;stage_id&quot;: &quot;V9-4&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+  &quot;runtime_backed&quot;: true,
+  &quot;fallback_demo_only&quot;: false,
+  &quot;transcript_only&quot;: false,
+  &quot;report_only&quot;: false,
+  &quot;allowed_claim&quot;: &quot;V9-4 complete: autonomous coding workflow pilot ready for review.&quot;,
+  &quot;autonomous_coding_workflow_ready&quot;: false,
+  &quot;agent_executor_ready&quot;: false,
+  &quot;unrestricted_terminal_worker_ready&quot;: false,
+  &quot;production_terminal_automation_ready&quot;: false,
+  &quot;diff_proposal_created&quot;: &quot;PASS&quot;,
+  &quot;diff_proposal_is_not_patch_apply&quot;: &quot;PASS&quot;,
+  &quot;sandboxed_test_result&quot;: &quot;PASS&quot;,
+  &quot;review_summary_is_not_approval&quot;: &quot;PASS&quot;,
+  &quot;fix_loop_creates_new_diff_proposal&quot;: &quot;PASS&quot;,
+  &quot;auto_commit_denied&quot;: &quot;PASS&quot;,
+  &quot;auto_push_denied&quot;: &quot;PASS&quot;,
+  &quot;auto_deploy_denied&quot;: &quot;PASS&quot;,
+  &quot;unreviewed_patch_apply_denied&quot;: &quot;PASS&quot;,
+  &quot;source_agent_direct_mutation_denied&quot;: &quot;PASS&quot;,
+  &quot;claim_scan&quot;: &quot;PASS&quot;,
+  &quot;redaction_scan&quot;: &quot;PASS&quot;,
+  &quot;remaining_blockers&quot;: [
+    &quot;This V9-4 evidence package does not authorize V9-5 terminal worker expansion without a separate V9-5 decision.&quot;,
+    &quot;V9-8 final acceptance remains blocked until V9-0..V9-7 evidence packages exist.&quot;
+  ]
+}</pre></section>
+    <section><h2>真实测试结果</h2><pre>{
+  &quot;schema_version&quot;: &quot;v9_4.sandboxed_test_result.v1&quot;,
+  &quot;test_result_ref&quot;: &quot;test-result-ref://v9-4/8ffc874c0d3a&quot;,
+  &quot;command_ref&quot;: &quot;command-ref://v9-4/pytest-readiness-closure&quot;,
+  &quot;argv&quot;: [
+    &quot;./.venv/bin/python&quot;,
+    &quot;-m&quot;,
+    &quot;pytest&quot;,
+    &quot;tests/test_v9_4_readiness_closure.py&quot;,
+    &quot;-q&quot;
+  ],
+  &quot;cwd_ref&quot;: &quot;workspace-ref://v9-4/harnessOS&quot;,
+  &quot;returncode&quot;: 0,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;stdout_preview&quot;: &quot;...                                                                      [100%]\n3 passed in 1.15s\n&quot;,
+  &quot;stderr_preview&quot;: &quot;&quot;,
+  &quot;log_ref&quot;: &quot;sandbox-log-ref://v9-4/pytest-readiness-closure&quot;,
+  &quot;workspace_scoped&quot;: true,
+  &quot;parent_environment_inherited&quot;: false,
+  &quot;environment_secret_material_available&quot;: false,
+  &quot;network_used&quot;: false,
+  &quot;secret_read_attempted&quot;: false,
+  &quot;correlation_id&quot;: &quot;corr-v9-4-4198a557e5&quot;,
+  &quot;request_id&quot;: &quot;req-v9-4-3061ac3795&quot;,
+  &quot;audit_ref&quot;: &quot;audit://v9-4/sandboxed-test&quot;,
+  &quot;started_at&quot;: &quot;2026-06-08T08:17:56Z&quot;,
+  &quot;completed_at&quot;: &quot;2026-06-08T08:17:58Z&quot;
+}</pre></section>
+    <section><h2>禁止动作证据</h2><pre>{
+  &quot;schema_version&quot;: &quot;v9_4.git_operation_deny_report.v1&quot;,
+  &quot;deny_report_ref&quot;: &quot;deny-report-ref://v9-4/1ad8b1721303&quot;,
+  &quot;denied_operations&quot;: [
+    {
+      &quot;operation&quot;: &quot;patch.apply&quot;,
+      &quot;status&quot;: &quot;DENIED&quot;,
+      &quot;reason&quot;: &quot;unreviewed_patch_apply_denied&quot;,
+      &quot;executed&quot;: false,
+      &quot;human_review_accepted&quot;: false,
+      &quot;release_gate_accepted&quot;: false,
+      &quot;production_gate_accepted&quot;: false,
+      &quot;audit_ref&quot;: &quot;audit://v9-4/deny/patch-apply&quot;
+    },
+    {
+      &quot;operation&quot;: &quot;git.commit&quot;,
+      &quot;status&quot;: &quot;DENIED&quot;,
+      &quot;reason&quot;: &quot;auto_commit_without_human_approval_denied&quot;,
+      &quot;executed&quot;: false,
+      &quot;human_review_accepted&quot;: false,
+      &quot;release_gate_accepted&quot;: false,
+      &quot;production_gate_accepted&quot;: false,
+      &quot;audit_ref&quot;: &quot;audit://v9-4/deny/git-commit&quot;
+    },
+    {
+      &quot;operation&quot;: &quot;git.push&quot;,
+      &quot;status&quot;: &quot;DENIED&quot;,
+      &quot;reason&quot;: &quot;auto_push_without_release_gate_denied&quot;,
+      &quot;executed&quot;: false,
+      &quot;human_review_accepted&quot;: false,
+      &quot;release_gate_accepted&quot;: false,
+      &quot;production_gate_accepted&quot;: false,
+      &quot;audit_ref&quot;: &quot;audit://v9-4/deny/git-push&quot;
+    },
+    {
+      &quot;operation&quot;: &quot;production.deploy&quot;,
+      &quot;status&quot;: &quot;DENIED&quot;,
+      &quot;reason&quot;: &quot;auto_deploy_without_production_gate_denied&quot;,
+      &quot;executed&quot;: false,
+      &quot;human_review_accepted&quot;: false,
+      &quot;release_gate_accepted&quot;: false,
+      &quot;production_gate_accepted&quot;: false,
+      &quot;audit_ref&quot;: &quot;audit://v9-4/deny/production-deploy&quot;
+    },
+    {
+      &quot;operation&quot;: &quot;approval.resolve&quot;,
+      &quot;status&quot;: &quot;DENIED&quot;,
+      &quot;reason&quot;: &quot;review_summary_is_not_approval&quot;,
+      &quot;executed&quot;: false,
+      &quot;human_review_accepted&quot;: false,
+      &quot;release_gate_accepted&quot;: false,
+      &quot;production_gate_accepted&quot;: false,
+      &quot;audit_ref&quot;: &quot;audit://v9-4/deny/approval-resolve&quot;
+    }
+  ],
+  &quot;all_denied&quot;: true,
+  &quot;correlation_id&quot;: &quot;corr-v9-4-4198a557e5&quot;,
+  &quot;request_id&quot;: &quot;req-v9-4-3061ac3795&quot;,
+  &quot;audit_ref&quot;: &quot;audit://v9-4/deny-report&quot;,
+  &quot;created_at&quot;: &quot;2026-06-08T08:17:58Z&quot;
+}</pre></section>
+    <section><h2>证据链接</h2><ul><li><a href="acceptance-data.json">acceptance-data.json</a></li><li><a href="coding-workflow-run.json">coding-workflow-run.json</a></li><li><a href="artifacts.json">artifacts.json</a></li><li><a href="sandboxed-test-result.json">sandboxed-test-result.json</a></li><li><a href="review-summary.json">review-summary.json</a></li><li><a href="fix-loop-proposal.json">fix-loop-proposal.json</a></li><li><a href="human-review-handoff.json">human-review-handoff.json</a></li><li><a href="git-operation-deny-report.json">git-operation-deny-report.json</a></li><li><a href="artifacts/diff-proposal.patch">artifacts/diff-proposal.patch</a></li><li><a href="claims-scan.md">claims-scan.md</a></li><li><a href="redaction-scan.md">redaction-scan.md</a></li></ul></section>
+    <section><h2>边界</h2><p>本页只证明 bounded coding workflow pilot ready for review；diff 是 proposal-only，未 apply patch、未 commit、未 push、未 deploy。</p></section>
+    </body>
+</html>

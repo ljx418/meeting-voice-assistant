@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>V9 PRD/UX/运行证据审查页</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f6f7f9; color: #172033; }
+    section, article { background: #fff; border: 1px solid #d8dee8; border-radius: 8px; margin: 18px auto; padding: 18px; max-width: 1180px; }
+    .hero { background: #111827; color: #f9fafb; border-color: #111827; }
+    code { background: #eef2f7; color: #16233a; padding: 2px 5px; border-radius: 4px; }
+    .hero code { background: #263244; color: #e5e7eb; }
+    pre { white-space: pre-wrap; word-break: break-word; background: #0f172a; color: #dbeafe; border-radius: 8px; padding: 14px; overflow: auto; max-height: 680px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #d8dee8; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #eef2f7; }
+    .pass { color: #166534; font-weight: 700; }
+    .fail { color: #b91c1c; font-weight: 700; }
+    .screens, .storyboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .architecture { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+    .architecture article { margin: 0; max-width: none; background: #f8fafc; }
+    h3 { margin-top: 0; }
+    figure { margin: 0; border: 1px solid #d8dee8; border-radius: 8px; background: #f8fafc; padding: 10px; }
+    img { width: 100%; display: block; border-radius: 6px; border: 1px solid #cbd5e1; }
+    figcaption { color: #475569; font-size: 13px; margin-top: 8px; }
+    .terminal { background: #0b1020; color: #dbeafe; max-width: 1180px; }
+    .titlebar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; color: #e5e7eb; }
+    .titlebar span { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #ef4444; }
+    .titlebar span:nth-child(2) { background: #f59e0b; }
+    .titlebar span:nth-child(3) { background: #22c55e; }
+  </style>
+</head>
+<body>
+        <section class="hero">
+          <h1>V9 PRD / 测试 / 用户体验实际运行证据</h1>
+          <p>状态：<strong class="pass">PASS</strong></p>
+          <p>允许声明：<code>V9 complete: high-risk Agent execution and workflow productization baseline ready for review.</code></p>
+          <p>边界：该声明仍然不是 production ready、Agent executor ready、complete Workflow Studio ready 或 full multi-Agent orchestration ready。</p>
+        </section>
+
+        <section>
+          <h2>当前目标架构与运行设计</h2>
+          <div class="architecture">
+            <article>
+              <h3>用户入口层</h3>
+              <p>用户通过 Mission TUI / Workflow Studio / Product Console 输入自然语言目标、查看状态、确认 handoff。TUI 是 workflow head 和解释性界面，不直接构造 runtime truth。</p>
+              <p><b>证据：</b><code>cli.main --oh</code> 真实交互 TUI 截图、<code>cli.main tui</code> Mission TUI stdout、V9-6 Studio BFF/DTO 证据。</p>
+            </article>
+            <article>
+              <h3>Agent 与编排层</h3>
+              <p>每个 station 绑定独立 Agent 描述，包含 role / goal / memory / tools / skills / MCP refs。V9-3 证明 serial、parallel、fan-out、fan-in、recovery、attempt history 和 artifact lineage。</p>
+              <p><b>证据：</b><code>v9-3-orchestration-runtime/acceptance-data.json</code> 与运行看板。</p>
+            </article>
+            <article>
+              <h3>受控执行层</h3>
+              <p>V9-2 只允许四个受控动作：workflow.instance.start、station.rerun、artifact.write、quality.evaluation.create。所有 durable mutation 必须经过 policy、HumanAuthorizationRef / user confirmation、approval、kill switch、idempotency、rollback 和 evidence chain。</p>
+              <p><b>边界：</b>source=agent direct durable mutation 继续拒绝。</p>
+            </article>
+            <article>
+              <h3>代码与终端工作流层</h3>
+              <p>V9-4/V9-5 提供代码工作流和受控终端 worker 试点：可以生成 plan、diff proposal、sandboxed test、review summary、transcript 和 diff capture。</p>
+              <p><b>边界：</b>不自动 commit / push / deploy，不提供 unrestricted shell。</p>
+            </article>
+            <article>
+              <h3>证据与治理层</h3>
+              <p>V9-7/V9-8 聚合 tenant isolation、credential lease、append-only audit export、incident timeline、No False Green、redaction 和最终验收看板。</p>
+              <p><b>证据：</b><code>v9-final-acceptance-data.json</code> status=PASS, blockers=[]。</p>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <h2>当前功能到运行证据映射</h2>
+          <table>
+            <thead><tr><th>用户可体验能力</th><th>实际运行设计</th><th>本页证据</th><th>边界</th></tr></thead>
+            <tbody>
+              <tr><td>输入自然语言目标查看 Mission TUI</td><td><code>harness tui</code> 渲染 intent、state timeline、available action、forbidden reason、evidence links</td><td><code>mission_tui_text.json</code> / stdout；渲染快照单独标注为非真实窗口</td><td>Mission TUI 是 transcript_only，不直接执行 durable mutation</td></tr>
+              <tr><td>打开真实交互 TUI 并输入问题</td><td><code>python -m cli.main --oh</code> 拉起 OpenHarness Textual TUI，用户在 composer 输入问题，assistant 在 transcript 区响应</td><td>真实 macOS Terminal 窗口截图：启动态 + 输入后响应态</td><td>该截图只证明 TUI 界面和一次短交互，不证明 Agent executor ready</td></tr>
+              <tr><td>运行本地 Markdown 技术文档总结工作流</td><td>scanner 读取本地文件，provider-backed summary，生成 workflow board、quality report、evidence chain</td><td><code>v7-3-local-markdown-run/acceptance-data.json</code></td><td>仅授权路径内文件；不存 raw prompt / raw file content</td></tr>
+              <tr><td>多 Agent 讨论与合成结论</td><td>station-bound Agents 执行 fan-out/fan-in、attempt history、lineage</td><td>V9-3 运行看板截图</td><td>不声明 full multi-Agent orchestration ready</td></tr>
+              <tr><td>视频创作分镜工作流</td><td>MiniMax provider 生成 4 张 storyboard images，记录 provider/model/invocation refs 和 sha256</td><td>US-V9-08 分镜图与 <code>storyboard-provider-evidence.json</code></td><td>不存 provider request/response body、base64 或 credential</td></tr>
+              <tr><td>最终验收与审计</td><td>V9-8 validator 聚合阶段证据、用户场景、claim scan、redaction scan、drawio XML</td><td>V9-8 最终验收看板截图</td><td>最终声明只限 ready for review</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>截图证据</h2>
+          <p>截图分为两类：真实窗口截图来自 macOS Terminal；渲染快照来自本报告 HTML 页面，只用于审查排版，不作为真实 TUI 窗口证据。</p>
+          <div class="screens">
+            <figure><img src="screenshots/real-openharness-textual-tui-window.png"><figcaption>真实窗口截图：macOS Terminal 中实际运行 <code>./.venv/bin/python -m cli.main --oh</code>，显示 OpenHarnessTerminalApp、Status、Tasks、MCP 面板。</figcaption></figure>
+            <figure><img src="screenshots/real-openharness-textual-tui-after-user-input.png"><figcaption>真实用户场景截图：在 OpenHarness Textual TUI 中输入问题后，transcript 区出现 user / assistant 交互响应。</figcaption></figure>
+            <figure><img src="screenshots/tui-window.png"><figcaption>渲染快照，不是真实窗口：Mission TUI stdout 的 HTML 呈现，用于审查命令输出内容。</figcaption></figure>
+            <figure><img src="screenshots/runtime-output.png"><figcaption>渲染快照：实际命令 stdout/stderr 汇总，包括 TUI、V9-3、V9-8、测试命令。</figcaption></figure>
+            <figure><img src="screenshots/v9-3-runtime-dashboard.png"><figcaption>V9-3 多 Agent 编排运行看板</figcaption></figure>
+            <figure><img src="screenshots/v9-final-dashboard.png"><figcaption>V9-8 最终验收看板</figcaption></figure>
+          </div>
+        </section>
+
+        <section>
+          <h2>开发前固化 PRD / 架构 / 验收门槛</h2>
+          <ul><li><code>docs/design/V9.x/v9_target_prd.md</code></li><li><code>docs/design/V9.x/v9_target_architecture.md</code></li><li><code>docs/design/V9.x/v9_development_and_acceptance_plan.md</code></li><li><code>docs/design/V9.x/v9_acceptance_gate_matrix.md</code></li><li><code>docs/design/V9.x/v9_user_scenario_acceptance_gate.md</code></li></ul>
+        </section>
+
+        <section>
+          <h2>测试用例覆盖</h2>
+          <ul><li><code>tests/test_v9_3_multi_agent_orchestration_runtime.py</code></li><li><code>tests/test_v9_4_coding_workflow_pilot.py</code></li><li><code>tests/test_v9_5_governed_terminal_worker.py</code></li><li><code>tests/test_v9_6_workflow_studio.py</code></li><li><code>tests/test_v9_7_production_governance.py</code></li><li><code>tests/test_v9_8_final_acceptance.py</code></li></ul>
+          <p>本轮实际执行：<code>./.venv/bin/python -m pytest tests/test_v9_1_agent_executor_safety_gate.py tests/test_v9_1_internal_audit_closure.py tests/test_v9_1_readiness_tooling.py tests/test_v9_1_safety_gate_evidence.py tests/test_v9_2_controlled_executor_runtime.py tests/test_v9_2_pre_implementation_closure.py tests/test_v9_2_runtime_evidence.py tests/test_v9_3_multi_agent_orchestration_runtime.py tests/test_v9_4_coding_workflow_pilot.py tests/test_v9_4_readiness_closure.py tests/test_v9_5_governed_terminal_worker.py tests/test_v9_6_workflow_studio.py tests/test_v9_7_production_governance.py tests/test_v9_8_final_acceptance.py -q</code></p>
+        </section>
+
+        <section>
+          <h2>实际运行命令</h2>
+          <ol><li><code>./.venv/bin/python -m cli.main tui 用多个 Agent 讨论一个视频创作工作流，并给出可审计的分镜与运行证据</code> - <b class="pass">PASS</b></li><li><code>./.venv/bin/python -m cli.main tui 用多个 Agent 讨论一个视频创作工作流，并给出可审计的分镜与运行证据 --json</code> - <b class="pass">PASS</b></li><li><code>./.venv/bin/python -m cli.main tui 递归总结 tests/fixtures/desktop/技术分享 下的 Markdown 技术文档 --run --user-confirmed --path tests/fixtures/desktop/技术分享 --evidence-dir /Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-prd-ux-runtime-review/v7-3-local-markdown-run --json</code> - <b class="pass">PASS</b></li><li><code>./.venv/bin/python -m tools.v9.generate_safety_gate_evidence</code> - <b class="pass">PASS</b></li><li><code>./.venv/bin/python -m tools.v9.generate_internal_audit_closure</code> - <b class="pass">PASS</b></li><li><code>./.venv/bin/python -m tools.v9.generate_v9_2_pre_implementation_closure</code> - <b class="pass">PASS</b></li><li><code>./.venv/bin/python -m tools.v9.generate_v9_3_orchestration_evidence</code> - <b class="pass">PASS</b></li><li><code>./.venv/bin/python -m tools.v9.generate_v9_8_final_acceptance</code> - <b class="pass">PASS</b></li><li><code>./.venv/bin/python -m pytest tests/test_v9_1_agent_executor_safety_gate.py tests/test_v9_1_internal_audit_closure.py tests/test_v9_1_readiness_tooling.py tests/test_v9_1_safety_gate_evidence.py tests/test_v9_2_controlled_executor_runtime.py tests/test_v9_2_pre_implementation_closure.py tests/test_v9_2_runtime_evidence.py tests/test_v9_3_multi_agent_orchestration_runtime.py tests/test_v9_4_coding_workflow_pilot.py tests/test_v9_4_readiness_closure.py tests/test_v9_5_governed_terminal_worker.py tests/test_v9_6_workflow_studio.py tests/test_v9_7_production_governance.py tests/test_v9_8_final_acceptance.py -q</code> - <b class="pass">PASS</b></li></ol>
+        </section>
+
+        <section>
+          <h2>验收检查</h2>
+          <table><thead><tr><th>检查项</th><th>状态</th><th>说明</th></tr></thead><tbody><tr><td>tui_command_runs</td><td class='pass'>PASS</td><td>TUI command rendered text state.</td></tr>
+<tr><td>tui_json_state_runs</td><td class='pass'>PASS</td><td>TUI command rendered JSON state.</td></tr>
+<tr><td>real_openharness_tui_screenshot_exists</td><td class='pass'>PASS</td><td>Real macOS Terminal window screenshot for `python -m cli.main --oh` exists.</td></tr>
+<tr><td>real_openharness_tui_after_input_screenshot_exists</td><td class='pass'>PASS</td><td>Real OpenHarness Textual TUI screenshot after user input and assistant response exists.</td></tr>
+<tr><td>local_markdown_workflow_runs</td><td class='pass'>PASS</td><td>Natural-language local Markdown workflow executed with user confirmation.</td></tr>
+<tr><td>v9_1_safety_gate_evidence_runs</td><td class='pass'>PASS</td><td>V9-1 safety gate evidence was regenerated before final acceptance.</td></tr>
+<tr><td>v9_1_internal_audit_runs</td><td class='pass'>PASS</td><td>V9-1 internal audit closure was regenerated before final acceptance.</td></tr>
+<tr><td>v9_2_pre_implementation_closure_runs</td><td class='pass'>PASS</td><td>V9-2 pre-implementation closure was regenerated before final acceptance.</td></tr>
+<tr><td>v9_3_runtime_runs</td><td class='pass'>PASS</td><td>V9-3 orchestration runtime evidence regenerated.</td></tr>
+<tr><td>v9_8_final_acceptance_runs</td><td class='pass'>PASS</td><td>V9-8 final acceptance validator regenerated.</td></tr>
+<tr><td>v9_tests_pass</td><td class='pass'>PASS</td><td>V9 pytest suite passed.</td></tr>
+<tr><td>v9_final_pass</td><td class='pass'>PASS</td><td>V9 final acceptance status is PASS.</td></tr>
+<tr><td>v9_final_has_no_blockers</td><td class='pass'>PASS</td><td>V9 final acceptance blockers are empty.</td></tr>
+<tr><td>claim_scan_pass</td><td class='pass'>PASS</td><td>No False Green scan is PASS.</td></tr>
+<tr><td>redaction_scan_pass</td><td class='pass'>PASS</td><td>Redaction scan is PASS.</td></tr>
+<tr><td>storyboard_provider_backed</td><td class='pass'>PASS</td><td>US-V9-08 provider-backed storyboard evidence is PASS.</td></tr>
+<tr><td>storyboard_has_four_images</td><td class='pass'>PASS</td><td>At least four storyboard image artifacts exist.</td></tr>
+<tr><td>local_run_runtime_backed</td><td class='pass'>PASS</td><td>Local Markdown workflow evidence is runtime-backed.</td></tr></tbody></table>
+        </section>
+
+        <section>
+          <h2>TUI 与自然语言运行证据</h2>
+          <p>TUI goal: <code>用多个 Agent 讨论一个视频创作工作流，并给出可审计的分镜与运行证据</code></p>
+          <p>本地 Markdown 工作流 goal: <code>递归总结 tests/fixtures/desktop/技术分享 下的 Markdown 技术文档</code></p>
+          <pre>{
+  &quot;claim_scan&quot;: &quot;PASS&quot;,
+  &quot;drawio_xml_valid&quot;: true,
+  &quot;evidence_chain_generated&quot;: &quot;PASS&quot;,
+  &quot;evidence_refs&quot;: [
+    &quot;tui-transcript.txt&quot;,
+    &quot;workflow.json&quot;,
+    &quot;workflow.yaml&quot;,
+    &quot;workflow.drawio&quot;,
+    &quot;workflow_board.html&quot;,
+    &quot;quality.html&quot;,
+    &quot;evidence.html&quot;,
+    &quot;local-document-workflow-result.json&quot;,
+    &quot;evidence_chain.json&quot;,
+    &quot;quality_report.json&quot;
+  ],
+  &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+  &quot;fallback_demo_only&quot;: false,
+  &quot;folder_summaries_generated&quot;: &quot;PASS&quot;,
+  &quot;missing_evidence&quot;: [],
+  &quot;overview_summary_generated&quot;: &quot;PASS&quot;,
+  &quot;provider_invocation_count&quot;: 4,
+  &quot;quality_report_generated&quot;: &quot;PASS&quot;,
+  &quot;redaction_scan&quot;: &quot;PASS&quot;,
+  &quot;report_only&quot;: false,
+  &quot;runtime_backed&quot;: true,
+  &quot;runtime_report_generated&quot;: &quot;PASS&quot;,
+  &quot;scanner_actual_read_count&quot;: 5,
+  &quot;source_agent_denied&quot;: true,
+  &quot;stage_id&quot;: &quot;V7-3&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;transcript_only&quot;: false,
+  &quot;user_confirmed&quot;: true,
+  &quot;workflow_spec_schema_valid&quot;: true
+}</pre>
+        </section>
+
+        <section>
+          <h2>用户场景验收矩阵</h2>
+          <table><thead><tr><th>场景</th><th>状态</th><th>runtime_backed</th><th>证据</th></tr></thead><tbody><tr><td>US-V9-01</td><td>PASS</td><td>True</td><td>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-2-controlled-executor-runtime/acceptance-data.json</td></tr><tr><td>US-V9-02</td><td>PASS</td><td>True</td><td>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-3-orchestration-runtime/acceptance-data.json</td></tr><tr><td>US-V9-03</td><td>PASS</td><td>True</td><td>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/acceptance-data.json</td></tr><tr><td>US-V9-04</td><td>PASS</td><td>True</td><td>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-5-terminal-worker/acceptance-data.json</td></tr><tr><td>US-V9-05</td><td>PASS</td><td>True</td><td>/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-6-workflow-studio/acceptance-data.json</td></tr><tr><td>US-V9-06</td><td>PASS</td><td>False</td><td>self://v9-8-final-dashboard</td></tr><tr><td>US-V9-07</td><td>PASS</td><td>True</td><td>real_runtime_fixture</td></tr><tr><td>US-V9-08</td><td>PASS</td><td>True</td><td>real_provider_backed_runtime_fixture</td></tr><tr><td>US-V9-09</td><td>PASS</td><td>True</td><td>real_runtime_fixture</td></tr></tbody></table>
+        </section>
+
+        <section>
+          <h2>US-V9-08 视频创作分镜产物</h2>
+          <p>provider: <code>provider-ref://minimax/image-generation</code>; model: <code>provider-model-ref://minimax/image-01</code>; invocation: <code>provider-invocation-ref://v9-3/video/provider-invocation-v9-3-3d016841d1fd</code></p>
+          <div class="storyboard"><figure><img src='../v9-3-orchestration-runtime/storyboard-images/storyboard-shot-1.jpg'><figcaption>artifact-ref://v9-3/video/storyboard-image-1</figcaption></figure><figure><img src='../v9-3-orchestration-runtime/storyboard-images/storyboard-shot-2.jpg'><figcaption>artifact-ref://v9-3/video/storyboard-image-2</figcaption></figure><figure><img src='../v9-3-orchestration-runtime/storyboard-images/storyboard-shot-3.jpg'><figcaption>artifact-ref://v9-3/video/storyboard-image-3</figcaption></figure><figure><img src='../v9-3-orchestration-runtime/storyboard-images/storyboard-shot-4.jpg'><figcaption>artifact-ref://v9-3/video/storyboard-image-4</figcaption></figure></div>
+          <pre>{
+  &quot;base64_stored&quot;: false,
+  &quot;created_at&quot;: &quot;2026-06-08T02:59:00Z&quot;,
+  &quot;credential_material_stored&quot;: false,
+  &quot;evidence_scope&quot;: &quot;real_provider_backed_runtime_fixture&quot;,
+  &quot;prompt_material_stored&quot;: false,
+  &quot;prompt_refs&quot;: [
+    &quot;artifact-ref://v9-3/video/storyboard-prompt-1&quot;,
+    &quot;artifact-ref://v9-3/video/storyboard-prompt-2&quot;,
+    &quot;artifact-ref://v9-3/video/storyboard-prompt-3&quot;,
+    &quot;artifact-ref://v9-3/video/storyboard-prompt-4&quot;
+  ],
+  &quot;provider_config_source&quot;: &quot;dotenv://minimax-image-provider&quot;,
+  &quot;provider_invocation_ref&quot;: &quot;provider-invocation-ref://v9-3/video/provider-invocation-v9-3-3d016841d1fd&quot;,
+  &quot;provider_model_ref&quot;: &quot;provider-model-ref://minimax/image-01&quot;,
+  &quot;provider_ref&quot;: &quot;provider-ref://minimax/image-generation&quot;,
+  &quot;provider_request_body_stored&quot;: false,
+  &quot;provider_response_body_stored&quot;: false,
+  &quot;runtime_backed&quot;: true,
+  &quot;scenario_id&quot;: &quot;US-V9-08&quot;,
+  &quot;schema_version&quot;: &quot;v9_3.provider_storyboard_evidence.v1&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;storyboard_image_artifacts&quot;: [
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-image-1&quot;,
+      &quot;byte_size&quot;: 464332,
+      &quot;content_type&quot;: &quot;image/jpeg&quot;,
+      &quot;path&quot;: &quot;evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-1.jpg&quot;,
+      &quot;prompt_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-prompt-1&quot;,
+      &quot;sha256&quot;: &quot;8eb0406c8ddcb975048bbb9928a90c881e15fc7e5c05c5d0a0fb35333cf6fe9d&quot;
+    },
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-image-2&quot;,
+      &quot;byte_size&quot;: 419327,
+      &quot;content_type&quot;: &quot;image/jpeg&quot;,
+      &quot;path&quot;: &quot;evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-2.jpg&quot;,
+      &quot;prompt_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-prompt-2&quot;,
+      &quot;sha256&quot;: &quot;ac5fe6bb79f4857fd5da7f0a209d5a3cb3e18ef34a5aa0decb070933a18845e0&quot;
+    },
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-image-3&quot;,
+      &quot;byte_size&quot;: 247153,
+      &quot;content_type&quot;: &quot;image/jpeg&quot;,
+      &quot;path&quot;: &quot;evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-3.jpg&quot;,
+      &quot;prompt_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-prompt-3&quot;,
+      &quot;sha256&quot;: &quot;5ba097b207c7a5c7b1eabed5650064898fbc19dce27a742a002489f9f97a60cd&quot;
+    },
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-image-4&quot;,
+      &quot;byte_size&quot;: 305190,
+      &quot;content_type&quot;: &quot;image/jpeg&quot;,
+      &quot;path&quot;: &quot;evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-4.jpg&quot;,
+      &quot;prompt_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-prompt-4&quot;,
+      &quot;sha256&quot;: &quot;1cd37afc0b3eafb8aac300253a03948ef2c38ef018eb58af1562343928fade9f&quot;
+    }
+  ]
+}</pre>
+        </section>
+
+        <section>
+          <h2>最终验收数据</h2>
+          <pre>{
+  &quot;agent_executor_ready&quot;: false,
+  &quot;autonomous_coding_workflow_ready&quot;: false,
+  &quot;blockers&quot;: [],
+  &quot;claim_scan&quot;: &quot;PASS&quot;,
+  &quot;complete_workflow_studio_ready&quot;: false,
+  &quot;controlled_executor_ready&quot;: false,
+  &quot;created_at&quot;: &quot;2026-06-08T06:40:08Z&quot;,
+  &quot;drawio_xml&quot;: &quot;PASS&quot;,
+  &quot;final_claim&quot;: &quot;V9 complete: high-risk Agent execution and workflow productization baseline ready for review.&quot;,
+  &quot;full_multi_agent_orchestration_ready&quot;: false,
+  &quot;full_production_ga&quot;: false,
+  &quot;high_risk_decisions&quot;: [
+    {
+      &quot;blocker&quot;: null,
+      &quot;decision_ref&quot;: &quot;v9-1-limited-safety-gate-implementation-approved&quot;,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/decisions/v9_1_high_risk_human_decision.json&quot;,
+      &quot;stage_id&quot;: &quot;V9-1&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;decision_ref&quot;: &quot;v9-2-limited-controlled-runtime-implementation-approved&quot;,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/decisions/v9_2_high_risk_human_decision.json&quot;,
+      &quot;stage_id&quot;: &quot;V9-2&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;decision_ref&quot;: &quot;v9-4-autonomous-coding-workflow-pilot-approved&quot;,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/decisions/v9_4_high_risk_human_decision.json&quot;,
+      &quot;stage_id&quot;: &quot;V9-4&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;decision_ref&quot;: &quot;v9-5-governed-terminal-worker-expansion-approved&quot;,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/decisions/v9_5_high_risk_human_decision.json&quot;,
+      &quot;stage_id&quot;: &quot;V9-5&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;decision_ref&quot;: &quot;v9-7-production-governance-high-risk-approved&quot;,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/decisions/v9_7_high_risk_human_decision.json&quot;,
+      &quot;stage_id&quot;: &quot;V9-7&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    }
+  ],
+  &quot;planning_docs_counted_as_runtime_evidence&quot;: false,
+  &quot;production_browser_automation_ready&quot;: false,
+  &quot;production_controlled_executor_ready&quot;: false,
+  &quot;production_ready&quot;: false,
+  &quot;production_terminal_automation_ready&quot;: false,
+  &quot;redaction_scan&quot;: &quot;PASS&quot;,
+  &quot;schema_version&quot;: &quot;v9_8.final_acceptance.v1&quot;,
+  &quot;stage_id&quot;: &quot;V9-8&quot;,
+  &quot;stage_results&quot;: [
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-1-safety-gate-implementation/acceptance-data.json&quot;,
+      &quot;evidence_scope&quot;: &quot;real_code_policy_validation&quot;,
+      &quot;runtime_backed&quot;: false,
+      &quot;stage_id&quot;: &quot;V9-1&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-2-controlled-executor-runtime/acceptance-data.json&quot;,
+      &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;stage_id&quot;: &quot;V9-2&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-3-orchestration-runtime/acceptance-data.json&quot;,
+      &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;stage_id&quot;: &quot;V9-3&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/acceptance-data.json&quot;,
+      &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;stage_id&quot;: &quot;V9-4&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-5-terminal-worker/acceptance-data.json&quot;,
+      &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;stage_id&quot;: &quot;V9-5&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-6-workflow-studio/acceptance-data.json&quot;,
+      &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;stage_id&quot;: &quot;V9-6&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-7-production-governance/acceptance-data.json&quot;,
+      &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;stage_id&quot;: &quot;V9-7&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    }
+  ],
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;unrestricted_terminal_worker_ready&quot;: false,
+  &quot;user_scenarios&quot;: [
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-2-controlled-executor-runtime/acceptance-data.json&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;scenario_id&quot;: &quot;US-V9-01&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-3-orchestration-runtime/acceptance-data.json&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;scenario_id&quot;: &quot;US-V9-02&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/acceptance-data.json&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;scenario_id&quot;: &quot;US-V9-03&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-5-terminal-worker/acceptance-data.json&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;scenario_id&quot;: &quot;US-V9-04&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-6-workflow-studio/acceptance-data.json&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;scenario_id&quot;: &quot;US-V9-05&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;self://v9-8-final-dashboard&quot;,
+      &quot;runtime_backed&quot;: false,
+      &quot;scenario_id&quot;: &quot;US-V9-06&quot;,
+      &quot;status&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;attribution_refs&quot;: [
+        &quot;lineage-ref://v9-3/roman-forum/philosopher&quot;,
+        &quot;lineage-ref://v9-3/roman-forum/engineer&quot;,
+        &quot;lineage-ref://v9-3/roman-forum/historian&quot;,
+        &quot;lineage-ref://v9-3/roman-forum/ethicist&quot;
+      ],
+      &quot;blocker&quot;: null,
+      &quot;discussion_turn_count&quot;: 2,
+      &quot;evidence_chain_ref&quot;: &quot;evidence-chain://v9-3/roman-forum&quot;,
+      &quot;evidence_scope&quot;: &quot;real_runtime_fixture&quot;,
+      &quot;orchestration_run_id&quot;: &quot;orch-v9-3-22df4a6823bd&quot;,
+      &quot;role_specific_agents&quot;: [
+        &quot;philosopher_agent&quot;,
+        &quot;engineer_agent&quot;,
+        &quot;historian_agent&quot;,
+        &quot;ethicist_agent&quot;,
+        &quot;moderator_agent&quot;
+      ],
+      &quot;runtime_backed&quot;: true,
+      &quot;scenario_id&quot;: &quot;US-V9-07&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;synthesis_ref&quot;: &quot;artifact-ref://v9-3/roman-forum/attributed-synthesis&quot;
+    },
+    {
+      &quot;blocker&quot;: null,
+      &quot;evidence_ref&quot;: &quot;/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-3-orchestration-runtime/storyboard-provider-evidence.json&quot;,
+      &quot;evidence_scope&quot;: &quot;real_provider_backed_runtime_fixture&quot;,
+      &quot;provider_invocation_ref&quot;: &quot;provider-invocation-ref://v9-3/video/provider-invocation-v9-3-3d016841d1fd&quot;,
+      &quot;provider_model_ref&quot;: &quot;provider-model-ref://minimax/image-01&quot;,
+      &quot;provider_ref&quot;: &quot;provider-ref://minimax/image-generation&quot;,
+      &quot;runtime_backed&quot;: true,
+      &quot;scenario_id&quot;: &quot;US-V9-08&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;storyboard_image_artifacts&quot;: [
+        {
+          &quot;artifact_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-image-1&quot;,
+          &quot;byte_size&quot;: 464332,
+          &quot;content_type&quot;: &quot;image/jpeg&quot;,
+          &quot;path&quot;: &quot;evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-1.jpg&quot;,
+          &quot;prompt_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-prompt-1&quot;,
+          &quot;sha256&quot;: &quot;8eb0406c8ddcb975048bbb9928a90c881e15fc7e5c05c5d0a0fb35333cf6fe9d&quot;
+        },
+        {
+          &quot;artifact_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-image-2&quot;,
+          &quot;byte_size&quot;: 419327,
+          &quot;content_type&quot;: &quot;image/jpeg&quot;,
+          &quot;path&quot;: &quot;evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-2.jpg&quot;,
+          &quot;prompt_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-prompt-2&quot;,
+          &quot;sha256&quot;: &quot;ac5fe6bb79f4857fd5da7f0a209d5a3cb3e18ef34a5aa0decb070933a18845e0&quot;
+        },
+        {
+          &quot;artifact_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-image-3&quot;,
+          &quot;byte_size&quot;: 247153,
+          &quot;content_type&quot;: &quot;image/jpeg&quot;,
+          &quot;path&quot;: &quot;evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-3.jpg&quot;,
+          &quot;prompt_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-prompt-3&quot;,
+          &quot;sha256&quot;: &quot;5ba097b207c7a5c7b1eabed5650064898fbc19dce27a742a002489f9f97a60cd&quot;
+        },
+        {
+          &quot;artifact_ref&quot;: &quot;artifact-ref://v9-3/video/storyboard-image-4&quot;,
+          &quot;byte_size&quot;: 305190,
+          &quot;content_type&quot;: &quot;image/jpeg&quot;,
+          &quot;path&quot;: &quot;evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-4.jpg&quot;,
+          &quot;prompt_ref&quot;: &quot;artifact-ref://</pre>
+        </section>
+        </body>
+</html>

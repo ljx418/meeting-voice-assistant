@@ -1,0 +1,28 @@
+{
+  "command": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_v9_1_agent_executor_safety_gate.py",
+    "tests/test_v9_1_internal_audit_closure.py",
+    "tests/test_v9_1_readiness_tooling.py",
+    "tests/test_v9_1_safety_gate_evidence.py",
+    "tests/test_v9_2_controlled_executor_runtime.py",
+    "tests/test_v9_2_pre_implementation_closure.py",
+    "tests/test_v9_2_runtime_evidence.py",
+    "tests/test_v9_3_multi_agent_orchestration_runtime.py",
+    "tests/test_v9_4_coding_workflow_pilot.py",
+    "tests/test_v9_4_readiness_closure.py",
+    "tests/test_v9_5_governed_terminal_worker.py",
+    "tests/test_v9_6_workflow_studio.py",
+    "tests/test_v9_7_production_governance.py",
+    "tests/test_v9_8_final_acceptance.py",
+    "-q"
+  ],
+  "created_at": "2026-06-08T06:40:11Z",
+  "name": "v9_tests",
+  "returncode": 0,
+  "status": "PASS",
+  "stderr": "",
+  "stdout": "........................................................................ [ 98%]\n.                                                                        [100%]\n=============================== warnings summary ===============================\ncore/schemas/__init__.py:54\n  /Users/Zhuanz/Desktop/workspace/harnessOS/core/schemas/__init__.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/\n    class Message(BaseModel):\n\n.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325\n.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325\n.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325\n  /Users/Zhuanz/Desktop/workspace/harnessOS/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325: PydanticDeprecatedSince20: `json_encoders` is deprecated. See https://docs.pydantic.dev/2.13/concepts/serialization/#custom-serializers for alternatives. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/\n    warnings.warn(\n\ncore/schemas/__init__.py:100\n  /Users/Zhuanz/Desktop/workspace/harnessOS/core/schemas/__init__.py:100: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/\n    class WorkflowTask(BaseModel):\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n73 passed, 5 warnings in 41.02s\n"
+}

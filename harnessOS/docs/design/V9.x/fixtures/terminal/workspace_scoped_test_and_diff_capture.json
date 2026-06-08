@@ -1,0 +1,11 @@
+{
+  "expected": {
+    "diff_capture": "PASS",
+    "readonly_command_transcript": "PASS",
+    "workspace_scope_guard": "PASS"
+  },
+  "fixture_id": "workspace_scoped_test_and_diff_capture",
+  "owner_stage": "V9-5",
+  "scenario": "Allow workspace-scoped readonly and test commands, then capture a proposal-only diff.",
+  "workspace_ref": "workspace://harnessOS"
+}

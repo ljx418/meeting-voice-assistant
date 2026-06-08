@@ -9,6 +9,7 @@ from tools.v9.common import ALLOWED_CLAIM_CONTEXT_MARKERS, FORBIDDEN_CLAIM_PATTE
 
 
 REPORT_PATH = V9_ROOT / "reports" / "v9_1_no_false_green_scan.json"
+SCAN_SUFFIXES = {".md", ".drawio", ".json", ".html", ".txt", ".log"}
 
 
 def main() -> int:
@@ -19,7 +20,7 @@ def main() -> int:
     hits: list[dict[str, Any]] = []
     violations: list[dict[str, Any]] = []
     for path in sorted(V9_ROOT.glob("**/*")):
-        if not path.is_file() or path.suffix not in {".md", ".drawio", ".json"}:
+        if not path.is_file() or path.suffix not in SCAN_SUFFIXES:
             continue
         if _excluded_scan_path(path):
             continue
@@ -54,6 +55,10 @@ def main() -> int:
 def _allowed_context(line: str, heading: str, path: Path) -> bool:
     if path.suffix == ".drawio":
         return any(marker.lower() in line.lower() for marker in ("禁止", "不能", "不得", "not ", "NO-GO", "停止", "warning", "未被升级", "才允许", "ready for review"))
+    if path.suffix in {".html", ".txt", ".log"}:
+        lowered = line.lower()
+        if any(marker in lowered for marker in ("禁止", "不得", "不能", "不是", "不声明", "不证明", "not ", "no-go", "forbidden", "blocked", "false", "ready for review", "reused to claim")):
+            return True
     blob = f"{heading}\n{line}"
     return any(marker.lower() in blob.lower() for marker in ALLOWED_CLAIM_CONTEXT_MARKERS)
 

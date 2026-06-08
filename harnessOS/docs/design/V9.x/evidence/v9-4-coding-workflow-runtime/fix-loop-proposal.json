@@ -1,0 +1,9 @@
+{
+  "created_at": "2026-06-08T08:17:58Z",
+  "creates_new_diff_proposal": true,
+  "fix_loop_ref": "fix-loop-ref://v9-4/coding-run-v9-4-d261da380ba3",
+  "next_diff_proposal_ref": "diff-proposal-ref://v9-4/bounded-coding-workflow/fix-loop-1",
+  "previous_diff_proposal_ref": "diff-proposal-ref://v9-4/bounded-coding-workflow",
+  "schema_version": "v9_4.fix_loop_proposal.v1",
+  "silently_edits_previous_artifact": false
+}

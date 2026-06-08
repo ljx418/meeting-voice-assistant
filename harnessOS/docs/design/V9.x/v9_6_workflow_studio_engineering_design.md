@@ -1,10 +1,10 @@
 # V9-6 Workflow Studio Engineering Design
 
-文档状态：V9-6 engineering design / planned only。
+文档状态：V9-6 engineering design / implementation complete for review。
 
 ## 1. Boundary
 
-Workflow Studio is a productization slice through BFF / DTO / read models. It cannot directly write WorkflowStore, WorkflowDraft, WorkflowVersion, WorkflowInstance, StationRun or Artifact.
+Workflow Studio is a productization slice through BFF / DTO / read models. It cannot directly write WorkflowStore, WorkflowDraft, WorkflowVersion, WorkflowInstance, StationRun or Artifact. The implemented V9-6 fixture proves the bounded read-model/productization slice only; it does not prove complete Workflow Studio readiness.
 
 ## 2. Panels
 

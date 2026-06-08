@@ -1,0 +1,32 @@
+{
+  "schema_version": "v9_4.fixture.coding_workflow.v1",
+  "fixture_id": "v9_4_small_code_change_proposal",
+  "expected_status": "ACCEPT_AS_READINESS_FIXTURE",
+  "runtime_backed": false,
+  "planning_only": true,
+  "coding_workflow_run": {
+    "coding_workflow_run_id": "coding-run-v9-4-readiness",
+    "source": "product_console",
+    "actor_type": "human_user",
+    "user_confirmed": true,
+    "human_authorization_ref": "human-auth://v9-4/readiness-fixture",
+    "intent_ref": "intent-ref://v9-4/small-code-change",
+    "spec_ref": "spec-ref://v9-4/small-code-change",
+    "plan_ref": "plan-ref://v9-4/small-code-change",
+    "diff_proposal_ref": "diff-proposal-ref://v9-4/small-code-change",
+    "test_plan_ref": "test-plan-ref://v9-4/small-code-change",
+    "sandboxed_test_result_ref": "test-result-ref://v9-4/small-code-change",
+    "review_summary_ref": "review-summary-ref://v9-4/small-code-change",
+    "fix_loop_ref": "fix-loop-ref://v9-4/small-code-change",
+    "human_review_handoff_ref": "handoff-ref://v9-4/small-code-change",
+    "proposal_only": true,
+    "patch_applied": false,
+    "auto_commit_performed": false,
+    "auto_push_performed": false,
+    "auto_deploy_performed": false,
+    "review_summary_is_approval": false,
+    "redaction_status": "PASS",
+    "claim_scan_status": "PASS",
+    "audit_ref": "audit://v9-4/fixture/small-code-change"
+  }
+}

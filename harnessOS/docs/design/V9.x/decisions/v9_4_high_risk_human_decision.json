@@ -1,0 +1,53 @@
+{
+  "schema_version": "v9.0",
+  "decision_ref": "v9-4-autonomous-coding-workflow-pilot-approved",
+  "stage_id": "V9-4",
+  "decision": "GO_FOR_IMPLEMENTATION",
+  "decision_owner": "human_required",
+  "required_reviewers": [
+    "human_high_risk_owner"
+  ],
+  "risk_class": "high",
+  "scope": "V9-4 bounded coding workflow pilot is approved only for generating coding workflow run evidence, diff proposal, sandboxed test result, review summary, fix-loop proposal, human review handoff, and denial evidence. Patch apply, auto commit, auto push, production deploy, source=agent durable mutation, V9-5 runtime implementation without a separate V9-5 decision, V9-8 final acceptance, and over-readiness claims remain blocked.",
+  "allowed_work": [
+    "coding_workflow_run_evidence",
+    "intent_capture",
+    "spec_draft",
+    "plan_draft",
+    "diff_proposal",
+    "test_plan_proposal",
+    "sandboxed_test_result",
+    "review_summary",
+    "fix_loop_proposal",
+    "human_review_handoff",
+    "git_operation_denial_evidence"
+  ],
+  "blocked_work": [
+    "patch_apply",
+    "auto_commit",
+    "auto_push",
+    "auto_deploy",
+    "git_commit",
+    "git_push",
+    "production_deploy",
+    "source_agent_durable_mutation",
+    "review_summary_as_approval",
+    "v9_5_runtime_implementation",
+    "v9_8_final_acceptance",
+    "autonomous_coding_workflow_ready_claim",
+    "agent_executor_ready_claim",
+    "unrestricted_terminal_worker_ready_claim"
+  ],
+  "created_at": "2026-06-07T10:10:00Z",
+  "expires_at": "2026-12-31T23:59:59Z",
+  "revoked": false,
+  "revoked_at": null,
+  "revocation_reason": null,
+  "evidence_refs": [
+    "docs/design/V9.x/evidence/v9-3-orchestration-runtime/acceptance-data.json",
+    "docs/design/V9.x/evidence/v9-4-readiness-closure/pre-implementation-data.json",
+    "docs/design/V9.x/v9_4_development_and_acceptance_plan.md"
+  ],
+  "audit_ref": "audit://v9-4/autonomous-coding-workflow-pilot-approved",
+  "correlation_id": "corr-v9-4-autonomous-coding-workflow-pilot-approved"
+}

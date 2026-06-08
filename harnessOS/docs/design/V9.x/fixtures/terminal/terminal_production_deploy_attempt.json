@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "production.deploy"
+  ],
+  "expected_denial_reason": "command_not_allowlisted",
+  "fixture_id": "terminal_production_deploy_attempt",
+  "owner_stage": "V9-5"
+}

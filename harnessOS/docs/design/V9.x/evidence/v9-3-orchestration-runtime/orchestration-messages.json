@@ -1,0 +1,112 @@
+[
+  {
+    "artifact_refs": [
+      "artifact-ref://v9-3/research-brief"
+    ],
+    "attempt_id": "attempt-research-1",
+    "audit_ref": "audit://v9-3/message/msg-research-task",
+    "branch_id": "branch-serial-research",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "message_id": "msg-research-task",
+    "message_kind": "task",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "payload_refs": [
+      "payload-ref://v9-3/msg-research-task"
+    ],
+    "receiver_agent_id": "agent-research",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9.0",
+    "sender_agent_id": "agent-synthesis",
+    "station_id": "station-research",
+    "station_run_id": "station-run-research"
+  },
+  {
+    "artifact_refs": [
+      "artifact-ref://v9-3/research-brief"
+    ],
+    "attempt_id": "attempt-research-1",
+    "audit_ref": "audit://v9-3/message/msg-research-result",
+    "branch_id": "branch-serial-research",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "message_id": "msg-research-result",
+    "message_kind": "result",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "payload_refs": [
+      "payload-ref://v9-3/msg-research-result"
+    ],
+    "receiver_agent_id": "agent-implementation",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9.0",
+    "sender_agent_id": "agent-research",
+    "station_id": "station-research",
+    "station_run_id": "station-run-research"
+  },
+  {
+    "artifact_refs": [
+      "artifact-ref://v9-3/implementation-proposal"
+    ],
+    "attempt_id": "attempt-implementation-2",
+    "audit_ref": "audit://v9-3/message/msg-implementation-result",
+    "branch_id": "branch-parallel-implementation",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "message_id": "msg-implementation-result",
+    "message_kind": "result",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "payload_refs": [
+      "payload-ref://v9-3/msg-implementation-result"
+    ],
+    "receiver_agent_id": "agent-synthesis",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9.0",
+    "sender_agent_id": "agent-implementation",
+    "station_id": "station-implementation",
+    "station_run_id": "station-run-implementation-retry"
+  },
+  {
+    "artifact_refs": [
+      "artifact-ref://v9-3/review-notes"
+    ],
+    "attempt_id": "attempt-review-1",
+    "audit_ref": "audit://v9-3/message/msg-review-result",
+    "branch_id": "branch-parallel-review",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "message_id": "msg-review-result",
+    "message_kind": "review",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "payload_refs": [
+      "payload-ref://v9-3/msg-review-result"
+    ],
+    "receiver_agent_id": "agent-synthesis",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9.0",
+    "sender_agent_id": "agent-review",
+    "station_id": "station-review",
+    "station_run_id": "station-run-review"
+  },
+  {
+    "artifact_refs": [
+      "artifact-ref://v9-3/synthesis"
+    ],
+    "attempt_id": "attempt-synthesis-1",
+    "audit_ref": "audit://v9-3/message/msg-synthesis-result",
+    "branch_id": "branch-fan-in",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "message_id": "msg-synthesis-result",
+    "message_kind": "synthesis",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "payload_refs": [
+      "payload-ref://v9-3/msg-synthesis-result"
+    ],
+    "receiver_agent_id": "agent-review",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9.0",
+    "sender_agent_id": "agent-synthesis",
+    "station_id": "station-synthesis",
+    "station_run_id": "station-run-synthesis"
+  }
+]

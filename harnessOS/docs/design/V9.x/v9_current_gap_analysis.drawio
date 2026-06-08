@@ -1,350 +1,221 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="11">
-  <diagram id="v9-page-1" name="01 总览">
-    <mxGraphModel dx="1580" dy="833" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+<mxfile host="Electron" version="29.6.6" type="device" pages="8">
+  <diagram id="v9-overview" name="01 总览：当前状态与主线">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
       <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p1-title" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" value="V9 高风险 Agent 执行与工作流产品化规划" vertex="1">
-          <mxGeometry height="70" width="1500" x="50" y="40" as="geometry" />
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title-1" value="V9 当前状态：V9-8 最终验收 PASS，US-V9-08 图像证据已补齐" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="80" y="40" width="1440" height="70" as="geometry"/>
         </mxCell>
-        <mxCell id="p1-base" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=17;fontStyle=1;" value="当前基线：V8 complete: station-agent workflow pilot ready for review&#xa;&#xa;只能解释为：每站 Agent、受控 handoff、证据链和可解释 TUI 的试点已可审。&#xa;&#xa;不能解释为：生产可用、Agent executor ready、完整多 Agent 编排、自主代码工作流、完整 Studio 或生产终端自动化。" vertex="1">
-          <mxGeometry height="300" width="620" x="90" y="160" as="geometry" />
+        <mxCell id="v8" value="V8 baseline&lt;br&gt;station-agent workflow pilot&lt;br&gt;ready for review&lt;br&gt;&lt;b&gt;不是 production ready&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="90" y="180" width="230" height="130" as="geometry"/>
         </mxCell>
-        <mxCell id="p1-goal" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=17;fontStyle=1;" value="V9 目标&#xa;&#xa;1. Agent Executor Safety Gate&#xa;2. Controlled Agent Executor Runtime&#xa;3. Multi-Agent Orchestration Runtime&#xa;4. Autonomous Coding Workflow Pilot&#xa;5. Governed Terminal Worker Expansion&#xa;6. Workflow Studio Productization&#xa;7. Production Governance / Evidence Hardening / Terminal Automation Gate" vertex="1">
-          <mxGeometry height="300" width="620" x="880" y="160" as="geometry" />
+        <mxCell id="v90" value="V9-0&lt;br&gt;Planning Gate&lt;br&gt;&lt;b&gt;complete_for_review&lt;/b&gt;&lt;br&gt;PRD / 架构 / gap / claim guard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="370" y="180" width="230" height="130" as="geometry"/>
         </mxCell>
-        <mxCell id="p1-rule" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=18;fontStyle=1;" value="V9 总规则：所有高风险动作必须经过 policy / capability / approval / evidence / rollback。默认不允许 source=agent 直接 durable mutation，不允许 unrestricted shell，不允许把 ready for review 改写为 ready。" vertex="1">
-          <mxGeometry height="140" width="1300" x="150" y="620" as="geometry" />
+        <mxCell id="v91" value="V9-1&lt;br&gt;Safety Gate&lt;br&gt;&lt;b&gt;PASS&lt;/b&gt;&lt;br&gt;policy validator / HAR validator&lt;br&gt;runtime_backed=false" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="650" y="180" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="v92" value="V9-2&lt;br&gt;Limited Controlled Runtime Slice&lt;br&gt;&lt;b&gt;PASS&lt;/b&gt;&lt;br&gt;real_runtime_fixture&lt;br&gt;4 个动作 only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="940" y="180" width="260" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="v93" value="V9-3 / V9-4 / V9-5&lt;br&gt;&lt;b&gt;PASS / complete_for_review&lt;/b&gt;&lt;br&gt;orchestration + coding workflow + terminal worker&lt;br&gt;均为 bounded pilot evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="180" width="240" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-v8-v90" edge="1" parent="1" source="v8" target="v90" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#666666;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-v90-v91" edge="1" parent="1" source="v90" target="v91" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#666666;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-v91-v92" edge="1" parent="1" source="v91" target="v92" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#666666;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-v92-v93" edge="1" parent="1" source="v92" target="v93" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#3d85c6;">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="current-evidence" value="当前证据引用&lt;br&gt;V9-1: safety gate acceptance-data.json&lt;br&gt;V9-2: controlled executor runtime acceptance-data.json&lt;br&gt;V9-3: orchestration runtime acceptance-data.json&lt;br&gt;V9-4: coding workflow acceptance-data.json&lt;br&gt;V9-5: terminal worker acceptance-data.json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="140" y="400" width="590" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="next-blockers" value="V9-8 当前证据&lt;br&gt;final dashboard 已生成且 status=PASS&lt;br&gt;US-V9-08 已有 4 张 provider-backed 分镜图 artifact&lt;br&gt;记录 provider/model/invocation refs 与 sha256&lt;br&gt;不得把 ready for review 写成 production ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="870" y="400" width="590" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="legend" value="图例：绿色=已有证据 ready for review；蓝色=下一候选；黄色=证据说明；红色=阻断/高风险/禁止过度声明。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="220" y="710" width="1160" height="80" as="geometry"/>
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="v9-page-2" name="02 目标架构">
+  <diagram id="v9-target-architecture" name="02 目标架构">
     <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
       <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p2-title" value="V9 目标架构：受控执行 + 编排 + Studio + 治理/证据/终端自动化门禁" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="40" width="1500" height="70" as="geometry" />
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title-2" value="V9 目标架构：高风险 Agent 执行与工作流产品化基线" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="80" y="40" width="1440" height="70" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-user" value="用户目标 / Studio / TUI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="650" y="140" width="300" height="70" as="geometry" />
+        <mxCell id="user-plane" value="用户入口&lt;br&gt;Mission TUI / Workflow Studio&lt;br&gt;目标、确认、审计、回看" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="120" y="180" width="260" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-blueprint" value="WorkflowSpec / Diff / Blueprint" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="650" y="250" width="300" height="70" as="geometry" />
+        <mxCell id="spec-plane" value="工作流语义层&lt;br&gt;WorkflowSpec / Diff / Blueprint&lt;br&gt;不是 runtime truth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="460" y="180" width="260" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-agent" value="Station Agent Operating Layer&#xa;AgentRegistry / Descriptor / Context / Memory" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="560" y="360" width="480" height="80" as="geometry" />
+        <mxCell id="agent-plane" value="Station Agent Operating Layer&lt;br&gt;AgentDescriptor / role / goal / memory&lt;br&gt;Skill / Tool / MCP binding" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="800" y="180" width="290" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-exec" value="Agent Execution Plane&#xa;ExecutionEnvelope / Policy / CapabilityResolver" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="120" y="520" width="390" height="100" as="geometry" />
+        <mxCell id="orchestration-plane" value="V9-3 OrchestrationCoordinator&lt;br&gt;serial / parallel / fan-out / fan-in&lt;br&gt;attempt history / recovery / lineage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cfe2f3;strokeColor=#3d85c6;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="180" width="300" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-orch" value="Multi-Agent Orchestration Plane&#xa;serial / parallel / fan-in / fan-out / failure recovery" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="605" y="520" width="390" height="100" as="geometry" />
+        <mxCell id="envelope-plane" value="AgentExecutionEnvelope&lt;br&gt;source / actor / target_refs&lt;br&gt;idempotency / redacted refs only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="180" y="410" width="280" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-terminal" value="Governed Terminal Worker Plane&#xa;sandbox / command tiers / transcript / diff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1090" y="520" width="390" height="100" as="geometry" />
+        <mxCell id="policy-plane" value="CapabilityResolver + Policy&lt;br&gt;deny-by-default&lt;br&gt;source=agent durable mutation denied" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="520" y="410" width="280" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-evidence" value="Runtime Report / Review Console / Evidence Chain&#xa;只读审计、attempt history、artifact lineage、incident timeline、human_authorization_ref" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#64748b;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="360" y="730" width="880" height="90" as="geometry" />
+        <mxCell id="approval-plane" value="HumanAuthorization / Approval&lt;br&gt;user_confirmed=true 或 valid HAR&lt;br&gt;高风险还需 approval gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="860" y="410" width="300" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-a1" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p2-user" target="p2-blueprint">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="runtime-plane" value="Controlled Runtime&lt;br&gt;V9-2 已有 4 动作 fixture&lt;br&gt;目标：后续受控扩展" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1230" y="410" width="280" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-a2" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p2-blueprint" target="p2-agent">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="coding-plane" value="V9-4 Coding Workflow Runtime&lt;br&gt;plan / diff / test / review / fix-loop&lt;br&gt;no auto commit / push / deploy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="160" y="650" width="340" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-a3" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p2-agent" target="p2-exec">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="terminal-plane" value="V9-5 Governed Terminal Worker&lt;br&gt;workspace sandbox / command tiers&lt;br&gt;not unrestricted shell" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="620" y="650" width="340" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-a4" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p2-agent" target="p2-orch">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="evidence-plane" value="Runtime Report / Review Console / Evidence Chain&lt;br&gt;只读审计视图&lt;br&gt;不构造 runtime truth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="650" width="360" height="120" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-a5" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p2-agent" target="p2-terminal">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="e1" edge="1" parent="1" source="user-plane" target="spec-plane" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="spec-plane" target="agent-plane" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="agent-plane" target="orchestration-plane" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="orchestration-plane" target="envelope-plane" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="envelope-plane" target="policy-plane" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="policy-plane" target="approval-plane" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="approval-plane" target="runtime-plane" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="runtime-plane" target="evidence-plane" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v9-gap" name="03 当前架构差异">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title-3" value="当前架构差异：V9-1 到 V9-8 已形成 ready-for-review 证据闭环" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="80" y="40" width="1440" height="70" as="geometry"/>
         </mxCell>
-        <mxCell id="p2-a6" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p2-orch" target="p2-evidence">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="done-box" value="已完成 / 可审计&lt;br&gt;V9-1 Safety Gate validators&lt;br&gt;V9-2 四动作 limited runtime fixture&lt;br&gt;V9-3 orchestration runtime fixture&lt;br&gt;V9-4 coding workflow runtime fixture&lt;br&gt;V9-5 terminal worker fixture&lt;br&gt;V9-6 Studio BFF/DTO fixture&lt;br&gt;V9-7 governance/evidence hardening fixture&lt;br&gt;No False Green / Redaction PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="110" y="170" width="410" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="current-boundary" value="当前禁止解释为&lt;br&gt;不得解释为 Agent executor ready&lt;br&gt;不得解释为 controlled executor ready&lt;br&gt;不得解释为 production controlled executor ready&lt;br&gt;不得解释为 full orchestration ready&lt;br&gt;不得解释为 complete Workflow Studio ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="595" y="170" width="410" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="missing-box" value="已补齐目标切片&lt;br&gt;V9-8 final dashboard status=PASS&lt;br&gt;US-V9-08 provider-backed image artifacts=4&lt;br&gt;provider/model/invocation refs 已记录&lt;br&gt;不得把 Studio pilot 说成 complete Workflow Studio ready&lt;br&gt;不得把 V9 final 说成 production ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="170" width="410" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="v93-detail" value="V9-3 已闭环&lt;br&gt;v9_3_development_and_acceptance_plan.md&lt;br&gt;v9_3_*.schema.json&lt;br&gt;serial/parallel/fan-in/fan-out fixture&lt;br&gt;recovery + lineage evidence&lt;br&gt;runtime evidence PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="120" y="520" width="360" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="v94-detail" value="V9-4 已补齐&lt;br&gt;goal - plan - diff proposal&lt;br&gt;sandboxed test run&lt;br&gt;review summary&lt;br&gt;fix-loop proposal&lt;br&gt;no auto commit / push / deploy / patch apply" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="620" y="520" width="360" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="v98-detail" value="V9-8 已验证&lt;br&gt;V9-0..V9-7 evidence summary&lt;br&gt;无 FAIL / BLOCKED&lt;br&gt;高风险 decision refs&lt;br&gt;claim scan PASS&lt;br&gt;redaction PASS&lt;br&gt;drawio XML valid" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="520" width="360" height="230" as="geometry"/>
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="v9-page-3" name="03 当前差异">
+  <diagram id="v9-plan" name="04 开发及验收计划">
     <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
       <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p3-title" value="V8 当前架构与 V9 目标差异" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="40" width="1500" height="70" as="geometry" />
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title-4" value="V9 开发及验收计划：V9-8 validator 已 PASS，最终声明限 ready for review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="80" y="40" width="1440" height="70" as="geometry"/>
         </mxCell>
-        <mxCell id="p3-v8" value="V8 已有&#xa;1. StationAgentDescriptor&#xa;2. per-station role / goal / memory / skill / MCP&#xa;3. V8-4 real runtime fixture&#xa;4. V8-6 readonly terminal handoff&#xa;5. V8-7 bounded multi-Agent project workflow&#xa;6. V8-8 explainability TUI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="90" y="170" width="430" height="450" as="geometry" />
+        <mxCell id="p3" value="V9-3&lt;br&gt;Orchestration Runtime&lt;br&gt;PASS / complete_for_review&lt;br&gt;serial / parallel / fan-in / fan-out / recovery / lineage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1"><mxGeometry x="90" y="210" width="240" height="140" as="geometry"/></mxCell>
+        <mxCell id="p4" value="V9-4&lt;br&gt;Autonomous Coding Workflow Pilot&lt;br&gt;PASS / complete_for_review&lt;br&gt;diff/test/review/fix-loop&lt;br&gt;no auto commit / push / deploy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1"><mxGeometry x="390" y="210" width="240" height="140" as="geometry"/></mxCell>
+        <mxCell id="p5" value="V9-5&lt;br&gt;Terminal Worker Expansion&lt;br&gt;PASS / complete_for_review&lt;br&gt;workspace-scoped command tiers&lt;br&gt;transcript + diff capture + denial evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1"><mxGeometry x="690" y="210" width="240" height="140" as="geometry"/></mxCell>
+        <mxCell id="p6" value="V9-6&lt;br&gt;Workflow Studio Productization&lt;br&gt;PASS / complete_for_review&lt;br&gt;BFF/DTO + browser denylist&lt;br&gt;read-only panels + WorkflowDiff proposal" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1"><mxGeometry x="990" y="210" width="240" height="140" as="geometry"/></mxCell>
+        <mxCell id="p7" value="V9-7&lt;br&gt;Governance / Evidence Hardening&lt;br&gt;PASS / complete_for_review&lt;br&gt;tenant + credential + audit + incident&lt;br&gt;not production automation ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1"><mxGeometry x="1290" y="210" width="240" height="140" as="geometry"/></mxCell>
+        <mxCell id="p8" value="V9-8&lt;br&gt;Final Acceptance Validator&lt;br&gt;PASS&lt;br&gt;US-V9-08 provider image evidence recorded&lt;br&gt;final ready-for-review claim allowed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1"><mxGeometry x="680" y="520" width="260" height="150" as="geometry"/></mxCell>
+        <mxCell id="pe34" edge="1" parent="1" source="p3" target="p4" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe45" edge="1" parent="1" source="p4" target="p5" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe56" edge="1" parent="1" source="p5" target="p6" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe67" edge="1" parent="1" source="p6" target="p7" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="pe78" edge="1" parent="1" source="p7" target="p8" style="endArrow=block;html=1;strokeWidth=2;"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="acceptance-loop" value="每个子阶段固定闭环&lt;br&gt;1. PRD 规格检视&lt;br&gt;2. 开发及验收计划冻结&lt;br&gt;3. 实现 / fixture / evidence&lt;br&gt;4. E2E 技术验收&lt;br&gt;5. 用户场景验收&lt;br&gt;6. No False Green + redaction scan&lt;br&gt;7. 若偏差大则回到计划阶段" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="170" y="520" width="360" height="210" as="geometry"/>
         </mxCell>
-        <mxCell id="p3-gap" value="V9 缺口&#xa;1. AgentExecutionEnvelope&#xa;2. HumanAuthorizationRef&#xa;3. Controlled Agent Executor&#xa;4. 串并行编排恢复&#xa;5. 自主代码开发 loop&#xa;6. terminal write sandbox&#xa;7. Studio editor / inspector / BFF&#xa;8. governance / evidence / terminal automation gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="590" y="170" width="430" height="450" as="geometry" />
-        </mxCell>
-        <mxCell id="p3-risk" value="风险分类&#xa;高风险：Agent executor、multi-Agent orchestration、coding workflow、terminal write sandbox&#xa;&#xa;关键风险：production terminal automation、credential lease、browser account automation&#xa;&#xa;中风险：Studio productization、BFF/browser denylist、UI false-green copy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1090" y="170" width="430" height="450" as="geometry" />
+        <mxCell id="stop-loop" value="停止条件&lt;br&gt;过度声明&lt;br&gt;runtime evidence 缺失&lt;br&gt;source=agent mutation 被允许&lt;br&gt;raw secret / prompt / artifact 泄露&lt;br&gt;高风险阶段缺人工 decision" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="520" width="360" height="210" as="geometry"/>
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="v9-page-4" name="04 开发计划">
+  <diagram id="v9-milestone" name="05 项目里程碑 M0-M8">
     <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
       <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p4-title" value="V9 开发计划与阶段依赖" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="40" width="1500" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="p4-s0" value="V9-0&#xa;规划与高风险边界&#xa;planning gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="80" y="170" width="190" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="p4-s1" value="V9-1&#xa;Agent Executor Safety Gate&#xa;contract audit / implementation NO-GO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="330" y="170" width="210" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="p4-s2" value="V9-2&#xa;Controlled Agent Executor&#xa;runtime slice" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="600" y="170" width="220" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="p4-s3" value="V9-3&#xa;Multi-Agent Orchestration&#xa;runtime slice" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="880" y="170" width="220" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="p4-s4" value="V9-4&#xa;Autonomous Coding Workflow&#xa;pilot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1160" y="170" width="240" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="p4-s5" value="V9-5&#xa;Governed Terminal Worker&#xa;expansion" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="220" y="430" width="240" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="p4-s6" value="V9-6&#xa;Workflow Studio&#xa;productization slice" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="430" width="240" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="p4-s7" value="V9-7&#xa;Production Governance / Evidence Hardening&#xa;+ Terminal Automation Gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="860" y="430" width="260" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="p4-s8" value="V9-8&#xa;Final Acceptance&#xa;evidence aggregation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1200" y="430" width="240" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="p4-rule" value="实现顺序：先冻结安全合同，再做受控执行；先证明 controlled Agent executor，再做完整编排和自主代码工作流；Studio 与终端自动化不能绕过 runtime truth 和人工确认边界。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=17;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="160" y="720" width="1280" height="120" as="geometry" />
-        </mxCell>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title-5" value="V9 项目里程碑：M0-M7 完成 review baseline，M8 当前最终验收候选" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1"><mxGeometry x="80" y="40" width="1440" height="70" as="geometry"/></mxCell>
+        <mxCell id="m0" value="M0 / V9-0&lt;br&gt;Planning Gate&lt;br&gt;complete_for_review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1"><mxGeometry x="90" y="170" width="150" height="110" as="geometry"/></mxCell>
+        <mxCell id="m1" value="M1 / V9-1&lt;br&gt;Safety Gate&lt;br&gt;PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1"><mxGeometry x="260" y="170" width="150" height="110" as="geometry"/></mxCell>
+        <mxCell id="m2" value="M2 / V9-2&lt;br&gt;Limited Runtime&lt;br&gt;PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1"><mxGeometry x="430" y="170" width="150" height="110" as="geometry"/></mxCell>
+        <mxCell id="m3" value="M3 / V9-3&lt;br&gt;Orchestration&lt;br&gt;PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1"><mxGeometry x="600" y="170" width="150" height="110" as="geometry"/></mxCell>
+        <mxCell id="m4" value="M4 / V9-4&lt;br&gt;Coding Workflow&lt;br&gt;PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1"><mxGeometry x="770" y="170" width="150" height="110" as="geometry"/></mxCell>
+        <mxCell id="m5" value="M5 / V9-5&lt;br&gt;Terminal Worker&lt;br&gt;PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1"><mxGeometry x="940" y="170" width="150" height="110" as="geometry"/></mxCell>
+        <mxCell id="m6" value="M6 / V9-6&lt;br&gt;Studio&lt;br&gt;PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1"><mxGeometry x="1110" y="170" width="150" height="110" as="geometry"/></mxCell>
+        <mxCell id="m7" value="M7 / V9-7&lt;br&gt;Governance&lt;br&gt;PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1"><mxGeometry x="1280" y="170" width="150" height="110" as="geometry"/></mxCell>
+        <mxCell id="m8" value="M8 / V9-8&lt;br&gt;Final Acceptance&lt;br&gt;PASS with US-V9-08" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1"><mxGeometry x="680" y="420" width="210" height="120" as="geometry"/></mxCell>
+        <mxCell id="milestone-exit" value="最终出门条件&lt;br&gt;M0-M7 evidence packages exist&lt;br&gt;No FAIL / BLOCKED&lt;br&gt;high-risk decision refs exist&lt;br&gt;No False Green PASS&lt;br&gt;Redaction PASS&lt;br&gt;Drawio XML valid" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;" vertex="1" parent="1"><mxGeometry x="440" y="650" width="720" height="170" as="geometry"/></mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="v9-page-5" name="05 验收门槛">
+  <diagram id="v9-acceptance" name="06 验收门槛">
     <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
       <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p5-title" value="V9 验收门槛与停止条件" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="40" width="1500" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="p5-pass" value="必须证明&#xa;1. AgentExecutionEnvelope evidence&#xa;2. CapabilityResolver decision&#xa;3. user_confirmed=true 或 human_authorization_ref&#xa;4. kill switch / timeout / rollback&#xa;5. attempt history and artifact lineage&#xa;6. fan-in / fan-out / failure recovery&#xa;7. coding diff / test / review loop&#xa;8. Studio BFF and browser denylist&#xa;9. redaction and claim scan PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="90" y="170" width="440" height="430" as="geometry" />
-        </mxCell>
-        <mxCell id="p5-stop" value="停止条件&#xa;1. source=agent 默认 durable mutation&#xa;2. durable mutation 缺少 user_confirmed / human_authorization_ref&#xa;3. ready for review 被写成 ready&#xa;4. terminal worker 变成 unrestricted shell&#xa;5. Studio 直接写 runtime truth&#xa;6. raw secret / raw prompt 泄露&#xa;7. auto commit / push / deploy 无审批&#xa;8. V9-8 在 evidence 缺失时执行" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="600" y="170" width="440" height="430" as="geometry" />
-        </mxCell>
-        <mxCell id="p5-claim" value="允许最终声明&#xa;V9 complete: high-risk Agent execution and workflow productization baseline ready for review.&#xa;&#xa;禁止改写为&#xa;production ready&#xa;Agent executor ready&#xa;full multi-Agent orchestration ready&#xa;autonomous coding workflow ready&#xa;complete Workflow Studio ready&#xa;unrestricted terminal worker ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=16;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1110" y="170" width="400" height="430" as="geometry" />
-        </mxCell>
-        <mxCell id="p5-cmd" value="验收命令规划&#xa;xmllint --noout docs/design/V9.x/v9_current_gap_analysis.drawio&#xa;rg forbidden claims docs/design/V9.x&#xa;未来各阶段：pytest tests/test_v9_*.py -q + stage-specific E2E evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=16;" vertex="1" parent="1">
-          <mxGeometry x="230" y="720" width="1140" height="130" as="geometry" />
-        </mxCell>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title-6" value="V9 验收门槛：真实证据优先，文档不能冒充 runtime evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1"><mxGeometry x="80" y="40" width="1440" height="70" as="geometry"/></mxCell>
+        <mxCell id="gate-v92" value="V9-2 已通过门槛&lt;br&gt;policy / capability PASS&lt;br&gt;valid HAR 或 user_confirmed&lt;br&gt;approval for artifact/quality&lt;br&gt;kill switch / idempotency / timeout / rollback&lt;br&gt;redacted execution evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1"><mxGeometry x="120" y="170" width="380" height="210" as="geometry"/></mxCell>
+        <mxCell id="gate-v93" value="V9-3 必须通过&lt;br&gt;schema parse PASS&lt;br&gt;fixture parse PASS&lt;br&gt;serial / parallel runtime evidence&lt;br&gt;fan-out / fan-in runtime evidence&lt;br&gt;failure + lost worker recovery&lt;br&gt;attempt history retained&lt;br&gt;artifact lineage producer_agent_id / producer_attempt_id" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cfe2f3;strokeColor=#3d85c6;fontSize=16;" vertex="1" parent="1"><mxGeometry x="610" y="170" width="380" height="210" as="geometry"/></mxCell>
+        <mxCell id="gate-v94" value="V9-4 已通过门槛&lt;br&gt;diff proposal not patch apply&lt;br&gt;sandboxed test result&lt;br&gt;review summary not approval&lt;br&gt;fix-loop creates new proposal&lt;br&gt;no auto commit / push / deploy / patch apply" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1"><mxGeometry x="1100" y="170" width="380" height="210" as="geometry"/></mxCell>
+        <mxCell id="global-gates" value="全局验收硬门槛&lt;br&gt;source=agent default durable mutation always denied&lt;br&gt;durable mutation requires user_confirmed=true OR valid human_authorization_ref&lt;br&gt;Evidence Chain / Runtime Report read-only&lt;br&gt;raw secret / raw prompt / raw artifact content forbidden&lt;br&gt;No False Green claim scan PASS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;" vertex="1" parent="1"><mxGeometry x="240" y="500" width="520" height="230" as="geometry"/></mxCell>
+        <mxCell id="blocked-gates" value="阻断门槛&lt;br&gt;任何 forbidden claim 出现在正向完成语境&lt;br&gt;planning docs 被当作 runtime evidence&lt;br&gt;source=agent mutation 被允许&lt;br&gt;高风险阶段缺 human decision&lt;br&gt;证据缺失仍声明 complete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;" vertex="1" parent="1"><mxGeometry x="850" y="500" width="520" height="230" as="geometry"/></mxCell>
+        <mxCell id="user-scenario-gate" value="用户场景验收门槛 / V9-8 P0&lt;br&gt;每个阶段必须有可打开看板或报告&lt;br&gt;用户能看到目标、Agent 分工、运行状态、产物和证据链&lt;br&gt;runtime-backed 场景必须引用 real_runtime_fixture 或 real_runtime evidence&lt;br&gt;planning docs / transcript-only / report-only 不得满足 runtime-backed PASS&lt;br&gt;缺用户场景证据时 V9-8 BLOCKED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;" vertex="1" parent="1"><mxGeometry x="530" y="760" width="540" height="170" as="geometry"/></mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="v9-page-6" name="06 出门条件">
+  <diagram id="v9-exit" name="07 出门条件与 No False Green">
     <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
       <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p6-title" value="V9 出门条件与人工高风险确认" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="40" width="1500" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="p6-human" value="需要人工高风险确认&#xa;V9-1 Agent executor safety gate&#xa;V9-2 controlled Agent executor runtime&#xa;V9-4 autonomous coding workflow&#xa;V9-5 terminal worker write sandbox&#xa;V9-7 production governance / evidence hardening / terminal automation gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=17;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="100" y="180" width="620" height="310" as="geometry" />
-        </mxCell>
-        <mxCell id="p6-exit" value="V9-8 出门条件&#xa;1. V9-0..V9-7 evidence exists&#xa;2. 无 FAIL / BLOCKED&#xa;3. high-risk decisions recorded&#xa;4. claim scan PASS&#xa;5. redaction PASS&#xa;6. drawio XML valid&#xa;7. V8 baseline 未被升级为 production ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=17;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="880" y="180" width="620" height="310" as="geometry" />
-        </mxCell>
-        <mxCell id="p6-next" value="V9 完成后可进入下一阶段：production hardening / GA readiness。&#xa;但只有在 production auth、tenant isolation、credential lifecycle、observability、incident response、external app onboarding 和 security review 全部通过后，才允许讨论 production ready。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=18;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="160" y="680" width="1280" height="130" as="geometry" />
-        </mxCell>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title-7" value="V9 出门条件：只能声明 ready for review，不得升级为生产完成态" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1"><mxGeometry x="80" y="40" width="1440" height="70" as="geometry"/></mxCell>
+        <mxCell id="allowed" value="最终允许声明&lt;br&gt;V9 complete: high-risk Agent execution and workflow productization baseline ready for review.&lt;br&gt;&lt;br&gt;该声明需要：V9-0..V9-7 evidence packages、用户场景验收 PASS 或已记录 accepted PARTIAL、无 FAIL/BLOCKED、claim scan PASS、redaction PASS、drawio XML valid。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=16;" vertex="1" parent="1"><mxGeometry x="120" y="170" width="600" height="230" as="geometry"/></mxCell>
+        <mxCell id="forbidden" value="禁止解释为&lt;br&gt;production ready&lt;br&gt;full production GA&lt;br&gt;Agent executor ready&lt;br&gt;controlled executor ready&lt;br&gt;production controlled executor ready&lt;br&gt;full multi-Agent orchestration ready&lt;br&gt;autonomous coding workflow ready&lt;br&gt;complete Workflow Studio ready&lt;br&gt;unrestricted terminal worker ready&lt;br&gt;production terminal automation ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=16;" vertex="1" parent="1"><mxGeometry x="880" y="170" width="600" height="300" as="geometry"/></mxCell>
+        <mxCell id="review-paths" value="给外部审计的最小路径&lt;br&gt;00_README.md&lt;br&gt;v9_target_prd.md&lt;br&gt;v9_target_architecture.md&lt;br&gt;v9_current_gap_analysis.md / drawio&lt;br&gt;v9_development_and_acceptance_plan.md&lt;br&gt;v9_milestone_roadmap.md&lt;br&gt;v9_acceptance_gate_matrix.md&lt;br&gt;v9_document_audit_report.md&lt;br&gt;V9-1 / V9-2 evidence JSON" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;" vertex="1" parent="1"><mxGeometry x="170" y="570" width="510" height="260" as="geometry"/></mxCell>
+        <mxCell id="final-blockers" value="V9-8 当前结论&lt;br&gt;final dashboard 已生成：status=PASS&lt;br&gt;US-V9-08 provider-backed image evidence recorded&lt;br&gt;4 张分镜图 artifact refs 与 sha256 已记录&lt;br&gt;claim / redaction / drawio gates PASS&lt;br&gt;允许 V9 ready-for-review final claim" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=16;" vertex="1" parent="1"><mxGeometry x="910" y="570" width="510" height="260" as="geometry"/></mxCell>
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="v9-page-7" name="07 M0-M8 里程碑">
+  <diagram id="v9-user-scenario-gate" name="08 用户场景验收门槛">
     <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
       <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p7-title" value="V9 M0-M8 里程碑、证据范围与出门声明" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="40" width="1500" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="p7-m0" value="M0 / V9-0&#xa;规划与高风险边界&#xa;evidence: planning_gate&#xa;claim: V9-0 ready for review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="70" y="150" width="300" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p7-m1" value="M1 / V9-1&#xa;Agent Executor Safety Gate&#xa;evidence: contract_freeze&#xa;claim: safety gate ready for review&#xa;runtime implementation: NO-GO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="460" y="150" width="300" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p7-m2" value="M2 / V9-2&#xa;Controlled Agent Executor&#xa;evidence: controlled_runtime_slice&#xa;hard gate: user_confirmed OR human_authorization_ref" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="850" y="150" width="300" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p7-m3" value="M3 / V9-3&#xa;Multi-Agent Orchestration&#xa;evidence: serial / parallel / fan-in / fan-out / recovery / lineage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1240" y="150" width="300" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p7-m4" value="M4 / V9-4&#xa;Autonomous Coding Workflow Pilot&#xa;evidence: diff / test / review / fix loop&#xa;stop: no auto commit / push / deploy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="70" y="360" width="300" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p7-m5" value="M5 / V9-5&#xa;Governed Terminal Worker Expansion&#xa;evidence: sandbox / command tiers / transcript / diff&#xa;not unrestricted shell" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="460" y="360" width="300" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p7-m6" value="M6 / V9-6&#xa;Workflow Studio Productization&#xa;evidence: BFF / DTO / browser denylist&#xa;separate Studio PRD before implementation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="850" y="360" width="300" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p7-m7" value="M7 / V9-7&#xa;Production Governance / Evidence Hardening&#xa;+ Terminal Automation Gate&#xa;evidence: design / incident / credential / approval&#xa;not production automation ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=13;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1240" y="360" width="300" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="p7-m8" value="M8 / V9-8&#xa;Final Acceptance&#xa;evidence: V9-0..V9-7 packages + claim scan + redaction + drawio XML&#xa;claim: V9 baseline ready for review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="430" y="630" width="740" height="130" as="geometry" />
-        </mxCell>
-        <mxCell id="p7-note" value="出门注意：M1 只允许进入合同审计，不等于 runtime implementation approval；M8 不允许把 baseline ready for review 改写为 production ready / Agent executor ready / full orchestration ready。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=17;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="180" y="830" width="1240" height="90" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-  <diagram id="v9-page-8" name="08 实现前规格闭环">
-    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p8-title" value="V9 实现前规格闭环：规划文档不能直接替代运行时证据" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="40" width="1500" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="p8-auth" value="共享合同&#xa;HumanAuthorizationRef&#xa;issuer / scope / expiry / operation_hash / target_refs / revocation / audit_ref&#xa;&#xa;硬规则：durable mutation 需要 user_confirmed=true 或 valid human_authorization_ref" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="70" y="150" width="470" height="210" as="geometry" />
-        </mxCell>
-        <mxCell id="p8-v92" value="V9-2 Controlled Executor Spec&#xa;action allowlist / state transition / append-only evidence / redaction / negative tests&#xa;&#xa;不得：source=agent direct mutation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="590" y="150" width="420" height="210" as="geometry" />
-        </mxCell>
-        <mxCell id="p8-v93" value="V9-3 Orchestration Spec&#xa;serial / parallel / fan-in / fan-out / lost worker recovery / attempt history / producer_agent_id / producer_attempt_id" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1060" y="150" width="470" height="210" as="geometry" />
-        </mxCell>
-        <mxCell id="p8-v94" value="V9-4 Coding Workflow Spec&#xa;diff / test / review / fix loop&#xa;&#xa;停止：no auto commit / auto push / auto deploy / unreviewed patch apply" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="70" y="430" width="470" height="210" as="geometry" />
-        </mxCell>
-        <mxCell id="p8-v956" value="V9-5 / V9-6 Specs&#xa;Terminal Worker：command tiers / filesystem / network / secret policy / diff capture&#xa;Studio：separate PRD / BFF / DTO / browser denylist / no runtime truth write" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="590" y="430" width="420" height="210" as="geometry" />
-        </mxCell>
-        <mxCell id="p8-v978" value="V9-7 / V9-8 Specs&#xa;Governance + evidence hardening + terminal automation gate&#xa;Final acceptance 只能在 V9-0..V9-7 evidence packages 存在后执行" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1060" y="430" width="470" height="210" as="geometry" />
-        </mxCell>
-        <mxCell id="p8-note" value="当前允许：V9-1 contract audit / implementation-readiness audit；P0 schema / fixture / evidence package 外部审计。&#xa;当前禁止：V9-1 runtime implementation、把 planned specs 当 runtime evidence、声明 Agent executor ready / production ready / full orchestration ready。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=17;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="170" y="760" width="1260" height="120" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-  <diagram id="v9-page-9" name="09 P0 Schema Fixture Evidence">
-    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p9-title" value="V9 P0 Implementation Package：Schema / Fixture / Evidence / CI" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="40" width="1500" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="p9-schema" value="Machine-readable Schemas&#xa;AgentExecutionPolicy&#xa;AgentExecutionEnvelope&#xa;HumanAuthorizationRef&#xa;CapabilityResolverDecision&#xa;ExecutionEvidence&#xa;OrchestrationMessage&#xa;ArtifactLineageRecord&#xa;EvidencePackage&#xa;FinalAcceptanceDashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="80" y="160" width="390" height="390" as="geometry" />
-        </mxCell>
-        <mxCell id="p9-fixture" value="Negative Fixtures&#xa;source_agent_durable_mutation&#xa;expired_human_authorization_ref&#xa;raw_secret_in_evidence&#xa;artifact_lineage_missing_producer_attempt&#xa;&#xa;Evidence Samples&#xa;V9-1 contract_freeze sample&#xa;V9-8 planning-only reject sample" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="600" y="160" width="390" height="390" as="geometry" />
-        </mxCell>
-        <mxCell id="p9-validator" value="Validator / CI Gate&#xa;/usr/bin/python3 -m json.tool schemas/*.json&#xa;/usr/bin/python3 -m json.tool fixtures/**/*.json&#xa;xmllint drawio&#xa;rg forbidden claims&#xa;redaction scan&#xa;&#xa;规则：schema 和 fixture 支撑实现前审计，不等于 runtime evidence。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1120" y="160" width="390" height="390" as="geometry" />
-        </mxCell>
-        <mxCell id="p9-note" value="P0 包用途：让 V9-1 到 V9-4 的开发前审计可机器校验。&#xa;P0 包边界：不能让 V9-1 runtime implementation 自动变成 GO，也不能让 V9-8 从 planning docs alone 执行。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=18;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="160" y="700" width="1280" height="130" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-  <diagram id="v9-page-10" name="10 V9-1 到 V9-4 开发前门禁">
-    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p10-title" value="V9-1 到 V9-4：Audit PASS 与 Runtime PASS 的边界" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="40" width="1500" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="p10-v91" value="V9-1&#xa;External Implementation-Readiness Audit: GO&#xa;&#xa;需要：contract + schema + fixture + No False Green&#xa;&#xa;Runtime implementation: NO-GO until external audit accepted + human decision" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="70" y="160" width="330" height="260" as="geometry" />
-        </mxCell>
-        <mxCell id="p10-v92" value="V9-2&#xa;Controlled Executor Runtime&#xa;NO-GO until V9-1 PASS&#xa;&#xa;硬门禁：user_confirmed=true OR valid human_authorization_ref&#xa;source=agent default durable mutation denied" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="450" y="160" width="330" height="260" as="geometry" />
-        </mxCell>
-        <mxCell id="p10-v93" value="V9-3&#xa;Multi-Agent Orchestration Runtime&#xa;NO-GO until V9-2 PASS&#xa;&#xa;必须证明：serial / parallel / fan-in / fan-out / lost worker recovery / lineage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="830" y="160" width="330" height="260" as="geometry" />
-        </mxCell>
-        <mxCell id="p10-v94" value="V9-4&#xa;Autonomous Coding Workflow&#xa;NO-GO until V9-2 + V9-3 PASS&#xa;&#xa;必须证明：diff / test / review / fix loop&#xa;停止：auto commit / push / deploy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1210" y="160" width="330" height="260" as="geometry" />
-        </mxCell>
-        <mxCell id="p10-evidence" value="每阶段 Runtime PASS 必须有：runtime-backed evidence package、test results、redaction PASS、claim scan PASS、human decision refs（高风险阶段）、audit_ref 和 correlation_id。&#xa;&#xa;Audit PASS 只证明设计可开工；Runtime PASS 才证明功能完成。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=18;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="150" y="620" width="1300" height="150" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-  <diagram id="v9-page-11" name="11 关键架构变更审计图">
-    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="p11-title" value="V9 关键架构变更审计图：从 Agent Proposal 到受控 Runtime Evidence" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#111827;fontColor=#ffffff;fontSize=26;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="50" y="40" width="1500" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-agent" value="Station Agent&#xa;role / goal / memory / tools / skills / MCP&#xa;&#xa;只能 propose / handoff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="70" y="180" width="260" height="150" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-env" value="AgentExecutionEnvelope&#xa;operation / source / actor / target_refs / payload_refs&#xa;&#xa;request evidence, not runtime truth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="410" y="180" width="300" height="150" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-cap" value="CapabilityResolver&#xa;deny-by-default&#xa;policy / source / operation / scope&#xa;&#xa;source=agent durable mutation denied" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="790" y="180" width="300" height="150" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-auth" value="HumanAuthorizationRef / ApprovalGate&#xa;issuer / expiry / operation_hash / target_refs&#xa;&#xa;durable mutation requires user_confirmed OR valid ref" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1170" y="180" width="330" height="150" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-exec" value="Controlled Runtime / Executor Slice&#xa;allowlisted actions only&#xa;kill switch / timeout / idempotency / rollback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="350" y="480" width="340" height="150" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-orch" value="OrchestrationCoordinator&#xa;serial / parallel / fan-in / fan-out&#xa;attempt history / recovery / artifact lineage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="760" y="480" width="340" height="150" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-evidence" value="EvidencePackageValidator&#xa;runtime-backed evidence only&#xa;redaction / claim scan / drawio XML&#xa;&#xa;planning docs cannot count as runtime evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="1170" y="480" width="330" height="150" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-a1" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p11-agent" target="p11-env">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-a2" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p11-env" target="p11-cap">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-a3" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p11-cap" target="p11-auth">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-a4" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p11-auth" target="p11-exec">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-a5" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p11-exec" target="p11-orch">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-a6" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;" edge="1" parent="1" source="p11-orch" target="p11-evidence">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="p11-note" value="审计重点：Envelope 不是 runtime truth；Evidence Chain / Runtime Report 只读；Studio/BFF 不能绕过 CapabilityResolver；V9-8 不能在 V9-0..V9-7 evidence 缺失时执行。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=17;fontStyle=1;" vertex="1" parent="1">
-          <mxGeometry x="170" y="790" width="1260" height="90" as="geometry" />
-        </mxCell>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title-8" value="V9 用户场景验收门槛：当前能力、阶段目标体验、创意工作流验收" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=24;fontStyle=1;align=center;" vertex="1" parent="1"><mxGeometry x="70" y="30" width="1460" height="60" as="geometry"/></mxCell>
+        <mxCell id="current-capability" value="当前已能体验 / V9-2 PASS&lt;br&gt;打开 controlled runtime dashboard&lt;br&gt;审查 4 类受控动作：start / rerun / artifact.write / quality.evaluation.create&lt;br&gt;看到 policy、HumanAuthorizationRef、approval、kill switch、evidence chain&lt;br&gt;确认 source=agent durable mutation 被拒绝" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=15;" vertex="1" parent="1"><mxGeometry x="80" y="120" width="450" height="170" as="geometry"/></mxCell>
+        <mxCell id="v93-target" value="V9-3 完成后的目标体验&lt;br&gt;自然语言触发多 Agent 编排 runtime slice&lt;br&gt;用户看到 station-bound Agents、串行/并行、fan-out/fan-in、attempt history、artifact lineage、失败恢复&lt;br&gt;输出 runtime dashboard + Evidence Chain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cfe2f3;strokeColor=#3d85c6;fontSize=15;" vertex="1" parent="1"><mxGeometry x="570" y="120" width="450" height="170" as="geometry"/></mxCell>
+        <mxCell id="v9-final-target" value="V9 全阶段目标体验&lt;br&gt;目标输入 -&gt; 工作流/Agent 分工 -&gt; 用户确认 -&gt; 受控执行/协作 -&gt; 产物 -&gt; Studio/TUI 审计&lt;br&gt;最终只允许 ready for review，不是 production ready 或 complete Studio" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=15;" vertex="1" parent="1"><mxGeometry x="1060" y="120" width="450" height="170" as="geometry"/></mxCell>
+        <mxCell id="us7" value="US-V9-07 / 罗马广场讨论&lt;br&gt;用户输入哲学话题&lt;br&gt;哲学家 / 工程师 / 历史学家 / 伦理学家多轮讨论&lt;br&gt;Moderator 合成共识与分歧&lt;br&gt;PASS 需要 message refs、attribution refs、Evidence Chain" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=15;" vertex="1" parent="1"><mxGeometry x="80" y="340" width="450" height="190" as="geometry"/></mxCell>
+        <mxCell id="us8" value="US-V9-08 / 视频创作分镜工作流&lt;br&gt;用户输入 60 秒短视频点子&lt;br&gt;输出 brief、script、shot list、storyboard prompts、分镜图 artifact refs、review report&lt;br&gt;PASS 已记录 provider/model/invocation refs；无真实 provider artifacts 时只能 BLOCKED / fallback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=15;" vertex="1" parent="1"><mxGeometry x="570" y="340" width="450" height="190" as="geometry"/></mxCell>
+        <mxCell id="us9" value="US-V9-09 / 自然语言优化工作流&lt;br&gt;用户说：减少 station、改变风格、增加安全审查 Agent&lt;br&gt;系统输出 WorkflowDiff proposal&lt;br&gt;用户确认前不得 durable mutation；source=agent 不得直接写 runtime truth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=15;" vertex="1" parent="1"><mxGeometry x="1060" y="340" width="450" height="190" as="geometry"/></mxCell>
+        <mxCell id="core-scenarios" value="核心验收场景汇总&lt;br&gt;US-V9-01 受控执行审查：PASS&lt;br&gt;US-V9-02 多 Agent 技术评审：PASS&lt;br&gt;US-V9-03 代码工作流：PASS&lt;br&gt;US-V9-04 终端 worker：PASS&lt;br&gt;US-V9-05 Studio 审查：PASS&lt;br&gt;US-V9-06 最终看板：pending until US-V9-01..09 reviewed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=15;" vertex="1" parent="1"><mxGeometry x="100" y="590" width="660" height="230" as="geometry"/></mxCell>
+        <mxCell id="us-rule" value="硬规则 / 防假绿&lt;br&gt;1. PASS 必须有 dashboard_or_report_ref 和 evidence_refs&lt;br&gt;2. runtime-backed 场景必须引用 real_runtime_fixture 或 real_runtime evidence&lt;br&gt;3. planning docs、transcript-only、report-only 不得满足 runtime-backed PASS&lt;br&gt;4. 分镜 placeholder 不得写成 provider-backed image generation&lt;br&gt;5. 自然语言优化必须先生成 Diff proposal；确认前不得 mutation&lt;br&gt;6. 任一必需场景 FAIL / BLOCKED / missing 且无人工 proceed decision，则 V9-8 BLOCKED" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=15;" vertex="1" parent="1"><mxGeometry x="830" y="590" width="650" height="230" as="geometry"/></mxCell>
       </root>
     </mxGraphModel>
   </diagram>

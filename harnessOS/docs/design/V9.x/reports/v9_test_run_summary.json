@@ -1,0 +1,45 @@
+{
+  "schema_version": "v9.test_run_summary.v1",
+  "created_at": "2026-06-08T11:07:00+08:00",
+  "command": "./.venv/bin/python -m pytest tests/test_v9_*.py -q",
+  "status": "PASS",
+  "passed": 73,
+  "failed": 0,
+  "warnings": 5,
+  "scope": "V9 document, policy, evidence and runtime fixture tests",
+  "runtime_evidence": true,
+  "notes": [
+    "This report records the V9 regression test command result for external audit.",
+    "It does not replace stage-specific runtime evidence packages.",
+    "V9-3 runtime evidence is recorded in docs/design/V9.x/evidence/v9-3-orchestration-runtime.",
+    "V9-4 readiness closure is recorded in docs/design/V9.x/evidence/v9-4-readiness-closure.",
+    "V9-4 runtime evidence is recorded in docs/design/V9.x/evidence/v9-4-coding-workflow-runtime.",
+    "V9-5 governed terminal worker evidence is recorded in docs/design/V9.x/evidence/v9-5-terminal-worker.",
+    "V9-6 Workflow Studio evidence is recorded in docs/design/V9.x/evidence/v9-6-workflow-studio.",
+    "V9-7 production governance evidence is recorded in docs/design/V9.x/evidence/v9-7-production-governance.",
+    "V9-8 final acceptance validator is implemented and records PASS because US-V9-08 provider-backed storyboard image evidence is available.",
+    "MiniMax provider invocation generated four storyboard image artifacts; no raw credential, raw prompt, raw payload or base64 was stored."
+  ],
+  "regression_commands": [
+    {
+      "command": "./.venv/bin/python -m pytest tests/test_v8_*.py -q",
+      "status": "PASS",
+      "passed": 35
+    },
+    {
+      "command": "./.venv/bin/python -m pytest tests/test_v6_*.py -q",
+      "status": "PASS",
+      "passed": 88
+    },
+    {
+      "command": "./.venv/bin/python -m pytest tests/test_v5_*.py -q",
+      "status": "PASS",
+      "passed": 149
+    },
+    {
+      "command": "./.venv/bin/python -m pytest tests/test_v4_u9_final_acceptance.py -q",
+      "status": "PASS",
+      "passed": 4
+    }
+  ]
+}

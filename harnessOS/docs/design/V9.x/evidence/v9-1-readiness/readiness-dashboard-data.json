@@ -15,7 +15,7 @@
     "V9-4 runtime implementation",
     "V9-8 final acceptance"
   ],
-  "created_at": "2026-06-05T09:17:50Z",
+  "created_at": "2026-06-07T06:17:26Z",
   "decisions": {
     "external_audit_decision": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/decisions/v9_1_external_audit_decision.md",
     "high_risk_human_decision": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/decisions/v9_1_high_risk_human_decision.json"
@@ -25,43 +25,43 @@
   "limited_safety_gate_implementation_complete": true,
   "reports": {
     "contract_validation": {
-      "created_at": "2026-06-05T09:17:12Z",
+      "created_at": "2026-06-07T06:16:45Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_contract_validation_report.json",
       "runtime_evidence": false,
       "status": "PASS"
     },
     "negative_tests": {
-      "created_at": "2026-06-05T09:17:12Z",
+      "created_at": "2026-06-07T06:16:45Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_negative_test_results.json",
       "runtime_evidence": false,
       "status": "PASS"
     },
     "no_false_green": {
-      "created_at": "2026-06-05T09:17:30Z",
+      "created_at": "2026-06-07T06:16:46Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_no_false_green_scan.json",
       "runtime_evidence": false,
       "status": "PASS"
     },
     "redaction": {
-      "created_at": "2026-06-05T09:17:30Z",
+      "created_at": "2026-06-07T06:16:47Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_redaction_scan.json",
       "runtime_evidence": false,
       "status": "PASS"
     },
     "safety_gate_implementation": {
-      "created_at": "2026-06-05T09:17:14Z",
+      "created_at": "2026-06-07T06:16:47Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-1-safety-gate-implementation/acceptance-data.json",
       "runtime_evidence": null,
       "status": "PASS"
     },
     "v9_2_limited_runtime_slice": {
-      "created_at": "2026-06-05T09:17:15Z",
+      "created_at": "2026-06-07T06:16:46Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-2-controlled-executor-runtime/acceptance-data.json",
       "runtime_evidence": null,
       "status": "PASS"
     },
     "v9_2_pre_implementation": {
-      "created_at": "2026-06-05T09:17:15Z",
+      "created_at": "2026-06-07T06:16:59Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-2-controlled-executor-pre-implementation/pre-implementation-data.json",
       "runtime_evidence": null,
       "status": "PASS"

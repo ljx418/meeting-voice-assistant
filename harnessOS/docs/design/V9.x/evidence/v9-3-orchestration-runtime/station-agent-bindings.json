@@ -1,0 +1,54 @@
+[
+  {
+    "agent_id": "agent-research",
+    "audit_ref": "audit://v9-3/binding/agent-research",
+    "binding_id": "binding-v9-3-agent-research",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "credential_decision_ref": "credential-decision://v9-3/agent-research/redacted",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "policy_ref": "policy://v9-3/agent-research/station-bound",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.station_agent_binding.v1",
+    "station_id": "station-research"
+  },
+  {
+    "agent_id": "agent-implementation",
+    "audit_ref": "audit://v9-3/binding/agent-implementation",
+    "binding_id": "binding-v9-3-agent-implementation",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "credential_decision_ref": "credential-decision://v9-3/agent-implementation/redacted",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "policy_ref": "policy://v9-3/agent-implementation/station-bound",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.station_agent_binding.v1",
+    "station_id": "station-implementation"
+  },
+  {
+    "agent_id": "agent-review",
+    "audit_ref": "audit://v9-3/binding/agent-review",
+    "binding_id": "binding-v9-3-agent-review",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "credential_decision_ref": "credential-decision://v9-3/agent-review/redacted",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "policy_ref": "policy://v9-3/agent-review/station-bound",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.station_agent_binding.v1",
+    "station_id": "station-review"
+  },
+  {
+    "agent_id": "agent-synthesis",
+    "audit_ref": "audit://v9-3/binding/agent-synthesis",
+    "binding_id": "binding-v9-3-agent-synthesis",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "credential_decision_ref": "credential-decision://v9-3/agent-synthesis/redacted",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "policy_ref": "policy://v9-3/agent-synthesis/station-bound",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.station_agent_binding.v1",
+    "station_id": "station-synthesis"
+  }
+]

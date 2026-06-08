@@ -1,0 +1,11 @@
+{
+  "schema_version": "v9_4.fixture.negative.v1",
+  "fixture_id": "v9_4_auto_deploy_without_production_gate",
+  "expected_status": "DENIED",
+  "expected_reason": "auto_deploy_without_production_gate_denied",
+  "operation": "production.deploy",
+  "human_review_accepted": true,
+  "release_gate_accepted": true,
+  "production_gate_accepted": false,
+  "must_not_execute": true
+}

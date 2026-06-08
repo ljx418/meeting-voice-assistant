@@ -1,0 +1,57 @@
+{
+  "base64_stored": false,
+  "created_at": "2026-06-08T02:59:00Z",
+  "credential_material_stored": false,
+  "evidence_scope": "real_provider_backed_runtime_fixture",
+  "prompt_material_stored": false,
+  "prompt_refs": [
+    "artifact-ref://v9-3/video/storyboard-prompt-1",
+    "artifact-ref://v9-3/video/storyboard-prompt-2",
+    "artifact-ref://v9-3/video/storyboard-prompt-3",
+    "artifact-ref://v9-3/video/storyboard-prompt-4"
+  ],
+  "provider_config_source": "dotenv://minimax-image-provider",
+  "provider_invocation_ref": "provider-invocation-ref://v9-3/video/provider-invocation-v9-3-3d016841d1fd",
+  "provider_model_ref": "provider-model-ref://minimax/image-01",
+  "provider_ref": "provider-ref://minimax/image-generation",
+  "provider_request_body_stored": false,
+  "provider_response_body_stored": false,
+  "runtime_backed": true,
+  "scenario_id": "US-V9-08",
+  "schema_version": "v9_3.provider_storyboard_evidence.v1",
+  "status": "PASS",
+  "storyboard_image_artifacts": [
+    {
+      "artifact_ref": "artifact-ref://v9-3/video/storyboard-image-1",
+      "byte_size": 464332,
+      "content_type": "image/jpeg",
+      "path": "evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-1.jpg",
+      "prompt_ref": "artifact-ref://v9-3/video/storyboard-prompt-1",
+      "sha256": "8eb0406c8ddcb975048bbb9928a90c881e15fc7e5c05c5d0a0fb35333cf6fe9d"
+    },
+    {
+      "artifact_ref": "artifact-ref://v9-3/video/storyboard-image-2",
+      "byte_size": 419327,
+      "content_type": "image/jpeg",
+      "path": "evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-2.jpg",
+      "prompt_ref": "artifact-ref://v9-3/video/storyboard-prompt-2",
+      "sha256": "ac5fe6bb79f4857fd5da7f0a209d5a3cb3e18ef34a5aa0decb070933a18845e0"
+    },
+    {
+      "artifact_ref": "artifact-ref://v9-3/video/storyboard-image-3",
+      "byte_size": 247153,
+      "content_type": "image/jpeg",
+      "path": "evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-3.jpg",
+      "prompt_ref": "artifact-ref://v9-3/video/storyboard-prompt-3",
+      "sha256": "5ba097b207c7a5c7b1eabed5650064898fbc19dce27a742a002489f9f97a60cd"
+    },
+    {
+      "artifact_ref": "artifact-ref://v9-3/video/storyboard-image-4",
+      "byte_size": 305190,
+      "content_type": "image/jpeg",
+      "path": "evidence/v9-3-orchestration-runtime/storyboard-images/storyboard-shot-4.jpg",
+      "prompt_ref": "artifact-ref://v9-3/video/storyboard-prompt-4",
+      "sha256": "1cd37afc0b3eafb8aac300253a03948ef2c38ef018eb58af1562343928fade9f"
+    }
+  ]
+}

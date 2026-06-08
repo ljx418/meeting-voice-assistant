@@ -1,0 +1,73 @@
+[
+  {
+    "artifact_id": "artifact-v9-3-research-brief",
+    "audit_ref": "audit://v9-3/lineage/research",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "input_artifact_refs": [],
+    "lineage_record_id": "lineage-v9-3-research",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "output_artifact_ref": "artifact-ref://v9-3/research-brief",
+    "producer_agent_id": "agent-research",
+    "producer_attempt_id": "attempt-research-1",
+    "producer_station_id": "station-research",
+    "producer_station_run_id": "station-run-research",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9.0"
+  },
+  {
+    "artifact_id": "artifact-v9-3-implementation-proposal",
+    "audit_ref": "audit://v9-3/lineage/implementation",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "input_artifact_refs": [
+      "artifact-ref://v9-3/research-brief"
+    ],
+    "lineage_record_id": "lineage-v9-3-implementation",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "output_artifact_ref": "artifact-ref://v9-3/implementation-proposal",
+    "producer_agent_id": "agent-implementation",
+    "producer_attempt_id": "attempt-implementation-2",
+    "producer_station_id": "station-implementation",
+    "producer_station_run_id": "station-run-implementation-retry",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9.0"
+  },
+  {
+    "artifact_id": "artifact-v9-3-review-notes",
+    "audit_ref": "audit://v9-3/lineage/review",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "input_artifact_refs": [
+      "artifact-ref://v9-3/research-brief"
+    ],
+    "lineage_record_id": "lineage-v9-3-review",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "output_artifact_ref": "artifact-ref://v9-3/review-notes",
+    "producer_agent_id": "agent-review",
+    "producer_attempt_id": "attempt-review-1",
+    "producer_station_id": "station-review",
+    "producer_station_run_id": "station-run-review",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9.0"
+  },
+  {
+    "artifact_id": "artifact-v9-3-synthesis",
+    "audit_ref": "audit://v9-3/lineage/synthesis",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "input_artifact_refs": [
+      "artifact-ref://v9-3/implementation-proposal",
+      "artifact-ref://v9-3/review-notes"
+    ],
+    "lineage_record_id": "lineage-v9-3-synthesis",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "output_artifact_ref": "artifact-ref://v9-3/synthesis",
+    "producer_agent_id": "agent-synthesis",
+    "producer_attempt_id": "attempt-synthesis-1",
+    "producer_station_id": "station-synthesis",
+    "producer_station_run_id": "station-run-synthesis",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9.0"
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "./.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/test_v9_4_readiness_closure.py",
+    "-q"
+  ],
+  "audit_ref": "audit://v9-4/sandboxed-test",
+  "command_ref": "command-ref://v9-4/pytest-readiness-closure",
+  "completed_at": "2026-06-08T08:17:58Z",
+  "correlation_id": "corr-v9-4-4198a557e5",
+  "cwd_ref": "workspace-ref://v9-4/harnessOS",
+  "environment_secret_material_available": false,
+  "log_ref": "sandbox-log-ref://v9-4/pytest-readiness-closure",
+  "network_used": false,
+  "parent_environment_inherited": false,
+  "request_id": "req-v9-4-3061ac3795",
+  "returncode": 0,
+  "schema_version": "v9_4.sandboxed_test_result.v1",
+  "secret_read_attempted": false,
+  "started_at": "2026-06-08T08:17:56Z",
+  "status": "PASS",
+  "stderr_preview": "",
+  "stdout_preview": "...                                                                      [100%]\n3 passed in 1.15s\n",
+  "test_result_ref": "test-result-ref://v9-4/8ffc874c0d3a",
+  "workspace_scoped": true
+}

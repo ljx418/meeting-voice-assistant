@@ -20,10 +20,10 @@ HarnessOS Mission TUI
 - workflow.instance.start / requires_user_confirmation: 运行工作流属于持久化动作，必须先获得 user_confirmed=true。
 
 证据链接:
-- workflow_spec: workflow-spec://v7-2/mission_v7_2_75fd7dc5e701
-- workflow_diff: workflow-diff://v7-2/mission_v7_2_75fd7dc5e701
-- blueprint: drawio://v7-2/mission_v7_2_75fd7dc5e701/workflow.drawio
+- workflow_spec: workflow-spec://v7-2/mission_v7_2_56c6a62a2d6d
+- workflow_diff: workflow-diff://v7-2/mission_v7_2_56c6a62a2d6d
+- blueprint: drawio://v7-2/mission_v7_2_56c6a62a2d6d/workflow.drawio
 - runtime_report: runtime-report://not-started/transcript-only
-- evidence_chain: evidence://v7-2/mission_v7_2_75fd7dc5e701/transcript
+- evidence_chain: evidence://v7-2/mission_v7_2_56c6a62a2d6d/transcript
 
 边界: TUI 是 workflow head，不是 runtime truth；用户确认前不会执行持久化动作。

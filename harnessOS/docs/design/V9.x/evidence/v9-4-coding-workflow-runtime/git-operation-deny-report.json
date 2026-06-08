@@ -1,0 +1,61 @@
+{
+  "all_denied": true,
+  "audit_ref": "audit://v9-4/deny-report",
+  "correlation_id": "corr-v9-4-4198a557e5",
+  "created_at": "2026-06-08T08:17:58Z",
+  "denied_operations": [
+    {
+      "audit_ref": "audit://v9-4/deny/patch-apply",
+      "executed": false,
+      "human_review_accepted": false,
+      "operation": "patch.apply",
+      "production_gate_accepted": false,
+      "reason": "unreviewed_patch_apply_denied",
+      "release_gate_accepted": false,
+      "status": "DENIED"
+    },
+    {
+      "audit_ref": "audit://v9-4/deny/git-commit",
+      "executed": false,
+      "human_review_accepted": false,
+      "operation": "git.commit",
+      "production_gate_accepted": false,
+      "reason": "auto_commit_without_human_approval_denied",
+      "release_gate_accepted": false,
+      "status": "DENIED"
+    },
+    {
+      "audit_ref": "audit://v9-4/deny/git-push",
+      "executed": false,
+      "human_review_accepted": false,
+      "operation": "git.push",
+      "production_gate_accepted": false,
+      "reason": "auto_push_without_release_gate_denied",
+      "release_gate_accepted": false,
+      "status": "DENIED"
+    },
+    {
+      "audit_ref": "audit://v9-4/deny/production-deploy",
+      "executed": false,
+      "human_review_accepted": false,
+      "operation": "production.deploy",
+      "production_gate_accepted": false,
+      "reason": "auto_deploy_without_production_gate_denied",
+      "release_gate_accepted": false,
+      "status": "DENIED"
+    },
+    {
+      "audit_ref": "audit://v9-4/deny/approval-resolve",
+      "executed": false,
+      "human_review_accepted": false,
+      "operation": "approval.resolve",
+      "production_gate_accepted": false,
+      "reason": "review_summary_is_not_approval",
+      "release_gate_accepted": false,
+      "status": "DENIED"
+    }
+  ],
+  "deny_report_ref": "deny-report-ref://v9-4/1ad8b1721303",
+  "request_id": "req-v9-4-3061ac3795",
+  "schema_version": "v9_4.git_operation_deny_report.v1"
+}

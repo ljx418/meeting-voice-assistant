@@ -1,0 +1,61 @@
+[
+  {
+    "attribution_refs": [
+      "lineage-ref://v9-3/roman-forum/philosopher",
+      "lineage-ref://v9-3/roman-forum/engineer",
+      "lineage-ref://v9-3/roman-forum/historian",
+      "lineage-ref://v9-3/roman-forum/ethicist"
+    ],
+    "discussion_turn_count": 2,
+    "evidence_chain_ref": "evidence-chain://v9-3/roman-forum",
+    "evidence_scope": "real_runtime_fixture",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "role_specific_agents": [
+      "philosopher_agent",
+      "engineer_agent",
+      "historian_agent",
+      "ethicist_agent",
+      "moderator_agent"
+    ],
+    "runtime_backed": true,
+    "scenario_id": "US-V9-07",
+    "status": "PASS",
+    "synthesis_ref": "artifact-ref://v9-3/roman-forum/attributed-synthesis"
+  },
+  {
+    "blocked_reason": "provider_image_generation_not_available_in_local_fixture",
+    "creative_brief_ref": "artifact-ref://v9-3/video/creative-brief",
+    "evidence_scope": "blocked_provider_unavailable",
+    "provider_invocation_ref": null,
+    "provider_model_ref": null,
+    "runtime_backed": false,
+    "scenario_id": "US-V9-08",
+    "script_ref": "artifact-ref://v9-3/video/script",
+    "shot_list_ref": "artifact-ref://v9-3/video/shot-list",
+    "status": "BLOCKED",
+    "storyboard_image_artifact_refs": [],
+    "storyboard_prompt_refs": [
+      "artifact-ref://v9-3/video/storyboard-prompt-1",
+      "artifact-ref://v9-3/video/storyboard-prompt-2",
+      "artifact-ref://v9-3/video/storyboard-prompt-3",
+      "artifact-ref://v9-3/video/storyboard-prompt-4"
+    ],
+    "visual_consistency_report_ref": "artifact-ref://v9-3/video/visual-consistency-report"
+  },
+  {
+    "evidence_scope": "real_runtime_fixture",
+    "lineage_refs": [
+      "lineage-v9-3-research",
+      "lineage-v9-3-implementation",
+      "lineage-v9-3-review",
+      "lineage-v9-3-synthesis"
+    ],
+    "mutation_applied_before_confirmation": false,
+    "runtime_backed": true,
+    "scenario_id": "US-V9-09",
+    "source_agent_direct_mutation_denied": true,
+    "status": "PASS",
+    "user_confirmation_required": true,
+    "workflow_diff_ref": "workflow-diff://v9-3/optimization/video-workflow"
+  }
+]

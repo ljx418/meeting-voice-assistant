@@ -1,0 +1,13 @@
+{
+  "command": [
+    "./.venv/bin/python",
+    "-m",
+    "tools.v9.generate_v9_8_final_acceptance"
+  ],
+  "created_at": "2026-06-08T06:39:28Z",
+  "name": "v9_8_final_acceptance",
+  "returncode": 0,
+  "status": "PASS",
+  "stderr": "",
+  "stdout": "{\n  \"status\": \"PASS\",\n  \"blockers\": [],\n  \"output\": \"/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-8-final-acceptance/v9-final-acceptance-dashboard.html\"\n}\n"
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "audit_ref": "audit://v9-3/fan-out/research",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "dispatch_id": "dispatch-research-to-parallel",
+    "input_artifact_refs": [
+      "artifact-ref://v9-3/research-brief"
+    ],
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "policy_decision_ref": "policy-decision://v9-3/fan-out/research",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.fan_out_dispatch.v1",
+    "source_branch_id": "branch-serial-research",
+    "target_branch_ids": [
+      "branch-parallel-implementation",
+      "branch-parallel-review"
+    ]
+  }
+]

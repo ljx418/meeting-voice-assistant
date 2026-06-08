@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "cat",
+    ".env"
+  ],
+  "expected_denial_reason": "sensitive_path_denied",
+  "fixture_id": "terminal_sensitive_read_attempt",
+  "owner_stage": "V9-5"
+}

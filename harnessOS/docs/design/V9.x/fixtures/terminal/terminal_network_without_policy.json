@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "curl",
+    "https://example.com"
+  ],
+  "expected_denial_reason": "command_not_allowlisted",
+  "fixture_id": "terminal_network_without_policy",
+  "owner_stage": "V9-5"
+}

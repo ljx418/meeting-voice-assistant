@@ -1,0 +1,19 @@
+........................................................................ [ 98%]
+.                                                                        [100%]
+=============================== warnings summary ===============================
+core/schemas/__init__.py:54
+  /Users/Zhuanz/Desktop/workspace/harnessOS/core/schemas/__init__.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class Message(BaseModel):
+
+.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325
+.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325
+.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325
+  /Users/Zhuanz/Desktop/workspace/harnessOS/.venv/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:325: PydanticDeprecatedSince20: `json_encoders` is deprecated. See https://docs.pydantic.dev/2.13/concepts/serialization/#custom-serializers for alternatives. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    warnings.warn(
+
+core/schemas/__init__.py:100
+  /Users/Zhuanz/Desktop/workspace/harnessOS/core/schemas/__init__.py:100: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class WorkflowTask(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+73 passed, 5 warnings in 41.02s

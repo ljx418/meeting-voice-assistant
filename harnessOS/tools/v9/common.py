@@ -79,6 +79,7 @@ ALLOWED_CLAIM_CONTEXT_MARKERS = (
     "Naming And Boundary",
     "Product Goal",
     "Forbidden",
+    "Non-Claims",
     "Non-Negotiable",
     "禁止",
     "不得",

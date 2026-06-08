@@ -1,0 +1,45 @@
+{
+  "allowed_work": [
+    "tenant_isolation_decision",
+    "credential_lease_validator",
+    "service_account_binding_policy",
+    "append_only_audit_export",
+    "incident_timeline",
+    "evidence_hardening_report",
+    "terminal_automation_policy_gate",
+    "browser_automation_separate_prd_denial_evidence"
+  ],
+  "audit_ref": "audit://v9-7/production-governance-high-risk-approved",
+  "blocked_work": [
+    "production_automation_ready_claim",
+    "production_terminal_automation_ready_claim",
+    "production_browser_automation_ready_claim",
+    "browser_account_automation_without_separate_prd",
+    "raw_credential_access",
+    "mutable_audit_export",
+    "terminal_automation_without_policy_credential_incident_boundary",
+    "v9_8_final_acceptance_without_full_evidence"
+  ],
+  "correlation_id": "corr-v9-7-production-governance-high-risk-approved",
+  "created_at": "2026-06-07T11:35:00Z",
+  "decision": "GO_FOR_IMPLEMENTATION",
+  "decision_owner": "human_required",
+  "decision_ref": "v9-7-production-governance-high-risk-approved",
+  "evidence_refs": [
+    "docs/design/V9.x/evidence/v9-6-workflow-studio/acceptance-data.json",
+    "docs/design/V9.x/v9_7_development_and_acceptance_plan.md",
+    "docs/design/V9.x/v9_7_production_governance_engineering_design.md",
+    "docs/design/V9.x/v9_7_production_governance_terminal_automation_gate_spec.md"
+  ],
+  "expires_at": "2026-12-31T23:59:59Z",
+  "required_reviewers": [
+    "human_high_risk_owner"
+  ],
+  "revocation_reason": null,
+  "revoked": false,
+  "revoked_at": null,
+  "risk_class": "high",
+  "schema_version": "v9.0",
+  "scope": "V9-7 production governance / evidence hardening and terminal automation gate is approved only for tenant isolation, credential lease validation, service account binding policy, append-only audit export, incident timeline, evidence hardening, and policy-gated terminal/browser automation denial evidence. It does not authorize production automation ready claims, production browser automation, raw credential access, mutable audit export, or V9-8 final acceptance without complete evidence.",
+  "stage_id": "V9-7"
+}

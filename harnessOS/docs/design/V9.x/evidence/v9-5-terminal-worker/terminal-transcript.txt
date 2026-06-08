@@ -1,0 +1,139 @@
+V9-5 Governed Terminal Worker Transcript
+============================================
+worker_type: codex_cli
+agent_id: agent_v9_terminal_operator
+station_id: terminal_worker_station
+source: product_console
+actor_type: human_user
+workspace_scope: workspace://harnessOS
+unrestricted_shell_enabled: false
+auto_commit_enabled: false
+auto_push_enabled: false
+production_deploy_enabled: false
+browser_account_automation_enabled: false
+
+$ pwd
+tier: tier0_readonly
+returncode: 0
+stdout:
+/Users/Zhuanz/Desktop/workspace/harnessOS
+
+stderr:
+<empty>
+
+$ git status --short -- core tools/v9 tests docs/design/V9.x
+tier: tier0_readonly
+returncode: 0
+stdout:
+ M core/product_console/__init__.py
+ M core/terminal_workers/__init__.py
+ M docs/design/V9.x/00_README.md
+ M docs/design/V9.x/evidence/v9-1-internal-independent-audit/internal-audit-data.json
+ M docs/design/V9.x/evidence/v9-1-readiness/readiness-dashboard-data.json
+ M docs/design/V9.x/evidence/v9-1-safety-gate-implementation/acceptance-data.json
+ M docs/design/V9.x/evidence/v9-1-safety-gate-implementation/index.html
+ M docs/design/V9.x/evidence/v9-2-controlled-executor-pre-implementation/pre-implementation-data.json
+ M docs/design/V9.x/evidence/v9-2-controlled-executor-runtime/acceptance-data.json
+ M docs/design/V9.x/reports/v9_1_contract_validation_report.json
+ M docs/design/V9.x/reports/v9_1_negative_test_results.json
+ M docs/design/V9.x/reports/v9_1_no_false_green_scan.json
+ M docs/design/V9.x/reports/v9_1_redaction_scan.json
+ M docs/design/V9.x/v9_6_workflow_studio_engineering_design.md
+ M docs/design/V9.x/v9_7_production_governance_engineering_design.md
+ M docs/design/V9.x/v9_8_final_acceptance_validator_engineering_design.md
+ M docs/design/V9.x/v9_acceptance_gate_matrix.md
+ M docs/design/V9.x/v9_chatgpt_external_audit_single_file_pack.md
+ M docs/design/V9.x/v9_current_gap_analysis.drawio
+ M docs/design/V9.x/v9_current_gap_analysis.md
+ M docs/design/V9.x/v9_development_and_acceptance_plan.md
+ M docs/design/V9.x/v9_document_audit_report.md
+ M docs/design/V9.x/v9_front_stage_development_readiness_audit.md
+ M docs/design/V9.x/v9_milestone_roadmap.md
+ M docs/design/V9.x/v9_planning_audit_for_chatgpt.md
+ M docs/design/V9.x/v9_target_architecture.md
+ M docs/design/V9.x/v9_target_prd.md
+ M docs/design/V9.x/v9_test_fixture_and_ci_matrix.md
+ M tools/v9/common.py
+ M tools/v9/generate_chatgpt_audit_pack.py
+ M tools/v9/scan_no_false_green.py
+ M tools/v9/scan_redaction_forbidden_content.py
+?? core/governance/
+?? core/product_console/v9_6_workflow_studio.py
+?? core/terminal_workers/v9_5_governed_terminal_worker.py
+?? core/workflows/v9_3_multi_agent_orchestration_runtime.py
+?? core/workflows/v9_4_coding_workflow_pilot.py
+?? docs/design/V9.x/decisions/v9_4_high_risk_human_decision.json
+?? docs/design/V9.x/decisions/v9_5_high_risk_human_decision.json
+?? docs/design/V9.x/decisions/v9_7_high_risk_human_decision.json
+?? docs/design/V9.x/evidence/v9-3-orchestration-runtime/
+?? docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/
+?? docs/design/V9.x/evidence/v9-4-readiness-closure/
+?? docs/design/V9.x/evidence/v9-5-terminal-worker/
+?? docs/design/V9.x/evidence/v9-6-workflow-studio/
+?? docs/design/V9.x/evidence/v9-7-production-governance/
+?? docs/design/V9.x/evidence/v9-8-final-acceptance/
+?? docs/design/V9.x/evidence/v9-prd-ux-runtime-review/
+?? docs/design/V9.x/evidence/v9-user-scenario-video-workflow-e2e/
+?? docs/design/V9.x/fixtures/coding/
+?? docs/design/V9.x/fixtures/terminal/
+?? docs/design/V9.x/fixtures/user-scenarios/
+?? docs/design/V9.x/fixtures/v9-3-orchestration/
+?? docs/design/V9.x/fixtures/v9-4-coding-workflow/
+?? docs/design/V9.x/reports/v9_test_run_summary.json
+?? docs/design/V9.x/schemas/v9_3_agent_descriptor.schema.json
+?? docs/design/V9.x/schemas/v9_3_attempt_history_record.schema.json
+?? docs/design/V9.x/schemas/v9_3_branch_state.schema.json
+?? docs/design/V9.x/schemas/v9_3_conflict_review_record.schema.json
+?? docs/design/V9.x/schemas/v9_3_fan_in_join_decision.schema.json
+?? docs/design/V9.x/schemas/v9_3_fan_out_dispatch.schema.json
+?? docs/design/V9.x/schemas/v9_3_lost_worker_recovery_decision.schema.json
+?? docs/design/V9.x/schemas/v9_3_orchestration_run.schema.json
+?? docs/design/V9.x/schemas/v9_3_station_agent_binding.schema.json
+?? docs/design/V9.x/v9_3_development_and_acceptance_plan.md
+?? docs/design/V9.x/v9_3_runtime_acceptance_closure.md
+?? docs/design/V9.x/v9_4_development_and_acceptance_plan.md
+?? docs/design/V9.x/v9_4_pre_implementation_readiness_closure.md
+?? docs/design/V9.x/v9_4_runtime_acceptance_closure.md
+?? docs/design/V9.x/v9_5_development_and_acceptance_plan.md
+?? docs/design/V9.x/v9_6_development_an
+stderr:
+<empty>
+
+$ rg -n V9-5 docs/design/V9.x/v9_5_development_and_acceptance_plan.md
+tier: tier0_readonly
+returncode: 0
+stdout:
+1:# V9-5 Development And Acceptance Plan
+3:文档状态：V9-5 detailed development and acceptance plan / implementation complete for review.
+5:This document records the V9-5 stage plan and completed governed terminal worker evidence package. It does not authorize unrestricted shell, production terminal automation or browser account automation.
+9:V9-5 entered implementation after:
+12:V9-4 evidence PASS or a documented proceed decision scopes V9-5 independently as a narrow sandbox readiness slice only.
+21:V9-5 completion evidence:
+39:V9-5 expands terminal worker behavior inside a governed workspace sandbox:
+51:V9-5 must not:
+65:| V9-5A Workspace boundary guard | path decision records | canonical path, symlink target and denied prefixes recorded |
+66:| V9-5B Command tier resolver | terminal_command_decision records | tier, policy decision and human authorization requirement visible |
+67:| V9-5C Transcript capture | transcript_ref records | command, status and redacted output refs visible |
+68:| V9-5D Diff capture | diff_capture records | write attempts create proposal / diff refs |
+69:| V9-5E Denial evidence | denied action records | escape, sensitive access, git push and deployment attempts denied |
+70:| V9-5F Dashboard | HTML and acceptance data | auditor can inspect command tiers and denial evidence |
+110:V9-5 completion evidence must include:
+136:V9-5 evidence is reused to claim unrestricted terminal worker ready.
+137:V9-5 evidence is reused to authorize V9-7 production automation.
+
+stderr:
+<empty>
+
+$ ./.venv/bin/python -m pytest tests/test_v9_4_readiness_closure.py -q
+tier: tier1_build_test
+returncode: 0
+stdout:
+...                                                                      [100%]
+3 passed in 1.39s
+
+stderr:
+<empty>
+
+$ diff.proposal docs/design/V9.x/v9_5_development_and_acceptance_plan.md
+proposal_only: true
+applied: false

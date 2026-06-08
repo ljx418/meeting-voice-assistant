@@ -1,6 +1,6 @@
 # V9 Target PRD
 
-文档状态：V9 target PRD / planning baseline。
+文档状态：V9 target PRD / V9-2 evidence-aligned baseline。
 
 ## 1. Product Goal
 
@@ -11,6 +11,37 @@ V9 面向 V8 之后的高风险能力补齐：
 ```
 
 V9 的产品目标不是一次性宣布完整生产可用，而是建立可审计、可回滚、可人工接管的高风险执行基线。
+
+## 1.1 Current Delivery State After V9-2
+
+截至当前 V9 文档基线，已完成的 ready-for-review 能力是：
+
+```text
+V9-1 Agent Executor Safety Gate implementation.
+V9-2 limited controlled Agent executor runtime slice.
+```
+
+V9-2 的产品解释必须保持受限：
+
+```text
+用户可以通过受控 runtime fixture 验证 workflow.instance.start / station.rerun / artifact.write / quality.evaluation.create 四类动作。
+这些动作必须经过 policy / capability / HumanAuthorizationRef 或 user confirmation / approval / kill switch / idempotency / timeout / rollback / evidence chain。
+source=agent direct durable mutation 仍被拒绝。
+connector.call / external_llm.call / git.commit / git.push / production.deploy 等动作仍被拒绝。
+```
+
+V9-2 不得解释为：
+
+```text
+不得解释为通用 Agent executor 已完成
+不得解释为受控执行器已完成
+不得解释为生产级受控执行器已完成
+不得解释为完整多 Agent 编排已完成
+不得解释为自主代码工作流已完成
+不得解释为完整 Workflow Studio 已完成
+```
+
+下一产品实现候选是 V9-3：真实 multi-Agent orchestration runtime slice。
 
 ## 2. Target User Experience
 
@@ -29,6 +60,27 @@ V9 的产品目标不是一次性宣布完整生产可用，而是建立可审�
  -> 终端 worker 在受限 sandbox 中执行命令
  -> Evidence Chain 记录每一步
 ```
+
+当前距离该完整体验仍缺：
+
+```text
+V9-3 multi-Agent serial / parallel / fan-in / fan-out runtime evidence.
+V9-4 coding workflow diff / test / review / fix-loop runtime evidence.
+V9-5 governed terminal worker write sandbox evidence.
+V9-6 Workflow Studio BFF / DTO / browser denylist evidence.
+V9-7 production governance / evidence hardening high-risk evidence.
+V9-8 final evidence aggregation.
+```
+
+V9 用户场景验收还必须覆盖三类更贴近真实使用的创意型工作流：
+
+```text
+Roman Forum debate: 不同身份 Agent 围绕哲学或复杂议题多轮讨论、互相质询并合成有 attribution 的结论。
+Video creation storyboard workflow: 用户输入视频点子，系统生成 creative brief、script、shot list、storyboard prompts、分镜图 artifact refs 和 review report。
+Natural-language workflow optimization: 用户用自然语言要求调整已有 workflow，系统生成 WorkflowDiff proposal，并在用户确认前不修改 runtime truth。
+```
+
+这些场景是 V9 的垂直验收切片，不得被解释为通用视频生产平台、完整自然语言工作流编辑器或完整多 Agent 编排已完成。
 
 ## 3. V9 Capability Goals
 
@@ -64,6 +116,14 @@ artifact lineage with producer_agent_id / producer_attempt_id
 failure recovery
 lost worker recovery
 conflict review
+```
+
+代表性用户场景：
+
+```text
+Roman Forum debate workflow.
+Local technical design review workflow.
+Video creation storyboard workflow.
 ```
 
 ### Autonomous Coding Workflow Pilot
@@ -104,6 +164,8 @@ evidence browser
 ```
 
 Studio 必须通过 BFF / DTO 消费后端，不得直接写 runtime truth。
+
+自然语言优化工作流必须先产生 WorkflowDiff proposal，用户确认或 valid human_authorization_ref 存在前不得 durable mutation。
 
 ### Governed Terminal Worker Expansion
 

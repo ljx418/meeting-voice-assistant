@@ -1,0 +1,4 @@
+{
+  "status": "PASS",
+  "output": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/evidence/v9-1-safety-gate-implementation/index.html"
+}

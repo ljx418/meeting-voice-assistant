@@ -1,0 +1,28 @@
+{
+  "schema_version": "v9.user_scenario_fixture.v1",
+  "scenario_id": "US-V9-05",
+  "owner_stage": "V9-6",
+  "title": "Product user reviews workflow through Studio",
+  "status": "BLOCKED",
+  "evidence_scope": "missing",
+  "runtime_backed": false,
+  "user_goal": "As a product user, open the same workflow in Studio and inspect the graph, station Agent profile, runtime status, artifact lineage, Runtime Report and Evidence Chain through BFF/DTO-backed UI.",
+  "expected_user_visible_outputs": [
+    "workflow graph",
+    "station Agent profile",
+    "runtime status",
+    "artifact lineage",
+    "read-only Runtime Report",
+    "read-only Evidence Chain"
+  ],
+  "dashboard_or_report_ref": null,
+  "evidence_refs": [],
+  "missing_evidence": [
+    "Studio BFF evidence",
+    "browser denylist evidence",
+    "read-only Runtime Report evidence",
+    "read-only Evidence Chain evidence"
+  ],
+  "claim_guard_notes": "This scenario must not be counted as complete Workflow Studio readiness.",
+  "redaction_guard_notes": "Future evidence must store redacted refs only."
+}

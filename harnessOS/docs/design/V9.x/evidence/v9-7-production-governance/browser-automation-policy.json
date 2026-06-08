@@ -1,0 +1,8 @@
+{
+  "audit_ref": "audit://v9-7/browser-automation-policy/a4e615b94dae",
+  "browser_account_automation_allowed": false,
+  "explicit_human_decision_required": true,
+  "policy_decision": "deny_without_separate_prd",
+  "policy_id": "browser-automation-policy-v9-7-d33187197e97",
+  "separate_prd_required": true
+}

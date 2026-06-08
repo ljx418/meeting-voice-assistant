@@ -1,0 +1,228 @@
+{
+  "bff_route_allowlist": [
+    "GET /bff/v9/evidence-chain",
+    "GET /bff/v9/runtime-report",
+    "GET /bff/v9/studio-state",
+    "GET /bff/v9/workflow-blueprint",
+    "POST /bff/v9/manual-confirmation",
+    "POST /bff/v9/review-handoff",
+    "POST /bff/v9/workflow-diff-proposal"
+  ],
+  "browser_network_log": [
+    "GET /bff/v9/studio-state",
+    "GET /bff/v9/runtime-report",
+    "GET /bff/v9/evidence-chain",
+    "GET /bff/v9/workflow-blueprint",
+    "POST /bff/v9/workflow-diff-proposal",
+    "POST /bff/v9/manual-confirmation",
+    "POST /bff/v9/review-handoff"
+  ],
+  "full_workflow_studio_gate": {
+    "complete_workflow_studio_ready": false,
+    "separate_acceptance_matrix_required": true,
+    "separate_architecture_required": true,
+    "separate_no_false_green_gate_required": true,
+    "separate_prd_required": true
+  },
+  "generated_at": "2026-06-08T08:18:06.729161+00:00",
+  "global_assertions": {
+    "browser_no_direct_events_subscribe": true,
+    "browser_no_direct_internal_runtime_routes": true,
+    "browser_no_direct_v1_rpc": true,
+    "complete_workflow_studio_ready": false,
+    "evidence_chain_readonly": true,
+    "hidden_mutation_form_absent": true,
+    "manual_confirmation_records_human_authorization_ref": true,
+    "runtime_report_readonly": true,
+    "studio_uses_bff_dto_only": true,
+    "workflow_diff_is_proposal_only": true
+  },
+  "manual_confirmation": {
+    "actor_id": "user_v9_6_reviewer",
+    "app_id": "app_v9_6",
+    "audit_ref": "audit://v9-6/manual-confirmation/8bbd95977e95",
+    "correlation_id": "correlation_v9_6",
+    "created_at": "2026-06-08T08:18:06.729094+00:00",
+    "executes_runtime_action": false,
+    "expires_at": "2999-01-01T00:00:00+00:00",
+    "human_authorization_ref": "human-auth://v9-6/a10199dbcf75",
+    "operation": "workflow.diff.confirm",
+    "project_id": "project_v9_6",
+    "proposal_id": "workflow-diff-proposal-v9-6-05aab67bf21f",
+    "request_id": "request_v9_6",
+    "source": "product_console",
+    "target_refs": {
+      "workflow_id": "workflow-v9-6",
+      "workflow_version_id": "workflow-version-v9-6"
+    },
+    "tenant_id": "tenant_v9_6",
+    "workspace_id": "workspace_v9_6"
+  },
+  "panels": [
+    {
+      "allowed_actions": [
+        "view",
+        "open_proposal"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "edge_count": 3,
+        "node_count": 4,
+        "source": "workflow_blueprint_read_model"
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "workflow_blueprint",
+      "readonly": true,
+      "source_refs": {
+        "blueprint_ref": "docs/design/V9.x/evidence/v9-3-orchestration-runtime/acceptance-data.json"
+      },
+      "title": "工作流蓝图"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "agent_count": 3,
+        "profiles": [
+          {
+            "agent_id": "agent-intent",
+            "role": "目标澄清",
+            "station_id": "intent",
+            "tool_refs": [
+              "tool://tui-input"
+            ]
+          },
+          {
+            "agent_id": "agent-architect",
+            "role": "工作流架构",
+            "station_id": "architect",
+            "tool_refs": [
+              "tool://workflow-diff"
+            ]
+          },
+          {
+            "agent_id": "agent-security",
+            "role": "安全审查",
+            "station_id": "security-review",
+            "tool_refs": [
+              "tool://evidence-chain"
+            ]
+          }
+        ]
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "agent_station_inspector",
+      "readonly": true,
+      "source_refs": {
+        "agent_profile_ref": "docs/design/V9.x/evidence/v9-3-orchestration-runtime/user-scenarios.json"
+      },
+      "title": "Agent 工位检查器"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_report"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "attempt_count": 1,
+        "source": "runtime_report_read_model",
+        "status": "ready_for_review"
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "runtime_report",
+      "readonly": true,
+      "source_refs": {
+        "runtime_report_ref": "docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/acceptance-data.json"
+      },
+      "title": "运行报告"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "export",
+        "open_handoff"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "claim_scan": "PASS",
+        "evidence_count": 3,
+        "redaction_scan": "PASS"
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "evidence_chain",
+      "readonly": true,
+      "source_refs": {
+        "evidence_chain_ref": "docs/design/V9.x/evidence/v9-5-terminal-worker/acceptance-data.json"
+      },
+      "title": "证据链"
+    },
+    {
+      "allowed_actions": [
+        "view",
+        "open_evidence"
+      ],
+      "constructs_runtime_truth": false,
+      "data": {
+        "lineage": [
+          {
+            "artifact_id": "artifact-v9-6-blueprint",
+            "producer_agent_id": "agent-architect",
+            "producer_attempt_id": "attempt-v9-6-1"
+          }
+        ],
+        "lineage_count": 1
+      },
+      "hidden_mutation_form_present": false,
+      "panel_id": "artifact_lineage",
+      "readonly": true,
+      "source_refs": {
+        "artifact_lineage_ref": "docs/design/V9.x/evidence/v9-3-orchestration-runtime/acceptance-data.json"
+      },
+      "title": "产物血缘"
+    }
+  ],
+  "readonly": true,
+  "source_refs": {
+    "agent_profiles": "docs/design/V9.x/evidence/v9-3-orchestration-runtime/user-scenarios.json",
+    "artifact_lineage": "docs/design/V9.x/evidence/v9-3-orchestration-runtime/acceptance-data.json",
+    "evidence_chain": "docs/design/V9.x/evidence/v9-5-terminal-worker/acceptance-data.json",
+    "runtime_report": "docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/acceptance-data.json",
+    "workflow_blueprint": "docs/design/V9.x/evidence/v9-3-orchestration-runtime/acceptance-data.json"
+  },
+  "studio_id": "workflow-studio-v9-6-fa60cee3c8d0",
+  "tenant_context": {
+    "actor_id": "user_v9_6_reviewer",
+    "actor_type": "human_user",
+    "app_id": "app_v9_6",
+    "project_id": "project_v9_6",
+    "tenant_id": "tenant_v9_6",
+    "workspace_id": "workspace_v9_6"
+  },
+  "workflow_diff_proposal": {
+    "actor_id": "user_v9_6_reviewer",
+    "app_id": "app_v9_6",
+    "audit_ref": "audit://v9-6/workflow-diff-proposal/ff6515d1b6cb",
+    "correlation_id": "correlation_v9_6",
+    "created_at": "2026-06-08T08:18:06.728697+00:00",
+    "diff_ref": "workflow-diff://v9-6/a32024b48620",
+    "durable_mutation_performed": false,
+    "natural_language_goal": "减少一个冗余审查工位，并新增安全审查 Agent。",
+    "project_id": "project_v9_6",
+    "proposal_id": "workflow-diff-proposal-v9-6-05aab67bf21f",
+    "request_id": "request_v9_6",
+    "requires_manual_confirmation": true,
+    "risk_delta": "medium_requires_manual_confirmation",
+    "source": "product_console",
+    "target_refs": {
+      "workflow_id": "workflow-v9-6",
+      "workflow_version_id": "workflow-version-v9-6"
+    },
+    "tenant_id": "tenant_v9_6",
+    "workflow_spec_ref": "workflow-spec://v9-6/studio-productization",
+    "workspace_id": "workspace_v9_6"
+  }
+}

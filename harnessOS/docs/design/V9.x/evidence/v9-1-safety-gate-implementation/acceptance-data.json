@@ -12,34 +12,34 @@
   },
   "controlled_executor_action_execution": false,
   "controlled_executor_ready": false,
-  "created_at": "2026-06-05T09:17:14Z",
+  "created_at": "2026-06-08T08:17:45Z",
   "evidence_scope": "real_code_policy_validation",
   "full_multi_agent_orchestration_ready": false,
   "production_controlled_executor_ready": false,
   "reports": {
     "contract_validation": {
-      "created_at": "2026-06-05T09:17:12Z",
+      "created_at": "2026-06-08T08:17:43Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_contract_validation_report.json",
       "runtime_evidence": false,
       "status": "PASS",
       "violations": []
     },
     "negative_tests": {
-      "created_at": "2026-06-05T09:17:12Z",
+      "created_at": "2026-06-08T08:17:43Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_negative_test_results.json",
       "runtime_evidence": false,
       "status": "PASS",
       "violations": []
     },
     "no_false_green": {
-      "created_at": "2026-06-05T09:17:13Z",
+      "created_at": "2026-06-08T08:17:44Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_no_false_green_scan.json",
       "runtime_evidence": false,
       "status": "PASS",
       "violations": []
     },
     "redaction": {
-      "created_at": "2026-06-05T09:17:14Z",
+      "created_at": "2026-06-08T08:17:45Z",
       "path": "/Users/Zhuanz/Desktop/workspace/harnessOS/docs/design/V9.x/reports/v9_1_redaction_scan.json",
       "runtime_evidence": false,
       "status": "PASS",
@@ -52,7 +52,7 @@
   "runtime_worker_created": false,
   "scenarios": [
     {
-      "capability_decision_ref": "capability-decision://v9-1/4627ab8ae9214e35b52b9673fa3e50cf",
+      "capability_decision_ref": "capability-decision://v9-1/3586a2753e1544c2ac75b67f9e25cf88",
       "observed_decision": "allow",
       "observed_denial_reason": null,
       "passed": true,
@@ -63,7 +63,7 @@
       "title": "workflow.instance.start with user confirmation is accepted for safety-gate handoff only."
     },
     {
-      "capability_decision_ref": "capability-decision://v9-1/ed0f85c0e3cc465cbdebcee326ce054e",
+      "capability_decision_ref": "capability-decision://v9-1/ea7aae25330f4f7984eeb3059e289eae",
       "observed_decision": "deny",
       "observed_denial_reason": "source_agent_durable_mutation_denied",
       "passed": true,
@@ -74,7 +74,7 @@
       "title": "source=agent durable mutation is denied even with user confirmation."
     },
     {
-      "capability_decision_ref": "capability-decision://v9-1/0b1f8a491ad64a3482d55c640e42ccd9",
+      "capability_decision_ref": "capability-decision://v9-1/2cd42e2df34f4e39852612a93f353dc2",
       "observed_decision": "deny",
       "observed_denial_reason": "missing_user_confirmation_or_valid_human_authorization_ref",
       "passed": true,
@@ -85,7 +85,7 @@
       "title": "Durable mutation without user confirmation or valid HumanAuthorizationRef is denied."
     },
     {
-      "capability_decision_ref": "capability-decision://v9-1/79f42ee989f647449a03cb8064fd66f2",
+      "capability_decision_ref": "capability-decision://v9-1/6a2b6fe4fea5457fb6a0545740f3995d",
       "observed_decision": "allow",
       "observed_denial_reason": null,
       "passed": true,
@@ -96,7 +96,7 @@
       "title": "Valid HumanAuthorizationRef can satisfy the safety-gate authorization contract."
     },
     {
-      "capability_decision_ref": "capability-decision://v9-1/3de225c63ff54c5c9addb4b48d850f86",
+      "capability_decision_ref": "capability-decision://v9-1/5f430b2bfbd2434fa5fabe9f14e42316",
       "observed_decision": "deny",
       "observed_denial_reason": "missing_user_confirmation_or_valid_human_authorization_ref",
       "passed": true,
@@ -107,7 +107,7 @@
       "title": "Expired HumanAuthorizationRef is rejected."
     },
     {
-      "capability_decision_ref": "capability-decision://v9-1/1bb6ac236c1044b4810b475dd9fa606e",
+      "capability_decision_ref": "capability-decision://v9-1/52036c765072493f964bbc67931dc990",
       "observed_decision": "deny",
       "observed_denial_reason": "missing_user_confirmation_or_valid_human_authorization_ref",
       "passed": true,
@@ -134,7 +134,7 @@
       "title": "artifact.write requires approval gate and remains runtime_execution_allowed=false."
     },
     {
-      "capability_decision_ref": "capability-decision://v9-1/06987543897141d8817c788a25ce29c6",
+      "capability_decision_ref": "capability-decision://v9-1/ec1a959c0ecb43fba499d813549deca6",
       "observed_decision": "deny",
       "observed_denial_reason": "kill_switch_denied",
       "passed": true,
@@ -145,7 +145,7 @@
       "title": "Kill switch denial blocks safety-gate handoff."
     },
     {
-      "capability_decision_ref": "capability-decision://v9-1/a96ed4fe542646348bedd27068aa8ce5",
+      "capability_decision_ref": "capability-decision://v9-1/7835322d3637475098a4fa8d4d6ddb55",
       "observed_decision": "deny",
       "observed_denial_reason": "missing_timeout_policy",
       "passed": true,
@@ -156,7 +156,7 @@
       "title": "Timeout policy is required for candidate actions."
     },
     {
-      "capability_decision_ref": "capability-decision://v9-1/38bacf1e9d304a3ea6f0c42162be696f",
+      "capability_decision_ref": "capability-decision://v9-1/47920b7618e9497685249352546cffdb",
       "observed_decision": "deny",
       "observed_denial_reason": "missing_rollback_descriptor",
       "passed": true,

@@ -1,0 +1,92 @@
+[
+  {
+    "agent_id": "agent-research",
+    "created_at": "2026-06-08T08:17:48Z",
+    "credential_decision_ref": "credential-decision://v9-3/agent-research/redacted",
+    "goal": "Collect source-grounded technical evidence.",
+    "mcp_refs": [
+      "mcp://v9-3/read-docs"
+    ],
+    "memory_refs": [
+      "memory-ref://v9-3/agent-research/station-scoped"
+    ],
+    "model_ref": "provider-model-ref://v9-3/research_agent/configured-provider",
+    "policy_ref": "policy://v9-3/agent-research/station-bound",
+    "role": "research_agent",
+    "schema_version": "v9_3.agent_descriptor.v1",
+    "skill_refs": [
+      "skill://v9-3/research-review"
+    ],
+    "tool_refs": [
+      "tool-ref://v9-3/evidence.read",
+      "tool-ref://v9-3/artifact.propose"
+    ]
+  },
+  {
+    "agent_id": "agent-implementation",
+    "created_at": "2026-06-08T08:17:48Z",
+    "credential_decision_ref": "credential-decision://v9-3/agent-implementation/redacted",
+    "goal": "Produce implementation proposal artifacts.",
+    "mcp_refs": [
+      "mcp://v9-3/evidence-readonly"
+    ],
+    "memory_refs": [
+      "memory-ref://v9-3/agent-implementation/station-scoped"
+    ],
+    "model_ref": "provider-model-ref://v9-3/implementation_agent/configured-provider",
+    "policy_ref": "policy://v9-3/agent-implementation/station-bound",
+    "role": "implementation_agent",
+    "schema_version": "v9_3.agent_descriptor.v1",
+    "skill_refs": [
+      "skill://v9-3/implementation-plan"
+    ],
+    "tool_refs": [
+      "tool-ref://v9-3/evidence.read",
+      "tool-ref://v9-3/artifact.propose"
+    ]
+  },
+  {
+    "agent_id": "agent-review",
+    "created_at": "2026-06-08T08:17:48Z",
+    "credential_decision_ref": "credential-decision://v9-3/agent-review/redacted",
+    "goal": "Review outputs and risk boundaries.",
+    "mcp_refs": [
+      "mcp://v9-3/evidence-readonly"
+    ],
+    "memory_refs": [
+      "memory-ref://v9-3/agent-review/station-scoped"
+    ],
+    "model_ref": "provider-model-ref://v9-3/review_agent/configured-provider",
+    "policy_ref": "policy://v9-3/agent-review/station-bound",
+    "role": "review_agent",
+    "schema_version": "v9_3.agent_descriptor.v1",
+    "skill_refs": [
+      "skill://v9-3/risk-review"
+    ],
+    "tool_refs": [
+      "tool-ref://v9-3/evidence.read",
+      "tool-ref://v9-3/artifact.propose"
+    ]
+  },
+  {
+    "agent_id": "agent-synthesis",
+    "created_at": "2026-06-08T08:17:48Z",
+    "credential_decision_ref": "credential-decision://v9-3/agent-synthesis/redacted",
+    "goal": "Join branch findings with attribution.",
+    "mcp_refs": [],
+    "memory_refs": [
+      "memory-ref://v9-3/agent-synthesis/station-scoped"
+    ],
+    "model_ref": "provider-model-ref://v9-3/synthesis_agent/configured-provider",
+    "policy_ref": "policy://v9-3/agent-synthesis/station-bound",
+    "role": "synthesis_agent",
+    "schema_version": "v9_3.agent_descriptor.v1",
+    "skill_refs": [
+      "skill://v9-3/attributed-synthesis"
+    ],
+    "tool_refs": [
+      "tool-ref://v9-3/evidence.read",
+      "tool-ref://v9-3/artifact.propose"
+    ]
+  }
+]

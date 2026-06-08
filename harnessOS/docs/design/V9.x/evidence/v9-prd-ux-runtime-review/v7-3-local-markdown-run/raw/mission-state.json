@@ -1,0 +1,106 @@
+{
+  "available_actions": [
+    {
+      "action_id": "action_e2e11707e1",
+      "actor_type": "human_user",
+      "agent_executable": false,
+      "capability_decision": "allow",
+      "mission_id": "mission_v7_2_7fd468f1473e",
+      "operation": "workflow.patch.propose",
+      "policy_decision": "allow",
+      "requires_user_confirmation": false,
+      "risk_flags": [
+        "proposal_only",
+        "transcript_only"
+      ],
+      "source": "mission_tui",
+      "target_refs": {
+        "workflow_spec_id": "workflow-spec://v7-2/mission_v7_2_7fd468f1473e"
+      }
+    },
+    {
+      "action_id": "action_684b540c36",
+      "actor_type": "human_user",
+      "agent_executable": false,
+      "capability_decision": "needs_user_confirmation",
+      "mission_id": "mission_v7_2_7fd468f1473e",
+      "operation": "workflow.instance.start",
+      "policy_decision": "needs_review",
+      "requires_user_confirmation": true,
+      "risk_flags": [
+        "durable_mutation",
+        "user_confirmation_required"
+      ],
+      "source": "mission_tui",
+      "target_refs": {
+        "workflow_spec_id": "workflow-spec://v7-2/mission_v7_2_7fd468f1473e"
+      }
+    }
+  ],
+  "current_state": "AwaitingConfirmation",
+  "forbidden_reasons": [
+    {
+      "human_readable_summary": "Agent 来源不能直接执行持久化运行，必须等待人工确认。",
+      "mission_id": "mission_v7_2_7fd468f1473e",
+      "operation": "workflow.instance.start",
+      "policy_ref": "policy://v7-2/source-agent-denied",
+      "reason_code": "source_agent_denied",
+      "reason_id": "reason_f6f8d5adbc",
+      "source": "agent"
+    },
+    {
+      "human_readable_summary": "运行工作流属于持久化动作，必须先获得 user_confirmed=true。",
+      "mission_id": "mission_v7_2_7fd468f1473e",
+      "operation": "workflow.instance.start",
+      "policy_ref": "policy://v7-2/user-confirmation-required",
+      "reason_code": "requires_user_confirmation",
+      "reason_id": "reason_62a871e2ba",
+      "source": "mission_tui"
+    }
+  ],
+  "generated_at": "2026-06-08T06:39:00.902688+00:00",
+  "links": {
+    "blueprint": "drawio://v7-2/mission_v7_2_7fd468f1473e/workflow.drawio",
+    "evidence_chain": "evidence://v7-2/mission_v7_2_7fd468f1473e/transcript",
+    "runtime_report": "runtime-report://not-started/transcript-only",
+    "workflow_diff": "workflow-diff://v7-2/mission_v7_2_7fd468f1473e",
+    "workflow_spec": "workflow-spec://v7-2/mission_v7_2_7fd468f1473e"
+  },
+  "mission_id": "mission_v7_2_7fd468f1473e",
+  "natural_language_goal": "递归总结 tests/fixtures/desktop/技术分享 下的 Markdown 技术文档",
+  "runtime_backed": false,
+  "runtime_truth_boundary": "tui_is_workflow_head_not_runtime_truth",
+  "timeline": [
+    {
+      "occurred_at": "2026-06-08T06:39:00.902688+00:00",
+      "source_ref": "mission://v7-2/mission_v7_2_7fd468f1473e/IntentCaptured",
+      "state": "IntentCaptured",
+      "status": "complete"
+    },
+    {
+      "occurred_at": "2026-06-08T06:39:00.902688+00:00",
+      "source_ref": "mission://v7-2/mission_v7_2_7fd468f1473e/SpecDrafted",
+      "state": "SpecDrafted",
+      "status": "complete"
+    },
+    {
+      "occurred_at": "2026-06-08T06:39:00.902688+00:00",
+      "source_ref": "mission://v7-2/mission_v7_2_7fd468f1473e/SchemaValidated",
+      "state": "SchemaValidated",
+      "status": "complete"
+    },
+    {
+      "occurred_at": "2026-06-08T06:39:00.902688+00:00",
+      "source_ref": "mission://v7-2/mission_v7_2_7fd468f1473e/DiffReady",
+      "state": "DiffReady",
+      "status": "complete"
+    },
+    {
+      "occurred_at": "2026-06-08T06:39:00.902688+00:00",
+      "source_ref": "mission://v7-2/mission_v7_2_7fd468f1473e/AwaitingConfirmation",
+      "state": "AwaitingConfirmation",
+      "status": "active"
+    }
+  ],
+  "transcript_only": true
+}

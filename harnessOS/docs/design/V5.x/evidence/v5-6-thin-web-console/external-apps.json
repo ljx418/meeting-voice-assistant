@@ -13,45 +13,45 @@
           "evidence.view"
         ],
         "status": "active",
-        "created_at": "2026-06-05T01:30:10.781431+00:00",
+        "created_at": "2026-06-08T08:17:18.785926+00:00",
         "redaction_status": "redacted"
       },
       "domain_verification": {
-        "domain_verification_id": "domain_verification_cda3938999d04203a3bf997792b61e35",
+        "domain_verification_id": "domain_verification_8e304e571ead43b1b86e22c6c4caa3be",
         "tenant_id": "tenant_v5",
         "app_registration_id": "app_registration_v5_6_console",
         "domain": "console.example.test",
         "verification_method": "dns_txt",
         "verification_status": "verified",
         "evidence_ref": "evidence://v5-6/domain-verification",
-        "verified_at": "2026-06-05T01:30:10.781486+00:00",
-        "created_at": "2026-06-05T01:30:10.781472+00:00",
+        "verified_at": "2026-06-08T08:17:18.786030+00:00",
+        "created_at": "2026-06-08T08:17:18.786017+00:00",
         "redaction_status": "redacted"
       },
       "origin": {
-        "origin_entry_id": "origin_entry_0eb48fe21f524c868a7032fb978b5a01",
+        "origin_entry_id": "origin_entry_0e40e92abb93460bb8c2821716e56173",
         "tenant_id": "tenant_v5",
         "app_registration_id": "app_registration_v5_6_console",
         "origin": "https://console.example.test",
-        "verified_domain_ref": "domain_verification_cda3938999d04203a3bf997792b61e35",
+        "verified_domain_ref": "domain_verification_8e304e571ead43b1b86e22c6c4caa3be",
         "status": "allowed",
         "policy_decision": "allow",
-        "created_at": "2026-06-05T01:30:10.781542+00:00",
+        "created_at": "2026-06-08T08:17:18.786082+00:00",
         "redaction_status": "redacted"
       },
       "quota_decision": {
-        "quota_decision_id": "quota_decision_35258eb52ff34df19e17dc1716b6b5eb",
+        "quota_decision_id": "quota_decision_dff396353b3948b7b3598c42464962c1",
         "tenant_id": "tenant_v5",
         "app_registration_id": "app_registration_v5_6_console",
-        "quota_policy_id": "quota_policy_3cdfa3bc108144509f71a77e3f36c1f9",
+        "quota_policy_id": "quota_policy_62f4dd90b2c3420f9904bdce1c65a614",
         "usage_count": 10,
         "allowed": true,
         "policy_decision": "allow",
-        "evidence_ref": "evidence://correlation_v5_6/quota/026fa4a090814479a438d94be424cc79",
+        "evidence_ref": "evidence://correlation_v5_6/quota/3aa33b5c490e40918d096aee6391f9df",
         "request_id": "request_v5_6",
         "correlation_id": "correlation_v5_6",
         "redaction_status": "redacted",
-        "created_at": "2026-06-05T01:30:10.781574+00:00"
+        "created_at": "2026-06-08T08:17:18.786114+00:00"
       },
       "sdk": {
         "sdk_name": "harnessos-web",

@@ -1,0 +1,10 @@
+{
+  "schema_version": "v9_4.fixture.negative.v1",
+  "fixture_id": "v9_4_unreviewed_patch_apply_attempt",
+  "expected_status": "DENIED",
+  "expected_reason": "unreviewed_patch_apply_denied",
+  "operation": "patch.apply",
+  "human_review_accepted": false,
+  "human_review_handoff_ref": null,
+  "must_not_execute": true
+}

@@ -1,0 +1,30 @@
+{
+  "allowed_actions": [
+    "view",
+    "export",
+    "open_evidence"
+  ],
+  "app_id": "app_v9_7",
+  "append_only": true,
+  "audit_ref": "audit://v9-7/audit-export/4f050c799cfe",
+  "checksum": "491b67912464ea3cd59b3463644b29c09556d204bf62c41b6b3b73dddd9c6a1b",
+  "correlation_id": "correlation_v9_7",
+  "created_at": "2026-06-08T08:18:07.673648+00:00",
+  "export_id": "audit-export-v9-7-4871a4059ea7",
+  "immutable": true,
+  "included_refs": [
+    "audit://v9-7/tenant-isolation/fd51161bac3b",
+    "audit://v9-7/credential-lease/4921f07e182d",
+    "audit://v9-7/service-account-binding/aecd37ee1f7a",
+    "audit://v9-7/incident/69c90304144d",
+    "audit://v9-7/incident/e95da0b6e7f0",
+    "audit://v9-7/incident/2c4c1b07b914",
+    "audit://v9-7/incident/5b51af748889"
+  ],
+  "project_id": "project_v9_7",
+  "readonly": true,
+  "request_id": "request_v9_7",
+  "requested_by": "user_v9_7_reviewer",
+  "tenant_id": "tenant_v9_7",
+  "workspace_id": "workspace_v9_7"
+}

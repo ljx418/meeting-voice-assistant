@@ -1,0 +1,31 @@
+{
+  "agent_executor_ready": false,
+  "allowed_claim": "V9-4 complete: autonomous coding workflow pilot ready for review.",
+  "auto_commit_denied": "PASS",
+  "auto_deploy_denied": "PASS",
+  "auto_push_denied": "PASS",
+  "autonomous_coding_workflow_ready": false,
+  "claim_scan": "PASS",
+  "diff_proposal_created": "PASS",
+  "diff_proposal_is_not_patch_apply": "PASS",
+  "evidence_scope": "real_runtime_fixture",
+  "fallback_demo_only": false,
+  "fix_loop_creates_new_diff_proposal": "PASS",
+  "production_terminal_automation_ready": false,
+  "redaction_scan": "PASS",
+  "remaining_blockers": [
+    "This V9-4 evidence package does not authorize V9-5 terminal worker expansion without a separate V9-5 decision.",
+    "V9-8 final acceptance remains blocked until V9-0..V9-7 evidence packages exist."
+  ],
+  "report_only": false,
+  "review_summary_is_not_approval": "PASS",
+  "runtime_backed": true,
+  "sandboxed_test_result": "PASS",
+  "schema_version": "v9_4.runtime_acceptance.v1",
+  "source_agent_direct_mutation_denied": "PASS",
+  "stage_id": "V9-4",
+  "status": "PASS",
+  "transcript_only": false,
+  "unrestricted_terminal_worker_ready": false,
+  "unreviewed_patch_apply_denied": "PASS"
+}

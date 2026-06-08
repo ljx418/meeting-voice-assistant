@@ -1,0 +1,23 @@
+{
+  "actor_id": "user_v9_6_reviewer",
+  "app_id": "app_v9_6",
+  "audit_ref": "audit://v9-6/workflow-diff-proposal/ff6515d1b6cb",
+  "correlation_id": "correlation_v9_6",
+  "created_at": "2026-06-08T08:18:06.728697+00:00",
+  "diff_ref": "workflow-diff://v9-6/a32024b48620",
+  "durable_mutation_performed": false,
+  "natural_language_goal": "减少一个冗余审查工位，并新增安全审查 Agent。",
+  "project_id": "project_v9_6",
+  "proposal_id": "workflow-diff-proposal-v9-6-05aab67bf21f",
+  "request_id": "request_v9_6",
+  "requires_manual_confirmation": true,
+  "risk_delta": "medium_requires_manual_confirmation",
+  "source": "product_console",
+  "target_refs": {
+    "workflow_id": "workflow-v9-6",
+    "workflow_version_id": "workflow-version-v9-6"
+  },
+  "tenant_id": "tenant_v9_6",
+  "workflow_spec_ref": "workflow-spec://v9-6/studio-productization",
+  "workspace_id": "workspace_v9_6"
+}

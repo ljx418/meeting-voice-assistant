@@ -1,0 +1,5 @@
+diff --git a/docs/design/V9.x/v9_4_development_and_acceptance_plan.md b/docs/design/V9.x/v9_4_development_and_acceptance_plan.md
+--- a/docs/design/V9.x/v9_4_development_and_acceptance_plan.md
++++ b/docs/design/V9.x/v9_4_development_and_acceptance_plan.md
+@@
++Proposed-only note: V9-4 runtime evidence should link coding workflow run, diff proposal, sandboxed test result, review summary, fix-loop proposal and human review handoff.

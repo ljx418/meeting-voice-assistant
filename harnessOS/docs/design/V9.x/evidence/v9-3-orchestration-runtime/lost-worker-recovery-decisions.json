@@ -1,0 +1,22 @@
+[
+  {
+    "audit_ref": "audit://v9-3/recovery/implementation",
+    "correlation_id": "corr-v9-3-334ebae872",
+    "created_at": "2026-06-08T08:17:48Z",
+    "credential_decision_ref": "credential-decision://v9-3/recovery/implementation",
+    "decision": "recover",
+    "failed_attempt_id": "attempt-implementation-1",
+    "incident_timeline_ref": "incident-timeline://v9-3/implementation-worker-recovered",
+    "lost_worker_id": "worker-v9-3-implementation-old",
+    "old_attempt_retained": true,
+    "old_error_ref": "error-ref://v9-3/worker-timeout",
+    "orchestration_run_id": "orch-v9-3-99fbb22fd0a9",
+    "policy_decision_ref": "policy-decision://v9-3/recovery/implementation",
+    "previous_checkpoint_ref": "checkpoint-ref://v9-3/implementation-1",
+    "recovery_decision_id": "recovery-v9-3-implementation",
+    "replacement_attempt_id": "attempt-implementation-2",
+    "replacement_worker_id": "worker-v9-3-implementation-replacement",
+    "request_id": "req-v9-3-4fcd528508",
+    "schema_version": "v9_3.lost_worker_recovery_decision.v1"
+  }
+]

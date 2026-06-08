@@ -1,0 +1,11 @@
+{
+  "schema_version": "v9_3.fixture.negative.v1",
+  "fixture_id": "v9_3_fan_in_missing_attribution",
+  "expected_status": "DENIED",
+  "expected_reason": "fan_in_attribution_missing",
+  "fan_in_join_decision": {
+    "join_decision_id": "join-missing-attribution",
+    "input_artifact_refs": ["artifact-ref://v9-3/a", "artifact-ref://v9-3/b"],
+    "attribution_refs": []
+  }
+}

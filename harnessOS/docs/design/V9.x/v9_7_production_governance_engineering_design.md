@@ -1,10 +1,19 @@
 # V9-7 Production Governance Engineering Design
 
-文档状态：V9-7 engineering design / planned only。
+文档状态：V9-7 engineering design / implemented governance slice / ready for review。
 
 ## 1. Boundary
 
 V9-7 hardens production governance, evidence and terminal automation gates. It does not prove production automation ready or production browser automation ready.
+
+Implemented evidence:
+
+```text
+core/governance/v9_7_production_governance.py
+tests/test_v9_7_production_governance.py
+tools/v9/generate_v9_7_production_governance_evidence.py
+docs/design/V9.x/evidence/v9-7-production-governance/acceptance-data.json
+```
 
 ## 2. Required Models
 
@@ -68,4 +77,16 @@ incident_timeline_records_policy_denial
 evidence_hardening_redaction_pass
 browser_automation_blocked_without_separate_prd
 production_automation_ready_claim_denied
+```
+
+## 6. Non-Claims
+
+V9-7 ready-for-review evidence must not be summarized as:
+
+```text
+production automation ready
+production terminal automation ready
+production browser automation ready
+production ready
+full production GA
 ```

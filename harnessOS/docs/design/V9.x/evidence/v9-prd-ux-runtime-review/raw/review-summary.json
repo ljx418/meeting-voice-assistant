@@ -1,0 +1,129 @@
+{
+  "allowed_final_claim": "V9 complete: high-risk Agent execution and workflow productization baseline ready for review.",
+  "checks": [
+    {
+      "check_id": "tui_command_runs",
+      "details": "TUI command rendered text state.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "tui_json_state_runs",
+      "details": "TUI command rendered JSON state.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "real_openharness_tui_screenshot_exists",
+      "details": "Real macOS Terminal window screenshot for `python -m cli.main --oh` exists.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "real_openharness_tui_after_input_screenshot_exists",
+      "details": "Real OpenHarness Textual TUI screenshot after user input and assistant response exists.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "local_markdown_workflow_runs",
+      "details": "Natural-language local Markdown workflow executed with user confirmation.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "v9_1_safety_gate_evidence_runs",
+      "details": "V9-1 safety gate evidence was regenerated before final acceptance.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "v9_1_internal_audit_runs",
+      "details": "V9-1 internal audit closure was regenerated before final acceptance.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "v9_2_pre_implementation_closure_runs",
+      "details": "V9-2 pre-implementation closure was regenerated before final acceptance.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "v9_3_runtime_runs",
+      "details": "V9-3 orchestration runtime evidence regenerated.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "v9_8_final_acceptance_runs",
+      "details": "V9-8 final acceptance validator regenerated.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "v9_tests_pass",
+      "details": "V9 pytest suite passed.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "v9_final_pass",
+      "details": "V9 final acceptance status is PASS.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "v9_final_has_no_blockers",
+      "details": "V9 final acceptance blockers are empty.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "claim_scan_pass",
+      "details": "No False Green scan is PASS.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "redaction_scan_pass",
+      "details": "Redaction scan is PASS.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "storyboard_provider_backed",
+      "details": "US-V9-08 provider-backed storyboard evidence is PASS.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "storyboard_has_four_images",
+      "details": "At least four storyboard image artifacts exist.",
+      "status": "PASS"
+    },
+    {
+      "check_id": "local_run_runtime_backed",
+      "details": "Local Markdown workflow evidence is runtime-backed.",
+      "status": "PASS"
+    }
+  ],
+  "created_at": "2026-06-08T06:40:11Z",
+  "forbidden_capability_flags": {
+    "agent_executor_ready": false,
+    "complete_workflow_studio_ready": false,
+    "full_multi_agent_orchestration_ready": false,
+    "production_ready": false,
+    "production_terminal_automation_ready": false,
+    "unrestricted_terminal_worker_ready": false
+  },
+  "goal": "用多个 Agent 讨论一个视频创作工作流，并给出可审计的分镜与运行证据",
+  "local_doc_goal": "递归总结 tests/fixtures/desktop/技术分享 下的 Markdown 技术文档",
+  "prd_refs": [
+    "docs/design/V9.x/v9_target_prd.md",
+    "docs/design/V9.x/v9_target_architecture.md",
+    "docs/design/V9.x/v9_development_and_acceptance_plan.md",
+    "docs/design/V9.x/v9_acceptance_gate_matrix.md",
+    "docs/design/V9.x/v9_user_scenario_acceptance_gate.md"
+  ],
+  "schema_version": "v9.prd_ux_runtime_review.v1",
+  "screenshot_refs": {
+    "mission_tui_rendered_snapshot_not_real_window": "docs/design/V9.x/evidence/v9-prd-ux-runtime-review/screenshots/tui-window.png",
+    "real_openharness_textual_tui_after_user_input": "docs/design/V9.x/evidence/v9-prd-ux-runtime-review/screenshots/real-openharness-textual-tui-after-user-input.png",
+    "real_openharness_textual_tui_window": "docs/design/V9.x/evidence/v9-prd-ux-runtime-review/screenshots/real-openharness-textual-tui-window.png",
+    "runtime_output_rendered_snapshot": "docs/design/V9.x/evidence/v9-prd-ux-runtime-review/screenshots/runtime-output.png"
+  },
+  "status": "PASS",
+  "test_refs": [
+    "tests/test_v9_3_multi_agent_orchestration_runtime.py",
+    "tests/test_v9_4_coding_workflow_pilot.py",
+    "tests/test_v9_5_governed_terminal_worker.py",
+    "tests/test_v9_6_workflow_studio.py",
+    "tests/test_v9_7_production_governance.py",
+    "tests/test_v9_8_final_acceptance.py"
+  ]
+}

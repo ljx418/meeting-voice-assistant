@@ -1,15 +1,33 @@
 # V9-8 Final Acceptance Validator Engineering Design
 
-文档状态：V9-8 engineering design / planned only。
+文档状态：V9-8 engineering design / implemented validator / PASS with US-V9-08 provider-backed image evidence。
 
 ## 1. Purpose
 
 V9-8 validator aggregates stage evidence and decides whether the final V9 ready-for-review claim can be emitted. It must reject planning-only evidence for runtime stages.
 
+Implemented files:
+
+```text
+tools/v9/generate_v9_8_final_acceptance.py
+tests/test_v9_8_final_acceptance.py
+docs/design/V9.x/evidence/v9-8-final-acceptance/v9-final-acceptance-dashboard.html
+docs/design/V9.x/evidence/v9-8-final-acceptance/v9-final-acceptance-data.json
+```
+
+Current validator result:
+
+```text
+status=PASS
+blockers=[]
+final_claim=V9 complete: high-risk Agent execution and workflow productization baseline ready for review.
+```
+
 Current rejection fixture:
 
 ```text
 docs/design/V9.x/fixtures/evidence/v9_8_reject_planning_only_sample.json
+docs/design/V9.x/evidence/v9-3-orchestration-runtime/storyboard-provider-evidence.json
 ```
 
 ## 2. Discovery Rules
@@ -50,6 +68,7 @@ run No False Green claim scan.
 run redaction scan.
 validate drawio XML.
 generate final dashboard.
+block final claim when US-V9-08 provider-backed storyboard image evidence is missing or blocked; allow the final ready-for-review claim only when four storyboard image artifacts and provider/model/invocation refs are recorded.
 ```
 
 The validator must treat `docs/design/V9.x/fixtures/evidence/v9_8_reject_planning_only_sample.json` as BLOCKED, not PASS.

@@ -1,11 +1,11 @@
 {
   "available_actions": [
     {
-      "action_id": "action_d8da5a6d26",
+      "action_id": "action_74f36801dc",
       "actor_type": "human_user",
       "agent_executable": false,
       "capability_decision": "allow",
-      "mission_id": "mission_v7_2_75fd7dc5e701",
+      "mission_id": "mission_v7_2_56c6a62a2d6d",
       "operation": "workflow.patch.propose",
       "policy_decision": "allow",
       "requires_user_confirmation": false,
@@ -15,15 +15,15 @@
       ],
       "source": "mission_tui",
       "target_refs": {
-        "workflow_spec_id": "workflow-spec://v7-2/mission_v7_2_75fd7dc5e701"
+        "workflow_spec_id": "workflow-spec://v7-2/mission_v7_2_56c6a62a2d6d"
       }
     },
     {
-      "action_id": "action_1174e3235c",
+      "action_id": "action_4baa9a7f5f",
       "actor_type": "human_user",
       "agent_executable": false,
       "capability_decision": "needs_user_confirmation",
-      "mission_id": "mission_v7_2_75fd7dc5e701",
+      "mission_id": "mission_v7_2_56c6a62a2d6d",
       "operation": "workflow.instance.start",
       "policy_decision": "needs_review",
       "requires_user_confirmation": true,
@@ -33,7 +33,7 @@
       ],
       "source": "mission_tui",
       "target_refs": {
-        "workflow_spec_id": "workflow-spec://v7-2/mission_v7_2_75fd7dc5e701"
+        "workflow_spec_id": "workflow-spec://v7-2/mission_v7_2_56c6a62a2d6d"
       }
     }
   ],
@@ -41,63 +41,63 @@
   "forbidden_reasons": [
     {
       "human_readable_summary": "Agent 来源不能直接执行持久化运行，必须等待人工确认。",
-      "mission_id": "mission_v7_2_75fd7dc5e701",
+      "mission_id": "mission_v7_2_56c6a62a2d6d",
       "operation": "workflow.instance.start",
       "policy_ref": "policy://v7-2/source-agent-denied",
       "reason_code": "source_agent_denied",
-      "reason_id": "reason_d70995e9d8",
+      "reason_id": "reason_84a51d85bc",
       "source": "agent"
     },
     {
       "human_readable_summary": "运行工作流属于持久化动作，必须先获得 user_confirmed=true。",
-      "mission_id": "mission_v7_2_75fd7dc5e701",
+      "mission_id": "mission_v7_2_56c6a62a2d6d",
       "operation": "workflow.instance.start",
       "policy_ref": "policy://v7-2/user-confirmation-required",
       "reason_code": "requires_user_confirmation",
-      "reason_id": "reason_03baa6d7da",
+      "reason_id": "reason_62be72b59b",
       "source": "mission_tui"
     }
   ],
-  "generated_at": "2026-06-05T01:30:14.908772+00:00",
+  "generated_at": "2026-06-08T08:17:22.172005+00:00",
   "links": {
-    "blueprint": "drawio://v7-2/mission_v7_2_75fd7dc5e701/workflow.drawio",
-    "evidence_chain": "evidence://v7-2/mission_v7_2_75fd7dc5e701/transcript",
+    "blueprint": "drawio://v7-2/mission_v7_2_56c6a62a2d6d/workflow.drawio",
+    "evidence_chain": "evidence://v7-2/mission_v7_2_56c6a62a2d6d/transcript",
     "runtime_report": "runtime-report://not-started/transcript-only",
-    "workflow_diff": "workflow-diff://v7-2/mission_v7_2_75fd7dc5e701",
-    "workflow_spec": "workflow-spec://v7-2/mission_v7_2_75fd7dc5e701"
+    "workflow_diff": "workflow-diff://v7-2/mission_v7_2_56c6a62a2d6d",
+    "workflow_spec": "workflow-spec://v7-2/mission_v7_2_56c6a62a2d6d"
   },
-  "mission_id": "mission_v7_2_75fd7dc5e701",
+  "mission_id": "mission_v7_2_56c6a62a2d6d",
   "natural_language_goal": "递归总结 Desktop/技术分享 下的 Markdown 技术文档",
   "runtime_backed": false,
   "runtime_truth_boundary": "tui_is_workflow_head_not_runtime_truth",
   "timeline": [
     {
-      "occurred_at": "2026-06-05T01:30:14.908772+00:00",
-      "source_ref": "mission://v7-2/mission_v7_2_75fd7dc5e701/IntentCaptured",
+      "occurred_at": "2026-06-08T08:17:22.172005+00:00",
+      "source_ref": "mission://v7-2/mission_v7_2_56c6a62a2d6d/IntentCaptured",
       "state": "IntentCaptured",
       "status": "complete"
     },
     {
-      "occurred_at": "2026-06-05T01:30:14.908772+00:00",
-      "source_ref": "mission://v7-2/mission_v7_2_75fd7dc5e701/SpecDrafted",
+      "occurred_at": "2026-06-08T08:17:22.172005+00:00",
+      "source_ref": "mission://v7-2/mission_v7_2_56c6a62a2d6d/SpecDrafted",
       "state": "SpecDrafted",
       "status": "complete"
     },
     {
-      "occurred_at": "2026-06-05T01:30:14.908772+00:00",
-      "source_ref": "mission://v7-2/mission_v7_2_75fd7dc5e701/SchemaValidated",
+      "occurred_at": "2026-06-08T08:17:22.172005+00:00",
+      "source_ref": "mission://v7-2/mission_v7_2_56c6a62a2d6d/SchemaValidated",
       "state": "SchemaValidated",
       "status": "complete"
     },
     {
-      "occurred_at": "2026-06-05T01:30:14.908772+00:00",
-      "source_ref": "mission://v7-2/mission_v7_2_75fd7dc5e701/DiffReady",
+      "occurred_at": "2026-06-08T08:17:22.172005+00:00",
+      "source_ref": "mission://v7-2/mission_v7_2_56c6a62a2d6d/DiffReady",
       "state": "DiffReady",
       "status": "complete"
     },
     {
-      "occurred_at": "2026-06-05T01:30:14.908772+00:00",
-      "source_ref": "mission://v7-2/mission_v7_2_75fd7dc5e701/AwaitingConfirmation",
+      "occurred_at": "2026-06-08T08:17:22.172005+00:00",
+      "source_ref": "mission://v7-2/mission_v7_2_56c6a62a2d6d/AwaitingConfirmation",
       "state": "AwaitingConfirmation",
       "status": "active"
     }

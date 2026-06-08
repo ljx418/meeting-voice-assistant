@@ -1,0 +1,10 @@
+diff --git a/docs/design/V9.x/v9_5_development_and_acceptance_plan.md b/docs/design/V9.x/v9_5_development_and_acceptance_plan.md
+proposal_only=true
+applied=false
+auto_commit=false
+auto_push=false
+production_deploy=false
+@@ V9-5 governed terminal worker proposal @@
++ terminal worker transcript capture PASS
++ command tier decisions captured
++ workspace escape / symlink escape / git push / production deploy denial evidence captured

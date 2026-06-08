@@ -1,0 +1,87 @@
+[
+  {
+    "argv": [
+      "pwd"
+    ],
+    "audit_ref": "audit://v9-5/command/tier0_readonly",
+    "command_decision_id": "terminal-command-decision-v9-5-935d66f33278",
+    "command_tier": "tier0_readonly",
+    "created_at": "2026-06-08T08:18:03Z",
+    "denial_reason": null,
+    "diff_capture_ref": null,
+    "policy_decision": "allow",
+    "requires_human_authorization_ref": false,
+    "transcript_ref": "terminal-transcript.txt"
+  },
+  {
+    "argv": [
+      "git",
+      "status",
+      "--short",
+      "--",
+      "core",
+      "tools/v9",
+      "tests",
+      "docs/design/V9.x"
+    ],
+    "audit_ref": "audit://v9-5/command/tier0_readonly",
+    "command_decision_id": "terminal-command-decision-v9-5-d81e116e7c09",
+    "command_tier": "tier0_readonly",
+    "created_at": "2026-06-08T08:18:03Z",
+    "denial_reason": null,
+    "diff_capture_ref": null,
+    "policy_decision": "allow",
+    "requires_human_authorization_ref": false,
+    "transcript_ref": "terminal-transcript.txt"
+  },
+  {
+    "argv": [
+      "rg",
+      "-n",
+      "V9-5",
+      "docs/design/V9.x/v9_5_development_and_acceptance_plan.md"
+    ],
+    "audit_ref": "audit://v9-5/command/tier0_readonly",
+    "command_decision_id": "terminal-command-decision-v9-5-08dd96e42ad1",
+    "command_tier": "tier0_readonly",
+    "created_at": "2026-06-08T08:18:03Z",
+    "denial_reason": null,
+    "diff_capture_ref": null,
+    "policy_decision": "allow",
+    "requires_human_authorization_ref": false,
+    "transcript_ref": "terminal-transcript.txt"
+  },
+  {
+    "argv": [
+      "./.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_v9_4_readiness_closure.py",
+      "-q"
+    ],
+    "audit_ref": "audit://v9-5/command/tier1_build_test",
+    "command_decision_id": "terminal-command-decision-v9-5-df8ccb74c8af",
+    "command_tier": "tier1_build_test",
+    "created_at": "2026-06-08T08:18:03Z",
+    "denial_reason": null,
+    "diff_capture_ref": null,
+    "policy_decision": "allow",
+    "requires_human_authorization_ref": false,
+    "transcript_ref": "terminal-transcript.txt"
+  },
+  {
+    "argv": [
+      "diff.proposal",
+      "docs/design/V9.x/v9_5_development_and_acceptance_plan.md"
+    ],
+    "audit_ref": "audit://v9-5/diff-proposal",
+    "command_decision_id": "terminal-command-decision-v9-5-fda6b964011e",
+    "command_tier": "tier2_diff_proposal",
+    "created_at": "2026-06-08T08:18:05Z",
+    "denial_reason": null,
+    "diff_capture_ref": "diff-capture.patch",
+    "policy_decision": "allow_proposal_only",
+    "requires_human_authorization_ref": true,
+    "transcript_ref": "terminal-transcript.txt"
+  }
+]

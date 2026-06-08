@@ -1,0 +1,65 @@
+{
+  "agent_id": "agent-quality",
+  "agent_role": "质检 Agent",
+  "checks": {
+    "character_bible_consistent": "PASS",
+    "forbidden_completion_claims_absent": "PASS",
+    "image_files_exist_and_nonempty": "PASS",
+    "provider_payload_not_stored": "PASS",
+    "real_tui_screenshots_present": "PASS",
+    "source_agent_direct_mutation_denied": "PASS",
+    "storyboard_shot_count_is_four": "PASS",
+    "style_bible_consistent": "PASS"
+  },
+  "created_at": "2026-06-08T07:13:52Z",
+  "forbidden_claim_hits": [],
+  "image_checks": [
+    {
+      "artifact_ref": "artifact-ref://v9/video-e2e/storyboard-shot-1",
+      "byte_size_ok": true,
+      "character_bible_id": "character-bible://v9-video-e2e/luna-and-mica",
+      "dimensions_ok": true,
+      "exists": true,
+      "height": 1024,
+      "status": "PASS",
+      "style_bible_id": "style-bible://v9-video-e2e/neo-shanghai-soft-cinematic",
+      "width": 1024
+    },
+    {
+      "artifact_ref": "artifact-ref://v9/video-e2e/storyboard-shot-2",
+      "byte_size_ok": true,
+      "character_bible_id": "character-bible://v9-video-e2e/luna-and-mica",
+      "dimensions_ok": true,
+      "exists": true,
+      "height": 1024,
+      "status": "PASS",
+      "style_bible_id": "style-bible://v9-video-e2e/neo-shanghai-soft-cinematic",
+      "width": 1024
+    },
+    {
+      "artifact_ref": "artifact-ref://v9/video-e2e/storyboard-shot-3",
+      "byte_size_ok": true,
+      "character_bible_id": "character-bible://v9-video-e2e/luna-and-mica",
+      "dimensions_ok": true,
+      "exists": true,
+      "height": 1024,
+      "status": "PASS",
+      "style_bible_id": "style-bible://v9-video-e2e/neo-shanghai-soft-cinematic",
+      "width": 1024
+    },
+    {
+      "artifact_ref": "artifact-ref://v9/video-e2e/storyboard-shot-4",
+      "byte_size_ok": true,
+      "character_bible_id": "character-bible://v9-video-e2e/luna-and-mica",
+      "dimensions_ok": true,
+      "exists": true,
+      "height": 1024,
+      "status": "PASS",
+      "style_bible_id": "style-bible://v9-video-e2e/neo-shanghai-soft-cinematic",
+      "width": 1024
+    }
+  ],
+  "quality_summary": "四张分镜图均来自同一 style_bible_id 与 character_bible_id，文件存在且有可审计尺寸/哈希；真实 TUI 截图证据存在；质检 Agent 未发现越权声明或 provider 原始载荷落盘。",
+  "schema_version": "v9.video_quality_agent_report.v1",
+  "status": "PASS"
+}

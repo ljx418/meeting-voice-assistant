@@ -1,0 +1,11 @@
+{
+  "schema_version": "v9_4.fixture.negative.v1",
+  "fixture_id": "v9_4_auto_push_without_release_gate",
+  "expected_status": "DENIED",
+  "expected_reason": "auto_push_without_release_gate_denied",
+  "operation": "git.push",
+  "human_review_accepted": true,
+  "release_gate_accepted": false,
+  "production_gate_accepted": false,
+  "must_not_execute": true
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": "v9.user_scenario_fixture.v1",
+  "scenario_id": "US-V9-09",
+  "owner_stage": "V9-6",
+  "title": "Natural-language workflow optimization produces diff proposal",
+  "status": "BLOCKED",
+  "evidence_scope": "missing",
+  "runtime_backed": false,
+  "user_goal": "As a workflow editor, ask the system to optimize an existing video creation workflow by reducing station count, changing style and adding a safety review Agent.",
+  "expected_user_visible_outputs": [
+    "existing WorkflowSpec and Blueprint refs",
+    "WorkflowDiff proposal",
+    "added / removed / modified stations",
+    "Agent role / goal / tool / model changes",
+    "risk_delta",
+    "user confirmation gate",
+    "updated Blueprint / Runtime Report / Evidence Chain refs after confirmation"
+  ],
+  "dashboard_or_report_ref": null,
+  "evidence_refs": [],
+  "missing_evidence": [
+    "natural-language optimization dashboard",
+    "WorkflowDiff proposal evidence",
+    "source=agent direct mutation denial evidence",
+    "user confirmation or valid human authorization evidence",
+    "post-confirmation link update evidence"
+  ],
+  "claim_guard_notes": "This scenario must not be counted as autonomous workflow editing readiness.",
+  "redaction_guard_notes": "Future evidence must store redacted refs only and must not include raw workflow payloads or raw prompts."
+}

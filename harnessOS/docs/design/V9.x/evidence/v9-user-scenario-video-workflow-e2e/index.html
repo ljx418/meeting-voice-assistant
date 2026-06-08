@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>V9 视频创作工作流 E2E 验收</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f6f7f9; color: #172033; }
+    section { background: #fff; border: 1px solid #d8dee8; border-radius: 8px; margin: 18px auto; padding: 18px; max-width: 1240px; }
+    .hero { background: #111827; color: #f9fafb; border-color: #111827; }
+    code { background: #eef2f7; color: #16233a; padding: 2px 5px; border-radius: 4px; }
+    .hero code { background: #263244; color: #e5e7eb; }
+    pre { white-space: pre-wrap; word-break: break-word; background: #0f172a; color: #dbeafe; border-radius: 8px; padding: 14px; overflow: auto; max-height: 720px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #d8dee8; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #eef2f7; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    figure { margin: 0; border: 1px solid #d8dee8; border-radius: 8px; background: #f8fafc; padding: 10px; }
+    img { width: 100%; display: block; border-radius: 6px; border: 1px solid #cbd5e1; }
+    figcaption { color: #475569; font-size: 13px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+    <section class="hero">
+      <h1>V9 用户场景 E2E 验收：自然语言视频创作工作流</h1>
+      <p>状态：<strong>PASS</strong></p>
+      <p>目标：我有一个短视频点子：AI 小工作室协作完成一支关于未来城市清洁机器人的 60 秒短片，请生成工作流、统一风格分镜、质检报告和证据链。</p>
+      <p>证据范围：real_provider_backed_runtime_fixture；不声明 Agent executor ready / full multi-Agent orchestration ready。</p>
+    </section>
+    <section>
+      <h2>真实 TUI 运行截图</h2>
+      <p>这些截图来自已固化的 macOS Terminal OpenHarness/Textual TUI 真实运行证据；本页记录其来源、哈希和文件引用，证明本地 TUI 曾被实际打开并完成用户输入/assistant 响应。</p>
+      <div class="grid"><figure><img src='../../evidence/v9-user-scenario-video-workflow-e2e/screenshots/real-openharness-textual-tui-window.png'><figcaption>real_mac_terminal_tui_screenshot</figcaption></figure><figure><img src='../../evidence/v9-user-scenario-video-workflow-e2e/screenshots/real-openharness-textual-tui-after-user-input.png'><figcaption>real_mac_terminal_tui_screenshot</figcaption></figure></div>
+    </section>
+    <section>
+      <h2>统一风格分镜图</h2>
+      <p>所有分镜使用同一 <code>style-bible://v9-video-e2e/neo-shanghai-soft-cinematic</code> 和 <code>character-bible://v9-video-e2e/luna-and-mica</code>：Luna + Mica 在同一 neo-Shanghai AI studio 视觉设定中连续出现。</p>
+      <div class="grid"><figure><img src='../../evidence/v9-user-scenario-video-workflow-e2e/storyboard-images/shot-1.jpg'><figcaption>Shot 1 · artifact-ref://v9/video-e2e/storyboard-shot-1<br>sha256=a07ee8bab7f6d806...</figcaption></figure><figure><img src='../../evidence/v9-user-scenario-video-workflow-e2e/storyboard-images/shot-2.jpg'><figcaption>Shot 2 · artifact-ref://v9/video-e2e/storyboard-shot-2<br>sha256=cbe6e54999bff306...</figcaption></figure><figure><img src='../../evidence/v9-user-scenario-video-workflow-e2e/storyboard-images/shot-3.jpg'><figcaption>Shot 3 · artifact-ref://v9/video-e2e/storyboard-shot-3<br>sha256=54f25c9fc6f777d1...</figcaption></figure><figure><img src='../../evidence/v9-user-scenario-video-workflow-e2e/storyboard-images/shot-4.jpg'><figcaption>Shot 4 · artifact-ref://v9/video-e2e/storyboard-shot-4<br>sha256=9f5e54db4cb1deb2...</figcaption></figure></div>
+    </section>
+    <section>
+      <h2>内部 Agent 状态与关联</h2>
+      <p>Drawio 输出：<a href="workflow-agent-state.drawio">workflow-agent-state.drawio</a></p>
+      <figure><img src="workflow-agent-state.png"><figcaption>Drawio 导出图：工作流站点、Agent 状态、产物流转和边界说明。</figcaption></figure>
+      <table><thead><tr><th>Station</th><th>Agent Role</th><th>State</th><th>Skills</th><th>MCP</th></tr></thead><tbody><tr><td>station-intent</td><td>创意制片 Agent</td><td>succeeded</td><td>skill://video-briefing</td><td></td></tr><tr><td>station-director</td><td>导演 Agent</td><td>succeeded</td><td>skill://storyboard-planning</td><td></td></tr><tr><td>station-image</td><td>文生图 Agent</td><td>succeeded</td><td>skill://image-prompt-engineering</td><td>mcp://provider/image-generation</td></tr><tr><td>station-quality</td><td>质检 Agent</td><td>succeeded</td><td>skill://visual-consistency-qa</td><td></td></tr><tr><td>station-synthesis</td><td>制片总结 Agent</td><td>succeeded</td><td>skill://evidence-summary</td><td></td></tr></tbody></table>
+    </section>
+    <section>
+      <h2>质检 Agent 输出</h2>
+      <pre>{
+  &quot;schema_version&quot;: &quot;v9.video_quality_agent_report.v1&quot;,
+  &quot;agent_id&quot;: &quot;agent-quality&quot;,
+  &quot;agent_role&quot;: &quot;质检 Agent&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;checks&quot;: {
+    &quot;storyboard_shot_count_is_four&quot;: &quot;PASS&quot;,
+    &quot;style_bible_consistent&quot;: &quot;PASS&quot;,
+    &quot;character_bible_consistent&quot;: &quot;PASS&quot;,
+    &quot;image_files_exist_and_nonempty&quot;: &quot;PASS&quot;,
+    &quot;forbidden_completion_claims_absent&quot;: &quot;PASS&quot;,
+    &quot;source_agent_direct_mutation_denied&quot;: &quot;PASS&quot;,
+    &quot;real_tui_screenshots_present&quot;: &quot;PASS&quot;,
+    &quot;provider_payload_not_stored&quot;: &quot;PASS&quot;
+  },
+  &quot;image_checks&quot;: [
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-1&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;exists&quot;: true,
+      &quot;byte_size_ok&quot;: true,
+      &quot;dimensions_ok&quot;: true,
+      &quot;width&quot;: 1024,
+      &quot;height&quot;: 1024,
+      &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+      &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;
+    },
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-2&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;exists&quot;: true,
+      &quot;byte_size_ok&quot;: true,
+      &quot;dimensions_ok&quot;: true,
+      &quot;width&quot;: 1024,
+      &quot;height&quot;: 1024,
+      &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+      &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;
+    },
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-3&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;exists&quot;: true,
+      &quot;byte_size_ok&quot;: true,
+      &quot;dimensions_ok&quot;: true,
+      &quot;width&quot;: 1024,
+      &quot;height&quot;: 1024,
+      &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+      &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;
+    },
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-4&quot;,
+      &quot;status&quot;: &quot;PASS&quot;,
+      &quot;exists&quot;: true,
+      &quot;byte_size_ok&quot;: true,
+      &quot;dimensions_ok&quot;: true,
+      &quot;width&quot;: 1024,
+      &quot;height&quot;: 1024,
+      &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+      &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;
+    }
+  ],
+  &quot;forbidden_claim_hits&quot;: [],
+  &quot;quality_summary&quot;: &quot;四张分镜图均来自同一 style_bible_id 与 character_bible_id，文件存在且有可审计尺寸/哈希；真实 TUI 截图证据存在；质检 Agent 未发现越权声明或 provider 原始载荷落盘。&quot;,
+  &quot;created_at&quot;: &quot;2026-06-08T07:13:52Z&quot;
+}</pre>
+    </section>
+    <section>
+      <h2>完整证据数据</h2>
+      <pre>{
+  &quot;schema_version&quot;: &quot;v9.video_user_scenario_e2e.v1&quot;,
+  &quot;status&quot;: &quot;PASS&quot;,
+  &quot;scenario_id&quot;: &quot;US-V9-08-VIDEO-WORKFLOW-E2E&quot;,
+  &quot;goal&quot;: &quot;我有一个短视频点子：AI 小工作室协作完成一支关于未来城市清洁机器人的 60 秒短片，请生成工作流、统一风格分镜、质检报告和证据链。&quot;,
+  &quot;workflow_id&quot;: &quot;workflow-v9-video-e2e&quot;,
+  &quot;run_id&quot;: &quot;video-e2e-67e3f8edbcc2&quot;,
+  &quot;evidence_scope&quot;: &quot;real_provider_backed_runtime_fixture&quot;,
+  &quot;runtime_backed&quot;: true,
+  &quot;provider_ref&quot;: &quot;provider-ref://minimax/image-generation&quot;,
+  &quot;provider_model_ref&quot;: &quot;provider-model-ref://minimax/image-01&quot;,
+  &quot;provider_config_source&quot;: &quot;dotenv://minimax-image-provider&quot;,
+  &quot;provider_invocation_ref&quot;: &quot;provider-invocation-ref://v9/video-e2e/video-e2e-67e3f8edbcc2&quot;,
+  &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+  &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;,
+  &quot;prompt_refs&quot;: [
+    &quot;prompt-ref://v9/video-e2e/storyboard-shot-1&quot;,
+    &quot;prompt-ref://v9/video-e2e/storyboard-shot-2&quot;,
+    &quot;prompt-ref://v9/video-e2e/storyboard-shot-3&quot;,
+    &quot;prompt-ref://v9/video-e2e/storyboard-shot-4&quot;
+  ],
+  &quot;workflow&quot;: {
+    &quot;workflow_id&quot;: &quot;workflow-v9-video-e2e&quot;,
+    &quot;run_id&quot;: &quot;video-e2e-67e3f8edbcc2&quot;,
+    &quot;goal&quot;: &quot;我有一个短视频点子：AI 小工作室协作完成一支关于未来城市清洁机器人的 60 秒短片，请生成工作流、统一风格分镜、质检报告和证据链。&quot;,
+    &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+    &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;,
+    &quot;provider_model_ref&quot;: &quot;provider-model-ref://minimax/image-01&quot;,
+    &quot;provider_invocation_ref&quot;: &quot;provider-invocation-ref://v9/video-e2e/video-e2e-67e3f8edbcc2&quot;,
+    &quot;agents&quot;: [
+      {
+        &quot;agent_id&quot;: &quot;agent-intent&quot;,
+        &quot;station_id&quot;: &quot;station-intent&quot;,
+        &quot;role&quot;: &quot;创意制片 Agent&quot;,
+        &quot;goal&quot;: &quot;解析用户点子，生成短片目标和约束。&quot;,
+        &quot;state&quot;: &quot;succeeded&quot;,
+        &quot;memory_refs&quot;: [
+          &quot;memory-ref://v9/video-e2e/agent-intent/station-scoped&quot;
+        ],
+        &quot;tool_refs&quot;: [
+          &quot;tool-ref://v9/evidence.read&quot;,
+          &quot;tool-ref://v9/artifact.write-proposal&quot;
+        ],
+        &quot;skill_refs&quot;: [
+          &quot;skill://video-briefing&quot;
+        ],
+        &quot;mcp_refs&quot;: [],
+        &quot;policy_ref&quot;: &quot;policy://v9/video-e2e/agent-intent&quot;,
+        &quot;credential_decision_ref&quot;: &quot;credential-decision://v9/video-e2e/agent-intent/redacted&quot;
+      },
+      {
+        &quot;agent_id&quot;: &quot;agent-director&quot;,
+        &quot;station_id&quot;: &quot;station-director&quot;,
+        &quot;role&quot;: &quot;导演 Agent&quot;,
+        &quot;goal&quot;: &quot;拆解叙事节拍、镜头顺序和分镜提示。&quot;,
+        &quot;state&quot;: &quot;succeeded&quot;,
+        &quot;memory_refs&quot;: [
+          &quot;memory-ref://v9/video-e2e/agent-director/station-scoped&quot;
+        ],
+        &quot;tool_refs&quot;: [
+          &quot;tool-ref://v9/evidence.read&quot;,
+          &quot;tool-ref://v9/artifact.write-proposal&quot;
+        ],
+        &quot;skill_refs&quot;: [
+          &quot;skill://storyboard-planning&quot;
+        ],
+        &quot;mcp_refs&quot;: [],
+        &quot;policy_ref&quot;: &quot;policy://v9/video-e2e/agent-director&quot;,
+        &quot;credential_decision_ref&quot;: &quot;credential-decision://v9/video-e2e/agent-director/redacted&quot;
+      },
+      {
+        &quot;agent_id&quot;: &quot;agent-image&quot;,
+        &quot;station_id&quot;: &quot;station-image&quot;,
+        &quot;role&quot;: &quot;文生图 Agent&quot;,
+        &quot;goal&quot;: &quot;调用 provider 生成统一风格分镜图。&quot;,
+        &quot;state&quot;: &quot;succeeded&quot;,
+        &quot;memory_refs&quot;: [
+          &quot;memory-ref://v9/video-e2e/agent-image/station-scoped&quot;
+        ],
+        &quot;tool_refs&quot;: [
+          &quot;tool-ref://v9/evidence.read&quot;,
+          &quot;tool-ref://v9/artifact.write-proposal&quot;
+        ],
+        &quot;skill_refs&quot;: [
+          &quot;skill://image-prompt-engineering&quot;
+        ],
+        &quot;mcp_refs&quot;: [
+          &quot;mcp://provider/image-generation&quot;
+        ],
+        &quot;policy_ref&quot;: &quot;policy://v9/video-e2e/agent-image&quot;,
+        &quot;credential_decision_ref&quot;: &quot;credential-decision://v9/video-e2e/agent-image/redacted&quot;
+      },
+      {
+        &quot;agent_id&quot;: &quot;agent-quality&quot;,
+        &quot;station_id&quot;: &quot;station-quality&quot;,
+        &quot;role&quot;: &quot;质检 Agent&quot;,
+        &quot;goal&quot;: &quot;检查分镜图文件、风格合同、角色合同、证据链和红线。&quot;,
+        &quot;state&quot;: &quot;succeeded&quot;,
+        &quot;memory_refs&quot;: [
+          &quot;memory-ref://v9/video-e2e/agent-quality/station-scoped&quot;
+        ],
+        &quot;tool_refs&quot;: [
+          &quot;tool-ref://v9/evidence.read&quot;,
+          &quot;tool-ref://v9/artifact.write-proposal&quot;
+        ],
+        &quot;skill_refs&quot;: [
+          &quot;skill://visual-consistency-qa&quot;
+        ],
+        &quot;mcp_refs&quot;: [],
+        &quot;policy_ref&quot;: &quot;policy://v9/video-e2e/agent-quality&quot;,
+        &quot;credential_decision_ref&quot;: &quot;credential-decision://v9/video-e2e/agent-quality/redacted&quot;
+      },
+      {
+        &quot;agent_id&quot;: &quot;agent-synthesis&quot;,
+        &quot;station_id&quot;: &quot;station-synthesis&quot;,
+        &quot;role&quot;: &quot;制片总结 Agent&quot;,
+        &quot;goal&quot;: &quot;汇总分镜、质检结果、证据链和人工审查入口。&quot;,
+        &quot;state&quot;: &quot;succeeded&quot;,
+        &quot;memory_refs&quot;: [
+          &quot;memory-ref://v9/video-e2e/agent-synthesis/station-scoped&quot;
+        ],
+        &quot;tool_refs&quot;: [
+          &quot;tool-ref://v9/evidence.read&quot;,
+          &quot;tool-ref://v9/artifact.write-proposal&quot;
+        ],
+        &quot;skill_refs&quot;: [
+          &quot;skill://evidence-summary&quot;
+        ],
+        &quot;mcp_refs&quot;: [],
+        &quot;policy_ref&quot;: &quot;policy://v9/video-e2e/agent-synthesis&quot;,
+        &quot;credential_decision_ref&quot;: &quot;credential-decision://v9/video-e2e/agent-synthesis/redacted&quot;
+      }
+    ],
+    &quot;station_links&quot;: [
+      {
+        &quot;from_station_id&quot;: &quot;station-intent&quot;,
+        &quot;to_station_id&quot;: &quot;station-director&quot;,
+        &quot;artifact_kind&quot;: &quot;brief_to_shot_plan&quot;
+      },
+      {
+        &quot;from_station_id&quot;: &quot;station-director&quot;,
+        &quot;to_station_id&quot;: &quot;station-image&quot;,
+        &quot;artifact_kind&quot;: &quot;shot_prompts&quot;
+      },
+      {
+        &quot;from_station_id&quot;: &quot;station-image&quot;,
+        &quot;to_station_id&quot;: &quot;station-quality&quot;,
+        &quot;artifact_kind&quot;: &quot;storyboard_artifacts&quot;
+      },
+      {
+        &quot;from_station_id&quot;: &quot;station-quality&quot;,
+        &quot;to_station_id&quot;: &quot;station-synthesis&quot;,
+        &quot;artifact_kind&quot;: &quot;quality_report&quot;
+      }
+    ],
+    &quot;shot_prompt_refs&quot;: [
+      &quot;prompt-ref://v9/video-e2e/storyboard-shot-1&quot;,
+      &quot;prompt-ref://v9/video-e2e/storyboard-shot-2&quot;,
+      &quot;prompt-ref://v9/video-e2e/storyboard-shot-3&quot;,
+      &quot;prompt-ref://v9/video-e2e/storyboard-shot-4&quot;
+    ],
+    &quot;storyboard_artifact_refs&quot;: [
+      &quot;artifact-ref://v9/video-e2e/storyboard-shot-1&quot;,
+      &quot;artifact-ref://v9/video-e2e/storyboard-shot-2&quot;,
+      &quot;artifact-ref://v9/video-e2e/storyboard-shot-3&quot;,
+      &quot;artifact-ref://v9/video-e2e/storyboard-shot-4&quot;
+    ],
+    &quot;evidence_chain_refs&quot;: [
+      &quot;raw/video-workflow-e2e.json&quot;,
+      &quot;raw/quality-agent-report.json&quot;,
+      &quot;workflow-agent-state.drawio&quot;
+    ]
+  },
+  &quot;storyboard_artifacts&quot;: [
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-1&quot;,
+      &quot;path&quot;: &quot;evidence/v9-user-scenario-video-workflow-e2e/storyboard-images/shot-1.jpg&quot;,
+      &quot;sha256&quot;: &quot;a07ee8bab7f6d806554f8469fce5767be0f427d7018150f38428f57ab4a6e344&quot;,
+      &quot;byte_size&quot;: 310091,
+      &quot;content_type&quot;: &quot;image/jpeg&quot;,
+      &quot;width&quot;: 1024,
+      &quot;height&quot;: 1024,
+      &quot;prompt_ref&quot;: &quot;prompt-ref://v9/video-e2e/storyboard-shot-1&quot;,
+      &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+      &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;,
+      &quot;shot_index&quot;: 1
+    },
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-2&quot;,
+      &quot;path&quot;: &quot;evidence/v9-user-scenario-video-workflow-e2e/storyboard-images/shot-2.jpg&quot;,
+      &quot;sha256&quot;: &quot;cbe6e54999bff3068f8f767fffb256e3eec635ae80ec998514df8aeb03bc4829&quot;,
+      &quot;byte_size&quot;: 337011,
+      &quot;content_type&quot;: &quot;image/jpeg&quot;,
+      &quot;width&quot;: 1024,
+      &quot;height&quot;: 1024,
+      &quot;prompt_ref&quot;: &quot;prompt-ref://v9/video-e2e/storyboard-shot-2&quot;,
+      &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+      &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;,
+      &quot;shot_index&quot;: 2
+    },
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-3&quot;,
+      &quot;path&quot;: &quot;evidence/v9-user-scenario-video-workflow-e2e/storyboard-images/shot-3.jpg&quot;,
+      &quot;sha256&quot;: &quot;54f25c9fc6f777d1f096f16d7554351489d907f238555b401b8bfdc2ff09772d&quot;,
+      &quot;byte_size&quot;: 346355,
+      &quot;content_type&quot;: &quot;image/jpeg&quot;,
+      &quot;width&quot;: 1024,
+      &quot;height&quot;: 1024,
+      &quot;prompt_ref&quot;: &quot;prompt-ref://v9/video-e2e/storyboard-shot-3&quot;,
+      &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+      &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;,
+      &quot;shot_index&quot;: 3
+    },
+    {
+      &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-4&quot;,
+      &quot;path&quot;: &quot;evidence/v9-user-scenario-video-workflow-e2e/storyboard-images/shot-4.jpg&quot;,
+      &quot;sha256&quot;: &quot;9f5e54db4cb1deb234eeef4eaf07ea53228bee01ab2415b43327ccd643eb0f00&quot;,
+      &quot;byte_size&quot;: 379809,
+      &quot;content_type&quot;: &quot;image/jpeg&quot;,
+      &quot;width&quot;: 1024,
+      &quot;height&quot;: 1024,
+      &quot;prompt_ref&quot;: &quot;prompt-ref://v9/video-e2e/storyboard-shot-4&quot;,
+      &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+      &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;,
+      &quot;shot_index&quot;: 4
+    }
+  ],
+  &quot;quality_agent_report&quot;: {
+    &quot;schema_version&quot;: &quot;v9.video_quality_agent_report.v1&quot;,
+    &quot;agent_id&quot;: &quot;agent-quality&quot;,
+    &quot;agent_role&quot;: &quot;质检 Agent&quot;,
+    &quot;status&quot;: &quot;PASS&quot;,
+    &quot;checks&quot;: {
+      &quot;storyboard_shot_count_is_four&quot;: &quot;PASS&quot;,
+      &quot;style_bible_consistent&quot;: &quot;PASS&quot;,
+      &quot;character_bible_consistent&quot;: &quot;PASS&quot;,
+      &quot;image_files_exist_and_nonempty&quot;: &quot;PASS&quot;,
+      &quot;forbidden_completion_claims_absent&quot;: &quot;PASS&quot;,
+      &quot;source_agent_direct_mutation_denied&quot;: &quot;PASS&quot;,
+      &quot;real_tui_screenshots_present&quot;: &quot;PASS&quot;,
+      &quot;provider_payload_not_stored&quot;: &quot;PASS&quot;
+    },
+    &quot;image_checks&quot;: [
+      {
+        &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-1&quot;,
+        &quot;status&quot;: &quot;PASS&quot;,
+        &quot;exists&quot;: true,
+        &quot;byte_size_ok&quot;: true,
+        &quot;dimensions_ok&quot;: true,
+        &quot;width&quot;: 1024,
+        &quot;height&quot;: 1024,
+        &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+        &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;
+      },
+      {
+        &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-2&quot;,
+        &quot;status&quot;: &quot;PASS&quot;,
+        &quot;exists&quot;: true,
+        &quot;byte_size_ok&quot;: true,
+        &quot;dimensions_ok&quot;: true,
+        &quot;width&quot;: 1024,
+        &quot;height&quot;: 1024,
+        &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+        &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;
+      },
+      {
+        &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-3&quot;,
+        &quot;status&quot;: &quot;PASS&quot;,
+        &quot;exists&quot;: true,
+        &quot;byte_size_ok&quot;: true,
+        &quot;dimensions_ok&quot;: true,
+        &quot;width&quot;: 1024,
+        &quot;height&quot;: 1024,
+        &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+        &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;
+      },
+      {
+        &quot;artifact_ref&quot;: &quot;artifact-ref://v9/video-e2e/storyboard-shot-4&quot;,
+        &quot;status&quot;: &quot;PASS&quot;,
+        &quot;exists&quot;: true,
+        &quot;byte_size_ok&quot;: true,
+        &quot;dimensions_ok&quot;: true,
+        &quot;width&quot;: 1024,
+        &quot;height&quot;: 1024,
+        &quot;style_bible_id&quot;: &quot;style-bible://v9-video-e2e/neo-shanghai-soft-cinematic&quot;,
+        &quot;character_bible_id&quot;: &quot;character-bible://v9-video-e2e/luna-and-mica&quot;
+      }
+    ],
+    &quot;forbidden_claim_hits&quot;: [],
+    &quot;quality_summary&quot;: &quot;四张分镜图均来自同一 style_bible_id 与 character_bible_id，文件存在且有可审计尺寸/哈希；真实 TUI 截图证据存在；质检 Agent 未发现越权声明或 provider 原始载荷落盘。&quot;,
+    &quot;created_at&quot;: &quot;2026-06-08T07:13:52Z&quot;
+  },
+  &quot;drawio_ref&quot;: &quot;evidence/v9-user-scenario-video-workflow-e2e/workflow-agent-state.drawio&quot;,
+  &quot;screenshots&quot;: [
+    {
+      &quot;bound_to_current_provider_invocation&quot;: false,
+      &quot;byte_size&quot;: 1112077,
+      &quot;path&quot;: &quot;evidence/v9-user-scenario-video-workflow-e2e/screenshots/real-openharness-textual-tui-window.png&quot;,
+      &quot;sha256&quot;: &quot;0b60c918435b76e28693174c24dae174bf2baf18250b6910adceef1d08b28d63&quot;,
+      &quot;source_evidence_ref&quot;: &quot;evidence/v9-prd-ux-runtime-review/screenshots/real-openharness-textual-tui-window.png&quot;,
+      &quot;type&quot;: &quot;real_mac_terminal_tui_screenshot&quot;
+    },
+    {
+      &quot;bound_to_current_provider_invocation&quot;: false,
+      &quot;byte_size&quot;: 523954,
+      &quot;path&quot;: &quot;evidence/v9-user-scenario-video-workflow-e2e/screenshots/real-openharness-textual-tui-after-user-input.png&quot;,
+      &quot;sha256&quot;: &quot;ad2748250776b1111a0d945bc093533eaf7006804a6ad6ea824aeb20f336cb47&quot;,
+      &quot;source_evidence_ref&quot;: &quot;evidence/v9-prd-ux-runtime-review/screenshots/real-openharness-textual-tui-after-user-input.png&quot;,
+      &quot;type&quot;: &quot;real_mac_terminal_tui_screenshot&quot;
+    }
+  ],
+  &quot;prompt_material_stored&quot;: false,
+  &quot;provider_request_body_stored&quot;: false,
+  &quot;provider_response_body_stored&quot;: false,
+  &quot;credential_material_stored&quot;: false,
+  &quot;base64_stored&quot;: false,
+  &quot;source_agent_direct_mutation_denied&quot;: true,
+  &quot;agent_executor_ready&quot;: false,
+  &quot;full_multi_agent_orchestration_ready&quot;: false,
+  &quot;autonomous_coding_workflow_ready&quot;: false,
+  &quot;created_at&quot;: &quot;2026-</pre>
+    </section>
+    </body>
+</html>

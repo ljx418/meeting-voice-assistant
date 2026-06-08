@@ -1,8 +1,8 @@
 [
   {
-    "audit_ref": "audit://v7-1/mission_tui/e4db64e97bf6",
+    "audit_ref": "audit://v7-1/mission_tui/0aa7b14733cf",
     "correlation_id": "correlation_v7_1_evidence",
-    "created_at": "2026-06-05T01:30:11.901792+00:00",
+    "created_at": "2026-06-08T08:17:19.742079+00:00",
     "request_id": "request_v7_1_evidence",
     "source_id": "mission://v7-1/local-document-summary",
     "source_type": "mission_tui",
@@ -10,9 +10,9 @@
     "workspace_id": "workspace_v7_1"
   },
   {
-    "audit_ref": "audit://v7-1/product_console/74f4956d0321",
+    "audit_ref": "audit://v7-1/product_console/c42ecadfb297",
     "correlation_id": "correlation_v7_1_evidence",
-    "created_at": "2026-06-05T01:30:11.901792+00:00",
+    "created_at": "2026-06-08T08:17:19.742079+00:00",
     "request_id": "request_v7_1_evidence",
     "source_id": "console://v7-1/small-studio",
     "source_type": "product_console",
@@ -20,9 +20,9 @@
     "workspace_id": "workspace_v7_1"
   },
   {
-    "audit_ref": "audit://v7-1/runtime_report/e0a28389bb49",
+    "audit_ref": "audit://v7-1/runtime_report/22a60883bbf3",
     "correlation_id": "correlation_v7_1_evidence",
-    "created_at": "2026-06-05T01:30:11.901792+00:00",
+    "created_at": "2026-06-08T08:17:19.742079+00:00",
     "request_id": "request_v7_1_evidence",
     "source_id": "runtime-report://v6-9/final-acceptance",
     "source_type": "runtime_report",
@@ -30,9 +30,9 @@
     "workspace_id": "workspace_v7_1"
   },
   {
-    "audit_ref": "audit://v7-1/evidence_chain/d3aef44b3141",
+    "audit_ref": "audit://v7-1/evidence_chain/b4be7c6c7694",
     "correlation_id": "correlation_v7_1_evidence",
-    "created_at": "2026-06-05T01:30:11.901792+00:00",
+    "created_at": "2026-06-08T08:17:19.742079+00:00",
     "request_id": "request_v7_1_evidence",
     "source_id": "evidence://v6-9/final-acceptance",
     "source_type": "evidence_chain",

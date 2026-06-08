@@ -1,0 +1,11 @@
+{
+  "schema_version": "v9_4.fixture.negative.v1",
+  "fixture_id": "v9_4_auto_commit_without_human_approval",
+  "expected_status": "DENIED",
+  "expected_reason": "auto_commit_without_human_approval_denied",
+  "operation": "git.commit",
+  "human_review_accepted": false,
+  "release_gate_accepted": false,
+  "production_gate_accepted": false,
+  "must_not_execute": true
+}

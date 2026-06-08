@@ -1,0 +1,6 @@
+{
+  "expected_denial_reason": "symlink_escape_denied",
+  "fixture_id": "terminal_symlink_escape",
+  "owner_stage": "V9-5",
+  "scenario": "Reject symlink that resolves outside workspace."
+}

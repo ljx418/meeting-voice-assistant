@@ -1,0 +1,28 @@
+{
+  "schema_version": "v9.user_scenario_fixture.v1",
+  "scenario_id": "US-V9-02",
+  "owner_stage": "V9-3",
+  "title": "User asks multiple Agents to review local technical design and synthesize findings",
+  "status": "BLOCKED",
+  "evidence_scope": "missing",
+  "runtime_backed": false,
+  "user_goal": "As a technical lead, ask multiple Agents to review docs/design/V9.x from architecture, risk and evidence angles, then synthesize a single conclusion.",
+  "expected_user_visible_outputs": [
+    "Architecture reviewer Agent output",
+    "Risk reviewer Agent output",
+    "Evidence reviewer Agent output",
+    "fan-out dispatch to three branches",
+    "fan-in synthesis with attribution refs",
+    "attempt history and artifact lineage"
+  ],
+  "dashboard_or_report_ref": null,
+  "evidence_refs": [],
+  "missing_evidence": [
+    "V9-3 runtime dashboard",
+    "V9-3 serial/parallel runtime evidence",
+    "V9-3 fan-in/fan-out evidence",
+    "V9-3 recovery and lineage evidence"
+  ],
+  "claim_guard_notes": "This scenario must not be counted as full orchestration readiness.",
+  "redaction_guard_notes": "Future evidence must store redacted refs only."
+}

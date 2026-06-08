@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>V9-6 Workflow Studio 验收看板</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; color: #111827; }
+    header { padding: 24px 32px; background: #eef2ff; border-bottom: 1px solid #c7d2fe; }
+    main { padding: 24px 32px; display: grid; gap: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; }
+    .pill { display: inline-block; padding: 3px 8px; border-radius: 999px; background: #dcfce7; color: #166534; font-size: 12px; font-weight: 700; }
+    .muted { color: #64748b; font-size: 13px; }
+    pre { white-space: pre-wrap; word-break: break-word; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>V9-6 Workflow Studio 产品化验收看板</h1>
+    <p>通过 BFF/DTO/read-model 呈现工作流、Agent、运行报告和证据链；不证明完整 Studio。</p>
+    <span class="pill">ready for review</span>
+  </header>
+  <main>
+    <section class="card"><h2>BFF 路由白名单</h2><ul><li>GET /bff/v9/evidence-chain</li>
+<li>GET /bff/v9/runtime-report</li>
+<li>GET /bff/v9/studio-state</li>
+<li>GET /bff/v9/workflow-blueprint</li>
+<li>POST /bff/v9/manual-confirmation</li>
+<li>POST /bff/v9/review-handoff</li>
+<li>POST /bff/v9/workflow-diff-proposal</li></ul><p class="muted">浏览器网络日志只允许访问上述 BFF 路由。</p></section>
+    <section class="card"><h2>WorkflowDiff Proposal</h2><p><strong>proposal_id:</strong> workflow-diff-proposal-v9-6-05aab67bf21f</p><p><strong>diff_ref:</strong> workflow-diff://v9-6/a32024b48620</p><p class="muted">自然语言优化只生成 proposal，确认前没有 durable mutation。</p></section>
+    <section class="card"><h2>Manual Confirmation</h2><p><strong>human_authorization_ref:</strong> human-auth://v9-6/a10199dbcf75</p><p><strong>audit_ref:</strong> audit://v9-6/manual-confirmation/8bbd95977e95</p><p class="muted">人工确认只生成授权引用，不直接执行运行时动作。</p></section>
+    <section class="grid"><article class="card" data-panel="workflow_blueprint" data-readonly="true">
+      <h2>工作流蓝图</h2>
+      <p class="muted">Allowed actions: view, open_proposal</p>
+      <pre>{
+  &quot;allowed_actions&quot;: [
+    &quot;view&quot;,
+    &quot;open_proposal&quot;
+  ],
+  &quot;constructs_runtime_truth&quot;: false,
+  &quot;data&quot;: {
+    &quot;edge_count&quot;: 3,
+    &quot;node_count&quot;: 4,
+    &quot;source&quot;: &quot;workflow_blueprint_read_model&quot;
+  },
+  &quot;hidden_mutation_form_present&quot;: false,
+  &quot;panel_id&quot;: &quot;workflow_blueprint&quot;,
+  &quot;readonly&quot;: true,
+  &quot;source_refs&quot;: {
+    &quot;blueprint_ref&quot;: &quot;docs/design/V9.x/evidence/v9-3-orchestration-runtime/acceptance-data.json&quot;
+  },
+  &quot;title&quot;: &quot;工作流蓝图&quot;
+}</pre>
+    </article>
+<article class="card" data-panel="agent_station_inspector" data-readonly="true">
+      <h2>Agent 工位检查器</h2>
+      <p class="muted">Allowed actions: view, open_evidence</p>
+      <pre>{
+  &quot;allowed_actions&quot;: [
+    &quot;view&quot;,
+    &quot;open_evidence&quot;
+  ],
+  &quot;constructs_runtime_truth&quot;: false,
+  &quot;data&quot;: {
+    &quot;agent_count&quot;: 3,
+    &quot;profiles&quot;: [
+      {
+        &quot;agent_id&quot;: &quot;agent-intent&quot;,
+        &quot;role&quot;: &quot;目标澄清&quot;,
+        &quot;station_id&quot;: &quot;intent&quot;,
+        &quot;tool_refs&quot;: [
+          &quot;tool://tui-input&quot;
+        ]
+      },
+      {
+        &quot;agent_id&quot;: &quot;agent-architect&quot;,
+        &quot;role&quot;: &quot;工作流架构&quot;,
+        &quot;station_id&quot;: &quot;architect&quot;,
+        &quot;tool_refs&quot;: [
+          &quot;tool://workflow-diff&quot;
+        ]
+      },
+      {
+        &quot;agent_id&quot;: &quot;agent-security&quot;,
+        &quot;role&quot;: &quot;安全审查&quot;,
+        &quot;station_id&quot;: &quot;security-review&quot;,
+        &quot;tool_refs&quot;: [
+          &quot;tool://evidence-chain&quot;
+        ]
+      }
+    ]
+  },
+  &quot;hidden_mutation_form_present&quot;: false,
+  &quot;panel_id&quot;: &quot;agent_station_inspector&quot;,
+  &quot;readonly&quot;: true,
+  &quot;source_refs&quot;: {
+    &quot;agent_profile_ref&quot;: &quot;docs/design/V9.x/evidence/v9-3-orchestration-runtime/user-scenarios.json&quot;
+  },
+  &quot;title&quot;: &quot;Agent 工位检查器&quot;
+}</pre>
+    </article>
+<article class="card" data-panel="runtime_report" data-readonly="true">
+      <h2>运行报告</h2>
+      <p class="muted">Allowed actions: view, open_report</p>
+      <pre>{
+  &quot;allowed_actions&quot;: [
+    &quot;view&quot;,
+    &quot;open_report&quot;
+  ],
+  &quot;constructs_runtime_truth&quot;: false,
+  &quot;data&quot;: {
+    &quot;attempt_count&quot;: 1,
+    &quot;source&quot;: &quot;runtime_report_read_model&quot;,
+    &quot;status&quot;: &quot;ready_for_review&quot;
+  },
+  &quot;hidden_mutation_form_present&quot;: false,
+  &quot;panel_id&quot;: &quot;runtime_report&quot;,
+  &quot;readonly&quot;: true,
+  &quot;source_refs&quot;: {
+    &quot;runtime_report_ref&quot;: &quot;docs/design/V9.x/evidence/v9-4-coding-workflow-runtime/acceptance-data.json&quot;
+  },
+  &quot;title&quot;: &quot;运行报告&quot;
+}</pre>
+    </article>
+<article class="card" data-panel="evidence_chain" data-readonly="true">
+      <h2>证据链</h2>
+      <p class="muted">Allowed actions: view, export, open_handoff</p>
+      <pre>{
+  &quot;allowed_actions&quot;: [
+    &quot;view&quot;,
+    &quot;export&quot;,
+    &quot;open_handoff&quot;
+  ],
+  &quot;constructs_runtime_truth&quot;: false,
+  &quot;data&quot;: {
+    &quot;claim_scan&quot;: &quot;PASS&quot;,
+    &quot;evidence_count&quot;: 3,
+    &quot;redaction_scan&quot;: &quot;PASS&quot;
+  },
+  &quot;hidden_mutation_form_present&quot;: false,
+  &quot;panel_id&quot;: &quot;evidence_chain&quot;,
+  &quot;readonly&quot;: true,
+  &quot;source_refs&quot;: {
+    &quot;evidence_chain_ref&quot;: &quot;docs/design/V9.x/evidence/v9-5-terminal-worker/acceptance-data.json&quot;
+  },
+  &quot;title&quot;: &quot;证据链&quot;
+}</pre>
+    </article>
+<article class="card" data-panel="artifact_lineage" data-readonly="true">
+      <h2>产物血缘</h2>
+      <p class="muted">Allowed actions: view, open_evidence</p>
+      <pre>{
+  &quot;allowed_actions&quot;: [
+    &quot;view&quot;,
+    &quot;open_evidence&quot;
+  ],
+  &quot;constructs_runtime_truth&quot;: false,
+  &quot;data&quot;: {
+    &quot;lineage&quot;: [
+      {
+        &quot;artifact_id&quot;: &quot;artifact-v9-6-blueprint&quot;,
+        &quot;producer_agent_id&quot;: &quot;agent-architect&quot;,
+        &quot;producer_attempt_id&quot;: &quot;attempt-v9-6-1&quot;
+      }
+    ],
+    &quot;lineage_count&quot;: 1
+  },
+  &quot;hidden_mutation_form_present&quot;: false,
+  &quot;panel_id&quot;: &quot;artifact_lineage&quot;,
+  &quot;readonly&quot;: true,
+  &quot;source_refs&quot;: {
+    &quot;artifact_lineage_ref&quot;: &quot;docs/design/V9.x/evidence/v9-3-orchestration-runtime/acceptance-data.json&quot;
+  },
+  &quot;title&quot;: &quot;产物血缘&quot;
+}</pre>
+    </article></section>
+    <section class="card"><h2>Full Studio Gate</h2><pre>{
+  &quot;complete_workflow_studio_ready&quot;: false,
+  &quot;separate_acceptance_matrix_required&quot;: true,
+  &quot;separate_architecture_required&quot;: true,
+  &quot;separate_no_false_green_gate_required&quot;: true,
+  &quot;separate_prd_required&quot;: true
+}</pre></section>
+  </main>
+</body>
+</html>
