@@ -853,6 +853,7 @@ def test_phaseg27_knowledge_entrypoint_exposes_build_write_aliases_only():
         "describe",
         "archive",
         "architecture",
+        "coding-agent",
     }
 
     data_service_parser = cli_module._build_parser()

@@ -326,7 +326,7 @@ def test_v16d5_session_query_surface_auth_and_cli_inventory(tmp_path, monkeypatc
 
     inventory = _cli_inventory()
     assert set(inventory) == {"build", "code", "graph", "quality", "query", "source", "trace", "workspace"}
-    assert inventory["code"] == ["archive", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "quality", "snapshot", "symbols", "trace"]
+    assert inventory["code"] == ["architecture", "archive", "coding-agent", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "quality", "snapshot", "symbols", "trace"]
     assert inventory["graph"] == ["community", "neighbors", "query", "session", "snapshot"]
 
     monkeypatch.setenv("DATA_SERVICE_REQUIRE_API_KEY", "true")

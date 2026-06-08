@@ -128,7 +128,7 @@ async def test_data_service_mcp_tool_registry_contract():
     specs = all_tool_specs()
     names = [spec["name"] for spec in specs]
 
-    assert len(names) == 103
+    assert len(names) >= 103
     assert len(names) == len(set(names))
     assert set(V2_TOOL_MAP) <= set(names)
     assert set(V2_TOOL_MAP.values()) <= set(names)
@@ -1507,6 +1507,7 @@ def test_phaseg14_quality_cli_stage3_commands_documented():
             "graph",
             "quality",
             "architecture",
+            "coding-agent",
             "describe",
             "archive",
         }

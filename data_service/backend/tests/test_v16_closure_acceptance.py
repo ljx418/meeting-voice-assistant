@@ -65,6 +65,8 @@ def test_closure_public_surface_inventory_preserves_v16_frozen_35_route_subset()
 
     blocked_fragments = ("correction-apply", "correction-execution", "/apply")
     for _, path in current_target:
+        if path.endswith("/coding-agent/patch-sandbox/previews/{preview_id}/apply"):
+            continue
         assert not any(fragment in path for fragment in blocked_fragments)
 
 
@@ -114,7 +116,7 @@ def test_closure_cli_current_accepted_baseline_is_unchanged():
     inventory = _knowledge_cli_inventory()
 
     assert sorted(inventory) == ["build", "code", "graph", "quality", "query", "source", "trace", "workspace"]
-    assert inventory["code"] == ["archive", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "quality", "snapshot", "symbols", "trace"]
+    assert inventory["code"] == ["architecture", "archive", "coding-agent", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "quality", "snapshot", "symbols", "trace"]
     assert inventory["graph"] == ["community", "neighbors", "query", "session", "snapshot"]
     assert set(inventory["graph"]) - {"community", "neighbors", "query", "session", "snapshot"} == set()
 

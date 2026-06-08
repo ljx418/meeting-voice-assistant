@@ -18,6 +18,7 @@ from .mcp_code_devwiki_tools import DEVWIKI_TOOL_NAMES, DEVWIKI_TOOL_SPECS, hand
 from .mcp_code_graph_tools import GRAPH_TOOL_NAMES, GRAPH_TOOL_SPECS, handle_graph_tool
 from .mcp_code_quality_tools import QUALITY_TOOL_NAMES, QUALITY_TOOL_SPECS, handle_quality_tool
 from .mcp_code_architecture_tools import ARCHITECTURE_TOOL_NAMES, ARCHITECTURE_TOOL_SPECS, handle_architecture_tool
+from .mcp_code_coding_agent_tools import CODING_AGENT_TOOL_NAMES, CODING_AGENT_TOOL_SPECS, handle_coding_agent_tool
 
 
 CODE_TOOL_NAMES = {
@@ -31,7 +32,7 @@ CODE_TOOL_NAMES = {
     "knowledge_public_surface_trace",
     "knowledge_project_overview",
     "knowledge_project_inventory",
-} | DEVWIKI_TOOL_NAMES | GRAPH_TOOL_NAMES | QUALITY_TOOL_NAMES | ARCHITECTURE_TOOL_NAMES
+} | DEVWIKI_TOOL_NAMES | GRAPH_TOOL_NAMES | QUALITY_TOOL_NAMES | ARCHITECTURE_TOOL_NAMES | CODING_AGENT_TOOL_NAMES
 
 
 CODE_TOOL_SPECS = [
@@ -184,7 +185,7 @@ CODE_TOOL_SPECS = [
             "required": ["workspace_id", "codebase_id"],
         },
     },
-] + DEVWIKI_TOOL_SPECS + GRAPH_TOOL_SPECS + QUALITY_TOOL_SPECS + ARCHITECTURE_TOOL_SPECS
+] + DEVWIKI_TOOL_SPECS + GRAPH_TOOL_SPECS + QUALITY_TOOL_SPECS + ARCHITECTURE_TOOL_SPECS + CODING_AGENT_TOOL_SPECS
 
 
 def _with_v2(
@@ -281,6 +282,15 @@ def handle_code_tool(
         )
     if name in ARCHITECTURE_TOOL_NAMES:
         return handle_architecture_tool(
+            name,
+            arguments,
+            blocked=blocked,
+            envelope=envelope,
+            ensure_workspace_meta=ensure_workspace_meta,
+            resolve_workspace=resolve_workspace,
+        )
+    if name in CODING_AGENT_TOOL_NAMES:
+        return handle_coding_agent_tool(
             name,
             arguments,
             blocked=blocked,

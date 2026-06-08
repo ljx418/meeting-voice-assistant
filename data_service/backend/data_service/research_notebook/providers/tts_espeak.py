@@ -6,6 +6,7 @@ import os
 import shutil
 import subprocess
 import time
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -34,7 +35,9 @@ def synthesize_wav(text: str, output_path: Path, *, voice: str = "en") -> dict[s
     if not spoken:
         return _error_result("PROVIDER_OUTPUT_INVALID", "TTS script is empty.")
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    temporary_output = output_path.with_name("a.wav")
+    temporary_handle = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
+    temporary_output = Path(temporary_handle.name)
+    temporary_handle.close()
     if temporary_output.exists():
         temporary_output.unlink()
     started = time.monotonic()
@@ -42,14 +45,24 @@ def synthesize_wav(text: str, output_path: Path, *, voice: str = "en") -> dict[s
     try:
         process = subprocess.run(command, capture_output=True, text=True, timeout=30, check=False)
     except subprocess.TimeoutExpired:
+        if temporary_output.exists():
+            temporary_output.unlink()
         return _error_result("PROVIDER_TIMEOUT", "espeak-ng synthesis timed out.")
     except OSError:
+        if temporary_output.exists():
+            temporary_output.unlink()
         return _error_result("PROVIDER_EXECUTION_FAILED", "espeak-ng synthesis failed.")
     if process.returncode != 0:
+        if temporary_output.exists():
+            temporary_output.unlink()
         return _error_result("PROVIDER_EXECUTION_FAILED", "espeak-ng synthesis failed.")
     if not temporary_output.exists() or temporary_output.stat().st_size <= 44:
+        if temporary_output.exists():
+            temporary_output.unlink()
         return _error_result("PROVIDER_OUTPUT_INVALID", "espeak-ng produced an invalid WAV file.")
-    os.replace(temporary_output, output_path)
+    if output_path.exists():
+        output_path.unlink()
+    shutil.move(str(temporary_output), str(output_path))
     return {
         "ok": True,
         "status": "ready",

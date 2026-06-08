@@ -7,6 +7,7 @@ from .v1.code_assets_devwiki import router as code_assets_devwiki_target_router
 from .v1.code_assets_graph import router as code_assets_graph_target_router
 from .v1.code_assets_quality import router as code_assets_quality_target_router
 from .v1.code_assets_architecture import router as code_assets_architecture_target_router
+from .v1.code_assets_coding_agent import router as code_assets_coding_agent_target_router
 from .v1.code_assets import router as code_assets_target_router
 from .v1.data_service import target_router as data_service_target_router
 from .v1.research_notebook import provider_router as research_notebook_provider_router
@@ -19,6 +20,7 @@ api_router.include_router(code_assets_devwiki_target_router)
 api_router.include_router(code_assets_graph_target_router)
 api_router.include_router(code_assets_quality_target_router)
 api_router.include_router(code_assets_architecture_target_router)
+api_router.include_router(code_assets_coding_agent_target_router)
 api_router.include_router(research_notebook_target_router)
 api_router.include_router(research_notebook_provider_router)
 api_router.include_router(v1_router, prefix="/v1")

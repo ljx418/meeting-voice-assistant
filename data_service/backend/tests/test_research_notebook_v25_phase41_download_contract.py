@@ -37,11 +37,16 @@ def _sha256(path: Path) -> str:
 
 
 def test_phase41_descriptor_only_contract_for_markdown_audio_and_pptx(tmp_path, monkeypatch):
-    client = _setup_client(tmp_path, monkeypatch)
+    root = tmp_path / "managed"
+    monkeypatch.setenv("DATA_SERVICE_WORKSPACE_ROOT", str(root))
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_WORKSPACE_ROOTS", str(tmp_path))
+    for name in PROVIDER_ENV:
+        monkeypatch.delenv(name, raising=False)
     monkeypatch.setenv("TTS_PROVIDER", "local")
     monkeypatch.setenv("TTS_DEFAULT_VOICE", "en")
     monkeypatch.setenv("PPTX_PROVIDER", "local")
     monkeypatch.setenv("PPTX_EXPORTER_ENABLED", "1")
+    client = TestClient(app)
     workspace_id = _create_workspace(client, "RN V25 Phase41 Download Contract")
     source_id = _import_text_source(
         client,

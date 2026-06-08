@@ -191,9 +191,9 @@ V2.9 is conditionally accepted for the implemented current-worktree scope. `data
 
 ## Primary V2.10 Documents
 
-V2.10 is the planned generic architecture pattern evidence adapter line. It addresses V2.9's HarnessOS structured blocker by adding a generic, configurable layer for registry/decorator/class/manifest/runtime-candidate patterns. It must remain broadly applicable and must not become a HarnessOS-only extractor.
+V2.10 is the generic architecture pattern evidence adapter line. It addresses V2.9's HarnessOS structured blocker by adding a generic, configurable layer for registry/decorator/class/manifest/runtime-candidate patterns. It remains broadly applicable and must not become a HarnessOS-only extractor.
 
-V2.10 is document-planned, not implemented.
+V2.10 is accepted for the approved current-worktree scope. Closure evidence is recorded in `V2_10_PHASE_75_CLOSURE_AUDIT_REPORT.md`.
 
 - `V2_10_TARGET_PRD.md`
 - `V2_10_TARGET_ARCHITECTURE.md`
@@ -203,6 +203,83 @@ V2.10 is document-planned, not implemented.
 - `V2_10_GAP_ANALYSIS.md`
 - `V2_10_DOCUMENT_AUDIT_REPORT.md`
 - `V2_10_TARGET_STATE.drawio`
+
+## Primary V2.11-V2.15 Roadmap Documents
+
+V2.11-V2.15 is the Coding Agent Actionability roadmap. It extends the accepted project understanding and architecture evidence baseline into actionability, patch planning, runtime evidence, incremental intelligence, and an interactive review workbench.
+
+V2.11-V2.15 is accepted for the implemented current-worktree scope. Closure evidence is recorded in `V2_11_15_CLOSURE_AUDIT_REPORT.md`; the accepted scope remains evidence-first and does not include autonomous code modification, arbitrary command execution, full call graph, data flow, control flow, type inference, or production runtime topology inference.
+
+- `V2_11_15_CODING_AGENT_ROADMAP_PRD.md`
+- `V2_11_15_TARGET_ARCHITECTURE.md`
+- `V2_11_15_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_11_15_GAP_ANALYSIS.md`
+- `V2_11_15_MILESTONES_AND_EXIT_GATES.md`
+- `V2_11_15_ARTIFACT_SCHEMA_AND_PUBLIC_CONTRACT.md`
+- `V2_11_15_REAL_REPO_E2E_ACCEPTANCE_MATRIX.md`
+- `V2_11_15_FULL_COVERAGE_MATRIX.md`
+- `V2_11_15_CLOSURE_AUDIT_REPORT.md`
+- `V2_11_ACTIONABILITY_IMPLEMENTATION_PACKAGE.md`
+- `V2_11_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_11_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_12_SAFE_PATCH_PLANNING_PRD.md`
+- `V2_12_SAFE_PATCH_PLANNING_TARGET_ARCHITECTURE.md`
+- `V2_12_SAFE_PATCH_PLANNING_DEVELOPMENT_PLAN.md`
+- `V2_12_SAFE_PATCH_PLANNING_ACCEPTANCE_PLAN.md`
+- `V2_12_SAFE_PATCH_PLANNING_GAP_ANALYSIS.md`
+- `V2_12_SAFE_PATCH_PLANNING_USER_SCENARIO_ACCEPTANCE.md`
+- `V2_12_SAFE_PATCH_PLANNING_IMPLEMENTATION_PACKAGE.md`
+- `V2_12_SAFE_PATCH_PLANNING_DOCUMENT_AUDIT_REPORT.md`
+- `V2_12_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_12_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_13_CONTROLLED_RUNTIME_EVIDENCE_PRD.md`
+- `V2_13_CONTROLLED_RUNTIME_EVIDENCE_TARGET_ARCHITECTURE.md`
+- `V2_13_CONTROLLED_RUNTIME_EVIDENCE_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_13_CONTROLLED_RUNTIME_EVIDENCE_IMPLEMENTATION_PACKAGE.md`
+- `V2_13_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_13_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_14_INCREMENTAL_INTELLIGENCE_PRD.md`
+- `V2_14_INCREMENTAL_INTELLIGENCE_TARGET_ARCHITECTURE.md`
+- `V2_14_INCREMENTAL_INTELLIGENCE_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_14_INCREMENTAL_INTELLIGENCE_IMPLEMENTATION_PACKAGE.md`
+- `V2_14_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_14_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_15_INTERACTIVE_REVIEW_WORKBENCH_PRD.md`
+- `V2_15_INTERACTIVE_REVIEW_WORKBENCH_TARGET_ARCHITECTURE.md`
+- `V2_15_INTERACTIVE_REVIEW_WORKBENCH_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_15_INTERACTIVE_REVIEW_WORKBENCH_IMPLEMENTATION_PACKAGE.md`
+- `V2_15_PRE_IMPLEMENTATION_AUDIT_REPORT.md`
+- `V2_15_ACCEPTANCE_AUDIT_REPORT.md`
+- `V2_13_15_DOCUMENT_AUDIT_REPORT.md`
+- `V2_11_15_DOCUMENT_AUDIT_REPORT.md`
+- `V2_11_15_TARGET_STATE.drawio`
+
+## V2.16 主要文档
+
+V2.16 是 Coding Agent 能力补全与自动化安全边界阶段。它接续已验收的 V2.11-V2.15 actionability、patch planning、runtime evidence、incremental intelligence 和 review workbench，在此基础上补齐 provider 能力治理、可选语义 provider、runtime profile、Workbench v2、大项目架构抽象增强，以及人工门禁 patch sandbox。
+
+当前 V2.16 是中文规划基线，不是实现完成证明。涉及外部 provider 接收代码内容、非默认 runtime 执行、源码修改、patch apply 和 git 操作时，仍必须人工审批。
+
+审计时建议按以下顺序阅读：
+
+1. 先读 PRD，确认产品目标和用户体验。
+2. 再读目标架构，确认组件边界和安全原则。
+3. 再读开发及验收计划、里程碑、E2E 矩阵。
+4. 最后打开 drawio，审查当前差异、目标架构、开发验收、里程碑和出门条件是否一致。
+
+- `V2_16_TARGET_PRD.md`
+- `V2_16_TARGET_ARCHITECTURE.md`
+- `V2_16_DEVELOPMENT_AND_ACCEPTANCE_PLAN.md`
+- `V2_16_PHASE_76_82_DETAILED_IMPLEMENTATION_PACKAGE.md`
+- `V2_16_ARTIFACT_SCHEMA_AND_PUBLIC_CONTRACT.md`
+- `V2_16_TEST_AND_AUDIT_PLAN.md`
+- `V2_16_GAP_ANALYSIS.md`
+- `V2_16_REAL_REPO_E2E_ACCEPTANCE_MATRIX.md`
+- `V2_16_FULL_COVERAGE_MATRIX.md`
+- `V2_16_USER_EXPERIENCE_ACCEPTANCE.md`
+- `V2_16_MILESTONES_AND_EXIT_GATES.md`
+- `V2_16_DOCUMENT_AUDIT_REPORT.md`
+- `V2_16_TARGET_STATE.drawio`
 
 ## Phase Documents
 
