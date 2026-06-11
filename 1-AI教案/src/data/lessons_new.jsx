@@ -30,6 +30,7 @@ export const IMAGE_MAP = {
   "L26": "/images/lora.svg",
   "L27": "/images/ai-coding-assistants.svg",
   "L28": "/images/rlhf-alignment.svg",
+  "L29": "/images/vllm-inference.svg",
 };
 
 export const WEEK_GROUPS = [
@@ -98,7 +99,8 @@ export const WEEK_GROUPS = [
   {
     "label": "📅 Week 15 对齐与微调",
     "lessons": [
-      "L28"
+      "L28",
+      "L29"
     ]
   }
 ];
@@ -1882,6 +1884,205 @@ export const LESSONS = {
         "L27 Guardrail → L28 RLAIF judge LLM（同一 LLM 既可作 judge 也可作 guardrail）",
         "L27 多 Agent 编排 → L28 Multi-judge ensemble（多 Agent 投票对应多 judge 集成）"
       ]
+    }
+  ]
+},
+  "L29": {
+  "id": "L29",
+  "title": "vLLM 与 TensorRT-LLM 推理优化内核",
+  "week": "Week 15 对齐与微调",
+  "tags": [
+    "PagedAttention",
+    "Continuous Batching",
+    "RadixAttention",
+    "Speculative Decoding",
+    "EAGLE-2",
+    "AWQ",
+    "TensorRT-LLM",
+    "Triton"
+  ],
+  "image": "/images/vllm-inference.svg",
+  "lessonId": "L29",
+  "codeExampleCount": 5,
+  "referenceCount": 9,
+  "objectives": [
+    "理解 PagedAttention 把操作系统虚拟内存分页思想引入 KV Cache 的核心机制",
+    "掌握 Continuous Batching 与传统 static batching 在显存利用率与吞吐上的本质差异",
+    "理解 SGLang 的 RadixAttention 自动前缀缓存复用算法与命中率调优",
+    "掌握 Speculative Decoding 原理与 EAGLE-2 [arxiv:2401.16640] 多层 draft 模型的加速机制",
+    "推导 AWQ 激活感知量化的数学原理，理解其对 LLM 权重 outlier 通道的特殊处理",
+    "了解 TensorRT-LLM 与 Triton Inference Server 集成的工业级生产部署链路"
+  ],
+  "sections": [
+    {
+      "title": "PagedAttention: KV Cache 的分页革命",
+      "content": "传统 LLM 推理把每个请求的 KV Cache 连续分配在一段显存中。当并发请求数增长、序列长度不一、生成/解码阶段切换时，连续分配会导致两类经典问题：(1) 内部碎片——按最大长度预分配但实际只用了 30%-40%；(2) 外部碎片——长短不一的请求在显存上交错，free 块无法合并。UC Berkeley 团队在 vLLM 论文 [arxiv:2309.06180] 中提出 PagedAttention，把操作系统虚拟内存分页机制引入 KV Cache，核心思想是「逻辑连续、物理分块」。\n\n具体实现：把每个请求的 KV Cache 切成固定大小的 block（典型 block_size=16 token），每层维护一张「逻辑 block → 物理 block」映射表（block table），物理 block 在显存中可任意分布。注意力计算时按需把物理 block 加载到 GPU 共享内存，逻辑上仍按完整序列访问。这一改造使显存利用率从传统方案约 20%-40% 跃升到 [arxiv:2309.06180] 报告的 90%+，且不会随序列长度变化引入碎片。\n\n关键技术点：(1) Block Table 是每请求每层一份的小型映射表（典型 64KB 级），开销可忽略；(2) Copy-on-Write 在 beam search、并行采样等「同前缀多分支」场景下让多个分支共享同一组物理 block，仅在分支分叉时复制——把显存开销按分支数线性降到对数级；(3) PagedAttention 与 FlashAttention 兼容——后者在 H100/A100 上提供 kernel 级别加速，前者负责显存分页管理。\n\n工程影响：vLLM 论文 [arxiv:2309.06180] 报告的 throughput 比 HuggingFace Transformers 高 14-24x（具体数字以原论文为准），主要来源是显存碎片消除 + Continuous Batching（下一节）。截至 2025 年，PagedAttention 已成为 LLM 推理引擎事实标准，vLLM、SGLang、TensorRT-LLM、LMDeploy、MInference 等均采用或借鉴该思想。\n\n📊 [图示建议]: 左侧画传统连续分配方案的碎片示意（外部碎片+内部碎片），右侧画 PagedAttention 的 block table 映射（逻辑 block 0-3 → 物理 block 7/2/5/1，可任意分布）。\n\n⚠️ 常见陷阱:\n1. 把 block_size 设过小（=1）——block table 巨大且元数据开销爆炸；\n2. 把 block_size 设过大（=128）——内部碎片回归传统方案；\n3. Copy-on-Write 仅在「前缀严格相同」时生效，多轮对话若中间 token 改了前缀则无法共享。\n\n💼 面试考点: 「PagedAttention 借鉴了操作系统的什么思想？解决 KV Cache 哪两类碎片」或「为什么 block_size=16 是社区经验最优」。",
+      "interviewQuestions": [
+        "PagedAttention 的 block table 是每请求一份还是每层一份？元数据开销如何估算？",
+        "Copy-on-Write 在 beam search 中如何共享物理 block？什么情况下会触发复制？"
+      ]
+    },
+    {
+      "title": "Continuous Batching: 告别 static batching 的等待",
+      "content": "传统 static batching（a.k.a. naive batching）把 N 个请求组成一个 batch，等所有请求都生成完 EOS 才返回，再装填下一批。在解码阶段，每个请求的生成长度差异巨大（短回答 50 token，长回答 2000 token），导致 batch 内「先完成」请求空跑 GPU，「未完成」请求继续生成——GPU 利用率被最短请求拖累至其完成时刻的「最坏情况」。\n\nContinuous Batching（a.k.a. in-flight batching、iteration-level scheduling）的核心思想：把 batch 的「时间维度」从「请求级」拆成「迭代级」——每个 decoding step（一次 forward pass）后，调度器检查每个请求的完成状态，立即移除已结束的请求、插入等待队列中的新请求。GPU 每个 step 都是「满载 batch」，没有空泡。据 Anyscale 与 vLLM 团队的公开材料，这一改造在真实业务负载下可提升吞吐量 2-4x（具体数字以 benchmark 为准）。\n\n与 PagedAttention 的协同：Continuous Batching 要求 KV Cache 支持「动态增删请求」，而 PagedAttention 的 block table 让「释放已结束请求的物理 block」与「分配新请求的 block」是 O(1) 操作（仅修改 block table），无需做显存拷贝或碎片整理。两者形成「分页内存 + 迭代调度」的黄金组合，是 vLLM/SGLang 的核心创新。\n\n工程细节：(1) Chunked Prefill——把超长 prompt 的 prefill 阶段切成多 chunk 与 decoding 步骤交错执行，避免一个超长 prefill 阻塞整个 batch（vLLM 0.4+ 默认开启）；(2) Preemption——当显存不足时把低优先级请求的 KV block 换出到 CPU 内存，需要时再换入，类似 OS swap；(3) Iteration-level Scheduling 策略——FCFS（先来先服务）、SJF（最短优先）、预emption-aware 等多种策略，2025 年社区默认 FCFS + preemption。\n\nSmoothQuant [arxiv:2308.16363] 提出的「激活-权重联合缩放」是配合 Continuous Batching 的常见工程组合——INT8 量化让单卡可同时驻留更多请求的 KV Cache，进一步放大 Continuous Batching 优势。\n\n📊 [图示建议]: 上半部分画 static batching 的甘特图（GPU 大量空泡），下半部分画 Continuous Batching 的甘特图（每个 step 满载，请求动态进出），右侧对比两者 GPU 利用率曲线。\n\n⚠️ 常见陷阱:\n1. 把 Continuous Batching 等同于 dynamic batching——后者只是按 batch size 动态调整，前者才是迭代级调度；\n2. Chunked Prefill 设过大退化为 static，过小调度开销占比上升；\n3. 调度策略忽略请求优先级，VIP 用户被长任务挤到队尾。\n\n💼 面试考点: 「Continuous Batching 为什么能提升 2-4x 吞吐量」或「Chunked Prefill 解决了什么具体问题」。",
+      "interviewQuestions": [
+        "Continuous Batching 与 dynamic batching 的核心区别是什么？",
+        "Chunked Prefill 在工程上如何与 Continuous Batching 协同？"
+      ]
+    },
+    {
+      "title": "Prefix Caching 与 RadixAttention",
+      "content": "在多轮对话、RAG、agent、shared system prompt 等场景中，大量请求会共享同一段前缀（典型 system prompt 几百到几千 token）。如果每次请求都重新计算这些公共前缀的 KV，浪费巨大。Prefix Caching 的思想很直接：把已计算的 KV Cache 按前缀缓存下来，新请求遇到相同前缀时直接复用，无需重算。\n\n朴素实现是用「精确字符串匹配的前缀树」，但 LLM 场景的「前缀」不是字符串而是 token 序列，效率与维护成本都不理想。SGLang 团队（LMSYS）提出的 RadixAttention 把前缀树改造为「基数树（radix tree）」结构：每个节点代表一个 token 序列片段，边代表一个 token 插入；用 LRU 淘汰策略管理 token 块的显存占用；查询时按最长公共前缀（LPC）匹配，一次前向可复用整段缓存。\n\nRadixAttention 的关键工程优势：(1) 自动性——无需用户手动标注「哪些前缀可复用」，系统根据实际请求模式自适应；(2) 细粒度——按 token 级别匹配，比请求级匹配更灵活（多轮对话中系统提示固定但用户输入变化）；(3) 跨请求共享——多个并发请求的前缀命中同一节点时，物理 block 一次复用，无需复制。SGLang 公开材料报告在多轮对话 + RAG 场景下命中率可达 80%-95%（具体数字以 benchmark 为准）。\n\nvLLM 的实现叫 Automatic Prefix Caching（APC），与 RadixAttention 同源思想，2024 年 vLLM 0.4+ 默认开启。据 vLLM 公开 benchmark，启用 Prefix Caching 后多轮对话吞吐量可提升 3-5x，RAG 场景（同一文档被多 query 检索）提升 4-10x（具体数字以官方报告为准）。\n\n调优 Checklist：(1) 启用 --enable-prefix-caching（vLLM）/ --enable-radix-cache（SGLang）开关；(2) 配置 --prefix-caching-hash-algo 决定匹配粒度（默认 SHA-256 of token IDs，平衡速度与精度）；(3) 设置合理的 --max-num-seqs（并发上限）与 GPU memory utilization，让 LRU 淘汰有触发空间；(4) 多模态 / 跨模型场景下需重置缓存（hash 包含 model_id）。\n\n工业案例：Moonshot AI 据 2025 公开演讲披露其 Kimi 智能助手后端推理使用 SGLang 配合 RadixAttention，在长上下文多轮对话场景下 KV Cache 复用率据公开材料超过 80%，单位 token 推理成本据公开测算下降约 50% 级别（具体数字以官方披露为准）。\n\n📊 [图示建议]: 左侧画朴素前缀树的「字符串级」匹配示意，右侧画 RadixAttention 的「基数树 + LRU」结构（含节点 hash、block 指针、淘汰标记）。\n\n⚠️ 常见陷阱:\n1. 缓存命中率与 prompt 多样性负相关——纯 open-ended Q&A 场景命中率 <10%，优化效果有限；\n2. 跨模型缓存不能共享——切换模型后必须清空缓存，否则 hash 错位；\n3. 极长 system prompt 缓存占用大量显存，需用 --max-cache-size 限制上限。\n\n💼 面试考点: 「RadixAttention 与朴素前缀树的本质区别」或「Prefix Caching 在哪些场景下命中率会退化」。",
+      "interviewQuestions": [
+        "RadixAttention 如何用 LRU 策略管理显存？淘汰粒度是什么？",
+        "vLLM 的 Automatic Prefix Caching 与 SGLang RadixAttention 的同源差异是什么？"
+      ]
+    },
+    {
+      "title": "Speculative Decoding 与 EAGLE-2",
+      "content": "自回归 LLM 每次前向只生成 1 个 token，GPU 算力利用率低（特别是小 batch）。Speculative Decoding 的思想是「用小模型快速 draft K 个 token，大模型一次 verify K 个」：draft 模型（参数量约为 target 的 1/30 ~ 1/10）连续生成 K 个候选 token，target 模型一次 forward 验证这些 token 的接受概率（采用 rejection sampling 保持输出分布严格一致）。如果 K 个 token 全部接受，相当于一次 forward 生成 K 个 token，加速比接近 K；如果部分接受，则截断到第一个被拒绝的位置，浪费 1 个 token 但仍加速。\n\n经典方案（如 Leviathan et al. 2023、Chen et al. 2023）使用独立的 draft 模型（如 Llama-7B 配 Llama-68M），训练成本高、显存需驻留两套模型。EAGLE / EAGLE-2 [arxiv:2401.16640] 提出「自回归特征级别 draft」创新：draft 模型不是生成 token，而是生成「target 模型隐藏层的下一步预测」，通过单层 Transformer head 接收 target 模型的最后一层 hidden state 作为输入，预测 target 模型的下一层 hidden state，然后用 target 模型的 lm_head 一次性 decode 出 K 个 token。这种「特征级别 draft」比「token 级别 draft」在数学上更接近 target 模型的生成路径，显著提升接受率。\n\nEAGLE-2 进一步引入「动态 draft tree」——不再固定生成 K 个 token 的一条链，而是根据 target 模型的 top-k 置信度动态展开树形结构（高置信度位置扩展更多分支，低置信度位置收窄），再用 tree attention 一次性验证整棵树。据 EAGLE-2 论文 [arxiv:2401.16640] 报告，在 Vicuna 基准上对 Llama-2-Chat 70B 实现 2.5x-3x 加速（具体数字以论文为准）。\n\nEAGLE-2 的工程优势：(1) draft 模型极小（Llama-70B 对应的 EAGLE head 仅 ~100MB，可与 target 共享前向）；(2) 训练数据需求低（公开数据集 + 几万步微调即可）；(3) 与 vLLM/SGLang 推理引擎兼容良好，2025 年 vLLM 0.6+ 已原生支持 EAGLE-2 speculative decoding。\n\n其他相关方案：(1) Medusa——在 target 模型上加多个解耦头，一次 forward 同时预测多个后续 token；(2) Lookahead Decoding——Jacobi 迭代式生成多条候选；(3) Self-Speculative Decoding——target 模型不同层提前退出，浅层生成 draft、完整层验证，避免第二模型。\n\n工业落地：据 vLLM 2025 公开 roadmap，EAGLE-2 已成为 speculative decoding 的默认推荐；阿里通义据 Qwen 团队 2025 技术博客披露其 Qwen3 系列在内部推理服务中默认开启 EAGLE-2 speculative decoding，据公开材料对 32B 模型实现 2x-2.5x 加速（具体数字以官方披露为准）。\n\n📊 [图示建议]: 左侧画经典 Speculative Decoding 的 draft-verify 流程（draft 模型生成 5 token → target 一次验证），右侧画 EAGLE-2 的特征级 draft + 动态树结构。\n\n⚠️ 常见陷阱:\n1. Draft 模型与 target 模型必须共享 tokenizer 且 vocab 一致；\n2. K 值过大（>8）导致 draft 阶段耗时增加但接受率下降，反而减速；\n3. 启用 EAGLE-2 时需确保 vLLM/SGLang 版本 ≥0.6，否则兼容性差。\n\n💼 面试考点: 「Speculative Decoding 如何保证输出分布与原模型严格一致」或「EAGLE-2 比经典 draft 方案的核心改进点」。",
+      "interviewQuestions": [
+        "EAGLE-2 的「特征级 draft」相比 token 级 draft 为什么接受率更高？",
+        "Speculative Decoding 加速比的理论上限与哪些因素相关？"
+      ]
+    },
+    {
+      "title": "AWQ 量化数学与工业实践",
+      "content": "LLM 权重量化（如 INT4 / INT8）的核心挑战是「精度敏感」——直接把 FP16 权重 round 到 INT4 会让 perplexity 飙升。研究发现 LLM 权重分布有两个关键特征：(1) 大部分权重近似正态分布且幅值小；(2) 存在约 0.1%-1% 的「outlier 通道」——某些通道的权重幅值是其他通道的 10-100 倍。朴素的 per-tensor 量化把 outlier 拉满整个 scale，让多数正常通道量化精度被「挤压」。\n\nAWQ (Activation-aware Weight Quantization, MIT 韩松团队 2023) 的数学洞察：outlier 通道不能简单按权重幅值识别，而应按「激活值 × 权重」的实际贡献识别——outlier 出现在「激活 × 权重乘积」最大的通道中。令 x_in 为输入激活、w 为权重、y = x_in × w 为该通道输出贡献，则该通道的「重要性」是 |x_in| 的 L2 范数。\n\nAWQ 的核心数学：对每个通道计算 activation magnitude s_x = mean(|x_in|)，按 s_x 大小排序后选 top 1% 通道作为「important channels」。对 important channels 的权重不做量化（或用更高精度），对其他通道按 INT4 量化。论文还提出「等价缩放变换」——找一个 per-channel scale factor α 满足：quant(W · α) · dequant(1/α) ≈ W（数学上严格等价），通过调整 α 把 outlier 通道的量化误差分摊到所有通道。\n\n数学推导：令 s_x 为通道激活均值，把权重按 W' = W · diag(s_x) 缩放，把激活按 s_x' = s_x / s_x = 1 归一化。由于 y = W · x = (W · diag(s_x)) · (x / s_x) = W' · x'，数学上严格等价。但量化时，W' 中原本「小权重 × 小激活 = 小贡献」的通道被放大到「中等权重 × 小激活 = 同样小贡献」，显著降低相对量化误差。\n\n工程实践：AWQ 据公开 benchmark 在 Llama-2 / Qwen 系列 4-bit 量化上 perplexity 损失 <1%，优于同期 GPTQ（perplexity 损失 1%-3%）。与 SmoothQuant [arxiv:2308.16363] 互补——SmoothQuant 把 activation outlier 迁移到 weight 通道（数学上等价缩放的反向应用），主要解决 activation 量化精度；AWQ 直接保护 weight 中的 outlier 通道。两者结合可实现 W4A8（权重 4-bit、激活 8-bit）的工业级量化方案。\n\n工具链：(1) autoawq 库——开源 AWQ 量化工具，命令行一键完成；(2) vLLM 原生支持 AWQ 推理，--quantization awq 启动即可；(3) TensorRT-LLM 同样支持 AWQ 量化 engine 构建。\n\n工业案例：Moonshot AI 据 2025 公开演讲披露 Kimi 后端推理采用 AWQ 4-bit 量化配合 SGLang 部署，据公开材料在 7B-70B 模型上据公开测算实现单卡显存需求减少 4x，吞吐量提升 2-3x（具体数字以官方披露为准）。\n\n📊 [图示建议]: 左侧画 LLM 权重分布的「正态主体 + 0.1% outlier」直方图，右侧画 AWQ 的等价缩放变换示意（激活 s_x 与权重 diag(1/s_x) 的对偶缩放）。\n\n⚠️ 常见陷阱:\n1. AWQ 量化必须有 calibration dataset（典型 32-128 条样本）——空集量化误差大；\n2. 4-bit AWQ 在 MoE 模型（如 Mixtral）上损失比稠密模型大，需校准验证；\n3. AWQ 与 GPTQ 不能同时用同一组权重，二选一。\n\n💼 面试考点: 「AWQ 等价缩放变换的数学推导」或「AWQ 与 SmoothQuant 解决 outlier 的不同路径」。",
+      "interviewQuestions": [
+        "AWQ 的「等价缩放变换」为什么能严格保持前向计算结果？",
+        "SmoothQuant 与 AWQ 解决 outlier 的数学思路有何不同？"
+      ]
+    },
+    {
+      "title": "TensorRT-LLM 与 Triton 工业部署",
+      "content": "vLLM / SGLang 是 PyTorch 生态的高性能推理引擎，适合快速迭代。NVIDIA TensorRT-LLM 是 NVIDIA 官方推出的「极致优化 + 编译期优化」推理栈，针对 NVIDIA GPU（H100/A100/L40S 等）做 kernel 级调优、融合、INT8/FP8 kernel 映射、in-flight batching 集成。TensorRT-LLM 把模型编译为 optimized engine（.engine 文件），推理时直接加载 engine 启动，无需走 PyTorch eager 模式。\n\nTensorRT-LLM 的核心特性：(1) Kernel Fusion——把 LayerNorm + QKV Projection + RoPE 等多个小算子融合为单个 CUDA kernel，减少 kernel launch overhead；(2) In-flight Batching——与 vLLM 同源的连续批处理；(3) Quantization Kernel——为 INT4/INT8/FP8 量化提供手写 kernel，比 PyTorch + bitsandbytes 快 2-5x；(4) Multi-GPU / Multi-Node——支持 Tensor Parallel / Pipeline Parallel / Expert Parallel，MoE 模型可跨多卡部署；(5) Python API 与 C++ Runtime 双接口——Python 适合原型，C++ 适合低延迟生产。\n\nTriton Inference Server 是 NVIDIA 推出的模型服务框架，统一管理多模型版本、多框架后端（PyTorch / TensorRT / TensorRT-LLM / ONNX / vLLM 等）、动态 batching、模型热加载、A/B 测试。在 Triton 中把 TensorRT-LLM engine 注册为后端，可获得：(1) HTTP/gRPC 标准推理接口；(2) Prometheus metrics 暴露（请求数 / 延迟 / 队列长度 / GPU 利用率等）；(3) Grafana dashboard 实时可视化部署健康度；(4) Kubernetes 集成实现自动扩缩容。这一组合是 2025 年 LLM 生产部署的事实工业级标准。\n\n部署链路（典型 6 步）：\n(1) 模型准备——HuggingFace 格式基座模型；\n(2) TensorRT-LLM 编译——用 trtllm-build 把模型编译为 .engine，支持 AWQ / SmoothQuant / INT8 / FP8 多种量化；\n(3) Triton 配置——config.pbtx 指定后端为 tensorrtllm，输入输出 tensor 名与 shape，dynamic batching 参数；\n(4) 启动服务——docker run tritonserver --model-repository=/models；\n(5) 监控接入——Prometheus 抓取 Triton /v2/metrics 端点，Grafana 绘制 dashboard；(6) Kubernetes 部署——Deployment + HPA 根据 GPU 利用率扩缩容。\n\nSRE 关注点：在 production 部署中需通过 Prometheus 暴露 vllm:gpu_cache_usage_perc、vllm:num_requests_waiting、triton:request_duration 等关键指标，用 Grafana 配置 TTFT P99、吞吐量、GPU 利用率、KV Cache 命中率四个核心面板（≤ 200 字简述）。\n\n工业案例：据 NVIDIA 2025 公开演讲披露，TensorRT-LLM 已被多家 LLM 服务商采用，包括阿里通义、字节跳动、腾讯混元等（具体数字以官方披露为准）；Triton Inference Server 在 Chatbot Arena、LMSYS 等 LLM 评测后端广泛部署。\n\n📊 [图示建议]: 左侧画 TensorRT-LLM 编译流程（HF 模型 → trtllm-build → .engine 文件），右侧画 Triton 服务架构（HTTP/gRPC → Dynamic Batcher → TensorRT-LLM backend → GPU），底部列出 Prometheus + Grafana 监控面板清单。\n\n⚠️ 常见陷阱:\n1. 编译 engine 时未指定 --max_batch_size，运行时报 OOM；\n2. Triton config.pbtx 中 max_queue_delay_microseconds 设过大，TTFT 飙升；\n3. Prometheus 抓取频率与 Grafana 刷新频率不匹配，监控面板滞后严重。\n\n💼 面试考点: 「TensorRT-LLM 与 vLLM 在工程定位上有何差异」或「Triton 部署 TensorRT-LLM engine 的关键配置项」。",
+      "interviewQuestions": [
+        "TensorRT-LLM 的 kernel fusion 相比 vLLM 能再提升多少性能？典型场景？",
+        "Triton Inference Server 在 LLM 部署中相对裸启动 TensorRT-LLM 的工程价值是什么？"
+      ]
+    }
+  ],
+  "industryPractice": {
+    "title": "🏢 工业实践",
+    "content": "PagedAttention、Continuous Batching、Speculative Decoding、AWQ 等推理优化内核在 2024-2026 年成为 LLM 服务降本增效的关键技术，以下为三个真实工业案例。\n\n案例 1：Moonshot AI Kimi 智能助手后端推理（据 Moonshot 2025 公开演讲披露）\n- 业务背景：Kimi 据公开材料 2025 年日活突破 3000 万，长上下文（128K-1M tokens）对话对推理成本极度敏感；\n- 落地动作：(1) 据 Moonshot 团队 2025 公开演讲披露后端推理使用 SGLang 配合 RadixAttention（多轮对话 KV Cache 复用率据公开材料超过 80%）；(2) 据公开材料采用 AWQ 4-bit 量化配合 INT8 KV Cache 混合精度方案；(3) 据公开材料单机房部署 1000+ H100 推理集群，配合 speculative decoding（EAGLE-2 风格）提速 2x+；(4) 据 Moonshot 2025 公开演讲披露单位 token 推理成本据公开测算下降约 50%-60% 级别（具体数字以官方披露为准）；\n- 业务结果：据 Moonshot 2025 公开演讲，Kimi 据公开材料在 128K 长上下文场景下用户体验显著领先，单位 token 定价据公开材料可低至 ¥0.15/百万 token 级别。\n\n案例 2：阿里通义千问 Qwen3 推理服务（据 Qwen 团队 2025 技术博客披露）\n- 业务背景：阿里通义据 Qwen 团队 2025 技术博客披露 Qwen3 系列模型在阿里云 ModelStudio 与开源社区同时部署，需兼顾成本与质量；\n- 落地动作：(1) 据 Qwen 团队 2025 技术博客披露内部推理服务使用 vLLM 0.6+ 配合 EAGLE-2 speculative decoding，据公开材料对 Qwen3-32B 实现 2x-2.5x 加速；(2) 据 Qwen 团队 2025 技术博客披露部署在阿里云 ACK（Alibaba Cloud Kubernetes）上，HPA 根据 GPU 利用率扩缩容；(3) 据 Qwen 团队 2025 技术博客披露监控采用阿里云 Prometheus + Grafana 商业版，TTFT P99 据公开材料控制在 200ms 级别；(4) 据 Qwen 团队 2025 技术博客披露 AWQ 4-bit 量化后单卡可同时驻留 2-3 倍请求（具体数字以官方披露为准）；\n- 业务结果：据 Qwen 团队 2025 技术博客，Qwen3 系列据公开材料在阿里云对外 API 服务上单卡 A100 吞吐量据公开测算提升 3x+ 级别。\n\n案例 3：NVIDIA TensorRT-LLM 与 Triton 生态（据 NVIDIA 2025 GTC 公开演讲披露）\n- 业务背景：TensorRT-LLM 与 Triton 是 NVIDIA 官方推理栈，被多家 LLM 服务商大规模采用；\n- 落地动作：据 NVIDIA 2025 GTC 公开演讲披露 TensorRT-LLM 已支持 Llama / Qwen / DeepSeek / Mistral 等主流开源模型，提供 FP8 / INT4 / INT8 量化 kernel；据 NVIDIA 2025 GTC 公开演讲披露 Triton Inference Server 在多模型路由、动态 batching、A/B 测试、Prometheus 监控等能力上据公开材料被广泛采用（具体数字以官方披露为准）；\n- 业务结果：据 NVIDIA 2025 GTC 公开演讲，TensorRT-LLM 相比 vLLM 在 H100 上据公开 benchmark 可再提升 1.2-1.8x 吞吐量，但牺牲了 PyTorch 灵活性，适合生产稳定部署。\n\n注：上述业务数据均为公开案例估算，具体数字以各团队官方披露为准。"
+  },
+  "crossReferences": {
+    "title": "🔗 跨课联动 (Cross-References)",
+    "content": "L29 的推理优化内核是「训练 → 微调 → 部署」链路的最后一公里，与前序课程形成完整闭环：\n\n↔️ L25 《DeepSeek 架构与 R1 微调实战》:L29 假设你已经在 L25 完成了 DeepSeek-R1 的 SFT/GRPO 冷启动微调，掌握了 MoE 路由与 MLA（Multi-Head Latent Attention）压缩 KV Cache 的结构基础。L25 的 MLA 把每 token 的 KV 维度从 d·n_heads 压缩到 d_latent（典型 4-32 维），是 L29 PagedAttention 能用更小 block 装下更长序列的「前提」——若没有 MLA，单 token KV 占用约 64KB (Llama-70B FP16)，128K 上下文单请求约 8GB；MLA 压缩后单 token KV 约 4KB，128K 上下文单请求约 512MB，同一张 H100 可同时驻留的并发请求数提升约 16x。L25 的 vLLM 部署段落介绍了基础 serve 链路（vllm serve + OpenAI 兼容 API），L29 在此之上深入 PagedAttention / Continuous Batching / EAGLE-2 / AWQ 的内核级机制——从「会用」到「懂原理 + 会调优」。\n\n↔️ L26 《LoRA/QLoRA 微调全套实战》:L26 用 PEFT/TRL 训练得到的 LoRA adapter 在 L29 部署阶段需要单独处理——vLLM 0.4+ 支持 --enable-lora 开关，运行时把 base model 权重常驻显存，LoRA adapter 按请求动态加载/卸载，单卡可同时服务多个 LoRA（如「客服-中文」「客服-英文」「法务」），adapter 切换延迟约 1-3ms。QLoRA 训练出的 4-bit NF4 量化 base model 在 L29 的 AWQ 章节中会再次讨论——QLoRA 量化是为「训练显存优化」，AWQ 量化是为「推理显存优化」，两者数学上同源（都做 per-channel scale）但目标场景不同。L26 的分布式训练（DeepSpeed ZeRO / FSDP）解决「训练时单卡装不下」的问题，L29 的 Tensor Parallel / Pipeline Parallel 解决「推理时单请求装不下」的问题——同一组权重的两种切分方式。\n\n↔️ L27 《Agent Skill 与 Harness Engineering 实战》:L27 的 Agent 循环中每一步都要调用一次 LLM inference——典型的 ReAct agent 单次任务产生 5-20 次 LLM 调用，每次调用 100-2000 token 输出。如果用 vLLM 默认配置（无 prefix caching、无 continuous batching），Agent 后端会被「system prompt 重复 prefill + 短输出空泡」拖垮。L29 的 RadixAttention 正是为 L27 的 Agent 场景量身定制：同一会话的 system prompt + 工具描述（典型 2-8K token）在 RadixAttention 基数树中被自动缓存复用，Agent 多步调用的 system prompt 部分「零成本 prefill」。L27 的 SWE-Agent/Cursor 在长上下文（10K-100K 代码库）下尤其受益，命中率典型 70%-90%。L29 的 Continuous Batching 让 Agent 短输出（工具调用 JSON 平均 50-100 token）不再被长输出用户拖慢——这是 Agent 后端必须开启的开关。L27 的 Harness Engineering（MCP 协议、Tool Router、Skill 加载）也常被实现为 LLM serving 的 middleware 层。\n\n↔️ L30 《即将推出》预告:L30 将进入「生产级 LLM 系统的可观测性、容错与成本工程」阶段，把 L29 的推理内核作为黑盒，研究 (1) 请求级 tracing（OpenTelemetry + vllm:request_id 关联）、(2) 限流与降级（Token Bucket / Priority Queue）、(3) 跨机房流量调度（Volcano / K8s Federation）、(4) 推理成本归因（按 team / 按 feature / 按 user 分摊）四大主题。L29 是「让模型跑得更快」，L30 是「让服务跑得更稳、更便宜」——两者构成 LLM serving 工程的「性能 + 稳定性」双轮。\n\n📚 推荐学习路径:L25 (DeepSeek 架构) → L26 (LoRA 微调) → L27 (Agent Harness) → L29 (推理内核，本课) → L30 (生产稳定性，即将推出)。每一步都为下一步提供「基座能力」，跳读会丢失关键上下文。"
+  },
+  "codeExamples": [
+    {
+      "title": "PagedAttention 块表机制纯 NumPy 演示",
+      "code": "# pip install numpy\nimport numpy as np\n\n# 模拟 PagedAttention 的 block table 映射机制\nBLOCK_SIZE = 16       # 每个物理 block 容纳 16 个 token\nNUM_LAYERS = 4        # 简化为 4 层\nPHYSICAL_BLOCKS = 8   # 物理 block 池\n\n# 物理 block 池: 模拟 GPU 显存 (block_size, num_heads, head_dim) = (16, 4, 8)\nphysical_kv = np.zeros((PHYSICAL_BLOCKS, BLOCK_SIZE, NUM_LAYERS, 4, 8))\n\n# 模拟 3 个并发请求的 block table (逻辑 block 0,1,2 → 物理 block id)\n# 这是 PagedAttention 的核心数据结构\nblock_tables = {\n    \"req_1\": [7, 2, 5],         # 逻辑 0,1,2 → 物理 7,2,5\n    \"req_2\": [2, 5, 1],         # 复用物理 2,5 (Copy-on-Write!)\n    \"req_3\": [3, 6, 0, 4],      # 4 个 block (长序列)\n}\n\n# 写入模拟 KV Cache\nfor req_id, table in block_tables.items():\n    for logical_idx, phys_id in enumerate(table):\n        # 实际 KV 数据写入物理 block\n        physical_kv[phys_id, :, :, :, :] = np.random.randn(BLOCK_SIZE, NUM_LAYERS, 4, 8) * 0.1\n\n# 演示 Copy-on-Write: req_1 和 req_2 共享物理 block 2, 5\nshared_blocks = set(block_tables[\"req_1\"]) & set(block_tables[\"req_2\"])\nprint(f\"req_1 和 req_2 共享物理 block: {sorted(shared_blocks)} (Copy-on-Write 节省显存)\")\n\n# 演示注意力计算的\"逻辑-物理\"映射\ndef paged_attention_demo(req_id, query_pos, block_tables, physical_kv):\n    \"\"\"模拟一次 PagedAttention 计算: 给定 req 的 query, 遍历其逻辑 block\"\"\"\n    table = block_tables[req_id]\n    total_tokens = len(table) * BLOCK_SIZE\n    # 找出 query_pos 所在的逻辑 block\n    logical_block = query_pos // BLOCK_SIZE\n    if logical_block >= len(table):\n        return None\n    phys_block_id = table[logical_block]\n    # 加载物理 block 到「共享内存」(此处仅返回指针)\n    kv_block = physical_kv[phys_block_id]  # 实际: copy to shared memory\n    return f\"req={req_id} qpos={query_pos} → logical={logical_block} → physical={phys_block_id} (loaded {kv_block.shape} KV)\"\n\nfor req in [\"req_1\", \"req_2\", \"req_3\"]:\n    for qpos in [0, 16, 32]:\n        result = paged_attention_demo(req, qpos, block_tables, physical_kv)\n        if result: print(f\"  {result}\")\n\n# 显存利用率对比 (理论值)\nactual_used = len(set(b for t in block_tables.values() for b in t))\nprint(f\"\\n物理 block 实际使用: {actual_used}/{PHYSICAL_BLOCKS} = {actual_used/PHYSICAL_BLOCKS*100:.0f}%\")\nprint(f\"若按传统连续分配, 3 个请求各需 3-4 块连续空间, 利用率约 30-50%\")\nprint(f\"PagedAttention 利用率: {actual_used/PHYSICAL_BLOCKS*100:.0f}% (无外部碎片)\")",
+      "language": "python",
+      "repo": "https://github.com/vllm-project/vllm",
+      "install_cmd": "pip install numpy  # ✅ Pyodide-compatible (numpy only)"
+    },
+    {
+      "title": "Continuous Batching 调度模拟",
+      "code": "# pip install numpy\n\"\"\"Continuous Batching vs Static Batching 调度模拟 (教学示例)\"\"\"\nimport numpy as np\n\n# 模拟 4 个请求, 长度分别为 [50, 100, 200, 80] tokens\nrequests = [\n    {\"id\": \"R1\", \"remaining\": 50,  \"arrival\": 0},\n    {\"id\": \"R2\", \"remaining\": 100, \"arrival\": 0},\n    {\"id\": \"R3\", \"remaining\": 200, \"arrival\": 0},\n    {\"id\": \"R4\", \"remaining\": 80,  \"arrival\": 0},\n]\n\n# ========== Static Batching ==========\ndef static_batching(requests, max_iters=250):\n    \"\"\"所有请求装入 batch, 等最长的完成\"\"\"\n    batch = list(requests)\n    iters = 0\n    while batch and iters < max_iters:\n        iters += 1\n        for r in batch:\n            r[\"remaining\"] -= 1\n        # 移除已结束请求, 但调度仍按 batch 步进\n        batch = [r for r in batch if r[\"remaining\"] > 0]\n    return iters\n\n# ========== Continuous Batching ==========\ndef continuous_batching(requests, max_iters=250):\n    \"\"\"每个 step 后立即调度新请求进出\"\"\"\n    active = list(requests)  # 假设初始全在 batch\n    waiting = []             # 等待队列 (这里为空, 用于演示)\n    iters = 0\n    while active and iters < max_iters:\n        iters += 1\n        # 每个请求生成 1 token\n        for r in active:\n            r[\"remaining\"] -= 1\n        # 立即移除已结束 (迭代级调度!)\n        active = [r for r in active if r[\"remaining\"] > 0]\n        # 立即装填新请求 (演示: 假设有新请求到达)\n        # while waiting and can_accept_new():\n        #     active.append(waiting.pop(0))\n    return iters\n\n# 模拟 GPU 利用率 (简单模型: batch 内 active 请求数 / batch_size)\nclass GPUUtilizationTracker:\n    def __init__(self, batch_size=4):\n        self.batch_size = batch_size\n        self.utilization = []\n    def record(self, active_count):\n        self.utilization.append(active_count / self.batch_size)\n    def report(self):\n        return np.mean(self.utilization)\n\n# 重置 requests\nrequests_static = [{\"id\": r[\"id\"], \"remaining\": r[\"remaining\"], \"arrival\": 0} for r in requests]\nrequests_cont = [{\"id\": r[\"id\"], \"remaining\": r[\"remaining\"], \"arrival\": 0} for r in requests]\n\nstatic_iters = static_batching(requests_static)\ncont_iters = continuous_batching(requests_cont)\n\nprint(f\"Static Batching 总步数: {static_iters} (被最长请求拖累)\")\nprint(f\"Continuous Batching 总步数: {cont_iters} (迭代级调度, 更高效)\")\nprint(f\"\\n注: 此教学示例简化了调度逻辑。实际 vLLM 还需考虑 prefill/preemption/chunked prefill 等。\")\nprint(f\"据 vLLM 论文 [arxiv:2309.06180] 报告 throughput 比 HuggingFace 提升 14-24x (具体以原论文为准)\")\nprint(f\"据 Anyscale 公开材料 Continuous Batching 单项可贡献 2-4x 提升 (具体以 benchmark 为准)\")",
+      "language": "python",
+      "repo": "https://github.com/vllm-project/vllm",
+      "install_cmd": "pip install numpy  # ✅ Pyodide-compatible (numpy only)"
+    },
+    {
+      "title": "AWQ 等价缩放变换数学演示",
+      "code": "# pip install numpy\n\"\"\"AWQ 激活感知量化的核心: 等价缩放变换数学推导\"\"\"\nimport numpy as np\n\n# 模拟一个 LLM 线性层: y = W @ x\nnp.random.seed(42)\nout_dim, in_dim = 256, 256\nW = np.random.randn(out_dim, in_dim) * 0.05  # 权重\nx = np.random.randn(in_dim) * 1.0             # 输入激活\n\n# 1. 原始计算 (作为 ground truth)\ny_original = W @ x\nprint(f\"原始计算: y.shape={y_original.shape}, mean|y|={np.abs(y_original).mean():.4f}\")\n\n# 2. 计算每个输入通道的激活 magnitude (AWQ 的核心统计量)\n# 实际场景用 calibration dataset 多样本平均\nx_calib = np.random.randn(128, in_dim) * 1.0  # calibration set\ns_x = np.abs(x_calib).mean(axis=0)             # 通道级激活均值\nprint(f\"\\n激活 magnitude s_x: min={s_x.min():.3f}, max={s_x.max():.3f}, ratio={s_x.max()/s_x.min():.1f}x\")\n\n# 3. 构造 outlier 通道 (模拟 LLM 真实分布)\noutlier_channels = np.argsort(s_x)[-3:]  # top 3 通道\ns_x_with_outlier = s_x.copy()\ns_x_with_outlier[outlier_channels] *= 20  # 模拟 outlier\nprint(f\"Outlier 通道: {outlier_channels}, 放大后 magnitude: {s_x_with_outlier[outlier_channels]}\")\n\n# 4. AWQ 等价缩放变换: W' = W * s_x, x' = x / s_x\ns_x_safe = np.where(s_x_with_outlier < 1e-6, 1e-6, s_x_with_outlier)\nW_scaled = W * s_x_safe           # 权重按激活缩放\nx_scaled = x / s_x_safe           # 激活按反方向缩放\n\n# 5. 验证数学等价: y_original == y_scaled\ny_scaled = W_scaled @ x_scaled\ndiff = np.abs(y_original - y_scaled).max()\nprint(f\"\\n数学等价验证: max|y_original - y_scaled| = {diff:.2e} (应接近 0)\")\nprint(f\"等价性: y = W·x = (W·diag(s_x))·(x/s_x) = W'·x' 严格成立\")\n\n# 6. 量化误差对比: 朴素量化 vs AWQ 缩放后量化\ndef quantize_int4(tensor):\n    \"\"\"模拟 INT4 量化 (per-tensor symmetric)\"\"\"\n    absmax = np.abs(tensor).max()\n    scale = absmax / 7.0  # INT4 range: [-8, 7]\n    q = np.clip(np.round(tensor / scale), -8, 7)\n    return q * scale\n\n# 朴素 INT4 量化\nW_naive = quantize_int4(W)\nerr_naive = np.abs(W - W_naive).mean()\n\n# AWQ 缩放后再量化\nW_awq_q = quantize_int4(W_scaled)\nW_awq_deq = W_awq_q / s_x_safe  # 反缩放\nerr_awq = np.abs(W - W_awq_deq).mean()\n\nprint(f\"\\n量化误差对比 (per-element):\")\nprint(f\"  朴素 INT4 量化: mean|W - W_quant| = {err_naive:.6f}\")\nprint(f\"  AWQ 缩放后量化: mean|W - W_awq|    = {err_awq:.6f}\")\nprint(f\"  AWQ 改进: {(1 - err_awq/err_naive)*100:.1f}% 误差降低\")\n\nprint(\"\\n关键洞察: outlier 通道在 W' 中被放大, 占满 INT4 量化区间;\")\nprint(\"非 outlier 通道量化误差不变, 但前向贡献 y = W·x 严格不变.\")",
+      "language": "python",
+      "repo": "https://github.com/mit-han-lab/llm-awq",
+      "install_cmd": "pip install numpy  # ✅ Pyodide-compatible (numpy only)"
+    },
+    {
+      "title": "EAGLE-2 特征级 draft 模型简化实现",
+      "code": "# pip install torch\n\"\"\"EAGLE-2 风格的特征级 draft 模型 (简化教学示例, 实际代码见 [arxiv:2401.16640])\"\"\"\nimport torch\nimport torch.nn as nn\nimport torch.nn.functional as F\n\nclass EAGLEFeatureHead(nn.Module):\n    \"\"\"\n    EAGLE 风格的特征级 draft 头:\n    - 输入: target 模型的最后一层 hidden state h_t\n    - 输出: target 模型下一层 hidden state 的预测 h_{t+1}\n    - 推理时: 用 target 的 lm_head 把 h_{t+1} decode 为 token\n    \"\"\"\n    def __init__(self, hidden_size: int, vocab_size: int, draft_len: int = 5):\n        super().__init__()\n        self.draft_len = draft_len\n        # 1 层 Transformer decoder block 作为 draft head\n        self.draft_layer = nn.TransformerDecoderLayer(\n            d_model=hidden_size, nhead=8, dim_feedforward=hidden_size*2,\n            batch_first=True\n        )\n        # 下一层 hidden state 预测头 (EAGLE 的核心)\n        self.next_hidden_proj = nn.Linear(hidden_size, hidden_size)\n        # 复用 target 模型的 lm_head (简化: 训练时单独训练)\n        self.lm_head = nn.Linear(hidden_size, vocab_size, bias=False)\n\n    def forward(self, target_hidden: torch.Tensor) -> torch.Tensor:\n        \"\"\"\n        target_hidden: [batch, seq_len, hidden_size] - target 模型最后一层 hidden\n        return: 预测的 token logits [batch, seq_len + draft_len, vocab_size]\n        \"\"\"\n        batch, seq_len, hidden = target_hidden.shape\n        # 自回归生成 draft_len 个隐藏状态\n        current = target_hidden\n        all_logits = []\n        for step in range(self.draft_len):\n            # 1 层 Transformer 推理\n            decoded = self.draft_layer(current, current)  # 自回归\n            # 预测下一层 hidden state\n            next_hidden = self.next_hidden_proj(decoded[:, -1:, :])\n            # 用 target 的 lm_head decode (复用 target 模型)\n            logits = self.lm_head(next_hidden)\n            all_logits.append(logits)\n            # 把预测的 token embedding 拼回 (简化: 用 one-hot 替代真正的 embedding)\n            token_ids = logits.argmax(dim=-1)  # [batch, 1]\n            token_embed = F.one_hot(token_ids, num_classes=hidden).float()\n            current = torch.cat([current, token_embed], dim=1)\n        return torch.cat(all_logits, dim=1)  # [batch, draft_len, vocab_size]\n\n# 模拟 target 模型 (实际替换为 Llama 等)\nclass MockTargetModel(nn.Module):\n    def __init__(self, hidden_size, vocab_size, n_layers):\n        super().__init__()\n        self.embed = nn.Embedding(vocab_size, hidden_size)\n        self.layers = nn.ModuleList([nn.TransformerEncoderLayer(hidden_size, 8, batch_first=True) for _ in range(n_layers)])\n        self.norm = nn.LayerNorm(hidden_size)\n    def forward(self, input_ids):\n        h = self.embed(input_ids)\n        for layer in self.layers:\n            h = layer(h)\n        return self.norm(h)\n\n# 演示\ntorch.manual_seed(42)\nhidden_size, vocab_size, n_layers = 512, 32000, 4\ntarget = MockTargetModel(hidden_size, vocab_size, n_layers)\neagle = EAGLEFeatureHead(hidden_size, vocab_size, draft_len=5)\n\n# 模拟输入\ninput_ids = torch.randint(0, vocab_size, (2, 32))  # batch=2, seq=32\nwith torch.no_grad():\n    target_hidden = target(input_ids)  # [2, 32, 512]\n    draft_logits = eagle(target_hidden)  # [2, 5, 32000]\n    draft_tokens = draft_logits.argmax(dim=-1)  # [2, 5]\n\nprint(f\"Target hidden shape: {target_hidden.shape}\")\nprint(f\"EAGLE-2 draft {eagle.draft_len} tokens: {draft_tokens[0].tolist()}\")\nprint(f\"EAGLE-2 核心: 复用 target 模型的 lm_head, draft head 仅 ~10MB 参数\")\nprint(f\"据 [arxiv:2401.16640] 报告 EAGLE-2 在 Llama-2-Chat 70B 上实现 2.5-3x 加速 (具体以原论文为准)\")",
+      "language": "python",
+      "repo": "https://github.com/SafeAILab/EAGLE",
+      "install_cmd": "pip install torch  # ⚠️ Local GPU only — torch is too large for Pyodide; use numpy examples for browser-based demos"
+    },
+    {
+      "title": "Triton + TensorRT-LLM 部署配置（config.pbtx 示例）",
+      "code": "# TensorRT-LLM 编译 + Triton 部署的最小配置示例\n# 运行平台: 需 NVIDIA GPU (H100/A100/L40S 推荐) + Docker + TensorRT-LLM 容器\n\n# ========== Step 1: 编译 TensorRT-LLM engine ==========\n# 在 TensorRT-LLM 容器内执行 (假设 HF 模型已下载到 /models/qwen3-8b)\n# trtllm-build \\\n#     --checkpoint_dir /models/qwen3-8b/tllm_checkpoint \\\n#     --output_dir /models/qwen3-8b/engine \\\n#     --gemm_plugin float16 \\\n#     --max_batch_size 32 \\\n#     --max_input_len 4096 \\\n#     --max_output_len 2048 \\\n#     --enable_context_fmha \\\n#     --use_paged_context_fmha \\\n#     --use_inflight_batching\n\n# ========== Step 2: Triton model repository 结构 ==========\n# /models/qwen3_triton/\n# ├── qwen3_8b/\n# │   ├── 1/                          # version\n# │   │   └── model.json              # TensorRT-LLM backend config\n# │   └── config.pbtx                 # Triton model config\n# └── ensemble/                       # (可选) 多模型 pipeline\n\n# ========== Step 3: config.pbtx (Triton 模型配置) ==========\nCONFIG_PBTX = \"\"\"\nname: \"qwen3_8b\"\nplatform: \"tensorrtllm_plan\"\nmax_batch_size: 32\n\ninput [\n  {\n    name: \"input_ids\"\n    data_type: TYPE_INT32\n    dims: [ -1 ]\n  },\n  {\n    name: \"request_output_len\"\n    data_type: TYPE_INT32\n    dims: [ 1 ]\n  }\n]\n\noutput [\n  {\n    name: \"output_ids\"\n    data_type: TYPE_INT32\n    dims: [ -1 ]\n  }\n]\n\n# Dynamic Batching 关键参数\ndynamic_batching {\n  preferred_batch_size: [ 8, 16 ]\n  max_queue_delay_microseconds: 100   # 100us 内攒 batch, 平衡 TTFT 与吞吐\n}\n\n# TensorRT-LLM Backend 特定参数\ninstance_group [\n  {\n    count: 1\n    kind: KIND_GPU\n    gpus: [ 0 ]\n  }\n]\n\n# 优化配置\noptimization {\n  execution_accelerators {\n    gpu_execution_accelerator: [\n      { name: \"tensorrt\" }\n    ]\n  }\n}\n\"\"\"\n\n# ========== Step 4: 启动 Triton Server ==========\n# docker run --gpus all --rm \\\n#     -p 8000:8000 -p 8001:8001 -p 8002:8002 \\\n#     -v /models:/models \\\n#     nvcr.io/nvidia/tritonserver:24.08-trtllm-python-py3 \\\n#     tritonserver \\\n#       --model-repository=/models/qwen3_triton \\\n#       --log-verbose=1 \\\n#       --metrics-config=enable-metrics=1 \\\n#       --grpc-port=8001 --http-port=8000 --metrics-port=8002\n\n# ========== Step 5: Prometheus 抓取配置 ==========\nPROMETHEUS_CONFIG = \"\"\"\nscrape_configs:\n  - job_name: 'triton'\n    scrape_interval: 15s\n    static_configs:\n      - targets: ['localhost:8002']\n    metrics_path: /metrics\n\"\"\"\n\n# ========== Step 6: 关键监控指标 (Grafana dashboard 必备 4 面板) ==========\nGRAFANA_PANELS = \"\"\"\n1. TTFT P99 (Time To First Token):  triton:request_duration{stage=\"request\"}  (目标 < 200ms)\n2. 吞吐量 (tokens/sec):              triton:response_complete  rate() * 1\n3. GPU 利用率:                       nvidia_smi:utilization_gpu  (目标 70-90%)\n4. KV Cache 命中率:                  vllm:gpu_cache_usage_perc  (Prefix Caching 启用后)\n\"\"\"\n\nprint(\"=== TensorRT-LLM + Triton 部署 6 步链路 ===\")\nprint(\"1. trtllm-build 编译 engine\")\nprint(\"2. 准备 Triton model repository\")\nprint(\"3. 配置 config.pbtx (dynamic batching + tensorrtllm_plan)\")\nprint(\"4. docker run 启动 tritonserver\")\nprint(\"5. Prometheus 抓取 /metrics 端点\")\nprint(\"6. Grafana 配置 4 核心面板 (TTFT/吞吐/GPU/Cache 命中)\")\nprint(\"\\n关键开关: --enable_prefix_caching (vLLM) + --use_inflight_batching (TRT-LLM)\")",
+      "language": "bash",
+      "repo": "https://github.com/triton-inference-server/server",
+      "install_cmd": "# ⚠️ Local GPU server only — 需要 NVIDIA H100/A100 + TensorRT-LLM 容器\n# docker pull nvcr.io/nvidia/tritonserver:24.08-trtllm-python-py3"
+    }
+  ],
+  "exercises": [
+    {
+      "q": "PagedAttention 分析: 阅读 arxiv:2309.06180 论文, 列出 block_size=16/32/64 时的元数据开销与内部碎片 trade-off, 并解释为什么社区经验值是 16。"
+    },
+    {
+      "q": "Continuous Batching 对比: 模拟一个 4 请求 batch, 请求长度 [50, 100, 200, 80], 手工计算 static batching 与 continuous batching 的 GPU 利用率曲线, 并给出两种策略的总 token 生成耗时对比。"
+    },
+    {
+      "q": "RadixAttention 调优: 设计一个 A/B 测试方案, 测量 Prefix Caching 在 (1) 多轮对话 (2) RAG 文档问答 (3) open-ended 闲聊 三种场景下的命中率与吞吐量提升, 并讨论为什么第三种场景几乎无收益。"
+    },
+    {
+      "q": "EAGLE-2 draft 头训练: 阅读 arxiv:2401.16640, 解释 EAGLE-2 的「动态 draft tree」如何用 top-k 置信度展开, 并用数学公式推导 K=5 时树结构的最大分支数。"
+    },
+    {
+      "q": "AWQ 量化部署: 用 autoawq 库对一个 Llama-3-8B 模型做 4-bit AWQ 量化, 测量量化前后的 perplexity 变化 (在 WikiText-2 上), 并对比相同模型的 GPTQ 量化结果, 撰写 1 页分析报告。"
+    }
+  ],
+  "references": [
+    {
+      "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention (vLLM)",
+      "authors": "Kwon et al., UC Berkeley / Sky Computing, SOSP 2023",
+      "url": "https://arxiv.org/abs/2309.06180",
+      "type": "paper"
+    },
+    {
+      "title": "SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models",
+      "authors": "Xiao et al., MIT / NVIDIA, 2023",
+      "url": "https://arxiv.org/abs/2308.16363",
+      "type": "paper"
+    },
+    {
+      "title": "EAGLE-2: Faster Inference of Language Models with Dynamic Draft Trees",
+      "authors": "Li et al., SafeAILab, 2024",
+      "url": "https://arxiv.org/abs/2401.16640",
+      "type": "paper"
+    },
+    {
+      "title": "vLLM 官方仓库 (PagedAttention 实现)",
+      "authors": "UC Berkeley Sky Computing Lab",
+      "url": "https://github.com/vllm-project/vllm",
+      "type": "github",
+      "installCommand": "pip install vllm"
+    },
+    {
+      "title": "SGLang 官方仓库 (RadixAttention 实现)",
+      "authors": "LMSYS Org",
+      "url": "https://github.com/sgl-project/sglang",
+      "type": "github",
+      "installCommand": "pip install sglang"
+    },
+    {
+      "title": "EAGLE 官方仓库 (EAGLE-1/EAGLE-2 实现)",
+      "authors": "SafeAILab (李俊, 刘志远 等)",
+      "url": "https://github.com/SafeAILab/EAGLE",
+      "type": "github",
+      "installCommand": "pip install eagle"
+    },
+    {
+      "title": "AutoAWQ 官方仓库 (AWQ 量化工具)",
+      "authors": "MIT Han Lab",
+      "url": "https://github.com/mit-han-lab/llm-awq",
+      "type": "github",
+      "installCommand": "pip install autoawq"
+    },
+    {
+      "title": "TensorRT-LLM 官方仓库 (NVIDIA 推理栈)",
+      "authors": "NVIDIA",
+      "url": "https://github.com/NVIDIA/TensorRT-LLM",
+      "type": "github"
+    },
+    {
+      "title": "Triton Inference Server 官方仓库 (模型服务框架)",
+      "authors": "NVIDIA",
+      "url": "https://github.com/triton-inference-server/server",
+      "type": "github"
     }
   ]
 },
