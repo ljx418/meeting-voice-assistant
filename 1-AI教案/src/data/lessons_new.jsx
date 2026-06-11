@@ -28,6 +28,7 @@ export const IMAGE_MAP = {
   "L24": "/images/ai-career-path.svg",
   "L25": "/images/deepseek.svg",
   "L26": "/images/lora.svg",
+  "L27": "/images/ai-coding-assistants.svg",
 };
 
 export const WEEK_GROUPS = [
@@ -89,7 +90,8 @@ export const WEEK_GROUPS = [
     "label": "📅 Week 13-14 前沿模型",
     "lessons": [
       "L25",
-      "L26"
+      "L26",
+      "L27"
     ]
   }
 ];
@@ -1369,6 +1371,255 @@ export const LESSONS = {
       "authors": "HuggingFace",
       "url": "https://huggingface.co/docs/trl/sft_trainer",
       "type": "docs"
+    }
+  ]
+},
+  "L27": {
+  "id": "L27",
+  "title": "Agent Skill 与 Harness Engineering 实战",
+  "week": "Week 13-14 前沿模型",
+  "tags": [
+    "Agent",
+    "Skill",
+    "Harness",
+    "MCP",
+    "ReAct",
+    "AutoGen",
+    "SWE-Agent"
+  ],
+  "image": "/images/ai-coding-assistants.svg",
+  "lessonId": "L27",
+  "codeExampleCount": 5,
+  "referenceCount": 10,
+  "objectives": [
+    "理解 Agent Skill 的设计哲学与可复用模式（ReAct / Function-Calling / Tool-Use）",
+    "掌握 Skill Schema 的核心字段（name / description / input_schema）与发现机制（Anthropic Skills / OpenAI Tools）",
+    "理解 Agent 沙箱的权限边界（filesystem / network / process 隔离）与安全护栏",
+    "掌握 Harness Engineering 的 Loop 控制（max_steps / token_budget / termination）与 Anthropic Claude Code / OpenAI Agents SDK 的实现差异",
+    "能够使用 AutoGen / LangChain / OpenAI Agents SDK 组合并编排多个 Skill",
+    "实战：实现一个自定义 Skill 框架，支持动态注册、权限控制与多步循环"
+  ],
+  "sections": [
+    {
+      "title": "Skill 设计哲学与模式",
+      "content": "Agent Skill 是 LLM 在循环中可调用的「能力单元」——一段带 Schema 描述的函数（也称 tool / function calling），由模型在 reasoning 时根据任务需要动态触发。Skill 的设计哲学核心是「能力原子化 + 描述驱动发现」：每个 Skill 只做一件事，但通过自然语言 description 让 LLM 自主判断何时调用。\n\n三种主流 Skill 模式：(1) ReAct 模式 [arxiv:2210.03629]——Reasoning + Acting 交替，模型先输出 Thought（推理）再输出 Action（工具调用），适合开放式任务。AutoGen 框架 [arxiv:2310.08560] 在 ReAct 基础上扩展为多 Agent 协作，每轮由 LLM 决定调用哪个 Skill 或与哪个 Agent 对话。(2) Function-Calling 模式——OpenAI 在 2023 年 6 月引入的原生 tool-use 范式，模型直接输出结构化 JSON 参数，由 runtime 执行工具。OpenAI Agents SDK 与 Anthropic Claude 都采用此模式。(3) Plan-and-Execute 模式——先让 LLM 生成完整执行计划（plan），再逐步执行，适合可分解的长链任务。\n\nSkill 与传统 API 的关键差异：Skill 的「输入」可以是自然语言描述的意图（由 LLM 解析为结构化参数），而 API 的「输入」必须是严格类型。Skill 是「LLM 友好的接口」，所以 description 字段至关重要——它决定 LLM 能否在正确的时机调用。Anthropic 在 Claude Code Skills 中把 Skill 视为「可热加载的 prompt + 工具定义」，允许模型在执行过程中按需激活（progressive disclosure），避免一次性塞入过多工具导致上下文污染。\n\n工业实践：Anthropic Claude Code 将 Skills 设计为「可由模型自主选择调用的工具集」，其 Skills 仓库（github.com/anthropics/skills）收录了文档处理、PPT 生成、MCP 工具桥接等 Skill。OpenAI Operator 在 CUA（Computer-Use Agent）框架下将浏览器操作抽象为 Skill，模型通过截图+点击+输入的循环完成任务。Microsoft AutoGen 0.4+ 采用 Actor Model，多个 AssistantAgent 各持一组 Skill，通过 group chat 编排。SWE-Agent [arxiv:2308.08155] 则把「读文件 / 编辑文件 / 跑测试」抽象为原子 Skill，在 SWE-bench 上据公开报告达到 12.5% pass@1（GPT-4 基线）。\n\n🏢 工业实践:\n- Anthropic Claude Code：把 Skills 视为「可热加载的 prompt + 工具」，其 Skills 仓库（github.com/anthropics/skills）收录了 pdf、pptx、mcp-builder 等多个 Skill，模型在执行时按 description 匹配并自动激活；\n- Microsoft AutoGen 0.4+：采用 Actor Model，AssistantAgent 持有一组 function 形式的 Skill，UserProxyAgent 负责执行；多 Agent 通过 RoundRobinGroupChat / SelectorGroupChat 协作；\n- Princeton SWE-Agent：把「读文件 / 编辑文件 / 跑测试 / 搜索代码」抽象为 6 个原子 Skill，在 SWE-bench Verified 上据公开报告达到约 20% 量级 pass@1 水平（具体数字以官方仓库为准）。\n\n📊 [图示建议]: 左侧画 ReAct Thought→Action→Observation 循环，右侧画 Function-Calling 模式（LLM 输出 JSON → Runtime 执行 → 结果回传）。\n\n⚠️ 常见陷阱:\n1. Skill description 写得太抽象（如「处理文件」），导致 LLM 误判调用时机；\n2. 把过多 Skill 一次性塞入 system prompt，触发上下文窗口浪费与「工具选择瘫痪」；\n3. Skill 的输入参数没有严格 enum 约束，模型容易输出非法值。\n\n💼 面试考点: 「ReAct 与 Function-Calling 的根本区别」或「为什么 Skill description 比参数定义更重要」。",
+      "interviewQuestions": [
+        "ReAct [arxiv:2210.03629] 范式的 Thought/Action/Observation 循环如何避免 LLM 的「幻觉动作」？",
+        "Skill 的 description 字段为什么比参数 Schema 更影响调用准确率？"
+      ]
+    },
+    {
+      "title": "Skill Schema 与发现机制",
+      "content": "Skill Schema 是模型发现与调用 Skill 的元数据契约。三大主流 Schema 体系：(1) Anthropic Claude 的 tool_use 格式——含 name / description / input_schema（JSON Schema 子集）；(2) OpenAI function_calling 格式——含 type=\"function\" / function.name / function.description / function.parameters；(3) MCP（Model Context Protocol）——Anthropic 2024 年开源的标准协议，规定 tools/list / tools/call 两个端点，支持跨模型复用 Skill 定义。\n\nOpenAI Agents SDK 的 @function_tool 装饰器（基于 Python type hints）会自动从函数签名生成 JSON Schema，是 2025 年 LLM 应用开发的事实标准。示例：\n```python\n@function_tool\ndef get_weather(city: str) -> str:  # 类型注解 → Schema\n    \"\"\"Get current weather for a city.\"\"\"  # docstring → description\n    ...\n```\nSDK 自动生成 name=\"get_weather\"、parameters={city: {type: string}}，避免手写 JSON Schema 出错。\n\nAnthropic Claude 的 tool_use 通过 messages API 传递，模型在响应中输出 content[] 含 type=\"tool_use\" 的块，runtime 解析并执行后用 type=\"tool_result\" 回传。一个典型循环：(1) 客户端发 messages + tools；(2) 模型返回 stop_reason=\"tool_use\"；(3) 客户端执行工具；(4) 把结果追加到 messages；(5) 重复直到 stop_reason=\"end_turn\"。\n\n发现机制（Discovery）有两层含义：(1) 模型层发现——LLM 看到 tools 列表后，根据 description 决定调用哪个；(2) 运行时发现——Agent 框架在初始化时从注册表、文件系统、MCP server 加载可用 Skills。Anthropic Claude Code 的 Skills 系统支持「渐进披露」：Skills 描述放在 system prompt，完整 prompt 与工具定义按需加载，避免一次性消耗大量 token。\n\nLangChain 的 @tool 装饰器与 OpenAI Agents SDK 的 @function_tool 类似，但 LangChain 额外提供 ToolMessage / HumanMessage / SystemMessage 抽象，把 Skill 调用包装为多轮对话流。LangChain AgentExecutor 是其执行循环（AgentAction → AgentFinish）。LangGraph（LangChain 团队 2024 年发布）则把 Skill 编排升级为有状态图（State Graph），支持循环、分支、人机协作。\n\n工业实践：Anthropic Skills 仓库（github.com/anthropics/skills）采用 YAML frontmatter + Markdown 格式描述 Skill，前置元数据含 name / description，正文是 LLM 可见的详细 prompt。OpenAI Agents SDK 默认从 Python 函数反射出 Schema，并通过 guardrails 做输入校验。MCP 协议则把工具发现抽象为 JSON-RPC 调用，Server 端实现 list_tools()，Client 端（Claude Desktop / Cursor / Cline）透明加载。\n\n🏢 工业实践:\n- Anthropic Skills：采用 YAML + Markdown 描述 Skill，前置元数据含 name / description，正文为模型按需加载的详细 prompt；github.com/anthropics/skills 公开了 pdf、pptx、mcp-builder 等多个 Skill；\n- MCP（Model Context Protocol）：Anthropic 2024 年开源的标准协议，定义 list_tools / call_tool 端点，已被 Claude Desktop、Cursor、Cline、Continue 等主流 Agent IDE 采用；\n- OpenAI Agents SDK：@function_tool 装饰器从 Python 类型注解自动生成 JSON Schema，是 2025 年 Function-Calling 框架的事实标准之一。\n\n📊 [图示建议]: 左侧画 tool_use JSON 结构（name / description / input_schema），右侧画 OpenAI @function_tool 自动生成 Schema 的流程图。\n\n⚠️ 常见陷阱:\n1. JSON Schema 写错类型（如把 integer 写成 int），模型输出与 Schema 不匹配，runtime 报错；\n2. 必填字段未在 required 数组中声明，模型误以为可省略；\n3. description 含模糊词（「处理」、「做」)，模型在不同上下文重复调用同一 Skill。\n\n💼 面试考点: 「MCP 协议相比传统 REST API 有什么独特价值」或「OpenAI @function_tool 如何从 Python 类型注解生成 JSON Schema」。",
+      "interviewQuestions": [
+        "MCP 协议如何实现跨模型/跨 IDE 的 Skill 复用？",
+        "Anthropic Skills 的「渐进披露」机制如何节省上下文 token？"
+      ]
+    },
+    {
+      "title": "Skill 沙箱与权限边界",
+      "content": "Skill 沙箱（Sandbox）是 Agent 安全的核心机制——隔离 LLM 生成代码与系统资源，避免误操作（rm -rf、curl 恶意 URL）或越权访问（读 ~/.ssh/id_rsa）。Sandbox 隔离维度分四层：(1) 文件系统——限制 Skill 可读写的目录（如 SWE-Agent 限制在 /testbed）；(2) 网络——禁止或白名单出站请求；(3) 进程——禁止 fork / exec 危险命令；(4) 凭据——禁止读取环境变量中的 API Key / Token。\n\n主流沙箱方案：(a) Docker 容器——最常见的「重隔离」方案，每个 Skill 在独立容器中执行，文件系统 + 网络 + 进程全部隔离。SWE-Agent [arxiv:2308.08155] 默认在 Docker 容器中运行，仓库 clone 到 /testbed 后限制只能读写该目录。(b) Linux Namespace + cgroup——轻量级隔离，bubblewrap、firejail、nsjail 等工具基于此。(c) gVisor / Kata Containers——用户态内核隔离，安全等级更高。(d) 浏览器沙箱——OpenAI Operator / Anthropic Computer-Use 在 Chromium 隔离进程中执行，限制 URL 白名单与 DOM 操作范围。\n\n权限边界（Permission Boundary）的设计模式：(1) Allow-list 模式——默认禁止所有操作，仅允许明确授权的 Skill 调用，如 Anthropic Claude Code 的权限系统（read / edit / bash 各自独立授权）；(2) Capability 模式——按 Skill 粒度发「能力令牌」，执行时检查 token 是否覆盖该操作；(3) 审计模式——所有 Skill 调用都记录到审计日志，事后追溯（与 L23 AI 安全相关）。Anthropic Claude Code 4.7 据公开 release notes 引入了「沙箱化 Bash」，把 Bash 命令白名单化（git / npm / make 等可执行，rm / curl 默认拒绝）。\n\nHarness 层的「人机协作护栏」(Human-in-the-Loop) 是另一种权限控制模式：所有「不可逆 / 高风险」操作（删除文件、push 代码、付款）必须人工确认。OpenAI Agents SDK 通过 input_guardrail / output_guardrail 与 tool_call_safety_check 实现——tool_call_safety_check 是用户自定义函数，决定是否放行工具调用。Anthropic Claude Code 在执行 Bash 命令前默认 ask 一次（除非加入白名单）。\n\n工业实践：Anthropic Claude Code 4.x 的沙箱化 Bash（Sandboxed Bash）将白名单 + 路径限制 + 命令注入防护组合，命令执行在受限子进程中；Microsoft AutoGen 0.4+ 在 Docker 容器中运行 code_executor 类型的 Skill；SWE-Agent 在 SWE-bench 评测中据公开报告 100% 隔离执行（容器销毁后不留痕迹）；OpenAI Operator 浏览器操作被限制在「无下载权限 / 无 cookie 访问」的 Chromium 配置。\n\n🏢 工业实践:\n- Anthropic Claude Code 4.x：引入 Sandboxed Bash，Bash 命令白名单化（git/npm/make 允许，rm/curl 默认拒绝），命令在受限子进程执行；\n- Princeton SWE-Agent：默认在 Docker 容器内执行，仓库 clone 到 /testbed 后限制只能读写该目录，容器销毁后不留痕迹；\n- OpenAI Operator：浏览器操作在隔离 Chromium 进程内执行，禁用下载与 Cookie 访问，URL 白名单机制。\n\n📊 [图示建议]: 左侧画四层隔离维度（filesystem / network / process / credential），右侧画 Anthropic Claude Code 的 Bash 白名单 + 路径限制示意。\n\n⚠️ 常见陷阱:\n1. 沙箱配置 allow-list 但忘了限制环境变量（LLM 可通过 env 命令读到 API key）；\n2. Docker 沙箱内 root 权限未降级，容器逃逸后直接拿到宿主机 root；\n3. 误把 --network=host 传给 docker run，破坏网络隔离。\n\n💼 面试考点: 「Docker Namespace 与 cgroup 如何实现进程隔离」或「Anthropic Claude Code 的 Sandboxed Bash 与传统 sudo 的根本区别」。",
+      "interviewQuestions": [
+        "Docker 沙箱中 root 权限降级为什么重要？容器逃逸的攻击向量有哪些？",
+        "人机协作护栏（Human-in-the-Loop）与纯沙箱的根本区别是什么？"
+      ]
+    },
+    {
+      "title": "Harness 与 Loop 控制",
+      "content": "Harness（也称 Agent Runtime / Agent Loop）是包裹 LLM 与 Skill 的执行框架，负责：(1) 调用 LLM；(2) 解析 tool_use；(3) 执行 Skill；(4) 把结果回传；(5) 判断终止条件；(6) 处理错误与重试。Harness 是 Agent 工程化的「隐形骨架」——同一个 LLM 配不同 Harness，能力可差数倍。\n\nLoop 控制的四大要素：(a) max_steps——最大步数限制，防止无限循环（典型 10-50 步）；(b) token_budget——总 token 预算，超过即终止；(c) termination_condition——终止条件，如「模型输出 finish 标记」「工具返回 success=False 超过 N 次」「重复动作检测」；(d) error_handling——错误处理策略，如「工具执行失败时让模型重试一次」「fallback 到备用工具」「直接返回错误给用户」。\n\n主流 Harness 对比：\n- Anthropic Claude Code：单 Agent + Tool-Use 循环，max_turns 默认据公开配置约 100 步，每步检查 token 预算；引入「沙盒化 Bash」与权限系统；Bash / Edit / Read / WebFetch / WebSearch 等 Skill 内置。\n- OpenAI Agents SDK：Runner.run_sync() / Runner.run() 启动循环，支持 handoffs（多 Agent 交接）、guardrails（输入/输出护栏）、sessions（多轮会话）；默认 max_turns 限制可通过 max_iterations 配置。\n- LangChain AgentExecutor：ReAct 风格循环，max_iterations 与 max_execution_time 双约束；LangGraph 升级为有状态图（StateGraph + Node + Edge），支持循环、分支、检查点（checkpointer）。\n- Microsoft AutoGen 0.4+：Actor Model + Async Runtime，多 Agent 通过 topic 异步通信；RoundRobinGroupChat / SelectorGroupChat 控制发言顺序；termination_condition 由 is_termination_msg 函数定义。\n\nHarness Engineering 的核心问题：(1) 状态管理——Loop 中累积的 messages / tool_results 越来越多，需要截断（truncation）或摘要（summarization）；(2) 上下文压缩——超过模型窗口时用 map-reduce 或 LLM-as-summarizer 压缩历史；(3) 并发执行——某些 Skill 互相独立可并行（OpenAI Agents SDK 的 parallel_tool_calls）；(4) 检查点（Checkpointing）——LangGraph 的 MemorySaver 把 Loop 状态持久化到 SQLite/Postgres，支持断点恢复与时间旅行调试。\n\n工业实践：Anthropic Claude Code 的 Harness 据公开 release notes 包含「Subagent」机制——主 Agent 可派生子 Agent 独立执行子任务，子 Agent 完成后回传结果；OpenAI Agents SDK 的 handoffs 支持多 Agent 路由（如「客服 Agent → 退款 Agent」）；SWE-Agent 据公开报告实现「Agent-Computer Interface (ACI)」设计原则——为 LLM 设计专用工具（read / str_replace / execute / search）而非直接套用 Linux 命令，提升 LLM 调用准确率。\n\n🏢 工业实践:\n- Anthropic Claude Code：主 Agent 可派生子 Agent（Subagent）独立执行子任务，子 Agent 完成后回传；max_turns 与 token 预算双约束；\n- Princeton SWE-Agent：提出「Agent-Computer Interface (ACI)」设计原则——为 LLM 设计专用 read / str_replace / execute / search 工具而非套用 Linux 命令；\n- OpenAI Agents SDK：handoffs 机制支持多 Agent 路由，Runner 内置 guardrails 与 sessions；Microsoft AutoGen 0.4+ Actor Model + Async Runtime。\n\n📊 [图示建议]: 左侧画 Harness Loop 控制流（LLM → parse tool_use → execute → append → check termination），右侧画多 Agent 协作（handoffs / group chat / subagent）。\n\n⚠️ 常见陷阱:\n1. 未设 max_steps，模型陷入「尝试 → 失败 → 重试」死循环，烧光 token；\n2. Loop 累积 messages 超过上下文窗口，未启用截断 / 摘要导致 OOM 或请求失败；\n3. 错误处理只重试不 fallback，导致一个工具失败整个 Loop 终止。\n\n💼 面试考点: 「Agent Harness 的四大 Loop 控制要素」或「LangGraph 的 Checkpointing 如何实现断点恢复」。",
+      "interviewQuestions": [
+        "Harness 中 max_steps / token_budget / termination_condition 各自防止什么类型的失败？",
+        "SWE-Agent 的「Agent-Computer Interface (ACI)」与直接调用 Linux 命令的根本区别是什么？"
+      ]
+    },
+    {
+      "title": "Skill 组合与编排",
+      "content": "单个 Skill 能力有限，工业级 Agent 需组合多个 Skill 完成复杂任务。组合模式分三层：(1) 顺序组合——Skill A 输出作为 Skill B 输入（chain）；(2) 并行组合——独立 Skill 并行执行，结果合并（parallel_tool_calls）；(3) 条件组合——根据 Skill A 结果决定是否调用 Skill B（branching / routing）。\n\nOpenAI Agents SDK 的编排原语：(a) handoffs——主 Agent 把对话「交接」给子 Agent，擅长不同任务（如「客服 → 退款」）；(b) agents-as-tools——把一个 Agent 包装为另一个 Agent 的「工具」；(c) parallel_tool_calls——一次 LLM 调用可触发多个工具并行执行；(d) guardrails——输入/输出护栏函数，决定是否拦截。\n\nLangGraph 的编排模型是有状态图（StateGraph）：节点（Node）是 Skill/Agent，边（Edge）是转移条件。State 是 TypedDict 定义的全局状态，节点返回 partial dict 合并到 state。Edge 可用 add_conditional_edges 设置条件路由。LangGraph 还内置 checkpointer（MemorySaver / SqliteSaver / PostgresSaver）实现断点恢复，以及 interrupt_before / interrupt_after 实现人机协作中断。\n\nMicrosoft AutoGen 0.4+ 的编排：(1) AssistantAgent + UserProxyAgent 双 Agent 经典组合——AssistantAgent 生成代码，UserProxyAgent 执行并返回结果；(2) GroupChat——多 Agent 共享消息列表，发言顺序由 group_chat_manager 决定；(3) SelectorGroupChat——LLM 决定下一位发言者；(4) Magentic-One 编排器（Microsoft Research 2024）——四个 Agent 协作：Orchestrator 规划、Executor 执行、Verifier 验证、WebSurfer 搜索。\n\nVercel AI SDK（TypeScript）的多 Skill 编排：使用 generateText({ tools: { weather, search, calc } }) 一次传入多个工具，模型可自主选择调用顺序与并行度。maxSteps 默认 1，需显式传 maxSteps: 5 启用循环。Stream 模式可边生成边输出。\n\n工业实践：Anthropic Claude Code 的「Skill 链」示例——Read → Edit → Bash（test）→ Bash（commit）→ Bash（push） 完整覆盖代码修改流程；OpenAI Operator 据公开文档组合 browser_click / browser_type / browser_screenshot 三个浏览器 Skill；SWE-Agent 据公开报告组合 read / str_replace / execute 三个核心 Skill 完成 12.5%-量级的 SWE-bench pass@1。\n\n🏢 工业实践:\n- Anthropic Claude Code：Skill 链 Read → Edit → Bash(test) → Bash(commit) → Bash(push) 覆盖代码修改全流程；\n- OpenAI Operator：组合 browser_click / browser_type / browser_screenshot 三个浏览器 Skill 完成网页操作；\n- Microsoft Magentic-One（AutoGen 团队 2024 发布）：Orchestrator + Executor + Verifier + WebSurfer 四 Agent 协作。\n\n📊 [图示建议]: 左侧画三种组合模式（chain / parallel / branching）的流程图，右侧画 LangGraph StateGraph 节点-边示意（含 conditional edge）。\n\n⚠️ 常见陷阱:\n1. 顺序组合时未做参数映射，Skill A 的 string 输出无法直接作为 Skill B 的 enum 输入；\n2. 并行组合时未设 max_concurrency，多个慢 Skill 同时执行耗尽资源；\n3. 条件组合的分支条件太复杂（如「如果 A>5 且 B 是奇数」），模型难以遵循。\n\n💼 面试考点: 「LangGraph 的 conditional edge 与普通 edge 区别」或「OpenAI Agents SDK 的 handoffs 与 agents-as-tools 适用场景」。",
+      "interviewQuestions": [
+        "LangGraph 的 StateGraph 与传统 DAG 工作流（Airflow/Temporal）的根本区别是什么？",
+        "OpenAI parallel_tool_calls 的实现机制是什么？模型如何决定一次调用多个工具？"
+      ]
+    },
+    {
+      "title": "实战：自定义 Skill 框架",
+      "content": "本节综合前五节，落地一个最小可用 Skill 框架，覆盖 Schema 定义 / Loop 控制 / 权限边界 / 编排四要素。框架设计目标：(1) 用 Python 装饰器自动从函数签名生成 JSON Schema（参考 OpenAI @function_tool）；(2) 用 dataclass 描述 Skill 元数据，支持 name / description / input_schema / handler；(3) Harness Loop 实现 max_steps / token_budget / error_retry 三大控制；(4) 权限白名单机制（参考 Anthropic Claude Code Bash 白名单）；(5) 与 OpenAI / Anthropic 兼容的 tool_call JSON 协议。\n\n关键设计决策：(1) Skill 注册采用「装饰器 + 全局注册表」模式——@skill 装饰的函数自动加入 Registry，运行时通过 name 索引；(2) 权限检查放在 Skill 执行前，deny-list + allow-list 双模式；(3) Loop 用 while 循环 + 终止条件，状态保存在 messages 列表；(4) 错误处理采用「重试 1 次 → fallback Skill → 终止」三级策略。\n\n完整实现见 codeExamples 部分的「自定义 Skill 框架」代码（约 200 行），包含：\n- @skill 装饰器：从函数签名反射 name/parameters，docstring → description；\n- SkillRegistry：全局单例，支持 register / get / list；\n- PermissionGuard：allow-list 与 deny-list 检查；\n- AgentLoop：max_steps / token_budget 约束，解析 tool_use 块，调用 Skill，append 结果；\n- 集成 Anthropic Claude API 演示：从 messages 含 tool_use 时执行 Skill，结果回传直到 end_turn。\n\n框架扩展路径：(1) 加入 LangGraph 风格的 StateGraph，把多 Skill 编排升级为有状态图；(2) 加入 MCP Server 支持，list_tools / call_tool 通过 JSON-RPC 暴露 Skill；(3) 加入 Docker 沙箱，把 handler 移到容器中执行；(4) 加入 LangSmith / Helicone 风格的 trace 日志，记录每步 token / 延迟 / Skill 调用结果。\n\n工业对比：本框架是「教学原型」，工业级还需考虑：(1) 异步执行（asyncio.gather 并发多个独立 Skill）；(2) 持久化（checkpointer 保存 Loop 状态到数据库）；(3) 多租户（不同用户不同权限 scope）；(4) 监控（OpenTelemetry trace 与 metrics）。OpenAI Agents SDK、Microsoft AutoGen、LangGraph 是成熟的工业级参考实现。\n\n常见陷阱：\n1. JSON Schema 反射时未处理 Optional[X] / List[X] / Dict[str, any] 等复杂类型；\n2. 权限检查放 Skill 内部而非 Loop 前，导致越权 Skill 已被调用；\n3. Loop 累积 messages 未做截断，长会话触发 context overflow；\n4. 错误重试未设 backoff，瞬间打爆下游 API；\n5. 框架未做 trace 日志，调试时无法复现问题。\n\n🏢 工业实践:\n- OpenAI Agents SDK：工业级参考实现，包含 handoffs / guardrails / parallel_tool_calls / sessions 全套编排原语；\n- Microsoft AutoGen 0.4+：Actor Model + Async Runtime，多 Agent 异步通信，RoundRobinGroupChat 与 SelectorGroupChat 两种群聊模式；\n- LangGraph：StateGraph + Checkpointer + interrupt_before 实现生产级可恢复 Agent。\n\n📊 [图示建议]: 左侧画自定义 Skill 框架架构（@skill → Registry → PermissionGuard → AgentLoop → LLM），右侧画扩展路径（StateGraph / MCP Server / Docker Sandbox / Trace）。\n\n⚠️ 常见陷阱:\n1. JSON Schema 反射未处理 Optional / List / Dict 复杂类型；\n2. 权限检查位置错误（应在 Loop 入口而非 Skill 内部）；\n3. messages 累积无截断，长会话 OOM。\n\n💼 面试考点: 「如何用 Python 装饰器从函数签名反射出 JSON Schema」或「Agent Loop 的三大控制要素（max_steps / token_budget / error_retry）如何协同」。",
+      "interviewQuestions": [
+        "用 Python 装饰器从函数签名反射 JSON Schema 时，Optional[X] / List[X] / Literal['a','b'] 等类型如何映射？",
+        "生产级 Agent 框架相比教学原型，还需补齐哪四类基础设施？"
+      ]
+    }
+  ],
+  "industryPractice": {
+    "title": "🏢 工业实践",
+    "content": "Agent Skill 与 Harness 在 2024-2026 年成为大模型应用工程化的核心战场，以下为四个真实工业案例。\n\n案例 1：Anthropic Claude Code 的 Skills 与 Harness 设计\n- 业务背景：Anthropic 在 2024-2025 年发布 Claude Code（CLI 编程 Agent），需要把 Skills 与 Harness 工程化；\n- 落地动作：(1) Skills 仓库（github.com/anthropics/skills）采用 YAML + Markdown 描述，渐进披露机制按需加载详细 prompt；(2) 4.x 版本引入 Sandboxed Bash，命令白名单 + 路径限制 + 注入防护；(3) Harness 引入 Subagent 机制，主 Agent 可派生子 Agent 独立执行子任务；(4) 4.7 据公开 release notes 加入权限系统分级（read / edit / bash 各自独立授权）；\n- 业务结果：Claude Code 据 Anthropic 公开数据在 SWE-bench Verified 上达到据公开报告较高水平（具体数字以官方披露为准），成为 2025-2026 年 AI 编程 Agent 标杆之一。\n\n案例 2：OpenAI Operator 与 Agents SDK 的 CUA 范式\n- 业务背景：OpenAI 2025 年发布 Operator（Computer-Use Agent）与 Agents SDK（多 Agent 编排框架）；\n- 落地动作：(1) Operator 基于 CUA（Computer-Use Agent）模型，浏览器操作抽象为 browser_click / browser_type / browser_screenshot 三个 Skill，Chromium 沙箱隔离；(2) Agents SDK 提供 handoffs（多 Agent 路由）/ guardrails（护栏）/ parallel_tool_calls（并行执行）/ sessions（多轮会话）；(3) @function_tool 装饰器从 Python 类型注解自动生成 JSON Schema；(4) 2025 年发布 AgentKit，提供可视化编排界面；\n- 业务结果：Operators 据 OpenAI 公开材料在 WebArena 等 benchmark 上达到领先水平（具体数字以官方披露为准），Agents SDK 成为 Python 生态 Function-Calling 事实标准之一。\n\n案例 3：Microsoft AutoGen 0.4+ 多 Agent 框架\n- 业务背景：Microsoft Research 自 2023 年起维护 AutoGen 框架（[arxiv:2310.08560]），2024 年 11 月发布 0.4 大版本采用 Actor Model 重构；\n- 落地动作：(1) AssistantAgent + UserProxyAgent 经典双 Agent 组合，代码生成 + 执行闭环；(2) GroupChat / SelectorGroupChat 多 Agent 群聊；(3) Magentic-One 系统（4 Agent 协作：Orchestrator 规划、Executor 执行、Verifier 验证、WebSurfer 搜索）；(4) Docker code_executor 沙箱默认配置；\n- 业务结果：AutoGen 0.4+ 据公开 GitHub 数据下载量在多 Agent 框架中处于领先水平；Magentic-One 据公开报告在 GAIA、WebArena 等 benchmark 上据公开材料取得较好成绩。\n\n案例 4：Princeton SWE-Agent 与 Agent-Computer Interface\n- 业务背景：Princeton NLP 团队 2023 年发布 SWE-Agent [arxiv:2308.08155]，是 SWE-bench 上的开源标杆 Agent；\n- 落地动作：(1) 提出「Agent-Computer Interface (ACI)」设计原则——为 LLM 设计专用工具（read / str_replace / execute / search）而非套用 Linux 命令；(2) Docker 沙箱默认 /testbed 目录限制；(3) 6 个原子 Skill 覆盖 read / edit / search / execute / submit 全流程；(4) 与 GPT-4 / Claude 3.5 等多个 LLM 兼容；\n- 业务结果：SWE-Agent 据公开报告在 SWE-bench Verified 上达到约 20% 量级 pass@1（具体数字以官方仓库为准），成为 SWE-bench 评测的事实参考 Agent 之一。\n\n注：上述业务数据均为公开案例估算，具体数字以各团队官方披露为准。"
+  },
+  "codeExamples": [
+    {
+      "title": "ReAct 风格 Agent 最小实现",
+      "code": "# pip install openai\nimport os, json, re\nfrom openai import OpenAI\n\nclient = OpenAI(api_key=os.environ.get(\"OPENAI_API_KEY\"))\n\n# 1. 定义 Skills（用 JSON Schema 描述，模型可发现并调用）\nTOOLS = [\n    {\n        \"type\": \"function\",\n        \"function\": {\n            \"name\": \"calculator\",\n            \"description\": \"Evaluate a basic math expression like '2+3*4'.\",\n            \"parameters\": {\n                \"type\": \"object\",\n                \"properties\": {\"expr\": {\"type\": \"string\", \"description\": \"Math expression\"}},\n                \"required\": [\"expr\"],\n            },\n        },\n    },\n    {\n        \"type\": \"function\",\n        \"function\": {\n            \"name\": \"get_time\",\n            \"description\": \"Get the current UTC time as an ISO 8601 string.\",\n            \"parameters\": {\"type\": \"object\", \"properties\": {}, \"required\": []},\n        },\n    },\n]\n\n# 2. Skill handlers（实际执行函数）\nHANDLERS = {\n    \"calculator\": lambda args: str(eval(args[\"expr\"])),  # ⚠️ 实际生产请用 ast.literal_eval\n    \"get_time\":   lambda args: __import__(\"datetime\").datetime.utcnow().isoformat() + \"Z\",\n}\n\n# 3. ReAct Loop：Thought → Action → Observation 循环\ndef react_loop(user_query: str, max_steps: int = 6) -> str:\n    messages = [{\"role\": \"user\", \"content\": user_query}]\n    for step in range(max_steps):\n        # Thought: 让 LLM 推理 + 决定是否调用工具\n        resp = client.chat.completions.create(\n            model=\"gpt-4o-mini\",\n            messages=messages, tools=TOOLS, tool_choice=\"auto\",\n        )\n        msg = resp.choices[0].message\n        messages.append(msg)\n        # Action: 如果模型决定调用工具\n        if msg.tool_calls:\n            for tc in msg.tool_calls:\n                name, args = tc.function.name, json.loads(tc.function.arguments or \"{}\")\n                # Permission: 仅允许白名单内的 Skill\n                if name not in HANDLERS:\n                    obs = f\"Error: Skill '{name}' not registered\"\n                else:\n                    try:\n                        obs = HANDLERS[name](args)\n                    except Exception as e:\n                        obs = f\"Error: {e}\"\n                # Observation: 回传工具执行结果\n                messages.append({\"role\": \"tool\", \"tool_call_id\": tc.id, \"content\": obs})\n        else:\n            # Termination: 模型直接回答，结束循环\n            return msg.content or \"\"\n    return \"Reached max_steps without final answer.\"\n\n# 4. 测试\nprint(react_loop(\"What is 17 * 23 + (100 - 5)?\"))     # → 486\nprint(react_loop(\"What time is it now?\"))              # → 2026-...Z\nprint(react_loop(\"Hello!\"))                            # → 直接回答",
+      "language": "python",
+      "repo": "https://github.com/openai/openai-python",
+      "install_cmd": "pip install openai  # ✅ Pyodide-compatible (openai SDK 是纯 HTTP)"
+    },
+    {
+      "title": "AutoGen 多 Agent 协作示例",
+      "code": "# pip install autogen-agentchat~=0.4 pyautogen\nimport os\nfrom autogen import AssistantAgent, UserProxyAgent\n\n# 1. LLM 配置（使用 OpenAI 兼容 API）\nllm_config = {\n    \"config_list\": [{\"model\": \"gpt-4o-mini\", \"api_key\": os.environ[\"OPENAI_API_KEY\"]}],\n    \"timeout\": 120,\n}\n\n# 2. 定义两个 Agent：AssistantAgent（写代码） + UserProxyAgent（执行代码）\nassistant = AssistantAgent(\n    name=\"coder\",\n    llm_config=llm_config,\n    system_message=\"\"\"You are a Python expert. Write clean, runnable code.\n    When the task is done, reply 'TERMINATE'.\"\"\",\n)\n\nuser_proxy = UserProxyAgent(\n    name=\"user\",\n    human_input_mode=\"NEVER\",          # 不需要人工输入\n    max_consecutive_auto_reply=10,      # 最多自动回复 10 轮\n    code_execution_config={\n        \"work_dir\": \"autogen_work\",\n        \"use_docker\": True,             # ⚠️ Docker 沙箱（默认 False，生产必开）\n    },\n    is_termination_msg=lambda x: \"TERMINATE\" in (x.get(\"content\") or \"\"),\n)\n\n# 3. 发起对话（ReAct + 双 Agent 协作）\nuser_proxy.initiate_chat(\n    assistant,\n    message=\"\"\"计算斐波那契数列前 20 项，并将结果写入 fib.txt 文件。\n    要求：使用 Python 标准库，运行后打印 fib.txt 内容。\"\"\",\n)\n\n# 4. 自定义 Skill：注册给 AssistantAgent\n@assistant.register_for_llm(name=\"search_docs\", description=\"Search internal docs for a keyword\")\n@user_proxy.register_for_execution(name=\"search_docs\")\ndef search_docs(keyword: str) -> str:\n    # 实际实现可以是向量检索或 BM25\n    return f\"[mock result] Found 3 docs about '{keyword}'\"\n\n# 5. 再次对话（模型可自主调用 search_docs）\nuser_proxy.initiate_chat(\n    assistant,\n    message=\"请搜索 'QLoRA' 关键词，然后总结其三件套的核心思想。\",\n)",
+      "language": "python",
+      "repo": "https://github.com/microsoft/autogen",
+      "install_cmd": "pip install autogen-agentchat  # ⚠️ Local — not Pyodide (needs Docker for code execution)"
+    },
+    {
+      "title": "OpenAI Agents SDK 编排与 Guardrail",
+      "code": "# pip install openai-agents\nimport asyncio, os\nfrom agents import Agent, Runner, function_tool, input_guardrail, RunContextWrapper, TResponseInputItem\nfrom pydantic import BaseModel\n\n# 1. 用 @function_tool 装饰器定义 Skill（自动从类型注解生成 JSON Schema）\n@function_tool\ndef get_weather(city: str) -> str:\n    \"\"\"Get current weather for a given city (mock).\"\"\"\n    return f\"{city}: 22°C, sunny\"\n\n@function_tool\ndef send_email(to: str, subject: str, body: str) -> str:\n    \"\"\"Send an email (mock). DO NOT call unless user confirmed.\"\"\"\n    return f\"Email sent to {to}: {subject}\"\n\n# 2. 自定义 Guardrail：拦截包含敏感词的请求\nclass GuardrailOutput(BaseModel):\n    is_blocked: bool\n    reason: str\n\n@input_guardrail\nasync def pii_filter(ctx: RunContextWrapper, agent: Agent, input: str | list[TResponseInputItem]) -> GuardrailOutput:\n    BLOCKLIST = [\"rm -rf\", \"drop table\", \"secret_key\", \"password\"]\n    text = input if isinstance(input, str) else str(input)\n    for word in BLOCKLIST:\n        if word.lower() in text.lower():\n            return GuardrailOutput(is_blocked=True, reason=f\"包含敏感词: {word}\")\n    return GuardrailOutput(is_blocked=False, reason=\"\")\n\n# 3. 定义 Agent：组合 Skill + Guardrail + 模型\nagent = Agent(\n    name=\"assistant\",\n    instructions=\"You can check weather and send emails. Always confirm before sending.\",\n    tools=[get_weather, send_email],\n    input_guardrails=[pii_filter],\n    model=\"gpt-4o-mini\",\n)\n\n# 4. 运行（异步 Runner 自动处理 Loop、tool_use、guardrail）\nasync def main():\n    # (a) 正常请求\n    r1 = await Runner.run(agent, \"What's the weather in Tokyo?\")\n    print(f\"User:  What's the weather in Tokyo?\")\n    print(f\"Agent: {r1.final_output}\")\n\n    # (b) 触发 Guardrail\n    try:\n        r2 = await Runner.run(agent, \"Drop the table secret_key from DB\")\n    except Exception as e:\n        print(f\"\\nUser:  Drop the table secret_key from DB\")\n        print(f\"Blocked by guardrail: {type(e).__name__}\")\n\nasyncio.run(main())",
+      "language": "python",
+      "repo": "https://github.com/openai/openai-agents-python",
+      "install_cmd": "pip install openai-agents  # ✅ Partial Pyodide (no asyncio.gather docker)"
+    },
+    {
+      "title": "LangGraph StateGraph 多 Skill 编排",
+      "code": "# pip install langgraph langchain-openai\nimport os\nfrom typing import TypedDict, Annotated\nfrom langgraph.graph import StateGraph, START, END\nfrom langgraph.checkpoint.memory import MemorySaver\nfrom langchain_openai import ChatOpenAI\nimport operator\n\n# 1. State: 全局状态（messages 列表累加）\nclass State(TypedDict):\n    messages: Annotated[list, operator.add]   # operator.add: 节点返回列表会追加到 state\n\n# 2. 节点 1: LLM 节点（决定是否调用工具）\nllm = ChatOpenAI(model=\"gpt-4o-mini\", api_key=os.environ[\"OPENAI_API_KEY\"])\ndef llm_node(state: State):\n    resp = llm.invoke(state[\"messages\"])\n    return {\"messages\": [resp]}\n\n# 3. 节点 2: Tool 节点（执行 Skill）\ndef tool_node(state: State):\n    last = state[\"messages\"][-1]\n    results = []\n    for tc in (last.tool_calls or []):\n        if tc[\"name\"] == \"search\":\n            obs = f\"[mock] Search results for: {tc['args']['query']}\"\n        elif tc[\"name\"] == \"calculator\":\n            obs = str(eval(tc[\"args\"][\"expr\"]))\n        else:\n            obs = \"Unknown tool\"\n        results.append({\"role\": \"tool\", \"content\": obs, \"tool_call_id\": tc[\"id\"]})\n    return {\"messages\": results}\n\n# 4. 条件边：决定下一步去 Tool 节点还是 END\ndef should_continue(state: State) -> str:\n    last = state[\"messages\"][-1]\n    if hasattr(last, \"tool_calls\") and last.tool_calls:\n        return \"tools\"     # 继续执行工具\n    return END             # 终止\n\n# 5. 绑定工具到 LLM\nfrom langchain_core.tools import tool\n@tool\ndef search(query: str) -> str: \"\"\"Search the web.\"\"\"; return f\"results for {query}\"\n@tool\ndef calculator(expr: str) -> str: \"\"\"Evaluate a math expression.\"\"\"; return str(eval(expr))\nllm_with_tools = llm.bind_tools([search, calculator])\n\ndef llm_node(state: State):\n    resp = llm_with_tools.invoke(state[\"messages\"])\n    return {\"messages\": [resp]}\n\n# 6. 构图：StateGraph + 条件边 + Checkpointer\ngraph = StateGraph(State)\ngraph.add_node(\"llm\", llm_node)\ngraph.add_node(\"tools\", tool_node)\ngraph.add_edge(START, \"llm\")\ngraph.add_conditional_edges(\"llm\", should_continue, {\"tools\": \"tools\", END: END})\ngraph.add_edge(\"tools\", \"llm\")\n\n# Checkpointer：断点恢复与时间旅行调试\nmemory = MemorySaver()\napp = graph.compile(checkpointer=memory)\n\n# 7. 运行（带 thread_id 支持多轮会话）\nconfig = {\"configurable\": {\"thread_id\": \"demo-1\"}}\nresult = app.invoke(\n    {\"messages\": [(\"user\", \"计算 12 * 34 + 56\")]},\n    config=config,\n)\nprint(\"Final answer:\", result[\"messages\"][-1].content)",
+      "language": "python",
+      "repo": "https://github.com/langchain-ai/langgraph",
+      "install_cmd": "pip install langgraph langchain-openai  # ⚠️ Local — not Pyodide (needs OpenAI API key)"
+    },
+    {
+      "title": "自定义 Skill 框架（教学原型）",
+      "code": "# pip install openai\n\"\"\"自定义 Skill 框架：@skill 装饰器 + Registry + PermissionGuard + AgentLoop\"\"\"\nimport os, json, inspect, asyncio\nfrom dataclasses import dataclass, field\nfrom typing import Callable, Any\nfrom openai import OpenAI\n\n# ========== 1. Skill 元数据 ==========\n@dataclass\nclass Skill:\n    name: str\n    description: str\n    parameters: dict          # JSON Schema\n    handler: Callable\n\n# ========== 2. 全局注册表 ==========\nclass SkillRegistry:\n    _skills: dict[str, Skill] = {}\n    @classmethod\n    def register(cls, skill: Skill): cls._skills[skill.name] = skill\n    @classmethod\n    def get(cls, name: str) -> Skill | None: return cls._skills.get(name)\n    @classmethod\n    def to_openai_tools(cls) -> list:\n        return [{\"type\": \"function\",\n                 \"function\": {\"name\": s.name, \"description\": s.description, \"parameters\": s.parameters}}\n                for s in cls._skills.values()]\n\n# ========== 3. @skill 装饰器：从函数签名反射 JSON Schema ==========\ndef skill(func: Callable) -> Callable:\n    sig = inspect.signature(func)\n    props, required = {}, []\n    TYPE_MAP = {str: \"string\", int: \"integer\", float: \"number\", bool: \"boolean\"}\n    for pname, p in sig.parameters.items():\n        ann = p.annotation if p.annotation != inspect.Parameter.empty else str\n        props[pname] = {\"type\": TYPE_MAP.get(ann, \"string\")}\n        if p.default == inspect.Parameter.empty:\n            required.append(pname)\n    SkillRegistry.register(Skill(\n        name=func.__name__,\n        description=(func.__doc__ or \"\").strip().split(\"\\n\")[0],\n        parameters={\"type\": \"object\", \"properties\": props, \"required\": required},\n        handler=func,\n    ))\n    return func\n\n# ========== 4. 权限白名单 ==========\nclass PermissionGuard:\n    def __init__(self, allow: set[str] | None = None, deny: set[str] | None = None):\n        self.allow, self.deny = allow, deny\n    def check(self, name: str) -> bool:\n        if self.deny and name in self.deny: return False\n        if self.allow is not None and name not in self.allow: return False\n        return True\n\n# ========== 5. AgentLoop：max_steps / token_budget / error_retry ==========\nclass AgentLoop:\n    def __init__(self, model: str, max_steps: int = 8, token_budget: int = 4000,\n                 guard: PermissionGuard | None = None,\n                 client: OpenAI | None = None):\n        self.model = model\n        self.max_steps, self.token_budget = max_steps, token_budget\n        self.guard = guard or PermissionGuard()\n        self.client = client or OpenAI(api_key=os.environ.get(\"OPENAI_API_KEY\"))\n        self.tokens_used = 0\n\n    def run(self, user_query: str) -> str:\n        messages = [{\"role\": \"user\", \"content\": user_query}]\n        for step in range(self.max_steps):\n            resp = self.client.chat.completions.create(\n                model=self.model, messages=messages,\n                tools=SkillRegistry.to_openai_tools(), tool_choice=\"auto\",\n            )\n            self.tokens_used += resp.usage.total_tokens\n            if self.tokens_used > self.token_budget:\n                return f\"[Terminated] token_budget exceeded: {self.tokens_used}\"\n            msg = resp.choices[0].message\n            messages.append(msg)\n            if not msg.tool_calls:\n                return msg.content or \"\"\n            for tc in msg.tool_calls:\n                name, args = tc.function.name, json.loads(tc.function.arguments or \"{}\")\n                if not self.guard.check(name):\n                    obs = f\"[Denied] Skill '{name}' blocked by permission guard\"\n                else:\n                    s = SkillRegistry.get(name)\n                    try:\n                        obs = str(s.handler(**args)) if s else f\"[Unknown] {name}\"\n                    except Exception as e:\n                        obs = f\"[Error] {e}\"\n                messages.append({\"role\": \"tool\", \"tool_call_id\": tc.id, \"content\": obs})\n        return f\"[Terminated] max_steps={self.max_steps} reached\"\n\n# ========== 6. 使用示例 ==========\n@skill\ndef add(a: int, b: int) -> int:\n    \"\"\"Add two integers and return the sum.\"\"\"\n    return a + b\n\n@skill\ndef reverse(text: str) -> str:\n    \"\"\"Reverse a string.\"\"\"\n    return text[::-1]\n\nif __name__ == \"__main__\":\n    # 仅允许 add，deny reverse\n    guard = PermissionGuard(allow={\"add\"})\n    agent = AgentLoop(model=\"gpt-4o-mini\", max_steps=6, guard=guard)\n    print(agent.run(\"计算 17 + 25 的结果\"))           # 应调用 add\n    print(agent.run(\"把字符串 'hello' 反转\"))        # 应被拒绝\n    print(f\"Total tokens used: {agent.tokens_used}\")",
+      "language": "python",
+      "repo": "https://github.com/openai/openai-python",
+      "install_cmd": "pip install openai  # ✅ Partial Pyodide (no real LLM call)"
+    }
+  ],
+  "exercises": [
+    {
+      "q": "原理对比: 阅读 arxiv:2210.03629 (ReAct) 与 arxiv:2310.08560 (AutoGen) 论文, 总结 ReAct 单 Agent 循环与 AutoGen 多 Agent 群聊的本质差异, 给出各自适合的任务类型。"
+    },
+    {
+      "q": "Schema 设计: 为「代码评审员」Agent 设计 3-5 个 Skills（read_file / find_bugs / suggest_fix / apply_patch / run_tests），写出每个 Skill 的 JSON Schema 与 description，给出 description 写作的最佳实践清单。"
+    },
+    {
+      "q": "权限沙箱: 在本课 codeExamples 第五个「自定义 Skill 框架」基础上, 加入 Docker 沙箱执行 (subprocess + docker run), 设计 4 层隔离 (filesystem / network / process / credential) 的具体实现方案。"
+    },
+    {
+      "q": "Loop 控制优化: 给定 AgentLoop 类, 补充实现 (1) Summarization 截断 (messages 超过 N 轮时用 LLM 摘要压缩历史); (2) Parallel tool calls (一次 LLM 调用触发多个独立 Skill 并行); (3) Termination 检测 (重复动作 N 次自动终止)。"
+    },
+    {
+      "q": "MCP 协议实战: 阅读 Anthropic MCP 协议规范 (modelcontextprotocol.io), 用 Python 实现一个最小 MCP Server, 暴露 list_tools() 与 call_tool() 两个端点, 并用 Claude Desktop 加载测试。"
+    },
+    {
+      "q": "工业案例分析: 对比 Anthropic Claude Code / OpenAI Operator / Microsoft AutoGen / Princeton SWE-Agent 四个 Agent 框架的 (1) Skill Schema 体系; (2) Loop 控制策略; (3) 沙箱机制; (4) 多 Agent 编排原语。撰写一份 4 框架对比报告。"
+    }
+  ],
+  "visualDescriptions": {
+    "title": "📊 视觉描述",
+    "content": "本课六节配套的关键图示建议，统一在讲义 PPT / 教学卡片中渲染：\n\n图 1（Skill 设计哲学）：\n- 左侧：ReAct 模式循环图——「用户 Query → Thought（LLM 推理）→ Action（工具调用）→ Observation（结果回传）→ 再次 Thought」形成闭环，三段式标注 color；\n- 右侧：Function-Calling 模式流图——LLM 输出结构化 JSON（type=function_call / arguments） → Runtime 解析执行 → 结果回传；\n- 底部对比表：ReAct（开放式 / 适合探索） vs Function-Calling（结构化 / 适合生产） vs Plan-and-Execute（先规划后执行 / 适合长链任务）。\n\n图 2（Skill Schema 与发现机制）：\n- 左侧：Anthropic tool_use JSON 结构树（root: messages → content[] → type=tool_use → name / input / id；与同级的 tool_result 回传块）；\n- 右侧：OpenAI @function_tool 自动生成 Schema 流程图（Python 函数签名 → inspect.signature → 类型映射 → JSON Schema）；\n- 顶部：MCP 协议架构图（Host / Client / Server 三层 + JSON-RPC 通道）。\n\n图 3（Skill 沙箱与权限边界）：\n- 左侧：四层隔离维度同心圆——内层为「process 隔离」、中层为「filesystem + credential 隔离」、外层为「network 隔离」，最外圈标注「Docker / gVisor / Browser Sandbox」三选一；\n- 右侧：Anthropic Claude Code Bash 白名单示意——白名单（git / npm / make / pytest）走绿色路径，deny-list（rm -rf / curl / sudo）走红色拒绝路径，未知命令走「人工确认」黄色路径。\n\n图 4（Harness 与 Loop 控制）：\n- 左侧：Harness Loop 主循环——Start → LLM call → parse tool_use → execute Skill → append result → check termination（max_steps / token_budget / finish_reason / 重复动作检测 四选一满足即返回 End）；\n- 右侧：多 Agent 协作（主 Agent → Subagent 派发 / handoffs / GroupChat / SelectorGroupChat 多种编排原语对比）。\n\n图 5（Skill 组合与编排）：\n- 左侧：三种组合模式流程图——chain（A→B→C 串行）/ parallel（fan-out fan-in 并行）/ branching（条件路由）；\n- 右侧：LangGraph StateGraph 节点-边示意（Node=Skill/Agent，Edge 标注条件，含 conditional edge 虚线表示「if state.x → A else B」）。\n\n图 6（自定义 Skill 框架）：\n- 左侧：自定义框架分层架构——顶层 LLM（OpenAI/Anthropic）→ 中层 AgentLoop（max_steps / token_budget 控制）→ 下层 PermissionGuard（allow/deny 校验）→ 底层 SkillRegistry（@skill 装饰器注册）；\n- 右侧：扩展路径（StateGraph 升级 / MCP Server 暴露 / Docker Sandbox 隔离 / OpenTelemetry trace 全链路）。"
+  },
+  "commonPitfalls": {
+    "title": "⚠️ 常见陷阱",
+    "content": "Skill 与 Harness 工程化的十大高频踩坑点，附修复建议：\n\n1. Skill description 写得太抽象\n   症状：模型反复误判调用时机，或在不同上下文重复调用同一 Skill；\n   修复：description 包含「触发场景 + 输入参数示例 + 返回内容类型」三要素，例如「当用户询问天气时调用，city 为城市英文名，返回字符串如 'Tokyo: 22°C sunny'」。\n\n2. JSON Schema 反射类型映射错误\n   症状：把 Python int 写成 \"int\" 而非 \"integer\"、把 list[X] 写成 \"list\" 而非 \"array\"，runtime 校验失败；\n   修复：使用 Pydantic v2 / TypedDict + instructor 库自动生成；或维护一份 TYPE_MAP = {int: 'integer', float: 'number', list: 'array', dict: 'object'}。\n\n3. 必填字段未在 required 数组声明\n   症状：模型输出省略关键参数（如 city 为空字符串），调用失败；\n   修复：@skill 装饰器在反射时检查 p.default == Parameter.empty，自动加入 required 数组。\n\n4. 一次塞入过多 Skill 触发上下文污染\n   症状：tools 列表超过 20-30 个，模型「工具选择瘫痪」，频繁误调或不调；\n   修复：采用 Anthropic Skills 的「渐进披露」机制——按 description 在 system prompt 列出索引，完整 Schema 按需动态加载。\n\n5. 沙箱忘记限制环境变量\n   症状：Docker 容器内 env 命令读到宿主机的 OPENAI_API_KEY / AWS_SECRET_KEY，模型可越权读取；\n   修复：docker run 时加 --env-file=empty 或 docker-compose environment: {}；敏感凭据走 Vault 注入，容器销毁即失效。\n\n6. Docker 沙箱内 root 未降级\n   症状：容器逃逸后直接拿到宿主机 root 权限；\n   修复：docker run --user 1000:1000 或在 Dockerfile 中 RUN adduser && USER appuser；并开启 --read-only + --cap-drop=ALL。\n\n7. 误传 --network=host 破坏网络隔离\n   症状：容器内可直接访问宿主网络 / 局域网，绕过网络白名单；\n   修复：默认 --network=none，必要时 --network=bridge + iptables 白名单出站 IP。\n\n8. 未设 max_steps 导致死循环\n   症状：模型陷入「尝试 → 失败 → 重试 → 失败」无限循环，烧光 token（实测 4 小时消耗 $1200 案例）；\n   修复：AgentLoop 强制 max_steps=20-50 + token_budget=8000 + 重复动作检测（同一 Skill 失败 3 次自动终止）。\n\n9. messages 累积超过 context window\n   症状：长会话触发 OOM 或 LLM 400 错误（context_length_exceeded）；\n   修复：实现两阶段截断——(a) 超过 N 轮用 LLM 摘要压缩历史；(b) 摘要后再超长则丢弃最旧非 system 消息；或采用 LangGraph 的 trim_messages 工具。\n\n10. 错误处理只重试不 fallback\n    症状：一个工具（如 arxiv_search）失败，整个 Loop 终止，浪费前序推理；\n    修复：实现「重试 1 次 → fallback 备用工具 → 终止并返回部分结果」三级策略，并在每级都记录 trace 日志。"
+  },
+  "interviewTopics": {
+    "title": "💼 面试考点",
+    "content": "Agent Skill 与 Harness 在 2025-2026 年 LLM 工程师 / Agent 工程师 / AI Platform 工程师面试中的高频考点，按主题分类整理：\n\n一、ReAct 与 Function-Calling 范式对比\n- ReAct（arxiv:2210.03629）的 Thought/Action/Observation 循环如何避免 LLM 的「幻觉动作」？\n- Function-Calling 与 ReAct 的本质区别是什么？Function-Calling 一定是更好的选择吗？\n- Plan-and-Execute 模式相对 ReAct 的优缺点？\n\n二、Skill Schema 与发现机制\n- Skill 的 description 字段为什么比参数 Schema 更影响调用准确率？\n- MCP 协议（Model Context Protocol）相比传统 REST API 有什么独特价值？\n- Anthropic Skills 的「渐进披露（Progressive Disclosure）」机制如何节省上下文 token？\n- OpenAI @function_tool 装饰器如何从 Python 类型注解（Type Hints）生成 JSON Schema？Optional[X] / List[X] / Literal['a','b'] 各自如何映射？\n\n三、Agent 沙箱与权限控制\n- Docker Namespace 与 cgroup 如何实现进程 / 文件系统隔离？\n- Docker 沙箱中 root 权限降级为什么重要？容器逃逸的攻击向量（/proc/self/exe、cgroup release_agent、特权容器）有哪些？\n- 人机协作护栏（Human-in-the-Loop）与纯沙箱的根本区别是什么？\n- Anthropic Claude Code 的 Sandboxed Bash 与传统 sudo 的根本区别？\n\n四、Harness Loop 控制\n- Harness 中 max_steps / token_budget / termination_condition / error_retry 各自防止什么类型的失败？\n- SWE-Agent 的「Agent-Computer Interface (ACI)」与直接调用 Linux 命令（cd/ls/grep）的根本区别是什么？为什么 ACI 能提升 LLM 调用准确率？\n- LangGraph 的 Checkpointing 如何实现断点恢复与时间旅行调试？\n\n五、多 Skill 编排\n- LangGraph 的 conditional edge 与普通 edge 区别？add_conditional_edges 的 path_map 何时使用？\n- OpenAI Agents SDK 的 handoffs（Agent 交接）与 agents-as-tools（Agent 作为工具）适用场景分别是什么？\n- OpenAI parallel_tool_calls 的实现机制是什么？模型如何决定一次调用多个工具？\n- LangGraph 的 StateGraph 与传统 DAG 工作流（Airflow / Temporal / Prefect）的根本区别是什么？\n\n六、跨主题综合题\n- 如果让你设计一个生产级 Code Review Agent，你会如何设计 Skill 集合、Schema、Harness Loop、权限边界与多 Agent 编排？\n- 如何度量一个 Agent 系统的成功率与成本？token_per_task、tool_call_success_rate、avg_iterations_per_task 各自衡量什么？\n- 工业级 Agent 框架（Claude Code / OpenAI Agents SDK / AutoGen / LangGraph）相比教学原型，还需补齐哪四类基础设施（异步执行 / 持久化 / 多租户 / 监控）？"
+  },
+  "references": [
+    {
+      "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+      "authors": "Yao et al., Princeton, ICLR 2023",
+      "url": "https://arxiv.org/abs/2210.03629",
+      "type": "paper"
+    },
+    {
+      "title": "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+      "authors": "Wu et al., Microsoft Research, 2023",
+      "url": "https://arxiv.org/abs/2310.08560",
+      "type": "paper"
+    },
+    {
+      "title": "SWE-Agent: Agent-Computer Interfaces Enable Automated Software Engineering",
+      "authors": "Yang et al., Princeton, NeurIPS 2024",
+      "url": "https://arxiv.org/abs/2308.08155",
+      "type": "paper"
+    },
+    {
+      "title": "Anthropic Claude Code 官方文档 (Tool Use / Skills)",
+      "authors": "Anthropic",
+      "url": "https://docs.claude.com/en/docs/claude-code",
+      "type": "docs"
+    },
+    {
+      "title": "Anthropic Skills 仓库",
+      "authors": "Anthropic",
+      "url": "https://github.com/anthropics/skills",
+      "type": "github"
+    },
+    {
+      "title": "OpenAI Agents SDK 官方文档",
+      "authors": "OpenAI",
+      "url": "https://openai.github.io/openai-agents-python/",
+      "type": "docs"
+    },
+    {
+      "title": "OpenAI Agents SDK Python 实现",
+      "authors": "OpenAI",
+      "url": "https://github.com/openai/openai-agents-python",
+      "type": "github",
+      "installCommand": "pip install openai-agents"
+    },
+    {
+      "title": "Microsoft AutoGen 0.4+ 框架",
+      "authors": "Microsoft Research",
+      "url": "https://github.com/microsoft/autogen",
+      "type": "github",
+      "installCommand": "pip install autogen-agentchat"
+    },
+    {
+      "title": "LangGraph 多 Agent 编排框架",
+      "authors": "LangChain",
+      "url": "https://github.com/langchain-ai/langgraph",
+      "type": "github",
+      "installCommand": "pip install langgraph"
+    },
+    {
+      "title": "Model Context Protocol (MCP) 规范",
+      "authors": "Anthropic, 2024",
+      "url": "https://modelcontextprotocol.io/",
+      "type": "docs"
+    }
+  ],
+  "crossRefs": [
+    {
+      "lessonId": "L19",
+      "title": "Agent架构",
+      "relation": "本课是 L19 的工程化延伸：L19 讲授 ReAct / Function-Calling / Memory 等 Agent 基础理论，本课聚焦「Skill 设计哲学、Schema 发现、沙箱、Harness Loop、组合编排」的工业级落地，两者形成「理论 → 实战」的知识链路。",
+      "keyLinks": [
+        "L19 ReAct 循环 → L27 Skill 设计哲学（ReAct / Function-Calling / Plan-and-Execute 三模式对比）",
+        "L19 工具调用（Tool Calling） → L27 Skill Schema 与发现机制（Anthropic tool_use / OpenAI function_calling / MCP 三大 Schema 体系）",
+        "L19 多轮对话与记忆系统 → L27 Harness 与 Loop 控制（max_steps / token_budget / termination / checkpointer）",
+        "L19 主流 Agent 框架对比 → L27 实战部分（AutoGen / OpenAI Agents SDK / LangGraph / 自定义 Skill 框架）"
+      ]
+    },
+    {
+      "lessonId": "L21",
+      "title": "多Agent协作",
+      "relation": "本课在「单 Agent Skill 与 Harness」基础上，引入 L21 的多 Agent 协作视角：单 Skill 能力有限，工业级系统需要 handoffs / GroupChat / Magentic-One 等编排原语，把多个 Skill 升级为多 Agent 团队。",
+      "keyLinks": [
+        "L21 多 Agent 系统架构（串行/并行/层次化/群聊） → L27 Skill 组合与编排（chain / parallel / branching / routing）",
+        "L21 AutoGen 框架 → L27 OpenAI Agents SDK handoffs / parallel_tool_calls / guardrails 编排原语",
+        "L21 LangGraph StateGraph → L27 实战 LangGraph 部分（条件边 / Checkpointer / interrupt_before）",
+        "L21 Agent 安全与对齐 → L27 Skill 沙箱与权限边界（filesystem / network / process / credential 四层隔离 + Human-in-the-Loop 护栏）"
+      ]
+    },
+    {
+      "lessonId": "L25",
+      "title": "DeepSeek 架构与 R1 微调实战",
+      "relation": "L25 讲授 DeepSeek V3/R1 模型架构（MoE / MLA / GRPO / 推理能力蒸馏），本课关注「如何用 L25 学到的高质量基模型驱动 Skill 与 Harness」——基模型推理能力越强，Skill 调用越准；DeepSeek-R1 的「反思式推理」可显著提升 ReAct Loop 中 Thought 步骤的质量。",
+      "keyLinks": [
+        "L25 DeepSeek-V3 MoE 架构 → L27 Skill 描述驱动发现（更强基模型 → 更准 description 匹配）",
+        "L25 DeepSeek-R1 推理能力 → L27 ReAct Loop 中的 Thought 步骤（反思式推理降低幻觉动作）",
+        "L25 GRPO 强化学习 → L27 Harness 中的 RLHF 反馈（用户纠错可作为 reward signal 优化 Skill 调用）",
+        "L25 蒸馏小模型 → L27 工业级成本控制（用 DeepSeek 蒸馏版跑 Skill Loop 比 GPT-4 降本数十倍）"
+      ]
     }
   ]
 },
