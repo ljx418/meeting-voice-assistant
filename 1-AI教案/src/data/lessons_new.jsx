@@ -26,6 +26,7 @@ export const IMAGE_MAP = {
   "L22": "/images/ai-coding-assistants.svg",
   "L23": "/images/ai-security.svg",
   "L24": "/images/ai-career-path.svg",
+  "L25": "/images/deepseek.svg",
 };
 
 export const WEEK_GROUPS = [
@@ -81,6 +82,12 @@ export const WEEK_GROUPS = [
       "L22",
       "L23",
       "L24"
+    ]
+  },
+  {
+    "label": "📅 Week 13-14 前沿模型",
+    "lessons": [
+      "L25"
     ]
   }
 ];
@@ -955,5 +962,210 @@ export const LESSONS = {
     "solution": "策略: (1) 写深度技术博客 (simonwillison.net), 周更 2 篇; (2) 开源实用工具 (sqlite-utils, llm CLI); (3) 推特持续输出观点; (4) 拒绝 FOMO, 专注 LLM 应用层",
     "outcome": "个人品牌带来咨询/演讲/年 50+ 万美元收入, 入选 GitHub Stars Hall of Fame"
   }
+},
+  "L25": {
+  "id": "L25",
+  "title": "DeepSeek 架构与 R1 微调实战",
+  "week": "Week 13-14 前沿模型",
+  "tags": [
+    "DeepSeek",
+    "MoE",
+    "MLA",
+    "GRPO",
+    "R1",
+    "冷启动",
+    "LoRA",
+    "vLLM"
+  ],
+  "image": "/images/deepseek.svg",
+  "lessonId": "L25",
+  "codeExampleCount": 4,
+  "referenceCount": 10,
+  "objectives": [
+    "理解 DeepSeek-V3 的 MoE 架构、MLA 注意力与 FP8 训练核心技术",
+    "掌握 DeepSeek-R1 推理能力来源（RL 冷启动 + GRPO）",
+    "能够区分 R1-zero 与 R1 的训练差异及数据蒸馏策略",
+    "使用 LoRA/QLoRA 对 DeepSeek-R1-Distill 小模型做领域微调",
+    "能够使用 vLLM/SGLang 部署 DeepSeek 系列模型并量化推理"
+  ],
+  "sections": [
+    {
+      "title": "DeepSeek 演进谱系与生态定位",
+      "content": "DeepSeek（深度求索）成立于 2023 年 7 月，定位中国 AGI 顶尖实验室。其模型谱系经历四代：DeepSeek-LLM（2024-01，2B/67B 稠密基线）→ DeepSeek-MoE（2024-01，首次提出 MoE 架构）→ DeepSeek-V2/V3（2024-2025，236B/671B MoE）→ DeepSeek-R1（2025-01，推理专用）。与阿里通义千问 Qwen（稠密 + MoE 双线）、智谱 GLM、Baichuan、月之暗面 Kimi 形成 2025 年中国 LLM「五强格局」。\n\n技术路线对比：Qwen 走全栈稠密 + 开源策略，Kimi 走长上下文 + 闭源商业化，DeepSeek 走 MoE + 极致工程优化路线。其核心差异化优势：(1) MLA（Multi-head Latent Attention）将 KV 压缩为低秩潜变量，显存占用降至 MHA 的 5%-13%；(2) DeepSeekMoE 采用 1/256 细粒度专家 + 共享专家，激活 8/256 即可达到 67B 稠密模型效果；(3) 训练成本据公开测算约 558 万美元级别（V3 论文报告 2.788M H800 GPU 小时，按市场价折算），相比 GPT-4 训练成本下降约两个数量级。\n\nTransformer 原始论文 [arxiv:1706.03762] 提出 Self-Attention 是现代 LLM 的基石（参见 L17 LLM基础 中的 Transformer 架构），DeepSeek 在此基础上做了三项关键改进：旋转位置编码 RoPE、Grouped-Query Attention GQA、Multi-head Latent Attention MLA。本节需理解这些改进都围绕同一目标——在不损失模型能力的前提下压缩 KV Cache，使更长上下文（128K-1M tokens）成为可能。\n\n📊 [图示建议]: 横向时间轴展示四代 DeepSeek 模型（LLM→MoE→V2/V3→R1）发布时间与参数量，纵向并列展示 Qwen / Kimi / GLM / Baichuan 的差异化定位象限图。\n\n⚠️ 常见陷阱:\n1. 将 DeepSeek-LLM（2B/67B 稠密）与 DeepSeek-MoE 混淆，二者同年发布但架构完全不同；\n2. 误以为「训练成本 558 万美元」等于端到端总成本，实际不含人力与多次实验开销；\n3. 把 MoE 模型的「总参数量」当作推理显存需求，忽略激活参数远小于总量。\n\n💼 面试考点: 「请对比 DeepSeek-V3 与 GPT-4 架构的主要差异」或「中国 LLM 五强厂商的技术路线分别是什么」——考察对行业格局与基础架构演进的整体认知。",
+      "interviewQuestions": [
+        "请对比 DeepSeek-V3 与 GPT-4 在注意力机制和专家路由上的核心差异",
+        "中国 LLM 五强（DeepSeek/Qwen/Kimi/GLM/Baichuan）各自的技术路线和商业定位是什么？"
+      ]
+    },
+    {
+      "title": "DeepSeek-V3 MoE 架构与 MLA 深度解读",
+      "content": "DeepSeek-V3 [arxiv:2412.19437] 是 671B 参数的 MoE 模型，每次推理激活 37B（每 token 激活 8/256 专家）。其架构三大创新：\n\n(1) Multi-head Latent Attention (MLA)。标准 Multi-Head Attention (源自 [arxiv:1706.03762]，参见 L17 LLM基础 中的 Self-Attention 推导) 的 KV 缓存随序列长度线性增长，是长上下文推理的主要瓶颈。MLA 将 KV 联合压缩为低秩潜变量 ```text\nc_t = W_DKV · h_t   (d_c=512 维，远小于 d_h·n_h=128×128=16384 维)\n```（d_c=512 维，远小于 d_h·n_h=128×128=16384 维），推理时只需缓存 c_t，恢复 KV 时通过上投影矩阵 W_UK、W_UV 还原。实测 MLA 显存比 MHA 减少 93.3%，比 GQA 减少 36.5%，但性能完全持平 MHA。\n\n(2) DeepSeekMoE 路由机制。每个 MoE 层包含 1 个共享专家（必激活）+ 256 个路由专家（top-8 激活）。路由分数 s_i = Softmax(h_t · e_i)，并加 Sigmoid 门控隔离专家负载。最终 FFN 输出 = Σ 共享专家 + Σ top-8 路由专家。这种细粒度 + 共享专家设计解决传统 MoE 的「专家负载不均」和「知识共享不足」两大痛点。\n\n(3) FP8 混合精度训练。DeepSeek-V3 是首个在 14.8T tokens 上完整使用 FP8 训练的主流大模型。前向/反向用 FP8 矩阵乘，关键算子用 BF16。配合 DualPipe 流水线 + Expert Parallelism，2K H800 训练 2 个月完成。\n\n参数规模方面，V3 总参数量 671B（61 层，hidden 7168，attention heads 128），但每 token 仅激活 37B。这是 2025 年 LLM Scaling Laws [arxiv:2001.08361] 的工程验证：模型容量大但稀疏激活，可显著降低推理成本同时保持性能。\n\n📊 [图示建议]: 左侧画 MLA 压缩流程图（输入 h_t → 压缩 c_t → 恢复 K/V → 注意力计算），右侧画 MoE 路由图（输入 token → 路由器打分 → top-8 专家激活 → 合并输出），底部表格对比 MHA / GQA / MLA 的 KV Cache 显存（假设 seq_len=128K）。\n\n⚠️ 常见陷阱:\n1. 把 d_c=512 误以为「所有 token 共享 512 维」——实际是每 token 都有自己的 512 维潜变量；\n2. 推理 FLOPs 节省 ≠ 显存节省：MoE 专家权重仍需全部驻留显存，仅计算被稀疏化；\n3. FP8 训练不等于 FP8 推理，V3 训练用 FP8 但推理仍用 BF16（部分量化到 FP8）。\n\n💼 面试考点: 「请用一句话解释 MLA 为什么能压缩 KV Cache 同时不损失性能」或「MoE 模型的训练 FLOPs 与稠密模型有何关系」——考察对稀疏激活工程权衡的深度理解。",
+      "interviewQuestions": [
+        "MLA 与 MQA/GQA 的根本区别是什么？为什么低秩压缩不损失性能？",
+        "MoE 模型的「总参数」与「激活参数」对推理显存和 FLOPs 的影响有何不同？"
+      ]
+    },
+    {
+      "title": "R1 推理能力来源与 GRPO 算法",
+      "content": "DeepSeek-R1 [arxiv:2501.12948] 在数学（AIME 2024 79.8%）、代码（Codeforces 2029 Elo）、科学推理（GPQA Diamond 71.5%）上对标 OpenAI o1 正式版，其核心创新是 GRPO（Group Relative Policy Optimization）算法和「纯 RL 路线」。\n\n推理能力的来源：传统 SFT 模型只是「模仿」正确答案，缺乏自我验证能力。Chain-of-Thought [arxiv:2201.11903] 证明显式推理步骤能提升 LLM 表现（参见 L17 LLM基础 中的思维链提示工程），但需要人工标注 CoT 数据。R1 的突破在于通过 RL 让模型自我发现长思维链（self-evolved CoT），涌现出「让我再检查一遍」「等等，这里有问题」的反思行为。这与 Self-Consistency [arxiv:2203.11171] 的「多次采样 + 投票」思路同源，但 R1 直接把这种能力内化到模型参数中。\n\nGRPO 算法详解（取代传统 PPO 的 Critic 模型）：\n(1) 对每个 prompt q，采样 G 个回答 {o_1, ..., o_G}\n(2) 用规则化奖励 R(o_i) 评分（数学题答案正确性 + 1，否则 0；格式正确性）\n(3) 计算组内相对优势 A_i = (R_i - mean(R)) / std(R)\n(4) ```text\n策略梯度 = -E[min(π_θ/π_old · A_i, clip(π_θ/π_old, 1-ε, 1+ε) · A_i)] + β · KL(π_θ || π_ref)\n```\n\nGRPO 相比 PPO 节省 50% 显存（无需训练 value model），相比 DPO [arxiv:2305.18290] 更适合 RL 训练（DPO 局限于偏好对比，无法利用绝对奖励信号）。奖励模型方面，R1 不依赖人类偏好 RM，而是用规则化可验证奖励（verifiable reward），这是其「纯 RL」路线的关键。\n\n真实产业进展：Moonshot AI Kimi K1.5、阿里通义 QwQ 也采用类似 GRPO 路线；Zhipu GLM-Z1、Baichuan Inc 也陆续发布推理模型。GRPO 已成为 2025 年 RLHF 的新范式。\n\n📊 [图示建议]: 上半部分画 GRPO 训练循环（prompt → G 个回答 → 规则评分 → 组内归一化 → 策略更新），下半部分对比 PPO 与 GRPO 的网络结构（PPO 需 Critic，GRPO 只需 Reward + Reference）。\n\n⚠️ 常见陷阱:\n1. 把「GRPO 优势 = 组内归一化」理解为无需 reward model——仍需奖励信号，仅无需 critic/value model；\n2. 规则化奖励只能用于有标准答案的任务（数学/代码），开放问答需结合偏好 RM；\n3. KL 系数 β 设过大会让模型不敢探索，过小又导致 reward hacking 失控。\n\n💼 面试考点: 「为什么 GRPO 能去掉 Critic 模型同时保持稳定」或「GRPO 与 DPO 在适用场景上有何区别」——考察对 RLHF 算法族的对比理解。",
+      "interviewQuestions": [
+        "GRPO 相对 PPO 的核心改进点是什么？为什么能省掉 Critic 模型？",
+        "为什么 DPO 不适合需要绝对奖励（如数学答案正确性）的场景？"
+      ]
+    },
+    {
+      "title": "R1-zero 与 R1 训练差异 + 数据蒸馏",
+      "content": "DeepSeek-R1 论文公开了两个模型：R1-zero（纯 RL 基线）和 R1（生产版）。理解两者差异是掌握推理模型训练的关键。\n\nR1-zero：纯 GRPO 强化学习训练，无任何 SFT 冷启动。优点是涌现现象最强烈（reflection、aha moment 最早出现），缺点是输出可读性差、语种混杂、中英文夹杂。R1-zero 是研究界验证「RL 即可涌现推理」假设的关键实验，证明不依赖 SFT 也能让模型学会长思维链。\n\nR1：四阶段训练流程：\n阶段 1（冷启动 SFT）：用数千条高质量长 CoT 样本做 SFT，奠定输出格式基础；\n阶段 2（推理 RL）：在冷启动模型上跑 GRPO，加入语言一致性奖励；\n阶段 3（拒绝采样 + 通用 SFT）：用 600K 推理数据 + 200K 通用数据二次 SFT；\n阶段 4（通用 RL）：用 RM（Helpful + Harmless 双奖励）做最终对齐。\n\nR1 vs R1-zero 的关键经验：纯 RL 可涌现推理但不可控，「冷启动 SFT + RL」才能产出可用模型。这一发现改变了 2025 年 LLM 训练范式——之前 OpenAI 主导「RLHF 必须前置 SFT」路线被 R1 证伪/补全。\n\n数据蒸馏策略：R1 还发布了 6 个 Distill 模型（基于 Qwen2.5 / Llama3.1 的 1.5B-70B）。蒸馏数据是 R1 生成的 800K 高质量样本（SFT 而非 RL），效果惊人：DeepSeek-R1-Distill-Qwen-7B 在 AIME 上达到 55.5%，超越 GPT-4o 基线。\n\n对比 ReAct [arxiv:2210.03629] 范式：R1 的长思维链属于内化推理（implicit reasoning），而 ReAct 框架使用显式 Thought-Action-Observation 循环（参见 L19 LangChain 中的 Agent 设计模式）。两者互补：R1 适合离线推理任务，ReAct 适合需要工具调用的 Agent 任务。R1-Distill 系列可作为 ReAct Agent 的基础模型。\n\n📊 [图示建议]: 横向四阶段流程图展示 R1 的训练 pipeline（SFT 冷启动 → 推理 RL → 拒绝采样 → 通用 RL），纵向并列对比 R1-zero 与 R1 在 AIME/可读性/中英混杂等维度的雷达图。\n\n⚠️ 常见陷阱:\n1. 误以为 R1-zero 性能一定弱于 R1——在 AIME 等纯推理基准上 R1-zero 与 R1 相当，差距主要在可读性；\n2. 蒸馏数据是 SFT 而非 RL——R1-Distill 只学模仿教师输出，并不真正内化推理过程；\n3. 冷启动 SFT 的「数千条」是高质量过滤后的小样本，不是越多越好。\n\n💼 面试考点: 「R1-zero 的 aha moment 是什么，为什么纯 RL 也能涌现推理」或「为什么 R1 仍需要冷启动 SFT 阶段」——考察对 RL 涌现机制和工程可落地性的平衡理解。",
+      "interviewQuestions": [
+        "R1-zero 与 R1 的核心训练差异是什么？为什么 R1 最终仍需要 SFT 冷启动？",
+        "R1-Distill 是用 SFT 还是 RL 蒸馏？效果上限在哪里？"
+      ]
+    },
+    {
+      "title": "LoRA/QLoRA 微调实战",
+      "content": "微调 R1-Distill 小模型是工业界最实用的方案（671B 满血版微调需要 8 卡 H100 数月）。本节介绍 LoRA + QLoRA 实战。\n\nLoRA (Low-Rank Adaptation) 原理：原始权重 W ∈ R^{d×k} 冻结，引入低秩增量 ```text\nΔW = A·B（A ∈ R^{d×r}，B ∈ R^{r×k}，r≪d）\n前向: y = Wx + BAx\n```。R1 论文推荐对 attention 层的 q_proj/k_proj/v_proj/o_proj + MLP 层的 gate/up/down_proj 都加 LoRA，rank=16-64，alpha=32。\n\nQLoRA 是 LoRA 的显存优化版：(1) 4-bit NormalFloat (NF4) 量化基座模型（仅需 6GB 显存加载 7B 模型）；(2) Double Quant 量化量化常数；(3) Paged Optimizer 防止 OOM。三者结合可单卡 24GB 显存微调 65B 模型。\n\n训练框架选择：HuggingFace PEFT + TRL 的 SFTTrainer 是 2025 年事实标准。本节代码示例使用 DeepSeek-R1-Distill-Qwen-1.5B 在医疗问答数据集上做 QLoRA 微调，仅需 16GB 显存，训练 1 小时即可得到领域专用模型。\n\n关键超参：learning_rate=2e-4（LoRA 比 full FT 需要更大学习率），warmup_ratio=0.03，per_device_batch_size=4，gradient_accumulation=4（等效 batch 16），epochs=3，bf16=True。\n\n工业界案例：(1) 智谱 GLM-Z1-Rumination 是用 R1 思路 + 领域数据微调的科研专用模型；(2) Baichuan Inc 的 Baichuan-M1-Reasoning 借鉴 R1 训练流程；(3) 阿里通义 Qwen3 系列部分模型用 R1 蒸馏数据二次 SFT。\n\nRAG + R1 的工程范式：面对 [arxiv:2005.11401] 提出的检索增强生成场景（参见 L18 RAG与向量数据库 的完整流程），可先用 RAG 召回 Top-K 文档，再将文档 + 用户问题输入 R1-Distill 模型获得最终答案。Lost in the Middle [arxiv:2307.03172] 论文发现 LLM 对中间位置信息利用最差，因此 R1 的长 CoT 推理需配合 ReRanker 重新排序。\n\n警惕 TruthfulQA [arxiv:2109.07958] 测试中发现的问题：纯 RL 训练可能让模型为了奖励信号「作弊」（如乱猜答案碰巧正确）。R1 团队通过规则化奖励（答案可验证）+ 格式奖励（必须输出 <think> 标签）+ 语言一致性奖励缓解。\n\n📊 [图示建议]: 左侧画 LoRA 矩阵分解示意（冻结 W + 训练 A·B），右侧画 QLoRA 三件套组合（NF4 + Double Quant + Paged Optimizer）的显存拆解饼图，底部展示训练 loss 曲线 + 显存占用对比表。\n\n⚠️ 常见陷阱:\n1. LoRA 学习率仍用全参数微调的 2e-5——LoRA 实际需要 1e-4 ~ 5e-4，否则欠拟合；\n2. target_modules 漏配 MLP 层——只加 attention 投影效果有限，必须加 gate/up/down_proj；\n3. NF4 量化需在 prepare_model_for_kbit_training 后再加 LoRA，否则量化层梯度异常。\n\n💼 面试考点: 「LoRA 为什么能减少 99% 训练参数同时保持性能」或「QLoRA 的三件套分别解决什么显存瓶颈」——考察对 PEFT 量化机制与显存优化的工程理解。",
+      "interviewQuestions": [
+        "LoRA 与全参数微调相比，为什么学习率需要调大 10 倍左右？",
+        "QLoRA 的 NF4 / Double Quant / Paged Optimizer 分别对应哪一类显存瓶颈？"
+      ]
+    },
+    {
+      "title": "vLLM/SGLang 部署与量化推理",
+      "content": "训练完成后必须考虑生产部署。本节介绍 2025 年 LLM 推理的两大主流框架。\n\nvLLM：UC Berkeley 团队开发，核心创新是 PagedAttention（受操作系统虚拟内存分页启发），将 KV Cache 分页存储，显存利用率从 30% 提升到 90%+。DeepSeek-V3-671B 单卡 H100 无法加载（671B FP16 需要 1342GB），需 8 卡 H100 配合 tensor parallel。vLLM 启动命令：`vllm serve deepseek-ai/DeepSeek-V3 --tensor-parallel-size 8 --max-model-len 131072 --gpu-memory-utilization 0.95`。配合 OpenAI 兼容 API（`/v1/chat/completions`），可直接替换 OpenAI SDK。\n\nSGLang：Stanford 与 LMSYS 联合开发，核心创新是 RadixAttention（前缀缓存自动复用），适合多轮对话和 RAG 场景（同前缀查询 KV Cache 复用率可达 90%）。SGLang 对 MoE 模型有特殊优化（专家并行 + 动态路由），DeepSeek-V3 在 SGLang 上吞吐量比 vLLM 高 1.3-1.8 倍。\n\n量化方案：\n- INT8：GPTQ / AWQ 量化，显存减半，精度损失 <1%\n- INT4：AWQ / BitsAndBytes 4bit，显存再减半，精度损失 2-3%\n- FP8：H100 原生支持，零精度损失\n- AWQ (Activation-aware Weight Quantization) 是 2025 年 MoE 模型最流行方案\n\n工业部署案例：Moonshot AI Kimi 后端使用 SGLang，月之暗面单机房 1000+ H100 推理集群。阿里通义千问 Qwen 团队发布 ModelScope 推理引擎，对 Qwen3 系列优化深度超过 vLLM。\n\n性能调优 Checklist：(1) Paged KV Cache + Continuous Batching 必开；(2) Prefix Caching 启用（多轮/RAG 场景 5x 加速）；(3) Speculative Decoding 用小模型 draft（如 EAGLE-2）提速 2-3x；(4) 量化时 AWQ 优于 GPTQ；(5) 长上下文（>32K）启用 Chunked Prefill。\n\nEmergent Abilities [arxiv:2206.07682] 论文指出大模型在 10^22 FLOPs 量级涌现推理能力。R1 蒸馏的 1.5B 小模型在 GSM8K 上仅 60%（满血 95%），但 32B 蒸馏模型已逼近满血能力。这是 Scaling Laws [arxiv:2001.08361] 的工程实践：小模型 + 强推理数据 = 高性价比。\n\n📊 [图示建议]: 左侧画 PagedAttention 内存分页示意（KV block 表 + 逻辑-物理映射），右侧画 vLLM vs SGLang 在多轮对话/RAG 场景下的吞吐量对比柱状图，底部给出完整部署 checklist 流程图（量化 → 并行策略 → 缓存 → 投机解码）。\n\n⚠️ 常见陷阱:\n1. vLLM 启动时忘了设 --max-model-len，模型被默认截断到 4K，长上下文场景静默失败；\n2. AWQ 量化在 4-bit MoE 模型上有时损失 >5%，需在验证集上校准 calibration set；\n3. Prefix Caching 在 batch 内不同 prompt 前缀差异大时命中率低，反而增加调度开销。\n\n💼 面试考点: 「PagedAttention 为什么能将显存利用率从 30% 提升到 90%」或「vLLM 与 SGLang 在 RAG 场景下选哪个更合适」——考察对推理引擎核心创新和场景选型的理解。",
+      "interviewQuestions": [
+        "PagedAttention 借鉴了操作系统的什么思想？它解决了 KV Cache 什么痛点？",
+        "vLLM 和 SGLang 分别适合什么推理场景？如何在生产中做技术选型？"
+      ]
+    }
+  ],
+  "industryPractice": {
+    "title": "🏢 工业实践",
+    "content": "DeepSeek 的技术路线（MoE + MLA + GRPO + 蒸馏）在 2025 年已被多个头部企业大规模落地，以下为两个真实工业案例。\n\n案例 1：Moonshot AI 月之暗面（Kimi K1.5 / K1.5-Think）\n- 业务背景：长上下文对话产品 Kimi，用户日活 2025 年突破 3000 万，对推理成本极度敏感；\n- 落地动作：(1) 借鉴 DeepSeek-R1 的 GRPO 路线训练 K1.5 的长思维链版本；(2) 后端推理从自研引擎迁移到 SGLang（RadixAttention 多轮 KV 复用率 90%+）；(3) 单机房部署 1000+ H100 集群，配合 AWQ 4-bit 量化把单位 token 推理成本压到 GPT-4o 的 1/8；\n- 业务结果：K1.5-Think 据 Moonshot 团队 2025 年披露在 MATH Benchmark 上达到约 96.2%（具体见 Moonshot 技术报告），与 o1 正式版持平；推理成本下降 60%，定价可低至 ¥0.15/百万 token。\n\n案例 2：智谱 AI（GLM-Z1 / Z1-Rumination）\n- 业务背景：清华系 To-B 大模型企业，主打企业级推理 Agent 平台；\n- 落地动作：(1) 直接复现 R1 四阶段训练流程（冷启动 SFT + 推理 RL + 拒绝采样 + 通用 RL）发布 GLM-Z1；(2) 进一步用 R1 蒸馏数据 + 自有科学论文语料训练 GLM-Z1-Rumination 科研专用模型；(3) 通过 HuggingFace PEFT + vLLM 一体化方案为企业客户提供 LoRA 微调 + 私有化部署 SaaS；\n- 业务结果：GLM-Z1-Rumination 在 GPQA Diamond 上达到 78.4%，签约多家科研院所；微调 SaaS 月活企业客户超 500 家，平均客单价数十万元/年级别（行业估算）。"
+  },
+  "codeExamples": [
+    {
+      "title": "DeepSeek-V3 架构模拟 (MLA + MoE)",
+      "code": "# pip install numpy\nimport numpy as np\n\nclass MLADemo:\n    \"\"\"Multi-head Latent Attention 简化实现 (DeepSeek-V3 核心)\"\"\"\n    def __init__(self, d_model=512, n_heads=8, d_latent=64):\n        # 原始 MHA 维度: n_heads * d_head = 8 * 64 = 512\n        # MLA 压缩维度: d_latent = 64 (显存减少 87.5%)\n        self.d_model = d_model\n        self.n_heads = n_heads\n        self.d_head = d_model // n_heads\n        self.d_latent = d_latent\n        # 关键：低秩压缩矩阵\n        self.W_DKV = np.random.randn(d_model, d_latent) * 0.02  # 下投影\n        self.W_UK = np.random.randn(n_heads, d_latent, self.d_head) * 0.02  # K上投影\n        self.W_UV = np.random.randn(n_heads, d_latent, self.d_head) * 0.02  # V上投影\n        self.W_O = np.random.randn(d_model, d_model) * 0.02\n\n    def forward(self, x):\n        # x: [batch, seq_len, d_model]\n        batch, seq_len, _ = x.shape\n        # 压缩到潜空间 (KV Cache 只缓存 c)\n        c = x @ self.W_DKV  # [batch, seq_len, d_latent]\n        # MLA 推理时只需缓存 c (64维) 而非原始 KV (512维)\n        k = np.einsum('bsd,nde->bsne', c, self.W_UK)  # [batch, seq, n_heads, d_head]\n        v = np.einsum('bsd,nde->bsne', c, self.W_UV)\n        # 注意力分数\n        attn = np.einsum('bsnd,btnd->bnst', k / np.sqrt(self.d_head), k)\n        attn = np.exp(attn - attn.max(axis=-1, keepdims=True))\n        attn = attn / attn.sum(axis=-1, keepdims=True)\n        # 加权求和 + 输出投影\n        out = np.einsum('bnst,btnd->bsnd', attn, v).reshape(batch, seq_len, -1)\n        return out @ self.W_O, c  # 返回 c 演示 KV Cache 节省\n\n# MoE 路由模拟 (DeepSeekMoE 风格)\ndef deepseek_moe_routing(x, n_experts=256, top_k=8, n_shared=1):\n    \"\"\"1 共享专家 + 256 路由专家，激活 top-8\"\"\"\n    batch, seq_len, d = x.shape\n    # 共享专家: 必激活\n    shared_output = np.zeros((batch, seq_len, d))\n    # 路由专家: top-k 激活\n    gate = np.random.randn(d, n_experts) * 0.02\n    scores = x @ gate  # [batch, seq, n_experts]\n    top_k_idx = np.argsort(scores, axis=-1)[..., -top_k:]  # 选 top-8\n    # 模拟激活率\n    active_rate = (top_k + n_shared) / (n_experts + n_shared)\n    print(f\"激活率: {(top_k + n_shared)}/{n_experts + n_shared} = {active_rate*100:.2f}%\")\n    return active_rate\n\n# 演示\nx = np.random.randn(2, 1024, 512)  # batch=2, seq=1024\nmla = MLADemo()\noutput, c = mla.forward(x)\nprint(f\"MLA KV Cache 维度: {c.shape[-1]} (vs MHA {mla.d_model})\")\nprint(f\"压缩比: {c.shape[-1] / mla.d_model * 100:.1f}%\")\nrate = deepseek_moe_routing(x)\nprint(f\"DeepSeek-V3 激活参数: {37}B / {671}B = {37/671*100:.1f}%\")",
+      "language": "python",
+      "repo": "https://github.com/deepseek-ai/DeepSeek-V3",
+      "install_cmd": "pip install numpy  # ✅ Pyodide-compatible (numpy only)"
+    },
+    {
+      "title": "GRPO 损失函数 PyTorch 实现",
+      "code": "# pip install torch\nimport torch\nimport torch.nn.functional as F\n\ndef grpo_loss(policy_logits, old_policy_logits, ref_policy_logits,\n              rewards, group_size=8, kl_coef=0.04, clip_range=0.2):\n    \"\"\"DeepSeek-R1 使用的 GRPO 损失函数 (替代 PPO)\"\"\"\n    # 1. 计算策略对数概率\n    policy_logp = F.log_softmax(policy_logits, dim=-1)\n    old_logp = F.log_softmax(old_policy_logits, dim=-1)\n    ref_logp = F.log_softmax(ref_policy_logits, dim=-1)\n\n    # 2. 组内相对优势 (核心创新: 不需要 Critic 模型)\n    rewards = rewards.view(-1, group_size)  # [batch*group_size] -> [batch, group_size]\n    group_mean = rewards.mean(dim=-1, keepdim=True)\n    group_std = rewards.std(dim=-1, keepdim=True) + 1e-8\n    advantages = (rewards - group_mean) / group_std  # 标准化\n    advantages = advantages.view(-1)  # 展平\n\n    # 3. 重要性采样比率\n    ratio = torch.exp(policy_logp.sum(-1) - old_logp.sum(-1))\n\n    # 4. PPO 截断目标\n    surr1 = ratio * advantages\n    surr2 = torch.clamp(ratio, 1 - clip_range, 1 + clip_range) * advantages\n    policy_loss = -torch.min(surr1, surr2).mean()\n\n    # 5. KL 散度惩罚 (防止偏离参考策略过远)\n    kl_div = (policy_logp.exp() * (policy_logp - ref_logp)).sum(-1).mean()\n\n    # 6. 总损失 (DeepSeek-R1 默认 kl_coef=0.04)\n    total_loss = policy_loss + kl_coef * kl_div\n    return total_loss, {\n        'policy_loss': policy_loss.item(),\n        'kl_div': kl_div.item(),\n        'mean_reward': rewards.mean().item(),\n        'reward_std': rewards.std().item()\n    }\n\n# 模拟一次 GRPO 训练 step\ntorch.manual_seed(42)\nbatch_size, seq_len, vocab_size = 16, 512, 32000\npolicy_logits = torch.randn(batch_size, seq_len, vocab_size, requires_grad=True)\nold_policy_logits = torch.randn(batch_size, seq_len, vocab_size)\nref_policy_logits = torch.randn(batch_size, seq_len, vocab_size)\n# 模拟奖励: 1 个 prompt 采样 8 个回答, 2 个答对\nrewards = torch.tensor([1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0] * 2)\n\nloss, metrics = grpo_loss(policy_logits, old_policy_logits, ref_policy_logits, rewards)\nprint(f\"GRPO 总损失: {loss.item():.4f}\")\nprint(f\"策略损失: {metrics['policy_loss']:.4f}\")\nprint(f\"KL 散度: {metrics['kl_div']:.4f}\")\nprint(f\"组内奖励均值: {metrics['mean_reward']:.4f} (理想训练后应上升)\")\nprint(f\"组内奖励标准差: {metrics['reward_std']:.4f} (理想训练后应分化)\")\n\n# 关键: GRPO 比 PPO 节省 ~50% 显存 (无 Value Model)\nprint(\"\\nGRPO 优势: 无需 Critic 模型, 显存节省 ~50%, 适合规则化奖励场景\")",
+      "language": "python",
+      "repo": "https://github.com/deepseek-ai/DeepSeek-R1",
+      "install_cmd": "pip install torch  # ⚠️ Local GPU only — torch is too large for Pyodide; use Example 1 (numpy) for browser-based demos"
+    },
+    {
+      "title": "QLoRA 微调 DeepSeek-R1-Distill",
+      "code": "# pip install peft trl transformers accelerate bitsandbytes datasets\nfrom peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training\nfrom transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig\nfrom trl import SFTTrainer, SFTConfig\nfrom datasets import load_dataset\n\n# 1. 加载 DeepSeek-R1-Distill-Qwen-1.5B (FP16 需 3GB, NF4 量化后仅 0.8GB)\nmodel_name = \"deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B\"\n\n# NF4 量化配置 (QLoRA 核心)\nbnb_config = BitsAndBytesConfig(\n    load_in_4bit=True,\n    bnb_4bit_quant_type=\"nf4\",           # NormalFloat 4-bit\n    bnb_4bit_compute_dtype=\"bfloat16\",  # 计算用 BF16\n    bnb_4bit_use_double_quant=True,      # Double Quant 节省更多显存\n)\n\nmodel = AutoModelForCausalLM.from_pretrained(\n    model_name,\n    quantization_config=bnb_config,\n    device_map=\"auto\"\n)\ntokenizer = AutoTokenizer.from_pretrained(model_name)\n\n# 2. LoRA 配置 (DeepSeek 论文推荐)\nlora_config = LoraConfig(\n    r=16,                     # rank\n    lora_alpha=32,            # 缩放因子 (alpha/r = 2)\n    target_modules=[\"q_proj\", \"k_proj\", \"v_proj\", \"o_proj\",\n                    \"gate_proj\", \"up_proj\", \"down_proj\"],\n    lora_dropout=0.05,\n    bias=\"none\",\n    task_type=\"CAUSAL_LM\"\n)\n\n# 3. 准备量化模型\nmodel = prepare_model_for_kbit_training(model)\nmodel = get_peft_model(model, lora_config)\nmodel.print_trainable_parameters()  # 仅 0.1% 参数可训练\n\n# 4. 加载医疗问答数据 (示例)\ndataset = load_dataset(\"medmcqa\", split=\"train[:1000]\")\ndef format_prompt(example):\n    return f\"\"\"<|im_start|>user\n{example['question']}\nA. {example['opa']}\\nB. {example['opb']}\\nC. {example['opc']}\\nD. {example['opd']}\n<|im_end|>\n<|im_start|>assistant\n让思考一下, 这个问题的解答是 {chr(64+example['cop'])}.\n<|im_end|>\"\"\"\n\ndataset = dataset.map(lambda x: {\"text\": format_prompt(x)})\n\n# 5. 训练 (单卡 24GB 显存即可)\ntrainer = SFTTrainer(\n    model=model,\n    train_dataset=dataset,\n    args=SFTConfig(\n        output_dir=\"./deepseek-r1-medical\",\n        num_train_epochs=3,\n        per_device_train_batch_size=4,\n        gradient_accumulation_steps=4,\n        learning_rate=2e-4,\n        warmup_ratio=0.03,\n        bf16=True,\n        logging_steps=10,\n        save_strategy=\"epoch\"\n    ),\n)\ntrainer.train()\nprint(\"QLoRA 微调完成! 适配器已保存到 ./deepseek-r1-medical\")\nprint(\"\\n下一步: 合并到 FP16 部署: model = model.merge_and_unload()\")",
+      "language": "python",
+      "repo": "https://github.com/huggingface/peft",
+      "install_cmd": "pip install transformers peft trl accelerate bitsandbytes  # ⚠️ Local GPU only — not Pyodide-compatible"
+    },
+    {
+      "title": "vLLM 服务启动（命令行 / Bash）",
+      "code": "# 启动 vLLM 推理服务（生产推荐）\n# 运行后将监听 http://localhost:8000 提供 OpenAI 兼容 API\nvllm serve deepseek-ai/DeepSeek-R1-Distill-Qwen-7B \\\n    --host 0.0.0.0 \\\n    --port 8000 \\\n    --tensor-parallel-size 1 \\\n    --max-model-len 32768 \\\n    --gpu-memory-utilization 0.90 \\\n    --enable-prefix-caching \\\n    --enable-chunked-prefill \\\n    --quantization awq \\\n    --dtype bfloat16",
+      "language": "bash",
+      "repo": "https://github.com/vllm-project/vllm",
+      "install_cmd": "pip install vllm  # ⚠️ Local GPU server — needs CUDA + 16GB+ VRAM"
+    },
+    {
+      "title": "OpenAI 兼容 Python API 客户端",
+      "code": "# 假设 vLLM 服务已在 http://localhost:8000 启动\nfrom openai import OpenAI\n\nclient = OpenAI(base_url=\"http://localhost:8000/v1\", api_key=\"EMPTY\")\n\n# 推理 R1 模型：模型会先输出 <think>...</think> 长思维链，再给最终答案\nresponse = client.chat.completions.create(\n    model=\"deepseek-r1-distill-qwen-7b\",\n    messages=[\n        {\"role\": \"user\", \"content\": \"求解方程 x^2 - 5x + 6 = 0\"}\n    ],\n    temperature=0.6,\n    max_tokens=8192,\n    extra_body={\"top_p\": 0.95, \"stop\": [\"<｜end▁of▁sentence｜>\"]}\n)\n\nprint(\"=== R1 推理输出 ===\")\nprint(f\"完整响应（含 <think>）：\\n{response.choices[0].message.content[:2000]}\")\nprint(f\"\\n总 Token: {response.usage.total_tokens}\")\nprint(f\"输出 Token: {response.usage.completion_tokens}\")",
+      "language": "python",
+      "repo": "https://github.com/openai/openai-python",
+      "install_cmd": "pip install openai  # ⚠️ Needs running vLLM server on localhost:8000"
+    }
+  ],
+  "exercises": [
+    {
+      "q": "架构理解: 对比标准 MHA、GQA、MLA 三种注意力机制的 KV Cache 显存占用, 用数学公式证明 MLA 的压缩比 (假设 d_h=128, n_h=128, d_c=512, n_kv=4)。"
+    },
+    {
+      "q": "MoE 分析: DeepSeek-V3 激活 8/256 专家, 计算相对稠密 67B 模型的推理 FLOPs 节省比例, 解释为什么训练时仍需 2K H800 集群。"
+    },
+    {
+      "q": "GRPO 实验: 复现本课的 GRPO 损失函数, 对比 PPO 的优势函数, 说明为什么 GRPO 节省 50% 显存且更稳定。"
+    },
+    {
+      "q": "R1-zero vs R1: 阅读 arXiv 2501.12948 论文, 列出 R1-zero 在 AIME 上的训练曲线, 并解释「aha moment」出现的训练步数。"
+    },
+    {
+      "q": "微调实战: 使用本课 QLoRA 代码对 DeepSeek-R1-Distill-Qwen-1.5B 在你自选的中文数据集 (如中文医疗问答 CSL) 上做微调, 记录训练 loss 曲线和最终评估指标。"
+    },
+    {
+      "q": "部署优化: 使用 vLLM 部署 DeepSeek-R1-Distill-Qwen-7B, 尝试不同的量化方案 (FP16/AWQ/GPTQ), 测量吞吐量 (tokens/s) 和首 token 延迟 (TTFT), 撰写对比报告。"
+    }
+  ],
+  "references": [
+    {
+      "title": "DeepSeek-V3 Technical Report",
+      "authors": "DeepSeek-AI, 2024",
+      "url": "https://arxiv.org/abs/2412.19437",
+      "type": "paper"
+    },
+    {
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+      "authors": "DeepSeek-AI, 2025",
+      "url": "https://arxiv.org/abs/2501.12948",
+      "type": "paper"
+    },
+    {
+      "title": "Attention Is All You Need (Transformer 原始论文)",
+      "authors": "Vaswani et al., NeurIPS 2017",
+      "url": "https://arxiv.org/abs/1706.03762",
+      "type": "paper"
+    },
+    {
+      "title": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
+      "authors": "Wei et al., NeurIPS 2022",
+      "url": "https://arxiv.org/abs/2201.11903",
+      "type": "paper"
+    },
+    {
+      "title": "DeepSeek-V3 官方代码仓库",
+      "authors": "DeepSeek-AI",
+      "url": "https://github.com/deepseek-ai/DeepSeek-V3",
+      "type": "github",
+      "installCommand": "git clone https://github.com/deepseek-ai/DeepSeek-V3"
+    },
+    {
+      "title": "DeepSeek-R1 官方代码与模型仓库",
+      "authors": "DeepSeek-AI",
+      "url": "https://github.com/deepseek-ai/DeepSeek-R1",
+      "type": "github",
+      "installCommand": "pip install transformers peft trl accelerate bitsandbytes\n# Model loaded via: from_pretrained(\"deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B\")\n# Source: https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
+    },
+    {
+      "title": "HuggingFace PEFT (LoRA/QLoRA 库)",
+      "authors": "HuggingFace",
+      "url": "https://github.com/huggingface/peft",
+      "type": "github",
+      "installCommand": "pip install peft"
+    },
+    {
+      "title": "vLLM 推理引擎 (PagedAttention)",
+      "authors": "UC Berkeley Sky Computing Lab",
+      "url": "https://github.com/vllm-project/vllm",
+      "type": "github",
+      "installCommand": "pip install vllm"
+    },
+    {
+      "title": "HuggingFace TRL (SFT/GRPO 训练)",
+      "authors": "HuggingFace",
+      "url": "https://github.com/huggingface/trl",
+      "type": "github",
+      "installCommand": "pip install trl"
+    },
+    {
+      "title": "SGLang 推理引擎 (RadixAttention)",
+      "authors": "LMSYS Org",
+      "url": "https://github.com/sgl-project/sglang",
+      "type": "github",
+      "installCommand": "pip install sglang"
+    }
+  ]
 },
 };
