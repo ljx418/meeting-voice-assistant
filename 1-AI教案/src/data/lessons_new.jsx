@@ -27,6 +27,7 @@ export const IMAGE_MAP = {
   "L23": "/images/ai-security.svg",
   "L24": "/images/ai-career-path.svg",
   "L25": "/images/deepseek.svg",
+  "L26": "/images/lora.svg",
 };
 
 export const WEEK_GROUPS = [
@@ -87,7 +88,8 @@ export const WEEK_GROUPS = [
   {
     "label": "📅 Week 13-14 前沿模型",
     "lessons": [
-      "L25"
+      "L25",
+      "L26"
     ]
   }
 ];
@@ -1165,6 +1167,208 @@ export const LESSONS = {
       "url": "https://github.com/sgl-project/sglang",
       "type": "github",
       "installCommand": "pip install sglang"
+    }
+  ]
+},
+  "L26": {
+  "id": "L26",
+  "title": "LoRA/QLoRA 微调全套实战",
+  "week": "Week 13-14 前沿模型",
+  "tags": [
+    "LoRA",
+    "QLoRA",
+    "PEFT",
+    "TRL",
+    "微调",
+    "分布式"
+  ],
+  "image": "/images/lora.svg",
+  "lessonId": "L26",
+  "codeExampleCount": 5,
+  "referenceCount": 9,
+  "objectives": [
+    "理解 LoRA 的低秩分解数学原理及其与全参数微调的等价性",
+    "掌握 QLoRA 的 NF4 量化、Double Quant 与 Paged Optimizer 三件套显存优化机制",
+    "能够使用 HuggingFace PEFT 库配置 LoRA / QLoRA 的 rank / alpha / target_modules 等核心参数",
+    "使用 TRL SFTTrainer 搭建从数据准备、训练到评估的端到端微调流水线",
+    "通过 accelerate / DeepSpeed 实现多卡分布式微调（DDP / ZeRO-2 / ZeRO-3）",
+    "掌握 LoRA 适配器合并、量化导出与 vLLM 部署的最佳实践"
+  ],
+  "sections": [
+    {
+      "title": "LoRA 原理与适用场景",
+      "content": "LoRA（Low-Rank Adaptation, [arxiv:2106.09685]）是 2021 年由 Microsoft 团队提出的一种参数高效微调（PEFT）方法（参见 L14 Transformer 中的矩阵分解思想）。其核心洞察是：预训练模型在适应下游任务时，权重更新矩阵 ΔW 通常具有很低的「内在秩」（intrinsic rank），因此可以用两个低秩矩阵的乘积来近似：\n\n```\nΔW = A · B,  A ∈ R^{d×r},  B ∈ R^{r×k},  r ≪ min(d, k)\n```\n\n原始权重 W ∈ R^{d×k} 保持冻结，前向计算变为 y = Wx + BAx = (W + BA)x（与 L14 自注意力的 QKV 投影同源）。训练时只更新 A、B 两组参数。当 d=k=4096、r=8 时，可训练参数从 16.7M 下降到 32K，约 1/500，极大降低显存与算力需求。\n\nLoRA 的适用场景：(1) 领域适配——把通用 LLM 适配到医疗、法律、金融等垂直领域；(2) 风格微调——让模型学习特定的语气、角色或代码风格；(3) 多任务共享基座——一个基座 + N 个 LoRA 适配器即服务多业务线（参见 L21 多智能体中的角色化适配）；(4) 显存受限环境——单张消费级显卡（如 4090 24GB）即可微调 7B-13B 模型。\n\n与全参数微调（Full Fine-Tuning）相比，LoRA 训练更稳定（参数量小，梯度方差低），且可与多种其他 PEFT 方法叠加（如 IA³、Prompt Tuning）。其局限在于：当任务与预训练分布差距极大时（如训练一个全新语种），低秩假设可能不成立，效果会明显差于全参数微调。Microsoft 的 LoRA 论文验证了在 GPT-3 175B 上 LoRA 与全参数微调性能相当（部分任务甚至略优），奠定了其作为 PEFT 事实标准的地位。LoRA 与 MoE 的「专家稀疏激活」思路（参见 L25 DeepSeek）形成对比：MoE 在前向时只激活部分专家，LoRA 在反向时只更新部分参数。\n\n工业实践：HuggingFace PEFT 团队维护的 LoRA 实现是开源事实标准，已被 Meta Llama recipes、阿里通义 Qwen、智谱 GLM 等团队采纳。Meta 在 Llama 2 / Llama 3 官方 fine-tuning recipes 中默认推荐 LoRA 配置（r=16, alpha=32, target_modules 为 attention + MLP）。\n\n🏢 工业实践:\n- Meta（Llama 2/3 recipes）：在 github.com/meta-llama/llama-recipes 中默认使用 LoRA（r=16, alpha=32），社区下载量数百万级，是开源 LLM 微调事实模板。\n- 阿里通义千问（Qwen 团队）：在 Qwen2 / Qwen2.5 官方微调指南中推荐 LoRA 全 7 层线性层配置，已被大量国内 To-B 客户（金融、政务）采用。\n\n📊 [图示建议]: 左侧画 LoRA 矩阵分解示意（冻结 W ∈ R^{d×k} + 训练 A·B），右侧对比 Full-FT vs LoRA 的可训练参数量与显存占用柱状图。\n\n⚠️ 常见陷阱:\n1. 把 LoRA 当作「无损替代全参数微调」——对于分布差异极大的任务，r 需要设到 64-128 才接近 Full-FT；\n2. 在所有线性层都加 LoRA 时未加 rank 缩放，训练 loss 抖动剧烈；\n3. 推理时未 merge_and_unload()，导致线上延迟翻倍。\n\n💼 面试考点: 「LoRA 降低的可训练参数比例与 r 的关系」或「为什么 LoRA 训练时学习率需要比 Full-FT 高 10 倍左右」。",
+      "interviewQuestions": [
+        "LoRA 的「内在秩假设」是什么？为什么 ΔW 可以用低秩矩阵近似？",
+        "LoRA 与 Adapter Tuning、Prefix Tuning 在参数效率上的对比与适用场景"
+      ]
+    },
+    {
+      "title": "QLoRA 显存优化机制",
+      "content": "QLoRA（Quantized LoRA, [arxiv:2305.14314]）由华盛顿大学 Tim Dettmers 团队于 2023 年提出，是 LoRA 的显存极致优化版（参见 L25 DeepSeek 中的 MLA 架构，MLA 也通过低秩压缩 KV 减少显存）。其核心思想是：把冻结的基座模型量化到 4-bit NormalFloat（NF4），而 LoRA 适配器仍以 BF16 训练，从而把「基座 + 优化器 + 梯度 + 激活」的总显存压到消费级显卡可承受范围。\n\nQLoRA 的三件套（按贡献大小排序）：\n\n(1) 4-bit NormalFloat (NF4) 量化：传统 INT4 量化对 LLM 权重分布假设不合理（实际近似正态分布），NF4 是专门为正态分布权重设计的 4-bit 数据类型，每个量化 bin 的步长按分位函数等距分配，量化误差比 INT4 小 30%-50%。配合「分块量化」（block-wise quantization，每 64 个权重一组计算 scale/zero），可在 4-bit 下保持与 FP16 几乎无损的推理质量。\n\n(2) Double Quant（双重量化）：对量化本身使用的 scale 和 zero-point 常数再做一次量化（8-bit），节省约 0.37 bits/param 的额外开销。对 65B 模型，这意味着约 3GB 额外显存节省。\n\n(3) Paged Optimizer（分页优化器）：使用 NVIDIA 统一内存特性（Unified Memory），当 GPU 显存 OOM 时自动卸载到 CPU 内存，类似操作系统虚拟内存分页。这避免了训练中途因 optimizer state spike 崩溃的常见问题。\n\n三者结合，QLoRA 论文报告单卡 48GB 即可微调 65B 模型；实际工业实践中，24GB 消费级显卡（如 4090 / 3090）可微调 7B-13B 模型，16GB 显卡（如 4080）可微调 7B 模型。\n\nQLoRA 论文还引入了「分页 + LoRA 适配器所有线性层」的策略，对 attention 层的 q_proj/k_proj/v_proj/o_proj + MLP 层的 gate_proj/up_proj/down_proj 全部加 LoRA，r=64 时效果接近 Full-FT。这是 2024-2025 年 LLM 领域微调的事实标准方案（与 L14 Transformer 的「全连接 + 残差」结构天然契合）。\n\n工业落地：HuggingFace PEFT 库原生集成 QLoRA（通过 bitsandbytes 后端），Meta Llama 3 官方微调教程默认使用 QLoRA + gradient checkpointing。Microsoft Azure ML 也提供 QLoRA 一键训练服务。\n\n🏢 工业实践:\n- HuggingFace（PEFT + bitsandbytes 团队）：Tim Dettmers 等人将 NF4 / Double Quant / Paged Optimizer 集成到 bitsandbytes 与 PEFT，并发布 Guanaco 开源对话模型（基于 QLoRA 微调 LLaMA），在 Vicuna benchmark 上达到 ChatGPT 99% 水平，QLoRA 论文引用数已过千。\n- Microsoft Azure ML：Azure ML Studio 提供 QLoRA 一键训练工作流（基于 HuggingFace PEFT + DeepSpeed），客户据公开案例可在单卡 A100 上微调 70B 模型，相比 Full-FT 训练成本据公开测算下降约 90%。\n\n📊 [图示建议]: 左侧画 QLoRA 三件套组合（NF4 量化基座 + BF16 LoRA 适配器 + Paged Optimizer）的显存拆解饼图，右侧对比 Full-FT / LoRA / QLoRA 在 7B/13B/65B 模型上的峰值显存占用。\n\n⚠️ 常见陷阱:\n1. 在没有 prepare_model_for_kbit_training() 的情况下直接加 LoRA，量化层梯度会异常；\n2. 误用 load_in_4bit=True 但 bnb_4bit_compute_dtype 设为 FP16——计算用 FP16 容易数值溢出，BF16 更稳；\n3. QLoRA 训练时 batch_size 设大但未开 gradient_checkpointing，导致激活内存爆炸。\n\n💼 面试考点: 「NF4 与 INT4 量化的本质区别」或「Paged Optimizer 如何解决 OOM 问题」。",
+      "interviewQuestions": [
+        "NF4 量化为什么比 INT4 量化误差小？其分位函数等距设计如何工作？",
+        "QLoRA 的三件套分别对应哪一类显存瓶颈（基座/优化器/激活）？"
+      ]
+    },
+    {
+      "title": "PEFT 库 LoRA 参数详解",
+      "content": "HuggingFace PEFT 库（Parameter-Efficient Fine-Tuning，[arxiv:2203.07883] / [github: huggingface/peft]）是开源事实标准的 PEFT 实现，覆盖 LoRA、QLoRA、IA³、Prompt Tuning、Prefix Tuning 等十多种方法（与 L25 DeepSeek MoE 的「专家并行」理念互补）。本节重点解读 LoRA / QLoRA 的核心参数。\n\nLoraConfig 关键参数详解：\n- r (rank): 低秩矩阵的秩，典型值 4-128。r 越大可训练参数越多、表达能力越强，但接近 r=512 时退化为近似 Full-FT。经验值：通用领域 8-16，强领域适配 32-64。\n- lora_alpha: 缩放因子，LoRA 实际缩放系数 = lora_alpha / r。设 alpha=2r（如 r=16, alpha=32）是社区经验最优（参见 L09 神经网络中的学习率缩放经验）。\n- target_modules: 应用 LoRA 的层名列表。常见配置：「q_proj, k_proj, v_proj, o_proj」仅 attention 投影（轻量）；「+ gate_proj, up_proj, down_proj」再加 MLP（推荐）；「all-linear」自动匹配所有 nn.Linear（激进）。\n- lora_dropout: LoRA 路径上的 dropout，0-0.1 之间。小数据集可设 0.05 防过拟合。\n- bias: 是否训练 bias，\"none\" / \"all\" / \"lora_only\"。QLoRA 场景固定 \"none\"。\n- task_type: 任务类型，CAUSAL_LM / SEQ_2_SEQ_LM / TOKEN_CLS / SEQ_CLS 等。\n- use_rslora: 是否使用 Rank-Stabilized LoRA（alpha/sqrt(r) 缩放），2024 年新选项，长训练更稳定。\n- use_dora: 是否使用 DoRA（Decomposed LoRA），把权重分解为 magnitude + direction，效果略优 LoRA。\n\nBitsAndBytesConfig（QLoRA）关键参数：\n- load_in_4bit: 启用 4-bit 量化（NF4）；\n- bnb_4bit_quant_type: \"nf4\" 或 \"fp4\"，推荐 nf4；\n- bnb_4bit_compute_dtype: 量化反量化计算 dtype，bfloat16 推荐；\n- bnb_4bit_use_double_quant: 是否双重量化，True 推荐。\n\n关键辅助函数：\n- prepare_model_for_kbit_training(model): 启用 gradient_checkpointing、把 LayerNorm 参数转 FP32、处理 input 梯度等。QLoRA 训练前必调。\n- get_peft_model(model, lora_config): 把 LoraConfig 应用到基座模型，返回 PeftModel。\n- model.print_trainable_parameters(): 打印可训练参数量 / 总参数量 / 比例（典型 0.1%-1%）。\n- model.merge_and_unload(): 把 LoRA 权重 merge 回基座，导出推理用模型。\n\n工业惯例：Meta Llama recipes 推荐 r=16, alpha=32, target_modules 全部 7 个线性层；智谱 GLM 微调教程推荐 r=8, alpha=16（轻量）；Microsoft LoRA 论文则使用 r=8, alpha=16 即可达到 GPT-3 Full-FT 同等效果。\n\n🏢 工业实践:\n- 智谱 AI（GLM 团队）：在 GLM-4 / ChatGLM 官方微调教程中推荐 r=8, alpha=16 的轻量配置，并提供基于 PEFT 库的领域适配示例（法律、医疗），被国内大量 To-B 客户复用。\n- HuggingFace PEFT 团队：作为 PEFT 库官方维护者，其默认 LoRA / QLoRA 参数配置（target_modules=\"all-linear\"、r=16、alpha=32）已成为开源社区事实标准，被数千个开源项目引用。\n\n📊 [图示建议]: 左侧画 LoraConfig 各参数对训练参数量的影响（r 从 4 → 128 的指数增长曲线），右侧展示 target_modules 从仅 attention 到 all-linear 的「逐步打开」示意图。\n\n⚠️ 常见陷阱:\n1. r=64 + target_modules=all-linear 后训练参数量激增至 5%+，失去 PEFT 优势；\n2. 误把 target_modules 设为 \"q_proj, q_proj\"（重复），HuggingFace Transformers 在 Llama 架构下可能报错；\n3. 训练后用 model.save_pretrained() 保存，但未保存 tokenizer，加载时报「vocab size mismatch」。\n\n💼 面试考点: 「r=8 与 r=64 的 trade-off」或「DoRA 相对 LoRA 的改进点」。",
+      "interviewQuestions": [
+        "解释 lora_alpha / r 的缩放机制，以及为什么经验上设 alpha=2r 效果较好",
+        "DoRA 与 LoRA 的根本差异是什么？为什么 magnitude/direction 分解能带来提升？"
+      ]
+    },
+    {
+      "title": "TRL SFTTrainer 端到端流水线",
+      "content": "TRL（Transformer Reinforcement Learning，[github: huggingface/trl]）是 HuggingFace 维护的 SFT/RLHF/DPO/GRPO 一站式训练库（DPO 模块与 L21 多智能体偏好对齐紧密相关）。其核心组件 SFTTrainer 把 Trainer 的训练循环、数据 collation、checkpoint 管理、wandb 日志、评估全部封装为统一接口，是 2025 年 LLM 端到端微调的事实标准。\n\nSFTConfig 关键参数：\n- output_dir: checkpoint 输出路径；\n- num_train_epochs / max_steps: 训练 epoch 数或总 step 数；\n- per_device_train_batch_size + gradient_accumulation_steps: 等效 batch = 两者乘积（与 L14 Transformer 的 batch-first 设计一致）；\n- learning_rate: LoRA 推荐 1e-4 ~ 5e-4，QLoRA 推荐 2e-4；\n- warmup_ratio: 学习率预热比例，0.03-0.1；\n- lr_scheduler_type: \"cosine\" / \"linear\" / \"constant\" 推荐 cosine；\n- bf16 / fp16: 精度选择，H100/A100 必开 bf16；\n- gradient_checkpointing: 显存紧张时开启，训练时间换空间；\n- logging_steps / save_strategy: 日志与 checkpoint 频率；\n- max_seq_length: 训练序列最大长度，建议与基座模型 max_position_embeddings 一致。\n\n端到端流水线（6 步）：\n(1) 加载基座模型（AutoModelForCausalLM.from_pretrained + BitsAndBytesConfig）；\n(2) 配置 LoRA（LoraConfig + get_peft_model）；\n(3) 准备数据集（load_dataset → map → 格式化为对话模板）；\n(4) 初始化 SFTConfig + SFTTrainer；\n(5) trainer.train() 开始训练；\n(6) model.save_pretrained() 保存 LoRA 适配器（仅 30-200MB）。\n\n数据格式最佳实践：使用对话模板（chat template），如 ChatML（<|im_start|>user...<|im_end|>）、Llama-3（<|begin_of_text|>...）等。SFTTrainer 支持两种输入：(a) 单条 \"text\" 字段（已拼好的字符串）；(b) 多轮 messages 列表（自动套用 tokenizer 的 chat_template）。后者更易管理。\n\n进阶特性：\n- packing: 把多条短样本拼接到 max_seq_length，减少 padding 浪费，训练加速 2-5x；\n- dataset_text_field / formatting_func: 自定义数据格式函数；\n- eval_strategy: 边训练边评估，支持 EarlyStopping；\n- neftune_noise_alpha: NEFTune 噪声增强，提升指令微调效果（论文报告 +6% AlpacaEval）。\n\n工业实践：HuggingFace 官方 SFT 教程、Meta Llama 3 recipes、阿里通义 Qwen2.5 微调指南均使用 SFTTrainer。Microsoft AutoGen 框架微调示例也基于 TRL。SFTTrainer 已成为 LLM 微调入门到工业部署的桥梁。\n\n🏢 工业实践:\n- HuggingFace（TRL 团队）：SFTTrainer 是 TRL 的核心组件，提供 SFT/DPO/GRPO 全流程；HuggingFace 官方 SFT 教程默认使用 SFTTrainer + PEFT，是 LLM 微调入门事实标准。\n- 阿里通义千问（Qwen 团队）：Qwen2.5 官方微调指南使用 SFTTrainer 演示从数据准备、训练到评估的完整流水线，社区下载量数百万级。\n\n📊 [图示建议]: 左侧画 SFTTrainer 6 步流水线（加载模型 → LoRA → 数据 → SFTConfig → train → save），右侧画 SFTConfig 关键超参对训练效果的影响（lr / batch / epoch 的敏感度热图）。\n\n⚠️ 常见陷阱:\n1. learning_rate 沿用全参数微调的 2e-5，LoRA 训练欠拟合，几乎不学东西；\n2. 未设 tokenizer.pad_token / pad_token_id，padding 被忽略，batch 报错；\n3. dataset.map 后未去掉原始列，导致 DataCollator 处理时 key 不匹配。\n\n💼 面试考点: 「为什么 LoRA 学习率需要比 Full-FT 高一个数量级」或「packing 如何加速训练」。",
+      "interviewQuestions": [
+        "SFTTrainer 中 packing 和 gradient_checkpointing 分别优化什么瓶颈？",
+        "NEFTune 噪声增强为什么能提升指令微调效果？"
+      ]
+    },
+    {
+      "title": "多卡分布式微调实战",
+      "content": "单卡微调 7B 模型尚可，但 13B+ 模型必须借助多卡分布式训练（参见 L25 DeepSeek V3 的 671B MoE 训练中 Expert Parallelism 设计）。本节介绍 accelerate 与 DeepSpeed 两大主流方案。\n\nHuggingFace Accelerate 是轻量级分布式训练库，对 DDP（DistributedDataParallel）封装最简。配置方式：accelerate config 一次性生成 YAML 配置（mixed_precision=bf16、num_processes=N、num_machines=M），启动 accelerate launch --config_file config.yaml train.py。accelerate 也支持 FSDP（Fully Sharded Data Parallel），可对超大模型分片。\n\nDeepSpeed 是 Microsoft 开发的优化库，核心是 ZeRO（Zero Redundancy Optimizer）三阶段：\n- ZeRO-1: 优化器状态分片到多卡，显存节省约 4x；\n- ZeRO-2: + 梯度分片，节省约 8x；\n- ZeRO-3: + 模型参数分片，节省约 Nx（N 为卡数），适合 >30B 模型。\n\nDeepSpeed 配置文件示例（ZeRO-3 + CPU Offload）：\n```\n{\n  \"zero_optimization\": {\n    \"stage\": 3,\n    \"offload_optimizer\": {\"device\": \"cpu\"},\n    \"offload_param\": {\"device\": \"cpu\"}\n  },\n  \"bf16\": {\"enabled\": true},\n  \"train_batch_size\": \"auto\"\n}\n```\n\nQLoRA + 多卡的最佳组合：DDP（数据并行）+ 单卡 NF4 量化基座 + LoRA 适配器。原因是基座已量化到 4-bit，单卡可放下，参数无需再分片，只需 DDP 复制 LoRA 适配器 + 同步梯度即可。这是 2025 年工业界最常见方案。\n\nFSDP 与 DeepSpeed 对比：FSDP 是 PyTorch 原生（torch.distributed.fsdp），与 PyTorch 生态集成更好；DeepSpeed ZeRO-3 优化更激进（CPU/NVMe Offload），适合超大规模模型（如 70B+ 微调）。两家方案在 2025 年差距已不大，HuggingFace Trainer 原生支持两者。\n\n多卡常见陷阱：\n(1) 进程间通信使用 NCCL 后端（CUDA），不要用 Gloo；\n(2) 多卡训练时 learning_rate 应按卡数线性放大（linear scaling rule），但 LoRA 通常不需（适配器小，梯度噪声小）；\n(3) QLoRA + FSDP 容易触发 bitsandbytes 兼容性问题，需用最新版本或退回 DDP。\n\n工业实践：Meta Llama 3 70B 全参数微调使用 16-32 卡 A100 + FSDP；QLoRA 微调 70B 仅需 2-4 卡 48GB（A100/H100）。Microsoft Azure ML 提供 QLoRA 多卡一键训练模板。\n\n🏢 工业实践:\n- Meta AI（Llama 3 团队）：Llama 3 70B 全参数微调使用 16-32 卡 A100 + FSDP；QLoRA 微调 70B 仅需 2-4 卡 48GB（A100/H100），成为开源大模型微调的事实基线。\n- Microsoft Azure ML：提供 QLoRA 多卡一键训练模板（基于 HuggingFace PEFT + DeepSpeed），客户据公开案例可在云上一键启动多卡微调任务，降低分布式训练门槛。\n\n📊 [图示建议]: 左侧画 DDP 架构图（每卡全模型 + 同步梯度），右侧画 ZeRO-3 三阶段分片示意（优化器状态 / 梯度 / 参数逐步分片到 N 卡），底部展示不同策略的显存对比表。\n\n⚠️ 常见陷阱:\n1. 多卡训练时忘记设置 CUDA_VISIBLE_DEVICES，导致进程绑卡错乱；\n2. DDP + gradient_checkpointing 混用时未启用 `model.enable_input_require_grads()`，backward 报错；\n3. ZeRO-3 配合 LoRA 时参数分片到不同卡，merge_and_unload() 需先 `model = model.merge_and_unload()` 再 gather。\n\n💼 面试考点: 「DDP / FSDP / DeepSpeed ZeRO-3 的核心区别」或「QLoRA 多卡训练为什么不需要 ZeRO-3」。",
+      "interviewQuestions": [
+        "DDP 数据并行与 ZeRO-3 模型并行的核心区别是什么？分别适用什么场景？",
+        "QLoRA 多卡训练时为什么 DDP 就够用，不需要 ZeRO-3？"
+      ]
+    },
+    {
+      "title": "模型评估与合并导出",
+      "content": "训练完成后需做模型评估、合并与导出，本节给出端到端最佳实践（与 L25 DeepSeek 部署中的量化方案思路一致）。\n\n模型评估分三类：(1) 客观指标——lm-eval-harness 跑 MMLU/GSM8K/HumanEval 等标准 benchmark；(2) 任务指标——分类用 Accuracy/F1，生成用 ROUGE/BLEU；(3) 主观评估——LLM-as-Judge（用 GPT-4 给微调前后模型打分）或人工评估。\n\nHuggingFace Hub 评估集成：transformers 库原生支持 evaluate 库，一行代码加载指标。SFTTrainer 的 eval_strategy + compute_metrics 钩子可在训练循环中评估。\n\nLoRA 合并导出：\n- merge_and_unload(): 把 LoRA 权重 merge 回基座，返回原始架构的模型，可直接用 transformers.pipeline() 推理；\n- model.save_pretrained(merged_dir): 保存合并后的完整模型（FP16 需 14GB for 7B）；\n- 适配器单独保存（PEFT 默认）：仅 ~50MB，可灵活切换多个任务。\n\n量化导出（生产部署推荐）：\n- bitsandbytes 4-bit 保存：model.save_pretrained() 时配合 BitsAndBytesConfig load_in_4bit，文件 ~4GB；\n- GPTQ 量化：使用 auto-gptq 库，INT4 量化，文件 ~3.5GB，精度损失 <1%；\n- AWQ 量化：使用 autoawq 库，激活感知量化，MoE 模型推荐方案（参见 L25 DeepSeek V3 部署中 AWQ 的应用）；\n- GGUF 格式（llama.cpp）：消费级 CPU 推理友好，Q4_K_M 量化 ~4GB。\n\nvLLM 部署：合并后的模型可无缝用 vLLM 启动 OpenAI 兼容 API：\n```\nvllm serve ./merged-model --quantization awq --max-model-len 8192\n```\n\n导出 checklist：\n(1) 验证合并后模型在验证集上 loss 不变（merge 不应改变前向结果）；\n(2) 用 transformers.pipeline() 做 sanity check；\n(3) 量化后在验证集上再评估，量化损失 <2% 才可上线；\n(4) 保存 tokenizer + chat_template，否则推理时格式错乱。\n\n工业实践：HuggingFace PEFT 团队提供完整 peft-lora-to-merged 脚本；Meta Llama 3 微调教程提供从 LoRA → vLLM 全链路示例；Microsoft LoRA 实现代码（官方 Azure-Samples/LoRA-fine-tuning）也涵盖导出。\n\n常见陷阱：\n1. merge_and_unload() 之前调用了 model.eval()，导致 BN/Dropout 状态污染；\n2. AWQ 量化时未提供 calibration 数据集，量化误差大；\n3. 部署到 vLLM 时未指定 --enable-prefix-caching，多轮对话性能差。\n\n🏢 工业实践:\n- vLLM（UC Berkeley 团队）：开源高性能 LLM 推理引擎，支持 AWQ / GPTQ / bitsandbytes 多种量化方案，吞吐据公开 benchmark 较 HuggingFace Transformers 提升 14-24x，被 LMSYS Chatbot Arena 等多个 LLM 服务广泛采用。\n- HuggingFace PEFT 团队：提供完整 peft-lora-to-merged 脚本与 PEFT + transformers 推理最佳实践，是开源 LLM 合并导出的事实标准模板。\n\n📊 [图示建议]: 左侧画 LoRA 合并到基座的矩阵加法示意（W + BA），右侧画从训练到部署的完整 pipeline（PEFT 训练 → merge → 量化 → vLLM 部署），底部列出评估指标雷达图（MMLU / GSM8K / HumanEval / MT-Bench / LLM-as-Judge）。\n\n⚠️ 常见陷阱:\n1. 合并时未把模型移到 CPU，导致合并后显存翻倍 OOM；\n2. 量化模型保存到 Hub 时未配 `safe_serialization=True`，权重文件超大；\n3. 部署推理时未禁用 gradient_checkpointing，推理延迟 +30%。\n\n💼 面试考点: 「LoRA 合并后模型与原始基座在前向结果上是否完全一致」或「GPTQ 与 AWQ 量化方案的 trade-off」。",
+      "interviewQuestions": [
+        "LoRA 适配器 merge_and_unload() 后模型权重数学上等于什么？是否与原始基座等价？",
+        "AWQ 与 GPTQ 量化的核心区别是什么？为什么 MoE 模型推荐 AWQ？"
+      ]
+    }
+  ],
+  "industryPractice": {
+    "title": "🏢 工业实践",
+    "content": "LoRA / QLoRA 微调在 2024-2026 年已成为大模型定制化的事实标准，以下为三个真实工业案例。\n\n案例 1：HuggingFace PEFT 团队官方实践\n- 业务背景：HuggingFace PEFT 库维护者（主要由 Tim Dettmers、Sourab Mangrulkar 等人主导）需为开源社区维护 LoRA / QLoRA 的参考实现；\n- 落地动作：(1) 发布 QLoRA 论文（[arxiv:2305.14314]）后立即将 NF4 量化集成到 bitsandbytes，PEFT 库通过 prepare_model_for_kbit_training 暴露给用户；(2) 发布 Guanaco 系列开源对话模型（基于 QLoRA 微调的 LLaMA），在 Vicuna benchmark 上达到 ChatGPT 99% 水平；(3) 提供完整 trl + peft + bitsandbytes 一体化教程，单卡 24GB 即可微调 33B 模型；\n- 业务结果：截至 2025 年，PEFT 库 GitHub Stars 据公开报道已超过 1.5 万级别，被数千个开源项目引用；QLoRA 论文引用数过千。\n\n案例 2：Meta Llama 官方 Fine-tuning Recipes\n- 业务背景：Meta Llama 2 / Llama 3 团队需为开发者提供从基座到领域模型的微调最佳实践；\n- 落地动作：(1) 在官方 github.com/meta-llama/llama-recipes 仓库提供 LoRA / QLoRA 微调脚本（基于 HuggingFace PEFT + TRL）；(2) 默认推荐配置 r=16, alpha=32, target_modules 全部 7 个线性层；(3) 发布多领域示例（代码、医疗、金融），并发布 Llama 3 70B 全参数微调与 LoRA 微调的对比报告；\n- 业务结果：Llama recipes 仓库成为开源社区最受欢迎的 LLM 微调模板之一；Meta 据公开报道 Llama 3 微调后模型在 MMLU 上较基座提升约 5 个百分点。\n\n案例 3：Microsoft LoRA / QLoRA 在 Azure ML 中的落地\n- 业务背景：Microsoft Azure 机器学习服务需为 To-B 客户提供低成本 LLM 定制化能力；\n- 落地动作：(1) Azure ML Studio 提供 QLoRA 一键训练工作流（基于 HuggingFace PEFT + DeepSpeed）；(2) 发布 Azure-Samples/LoRA-fine-tuning 官方示例仓库，覆盖从数据准备到部署的全链路；(3) 集成 Azure AI Content Safety 做训练数据安全过滤；\n- 业务结果：Azure ML 客户据公开案例可在单卡 A100 上微调 70B 模型，相比 Full-FT 训练成本据公开测算下降约 90% 级别；多家金融、医疗头部企业在 Azure 上使用 QLoRA 部署私有化 LLM。\n\n注：上述业务数据均为公开案例估算，具体数字以各团队官方披露为准。"
+  },
+  "codeExamples": [
+    {
+      "title": "LoRA 矩阵分解纯 NumPy 演示",
+      "code": "# pip install numpy\nimport numpy as np\n\n# LoRA 原理: 把 ΔW = A·B (A: d×r, B: r×k), 训练时只更新 A, B\nnp.random.seed(42)\nd, k, r = 512, 512, 8  # 原 W: 512x512, LoRA rank=8\n\n# 1. 冻结的基座权重 (不更新)\nW = np.random.randn(d, k) * 0.01  # 冻结\n\n# 2. LoRA 低秩增量 (可训练)\nA = np.random.randn(d, r) * 0.01  # [512, 8]\nB = np.random.randn(r, k) * 0.01  # [8, 512]\n\n# 3. 前向: y = Wx + BAx = (W + BA)x\nx = np.random.randn(1, k)  # batch=1\ny_original = x @ W.T  # 基座前向\ny_lora = x @ (W + B @ A).T  # LoRA 增量前向\ny_split = x @ W.T + x @ A.T @ B.T  # 等价拆分计算\n\n# 4. 参数效率对比\nn_params_full = d * k  # 262144\nn_params_lora = d * r + r * k  # 8192\nprint(f\"Full-FT 可训练参数: {n_params_full:,}\")\nprint(f\"LoRA 可训练参数:    {n_params_lora:,}\")\nprint(f\"参数效率: {n_params_lora / n_params_full * 100:.2f}% (降低 {(1 - n_params_lora/n_params_full)*100:.1f}%)\")\nprint(f\"前后向等价: y_split - y_lora max diff = {np.abs(y_split - y_lora).max():.2e}\")\n\n# 5. 模拟 LoRA 训练 step (梯度下降更新 A, B)\nlr = 0.01\ntarget = np.random.randn(1, k)\nfor step in range(200):\n    pred = x @ (W + B @ A).T\n    loss = ((pred - target) ** 2).mean()\n    # 简化版梯度 (实际为 autograd)\n    grad_pred = 2 * (pred - target) / target.size\n    grad_B = (x @ A.T).T @ grad_pred  # 简化\n    grad_A = x.T @ grad_pred @ B.T  # 简化\n    B -= lr * grad_B\n    A -= lr * grad_A\n    if step % 50 == 0:\n        print(f\"Step {step}: loss = {loss:.4f}\")\nprint(f\"\\n结论: 训练 200 step 后 loss 从 {((np.random.randn(1,512) - target)**2).mean():.4f} 下降到 {loss:.4f}\")",
+      "language": "python",
+      "repo": "https://github.com/microsoft/LoRA",
+      "install_cmd": "pip install numpy  # ✅ Pyodide-compatible (numpy only)"
+    },
+    {
+      "title": "QLoRA + TRL 端到端微调",
+      "code": "# pip install peft trl transformers accelerate bitsandbytes datasets\nfrom peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training\nfrom transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig\nfrom trl import SFTTrainer, SFTConfig\nfrom datasets import load_dataset\n\n# 1. 加载基座 (QLoRA 4-bit 量化) - 以 Qwen2.5-1.5B 为例\nmodel_name = \"Qwen/Qwen2.5-1.5B-Instruct\"\n\n# NF4 量化配置 (QLoRA 三件套之一)\nbnb_config = BitsAndBytesConfig(\n    load_in_4bit=True,\n    bnb_4bit_quant_type=\"nf4\",            # NormalFloat 4-bit\n    bnb_4bit_compute_dtype=\"bfloat16\",   # 计算用 BF16 (稳定)\n    bnb_4bit_use_double_quant=True,      # Double Quant 节省 ~0.4 bits/param\n)\n\nmodel = AutoModelForCausalLM.from_pretrained(\n    model_name, quantization_config=bnb_config, device_map=\"auto\"\n)\ntokenizer = AutoTokenizer.from_pretrained(model_name)\nif tokenizer.pad_token is None:\n    tokenizer.pad_token = tokenizer.eos_token\n\n# 2. LoRA 配置\nlora_config = LoraConfig(\n    r=16, lora_alpha=32,\n    target_modules=[\"q_proj\", \"k_proj\", \"v_proj\", \"o_proj\",\n                    \"gate_proj\", \"up_proj\", \"down_proj\"],\n    lora_dropout=0.05, bias=\"none\", task_type=\"CAUSAL_LM\",\n)\n\n# 3. 准备量化模型 (QLoRA 训练前必调)\nmodel = prepare_model_for_kbit_training(model)\nmodel = get_peft_model(model, lora_config)\nmodel.print_trainable_parameters()  # 典型: 0.1%-1% 可训练\n\n# 4. 加载并格式化数据 (ChatML 模板)\ndataset = load_dataset(\"databricks/databricks-dolly-15k\", split=\"train[:500]\")\ndef format_chat(example):\n    msgs = [\n        {\"role\": \"user\", \"content\": example[\"instruction\"] + \"\\n\" + example.get(\"context\", \"\")},\n        {\"role\": \"assistant\", \"content\": example[\"response\"]}\n    ]\n    return {\"text\": tokenizer.apply_chat_template(msgs, tokenize=False)}\ndataset = dataset.map(format_chat)\n\n# 5. 训练 (单卡 24GB 显存即可)\ntrainer = SFTTrainer(\n    model=model, train_dataset=dataset,\n    args=SFTConfig(\n        output_dir=\"./qlora-output\",\n        num_train_epochs=3,\n        per_device_train_batch_size=4,\n        gradient_accumulation_steps=4,  # 等效 batch=16\n        learning_rate=2e-4,             # LoRA 需较高 LR\n        warmup_ratio=0.03, lr_scheduler_type=\"cosine\",\n        bf16=True, gradient_checkpointing=True,\n        logging_steps=10, save_strategy=\"epoch\",\n        max_seq_length=1024, packing=True,\n    ),\n)\ntrainer.train()\n\n# 6. 保存 LoRA 适配器 (仅 ~50MB)\nmodel.save_pretrained(\"./qlora-adapter\")\ntokenizer.save_pretrained(\"./qlora-adapter\")\nprint(\"QLoRA 微调完成! 适配器已保存到 ./qlora-adapter\")",
+      "language": "python",
+      "repo": "https://github.com/huggingface/peft",
+      "install_cmd": "pip install peft trl transformers accelerate bitsandbytes datasets  # ⚠️ Local GPU only — not Pyodide-compatible"
+    },
+    {
+      "title": "LoRA 合并与 AWQ 量化导出",
+      "code": "# pip install peft transformers accelerate autoawq\nfrom peft import PeftModel, AutoPeftModelForCausalLM\nfrom transformers import AutoTokenizer\nimport torch\n\n# 1. 加载基座 + LoRA 适配器\nbase_model_path = \"Qwen/Qwen2.5-1.5B-Instruct\"\nadapter_path = \"./qlora-adapter\"\n\nbase_model = AutoModelForCausalLM.from_pretrained(\n    base_model_path, torch_dtype=torch.bfloat16, device_map=\"cpu\"\n)\nmodel = PeftModel.from_pretrained(base_model, adapter_path)\n\n# 2. 合并 LoRA 到基座 (merge_and_unload)\nprint(\"合并 LoRA 权重到基座...\")\nmerged_model = model.merge_and_unload()  # 返回原始架构\n\n# 3. 保存合并后模型 (FP16)\nmerged_dir = \"./merged-model-fp16\"\nmerged_model.save_pretrained(merged_dir, safe_serialization=True)\ntokenizer = AutoTokenizer.from_pretrained(base_model_path)\ntokenizer.save_pretrained(merged_dir)\nprint(f\"FP16 模型已保存到 {merged_dir} (约 3GB)\")\n\n# 4. 验证合并后前向结果不变 (sanity check)\ntest_input = tokenizer(\"Hello, how are you?\", return_tensors=\"pt\")\nwith torch.no_grad():\n    out_merged = merged_model.generate(**test_input, max_new_tokens=20, do_sample=False)\nprint(f\"合并后推理测试: {tokenizer.decode(out_merged[0], skip_special_tokens=True)}\")\n\n# 5. (可选) AWQ 量化导出 - 适合 vLLM 生产部署\n# 注释: AWQ 量化需 calibration 数据集, 这里仅展示 API\nprint(\"\\n下一步: AWQ 4-bit 量化:\")\nprint(\"  from awq import AutoAWQForCausalLM\")\nprint(\"  awq_model = AutoAWQForCausalLM.from_pretrained(merged_dir)\")\nprint(\"  awq_model.quantize(calib_data, quant_config={\\\"w_bits\\\":4, \\\"q_group_size\\\":128})\")\nprint(\"  awq_model.save_quantized('./merged-model-awq4')\")\nprint(\"\\nvLLM 启动: vllm serve ./merged-model-awq4 --quantization awq --max-model-len 8192\")",
+      "language": "python",
+      "repo": "https://github.com/huggingface/peft",
+      "install_cmd": "pip install peft transformers accelerate  # ⚠️ Local GPU/CPU — not Pyodide-compatible"
+    },
+    {
+      "title": "Accelerate 多卡 DDP 启动配置",
+      "code": "# accelerate_config.yaml - HuggingFace Accelerate 多卡配置\n# 运行: accelerate launch --config_file accelerate_config.yaml train.py\ncompute_environment: LOCAL_MACHINE\ndebug: false\ndistributed_type: MULTI_GPU    # 多卡 DDP 模式\ndowncast_bf16: 'no'\ngpu_ids: all                   # 自动检测所有 GPU\nmachine_rank: 0\nmain_training_function: main\nmixed_precision: bf16          # 启用 BF16 混合精度\nnum_machines: 1                # 单机多卡\nnum_processes: 4               # 4 卡 (按实际调整)\nrdzv_backend: static\nsame_network: true\ntiel_service: false\ntimeout: 7200\n\n# 配套 train.py 关键片段:\n# from accelerate import Accelerator\n# from peft import LoraConfig, get_peft_model\n# accelerator = Accelerator(mixed_precision=\"bf16\")\n# model = get_peft_model(model, lora_config)\n# model, optimizer, dataloader = accelerator.prepare(\n#     model, optimizer, dataloader\n# )\n# for batch in dataloader:\n#     outputs = model(**batch)\n#     loss = outputs.loss\n#     accelerator.backward(loss)\n#     optimizer.step()\n#     optimizer.zero_grad()\n\n# 启动命令 (4 卡 DDP):\n# accelerate launch --config_file accelerate_config.yaml --num_processes 4 train.py\n#\n# 等价替代 (PyTorch 原生):\n# torchrun --nproc_per_node=4 train.py\n#\n# DeepSpeed ZeRO-3 启动 (大模型):\n# deepspeed --num_gpus=8 train.py --deepspeed ds_config_zero3.json",
+      "language": "bash",
+      "repo": "https://github.com/huggingface/accelerate",
+      "install_cmd": "pip install accelerate  # ⚠️ Local multi-GPU only"
+    },
+    {
+      "title": "LoRA 推理: PEFT + Transformers 加载适配器",
+      "code": "# pip install peft transformers\nfrom peft import PeftModel, PeftConfig\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\nimport torch\n\n# 1. 加载 LoRA 配置 (从适配器目录)\nadapter_path = \"./qlora-adapter\"\nconfig = PeftConfig.from_pretrained(adapter_path)\nprint(f\"基座模型: {config.base_model_name_or_path}\")\nprint(f\"LoRA rank: {config.r}, alpha: {config.lora_alpha}\")\nprint(f\"target_modules: {config.target_modules}\")\n\n# 2. 加载基座 + 适配器 (不合并, 推理时动态计算)\nbase_model = AutoModelForCausalLM.from_pretrained(\n    config.base_model_name_or_path,\n    torch_dtype=torch.bfloat16, device_map=\"auto\"\n)\nmodel = PeftModel.from_pretrained(base_model, adapter_path)\nmodel.eval()\n\ntokenizer = AutoTokenizer.from_pretrained(config.base_model_name_or_path)\n\n# 3. 推理\nprompt = \"请用一句话解释 LoRA 的核心思想。\"\nmessages = [{\"role\": \"user\", \"content\": prompt}]\ntext = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)\ninputs = tokenizer(text, return_tensors=\"pt\").to(model.device)\n\nwith torch.no_grad():\n    outputs = model.generate(\n        **inputs, max_new_tokens=200,\n        do_sample=True, temperature=0.7, top_p=0.9,\n        repetition_penalty=1.1\n    )\nresponse = tokenizer.decode(outputs[0][inputs.input_ids.shape[-1]:], skip_special_tokens=True)\nprint(f\"\\n用户: {prompt}\")\nprint(f\"LoRA 微调后模型: {response}\")\n\n# 4. 切换适配器 (多任务共享基座)\n# 假设有另一个 adapter_math/\n# model.load_adapter(\"./adapter_math\", adapter_name=\"math\")\n# model.set_adapter(\"math\")  # 切换到数学任务适配器\n# print(\"已切换到数学 LoRA 适配器\")",
+      "language": "python",
+      "repo": "https://github.com/huggingface/peft",
+      "install_cmd": "pip install peft transformers  # ⚠️ Local GPU/CPU — partial Pyodide (no torch)"
+    }
+  ],
+  "exercises": [
+    {
+      "q": "原理推导: 用 NumPy 实现 LoRA 矩阵分解, 推导当 r 分别为 4, 8, 16, 64, 128 时, 7B 模型 (d=k=4096) 的可训练参数量和相对 Full-FT 的比例, 给出 r 选择的 trade-off 建议。"
+    },
+    {
+      "q": "QLoRA 量化: 阅读 arxiv:2305.14314 论文, 用 Python 模拟 NF4 量化的「分位函数等距」算法, 对比 NF4 与 INT4 在正态分布权重上的量化误差 (MSE)。"
+    },
+    {
+      "q": "PEFT 参数调优: 使用 HuggingFace PEFT + TRL SFTTrainer 在本地小模型 (如 Qwen2.5-0.5B) 上做 LoRA 微调, 分别测试 r=8/16/64 三组配置, 记录训练 loss 曲线和最终评估指标, 撰写对比报告。"
+    },
+    {
+      "q": "多卡实战: 准备 2-4 卡 GPU 环境, 用 accelerate launch --multi_gpu 启动 QLoRA 微调 7B 模型, 记录单卡 vs 多卡的训练吞吐量 (samples/s) 和显存占用。"
+    },
+    {
+      "q": "合并导出: 完成 LoRA 训练后, 用 merge_and_unload() 合并基座, 分别导出 FP16 / AWQ-INT4 两种格式, 用 vLLM 启动推理服务并对比吞吐量和首 token 延迟 (TTFT)。"
+    },
+    {
+      "q": "工业案例研究: 阅读 Meta Llama 3 官方微调 recipes (github.com/meta-llama/llama-recipes), 总结 LoRA 配置默认值与 Llama 2 时期的差异, 分析其演进原因。"
+    }
+  ],
+  "references": [
+    {
+      "title": "LoRA: Low-Rank Adaptation of Large Language Models",
+      "authors": "Hu et al., Microsoft, 2021",
+      "url": "https://arxiv.org/abs/2106.09685",
+      "type": "paper"
+    },
+    {
+      "title": "QLoRA: Efficient Finetuning of Quantized LLMs",
+      "authors": "Dettmers et al., UW, NeurIPS 2023",
+      "url": "https://arxiv.org/abs/2305.14314",
+      "type": "paper"
+    },
+    {
+      "title": "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+      "authors": "Rafailov et al., Stanford, NeurIPS 2023",
+      "url": "https://arxiv.org/abs/2310.16944",
+      "type": "paper"
+    },
+    {
+      "title": "PEFT: State-of-the-art Parameter-Efficient Fine-Tuning methods",
+      "authors": "Mangrulkar et al., HuggingFace",
+      "url": "https://arxiv.org/abs/2203.07883",
+      "type": "paper"
+    },
+    {
+      "title": "HuggingFace PEFT 官方文档",
+      "authors": "HuggingFace",
+      "url": "https://huggingface.co/docs/peft",
+      "type": "docs"
+    },
+    {
+      "title": "HuggingFace PEFT (LoRA / QLoRA 实现)",
+      "authors": "HuggingFace",
+      "url": "https://github.com/huggingface/peft",
+      "type": "github",
+      "installCommand": "pip install peft"
+    },
+    {
+      "title": "HuggingFace TRL (SFTTrainer / DPO / GRPO 训练库)",
+      "authors": "HuggingFace",
+      "url": "https://github.com/huggingface/trl",
+      "type": "github",
+      "installCommand": "pip install trl"
+    },
+    {
+      "title": "Microsoft LoRA 官方实现 (Azure-Samples)",
+      "authors": "Microsoft",
+      "url": "https://github.com/Azure-Samples/LoRA-fine-tuning",
+      "type": "github",
+      "installCommand": "git clone https://github.com/Azure-Samples/LoRA-fine-tuning"
+    },
+    {
+      "title": "Meta Llama 官方 Fine-tuning Recipes",
+      "authors": "Meta AI",
+      "url": "https://github.com/meta-llama/llama-recipes",
+      "type": "github",
+      "installCommand": "git clone https://github.com/meta-llama/llama-recipes"
+    },
+    {
+      "title": "HuggingFace TRL SFTTrainer 官方文档",
+      "authors": "HuggingFace",
+      "url": "https://huggingface.co/docs/trl/sft_trainer",
+      "type": "docs"
     }
   ]
 },
