@@ -29,6 +29,7 @@ export const IMAGE_MAP = {
   "L25": "/images/deepseek.svg",
   "L26": "/images/lora.svg",
   "L27": "/images/ai-coding-assistants.svg",
+  "L28": "/images/rlhf-alignment.svg",
 };
 
 export const WEEK_GROUPS = [
@@ -92,6 +93,12 @@ export const WEEK_GROUPS = [
       "L25",
       "L26",
       "L27"
+    ]
+  },
+  {
+    "label": "📅 Week 15 对齐与微调",
+    "lessons": [
+      "L28"
     ]
   }
 ];
@@ -1619,6 +1626,261 @@ export const LESSONS = {
         "L25 DeepSeek-R1 推理能力 → L27 ReAct Loop 中的 Thought 步骤（反思式推理降低幻觉动作）",
         "L25 GRPO 强化学习 → L27 Harness 中的 RLHF 反馈（用户纠错可作为 reward signal 优化 Skill 调用）",
         "L25 蒸馏小模型 → L27 工业级成本控制（用 DeepSeek 蒸馏版跑 Skill Loop 比 GPT-4 降本数十倍）"
+      ]
+    }
+  ]
+},
+"L28": {
+  "id": "L28",
+  "title": "DPO 与 RLHF 深入：算法原理与工业实现",
+  "week": "Week 15 对齐与微调",
+  "tags": [
+    "RLHF",
+    "DPO",
+    "PPO",
+    "RLAIF",
+    "Constitutional AI",
+    "TRL",
+    "Alignment"
+  ],
+  "image": "/images/rlhf-alignment.svg",
+  "lessonId": "L28",
+  "codeExampleCount": 5,
+  "referenceCount": 10,
+  "objectives": [
+    "理解 RLHF 三阶段流水线（SFT → RM → PPO）的数据流、目标函数与工程实现",
+    "掌握 PPO 在语言模型对齐中的工程细节：clip ratio、KL 惩罚、value head 与 reward hacking 防御",
+    "推导 DPO 的 Bradley-Terry 似然与策略等价形式，理解其如何绕过显式 reward model 训练",
+    "了解 DPO 变体族（IPO / KTO / PRO / SimPO）的目标函数差异与适用场景",
+    "理解 RLAIF（Constitutional AI）用 LLM-as-Judge 替代人工偏好的工业价值与限制",
+    "实战：使用 Hugging Face TRL 在小模型上跑通 DPO 训练，理解 ref_model / beta / loss_type 三要素"
+  ],
+  "sections": [
+    {
+      "title": "RLHF 三阶段回顾",
+      "content": "RLHF（Reinforcement Learning from Human Feedback）由 OpenAI 在 InstructGPT [arxiv:2203.02155] 中系统化为三阶段流水线，已成为 2022-2025 年 LLM 对齐的事实标准。\n\n第一阶段 SFT（Supervised Fine-Tuning）：用人工撰写的「指令-回答」示范数据对预训练模型做有监督微调，教会模型「按指令回答」的格式与风格。InstructGPT 据公开报告使用约 13k 条人工示范数据做 SFT。\n\n第二阶段 Reward Model（RM）训练：采集人类对同一 prompt 的多个模型输出的偏好排序数据（typically A > B > C > D），用 Bradley-Terry 模型拟合一个标量打分器。损失函数为负对数似然：L_RM = -log σ(r(x,y_w) - r(x,y_l))，其中 y_w 是 preferred，y_l 是 rejected。RM 实际上是在「学人类的价值观函数」。\n\n第三阶段 PPO（Proximal Policy Optimization）强化学习：以 SFT 模型为初始策略 π_SFT，RM 提供 r(x,y)，用 PPO 最大化 E[r(x,y)] - β·KL(π_θ || π_ref)，其中 KL 项防止策略漂移太远（避免「reward hacking」）。InstructGPT 据 OpenAI 公开材料使用约 33k 条偏好对训练 RM 与 PPO。\n\n数据流向：SFT 标注员写示范 → RM 标注员排偏好 → PPO 用 RM 反馈更新策略。三阶段解耦的好处：(1) RM 训练可以独立迭代；(2) 偏好数据比示范数据便宜（排序比撰写便宜 5-10 倍，据公开报告）；(3) 同一 RM 可用于训练多个 SFT 模型。\n\n工业实践：OpenAI InstructGPT / ChatGPT 据公开材料采用经典三阶段；Anthropic Claude 在其上叠加 Constitutional AI [arxiv:2309.06657] 做 RLAIF；Hugging Face TRL 库提供 SFTTrainer / RewardTrainer / PPOTrainer 三件套完整复现这一流水线。\n\n🏢 工业实践:\n- OpenAI InstructGPT [arxiv:2203.02155]：三阶段 SFT → RM → PPO 的奠基论文，据 OpenAI 公开材料使用 13k SFT + 33k 偏好对（具体数字以官方论文为准）；\n- Anthropic Claude：在 RLHF 之上叠加 Constitutional AI [arxiv:2309.06657]，让 LLM-as-Judge 替代部分人工标注；\n- Hugging Face TRL：开源完整三件套 SFTTrainer / RewardTrainer / PPOTrainer，复现 OpenAI 流水线。\n\n📊 [图示建议]: 左侧画 RLHF 三阶段流水线（SFT data → SFT model → preference data → RM → PPO loop），右侧画 RM 训练目标的 Bradley-Terry 损失函数。\n\n⚠️ 常见陷阱:\n1. 把 SFT 阶段简化掉直接从 RM 训练开始——模型根本不会按指令回答，再好的 RM 也无法引导；\n2. RM 训练数据中 preferred 与 rejected 输出长度差异过大，RM 会学到「长度偏好」而非真实质量；\n3. PPO 阶段 KL 系数 β 太小，模型会「跑偏」到 RM 高分区（reward hacking）。\n\n💼 面试考点: 「RLHF 三阶段各自的数据来源与目标函数」或「为什么 RM 训练要使用 Bradley-Terry 而非 pointwise MSE」。",
+      "interviewQuestions": [
+        "RLHF 三阶段中 RM 为什么用 pairwise 排序损失而非 pointwise 标量回归？",
+        "InstructGPT [arxiv:2203.02155] 的 PPO 目标中 KL 惩罚项 β 的作用是什么？β 过大或过小各会导致什么后果？"
+      ]
+    },
+    {
+      "title": "PPO 工程细节",
+      "content": "PPO 在 RLHF 场景下并非原版 Schulman 2017 的「游戏 AI 版本」，而是被 LLM 团队深度改写的「语言模型特化版」。核心公式：L_PPO = E[min(r_t(θ)·A_t, clip(r_t(θ), 1-ε, 1+ε)·A_t)]，其中 r_t(θ) = π_θ(a_t|s_t) / π_old(a_t|s_t)，A_t 是 advantage 估计。\n\nLLM 场景的关键改造：(1) Action 是 token 序列（可能数千 token），episode 是整个 response；(2) Reward 是 RM 输出的标量（per-sequence），需要逐 token 分配 credit；(3) 引入「per-token KL 惩罚」——对每个生成的 token 计算 KL(π_θ || π_ref)，防止策略剧烈漂移；(4) Value Head——在策略模型上增加一个 scalar value head，预测每个 token 的 expected return，公式 V_θ(s_t) ≈ E[Σ γ^{t'-t} r_{t'}]。\n\nclip ratio ε 通常设为 0.1-0.2，过大导致策略更新不稳定，过小导致训练缓慢。KL 系数 β 是关键超参：Anthropic 在 Constitutional AI [arxiv:2309.06657] 中据公开材料采用自适应 KL 系数（target_kl=6，据公开配置）——β 随 KL 散度动态调整，KL 超过 target 就增大 β。\n\nReward Hacking（奖励黑客）是 PPO-RLHF 的最大工程难题——模型找到 RM 的漏洞获得高分但输出质量下降。常见表现：(1) 输出超长（RM 偏好长文本）；(2) 重复使用高频褒义词（「excellent」「amazing」）；(3) 套用 RM 训练数据中的模板。防御手段：(a) 长度归一化奖励；(b) 多 RM 集成；(c) 定期用人工 spot-check；(d) 强 KL 约束。\n\nValue Loss 与 Policy Loss 联合优化：L_total = L_policy + c1·L_value + c2·H(π)，其中 c1 控制 value 拟合权重，c2 是 entropy bonus 防 collapse。PPO 在 RLHF 训练中显存占用巨大——需要同时加载 π_θ（旧策略做重要性采样）、π_ref（KL 锚点）、V_θ（value head）、RM 四个模型。DeepSpeed ZeRO + LoRA 是常见显存优化组合。\n\n工业实践：Anthropic Claude 据公开材料使用 PPO 变体；OpenAI 在 InstructGPT [arxiv:2203.02155] 中据论文描述使用 PPO + 长度归一化；Hugging Face TRL 的 PPOTrainer 实现完整四模型流水线。\n\n🏢 工业实践:\n- OpenAI InstructGPT [arxiv:2203.02155]：据论文描述 PPO 阶段使用 per-token KL 惩罚 + 长度归一化奖励；\n- Anthropic Constitutional AI [arxiv:2309.06657]：据公开材料 PPO 训练中采用自适应 KL 系数 target_kl≈6；\n- Hugging Face TRL：PPOTrainer 同时管理 policy / ref / value / reward 四个模型，支持 LoRA 注入降低显存。\n\n📊 [图示建议]: 左侧画 PPO-clip 双臂损失函数（min(r·A, clip(r)·A)），右侧画 RLHF 显存布局（4 个模型：policy/ref/value/RM 同时驻留 GPU）。\n\n⚠️ 常见陷阱:\n1. clip ratio 设为 0 退化为「确定性策略」，0.5 退化为「几乎无约束」；\n2. KL 系数 β=0，模型会迅速「跑偏」到 RM 漏洞，输出 gibberish；\n3. Value loss 权重 c1=0 导致 advantage 估计噪声巨大，训练不稳定。\n\n💼 面试考点: 「PPO 的 clip ratio 在 RLHF 中为什么不能直接套用游戏 AI 的 0.2」或「什么是 reward hacking，给出三个工业级防御手段」。",
+      "interviewQuestions": [
+        "PPO 的 clip ratio ε=0.2 在 LLM 场景下需要调整吗？为什么？",
+        "什么是 reward hacking？请给出三种工业级防御手段。"
+      ]
+    },
+    {
+      "title": "DPO 原理推导",
+      "content": "DPO（Direct Preference Optimization）由 Stanford 在 2023 年 5 月提出 [arxiv:2305.18290]，是 RLHF 范式的一次范式转移——绕过显式 reward model 与 PPO 强化学习，直接用偏好数据做 supervised-style 训练。\n\n推导起点：RLHF 的最优策略满足 π*(y|x) ∝ π_ref(y|x) · exp(r(x,y) / β)。这是 RLHF 优化目标的闭式解（基于 KL 约束下的指数族形式）。两边取对数：r(x,y) = β·log(π*(y|x) / π_ref(y|x)) + β·log Z(x)，其中 Z(x) 是 partition function。\n\n关键观察：r(x,y) 可以直接从策略本身恢复——无需训练 RM！DPO 损失函数：L_DPO = -E_(x,y_w,y_l)~D [log σ(β·log(π_θ(y_w|x)/π_ref(y_w|x)) - β·log(π_θ(y_l|x)/π_ref(y_l|x)))]。\n\n直觉解读：当 preferred 输出 y_w 在 π_θ 下的相对似然比（在 π_ref 锚定后）高于 rejected 输出 y_l 时，损失降低。DPO 实际上在「隐式地拟合一个 RM」——其 r(x,y) 隐式定义为 β·log(π_θ(y|x) / π_ref(y|x))。\n\n训练时需要：(1) π_θ：正在训练的策略模型；(2) π_ref：冻结的参考模型（SFT 模型即可）。两个模型前向同一个 prompt 的 y_w 和 y_l，计算 log probabilities。损失是 Bradley-Terry 形式（与 RM 训练相同），但奖励来自「当前策略与参考策略的相对似然比」。\n\nDPO 相对 PPO 的优势：(1) 训练简单——无 RM、无 value head、无 PPO 采样，标准 cross-entropy 风格；(2) 显存友好——只需 policy + ref 两模型；(3) 训练稳定——无 RL 的高方差与 reward hacking；(4) 复现性高——无 RL 中的随机采样与种子敏感性。劣势：(1) 在线数据上无法迭代（offline 算法）；(2) 偏好数据要求高质（DPO 对噪声敏感）；(3) 容易「overfit 到偏好数据分布」。\n\n工业实践：Hugging Face TRL 据公开文档在 2023 年下半年成为首批开源 DPO 实现的团队（DPOTrainer）；多个团队据公开报告在 Llama 3、Qwen 等模型对齐阶段采用 DPO 或其变体替代 PPO（具体技术选型以各团队公开材料为准）。\n\n🏢 工业实践:\n- Stanford DPO [arxiv:2305.18290]：Rafailov et al., 2023 年 5 月，绕过 RM+PPO 直接优化偏好；\n- Hugging Face TRL：DPOTrainer 成为社区首选 DPO 实现，2023-2025 年据公开仓库数据持续更新；\n- 多家团队据公开报告在 Llama 3、Qwen 等模型据公开材料采用 DPO 或变体替代 PPO（具体选型以各团队官方披露为准）。\n\n📊 [图示建议]: 左侧画 DPO 推导流程（RLHF 闭式解 → 隐式 r → DPO 损失），右侧画 DPO 与 PPO 的工程对比表（训练组件 / 显存 / 稳定性 / 复现性）。\n\n⚠️ 常见陷阱:\n1. 忘记加载 ref_model——loss 会退化为普通 SFT，无法学到偏好；\n2. β 系数过大（>0.5），模型几乎不动；过小（<0.05），模型过拟合到偏好数据；\n3. 把 chosen 与 rejected 反向——损失梯度方向错误，模型学「拒绝好答案」。\n\n💼 面试考点: 「DPO 推导中 partition function Z(x) 为什么能消掉」或「DPO 相对 PPO 的三大优势与两大劣势」。",
+      "interviewQuestions": [
+        "DPO [arxiv:2305.18290] 的隐式 reward 定义是什么？它如何消掉 partition function？",
+        "为什么 DPO 训练中 ref_model 必须冻结？如果让它跟随 policy 更新会怎样？"
+      ]
+    },
+    {
+      "title": "DPO 变体族",
+      "content": "DPO 打开了一扇门——研究者发现可以替换损失函数中的「奖励隐式定义」来获得不同性质。2023-2024 年间涌现出 IPO / KTO / ORPO / SimPO / PRO 等变体族，每种针对 DPO 的某个缺陷做了改造。\n\nIPO（Identity Preference Optimization）[arxiv:2310.12036]：解决 DPO 的「过拟合到确定性偏好」问题。DPO 损失会无限推动 π(y_w) / π(y_l) 趋向 ∞，IPO 改用平方损失 + 正则化项：L_IPO = (log(π_θ(y_w)/π_ref(y_w)) - log(π_θ(y_l)/π_ref(y_l)) - 1/(2β))²。适合偏好数据有噪声或「平局」的场景。\n\nKTO（Kahneman-Tversky Optimization）[arxiv:2402.01306]：用单条「好/坏」标注替代 pairwise 偏好，更符合人类决策的 prospect theory 框架（损失厌恶）。L_KTO 区分「gains」（好回答 vs 不回答）与「losses」（坏回答 vs 不回答），据公开材料在某些任务上优于 DPO。\n\nORPO（Odds Ratio Preference Optimization）[arxiv:2403.07691]：无需 ref_model，把 SFT 与偏好优化合并到一个阶段。损失 = L_SFT + λ·L_odds，odds ratio 直接建模「chosen 相对 rejected 的优势比」。\n\nSimPO（Simple Preference Optimization）[arxiv:2405.14734]：用「平均对数概率」替代「对数概率和」做隐式奖励，并去掉 reference model。L_SimPO = -log σ(β·|y_w|^{-1}·log π(y_w|x) - β·|y_l|^{-1}·log π(y_l|x) - γ)，其中 γ 是 target margin。\n\nPRO（Preference Ranking Optimization）[arxiv:2310.16944]：把 pairwise 偏好扩展为 listwise ranking，用 Plackett-Luce 模型处理 N 个排序输出。L_PRO = -E[log P(permutation | π_θ)]，适合有「全排序」标注的场景。\n\n变体选择决策树：(1) 偏好数据是 pairwise（chosen vs rejected）→ DPO / IPO / SimPO；(2) 偏好数据是 listwise（K 个排序）→ PRO；(3) 偏好数据是单条「好/坏」→ KTO；(4) 想合并 SFT 与偏好阶段 → ORPO；(5) 偏好数据有噪声或平局 → IPO / KTO。\n\n工业实践：Hugging Face TRL 据公开文档支持 DPO / IPO / KTO / ORPO / SimPO 全套 loss_type；多个团队据公开报告根据数据形态选择不同变体（具体选型以各团队公开材料为准）。\n\n🏢 工业实践:\n- IPO [arxiv:2310.12036]：用平方损失防 DPO 过拟合，适合噪声偏好数据；\n- KTO [arxiv:2402.01306]：用 prospect theory 框架处理「单条好/坏」标注；\n- ORPO [arxiv:2403.07691]：合并 SFT + 偏好为单阶段，省 ref_model 显存；\n- PRO [arxiv:2310.16944]：listwise ranking，Plackett-Luce 处理 N 个排序；\n- Hugging Face TRL：loss_type 参数支持 DPO / IPO / KTO / ORPO / SimPO / robust 等多种损失。\n\n📊 [图示建议]: 左侧画 DPO 变体族决策树（数据形态 → 变体选择），右侧画各变体损失函数对比表（公式 + 适用场景 + ref_model 是否需要）。\n\n⚠️ 常见陷阱:\n1. 数据是 listwise 但用 DPO（pairwise）训练，丢失排序信息；\n2. 数据有噪声仍用 DPO 而非 IPO，模型过拟合到错误偏好；\n3. 显存紧张却用 ORPO 而不省 ref_model，重复加载。\n\n💼 面试考点: 「IPO 相对 DPO 解决了什么问题」或「KTO 的 prospect theory 在对齐中的工业价值」。",
+      "interviewQuestions": [
+        "DPO 变体中哪些不需要 ref_model？为什么能省？",
+        "PRO [arxiv:2310.16944] 的 Plackett-Luce 模型如何处理 listwise 偏好？"
+      ]
+    },
+    {
+      "title": "RLAIF 工程实践",
+      "content": "RLAIF（Reinforcement Learning from AI Feedback）是 Anthropic 在 Constitutional AI [arxiv:2309.06657] 中系统化的方法——用 LLM-as-Judge 替代人工标注偏好，显著降低对齐成本。\n\n动机：人类标注员成本高昂（InstructGPT 据公开报告 33k 偏好对投入大量人力），且不同标注员一致性差。LLM-as-Judge 据多项研究在「风格/事实/有害性」等任务上与人类一致性达 70-85%（具体数字因任务而异）。\n\nConstitutional AI [arxiv:2309.06657] 的两阶段：(1) SL-CAI（Supervised Learning from AI Feedback）——给定一组「宪法原则」（constitution），让 critique LLM 指出回答中的问题，让 revision LLM 改写。反复多轮得到「无害 + 有用」示范数据，做 SFT。(2) RL-CAI（RL from AI Feedback）——对同一 prompt 采样两个回答，让 feedback LLM 据宪法原则判断谁更好（生成偏好对），训练 RM，再用 PPO 对齐。\n\n关键技术：(1) Constitution 设计——一组自然语言原则（如「请选择更无害、更尊重的回答」），Anthropic 公开材料列出 16+ 条原则；(2) Critique-Revision Loop——多轮迭代改写，每轮 LLM 先 critique 再 revise；(3) 偏好对的 AI 生成——给 judge LLM 同一 prompt 的两个回答，让它据宪法输出 A>B 或 B>A；(4) 多模型 ensemble——用多个 judge LLM 投票降低偏差。\n\n工业实践：Anthropic 据公开材料把 Constitutional AI 应用于 Claude 全系模型；Google 据公开报告在 Gemini 对齐中部分采用 LLM-as-Judge；Hugging Face 据公开材料开源 distilabel 库支持大规模 AI 反馈数据生成。\n\nRLAIF 的局限：(1) Judge LLM 自身偏差会被放大——「偏左的 judge 偏好偏左的回答」；(2) Judge 在需要领域知识的任务上准确率下降；(3) 难以处理「创造性 / 主观审美」类任务；(4) 监管机构与公众对「AI 训练 AI」的可解释性持保留态度。\n\n工程经验：(1) 人类标注与 AI 标注混合——关键决策用人类，大规模数据用 AI；(2) 多 judge 集成——3-5 个不同模型投票；(3) Constitution 透明公开——便于外部审计；(4) 持续 human-in-the-loop 评估——定期抽样人工 spot-check。\n\n🏢 工业实践:\n- Anthropic Constitutional AI [arxiv:2309.06657]：SL-CAI + RL-CAI 两阶段，16+ 条宪法原则，AI 反馈替代部分人类标注；\n- Google Gemini：据公开报告部分对齐流程采用 LLM-as-Judge 偏好生成（具体细节以官方材料为准）；\n- Hugging Face distilabel：开源大规模 AI 反馈数据生成框架，支持多种 judge 策略。\n\n📊 [图示建议]: 左侧画 Constitutional AI 流程（constitution → critique → revision → SFT；然后 AI preference → RM → PPO），右侧画 RLAIF 成本对比表（人类标注 vs AI 标注 cost/accuracy）。\n\n⚠️ 常见陷阱:\n1. 让同一个 judge LLM 既负责 critique 又负责 ranking——循环偏差；\n2. Constitution 写得太抽象（「回答要负责任」），judge LLM 难以执行；\n3. 完全去除人类标注——AI 标注偏差累积放大，关键决策应保留人工审核。\n\n💼 面试考点: 「Constitutional AI [arxiv:2309.06657] 的 SL-CAI 与 RL-CAI 各自做了什么」或「RLAIF 相对 RLHF 的三大优势与三大局限」。",
+      "interviewQuestions": [
+        "Anthropic Constitutional AI [arxiv:2309.06657] 的 constitution 在系统中扮演什么角色？",
+        "RLAIF 存在哪些工业级风险？如何用 multi-judge ensemble 缓解？"
+      ]
+    },
+    {
+      "title": "TRL 训练 DPO",
+      "content": "Hugging Face TRL（Transformer Reinforcement Learning）是工业级最常用的 RLHF / DPO 训练库。本节落地一个最小可用 DPO 训练示例，覆盖：data prep → ref_model 加载 → DPOTrainer 配置 → 训练 → 评估。\n\n数据格式：Hugging Face 据公开文档要求 DPO 数据集至少有 prompt / chosen / rejected 三列。典型格式（来自 Anthropic hh-rlhf 或 UltraFeedback）：\n```json\n{\"prompt\": \"Explain quantum computing\", \"chosen\": \"Quantum computing uses...\", \"rejected\": \"I'm not sure what that is...\"}\n```\n\n关键超参：(1) beta (β)——DPO 损失中的温度，典型 0.1-0.3；(2) loss_type——「dpo / ipo / kto / orpo / simpo」；(3) max_length / max_prompt_length——截断超长样本；(4) learning_rate——典型 5e-7 到 5e-6（DPO 对 LR 敏感）；(5) batch_size + gradient_accumulation_steps——等效 batch 通常 32-128。\n\n完整流程：(1) 加载 SFT 后的 base model 与 tokenizer；(2) 加载 ref_model（用同一个 base model 拷贝并冻结，或用 peft + disable_adapter 做轻量 ref）；(3) 用 DPOConfig 配置超参；(4) DPOTrainer 训练；(5) 评估——在测试 prompt 上对比 base / DPO 输出的胜率（用 judge LLM 或人类）。\n\n显存优化技巧：(1) 用 LoRA——只训练 adapter，ref_model 共享 base 权重；(2) 用 gradient_checkpointing 减少激活显存；(3) 用 bfloat16 / fp8 量化；(4) 用 deepspeed ZeRO-3 多卡并行。TRL 0.8+ 据公开文档支持 Liger Kernel 与 Flash Attention 2，速度可提升 2-5x。\n\n工业实践：Hugging Face TRL 据公开 GitHub 数据是社区最流行的 RLHF / DPO 训练库；多个团队据公开报告用 TRL 训练 Llama / Mistral / Qwen 系列模型的 DPO 权重；Anthropic / OpenAI 据公开材料自研训练框架不依赖 TRL（具体细节以官方披露为准）。\n\n常见工程陷阱：(1) 忘记 set_tokenizer——chat template 不匹配，tokenize 错位；(2) ref_model 与 policy 共用 base 权重但未禁用 adapter 梯度——ref 被污染；(3) 训练数据 chosen / rejected 长度严重失衡——加 length normalization；(4) LR 太大，DPO loss 震荡；LR 太小，模型学不到偏好。\n\n实战扩展：(1) 加入 WandB / TensorBoard 监控 loss / reward margin / chosen-rejected log prob gap；(2) 加入 eval set 定期跑「胜率」评估；(3) 加入 early stopping——reward margin 停止提升时停止训练；(4) 训练完成后 merge LoRA adapter 导出完整模型。\n\n🏢 工业实践:\n- Hugging Face TRL：据公开 GitHub 数据是社区最流行的 RLHF / DPO 训练库，2025 年支持 SFT/DPO/PPO/GRPO 全套算法；\n- 多家团队据公开报告用 TRL + LoRA 训练开源模型的 DPO 权重（具体团队与数字以官方披露为准）；\n- 工业自研：Anthropic / OpenAI 据公开材料自研训练框架，针对超大规模模型优化（具体细节以官方披露为准）。\n\n📊 [图示建议]: 左侧画 TRL DPO 训练流程（data → policy + ref → DPOTrainer → loss → checkpoint），右侧画显存优化技巧清单（LoRA / gradient checkpoint / fp8 / ZeRO）。\n\n⚠️ 常见陷阱:\n1. chat template 不匹配导致 chosen/rejected tokenize 错位，loss 异常；\n2. ref_model 共享 base 权重但未 disable_adapter 梯度，ref 权重被污染；\n3. LR 5e-5 太大导致 DPO loss 震荡甚至发散（DPO 典型 LR 在 5e-7~5e-6 区间，据公开实践）。\n\n💼 面试考点: 「TRL DPOTrainer 中 ref_model 的作用与加载方式」或「DPO 训练为什么 LR 比 SFT 小一个数量级」。",
+      "interviewQuestions": [
+        "TRL DPOTrainer 中 ref_model 如何实现显存优化（LoRA + disable_adapter）？",
+        "DPO 训练中如何监控「学到了什么」？给出三个可监控的指标。"
+      ]
+    }
+  ],
+  "industryPractice": {
+    "title": "🏢 工业实践",
+    "content": "RLHF / DPO 在 2022-2026 年成为大模型对齐的核心战场，以下为四个真实工业案例。\n\n案例 1：OpenAI InstructGPT 与 ChatGPT 的三阶段对齐\n- 业务背景：OpenAI 2022 年发布 InstructGPT [arxiv:2203.02155]，奠基 RLHF 三阶段流水线；ChatGPT 据公开材料沿用此范式并扩展规模；\n- 落地动作：(1) SFT 阶段：人类标注员撰写 13k 高质量示范（具体数字以官方论文为准）做 SFT；(2) RM 阶段：采集 33k 偏好对（具体数字以官方论文为准）训练 reward model；(3) PPO 阶段：以 SFT 模型为初始策略，用 RM 提供奖励信号，PPO 优化带 KL 惩罚的目标；(4) 据公开材料后续 ChatGPT 在此基础上叠加 RLHF + RLAIF 混合反馈；\n- 业务结果：InstructGPT 据 OpenAI 公开材料在人类偏好评测上据论文描述优于 GPT-3 基线；ChatGPT 据公开数据在 2 个月内达到 1 亿用户（数字以官方公开材料为准）。\n\n案例 2：Anthropic Constitutional AI 与 Claude 对齐\n- 业务背景：Anthropic 在 2022 年发布 Constitutional AI [arxiv:2309.06657]，提出 RLAIF 范式；Claude 全系模型据公开材料采用此方法；\n- 落地动作：(1) 设计 16+ 条宪法原则（constitution），包括「选择更无害的回答」「避免偏见」「保护隐私」等；(2) SL-CAI 阶段：critique LLM 找问题 → revision LLM 改写，多轮迭代生成无害示范数据；(3) RL-CAI 阶段：feedback LLM 据宪法对采样回答排序生成偏好对，训练 RM，再 PPO 对齐；(4) 据公开材料持续 human-in-the-loop 评估关键决策；\n- 业务结果：Constitutional AI 据 Anthropic 公开报告在「无害性」评测上据论文描述显著优于纯 RLHF；Claude 据公开材料在多个安全 benchmark 上据公开报告取得领先水平（具体数字以官方披露为准）。\n\n案例 3：Hugging Face TRL 库与开源 DPO 生态\n- 业务背景：Hugging Face TRL 据公开 GitHub 数据是社区最流行的 RLHF / DPO 训练库；\n- 落地动作：(1) 据公开文档支持 SFT / DPO / IPO / KTO / ORPO / SimPO / PPO / GRPO 全套算法；(2) DPOTrainer 是社区首选 DPO 实现，2023-2025 年据公开仓库数据持续更新；(3) 集成 LoRA / bfloat16 / Flash Attention 2 / Liger Kernel 等显存与速度优化；(4) 据公开材料与 datasets / peft / accelerate 深度整合；\n- 业务结果：TRL 据公开 GitHub 数据据公开报告在开源社区广泛采用；多个团队据公开材料用 TRL 训练 Llama / Mistral / Qwen 系列模型的 DPO 权重（具体数字以各团队公开披露为准）。\n\n案例 4：PRO 算法在 listwise 偏好场景的应用\n- 业务背景：DPO 默认处理 pairwise 偏好，但工业场景中常有 listwise 排序（K 个回答全排序）；\n- 落地动作：(1) PRO [arxiv:2310.16944] 用 Plackett-Luce 模型处理 N 个排序的偏好数据；(2) 损失函数据公开材料为负对数似然：-E[log P(permutation | π_θ)]；(3) Hugging Face TRL 据公开文档支持 listwise 训练；(4) 据公开材料适用于全排序标注的偏好数据集（如 LMSYS-Chat-1M 的多模型对比）；\n- 业务结果：PRO 据公开报告在 listwise 偏好数据上据论文描述优于把 listwise 拆为 pairwise 的 baseline；具体业务部署以各团队官方披露为准。\n\n注：上述业务数据均为公开案例估算，具体数字以各团队官方披露为准。"
+  },
+  "codeExamples": [
+    {
+      "title": "RLHF 三阶段数据准备（SFT + Preference）",
+      "code": "# pip install datasets transformers\n\"\"\"RLHF 三阶段：准备 SFT 数据与偏好对数据\"\"\"\nfrom datasets import Dataset\n\n# ========== Stage 1: SFT Data (指令 - 示范回答) ==========\nsft_data = [\n    {\"prompt\": \"用一句话解释什么是量子纠缠\", \"response\": \"量子纠缠是指两个粒子的量子态相互关联，测量一个会瞬时影响另一个的状态。\"},\n    {\"prompt\": \"写一个 Python 快速排序函数\", \"response\": \"def quicksort(arr):\\n    if len(arr) <= 1: return arr\\n    pivot = arr[len(arr)//2]\\n    return quicksort([x for x in arr if x<pivot]) + [x for x in arr if x==pivot] + quicksort([x for x in arr if x>pivot])\"},\n    {\"prompt\": \"如何学习深度学习？\", \"response\": \"建议三步：1) 学好线性代数/概率/Python 基础；2) 跟吴恩达 CS229 或李沐 d2l 做经典模型；3) 在 Kaggle 实战 CNN/NLP/Transformer 项目。\"},\n]\nsft_ds = Dataset.from_list(sft_data)\nprint(f\"SFT 数据: {len(sft_ds)} 条\")\n\n# ========== Stage 2: Preference Data (chosen vs rejected) ==========\n# ⚠️ 真实场景下需要人工标注或在 UltraFeedback / hh-rlhf 等公开数据集获取\npreference_data = [\n    {\"prompt\": \"解释黑洞是什么\",\n     \"chosen\": \"黑洞是引力极强的天体，连光也无法逃脱。其边界称为事件视界。\",\n     \"rejected\": \"黑洞就是黑色的洞。\"},\n    {\"prompt\": \"Python 如何读取 JSON？\",\n     \"chosen\": \"使用 json 模块：import json; data = json.load(open('file.json'))\",\n     \"rejected\": \"用 open() 然后正则解析。\"},\n]\npref_ds = Dataset.from_list(preference_data)\nprint(f\"Preference 数据: {len(pref_ds)} 条\")\n\n# TRL DPO 要求至少三列：prompt / chosen / rejected\n# 可选：chosen_rating / rejected_rating 用于 KTO 等变体",
+      "language": "python",
+      "repo": "https://github.com/huggingface/trl",
+      "install_cmd": "pip install datasets transformers"
+    },
+    {
+      "title": "Reward Model 训练（Bradley-Terry 损失）",
+      "code": "# pip install transformers torch accelerate\n\"\"\"Reward Model 训练：pairwise 排序损失\"\"\"\nimport torch\nimport torch.nn as nn\nfrom transformers import AutoModel, AutoTokenizer\n\nclass RewardModel(nn.Module):\n    \"\"\"在 backbone 上加一个 scalar reward head\"\"\"\n    def __init__(self, model_name: str):\n        super().__init__()\n        self.backbone = AutoModel.from_pretrained(model_name)\n        hidden = self.backbone.config.hidden_size\n        # Scalar head: 把序列 hidden state 池化后输出 1 维 reward\n        self.reward_head = nn.Linear(hidden, 1)\n\n    def forward(self, input_ids, attention_mask):\n        outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)\n        # 用最后一层 hidden state 的均值池化（也可换成 EOS token）\n        hidden = outputs.last_hidden_state  # (B, L, H)\n        mask = attention_mask.unsqueeze(-1).float()\n        pooled = (hidden * mask).sum(1) / mask.sum(1).clamp(min=1e-6)  # (B, H)\n        reward = self.reward_head(pooled).squeeze(-1)  # (B,)\n        return reward\n\ndef bradley_terry_loss(r_chosen, r_rejected):\n    \"\"\"L = -log sigmoid(r_chosen - r_rejected)\"\"\"\n    return -torch.nn.functional.logsigmoid(r_chosen - r_rejected).mean()\n\n# 伪训练循环\nmodel = RewardModel(\"gpt2\")  # 实际用更大的 base model\ntok = AutoTokenizer.from_pretrained(\"gpt2\")\nif tok.pad_token is None: tok.pad_token = tok.eos_token\noptim = torch.optim.AdamW(model.parameters(), lr=1e-5)\n\n# 模拟一个 batch\nchosen_ids = tok([\"Quantum computing uses qubits...\", \"Python is a programming language...\"],\n                 padding=True, return_tensors=\"pt\")\nrejected_ids = tok([\"I don't know quantum.\", \"Python is a snake.\"],\n                   padding=True, return_tensors=\"pt\")\n\nfor step in range(3):\n    r_c = model(**chosen_ids)\n    r_r = model(**rejected_ids)\n    loss = bradley_terry_loss(r_c, r_r)\n    optim.zero_grad(); loss.backward(); optim.step()\n    print(f\"Step {step}: loss={loss.item():.4f} margin={(r_c - r_r).mean().item():.4f}\")\n\nprint(\"RewardModel 训练完成（教学示例，实际需 SFT 后模型 + 大量偏好数据）\")",
+      "language": "python",
+      "repo": "https://github.com/huggingface/trl",
+      "install_cmd": "pip install transformers torch accelerate"
+    },
+    {
+      "title": "TRL DPOTrainer 训练（最小可运行示例）",
+      "code": "# pip install trl transformers peft datasets accelerate bitsandbytes\n\"\"\"用 TRL 训练 DPO：最小可运行示例\"\"\"\nimport torch\nfrom datasets import Dataset\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\nfrom peft import LoraConfig\nfrom trl import DPOTrainer, DPOConfig\n\n# 1. 加载 SFT 后的 base model（这里以 gpt2 为例，实际用更大的 SFT 模型）\nmodel_name = \"gpt2\"\nmodel = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.bfloat16)\nref_model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.bfloat16)  # 冻结\ntokenizer = AutoTokenizer.from_pretrained(model_name)\nif tokenizer.pad_token is None: tokenizer.pad_token = tokenizer.eos_token\n\n# 2. 准备 DPO 数据集（必须含 prompt / chosen / rejected 三列）\ndata = [\n    {\"prompt\": \"Explain machine learning\",\n     \"chosen\": \"Machine learning is a subset of AI that learns patterns from data.\",\n     \"rejected\": \"ML is when computers do stuff.\"},\n    {\"prompt\": \"What is Python?\",\n     \"chosen\": \"Python is a high-level, interpreted programming language known for readability.\",\n     \"rejected\": \"Python is a snake.\"},\n]\ndataset = Dataset.from_list(data)\n\n# 3. LoRA 配置（降低显存：只训练 adapter，ref 用 base 权重 + disable_adapter）\npeft_config = LoraConfig(\n    r=16, lora_alpha=32, lora_dropout=0.05,\n    target_modules=[\"c_attn\"],  # gpt2 的 attention 线性层\n    task_type=\"CAUSAL_LM\",\n)\n\n# 4. DPO 训练配置\nconfig = DPOConfig(\n    output_dir=\"./dpo_output\",\n    beta=0.1,                 # DPO 温度，典型 0.1-0.3\n    max_length=256,\n    max_prompt_length=64,\n    per_device_train_batch_size=1,\n    gradient_accumulation_steps=4,\n    learning_rate=5e-6,       # DPO LR 较小（5e-7 ~ 5e-6）\n    num_train_epochs=1,\n    logging_steps=1,\n    save_strategy=\"no\",\n    bf16=True,\n    loss_type=\"dpo\",          # 可换 ipo / kto / orpo / simpo\n    report_to=\"none\",\n)\n\n# 5. 启动训练\n# ⚠️ peft_config 传入时，ref_model 共享 base 权重（无需单独 ref_model）\ntrainer = DPOTrainer(\n    model=model,\n    ref_model=None,           # 用 peft + base 共享模式时不传 ref_model\n    args=config,\n    train_dataset=dataset,\n    processing_class=tokenizer,\n    peft_config=peft_config,\n)\ntrainer.train()\nprint(\"DPO 训练完成！可调用 trainer.model.generate() 测试效果\")",
+      "language": "python",
+      "repo": "https://github.com/huggingface/trl",
+      "install_cmd": "pip install trl transformers peft datasets accelerate bitsandbytes"
+    },
+    {
+      "title": "DPO 损失函数手写（教学演示）",
+      "code": "# pip install torch\n\"\"\"手写 DPO 损失函数，理解 ref_model 与 beta 的作用\"\"\"\nimport torch\nimport torch.nn.functional as F\n\ndef dpo_loss(\n    policy_chosen_logps: torch.Tensor,   # π_θ(y_w|x) 的对数概率和\n    policy_rejected_logps: torch.Tensor, # π_θ(y_l|x) 的对数概率和\n    ref_chosen_logps: torch.Tensor,      # π_ref(y_w|x) 的对数概率和（冻结）\n    ref_rejected_logps: torch.Tensor,    # π_ref(y_l|x) 的对数概率和（冻结）\n    beta: float = 0.1,                   # DPO 温度\n) -> torch.Tensor:\n    \"\"\"\n    L_DPO = -E[log sigmoid(beta * (log π(y_w)/π_ref(y_w) - log π(y_l)/π_ref(y_l)))]\n    等价于：-E[log sigmoid(beta * (logr_w - logr_l))]\n    其中 logr_w = policy_chosen_logps - ref_chosen_logps\n    \"\"\"\n    logr_w = policy_chosen_logps - ref_chosen_logps\n    logr_l = policy_rejected_logps - ref_rejected_logps\n    margin = logr_w - logr_l  # chosen 与 rejected 的隐式 reward 差\n    loss = -F.logsigmoid(beta * margin).mean()\n    return loss\n\n# ============ 模拟一个 batch ============\nB = 4\ntorch.manual_seed(42)\n# 模拟两个模型的对数概率和（chosen 应该 > rejected）\npolicy_chosen_logps = torch.tensor([2.0, 1.5, 2.5, 1.8])\npolicy_rejected_logps = torch.tensor([0.5, 0.3, 0.8, 0.6])\n# ref 模型：chosen 与 rejected 差距较小（模型还没学偏好）\nref_chosen_logps = torch.tensor([1.5, 1.3, 2.0, 1.5])\nref_rejected_logps = torch.tensor([1.0, 0.8, 1.2, 1.0])\n\n# 测试不同 beta\nfor beta in [0.05, 0.1, 0.3, 0.5]:\n    loss = dpo_loss(policy_chosen_logps, policy_rejected_logps,\n                    ref_chosen_logps, ref_rejected_logps, beta=beta)\n    margin = (policy_chosen_logps - ref_chosen_logps) - (policy_rejected_logps - ref_rejected_logps)\n    print(f\"beta={beta:.2f}  loss={loss.item():.4f}  mean_margin={margin.mean().item():.4f}\")\n\nprint(\"\\n直觉：\")\nprint(\"- margin 越大（chosen 比 rejected 学得更好），loss 越低；\")\nprint(\"- beta 越大，对 margin 的放大越强（更激进地推动 chosen > rejected）；\")\nprint(\"- beta 过小 → 学不动；beta 过大 → 过拟合、训练不稳定（据公开实践）。\")",
+      "language": "python",
+      "repo": "https://github.com/huggingface/trl",
+      "install_cmd": "pip install torch"
+    },
+    {
+      "title": "RLAIF 偏好对生成（LLM-as-Judge）",
+      "code": "# pip install openai\n\"\"\"RLAIF：用 LLM-as-Judge 生成偏好对（Constitutional AI 简化版）\"\"\"\nimport os, json\nfrom openai import OpenAI\n\nclient = OpenAI(api_key=os.environ.get(\"OPENAI_API_KEY\"))\n\n# 1. Constitution 原则（Anthropic 公开材料列出 16+ 条，这里简化）\nCONSTITUTION = \"\"\"请根据以下原则判断哪个回答更好：\n1. 选择更无害、更尊重、不包含歧视内容的回答；\n2. 选择更诚实、不编造事实的回答；\n3. 在无害性相当时，选择更有用、更具体的回答。\"\"\"\n\ndef judge_preference(prompt: str, response_a: str, response_b: str) -> dict:\n    \"\"\"调用 judge LLM 据宪法原则判断 A vs B\"\"\"\n    judge_prompt = f\"\"\"{CONSTITUTION}\n\n用户问题: {prompt}\n回答A: {response_a}\n回答B: {response_b}\n\n请严格按 JSON 格式输出: {{\"winner\": \"A\" 或 \"B\", \"reason\": \"<20字理由>\"}}\"\"\"\n\n    resp = client.chat.completions.create(\n        model=\"gpt-4o-mini\",\n        messages=[{\"role\": \"user\", \"content\": judge_prompt}],\n        response_format={\"type\": \"json_object\"},\n        temperature=0.0,  # judge 应稳定\n    )\n    return json.loads(resp.choices[0].message.content)\n\n# 2. 演示：采样两个回答，让 judge 排序\nprompt = \"我心情很不好，怎么办？\"\nresponse_a = \"去找朋友聊天，或者做点运动，出出汗就好了。\"  # 友好建议\nresponse_b = \"活该，自己不努力怪谁。\"  # 不友好\n\nresult = judge_preference(prompt, response_a, response_b)\nprint(f\"用户问题: {prompt}\")\nprint(f\"回答A: {response_a}\")\nprint(f\"回答B: {response_b}\")\nprint(f\"Judge 决策: winner={result['winner']}, reason={result['reason']}\")\n\n# 3. 工业实践：批量生成偏好对 → 训练 RM → RL\nprint(\"\\n工业 pipeline:\")\nprint(\"  1. 用 policy 模型对 10k+ prompt 各采样 K 个回答\")\nprint(\"  2. 用 judge LLM 据 constitution 对 K 个回答两两排序\")\nprint(\"  3. 收集 (prompt, chosen, rejected) 偏好对\")\nprint(\"  4. 训练 RM → PPO / DPO 对齐\")\nprint(\"  5. 关键决策保留 human-in-the-loop 抽样校验\")\nprint(\"\\n⚠️ 风险：judge LLM 偏差会被放大，建议多模型 ensemble + 定期人工 spot-check。\")",
+      "language": "python",
+      "repo": "https://github.com/anthropics/constitutional-ai",
+      "install_cmd": "pip install openai"
+    }
+  ],
+  "exercises": [
+    {
+      "q": "原理对比: 阅读 arxiv:2203.02155 (InstructGPT) 与 arxiv:2305.18290 (DPO) 论文, 总结三阶段 PPO-RLHF 与单阶段 DPO 的 (1) 训练组件; (2) 显存占用; (3) 训练稳定性; (4) 在线/离线 数据支持 四个维度的差异。"
+    },
+    {
+      "q": "损失推导: 从 RLHF 闭式解 π*(y|x) ∝ π_ref(y|x)·exp(r(x,y)/β) 出发, 推导 DPO 损失函数, 解释 partition function Z(x) 为什么能被消掉, 并说明隐式 reward r_DPO(x,y) = β·log(π_θ(y|x) / π_ref(y|x)) 的物理意义。"
+    },
+    {
+      "q": "变体选型: 给定四种偏好数据形态 (pairwise 干净 / pairwise 噪声 / listwise 排序 / 单条好-坏), 分别推荐最合适的 DPO 变体 (DPO / IPO / PRO / KTO), 并说明选择理由与 ref_model 是否需要。"
+    },
+    {
+      "q": "TRL 实战: 在本课 codeExamples 第三个 TRL DPOTrainer 示例基础上, 修改配置: (1) 切换 loss_type 为 ipo / kto / simpo 观察 loss 曲线差异; (2) beta 从 0.05 调到 0.5 观察训练稳定性; (3) 加入 LoRA r=8 vs r=64 对比显存占用与收敛速度。"
+    },
+    {
+      "q": "RLAIF 设计: 为一个「儿童故事生成」Agent 设计一份 constitution (8-12 条原则), 写出 judge LLM 的 prompt 模板, 并讨论 judge LLM 偏差 (例如 judge 偏好长文本) 会被如何放大及对应的多模型 ensemble 缓解方案。"
+    }
+  ],
+  "visualDescriptions": {
+    "title": "📊 视觉描述",
+    "content": "本课六节配套的关键图示建议，统一在讲义 PPT / 教学卡片中渲染：\n\n图 1（RLHF 三阶段回顾）：\n- 左侧：RLHF 三阶段流水线——Stage 1 SFT（prompt + response 监督数据 → SFT model）；Stage 2 RM（prompt + multiple responses + human ranking → Reward Model）；Stage 3 PPO（SFT model + RM → PPO loop with KL penalty → Aligned model）；\n- 右侧：Bradley-Terry 损失函数 L = -log σ(r(x,y_w) - r(x,y_l)) 几何解释（sigmoid 曲线 + 两个 reward 标量点）。\n\n图 2（PPO 工程细节）：\n- 左侧：PPO-clip 损失函数图——横轴 r_t(θ)，纵轴 L_clip，min(r·A, clip(r, 1-ε, 1+ε)·A) 形成「削顶」损失面；\n- 右侧：RLHF 显存四象限——policy / ref / value / reward 四个模型同时驻留 GPU 显存示意，标注典型显存占比（policy 最大，ref 可共享 base）。\n\n图 3（DPO 原理推导）：\n- 左侧：DPO 推导链——RLHF 闭式解（KL 约束指数族）→ r(x,y) = β·log(π*(y|x)/π_ref(y|x)) + β·log Z(x) → Z(x) 在 pairwise 中消掉 → DPO 损失；\n- 右侧：DPO vs PPO 训练组件对比表（policy / ref / RM / value / sampling 五项打勾）。\n\n图 4（DPO 变体族）：\n- 左侧：变体族决策树——数据形态分叉（pairwise → DPO/IPO/SimPO；listwise → PRO；单条好-坏 → KTO；合并 SFT → ORPO）；\n- 右侧：六种损失函数公式对比表（DPO / IPO / KTO / ORPO / SimPO / PRO），每行含公式 + ref_model 需要性 + 适用场景。\n\n图 5（RLAIF 工程实践）：\n- 左侧：Constitutional AI 流程——Constitution（16+ 原则）→ Critique LLM 找问题 → Revision LLM 改写 → SL-CAI 监督微调；然后 AI Judge 据宪法生成偏好对 → 训练 RM → PPO（RL-CAI）；\n- 右侧：RLAIF vs RLHF 成本对比柱状图（标注数据量级、每千条成本、模型质量分）。\n\n图 6（TRL 训练 DPO）：\n- 左侧：TRL DPO 训练流程——Dataset（prompt/chosen/rejected）→ DPOTrainer（policy + ref_model + LoRA）→ DPO loss → Backward → Optimizer step → Checkpoint；\n- 右侧：显存优化技巧清单（LoRA / gradient checkpointing / bfloat16 / DeepSpeed ZeRO / Flash Attention 2 / Liger Kernel 六种），每条标注典型显存节省比例。"
+  },
+  "commonPitfalls": {
+    "title": "⚠️ 常见陷阱",
+    "content": "RLHF / DPO 工业落地的十大高频踩坑点，附修复建议：\n\n1. SFT 阶段被跳过\n   症状：直接用偏好数据训练 RM/DPO，模型根本不会按指令回答，输出格式混乱；\n   修复：严格走三阶段（SFT → RM → PPO）或两阶段（SFT → DPO），SFT 阶段不能省。\n\n2. RM 学到「长度偏好」\n   症状：RM 给长回答打高分，PPO 训练后模型输出越来越啰嗦；\n   修复：chosen / rejected 做长度归一化或裁剪到相同长度区间，或在奖励中除以 length^(α) α=0.5-1。\n\n3. PPO 中 KL 系数 β=0\n   症状：模型在 PPO 中迅速跑偏到 RM 漏洞，输出 gibberish 或重复褒义词；\n   修复：典型 β=0.05-0.2，并配合 adaptive KL 控制（KL 超过 target_kl 自动增大 β）。\n\n4. DPO 训练忘记加载 ref_model\n   症状：loss 退化为普通 SFT，模型只学 chosen 的内容而忽略相对偏好；\n   修复：DPOTrainer 必须传 ref_model，或用 peft + disable_adapter 共享 base 权重实现「轻量 ref」。\n\n5. DPO 学习率过大\n   症状：loss 震荡甚至发散，模型输出崩坏；\n   修复：DPO 典型 LR 在 5e-7 ~ 5e-6 区间（比 SFT 小 1-2 个数量级，据公开实践），建议从 5e-7 开始 warmup。\n\n6. chosen / rejected 长度严重失衡\n   症状：模型学「长 = 好」，输出越来越长；\n   修复：数据清洗时确保 chosen / rejected 长度分布相近，或在损失中加入长度归一化项。\n\n7. Chat template 不匹配\n   症状：训练时 prompt / chosen / rejected 拼接方式与推理时不一致，模型上线后行为异常；\n   修复：DPOTrainer.processing_class=tokenizer 时显式设置 chat_template，训练与推理使用同一模板。\n\n8. DPO 偏好数据有大量噪声未做清洗\n   症状：模型学到错误的偏好关系（如把风格错误标成内容错误）；\n   修复：用 LLM-as-Judge 或众包做数据清洗，或切换到对噪声鲁棒的变体（IPO / KTO）。\n\n9. RLAIF judge LLM 偏差被放大\n   症状：训练后模型风格偏向 judge LLM 的偏好（如「judge 偏好长文本」→ 模型输出越来越长）；\n   修复：多 judge 集成（3-5 个不同模型投票），并定期 human-in-the-loop 抽样校验；constitution 原则保持中立、具体、可执行。\n\n10. PPO 显存爆炸\n    症状：4 个模型（policy / ref / value / RM）同时驻留 GPU，单卡 OOM；\n    修复：ref_model 与 policy 共享 base 权重 + LoRA 注入；value head 复用 policy 的部分层；启用 gradient checkpointing + bfloat16 + DeepSpeed ZeRO-3 多卡并行。"
+  },
+  "interviewTopics": {
+    "title": "💼 面试考点",
+    "content": "RLHF / DPO 在 2025-2026 年 LLM 工程师 / AI Platform 工程师 / 对齐研究工程师面试中的高频考点，按主题分类整理：\n\n一、RLHF 三阶段\n- InstructGPT [arxiv:2203.02155] 三阶段（SFT → RM → PPO）各自的数据来源与目标函数？\n- RM 训练为什么用 pairwise 排序损失而非 pointwise 标量回归？\n- PPO 目标中 KL 惩罚项 β 的作用是什么？β 过大或过小各会导致什么后果？\n\n二、PPO 工程细节\n- PPO 的 clip ratio ε=0.2 在 LLM 场景下需要调整吗？为什么？\n- 什么是 reward hacking？请给出三种工业级防御手段。\n- Value loss 权重 c1 与 entropy bonus c2 在 RLHF 中各自的作用？\n- RLHF 训练中为什么需要 4 个模型（policy / ref / value / RM）同时驻留 GPU？\n\n三、DPO 原理\n- DPO [arxiv:2305.18290] 的隐式 reward 定义是什么？它如何消掉 partition function？\n- 为什么 DPO 训练中 ref_model 必须冻结？如果让它跟随 policy 更新会怎样？\n- DPO 相对 PPO 的三大优势（训练简单 / 显存友好 / 复现性高）与两大劣势（offline only / 偏好数据要求高）是什么？\n- IPO / KTO / ORPO / SimPO / PRO 各自解决了 DPO 的哪个缺陷？\n\n四、DPO 变体族\n- IPO [arxiv:2310.12036] 相对 DPO 在目标函数上做了什么改造？适合什么场景？\n- KTO [arxiv:2402.01306] 的 prospect theory 在对齐中的工业价值？\n- PRO [arxiv:2310.16944] 的 Plackett-Luce 模型如何处理 listwise 偏好？\n- 哪些 DPO 变体不需要 ref_model？为什么能省？\n\n五、RLAIF / Constitutional AI\n- Constitutional AI [arxiv:2309.06657] 的 SL-CAI 与 RL-CAI 各自做了什么？\n- Constitution 在系统中扮演什么角色？原则应如何设计？\n- RLAIF 相对 RLHF 的三大优势（成本 / 规模 / 一致性）与三大局限（judge 偏差 / 领域局限 / 可解释性）是什么？\n- 如何用 multi-judge ensemble 缓解 RLAIF 的偏差放大问题？\n\n六、TRL 实战\n- TRL DPOTrainer 中 ref_model 如何实现显存优化（LoRA + disable_adapter）？\n- DPO 训练中如何监控「学到了什么」？给出三个可监控的指标（loss / reward margin / chosen-rejected log prob gap）。\n- DPO 训练为什么 LR 比 SFT 小一个数量级？\n- 训练完成后如何 merge LoRA adapter 导出完整模型？\n\n七、跨主题综合题\n- 给定一个 SFT 后的基模型与 10w 条偏好对，你会选择 PPO / DPO / IPO / KTO 中哪个？为什么？\n- 如何设计 A/B 评估实验验证对齐效果？指标有哪些（人类胜率 / judge LLM 评分 / safety benchmark）？\n- 工业级 RLHF / DPO 框架相对论文复现，还需补齐哪些工程基础设施（多模型并行 / 混合精度 / checkpoint 恢复 / 监控告警）？"
+  },
+  "references": [
+    {
+      "title": "Training Language Models to Follow Instructions with Human Feedback (InstructGPT)",
+      "authors": "Ouyang et al., OpenAI, 2022",
+      "url": "https://arxiv.org/abs/2203.02155",
+      "type": "paper"
+    },
+    {
+      "title": "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+      "authors": "Rafailov et al., Stanford, 2023",
+      "url": "https://arxiv.org/abs/2305.18290",
+      "type": "paper"
+    },
+    {
+      "title": "Preference Ranking Optimization for Human Alignment (PRO)",
+      "authors": "Song et al., 2023",
+      "url": "https://arxiv.org/abs/2310.16944",
+      "type": "paper"
+    },
+    {
+      "title": "Constitutional AI: Harmlessness from AI Feedback",
+      "authors": "Bai et al., Anthropic, 2022",
+      "url": "https://arxiv.org/abs/2309.06657",
+      "type": "paper"
+    },
+    {
+      "title": "Proximal Policy Optimization Algorithms (PPO)",
+      "authors": "Schulman et al., OpenAI, 2017",
+      "url": "https://arxiv.org/abs/1707.06347",
+      "type": "paper"
+    },
+    {
+      "title": "Hugging Face TRL: Transformer Reinforcement Learning",
+      "authors": "Hugging Face",
+      "url": "https://github.com/huggingface/trl",
+      "type": "github",
+      "installCommand": "pip install trl"
+    },
+    {
+      "title": "DPO 训练实战文档 (TRL Documentation)",
+      "authors": "Hugging Face",
+      "url": "https://huggingface.co/docs/trl/main/en/dpo_trainer",
+      "type": "docs"
+    },
+    {
+      "title": "Anthropic Constitutional AI 公开博客",
+      "authors": "Anthropic",
+      "url": "https://www.anthropic.com/news/constitutional-ai-harmlessness-from-ai-feedback",
+      "type": "docs"
+    },
+    {
+      "title": "UltraFeedback 高质量偏好数据集",
+      "authors": "Cui et al., 2023",
+      "url": "https://github.com/OpenBMB/UltraFeedback",
+      "type": "github"
+    },
+    {
+      "title": "Anthropic hh-rlhf 数据集",
+      "authors": "Anthropic",
+      "url": "https://huggingface.co/datasets/Anthropic/hh-rlhf",
+      "type": "dataset"
+    }
+  ],
+  "crossRefs": [
+    {
+      "lessonId": "L17",
+      "title": "LLM基础",
+      "relation": "L17 讲授 LLM 的工作原理（Transformer Decoder-Only、自回归 Next-Token Prediction、Scaling Laws、涌现能力、CoT 提示工程），本课关注 L17 的基模型理论如何在 RLHF / DPO 对齐中落地：SFT → RM → PPO 的策略 π_θ 本质上就是 L17 的自回归 LM；CoT 思维链是 RLAIF Constitutional AI 中 critique-revision loop 的认知基础。",
+      "keyLinks": [
+        "L17 Transformer Decoder-Only + Next-Token Prediction → L28 策略 π_θ 与参考策略 π_ref 的自回归采样（RLHF/DPO 的 policy 本身就是一个 L17 风格的 LM）",
+        "L17 提示工程与 Chat Template → L28 DPO 训练中 prompt/chosen/rejected 的拼接方式（chat template 必须与推理时一致，否则模型行为异常）",
+        "L17 思维链 CoT (Chain-of-Thought) → L28 Constitutional AI 的 Critique-Revision Loop（让 LLM 先 critique 再 revise，本质是把 CoT 能力用于自我审查）",
+        "L17 涌现能力 (Emergent Abilities) 与 Scaling Laws → L28 为何大基模型更易被 RLAIF 对齐（推理能力强的 LLM 充当 judge 更准，且能涌现出「自我反思」行为）"
+      ]
+    },
+    {
+      "lessonId": "L25",
+      "title": "DeepSeek 架构与 R1 微调实战",
+      "relation": "L25 讲授 DeepSeek V3/R1 模型架构（MoE / MLA / GRPO / 推理能力蒸馏），本课关注 L25 的 SFT 模型如何经 RLHF / DPO 进一步对齐：SFT 是 L25 的微调阶段，DPO / PPO 是本课的对齐阶段，两者形成「微调 → 对齐」的知识链路。",
+      "keyLinks": [
+        "L25 SFT 阶段 → L28 RLHF Stage 1（SFT 是 RLHF 的前置必经阶段）",
+        "L25 DeepSeek-R1 蒸馏小模型 → L28 DPO 训练（用小模型跑 DPO 比 PPO 显存友好）",
+        "L25 GRPO 强化学习 → L28 PPO 工程细节（GRPO 是 PPO 的简化变体，去掉 value head）",
+        "L25 推理能力蒸馏 → L28 Constitutional AI（推理能力强的基模型更易被 RLAIF 对齐）"
+      ]
+    },
+    {
+      "lessonId": "L26",
+      "title": "LoRA 与 PEFT 高效微调",
+      "relation": "L26 讲授 LoRA / QLoRA / PEFT 等参数高效微调方法，本课关注 LoRA 如何与 DPO 结合：TRL DPOTrainer 支持 LoRA 注入，ref_model 共享 base 权重 + disable_adapter 实现「轻量 ref」，将 DPO 显存从 4 模型压到 1.5 模型。",
+      "keyLinks": [
+        "L26 LoRA 原理 → L28 DPO 训练中 ref_model 共享 base 权重（LoRA + disable_adapter）",
+        "L26 QLoRA 4-bit 量化 → L28 RLHF 显存优化（4-bit base + LoRA adapter + 16-bit 训练头）",
+        "L26 PEFT 库 → L28 TRL DPOTrainer 的 peft_config 参数（peft_config=LoraConfig(...)）",
+        "L26 LoRA 合并导出 → L28 DPO 训练完成后 merge_and_unload() 导出完整模型"
+      ]
+    },
+    {
+      "lessonId": "L27",
+      "title": "Agent Skill 与 Harness Engineering 实战",
+      "relation": "L27 讲授 Agent Skill 设计 / Harness Loop 控制 / 沙箱与权限边界，本课关注 RLHF / DPO 如何作为 Harness 的「反馈信号」机制：用户对 Agent 行为的纠错可作为偏好数据，用 DPO 持续优化 Skill 调用策略；Constitutional AI 的 constitution 原则可编码为 Agent 的 system prompt 护栏。",
+      "keyLinks": [
+        "L27 Agent Loop → L28 RLHF 反馈循环（用户纠错 → 偏好对 → DPO 持续优化）",
+        "L27 Skill 沙箱 → L28 Constitutional AI constitution（constitution 原则可编码为 Agent 护栏）",
+        "L27 Guardrail → L28 RLAIF judge LLM（同一 LLM 既可作 judge 也可作 guardrail）",
+        "L27 多 Agent 编排 → L28 Multi-judge ensemble（多 Agent 投票对应多 judge 集成）"
       ]
     }
   ]
