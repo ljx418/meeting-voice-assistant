@@ -31,7 +31,11 @@ from ..artifacts import (
     architecture_code_fact_chains_v28_path,
     architecture_context_pack_v28_path,
     architecture_context_pack_v29_path,
+    architecture_context_cache_index_v244_path,
+    architecture_context_pack_optimized_markdown_v244_path,
+    architecture_context_pack_optimized_v244_path,
     architecture_code_relationships_v29_path,
+    architecture_token_budget_ledger_v244_path,
     architecture_adapter_attempts_v210_path,
     architecture_accepted_pattern_evidence_v210_path,
     architecture_ast_bindings_v210_path,
@@ -98,7 +102,13 @@ def code_architecture_artifact_refs(codebase_id: str) -> list[dict[str, str]]:
 
 
 def architecture_scale_artifact_refs(codebase_id: str) -> list[dict[str, str]]:
-    return [{"type": "architecture_scale_profile", "artifact_ref": f"architecture://{codebase_id}/architecture_scale_profile.json"}]
+    return [
+        {"type": "architecture_scale_profile", "artifact_ref": f"architecture://{codebase_id}/architecture_scale_profile.json"},
+        {"type": "architecture_scale_budget_report", "artifact_ref": f"architecture://{codebase_id}/scale/scan_budget_report.json"},
+        {"type": "architecture_scale_readback_index", "artifact_ref": f"architecture://{codebase_id}/scale/paginated_readback_index.json"},
+        {"type": "architecture_scale_file_shard", "artifact_ref": f"architecture://{codebase_id}/scale/scan_shards/files_0001.jsonl"},
+        {"type": "architecture_scale_language_shard", "artifact_ref": f"architecture://{codebase_id}/scale/scan_shards/languages_0001.jsonl"},
+    ]
 
 
 def architecture_inventory_artifact_refs(codebase_id: str) -> list[dict[str, str]]:
@@ -204,6 +214,37 @@ def architecture_relationships_v29_artifact_refs(codebase_id: str) -> list[dict[
         {"type": "architecture_code_relationships_v2", "artifact_ref": f"architecture-v2-9://{codebase_id}/architecture_code_relationships_v2.jsonl"},
         {"type": "architecture_module_clusters_v2", "artifact_ref": f"architecture-v2-9://{codebase_id}/architecture_module_clusters_v2.json"},
     ]
+
+
+def architecture_relationship_chains_v242_artifact_refs(codebase_id: str) -> list[dict[str, str]]:
+    return [
+        {"type": "relationship_chains_v3", "artifact_ref": f"architecture-v2-42://{codebase_id}/relationship_chains_v3.jsonl"},
+        {"type": "relationship_chain_summary", "artifact_ref": f"architecture-v2-42://{codebase_id}/relationship_chain_summary.json"},
+        {"type": "forbidden_edge_scan", "artifact_ref": f"architecture-v2-42://{codebase_id}/forbidden_edge_scan.json"},
+    ]
+
+
+def architecture_document_semantics_v243_artifact_refs(codebase_id: str) -> list[dict[str, str]]:
+    return [
+        {"type": "document_semantic_claims", "artifact_ref": f"architecture-v2-43://{codebase_id}/document_semantic_claims.jsonl"},
+        {"type": "document_semantic_relations", "artifact_ref": f"architecture-v2-43://{codebase_id}/document_semantic_relations.jsonl"},
+        {"type": "document_semantic_summary", "artifact_ref": f"architecture-v2-43://{codebase_id}/document_semantic_summary.json"},
+    ]
+
+
+def architecture_context_pack_optimized_v244_artifact_refs(codebase_id: str, pack_id: str | None = None) -> list[dict[str, str]]:
+    refs = [
+        {"type": "token_budget_ledger", "artifact_ref": f"architecture-v2-44://{codebase_id}/token_budget_ledger.json"},
+        {"type": "context_cache_index", "artifact_ref": f"architecture-v2-44://{codebase_id}/context_cache_index.json"},
+    ]
+    if pack_id:
+        refs.extend(
+            [
+                {"type": "context_pack_optimized_json", "artifact_ref": f"architecture-v2-44://{codebase_id}/context_pack_optimized/{pack_id}.json"},
+                {"type": "context_pack_optimized_markdown", "artifact_ref": f"architecture-v2-44://{codebase_id}/context_pack_optimized/{pack_id}.md"},
+            ]
+        )
+    return refs
 
 
 def architecture_signal_ranking_v29_artifact_refs(codebase_id: str) -> list[dict[str, str]]:
@@ -585,6 +626,26 @@ def read_architecture_context_pack_v3(workspace: Path, codebase_id: str, pack_id
     payload = read_json(architecture_context_pack_v29_path(workspace, codebase_id, pack_id), None)
     if not payload:
         raise FileNotFoundError("ARCHITECTURE_CONTEXT_PACK_V3_NOT_FOUND")
+    return payload
+
+
+def write_architecture_context_pack_optimized_v244(workspace: Path, codebase_id: str, pack_id: str, pack: dict[str, Any], markdown: str, ledger: dict[str, Any], cache_index: dict[str, Any]) -> None:
+    write_json(architecture_context_pack_optimized_v244_path(workspace, codebase_id, pack_id), pack)
+    md_path = architecture_context_pack_optimized_markdown_v244_path(workspace, codebase_id, pack_id)
+    md_path.parent.mkdir(parents=True, exist_ok=True)
+    md_path.write_text(markdown, encoding="utf-8")
+    write_json(architecture_token_budget_ledger_v244_path(workspace, codebase_id), ledger)
+    write_json(architecture_context_cache_index_v244_path(workspace, codebase_id), cache_index)
+
+
+def read_architecture_context_pack_optimized_v244(workspace: Path, codebase_id: str, pack_id: str) -> dict[str, Any]:
+    payload = read_json(architecture_context_pack_optimized_v244_path(workspace, codebase_id, pack_id), None)
+    if not payload:
+        raise FileNotFoundError("ARCHITECTURE_CONTEXT_PACK_OPTIMIZED_V244_NOT_FOUND")
+    md_path = architecture_context_pack_optimized_markdown_v244_path(workspace, codebase_id, pack_id)
+    payload["markdown"] = md_path.read_text(encoding="utf-8") if md_path.exists() else payload.get("markdown", "")
+    payload["ledger"] = read_json(architecture_token_budget_ledger_v244_path(workspace, codebase_id), {})
+    payload["cache_index"] = read_json(architecture_context_cache_index_v244_path(workspace, codebase_id), {})
     return payload
 
 

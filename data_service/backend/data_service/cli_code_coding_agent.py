@@ -41,16 +41,64 @@ def add_coding_agent_parser(code_subparsers: argparse._SubParsersAction) -> None
         "workbench-v2-view": "Read V2.16 workbench v2 HTML or Mermaid view",
         "large-project-advisor-build": "Build V2.16 large-project advisor",
         "large-project-advisor": "Read V2.16 large-project advisor",
+        "task-navigation-build": "Build V2.31 task-aware navigation index",
+        "task-navigation": "Prepare V2.31 task-aware navigation candidates for a task",
+        "task-navigation-read": "Read one persisted V2.31 task navigation query",
+        "relationships-build": "Build V2.32 lightweight relationship graph",
+        "relationships": "Read V2.32 lightweight relationship graph",
+        "impact-v2": "Build V2.33 task impact analysis and test selection",
+        "impact-v2-read": "Read V2.33 task impact analysis",
+        "reading-pack": "Build V2.34 module reading pack and token ledger",
+        "reading-pack-read": "Read V2.34 module reading pack",
+        "handoff": "Build V2.35 Coding Agent handoff",
+        "handoff-read": "Read V2.35 Coding Agent handoff",
+        "closure-build": "Build V2.36 task navigation closure report",
+        "closure": "Read V2.36 task navigation closure report",
+        "closure-view": "Read V2.36 task navigation HTML or Mermaid view",
     }.items():
         parser = subparsers.add_parser(name, help=help_text)
         parser.add_argument("--workspace-root", help="Managed workspace root; overrides DATA_SERVICE_WORKSPACE_ROOT for this command")
         parser.add_argument("--workspace-id", required=True)
         parser.add_argument("--codebase-id", required=True)
-        if name in {"providers-build", "semantic-build", "actionability-build", "impact", "task-plan", "patch-plan", "patch-preview", "runtime-commands", "runtime-run", "runtime-profiles-build", "runtime-profile-run", "workbench-build", "workbench-v2-build", "large-project-advisor-build"}:
+        if name in {"providers-build", "semantic-build", "actionability-build", "impact", "task-plan", "patch-plan", "patch-preview", "runtime-commands", "runtime-run", "runtime-profiles-build", "runtime-profile-run", "workbench-build", "workbench-v2-build", "large-project-advisor-build", "task-navigation-build", "task-navigation", "relationships-build", "impact-v2", "reading-pack", "handoff", "closure-build"}:
             parser.add_argument("--snapshot-id")
-        if name in {"impact", "task-plan", "patch-plan", "patch-preview"}:
+        if name in {"impact", "task-plan", "patch-plan", "patch-preview", "task-navigation", "impact-v2"}:
             parser.add_argument("--task", required=name != "patch-preview")
             parser.add_argument("--focus-path", action="append", default=[])
+        if name == "reading-pack":
+            parser.add_argument("--task")
+            parser.add_argument("--task-id")
+            parser.add_argument("--max-tokens", type=int, default=12000)
+            parser.add_argument("--role", default="coding_agent")
+            parser.add_argument("--max-items", type=int, default=50)
+        if name == "reading-pack-read":
+            parser.add_argument("--pack-id", required=True)
+        if name == "handoff":
+            parser.add_argument("--target-agent", default="generic")
+            parser.add_argument("--pack-id")
+            parser.add_argument("--task")
+            parser.add_argument("--task-id")
+            parser.add_argument("--max-tokens", type=int, default=12000)
+            parser.add_argument("--max-items", type=int, default=50)
+        if name == "handoff-read":
+            parser.add_argument("--handoff-id", required=True)
+        if name == "closure-build":
+            parser.add_argument("--handoff-id")
+            parser.add_argument("--task")
+            parser.add_argument("--task-id")
+            parser.add_argument("--max-tokens", type=int, default=12000)
+            parser.add_argument("--max-items", type=int, default=50)
+        if name == "closure-view":
+            parser.add_argument("--view-id", default="html")
+        if name == "impact-v2":
+            parser.add_argument("--task-id")
+            parser.add_argument("--max-items", type=int, default=50)
+        if name == "impact-v2-read":
+            parser.add_argument("--task-id", required=True)
+        if name == "task-navigation":
+            parser.add_argument("--limit", type=int, default=25)
+        if name == "task-navigation-read":
+            parser.add_argument("--task-id", required=True)
         if name == "task-plan":
             parser.add_argument("--max-items", type=int, default=12)
         if name == "patch-plan":
@@ -119,14 +167,62 @@ def coding_agent_tool_payload(args: argparse.Namespace) -> tuple[str, dict]:
         "workbench-v2-view": "knowledge_code_workbench_v2_view",
         "large-project-advisor-build": "knowledge_code_large_project_advisor_build",
         "large-project-advisor": "knowledge_code_large_project_advisor_read",
+        "task-navigation-build": "knowledge_code_task_navigation_build",
+        "task-navigation": "knowledge_code_task_navigation_prepare",
+        "task-navigation-read": "knowledge_code_task_navigation_query_read",
+        "relationships-build": "knowledge_code_task_relationships_build",
+        "relationships": "knowledge_code_task_relationships_read",
+        "impact-v2": "knowledge_code_task_impact_analyze",
+        "impact-v2-read": "knowledge_code_task_impact_read",
+        "reading-pack": "knowledge_code_module_reading_pack",
+        "reading-pack-read": "knowledge_code_module_reading_pack_read",
+        "handoff": "knowledge_code_agent_handoff",
+        "handoff-read": "knowledge_code_agent_handoff_read",
+        "closure-build": "knowledge_code_task_navigation_closure_build",
+        "closure": "knowledge_code_task_navigation_closure_read",
+        "closure-view": "knowledge_code_task_navigation_closure_view",
     }
     command = args.code_coding_agent_command
     payload = {"workspace_id": args.workspace_id, "codebase_id": args.codebase_id}
-    if command in {"providers-build", "semantic-build", "actionability-build", "impact", "task-plan", "patch-plan", "patch-preview", "runtime-commands", "runtime-run", "runtime-profiles-build", "runtime-profile-run", "workbench-build", "workbench-v2-build", "large-project-advisor-build"}:
+    if command in {"providers-build", "semantic-build", "actionability-build", "impact", "task-plan", "patch-plan", "patch-preview", "runtime-commands", "runtime-run", "runtime-profiles-build", "runtime-profile-run", "workbench-build", "workbench-v2-build", "large-project-advisor-build", "task-navigation-build", "task-navigation", "relationships-build", "impact-v2", "reading-pack", "handoff", "closure-build"}:
         payload["snapshot_id"] = getattr(args, "snapshot_id", None)
-    if command in {"impact", "task-plan", "patch-plan", "patch-preview"}:
+    if command in {"impact", "task-plan", "patch-plan", "patch-preview", "task-navigation", "impact-v2"}:
         payload["task"] = getattr(args, "task", "") or ""
         payload["focus_paths"] = getattr(args, "focus_path", []) or []
+    if command == "impact-v2":
+        payload["task_id"] = getattr(args, "task_id", None)
+        payload["max_items"] = getattr(args, "max_items", 50)
+    if command == "impact-v2-read":
+        payload["task_id"] = getattr(args, "task_id")
+    if command == "reading-pack":
+        payload["task"] = getattr(args, "task", None)
+        payload["task_id"] = getattr(args, "task_id", None)
+        payload["max_tokens"] = getattr(args, "max_tokens", 12000)
+        payload["role"] = getattr(args, "role", "coding_agent")
+        payload["max_items"] = getattr(args, "max_items", 50)
+    if command == "reading-pack-read":
+        payload["pack_id"] = getattr(args, "pack_id")
+    if command == "handoff":
+        payload["target_agent"] = getattr(args, "target_agent", "generic")
+        payload["pack_id"] = getattr(args, "pack_id", None)
+        payload["task"] = getattr(args, "task", None)
+        payload["task_id"] = getattr(args, "task_id", None)
+        payload["max_tokens"] = getattr(args, "max_tokens", 12000)
+        payload["max_items"] = getattr(args, "max_items", 50)
+    if command == "handoff-read":
+        payload["handoff_id"] = getattr(args, "handoff_id")
+    if command == "closure-build":
+        payload["handoff_id"] = getattr(args, "handoff_id", None)
+        payload["task"] = getattr(args, "task", None)
+        payload["task_id"] = getattr(args, "task_id", None)
+        payload["max_tokens"] = getattr(args, "max_tokens", 12000)
+        payload["max_items"] = getattr(args, "max_items", 50)
+    if command == "closure-view":
+        payload["view_id"] = getattr(args, "view_id", "html")
+    if command == "task-navigation":
+        payload["limit"] = getattr(args, "limit", 25)
+    if command == "task-navigation-read":
+        payload["task_id"] = getattr(args, "task_id")
     if command == "task-plan":
         payload["max_items"] = getattr(args, "max_items", 12)
     if command == "patch-plan":

@@ -27,6 +27,24 @@ from .code_assets.coding_agent.service import (
     public_workbench_v2_payload,
     public_workbench_view_payload,
 )
+from .code_assets.coding_agent_navigation.service import (
+    CodingAgentNavigationService,
+    public_task_navigation_index_payload,
+    public_task_navigation_query_payload,
+    public_task_handoff_payload,
+    public_task_impact_payload,
+    public_task_reading_pack_payload,
+    public_task_closure_payload,
+    public_task_relationship_graph_payload,
+    public_task_test_selection_payload,
+    task_impact_refs,
+    task_handoff_refs,
+    task_closure_refs,
+    task_navigation_refs,
+    task_query_refs,
+    task_reading_pack_refs,
+    task_relationship_refs,
+)
 from .code_assets.envelope import v2_error_envelope, v2_success_envelope
 
 
@@ -63,6 +81,21 @@ CODING_AGENT_TOOL_NAMES = {
     "knowledge_code_workbench_v2_view",
     "knowledge_code_large_project_advisor_build",
     "knowledge_code_large_project_advisor_read",
+    "knowledge_code_task_navigation_build",
+    "knowledge_code_task_navigation_read",
+    "knowledge_code_task_navigation_prepare",
+    "knowledge_code_task_navigation_query_read",
+    "knowledge_code_task_relationships_build",
+    "knowledge_code_task_relationships_read",
+    "knowledge_code_task_impact_analyze",
+    "knowledge_code_task_impact_read",
+    "knowledge_code_module_reading_pack",
+    "knowledge_code_module_reading_pack_read",
+    "knowledge_code_agent_handoff",
+    "knowledge_code_agent_handoff_read",
+    "knowledge_code_task_navigation_closure_build",
+    "knowledge_code_task_navigation_closure_read",
+    "knowledge_code_task_navigation_closure_view",
 }
 
 
@@ -227,6 +260,81 @@ CODING_AGENT_TOOL_SPECS = [
         "description": "Read V2.16 generic large-project abstraction advisor",
         "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
     },
+    {
+        "name": "knowledge_code_task_navigation_build",
+        "description": "Build V2.31 task-aware navigation index from deterministic project facts",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_task_navigation_read",
+        "description": "Read V2.31 task-aware navigation index",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_task_navigation_prepare",
+        "description": "Prepare V2.31 task-aware navigation candidates for a coding task",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}, "task": {"type": "string"}, "limit": {"type": "integer", "default": 25}}, "required": ["workspace_id", "codebase_id", "task"]},
+    },
+    {
+        "name": "knowledge_code_task_navigation_query_read",
+        "description": "Read one persisted V2.31 task navigation query artifact",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "task_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id", "task_id"]},
+    },
+    {
+        "name": "knowledge_code_task_relationships_build",
+        "description": "Build V2.32 lightweight coding-agent relationship graph",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_task_relationships_read",
+        "description": "Read V2.32 lightweight coding-agent relationship graph",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_task_impact_analyze",
+        "description": "Build V2.33 task change impact analysis and test selection",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}, "task": {"type": "string"}, "task_id": {"type": "string"}, "max_items": {"type": "integer", "default": 50}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_task_impact_read",
+        "description": "Read V2.33 task impact analysis and test selection by task_id",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "task_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id", "task_id"]},
+    },
+    {
+        "name": "knowledge_code_module_reading_pack",
+        "description": "Build V2.34 module reading pack and token ledger for a coding task",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}, "task": {"type": "string"}, "task_id": {"type": "string"}, "max_tokens": {"type": "integer", "default": 12000}, "role": {"type": "string", "default": "coding_agent"}, "max_items": {"type": "integer", "default": 50}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_module_reading_pack_read",
+        "description": "Read one persisted V2.34 module reading pack and token ledger",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "pack_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id", "pack_id"]},
+    },
+    {
+        "name": "knowledge_code_agent_handoff",
+        "description": "Build V2.35 Coding Agent handoff contract for Copilot/Codex/Claude/generic agents",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "target_agent": {"type": "string", "default": "generic"}, "pack_id": {"type": "string"}, "snapshot_id": {"type": "string"}, "task": {"type": "string"}, "task_id": {"type": "string"}, "max_tokens": {"type": "integer", "default": 12000}, "max_items": {"type": "integer", "default": 50}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_agent_handoff_read",
+        "description": "Read one persisted V2.35 Coding Agent handoff artifact",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "handoff_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id", "handoff_id"]},
+    },
+    {
+        "name": "knowledge_code_task_navigation_closure_build",
+        "description": "Build V2.36 task navigation closure report, HTML, Mermaid, coverage, and governance artifacts",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "handoff_id": {"type": "string"}, "snapshot_id": {"type": "string"}, "task": {"type": "string"}, "task_id": {"type": "string"}, "max_tokens": {"type": "integer", "default": 12000}, "max_items": {"type": "integer", "default": 50}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_task_navigation_closure_read",
+        "description": "Read V2.36 task navigation closure bundle",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_task_navigation_closure_view",
+        "description": "Read V2.36 task navigation closure HTML or Mermaid view",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "view_id": {"type": "string", "default": "html"}}, "required": ["workspace_id", "codebase_id"]},
+    },
 ]
 
 
@@ -239,9 +347,128 @@ def handle_coding_agent_tool(name: str, arguments: dict[str, Any], *, blocked: C
     codebase_id = str(arguments.get("codebase_id") or "").strip()
     if not codebase_id:
         return blocked(workspace_id=workspace_id, message="codebase_id is required", next_actions=["knowledge_codebase_list"], code="invalid_codebase_id")
+    navigation_service = CodingAgentNavigationService(workspace_path, workspace_id=workspace_id)
     service = CodingAgentActionabilityService(workspace_path, workspace_id=workspace_id)
     snapshot_id = str(arguments.get("snapshot_id") or "").strip() or None
     try:
+        if name == "knowledge_code_task_navigation_build":
+            payload = navigation_service.build_navigation_index(codebase_id, snapshot_id=snapshot_id)
+            refs = task_navigation_refs(codebase_id)
+            data = {"task_navigation_index": public_task_navigation_index_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_task_navigation_prepare"], data=_with_v2(workspace_id, codebase_id, payload.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_task_navigation_read":
+            payload = navigation_service.read_navigation_index(codebase_id)
+            refs = task_navigation_refs(codebase_id)
+            data = {"task_navigation_index": public_task_navigation_index_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id, codebase_id, payload.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_task_navigation_prepare":
+            payload = navigation_service.prepare_task_navigation(codebase_id, task=str(arguments.get("task") or ""), snapshot_id=snapshot_id, limit=int(arguments.get("limit") or 25))
+            refs = task_query_refs(codebase_id, str(payload.get("task_id")))
+            data = {"task_navigation_query": public_task_navigation_query_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_task_navigation_query_read"], data=_with_v2(workspace_id, codebase_id, payload.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_task_navigation_query_read":
+            task_id = str(arguments.get("task_id") or "").strip()
+            if not task_id:
+                return envelope(workspace_id=workspace_id, status="blocked", warnings=["task_id is required"], data={"error": {"code": "invalid_task_id", "message": "task_id is required", "retryable": False}})
+            payload = navigation_service.read_task_query(codebase_id, task_id)
+            refs = task_query_refs(codebase_id, task_id)
+            data = {"task_navigation_query": public_task_navigation_query_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id, codebase_id, payload.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_task_relationships_build":
+            payload = navigation_service.build_relationship_graph(codebase_id, snapshot_id=snapshot_id)
+            refs = task_relationship_refs(codebase_id)
+            data = {"relationship_graph": public_task_relationship_graph_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_task_relationships_read"], data=_with_v2(workspace_id, codebase_id, payload.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_task_relationships_read":
+            payload = navigation_service.read_relationship_graph(codebase_id)
+            refs = task_relationship_refs(codebase_id)
+            data = {"relationship_graph": public_task_relationship_graph_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id, codebase_id, payload.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_task_impact_analyze":
+            impact, test_selection = navigation_service.build_impact_analysis(
+                codebase_id,
+                task=str(arguments.get("task") or ""),
+                task_id=str(arguments.get("task_id") or "").strip() or None,
+                snapshot_id=snapshot_id,
+                max_items=int(arguments.get("max_items") or 50),
+            )
+            refs = task_impact_refs(codebase_id, str(impact.get("task_id")))
+            data = {"impact_analysis": public_task_impact_payload(impact), "test_selection": public_task_test_selection_payload(test_selection)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_task_impact_read"], data=_with_v2(workspace_id, codebase_id, impact.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_task_impact_read":
+            task_id = str(arguments.get("task_id") or "").strip()
+            if not task_id:
+                return envelope(workspace_id=workspace_id, status="blocked", warnings=["task_id is required"], data={"error": {"code": "invalid_task_id", "message": "task_id is required", "retryable": False}})
+            impact, test_selection = navigation_service.read_impact_analysis(codebase_id, task_id)
+            refs = task_impact_refs(codebase_id, task_id)
+            data = {"impact_analysis": public_task_impact_payload(impact), "test_selection": public_task_test_selection_payload(test_selection)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id, codebase_id, impact.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_module_reading_pack":
+            pack, markdown, ledger = navigation_service.build_reading_pack(
+                codebase_id,
+                task=str(arguments.get("task") or "") or None,
+                task_id=str(arguments.get("task_id") or "").strip() or None,
+                snapshot_id=snapshot_id,
+                max_tokens=int(arguments.get("max_tokens") or 12000),
+                role=str(arguments.get("role") or "coding_agent"),
+                max_items=int(arguments.get("max_items") or 50),
+            )
+            refs = task_reading_pack_refs(codebase_id, str(pack.get("pack_id")))
+            data = {"reading_pack": public_task_reading_pack_payload(pack), "markdown": markdown, "token_ledger": ledger}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_module_reading_pack_read"], data=_with_v2(workspace_id, codebase_id, pack.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_module_reading_pack_read":
+            pack_id = str(arguments.get("pack_id") or "").strip()
+            if not pack_id:
+                return envelope(workspace_id=workspace_id, status="blocked", warnings=["pack_id is required"], data={"error": {"code": "invalid_pack_id", "message": "pack_id is required", "retryable": False}})
+            pack, markdown, ledger = navigation_service.read_reading_pack(codebase_id, pack_id)
+            refs = task_reading_pack_refs(codebase_id, pack_id)
+            data = {"reading_pack": public_task_reading_pack_payload(pack), "markdown": markdown, "token_ledger": ledger}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id, codebase_id, pack.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_agent_handoff":
+            payload = navigation_service.build_agent_handoff(
+                codebase_id,
+                target_agent=str(arguments.get("target_agent") or "generic"),
+                pack_id=str(arguments.get("pack_id") or "").strip() or None,
+                task=str(arguments.get("task") or "") or None,
+                task_id=str(arguments.get("task_id") or "").strip() or None,
+                snapshot_id=snapshot_id,
+                max_tokens=int(arguments.get("max_tokens") or 12000),
+                max_items=int(arguments.get("max_items") or 50),
+            )
+            refs = list(payload.get("artifact_refs") or task_handoff_refs(codebase_id, str(payload.get("handoff_id"))))
+            data = {"agent_handoff": public_task_handoff_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_agent_handoff_read"], data=_with_v2(workspace_id, codebase_id, payload.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_agent_handoff_read":
+            handoff_id = str(arguments.get("handoff_id") or "").strip()
+            if not handoff_id:
+                return envelope(workspace_id=workspace_id, status="blocked", warnings=["handoff_id is required"], data={"error": {"code": "invalid_handoff_id", "message": "handoff_id is required", "retryable": False}})
+            payload = navigation_service.read_agent_handoff(codebase_id, handoff_id)
+            refs = list(payload.get("artifact_refs") or task_handoff_refs(codebase_id, handoff_id))
+            data = {"agent_handoff": public_task_handoff_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id, codebase_id, payload.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_task_navigation_closure_build":
+            report, html, mermaid, coverage, governance, audit = navigation_service.build_closure_report(
+                codebase_id,
+                handoff_id=str(arguments.get("handoff_id") or "").strip() or None,
+                task=str(arguments.get("task") or "") or None,
+                task_id=str(arguments.get("task_id") or "").strip() or None,
+                snapshot_id=snapshot_id,
+                max_tokens=int(arguments.get("max_tokens") or 12000),
+                max_items=int(arguments.get("max_items") or 50),
+            )
+            refs = task_closure_refs(codebase_id)
+            data = {"closure_report": public_task_closure_payload(report), "html": html, "mermaid": mermaid, "coverage_matrix": coverage, "governance_targets": governance, "closure_audit": audit}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_task_navigation_closure_read"], data=_with_v2(workspace_id, codebase_id, report.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_task_navigation_closure_read":
+            report, html, mermaid, coverage, governance, audit = navigation_service.read_closure_report(codebase_id)
+            refs = task_closure_refs(codebase_id)
+            data = {"closure_report": public_task_closure_payload(report), "html": html, "mermaid": mermaid, "coverage_matrix": coverage, "governance_targets": governance, "closure_audit": audit}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id, codebase_id, report.get("snapshot_id"), data, refs))
+        if name == "knowledge_code_task_navigation_closure_view":
+            payload = navigation_service.read_closure_view(codebase_id, str(arguments.get("view_id") or "html"))
+            refs = task_closure_refs(codebase_id)
+            data = {"closure_view": payload}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id, codebase_id, None, data, refs))
         if name == "knowledge_code_provider_registry_build":
             payload = service.build_provider_registry(codebase_id, snapshot_id=snapshot_id)
             data = {"provider_registry": public_provider_registry_payload(payload)}

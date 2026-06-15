@@ -5,8 +5,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Callable
 
-from .code_assets.architecture.persistence import architecture_artifact_refs, architecture_code_fact_chain_artifact_refs, architecture_context_pack_v2_artifact_refs, architecture_context_pack_v3_artifact_refs, architecture_doc_claim_artifact_refs, architecture_doc_code_alignment_artifact_refs, architecture_doc_quality_artifact_refs, architecture_doc_registry_artifact_refs, architecture_graph_v28_artifact_refs, architecture_human_report_v29_artifact_refs, architecture_intent_evidence_artifact_refs, architecture_inventory_artifact_refs, architecture_pattern_evidence_v210_artifact_refs, architecture_public_surface_evidence_v29_artifact_refs, architecture_reading_dashboard_artifact_refs, architecture_reconstructed_artifact_refs, architecture_relationships_v29_artifact_refs, architecture_scale_artifact_refs, architecture_signal_ranking_artifact_refs, architecture_signal_ranking_v29_artifact_refs, architecture_taxonomy_artifact_refs, code_architecture_artifact_refs
-from .code_assets.architecture.service import ArchitectureService, public_architecture_code_fact_chain_payload, public_architecture_code_relationships_v2_payload, public_architecture_context_pack_v2_payload, public_architecture_context_pack_v3_payload, public_architecture_document_claims_payload, public_architecture_document_code_alignment_payload, public_architecture_document_quality_payload, public_architecture_document_registry_payload, public_architecture_graph_summary_payload, public_architecture_human_review_report_v2_payload, public_architecture_human_review_report_view_v2_payload, public_architecture_intent_evidence_payload, public_architecture_inventory_list_payload, public_architecture_inventory_payload, public_architecture_pattern_blockers_v2_payload, public_architecture_pattern_evidence_v2_payload, public_architecture_pattern_view_v2_payload, public_architecture_payload, public_architecture_public_surface_evidence_v2_payload, public_architecture_ranking_calibration_v2_payload, public_architecture_reading_payload, public_architecture_reconstructed_payload, public_architecture_review_queue_payload, public_architecture_scale_profile_payload, public_architecture_signal_ranking_payload, public_architecture_taxonomy_payload, public_code_architecture_payload
+from .code_assets.architecture.persistence import architecture_artifact_refs, architecture_code_fact_chain_artifact_refs, architecture_context_pack_optimized_v244_artifact_refs, architecture_context_pack_v2_artifact_refs, architecture_context_pack_v3_artifact_refs, architecture_doc_claim_artifact_refs, architecture_doc_code_alignment_artifact_refs, architecture_doc_quality_artifact_refs, architecture_doc_registry_artifact_refs, architecture_document_semantics_v243_artifact_refs, architecture_graph_v28_artifact_refs, architecture_human_report_v29_artifact_refs, architecture_intent_evidence_artifact_refs, architecture_inventory_artifact_refs, architecture_pattern_evidence_v210_artifact_refs, architecture_public_surface_evidence_v29_artifact_refs, architecture_reading_dashboard_artifact_refs, architecture_reconstructed_artifact_refs, architecture_relationship_chains_v242_artifact_refs, architecture_relationships_v29_artifact_refs, architecture_scale_artifact_refs, architecture_signal_ranking_artifact_refs, architecture_signal_ranking_v29_artifact_refs, architecture_taxonomy_artifact_refs, code_architecture_artifact_refs
+from .code_assets.architecture.service import ArchitectureService, public_architecture_code_fact_chain_payload, public_architecture_code_relationships_v2_payload, public_architecture_context_pack_v2_payload, public_architecture_context_pack_v3_payload, public_architecture_document_claims_payload, public_architecture_document_code_alignment_payload, public_architecture_document_quality_payload, public_architecture_document_registry_payload, public_architecture_document_semantics_v3_payload, public_architecture_graph_summary_payload, public_architecture_human_review_report_v2_payload, public_architecture_human_review_report_view_v2_payload, public_architecture_intent_evidence_payload, public_architecture_inventory_list_payload, public_architecture_inventory_payload, public_architecture_optimized_context_pack_v244_payload, public_architecture_pattern_blockers_v2_payload, public_architecture_pattern_evidence_v2_payload, public_architecture_pattern_view_v2_payload, public_architecture_payload, public_architecture_profile_taxonomy_regression_v245_payload, public_architecture_public_surface_evidence_v2_payload, public_architecture_ranking_calibration_v2_payload, public_architecture_reading_payload, public_architecture_reconstructed_payload, public_architecture_relationship_chains_v3_payload, public_architecture_review_queue_payload, public_architecture_scale_profile_payload, public_architecture_signal_ranking_payload, public_architecture_taxonomy_payload, public_code_architecture_payload, public_language_provider_payload, public_workflow_runtime_payload
 from .code_assets.envelope import v2_error_envelope, v2_success_envelope
 
 
@@ -23,8 +23,13 @@ ARCHITECTURE_TOOL_NAMES = {
     "knowledge_code_architecture_view",
     "knowledge_code_architecture_scale_build",
     "knowledge_code_architecture_scale_profile",
+    "knowledge_code_architecture_scale_readback",
     "knowledge_code_architecture_inventory_build",
     "knowledge_code_architecture_language_facts",
+    "knowledge_code_architecture_language_providers_build",
+    "knowledge_code_architecture_language_providers",
+    "knowledge_code_architecture_workflow_runtime_build",
+    "knowledge_code_architecture_workflow_runtime",
     "knowledge_code_architecture_config_inventory",
     "knowledge_code_architecture_deployment_inventory",
     "knowledge_code_architecture_schema_inventory",
@@ -63,6 +68,10 @@ ARCHITECTURE_TOOL_NAMES = {
     "knowledge_code_architecture_evidence_v2",
     "knowledge_code_architecture_relationships_v2_build",
     "knowledge_code_architecture_relationships_v2",
+    "knowledge_code_architecture_relationship_chains_v3_build",
+    "knowledge_code_architecture_relationship_chains_v3",
+    "knowledge_code_architecture_document_semantics_v3_build",
+    "knowledge_code_architecture_document_semantics_v3",
     "knowledge_code_architecture_ranking_v2_build",
     "knowledge_code_architecture_ranking_v2",
     "knowledge_code_architecture_human_report_v2_build",
@@ -70,6 +79,10 @@ ARCHITECTURE_TOOL_NAMES = {
     "knowledge_code_architecture_human_report_v2_view",
     "knowledge_code_architecture_context_pack_v3",
     "knowledge_code_architecture_context_pack_v3_read",
+    "knowledge_code_architecture_context_pack_optimized",
+    "knowledge_code_architecture_context_pack_optimized_read",
+    "knowledge_code_architecture_profile_regression_build",
+    "knowledge_code_architecture_profile_regression",
     "knowledge_code_architecture_patterns_v2_build",
     "knowledge_code_architecture_patterns_v2",
     "knowledge_code_architecture_pattern_blockers",
@@ -130,13 +143,18 @@ ARCHITECTURE_TOOL_SPECS = [
     },
     {
         "name": "knowledge_code_architecture_scale_build",
-        "description": "Build V2.6 architecture scale profile for a codebase snapshot",
-        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+        "description": "Build V2.39 architecture scale profile for a codebase snapshot",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}, "max_files": {"type": "integer"}, "max_loc": {"type": "integer"}, "max_file_size_mb": {"type": "integer"}, "timeout_seconds": {"type": "integer"}, "shard_size": {"type": "integer"}}, "required": ["workspace_id", "codebase_id"]},
     },
     {
         "name": "knowledge_code_architecture_scale_profile",
-        "description": "Read V2.6 architecture scale profile",
+        "description": "Read V2.39 architecture scale profile",
         "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_scale_readback",
+        "description": "Read a V2.39 architecture scale shard page",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "shard": {"type": "string", "default": "files"}, "page": {"type": "integer", "default": 1}, "page_size": {"type": "integer", "default": 100}}, "required": ["workspace_id", "codebase_id"]},
     },
     {
         "name": "knowledge_code_architecture_inventory_build",
@@ -146,6 +164,46 @@ ARCHITECTURE_TOOL_SPECS = [
     {
         "name": "knowledge_code_architecture_language_facts",
         "description": "Read V2.6 lightweight TS/JS/Vue language facts",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_language_providers_build",
+        "description": "Build V2.40 language provider symbol and reference facts",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_language_providers",
+        "description": "Read V2.40 language provider status, symbol facts, and reference facts",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_workflow_runtime_build",
+        "description": "Build V2.41 workflow/runtime candidate facts",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_workflow_runtime",
+        "description": "Read V2.41 workflow/runtime candidate facts",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_relationship_chains_v3_build",
+        "description": "Build V2.42 capability-to-implementation relationship chains from evidence-backed facts",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_relationship_chains_v3",
+        "description": "Read V2.42 relationship chains and forbidden edge scan",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_document_semantics_v3_build",
+        "description": "Build V2.43 markdown and drawio document semantic claims and relations",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_document_semantics_v3",
+        "description": "Read V2.43 document semantic claims and relations",
         "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
     },
     {
@@ -374,6 +432,26 @@ ARCHITECTURE_TOOL_SPECS = [
         "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "pack_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id", "pack_id"]},
     },
     {
+        "name": "knowledge_code_architecture_context_pack_optimized",
+        "description": "Create a V2.44 optimized architecture context pack with token ledger and cache binding",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "mode": {"type": "string", "default": "project_brief"}, "role": {"type": "string", "default": "maintainer"}, "task": {"type": "string"}, "max_tokens": {"type": "integer", "default": 4000}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_context_pack_optimized_read",
+        "description": "Read a persisted V2.44 optimized architecture context pack",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "pack_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id", "pack_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_profile_regression_build",
+        "description": "Build V2.45 project profile, taxonomy registry, regression matrix, and no-hardcode audit",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
+        "name": "knowledge_code_architecture_profile_regression",
+        "description": "Read V2.45 project profile, taxonomy registry, regression matrix, and no-hardcode audit",
+        "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
+    },
+    {
         "name": "knowledge_code_architecture_patterns_v2_build",
         "description": "Build V2.10 generic architecture pattern evidence adapters",
         "inputSchema": {"type": "object", "properties": {"workspace_id": {"type": "string"}, "codebase_id": {"type": "string"}, "snapshot_id": {"type": "string"}}, "required": ["workspace_id", "codebase_id"]},
@@ -429,7 +507,7 @@ def handle_architecture_tool(name: str, arguments: dict[str, Any], *, blocked: C
             data = {"view": view}
             return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(view["snapshot_id"]), data=data, artifact_refs=refs))
         if name == "knowledge_code_architecture_scale_build":
-            profile = service.build_scale_profile(codebase_id, snapshot_id=snapshot_id)
+            profile = service.build_scale_profile(codebase_id, snapshot_id=snapshot_id, budget=_scale_budget_from_arguments(arguments))
             refs = architecture_scale_artifact_refs(codebase_id)
             data = {"scale_profile": public_architecture_scale_profile_payload(profile)}
             return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_architecture_scale_profile"], data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(profile["snapshot_id"]), data=data, artifact_refs=refs))
@@ -438,6 +516,11 @@ def handle_architecture_tool(name: str, arguments: dict[str, Any], *, blocked: C
             refs = architecture_scale_artifact_refs(codebase_id)
             data = {"scale_profile": public_architecture_scale_profile_payload(profile)}
             return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(profile.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_scale_readback":
+            payload = service.read_scale_shard(codebase_id, shard=str(arguments.get("shard") or "files"), page=int(arguments.get("page") or 1), page_size=int(arguments.get("page_size") or 100))
+            refs = architecture_scale_artifact_refs(codebase_id)
+            data = {"scale_readback": payload}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
         if name == "knowledge_code_architecture_inventory_build":
             payload = service.build_inventory(codebase_id, snapshot_id=snapshot_id)
             refs = architecture_inventory_artifact_refs(codebase_id)
@@ -460,6 +543,46 @@ def handle_architecture_tool(name: str, arguments: dict[str, Any], *, blocked: C
             data = public_architecture_inventory_list_payload(items, payload_key=payload_key, item_key=item_key, codebase_id=codebase_id)
             snapshot = str(items[0].get("snapshot_id") or "") if items else ""
             return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=snapshot, data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_language_providers_build":
+            payload = service.build_language_provider_facts(codebase_id, snapshot_id=snapshot_id)
+            refs = payload.get("artifact_refs", [])
+            data = {"language_providers": public_language_provider_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_architecture_language_providers"], data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_language_providers":
+            payload = service.read_language_provider_facts(codebase_id)
+            refs = payload.get("artifact_refs", [])
+            data = {"language_providers": public_language_provider_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_workflow_runtime_build":
+            payload = service.build_workflow_runtime_candidates(codebase_id, snapshot_id=snapshot_id)
+            refs = payload.get("artifact_refs", [])
+            data = {"workflow_runtime": public_workflow_runtime_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_architecture_workflow_runtime"], data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_workflow_runtime":
+            payload = service.read_workflow_runtime_candidates(codebase_id)
+            refs = payload.get("artifact_refs", [])
+            data = {"workflow_runtime": public_workflow_runtime_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_relationship_chains_v3_build":
+            payload = service.build_relationship_chains_v3(codebase_id, snapshot_id=snapshot_id)
+            refs = architecture_relationship_chains_v242_artifact_refs(codebase_id)
+            data = {"relationship_chains_v3": public_architecture_relationship_chains_v3_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_architecture_relationship_chains_v3"], data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_relationship_chains_v3":
+            payload = service.read_relationship_chains_v3(codebase_id)
+            refs = architecture_relationship_chains_v242_artifact_refs(codebase_id)
+            data = {"relationship_chains_v3": public_architecture_relationship_chains_v3_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_document_semantics_v3_build":
+            payload = service.build_document_semantics_v3(codebase_id, snapshot_id=snapshot_id)
+            refs = architecture_document_semantics_v243_artifact_refs(codebase_id)
+            data = {"document_semantics_v3": public_architecture_document_semantics_v3_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_architecture_document_semantics_v3"], data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_document_semantics_v3":
+            payload = service.read_document_semantics_v3(codebase_id)
+            refs = architecture_document_semantics_v243_artifact_refs(codebase_id)
+            data = {"document_semantics_v3": public_architecture_document_semantics_v3_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
         if name == "knowledge_code_architecture_taxonomy_build":
             taxonomy = service.build_taxonomy(codebase_id)
             refs = architecture_taxonomy_artifact_refs(codebase_id)
@@ -676,6 +799,29 @@ def handle_architecture_tool(name: str, arguments: dict[str, Any], *, blocked: C
             refs = architecture_context_pack_v3_artifact_refs(codebase_id, pack_id)
             data = {"architecture_context_pack_v3": public_architecture_context_pack_v3_payload(pack)}
             return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(pack.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_context_pack_optimized":
+            pack = service.create_optimized_context_pack_v244(codebase_id, mode=str(arguments.get("mode") or "project_brief"), role=str(arguments.get("role") or "maintainer"), task=arguments.get("task"), max_tokens=int(arguments.get("max_tokens") or 4000))
+            refs = architecture_context_pack_optimized_v244_artifact_refs(codebase_id, str(pack.get("pack_id") or ""))
+            data = {"architecture_context_pack_optimized": public_architecture_optimized_context_pack_v244_payload(pack)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_architecture_context_pack_optimized_read"], data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(pack.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_context_pack_optimized_read":
+            pack_id = str(arguments.get("pack_id") or "").strip()
+            if not pack_id:
+                return blocked(workspace_id=workspace_id, message="pack_id is required", next_actions=["knowledge_code_architecture_context_pack_optimized"], code="invalid_pack_id")
+            pack = service.read_optimized_context_pack_v244(codebase_id, pack_id)
+            refs = architecture_context_pack_optimized_v244_artifact_refs(codebase_id, pack_id)
+            data = {"architecture_context_pack_optimized": public_architecture_optimized_context_pack_v244_payload(pack)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(pack.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_profile_regression_build":
+            payload = service.build_profile_taxonomy_regression_v245(codebase_id, snapshot_id=snapshot_id)
+            refs = payload.get("artifact_refs") or []
+            data = {"profile_taxonomy_regression": public_architecture_profile_taxonomy_regression_v245_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, next_actions=["knowledge_code_architecture_profile_regression"], data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+        if name == "knowledge_code_architecture_profile_regression":
+            payload = service.read_profile_taxonomy_regression_v245(codebase_id)
+            refs = payload.get("artifact_refs") or []
+            data = {"profile_taxonomy_regression": public_architecture_profile_taxonomy_regression_v245_payload(payload)}
+            return envelope(workspace_id=workspace_id, artifact_refs=refs, data=_with_v2(workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
         if name == "knowledge_code_architecture_patterns_v2_build":
             payload = service.build_pattern_evidence_v2(codebase_id, snapshot_id=snapshot_id)
             refs = architecture_pattern_evidence_v210_artifact_refs(codebase_id)
@@ -737,10 +883,16 @@ def _architecture_error_code(error: str) -> str:
         return "CODE_ARCHITECTURE_NOT_BUILT"
     if "ARCHITECTURE_SCALE_PROFILE_NOT_BUILT" in error:
         return "ARCHITECTURE_SCALE_PROFILE_NOT_BUILT"
+    if "SHARD_NOT_FOUND" in error:
+        return "ARCHITECTURE_SCALE_SHARD_NOT_FOUND"
     if "ARCHITECTURE_INVENTORY_NOT_BUILT" in error:
         return "ARCHITECTURE_INVENTORY_NOT_BUILT"
     if "ARCHITECTURE_LANGUAGE_FACTS_NOT_BUILT" in error:
         return "ARCHITECTURE_LANGUAGE_FACTS_NOT_BUILT"
+    if "ARCHITECTURE_LANGUAGE_PROVIDERS_NOT_BUILT" in error:
+        return "ARCHITECTURE_LANGUAGE_PROVIDERS_NOT_BUILT"
+    if "ARCHITECTURE_WORKFLOW_RUNTIME_NOT_BUILT" in error:
+        return "ARCHITECTURE_WORKFLOW_RUNTIME_NOT_BUILT"
     if "ARCHITECTURE_CONFIG_INVENTORY_NOT_BUILT" in error:
         return "ARCHITECTURE_CONFIG_INVENTORY_NOT_BUILT"
     if "ARCHITECTURE_DEPLOYMENT_INVENTORY_NOT_BUILT" in error:
@@ -779,6 +931,10 @@ def _architecture_error_code(error: str) -> str:
         return "ARCHITECTURE_PUBLIC_SURFACE_EVIDENCE_NOT_BUILT"
     if "ARCHITECTURE_RELATIONSHIPS_V29_NOT_BUILT" in error:
         return "ARCHITECTURE_RELATIONSHIPS_V29_NOT_BUILT"
+    if "ARCHITECTURE_RELATIONSHIP_CHAINS_V3_NOT_BUILT" in error:
+        return "ARCHITECTURE_RELATIONSHIP_CHAINS_V3_NOT_BUILT"
+    if "ARCHITECTURE_DOCUMENT_SEMANTICS_V3_NOT_BUILT" in error:
+        return "ARCHITECTURE_DOCUMENT_SEMANTICS_V3_NOT_BUILT"
     if "ARCHITECTURE_RANKING_V29_NOT_BUILT" in error:
         return "ARCHITECTURE_RANKING_V29_NOT_BUILT"
     if "ARCHITECTURE_HUMAN_REPORT_V29_NOT_BUILT" in error:
@@ -800,6 +956,20 @@ def _architecture_error_code(error: str) -> str:
     return "ARCHITECTURE_ERROR"
 
 
+def _scale_budget_from_arguments(arguments: dict[str, Any]) -> dict[str, int] | None:
+    budget: dict[str, int] = {}
+    for key in ("max_files", "max_loc", "max_file_size_mb", "timeout_seconds", "shard_size"):
+        if arguments.get(key) is None:
+            continue
+        try:
+            value = int(arguments[key])
+        except (TypeError, ValueError):
+            continue
+        if value > 0:
+            budget[key] = value
+    return budget or None
+
+
 def _architecture_error_message(error: str) -> str:
     code = _architecture_error_code(error)
     if code == "ARCHITECTURE_SOURCE_NOT_FOUND":
@@ -810,6 +980,12 @@ def _architecture_error_message(error: str) -> str:
         return "Code-derived Architecture Model has not been built"
     if code == "ARCHITECTURE_SCALE_PROFILE_NOT_BUILT":
         return "Architecture Scale Profile has not been built"
+    if code == "ARCHITECTURE_SCALE_SHARD_NOT_FOUND":
+        return "Architecture scale shard was not found"
+    if code == "ARCHITECTURE_LANGUAGE_PROVIDERS_NOT_BUILT":
+        return "Architecture language providers have not been built"
+    if code == "ARCHITECTURE_WORKFLOW_RUNTIME_NOT_BUILT":
+        return "Architecture workflow/runtime candidates have not been built"
     if code == "ARCHITECTURE_DOCS_NOT_BUILT":
         return "Architecture document registry has not been built"
     if code == "ARCHITECTURE_DOC_CLAIMS_NOT_BUILT":
@@ -838,6 +1014,10 @@ def _architecture_error_message(error: str) -> str:
         return "Architecture public surface evidence v2 has not been built"
     if code == "ARCHITECTURE_RELATIONSHIPS_V29_NOT_BUILT":
         return "Architecture code relationships v2 have not been built"
+    if code == "ARCHITECTURE_RELATIONSHIP_CHAINS_V3_NOT_BUILT":
+        return "Architecture relationship chains v3 have not been built"
+    if code == "ARCHITECTURE_DOCUMENT_SEMANTICS_V3_NOT_BUILT":
+        return "Architecture document semantics v3 have not been built"
     if code == "ARCHITECTURE_RANKING_V29_NOT_BUILT":
         return "Architecture ranking calibration v2 has not been built"
     if code == "ARCHITECTURE_HUMAN_REPORT_V29_NOT_BUILT":

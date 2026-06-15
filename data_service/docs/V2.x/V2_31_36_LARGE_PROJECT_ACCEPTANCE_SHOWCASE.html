@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>V2.31-V2.36 大型项目验收展示</title>
+  <style>
+    :root {
+      --ink: #182230;
+      --muted: #667085;
+      --line: #d0d5dd;
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --accent: #2563eb;
+      --ok: #067647;
+      --warn: #b54708;
+      --bad: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.55;
+    }
+    header {
+      padding: 40px 48px 28px;
+      background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    h1 { margin: 0 0 12px; font-size: 32px; letter-spacing: 0; }
+    h2 { margin: 0 0 14px; font-size: 22px; }
+    h3 { margin: 0 0 10px; font-size: 17px; }
+    p { margin: 0 0 12px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    main { padding: 28px 48px 56px; max-width: 1320px; margin: 0 auto; }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 22px;
+      margin: 0 0 22px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+    }
+    .lead { max-width: 980px; color: #344054; font-size: 16px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fff;
+      min-height: 108px;
+    }
+    .metric { color: var(--muted); font-size: 13px; }
+    .metric strong { display: block; color: var(--ink); font-size: 26px; margin-top: 4px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 12px;
+      margin: 2px 4px 2px 0;
+      background: #fff;
+    }
+    .pill.ok { color: var(--ok); border-color: #abefc6; background: #ecfdf3; }
+    .pill.warn { color: var(--warn); border-color: #fedf89; background: #fffaeb; }
+    .pill.bad { color: var(--bad); border-color: #fecdca; background: #fef3f2; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; padding: 10px 10px; border-bottom: 1px solid #eaecf0; vertical-align: top; }
+    th { color: #475467; background: #f9fafb; font-weight: 600; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      background: #f2f4f7;
+      padding: 2px 5px;
+      border-radius: 5px;
+      word-break: break-all;
+    }
+    .path-list li { margin: 8px 0; }
+    .flow {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fcfcfd;
+      padding: 8px;
+    }
+    .diagram {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 16px;
+      margin: 14px 0 22px;
+      overflow: auto;
+    }
+    .diagram .mermaid {
+      min-width: 900px;
+    }
+    .diagram .mermaid:not([data-processed="true"]) {
+      color: transparent;
+    }
+    .diagram .mermaid svg {
+      max-width: 100%;
+      height: auto;
+    }
+    .note { color: var(--muted); font-size: 13px; }
+    .warning {
+      border-left: 4px solid #f79009;
+      background: #fffaeb;
+      padding: 12px 14px;
+      border-radius: 8px;
+    }
+    .success {
+      border-left: 4px solid #17b26a;
+      background: #ecfdf3;
+      padding: 12px 14px;
+      border-radius: 8px;
+    }
+    .project-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    @media (max-width: 900px) {
+      header, main { padding-left: 20px; padding-right: 20px; }
+      .grid, .grid.three { grid-template-columns: 1fr; }
+    }
+  </style>
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+    mermaid.initialize({ startOnLoad: true, securityLevel: "strict", theme: "default" });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>V2.31-V2.36 大型项目验收展示</h1>
+    <p class="lead">
+      本页汇总 data_service、HarnessOS、codexPat 三个真实项目的 V2.31-V2.36 task navigation 验收结果。
+      页面只展示本项目生成的事实层、关系层和报告入口；不会把外部项目原始设计图当成代码推导结果。
+    </p>
+    <p class="note">验收工作区：<code>/private/tmp/data_service_v236_postfix_large_projects_rerun2</code></p>
+  </header>
+
+  <main>
+    <section>
+      <h2>1. 为什么仍是 accepted_with_blockers</h2>
+      <div class="warning">
+        <p>
+          当前状态不是失败，而是可信验收策略：项目已经可以完成大型仓库阅读、任务导航、关系图、影响分析、阅读包和 handoff，
+          但仍有动态调用、缺少公开入口事实、低证据关系等内容不能被当作确定事实接受。
+        </p>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Blocker 类型</th>
+            <th>出现原因</th>
+            <th>当前处理</th>
+            <th>后续优化方向</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>DYNAMIC_ATTRIBUTE_CALL_UNRESOLVED</code></td>
+            <td>AST 能看到属性调用，但无法仅凭静态语法确认运行时接收者、动态分发、插件绑定或类型。</td>
+            <td>保留为 blocker，不伪装为 runtime call graph。</td>
+            <td>引入 import resolver、类型提示/LSP、有限调用图、框架规则和人工确认覆盖。</td>
+          </tr>
+          <tr>
+            <td><code>TASK_NAVIGATION_PUBLIC_SURFACES_UNAVAILABLE</code></td>
+            <td>HarnessOS/codexPat 未被当前 extractor 确认为 HTTP/MCP/CLI public surface 项目。</td>
+            <td>继续基于 files/symbols/imports/tests/docs 生成阅读结果。</td>
+            <td>增加泛化入口模式：workflow manifest、TUI/desktop entrypoint、command registry、app route config。</td>
+          </tr>
+          <tr>
+            <td><code>RELATIONSHIP_PUBLIC_SURFACES_UNAVAILABLE</code></td>
+            <td>没有 public surface，无法构建 surface-to-handler 关系。</td>
+            <td>关系图仍输出 import/direct AST/test/config 层关系。</td>
+            <td>增强非服务型项目的入口识别和文档-代码入口对齐。</td>
+          </tr>
+          <tr>
+            <td><code>RELATIONSHIP_SURFACE_MAPPINGS_UNAVAILABLE</code></td>
+            <td>没有 surface，就没有 surface-symbol mapping。</td>
+            <td>以 blocker 显式说明，不让 closure 假通过。</td>
+            <td>扩展 mapping 到 workflow step、desktop command、CLI parser、TUI action。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>2. 验收总览</h2>
+      <div class="grid">
+        <div class="card"><span class="metric">项目数<strong>3</strong></span></div>
+        <div class="card"><span class="metric">全量 backend 测试<strong>487 passed</strong></span></div>
+        <div class="card"><span class="metric">Forbidden relationship<strong>0</strong></span></div>
+        <div class="card"><span class="metric">accepted 证据缺失<strong>0</strong></span></div>
+      </div>
+      <p class="success" style="margin-top:14px;">
+        修复后确认：HarnessOS/codexPat 不再被注入 data_service 的 MCP surfaces；所有 accepted relationships 均具备 repo-relative path、line_range、evidence_refs。
+      </p>
+    </section>
+
+    <section>
+      <h2>3. 验收流水线</h2>
+      <svg class="flow" viewBox="0 0 1120 210" role="img" aria-label="验收流水线">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" fill="#667085"></path>
+          </marker>
+        </defs>
+        <g fill="#fff" stroke="#98a2b3" stroke-width="1.4">
+          <rect x="24" y="68" width="120" height="58" rx="8"></rect>
+          <rect x="172" y="68" width="120" height="58" rx="8"></rect>
+          <rect x="320" y="68" width="120" height="58" rx="8"></rect>
+          <rect x="468" y="68" width="132" height="58" rx="8"></rect>
+          <rect x="628" y="68" width="132" height="58" rx="8"></rect>
+          <rect x="788" y="68" width="132" height="58" rx="8"></rect>
+          <rect x="948" y="68" width="140" height="58" rx="8"></rect>
+        </g>
+        <g stroke="#667085" stroke-width="1.8" marker-end="url(#arrow)">
+          <line x1="144" y1="97" x2="172" y2="97"></line>
+          <line x1="292" y1="97" x2="320" y2="97"></line>
+          <line x1="440" y1="97" x2="468" y2="97"></line>
+          <line x1="600" y1="97" x2="628" y2="97"></line>
+          <line x1="760" y1="97" x2="788" y2="97"></line>
+          <line x1="920" y1="97" x2="948" y2="97"></line>
+        </g>
+        <g font-size="14" fill="#182230" text-anchor="middle">
+          <text x="84" y="92">Snapshot</text><text x="84" y="112">文件事实</text>
+          <text x="232" y="92">Inventory</text><text x="232" y="112">公开能力</text>
+          <text x="380" y="92">Symbols</text><text x="380" y="112">符号索引</text>
+          <text x="534" y="92">Relationships</text><text x="534" y="112">轻量关系</text>
+          <text x="694" y="92">Impact</text><text x="694" y="112">影响分析</text>
+          <text x="854" y="92">Reading Pack</text><text x="854" y="112">阅读包</text>
+          <text x="1018" y="92">Closure</text><text x="1018" y="112">验收报告</text>
+        </g>
+        <text x="24" y="164" font-size="13" fill="#667085">原则：能确定的事实进入 accepted；不能确定的动态/低证据关系进入 blocker 或 needs_review。</text>
+      </svg>
+    </section>
+
+    <section>
+      <h2>4. 三个项目结果</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>项目</th>
+            <th>文件数</th>
+            <th>状态</th>
+            <th>关系数</th>
+            <th>Accepted 关系</th>
+            <th>证据缺失</th>
+            <th>Blocker 数</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>data_service</td>
+            <td>1074</td>
+            <td><span class="pill warn">accepted_with_blockers</span></td>
+            <td>9143</td>
+            <td>9053</td>
+            <td>0 / 0 / 0</td>
+            <td>828</td>
+          </tr>
+          <tr>
+            <td>HarnessOS</td>
+            <td>2676</td>
+            <td><span class="pill warn">accepted_with_blockers</span></td>
+            <td>10363</td>
+            <td>10196</td>
+            <td>0 / 0 / 0</td>
+            <td>790</td>
+          </tr>
+          <tr>
+            <td>codexPat</td>
+            <td>998</td>
+            <td><span class="pill warn">accepted_with_blockers</span></td>
+            <td>73</td>
+            <td>73</td>
+            <td>0 / 0 / 0</td>
+            <td>38</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">证据缺失列顺序：missing_line_range / missing_evidence_refs / missing_repo_relative_path。</p>
+    </section>
+
+    <section>
+      <h2>5. 项目架构概览</h2>
+      <div class="grid three">
+        <div class="card">
+          <div class="project-title"><h3>data_service</h3><span class="pill ok">197 MCP</span></div>
+          <p>主要事实：docs、backend、frontend；公开能力覆盖 HTTP/MCP/CLI。</p>
+          <p><span class="pill">HTTP 264</span><span class="pill">MCP 197</span><span class="pill">CLI 63</span></p>
+          <p><a href="file:///private/tmp/data_service_v236_postfix_large_projects_rerun2/v236-postfix-data_service/assets/codebase/v236_postfix_data_service/coding_agent/task_navigation/reports/project_architecture_overview.html">打开项目架构概览</a></p>
+          <p><a href="file:///private/tmp/data_service_v236_postfix_large_projects_rerun2/v236-postfix-data_service/assets/codebase/v236_postfix_data_service/coding_agent/task_navigation/reports/task_navigation_report.html">打开任务导航报告</a></p>
+          <p><a href="file:///private/tmp/data_service_v236_postfix_large_projects_rerun2/v236-postfix-data_service/assets/codebase/v236_postfix_data_service/architecture/intent/report/architecture_intent_report.html">打开架构意图报告</a></p>
+        </div>
+        <div class="card">
+          <div class="project-title"><h3>HarnessOS</h3><span class="pill warn">no public surface</span></div>
+          <p>主要事实：docs、tests、apps、core、openharness。当前没有确定性 HTTP/MCP/CLI surface。</p>
+          <p><span class="pill">module_imports 5165</span><span class="pill">direct_call_ast 4985</span></p>
+          <p><a href="file:///private/tmp/data_service_v236_postfix_large_projects_rerun2/v236-postfix-harnessos/assets/codebase/v236_postfix_harnessos/coding_agent/task_navigation/reports/project_architecture_overview.html">打开项目架构概览</a></p>
+          <p><a href="file:///private/tmp/data_service_v236_postfix_large_projects_rerun2/v236-postfix-harnessos/assets/codebase/v236_postfix_harnessos/coding_agent/task_navigation/reports/task_navigation_report.html">打开任务导航报告</a></p>
+          <p><a href="file:///private/tmp/data_service_v236_postfix_large_projects_rerun2/v236-postfix-harnessos/assets/codebase/v236_postfix_harnessos/architecture/intent/report/architecture_intent_report.html">打开架构意图报告</a></p>
+        </div>
+        <div class="card">
+          <div class="project-title"><h3>codexPat</h3><span class="pill warn">no public surface</span></div>
+          <p>主要事实：docs、apps、packages、fixtures。当前没有确定性 HTTP/MCP/CLI surface。</p>
+          <p><span class="pill">config 35</span><span class="pill">imports 20</span><span class="pill">direct AST 18</span></p>
+          <p><a href="file:///private/tmp/data_service_v236_postfix_large_projects_rerun2/v236-postfix-codexpat/assets/codebase/v236_postfix_codexpat/coding_agent/task_navigation/reports/project_architecture_overview.html">打开项目架构概览</a></p>
+          <p><a href="file:///private/tmp/data_service_v236_postfix_large_projects_rerun2/v236-postfix-codexpat/assets/codebase/v236_postfix_codexpat/coding_agent/task_navigation/reports/task_navigation_report.html">打开任务导航报告</a></p>
+          <p><a href="file:///private/tmp/data_service_v236_postfix_large_projects_rerun2/v236-postfix-codexpat/assets/codebase/v236_postfix_codexpat/architecture/intent/report/architecture_intent_report.html">打开架构意图报告</a></p>
+        </div>
+      </div>
+      <h3>data_service 架构概览图</h3>
+      <div class="diagram">
+        <div class="mermaid">
+flowchart LR
+  repo["data_service\nfiles=1074"]
+  facts["事实层\nsnapshot=snap_63a0d"]
+  surfaces["对外能力\n529 surfaces"]
+  relations["轻量关系\n9143 edges"]
+  impact["任务影响\n827 items"]
+  blockers["需审阅/阻塞\n828 blockers"]
+  repo --> facts
+  facts --> surfaces
+  facts --> relations
+  relations --> impact
+  impact --> blockers
+  dir1["模块目录: docs\nfiles=650"]
+  repo --> dir1
+  dir2["模块目录: backend\nfiles=402"]
+  repo --> dir2
+  dir3["模块目录: frontend\nfiles=13"]
+  repo --> dir3
+  dir4["模块目录: workspace\nfiles=13"]
+  repo --> dir4
+  surface1["http_api\ncount=264"]
+  surfaces --> surface1
+  surface2["mcp_tool\ncount=197"]
+  surfaces --> surface2
+  surface3["cli_command\ncount=63"]
+  surfaces --> surface3
+  rel1["direct_call_ast\ncount=4681"]
+  relations --> rel1
+  rel2["module_imports_module\ncount=2718"]
+  relations --> rel2
+  rel3["capability_related_to_surface\ncount=591"]
+  relations --> rel3
+        </div>
+      </div>
+      <h3>HarnessOS 架构概览图</h3>
+      <div class="diagram">
+        <div class="mermaid">
+flowchart LR
+  repo["harnessOS\nfiles=2676"]
+  facts["事实层\nsnapshot=snap_f6b30"]
+  surfaces["对外能力\n0 surfaces"]
+  relations["轻量关系\n10363 edges"]
+  impact["任务影响\n74 items"]
+  blockers["需审阅/阻塞\n790 blockers"]
+  repo --> facts
+  facts --> surfaces
+  facts --> relations
+  relations --> impact
+  impact --> blockers
+  dir1["模块目录: docs\nfiles=1522"]
+  repo --> dir1
+  dir2["模块目录: tests\nfiles=338"]
+  repo --> dir2
+  dir3["模块目录: apps\nfiles=263"]
+  repo --> dir3
+  dir4["模块目录: core\nfiles=177"]
+  repo --> dir4
+  dir5["模块目录: openharness\nfiles=152"]
+  repo --> dir5
+  rel1["module_imports_module\ncount=5165"]
+  relations --> rel1
+  rel2["direct_call_ast\ncount=4985"]
+  relations --> rel2
+  rel3["test_references_symbol\ncount=167"]
+  relations --> rel3
+  rel4["config_declared\ncount=46"]
+  relations --> rel4
+        </div>
+      </div>
+      <h3>codexPat 架构概览图</h3>
+      <div class="diagram">
+        <div class="mermaid">
+flowchart LR
+  repo["codexPat\nfiles=998"]
+  facts["事实层\nsnapshot=snap_56ffd"]
+  surfaces["对外能力\n0 surfaces"]
+  relations["轻量关系\n73 edges"]
+  impact["任务影响\n0 items"]
+  blockers["需审阅/阻塞\n38 blockers"]
+  repo --> facts
+  facts --> surfaces
+  facts --> relations
+  relations --> impact
+  impact --> blockers
+  dir1["模块目录: docs\nfiles=828"]
+  repo --> dir1
+  dir2["模块目录: apps\nfiles=120"]
+  repo --> dir2
+  dir3["模块目录: packages\nfiles=34"]
+  repo --> dir3
+  dir4["模块目录: fixtures\nfiles=13"]
+  repo --> dir4
+  rel1["config_declared\ncount=35"]
+  relations --> rel1
+  rel2["module_imports_module\ncount=20"]
+  relations --> rel2
+  rel3["direct_call_ast\ncount=18"]
+  relations --> rel3
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>6. 当前项目能否持续优化</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>优化方向</th>
+            <th>能解决什么</th>
+            <th>验收方式</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>入口识别泛化</td>
+            <td>让 HarnessOS 类非 HTTP/MCP 项目识别 workflow/TUI/desktop/command registry 入口。</td>
+            <td>HarnessOS surface_types 从空变为 workflow/console/tui/command，并有源码行证据。</td>
+          </tr>
+          <tr>
+            <td>静态关系增强</td>
+            <td>减少动态属性调用 blocker，提升直接可用关系比例。</td>
+            <td>blocker count 下降，新增关系必须有 line evidence 且不声称 runtime certainty。</td>
+          </tr>
+          <tr>
+            <td>文档-代码双向对齐</td>
+            <td>把架构设计文档中的模块/流程与代码事实更稳定地匹配。</td>
+            <td>每个 matched claim 同时有 document evidence 与 code evidence。</td>
+          </tr>
+          <tr>
+            <td>报告可读性增强</td>
+            <td>让人类不用读 JSON，就能理解模块边界、任务影响和阻塞原因。</td>
+            <td>HTML 报告含多图、热力图、分层关系图、可点击证据链接。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>7. 原始验收产物</h2>
+      <ul class="path-list">
+        <li>大型项目验收 JSON：<code>/private/tmp/data_service_v236_postfix_large_projects_rerun2/v236_postfix_large_project_acceptance.json</code></li>
+        <li>架构概览索引 JSON：<code>/private/tmp/data_service_v236_postfix_large_projects_rerun2/v236_postfix_architecture_overview_index.json</code></li>
+        <li>本展示页：<code>docs/V2.x/V2_31_36_LARGE_PROJECT_ACCEPTANCE_SHOWCASE.html</code></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -153,6 +153,27 @@ def test_v2_codebase_inventory_service_real_repo_artifacts_and_golden_alignment(
     _assert_no_path_values(result, repo_root, workspace)
 
 
+def test_v2_codebase_inventory_does_not_inject_current_mcp_registry_for_external_repo(tmp_path, monkeypatch):
+    repo_root = tmp_path / "external_repo"
+    repo_root.mkdir()
+    (repo_root / "README.md").write_text("# External Repo\n", encoding="utf-8")
+    (repo_root / "app.py").write_text("def run():\n    return True\n", encoding="utf-8")
+    workspace = tmp_path / "workspace"
+    monkeypatch.setenv("DATA_SERVICE_ALLOWED_CODEBASE_ROOTS", str(repo_root))
+
+    registry = CodebaseRegistry(workspace, workspace_id="external")
+    asset = registry.import_codebase(path=str(repo_root), codebase_id="external_repo")["asset"]
+    snapshot = CodebaseSnapshotService(workspace, workspace_id="external").create_snapshot(asset.codebase_id)["snapshot"]
+    snapshot_id = snapshot["snapshot_id"]
+
+    result = CodebaseInventoryService(workspace, workspace_id="external").build_inventory(asset.codebase_id, snapshot_id=snapshot_id)
+    surfaces = read_jsonl(inventory_surfaces_path(workspace, asset.codebase_id, snapshot_id))
+    assert result["summary"]["surface_counts"].get("mcp_tool", 0) == 0
+    assert not any(str(item.get("surface_id", "")).startswith("mcp:knowledge_") for item in surfaces)
+    _assert_no_internal_paths(result)
+    _assert_no_path_values(result, repo_root, workspace)
+
+
 def test_v2_codebase_inventory_http_mcp_cli_real_repo_and_failure_paths(tmp_path, monkeypatch, capsys):
     repo_root = Path(__file__).resolve().parents[2]
     workspace_root = tmp_path / "managed"

@@ -266,16 +266,14 @@ def _extract_mcp_surfaces(
     codebase_id: str,
     snapshot_id: str,
 ) -> list[dict[str, Any]]:
-    from data_service.mcp_tool_registry import all_tool_specs
-
     source_index = _source_index(root, files)
     surfaces = []
-    for spec in all_tool_specs():
+    for spec in _mcp_specs_from_source_index(source_index):
         name = str(spec.get("name") or "")
-        evidence = _find_text_line(source_index, f'"name": "{name}"') or _find_text_line(source_index, f"'name': '{name}'")
-        source_file = evidence[0] if evidence else "backend/data_service/mcp_tool_registry.py"
-        line_range = [evidence[1], evidence[1]] if evidence else None
-        unresolved = None if evidence else "tool_spec_source_line_not_found"
+        source_file = str(spec.get("source_file") or "")
+        line_no = int(spec.get("line") or 0)
+        line_range = [line_no, line_no] if source_file and line_no else None
+        unresolved = None if line_range else "tool_spec_source_line_not_found"
         surfaces.append(
             _surface(
                 workspace_id,
@@ -292,11 +290,66 @@ def _extract_mcp_surfaces(
                 input_schema=_public_schema(spec.get("inputSchema")),
                 output_schema={"type": "object", "envelope": True},
                 extractor="mcp_tool_registry",
-                confidence=1.0 if evidence else 0.7,
+                confidence=1.0 if line_range else 0.7,
                 unresolved_reason=unresolved,
             )
         )
     return surfaces
+
+
+def _mcp_specs_from_source_index(source_index: dict[str, list[str]]) -> list[dict[str, Any]]:
+    specs: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for rel, lines in sorted(source_index.items()):
+        if _is_test_like_path(rel):
+            continue
+        lower_rel = rel.lower()
+        text = "\n".join(lines)
+        if "TOOL_SPECS" not in text and "inputSchema" not in text:
+            continue
+        if "mcp" not in lower_rel and "tool" not in lower_rel:
+            continue
+        try:
+            tree = ast.parse(text, filename=rel)
+        except SyntaxError:
+            continue
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Dict):
+                continue
+            name = ""
+            input_schema: Any = {}
+            description = ""
+            for key_node, value_node in zip(node.keys, node.values):
+                if not isinstance(key_node, ast.Constant) or not isinstance(key_node.value, str):
+                    continue
+                key = key_node.value
+                if key == "name" and isinstance(value_node, ast.Constant) and isinstance(value_node.value, str):
+                    name = value_node.value
+                elif key == "inputSchema":
+                    try:
+                        input_schema = ast.literal_eval(value_node)
+                    except (ValueError, SyntaxError):
+                        input_schema = {}
+                elif key == "description" and isinstance(value_node, ast.Constant) and isinstance(value_node.value, str):
+                    description = value_node.value
+            if not name or name in seen:
+                continue
+            seen.add(name)
+            specs.append(
+                {
+                    "name": name,
+                    "description": description,
+                    "inputSchema": input_schema,
+                    "source_file": rel,
+                    "line": getattr(node, "lineno", None),
+                }
+            )
+    return specs
+
+
+def _is_test_like_path(path: str) -> bool:
+    parts = Path(path).parts
+    return any(part in {"test", "tests"} or part.startswith("test_") for part in parts)
 
 
 def _extract_cli_surfaces(

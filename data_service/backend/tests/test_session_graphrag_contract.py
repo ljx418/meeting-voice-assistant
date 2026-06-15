@@ -268,7 +268,7 @@ def test_v16d1_session_contract_baseline_and_d2_surface_boundaries_remain_explic
 
     inventory = _cli_inventory()
     assert set(inventory) == {"build", "code", "graph", "quality", "query", "source", "trace", "workspace"}
-    assert inventory["code"] == ["architecture", "archive", "coding-agent", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "quality", "snapshot", "symbols", "trace"]
+    assert inventory["code"] == ["architecture", "architecture-intent", "archive", "coding-agent", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "platform", "quality", "snapshot", "symbols", "trace"]
     assert inventory["graph"] == ["community", "neighbors", "query", "session", "snapshot"]
 
     data_service_routes = {

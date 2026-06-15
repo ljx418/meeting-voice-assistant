@@ -31,6 +31,24 @@ from data_service.code_assets.coding_agent.service import (
     public_workbench_v2_payload,
     public_workbench_view_payload,
 )
+from data_service.code_assets.coding_agent_navigation.service import (
+    CodingAgentNavigationService,
+    public_task_navigation_index_payload,
+    public_task_navigation_query_payload,
+    public_task_handoff_payload,
+    public_task_impact_payload,
+    public_task_reading_pack_payload,
+    public_task_closure_payload,
+    public_task_relationship_graph_payload,
+    public_task_test_selection_payload,
+    task_impact_refs,
+    task_handoff_refs,
+    task_closure_refs,
+    task_navigation_refs,
+    task_query_refs,
+    task_reading_pack_refs,
+    task_relationship_refs,
+)
 from data_service.code_assets.envelope import v2_error_envelope, v2_success_envelope
 from data_service.mcp_common import envelope
 from data_service.mcp_workspace_runtime import WorkspaceRuntime
@@ -123,6 +141,51 @@ class LargeProjectAdvisorBuildRequest(BaseModel):
 class WorkbenchContextExportRequest(BaseModel):
     mode: str = Field(default="coding_agent")
     max_items: int = Field(default=25, ge=1, le=100)
+
+
+class TaskNavigationBuildRequest(BaseModel):
+    snapshot_id: Optional[str] = Field(default=None)
+
+
+class TaskNavigationPrepareRequest(BaseModel):
+    task: str
+    snapshot_id: Optional[str] = Field(default=None)
+    limit: int = Field(default=25, ge=1, le=100)
+
+
+class TaskImpactRequest(BaseModel):
+    task: Optional[str] = Field(default=None)
+    task_id: Optional[str] = Field(default=None)
+    snapshot_id: Optional[str] = Field(default=None)
+    max_items: int = Field(default=50, ge=1, le=200)
+
+
+class TaskReadingPackRequest(BaseModel):
+    task: Optional[str] = Field(default=None)
+    task_id: Optional[str] = Field(default=None)
+    snapshot_id: Optional[str] = Field(default=None)
+    max_tokens: int = Field(default=12000, ge=100, le=64000)
+    role: str = Field(default="coding_agent")
+    max_items: int = Field(default=50, ge=1, le=200)
+
+
+class AgentHandoffRequest(BaseModel):
+    target_agent: str = Field(default="generic")
+    pack_id: Optional[str] = Field(default=None)
+    task: Optional[str] = Field(default=None)
+    task_id: Optional[str] = Field(default=None)
+    snapshot_id: Optional[str] = Field(default=None)
+    max_tokens: int = Field(default=12000, ge=100, le=64000)
+    max_items: int = Field(default=50, ge=1, le=200)
+
+
+class TaskClosureBuildRequest(BaseModel):
+    handoff_id: Optional[str] = Field(default=None)
+    task: Optional[str] = Field(default=None)
+    task_id: Optional[str] = Field(default=None)
+    snapshot_id: Optional[str] = Field(default=None)
+    max_tokens: int = Field(default=12000, ge=100, le=64000)
+    max_items: int = Field(default=50, ge=1, le=200)
 
 
 def _runtime() -> WorkspaceRuntime:
@@ -523,6 +586,232 @@ async def read_coding_agent_large_project_advisor(workspace_id: str, codebase_id
         return _error(404, str(meta["workspace_id"]), codebase_id, None, str(exc))
     data = {"large_project_advisor": public_large_project_advisor_payload(payload)}
     return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=payload.get("artifact_refs", []), data=_with_v2(str(meta["workspace_id"]), codebase_id, payload.get("snapshot_id"), data, payload.get("artifact_refs", [])))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/coding-agent/task-navigation/build")
+async def build_coding_agent_task_navigation_index(workspace_id: str, codebase_id: str, request: TaskNavigationBuildRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.build_navigation_index(codebase_id, snapshot_id=request.snapshot_id)
+    except (FileNotFoundError, ValueError) as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, request.snapshot_id, str(exc))
+    refs = task_navigation_refs(codebase_id)
+    data = {"task_navigation_index": public_task_navigation_index_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_task_navigation_prepare"], data=_with_v2(str(meta["workspace_id"]), codebase_id, payload.get("snapshot_id"), data, refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/coding-agent/task-navigation")
+async def read_coding_agent_task_navigation_index(workspace_id: str, codebase_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_navigation_index(codebase_id)
+    except FileNotFoundError as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, None, str(exc))
+    refs = task_navigation_refs(codebase_id)
+    data = {"task_navigation_index": public_task_navigation_index_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(str(meta["workspace_id"]), codebase_id, payload.get("snapshot_id"), data, refs))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/coding-agent/task-navigation")
+async def prepare_coding_agent_task_navigation(workspace_id: str, codebase_id: str, request: TaskNavigationPrepareRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.prepare_task_navigation(codebase_id, task=request.task, snapshot_id=request.snapshot_id, limit=request.limit)
+    except (FileNotFoundError, ValueError) as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, request.snapshot_id, str(exc))
+    refs = task_query_refs(codebase_id, str(payload.get("task_id")))
+    data = {"task_navigation_query": public_task_navigation_query_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_task_navigation_read"], data=_with_v2(str(meta["workspace_id"]), codebase_id, payload.get("snapshot_id"), data, refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/coding-agent/task-navigation/{task_id}")
+async def read_coding_agent_task_navigation_query(workspace_id: str, codebase_id: str, task_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_task_query(codebase_id, task_id)
+    except FileNotFoundError as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, None, str(exc))
+    refs = task_query_refs(codebase_id, task_id)
+    data = {"task_navigation_query": public_task_navigation_query_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(str(meta["workspace_id"]), codebase_id, payload.get("snapshot_id"), data, refs))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/coding-agent/relationships/build")
+async def build_coding_agent_relationship_graph(workspace_id: str, codebase_id: str, request: TaskNavigationBuildRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.build_relationship_graph(codebase_id, snapshot_id=request.snapshot_id)
+    except (FileNotFoundError, ValueError) as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, request.snapshot_id, str(exc))
+    refs = task_relationship_refs(codebase_id)
+    data = {"relationship_graph": public_task_relationship_graph_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_task_relationships_read"], data=_with_v2(str(meta["workspace_id"]), codebase_id, payload.get("snapshot_id"), data, refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/coding-agent/relationships")
+async def read_coding_agent_relationship_graph(workspace_id: str, codebase_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_relationship_graph(codebase_id)
+    except FileNotFoundError as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, None, str(exc))
+    refs = task_relationship_refs(codebase_id)
+    data = {"relationship_graph": public_task_relationship_graph_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(str(meta["workspace_id"]), codebase_id, payload.get("snapshot_id"), data, refs))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/coding-agent/impact-v2")
+async def build_coding_agent_impact_analysis(workspace_id: str, codebase_id: str, request: TaskImpactRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        impact, test_selection = service.build_impact_analysis(
+            codebase_id,
+            task=request.task,
+            task_id=request.task_id,
+            snapshot_id=request.snapshot_id,
+            max_items=request.max_items,
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, request.snapshot_id, str(exc))
+    refs = task_impact_refs(codebase_id, str(impact.get("task_id")))
+    data = {"impact_analysis": public_task_impact_payload(impact), "test_selection": public_task_test_selection_payload(test_selection)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_task_impact_read"], data=_with_v2(str(meta["workspace_id"]), codebase_id, impact.get("snapshot_id"), data, refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/coding-agent/impact-v2/{task_id}")
+async def read_coding_agent_impact_analysis(workspace_id: str, codebase_id: str, task_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        impact, test_selection = service.read_impact_analysis(codebase_id, task_id)
+    except FileNotFoundError as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, None, str(exc))
+    refs = task_impact_refs(codebase_id, task_id)
+    data = {"impact_analysis": public_task_impact_payload(impact), "test_selection": public_task_test_selection_payload(test_selection)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(str(meta["workspace_id"]), codebase_id, impact.get("snapshot_id"), data, refs))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/coding-agent/reading-pack")
+async def build_coding_agent_module_reading_pack(workspace_id: str, codebase_id: str, request: TaskReadingPackRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        pack, markdown, ledger = service.build_reading_pack(
+            codebase_id,
+            task=request.task,
+            task_id=request.task_id,
+            snapshot_id=request.snapshot_id,
+            max_tokens=request.max_tokens,
+            role=request.role,
+            max_items=request.max_items,
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, request.snapshot_id, str(exc))
+    refs = task_reading_pack_refs(codebase_id, str(pack.get("pack_id")))
+    data = {"reading_pack": public_task_reading_pack_payload(pack), "markdown": markdown, "token_ledger": ledger}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_module_reading_pack_read"], data=_with_v2(str(meta["workspace_id"]), codebase_id, pack.get("snapshot_id"), data, refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/coding-agent/reading-pack/{pack_id}")
+async def read_coding_agent_module_reading_pack(workspace_id: str, codebase_id: str, pack_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        pack, markdown, ledger = service.read_reading_pack(codebase_id, pack_id)
+    except FileNotFoundError as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, None, str(exc))
+    refs = task_reading_pack_refs(codebase_id, pack_id)
+    data = {"reading_pack": public_task_reading_pack_payload(pack), "markdown": markdown, "token_ledger": ledger}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(str(meta["workspace_id"]), codebase_id, pack.get("snapshot_id"), data, refs))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/coding-agent/handoff")
+async def build_coding_agent_handoff(workspace_id: str, codebase_id: str, request: AgentHandoffRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.build_agent_handoff(
+            codebase_id,
+            target_agent=request.target_agent,
+            pack_id=request.pack_id,
+            task=request.task,
+            task_id=request.task_id,
+            snapshot_id=request.snapshot_id,
+            max_tokens=request.max_tokens,
+            max_items=request.max_items,
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, request.snapshot_id, str(exc))
+    refs = list(payload.get("artifact_refs") or task_handoff_refs(codebase_id, str(payload.get("handoff_id"))))
+    data = {"agent_handoff": public_task_handoff_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_agent_handoff_read"], data=_with_v2(str(meta["workspace_id"]), codebase_id, payload.get("snapshot_id"), data, refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/coding-agent/handoff/{handoff_id}")
+async def read_coding_agent_handoff(workspace_id: str, codebase_id: str, handoff_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_agent_handoff(codebase_id, handoff_id)
+    except FileNotFoundError as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, None, str(exc))
+    refs = list(payload.get("artifact_refs") or task_handoff_refs(codebase_id, handoff_id))
+    data = {"agent_handoff": public_task_handoff_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(str(meta["workspace_id"]), codebase_id, payload.get("snapshot_id"), data, refs))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/coding-agent/closure/build")
+async def build_coding_agent_task_navigation_closure(workspace_id: str, codebase_id: str, request: TaskClosureBuildRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        report, html, mermaid, coverage, governance, audit = service.build_closure_report(
+            codebase_id,
+            handoff_id=request.handoff_id,
+            task=request.task,
+            task_id=request.task_id,
+            snapshot_id=request.snapshot_id,
+            max_tokens=request.max_tokens,
+            max_items=request.max_items,
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, request.snapshot_id, str(exc))
+    refs = task_closure_refs(codebase_id)
+    data = {"closure_report": public_task_closure_payload(report), "html": html, "mermaid": mermaid, "coverage_matrix": coverage, "governance_targets": governance, "closure_audit": audit}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_task_navigation_closure_read"], data=_with_v2(str(meta["workspace_id"]), codebase_id, report.get("snapshot_id"), data, refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/coding-agent/closure")
+async def read_coding_agent_task_navigation_closure(workspace_id: str, codebase_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        report, html, mermaid, coverage, governance, audit = service.read_closure_report(codebase_id)
+    except FileNotFoundError as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, None, str(exc))
+    refs = task_closure_refs(codebase_id)
+    data = {"closure_report": public_task_closure_payload(report), "html": html, "mermaid": mermaid, "coverage_matrix": coverage, "governance_targets": governance, "closure_audit": audit}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(str(meta["workspace_id"]), codebase_id, report.get("snapshot_id"), data, refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/coding-agent/closure/views/{view_id}")
+async def read_coding_agent_task_navigation_closure_view(workspace_id: str, codebase_id: str, view_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = CodingAgentNavigationService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_closure_view(codebase_id, view_id)
+    except FileNotFoundError as exc:
+        return _error(404, str(meta["workspace_id"]), codebase_id, None, str(exc))
+    refs = task_closure_refs(codebase_id)
+    data = {"closure_view": payload}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(str(meta["workspace_id"]), codebase_id, None, data, refs))
 
 
 def _with_v2(workspace_id: str, codebase_id: str, snapshot_id: str | None, data: dict[str, Any], refs: list[dict[str, Any]]) -> dict[str, Any]:

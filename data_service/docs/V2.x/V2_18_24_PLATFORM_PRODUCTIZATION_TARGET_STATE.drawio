@@ -1,0 +1,229 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="6">
+  <diagram name="01 当前vs目标架构差异" id="v2_18_24_gap">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title1" value="V2.18-V2.24 当前架构 vs 目标架构差异" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cur" value="当前状态&#xa;• 能力覆盖广：snapshot / evidence / architecture / context / patch preview&#xa;• MCP 工具多：156 tools&#xa;• 报告和 artifact 分散&#xa;• Schema 跨阶段不统一&#xa;• 大项目重复构建偏全量&#xa;• Provider 插件生态尚未成熟" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef2f2;strokeColor=#ef4444;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="520" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="target" value="目标状态&#xa;• 统一 Project Intelligence Console&#xa;• Artifact schema + validator&#xa;• MCP Tool Catalog + Workflow Guide&#xa;• Incremental Build + cache decision&#xa;• Provider SDK + optional provider contract&#xa;• Governance feedback loop&#xa;• Production CI gates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#22c55e;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="810" y="120" width="520" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow1" value="平台产品化收敛&#xa;从“能力很多”到“可发现、可验证、可维护”" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563eb;strokeWidth=3;fontSize=14;fontStyle=1;endArrow=block;" edge="1" parent="1" source="cur" target="target">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gaplist" value="关键 Gap&#xa;1. 用户入口分散 → V2.18 Console&#xa;2. Artifact 不统一 → V2.19 Contract&#xa;3. Tool 难发现 → V2.20 Catalog&#xa;4. 构建偏全量 → V2.21 Incremental&#xa;5. Provider 分散 → V2.22 SDK&#xa;6. 治理不闭环 → V2.23 Feedback&#xa;7. CI 生产化不足 → V2.24 Gates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="260" y="500" width="860" height="260" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="02 V2.18-24目标架构" id="v2_18_24_arch">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title2" value="V2.18-V2.24 目标架构" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="560" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="console" value="Project Intelligence Console&#xa;项目总览 / 证据 / 架构 / Agent / Runtime / Patch Preview" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="100" width="900" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="contract" value="Public Contract Layer&#xa;HTTP / MCP / CLI / Tool Catalog / Workflow Guide / V2 Envelope" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="250" y="220" width="900" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="validator" value="Artifact Contract &amp; Validator&#xa;schema_version / artifact_type / evidence_refs / warnings / needs_review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="250" y="340" width="900" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="incremental" value="V2.21&#xa;Incremental Build&#xa;diff / cache / budget" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="120" y="480" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="provider" value="V2.22&#xa;Provider SDK&#xa;AST / tree-sitter / Jedi / LSP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="430" y="480" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="governance" value="V2.23&#xa;Governance Loop&#xa;feedback / rule / overlay / revoke" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="740" y="480" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ci" value="V2.24&#xa;Production CI&#xa;test layers / warning budget / release gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="480" width="260" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="base" value="Existing V2.0-V2.17 Capabilities&#xa;snapshot / surface / symbols / architecture / context / workbench / patch preview / runtime profile / quality" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="680" width="900" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" edge="1" parent="1" source="console" target="contract">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" edge="1" parent="1" source="contract" target="validator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" edge="1" parent="1" source="validator" target="incremental">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" edge="1" parent="1" source="validator" target="provider">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" edge="1" parent="1" source="validator" target="governance">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" edge="1" parent="1" source="validator" target="ci">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="03 开发及验收计划" id="v2_18_24_plan">
+    <mxGraphModel dx="1404" dy="766" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title3" parent="1" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" value="V2.18-V2.24 开发及验收计划" vertex="1">
+          <mxGeometry height="50" width="640" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="p18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;align=left;spacing=10;" value="V2.18 Console UX&#xa;开发：统一控制台、状态视图、下一步建议&#xa;验收：真实 repo 生成 HTML，不隐藏 blocker，不新增事实" vertex="1">
+          <mxGeometry height="130" width="360" x="60" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=14;align=left;spacing=10;" value="V2.19 Artifact Contract&#xa;开发：envelope、validator、contract tests&#xa;验收：schema_version 必填，refs 可解析，HTTP/MCP/CLI parity" vertex="1">
+          <mxGeometry height="130" width="360" x="520" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="p20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=14;align=left;spacing=10;" value="V2.20 MCP Catalog&#xa;开发：tool catalog、goal-based workflow guide&#xa;验收：覆盖全部 tools，推荐链稳定，不推荐 missing tool" vertex="1">
+          <mxGeometry height="130" width="360" x="980" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=14;align=left;spacing=10;" value="V2.21 Incremental Build&#xa;开发：snapshot diff、impact plan、cache invalidation&#xa;验收：输出 reused/refreshed/invalidated，失败不静默" vertex="1">
+          <mxGeometry height="130" width="360" x="50" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="p22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=14;align=left;spacing=10;" value="V2.22 Provider SDK&#xa;开发：adapter contract、health/config/execution/error&#xa;验收：AST mandatory，optional unavailable 不 fake accepted" vertex="1">
+          <mxGeometry height="130" width="360" x="520" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="p23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;align=left;spacing=10;" value="V2.23 Governance Loop&#xa;开发：feedback、rule、review、overlay、revoke&#xa;验收：approve/revoke 生效，source artifact hash 不变" vertex="1">
+          <mxGeometry height="130" width="360" x="980" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="p24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=14;align=left;spacing=10;" value="V2.24 Production Readiness&#xa;开发：测试分层、warning budget、安全门禁、release report&#xa;验收：unit/contract/artifact/e2e 分层，redaction gate 通过" vertex="1">
+          <mxGeometry height="140" width="360" x="520" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" edge="1" parent="1" source="p18" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" target="p19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" edge="1" parent="1" source="p19" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" target="p20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" edge="1" parent="1" source="p20" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" target="p21">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1160" y="290" />
+              <mxPoint x="230" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="a4" edge="1" parent="1" source="p21" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" target="p22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" edge="1" parent="1" source="p22" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" target="p23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" edge="1" parent="1" source="p23" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" target="p24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="04 项目里程碑" id="v2_18_24_milestones">
+    <mxGraphModel dx="1404" dy="766" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title4" parent="1" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" value="V2.18-V2.24 项目里程碑" vertex="1">
+          <mxGeometry height="50" width="560" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;fontStyle=1;" value="M1&#xa;人类可读控制台" vertex="1">
+          <mxGeometry height="130" width="130" x="860" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=14;fontStyle=1;" value="M2&#xa;产物可验证" vertex="1">
+          <mxGeometry height="130" width="130" x="270" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=14;fontStyle=1;" value="M3&#xa;工具可发现" vertex="1">
+          <mxGeometry height="130" width="130" x="450" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="m4" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=14;fontStyle=1;" value="M4&#xa;构建可增量" vertex="1">
+          <mxGeometry height="130" width="130" x="630" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="m5" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=14;fontStyle=1;" value="M5&#xa;Provider 可插拔" vertex="1">
+          <mxGeometry height="130" width="130" x="810" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="m6" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;fontStyle=1;" value="M6&#xa;治理可闭环" vertex="1">
+          <mxGeometry height="130" width="130" x="990" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="m7" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=14;fontStyle=1;" value="M7&#xa;生产可防护" vertex="1">
+          <mxGeometry height="130" width="130" x="1170" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="line" edge="1" parent="1" source="m1" style="endArrow=none;html=1;strokeColor=#334155;strokeWidth=3;" target="m7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="summary" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=18;fontStyle=1;align=center;" value="最终目标：用户能看懂；Agent 能调用；产物能校验；构建能增量；Provider 能插拔；反馈能治理；测试能守住。" vertex="1">
+          <mxGeometry height="120" width="1040" x="180" y="500" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="05 验收门槛及出门条件" id="v2_18_24_gates">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title5" value="V2.18-V2.24 验收门槛及出门条件" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="700" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" value="必须通过&#xa;• 真实 data_service repo E2E&#xa;• Artifact validator&#xa;• HTTP/MCP/CLI parity&#xa;• Frontend build&#xa;• Security/redaction gate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="360" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" value="必须拒绝&#xa;• Console 隐藏 blocker&#xa;• Provider unavailable 记 accepted&#xa;• Incremental build 静默跳过失败&#xa;• Governance 改写原始 artifact&#xa;• Tool guide 推荐不存在工具" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="520" y="120" width="360" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="g3" value="出门条件&#xa;1. 用户能通过 Console 理解项目状态&#xa;2. Agent 能通过 Catalog 找到工具链&#xa;3. 产物有 schema 和 validator&#xa;4. 构建能解释复用/刷新/失效&#xa;5. Provider contract 清晰&#xa;6. Governance 可 approve/revoke&#xa;7. CI 能长期守住 contract" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="960" y="120" width="360" height="360" as="geometry" />
+        </mxCell>
+        <mxCell id="audit" value="每阶段流程&#xa;Development Plan → Acceptance Plan → Pre-implementation Audit → Implementation → Real Repo E2E → PRD/False-green Review → Acceptance Audit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="160" y="590" width="1080" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="06 用户体验与具体场景" id="v2_18_24_ux">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title6" value="V2.18-V2.24 用户体验与具体应用场景" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uxgoal" value="目标体验&#xa;用户能看懂项目；Agent 能找到工具；维护者能治理输出；大项目能增量刷新；CI 能守住契约。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontSize=18;fontStyle=1;align=center;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="170" y="100" width="1060" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ux1" value="场景 A：维护者打开 Console&#xa;看到项目摘要、入口、证据覆盖、blocker、下一步建议；不需要读 raw JSON。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="250" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ux2" value="场景 B：Agent 找工具链&#xa;输入 goal=coding_task_preparation，得到推荐 MCP 调用链、前置条件、失败恢复建议。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=14;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="250" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ux3" value="场景 C：大项目增量刷新&#xa;修改少量文件后输出 changed/reused/refreshed/invalidated，不静默跳过失败。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=14;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="960" y="250" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ux4" value="场景 D：Provider 能力判断&#xa;清楚看到 health/config/execution/status；optional unavailable 不会 fake accepted。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=14;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="450" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ux5" value="场景 E：治理反馈闭环&#xa;feedback → rule → approve → read-time overlay → revoke，源 artifact hash 不变。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="450" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ux6" value="场景 F：发布前检查&#xa;unit/contract/artifact/frontend/e2e 分层结果、warning budget、redaction gate、release conclusion。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=14;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="960" y="450" width="360" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="uxexit" value="用户验收门槛&#xa;1. 人类 5 分钟内能理解项目状态。&#xa;2. Agent 不需要人工翻 156 个工具。&#xa;3. 维护者能纠正错误输出并撤销规则。&#xa;4. 大项目刷新能解释复用和失效。&#xa;5. 发布前检查能阻止 redaction 和 contract 失败。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontSize=16;fontStyle=1;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="250" y="660" width="900" height="150" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

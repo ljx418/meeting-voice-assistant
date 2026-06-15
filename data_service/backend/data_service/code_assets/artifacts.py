@@ -434,6 +434,91 @@ def architecture_context_pack_v29_dir(workspace: Path, codebase_id: str) -> Path
     return architecture_v29_dir(workspace, codebase_id) / "architecture_context_pack_v3"
 
 
+def architecture_v242_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "v2_42"
+
+
+def architecture_relationship_chains_v242_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v242_dir(workspace, codebase_id) / "relationship_chains_v3.jsonl"
+
+
+def architecture_relationship_chain_summary_v242_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v242_dir(workspace, codebase_id) / "relationship_chain_summary.json"
+
+
+def architecture_forbidden_edge_scan_v242_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v242_dir(workspace, codebase_id) / "forbidden_edge_scan.json"
+
+
+def architecture_v243_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "v2_43"
+
+
+def architecture_document_semantic_claims_v243_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v243_dir(workspace, codebase_id) / "document_semantic_claims.jsonl"
+
+
+def architecture_document_semantic_relations_v243_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v243_dir(workspace, codebase_id) / "document_semantic_relations.jsonl"
+
+
+def architecture_document_semantic_summary_v243_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v243_dir(workspace, codebase_id) / "document_semantic_summary.json"
+
+
+def architecture_v244_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "v2_44"
+
+
+def architecture_token_budget_ledger_v244_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v244_dir(workspace, codebase_id) / "token_budget_ledger.json"
+
+
+def architecture_context_cache_index_v244_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v244_dir(workspace, codebase_id) / "context_cache_index.json"
+
+
+def architecture_context_pack_optimized_v244_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v244_dir(workspace, codebase_id) / "context_pack_optimized"
+
+
+def architecture_context_pack_optimized_v244_path(workspace: Path, codebase_id: str, pack_id: str) -> Path:
+    return architecture_context_pack_optimized_v244_dir(workspace, codebase_id) / f"{pack_id}.json"
+
+
+def architecture_context_pack_optimized_markdown_v244_path(workspace: Path, codebase_id: str, pack_id: str) -> Path:
+    return architecture_context_pack_optimized_v244_dir(workspace, codebase_id) / f"{pack_id}.md"
+
+
+def architecture_v245_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_dir(workspace, codebase_id) / "v2_45"
+
+
+def architecture_project_profiles_v245_dir(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v245_dir(workspace, codebase_id) / "project_profiles"
+
+
+def architecture_project_profile_v245_path(workspace: Path, codebase_id: str, profile_id: str) -> Path:
+    safe_id = profile_id.replace("/", "_").replace(":", "_")
+    return architecture_project_profiles_v245_dir(workspace, codebase_id) / f"{safe_id}.json"
+
+
+def architecture_taxonomy_registry_v245_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v245_dir(workspace, codebase_id) / "taxonomy_registry.json"
+
+
+def architecture_real_repo_regression_matrix_v245_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v245_dir(workspace, codebase_id) / "real_repo_regression_matrix.json"
+
+
+def architecture_no_hardcode_audit_v245_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v245_dir(workspace, codebase_id) / "no_hardcode_audit.json"
+
+
+def architecture_closure_audit_report_v245_path(workspace: Path, codebase_id: str) -> Path:
+    return architecture_v245_dir(workspace, codebase_id) / "closure_audit_report.md"
+
+
 def architecture_context_pack_v29_path(workspace: Path, codebase_id: str, pack_id: str) -> Path:
     safe = pack_id.strip().replace("/", "_") or "architecture_context_pack"
     return architecture_context_pack_v29_dir(workspace, codebase_id) / f"{safe}.json"

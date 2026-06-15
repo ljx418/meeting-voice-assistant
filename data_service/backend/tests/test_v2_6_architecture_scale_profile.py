@@ -90,7 +90,7 @@ def _v2(payload: dict) -> dict:
 
 
 def _assert_scale_profile(profile: dict, *, workspace_id: str, codebase_id: str, snapshot_id: str, repo: Path) -> None:
-    assert profile["schema_version"] == "v2.6"
+    assert profile["schema_version"] == "v2.39_scale"
     assert profile["workspace_id"] == workspace_id
     assert profile["codebase_id"] == codebase_id
     assert profile["snapshot_id"] == snapshot_id
@@ -104,6 +104,9 @@ def _assert_scale_profile(profile: dict, *, workspace_id: str, codebase_id: str,
     assert "summary_mode_required" in profile
     assert profile["source_artifact_refs"]
     assert profile["artifact_refs"]
+    assert profile["status"] in {"ready", "partial"}
+    assert "budget" in profile
+    assert "scale_artifacts" in profile
     serialized = json.dumps(profile, ensure_ascii=False)
     assert str(repo) not in serialized
 
@@ -116,25 +119,52 @@ def test_v26_phase44_scale_profile_http_mcp_cli(tmp_path, monkeypatch, capsys):
     assert architecture_scale_profile_path(workspace, codebase_id).exists()
     assert architecture_scale_profile_path(workspace, codebase_id).stat().st_size > 0
 
-    http_build = client.post(f"/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/scale/build", json={"snapshot_id": snapshot_id})
+    partial_profile = service.build_scale_profile(codebase_id, snapshot_id=snapshot_id, budget={"max_files": 1, "max_loc": 1, "shard_size": 2})
+    assert partial_profile["status"] == "partial"
+    assert partial_profile["partial"] is True
+    assert any(blocker["code"] == "SCAN_BUDGET_EXCEEDED" for blocker in partial_profile["blockers"])
+    readback = service.read_scale_shard(codebase_id, shard="files", page=1, page_size=2)
+    assert readback["schema_version"] == "v2.39_scale"
+    assert readback["snapshot_id"] == snapshot_id
+    assert readback["page"] == 1
+    assert readback["page_size"] == 2
+    assert readback["total"] >= len(readback["items"]) >= 1
+    assert str(repo) not in json.dumps(readback, ensure_ascii=False)
+
+    http_build = client.post(f"/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/scale/build", json={"snapshot_id": snapshot_id, "max_files": 1, "max_loc": 1, "shard_size": 2})
     assert http_build.status_code == 200
     build_v2 = _v2(http_build.json())
     assert build_v2["ok"] is True
     _assert_scale_profile(build_v2["data"]["scale_profile"], workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=snapshot_id, repo=repo)
+    assert build_v2["data"]["scale_profile"]["status"] == "partial"
 
     http_read = client.get(f"/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/scale/profile")
     assert http_read.status_code == 200
     read_profile = _v2(http_read.json())["data"]["scale_profile"]
     _assert_scale_profile(read_profile, workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=snapshot_id, repo=repo)
+    assert read_profile["status"] == "partial"
+
+    http_readback = client.get(f"/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/scale/readback", params={"shard": "files", "page": 1, "page_size": 2})
+    assert http_readback.status_code == 200
+    http_readback_payload = _v2(http_readback.json())["data"]["scale_readback"]
+    assert http_readback_payload["snapshot_id"] == snapshot_id
+    assert http_readback_payload["page_size"] == 2
+    assert http_readback_payload["items"]
+    assert str(repo) not in json.dumps(http_readback_payload, ensure_ascii=False)
 
     runtime = WorkspaceRuntime(workspace_root / "_default", workspace_root=workspace_root)
     dispatcher = MCPToolDispatcher(default_workspace=workspace_root / "_default", workspace_runtime=runtime, build_runtime=BuildRuntime(runtime))
     mcp_profile = asyncio.run(dispatcher.call_tool("knowledge_code_architecture_scale_profile", {"workspace_id": workspace_id, "codebase_id": codebase_id}))
     _assert_scale_profile(_v2(mcp_profile)["data"]["scale_profile"], workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=snapshot_id, repo=repo)
+    mcp_readback = asyncio.run(dispatcher.call_tool("knowledge_code_architecture_scale_readback", {"workspace_id": workspace_id, "codebase_id": codebase_id, "shard": "files", "page": 1, "page_size": 2}))
+    assert _v2(mcp_readback)["data"]["scale_readback"]["snapshot_id"] == snapshot_id
 
     assert knowledge_main(["code", "architecture", "scale-profile", "--workspace-root", str(workspace_root), "--workspace-id", workspace_id, "--codebase-id", codebase_id]) == 0
     cli_payload = json.loads(capsys.readouterr().out)
     _assert_scale_profile(_v2(cli_payload)["data"]["scale_profile"], workspace_id=workspace_id, codebase_id=codebase_id, snapshot_id=snapshot_id, repo=repo)
+    assert knowledge_main(["code", "architecture", "scale-readback", "--workspace-root", str(workspace_root), "--workspace-id", workspace_id, "--codebase-id", codebase_id, "--shard", "files", "--page", "1", "--page-size", "2"]) == 0
+    cli_readback = json.loads(capsys.readouterr().out)
+    assert _v2(cli_readback)["data"]["scale_readback"]["snapshot_id"] == snapshot_id
 
 
 def test_v26_phase44_scale_profile_missing_returns_structured_error(tmp_path, monkeypatch):

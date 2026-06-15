@@ -19,7 +19,10 @@ frontend/.vite/
 backend/rn-*/
 backend/rn-*-workspace/
 harnessos-*/
+v2.*-phase*/
+workspace/
 llmwiki.db
 llmwiki_*/
 llmwiki_summary.md
 summary/
+docs/**/.$*.bkp

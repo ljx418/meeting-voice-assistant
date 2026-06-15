@@ -9,8 +9,8 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
-from data_service.code_assets.architecture.persistence import architecture_artifact_refs, architecture_code_fact_chain_artifact_refs, architecture_context_pack_v2_artifact_refs, architecture_context_pack_v3_artifact_refs, architecture_doc_claim_artifact_refs, architecture_doc_code_alignment_artifact_refs, architecture_doc_quality_artifact_refs, architecture_doc_registry_artifact_refs, architecture_graph_v28_artifact_refs, architecture_human_report_v29_artifact_refs, architecture_intent_evidence_artifact_refs, architecture_inventory_artifact_refs, architecture_pattern_evidence_v210_artifact_refs, architecture_public_surface_evidence_v29_artifact_refs, architecture_reading_dashboard_artifact_refs, architecture_reconstructed_artifact_refs, architecture_relationships_v29_artifact_refs, architecture_scale_artifact_refs, architecture_signal_ranking_artifact_refs, architecture_signal_ranking_v29_artifact_refs, architecture_taxonomy_artifact_refs, code_architecture_artifact_refs
-from data_service.code_assets.architecture.service import ArchitectureService, public_architecture_code_fact_chain_payload, public_architecture_code_relationships_v2_payload, public_architecture_context_pack_v2_payload, public_architecture_context_pack_v3_payload, public_architecture_document_claims_payload, public_architecture_document_code_alignment_payload, public_architecture_document_quality_payload, public_architecture_document_registry_payload, public_architecture_graph_summary_payload, public_architecture_human_review_report_v2_payload, public_architecture_human_review_report_view_v2_payload, public_architecture_intent_evidence_payload, public_architecture_inventory_list_payload, public_architecture_inventory_payload, public_architecture_pattern_blockers_v2_payload, public_architecture_pattern_evidence_v2_payload, public_architecture_pattern_view_v2_payload, public_architecture_payload, public_architecture_public_surface_evidence_v2_payload, public_architecture_ranking_calibration_v2_payload, public_architecture_reading_payload, public_architecture_reconstructed_payload, public_architecture_review_queue_payload, public_architecture_scale_profile_payload, public_architecture_signal_ranking_payload, public_architecture_taxonomy_payload, public_code_architecture_payload
+from data_service.code_assets.architecture.persistence import architecture_artifact_refs, architecture_code_fact_chain_artifact_refs, architecture_context_pack_optimized_v244_artifact_refs, architecture_context_pack_v2_artifact_refs, architecture_context_pack_v3_artifact_refs, architecture_doc_claim_artifact_refs, architecture_doc_code_alignment_artifact_refs, architecture_doc_quality_artifact_refs, architecture_doc_registry_artifact_refs, architecture_document_semantics_v243_artifact_refs, architecture_graph_v28_artifact_refs, architecture_human_report_v29_artifact_refs, architecture_intent_evidence_artifact_refs, architecture_inventory_artifact_refs, architecture_pattern_evidence_v210_artifact_refs, architecture_public_surface_evidence_v29_artifact_refs, architecture_reading_dashboard_artifact_refs, architecture_reconstructed_artifact_refs, architecture_relationship_chains_v242_artifact_refs, architecture_relationships_v29_artifact_refs, architecture_scale_artifact_refs, architecture_signal_ranking_artifact_refs, architecture_signal_ranking_v29_artifact_refs, architecture_taxonomy_artifact_refs, code_architecture_artifact_refs
+from data_service.code_assets.architecture.service import ArchitectureService, public_architecture_code_fact_chain_payload, public_architecture_code_relationships_v2_payload, public_architecture_context_pack_v2_payload, public_architecture_context_pack_v3_payload, public_architecture_document_claims_payload, public_architecture_document_code_alignment_payload, public_architecture_document_quality_payload, public_architecture_document_registry_payload, public_architecture_document_semantics_v3_payload, public_architecture_graph_summary_payload, public_architecture_human_review_report_v2_payload, public_architecture_human_review_report_view_v2_payload, public_architecture_intent_evidence_payload, public_architecture_inventory_list_payload, public_architecture_inventory_payload, public_architecture_optimized_context_pack_v244_payload, public_architecture_pattern_blockers_v2_payload, public_architecture_pattern_evidence_v2_payload, public_architecture_pattern_view_v2_payload, public_architecture_payload, public_architecture_profile_taxonomy_regression_v245_payload, public_architecture_public_surface_evidence_v2_payload, public_architecture_ranking_calibration_v2_payload, public_architecture_reading_payload, public_architecture_reconstructed_payload, public_architecture_relationship_chains_v3_payload, public_architecture_review_queue_payload, public_architecture_scale_profile_payload, public_architecture_signal_ranking_payload, public_architecture_taxonomy_payload, public_code_architecture_payload, public_language_provider_payload, public_workflow_runtime_payload
 from data_service.code_assets.envelope import v2_error_envelope, v2_success_envelope
 from data_service.mcp_common import envelope
 from data_service.mcp_workspace_runtime import WorkspaceRuntime
@@ -23,6 +23,11 @@ router = APIRouter(prefix="/workspaces", tags=["Project Intelligence Architectur
 
 class ArchitectureBuildRequest(BaseModel):
     snapshot_id: Optional[str] = Field(default=None)
+    max_files: Optional[int] = Field(default=None, ge=1)
+    max_loc: Optional[int] = Field(default=None, ge=1)
+    max_file_size_mb: Optional[int] = Field(default=None, ge=1)
+    timeout_seconds: Optional[int] = Field(default=None, ge=1)
+    shard_size: Optional[int] = Field(default=None, ge=1)
 
 
 class ArchitectureContextPackRequest(BaseModel):
@@ -41,6 +46,17 @@ def _workspace_for(workspace_id: str) -> tuple[Path, dict[str, Any]]:
     workspace = runtime.resolve_workspace(workspace_id, None)
     meta = runtime.ensure_workspace_meta(workspace)
     return workspace, meta
+
+
+def _scale_budget_from_request(request: ArchitectureBuildRequest) -> dict[str, int] | None:
+    budget = {
+        "max_files": request.max_files,
+        "max_loc": request.max_loc,
+        "max_file_size_mb": request.max_file_size_mb,
+        "timeout_seconds": request.timeout_seconds,
+        "shard_size": request.shard_size,
+    }
+    return {key: int(value) for key, value in budget.items() if value is not None} or None
 
 
 @router.post("/{workspace_id}/codebases/{codebase_id}/architecture/sources/scan")
@@ -75,7 +91,7 @@ async def build_architecture_scale_profile(workspace_id: str, codebase_id: str, 
     workspace, meta = _workspace_for(workspace_id)
     service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
     try:
-        profile = service.build_scale_profile(codebase_id, snapshot_id=request.snapshot_id)
+        profile = service.build_scale_profile(codebase_id, snapshot_id=request.snapshot_id, budget=_scale_budget_from_request(request))
     except FileNotFoundError as exc:
         return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=request.snapshot_id, error=str(exc))
     refs = architecture_scale_artifact_refs(codebase_id)
@@ -96,6 +112,19 @@ async def read_architecture_scale_profile(workspace_id: str, codebase_id: str):
     return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(profile.get("snapshot_id") or ""), data=data, artifact_refs=refs))
 
 
+@router.get("/{workspace_id}/codebases/{codebase_id}/architecture/scale/readback")
+async def read_architecture_scale_readback(workspace_id: str, codebase_id: str, shard: str = "files", page: int = 1, page_size: int = 100):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_scale_shard(codebase_id, shard=shard, page=page, page_size=page_size)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=None, error=str(exc))
+    refs = architecture_scale_artifact_refs(codebase_id)
+    data = {"scale_readback": payload}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
 @router.post("/{workspace_id}/codebases/{codebase_id}/architecture/inventory/build")
 async def build_architecture_inventory(workspace_id: str, codebase_id: str, request: ArchitectureBuildRequest):
     workspace, meta = _workspace_for(workspace_id)
@@ -112,6 +141,58 @@ async def build_architecture_inventory(workspace_id: str, codebase_id: str, requ
 @router.get("/{workspace_id}/codebases/{codebase_id}/architecture/language-facts")
 async def read_architecture_language_facts(workspace_id: str, codebase_id: str):
     return _read_architecture_inventory_list(workspace_id, codebase_id, "language_facts")
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/architecture/language-providers/build")
+async def build_architecture_language_providers(workspace_id: str, codebase_id: str, request: ArchitectureBuildRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.build_language_provider_facts(codebase_id, snapshot_id=request.snapshot_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=request.snapshot_id, error=str(exc))
+    data = {"language_providers": public_language_provider_payload(payload)}
+    refs = payload.get("artifact_refs", [])
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_architecture_language_providers"], data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/architecture/language-providers")
+async def read_architecture_language_providers(workspace_id: str, codebase_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_language_provider_facts(codebase_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=None, error=str(exc))
+    data = {"language_providers": public_language_provider_payload(payload)}
+    refs = payload.get("artifact_refs", [])
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/architecture/workflow-runtime/build")
+async def build_architecture_workflow_runtime(workspace_id: str, codebase_id: str, request: ArchitectureBuildRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.build_workflow_runtime_candidates(codebase_id, snapshot_id=request.snapshot_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=request.snapshot_id, error=str(exc))
+    data = {"workflow_runtime": public_workflow_runtime_payload(payload)}
+    refs = payload.get("artifact_refs", [])
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_architecture_workflow_runtime"], data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/architecture/workflow-runtime")
+async def read_architecture_workflow_runtime(workspace_id: str, codebase_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_workflow_runtime_candidates(codebase_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=None, error=str(exc))
+    data = {"workflow_runtime": public_workflow_runtime_payload(payload)}
+    refs = payload.get("artifact_refs", [])
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
 
 
 @router.get("/{workspace_id}/codebases/{codebase_id}/architecture/config")
@@ -427,6 +508,32 @@ async def read_architecture_relationships_v2(workspace_id: str, codebase_id: str
     return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
 
 
+@router.post("/{workspace_id}/codebases/{codebase_id}/architecture/v2_42/relationship-chains/build")
+async def build_architecture_relationship_chains_v3(workspace_id: str, codebase_id: str, request: ArchitectureBuildRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.build_relationship_chains_v3(codebase_id, snapshot_id=request.snapshot_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=request.snapshot_id, error=str(exc))
+    refs = architecture_relationship_chains_v242_artifact_refs(codebase_id)
+    data = {"relationship_chains_v3": public_architecture_relationship_chains_v3_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_architecture_relationship_chains_v3"], data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/architecture/v2_42/relationship-chains")
+async def read_architecture_relationship_chains_v3(workspace_id: str, codebase_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_relationship_chains_v3(codebase_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=None, error=str(exc))
+    refs = architecture_relationship_chains_v242_artifact_refs(codebase_id)
+    data = {"relationship_chains_v3": public_architecture_relationship_chains_v3_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
 @router.post("/{workspace_id}/codebases/{codebase_id}/architecture/v2_9/ranking/build")
 async def build_architecture_ranking_calibration_v2(workspace_id: str, codebase_id: str):
     workspace, meta = _workspace_for(workspace_id)
@@ -516,6 +623,58 @@ async def read_architecture_context_pack_v3(workspace_id: str, codebase_id: str,
     refs = architecture_context_pack_v3_artifact_refs(codebase_id, pack_id)
     data = {"architecture_context_pack_v3": public_architecture_context_pack_v3_payload(pack)}
     return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(pack.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/architecture/v2_44/context-pack-optimized")
+async def create_architecture_optimized_context_pack_v244(workspace_id: str, codebase_id: str, request: ArchitectureContextPackRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        pack = service.create_optimized_context_pack_v244(codebase_id, mode=request.mode, role=request.role, task=request.task, max_tokens=request.max_tokens)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=None, error=str(exc))
+    refs = architecture_context_pack_optimized_v244_artifact_refs(codebase_id, str(pack.get("pack_id") or ""))
+    data = {"architecture_context_pack_optimized": public_architecture_optimized_context_pack_v244_payload(pack)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_architecture_context_pack_optimized_read"], data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(pack.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/architecture/v2_44/context-pack-optimized/{pack_id}")
+async def read_architecture_optimized_context_pack_v244(workspace_id: str, codebase_id: str, pack_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        pack = service.read_optimized_context_pack_v244(codebase_id, pack_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=None, error=str(exc))
+    refs = architecture_context_pack_optimized_v244_artifact_refs(codebase_id, pack_id)
+    data = {"architecture_context_pack_optimized": public_architecture_optimized_context_pack_v244_payload(pack)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(pack.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/architecture/v2_45/profile-regression/build")
+async def build_architecture_profile_taxonomy_regression_v245(workspace_id: str, codebase_id: str, request: ArchitectureBuildRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.build_profile_taxonomy_regression_v245(codebase_id, snapshot_id=request.snapshot_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=request.snapshot_id, error=str(exc))
+    refs = payload.get("artifact_refs") or []
+    data = {"profile_taxonomy_regression": public_architecture_profile_taxonomy_regression_v245_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_architecture_profile_regression"], data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/architecture/v2_45/profile-regression")
+async def read_architecture_profile_taxonomy_regression_v245(workspace_id: str, codebase_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_profile_taxonomy_regression_v245(codebase_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=None, error=str(exc))
+    refs = payload.get("artifact_refs") or []
+    data = {"profile_taxonomy_regression": public_architecture_profile_taxonomy_regression_v245_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
 
 
 @router.post("/{workspace_id}/codebases/{codebase_id}/architecture/v2_10/patterns/build")
@@ -619,6 +778,32 @@ async def read_architecture_document_claims(workspace_id: str, codebase_id: str)
         return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=None, error=str(exc))
     refs = architecture_doc_claim_artifact_refs(codebase_id)
     data = {"document_claims": public_architecture_document_claims_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
+@router.post("/{workspace_id}/codebases/{codebase_id}/architecture/v2_43/document-semantics/build")
+async def build_architecture_document_semantics_v3(workspace_id: str, codebase_id: str, request: ArchitectureBuildRequest):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.build_document_semantics_v3(codebase_id, snapshot_id=request.snapshot_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=request.snapshot_id, error=str(exc))
+    refs = architecture_document_semantics_v243_artifact_refs(codebase_id)
+    data = {"document_semantics_v3": public_architecture_document_semantics_v3_payload(payload)}
+    return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, next_actions=["knowledge_code_architecture_document_semantics_v3"], data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
+
+
+@router.get("/{workspace_id}/codebases/{codebase_id}/architecture/v2_43/document-semantics")
+async def read_architecture_document_semantics_v3(workspace_id: str, codebase_id: str):
+    workspace, meta = _workspace_for(workspace_id)
+    service = ArchitectureService(workspace, workspace_id=str(meta["workspace_id"]))
+    try:
+        payload = service.read_document_semantics_v3(codebase_id)
+    except FileNotFoundError as exc:
+        return _error(status_code=404, workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=None, error=str(exc))
+    refs = architecture_document_semantics_v243_artifact_refs(codebase_id)
+    data = {"document_semantics_v3": public_architecture_document_semantics_v3_payload(payload)}
     return envelope(workspace_id=str(meta["workspace_id"]), artifact_refs=refs, data=_with_v2(workspace_id=str(meta["workspace_id"]), codebase_id=codebase_id, snapshot_id=str(payload.get("snapshot_id") or ""), data=data, artifact_refs=refs))
 
 
@@ -846,10 +1031,16 @@ def _architecture_error_code(error: str) -> str:
         return "CODE_ARCHITECTURE_NOT_BUILT"
     if "ARCHITECTURE_SCALE_PROFILE_NOT_BUILT" in error:
         return "ARCHITECTURE_SCALE_PROFILE_NOT_BUILT"
+    if "SHARD_NOT_FOUND" in error:
+        return "ARCHITECTURE_SCALE_SHARD_NOT_FOUND"
     if "ARCHITECTURE_INVENTORY_NOT_BUILT" in error:
         return "ARCHITECTURE_INVENTORY_NOT_BUILT"
     if "ARCHITECTURE_LANGUAGE_FACTS_NOT_BUILT" in error:
         return "ARCHITECTURE_LANGUAGE_FACTS_NOT_BUILT"
+    if "ARCHITECTURE_LANGUAGE_PROVIDERS_NOT_BUILT" in error:
+        return "ARCHITECTURE_LANGUAGE_PROVIDERS_NOT_BUILT"
+    if "ARCHITECTURE_WORKFLOW_RUNTIME_NOT_BUILT" in error:
+        return "ARCHITECTURE_WORKFLOW_RUNTIME_NOT_BUILT"
     if "ARCHITECTURE_CONFIG_INVENTORY_NOT_BUILT" in error:
         return "ARCHITECTURE_CONFIG_INVENTORY_NOT_BUILT"
     if "ARCHITECTURE_DEPLOYMENT_INVENTORY_NOT_BUILT" in error:
@@ -884,6 +1075,12 @@ def _architecture_error_code(error: str) -> str:
         return "ARCHITECTURE_GRAPH_VIEW_NOT_FOUND"
     if "ARCHITECTURE_CODE_FACT_CHAINS_NOT_BUILT" in error:
         return "ARCHITECTURE_CODE_FACT_CHAINS_NOT_BUILT"
+    if "ARCHITECTURE_RELATIONSHIP_CHAINS_V3_NOT_BUILT" in error:
+        return "ARCHITECTURE_RELATIONSHIP_CHAINS_V3_NOT_BUILT"
+    if "ARCHITECTURE_DOCUMENT_SEMANTICS_V3_NOT_BUILT" in error:
+        return "ARCHITECTURE_DOCUMENT_SEMANTICS_V3_NOT_BUILT"
+    if "ARCHITECTURE_PROFILE_TAXONOMY_REGRESSION_NOT_BUILT" in error:
+        return "ARCHITECTURE_PROFILE_TAXONOMY_REGRESSION_NOT_BUILT"
     if "ARCHITECTURE_DOC_SOURCE_NOT_FOUND" in error:
         return "ARCHITECTURE_DOC_SOURCE_NOT_FOUND"
     if "ARCHITECTURE_VIEW_NOT_BUILT" in error:
@@ -910,6 +1107,12 @@ def _architecture_error_message(error: str) -> str:
         return "Code-derived Architecture Model has not been built"
     if "ARCHITECTURE_SCALE_PROFILE_NOT_BUILT" in error:
         return "Architecture Scale Profile has not been built"
+    if "SHARD_NOT_FOUND" in error:
+        return "Architecture scale shard was not found"
+    if "ARCHITECTURE_LANGUAGE_PROVIDERS_NOT_BUILT" in error:
+        return "Architecture language providers have not been built"
+    if "ARCHITECTURE_WORKFLOW_RUNTIME_NOT_BUILT" in error:
+        return "Architecture workflow/runtime candidates have not been built"
     if "ARCHITECTURE_DOCS_NOT_BUILT" in error:
         return "Architecture document registry has not been built"
     if "ARCHITECTURE_DOC_CLAIMS_NOT_BUILT" in error:
@@ -934,6 +1137,12 @@ def _architecture_error_message(error: str) -> str:
         return "Architecture graph view was not found"
     if "ARCHITECTURE_CODE_FACT_CHAINS_NOT_BUILT" in error:
         return "Architecture code fact chains have not been built"
+    if "ARCHITECTURE_RELATIONSHIP_CHAINS_V3_NOT_BUILT" in error:
+        return "Architecture relationship chains v3 have not been built"
+    if "ARCHITECTURE_DOCUMENT_SEMANTICS_V3_NOT_BUILT" in error:
+        return "Architecture document semantics v3 have not been built"
+    if "ARCHITECTURE_PROFILE_TAXONOMY_REGRESSION_NOT_BUILT" in error:
+        return "Architecture profile/taxonomy regression artifacts have not been built"
     if "ARCHITECTURE_DOC_SOURCE_NOT_FOUND" in error:
         return "No architecture document source was found in the codebase snapshot"
     if "SNAPSHOT_FILES_NOT_FOUND" in error:

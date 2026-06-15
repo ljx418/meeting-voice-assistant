@@ -21,28 +21,35 @@ from .doc_claim_extractor import build_document_claims, public_document_claims_p
 from .doc_code_alignment import build_document_code_alignment, public_document_code_alignment_payload
 from .doc_quality import build_document_quality, public_document_quality_payload
 from .doc_registry import build_document_registry, public_document_registry_payload
+from .document_semantics_v3 import build_document_semantics_v3, public_document_semantics_v3_payload, read_document_semantics_v3
 from .drift import build_design_code_drift
 from .findings import build_findings
 from .inventory_extractors import build_architecture_inventory, public_inventory_payload
+from .language_provider_v2 import build_language_provider_artifacts, public_language_provider_payload, read_language_provider_artifacts
 from .large_project_views import HTML_VIEW_ID, MERMAID_VIEW_ID, build_architecture_summary, render_key_boundaries_mermaid, render_large_project_html
 from .layer_inferer import infer_layers
 from .model_builder import build_architecture_model
 from .pattern_detector import detect_patterns
 from .pattern_evidence_v2 import build_pattern_evidence_v2, public_pattern_blockers_payload as public_pattern_blockers_payload_impl, public_pattern_evidence_payload as public_pattern_evidence_payload_impl, public_pattern_view_payload as public_pattern_view_payload_impl
+from .profile_taxonomy_regression import build_profile_taxonomy_regression, public_profile_taxonomy_regression_payload, read_profile_taxonomy_regression
 from .graph_aggregation import build_architecture_graph_aggregation, public_architecture_graph_aggregation_payload
 from .human_review_report_v2 import HTML_VIEW_ID as HUMAN_REPORT_HTML_VIEW_ID, build_human_review_report_v2, public_human_review_report_v2_payload as public_human_review_report_v2_payload_impl, public_human_review_report_view_v2_payload as public_human_review_report_view_v2_payload_impl
-from .persistence import architecture_artifact_refs, architecture_code_fact_chain_artifact_refs, architecture_context_pack_v2_artifact_refs, architecture_context_pack_v3_artifact_refs, architecture_doc_claim_artifact_refs, architecture_doc_code_alignment_artifact_refs, architecture_doc_quality_artifact_refs, architecture_doc_registry_artifact_refs, architecture_graph_v28_artifact_refs, architecture_human_report_v29_artifact_refs, architecture_intent_evidence_artifact_refs, architecture_inventory_artifact_refs, architecture_pattern_evidence_v210_artifact_refs, architecture_public_surface_evidence_v29_artifact_refs, architecture_reading_dashboard_artifact_refs, architecture_reconstructed_artifact_refs, architecture_relationships_v29_artifact_refs, architecture_scale_artifact_refs, architecture_signal_ranking_artifact_refs, architecture_signal_ranking_v29_artifact_refs, architecture_taxonomy_artifact_refs, code_architecture_artifact_refs, read_architecture_bundle, read_architecture_code_fact_chains, read_architecture_config_inventory, read_architecture_context_pack_v2, read_architecture_context_pack_v3, read_architecture_deployment_inventory, read_architecture_doc_claims, read_architecture_doc_code_alignment, read_architecture_doc_quality, read_architecture_doc_registry, read_architecture_doc_view, read_architecture_graph_v28, read_architecture_graph_view_v28, read_architecture_human_report_v29, read_architecture_human_report_view_v29, read_architecture_intent_evidence, read_architecture_inventory, read_architecture_language_facts, read_architecture_pattern_evidence_v210, read_architecture_pattern_evidence_v210_view, read_architecture_public_surface_evidence_v29, read_architecture_reading_dashboard, read_architecture_reconstructed_model, read_architecture_relationships_v29, read_architecture_review_queue, read_architecture_scale_profile, read_architecture_schema_inventory, read_architecture_signal_ranking, read_architecture_signal_ranking_v29, read_architecture_taxonomy, read_architecture_v28_view, read_architecture_view, read_code_architecture_roles_layers, write_architecture_bundle, write_architecture_code_fact_chains, write_architecture_context_pack_v2, write_architecture_context_pack_v3, write_architecture_doc_claims, write_architecture_doc_code_alignment, write_architecture_doc_quality, write_architecture_doc_registry, write_architecture_graph_v28, write_architecture_human_report_v29, write_architecture_intent_evidence, write_architecture_inventory, write_architecture_pattern_evidence_v210, write_architecture_public_surface_evidence_v29, write_architecture_reading_dashboard, write_architecture_reconstructed_model, write_architecture_relationships_v29, write_architecture_review_queue, write_architecture_scale_profile, write_architecture_signal_ranking, write_architecture_signal_ranking_v29, write_architecture_taxonomy, write_code_architecture_roles_layers
+from .persistence import architecture_artifact_refs, architecture_code_fact_chain_artifact_refs, architecture_context_pack_v2_artifact_refs, architecture_context_pack_v3_artifact_refs, architecture_doc_claim_artifact_refs, architecture_doc_code_alignment_artifact_refs, architecture_doc_quality_artifact_refs, architecture_doc_registry_artifact_refs, architecture_document_semantics_v243_artifact_refs, architecture_graph_v28_artifact_refs, architecture_human_report_v29_artifact_refs, architecture_intent_evidence_artifact_refs, architecture_inventory_artifact_refs, architecture_pattern_evidence_v210_artifact_refs, architecture_public_surface_evidence_v29_artifact_refs, architecture_reading_dashboard_artifact_refs, architecture_reconstructed_artifact_refs, architecture_relationship_chains_v242_artifact_refs, architecture_relationships_v29_artifact_refs, architecture_scale_artifact_refs, architecture_signal_ranking_artifact_refs, architecture_signal_ranking_v29_artifact_refs, architecture_taxonomy_artifact_refs, code_architecture_artifact_refs, read_architecture_bundle, read_architecture_code_fact_chains, read_architecture_config_inventory, read_architecture_context_pack_v2, read_architecture_context_pack_v3, read_architecture_deployment_inventory, read_architecture_doc_claims, read_architecture_doc_code_alignment, read_architecture_doc_quality, read_architecture_doc_registry, read_architecture_doc_view, read_architecture_graph_v28, read_architecture_graph_view_v28, read_architecture_human_report_v29, read_architecture_human_report_view_v29, read_architecture_intent_evidence, read_architecture_inventory, read_architecture_language_facts, read_architecture_pattern_evidence_v210, read_architecture_pattern_evidence_v210_view, read_architecture_public_surface_evidence_v29, read_architecture_reading_dashboard, read_architecture_reconstructed_model, read_architecture_relationships_v29, read_architecture_review_queue, read_architecture_scale_profile, read_architecture_schema_inventory, read_architecture_signal_ranking, read_architecture_signal_ranking_v29, read_architecture_taxonomy, read_architecture_v28_view, read_architecture_view, read_code_architecture_roles_layers, write_architecture_bundle, write_architecture_code_fact_chains, write_architecture_context_pack_v2, write_architecture_context_pack_v3, write_architecture_doc_claims, write_architecture_doc_code_alignment, write_architecture_doc_quality, write_architecture_doc_registry, write_architecture_graph_v28, write_architecture_human_report_v29, write_architecture_intent_evidence, write_architecture_inventory, write_architecture_pattern_evidence_v210, write_architecture_public_surface_evidence_v29, write_architecture_reading_dashboard, write_architecture_reconstructed_model, write_architecture_relationships_v29, write_architecture_review_queue, write_architecture_scale_profile, write_architecture_signal_ranking, write_architecture_signal_ranking_v29, write_architecture_taxonomy, write_code_architecture_roles_layers
 from .ranking_intent import build_intent_evidence, build_signal_ranking, public_intent_evidence_payload, public_signal_ranking_payload
 from .ranking_calibration_v2 import build_ranking_calibration_v2, public_ranking_calibration_v2_payload as public_ranking_calibration_v2_payload_impl
 from .reading_dashboard import HTML_VIEW_ID as READING_DASHBOARD_HTML_VIEW_ID, MERMAID_VIEW_ID as READING_DASHBOARD_MERMAID_VIEW_ID, build_architecture_reading_dashboard, public_architecture_reading_dashboard_payload, render_architecture_reading_dashboard_html, render_architecture_relationship_summary_mermaid
+from .relationship_chains_v3 import build_relationship_chains_v3, public_relationship_chains_v3_payload, read_relationship_chains_v3
 from .reconstruction import HTML_VIEW_ID as RECONSTRUCTED_HTML_VIEW_ID, MERMAID_VIEW_ID as RECONSTRUCTED_MERMAID_VIEW_ID, build_reconstructed_architecture_model, public_reconstructed_architecture_payload, render_reconstructed_architecture_html, render_reconstructed_architecture_mermaid
 from .review_queue import build_review_queue, public_review_queue_payload
 from .role_classifier import classify_code_roles
 from .renderer import render_code_architecture_html, render_code_architecture_mermaid, render_html, render_mermaid
-from .scale_profile import build_architecture_scale_profile, public_scale_profile_payload
+from .scale_profile import build_architecture_scale_profile, public_scale_profile_payload, read_scale_shard_page
 from .surface_evidence_v2 import build_public_surface_evidence_v2, public_public_surface_evidence_v2_payload as public_public_surface_evidence_v2_payload_impl
 from .sources import discover_architecture_sources
 from .taxonomy import build_default_taxonomy
+from .token_context_cache import build_optimized_context_pack, public_optimized_context_pack_payload
+from .workflow_runtime_v2 import build_workflow_runtime_candidates, public_workflow_runtime_payload, read_workflow_runtime_candidates
+from .persistence import architecture_context_pack_optimized_v244_artifact_refs, read_architecture_context_pack_optimized_v244, write_architecture_context_pack_optimized_v244
 from ..quality.persistence import read_plan
 
 
@@ -178,7 +185,7 @@ class ArchitectureService:
         content = read_architecture_view(self.workspace, codebase_id, normalized)
         return {"snapshot_id": payload["snapshot_id"], "view_id": normalized, "content": content}
 
-    def build_scale_profile(self, codebase_id: str, *, snapshot_id: str | None = None) -> dict[str, Any]:
+    def build_scale_profile(self, codebase_id: str, *, snapshot_id: str | None = None, budget: dict[str, Any] | None = None) -> dict[str, Any]:
         asset = self.registry.describe(codebase_id)
         if asset.status != "active":
             raise ValueError("CODEBASE_NOT_ACTIVE")
@@ -194,6 +201,7 @@ class ArchitectureService:
             snapshot_id=resolved_snapshot_id,
             snapshot=snapshot,
             files=files,
+            budget=budget,
         )
         write_architecture_scale_profile(self.workspace, codebase_id, profile)
         return profile
@@ -201,6 +209,10 @@ class ArchitectureService:
     def read_scale_profile(self, codebase_id: str) -> dict[str, Any]:
         self.registry.describe(codebase_id)
         return read_architecture_scale_profile(self.workspace, codebase_id)
+
+    def read_scale_shard(self, codebase_id: str, *, shard: str = "files", page: int = 1, page_size: int = 100) -> dict[str, Any]:
+        self.registry.describe(codebase_id)
+        return read_scale_shard_page(self.workspace, codebase_id, shard=shard, page=page, page_size=page_size)
 
     def build_inventory(self, codebase_id: str, *, snapshot_id: str | None = None) -> dict[str, Any]:
         asset = self.registry.describe(codebase_id)
@@ -249,6 +261,54 @@ class ArchitectureService:
     def read_language_facts(self, codebase_id: str) -> list[dict[str, Any]]:
         self.registry.describe(codebase_id)
         return read_architecture_language_facts(self.workspace, codebase_id)
+
+    def build_language_provider_facts(self, codebase_id: str, *, snapshot_id: str | None = None) -> dict[str, Any]:
+        asset = self.registry.describe(codebase_id)
+        if asset.status != "active":
+            raise ValueError("CODEBASE_NOT_ACTIVE")
+        resolved_snapshot_id = snapshot_id or self._latest_snapshot_id(codebase_id)
+        self.snapshots.read_snapshot(codebase_id, resolved_snapshot_id)
+        files = read_jsonl(snapshot_files_path(self.workspace, codebase_id, resolved_snapshot_id))
+        if not files:
+            raise FileNotFoundError("SNAPSHOT_FILES_NOT_FOUND")
+        return build_language_provider_artifacts(
+            workspace=self.workspace,
+            workspace_id=self.workspace_id,
+            codebase_id=codebase_id,
+            snapshot_id=resolved_snapshot_id,
+            root=Path(asset.root_path).expanduser().resolve(),
+            files=files,
+        )
+
+    def read_language_provider_facts(self, codebase_id: str) -> dict[str, Any]:
+        self.registry.describe(codebase_id)
+        payload = read_language_provider_artifacts(self.workspace, codebase_id)
+        payload["workspace_id"] = self.workspace_id
+        return payload
+
+    def build_workflow_runtime_candidates(self, codebase_id: str, *, snapshot_id: str | None = None) -> dict[str, Any]:
+        asset = self.registry.describe(codebase_id)
+        if asset.status != "active":
+            raise ValueError("CODEBASE_NOT_ACTIVE")
+        resolved_snapshot_id = snapshot_id or self._latest_snapshot_id(codebase_id)
+        self.snapshots.read_snapshot(codebase_id, resolved_snapshot_id)
+        files = read_jsonl(snapshot_files_path(self.workspace, codebase_id, resolved_snapshot_id))
+        if not files:
+            raise FileNotFoundError("SNAPSHOT_FILES_NOT_FOUND")
+        return build_workflow_runtime_candidates(
+            workspace=self.workspace,
+            workspace_id=self.workspace_id,
+            codebase_id=codebase_id,
+            snapshot_id=resolved_snapshot_id,
+            root=Path(asset.root_path).expanduser().resolve(),
+            files=files,
+        )
+
+    def read_workflow_runtime_candidates(self, codebase_id: str) -> dict[str, Any]:
+        self.registry.describe(codebase_id)
+        payload = read_workflow_runtime_candidates(self.workspace, codebase_id)
+        payload["workspace_id"] = self.workspace_id
+        return payload
 
     def read_config_inventory(self, codebase_id: str) -> list[dict[str, Any]]:
         self.registry.describe(codebase_id)
@@ -424,6 +484,36 @@ class ArchitectureService:
             "artifact_refs": architecture_doc_claim_artifact_refs(codebase_id),
         }
         return _apply_quality_plan_to_v27_payload(self.workspace, codebase_id, result)
+
+    def build_document_semantics_v3(self, codebase_id: str, *, snapshot_id: str | None = None) -> dict[str, Any]:
+        asset = self.registry.describe(codebase_id)
+        if asset.status != "active":
+            raise ValueError("CODEBASE_NOT_ACTIVE")
+        resolved_snapshot_id = snapshot_id or self._latest_snapshot_id(codebase_id)
+        self.snapshots.read_snapshot(codebase_id, resolved_snapshot_id)
+        try:
+            registry = self.read_document_registry(codebase_id)
+            if str(registry.get("snapshot_id") or "") != resolved_snapshot_id:
+                registry = self.build_document_registry(codebase_id, snapshot_id=resolved_snapshot_id)
+        except FileNotFoundError:
+            registry = self.build_document_registry(codebase_id, snapshot_id=resolved_snapshot_id)
+        documents = list(registry.get("documents") or [])
+        if not documents:
+            raise FileNotFoundError("ARCHITECTURE_DOC_SOURCE_NOT_FOUND")
+        refs = architecture_document_semantics_v243_artifact_refs(codebase_id)
+        return build_document_semantics_v3(
+            workspace=self.workspace,
+            workspace_id=self.workspace_id,
+            codebase_id=codebase_id,
+            snapshot_id=resolved_snapshot_id,
+            root=Path(asset.root_path).expanduser().resolve(),
+            documents=documents,
+            artifact_refs=refs,
+        )
+
+    def read_document_semantics_v3(self, codebase_id: str) -> dict[str, Any]:
+        self.registry.describe(codebase_id)
+        return read_document_semantics_v3(self.workspace, codebase_id, architecture_document_semantics_v243_artifact_refs(codebase_id))
 
     def build_document_quality(self, codebase_id: str) -> dict[str, Any]:
         self.registry.describe(codebase_id)
@@ -899,6 +989,45 @@ class ArchitectureService:
         payload["artifact_refs"] = architecture_relationships_v29_artifact_refs(codebase_id)
         return payload
 
+    def build_relationship_chains_v3(self, codebase_id: str, *, snapshot_id: str | None = None) -> dict[str, Any]:
+        asset = self.registry.describe(codebase_id)
+        if asset.status != "active":
+            raise ValueError("CODEBASE_NOT_ACTIVE")
+        resolved_snapshot_id = snapshot_id or self._latest_snapshot_id(codebase_id)
+        self.snapshots.read_snapshot(codebase_id, resolved_snapshot_id)
+        files = read_jsonl(snapshot_files_path(self.workspace, codebase_id, resolved_snapshot_id))
+        surfaces = read_jsonl(inventory_surfaces_path(self.workspace, codebase_id, resolved_snapshot_id))
+        symbols = read_jsonl(symbols_path(self.workspace, codebase_id, resolved_snapshot_id))
+        if not files:
+            raise FileNotFoundError("SNAPSHOT_FILES_NOT_FOUND")
+        language = self.read_language_provider_facts(codebase_id)
+        workflow = self.read_workflow_runtime_candidates(codebase_id)
+        try:
+            claims = self.read_document_claims(codebase_id).get("claims", [])
+        except FileNotFoundError:
+            claims = []
+        refs = architecture_relationship_chains_v242_artifact_refs(codebase_id)
+        return build_relationship_chains_v3(
+            workspace=self.workspace,
+            workspace_id=self.workspace_id,
+            codebase_id=codebase_id,
+            snapshot_id=resolved_snapshot_id,
+            surfaces=surfaces,
+            symbols=symbols,
+            files=files,
+            language_symbols=list(language.get("symbols") or []),
+            language_references=list(language.get("references") or []),
+            workflow_candidates=list(workflow.get("workflow_candidates") or []),
+            runtime_candidates=list(workflow.get("runtime_candidates") or []),
+            entrypoint_candidates=list(workflow.get("entrypoint_candidates") or []),
+            doc_claims=list(claims),
+            artifact_refs=refs,
+        )
+
+    def read_relationship_chains_v3(self, codebase_id: str) -> dict[str, Any]:
+        self.registry.describe(codebase_id)
+        return read_relationship_chains_v3(self.workspace, codebase_id, architecture_relationship_chains_v242_artifact_refs(codebase_id))
+
     def build_ranking_calibration_v2(self, codebase_id: str) -> dict[str, Any]:
         self.registry.describe(codebase_id)
         evidence_payload = self.read_public_surface_evidence_v2(codebase_id)
@@ -1009,6 +1138,68 @@ class ArchitectureService:
         pack = read_architecture_context_pack_v3(self.workspace, codebase_id, pack_id)
         pack["artifact_refs"] = architecture_context_pack_v3_artifact_refs(codebase_id, pack_id)
         return pack
+
+    def create_optimized_context_pack_v244(
+        self,
+        codebase_id: str,
+        *,
+        mode: str = "project_brief",
+        role: str = "maintainer",
+        task: str | None = None,
+        max_tokens: int = 4000,
+    ) -> dict[str, Any]:
+        self.registry.describe(codebase_id)
+        relationships = read_relationship_chains_v3(self.workspace, codebase_id, architecture_relationship_chains_v242_artifact_refs(codebase_id))
+        document_semantics = read_document_semantics_v3(self.workspace, codebase_id, architecture_document_semantics_v243_artifact_refs(codebase_id))
+        snapshot_id = str(relationships.get("snapshot_id") or document_semantics.get("snapshot_id") or "")
+        refs = [
+            *architecture_relationship_chains_v242_artifact_refs(codebase_id),
+            *architecture_document_semantics_v243_artifact_refs(codebase_id),
+        ]
+        built = build_optimized_context_pack(
+            workspace=self.workspace,
+            workspace_id=self.workspace_id,
+            codebase_id=codebase_id,
+            snapshot_id=snapshot_id,
+            mode=mode,
+            role=role,
+            task=task,
+            max_tokens=max_tokens,
+            relationship_payload=relationships,
+            document_semantics_payload=document_semantics,
+            artifact_refs=refs,
+        )
+        pack = built["pack"]
+        pack["artifact_refs"] = architecture_context_pack_optimized_v244_artifact_refs(codebase_id, str(pack.get("pack_id") or ""))
+        write_architecture_context_pack_optimized_v244(self.workspace, codebase_id, str(pack["pack_id"]), pack, str(built["markdown"]), built["ledger"], built["cache_index"])
+        return pack
+
+    def read_optimized_context_pack_v244(self, codebase_id: str, pack_id: str) -> dict[str, Any]:
+        self.registry.describe(codebase_id)
+        pack = read_architecture_context_pack_optimized_v244(self.workspace, codebase_id, pack_id)
+        pack["artifact_refs"] = architecture_context_pack_optimized_v244_artifact_refs(codebase_id, pack_id)
+        return pack
+
+    def build_profile_taxonomy_regression_v245(self, codebase_id: str, *, snapshot_id: str | None = None, regression_projects: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+        asset = self.registry.describe(codebase_id)
+        if asset.status != "active":
+            raise ValueError("CODEBASE_NOT_ACTIVE")
+        resolved_snapshot_id = snapshot_id or self._latest_snapshot_id(codebase_id)
+        self.snapshots.read_snapshot(codebase_id, resolved_snapshot_id)
+        projects = regression_projects or [{"name": Path(asset.root_path).name, "exists": True, "artifact_refs": [], "test_commands": []}]
+        return build_profile_taxonomy_regression(
+            workspace=self.workspace,
+            workspace_id=self.workspace_id,
+            codebase_id=codebase_id,
+            snapshot_id=resolved_snapshot_id,
+            repo_root=Path(asset.root_path),
+            project_name=Path(asset.root_path).name,
+            regression_projects=projects,
+        )
+
+    def read_profile_taxonomy_regression_v245(self, codebase_id: str) -> dict[str, Any]:
+        self.registry.describe(codebase_id)
+        return read_profile_taxonomy_regression(self.workspace, codebase_id)
 
     def build_pattern_evidence_v2(self, codebase_id: str, *, snapshot_id: str | None = None, runtime_enabled: bool = False) -> dict[str, Any]:
         asset = self.registry.describe(codebase_id)
@@ -1202,6 +1393,10 @@ def public_architecture_document_claims_payload(payload: dict[str, Any]) -> dict
     return public_document_claims_payload(payload, architecture_doc_claim_artifact_refs(str(payload.get("codebase_id") or "")))
 
 
+def public_architecture_document_semantics_v3_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    return public_document_semantics_v3_payload(payload)
+
+
 def public_architecture_document_quality_payload(payload: dict[str, Any]) -> dict[str, Any]:
     return public_document_quality_payload(payload, architecture_doc_quality_artifact_refs(str(payload.get("codebase_id") or "")))
 
@@ -1254,6 +1449,10 @@ def public_architecture_code_relationships_v2_payload(payload: dict[str, Any]) -
     return public_code_relationships_v2_payload_impl(payload, architecture_relationships_v29_artifact_refs(str(payload.get("codebase_id") or "")))
 
 
+def public_architecture_relationship_chains_v3_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    return public_relationship_chains_v3_payload(payload)
+
+
 def public_architecture_ranking_calibration_v2_payload(payload: dict[str, Any]) -> dict[str, Any]:
     ranking = payload.get("ranking", {})
     codebase_id = str(ranking.get("codebase_id") or payload.get("review_queue_v3", {}).get("codebase_id") or "")
@@ -1272,6 +1471,14 @@ def public_architecture_human_review_report_view_v2_payload(view: dict[str, Any]
 
 def public_architecture_context_pack_v3_payload(pack: dict[str, Any]) -> dict[str, Any]:
     return public_architecture_context_pack_v3_payload_impl(pack, architecture_context_pack_v3_artifact_refs(str(pack.get("codebase_id") or ""), str(pack.get("pack_id") or "")))
+
+
+def public_architecture_optimized_context_pack_v244_payload(pack: dict[str, Any]) -> dict[str, Any]:
+    return public_optimized_context_pack_payload(pack)
+
+
+def public_architecture_profile_taxonomy_regression_v245_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    return public_profile_taxonomy_regression_payload(payload)
 
 
 def public_architecture_pattern_evidence_v2_payload(payload: dict[str, Any]) -> dict[str, Any]:

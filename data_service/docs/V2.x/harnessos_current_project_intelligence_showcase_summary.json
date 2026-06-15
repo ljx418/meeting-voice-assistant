@@ -1,0 +1,255 @@
+{
+  "summary": {
+    "workspace_root": "[local temp workspace redacted]",
+    "workspace_id": "harnessos_showcase",
+    "codebase_id": "codebase_harnessos_showcase",
+    "snapshot_id": "snap_d8b3cb30898b4cdbea13",
+    "duration_seconds": 210.74,
+    "file_count": 2583,
+    "loc_total": 397331,
+    "language_count": 13,
+    "surface_count": 174,
+    "symbol_count": 8274,
+    "trace_evidence_count": 0,
+    "doc_count": 832,
+    "claim_count": 22506,
+    "quality_finding_count": 1928,
+    "alignment_count": 22706,
+    "code_fact_chain_count": 254,
+    "accepted_code_fact_chain_count": 0,
+    "public_surface_evidence_count": 174,
+    "accepted_public_surface_evidence_count": 0,
+    "relationship_count": 823,
+    "step_passed_count": 25,
+    "step_blocked_count": 0
+  },
+  "steps": [
+    {
+      "name": "Codebase Registry Import",
+      "status": "passed",
+      "duration_ms": 4
+    },
+    {
+      "name": "Repo Snapshot",
+      "status": "passed",
+      "duration_ms": 157092
+    },
+    {
+      "name": "Public Surface Inventory",
+      "status": "passed",
+      "duration_ms": 4386
+    },
+    {
+      "name": "Python Symbol Index",
+      "status": "passed",
+      "duration_ms": 2678
+    },
+    {
+      "name": "Surface Evidence Trace",
+      "status": "passed",
+      "duration_ms": 289
+    },
+    {
+      "name": "Code-Derived Architecture",
+      "status": "passed",
+      "duration_ms": 795
+    },
+    {
+      "name": "Scale Profile",
+      "status": "passed",
+      "duration_ms": 238
+    },
+    {
+      "name": "Architecture Inventory",
+      "status": "passed",
+      "duration_ms": 1194
+    },
+    {
+      "name": "Architecture Taxonomy",
+      "status": "passed",
+      "duration_ms": 0
+    },
+    {
+      "name": "Review Queue",
+      "status": "passed",
+      "duration_ms": 307
+    },
+    {
+      "name": "Large Project Views",
+      "status": "passed",
+      "duration_ms": 262
+    },
+    {
+      "name": "Document Registry",
+      "status": "passed",
+      "duration_ms": 346
+    },
+    {
+      "name": "Architecture Claims",
+      "status": "passed",
+      "duration_ms": 3514
+    },
+    {
+      "name": "Document Quality",
+      "status": "passed",
+      "duration_ms": 1875
+    },
+    {
+      "name": "Document-Code Alignment",
+      "status": "passed",
+      "duration_ms": 15996
+    },
+    {
+      "name": "Architecture Reconstruction",
+      "status": "passed",
+      "duration_ms": 3842
+    },
+    {
+      "name": "Reading Dashboard",
+      "status": "passed",
+      "duration_ms": 1772
+    },
+    {
+      "name": "Graph Summary",
+      "status": "passed",
+      "duration_ms": 326
+    },
+    {
+      "name": "Code Fact Chains",
+      "status": "passed",
+      "duration_ms": 242
+    },
+    {
+      "name": "Signal Ranking",
+      "status": "passed",
+      "duration_ms": 6785
+    },
+    {
+      "name": "Intent Evidence",
+      "status": "passed",
+      "duration_ms": 4074
+    },
+    {
+      "name": "Public Surface Evidence v2",
+      "status": "passed",
+      "duration_ms": 308
+    },
+    {
+      "name": "Code Relationships v2",
+      "status": "passed",
+      "duration_ms": 531
+    },
+    {
+      "name": "Ranking Calibration v2",
+      "status": "passed",
+      "duration_ms": 72
+    },
+    {
+      "name": "Human Review Report v2",
+      "status": "passed",
+      "duration_ms": 23
+    }
+  ],
+  "errors": [],
+  "top_dirs": [
+    {
+      "name": "docs",
+      "files": 1401,
+      "loc": 166771
+    },
+    {
+      "name": "apps",
+      "files": 248,
+      "loc": 96338
+    },
+    {
+      "name": "core",
+      "files": 175,
+      "loc": 39969
+    },
+    {
+      "name": "tests",
+      "files": 330,
+      "loc": 36150
+    },
+    {
+      "name": "openharness",
+      "files": 151,
+      "loc": 21272
+    },
+    {
+      "name": "scripts",
+      "files": 41,
+      "loc": 9743
+    },
+    {
+      "name": "tools",
+      "files": 76,
+      "loc": 9613
+    },
+    {
+      "name": "agents",
+      "files": 11,
+      "loc": 4887
+    },
+    {
+      "name": "cli",
+      "files": 12,
+      "loc": 2794
+    },
+    {
+      "name": "sdk",
+      "files": 30,
+      "loc": 2147
+    }
+  ],
+  "surface_counts": {
+    "mcp_tool": 174
+  },
+  "role_counts": {
+    "mcp_tooling": 204,
+    "artifact_store": 32,
+    "runtime": 35,
+    "service": 16,
+    "provider": 6,
+    "governance": 9,
+    "cli_tooling": 4,
+    "script": 79,
+    "policy": 4,
+    "test": 635,
+    "docs": 1445,
+    "unknown": 535,
+    "frontend": 80
+  },
+  "layer_counts": {
+    "application": 1,
+    "artifact": 1,
+    "docs": 1,
+    "governance": 1,
+    "infrastructure": 1,
+    "interface": 1,
+    "runtime": 1,
+    "test": 1,
+    "unknown": 1
+  },
+  "boundary_counts": {
+    "package": 333,
+    "public_surface_boundary": 1,
+    "governance_boundary": 1,
+    "storage_boundary": 1,
+    "adapter_boundary": 1
+  },
+  "pattern_counts": {
+    "mcp_registry": 1,
+    "cli_command_group": 1,
+    "provider_adapter": 1,
+    "artifact_store": 1,
+    "quality_gate": 1,
+    "context_pack": 1,
+    "devwiki": 1,
+    "code_graph": 1,
+    "architecture_alignment": 1,
+    "pipeline": 1
+  },
+  "output_html": "docs/V2.x/harnessos_current_project_intelligence_showcase.html"
+}

@@ -1,0 +1,168 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="5">
+  <diagram name="01 当前vs目标架构差异" id="v2_25_30_gap">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t1" value="V2.25-V2.30 当前架构 vs 目标架构差异" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="900" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cur" value="当前能力&#xa;• 能扫描大项目、生成 snapshot / surface / symbol / report&#xa;• 能抽取文档 claim 和 doc-code alignment&#xa;• 能展示 HarnessOS 规模和结构&#xa;• 但 accepted line-level fact chain 可能不足&#xa;• 架构图节点不能系统反推代码事实&#xa;• 设计意图只能弱推断，未形成 proof graph" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef2f2;strokeColor=#ef4444;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="70" y="130" width="560" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="target" value="目标能力&#xa;• Architecture Source Model 统一文档/图/代码/配置/测试/运行源&#xa;• Diagram-to-Claim Parser 解析 drawio/Mermaid/Markdown 图&#xa;• Code Proof Graph 聚合代码、配置、测试、运行佐证&#xa;• Intent Inference 输出 evidence-backed 候选意图&#xa;• Diagram-to-Code Verification 反推架构图落地状态&#xa;• UX Report 展示 target/current/inferred/confirmed/diff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#22c55e;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="870" y="130" width="560" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow" value="从“结构展示”升级为“证据化架构理解与落地验证”" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2563eb;strokeWidth=3;fontSize=15;fontStyle=1;endArrow=block;" edge="1" parent="1" source="cur" target="target">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="guard" value="关键边界&#xa;1. 不承诺 100% 自动恢复人类完整设计意图&#xa;2. 文档 claim 不是代码事实&#xa;3. token-only 不得 accepted&#xa;4. import/reference 不是 runtime call&#xa;5. LLM-only 结论必须 needs_review&#xa;6. 低置信关系进入人工确认队列" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="310" y="560" width="880" height="270" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="02 目标架构" id="v2_25_30_arch">
+    <mxGraphModel dx="1580" dy="831" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t2" parent="1" style="text;html=1;fontSize=26;fontStyle=1;strokeColor=none;fillColor=none;" value="V2.25-V2.30 目标架构：证据化架构意图与图到代码验证" vertex="1">
+          <mxGeometry height="50" width="1080" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="src" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=15;fontStyle=1;" value="Architecture Sources&#xa;Markdown / drawio / Mermaid / PRD / README / Code / Config / Tests / Runtime Descriptor" vertex="1">
+          <mxGeometry height="80" width="1060" x="220" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="model" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=15;" value="Architecture Source Model&#xa;doc_asset / diagram_cell / source_block / authority / stale / evidence locator" vertex="1">
+          <mxGeometry height="80" width="1060" x="220" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="claim" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;" value="Diagram-to-Claim Parser&#xa;component / layer / boundary / workflow / adapter / provider / relation" vertex="1">
+          <mxGeometry height="100" width="380" x="80" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="proof" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;" value="Code Proof Graph&#xa;surface / symbol / config / test / runtime / human_confirmed / evidence edge" vertex="1">
+          <mxGeometry height="100" width="380" x="560" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="intent" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;" value="Intent Inference Engine&#xa;intent_candidate / evidence_bundle / counter_evidence / confidence / needs_review" vertex="1">
+          <mxGeometry height="100" width="380" x="1040" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="verify" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=16;fontStyle=1;" value="Diagram-to-Code Verification&#xa;accepted / weak_match / missing_code_evidence / conflict / stale" vertex="1">
+          <mxGeometry height="90" width="610" x="90" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="ux" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontSize=16;fontStyle=1;" value="Architecture Understanding UX&#xa;Target from Docs | Current from Code | Inferred Intent | Human Confirmed | Diff/Drift | Review Queue" vertex="1">
+          <mxGeometry height="100" width="1060" x="220" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="src" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" target="model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="model" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" target="claim">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="model" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" target="proof">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="model" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#334155;endArrow=block;" target="intent">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="claim" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#16a34a;strokeWidth=2;endArrow=block;" target="verify">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="proof" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#16a34a;strokeWidth=2;endArrow=block;" target="verify">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="intent" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#7c3aed;strokeWidth=2;endArrow=block;" target="ux">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="verify" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#7c3aed;strokeWidth=2;endArrow=block;" target="ux">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="03 开发及验收计划" id="v2_25_30_plan">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t3" value="Phase 91-96 开发及验收计划" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="720" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="p91" value="Phase 91&#xa;Architecture Source Model&#xa;验收：data_service / HarnessOS source model 非空，repo-relative path，无路径泄露" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="130" width="210" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="p92" value="Phase 92&#xa;Diagram-to-Claim Parser&#xa;验收：drawio/Mermaid/Markdown claim 可追踪 cell id 或 line range" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="300" y="130" width="210" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="p93" value="Phase 93&#xa;Code Proof Graph&#xa;验收：code/config/test/runtime proof edge 有证据，禁止 runtime overclaim" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="540" y="130" width="210" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="p94" value="Phase 94&#xa;Intent Inference Engine&#xa;验收：每条意图候选有 evidence/counter evidence/confidence/needs_review" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="780" y="130" width="210" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="p95" value="Phase 95&#xa;Diagram-to-Code Verification&#xa;验收：accepted match 双边 evidence，非 token-only，confidence &gt;= 0.80" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="130" width="210" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="p96" value="Phase 96&#xa;UX Report / Governance / Closure&#xa;验收：HTML + Context Pack + governance confirm/revoke + coverage matrix" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="130" width="210" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="gate" value="每阶段统一门槛&#xa;• Pre-implementation audit 无 fatal/major&#xa;• 真实仓库 E2E：data_service + HarnessOS&#xa;• Artifact 落盘并读回&#xa;• HTTP/MCP/CLI parity 或明确未暴露&#xa;• PRD 规格检视 + false-green review&#xa;• 不破坏 V2.18-V2.24 regression" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="250" y="430" width="1000" height="270" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="04 项目里程碑" id="v2_25_30_milestones">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t4" value="V2.25-V2.30 项目宏观里程碑" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="760" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" value="M1 输入源统一&#xa;所有文档、图、代码、配置、测试、运行描述符成为可追踪 source" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="80" y="150" width="320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" value="M2 架构图结构化&#xa;图中节点/边转为 claim/relation，保留 cell id / line range" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="440" y="150" width="320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" value="M3 证据图成型&#xa;code/config/test/runtime/human proof graph 可用于反推验证" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="800" y="150" width="320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="m4" value="M4 意图候选可信&#xa;每条意图显示证据、反证、置信度和人工复核状态" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="150" width="320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="m5" value="M5 图到代码验证&#xa;架构图节点/边能显示 accepted/weak/missing/conflict/stale" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="300" y="430" width="380" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="m6" value="M6 用户报告闭环&#xa;HTML、Mermaid、Context Pack、Governance、Coverage Matrix 完成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="820" y="430" width="380" height="140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="05 验收门槛与用户体验" id="v2_25_30_exit">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t5" value="验收门槛、出门条件与用户可体验能力" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="900" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ux1" value="用户体验 A：Tech Lead 审查架构落地&#xa;看到目标架构图节点、代码证据、缺失项、冲突项、人工确认队列" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="620" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="ux2" value="用户体验 B：Coding Agent 准备开发任务&#xa;看到相关 intent、涉及模块、配置/测试证据、风险和下一步操作" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="800" y="120" width="620" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="ux3" value="用户体验 C：文档维护者检查设计文档&#xa;看到 target/plan/audit/historical 权威性、stale 文档、缺证据 claim" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="620" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="ux4" value="用户体验 D：维护者确认系统推断&#xa;confirm/reject/revoke 生成治理 overlay，不改写原始 artifacts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede9fe;strokeColor=#7c3aed;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="800" y="320" width="620" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="exit" value="最终出门条件&#xa;• data_service 与 HarnessOS 均完成真实 E2E&#xa;• accepted match 必须双边 evidence + 非 token-only&#xa;• intent candidate 必须有 evidence/counter evidence/confidence&#xa;• HTML 报告展示 target/current/inferred/confirmed/diff&#xa;• Review Queue 不隐藏 weak/missing/conflict&#xa;• public payload 无路径/secret/traceback 泄露&#xa;• coverage matrix 无 open fatal/major" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef2f2;strokeColor=#ef4444;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="270" y="570" width="960" height="290" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

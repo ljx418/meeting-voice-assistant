@@ -165,8 +165,25 @@ def _code_items(code_facts: dict[str, list[dict[str, Any]] | dict[str, Any]]) ->
     for surface in list(code_facts.get("surfaces") or []):
         surface_id = str(surface.get("surface_id") or "")
         capability_id = str(surface.get("capability_id") or "")
-        label = " ".join(str(surface.get(key) or "") for key in ("surface_id", "surface_type", "method", "route", "name", "source_file", "capability_id"))
-        items.append(_code_item("surface", surface_id, label, {"type": "surface", "id": surface_id, "capability_id": capability_id}, _evidence(surface), capability_id=capability_id))
+        label = " ".join(str(surface.get(key) or "") for key in ("surface_id", "surface_type", "method", "route", "route_path", "path", "tool_name", "command", "name", "source_file", "capability_id"))
+        items.append(
+            _code_item(
+                "surface",
+                surface_id,
+                label,
+                {
+                    "type": "surface",
+                    "id": surface_id,
+                    "capability_id": capability_id,
+                    "route_path": surface.get("route_path") or surface.get("path"),
+                    "method": surface.get("method"),
+                    "tool_name": surface.get("tool_name"),
+                    "command": surface.get("command"),
+                },
+                _evidence(surface),
+                capability_id=capability_id,
+            )
+        )
     for symbol in list(code_facts.get("symbols") or []):
         symbol_id = str(symbol.get("symbol_id") or "")
         label = " ".join(str(symbol.get(key) or "") for key in ("symbol_id", "qualified_name", "name", "kind", "signature", "path", "source_file"))
@@ -267,11 +284,24 @@ def _strategy_and_confidence(claim: dict[str, Any], claim_tokens: set[str], item
     claim_type = str(claim.get("claim_type") or "")
     item_id = str(item.get("id") or "").lower()
     capability_id = str(item.get("capability_id") or "").lower()
+    code_ref = item.get("code_ref") or {}
+    route_path = str(code_ref.get("route_path") or "").lower()
+    tool_name = str(code_ref.get("tool_name") or "").lower()
+    command = str(code_ref.get("command") or "").lower()
+    qualified_name = str(code_ref.get("qualified_name") or "").lower()
     if item["kind"] == "surface" and (item_id and item_id.lower() in label):
+        return "exact_surface_id", 0.95
+    if item["kind"] == "surface" and route_path and route_path in label:
+        return "exact_surface_id", 0.95
+    if item["kind"] == "surface" and tool_name and tool_name in label:
+        return "exact_surface_id", 0.95
+    if item["kind"] == "surface" and command and command in label:
         return "exact_surface_id", 0.95
     if item["kind"] == "surface" and capability_id and capability_id in label.replace(" ", "_"):
         return "capability_id_match", 0.90
     if item["kind"] == "symbol" and (item_id and item_id.lower() in label):
+        return "exact_symbol_id", 0.95
+    if item["kind"] == "symbol" and qualified_name and _qualified_name_in_label(qualified_name, label):
         return "exact_symbol_id", 0.95
     if item["kind"] == "file" and item_id and item_id.lower() in label:
         return "path_and_line_evidence_match", 0.88
@@ -401,6 +431,19 @@ def _tokens(value: str) -> set[str]:
         expanded.update(part.lower() for part in item.split("_") if len(part) >= 3)
         expanded.update(part.lower() for part in re.findall(r"[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)", item) if len(part) >= 3)
     return {item for item in expanded if item not in stop}
+
+
+def _qualified_name_in_label(qualified_name: str, label: str) -> bool:
+    if not qualified_name:
+        return False
+    if qualified_name in label:
+        return True
+    parts = [part for part in qualified_name.split(".") if part]
+    for index in range(max(0, len(parts) - 3), len(parts)):
+        suffix = ".".join(parts[index:])
+        if "." in suffix and suffix in label:
+            return True
+    return False
 
 
 def _overlap(left: set[str], right: set[str]) -> float:

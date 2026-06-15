@@ -1,0 +1,247 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="6">
+  <diagram id="01-当前vs目标架构差异" name="01 当前vs目标架构差异">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1800" pageHeight="1200">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p1t" value="V2.39-V2.45 当前 vs 目标架构差异" style="text;html=1;fontSize=26;fontStyle=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="900" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="p1c1" value="当前已验收（Phase 116-118） - 大项目 scale profile / budget / shard readback - Python AST mandatory provider - TS/JS lexical baseline - Workflow/runtime/entrypoint candidates - 真实项目：data_service / HarnessOS / codexPat" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ecfdf5;strokeColor=#059669;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="420" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="p1g" value="当前主要 GAP - 还不能输出稳定 capability-to-implementation chain - drawio/Markdown 语义仍需增强 - Context Pack 缺 token/cache 指标闭环 - profile/taxonomy/no-hardcode 持续回归未收口" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fffbeb;strokeColor=#d97706;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="120" width="420" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="p1target" value="目标能力（Phase 119-122） - Relationship Chain v3 - Document Semantic Parser v3 - Token Budget Optimizer + Context Cache - Project Profile / Taxonomy - Continuous Regression Matrix - Closure Audit" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#f5f3ff;strokeColor=#7c3aed;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="980" y="120" width="420" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="p1e1" value="已知缺口" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="p1c1" target="p1g">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p1e2" value="后续目标" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="p1g" target="p1target">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p1rules" value="总边界 - 不声称完整恢复人类设计意图 - 不做 full call graph / data flow / control flow - candidate 不等于 production runtime topology - drawio claim 不等于 code fact - HarnessOS 是回归样例，不是硬编码规则" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fef2f2;strokeColor=#dc2626;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="430" width="1340" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="p1ux" value="用户目标体验 维护者：快速看懂大型项目规模、入口、模块、风险。 Coding Agent：用低 token 获取任务相关 reading order、证据链、测试建议。 架构审计者：比较文档架构图与代码事实，发现偏差与弱证据。" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="680" width="1340" height="180" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="02-目标架构" name="02 目标架构">
+    <mxGraphModel dx="1975" dy="1048" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p2t" parent="1" style="text;html=1;fontSize=26;fontStyle=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" value="V2.39-V2.45 目标架构：大项目语义索引与 Agent 阅读优化平台" vertex="1">
+          <mxGeometry height="50" width="1200" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="p2a" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=#eff6ff;strokeColor=#2563eb;align=center;verticalAlign=middle;" value="Repo / Docs / Profile Inputs" vertex="1">
+          <mxGeometry height="130" width="260" x="60" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p2b" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" value="Budgeted Scale Scanner scale_profile + shard readback" vertex="1">
+          <mxGeometry height="130" width="260" x="400" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p2c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" value="Language Providers Python AST + TS/JS baseline + optional LSP" vertex="1">
+          <mxGeometry height="130" width="260" x="700" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p2d" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" value="Workflow Runtime Candidates workflow / runtime / agent / CLI / TUI / console" vertex="1">
+          <mxGeometry height="130" width="260" x="1040" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p2e" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" value="Relationship Chain Builder v3 capability → entrypoint → handler → dependency → test/doc" vertex="1">
+          <mxGeometry height="130" width="260" x="440" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="p2f" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" value="Document Semantic Parser v3 Markdown + drawio page/lane/group/edge/gate" vertex="1">
+          <mxGeometry height="130" width="260" x="840" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="p2g" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" value="Token Budget + Context Cache reading order + omitted_items + cache hash" vertex="1">
+          <mxGeometry height="130" width="260" x="440" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="p2h" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" value="Profile / Taxonomy / Regression project family + no-hardcode audit" vertex="1">
+          <mxGeometry height="130" width="260" x="840" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="p2i" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fillColor=#eff6ff;strokeColor=#2563eb;align=center;verticalAlign=middle;" value="Human Report + Agent Context Pack 图表、证据、风险、建议" vertex="1">
+          <mxGeometry height="130" width="260" x="560" y="870" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2ap2b" edge="1" parent="1" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2b" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="185" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ep2bp2c" edge="1" parent="1" source="p2b" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2c" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2cp2d" edge="1" parent="1" source="p2c" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2d" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2dp2e" edge="1" parent="1" source="p2d" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2e" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2dp2f" edge="1" parent="1" source="p2d" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2f" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2ep2g" edge="1" parent="1" source="p2e" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2g" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2fp2g" edge="1" parent="1" source="p2f" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2g" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2gp2i" edge="1" parent="1" source="p2g" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2i" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2hp2e" edge="1" parent="1" source="p2h" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2e" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2hp2f" edge="1" parent="1" source="p2h" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2f" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ep2hp2g" edge="1" parent="1" source="p2h" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" target="p2g" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p2guard" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fef2f2;strokeColor=#dc2626;align=left;verticalAlign=top;spacing=10;" value="Evidence-first Guardrails accepted 结论必须有 artifact id / repo-relative path / line range 或明确 needs_review。 Provider unavailable、structured blocker、low confidence 不能伪装成 accepted。" vertex="1">
+          <mxGeometry height="160" width="420" x="60" y="890" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="03-开发及验收计划" name="03 开发及验收计划">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1800" pageHeight="1200">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p3t" value="Phase 119-122 开发及验收计划" style="text;html=1;fontSize=26;fontStyle=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="900" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="p319" value="Phase 119 / V2.42 Relationship Chain v3 产物：relationship_chains_v3.jsonl 验收：data_service ≥10 accepted chain；forbidden edge scan；三端 parity" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ecfdf5;strokeColor=#059669;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="130" width="400" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="p320" value="Phase 120 / V2.43 Document Semantics v3 产物：document_semantic_claims / relations 验收：drawio page/lane/group/edge/gate；Markdown non-goal/acceptance；claim/code fact 分离" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fffbeb;strokeColor=#d97706;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="130" width="400" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="p321" value="Phase 121 / V2.44 Token Budget + Context Cache 产物：token_budget_ledger / cache index / optimized pack 验收：低预算不保留无证据建议；omitted_items 有 reason；cache hash 绑定" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#f5f3ff;strokeColor=#7c3aed;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="480" width="400" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="p322" value="Phase 122 / V2.45 Profile / Taxonomy / Regression 产物：profiles / taxonomy / regression matrix / no-hardcode audit 验收：三项目持续回归；profile 不污染通用 extractor；closure audit" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="480" width="400" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="p3e1" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="p319" target="p320">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3e2" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="p320" target="p321">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3e3" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="p321" target="p322">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p3tests" value="共享测试门槛 - focused tests - public surface guard - HTTP/MCP/CLI success + error parity - real repo E2E：data_service / HarnessOS / codexPat - artifact inspection - PRD/spec review - false-green audit" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fef2f2;strokeColor=#dc2626;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="980" y="150" width="420" height="420" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="04-项目里程碑" name="04 项目里程碑">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1800" pageHeight="1200">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p4t" value="项目里程碑：从已验收到最终收口" style="text;html=1;fontSize=26;fontStyle=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="900" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" value="M1 V2.39 Scale profile 已验收" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ecfdf5;strokeColor=#059669;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" value="M2 V2.40 Language providers 已验收" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ecfdf5;strokeColor=#059669;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="120" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" value="M3 V2.41 Workflow/runtime candidates 已验收" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ecfdf5;strokeColor=#059669;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="580" y="120" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="m4" value="M4 V2.42 Relationship chains 待实现" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fffbeb;strokeColor=#d97706;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="830" y="120" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="m5" value="M5 V2.43 Document semantics 待实现" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fffbeb;strokeColor=#d97706;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="120" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="m6" value="M6 V2.44 Token/cache 待实现" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#f5f3ff;strokeColor=#7c3aed;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="420" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="m7" value="M7 V2.45 Profile/regression/closure 待实现" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#f5f3ff;strokeColor=#7c3aed;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="580" y="420" width="200" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="p4m1m2" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="m1" target="m2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4m2m3" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="m2" target="m3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4m3m4" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="m3" target="m4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4m4m5" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="m4" target="m5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4m5m6" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="m5" target="m6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4m6m7" value="" style="endArrow=block;html=1;rounded=0;strokeColor=#4b5563;fontSize=12;" edge="1" parent="1" source="m6" target="m7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="p4exit" value="最终完成定义 1. 三个真实项目有 accepted / blocker / unavailable 明确状态。 2. 所有 accepted coverage row 有 test command + artifact path + audit ref。 3. 无 fatal / major。 4. no-hardcode audit 通过。 5. 用户报告能展示架构链路、文档语义、token/cache 指标。" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="700" width="1200" height="240" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="05-验收门槛及出门条件" name="05 验收门槛及出门条件">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1800" pageHeight="1200">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p5t" value="验收门槛与出门条件" style="text;html=1;fontSize=26;fontStyle=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="900" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="p5a" value="通用硬门槛 - focused tests pass - regression tests pass - git diff --check pass - artifact 落盘并读回 - public payload 无绝对路径/secret/traceback - HTTP/MCP/CLI parity" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ecfdf5;strokeColor=#059669;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="400" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="p5b" value="False-Green 拒绝 - empty artifact accepted - mock-only accepted - runtime_call accepted - drawio claim 变 code fact - token 裁剪删 evidence 留建议 - profile 规则写进通用 extractor" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fef2f2;strokeColor=#dc2626;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="120" width="400" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="p5c" value="真实项目验收 - data_service：自举完整链路 - HarnessOS：大型 workflow/runtime/doc 样例 - codexPat：非服务型项目泛化样例 路径缺失只能 structured unavailable" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fffbeb;strokeColor=#d97706;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="980" y="120" width="400" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="p5d" value="阶段审计输出 每阶段开始前：development plan + acceptance plan + pre-audit。 每阶段完成后：acceptance audit + PRD/spec review + false-green audit。" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="520" width="1320" height="180" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="06-用户体验与应用场景" name="06 用户体验与应用场景">
+    <mxGraphModel dx="1800" dy="1200" grid="1" gridSize="10" page="1" pageScale="1" pageWidth="1800" pageHeight="1200">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p6t" value="用户体验与应用场景" style="text;html=1;fontSize=26;fontStyle=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="900" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="p6u1" value="场景 A：维护者阅读大型项目 用户导入 HarnessOS 后，看见规模、语言、入口候选、runtime/agent 候选、文档架构声明和弱证据区域。报告明确说明哪些是代码事实，哪些只是文档目标。" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ecfdf5;strokeColor=#059669;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="420" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="p6u2" value="场景 B：Coding Agent 定位任务 Agent 输入“修改某 workflow 执行链路”，系统返回 reading order、capability chain、相关文件/符号/测试、doc constraints，并用 token budget 控制上下文长度。" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#f5f3ff;strokeColor=#7c3aed;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="120" width="420" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="p6u3" value="场景 C：架构审计者核查偏差 审计者查看 drawio/Markdown target claim 与 current code facts 的对齐结果，发现 unsupported/needs_review/contradicted 项，并追踪到 evidence 行号。" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fffbeb;strokeColor=#d97706;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="980" y="120" width="420" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="p6u4" value="用户能看到什么 - 架构关系图，不是目录枚举 - capability → entrypoint → handler → dependency → test/doc claim - token/cache/omitted_items 指标 - no-hardcode/profile/taxonomy 治理状态 - 每条结论的证据或 blocker" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#ffffff;strokeColor=#64748b;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="470" width="880" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="p6u5" value="不能承诺什么 - 不能完全理解人类设计意图 - 不能恢复完整运行时拓扑 - 不能做完整调用图/数据流/控制流 - 不能把 HarnessOS 特化规则写进通用 extractor" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fillColor=#fef2f2;strokeColor=#dc2626;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="980" y="470" width="420" height="260" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,186 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="5">
+  <diagram id="v23136-gap" name="01 当前与目标差异">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="V2.31-V2.36 当前架构 vs 目标架构差异" style="text;html=1;fontSize=30;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="900" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="cur" value="当前能力&#xa;• V2.0-V2.30 已有项目事实、架构意图、图到代码验证、公共 HTTP/MCP/CLI&#xa;• 能解释项目和架构风险&#xa;• Context Pack 可生成开发上下文&#xa;• 但任务级最小阅读路径仍不够严格" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eef2ff;strokeColor=#4f46e5;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="430" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="gap" value="关键 Gap&#xa;1. Agent 仍反复全仓搜索&#xa;2. 轻量调用/引用/影响关系不可管理&#xa;3. 测试建议不够 evidence-backed&#xa;4. Token 裁剪缺少严格 ledger&#xa;5. Copilot 类 Agent 缺任务级 API&#xa;6. 大项目需要 accepted 或 structured blocker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="570" y="120" width="430" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="target" value="目标体验&#xa;• 输入开发任务，输出最小必读文件和证据&#xa;• 输出轻量关系和影响范围，不伪造 full call graph&#xa;• 推荐测试和架构 guardrails&#xa;• 生成 token ledger 与 omitted reason&#xa;• MCP/HTTP/CLI 可供 Copilot Agent 调用" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="120" width="430" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" edge="1" source="cur" target="gap" parent="1" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" edge="1" source="gap" target="target" parent="1" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ux" value="用户能拿本项目做什么&#xa;• 新增 MCP/API/CLI 前，先拿任务导航包&#xa;• 修改大项目 workflow 前，先看影响图和 blocker&#xa;• 审查 patch 前，先看受影响 surface、测试和架构风险&#xa;• 给 Copilot Agent 一个带 evidence 的 12k/16k token 上下文包" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#475569;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="320" y="440" width="960" height="190" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v23136-arch" name="02 目标架构">
+    <mxGraphModel dx="1600" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="V2.31-V2.36 目标架构：任务导航 + 轻量影响图 + Agent 上下文节流" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="input" value="只读输入层&#xa;V2.0-V2.30 Artifacts&#xa;snapshot / surfaces / symbols / evidence&#xa;graph / quality / architecture intent / context packs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="70" y="130" width="310" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="nav" value="V2.31 Task Navigation Index&#xa;task taxonomy&#xa;capability/surface/symbol/test/doc match&#xa;ranked candidates + evidence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e0f2fe;strokeColor=#0284c7;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="450" y="120" width="310" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="rel" value="V2.32 Lightweight Relationship Graph&#xa;direct_call_ast / handler_dispatch&#xa;registry_declared / config_declared&#xa;test_reference / heuristic_related&#xa;forbidden scanner" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="830" y="120" width="330" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="impact" value="V2.33 Impact + Test Selection&#xa;impacted files/symbols/surfaces/docs&#xa;suggested tests + risk budget&#xa;architecture guardrails" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="120" width="310" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="pack" value="V2.34 Module Reading Pack&#xa;required / optional / skipped reads&#xa;token ledger / omitted reason&#xa;evidence floor / cache key" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f3ff;strokeColor=#7c3aed;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="270" y="430" width="330" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="V2.35 Copilot Agent Contracts&#xa;HTTP / MCP / CLI&#xa;task_navigation / impact_v2&#xa;test_selection / context_compress / handoff" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="670" y="430" width="340" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="ux" value="V2.36 UX + Governance Closure&#xa;HTML report / Mermaid graph&#xa;coverage matrix / governance feedback&#xa;data_service + HarnessOS E2E" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#475569;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="430" width="330" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" source="input" target="nav" parent="1" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" source="nav" target="rel" parent="1" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" source="rel" target="impact" parent="1" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" source="impact" target="pack" parent="1" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" source="pack" target="api" parent="1" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" source="api" target="ux" parent="1" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="guard" value="架构边界&#xa;• 不修改 V2.0-V2.30 输入 artifacts&#xa;• 不进入 data_service.py / service.py 巨型文件&#xa;• 不声明 full call graph / data flow / control flow / type inference&#xa;• HarnessOS 失败必须 structured blocker&#xa;• public payload 不泄露路径/secret/traceback" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff1f2;strokeColor=#e11d48;fontSize=15;align=left;spacing=14;" vertex="1" parent="1">
+          <mxGeometry x="350" y="720" width="900" height="180" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v23136-plan" name="03 开发及验收计划">
+    <mxGraphModel dx="1580" dy="831" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" value="V2.31-V2.36 Phase 97-102 开发及验收计划" vertex="1">
+          <mxGeometry height="50" width="1100" x="40" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="p97" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;align=left;spacing=10;" value="Phase 97 / V2.31&#xa;Task Navigation Index&#xa;开发：task taxonomy、候选匹配、task artifact&#xa;验收：data_service 5 任务非空，HarnessOS 3 任务结果或 blocker" vertex="1">
+          <mxGeometry height="140" width="450" x="60" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="p98" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;align=left;spacing=10;" value="Phase 98 / V2.32&#xa;Lightweight Call &amp; Impact Graph&#xa;开发：AST direct call、import、handler、registry、test refs&#xa;验收：forbidden relationship=0，30 条 line truth sampling" vertex="1">
+          <mxGeometry height="140" width="450" x="570" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="p99" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;align=left;spacing=10;" value="Phase 99 / V2.33&#xa;Change Impact &amp; Test Selection&#xa;开发：影响范围、测试推荐、risk budget&#xa;验收：每条 suggested test 有 evidence 或 needs_review" vertex="1">
+          <mxGeometry height="140" width="450" x="1080" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="p100" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f3ff;strokeColor=#7c3aed;fontSize=14;align=left;spacing=10;" value="Phase 100 / V2.34&#xa;Module Reading Pack &amp; Token Ledger&#xa;开发：required/optional/skip、token ledger、omitted reason&#xa;验收：小预算不保留无 evidence 建议" vertex="1">
+          <mxGeometry height="140" width="450" x="60" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="p101" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=14;align=left;spacing=10;" value="Phase 101 / V2.35&#xa;Copilot Agent Integration API&#xa;开发：HTTP/MCP/CLI task/impact/test/handoff contracts&#xa;验收：三端 stable fields、error envelope、tool catalog 一致" vertex="1">
+          <mxGeometry height="140" width="450" x="570" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="p102" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#475569;fontSize=14;align=left;spacing=10;" value="Phase 102 / V2.36&#xa;Closure, UX Report, Governance&#xa;开发：HTML/Mermaid、coverage、governance feedback&#xa;验收：data_service + HarnessOS E2E，全量测试，no open fatal/major" vertex="1">
+          <mxGeometry height="140" width="450" x="1080" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="gate" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontSize=16;align=left;spacing=16;" value="每阶段统一闭环&#xa;1. phase plan + acceptance plan + pre-audit&#xa;2. 无 fatal/major 后进入实现&#xa;3. 真实仓库 E2E + artifact inspection + PRD/spec review&#xa;4. false-green review：不得 mock-only、不得假关系、不得漏 evidence&#xa;5. acceptance audit 后才进入下一阶段" vertex="1">
+          <mxGeometry height="180" width="1100" x="250" y="620" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v23136-milestones" name="04 项目里程碑">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="V2.31-V2.36 项目宏观里程碑" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="900" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" value="M1 / V2.31&#xa;任务能导航&#xa;输入任务 → surfaces / symbols / tests / docs 候选" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="60" y="150" width="220" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" value="M2 / V2.32&#xa;关系能解释&#xa;轻量关系 + semantic limit + blocker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef3c7;strokeColor=#d97706;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="320" y="150" width="220" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" value="M3 / V2.33&#xa;影响能评估&#xa;impacted files/surfaces/tests/guardrails" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="580" y="150" width="220" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="m4" value="M4 / V2.34&#xa;阅读能节流&#xa;required/optional/skip + token ledger" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f3ff;strokeColor=#7c3aed;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="840" y="150" width="220" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="m5" value="M5 / V2.35&#xa;Agent 能调用&#xa;HTTP/MCP/CLI task workflows" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="150" width="220" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="m6" value="M6 / V2.36&#xa;人类能验收&#xa;HTML/Mermaid + coverage + governance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#475569;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="150" width="220" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="line1" edge="1" source="m1" target="m2" parent="1" style="endArrow=block;html=1;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line2" edge="1" source="m2" target="m3" parent="1" style="endArrow=block;html=1;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line3" edge="1" source="m3" target="m4" parent="1" style="endArrow=block;html=1;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line4" edge="1" source="m4" target="m5" parent="1" style="endArrow=block;html=1;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="line5" edge="1" source="m5" target="m6" parent="1" style="endArrow=block;html=1;strokeColor=#64748b;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2e" value="真实项目验收路径&#xa;data_service：至少 5 个真实开发任务全部 accepted。&#xa;HarnessOS：至少 3 个真实大项目任务 accepted 或 structured blocker。&#xa;泛化要求：不得使用 HarnessOS 专用硬编码规则；所有关系必须遵守公共 schema。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfeff;strokeColor=#0891b2;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="260" y="420" width="1080" height="170" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="v23136-gates" name="05 验收门槛与出门条件">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="V2.31-V2.36 验收门槛、用户体验与出门条件" style="text;html=1;fontSize=28;fontStyle=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="1100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="user" value="用户最终能体验到&#xa;• 输入开发任务，看到任务解释和最小必读清单&#xa;• 看到任务 → capability → surface → handler/symbol → tests 的关键关系图&#xa;• 看到影响范围、风险、测试建议和架构边界&#xa;• 看到 token ledger：读了什么、跳过什么、为什么&#xa;• 把结果直接交给 Copilot 类 Coding Agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ecfdf5;strokeColor=#16a34a;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="70" y="120" width="470" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="hard" value="硬门槛&#xa;• accepted relationship 必须有 evidence&#xa;• forbidden relationship count = 0&#xa;• token 裁剪不能删 evidence 留建议&#xa;• HTTP/MCP/CLI parity 必须通过&#xa;• HTML/Mermaid 不得新增不存在事实&#xa;• public path/secret/traceback leak = 0" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fee2e2;strokeColor=#dc2626;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="590" y="120" width="430" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="exit" value="出门条件&#xa;• Phase 97-102 acceptance audit 全部通过&#xa;• data_service + HarnessOS E2E 通过或 blocker 可信&#xa;• Coverage matrix 无 fatal/major open finding&#xa;• 全量 backend tests 通过或仅有环境性非产品阻塞&#xa;• drawio / HTML / Mermaid 与 persisted artifacts 一致" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#475569;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="120" width="450" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="reject" value="必须拒绝的虚假验收&#xa;1. mock-only 数据通过。&#xa;2. import dependency 写成 runtime call。&#xa;3. HarnessOS blocker 写成成功关系。&#xa;4. Token overlap 当作 accepted relationship。&#xa;5. 建议没有 evidence，也没有 needs_review。&#xa;6. 报告中出现 artifact 中不存在的节点或结论。" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff7ed;strokeColor=#ea580c;fontSize=16;align=left;spacing=16;" vertex="1" parent="1">
+          <mxGeometry x="300" y="510" width="1000" height="230" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

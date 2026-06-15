@@ -91,7 +91,16 @@ EXPECTED_TARGET_ROUTES = {
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/patterns"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/code/views/{view_id}"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/scale/profile"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/scale/readback"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/language-facts"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/language-providers/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/language-providers"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/workflow-runtime/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/workflow-runtime"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_42/relationship-chains/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_42/relationship-chains"),
+    ("POST", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_43/document-semantics/build"),
+    ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/v2_43/document-semantics"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/config"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/deployment"),
     ("GET", "/api/workspaces/{workspace_id}/codebases/{codebase_id}/architecture/schema"),
@@ -188,8 +197,21 @@ V2_CODEBASE_MCP_TOOLS = {
     "knowledge_code_architecture_view",
     "knowledge_code_architecture_scale_build",
     "knowledge_code_architecture_scale_profile",
+    "knowledge_code_architecture_scale_readback",
     "knowledge_code_architecture_inventory_build",
     "knowledge_code_architecture_language_facts",
+    "knowledge_code_architecture_language_providers_build",
+    "knowledge_code_architecture_language_providers",
+    "knowledge_code_architecture_workflow_runtime_build",
+    "knowledge_code_architecture_workflow_runtime",
+    "knowledge_code_architecture_relationship_chains_v3_build",
+    "knowledge_code_architecture_relationship_chains_v3",
+    "knowledge_code_architecture_document_semantics_v3_build",
+    "knowledge_code_architecture_document_semantics_v3",
+    "knowledge_code_architecture_context_pack_optimized",
+    "knowledge_code_architecture_context_pack_optimized_read",
+    "knowledge_code_architecture_profile_regression_build",
+    "knowledge_code_architecture_profile_regression",
     "knowledge_code_architecture_config_inventory",
     "knowledge_code_architecture_deployment_inventory",
     "knowledge_code_architecture_schema_inventory",
@@ -341,7 +363,7 @@ def test_v16d3_d4_d5_d6_surface_accepts_e_quality_minimal_routes_only():
 
     inventory = _cli_inventory()
     assert set(inventory) == {"build", "code", "graph", "quality", "query", "source", "trace", "workspace"}
-    assert inventory["code"] == ["architecture", "archive", "coding-agent", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "quality", "snapshot", "symbols", "trace"]
+    assert inventory["code"] == ["architecture", "architecture-intent", "archive", "coding-agent", "context-pack", "describe", "devwiki", "graph", "import", "inventory", "list", "overview", "platform", "quality", "snapshot", "symbols", "trace"]
     assert inventory["graph"] == ["community", "neighbors", "query", "session", "snapshot"]
 
 

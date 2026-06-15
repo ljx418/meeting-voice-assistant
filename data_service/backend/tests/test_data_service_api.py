@@ -846,15 +846,17 @@ def test_phaseg27_knowledge_entrypoint_exposes_build_write_aliases_only():
         "symbols",
         "trace",
         "overview",
-        "context-pack",
-        "devwiki",
-        "graph",
-        "quality",
-        "describe",
-        "archive",
-        "architecture",
-        "coding-agent",
-    }
+            "context-pack",
+            "devwiki",
+            "graph",
+            "platform",
+            "quality",
+            "describe",
+            "archive",
+            "architecture",
+            "architecture-intent",
+            "coding-agent",
+        }
 
     data_service_parser = cli_module._build_parser()
     data_service_action = next(action for action in data_service_parser._actions if getattr(action, "choices", None))
